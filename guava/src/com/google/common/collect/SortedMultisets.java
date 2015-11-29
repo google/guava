@@ -46,7 +46,7 @@ final class SortedMultisets {
    * A skeleton implementation for {@link SortedMultiset#elementSet}.
    */
   static class ElementSet<E> extends Multisets.ElementSet<E> implements SortedSet<E> {
-    @Weak private final SortedMultiset<E> multiset;
+    /*@Weak*/ private final SortedMultiset<E> multiset;
 
     ElementSet(SortedMultiset<E> multiset) {
       this.multiset = multiset;
@@ -166,7 +166,7 @@ final class SortedMultisets {
     return entry.getElement();
   }
 
-  private static <E> E getElementOrNull(@Nullable Entry<E> entry) {
+  private static <E> E getElementOrNull(/*@Nullable*/ Entry<E> entry) {
     return (entry == null) ? null : entry.getElement();
   }
 }

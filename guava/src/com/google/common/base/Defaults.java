@@ -63,7 +63,7 @@ public final class Defaults {
   @Nullable
   public static <T> T defaultValue(Class<T> type) {
     // Primitives.wrap(type).cast(...) would avoid the warning, but we can't use that from here
-    @SuppressWarnings("unchecked") // the put method enforces this key-value relationship
+    /*@SuppressWarnings("unchecked")*/ // the put method enforces this key-value relationship
     T t = (T) DEFAULTS.get(checkNotNull(type));
     return t;
   }

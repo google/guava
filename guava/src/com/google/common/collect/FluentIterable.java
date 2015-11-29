@@ -212,7 +212,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   @CheckReturnValue
-  public static <E> FluentIterable<E> of(@Nullable E element, E... elements) {
+  public static <E> FluentIterable<E> of(/*@Nullable*/ E element, E... elements) {
     return from(Lists.asList(element, elements));
   }
 
@@ -246,7 +246,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> {@code stream.anyMatch(Predicate.isEqual(target))}.
    */
   @CheckReturnValue
-  public final boolean contains(@Nullable Object target) {
+  public final boolean contains(/*@Nullable*/ Object target) {
     return Iterables.contains(iterable, target);
   }
 
@@ -688,7 +688,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @return a newly-allocated array into which all the elements of this fluent iterable have
    *     been copied
    */
-  @GwtIncompatible("Array.newArray(Class, int)")
+  /*@GwtIncompatible("Array.newArray(Class, int)")*/
   @CheckReturnValue
   public final E[] toArray(Class<E> type) {
     return Iterables.toArray(iterable, type);
@@ -745,7 +745,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to
    *     the size of this fluent iterable
    */
-  // TODO(kevinb): add @Nullable?
+  // TODO(kevinb): add /*@Nullable*/?
   @CheckReturnValue
   public final E get(int position) {
     return Iterables.get(iterable, position);

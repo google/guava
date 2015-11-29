@@ -44,7 +44,7 @@ final class ReverseOrdering<T> extends Ordering<T> implements Serializable {
     return forwardOrder.compare(b, a);
   }
 
-  @SuppressWarnings("unchecked") // how to explain?
+  /*@SuppressWarnings("unchecked")*/ // how to explain?
   @Override
   public <S extends T> Ordering<S> reverse() {
     return (Ordering<S>) forwardOrder;
@@ -100,7 +100,7 @@ final class ReverseOrdering<T> extends Ordering<T> implements Serializable {
 
   @Pure
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(/*@Nullable*/ Object object) {
     if (object == this) {
       return true;
     }

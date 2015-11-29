@@ -190,7 +190,7 @@ public final class MapConstraints {
    * @param constraint the constraint for the entry
    * @return a constrained view of the specified entry
    */
-  private static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Entry<K, V> constrainedEntry(
+  private static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Entry<K, V> constrainedEntry(
       final Entry<K, V> entry, final MapConstraint<? super K, ? super V> constraint) {
     checkNotNull(entry);
     checkNotNull(constraint);
@@ -272,7 +272,7 @@ public final class MapConstraints {
    * @param constraint the constraint for the entries
    * @return a constrained view of the specified entries
    */
-  private static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Collection<Entry<K, V>> constrainedEntries(
+  private static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Collection<Entry<K, V>> constrainedEntries(
       Collection<Entry<K, V>> entries, MapConstraint<? super K, ? super V> constraint) {
     if (entries instanceof Set) {
       return constrainedEntrySet((Set<Entry<K, V>>) entries, constraint);
@@ -294,13 +294,13 @@ public final class MapConstraints {
    * @param constraint the constraint for the entries
    * @return a constrained view of the specified entries
    */
-  private static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Set<Entry<K, V>> constrainedEntrySet(
+  private static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Set<Entry<K, V>> constrainedEntrySet(
       Set<Entry<K, V>> entries, MapConstraint<? super K, ? super V> constraint) {
     return new ConstrainedEntrySet<K, V>(entries, constraint);
   }
 
   /** @see MapConstraints#constrainedMap */
-  static class ConstrainedMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingMap<K, V> {
+  static class ConstrainedMap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingMap<K, V> {
     private final Map<K, V> delegate;
     final MapConstraint<? super K, ? super V> constraint;
     private transient Set<Entry<K, V>> entrySet;
@@ -371,7 +371,7 @@ public final class MapConstraints {
 
     ConstrainedBiMap(
         BiMap<K, V> delegate,
-        @Nullable BiMap<V, K> inverse,
+        /*@Nullable*/ BiMap<V, K> inverse,
         MapConstraint<? super K, ? super V> constraint) {
       super(delegate, constraint);
       this.inverse = inverse;
@@ -619,7 +619,7 @@ public final class MapConstraints {
   }
 
   /** @see MapConstraints#constrainedEntries */
-  private static class ConstrainedEntries<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingCollection<Entry<K, V>> {
+  private static class ConstrainedEntries<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingCollection<Entry<K, V>> {
     final MapConstraint<? super K, ? super V> constraint;
     final Collection<Entry<K, V>> entries;
 
@@ -647,7 +647,7 @@ public final class MapConstraints {
     // See Collections.CheckedMap.CheckedEntrySet for details on attacks.
 
     @Override
-    public @org.checkerframework.checker.nullness.qual.Nullable Object[] toArray() {
+    public /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object[] toArray() {
       return standardToArray();
     }
 
@@ -658,7 +658,7 @@ public final class MapConstraints {
 
     @Pure
     @Override
-    public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object o) {
+    public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object o) {
       return Maps.containsEntryImpl(delegate(), o);
     }
 
@@ -669,7 +669,7 @@ public final class MapConstraints {
     }
 
     @Override
-    public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object o) {
+    public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object o) {
       return Maps.removeEntryImpl(delegate(), o);
     }
 
@@ -685,7 +685,7 @@ public final class MapConstraints {
   }
 
   /** @see MapConstraints#constrainedEntrySet */
-  static class ConstrainedEntrySet<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ConstrainedEntries<K, V>
+  static class ConstrainedEntrySet<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ConstrainedEntries<K, V>
       implements Set<Entry<K, V>> {
     ConstrainedEntrySet(Set<Entry<K, V>> entries, MapConstraint<? super K, ? super V> constraint) {
       super(entries, constraint);
@@ -695,7 +695,7 @@ public final class MapConstraints {
 
     @Pure
     @Override
-    public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+    public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
       return Sets.equalsImpl(this, object);
     }
 
@@ -756,7 +756,7 @@ public final class MapConstraints {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(/*@Nullable*/ Object object) {
       return standardEquals(object);
     }
 
@@ -869,7 +869,7 @@ public final class MapConstraints {
     return copy;
   }
 
-  private static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> Map<K, V> checkMap(
+  private static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Map<K, V> checkMap(
       Map<? extends K, ? extends V> map, MapConstraint<? super K, ? super V> constraint) {
     Map<K, V> copy = new LinkedHashMap<K, V>(map);
     for (Entry<K, V> entry : copy.entrySet()) {

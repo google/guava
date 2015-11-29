@@ -247,10 +247,10 @@ public class FinalizableReferenceQueue implements Closeable {
   static class SystemLoader implements FinalizerLoader {
     // This is used by the ClassLoader-leak test in FinalizableReferenceQueueTest to disable
     // finding Finalizer on the system class path even if it is there.
-    @VisibleForTesting static boolean disabled;
+    /*@VisibleForTesting*/ static boolean disabled;
 
     @Override
-    public @org.checkerframework.checker.nullness.qual.Nullable Class<?> loadFinalizer() {
+    public /*@org.checkerframework.checker.nullness.qual.Nullable*/ Class<?> loadFinalizer() {
       if (disabled) {
         return null;
       }
@@ -287,7 +287,7 @@ public class FinalizableReferenceQueue implements Closeable {
             + "issue, or move Guava to your system class path.";
 
     @Override
-    public @org.checkerframework.checker.nullness.qual.Nullable Class<?> loadFinalizer() {
+    public /*@org.checkerframework.checker.nullness.qual.Nullable*/ Class<?> loadFinalizer() {
       try {
         /*
          * We use URLClassLoader because it's the only concrete class loader implementation in the

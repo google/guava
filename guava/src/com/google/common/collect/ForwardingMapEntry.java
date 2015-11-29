@@ -57,7 +57,7 @@ import javax.annotation.Nullable;
 @AnnotatedFor({"nullness"})
 @GwtCompatible
 @SuppressWarnings("nullness:generic.argument")
-public abstract class ForwardingMapEntry<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingObject implements Map.Entry<K, V> {
+public abstract class ForwardingMapEntry<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingObject implements Map.Entry<K, V> {
   /** Constructor for use by subclasses. */
   protected ForwardingMapEntry() {}
 
@@ -83,7 +83,7 @@ public abstract class ForwardingMapEntry<K extends @org.checkerframework.checker
 
   @Pure
   @Override
-  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     return delegate().equals(object);
   }
 
@@ -101,7 +101,7 @@ public abstract class ForwardingMapEntry<K extends @org.checkerframework.checker
    *
    * @since 7.0
    */
-  protected boolean standardEquals(@Nullable Object object) {
+  protected boolean standardEquals(/*@Nullable*/ Object object) {
     if (object instanceof Entry) {
       Entry<?, ?> that = (Entry<?, ?>) object;
       return Objects.equal(this.getKey(), that.getKey())

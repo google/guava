@@ -254,7 +254,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    */
   public static <K, V> ImmutableBiMap<K, V> copyOf(Map<? extends K, ? extends V> map) {
     if (map instanceof ImmutableBiMap) {
-      @SuppressWarnings("unchecked") // safe since map is not writable
+      /*@SuppressWarnings("unchecked")*/ // safe since map is not writable
       ImmutableBiMap<K, V> bimap = (ImmutableBiMap<K, V>) map;
       // TODO(lowasser): if we need to make a copy of a BiMap because the
       // forward map is a view, don't make a copy of the non-view delegate map
@@ -276,7 +276,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
   @Beta
   public static <K, V> ImmutableBiMap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
-    @SuppressWarnings("unchecked") // we'll only be using getKey and getValue, which are covariant
+    /*@SuppressWarnings("unchecked")*/ // we'll only be using getKey and getValue, which are covariant
     Entry<K, V>[] entryArray = (Entry<K, V>[]) Iterables.toArray(entries, EMPTY_ENTRY_ARRAY);
     switch (entryArray.length) {
       case 0:
@@ -355,13 +355,13 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
   }
 
 @Override
-public boolean containsKey(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsKey(arg0); }
+public boolean containsKey(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.containsKey(arg0); }
 
 @Override
-public boolean containsValue(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
+public boolean containsValue(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.containsValue(arg0); }
 
 @Override
-public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
 
 @SideEffectFree
 @Override

@@ -56,7 +56,7 @@ final class ExplicitOrdering<T> extends Ordering<T> implements Serializable {
 
   @Pure
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(/*@Nullable*/ Object object) {
     if (object instanceof ExplicitOrdering) {
       ExplicitOrdering<?> that = (ExplicitOrdering<?>) object;
       return this.rankMap.equals(that.rankMap);

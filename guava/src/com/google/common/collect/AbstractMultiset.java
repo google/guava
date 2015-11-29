@@ -50,7 +50,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-abstract class AbstractMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractCollection<E> implements Multiset<E> {
+abstract class AbstractMultiset<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractCollection<E> implements Multiset<E> {
   // Query Operations
 
   @Pure
@@ -67,7 +67,7 @@ abstract class AbstractMultiset<E extends @org.checkerframework.checker.nullness
 
   @Pure
   @Override
-  public boolean contains(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
+  public boolean contains(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
     return count(element) > 0;
   }
 
@@ -77,7 +77,7 @@ abstract class AbstractMultiset<E extends @org.checkerframework.checker.nullness
   }
 
   @Override
-  public int count(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
+  public int count(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
     for (Entry<E> entry : entrySet()) {
       if (Objects.equal(entry.getElement(), element)) {
         return entry.getCount();
@@ -89,33 +89,33 @@ abstract class AbstractMultiset<E extends @org.checkerframework.checker.nullness
   // Modification Operations
 
   @Override
-  public boolean add(@Nullable E element) {
+  public boolean add(/*@Nullable*/ E element) {
     add(element, 1);
     return true;
   }
 
   @Override
-  public int add(@Nullable E element, int occurrences) {
+  public int add(/*@Nullable*/ E element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public boolean remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
+  public boolean remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
     return remove(element, 1) > 0;
   }
 
   @Override
-  public int remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences) {
+  public int remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public int setCount(@Nullable E element, int count) {
+  public int setCount(/*@Nullable*/ E element, int count) {
     return setCountImpl(this, element, count);
   }
 
   @Override
-  public boolean setCount(@Nullable E element, int oldCount, int newCount) {
+  public boolean setCount(/*@Nullable*/ E element, int oldCount, int newCount) {
     return setCountImpl(this, element, oldCount, newCount);
   }
 
@@ -133,12 +133,12 @@ abstract class AbstractMultiset<E extends @org.checkerframework.checker.nullness
   }
 
   @Override
-  public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> elementsToRemove) {
+  public boolean removeAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> elementsToRemove) {
     return Multisets.removeAllImpl(this, elementsToRemove);
   }
 
   @Override
-  public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> elementsToRetain) {
+  public boolean retainAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> elementsToRetain) {
     return Multisets.retainAllImpl(this, elementsToRetain);
   }
 
@@ -226,7 +226,7 @@ abstract class AbstractMultiset<E extends @org.checkerframework.checker.nullness
    */
   @Pure
   @Override
-  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     return Multisets.equalsImpl(this, object);
   }
 
@@ -255,5 +255,5 @@ abstract class AbstractMultiset<E extends @org.checkerframework.checker.nullness
   }
 
   @Override
-  public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.containsAll(arg0); }
+  public boolean containsAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> arg0) { return super.containsAll(arg0); }
 }

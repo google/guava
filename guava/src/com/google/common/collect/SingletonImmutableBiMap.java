@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // uses writeReplace(), not default serialization
+/*@SuppressWarnings("serial")*/ // uses writeReplace(), not default serialization
 final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   final transient K singleKey;
@@ -48,7 +48,7 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  public V get(@Nullable Object key) {
+  public V get(/*@Nullable*/ Object key) {
     return singleKey.equals(key) ? singleValue : null;
   }
 
@@ -58,12 +58,12 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(/*@Nullable*/ Object key) {
     return singleKey.equals(key);
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(/*@Nullable*/ Object value) {
     return singleValue.equals(value);
   }
 

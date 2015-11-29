@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // we're overriding default serialization
+/*@SuppressWarnings("serial")*/ // we're overriding default serialization
 final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutableMap<K, V> {
   static <K extends Enum<K>, V> ImmutableMap<K, V> asImmutable(EnumMap<K, V> map) {
     switch (map.size()) {
@@ -64,7 +64,7 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(/*@Nullable*/ Object key) {
     return delegate.containsKey(key);
   }
 

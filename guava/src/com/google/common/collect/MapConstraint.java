@@ -57,14 +57,14 @@ import javax.annotation.Nullable;
 @AnnotatedFor({"nullness"})
 @Beta
 @Deprecated
-public interface MapConstraint<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
+public interface MapConstraint<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> {
   /**
    * Throws a suitable {@code RuntimeException} if the specified key or value is
    * illegal. Typically this is either a {@link NullPointerException}, an
    * {@link IllegalArgumentException}, or a {@link ClassCastException}, though
    * an application-specific exception class may be used if appropriate.
    */
-  void checkKeyValue(@Nullable K key, @Nullable V value);
+  void checkKeyValue(/*@Nullable*/ K key, /*@Nullable*/ V value);
 
   /**
    * Returns a brief human readable description of this constraint, such as

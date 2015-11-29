@@ -62,7 +62,7 @@ import javax.annotation.Nullable;
 @AnnotatedFor({"nullness"})
 @GwtCompatible
 @SuppressWarnings("nullness:generic.argument")
-public abstract class ForwardingMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingObject implements Map<K, V> {
+public abstract class ForwardingMap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingObject implements Map<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
@@ -86,7 +86,7 @@ public abstract class ForwardingMap<K extends @org.checkerframework.checker.null
   @Override
   @SuppressWarnings("nullness")
   // Suppressed due to annotations on remove in Java.Map
-  public @org.checkerframework.checker.nullness.qual.Nullable V remove(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public /*@org.checkerframework.checker.nullness.qual.Nullable*/ V remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     return delegate().remove(object);
   }
 
@@ -99,7 +99,7 @@ public abstract class ForwardingMap<K extends @org.checkerframework.checker.null
   @Override
   @SuppressWarnings("nullness")
   // Suppressed due to annotations on containsKey in Java.Map
-  public boolean containsKey(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
+  public boolean containsKey(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
     return delegate().containsKey(key);
   }
 
@@ -107,14 +107,14 @@ public abstract class ForwardingMap<K extends @org.checkerframework.checker.null
   @Override
   @SuppressWarnings("nullness")
   // Suppressed due to annotations on containsValue in Java.Map
-  public boolean containsValue(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object value) {
+  public boolean containsValue(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
     return delegate().containsValue(value);
   }
 
   @Override
   @SuppressWarnings("nullness")
   // Suppressed due to annotations on get in Java.Map
-  public V get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
+  public V get(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
     return delegate().get(key);
   }
 
@@ -148,7 +148,7 @@ public abstract class ForwardingMap<K extends @org.checkerframework.checker.null
 
   @Pure
   @Override
-  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -183,7 +183,7 @@ public abstract class ForwardingMap<K extends @org.checkerframework.checker.null
    * @since 7.0
    */
   @Beta
-  protected V standardRemove(@Nullable Object key) {
+  protected V standardRemove(/*@Nullable*/ Object key) {
     Iterator<Entry<K, V>> entryIterator = entrySet().iterator();
     while (entryIterator.hasNext()) {
       Entry<K, V> entry = entryIterator.next();
@@ -235,7 +235,7 @@ public abstract class ForwardingMap<K extends @org.checkerframework.checker.null
    * @since 7.0
    */
   @Beta
-  protected boolean standardContainsKey(@Nullable Object key) {
+  protected boolean standardContainsKey(/*@Nullable*/ Object key) {
     return Maps.containsKeyImpl(this, key);
   }
 
@@ -265,7 +265,7 @@ public abstract class ForwardingMap<K extends @org.checkerframework.checker.null
    *
    * @since 7.0
    */
-  protected boolean standardContainsValue(@Nullable Object value) {
+  protected boolean standardContainsValue(/*@Nullable*/ Object value) {
     return Maps.containsValueImpl(this, value);
   }
 
@@ -308,7 +308,7 @@ public abstract class ForwardingMap<K extends @org.checkerframework.checker.null
    *
    * @since 7.0
    */
-  protected boolean standardEquals(@Nullable Object object) {
+  protected boolean standardEquals(/*@Nullable*/ Object object) {
     return Maps.equalsImpl(this, object);
   }
 

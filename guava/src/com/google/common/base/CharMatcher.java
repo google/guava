@@ -54,7 +54,7 @@ import javax.annotation.CheckReturnValue;
  * @author Kevin Bourrillion
  * @since 1.0
  */
-@Beta // Possibly change from chars to code points; decide constants vs. methods
+/*@Beta*/ // Possibly change from chars to code points; decide constants vs. methods
 @GwtCompatible(emulated = true)
 public abstract class CharMatcher implements Predicate<Character> {
 
@@ -1812,7 +1812,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       return predicate.apply(c);
     }
 
-    @SuppressWarnings("deprecation") // intentional; deprecation is for callers primarily
+    /*@SuppressWarnings("deprecation")*/ // intentional; deprecation is for callers primarily
     @Override
     public boolean apply(Character character) {
       return predicate.apply(checkNotNull(character));

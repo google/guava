@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 /** An ordering that treats {@code null} as greater than all other values. */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true)
-final class NullsLastOrdering<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Ordering<T> implements Serializable {
+final class NullsLastOrdering<T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends Ordering<T> implements Serializable {
   final Ordering<? super T> ordering;
 
   NullsLastOrdering(Ordering<? super T> ordering) {
@@ -37,7 +37,7 @@ final class NullsLastOrdering<T extends @org.checkerframework.checker.nullness.q
 
   @Pure
   @Override
-  public int compare(@Nullable T left, @Nullable T right) {
+  public int compare(/*@Nullable*/ T left, /*@Nullable*/ T right) {
     if (left == right) {
       return 0;
     }
@@ -61,7 +61,7 @@ final class NullsLastOrdering<T extends @org.checkerframework.checker.nullness.q
     return ordering.nullsFirst();
   }
 
-  @SuppressWarnings("unchecked") // still need the right way to explain this
+  /*@SuppressWarnings("unchecked")*/ // still need the right way to explain this
   @Override
   public <S extends T> Ordering<S> nullsLast() {
     return (Ordering<S>) this;
@@ -69,7 +69,7 @@ final class NullsLastOrdering<T extends @org.checkerframework.checker.nullness.q
 
   @Pure
   @Override
-  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     if (object == this) {
       return true;
     }

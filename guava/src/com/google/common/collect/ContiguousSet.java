@@ -38,7 +38,7 @@ import java.util.Set;
  */
 @Beta
 @GwtCompatible(emulated = true)
-@SuppressWarnings("rawtypes") // allow ungenerified Comparable types
+/*@SuppressWarnings("rawtypes")*/ // allow ungenerified Comparable types
 public abstract class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
   /**
    * Returns a {@code ContiguousSet} containing the same values in the given domain
@@ -137,15 +137,15 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
   /*
    * These methods perform most headSet, subSet, and tailSet logic, besides parameter validation.
    */
-  // TODO(kevinb): we can probably make these real @Overrides now
-  /*@Override*/
+  // TODO(kevinb): we can probably make these real /*@Overrides*/ now
+  @Override
   abstract ContiguousSet<C> headSetImpl(C toElement, boolean inclusive);
 
-  /*@Override*/
+  @Override
   abstract ContiguousSet<C> subSetImpl(
       C fromElement, boolean fromInclusive, C toElement, boolean toInclusive);
 
-  /*@Override*/
+  @Override
   abstract ContiguousSet<C> tailSetImpl(C fromElement, boolean inclusive);
 
   /**

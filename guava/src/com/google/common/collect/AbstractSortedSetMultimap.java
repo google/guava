@@ -39,7 +39,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-abstract class AbstractSortedSetMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractSetMultimap<K, V>
+abstract class AbstractSortedSetMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractSetMultimap<K, V>
     implements SortedSetMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.
@@ -79,7 +79,7 @@ abstract class AbstractSortedSetMultimap<K extends @org.checkerframework.checker
    * {@link Collection} specified in the {@link Multimap} interface.
    */
   @Override
-  public SortedSet<V> get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable K key) {
+  public SortedSet<V> get(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ K key) {
     return (SortedSet<V>) super.get(key);
   }
 
@@ -92,7 +92,7 @@ abstract class AbstractSortedSetMultimap<K extends @org.checkerframework.checker
    * {@link Collection} specified in the {@link Multimap} interface.
    */
   @Override
-  public SortedSet<V> removeAll(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
+  public SortedSet<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
     return (SortedSet<V>) super.removeAll(key);
   }
 
@@ -107,7 +107,7 @@ abstract class AbstractSortedSetMultimap<K extends @org.checkerframework.checker
    * <p>Any duplicates in {@code values} will be stored in the multimap once.
    */
   @Override
-  public SortedSet<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
+  public SortedSet<V> replaceValues(/*@Nullable*/ K key, Iterable<? extends V> values) {
     return (SortedSet<V>) super.replaceValues(key, values);
   }
 

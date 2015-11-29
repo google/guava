@@ -40,7 +40,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingObject implements Multimap<K, V> {
+public abstract class ForwardingMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingObject implements Multimap<K, V> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingMultimap() {}
@@ -60,19 +60,19 @@ public abstract class ForwardingMultimap<K extends @org.checkerframework.checker
 
   @Pure
   @Override
-  public boolean containsEntry(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key, @Nullable @org.checkerframework.checker.nullness.qual.Nullable Object value) {
+  public boolean containsEntry(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
     return delegate().containsEntry(key, value);
   }
 
   @Pure
   @Override
-  public boolean containsKey(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
+  public boolean containsKey(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
     return delegate().containsKey(key);
   }
 
   @Pure
   @Override
-  public boolean containsValue(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object value) {
+  public boolean containsValue(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
     return delegate().containsValue(value);
   }
 
@@ -83,7 +83,7 @@ public abstract class ForwardingMultimap<K extends @org.checkerframework.checker
   }
 
   @Override
-  public Collection<V> get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable K key) {
+  public Collection<V> get(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ K key) {
     return delegate().get(key);
   }
 
@@ -120,12 +120,12 @@ public abstract class ForwardingMultimap<K extends @org.checkerframework.checker
   }
 
   @Override
-  public boolean remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key, @Nullable @org.checkerframework.checker.nullness.qual.Nullable Object value) {
+  public boolean remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
     return delegate().remove(key, value);
   }
 
   @Override
-  public Collection<V> removeAll(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
+  public Collection<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
     return delegate().removeAll(key);
   }
 
@@ -148,7 +148,7 @@ public abstract class ForwardingMultimap<K extends @org.checkerframework.checker
 
   @Pure
   @Override
-  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     return object == this || delegate().equals(object);
   }
 

@@ -50,7 +50,7 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
   @GwtIncompatible("ImmutableSortedSet.indexOf")
   // TODO(cpovirk): consider manual binary search under GWT to preserve O(log N) lookup
   @Override
-  public int indexOf(@Nullable Object target) {
+  public int indexOf(/*@Nullable*/ Object target) {
     int index = delegateCollection().indexOf(target);
 
     // TODO(kevinb): reconsider if it's really worth making feeble attempts at
@@ -63,7 +63,7 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
 
   @GwtIncompatible("ImmutableSortedSet.indexOf")
   @Override
-  public int lastIndexOf(@Nullable Object target) {
+  public int lastIndexOf(/*@Nullable*/ Object target) {
     return indexOf(target);
   }
 

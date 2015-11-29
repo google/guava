@@ -669,7 +669,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
     private final RemovalCause cause;
 
-    RemovalNotification(@Nullable K key, @Nullable V value, RemovalCause cause) {
+    RemovalNotification(/*@Nullable*/ K key, /*@Nullable*/ V value, RemovalCause cause) {
       super(key, value);
       this.cause = cause;
     }
@@ -774,17 +774,17 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     // implements ConcurrentMap
 
     @Override
-    public boolean containsKey(@Nullable Object key) {
+    public boolean containsKey(/*@Nullable*/ Object key) {
       return false;
     }
 
     @Override
-    public boolean containsValue(@Nullable Object value) {
+    public boolean containsValue(/*@Nullable*/ Object value) {
       return false;
     }
 
     @Override
-    public V get(@Nullable Object key) {
+    public V get(/*@Nullable*/ Object key) {
       return null;
     }
 
@@ -808,12 +808,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     }
 
     @Override
-    public V remove(@Nullable Object key) {
+    public V remove(/*@Nullable*/ Object key) {
       return null;
     }
 
     @Override
-    public boolean remove(@Nullable Object key, @Nullable Object value) {
+    public boolean remove(/*@Nullable*/ Object key, /*@Nullable*/ Object value) {
       return false;
     }
 
@@ -825,7 +825,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     }
 
     @Override
-    public boolean replace(K key, @Nullable V oldValue, V newValue) {
+    public boolean replace(K key, /*@Nullable*/ V oldValue, V newValue) {
       checkNotNull(key);
       checkNotNull(newValue);
       return false;
@@ -849,7 +849,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       this.computingFunction = checkNotNull(computingFunction);
     }
 
-    @SuppressWarnings("unchecked") // unsafe, which is why Cache is preferred
+    /*@SuppressWarnings("unchecked")*/ // unsafe, which is why Cache is preferred
     @Override
     public V get(Object k) {
       K key = (K) k;
@@ -887,7 +887,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       super(mapMaker, computingFunction);
     }
 
-    @SuppressWarnings("unchecked") // unsafe, which is one advantage of Cache over Map
+    /*@SuppressWarnings("unchecked")*/ // unsafe, which is one advantage of Cache over Map
     @Override
     public V get(Object key) {
       V value;

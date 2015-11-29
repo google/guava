@@ -57,7 +57,7 @@ public final class MoreObjects {
    * @since 18.0 (since 3.0 as {@code Objects.firstNonNull()}).
    */
   @CheckReturnValue
-  public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
+  public static <T> T firstNonNull(/*@Nullable*/ T first, /*@Nullable*/ T second) {
     return first != null ? first : checkNotNull(second);
   }
 
@@ -170,7 +170,7 @@ public final class MoreObjects {
      * is used, unless {@link #omitNullValues()} is called, in which case this
      * name/value pair will not be added.
      */
-    public ToStringHelper add(String name, @Nullable Object value) {
+    public ToStringHelper add(String name, /*@Nullable*/ Object value) {
       return addHolder(name, value);
     }
 
@@ -240,7 +240,7 @@ public final class MoreObjects {
      * <p>It is strongly encouraged to use {@link #add(String, Object)} instead
      * and give value a readable name.
      */
-    public ToStringHelper addValue(@Nullable Object value) {
+    public ToStringHelper addValue(/*@Nullable*/ Object value) {
       return addHolder(value);
     }
 
@@ -362,13 +362,13 @@ public final class MoreObjects {
       return valueHolder;
     }
 
-    private ToStringHelper addHolder(@Nullable Object value) {
+    private ToStringHelper addHolder(/*@Nullable*/ Object value) {
       ValueHolder valueHolder = addHolder();
       valueHolder.value = value;
       return this;
     }
 
-    private ToStringHelper addHolder(String name, @Nullable Object value) {
+    private ToStringHelper addHolder(String name, /*@Nullable*/ Object value) {
       ValueHolder valueHolder = addHolder();
       valueHolder.value = value;
       valueHolder.name = checkNotNull(name);

@@ -35,7 +35,7 @@ import java.util.HashMap;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-public final class HashMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMapBasedMultiset<E> {
+public final class HashMultiset<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractMapBasedMultiset<E> {
 
   /**
    * Creates a new, empty {@code HashMultiset} using the default initial
@@ -100,17 +100,17 @@ public final class HashMultiset<E extends @org.checkerframework.checker.nullness
   private static final long serialVersionUID = 0;
 
 @Override
-public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
+public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.contains(arg0); }
 
 @Override
-public int count(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.count(arg0); }
+public int count(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.count(arg0); }
 
 @Override
-public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
 
 @Override
-public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.remove(arg0); }
+public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.remove(arg0); }
 
 @Override
-public int remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0, int arg1) { return super.remove(arg0, arg1); }
+public int remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0, int arg1) { return super.remove(arg0, arg1); }
 }

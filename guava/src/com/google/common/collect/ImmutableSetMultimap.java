@@ -297,7 +297,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     }
 
     if (multimap instanceof ImmutableSetMultimap) {
-      @SuppressWarnings("unchecked") // safe since multimap is not writable
+      /*@SuppressWarnings("unchecked")*/ // safe since multimap is not writable
       ImmutableSetMultimap<K, V> kvMultimap = (ImmutableSetMultimap<K, V>) multimap;
       if (!kvMultimap.isPartialView()) {
         return kvMultimap;
@@ -347,7 +347,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   ImmutableSetMultimap(
       ImmutableMap<K, ImmutableSet<V>> map,
       int size,
-      @Nullable Comparator<? super V> valueComparator) {
+      /*@Nullable*/ Comparator<? super V> valueComparator) {
     super(map, size);
     this.emptySet = emptySet(valueComparator);
   }
@@ -361,9 +361,9 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * multimap.
    */
   @Override
-  public ImmutableSet<V> get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable K key) {
+  public ImmutableSet<V> get(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ K key) {
     // This cast is safe as its type is known in constructor.
-    @org.checkerframework.checker.nullness.qual.Nullable ImmutableSet<V> set = (@org.checkerframework.checker.nullness.qual.Nullable ImmutableSet<V>) map.get(key);
+    /*@org.checkerframework.checker.nullness.qual.Nullable*/ ImmutableSet<V> set = (/*@org.checkerframework.checker.nullness.qual.Nullable*/ ImmutableSet<V>) map.get(key);
     return MoreObjects.firstNonNull(set, emptySet);
   }
 
@@ -402,7 +402,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    */
   @Deprecated
   @Override
-  public ImmutableSet<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
+  public ImmutableSet<V> removeAll(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
     throw new UnsupportedOperationException();
   }
 
@@ -435,14 +435,14 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   }
 
   private static final class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
-    @Weak private final transient ImmutableSetMultimap<K, V> multimap;
+    /*@Weak*/ private final transient ImmutableSetMultimap<K, V> multimap;
 
     EntrySet(ImmutableSetMultimap<K, V> multimap) {
       this.multimap = multimap;
     }
 
     @Override
-    public boolean contains(@Nullable Object object) {
+    public boolean contains(/*@Nullable*/ Object object) {
       if (object instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) object;
         return multimap.containsEntry(entry.getKey(), entry.getValue());
@@ -467,20 +467,20 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   }
 
   private static <V> ImmutableSet<V> valueSet(
-      @Nullable Comparator<? super V> valueComparator, Collection<? extends V> values) {
+      /*@Nullable*/ Comparator<? super V> valueComparator, Collection<? extends V> values) {
     return (valueComparator == null)
         ? ImmutableSet.copyOf(values)
         : ImmutableSortedSet.copyOf(valueComparator, values);
   }
 
-  private static <V> ImmutableSet<V> emptySet(@Nullable Comparator<? super V> valueComparator) {
+  private static <V> ImmutableSet<V> emptySet(/*@Nullable*/ Comparator<? super V> valueComparator) {
     return (valueComparator == null)
         ? ImmutableSet.<V>of()
         : ImmutableSortedSet.<V>emptySet(valueComparator);
   }
 
   private static <V> ImmutableSet.Builder<V> valuesBuilder(
-      @Nullable Comparator<? super V> valueComparator) {
+      /*@Nullable*/ Comparator<? super V> valueComparator) {
     return (valueComparator == null)
         ? new ImmutableSet.Builder<V>()
         : new ImmutableSortedSet.Builder<V>(valueComparator);

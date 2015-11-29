@@ -119,7 +119,7 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method is equivalent to Java 8's
    * {@code Optional.ofNullable}.
    */
-  public static <T> Optional<T> fromNullable(@Nullable T nullableReference) {
+  public static <T> Optional<T> fromNullable(/*@Nullable*/ T nullableReference) {
     return (nullableReference == null)
         ? Optional.<T>absent()
         : new Present<T>(nullableReference);
@@ -259,7 +259,7 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> no differences.
    */
   @Override
-  public abstract boolean equals(@Nullable Object object);
+  public abstract boolean equals(/*@Nullable*/ Object object);
 
   /**
    * Returns a hash code for this instance.

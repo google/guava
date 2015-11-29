@@ -56,7 +56,7 @@ final class FunctionalEquivalence<F, T> extends Equivalence<F> implements Serial
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(/*@Nullable*/ Object obj) {
     if (obj == this) {
       return true;
     }

@@ -49,7 +49,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface ClassToInstanceMap<B extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Map<Class<? extends B>, B> {
+public interface ClassToInstanceMap<B extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends Map<Class<? extends B>, B> {
   /**
    * Returns the value the specified class is mapped to, or {@code null} if no
    * entry for this class is present. This will only return a value that was
@@ -65,5 +65,5 @@ public interface ClassToInstanceMap<B extends @org.checkerframework.checker.null
    * @return the value previously associated with this class (possibly {@code
    *     null}), or {@code null} if there was no previous entry.
    */
-  <T extends B> T putInstance(Class<T> type, @Nullable T value);
+  <T extends B> T putInstance(Class<T> type, /*@Nullable*/ T value);
 }

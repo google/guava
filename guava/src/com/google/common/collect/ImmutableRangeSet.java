@@ -482,12 +482,12 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
 
     @Override
-    public boolean contains(@Nullable Object o) {
+    public boolean contains(/*@Nullable*/ Object o) {
       if (o == null) {
         return false;
       }
       try {
-        @SuppressWarnings("unchecked") // we catch CCE's
+        /*@SuppressWarnings("unchecked")*/ // we catch CCE's
         C c = (C) o;
         return ImmutableRangeSet.this.contains(c);
       } catch (ClassCastException e) {
@@ -498,7 +498,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     @Override
     int indexOf(Object target) {
       if (contains(target)) {
-        @SuppressWarnings("unchecked") // if it's contained, it's definitely a C
+        /*@SuppressWarnings("unchecked")*/ // if it's contained, it's definitely a C
         C c = (C) target;
         long total = 0;
         for (Range<C> range : ranges) {

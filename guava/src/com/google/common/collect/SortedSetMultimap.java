@@ -51,7 +51,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface SortedSetMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends SetMultimap<K, V> {
+public interface SortedSetMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends SetMultimap<K, V> {
   // Following Javadoc copied from Multimap.
 
   /**
@@ -67,7 +67,7 @@ public interface SortedSetMultimap<K extends @org.checkerframework.checker.nulln
    * {@link java.util.Collection} specified in the {@link Multimap} interface.
    */
   @Override
-  SortedSet<V> get(@Nullable K key);
+  SortedSet<V> get(/*@Nullable*/ K key);
 
   /**
    * Removes all values associated with a given key.
@@ -77,7 +77,7 @@ public interface SortedSetMultimap<K extends @org.checkerframework.checker.nulln
    * {@link java.util.Collection} specified in the {@link Multimap} interface.
    */
   @Override
-  SortedSet<V> removeAll(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key);
+  SortedSet<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key);
 
   /**
    * Stores a collection of values with the same key, replacing any existing
@@ -115,5 +115,5 @@ public interface SortedSetMultimap<K extends @org.checkerframework.checker.nulln
    * Returns the comparator that orders the multimap values, with {@code null}
    * indicating that natural ordering is used.
    */
-  @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator();
+  /*@org.checkerframework.checker.nullness.qual.Nullable*/ Comparator<? super V> valueComparator();
 }

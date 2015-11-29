@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // we're overriding default serialization
+/*@SuppressWarnings("serial")*/ // we're overriding default serialization
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   /**
@@ -319,13 +319,13 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       // TODO(lowasser): Make ImmutableMap.copyOf(immutableBiMap) call copyOf()
       // on the ImmutableMap delegate(), rather than the bimap itself
 
-      @SuppressWarnings("unchecked") // safe since map is not writable
+      /*@SuppressWarnings("unchecked")*/ // safe since map is not writable
       ImmutableMap<K, V> kvMap = (ImmutableMap<K, V>) map;
       if (!kvMap.isPartialView()) {
         return kvMap;
       }
     } else if (map instanceof EnumMap) {
-      @SuppressWarnings("unchecked") // safe since map is not writable
+      /*@SuppressWarnings("unchecked")*/ // safe since map is not writable
       ImmutableMap<K, V> kvMap = (ImmutableMap<K, V>) copyOfEnumMap((EnumMap<?, ?>) map);
       return kvMap;
     }
@@ -343,7 +343,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Beta
   public static <K, V> ImmutableMap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
-    @SuppressWarnings("unchecked") // we'll only be using getKey and getValue, which are covariant
+    /*@SuppressWarnings("unchecked")*/ // we'll only be using getKey and getValue, which are covariant
     Entry<K, V>[] entryArray = (Entry<K, V>[]) Iterables.toArray(entries, EMPTY_ENTRY_ARRAY);
     switch (entryArray.length) {
       case 0:
@@ -414,7 +414,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   @Deprecated
   @Override
-  public final V remove(@org.checkerframework.checker.nullness.qual.Nullable Object o) {
+  public final V remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object o) {
     throw new UnsupportedOperationException();
   }
 
@@ -450,19 +450,19 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   @Pure
   @Override
-  public boolean containsKey(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
+  public boolean containsKey(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
     return get(key) != null;
   }
 
   @Pure
   @Override
-  public boolean containsValue(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object value) {
+  public boolean containsValue(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
     return values().contains(value);
   }
 
   // Overriding to mark it Nullable
   @Override
-  public abstract @org.checkerframework.checker.nullness.qual.Nullable V get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key);
+  public abstract /*@org.checkerframework.checker.nullness.qual.Nullable*/ V get(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key);
 
   private transient ImmutableSet<Entry<K, V>> entrySet;
 
@@ -559,12 +559,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     @Override
-    public boolean containsKey(@Nullable Object key) {
+    public boolean containsKey(/*@Nullable*/ Object key) {
       return ImmutableMap.this.containsKey(key);
     }
 
     @Override
-    public ImmutableSet<V> get(@Nullable Object key) {
+    public ImmutableSet<V> get(/*@Nullable*/ Object key) {
       V outerValue = ImmutableMap.this.get(key);
       return (outerValue == null) ? null : ImmutableSet.of(outerValue);
     }
@@ -615,7 +615,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   @Pure
   @Override
-  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     return Maps.equalsImpl(this, object);
   }
 

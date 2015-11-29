@@ -158,7 +158,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @return the nonnegative number of occurrences of the element
    */
   @Override
-  public int count(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
+  public int count(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
     AtomicInteger existingCounter = Maps.safeGet(countMap, element);
     return (existingCounter == null) ? 0 : existingCounter.get();
   }
@@ -190,7 +190,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   @Override
-  public <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] toArray(T[] array) {
+  public <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] toArray(T[] array) {
     return snapshot().toArray(array);
   }
 
@@ -287,7 +287,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * testRemove_nullAllowed.
    */
   @Override
-  public int remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences) {
+  public int remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }
@@ -327,7 +327,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @return {@code true} if the removal was possible (including if {@code occurrences} is zero)
    * @throws IllegalArgumentException if {@code occurrences} is negative
    */
-  public boolean removeExactly(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences) {
+  public boolean removeExactly(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
     if (occurrences == 0) {
       return true;
     }
@@ -472,7 +472,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
       }
 
       @Override
-      public boolean contains(@Nullable Object object) {
+      public boolean contains(/*@Nullable*/ Object object) {
         return object != null && Collections2.safeContains(delegate, object);
       }
 
@@ -482,7 +482,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
       }
 
       @Override
-      public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
+      public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
         return object != null && Collections2.safeRemove(delegate, object);
       }
 
@@ -579,7 +579,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     }
 
     @Override
-    public <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] toArray(T[] array) {
+    public <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] toArray(T[] array) {
       return snapshot().toArray(array);
     }
 
@@ -600,11 +600,11 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
 
   @Pure
   @Override
-  public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
+  public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.contains(arg0); }
 
   @Pure
   @Override
-  public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.remove(arg0); }
+  public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.remove(arg0); }
   }
 
   /**
@@ -617,7 +617,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
 
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    @SuppressWarnings("unchecked") // reading data stored by writeObject
+    /*@SuppressWarnings("unchecked")*/ // reading data stored by writeObject
     ConcurrentMap<E, Integer> deserializedCountMap =
         (ConcurrentMap<E, Integer>) stream.readObject();
     FieldSettersHolder.COUNT_MAP_FIELD_SETTER.set(this, deserializedCountMap);
@@ -630,21 +630,21 @@ public int hashCode() { return super.hashCode(); }
 
 @Pure
 @Override
-public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
 
 @Override
-public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
+public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.contains(arg0); }
 
 @Override
-public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.remove(arg0); }
+public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.remove(arg0); }
 
 @Pure
 @Override
-public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.containsAll(arg0); }
+public boolean containsAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> arg0) { return super.containsAll(arg0); }
 
 @Override
-public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.removeAll(arg0); }
+public boolean removeAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> arg0) { return super.removeAll(arg0); }
 
 @Override
-public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.retainAll(arg0); }
+public boolean retainAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> arg0) { return super.retainAll(arg0); }
 }

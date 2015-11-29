@@ -222,18 +222,18 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
     final Iterable<Entry<Range<K>, V>> entryIterable;
 
-    @SuppressWarnings("unchecked") // it's safe to upcast iterables
+    /*@SuppressWarnings("unchecked")*/ // it's safe to upcast iterables
     AsMapOfRanges(Iterable<RangeMapEntry<K, V>> entryIterable) {
       this.entryIterable = (Iterable) entryIterable;
     }
 
     @Override
-    public boolean containsKey(@Nullable Object key) {
+    public boolean containsKey(/*@Nullable*/ Object key) {
       return get(key) != null;
     }
 
     @Override
-    public V get(@Nullable Object key) {
+    public V get(/*@Nullable*/ Object key) {
       if (key instanceof Range) {
         Range<?> range = (Range<?>) key;
         RangeMapEntry<K, V> rangeMapEntry = entriesByLowerBound.get(range.lowerBound);
@@ -463,7 +463,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     }
 
     @Override
-    public boolean equals(@Nullable Object o) {
+    public boolean equals(/*@Nullable*/ Object o) {
       if (o instanceof RangeMap) {
         RangeMap<?, ?> rangeMap = (RangeMap<?, ?>) o;
         return asMapOfRanges().equals(rangeMap.asMapOfRanges());
@@ -492,7 +492,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
       public V get(Object key) {
         try {
           if (key instanceof Range) {
-            @SuppressWarnings("unchecked") // we catch ClassCastExceptions
+            /*@SuppressWarnings("unchecked")*/ // we catch ClassCastExceptions
             Range<K> r = (Range<K>) key;
             if (!subRange.encloses(r) || r.isEmpty()) {
               return null;
@@ -525,7 +525,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
       public V remove(Object key) {
         V value = get(key);
         if (value != null) {
-          @SuppressWarnings("unchecked") // it's definitely in the map, so safe
+          /*@SuppressWarnings("unchecked")*/ // it's definitely in the map, so safe
           Range<K> range = (Range<K>) key;
           TreeRangeMap.this.remove(range);
           return value;
@@ -555,7 +555,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
       public Set<Range<K>> keySet() {
         return new Maps.KeySet<Range<K>, V>(SubRangeMapAsMap.this) {
           @Override
-          public boolean remove(@Nullable Object o) {
+          public boolean remove(/*@Nullable*/ Object o) {
             return SubRangeMapAsMap.this.remove(o) != null;
           }
 
@@ -641,7 +641,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   }
 
   @Override
-  public boolean equals(@Nullable Object o) {
+  public boolean equals(/*@Nullable*/ Object o) {
     if (o instanceof RangeMap) {
       RangeMap<?, ?> rangeMap = (RangeMap<?, ?>) o;
       return asMapOfRanges().equals(rangeMap.asMapOfRanges());

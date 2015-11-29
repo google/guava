@@ -354,14 +354,14 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     STRONG {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+          Segment<K, V> segment, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
         return new StrongEntry<K, V>(key, hash, next);
       }
     },
     STRONG_EXPIRABLE {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+          Segment<K, V> segment, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
         return new StrongExpirableEntry<K, V>(key, hash, next);
       }
 
@@ -376,7 +376,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     STRONG_EVICTABLE {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+          Segment<K, V> segment, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
         return new StrongEvictableEntry<K, V>(key, hash, next);
       }
 
@@ -391,7 +391,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     STRONG_EXPIRABLE_EVICTABLE {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+          Segment<K, V> segment, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
         return new StrongExpirableEvictableEntry<K, V>(key, hash, next);
       }
 
@@ -408,14 +408,14 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     WEAK {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+          Segment<K, V> segment, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
         return new WeakEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
       }
     },
     WEAK_EXPIRABLE {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+          Segment<K, V> segment, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
         return new WeakExpirableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
       }
 
@@ -430,7 +430,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     WEAK_EVICTABLE {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+          Segment<K, V> segment, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
         return new WeakEvictableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
       }
 
@@ -445,7 +445,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     WEAK_EXPIRABLE_EVICTABLE {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+          Segment<K, V> segment, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
         return new WeakExpirableEvictableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
       }
 
@@ -491,7 +491,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
      * @param next entry in the same bucket
      */
     abstract <K, V> ReferenceEntry<K, V> newEntry(
-        Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next);
+        Segment<K, V> segment, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next);
 
     /**
      * Copies an entry, assigning it a new {@code next} entry.
@@ -557,7 +557,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
      * <p>{@code value} may be null only for a loading reference.
      */
     ValueReference<K, V> copyFor(
-        ReferenceQueue<V> queue, @Nullable V value, ReferenceEntry<K, V> entry);
+        ReferenceQueue<V> queue, /*@Nullable*/ V value, ReferenceEntry<K, V> entry);
 
     /**
      * Clears this reference object.
@@ -565,7 +565,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
      * @param newValue the new value reference which will replace this one; this is only used during
      *     computation to immediately notify blocked threads of the new value
      */
-    void clear(@Nullable ValueReference<K, V> newValue);
+    void clear(/*@Nullable*/ ValueReference<K, V> newValue);
 
     /**
      * Returns {@code true} if the value type is a computing reference (regardless of whether or not
@@ -593,7 +593,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         @Override
         public ValueReference<Object, Object> copyFor(
             ReferenceQueue<Object> queue,
-            @Nullable Object value,
+            /*@Nullable*/ Object value,
             ReferenceEntry<Object, Object> entry) {
           return this;
         }
@@ -615,7 +615,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   /**
    * Singleton placeholder that indicates a value is being computed.
    */
-  @SuppressWarnings("unchecked") // impl never uses a parameter or returns any non-null value
+  /*@SuppressWarnings("unchecked")*/ // impl never uses a parameter or returns any non-null value
   static <K, V> ValueReference<K, V> unset() {
     return (ValueReference<K, V>) UNSET;
   }
@@ -866,7 +866,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     }
   }
 
-  @SuppressWarnings("unchecked") // impl never uses a parameter or returns any non-null value
+  /*@SuppressWarnings("unchecked")*/ // impl never uses a parameter or returns any non-null value
   static <K, V> ReferenceEntry<K, V> nullEntry() {
     return (ReferenceEntry<K, V>) NullEntry.INSTANCE;
   }
@@ -902,7 +902,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   /**
    * Queue that discards all elements.
    */
-  @SuppressWarnings("unchecked") // impl never uses a parameter or returns any non-null value
+  /*@SuppressWarnings("unchecked")*/ // impl never uses a parameter or returns any non-null value
   static <E> Queue<E> discardingQueue() {
     return (Queue) DISCARDING_QUEUE;
   }
@@ -921,7 +921,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   static class StrongEntry<K, V> implements ReferenceEntry<K, V> {
     final K key;
 
-    StrongEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+    StrongEntry(K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
       this.key = key;
       this.hash = hash;
       this.next = next;
@@ -1017,7 +1017,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
 
   static final class StrongExpirableEntry<K, V> extends StrongEntry<K, V>
       implements ReferenceEntry<K, V> {
-    StrongExpirableEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+    StrongExpirableEntry(K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
 
@@ -1064,7 +1064,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
 
   static final class StrongEvictableEntry<K, V> extends StrongEntry<K, V>
       implements ReferenceEntry<K, V> {
-    StrongEvictableEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+    StrongEvictableEntry(K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
 
@@ -1099,7 +1099,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
 
   static final class StrongExpirableEvictableEntry<K, V> extends StrongEntry<K, V>
       implements ReferenceEntry<K, V> {
-    StrongExpirableEvictableEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+    StrongExpirableEvictableEntry(K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
 
@@ -1176,7 +1176,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
    * Used for softly-referenced keys.
    */
   static class SoftEntry<K, V> extends SoftReference<K> implements ReferenceEntry<K, V> {
-    SoftEntry(ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+    SoftEntry(ReferenceQueue<K> queue, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
       super(key, queue);
       this.hash = hash;
       this.next = next;
@@ -1272,7 +1272,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   static final class SoftExpirableEntry<K, V> extends SoftEntry<K, V>
       implements ReferenceEntry<K, V> {
     SoftExpirableEntry(
-        ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+        ReferenceQueue<K> queue, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
 
@@ -1320,7 +1320,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   static final class SoftEvictableEntry<K, V> extends SoftEntry<K, V>
       implements ReferenceEntry<K, V> {
     SoftEvictableEntry(
-        ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+        ReferenceQueue<K> queue, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
 
@@ -1356,7 +1356,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   static final class SoftExpirableEvictableEntry<K, V> extends SoftEntry<K, V>
       implements ReferenceEntry<K, V> {
     SoftExpirableEvictableEntry(
-        ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+        ReferenceQueue<K> queue, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
 
@@ -1433,7 +1433,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
    * Used for weakly-referenced keys.
    */
   static class WeakEntry<K, V> extends WeakReference<K> implements ReferenceEntry<K, V> {
-    WeakEntry(ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+    WeakEntry(ReferenceQueue<K> queue, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
       super(key, queue);
       this.hash = hash;
       this.next = next;
@@ -1530,7 +1530,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   static final class WeakExpirableEntry<K, V> extends WeakEntry<K, V>
       implements ReferenceEntry<K, V> {
     WeakExpirableEntry(
-        ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+        ReferenceQueue<K> queue, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
 
@@ -1578,7 +1578,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   static final class WeakEvictableEntry<K, V> extends WeakEntry<K, V>
       implements ReferenceEntry<K, V> {
     WeakEvictableEntry(
-        ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+        ReferenceQueue<K> queue, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
 
@@ -1614,7 +1614,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   static final class WeakExpirableEvictableEntry<K, V> extends WeakEntry<K, V>
       implements ReferenceEntry<K, V> {
     WeakExpirableEvictableEntry(
-        ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+        ReferenceQueue<K> queue, K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
 
@@ -1830,7 +1830,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
    */
   // Guarded By Segment.this
   @VisibleForTesting
-  ReferenceEntry<K, V> newEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+  ReferenceEntry<K, V> newEntry(K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
     return segmentFor(hash).newEntry(key, hash, next);
   }
 
@@ -1987,7 +1987,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
    * Segments are specialized versions of hash tables. This subclass inherits from ReentrantLock
    * opportunistically, just to simplify some locking and avoid separate construction.
    */
-  @SuppressWarnings("serial") // This class is never serialized.
+  /*@SuppressWarnings("serial")*/ // This class is never serialized.
   static class Segment<K, V> extends ReentrantLock {
 
     /*
@@ -2023,7 +2023,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
      * comments.
      */
 
-    @Weak final MapMakerInternalMap<K, V> map;
+    /*@Weak*/ final MapMakerInternalMap<K, V> map;
 
     /**
      * The number of live elements in this segment's region. This does not include unset elements
@@ -2133,7 +2133,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     }
 
     @GuardedBy("this")
-    ReferenceEntry<K, V> newEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+    ReferenceEntry<K, V> newEntry(K key, int hash, /*@Nullable*/ ReferenceEntry<K, V> next) {
       return map.entryFactory.newEntry(this, key, hash, next);
     }
 
@@ -2366,7 +2366,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       enqueueNotification(entry.getKey(), entry.getHash(), entry.getValueReference().get(), cause);
     }
 
-    void enqueueNotification(@Nullable K key, int hash, @Nullable V value, RemovalCause cause) {
+    void enqueueNotification(/*@Nullable*/ K key, int hash, /*@Nullable*/ V value, RemovalCause cause) {
       if (map.removalNotificationQueue != DISCARDING_QUEUE) {
         RemovalNotification<K, V> notification = new RemovalNotification<K, V>(key, value, cause);
         map.removalNotificationQueue.offer(notification);
@@ -3441,7 +3441,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   }
 
   @Override
-  public V get(@Nullable Object key) {
+  public V get(/*@Nullable*/ Object key) {
     if (key == null) {
       return null;
     }
@@ -3453,7 +3453,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
    * Returns the internal entry for the specified key. The entry may be computing, expired, or
    * partially collected. Does not impact recency ordering.
    */
-  ReferenceEntry<K, V> getEntry(@Nullable Object key) {
+  ReferenceEntry<K, V> getEntry(/*@Nullable*/ Object key) {
     if (key == null) {
       return null;
     }
@@ -3462,7 +3462,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(/*@Nullable*/ Object key) {
     if (key == null) {
       return false;
     }
@@ -3471,7 +3471,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(/*@Nullable*/ Object value) {
     if (value == null) {
       return false;
     }
@@ -3532,7 +3532,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   }
 
   @Override
-  public V remove(@Nullable Object key) {
+  public V remove(/*@Nullable*/ Object key) {
     if (key == null) {
       return null;
     }
@@ -3541,7 +3541,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   }
 
   @Override
-  public boolean remove(@Nullable Object key, @Nullable Object value) {
+  public boolean remove(/*@Nullable*/ Object key, /*@Nullable*/ Object value) {
     if (key == null || value == null) {
       return false;
     }
@@ -3550,7 +3550,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   }
 
   @Override
-  public boolean replace(K key, @Nullable V oldValue, V newValue) {
+  public boolean replace(K key, /*@Nullable*/ V oldValue, V newValue) {
     checkNotNull(key);
     checkNotNull(newValue);
     if (oldValue == null) {
@@ -3753,7 +3753,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(/*@Nullable*/ Object object) {
       // Cannot use key and value equivalence
       if (object instanceof Entry) {
         Entry<?, ?> that = (Entry<?, ?>) object;
@@ -4006,7 +4006,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       out.writeObject(null); // terminate entries
     }
 
-    @SuppressWarnings("deprecation") // serialization of deprecated feature
+    /*@SuppressWarnings("deprecation")*/ // serialization of deprecated feature
     MapMaker readMapMaker(ObjectInputStream in) throws IOException {
       int size = in.readInt();
       MapMaker mapMaker =

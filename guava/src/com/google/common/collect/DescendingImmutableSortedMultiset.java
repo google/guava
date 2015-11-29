@@ -21,7 +21,7 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
-@SuppressWarnings("serial") // uses writeReplace, not default serialization
+/*@SuppressWarnings("serial")*/ // uses writeReplace, not default serialization
 final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   private final transient ImmutableSortedMultiset<E> forward;
 
@@ -30,7 +30,7 @@ final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   @Override
-  public int count(@Nullable Object element) {
+  public int count(/*@Nullable*/ Object element) {
     return forward.count(element);
   }
 

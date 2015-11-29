@@ -621,7 +621,7 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
    * {@code [3..3)}, {@code (3..3]}, {@code (4..4]} are all unequal.
    */
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(/*@Nullable*/ Object object) {
     if (object instanceof Range) {
       Range<?> other = (Range<?>) object;
       return lowerBound.equals(other.lowerBound) && upperBound.equals(other.upperBound);
@@ -667,7 +667,7 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
     }
   }
 
-  @SuppressWarnings("unchecked") // this method may throw CCE
+  /*@SuppressWarnings("unchecked")*/ // this method may throw CCE
   static int compareOrThrow(Comparable left, Comparable right) {
     return left.compareTo(right);
   }

@@ -74,7 +74,7 @@ final class FilteredKeySetMultimap<K, V> extends FilteredKeyMultimap<K, V>
     }
 
     @Override
-    public boolean equals(@Nullable Object o) {
+    public boolean equals(/*@Nullable*/ Object o) {
       return Sets.equalsImpl(this, o);
     }
   }

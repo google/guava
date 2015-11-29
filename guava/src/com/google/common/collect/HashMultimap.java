@@ -51,10 +51,10 @@ import java.util.Set;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-public final class HashMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractSetMultimap<K, V> {
+public final class HashMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractSetMultimap<K, V> {
   private static final int DEFAULT_VALUES_PER_KEY = 2;
 
-  @VisibleForTesting transient int expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
+  /*@VisibleForTesting*/ transient int expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
 
   /**
    * Creates a new, empty {@code HashMultimap} with the default initial
@@ -141,11 +141,11 @@ public final class HashMultimap<K extends @org.checkerframework.checker.nullness
 
 @Pure
 @Override
-public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
 
 @Override
-public Set<V> get(@org.checkerframework.checker.nullness.qual.Nullable K arg0) { return super.get(arg0); }
+public Set<V> get(/*@org.checkerframework.checker.nullness.qual.Nullable*/ K arg0) { return super.get(arg0); }
 
 @Override
-public Set<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.removeAll(arg0); }
+public Set<V> removeAll(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.removeAll(arg0); }
 }

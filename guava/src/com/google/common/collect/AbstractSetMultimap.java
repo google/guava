@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-abstract class AbstractSetMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMapBasedMultimap<K, V>
+abstract class AbstractSetMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractMapBasedMultimap<K, V>
     implements SetMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.
@@ -67,7 +67,7 @@ abstract class AbstractSetMultimap<K extends @org.checkerframework.checker.nulln
    * in the {@link Multimap} interface.
    */
   @Override
-  public Set<V> get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable K key) {
+  public Set<V> get(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ K key) {
     return (Set<V>) super.get(key);
   }
 
@@ -92,7 +92,7 @@ abstract class AbstractSetMultimap<K extends @org.checkerframework.checker.nulln
    * in the {@link Multimap} interface.
    */
   @Override
-  public Set<V> removeAll(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
+  public Set<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
     return (Set<V>) super.removeAll(key);
   }
 
@@ -106,7 +106,7 @@ abstract class AbstractSetMultimap<K extends @org.checkerframework.checker.nulln
    * <p>Any duplicates in {@code values} will be stored in the multimap once.
    */
   @Override
-  public Set<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
+  public Set<V> replaceValues(/*@Nullable*/ K key, Iterable<? extends V> values) {
     return (Set<V>) super.replaceValues(key, values);
   }
 
@@ -130,7 +130,7 @@ abstract class AbstractSetMultimap<K extends @org.checkerframework.checker.nulln
    *     {@code false} if the multimap already contained the key-value pair
    */
   @Override
-  public boolean put(@Nullable K key, @Nullable V value) {
+  public boolean put(/*@Nullable*/ K key, /*@Nullable*/ V value) {
     return super.put(key, value);
   }
 
@@ -143,7 +143,7 @@ abstract class AbstractSetMultimap<K extends @org.checkerframework.checker.nulln
    */
   @Pure
   @Override
-  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     return super.equals(object);
   }
 

@@ -34,7 +34,7 @@ class DescendingImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(/*@Nullable*/ Object object) {
     return forward.contains(object);
   }
 
@@ -103,7 +103,7 @@ class DescendingImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  int indexOf(@Nullable Object target) {
+  int indexOf(/*@Nullable*/ Object target) {
     int index = forward.indexOf(target);
     if (index == -1) {
       return index;

@@ -31,14 +31,14 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // uses writeReplace(), not default serialization
+/*@SuppressWarnings("serial")*/ // uses writeReplace(), not default serialization
 final class RegularImmutableSet<E> extends ImmutableSet<E> {
   static final RegularImmutableSet<Object> EMPTY =
       new RegularImmutableSet<Object>(ObjectArrays.EMPTY_ARRAY, 0, null, 0);
 
   private final transient Object[] elements;
   // the same elements in hashed positions (plus nulls)
-  @VisibleForTesting final transient Object[] table;
+  /*@VisibleForTesting*/ final transient Object[] table;
   // 'and' with an int to get a valid table index.
   private final transient int mask;
   private final transient int hashCode;
@@ -52,7 +52,7 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
 
   @Pure
   @Override
-  public boolean contains(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object target) {
+  public boolean contains(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object target) {
     Object[] table = this.table;
     if (target == null || table == null) {
       return false;
@@ -73,7 +73,7 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
     return elements.length;
   }
 
-  @SuppressWarnings("unchecked") // all elements are E's
+  /*@SuppressWarnings("unchecked")*/ // all elements are E's
   @Override
   public UnmodifiableIterator<E> iterator() {
     return (UnmodifiableIterator<E>) Iterators.forArray(elements);

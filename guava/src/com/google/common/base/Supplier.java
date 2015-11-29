@@ -30,7 +30,7 @@ import com.google.common.annotations.GwtCompatible;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface Supplier<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
+public interface Supplier<T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> {
   /**
    * Retrieves an instance of the appropriate type. The returned object may or
    * may not be a new instance, depending on the implementation.

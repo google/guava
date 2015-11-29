@@ -39,7 +39,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface BiMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Map<K, V> {
+public interface BiMap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends Map<K, V> {
   // Modification Operations
 
   /**
@@ -51,7 +51,7 @@ public interface BiMap<K extends @org.checkerframework.checker.nullness.qual.Nul
    */
   @Override
   @Nullable
-  V put(@Nullable K key, @Nullable V value);
+  V put(/*@Nullable*/ K key, /*@Nullable*/ V value);
 
   /**
    * An alternate form of {@code put} that silently removes any existing entry
@@ -71,7 +71,7 @@ public interface BiMap<K extends @org.checkerframework.checker.nullness.qual.Nul
    *     be {@code null}, or {@code null} if there was no previous entry
    */
   @Nullable
-  V forcePut(@Nullable K key, @Nullable V value);
+  V forcePut(/*@Nullable*/ K key, /*@Nullable*/ V value);
 
   // Bulk Operations
 

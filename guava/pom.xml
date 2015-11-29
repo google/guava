@@ -18,6 +18,10 @@
     Guava has only one code dependency - javax.annotation,
     per the JSR-305 spec.
   </description>
+  <properties>
+    <annotatedJdk>${org.checkerframework:jdk7:jar}</annotatedJdk>
+    <typeAnnotationsJavac>${org.checkerframework:compiler:jar}</typeAnnotationsJavac>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
@@ -42,6 +46,26 @@
     </dependency>
     <!-- TODO(cpovirk): does this comment belong on the <dependency> in <profiles>? -->
     <!-- TODO(cpovirk): want this only for dependency plugin but seems not to work there? Maven runs without failure, but the resulting Javadoc is missing the hoped-for inherited text -->
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <version>1.9.8</version>
+    </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker</artifactId>
+      <version>1.9.8</version>
+    </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>compiler</artifactId>
+      <version>1.9.8</version>
+    </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>jdk8</artifactId>
+      <version>1.9.8</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -73,20 +97,18 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>3.3</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-          <fork>true</fork>
-          <executable>${env.CHECKERFRAMEWORK}/checker/bin/javac_maven</executable>
-<!--
-          <compilerArgs>
-            <arg>-processorpath ${env.CHECKERFRAMEWORK}/checker/dist/checker.jar</arg>
-            <arg>-processor org.checkerframework.checker.nullness.NullnessChecker</arg>
-            <arg>-AuseSafeDefaultsForUnannotatedSourceCode</arg>
-            <arg>-AprintErrorStack</arg>
-          </compilerArgs>
--->
+            <source>1.7</source>
+            <target>1.7</target>
+            <fork>true</fork>
+            <!--  <annotationProcessors>
+                  <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+                  </annotationProcessors>  -->
+            <compilerArgs>
+              <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+              <arg>-J-Xbootclasspath/p:${typeAnnotationsJavac}</arg>
+            </compilerArgs>
         </configuration>
       </plugin>
       <plugin>
@@ -94,12 +116,17 @@
       </plugin>
       <!-- TODO(cpovirk): include JDK sources when building testlib doc, too -->
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.3</version>
         <executions>
           <execution>
             <id>unpack-jdk-sources</id>
             <phase>site</phase>
-            <goals><goal>unpack-dependencies</goal></goals>
+            <goals>
+              <goal>properties</goal>
+              <goal>unpack-dependencies</goal>
+            </goals>
             <configuration>
               <includeArtifactIds>srczip</includeArtifactIds>
               <outputDirectory>${project.build.directory}/jdk-sources</outputDirectory>
@@ -159,11 +186,6 @@
           <scope>system</scope>
           <systemPath>${java.home}/../src.zip</systemPath>
           <optional>true</optional>
-        </dependency>
-        <dependency>
-          <groupId>org.checkerframework</groupId>
-          <artifactId>checker-qual</artifactId>
-          <version>1.9.5</version>
         </dependency>
       </dependencies>
     </profile>

@@ -151,7 +151,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
   public static <B, S extends B> ImmutableClassToInstanceMap<B> copyOf(
       Map<? extends Class<? extends S>, ? extends S> map) {
     if (map instanceof ImmutableClassToInstanceMap) {
-      @SuppressWarnings("unchecked") // covariant casts safe (unmodifiable)
+      /*@SuppressWarnings("unchecked")*/ // covariant casts safe (unmodifiable)
       // Eclipse won't compile if we cast to the parameterized type.
       ImmutableClassToInstanceMap<B> cast = (ImmutableClassToInstanceMap) map;
       return cast;
@@ -171,7 +171,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
   }
 
   @Override
-  @SuppressWarnings("unchecked") // value could not get in if not a T
+  /*@SuppressWarnings("unchecked")*/ // value could not get in if not a T
   @Nullable
   public <T extends B> T getInstance(Class<T> type) {
     return (T) delegate.get(checkNotNull(type));

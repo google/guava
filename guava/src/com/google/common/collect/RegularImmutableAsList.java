@@ -27,9 +27,9 @@ import com.google.j2objc.annotations.Weak;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-@SuppressWarnings("serial") // uses writeReplace, not default serialization
+/*@SuppressWarnings("serial")*/ // uses writeReplace, not default serialization
 class RegularImmutableAsList<E> extends ImmutableAsList<E> {
-  @Weak private final ImmutableCollection<E> delegate;
+  /*@Weak*/ private final ImmutableCollection<E> delegate;
   private final ImmutableList<? extends E> delegateList;
 
   RegularImmutableAsList(ImmutableCollection<E> delegate, ImmutableList<? extends E> delegateList) {
@@ -50,7 +50,7 @@ class RegularImmutableAsList<E> extends ImmutableAsList<E> {
     return delegateList;
   }
 
-  @SuppressWarnings("unchecked") // safe covariant cast!
+  /*@SuppressWarnings("unchecked")*/ // safe covariant cast!
   @Override
   public UnmodifiableListIterator<E> listIterator(int index) {
     return (UnmodifiableListIterator<E>) delegateList.listIterator(index);

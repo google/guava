@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface Predicate<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
+public interface Predicate<T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> {
   /**
    * Returns the result of applying this predicate to {@code input}. This method is <i>generally
    * expected</i>, but not absolutely required, to have the following properties:
@@ -52,7 +52,7 @@ public interface Predicate<T extends @org.checkerframework.checker.nullness.qual
    * @throws NullPointerException if {@code input} is null and this predicate does not accept null
    *     arguments
    */
-  boolean apply(@Nullable T input);
+  boolean apply(/*@Nullable*/ T input);
 
   /**
    * Indicates whether another object is equal to this predicate.
@@ -66,5 +66,5 @@ public interface Predicate<T extends @org.checkerframework.checker.nullness.qual
    */
   @Pure
   @Override
-  boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object);
+  boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object);
 }

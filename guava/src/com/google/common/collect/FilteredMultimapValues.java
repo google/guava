@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 final class FilteredMultimapValues<K, V> extends AbstractCollection<V> {
-  @Weak private final FilteredMultimap<K, V> multimap;
+  /*@Weak*/ private final FilteredMultimap<K, V> multimap;
 
   FilteredMultimapValues(FilteredMultimap<K, V> multimap) {
     this.multimap = checkNotNull(multimap);
@@ -49,7 +49,7 @@ final class FilteredMultimapValues<K, V> extends AbstractCollection<V> {
   }
 
   @Override
-  public boolean contains(@Nullable Object o) {
+  public boolean contains(/*@Nullable*/ Object o) {
     return multimap.containsValue(o);
   }
 
@@ -59,7 +59,7 @@ final class FilteredMultimapValues<K, V> extends AbstractCollection<V> {
   }
 
   @Override
-  public boolean remove(@Nullable Object o) {
+  public boolean remove(/*@Nullable*/ Object o) {
     Predicate<? super Entry<K, V>> entryPredicate = multimap.entryPredicate();
     for (Iterator<Entry<K, V>> unfilteredItr = multimap.unfiltered().entries().iterator();
         unfilteredItr.hasNext();) {

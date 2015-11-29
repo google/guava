@@ -40,7 +40,7 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
    * result must never be upcast back to ImmutableMapEntry[] (or Object[], etc.), or
    * allowed to escape the class.
    */
-  @SuppressWarnings("unchecked") // Safe as long as the javadocs are followed
+  /*@SuppressWarnings("unchecked")*/ // Safe as long as the javadocs are followed
   static <K, V> ImmutableMapEntry<K, V>[] createEntryArray(int size) {
     return new ImmutableMapEntry[size];
   }

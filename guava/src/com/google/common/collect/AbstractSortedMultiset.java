@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 abstract class AbstractSortedMultiset<E> extends AbstractMultiset<E> implements SortedMultiset<E> {
-  @GwtTransient final Comparator<? super E> comparator;
+  /*@GwtTransient*/ final Comparator<? super E> comparator;
 
   // needed for serialization
   @SuppressWarnings("unchecked")
@@ -101,9 +101,9 @@ abstract class AbstractSortedMultiset<E> extends AbstractMultiset<E> implements 
 
   @Override
   public SortedMultiset<E> subMultiset(
-      @Nullable E fromElement,
+      /*@Nullable*/ E fromElement,
       BoundType fromBoundType,
-      @Nullable E toElement,
+      /*@Nullable*/ E toElement,
       BoundType toBoundType) {
     // These are checked elsewhere, but NullPointerTester wants them checked eagerly.
     checkNotNull(fromBoundType);

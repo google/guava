@@ -64,7 +64,7 @@ final class Serialization {
    * first value, second key, second value, and so on.
    */
   @GwtIncompatible("java.io.ObjectOutputStream")
-  static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> void writeMap(Map<K, V> map, ObjectOutputStream stream) throws IOException {
+  static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void writeMap(Map<K, V> map, ObjectOutputStream stream) throws IOException {
     stream.writeInt(map.size());
     for (Map.Entry<K, V> entry : map.entrySet()) {
       stream.writeObject(entry.getKey());
@@ -77,7 +77,7 @@ final class Serialization {
    * See {@link #writeMap} for the data format.
    */
   @GwtIncompatible("java.io.ObjectInputStream")
-  static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> void populateMap(Map<K, V> map, ObjectInputStream stream)
+  static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void populateMap(Map<K, V> map, ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     int size = stream.readInt();
     populateMap(map, stream, size);
@@ -89,12 +89,12 @@ final class Serialization {
    * prior call to {@link #readCount}.
    */
   @GwtIncompatible("java.io.ObjectInputStream")
-  static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> void populateMap(Map<K, V> map, ObjectInputStream stream, int size)
+  static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void populateMap(Map<K, V> map, ObjectInputStream stream, int size)
       throws IOException, ClassNotFoundException {
     for (int i = 0; i < size; i++) {
-      @SuppressWarnings("unchecked") // reading data stored by writeMap
+      /*@SuppressWarnings("unchecked")*/ // reading data stored by writeMap
       K key = (K) stream.readObject();
-      @SuppressWarnings("unchecked") // reading data stored by writeMap
+      /*@SuppressWarnings("unchecked")*/ // reading data stored by writeMap
       V value = (V) stream.readObject();
       map.put(key, value);
     }
@@ -109,7 +109,7 @@ final class Serialization {
    * first element, its count, the second element, its count, and so on.
    */
   @GwtIncompatible("java.io.ObjectOutputStream")
-  static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> void writeMultiset(Multiset<E> multiset, ObjectOutputStream stream)
+  static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void writeMultiset(Multiset<E> multiset, ObjectOutputStream stream)
       throws IOException {
     int entryCount = multiset.entrySet().size();
     stream.writeInt(entryCount);
@@ -124,7 +124,7 @@ final class Serialization {
    * deserialization. See {@link #writeMultiset} for the data format.
    */
   @GwtIncompatible("java.io.ObjectInputStream")
-  static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> void populateMultiset(Multiset<E> multiset, ObjectInputStream stream)
+  static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void populateMultiset(Multiset<E> multiset, ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     int distinctElements = stream.readInt();
     populateMultiset(multiset, stream, distinctElements);
@@ -136,11 +136,11 @@ final class Serialization {
    * of distinct elements is determined by a prior call to {@link #readCount}.
    */
   @GwtIncompatible("java.io.ObjectInputStream")
-  static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> void populateMultiset(
+  static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void populateMultiset(
       Multiset<E> multiset, ObjectInputStream stream, int distinctElements)
       throws IOException, ClassNotFoundException {
     for (int i = 0; i < distinctElements; i++) {
-      @SuppressWarnings("unchecked") // reading data stored by writeMultiset
+      /*@SuppressWarnings("unchecked")*/ // reading data stored by writeMultiset
       E element = (E) stream.readObject();
       int count = stream.readInt();
       multiset.add(element, count);
@@ -158,7 +158,7 @@ final class Serialization {
    * key's values.
    */
   @GwtIncompatible("java.io.ObjectOutputStream")
-  static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> void writeMultimap(Multimap<K, V> multimap, ObjectOutputStream stream)
+  static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void writeMultimap(Multimap<K, V> multimap, ObjectOutputStream stream)
       throws IOException {
     stream.writeInt(multimap.asMap().size());
     for (Map.Entry<K, Collection<V>> entry : multimap.asMap().entrySet()) {
@@ -175,7 +175,7 @@ final class Serialization {
    * deserialization. See {@link #writeMultimap} for the data format.
    */
   @GwtIncompatible("java.io.ObjectInputStream")
-  static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> void populateMultimap(Multimap<K, V> multimap, ObjectInputStream stream)
+  static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void populateMultimap(Multimap<K, V> multimap, ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     int distinctKeys = stream.readInt();
     populateMultimap(multimap, stream, distinctKeys);
@@ -187,16 +187,16 @@ final class Serialization {
    * of distinct keys is determined by a prior call to {@link #readCount}.
    */
   @GwtIncompatible("java.io.ObjectInputStream")
-  static <K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> void populateMultimap(
+  static <K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> void populateMultimap(
       Multimap<K, V> multimap, ObjectInputStream stream, int distinctKeys)
       throws IOException, ClassNotFoundException {
     for (int i = 0; i < distinctKeys; i++) {
-      @SuppressWarnings("unchecked") // reading data stored by writeMultimap
+      /*@SuppressWarnings("unchecked")*/ // reading data stored by writeMultimap
       K key = (K) stream.readObject();
       Collection<V> values = multimap.get(key);
       int valueCount = stream.readInt();
       for (int j = 0; j < valueCount; j++) {
-        @SuppressWarnings("unchecked") // reading data stored by writeMultimap
+        /*@SuppressWarnings("unchecked")*/ // reading data stored by writeMultimap
         V value = (V) stream.readObject();
         values.add(value);
       }
@@ -205,7 +205,7 @@ final class Serialization {
 
   // Secret sauce for setting final fields; don't make it public.
   @GwtIncompatible("java.lang.reflect.Field")
-  static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> FieldSetter<T> getFieldSetter(final Class<T> clazz, String fieldName) {
+  static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> FieldSetter<T> getFieldSetter(final Class<T> clazz, String fieldName) {
     try {
       Field field = clazz.getDeclaredField(fieldName);
       return new FieldSetter<T>(field);
@@ -216,7 +216,7 @@ final class Serialization {
 
   // Secret sauce for setting final fields; don't make it public.
   @GwtCompatible(emulated=true)
-  static final class FieldSetter<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
+  static final class FieldSetter<T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> {
     private final Field field;
 
     private FieldSetter(Field field) {

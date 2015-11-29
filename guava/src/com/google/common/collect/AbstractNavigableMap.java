@@ -37,7 +37,7 @@ abstract class AbstractNavigableMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   @Override
   @Nullable
-  public abstract V get(@Nullable Object key);
+  public abstract V get(/*@Nullable*/ Object key);
 
   @Override
   @Nullable

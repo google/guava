@@ -165,7 +165,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface Multimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
+public interface Multimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> {
   // Query Operations
 
   /**
@@ -190,21 +190,21 @@ public interface Multimap<K extends @org.checkerframework.checker.nullness.qual.
    * with the key {@code key}.
    */
   @Pure
-  boolean containsKey(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key);
+  boolean containsKey(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key);
 
   /**
    * Returns {@code true} if this multimap contains at least one key-value pair
    * with the value {@code value}.
    */
   @Pure
-  boolean containsValue(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object value);
+  boolean containsValue(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value);
 
   /**
    * Returns {@code true} if this multimap contains at least one key-value pair
    * with the key {@code key} and the value {@code value}.
    */
   @Pure
-  boolean containsEntry(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key, @Nullable @org.checkerframework.checker.nullness.qual.Nullable Object value);
+  boolean containsEntry(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value);
 
   // Modification Operations
 
@@ -220,7 +220,7 @@ public interface Multimap<K extends @org.checkerframework.checker.nullness.qual.
    *     {@code false} if the multimap already contained the key-value pair and
    *     doesn't allow duplicates
    */
-  boolean put(@Nullable K key, @Nullable V value);
+  boolean put(/*@Nullable*/ K key, /*@Nullable*/ V value);
 
   /**
    * Removes a single key-value pair with the key {@code key} and the value
@@ -230,7 +230,7 @@ public interface Multimap<K extends @org.checkerframework.checker.nullness.qual.
    *
    * @return {@code true} if the multimap changed
    */
-  boolean remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key, @Nullable @org.checkerframework.checker.nullness.qual.Nullable Object value);
+  boolean remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value);
 
   // Bulk Operations
 
@@ -247,7 +247,7 @@ public interface Multimap<K extends @org.checkerframework.checker.nullness.qual.
    *
    * @return {@code true} if the multimap changed
    */
-  boolean putAll(@Nullable K key, Iterable<? extends V> values);
+  boolean putAll(/*@Nullable*/ K key, Iterable<? extends V> values);
 
   /**
    * Stores all key-value pairs of {@code multimap} in this multimap, in the
@@ -269,7 +269,7 @@ public interface Multimap<K extends @org.checkerframework.checker.nullness.qual.
    *     <i>may</i> be modifiable, but updating it will have no effect on the
    *     multimap.
    */
-  Collection<V> replaceValues(@Nullable K key, Iterable<? extends V> values);
+  Collection<V> replaceValues(/*@Nullable*/ K key, Iterable<? extends V> values);
 
   /**
    * Removes all values associated with the key {@code key}.
@@ -282,7 +282,7 @@ public interface Multimap<K extends @org.checkerframework.checker.nullness.qual.
    *     collection <i>may</i> be modifiable, but updating it will have no
    *     effect on the multimap.
    */
-  Collection<V> removeAll(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key);
+  Collection<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key);
 
   /**
    * Removes all key-value pairs from the multimap, leaving it {@linkplain
@@ -300,7 +300,7 @@ public interface Multimap<K extends @org.checkerframework.checker.nullness.qual.
    * <p>Changes to the returned collection will update the underlying multimap,
    * and vice versa.
    */
-  Collection<V> get(@Nullable K key);
+  Collection<V> get(/*@Nullable*/ K key);
 
   /**
    * Returns a view collection of all <i>distinct</i> keys contained in this
@@ -379,7 +379,7 @@ public interface Multimap<K extends @org.checkerframework.checker.nullness.qual.
    */
   @Pure
   @Override
-  boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object obj);
+  boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object obj);
 
   /**
    * Returns the hash code for this multimap.

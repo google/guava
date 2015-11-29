@@ -100,7 +100,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMulti
   @GwtIncompatible("java.io.ObjectInputStream")
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    @SuppressWarnings("unchecked") // reading data stored by writeObject
+    /*@SuppressWarnings("unchecked")*/ // reading data stored by writeObject
     Class<E> localType = (Class<E>) stream.readObject();
     type = localType;
     setBackingMap(WellBehavedMap.wrap(new EnumMap<E, Count>(type)));
@@ -112,28 +112,28 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMulti
 
 @Pure
 @Override
-public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
+public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.contains(arg0); }
 
 @Override
-public int count(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.count(arg0); }
-
-@Pure
-@Override
-public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
-
-@Override
-public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.remove(arg0); }
-
-@Override
-public int remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0, int arg1) { return super.remove(arg0, arg1); }
+public int count(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.count(arg0); }
 
 @Pure
 @Override
-public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.containsAll(arg0); }
+public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
 
 @Override
-public boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.removeAll(arg0); }
+public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.remove(arg0); }
 
 @Override
-public boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> arg0) { return super.retainAll(arg0); }
+public int remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0, int arg1) { return super.remove(arg0, arg1); }
+
+@Pure
+@Override
+public boolean containsAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> arg0) { return super.containsAll(arg0); }
+
+@Override
+public boolean removeAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> arg0) { return super.removeAll(arg0); }
+
+@Override
+public boolean retainAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> arg0) { return super.retainAll(arg0); }
 }

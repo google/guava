@@ -214,7 +214,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   public static <E> ImmutableSortedMultiset<E> copyOf(
       Comparator<? super E> comparator, Iterable<? extends E> elements) {
     if (elements instanceof ImmutableSortedMultiset) {
-      @SuppressWarnings("unchecked") // immutable collections are always safe for covariant casts
+      /*@SuppressWarnings("unchecked")*/ // immutable collections are always safe for covariant casts
       ImmutableSortedMultiset<E> multiset = (ImmutableSortedMultiset<E>) elements;
       if (comparator.equals(multiset.comparator())) {
         if (multiset.isPartialView()) {

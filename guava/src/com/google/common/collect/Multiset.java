@@ -91,7 +91,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public interface Multiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Collection<E> {
+public interface Multiset<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends Collection<E> {
   // Query Operations
 
   /**
@@ -108,7 +108,7 @@ public interface Multiset<E extends @org.checkerframework.checker.nullness.qual.
    * @return the number of occurrences of the element in this multiset; possibly
    *     zero but never negative
    */
-  int count(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element);
+  int count(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element);
 
   // Bulk Operations
 
@@ -131,7 +131,7 @@ public interface Multiset<E extends @org.checkerframework.checker.nullness.qual.
    *     implementation does not permit null elements. Note that if {@code
    *     occurrences} is zero, the implementation may opt to return normally.
    */
-  int add(@Nullable E element, int occurrences);
+  int add(/*@Nullable*/ E element, int occurrences);
 
   /**
    * Removes a number of occurrences of the specified element from this
@@ -146,7 +146,7 @@ public interface Multiset<E extends @org.checkerframework.checker.nullness.qual.
    * @return the count of the element before the operation; possibly zero
    * @throws IllegalArgumentException if {@code occurrences} is negative
    */
-  int remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences);
+  int remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences);
 
   /**
    * Adds or removes the necessary occurrences of an element such that the
@@ -236,7 +236,7 @@ public interface Multiset<E extends @org.checkerframework.checker.nullness.qual.
    *
    * @since 2.0
    */
-  interface Entry<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
+  interface Entry<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> {
 
     /**
      * Returns the multiset element corresponding to this entry. Multiple calls
@@ -272,7 +272,7 @@ public interface Multiset<E extends @org.checkerframework.checker.nullness.qual.
     @Pure
     @Override
     // TODO(kevinb): check this wrt TreeMultiset?
-    boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object o);
+    boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object o);
 
     /**
      * {@inheritDoc}
@@ -308,7 +308,7 @@ public interface Multiset<E extends @org.checkerframework.checker.nullness.qual.
   @Pure
   @Override
   // TODO(kevinb): caveats about equivalence-relation?
-  boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object);
+  boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object);
 
   /**
    * Returns the hash code for this multiset. This is defined as the sum of
@@ -358,7 +358,7 @@ public interface Multiset<E extends @org.checkerframework.checker.nullness.qual.
    */
   @Pure
   @Override
-  boolean contains(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element);
+  boolean contains(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element);
 
   /**
    * Returns {@code true} if this multiset contains at least one occurrence of
@@ -383,7 +383,7 @@ public interface Multiset<E extends @org.checkerframework.checker.nullness.qual.
    */
   @Pure
   @Override
-  boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> elements);
+  boolean containsAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> elements);
 
   /**
    * Adds a single occurrence of the specified element to this multiset.
@@ -423,7 +423,7 @@ public interface Multiset<E extends @org.checkerframework.checker.nullness.qual.
    * @return {@code true} if an occurrence was found and removed
    */
   @Override
-  boolean remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element);
+  boolean remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element);
 
   /**
    * {@inheritDoc}
@@ -438,7 +438,7 @@ public interface Multiset<E extends @org.checkerframework.checker.nullness.qual.
    * being null or of the wrong type.
    */
   @Override
-  boolean removeAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c);
+  boolean removeAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> c);
 
   /**
    * {@inheritDoc}
@@ -455,5 +455,5 @@ public interface Multiset<E extends @org.checkerframework.checker.nullness.qual.
    * @see Multisets#retainOccurrences(Multiset, Multiset)
    */
   @Override
-  boolean retainAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c);
+  boolean retainAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> c);
 }

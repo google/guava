@@ -105,7 +105,7 @@ public class Finalizer implements Runnable {
   private final PhantomReference<Object> frqReference;
   private final ReferenceQueue<Object> queue;
 
-  private static final @org.checkerframework.checker.nullness.qual.Nullable Field inheritableThreadLocals = getInheritableThreadLocalsField();
+  private static final /*@org.checkerframework.checker.nullness.qual.Nullable*/ Field inheritableThreadLocals = getInheritableThreadLocalsField();
 
   /** Constructs a new finalizer thread. */
   private Finalizer(
@@ -200,7 +200,7 @@ public class Finalizer implements Runnable {
     }
   }
 
-  public static @org.checkerframework.checker.nullness.qual.Nullable Field getInheritableThreadLocalsField() {
+  public static /*@org.checkerframework.checker.nullness.qual.Nullable*/ Field getInheritableThreadLocalsField() {
     try {
       Field inheritableThreadLocals = Thread.class.getDeclaredField("inheritableThreadLocals");
       inheritableThreadLocals.setAccessible(true);

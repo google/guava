@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface MapDifference<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
+public interface MapDifference<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> {
   /**
    * Returns {@code true} if there are no differences between the two maps;
    * that is, if the maps are equal.
@@ -73,7 +73,7 @@ public interface MapDifference<K extends @org.checkerframework.checker.nullness.
    */
   @Pure
   @Override
-  boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object);
+  boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object);
 
   /**
    * Returns the hash code for this instance. This is defined as the hash code
@@ -110,7 +110,7 @@ public interface MapDifference<K extends @org.checkerframework.checker.nullness.
      */
     @Pure
     @Override
-    boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object other);
+    boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object other);
 
     /**
      * The hash code equals the value

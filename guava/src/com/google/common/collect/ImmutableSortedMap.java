@@ -530,7 +530,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   @Override
-  public @org.checkerframework.checker.nullness.qual.Nullable V get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
+  public /*@org.checkerframework.checker.nullness.qual.Nullable*/ V get(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
     int index = keySet.indexOf(key);
     return (index == -1) ? null : valueList.get(index);
   }
@@ -581,7 +581,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
 
     @Pure
     @Override
-    public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
+    public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.contains(arg0); }
     }
     return isEmpty() ? ImmutableSet.<Entry<K, V>>of() : new EntrySet();
   }
@@ -884,5 +884,5 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   private static final long serialVersionUID = 0;
 
 @Pure
-public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
+public boolean containsValue(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.containsValue(arg0); }
 }

@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(serializable = true)
-@SuppressWarnings("serial") // uses writeReplace(), not default serialization
+/*@SuppressWarnings("serial")*/ // uses writeReplace(), not default serialization
 class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   static final RegularImmutableMultiset<Object> EMPTY =
       new RegularImmutableMultiset<Object>(ImmutableList.<Entry<Object>>of());
@@ -113,7 +113,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   }
 
   @Override
-  public int count(@Nullable Object element) {
+  public int count(/*@Nullable*/ Object element) {
     Multisets.ImmutableEntry<E>[] hashTable = this.hashTable;
     if (element == null || hashTable == null) {
       return 0;
@@ -150,7 +150,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     }
 
     @Override
-    public boolean contains(@Nullable Object object) {
+    public boolean contains(/*@Nullable*/ Object object) {
       return RegularImmutableMultiset.this.contains(object);
     }
 

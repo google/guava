@@ -66,9 +66,9 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(/*@Nullable*/ Object key) {
     if (unfiltered.containsKey(key)) {
-      @SuppressWarnings("unchecked") // k is equal to a K, if not one itself
+      /*@SuppressWarnings("unchecked")*/ // k is equal to a K, if not one itself
       K k = (K) key;
       return keyPredicate.apply(k);
     }
@@ -190,7 +190,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean remove(@Nullable Object o) {
+    public boolean remove(/*@Nullable*/ Object o) {
       if (o instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) o;
         if (unfiltered.containsKey(entry.getKey())

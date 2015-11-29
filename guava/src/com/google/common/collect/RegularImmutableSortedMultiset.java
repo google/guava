@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
-@SuppressWarnings("serial") // uses writeReplace, not default serialization
+/*@SuppressWarnings("serial")*/ // uses writeReplace, not default serialization
 final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   private static final long[] ZERO_CUMULATIVE_COUNTS = {0};
 
@@ -76,7 +76,7 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
   }
 
   @Override
-  public int count(@Nullable Object element) {
+  public int count(/*@Nullable*/ Object element) {
     int index = elementSet.indexOf(element);
     return (index >= 0) ? getCount(index) : 0;
   }

@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 /** An ordering that treats {@code null} as less than all other values. */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true)
-final class NullsFirstOrdering<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Ordering<T> implements Serializable {
+final class NullsFirstOrdering<T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends Ordering<T> implements Serializable {
   final Ordering<? super T> ordering;
 
   NullsFirstOrdering(Ordering<? super T> ordering) {
@@ -37,7 +37,7 @@ final class NullsFirstOrdering<T extends @org.checkerframework.checker.nullness.
 
   @Pure
   @Override
-  public int compare(@Nullable T left, @Nullable T right) {
+  public int compare(/*@Nullable*/ T left, /*@Nullable*/ T right) {
     if (left == right) {
       return 0;
     }
@@ -56,7 +56,7 @@ final class NullsFirstOrdering<T extends @org.checkerframework.checker.nullness.
     return ordering.reverse().nullsLast();
   }
 
-  @SuppressWarnings("unchecked") // still need the right way to explain this
+  /*@SuppressWarnings("unchecked")*/ // still need the right way to explain this
   @Override
   public <S extends T> Ordering<S> nullsFirst() {
     return (Ordering<S>) this;
@@ -69,7 +69,7 @@ final class NullsFirstOrdering<T extends @org.checkerframework.checker.nullness.
 
   @Pure
   @Override
-  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     if (object == this) {
       return true;
     }

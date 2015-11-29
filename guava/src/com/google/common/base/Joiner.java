@@ -98,7 +98,7 @@ public class Joiner {
    * Appends the string representation of each of {@code parts}, using the previously configured
    * separator between each, to {@code appendable}.
    */
-  public <A extends Appendable> A appendTo(A appendable, Iterable<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> parts) throws IOException {
+  public <A extends Appendable> A appendTo(A appendable, Iterable<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> parts) throws IOException {
     return appendTo(appendable, parts.iterator());
   }
 
@@ -124,7 +124,7 @@ public class Joiner {
    * Appends the string representation of each of {@code parts}, using the previously configured
    * separator between each, to {@code appendable}.
    */
-  public final <A extends Appendable> A appendTo(A appendable, @org.checkerframework.checker.nullness.qual.Nullable Object[] parts) throws IOException {
+  public final <A extends Appendable> A appendTo(A appendable, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object[] parts) throws IOException {
     return appendTo(appendable, Arrays.asList(parts));
   }
 
@@ -132,7 +132,7 @@ public class Joiner {
    * Appends to {@code appendable} the string representation of each of the remaining arguments.
    */
   public final <A extends Appendable> A appendTo(
-      A appendable, @Nullable @org.checkerframework.checker.nullness.qual.Nullable Object first, @Nullable @org.checkerframework.checker.nullness.qual.Nullable Object second, @org.checkerframework.checker.nullness.qual.Nullable Object... rest)
+      A appendable, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object first, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object second, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object... rest)
       throws IOException {
     return appendTo(appendable, iterable(first, second, rest));
   }
@@ -153,7 +153,7 @@ public class Joiner {
    *
    * @since 11.0
    */
-  public final StringBuilder appendTo(StringBuilder builder, Iterator<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> parts) {
+  public final StringBuilder appendTo(StringBuilder builder, Iterator<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> parts) {
     try {
       appendTo((Appendable) builder, parts);
     } catch (IOException impossible) {
@@ -167,7 +167,7 @@ public class Joiner {
    * separator between each, to {@code builder}. Identical to {@link #appendTo(Appendable,
    * Iterable)}, except that it does not throw {@link IOException}.
    */
-  public final StringBuilder appendTo(StringBuilder builder, @org.checkerframework.checker.nullness.qual.Nullable Object[] parts) {
+  public final StringBuilder appendTo(StringBuilder builder, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object[] parts) {
     return appendTo(builder, Arrays.asList(parts));
   }
 
@@ -177,7 +177,7 @@ public class Joiner {
    * throw {@link IOException}.
    */
   public final StringBuilder appendTo(
-      StringBuilder builder, @Nullable @org.checkerframework.checker.nullness.qual.Nullable Object first, @Nullable @org.checkerframework.checker.nullness.qual.Nullable Object second, @org.checkerframework.checker.nullness.qual.Nullable Object... rest) {
+      StringBuilder builder, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object first, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object second, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object... rest) {
     return appendTo(builder, iterable(first, second, rest));
   }
 
@@ -215,7 +215,7 @@ public class Joiner {
    * configured separator between each.
    */
   @CheckReturnValue
-  public final String join(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object first, @Nullable @org.checkerframework.checker.nullness.qual.Nullable Object second, @org.checkerframework.checker.nullness.qual.Nullable Object... rest) {
+  public final String join(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object first, /*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object second, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object... rest) {
     return join(iterable(first, second, rest));
   }
 
@@ -228,7 +228,7 @@ public class Joiner {
     checkNotNull(nullText);
     return new Joiner(this) {
       @Override
-      CharSequence toString(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object part) {
+      CharSequence toString(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object part) {
         return (part == null) ? nullText : Joiner.this.toString(part);
       }
 
@@ -252,7 +252,7 @@ public class Joiner {
   public Joiner skipNulls() {
     return new Joiner(this) {
       @Override
-      public <A extends Appendable> A appendTo(A appendable, Iterator<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> parts) throws IOException {
+      public <A extends Appendable> A appendTo(A appendable, Iterator<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> parts) throws IOException {
         checkNotNull(appendable, "appendable");
         checkNotNull(parts, "parts");
         while (parts.hasNext()) {
@@ -452,10 +452,10 @@ public class Joiner {
     return (part instanceof CharSequence) ? (CharSequence) part : part.toString();
   }
 
-  private static Iterable<@org.checkerframework.checker.nullness.qual.Nullable Object> iterable(
-      final @org.checkerframework.checker.nullness.qual.Nullable Object first, final @org.checkerframework.checker.nullness.qual.Nullable Object second, final @org.checkerframework.checker.nullness.qual.Nullable Object[] rest) {
+  private static Iterable</*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> iterable(
+      final /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object first, final /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object second, final /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object[] rest) {
     checkNotNull(rest);
-    return new AbstractList<@org.checkerframework.checker.nullness.qual.Nullable Object>() {
+    return new AbstractList</*@org.checkerframework.checker.nullness.qual.Nullable*/ Object>() {
       @Pure
       @Override
       public int size() {
@@ -463,7 +463,7 @@ public class Joiner {
       }
 
       @Override
-      public @org.checkerframework.checker.nullness.qual.Nullable Object get(int index) {
+      public /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object get(int index) {
         switch (index) {
           case 0:
             return first;

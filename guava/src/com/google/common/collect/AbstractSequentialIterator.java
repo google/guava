@@ -48,7 +48,7 @@ public abstract class AbstractSequentialIterator<T> extends UnmodifiableIterator
    * Creates a new iterator with the given first element, or, if {@code
    * firstOrNull} is null, creates a new empty iterator.
    */
-  protected AbstractSequentialIterator(@Nullable T firstOrNull) {
+  protected AbstractSequentialIterator(/*@Nullable*/ T firstOrNull) {
     this.nextOrNull = firstOrNull;
   }
 

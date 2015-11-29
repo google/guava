@@ -45,7 +45,7 @@ public final class Strings {
    * @param string the string to test and possibly return
    * @return {@code string} itself if it is non-null; {@code ""} if it is null
    */
-  public static String nullToEmpty(@Nullable String string) {
+  public static String nullToEmpty(/*@Nullable*/ String string) {
     return (string == null) ? "" : string;
   }
 
@@ -57,7 +57,7 @@ public final class Strings {
    *     empty or null
    */
   @Nullable
-  public static String emptyToNull(@Nullable String string) {
+  public static String emptyToNull(/*@Nullable*/ String string) {
     return isNullOrEmpty(string) ? null : string;
   }
 
@@ -74,7 +74,7 @@ public final class Strings {
    * @param string a string reference to check
    * @return {@code true} if the string is null or is the empty string
    */
-  public static boolean isNullOrEmpty(@Nullable String string) {
+  public static boolean isNullOrEmpty(/*@Nullable*/ String string) {
     return string == null || string.length() == 0; // string.isEmpty() in Java 6
   }
 

@@ -50,7 +50,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
-abstract class AbstractMapBasedMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractMultiset<E> implements Serializable {
+abstract class AbstractMapBasedMultiset<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractMultiset<E> implements Serializable {
 
   private transient Map<E, Count> backingMap;
 
@@ -206,7 +206,7 @@ abstract class AbstractMapBasedMultiset<E extends @org.checkerframework.checker.
   }
 
   @Override
-  public int count(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
+  public int count(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
     Count frequency = Maps.safeGet(backingMap, element);
     return (frequency == null) ? 0 : frequency.get();
   }
@@ -221,7 +221,7 @@ abstract class AbstractMapBasedMultiset<E extends @org.checkerframework.checker.
    *     multiset.
    */
   @Override
-  public int add(@Nullable E element, int occurrences) {
+  public int add(/*@Nullable*/ E element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }
@@ -242,7 +242,7 @@ abstract class AbstractMapBasedMultiset<E extends @org.checkerframework.checker.
   }
 
   @Override
-  public int remove(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences) {
+  public int remove(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }
@@ -269,7 +269,7 @@ abstract class AbstractMapBasedMultiset<E extends @org.checkerframework.checker.
 
   // Roughly a 33% performance improvement over AbstractMultiset.setCount().
   @Override
-  public int setCount(@Nullable E element, int count) {
+  public int setCount(/*@Nullable*/ E element, int count) {
     checkNonnegative(count, "count");
 
     Count existingCounter;
@@ -290,7 +290,7 @@ abstract class AbstractMapBasedMultiset<E extends @org.checkerframework.checker.
     return oldCount;
   }
 
-  private static int getAndSet(@org.checkerframework.checker.nullness.qual.Nullable Count i, int count) {
+  private static int getAndSet(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Count i, int count) {
     if (i == null) {
       return 0;
     }

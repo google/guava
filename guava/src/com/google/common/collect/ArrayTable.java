@@ -245,12 +245,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     // TODO(lowasser): consider an optimized values() implementation
 
     @Override
-    public boolean containsKey(@Nullable Object key) {
+    public boolean containsKey(/*@Nullable*/ Object key) {
       return keyIndex.containsKey(key);
     }
 
     @Override
-    public V get(@Nullable Object key) {
+    public V get(/*@Nullable*/ Object key) {
       Integer index = keyIndex.get(key);
       if (index == null) {
         return null;
@@ -332,7 +332,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    *     or {@code columnIndex} is greater then or equal to the number of
    *     allowed column keys
    */
-  public V set(int rowIndex, int columnIndex, @Nullable V value) {
+  public V set(int rowIndex, int columnIndex, /*@Nullable*/ V value) {
     // In GWT array access never throws IndexOutOfBoundsException.
     checkElementIndex(rowIndex, rowList.size());
     checkElementIndex(columnIndex, columnList.size());
@@ -354,7 +354,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   @GwtIncompatible("reflection")
   public V[][] toArray(Class<V> valueClass) {
     // Can change to use varargs in JDK 1.6 if we want
-    @SuppressWarnings("unchecked") // TODO: safe?
+    /*@SuppressWarnings("unchecked")*/ // TODO: safe?
     V[][] copy =
         (V[][]) Array.newInstance(valueClass, new int[] {rowList.size(), columnList.size()});
     for (int i = 0; i < rowList.size(); i++) {
@@ -390,7 +390,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    * the table was constructed.
    */
   @Override
-  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
+  public boolean contains(/*@Nullable*/ Object rowKey, /*@Nullable*/ Object columnKey) {
     return containsRow(rowKey) && containsColumn(columnKey);
   }
 
@@ -399,7 +399,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    * provided when the table was constructed.
    */
   @Override
-  public boolean containsColumn(@Nullable Object columnKey) {
+  public boolean containsColumn(/*@Nullable*/ Object columnKey) {
     return columnKeyToIndex.containsKey(columnKey);
   }
 
@@ -408,12 +408,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    * provided when the table was constructed.
    */
   @Override
-  public boolean containsRow(@Nullable Object rowKey) {
+  public boolean containsRow(/*@Nullable*/ Object rowKey) {
     return rowKeyToIndex.containsKey(rowKey);
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(/*@Nullable*/ Object value) {
     for (V[] row : array) {
       for (V element : row) {
         if (Objects.equal(value, element)) {
@@ -425,7 +425,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   @Override
-  public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
+  public V get(/*@Nullable*/ Object rowKey, /*@Nullable*/ Object columnKey) {
     Integer rowIndex = rowKeyToIndex.get(rowKey);
     Integer columnIndex = columnKeyToIndex.get(columnKey);
     return (rowIndex == null || columnIndex == null) ? null : at(rowIndex, columnIndex);
@@ -446,7 +446,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    *     #rowKeySet()} or {@code columnKey} is not in {@link #columnKeySet()}.
    */
   @Override
-  public V put(R rowKey, C columnKey, @Nullable V value) {
+  public V put(R rowKey, C columnKey, /*@Nullable*/ V value) {
     checkNotNull(rowKey);
     checkNotNull(columnKey);
     Integer rowIndex = rowKeyToIndex.get(rowKey);
@@ -502,7 +502,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    * @return the value previously associated with the keys, or {@code null} if
    *     no mapping existed for the keys
    */
-  public V erase(@Nullable Object rowKey, @Nullable Object columnKey) {
+  public V erase(/*@Nullable*/ Object rowKey, /*@Nullable*/ Object columnKey) {
     Integer rowIndex = rowKeyToIndex.get(rowKey);
     Integer columnIndex = columnKeyToIndex.get(columnKey);
     if (rowIndex == null || columnIndex == null) {

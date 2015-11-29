@@ -124,7 +124,7 @@ abstract class GenericMapMaker<K0, V0> {
    * GenericMapMaker you've already called that, and shouldn't be calling it again.
    */
 
-  @SuppressWarnings("unchecked") // safe covariant cast
+  /*@SuppressWarnings("unchecked")*/ // safe covariant cast
   @GwtIncompatible("To be supported")
   <K extends K0, V extends V0> RemovalListener<K, V> getRemovalListener() {
     return (RemovalListener<K, V>) MoreObjects.firstNonNull(removalListener, NullListener.INSTANCE);

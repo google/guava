@@ -56,7 +56,7 @@ final class PairwiseEquivalence<T> extends Equivalence<Iterable<T>> implements S
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(/*@Nullable*/ Object object) {
     if (object instanceof PairwiseEquivalence) {
       PairwiseEquivalence<?> that = (PairwiseEquivalence<?>) object;
       return this.elementEquivalence.equals(that.elementEquivalence);

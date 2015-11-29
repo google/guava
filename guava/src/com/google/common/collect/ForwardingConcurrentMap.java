@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentMap;
 @AnnotatedFor({"nullness"})
 @GwtCompatible
 @SuppressWarnings("nullness:generic.argument")
-public abstract class ForwardingConcurrentMap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingMap<K, V>
+public abstract class ForwardingConcurrentMap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingMap<K, V>
     implements ConcurrentMap<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
@@ -50,7 +50,7 @@ public abstract class ForwardingConcurrentMap<K extends @org.checkerframework.ch
   }
 
   @Override
-  public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object key, @org.checkerframework.checker.nullness.qual.Nullable Object value) {
+  public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key, /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object value) {
     return delegate().remove(key, value);
   }
 

@@ -223,7 +223,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       return queue;
     }
 
-    @SuppressWarnings("unchecked") // safe "contravariant cast"
+    /*@SuppressWarnings("unchecked")*/ // safe "contravariant cast"
     private <T extends B> Ordering<T> ordering() {
       return Ordering.from((Comparator<T>) comparator);
     }
@@ -231,7 +231,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   private final Heap minHeap;
   private final Heap maxHeap;
-  @VisibleForTesting final int maximumSize;
+  /*@VisibleForTesting*/ final int maximumSize;
   private Object[] queue;
   private int size;
   private int modCount;
@@ -302,7 +302,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     return isEmpty() ? null : removeAndGet(0);
   }
 
-  @SuppressWarnings("unchecked") // we must carefully only allow Es to get in
+  /*@SuppressWarnings("unchecked")*/ // we must carefully only allow Es to get in
   E elementData(int index) {
     return (E) queue[index];
   }
@@ -506,7 +506,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   @WeakOuter
   private class Heap {
     final Ordering<E> ordering;
-    @Weak Heap otherHeap;
+    /*@Weak*/ Heap otherHeap;
 
     Heap(Ordering<E> ordering) {
       this.ordering = ordering;

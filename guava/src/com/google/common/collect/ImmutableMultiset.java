@@ -52,13 +52,13 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // we're overriding default serialization
+/*@SuppressWarnings("serial")*/ // we're overriding default serialization
 // TODO(lowasser): write an efficient asList() implementation
 public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implements Multiset<E> {
   /**
    * Returns the empty immutable multiset.
    */
-  @SuppressWarnings("unchecked") // all supported methods are covariant
+  /*@SuppressWarnings("unchecked")*/ // all supported methods are covariant
   public static <E> ImmutableMultiset<E> of() {
     return (ImmutableMultiset<E>) RegularImmutableMultiset.EMPTY;
   }
@@ -69,7 +69,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws NullPointerException if {@code element} is null
    * @since 6.0 (source-compatible since 2.0)
    */
-  @SuppressWarnings("unchecked") // generic array created but never written
+  /*@SuppressWarnings("unchecked")*/ // generic array created but never written
   public static <E> ImmutableMultiset<E> of(E element) {
     return copyFromElements(element);
   }
@@ -80,7 +80,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws NullPointerException if any element is null
    * @since 6.0 (source-compatible since 2.0)
    */
-  @SuppressWarnings("unchecked") //
+  /*@SuppressWarnings("unchecked")*/ //
   public static <E> ImmutableMultiset<E> of(E e1, E e2) {
     return copyFromElements(e1, e2);
   }
@@ -92,7 +92,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws NullPointerException if any element is null
    * @since 6.0 (source-compatible since 2.0)
    */
-  @SuppressWarnings("unchecked") //
+  /*@SuppressWarnings("unchecked")*/ //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3) {
     return copyFromElements(e1, e2, e3);
   }
@@ -104,7 +104,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws NullPointerException if any element is null
    * @since 6.0 (source-compatible since 2.0)
    */
-  @SuppressWarnings("unchecked") //
+  /*@SuppressWarnings("unchecked")*/ //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4) {
     return copyFromElements(e1, e2, e3, e4);
   }
@@ -116,7 +116,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws NullPointerException if any element is null
    * @since 6.0 (source-compatible since 2.0)
    */
-  @SuppressWarnings("unchecked") //
+  /*@SuppressWarnings("unchecked")*/ //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5) {
     return copyFromElements(e1, e2, e3, e4, e5);
   }
@@ -128,7 +128,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws NullPointerException if any element is null
    * @since 6.0 (source-compatible since 2.0)
    */
-  @SuppressWarnings("unchecked") //
+  /*@SuppressWarnings("unchecked")*/ //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
     return new Builder<E>()
         .add(e1)
@@ -160,7 +160,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    */
   public static <E> ImmutableMultiset<E> copyOf(Iterable<? extends E> elements) {
     if (elements instanceof ImmutableMultiset) {
-      @SuppressWarnings("unchecked") // all supported methods are covariant
+      /*@SuppressWarnings("unchecked")*/ // all supported methods are covariant
       ImmutableMultiset<E> result = (ImmutableMultiset<E>) elements;
       if (!result.isPartialView()) {
         return result;
@@ -231,7 +231,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
 
   @Pure
   @Override
-  public boolean contains(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean contains(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     return count(object) > 0;
   }
 
@@ -255,7 +255,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    */
   @Deprecated
   @Override
-  public final int remove(@org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences) {
+  public final int remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
@@ -295,7 +295,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
 
   @Pure
   @Override
-  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     return Multisets.equalsImpl(this, object);
   }
 
@@ -346,7 +346,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
 
     @Pure
     @Override
-    public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object o) {
+    public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object o) {
       if (o instanceof Entry) {
         Entry<?> entry = (Entry<?>) o;
         if (entry.getCount() <= 0) {
@@ -364,9 +364,9 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
       return ImmutableMultiset.this.hashCode();
     }
 
-    // We can't label this with @Override, because it doesn't override anything
+    // We can't label this with /*@Override*/, because it doesn't override anything
     // in the GWT emulated version.
-    // TODO(cpovirk): try making all copies of this method @GwtIncompatible instead
+    // TODO(cpovirk): try making all copies of this method /*@GwtIncompatible*/ instead
     Object writeReplace() {
       return new EntrySetSerializedForm<E>(ImmutableMultiset.this);
     }
@@ -413,7 +413,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
     private static final long serialVersionUID = 0;
   }
 
-  // We can't label this with @Override, because it doesn't override anything
+  // We can't label this with /*@Override*/, because it doesn't override anything
   // in the GWT emulated version.
   Object writeReplace() {
     return new SerializedForm(this);

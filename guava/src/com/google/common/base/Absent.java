@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
 final class Absent<T> extends Optional<T> {
   static final Absent<Object> INSTANCE = new Absent<Object>();
 
-  @SuppressWarnings("unchecked") // implementation is "fully variant"
+  /*@SuppressWarnings("unchecked")*/ // implementation is "fully variant"
   static <T> Optional<T> withType() {
     return (Optional<T>) INSTANCE;
   }
@@ -54,7 +54,7 @@ final class Absent<T> extends Optional<T> {
     return checkNotNull(defaultValue, "use Optional.orNull() instead of Optional.or(null)");
   }
 
-  @SuppressWarnings("unchecked") // safe covariant cast
+  /*@SuppressWarnings("unchecked")*/ // safe covariant cast
   @Override
   public Optional<T> or(Optional<? extends T> secondChoice) {
     return (Optional<T>) checkNotNull(secondChoice);
@@ -84,7 +84,7 @@ final class Absent<T> extends Optional<T> {
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(/*@Nullable*/ Object object) {
     return object == this;
   }
 

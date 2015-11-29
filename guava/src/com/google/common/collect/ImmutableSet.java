@@ -44,13 +44,13 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // we're overriding default serialization
+/*@SuppressWarnings("serial")*/ // we're overriding default serialization
 public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
   /**
    * Returns the empty immutable set. Preferred over {@link Collections#emptySet} for code
    * consistency, and because the return type conveys the immutability guarantee.
    */
-  @SuppressWarnings({"unchecked"}) // fully variant implementation (never actually produces any Es)
+  /*@SuppressWarnings({"unchecked"})*/ // fully variant implementation (never actually produces any Es)
   public static <E> ImmutableSet<E> of() {
     return (ImmutableSet<E>) RegularImmutableSet.EMPTY;
   }
@@ -140,7 +140,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       case 0:
         return of();
       case 1:
-        @SuppressWarnings("unchecked") // safe; elements contains only E's
+        /*@SuppressWarnings("unchecked")*/ // safe; elements contains only E's
         E elem = (E) elements[0];
         return of(elem);
       default:
@@ -171,7 +171,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     Arrays.fill(elements, uniques, n, null);
     if (uniques == 1) {
       // There is only one element or elements are all duplicates
-      @SuppressWarnings("unchecked") // we are careful to only pass in E
+      /*@SuppressWarnings("unchecked")*/ // we are careful to only pass in E
       E element = (E) elements[0];
       return new SingletonImmutableSet<E>(element, hashCode);
     } else if (tableSize != chooseTableSize(uniques)) {
@@ -239,7 +239,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      * TODO(lowasser): consider checking for Multiset here
      */
     if (elements instanceof ImmutableSet && !(elements instanceof ImmutableSortedSet)) {
-      @SuppressWarnings("unchecked") // all supported methods are covariant
+      /*@SuppressWarnings("unchecked")*/ // all supported methods are covariant
       ImmutableSet<E> set = (ImmutableSet<E>) elements;
       if (!set.isPartialView()) {
         return set;
@@ -309,7 +309,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
   }
 
-  @SuppressWarnings("rawtypes") // necessary to compile against Java 8
+  /*@SuppressWarnings("rawtypes")*/ // necessary to compile against Java 8
   private static ImmutableSet copyOfEnumSet(EnumSet enumSet) {
     return ImmutableEnumSet.asImmutable(EnumSet.copyOf(enumSet));
   }
@@ -324,7 +324,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
 
   @Pure
   @Override
-  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     if (object == this) {
       return true;
     } else if (object instanceof ImmutableSet

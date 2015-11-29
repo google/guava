@@ -74,7 +74,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       V value = entry.getValue();
       checkEntryNotNull(key, value);
       int tableIndex = Hashing.smear(key.hashCode()) & mask;
-      @Nullable ImmutableMapEntry<K, V> existing = table[tableIndex];
+      /*@Nullable*/ ImmutableMapEntry<K, V> existing = table[tableIndex];
       // prepend, not append, so the entries can be immutable
       ImmutableMapEntry<K, V> newEntry;
       if (existing == null) {
@@ -99,7 +99,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   static void checkNoConflictInKeyBucket(
-      Object key, Entry<?, ?> entry, @Nullable ImmutableMapEntry<?, ?> keyBucketHead) {
+      Object key, Entry<?, ?> entry, /*@Nullable*/ ImmutableMapEntry<?, ?> keyBucketHead) {
     for (; keyBucketHead != null; keyBucketHead = keyBucketHead.getNextInKeyBucket()) {
       checkNoConflict(!key.equals(keyBucketHead.getKey()), "key", entry, keyBucketHead);
     }
@@ -113,12 +113,12 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private static final double MAX_LOAD_FACTOR = 1.2;
 
   @Override
-  public @org.checkerframework.checker.nullness.qual.Nullable V get(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key) {
+  public /*@org.checkerframework.checker.nullness.qual.Nullable*/ V get(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key) {
     return get(key, table, mask);
   }
 
   @Nullable
-  static <V> V get(@Nullable Object key, ImmutableMapEntry<?, V>[] keyTable, int mask) {
+  static <V> V get(/*@Nullable*/ Object key, ImmutableMapEntry<?, V>[] keyTable, int mask) {
     if (key == null) {
       return null;
     }
@@ -163,7 +163,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
 @Pure
 @Override
-public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
+public boolean containsValue(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.containsValue(arg0); }
 
 @SideEffectFree
 @Override

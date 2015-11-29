@@ -52,7 +52,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface Function<F extends @org.checkerframework.checker.nullness.qual.Nullable Object, T extends @org.checkerframework.checker.nullness.qual.Nullable Object> {
+public interface Function<F extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> {
   /**
    * Returns the result of applying this function to {@code input}. This method is <i>generally
    * expected</i>, but not absolutely required, to have the following properties:
@@ -68,7 +68,7 @@ public interface Function<F extends @org.checkerframework.checker.nullness.qual.
    *     arguments
    */
   @Nullable
-  T apply(@Nullable F input);
+  T apply(/*@Nullable*/ F input);
 
   /**
    * Indicates whether another object is equal to this function.
@@ -82,5 +82,5 @@ public interface Function<F extends @org.checkerframework.checker.nullness.qual.
    */
   @Pure
   @Override
-  boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object);
+  boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object);
 }

@@ -93,7 +93,7 @@ public final class Collections2 {
   // TODO(kevinb): how can we omit that Iterables link when building gwt
   // javadoc?
   @CheckReturnValue
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> Collection<E> filter(Collection<E> unfiltered, Predicate<? super E> predicate) {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Collection<E> filter(Collection<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredCollection) {
       // Support clear(), removeAll(), and retainAll() when filtering a filtered
       // collection.
@@ -108,7 +108,7 @@ public final class Collections2 {
    * {@code contains} method throws a {@code ClassCastException} or
    * {@code NullPointerException}.
    */
-  static boolean safeContains(Collection<?> collection, @Nullable Object object) {
+  static boolean safeContains(Collection<?> collection, /*@Nullable*/ Object object) {
     checkNotNull(collection);
     try {
       return collection.contains(object);
@@ -124,7 +124,7 @@ public final class Collections2 {
    * {@code remove} method throws a {@code ClassCastException} or
    * {@code NullPointerException}.
    */
-  static boolean safeRemove(Collection<?> collection, @Nullable Object object) {
+  static boolean safeRemove(Collection<?> collection, /*@Nullable*/ Object object) {
     checkNotNull(collection);
     try {
       return collection.remove(object);
@@ -135,7 +135,7 @@ public final class Collections2 {
     }
   }
 
-  static class FilteredCollection<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractCollection<E> {
+  static class FilteredCollection<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractCollection<E> {
     final Collection<E> unfiltered;
     final Predicate<? super E> predicate;
 
@@ -170,9 +170,9 @@ public final class Collections2 {
 
     @Pure
     @Override
-    public boolean contains(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object element) {
+    public boolean contains(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
       if (safeContains(unfiltered, element)) {
-        @SuppressWarnings("unchecked") // element is in unfiltered, so it must be an E
+        /*@SuppressWarnings("unchecked")*/ // element is in unfiltered, so it must be an E
         E e = (E) element;
         return predicate.apply(e);
       }
@@ -181,7 +181,7 @@ public final class Collections2 {
 
     @Pure
     @Override
-    public boolean containsAll(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> collection) {
+    public boolean containsAll(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> collection) {
       return containsAllImpl(this, collection);
     }
 
@@ -197,17 +197,17 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object element) {
+    public boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
       return contains(element) && unfiltered.remove(element);
     }
 
     @Override
-    public boolean removeAll(final Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> collection) {
+    public boolean removeAll(final Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> collection) {
       return Iterables.removeIf(unfiltered, and(predicate, Predicates.<Object>in(collection)));
     }
 
     @Override
-    public boolean retainAll(final Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> collection) {
+    public boolean retainAll(final Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> collection) {
       return Iterables.removeIf(unfiltered, and(predicate, not(Predicates.<Object>in(collection))));
     }
 
@@ -301,7 +301,7 @@ public final class Collections2 {
    * @param self a collection which might contain all elements in {@code c}
    * @param c a collection whose elements might be contained by {@code self}
    */
-  static boolean containsAllImpl(Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> self, Collection<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> c) {
+  static boolean containsAllImpl(Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> self, Collection<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> c) {
     return Iterables.all(c, Predicates.in(self));
   }
 
@@ -487,7 +487,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean contains(@Nullable Object obj) {
+    public boolean contains(/*@Nullable*/ Object obj) {
       if (obj instanceof List) {
         List<?> list = (List<?>) obj;
         return isPermutation(inputList, list);
@@ -602,7 +602,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean contains(@Nullable Object obj) {
+    public boolean contains(/*@Nullable*/ Object obj) {
       if (obj instanceof List) {
         List<?> list = (List<?>) obj;
         return isPermutation(inputList, list);

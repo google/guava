@@ -50,7 +50,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingSet<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingCollection<E> implements Set<E> {
+public abstract class ForwardingSet<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingCollection<E> implements Set<E> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
@@ -61,7 +61,7 @@ public abstract class ForwardingSet<E extends @org.checkerframework.checker.null
 
   @Pure
   @Override
-  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -91,7 +91,7 @@ public abstract class ForwardingSet<E extends @org.checkerframework.checker.null
    *
    * @since 7.0
    */
-  protected boolean standardEquals(@Nullable Object object) {
+  protected boolean standardEquals(/*@Nullable*/ Object object) {
     return Sets.equalsImpl(this, object);
   }
 

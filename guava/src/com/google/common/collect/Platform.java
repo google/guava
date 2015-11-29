@@ -49,7 +49,7 @@ final class Platform {
    * @param reference any array of the desired type
    * @param length the length of the new array
    */
-  static <T extends @org.checkerframework.checker.nullness.qual.Nullable Object> T[] newArray(T[] reference, int length) {
+  static <T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> T[] newArray(T[] reference, int length) {
     Class<?> type = reference.getClass().getComponentType();
 
     // the cast is safe because

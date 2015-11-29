@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
-  @Weak private final ImmutableMap<K, V> map;
+  /*@Weak*/ private final ImmutableMap<K, V> map;
 
   ImmutableMapValues(ImmutableMap<K, V> map) {
     this.map = map;
@@ -62,7 +62,7 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(/*@Nullable*/ Object object) {
     return object != null && Iterators.contains(iterator(), object);
   }
 

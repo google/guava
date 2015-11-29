@@ -54,7 +54,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingMultiset<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingCollection<E> implements Multiset<E> {
+public abstract class ForwardingMultiset<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingCollection<E> implements Multiset<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingMultiset() {}
@@ -63,7 +63,7 @@ public abstract class ForwardingMultiset<E extends @org.checkerframework.checker
   protected abstract Multiset<E> delegate();
 
   @Override
-  public int count(@org.checkerframework.checker.nullness.qual.Nullable Object element) {
+  public int count(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
     return delegate().count(element);
   }
 
@@ -73,7 +73,7 @@ public abstract class ForwardingMultiset<E extends @org.checkerframework.checker
   }
 
   @Override
-  public int remove(@org.checkerframework.checker.nullness.qual.Nullable Object element, int occurrences) {
+  public int remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element, int occurrences) {
     return delegate().remove(element, occurrences);
   }
 
@@ -91,7 +91,7 @@ public abstract class ForwardingMultiset<E extends @org.checkerframework.checker
 
   @Pure
   @Override
-  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -119,7 +119,7 @@ public abstract class ForwardingMultiset<E extends @org.checkerframework.checker
    * @since 7.0
    */
   @Override
-  protected boolean standardContains(@Nullable Object object) {
+  protected boolean standardContains(/*@Nullable*/ Object object) {
     return count(object) > 0;
   }
 
@@ -143,7 +143,7 @@ public abstract class ForwardingMultiset<E extends @org.checkerframework.checker
    * @since 7.0
    */
   @Beta
-  protected int standardCount(@Nullable Object object) {
+  protected int standardCount(/*@Nullable*/ Object object) {
     for (Entry<?> entry : this.entrySet()) {
       if (Objects.equal(entry.getElement(), object)) {
         return entry.getCount();
@@ -296,7 +296,7 @@ public abstract class ForwardingMultiset<E extends @org.checkerframework.checker
    *
    * @since 7.0
    */
-  protected boolean standardEquals(@Nullable Object object) {
+  protected boolean standardEquals(/*@Nullable*/ Object object) {
     return Multisets.equalsImpl(this, object);
   }
 

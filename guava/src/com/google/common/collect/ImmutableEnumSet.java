@@ -33,9 +33,9 @@ import java.util.EnumSet;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // we're overriding default serialization
+/*@SuppressWarnings("serial")*/ // we're overriding default serialization
 final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
-  @SuppressWarnings("rawtypes") // necessary to compile against Java 8
+  /*@SuppressWarnings("rawtypes")*/ // necessary to compile against Java 8
   static ImmutableSet asImmutable(EnumSet set) {
     switch (set.size()) {
       case 0:
@@ -79,7 +79,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
 
   @Pure
   @Override
-  public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean contains(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     return delegate.contains(object);
   }
 
@@ -100,7 +100,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
 
   @Pure
   @Override
-  public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     if (object == this) {
       return true;
     }

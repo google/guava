@@ -58,7 +58,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class ForwardingSortedSet<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingSet<E> implements SortedSet<E> {
+public abstract class ForwardingSortedSet<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingSet<E> implements SortedSet<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingSortedSet() {}
@@ -120,7 +120,7 @@ public abstract class ForwardingSortedSet<E extends @org.checkerframework.checke
    */
   @Override
   @Beta
-  protected boolean standardContains(@Nullable Object object) {
+  protected boolean standardContains(/*@Nullable*/ Object object) {
     try {
       // any ClassCastExceptions are caught
       @SuppressWarnings("unchecked")
@@ -145,7 +145,7 @@ public abstract class ForwardingSortedSet<E extends @org.checkerframework.checke
    */
   @Override
   @Beta
-  protected boolean standardRemove(@Nullable Object object) {
+  protected boolean standardRemove(/*@Nullable*/ Object object) {
     try {
       // any ClassCastExceptions are caught
       @SuppressWarnings("unchecked")

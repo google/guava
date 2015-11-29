@@ -133,7 +133,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible
-public abstract class Ordering<T extends @org.checkerframework.checker.nullness.qual.Nullable Object> implements Comparator<T> {
+public abstract class Ordering<T extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> implements Comparator<T> {
   // Natural order
 
   /**
@@ -146,7 +146,7 @@ public abstract class Ordering<T extends @org.checkerframework.checker.nullness.
    * support legacy types from before Java 5.
    */
   @GwtCompatible(serializable = true)
-  @SuppressWarnings("unchecked") // TODO(kevinb): right way to explain this??
+  /*@SuppressWarnings("unchecked")*/ // TODO(kevinb): right way to explain this??
   public static <C extends Comparable> Ordering<C> natural() {
     return (Ordering<C>) NaturalOrdering.INSTANCE;
   }
@@ -309,7 +309,7 @@ public abstract class Ordering<T extends @org.checkerframework.checker.nullness.
   @VisibleForTesting
   static class ArbitraryOrdering extends Ordering<Object> {
 
-    @SuppressWarnings("deprecation") // TODO(kevinb): ?
+    /*@SuppressWarnings("deprecation")*/ // TODO(kevinb): ?
     private Map<Object, Integer> uids =
         Platform.tryWeakKeys(new MapMaker())
             .makeComputingMap(
@@ -491,9 +491,9 @@ public abstract class Ordering<T extends @org.checkerframework.checker.nullness.
 
   // Regular instance methods
 
-  // Override to add @Nullable
+  // Override to add /*@Nullable*/
   @Override
-  public abstract int compare(@Nullable T left, @Nullable T right);
+  public abstract int compare(/*@Nullable*/ T left, /*@Nullable*/ T right);
 
   /**
    * Returns the least of the specified values according to this ordering. If
@@ -545,7 +545,7 @@ public abstract class Ordering<T extends @org.checkerframework.checker.nullness.
    * @throws ClassCastException if the parameters are not <i>mutually
    *     comparable</i> under this ordering.
    */
-  public <E extends T> E min(@Nullable E a, @Nullable E b) {
+  public <E extends T> E min(/*@Nullable*/ E a, /*@Nullable*/ E b) {
     return (compare(a, b) <= 0) ? a : b;
   }
 
@@ -560,7 +560,7 @@ public abstract class Ordering<T extends @org.checkerframework.checker.nullness.
    * @throws ClassCastException if the parameters are not <i>mutually
    *     comparable</i> under this ordering.
    */
-  public <E extends T> E min(@Nullable E a, @Nullable E b, @Nullable E c, E... rest) {
+  public <E extends T> E min(/*@Nullable*/ E a, /*@Nullable*/ E b, /*@Nullable*/ E c, E... rest) {
     E minSoFar = min(min(a, b), c);
 
     for (E r : rest) {
@@ -620,7 +620,7 @@ public abstract class Ordering<T extends @org.checkerframework.checker.nullness.
    * @throws ClassCastException if the parameters are not <i>mutually
    *     comparable</i> under this ordering.
    */
-  public <E extends T> E max(@Nullable E a, @Nullable E b) {
+  public <E extends T> E max(/*@Nullable*/ E a, /*@Nullable*/ E b) {
     return (compare(a, b) >= 0) ? a : b;
   }
 
@@ -635,7 +635,7 @@ public abstract class Ordering<T extends @org.checkerframework.checker.nullness.
    * @throws ClassCastException if the parameters are not <i>mutually
    *     comparable</i> under this ordering.
    */
-  public <E extends T> E max(@Nullable E a, @Nullable E b, @Nullable E c, E... rest) {
+  public <E extends T> E max(/*@Nullable*/ E a, /*@Nullable*/ E b, /*@Nullable*/ E c, E... rest) {
     E maxSoFar = max(max(a, b), c);
 
     for (E r : rest) {
@@ -667,7 +667,7 @@ public abstract class Ordering<T extends @org.checkerframework.checker.nullness.
         // faster than using the implementation for Iterator, which is
         // specialized for k much smaller than n.
 
-        @SuppressWarnings("unchecked") // c only contains E's and doesn't escape
+        /*@SuppressWarnings("unchecked")*/ // c only contains E's and doesn't escape
         E[] array = (E[]) collection.toArray();
         Arrays.sort(array, this);
         if (array.length > k) {
@@ -725,7 +725,7 @@ public abstract class Ordering<T extends @org.checkerframework.checker.nullness.
      * require the whole collection to fit into memory.
      */
     int bufferCap = k * 2;
-    @SuppressWarnings("unchecked") // we'll only put E's in
+    /*@SuppressWarnings("unchecked")*/ // we'll only put E's in
     E[] buffer = (E[]) new Object[bufferCap];
     E threshold = elements.next();
     buffer[0] = threshold;
@@ -859,7 +859,7 @@ public abstract class Ordering<T extends @org.checkerframework.checker.nullness.
    * Collections#sort(List)}.
    */
   public <E extends T> List<E> sortedCopy(Iterable<E> elements) {
-    @SuppressWarnings("unchecked") // does not escape, and contains only E's
+    /*@SuppressWarnings("unchecked")*/ // does not escape, and contains only E's
     E[] array = (E[]) Iterables.toArray(elements);
     Arrays.sort(array, this);
     return Lists.newArrayList(Arrays.asList(array));
@@ -884,7 +884,7 @@ public abstract class Ordering<T extends @org.checkerframework.checker.nullness.
    * @since 3.0
    */
   public <E extends T> ImmutableList<E> immutableSortedCopy(Iterable<E> elements) {
-    @SuppressWarnings("unchecked") // we'll only ever have E's in here
+    /*@SuppressWarnings("unchecked")*/ // we'll only ever have E's in here
     E[] array = (E[]) Iterables.toArray(elements);
     for (E e : array) {
       checkNotNull(e);
@@ -945,7 +945,7 @@ public abstract class Ordering<T extends @org.checkerframework.checker.nullness.
    * @param sortedList the list to be searched
    * @param key the key to be searched for
    */
-  public int binarySearch(List<? extends T> sortedList, @Nullable T key) {
+  public int binarySearch(List<? extends T> sortedList, /*@Nullable*/ T key) {
     return Collections.binarySearch(sortedList, key, this);
   }
 

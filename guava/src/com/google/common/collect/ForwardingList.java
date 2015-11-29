@@ -59,7 +59,7 @@ import javax.annotation.Nullable;
 @AnnotatedFor({"nullness"})
 @GwtCompatible
 @SuppressWarnings("nullness:generic.argument")
-public abstract class ForwardingList<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends ForwardingCollection<E> implements List<E> {
+public abstract class ForwardingList<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends ForwardingCollection<E> implements List<E> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
@@ -85,13 +85,13 @@ public abstract class ForwardingList<E extends @org.checkerframework.checker.nul
 
   @Pure
   @Override
-  public int indexOf(@org.checkerframework.checker.nullness.qual.Nullable Object element) {
+  public int indexOf(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
     return delegate().indexOf(element);
   }
 
   @Pure
   @Override
-  public int lastIndexOf(@org.checkerframework.checker.nullness.qual.Nullable Object element) {
+  public int lastIndexOf(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object element) {
     return delegate().lastIndexOf(element);
   }
 
@@ -124,7 +124,7 @@ public abstract class ForwardingList<E extends @org.checkerframework.checker.nul
 
   @Pure
   @Override
-  public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -166,7 +166,7 @@ public abstract class ForwardingList<E extends @org.checkerframework.checker.nul
    *
    * @since 7.0
    */
-  protected int standardIndexOf(@Nullable Object element) {
+  protected int standardIndexOf(/*@Nullable*/ Object element) {
     return Lists.indexOfImpl(this, element);
   }
 
@@ -178,7 +178,7 @@ public abstract class ForwardingList<E extends @org.checkerframework.checker.nul
    *
    * @since 7.0
    */
-  protected int standardLastIndexOf(@Nullable Object element) {
+  protected int standardLastIndexOf(/*@Nullable*/ Object element) {
     return Lists.lastIndexOfImpl(this, element);
   }
 
@@ -239,7 +239,7 @@ public abstract class ForwardingList<E extends @org.checkerframework.checker.nul
    * @since 7.0
    */
   @Beta
-  protected boolean standardEquals(@Nullable Object object) {
+  protected boolean standardEquals(/*@Nullable*/ Object object) {
     return Lists.equalsImpl(this, object);
   }
 

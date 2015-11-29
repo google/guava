@@ -84,7 +84,7 @@ public abstract class ComparisonChain {
 
         @Override
         public <T> ComparisonChain compare(
-            @Nullable T left, @Nullable T right, Comparator<T> comparator) {
+            /*@Nullable*/ T left, /*@Nullable*/ T right, Comparator<T> comparator) {
           return classify(comparator.compare(left, right));
         }
 
@@ -140,13 +140,13 @@ public abstract class ComparisonChain {
     }
 
     @Override
-    public ComparisonChain compare(@Nullable Comparable left, @Nullable Comparable right) {
+    public ComparisonChain compare(/*@Nullable*/ Comparable left, /*@Nullable*/ Comparable right) {
       return this;
     }
 
     @Override
     public <T> ComparisonChain compare(
-        @Nullable T left, @Nullable T right, @Nullable Comparator<T> comparator) {
+        /*@Nullable*/ T left, /*@Nullable*/ T right, /*@Nullable*/ Comparator<T> comparator) {
       return this;
     }
 
@@ -198,7 +198,7 @@ public abstract class ComparisonChain {
    * comparison chain has not already been determined.
    */
   public abstract <T> ComparisonChain compare(
-      @Nullable T left, @Nullable T right, Comparator<T> comparator);
+      /*@Nullable*/ T left, /*@Nullable*/ T right, Comparator<T> comparator);
 
   /**
    * Compares two {@code int} values as specified by {@link Ints#compare},

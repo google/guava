@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // uses writeReplace(), not default serialization
+/*@SuppressWarnings("serial")*/ // uses writeReplace(), not default serialization
 class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   static final RegularImmutableBiMap<Object, Object> EMPTY =
       new RegularImmutableBiMap<Object, Object>(
@@ -126,7 +126,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   // checkNoConflictInKeyBucket is static imported from RegularImmutableMap
 
   private static void checkNoConflictInValueBucket(
-      Object value, Entry<?, ?> entry, @Nullable ImmutableMapEntry<?, ?> valueBucketHead) {
+      Object value, Entry<?, ?> entry, /*@Nullable*/ ImmutableMapEntry<?, ?> valueBucketHead) {
     for (; valueBucketHead != null; valueBucketHead = valueBucketHead.getNextInValueBucket()) {
       checkNoConflict(!value.equals(valueBucketHead.getValue()), "value", entry, valueBucketHead);
     }
@@ -134,7 +134,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   @Override
   @Nullable
-  public V get(@Nullable Object key) {
+  public V get(/*@Nullable*/ Object key) {
     return (keyTable == null) ? null : RegularImmutableMap.get(key, keyTable, mask);
   }
 
@@ -189,7 +189,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     }
 
     @Override
-    public K get(@Nullable Object value) {
+    public K get(/*@Nullable*/ Object value) {
       if (value == null || valueTable == null) {
         return null;
       }

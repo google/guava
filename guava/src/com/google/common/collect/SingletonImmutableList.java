@@ -34,7 +34,7 @@ import com.google.common.base.Preconditions;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // uses writeReplace(), not default serialization
+/*@SuppressWarnings("serial")*/ // uses writeReplace(), not default serialization
 final class SingletonImmutableList<E> extends ImmutableList<E> {
 
   final transient E element;
@@ -83,14 +83,14 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
   }
 
 @Pure
-public boolean contains(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.contains(arg0); }
+public boolean contains(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.contains(arg0); }
 
 @Pure
-public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+public boolean equals(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.equals(arg0); }
 
 @Pure
-public int indexOf(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.indexOf(arg0); }
+public int indexOf(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.indexOf(arg0); }
 
 @Pure
-public int lastIndexOf(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.lastIndexOf(arg0); }
+public int lastIndexOf(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object arg0) { return super.lastIndexOf(arg0); }
 }

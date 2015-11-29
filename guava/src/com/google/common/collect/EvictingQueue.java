@@ -47,7 +47,7 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
 
   private final Queue<E> delegate;
 
-  @VisibleForTesting final int maxSize;
+  /*@VisibleForTesting*/ final int maxSize;
 
   private EvictingQueue(int maxSize) {
     checkArgument(maxSize >= 0, "maxSize (%s) must >= 0", maxSize);

@@ -56,7 +56,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @AnnotatedFor({"nullness"})
-public interface SetMultimap<K extends @org.checkerframework.checker.nullness.qual.Nullable Object, V extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends Multimap<K, V> {
+public interface SetMultimap<K extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object, V extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends Multimap<K, V> {
   /**
    * {@inheritDoc}
    *
@@ -65,7 +65,7 @@ public interface SetMultimap<K extends @org.checkerframework.checker.nullness.qu
    * specified in the {@link Multimap} interface.
    */
   @Override
-  Set<V> get(@Nullable K key);
+  Set<V> get(/*@Nullable*/ K key);
 
   /**
    * {@inheritDoc}
@@ -75,7 +75,7 @@ public interface SetMultimap<K extends @org.checkerframework.checker.nullness.qu
    * specified in the {@link Multimap} interface.
    */
   @Override
-  Set<V> removeAll(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object key);
+  Set<V> removeAll(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object key);
 
   /**
    * {@inheritDoc}
@@ -121,5 +121,5 @@ public interface SetMultimap<K extends @org.checkerframework.checker.nullness.qu
    */
   @Pure
   @Override
-  boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object obj);
+  boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object obj);
 }

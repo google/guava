@@ -63,7 +63,7 @@ public abstract class Equivalence<T> {
    *     false} (provided that neither {@code x} nor {@code y} is modified).
    * </ul>
    */
-  public final boolean equivalent(@Nullable T a, @Nullable T b) {
+  public final boolean equivalent(/*@Nullable*/ T a, /*@Nullable*/ T b) {
     if (a == b) {
       return true;
     }
@@ -99,7 +99,7 @@ public abstract class Equivalence<T> {
    * <li>{@code hash(null)} is {@code 0}.
    * </ul>
    */
-  public final int hash(@Nullable T t) {
+  public final int hash(/*@Nullable*/ T t) {
     if (t == null) {
       return 0;
     }
@@ -149,7 +149,7 @@ public abstract class Equivalence<T> {
    *
    * @since 10.0
    */
-  public final <S extends T> Wrapper<S> wrap(@Nullable S reference) {
+  public final <S extends T> Wrapper<S> wrap(/*@Nullable*/ S reference) {
     return new Wrapper<S>(this, reference);
   }
 
@@ -173,9 +173,9 @@ public abstract class Equivalence<T> {
    */
   public static final class Wrapper<T> implements Serializable {
     private final Equivalence<? super T> equivalence;
-    @Nullable private final T reference;
+    /*@Nullable*/ private final T reference;
 
-    private Wrapper(Equivalence<? super T> equivalence, @Nullable T reference) {
+    private Wrapper(Equivalence<? super T> equivalence, /*@Nullable*/ T reference) {
       this.equivalence = checkNotNull(equivalence);
       this.reference = reference;
     }
@@ -192,7 +192,7 @@ public abstract class Equivalence<T> {
      * equivalence.
      */
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(/*@Nullable*/ Object obj) {
       if (obj == this) {
         return true;
       }
@@ -257,27 +257,27 @@ public abstract class Equivalence<T> {
    * @since 10.0
    */
   @Beta
-  public final Predicate<T> equivalentTo(@Nullable T target) {
+  public final Predicate<T> equivalentTo(/*@Nullable*/ T target) {
     return new EquivalentToPredicate<T>(this, target);
   }
 
   private static final class EquivalentToPredicate<T> implements Predicate<T>, Serializable {
 
     private final Equivalence<T> equivalence;
-    @Nullable private final T target;
+    /*@Nullable*/ private final T target;
 
-    EquivalentToPredicate(Equivalence<T> equivalence, @Nullable T target) {
+    EquivalentToPredicate(Equivalence<T> equivalence, /*@Nullable*/ T target) {
       this.equivalence = checkNotNull(equivalence);
       this.target = target;
     }
 
     @Override
-    public boolean apply(@Nullable T input) {
+    public boolean apply(/*@Nullable*/ T input) {
       return equivalence.equivalent(input, target);
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(/*@Nullable*/ Object obj) {
       if (this == obj) {
         return true;
       }

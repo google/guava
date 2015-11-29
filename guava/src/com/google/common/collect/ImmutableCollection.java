@@ -153,7 +153,7 @@ import javax.annotation.Nullable;
  */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
-@SuppressWarnings("serial") // we're overriding default serialization
+/*@SuppressWarnings("serial")*/ // we're overriding default serialization
 // TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,
 // just to do everything we can to emphasize the "practically an interface" nature of this class.
 public abstract class ImmutableCollection<E> extends AbstractCollection<E> implements Serializable {
@@ -167,7 +167,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   public abstract UnmodifiableIterator<E> iterator();
 
   @Override
-  public final @org.checkerframework.checker.nullness.qual.Nullable Object[] toArray() {
+  public final /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object[] toArray() {
     int size = size();
     if (size == 0) {
       return ObjectArrays.EMPTY_ARRAY;
@@ -178,7 +178,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   }
 
   @Override
-  public final <T> @org.checkerframework.checker.nullness.qual.Nullable T[] toArray(T[] other) {
+  public final <T> /*@org.checkerframework.checker.nullness.qual.Nullable*/ T[] toArray(T[] other) {
     checkNotNull(other);
     int size = size();
     if (other.length < size) {
@@ -192,7 +192,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
   @Pure
   @Override
-  public abstract boolean contains(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object);
+  public abstract boolean contains(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object);
 
   /**
    * Guaranteed to throw an exception and leave the collection unmodified.
@@ -214,7 +214,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    */
   @Deprecated
   @Override
-  public final boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public final boolean remove(/*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
     throw new UnsupportedOperationException();
   }
 

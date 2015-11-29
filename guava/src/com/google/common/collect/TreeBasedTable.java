@@ -173,14 +173,14 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   }
 
   private class TreeRow extends Row implements SortedMap<C, V> {
-    @Nullable final C lowerBound;
-    @Nullable final C upperBound;
+    /*@Nullable*/ final C lowerBound;
+    /*@Nullable*/ final C upperBound;
 
     TreeRow(R rowKey) {
       this(rowKey, null, null);
     }
 
-    TreeRow(R rowKey, @Nullable C lowerBound, @Nullable C upperBound) {
+    TreeRow(R rowKey, /*@Nullable*/ C lowerBound, /*@Nullable*/ C upperBound) {
       super(rowKey);
       this.lowerBound = lowerBound;
       this.upperBound = upperBound;
@@ -205,7 +205,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       return cmp.compare(a, b);
     }
 
-    boolean rangeContains(@Nullable Object o) {
+    boolean rangeContains(/*@Nullable*/ Object o) {
       return o != null
           && (lowerBound == null || compare(lowerBound, o) <= 0)
           && (upperBound == null || compare(upperBound, o) > 0);

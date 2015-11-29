@@ -164,7 +164,7 @@ public final class Sets {
    * deprecated. Instead, use the {@code HashSet} constructor directly, taking advantage of the new
    * <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
    */
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> HashSet<E> newHashSet() {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> HashSet<E> newHashSet() {
     return new HashSet<E>();
   }
 
@@ -181,7 +181,7 @@ public final class Sets {
    * asList}{@code (...))}, or for creating an empty set then calling {@link Collections#addAll}.
    * This method is not actually very useful and will likely be deprecated in the future.
    */
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> HashSet<E> newHashSet(E... elements) {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> HashSet<E> newHashSet(E... elements) {
     HashSet<E> set = newHashSetWithExpectedSize(elements.length);
     Collections.addAll(set, elements);
     return set;
@@ -199,7 +199,7 @@ public final class Sets {
    *         expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> HashSet<E> newHashSetWithExpectedSize(int expectedSize) {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> HashSet<E> newHashSetWithExpectedSize(int expectedSize) {
     return new HashSet<E>(Maps.capacity(expectedSize));
   }
 
@@ -221,7 +221,7 @@ public final class Sets {
    *
    * <p>Overall, this method is not very useful and will likely be deprecated in the future.
    */
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> HashSet<E> newHashSet(Iterable<? extends E> elements) {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> HashSet<E> newHashSet(Iterable<? extends E> elements) {
     return (elements instanceof Collection)
         ? new HashSet<E>(Collections2.cast(elements))
         : newHashSet(elements.iterator());
@@ -239,7 +239,7 @@ public final class Sets {
    *
    * <p>Overall, this method is not very useful and will likely be deprecated in the future.
    */
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> HashSet<E> newHashSet(Iterator<? extends E> elements) {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> HashSet<E> newHashSet(Iterator<? extends E> elements) {
     HashSet<E> set = newHashSet();
     Iterators.addAll(set, elements);
     return set;
@@ -293,7 +293,7 @@ public final class Sets {
    *
    * @return a new, empty {@code LinkedHashSet}
    */
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> LinkedHashSet<E> newLinkedHashSet() {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> LinkedHashSet<E> newLinkedHashSet() {
     return new LinkedHashSet<E>();
   }
 
@@ -328,7 +328,7 @@ public final class Sets {
    * @param elements the elements that the set should contain, in order
    * @return a new {@code LinkedHashSet} containing those elements (minus duplicates)
    */
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> LinkedHashSet<E> newLinkedHashSet(Iterable<? extends E> elements) {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> LinkedHashSet<E> newLinkedHashSet(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
       return new LinkedHashSet<E>(Collections2.cast(elements));
     }
@@ -351,7 +351,7 @@ public final class Sets {
    *
    * @return a new, empty {@code TreeSet}
    */
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Comparable> TreeSet<E> newTreeSet() {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Comparable> TreeSet<E> newTreeSet() {
     return new TreeSet<E>();
   }
 
@@ -376,7 +376,7 @@ public final class Sets {
    * @param elements the elements that the set should contain
    * @return a new {@code TreeSet} containing those elements (minus duplicates)
    */
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Comparable> TreeSet<E> newTreeSet(Iterable<? extends E> elements) {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Comparable> TreeSet<E> newTreeSet(Iterable<? extends E> elements) {
     TreeSet<E> set = newTreeSet();
     Iterables.addAll(set, elements);
     return set;
@@ -398,7 +398,7 @@ public final class Sets {
    * @return a new, empty {@code TreeSet}
    * @throws NullPointerException if {@code comparator} is null
    */
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> TreeSet<E> newTreeSet(Comparator<? super E> comparator) {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> TreeSet<E> newTreeSet(Comparator<? super E> comparator) {
     return new TreeSet<E>(checkNotNull(comparator));
   }
 
@@ -532,7 +532,7 @@ public final class Sets {
    *     will be removed in August 2017.
    */
   @Deprecated
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> Set<E> newSetFromMap(Map<E, Boolean> map) {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Set<E> newSetFromMap(Map<E, Boolean> map) {
     return Platform.newSetFromMap(map);
   }
 
@@ -546,7 +546,7 @@ public final class Sets {
    *
    * @since 2.0
    */
-  public abstract static class SetView<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends AbstractSet<E> {
+  public abstract static class SetView<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends AbstractSet<E> {
     private SetView() {} // no subclasses but our own
 
     /**
@@ -597,7 +597,7 @@ public final class Sets {
    * {@code union = Sets.union(union, anotherSet);}, since iterating over the resulting
    * set has a cubic complexity to the depth of the nesting.
    */
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> SetView<E> union(final Set<? extends E> set1, final Set<? extends E> set2) {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> SetView<E> union(final Set<? extends E> set1, final Set<? extends E> set2) {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
@@ -667,7 +667,7 @@ public final class Sets {
    *
    * <p>This is unfortunate, but should come up only very rarely.
    */
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> SetView<E> intersection(final Set<E> set1, final Set<?> set2) {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> SetView<E> intersection(final Set<E> set1, final Set<?> set2) {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
@@ -826,7 +826,7 @@ public final class Sets {
    */
   // TODO(kevinb): how to omit that last sentence when building GWT javadoc?
   @CheckReturnValue
-  public static <E extends @org.checkerframework.checker.nullness.qual.Nullable Object> Set<E> filter(Set<E> unfiltered, Predicate<? super E> predicate) {
+  public static <E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> Set<E> filter(Set<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof SortedSet) {
       return filter((SortedSet<E>) unfiltered, predicate);
     }
@@ -841,14 +841,14 @@ public final class Sets {
     return new FilteredSet<E>(checkNotNull(unfiltered), checkNotNull(predicate));
   }
 
-  private static class FilteredSet<E extends @org.checkerframework.checker.nullness.qual.Nullable Object> extends FilteredCollection<E> implements Set<E> {
+  private static class FilteredSet<E extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> extends FilteredCollection<E> implements Set<E> {
     FilteredSet(Set<E> unfiltered, Predicate<? super E> predicate) {
       super(unfiltered, predicate);
     }
 
     @Pure
     @Override
-    public boolean equals(@Nullable @org.checkerframework.checker.nullness.qual.Nullable Object object) {
+    public boolean equals(/*@Nullable*/ /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object object) {
       return equalsImpl(this, object);
     }
 
@@ -1237,7 +1237,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(/*@Nullable*/ Object object) {
       // Warning: this is broken if size() == 0, so it is critical that we
       // substitute an empty ImmutableSet to the user in place of this
       if (object instanceof CartesianSet) {
@@ -1342,7 +1342,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean contains(@Nullable Object o) {
+    public boolean contains(/*@Nullable*/ Object o) {
       Integer index = inputSet.get(o);
       return index != null && (mask & (1 << index)) != 0;
     }
@@ -1378,7 +1378,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean contains(@Nullable Object obj) {
+    public boolean contains(/*@Nullable*/ Object obj) {
       if (obj instanceof Set) {
         Set<?> set = (Set<?>) obj;
         return inputSet.keySet().containsAll(set);
@@ -1387,7 +1387,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(/*@Nullable*/ Object obj) {
       if (obj instanceof PowerSet) {
         PowerSet<?> that = (PowerSet<?>) obj;
         return inputSet.equals(that.inputSet);
@@ -1415,7 +1415,7 @@ public final class Sets {
    * An implementation for {@link Set#hashCode()}.
    */
   @Pure
-  static int hashCodeImpl(Set<? extends @org.checkerframework.checker.nullness.qual.Nullable Object> s) {
+  static int hashCodeImpl(Set<? extends /*@org.checkerframework.checker.nullness.qual.Nullable*/ Object> s) {
     int hashCode = 0;
     for (Object o : s) {
       hashCode += o != null ? o.hashCode() : 0;
@@ -1429,7 +1429,7 @@ public final class Sets {
   /**
    * An implementation for {@link Set#equals(Object)}.
    */
-  static boolean equalsImpl(Set<?> s, @Nullable Object object) {
+  static boolean equalsImpl(Set<?> s, /*@Nullable*/ Object object) {
     if (s == object) {
       return true;
     }
