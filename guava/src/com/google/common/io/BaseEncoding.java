@@ -145,6 +145,7 @@ public abstract class BaseEncoding {
   /**
    * Encodes the specified byte array, and returns the encoded {@code String}.
    */
+  @CheckReturnValue
   public String encode(byte[] bytes) {
     return encode(bytes, 0, bytes.length);
   }
@@ -153,6 +154,7 @@ public abstract class BaseEncoding {
    * Encodes the specified range of the specified byte array, and returns the encoded
    * {@code String}.
    */
+  @CheckReturnValue
   public final String encode(byte[] bytes, int off, int len) {
     checkPositionIndexes(off, off + len, bytes.length);
     StringBuilder result = new StringBuilder(maxEncodedSize(len));
@@ -170,12 +172,14 @@ public abstract class BaseEncoding {
    * {@code Writer}.
    */
   @GwtIncompatible("Writer,OutputStream")
+  @CheckReturnValue
   public abstract OutputStream encodingStream(Writer writer);
 
   /**
    * Returns a {@code ByteSink} that writes base-encoded bytes to the specified {@code CharSink}.
    */
   @GwtIncompatible("ByteSink,CharSink")
+  @CheckReturnValue
   public final ByteSink encodingSink(final CharSink encodedSink) {
     checkNotNull(encodedSink);
     return new ByteSink() {
@@ -219,8 +223,8 @@ public abstract class BaseEncoding {
    *
    * @throws DecodingException if the input is not a valid encoded string according to this
    *         encoding.
-   */
-  final byte[] decodeChecked(CharSequence chars) throws DecodingException {
+   */ final byte[] decodeChecked(CharSequence chars)
+      throws DecodingException {
     chars = padding().trimTrailingFrom(chars);
     byte[] tmp = new byte[maxDecodedSize(chars.length())];
     int len = decodeTo(tmp, chars);
@@ -233,6 +237,7 @@ public abstract class BaseEncoding {
    * errors.
    */
   @GwtIncompatible("Reader,InputStream")
+  @CheckReturnValue
   public abstract InputStream decodingStream(Reader reader);
 
   /**
@@ -240,6 +245,7 @@ public abstract class BaseEncoding {
    * {@code CharSource}.
    */
   @GwtIncompatible("ByteSource,CharSource")
+  @CheckReturnValue
   public final ByteSource decodingSource(final CharSource encodedSource) {
     checkNotNull(encodedSource);
     return new ByteSource() {
@@ -330,6 +336,7 @@ public abstract class BaseEncoding {
    * href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
    * Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
+  @CheckReturnValue
   public static BaseEncoding base64() {
     return BASE64;
   }
@@ -351,6 +358,7 @@ public abstract class BaseEncoding {
    * href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
    * Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
+  @CheckReturnValue
   public static BaseEncoding base64Url() {
     return BASE64_URL;
   }
@@ -371,6 +379,7 @@ public abstract class BaseEncoding {
    * href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
    * Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
+  @CheckReturnValue
   public static BaseEncoding base32() {
     return BASE32;
   }
@@ -390,6 +399,7 @@ public abstract class BaseEncoding {
    * href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
    * Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
+  @CheckReturnValue
   public static BaseEncoding base32Hex() {
     return BASE32_HEX;
   }
@@ -410,6 +420,7 @@ public abstract class BaseEncoding {
    * href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
    * Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
+  @CheckReturnValue
   public static BaseEncoding base16() {
     return BASE16;
   }
