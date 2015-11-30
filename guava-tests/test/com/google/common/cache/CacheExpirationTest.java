@@ -22,6 +22,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.cache.TestingCacheLoaders.IdentityLoader;
 import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
+import com.google.common.cache.TestingRemovalListeners.QueuingRemovalListener;
 import com.google.common.collect.Iterators;
 import com.google.common.testing.FakeTicker;
 import com.google.common.util.concurrent.Callables;
@@ -31,6 +32,7 @@ import junit.framework.TestCase;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -392,6 +394,22 @@ public class CacheExpirationTest extends TestCase {
     CacheTesting.drainRecencyQueues(cache);
     ticker.advance(1, MILLISECONDS);
     assertThat(keySet).containsExactly(3, 6);
+  }
+
+  public void testExpiration_invalidateAll() {
+    FakeTicker ticker = new FakeTicker();
+    QueuingRemovalListener<Integer, Integer> listener =
+        TestingRemovalListeners.queuingRemovalListener();
+    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
+        .expireAfterAccess(1, TimeUnit.MINUTES)
+        .removalListener(listener)
+        .ticker(ticker)
+        .build();
+    cache.put(1, 1);
+    ticker.advance(10, TimeUnit.MINUTES);
+    cache.invalidateAll();
+
+    assertThat(listener.poll().getCause()).isEqualTo(RemovalCause.EXPIRED);
   }
 
   private void runRemovalScheduler(LoadingCache<String, Integer> cache,
