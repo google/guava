@@ -1175,7 +1175,7 @@
 <span class="sourceLineNo">1167</span><a name="line.1167"></a>
 <span class="sourceLineNo">1168</span>    /** Collects all types to map, and returns the total depth from T up to Object. */<a name="line.1168"></a>
 <span class="sourceLineNo">1169</span>    private int collectTypes(K type, Map&lt;? super K, Integer&gt; map) {<a name="line.1169"></a>
-<span class="sourceLineNo">1170</span>      Integer existing = map.get(this);<a name="line.1170"></a>
+<span class="sourceLineNo">1170</span>      Integer existing = map.get(type);<a name="line.1170"></a>
 <span class="sourceLineNo">1171</span>      if (existing != null) {<a name="line.1171"></a>
 <span class="sourceLineNo">1172</span>        // short circuit: if set contains type it already contains its supertypes<a name="line.1172"></a>
 <span class="sourceLineNo">1173</span>        return existing;<a name="line.1173"></a>
