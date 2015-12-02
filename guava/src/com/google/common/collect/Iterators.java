@@ -28,11 +28,7 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Function;
-import com.google.common.base.Objects;
-import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Predicate;
+import com.google.common.base.*;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -1289,41 +1285,48 @@ public final class Iterators {
    * O(N*log(M)) time, where N is the total number of elements.)
    */
   private static class MergingIterator<T> extends UnmodifiableIterator<T> {
-    final Queue<PeekingIterator<T>> queue;
+    final Supplier<Queue<PeekingIterator<T>>> queue;
 
     public MergingIterator(
-        Iterable<? extends Iterator<? extends T>> iterators,
+        final Iterable<? extends Iterator<? extends T>> iterators,
         final Comparator<? super T> itemComparator) {
-      // A comparator that's used by the heap, allowing the heap
-      // to be sorted based on the top of each iterator.
-      Comparator<PeekingIterator<T>> heapComparator =
-          new Comparator<PeekingIterator<T>>() {
-            @Override
-            public int compare(PeekingIterator<T> o1, PeekingIterator<T> o2) {
-              return itemComparator.compare(o1.peek(), o2.peek());
+      queue = Suppliers.memoize(new Supplier<Queue<PeekingIterator<T>>>() {
+        @Override
+        public Queue<PeekingIterator<T>> get() {
+          // A comparator that's used by the heap, allowing the heap
+          // to be sorted based on the top of each iterator.
+          Comparator<PeekingIterator<T>> heapComparator =
+                  new Comparator<PeekingIterator<T>>() {
+                    @Override
+                    public int compare(PeekingIterator<T> o1, PeekingIterator<T> o2) {
+                      return itemComparator.compare(o1.peek(), o2.peek());
+                    }
+                  };
+
+          PriorityQueue<PeekingIterator<T>> queue = new PriorityQueue<PeekingIterator<T>>(2, heapComparator);
+
+          for (Iterator<? extends T> iterator : iterators) {
+            if (iterator.hasNext()) {
+              queue.add(Iterators.peekingIterator(iterator));
             }
-          };
-
-      queue = new PriorityQueue<PeekingIterator<T>>(2, heapComparator);
-
-      for (Iterator<? extends T> iterator : iterators) {
-        if (iterator.hasNext()) {
-          queue.add(Iterators.peekingIterator(iterator));
+          }
+          return queue;
         }
-      }
+      });
     }
 
     @Override
     public boolean hasNext() {
-      return !queue.isEmpty();
+      return !queue.get().isEmpty();
     }
 
     @Override
     public T next() {
-      PeekingIterator<T> nextIter = queue.remove();
+      final Queue<PeekingIterator<T>> localQueue = queue.get();
+      PeekingIterator<T> nextIter = localQueue.remove();
       T next = nextIter.next();
       if (nextIter.hasNext()) {
-        queue.add(nextIter);
+        localQueue.add(nextIter);
       }
       return next;
     }
