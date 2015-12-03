@@ -89,32 +89,12 @@
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colOne"><a href="com/google/common/io/InputSupplier.html" title="interface in com.google.common.io">com.google.common.io.InputSupplier</a>
-<div class="block"><i>For <code>InputSupplier&lt;? extends InputStream&gt;</code>, use
-     <a href="com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> instead. For <code>InputSupplier&lt;? extends Reader&gt;</code>,
-     use <a href="com/google/common/io/CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a>. Implementations of <code>InputSupplier</code> that
-     don't fall into one of those categories do not benefit from any of the
-     methods in <code>common.io</code> and should use a different interface. This
-     interface is scheduled for removal in December 2015.</i></div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colOne"><a href="com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">com.google.common.collect.MapConstraint</a>
 <div class="block"><i>Use <code>Preconditions</code> for basic checks. In place of
      constrained maps, we encourage you to check your preconditions
      explicitly instead of leaving that work to the map implementation.
      For the specific case of rejecting null, consider <a href="com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect"><code>ImmutableMap</code></a>.
      This class is scheduled for removal in Guava 20.0.</i></div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colOne"><a href="com/google/common/io/OutputSupplier.html" title="interface in com.google.common.io">com.google.common.io.OutputSupplier</a>
-<div class="block"><i>For <code>OutputSupplier&lt;? extends OutputStream&gt;</code>, use
-     <a href="com/google/common/io/ByteSink.html" title="class in com.google.common.io"><code>ByteSink</code></a> instead. For <code>OutputSupplier&lt;? extends Writer&gt;</code>,
-     use <a href="com/google/common/io/CharSink.html" title="class in com.google.common.io"><code>CharSink</code></a>. Implementations of <code>OutputSupplier</code> that
-     don't fall into one of those categories do not benefit from any of the
-     methods in <code>common.io</code> and should use a different interface. This
-     interface is scheduled for removal in December 2015.</i></div>
 </td>
 </tr>
 </tbody>
