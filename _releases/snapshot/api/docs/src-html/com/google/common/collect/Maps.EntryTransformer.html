@@ -4213,29 +4213,30 @@
 <span class="sourceLineNo">4205</span>   *<a name="line.4205"></a>
 <span class="sourceLineNo">4206</span>   * @since 20.0<a name="line.4206"></a>
 <span class="sourceLineNo">4207</span>   */<a name="line.4207"></a>
-<span class="sourceLineNo">4208</span>  @GwtIncompatible("NavigableMap")<a name="line.4208"></a>
-<span class="sourceLineNo">4209</span>  public static &lt;K extends Comparable&lt;? super K&gt;, V&gt; NavigableMap&lt;K, V&gt; subMap(<a name="line.4209"></a>
-<span class="sourceLineNo">4210</span>      NavigableMap&lt;K, V&gt; map, Range&lt;K&gt; range) {<a name="line.4210"></a>
-<span class="sourceLineNo">4211</span>    if (map.comparator() != null &amp;&amp; map.comparator() != Ordering.natural()<a name="line.4211"></a>
-<span class="sourceLineNo">4212</span>        &amp;&amp; range.hasLowerBound() &amp;&amp; range.hasUpperBound()) {<a name="line.4212"></a>
-<span class="sourceLineNo">4213</span>      checkArgument(map.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) &lt;= 0,<a name="line.4213"></a>
-<span class="sourceLineNo">4214</span>          "map is using a custom comparator which is inconsistent with the natural ordering.");<a name="line.4214"></a>
-<span class="sourceLineNo">4215</span>    }<a name="line.4215"></a>
-<span class="sourceLineNo">4216</span>    if (range.hasLowerBound() &amp;&amp; range.hasUpperBound()) {<a name="line.4216"></a>
-<span class="sourceLineNo">4217</span>      return map.subMap(range.lowerEndpoint(),<a name="line.4217"></a>
-<span class="sourceLineNo">4218</span>                        range.lowerBoundType() == BoundType.CLOSED,<a name="line.4218"></a>
-<span class="sourceLineNo">4219</span>                        range.upperEndpoint(),<a name="line.4219"></a>
-<span class="sourceLineNo">4220</span>                        range.upperBoundType() == BoundType.CLOSED);<a name="line.4220"></a>
-<span class="sourceLineNo">4221</span>    } else if (range.hasLowerBound()) {<a name="line.4221"></a>
-<span class="sourceLineNo">4222</span>      return map.tailMap(range.lowerEndpoint(),<a name="line.4222"></a>
-<span class="sourceLineNo">4223</span>                         range.lowerBoundType() == BoundType.CLOSED);<a name="line.4223"></a>
-<span class="sourceLineNo">4224</span>    } else if (range.hasUpperBound()) {<a name="line.4224"></a>
-<span class="sourceLineNo">4225</span>      return map.headMap(range.upperEndpoint(),<a name="line.4225"></a>
-<span class="sourceLineNo">4226</span>                         range.upperBoundType() == BoundType.CLOSED);<a name="line.4226"></a>
-<span class="sourceLineNo">4227</span>    }<a name="line.4227"></a>
-<span class="sourceLineNo">4228</span>    return checkNotNull(map);<a name="line.4228"></a>
-<span class="sourceLineNo">4229</span>  }<a name="line.4229"></a>
-<span class="sourceLineNo">4230</span>}<a name="line.4230"></a>
+<span class="sourceLineNo">4208</span>  @Beta<a name="line.4208"></a>
+<span class="sourceLineNo">4209</span>  @GwtIncompatible("NavigableMap")<a name="line.4209"></a>
+<span class="sourceLineNo">4210</span>  public static &lt;K extends Comparable&lt;? super K&gt;, V&gt; NavigableMap&lt;K, V&gt; subMap(<a name="line.4210"></a>
+<span class="sourceLineNo">4211</span>      NavigableMap&lt;K, V&gt; map, Range&lt;K&gt; range) {<a name="line.4211"></a>
+<span class="sourceLineNo">4212</span>    if (map.comparator() != null &amp;&amp; map.comparator() != Ordering.natural()<a name="line.4212"></a>
+<span class="sourceLineNo">4213</span>        &amp;&amp; range.hasLowerBound() &amp;&amp; range.hasUpperBound()) {<a name="line.4213"></a>
+<span class="sourceLineNo">4214</span>      checkArgument(map.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) &lt;= 0,<a name="line.4214"></a>
+<span class="sourceLineNo">4215</span>          "map is using a custom comparator which is inconsistent with the natural ordering.");<a name="line.4215"></a>
+<span class="sourceLineNo">4216</span>    }<a name="line.4216"></a>
+<span class="sourceLineNo">4217</span>    if (range.hasLowerBound() &amp;&amp; range.hasUpperBound()) {<a name="line.4217"></a>
+<span class="sourceLineNo">4218</span>      return map.subMap(range.lowerEndpoint(),<a name="line.4218"></a>
+<span class="sourceLineNo">4219</span>                        range.lowerBoundType() == BoundType.CLOSED,<a name="line.4219"></a>
+<span class="sourceLineNo">4220</span>                        range.upperEndpoint(),<a name="line.4220"></a>
+<span class="sourceLineNo">4221</span>                        range.upperBoundType() == BoundType.CLOSED);<a name="line.4221"></a>
+<span class="sourceLineNo">4222</span>    } else if (range.hasLowerBound()) {<a name="line.4222"></a>
+<span class="sourceLineNo">4223</span>      return map.tailMap(range.lowerEndpoint(),<a name="line.4223"></a>
+<span class="sourceLineNo">4224</span>                         range.lowerBoundType() == BoundType.CLOSED);<a name="line.4224"></a>
+<span class="sourceLineNo">4225</span>    } else if (range.hasUpperBound()) {<a name="line.4225"></a>
+<span class="sourceLineNo">4226</span>      return map.headMap(range.upperEndpoint(),<a name="line.4226"></a>
+<span class="sourceLineNo">4227</span>                         range.upperBoundType() == BoundType.CLOSED);<a name="line.4227"></a>
+<span class="sourceLineNo">4228</span>    }<a name="line.4228"></a>
+<span class="sourceLineNo">4229</span>    return checkNotNull(map);<a name="line.4229"></a>
+<span class="sourceLineNo">4230</span>  }<a name="line.4230"></a>
+<span class="sourceLineNo">4231</span>}<a name="line.4231"></a>
 
 
 
