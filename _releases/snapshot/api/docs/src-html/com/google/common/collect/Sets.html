@@ -1759,7 +1759,47 @@
 <span class="sourceLineNo">1751</span>      return standardToString();<a name="line.1751"></a>
 <span class="sourceLineNo">1752</span>    }<a name="line.1752"></a>
 <span class="sourceLineNo">1753</span>  }<a name="line.1753"></a>
-<span class="sourceLineNo">1754</span>}<a name="line.1754"></a>
+<span class="sourceLineNo">1754</span><a name="line.1754"></a>
+<span class="sourceLineNo">1755</span>  /**<a name="line.1755"></a>
+<span class="sourceLineNo">1756</span>   * Returns a view of the portion of {@code set} whose elements are contained by {@code range}.<a name="line.1756"></a>
+<span class="sourceLineNo">1757</span>   *<a name="line.1757"></a>
+<span class="sourceLineNo">1758</span>   * &lt;p&gt;This method delegates to the appropriate methods of {@link NavigableSet} (namely<a name="line.1758"></a>
+<span class="sourceLineNo">1759</span>   * {@link NavigableSet#subSet(Object, boolean, Object, boolean) subSet()},<a name="line.1759"></a>
+<span class="sourceLineNo">1760</span>   * {@link NavigableSet#tailSet(Object, boolean) tailSet()}, and<a name="line.1760"></a>
+<span class="sourceLineNo">1761</span>   * {@link NavigableSet#headSet(Object, boolean) headSet()}) to actually construct the view.<a name="line.1761"></a>
+<span class="sourceLineNo">1762</span>   * Consult these methods for a full description of the returned view's behavior.<a name="line.1762"></a>
+<span class="sourceLineNo">1763</span>   *<a name="line.1763"></a>
+<span class="sourceLineNo">1764</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code Range}s always represent a range of values using the values' natural<a name="line.1764"></a>
+<span class="sourceLineNo">1765</span>   * ordering. {@code NavigableSet} on the other hand can specify a custom ordering via a<a name="line.1765"></a>
+<span class="sourceLineNo">1766</span>   * {@link Comparator}, which can violate the natural ordering. Using this method (or in general<a name="line.1766"></a>
+<span class="sourceLineNo">1767</span>   * using {@code Range}) with unnaturally-ordered sets can lead to unexpected and undefined<a name="line.1767"></a>
+<span class="sourceLineNo">1768</span>   * behavior.<a name="line.1768"></a>
+<span class="sourceLineNo">1769</span>   *<a name="line.1769"></a>
+<span class="sourceLineNo">1770</span>   * @since 20.0<a name="line.1770"></a>
+<span class="sourceLineNo">1771</span>   */<a name="line.1771"></a>
+<span class="sourceLineNo">1772</span>  @GwtIncompatible("NavigableSet")<a name="line.1772"></a>
+<span class="sourceLineNo">1773</span>  public static &lt;K extends Comparable&lt;? super K&gt;&gt; NavigableSet&lt;K&gt; subSet(<a name="line.1773"></a>
+<span class="sourceLineNo">1774</span>      NavigableSet&lt;K&gt; set, Range&lt;K&gt; range) {<a name="line.1774"></a>
+<span class="sourceLineNo">1775</span>    if (set.comparator() != null &amp;&amp; set.comparator() != Ordering.natural()<a name="line.1775"></a>
+<span class="sourceLineNo">1776</span>        &amp;&amp; range.hasLowerBound() &amp;&amp; range.hasUpperBound()) {<a name="line.1776"></a>
+<span class="sourceLineNo">1777</span>      checkArgument(set.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) &lt;= 0,<a name="line.1777"></a>
+<span class="sourceLineNo">1778</span>          "set is using a custom comparator which is inconsistent with the natural ordering.");<a name="line.1778"></a>
+<span class="sourceLineNo">1779</span>    }<a name="line.1779"></a>
+<span class="sourceLineNo">1780</span>    if (range.hasLowerBound() &amp;&amp; range.hasUpperBound()) {<a name="line.1780"></a>
+<span class="sourceLineNo">1781</span>      return set.subSet(range.lowerEndpoint(),<a name="line.1781"></a>
+<span class="sourceLineNo">1782</span>                        range.lowerBoundType() == BoundType.CLOSED,<a name="line.1782"></a>
+<span class="sourceLineNo">1783</span>                        range.upperEndpoint(),<a name="line.1783"></a>
+<span class="sourceLineNo">1784</span>                        range.upperBoundType() == BoundType.CLOSED);<a name="line.1784"></a>
+<span class="sourceLineNo">1785</span>    } else if (range.hasLowerBound()) {<a name="line.1785"></a>
+<span class="sourceLineNo">1786</span>      return set.tailSet(range.lowerEndpoint(),<a name="line.1786"></a>
+<span class="sourceLineNo">1787</span>                         range.lowerBoundType() == BoundType.CLOSED);<a name="line.1787"></a>
+<span class="sourceLineNo">1788</span>    } else if (range.hasUpperBound()) {<a name="line.1788"></a>
+<span class="sourceLineNo">1789</span>      return set.headSet(range.upperEndpoint(),<a name="line.1789"></a>
+<span class="sourceLineNo">1790</span>                         range.upperBoundType() == BoundType.CLOSED);<a name="line.1790"></a>
+<span class="sourceLineNo">1791</span>    }<a name="line.1791"></a>
+<span class="sourceLineNo">1792</span>    return checkNotNull(set);<a name="line.1792"></a>
+<span class="sourceLineNo">1793</span>  }<a name="line.1793"></a>
+<span class="sourceLineNo">1794</span>}<a name="line.1794"></a>
 
 
 

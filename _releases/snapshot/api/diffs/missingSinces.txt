@@ -83,6 +83,8 @@ NO DOC BLOCK: com.google.common.util.concurrent.SettableFuture Method setFuture(
 OK: com.google.common.hash.Hashing Method sha384()
 OK: com.google.common.base.CharMatcher Method singleWidth()
 OK: com.google.common.io.ByteSource Method sizeIfKnown()
+OK: com.google.common.collect.Maps Method subMap(java.util.NavigableMap<K, V>, com.google.common.collect.Range<K>)
+OK: com.google.common.collect.Sets Method subSet(java.util.NavigableSet<K>, com.google.common.collect.Range<K>)
 OK: com.google.common.collect.FluentIterable Method toMultiset()
 NO DOC BLOCK: com.google.common.eventbus.DeadEvent Method toString()
 NO DOC BLOCK: com.google.common.eventbus.EventBus Method toString()
