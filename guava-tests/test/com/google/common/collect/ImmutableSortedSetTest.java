@@ -665,6 +665,22 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertSame(STRING_LENGTH, set.comparator());
   }
 
+  public void testCopyOf_immutableSingletonSetNotComparable_throwsClassCastException() {
+    try {
+      ImmutableSortedSet.copyOf(ImmutableSet.of(new Object()));
+      fail("Should complain that the element isn't Comparable");
+    } catch (ClassCastException expected) {
+    }
+  }
+
+  public void testCopyOf_immutableSetNotComparable_throwsClassCastException() {
+    try {
+        ImmutableSortedSet.copyOf(ImmutableSet.of(new Object(), new Object()));
+        fail("Should complain that the element isn't Comparable");
+    } catch (ClassCastException expected) {
+    }
+  }
+
   public void testEquals_bothDefaultOrdering() {
     SortedSet<String> set = of("a", "b", "c");
     assertEquals(set, Sets.newTreeSet(asList("a", "b", "c")));

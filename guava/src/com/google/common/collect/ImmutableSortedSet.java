@@ -367,6 +367,9 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
       return emptySet(comparator);
     }
     checkElementsNotNull(contents, n);
+    if (n == 1) {
+      comparator.compare(contents[0],contents[0]);
+    }
     Arrays.sort(contents, 0, n, comparator);
     int uniques = 1;
     for (int i = 1; i < n; i++) {
