@@ -1177,4 +1177,85 @@ public class SetsTest extends TestCase {
     } catch (UnsupportedOperationException expected) {
     }
   }
+
+  @GwtIncompatible("NavigableSet")
+  public void testSubSet_boundedRange() {
+    ImmutableSortedSet<Integer> set = ImmutableSortedSet.of(2, 4, 6, 8, 10);
+    ImmutableSortedSet<Integer> empty = ImmutableSortedSet.of();
+
+    assertEquals(set, Sets.subSet(set, Range.closed(0, 12)));
+    assertEquals(ImmutableSortedSet.of(2, 4), Sets.subSet(set, Range.closed(0, 4)));
+    assertEquals(ImmutableSortedSet.of(2, 4, 6), Sets.subSet(set, Range.closed(2, 6)));
+    assertEquals(ImmutableSortedSet.of(4, 6), Sets.subSet(set, Range.closed(3, 7)));
+    assertEquals(empty, Sets.subSet(set, Range.closed(20, 30)));
+
+    assertEquals(set, Sets.subSet(set, Range.open(0, 12)));
+    assertEquals(ImmutableSortedSet.of(2), Sets.subSet(set, Range.open(0, 4)));
+    assertEquals(ImmutableSortedSet.of(4), Sets.subSet(set, Range.open(2, 6)));
+    assertEquals(ImmutableSortedSet.of(4, 6), Sets.subSet(set, Range.open(3, 7)));
+    assertEquals(empty, Sets.subSet(set, Range.open(20, 30)));
+
+    assertEquals(set, Sets.subSet(set, Range.openClosed(0, 12)));
+    assertEquals(ImmutableSortedSet.of(2, 4), Sets.subSet(set, Range.openClosed(0, 4)));
+    assertEquals(ImmutableSortedSet.of(4, 6), Sets.subSet(set, Range.openClosed(2, 6)));
+    assertEquals(ImmutableSortedSet.of(4, 6), Sets.subSet(set, Range.openClosed(3, 7)));
+    assertEquals(empty, Sets.subSet(set, Range.openClosed(20, 30)));
+
+    assertEquals(set, Sets.subSet(set, Range.closedOpen(0, 12)));
+    assertEquals(ImmutableSortedSet.of(2), Sets.subSet(set, Range.closedOpen(0, 4)));
+    assertEquals(ImmutableSortedSet.of(2, 4), Sets.subSet(set, Range.closedOpen(2, 6)));
+    assertEquals(ImmutableSortedSet.of(4, 6), Sets.subSet(set, Range.closedOpen(3, 7)));
+    assertEquals(empty, Sets.subSet(set, Range.closedOpen(20, 30)));
+  }
+
+  @GwtIncompatible("NavigableSet")
+  public void testSubSet_halfBoundedRange() {
+    ImmutableSortedSet<Integer> set = ImmutableSortedSet.of(2, 4, 6, 8, 10);
+    ImmutableSortedSet<Integer> empty = ImmutableSortedSet.of();
+
+    assertEquals(set, Sets.subSet(set, Range.atLeast(0)));
+    assertEquals(ImmutableSortedSet.of(4, 6, 8, 10), Sets.subSet(set, Range.atLeast(4)));
+    assertEquals(ImmutableSortedSet.of(8, 10), Sets.subSet(set, Range.atLeast(7)));
+    assertEquals(empty, Sets.subSet(set, Range.atLeast(20)));
+
+    assertEquals(set, Sets.subSet(set, Range.greaterThan(0)));
+    assertEquals(ImmutableSortedSet.of(6, 8, 10), Sets.subSet(set, Range.greaterThan(4)));
+    assertEquals(ImmutableSortedSet.of(8, 10), Sets.subSet(set, Range.greaterThan(7)));
+    assertEquals(empty, Sets.subSet(set, Range.greaterThan(20)));
+
+    assertEquals(empty, Sets.subSet(set, Range.lessThan(0)));
+    assertEquals(ImmutableSortedSet.of(2), Sets.subSet(set, Range.lessThan(4)));
+    assertEquals(ImmutableSortedSet.of(2, 4, 6), Sets.subSet(set, Range.lessThan(7)));
+    assertEquals(set, Sets.subSet(set, Range.lessThan(20)));
+
+    assertEquals(empty, Sets.subSet(set, Range.atMost(0)));
+    assertEquals(ImmutableSortedSet.of(2, 4), Sets.subSet(set, Range.atMost(4)));
+    assertEquals(ImmutableSortedSet.of(2, 4, 6), Sets.subSet(set, Range.atMost(7)));
+    assertEquals(set, Sets.subSet(set, Range.atMost(20)));
+  }
+
+  @GwtIncompatible("NavigableSet")
+  public void testSubSet_unboundedRange() {
+    ImmutableSortedSet<Integer> set = ImmutableSortedSet.of(2, 4, 6, 8, 10);
+
+    assertEquals(set, Sets.subSet(set, Range.<Integer>all()));
+  }
+
+  @GwtIncompatible("NavigableSet")
+  public void testSubSet_unnaturalOrdering() {
+    ImmutableSortedSet<Integer> set =
+        ImmutableSortedSet.<Integer>reverseOrder().add(2, 4, 6, 8, 10).build();
+
+    try {
+      Sets.subSet(set, Range.closed(4, 8));
+      fail("IllegalArgumentException expected");
+    } catch (IllegalArgumentException expected) {
+    }
+
+    // These results are all incorrect, but there's no way (short of iterating over the result)
+    // to verify that with an arbitrary ordering or comparator.
+    assertEquals(ImmutableSortedSet.of(2, 4), Sets.subSet(set, Range.atLeast(4)));
+    assertEquals(ImmutableSortedSet.of(8, 10), Sets.subSet(set, Range.atMost(8)));
+    assertEquals(ImmutableSortedSet.of(2, 4, 6, 8, 10), Sets.subSet(set, Range.<Integer>all()));
+  }
 }

@@ -1751,4 +1751,44 @@ public final class Sets {
       return standardToString();
     }
   }
+
+  /**
+   * Returns a view of the portion of {@code set} whose elements are contained by {@code range}.
+   *
+   * <p>This method delegates to the appropriate methods of {@link NavigableSet} (namely
+   * {@link NavigableSet#subSet(Object, boolean, Object, boolean) subSet()},
+   * {@link NavigableSet#tailSet(Object, boolean) tailSet()}, and
+   * {@link NavigableSet#headSet(Object, boolean) headSet()}) to actually construct the view.
+   * Consult these methods for a full description of the returned view's behavior.
+   *
+   * <p><b>Warning:</b> {@code Range}s always represent a range of values using the values' natural
+   * ordering. {@code NavigableSet} on the other hand can specify a custom ordering via a
+   * {@link Comparator}, which can violate the natural ordering. Using this method (or in general
+   * using {@code Range}) with unnaturally-ordered sets can lead to unexpected and undefined
+   * behavior.
+   *
+   * @since 20.0
+   */
+  @GwtIncompatible("NavigableSet")
+  public static <K extends Comparable<? super K>> NavigableSet<K> subSet(
+      NavigableSet<K> set, Range<K> range) {
+    if (set.comparator() != null && set.comparator() != Ordering.natural()
+        && range.hasLowerBound() && range.hasUpperBound()) {
+      checkArgument(set.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) <= 0,
+          "set is using a custom comparator which is inconsistent with the natural ordering.");
+    }
+    if (range.hasLowerBound() && range.hasUpperBound()) {
+      return set.subSet(range.lowerEndpoint(),
+                        range.lowerBoundType() == BoundType.CLOSED,
+                        range.upperEndpoint(),
+                        range.upperBoundType() == BoundType.CLOSED);
+    } else if (range.hasLowerBound()) {
+      return set.tailSet(range.lowerEndpoint(),
+                         range.lowerBoundType() == BoundType.CLOSED);
+    } else if (range.hasUpperBound()) {
+      return set.headSet(range.upperEndpoint(),
+                         range.upperBoundType() == BoundType.CLOSED);
+    }
+    return checkNotNull(set);
+  }
 }
