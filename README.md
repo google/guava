@@ -40,7 +40,7 @@ Upcoming release
 ----------------
 
 [Guava 19.0][] is the next release. A release candidate is currently available
-on Maven Central as version `19.0-rc2`, released September 17, 2015.
+on Maven Central as version `19.0-rc3`, released December 1, 2015.
 
 Snapshots
 ---------
