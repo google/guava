@@ -4205,6 +4205,7 @@ public final class Maps {
    *
    * @since 20.0
    */
+  @Beta
   @GwtIncompatible("NavigableMap")
   public static <K extends Comparable<? super K>, V> NavigableMap<K, V> subMap(
       NavigableMap<K, V> map, Range<K> range) {
