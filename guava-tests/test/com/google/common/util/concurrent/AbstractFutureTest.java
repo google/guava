@@ -249,6 +249,7 @@ public class AbstractFutureTest extends TestCase {
    * He did the bash, it caught on in a flash
    * He did the bash, he did the future bash
    */
+
   public void testFutureBash() {
     final CyclicBarrier barrier = new CyclicBarrier(
         6  // for the setter threads
