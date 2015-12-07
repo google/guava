@@ -162,7 +162,12 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Override public int hashCode() {
     return Sets.hashCodeImpl(this);
   }
-  
+
+  // This declaration is needed to make Set.iterator() and
+  // ImmutableCollection.iterator() appear consistent to javac's type inference.
+  @Override
+  public abstract UnmodifiableIterator<E> iterator();
+
   abstract static class Indexed<E> extends ImmutableSet<E> {
     abstract E get(int index);
 

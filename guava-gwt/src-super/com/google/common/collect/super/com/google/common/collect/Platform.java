@@ -22,6 +22,10 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.EntryTransformer;
 
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsType;
+
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Arrays;
@@ -51,10 +55,17 @@ final class Platform {
     return clone;
   }
 
-  private static native void resizeArray(Object array, int newSize) /*-{
-    array.length = newSize;
-  }-*/;
-  
+  private static void resizeArray(Object array, int newSize) {
+    ((NativeArray) array).setLength(newSize);
+  }
+
+  // TODO(user): Move this logic to a utility class.
+  @JsType(isNative = true, name = "Array", namespace = JsPackage.GLOBAL)
+  private interface NativeArray {
+    @JsProperty
+    void setLength(int length);
+  }
+
   /*
    * Regarding newSetForMap() and SetFromMap:
    *
@@ -62,7 +73,7 @@ final class Platform {
    * Expert Group and released to the public domain, as explained at
    * http://creativecommons.org/licenses/publicdomain
    */
-  
+
   static <E> Set<E> newSetFromMap(Map<E, Boolean> map) {
     return new SetFromMap<E>(map);
   }
@@ -144,7 +155,7 @@ final class Platform {
       SortedSet<E> unfiltered, Predicate<? super E> predicate) {
     return Sets.filterSortedIgnoreNavigable(unfiltered, predicate);
   }
-  
+
   static <K, V> SortedMap<K, V> mapsFilterSortedMap(
       SortedMap<K, V> unfiltered, Predicate<? super Map.Entry<K, V>> predicate) {
     return Maps.filterSortedIgnoreNavigable(unfiltered, predicate);
