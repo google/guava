@@ -68,6 +68,11 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
 
   /**
    * Returns the empty immutable sorted set.
+   *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link SortedSet}
+   * object for each call.
+   * </p>
    */
   public static <E> ImmutableSortedSet<E> of() {
     return (ImmutableSortedSet<E>) RegularImmutableSortedSet.NATURAL_EMPTY_SET;

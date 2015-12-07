@@ -52,7 +52,13 @@ import javax.annotation.Nullable;
 public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     implements SetMultimap<K, V> {
 
-  /** Returns the empty multimap. */
+  /** Returns the empty multimap.
+   *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link SetMultimap}
+   * object for each call.
+   * </p>
+   * */
   // Casting is safe because the multimap will never hold any elements.
   @SuppressWarnings("unchecked")
   public static <K, V> ImmutableSetMultimap<K, V> of() {

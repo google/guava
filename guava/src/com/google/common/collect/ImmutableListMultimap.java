@@ -45,7 +45,13 @@ import javax.annotation.Nullable;
 public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     implements ListMultimap<K, V> {
 
-  /** Returns the empty multimap. */
+  /** Returns the empty multimap.
+   *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link ListMultimap}
+   * object for each call.
+   * </p>
+   * */
   // Casting is safe because the multimap will never hold any elements.
   @SuppressWarnings("unchecked")
   public static <K, V> ImmutableListMultimap<K, V> of() {

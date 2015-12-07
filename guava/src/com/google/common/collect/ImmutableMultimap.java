@@ -68,7 +68,13 @@ import javax.annotation.Nullable;
 public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     implements Serializable {
 
-  /** Returns an empty multimap. */
+  /** Returns an empty multimap.
+   *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link Multimap}
+   * object for each call.
+   * </p>
+   * */
   public static <K, V> ImmutableMultimap<K, V> of() {
     return ImmutableListMultimap.of();
   }

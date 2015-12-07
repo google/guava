@@ -47,6 +47,11 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
 
   /**
    * Returns an empty immutable range map.
+   *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link RangeMap}
+   * object for each call.
+   * </p>
    */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of() {

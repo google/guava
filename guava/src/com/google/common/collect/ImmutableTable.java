@@ -42,7 +42,13 @@ import javax.annotation.Nullable;
 @GwtCompatible
 // TODO(gak): make serializable
 public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
-  /** Returns an empty immutable table. */
+  /** Returns an empty immutable table.
+   *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link Table}
+   * object for each call.
+   * </p>
+   * */
   @SuppressWarnings("unchecked")
   public static <R, C, V> ImmutableTable<R, C, V> of() {
     return (ImmutableTable<R, C, V>) SparseImmutableTable.EMPTY;

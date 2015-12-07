@@ -52,6 +52,11 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
   /**
    * Returns an empty immutable range set.
+   *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link RangeSet}
+   * object for each call.
+   * </p>
    */
   @SuppressWarnings("unchecked")
   public static <C extends Comparable> ImmutableRangeSet<C> of() {
@@ -60,6 +65,11 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
   /**
    * Returns an immutable range set containing the single range {@link Range#all()}.
+   *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link RangeSet}
+   * object for each call.
+   * </p>
    */
   @SuppressWarnings("unchecked")
   static <C extends Comparable> ImmutableRangeSet<C> all() {

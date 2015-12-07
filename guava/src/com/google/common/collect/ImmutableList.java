@@ -57,6 +57,11 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * Returns the empty immutable list. This set behaves and performs comparably
    * to {@link Collections#emptyList}, and is preferable mainly for consistency
    * and maintainability of your code.
+   *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link List}
+   * object for each call.
+   * </p>
    */
   // Casting to any type is safe because the list will never hold any elements.
   @SuppressWarnings("unchecked")

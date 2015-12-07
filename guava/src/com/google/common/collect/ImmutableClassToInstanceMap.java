@@ -41,6 +41,11 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
   /**
    * Returns an empty {@code ImmutableClassToInstanceMap}.
    *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link ClassToInstanceMap}
+   * object for each call.
+   * </p>
+   *
    * @since 19.0
    */
   @SuppressWarnings("unchecked")

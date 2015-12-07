@@ -35,6 +35,11 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
 
   /**
    * Returns the empty bimap.
+   *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link BiMap}
+   * object for each call.
+   * </p>
    */
   // Casting to any type is safe because the set will never hold any elements.
   @SuppressWarnings("unchecked")

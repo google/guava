@@ -78,6 +78,11 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
 
   /**
    * Returns the empty sorted map.
+   *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link SortedMap}
+   * object for each call.
+   * </p>
    */
   @SuppressWarnings("unchecked")
   // unsafe, comparator() returns a comparator on the specified type

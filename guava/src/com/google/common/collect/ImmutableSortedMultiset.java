@@ -53,6 +53,11 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
 
   /**
    * Returns the empty immutable sorted multiset.
+   *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link SortedMultiSet}
+   * object for each call.
+   * </p>
    */
   @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedMultiset<E> of() {

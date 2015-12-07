@@ -55,6 +55,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * Returns the empty map. This map behaves and performs comparably to
    * {@link Collections#emptyMap}, and is preferable mainly for consistency
    * and maintainability of your code.
+   *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link Map}
+   * object for each call.
+   * </p>
    */
   public static <K, V> ImmutableMap<K, V> of() {
     return ImmutableBiMap.of();

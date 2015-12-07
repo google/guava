@@ -53,6 +53,11 @@ import javax.annotation.Nullable;
 public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implements Multiset<E> {
   /**
    * Returns the empty immutable multiset.
+   *
+   * <p><b>Performance note:</b>
+   * Implementations of this method need not create a separate {@link Multiset}
+   * object for each call.
+   * </p>
    */
   @SuppressWarnings("unchecked") // all supported methods are covariant
   public static <E> ImmutableMultiset<E> of() {
