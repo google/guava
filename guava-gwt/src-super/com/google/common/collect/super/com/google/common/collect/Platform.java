@@ -24,6 +24,7 @@ import com.google.common.collect.Maps.EntryTransformer;
 
 import java.io.Serializable;
 import java.util.AbstractSet;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
@@ -45,8 +46,14 @@ import javax.annotation.Nullable;
 final class Platform {
 
   static <T> T[] newArray(T[] reference, int length) {
-    return GwtPlatform.newArray(reference, length);
+    T[] clone = Arrays.copyOf(reference, 0);
+    resizeArray(clone, length);
+    return clone;
   }
+
+  private static native void resizeArray(Object array, int newSize) /*-{
+    array.length = newSize;
+  }-*/;
   
   /*
    * Regarding newSetForMap() and SetFromMap:
