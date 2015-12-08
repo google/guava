@@ -1872,7 +1872,7 @@ public class TypeTokenTest extends TestCase {
   private static class Base implements BaseInterface {}
   private static class Sub extends Base {}
 
-  private static IterableSubject<?, Object, ?> makeUnmodifiable(Collection<?> actual) {
+  private static IterableSubject makeUnmodifiable(Collection<?> actual) {
     return assertThat(Collections.<Object>unmodifiableCollection(actual));
   }
 }
