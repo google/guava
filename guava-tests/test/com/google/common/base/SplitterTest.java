@@ -366,7 +366,7 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
-  @AndroidIncompatible // TODO(cpovirk): File Android bug.
+  @AndroidIncompatible // Bug in older versions of Android we test against, since fixed.
   public void testPatternSplitLookBehind() {
     String toSplit = ":foo::barbaz:";
     String regexPattern = "(?<=:)";
@@ -376,7 +376,7 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
-  @AndroidIncompatible // TODO(cpovirk): File Android bug.
+  @AndroidIncompatible // Bug in older versions of Android we test against, since fixed.
   public void testPatternSplitWordBoundary() {
     String string = "foo<bar>bletch";
     Iterable<String> words = Splitter.on(Pattern.compile("\\b")).split(string);
