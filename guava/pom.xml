@@ -102,12 +102,14 @@
             <source>1.7</source>
             <target>1.7</target>
             <fork>true</fork>
-            <!--  <annotationProcessors>
-                  <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
-                  </annotationProcessors>  -->
+            <annotationProcessors>
+              <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+            </annotationProcessors>
             <compilerArgs>
               <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
               <arg>-J-Xbootclasspath/p:${typeAnnotationsJavac}</arg>
+              <arg>-AuseSafeDefaultsForUnannotatedSourceCode</arg>
+              <arg>-Awarns</arg>
             </compilerArgs>
         </configuration>
       </plugin>
