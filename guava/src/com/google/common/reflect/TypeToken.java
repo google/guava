@@ -1167,7 +1167,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
     /** Collects all types to map, and returns the total depth from T up to Object. */
     private int collectTypes(K type, Map<? super K, Integer> map) {
-      Integer existing = map.get(this);
+      Integer existing = map.get(type);
       if (existing != null) {
         // short circuit: if set contains type it already contains its supertypes
         return existing;

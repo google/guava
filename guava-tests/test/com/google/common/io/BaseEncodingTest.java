@@ -394,6 +394,7 @@ public class BaseEncodingTest extends TestCase {
     assertFailsToDecode(encoding, cannotDecode, null);
   }
 
+  @SuppressWarnings("CheckReturnValue")
   private static void assertFailsToDecode(
       BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
     try {

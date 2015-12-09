@@ -1202,8 +1202,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
           public void run() {
             final V value;
             try {
-              // TODO(user): (Before Guava release), validate that this
-              // is the thing for IE.
               value = getUninterruptibly(future);
             } catch (ExecutionException e) {
               callback.onFailure(e.getCause());
