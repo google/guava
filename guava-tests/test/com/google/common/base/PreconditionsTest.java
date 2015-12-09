@@ -54,7 +54,6 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkArgument(false, new Message());
       fail("no exception thrown");
     } catch (IllegalArgumentException expected) {
-      //verifySimpleMessage(expected);
       assertThat(expected).hasMessage("A message");
     }
   }
