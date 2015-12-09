@@ -367,11 +367,26 @@ public class BigIntegerMathTest extends TestCase {
     }
   }
 
+  private static final BigInteger BAD_FOR_ANDROID_P = new BigInteger("-9223372036854775808");
+  private static final BigInteger BAD_FOR_ANDROID_Q = new BigInteger("-1");
+
+  private static final BigInteger BAD_FOR_GINGERBREAD_P = new BigInteger("-9223372036854775808");
+  private static final BigInteger BAD_FOR_GINGERBREAD_Q = new BigInteger("-4294967296");
+
   @GwtIncompatible("TODO")
-  @AndroidIncompatible // TODO(cpovirk): Problem with BigIntegerMath.divide on Android?
   public void testDivNonZeroExact() {
+    boolean isAndroid = System.getProperties().getProperty("java.runtime.name").contains("Android");
     for (BigInteger p : NONZERO_BIGINTEGER_CANDIDATES) {
       for (BigInteger q : NONZERO_BIGINTEGER_CANDIDATES) {
+        if (isAndroid && p.equals(BAD_FOR_ANDROID_P) && q.equals(BAD_FOR_ANDROID_Q)) {
+          // https://code.google.com/p/android/issues/detail?id=196555
+          continue;
+        }
+        if (isAndroid && p.equals(BAD_FOR_GINGERBREAD_P) && q.equals(BAD_FOR_GINGERBREAD_Q)) {
+          // Works fine under Marshmallow, so I haven't filed a bug.
+          continue;
+        }
+
         boolean dividesEvenly = p.remainder(q).equals(ZERO);
 
         try {
