@@ -341,7 +341,7 @@ public class LongMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
-  @AndroidIncompatible // TODO(cpovirk): Problem with LongMath.divide on Android?
+  @AndroidIncompatible // Bug in older versions of Android we test against, since fixed.
   public void testDivNonZeroExact() {
     for (long p : NONZERO_LONG_CANDIDATES) {
       for (long q : NONZERO_LONG_CANDIDATES) {
