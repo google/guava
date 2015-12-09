@@ -14,19 +14,17 @@
   <version>19.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
-  <url>https://github.com/typetools/guava</url>
+  <url>https://github.com/google/guava</url>
   <properties>
     <gpg.skip>true</gpg.skip>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>**/*Test.java</test.include>
     <truth.version>0.25</truth.version>
     <animal.sniffer.version>1.14</animal.sniffer.version>
-    <annotatedJdk>${org.checkerframework:jdk7:jar}</annotatedJdk>
-    <typeAnnotationsJavac>${org.checkerframework:compiler:jar}</typeAnnotationsJavac>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
-    <url>https://github.com/typetools/guava/issues</url>
+    <url>https://github.com/google/guava/issues</url>
   </issueManagement>
   <inceptionYear>2010</inceptionYear>
   <licenses>
@@ -40,9 +38,9 @@
     <maven>3.0.3</maven>
   </prerequisites>
   <scm>
-    <connection>scm:git:https://github.com/typetools/guava.git</connection>
-    <developerConnection>scm:git:git@github.com:typetools/guava.git</developerConnection>
-    <url>https://github.com/typetools/guava</url>
+    <connection>scm:git:https://github.com/google/guava.git</connection>
+    <developerConnection>scm:git:git@github.com:google/guava.git</developerConnection>
+    <url>https://github.com/google/guava</url>
   </scm>
   <developers>
     <developer>
@@ -60,7 +58,7 @@
   </developers>
   <ciManagement>
     <system>Travis CI</system>
-    <url>https://travis-ci.org/typetools/guava</url>
+    <url>https://travis-ci.org/google/guava</url>
   </ciManagement>
   <modules>
     <module>guava</module>
@@ -108,16 +106,8 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>2.3.2</version>
           <configuration>
-            <source>1.7</source>
-            <target>1.7</target>
-            <fork>true</fork>
-            <!--  <annotationProcessors>
-                  <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
-                  </annotationProcessors> -->
-            <compilerArgs>
-              <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
-              <arg>-J-Xbootclasspath/p:${typeAnnotationsJavac}</arg>
-            </compilerArgs>
+            <source>1.6</source>
+            <target>1.6</target>
           </configuration>
         </plugin>
         <plugin>
@@ -181,16 +171,8 @@
           </executions>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.3</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>properties</goal>
-              </goals>
-            </execution>
-          </executions>
+          <version>2.10</version>
         </plugin>
         <plugin>
           <artifactId>maven-antrun-plugin</artifactId>
@@ -275,26 +257,6 @@
             <artifactId>guava</artifactId>
           </exclusion>
         </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.checkerframework</groupId>
-        <artifactId>checker-qual</artifactId>
-        <version>1.9.8</version>
-      </dependency>
-      <dependency>
-        <groupId>org.checkerframework</groupId>
-        <artifactId>checker</artifactId>
-        <version>1.9.8</version>
-      </dependency>
-      <dependency>
-        <groupId>org.checkerframework</groupId>
-        <artifactId>compiler</artifactId>
-        <version>1.9.8</version>
-      </dependency>
-      <dependency>
-        <groupId>org.checkerframework</groupId>
-        <artifactId>jdk7</artifactId>
-        <version>1.9.8</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
