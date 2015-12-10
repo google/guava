@@ -374,6 +374,7 @@ public class BigIntegerMathTest extends TestCase {
   private static final BigInteger BAD_FOR_GINGERBREAD_Q = new BigInteger("-4294967296");
 
   @GwtIncompatible("TODO")
+  @AndroidIncompatible // slow
   public void testDivNonZeroExact() {
     boolean isAndroid = System.getProperties().getProperty("java.runtime.name").contains("Android");
     for (BigInteger p : NONZERO_BIGINTEGER_CANDIDATES) {
