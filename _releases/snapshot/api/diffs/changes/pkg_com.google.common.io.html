@@ -18,7 +18,7 @@ com.google.common.io
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/io/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/io/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
@@ -56,14 +56,14 @@ Package <A HREF="../../docs/com/google/common/io/package-summary.html" target="_
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="InputSupplier"></A>
-  <nobr><A HREF="../../../../18.0/api/docs/com/google/common/io/InputSupplier.html" target="_top"><tt><I>InputSupplier</I></tt></A></nobr>
+  <nobr><A HREF="../../../../19.0/api/docs/com/google/common/io/InputSupplier.html" target="_top"><tt><I>InputSupplier</I></tt></A></nobr>
   </TD>
   <TD VALIGN="TOP">A factory for readable streams of bytes or characters.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="OutputSupplier"></A>
-  <nobr><A HREF="../../../../18.0/api/docs/com/google/common/io/OutputSupplier.html" target="_top"><tt><I>OutputSupplier</I></tt></A></nobr>
+  <nobr><A HREF="../../../../19.0/api/docs/com/google/common/io/OutputSupplier.html" target="_top"><tt><I>OutputSupplier</I></tt></A></nobr>
   </TD>
   <TD VALIGN="TOP">A factory for writable streams of bytes or characters.</TD>
 </TR>
@@ -71,24 +71,32 @@ Package <A HREF="../../docs/com/google/common/io/package-summary.html" target="_
 &nbsp;
 <p>
 <a NAME="Changed"></a>
-<TABLE summary="Changed Classes" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TABLE summary="Changed Classes and Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Changed Classes</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Changed Classes and Interfaces</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="BaseEncoding"></A>
-  <nobr><A HREF="com.google.common.io.BaseEncoding.html">BaseEncoding</A></nobr>
+  <A NAME="ByteArrayDataInput"></A>
+  <nobr><A HREF="com.google.common.io.ByteArrayDataInput.html"><I>ByteArrayDataInput</I></A></nobr>
   </TD>
-  <TD VALIGN="TOP">A binary encoding scheme for reversibly translating between byte sequences and printable ASCII
- strings.</TD>
+  <TD VALIGN="TOP">An extension of {@code DataInput} for reading from in-memory byte arrays; its
+ methods offer identical functionality but do not throw <A HREF="../../docs/com/google/common/io/ByteArrayDataInput/IOException.html"><TT>IOException</TT></A>.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="ByteSource"></A>
-  <nobr><A HREF="com.google.common.io.ByteSource.html">ByteSource</A></nobr>
+  <A NAME="ByteArrayDataOutput"></A>
+  <nobr><A HREF="com.google.common.io.ByteArrayDataOutput.html"><I>ByteArrayDataOutput</I></A></nobr>
   </TD>
-  <TD VALIGN="TOP">A readable source of bytes, such as a file.</TD>
+  <TD VALIGN="TOP">An extension of {@code DataOutput} for writing to in-memory byte arrays; its
+ methods offer identical functionality but do not throw <A HREF="../../docs/com/google/common/io/ByteArrayDataOutput/IOException.html"><TT>IOException</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ByteProcessor"></A>
+  <nobr><A HREF="com.google.common.io.ByteProcessor.html"><I>ByteProcessor</I></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A callback interface to process bytes from a stream.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -96,6 +104,13 @@ Package <A HREF="../../docs/com/google/common/io/package-summary.html" target="_
   <nobr><A HREF="com.google.common.io.CharSource.html">CharSource</A></nobr>
   </TD>
   <TD VALIGN="TOP">A readable source of characters, such as a text file.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="LineProcessor"></A>
+  <nobr><A HREF="com.google.common.io.LineProcessor.html"><I>LineProcessor</I></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A callback to be used with the streaming {@code readLines} methods.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -106,7 +121,7 @@ Package <A HREF="../../docs/com/google/common/io/package-summary.html" target="_
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/io/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/io/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>

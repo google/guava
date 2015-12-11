@@ -18,7 +18,7 @@ com.google.common.hash.Hasher
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/Hasher.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/Hasher.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.hash.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,7 +30,7 @@ com.google.common.hash.Hasher
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.hash.BloomFilter.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.hash.HashFunction.html"><B>PREV CLASS</B></A>
 &nbsp;<A HREF="com.google.common.hash.Hashing.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
@@ -50,19 +50,160 @@ Interface com.google.common.hash.<A HREF="../../docs/com/google/common/hash/Hash
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
 <p>
-<a NAME="Added"></a>
-<TABLE summary="Added Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<a NAME="Changed"></a>
+<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Methods</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.hash.Hasher.hashCode_added()"></A>
-  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#hashCode()" target="_top"><tt>hashCode</tt></A>()</nobr>
+  <A NAME="com.google.common.hash.Hasher.hash_changed()"></A>
+  <nobr><code>HashCode</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#hash()" target="_top"><tt>hash</tt></A>()  </nobr>
   </TD>
-  <TD VALIGN="TOP">{@inheritDoc}
-
- </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD VALIGN="TOP">Computes a hash code based on the data that have been provided to this hasher.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.Hasher.hashCode_changed()"></A>
+  <nobr><code>int</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#hashCode()" target="_top"><tt>hashCode</tt></A>()  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD VALIGN="TOP">This returns {@link Object#hashCode()}; you almost certainly mean to call      {@code hash().asInt()}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.Hasher.putBoolean_changed(boolean)"></A>
+  <nobr><code>Hasher</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#putBoolean(boolean)" target="_top"><tt>putBoolean</tt></A>(<code>boolean</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD VALIGN="TOP">Equivalent to {@code putByte(b ?</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.Hasher.putByte_changed(byte)"></A>
+  <nobr><code>Hasher</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#putByte(byte)" target="_top"><tt>putByte</tt></A>(<code>byte</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.Hasher.putChar_changed(char)"></A>
+  <nobr><code>Hasher</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#putChar(char)" target="_top"><tt>putChar</tt></A>(<code>char</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.Hasher.putDouble_changed(double)"></A>
+  <nobr><code>Hasher</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#putDouble(double)" target="_top"><tt>putDouble</tt></A>(<code>double</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD VALIGN="TOP">Equivalent to {@code putLong(Double.doubleToRawLongBits(d))}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.Hasher.putFloat_changed(float)"></A>
+  <nobr><code>Hasher</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#putFloat(float)" target="_top"><tt>putFloat</tt></A>(<code>float</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD VALIGN="TOP">Equivalent to {@code putInt(Float.floatToRawIntBits(f))}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.Hasher.putInt_changed(int)"></A>
+  <nobr><code>Hasher</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#putInt(int)" target="_top"><tt>putInt</tt></A>(<code>int</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.Hasher.putLong_changed(long)"></A>
+  <nobr><code>Hasher</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#putLong(long)" target="_top"><tt>putLong</tt></A>(<code>long</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.Hasher.putObject_changed(T, com.google.common.hash.Funnel<? super T>)"></A>
+  <nobr><code>Hasher</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#putObject(T, com.google.common.hash.Funnel<? super T>)" target="_top"><tt>putObject</tt></A>(<code>T,</nobr> Funnel&lt;?<nobr>,</nobr> super<nobr>,</nobr> T&gt;<nobr><nobr></code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD VALIGN="TOP">A simple convenience for {@code funnel.funnel(object, this)}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.Hasher.putShort_changed(short)"></A>
+  <nobr><code>Hasher</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#putShort(short)" target="_top"><tt>putShort</tt></A>(<code>short</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.Hasher.putString_changed(java.lang.CharSequence, java.nio.charset.Charset)"></A>
+  <nobr><code>Hasher</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#putString(java.lang.CharSequence, java.nio.charset.Charset)" target="_top"><tt>putString</tt></A>(<code>CharSequence,</nobr> Charset<nobr><nobr></code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD VALIGN="TOP">Equivalent to {@code putBytes(charSequence.toString().getBytes(charset))}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.Hasher.putUnencodedChars_changed(java.lang.CharSequence)"></A>
+  <nobr><code>Hasher</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#putUnencodedChars(java.lang.CharSequence)" target="_top"><tt>putUnencodedChars</tt></A>(<code>CharSequence</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD VALIGN="TOP">Equivalent to processing each {@code char} value in the {@code CharSequence}, in order.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.Hasher.putBytes_changed(byte[])"></A>
+  <nobr><code>Hasher</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#putBytes(byte[])" target="_top"><tt>putBytes</tt></A>(<code>byte[]</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.hash.Hasher.putBytes_changed(byte[], int, int)"></A>
+  <nobr><code>Hasher</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hasher.html#putBytes(byte[], int, int)" target="_top"><tt>putBytes</tt></A>(<code>byte[],</nobr> int<nobr>,</nobr> int<nobr><nobr></code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD>&nbsp;</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -74,7 +215,7 @@ Interface com.google.common.hash.<A HREF="../../docs/com/google/common/hash/Hash
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/Hasher.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/Hasher.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.hash.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -86,7 +227,7 @@ Interface com.google.common.hash.<A HREF="../../docs/com/google/common/hash/Hash
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.hash.BloomFilter.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.hash.HashFunction.html"><B>PREV CLASS</B></A>
 &nbsp;<A HREF="com.google.common.hash.Hashing.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;

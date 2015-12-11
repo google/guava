@@ -18,7 +18,7 @@ com.google.common.collect.MapConstraint
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/MapConstraint.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/MapConstraint.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.collect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,12 +30,16 @@ com.google.common.collect.MapConstraint
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.collect.Lists.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.collect.MapConstraints.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.ListMultimap.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.MapDifference.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.collect.MapConstraint.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
-<TD BGCOLOR="0xFFFFFF" CLASS="NavBarCell3"></TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
+CONSTRUCTORS&nbsp;|&nbsp;
+<a href="#methods">METHODS</a>&nbsp;|&nbsp;
+FIELDS
+  </FONT></TD>
 </TR>
 </TABLE>
 <HR>
@@ -43,9 +47,38 @@ com.google.common.collect.MapConstraint
 <H2>
 Interface com.google.common.collect.<A HREF="../../docs/com/google/common/collect/MapConstraint.html" target="_top"><tt>MapConstraint</tt></A>
 </H2>
-<p><font size="+1"><b>Now deprecated</b>.<br></font>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
+<p>
+<a NAME="Changed"></a>
+<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.MapConstraint.checkKeyValue_changed(K, V)"></A>
+  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/MapConstraint.html#checkKeyValue(K, V)" target="_top"><tt>checkKeyValue</tt></A>(<code>K,</nobr> V<nobr><nobr></code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD VALIGN="TOP">Throws a suitable {@code RuntimeException} if the specified key or value is
+ illegal.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.MapConstraint.toString_changed()"></A>
+  <nobr><code>String</code>&nbsp;<A HREF="../../docs/com/google/common/collect/MapConstraint.html#toString()" target="_top"><tt>toString</tt></A>()  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD VALIGN="TOP">Returns a brief human readable description of this constraint, such as
+ "Not null".</TD>
+</TR>
+</TABLE>
+&nbsp;
 <a NAME="fields"></a>
 <HR>
 <!-- Start of nav bar -->
@@ -54,7 +87,7 @@ Interface com.google.common.collect.<A HREF="../../docs/com/google/common/collec
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/MapConstraint.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/MapConstraint.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.collect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -66,8 +99,8 @@ Interface com.google.common.collect.<A HREF="../../docs/com/google/common/collec
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.collect.Lists.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.collect.MapConstraints.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.ListMultimap.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.MapDifference.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.collect.MapConstraint.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

@@ -18,7 +18,7 @@ com.google.common.hash.Hashing
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/Hashing.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/Hashing.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.hash.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -31,7 +31,7 @@ com.google.common.hash.Hashing
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<A HREF="com.google.common.hash.Hasher.html"><B>PREV CLASS</B></A>
-&nbsp;<B>NEXT CLASS</B>&nbsp;
+&nbsp;<A HREF="com.google.common.hash.PrimitiveSink.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.hash.Hashing.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -54,22 +54,6 @@ Class com.google.common.hash.<A HREF="../../docs/com/google/common/hash/Hashing.
 <TABLE summary="Added Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
   <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Methods</B></FONT></TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.hash.Hashing.concatenating_added(com.google.common.hash.HashFunction, com.google.common.hash.HashFunction, com.google.common.hash.HashFunction[])"></A>
-  <nobr><code>HashFunction</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hashing.html#concatenating(com.google.common.hash.HashFunction, com.google.common.hash.HashFunction, com.google.common.hash.HashFunction[])" target="_top"><tt>concatenating</tt></A>(<code>HashFunction,</nobr> HashFunction<nobr>,</nobr> HashFunction[]<nobr><nobr></code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Returns a hash function which computes its hash code by concatenating the hash codes of the
- underlying hash functions together.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.hash.Hashing.concatenating_added(java.lang.Iterable<com.google.common.hash.HashFunction>)"></A>
-  <nobr><code>HashFunction</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hashing.html#concatenating(java.lang.Iterable<com.google.common.hash.HashFunction>)" target="_top"><tt>concatenating</tt></A>(<code>Iterable&lt;HashFunction&gt;</code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Returns a hash function which computes its hash code by concatenating the hash codes of the
- underlying hash functions together.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -146,14 +130,6 @@ Class com.google.common.hash.<A HREF="../../docs/com/google/common/hash/Hashing.
   <TD VALIGN="TOP">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
  the SHA-512 (512 hash bits) hash function and the given secret key.</TD>
 </TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.hash.Hashing.sha384_added()"></A>
-  <nobr><code>HashFunction</code>&nbsp;<A HREF="../../docs/com/google/common/hash/Hashing.html#sha384()" target="_top"><tt>sha384</tt></A>()</nobr>
-  </TD>
-  <TD VALIGN="TOP">Returns a hash function implementing the SHA-384 algorithm (384 hash bits) by delegating to
- the SHA-384 <A HREF="../../docs/MessageDigest.html"><TT>MessageDigest</TT></A>.</TD>
-</TR>
 </TABLE>
 &nbsp;
 <a NAME="fields"></a>
@@ -164,7 +140,7 @@ Class com.google.common.hash.<A HREF="../../docs/com/google/common/hash/Hashing.
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/Hashing.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/Hashing.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.hash.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -177,7 +153,7 @@ Class com.google.common.hash.<A HREF="../../docs/com/google/common/hash/Hashing.
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<A HREF="com.google.common.hash.Hasher.html"><B>PREV CLASS</B></A>
-&nbsp;<B>NEXT CLASS</B>&nbsp;
+&nbsp;<A HREF="com.google.common.hash.PrimitiveSink.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.hash.Hashing.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

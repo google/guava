@@ -18,7 +18,7 @@ com.google.common.hash
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
@@ -55,10 +55,18 @@ Package <A HREF="../../docs/com/google/common/hash/package-summary.html" target=
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="BloomFilter"></A>
-  <nobr><A HREF="com.google.common.hash.BloomFilter.html">BloomFilter</A></nobr>
+  <A NAME="Funnel"></A>
+  <nobr><A HREF="com.google.common.hash.Funnel.html"><I>Funnel</I></A></nobr>
   </TD>
-  <TD VALIGN="TOP">A Bloom filter for instances of {@code T}.</TD>
+  <TD VALIGN="TOP">An object which can send data from an object of type {@code T} into a {@code PrimitiveSink}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="HashFunction"></A>
+  <nobr><A HREF="com.google.common.hash.HashFunction.html"><I>HashFunction</I></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A hash function is a collision-averse pure function that maps an arbitrary block of
+ data to a number called a <i>hash code</i>.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -75,6 +83,13 @@ Package <A HREF="../../docs/com/google/common/hash/package-summary.html" target=
   <TD VALIGN="TOP">Static methods to obtain <A HREF="../../docs/com/google/common/hash/Hashing/HashFunction.html"><TT>HashFunction</TT></A> instances, and other static hashing-related
  utilities.</TD>
 </TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="PrimitiveSink"></A>
+  <nobr><A HREF="com.google.common.hash.PrimitiveSink.html"><I>PrimitiveSink</I></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">An object which can receive a stream of primitive values.</TD>
+</TR>
 </TABLE>
 &nbsp;
 <HR>
@@ -84,7 +99,7 @@ Package <A HREF="../../docs/com/google/common/hash/package-summary.html" target=
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/hash/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>

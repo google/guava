@@ -4,6 +4,7 @@ com.google.common.cache
 com.google.common.collect
 com.google.common.escape
 com.google.common.eventbus
+com.google.common.graph
 com.google.common.hash
 com.google.common.html
 com.google.common.io
