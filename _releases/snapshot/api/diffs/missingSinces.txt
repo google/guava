@@ -1,3 +1,13 @@
+OK: com.google.common.math.LinearTransformation Class
+MISSING @SINCE TAG: com.google.common.math.LinearTransformation.LinearTransformationBuilder Class
+OK: com.google.common.math.PairedStats Class
+OK: com.google.common.math.PairedStatsAccumulator Class
+OK: com.google.common.math.Quantiles Class
+MISSING @SINCE TAG: com.google.common.math.Quantiles.Scale Class
+MISSING @SINCE TAG: com.google.common.math.Quantiles.ScaleAndIndex Class
+MISSING @SINCE TAG: com.google.common.math.Quantiles.ScaleAndIndexes Class
+OK: com.google.common.math.Stats Class
+OK: com.google.common.math.StatsAccumulator Class
 OK: com.google.common.io.CharSource Method asByteSource(java.nio.charset.Charset)
 OK: com.google.common.hash.Hashing Method farmHashFingerprint64()
 OK: com.google.common.collect.FluentIterable Method from(E[])
