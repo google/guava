@@ -376,13 +376,23 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(new byte[] {0, 97}, out.toByteArray());
   }
 
-  @AndroidIncompatible // TODO(cpovirk): Zero is found at beginning instead of end. Why?
+  // Hardcoded because of Android problems. See testUtf16Expected.
+  private static final byte[] utf16ExpectedWithBom =
+      new byte[] {-2, -1, 0, 114, 0, -55, 0, 115, 0, 117, 0, 109, 0, -55};
+
   public void testNewDataOutput_writeChars() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeChars("r\u00C9sum\u00C9");
     // need to remove byte order mark before comparing
-    byte[] expected = Arrays.copyOfRange("r\u00C9sum\u00C9".getBytes(Charsets.UTF_16), 2, 14);
+    byte[] expected = Arrays.copyOfRange(utf16ExpectedWithBom, 2, 14);
     assertEquals(expected, out.toByteArray());
+  }
+
+  @AndroidIncompatible // https://code.google.com/p/android/issues/detail?id=196848
+  public void testUtf16Expected() {
+    byte[] hardcodedExpected = utf16ExpectedWithBom;
+    byte[] computedExpected = "r\u00C9sum\u00C9".getBytes(Charsets.UTF_16);
+    assertEquals(hardcodedExpected, computedExpected);
   }
 
   public void testNewDataOutput_writeUTF() {
