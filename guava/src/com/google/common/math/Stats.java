@@ -482,40 +482,75 @@ public final class Stats implements Serializable {
   /**
    * The size of byte array representaion in bytes.
    */
-  public static final int BYTES = (Long.SIZE + Double.SIZE * 4) / Byte.SIZE;
+  static final int BYTES = (Long.SIZE + Double.SIZE * 4) / Byte.SIZE;
 
   /**
-   * Gets a {@link #BYTES}-long byte array representation of this instance.
+   * Gets a byte array representation of this instance.
    *
-   * <p>NOTE: NO guarantees are made regarding stability of the representation between versions.
+   * <p><b>Note:</b> No guarantees are made regarding stability of the representation between
+   * versions.
    */
   public byte[] toByteArray() {
-    return ByteBuffer.allocate(BYTES).order(ByteOrder.LITTLE_ENDIAN)
-        .putLong(count)
-        .putDouble(mean)
-        .putDouble(sumOfSquaresOfDeltas)
-        .putDouble(min)
-        .putDouble(max)
-        .array();
+    ByteBuffer buff = ByteBuffer.allocate(BYTES).order(ByteOrder.LITTLE_ENDIAN);
+    writeTo(buff);
+    return buff.array();
   }
 
   /**
-   * Creates a Stats instance from the given byte representation. The array must be at least
-   * {@link #BYTES} long, and only the first {@link #BYTES} bytes will be used.
+   * Writes to the given {@link ByteBuffer} a byte representation of this instance.
    *
-   * <p>NOTE: NO guarantees are made regarding stability of the representation between versions.
+   * <p><b>Note:</b> No guarantees are made regarding stability of the representation between
+   * versions.
+   *
+   * @param buffer A {@link ByteBuffer} with at least BYTES {@link ByteBuffer#remaining}, ordered as
+   *     {@link ByteOrder#LITTLE_ENDIAN}, to which a BYTES-long byte representation of this instance
+   *     is written. In the process increases the position of {@link ByteBuffer} by BYTES.
+   */
+  void writeTo(ByteBuffer buffer) {
+    checkNotNull(buffer);
+    checkArgument(buffer.remaining() >= BYTES,
+        "Expected at least Stats.BYTES = %s remaining , got %s", BYTES, buffer.remaining());
+    buffer.putLong(count)
+        .putDouble(mean)
+        .putDouble(sumOfSquaresOfDeltas)
+        .putDouble(min)
+        .putDouble(max);
+  }
+
+  /**
+   * Creates a Stats instance from the given byte representation which was obtained by
+   * {@link #toByteArray}.
+   *
+   * <p><b>Note:</b> No guarantees are made regarding stability of the representation between
+   * versions.
    */
   public static Stats fromByteArray(byte[] byteArray) {
     checkNotNull(byteArray);
-    checkArgument(byteArray.length >= BYTES,
-        "Expected at least Stats.BYTES = %s, got %s", BYTES, byteArray.length);
-    ByteBuffer buff = ByteBuffer.wrap(byteArray).order(ByteOrder.LITTLE_ENDIAN);
+    checkArgument(byteArray.length == BYTES,
+        "Expected Stats.BYTES = %s remaining , got %s", BYTES, byteArray.length);
+    return readFrom(ByteBuffer.wrap(byteArray).order(ByteOrder.LITTLE_ENDIAN));
+  }
+
+  /**
+   * Creates a Stats instance from the byte representation read from the given {@link ByteBuffer}.
+   *
+   * <p><b>Note:</b> No guarantees are made regarding stability of the representation between
+   * versions.
+   *
+   * @param buffer A {@link ByteBuffer} with at least BYTES {@link ByteBuffer#remaining}, ordered as
+   *     {@link ByteOrder#LITTLE_ENDIAN}, from which a BYTES-long byte representation of this
+   *     instance is read. In the process increases the position of {@link ByteBuffer} by BYTES.
+   */
+  static Stats readFrom(ByteBuffer buffer) {
+    checkNotNull(buffer);
+    checkArgument(buffer.remaining() >= BYTES,
+        "Expected at least Stats.BYTES = %s remaining , got %s", BYTES, buffer.remaining());
     return new Stats(
-        buff.getLong(),
-        buff.getDouble(),
-        buff.getDouble(),
-        buff.getDouble(),
-        buff.getDouble());
+        buffer.getLong(),
+        buffer.getDouble(),
+        buffer.getDouble(),
+        buffer.getDouble(),
+        buffer.getDouble());
   }
 
   private static final long serialVersionUID = 0;

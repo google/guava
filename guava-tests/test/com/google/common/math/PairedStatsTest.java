@@ -18,6 +18,7 @@ package com.google.common.math;
 
 import static com.google.common.math.StatsTesting.ALLOWED_ERROR;
 import static com.google.common.math.StatsTesting.ALL_MANY_VALUES;
+import static com.google.common.math.StatsTesting.ALL_PAIRED_STATS;
 import static com.google.common.math.StatsTesting.CONSTANT_VALUES_PAIRED_STATS;
 import static com.google.common.math.StatsTesting.DUPLICATE_MANY_VALUES_PAIRED_STATS;
 import static com.google.common.math.StatsTesting.EMPTY_PAIRED_STATS;
@@ -53,6 +54,9 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  * Tests for {@link PairedStats}. This tests instances created by
@@ -276,5 +280,57 @@ public class PairedStatsTest extends TestCase {
 
   private PairedStats createSingleStats(double x, double y) {
     return createPairedStatsOf(ImmutableList.of(x), ImmutableList.of(y));
+  }
+
+  public void testToByteArrayAndFromByteArrayRoundTrip() {
+    for (PairedStats pairedStats : ALL_PAIRED_STATS) {
+      byte[] pairedStatsByteArray = pairedStats.toByteArray();
+
+      // Round trip to byte array and back
+      assertThat(PairedStats.fromByteArray(pairedStatsByteArray)).isEqualTo(pairedStats);
+    }
+  }
+
+  public void testFromByteArray_withNullInputThrowsNullPointerException() {
+    try {
+      PairedStats.fromByteArray(null);
+      fail("Expected NullPointerException");
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testFromByteArray_withEmptyArrayInputThrowsIllegalArgumentException() {
+   try {
+      PairedStats.fromByteArray(new byte[0]);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testFromByteArray_withTooLongArrayInputThrowsIllegalArgumentException() {
+    byte[] buffer = MANY_VALUES_PAIRED_STATS.toByteArray();
+    byte[] tooLongByteArray = ByteBuffer.allocate(buffer.length + 2)
+        .order(ByteOrder.LITTLE_ENDIAN)
+        .put(buffer)
+        .putChar('.')
+        .array();
+      try {
+        PairedStats.fromByteArray(tooLongByteArray);
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+      }
+  }
+
+  public void testFromByteArrayWithTooShortArrayInputThrowsIllegalArgumentException() {
+    byte[] buffer = MANY_VALUES_PAIRED_STATS.toByteArray();
+    byte[] tooShortByteArray = ByteBuffer.allocate(buffer.length - 1)
+        .order(ByteOrder.LITTLE_ENDIAN)
+        .put(buffer, 0, buffer.length - 1)
+        .array();
+    try {
+      PairedStats.fromByteArray(tooShortByteArray);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
   }
 }

@@ -16,6 +16,8 @@
 
 package com.google.common.math;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.lang.Double.NaN;
 import static java.lang.Double.doubleToLongBits;
@@ -26,6 +28,8 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import java.io.Serializable;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import javax.annotation.Nullable;
 
@@ -260,6 +264,45 @@ public final class PairedStats implements Serializable {
       return -1.0;
     }
     return value;
+  }
+
+  // Serialization helpers
+
+  /**
+   * The size of byte array representaion in bytes.
+   */
+  private static final int BYTES = Stats.BYTES * 2 + Double.SIZE / Byte.SIZE;
+
+  /**
+   * Gets a byte array representation of this instance.
+   *
+   * <p><b>Note:</b> No guarantees are made regarding stability of the representation between
+   * versions.
+   */
+  public byte[] toByteArray() {
+    ByteBuffer buffer = ByteBuffer.allocate(BYTES).order(ByteOrder.LITTLE_ENDIAN);
+    xStats.writeTo(buffer);
+    yStats.writeTo(buffer);
+    buffer.putDouble(sumOfProductsOfDeltas);
+    return buffer.array();
+  }
+
+  /**
+   * Creates a {@link PairedStats} instance from the given byte representation which was obtained by
+   * {@link #toByteArray}.
+   *
+   * <p><b>Note:</b> No guarantees are made regarding stability of the representation between
+   * versions.
+   */
+  public static PairedStats fromByteArray(byte[] byteArray) {
+    checkNotNull(byteArray);
+    checkArgument(byteArray.length == BYTES,
+        "Expected PairedStats.BYTES = %s, got %s", BYTES, byteArray.length);
+    ByteBuffer buffer = ByteBuffer.wrap(byteArray).order(ByteOrder.LITTLE_ENDIAN);
+    Stats xStats = Stats.readFrom(buffer);
+    Stats yStats = Stats.readFrom(buffer);
+    double sumOfProductsOfDeltas = buffer.getDouble();
+    return new PairedStats(xStats, yStats, sumOfProductsOfDeltas);
   }
 
   private static final long serialVersionUID = 0;

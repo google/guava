@@ -79,6 +79,7 @@ import com.google.common.testing.SerializableTester;
 import junit.framework.TestCase;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  * Tests for {@link Stats}. This tests instances created by both {@link Stats#of} and
@@ -549,9 +550,6 @@ public class StatsTest extends TestCase {
     for (Stats stats : ALL_STATS) {
       byte[] statsByteArray = stats.toByteArray();
 
-      // Stats.BYTES fits resulting array length
-      assertThat(statsByteArray.length).isEqualTo(Stats.BYTES);
-
       // Round trip to byte array and back
       assertThat(Stats.fromByteArray(statsByteArray)).isEqualTo(stats);
     }
@@ -573,19 +571,25 @@ public class StatsTest extends TestCase {
     }
   }
 
-  public void testFromByteArray_withTooLongArrayInputToIsParsedSuccesfuly() {
-    byte[] tooLongByteArray = ByteBuffer.allocate(Stats.BYTES + 2)
-        .put(MANY_VALUES_STATS_VARARGS.toByteArray()).putChar('.').array();
-    assertThat(Stats.fromByteArray(tooLongByteArray)).isEqualTo(MANY_VALUES_STATS_VARARGS);
+  public void testFromByteArray_withTooLongArrayInputThrowsIllegalArgumentException() {
+    byte[] buffer = MANY_VALUES_STATS_VARARGS.toByteArray();
+    byte[] tooLongByteArray = ByteBuffer.allocate(buffer.length + 2).order(ByteOrder.LITTLE_ENDIAN)
+        .put(buffer).putChar('.').array();
+    try {
+      Stats.fromByteArray(tooLongByteArray);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testFromByteArrayWithTooShortArrayInputThrowsIllegalArgumentException() {
-      byte[] tooShortByteArray = ByteBuffer.allocate(Stats.BYTES - 1)
-          .put(MANY_VALUES_STATS_VARARGS.toByteArray(), 0, Stats.BYTES - 1).array();
-      try {
-        Stats.fromByteArray(tooShortByteArray);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {
-      }
+    byte[] buffer = MANY_VALUES_STATS_VARARGS.toByteArray();
+    byte[] tooShortByteArray = ByteBuffer.allocate(buffer.length - 1).order(ByteOrder.LITTLE_ENDIAN)
+        .put(buffer, 0, Stats.BYTES - 1).array();
+    try {
+      Stats.fromByteArray(tooShortByteArray);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
   }
 }

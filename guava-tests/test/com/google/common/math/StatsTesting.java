@@ -300,6 +300,16 @@ class StatsTesting {
     CONSTANT_VALUES_PAIRED_STATS = accumulator.snapshot();
   }
 
+  static final List<PairedStats> ALL_PAIRED_STATS = ImmutableList.of(
+      EMPTY_PAIRED_STATS,
+      ONE_VALUE_PAIRED_STATS,
+      TWO_VALUES_PAIRED_STATS,
+      MANY_VALUES_PAIRED_STATS,
+      DUPLICATE_MANY_VALUES_PAIRED_STATS,
+      HORIZONTAL_VALUES_PAIRED_STATS,
+      VERTICAL_VALUES_PAIRED_STATS,
+      CONSTANT_VALUES_PAIRED_STATS);
+
   // Helper methods:
 
   static void assertStatsApproxEqual(
