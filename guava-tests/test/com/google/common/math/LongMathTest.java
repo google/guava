@@ -527,10 +527,21 @@ public class LongMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
-  @AndroidIncompatible // TODO(cpovirk): Problem with LongMath.checkedMultiply on Android?
+  @AndroidIncompatible // slow
   public void testCheckedMultiply() {
+    boolean isAndroid = System.getProperties().getProperty("java.runtime.name").contains("Android");
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {
+        if (isAndroid && a == -4294967296L && b == 2147483648L) {
+          /*
+           * Bug in older versions of Android we test against, since fixed: -9223372036854775808L /
+           * -4294967296L = -9223372036854775808L!
+           *
+           * To be clear, this bug affects not the test's computation of the expected result but the
+           * _actual prod code_. But it probably affects only unusual cases.
+           */
+          continue;
+        }
         BigInteger expectedResult = valueOf(a).multiply(valueOf(b));
         boolean expectedSuccess = fitsInLong(expectedResult);
         try {
