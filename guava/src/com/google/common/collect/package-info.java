@@ -17,7 +17,7 @@
 /**
  * This package contains generic collection interfaces and implementations, and
  * other utilities for working with collections. It is a part of the open-source
- * <a href="http://guava-libraries.googlecode.com">Guava libraries</a>.
+ * <a href="http://github.com/google/guava">Guava</a> library.
  *
  * <h2>Collection Types</h2>
  *

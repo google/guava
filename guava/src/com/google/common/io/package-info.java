@@ -26,7 +26,7 @@
  * provide many convenience methods that handle both opening and closing streams for you.
  *
  * <p>This package is a part of the open-source
- * <a href="http://guava-libraries.googlecode.com">Guava libraries</a>. For more information on
+ * <a href="http://github.com/google/guava">Guava</a> library. For more information on
  * Sources and Sinks as well as other features of this package, see
  * <a href="https://github.com/google/guava/wiki/IOExplained">I/O Explained</a> on the
  * Guava wiki.

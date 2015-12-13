@@ -18,7 +18,7 @@
  * Arithmetic functions operating on primitive values and {@link java.math.BigInteger} instances.
  *
  * <p>This package is a part of the open-source
- * <a href="http://guava-libraries.googlecode.com">Guava libraries</a>.
+ * <a href="http://github.com/google/guava">Guava</a> library.
  * 
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/MathExplained">

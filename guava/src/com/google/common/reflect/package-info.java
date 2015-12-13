@@ -17,7 +17,7 @@
 /**
  * This package contains utilities to work with Java reflection.
  * It is a part of the open-source
- * <a href="http://guava-libraries.googlecode.com">Guava libraries</a>.
+ * <a href="http://github.com/google/guava">Guava</a> library.
  */
 @javax.annotation.ParametersAreNonnullByDefault
 package com.google.common.reflect;
