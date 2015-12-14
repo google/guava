@@ -1988,10 +1988,6 @@
 <dd>
 <div class="block">A callback interface to process bytes from a stream.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/math/Stats.html#BYTES">BYTES</a></span> - Static variable in class com.google.common.math.<a href="./com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a></dt>
-<dd>
-<div class="block">The size of byte array representaion in bytes.</div>
-</dd>
 <dt><a href="./com/google/common/primitives/Bytes.html" title="class in com.google.common.primitives"><span class="strong">Bytes</span></a> - Class in <a href="./com/google/common/primitives/package-summary.html">com.google.common.primitives</a></dt>
 <dd>
 <div class="block">Static utility methods pertaining to <code>byte</code> primitives, that are not
@@ -2698,7 +2694,9 @@
  (and thus be aware of each other).</div>
 </dd>
 <dt><a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a> - package com.google.common.graph</dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">An API for representing graph (node and edge) data.</div>
+</dd>
 <dt><a href="./com/google/common/hash/package-summary.html">com.google.common.hash</a> - package com.google.common.hash</dt>
 <dd>
 <div class="block">Hash functions and related structures.</div>
@@ -6461,9 +6459,15 @@
 <dd>
 <div class="block">Returns <a href="./com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> of <code>constructor</code>.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/math/PairedStats.html#fromByteArray(byte[])">fromByteArray(byte[])</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a></dt>
+<dd>
+<div class="block">Creates a <a href="./com/google/common/math/PairedStats.html" title="class in com.google.common.math"><code>PairedStats</code></a> instance from the given byte representation which was obtained by
+ <a href="./com/google/common/math/PairedStats.html#toByteArray()"><code>PairedStats.toByteArray()</code></a>.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/math/Stats.html#fromByteArray(byte[])">fromByteArray(byte[])</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a></dt>
 <dd>
-<div class="block">Creates a Stats instance from the given byte representation.</div>
+<div class="block">Creates a Stats instance from the given byte representation which was obtained by
+ <a href="./com/google/common/math/Stats.html#toByteArray()"><code>Stats.toByteArray()</code></a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/primitives/Chars.html#fromByteArray(byte[])">fromByteArray(byte[])</a></span> - Static method in class com.google.common.primitives.<a href="./com/google/common/primitives/Chars.html" title="class in com.google.common.primitives">Chars</a></dt>
 <dd>
@@ -15444,9 +15448,13 @@
 <dd>
 <div class="block">Reads all bytes from a URL into a byte array.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/math/PairedStats.html#toByteArray()">toByteArray()</a></span> - Method in class com.google.common.math.<a href="./com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a></dt>
+<dd>
+<div class="block">Gets a byte array representation of this instance.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/math/Stats.html#toByteArray()">toByteArray()</a></span> - Method in class com.google.common.math.<a href="./com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a></dt>
 <dd>
-<div class="block">Gets a <a href="./com/google/common/math/Stats.html#BYTES"><code>Stats.BYTES</code></a>-long byte array representation of this instance.</div>
+<div class="block">Gets a byte array representation of this instance.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/primitives/Chars.html#toByteArray(char)">toByteArray(char)</a></span> - Static method in class com.google.common.primitives.<a href="./com/google/common/primitives/Chars.html" title="class in com.google.common.primitives">Chars</a></dt>
 <dd>

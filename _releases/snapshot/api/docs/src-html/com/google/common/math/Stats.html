@@ -490,44 +490,79 @@
 <span class="sourceLineNo">482</span>  /**<a name="line.482"></a>
 <span class="sourceLineNo">483</span>   * The size of byte array representaion in bytes.<a name="line.483"></a>
 <span class="sourceLineNo">484</span>   */<a name="line.484"></a>
-<span class="sourceLineNo">485</span>  public static final int BYTES = (Long.SIZE + Double.SIZE * 4) / Byte.SIZE;<a name="line.485"></a>
+<span class="sourceLineNo">485</span>  static final int BYTES = (Long.SIZE + Double.SIZE * 4) / Byte.SIZE;<a name="line.485"></a>
 <span class="sourceLineNo">486</span><a name="line.486"></a>
 <span class="sourceLineNo">487</span>  /**<a name="line.487"></a>
-<span class="sourceLineNo">488</span>   * Gets a {@link #BYTES}-long byte array representation of this instance.<a name="line.488"></a>
+<span class="sourceLineNo">488</span>   * Gets a byte array representation of this instance.<a name="line.488"></a>
 <span class="sourceLineNo">489</span>   *<a name="line.489"></a>
-<span class="sourceLineNo">490</span>   * &lt;p&gt;NOTE: NO guarantees are made regarding stability of the representation between versions.<a name="line.490"></a>
-<span class="sourceLineNo">491</span>   */<a name="line.491"></a>
-<span class="sourceLineNo">492</span>  public byte[] toByteArray() {<a name="line.492"></a>
-<span class="sourceLineNo">493</span>    return ByteBuffer.allocate(BYTES).order(ByteOrder.LITTLE_ENDIAN)<a name="line.493"></a>
-<span class="sourceLineNo">494</span>        .putLong(count)<a name="line.494"></a>
-<span class="sourceLineNo">495</span>        .putDouble(mean)<a name="line.495"></a>
-<span class="sourceLineNo">496</span>        .putDouble(sumOfSquaresOfDeltas)<a name="line.496"></a>
-<span class="sourceLineNo">497</span>        .putDouble(min)<a name="line.497"></a>
-<span class="sourceLineNo">498</span>        .putDouble(max)<a name="line.498"></a>
-<span class="sourceLineNo">499</span>        .array();<a name="line.499"></a>
-<span class="sourceLineNo">500</span>  }<a name="line.500"></a>
-<span class="sourceLineNo">501</span><a name="line.501"></a>
-<span class="sourceLineNo">502</span>  /**<a name="line.502"></a>
-<span class="sourceLineNo">503</span>   * Creates a Stats instance from the given byte representation. The array must be at least<a name="line.503"></a>
-<span class="sourceLineNo">504</span>   * {@link #BYTES} long, and only the first {@link #BYTES} bytes will be used.<a name="line.504"></a>
-<span class="sourceLineNo">505</span>   *<a name="line.505"></a>
-<span class="sourceLineNo">506</span>   * &lt;p&gt;NOTE: NO guarantees are made regarding stability of the representation between versions.<a name="line.506"></a>
-<span class="sourceLineNo">507</span>   */<a name="line.507"></a>
-<span class="sourceLineNo">508</span>  public static Stats fromByteArray(byte[] byteArray) {<a name="line.508"></a>
-<span class="sourceLineNo">509</span>    checkNotNull(byteArray);<a name="line.509"></a>
-<span class="sourceLineNo">510</span>    checkArgument(byteArray.length &gt;= BYTES,<a name="line.510"></a>
-<span class="sourceLineNo">511</span>        "Expected at least Stats.BYTES = %s, got %s", BYTES, byteArray.length);<a name="line.511"></a>
-<span class="sourceLineNo">512</span>    ByteBuffer buff = ByteBuffer.wrap(byteArray).order(ByteOrder.LITTLE_ENDIAN);<a name="line.512"></a>
-<span class="sourceLineNo">513</span>    return new Stats(<a name="line.513"></a>
-<span class="sourceLineNo">514</span>        buff.getLong(),<a name="line.514"></a>
-<span class="sourceLineNo">515</span>        buff.getDouble(),<a name="line.515"></a>
-<span class="sourceLineNo">516</span>        buff.getDouble(),<a name="line.516"></a>
-<span class="sourceLineNo">517</span>        buff.getDouble(),<a name="line.517"></a>
-<span class="sourceLineNo">518</span>        buff.getDouble());<a name="line.518"></a>
-<span class="sourceLineNo">519</span>  }<a name="line.519"></a>
-<span class="sourceLineNo">520</span><a name="line.520"></a>
-<span class="sourceLineNo">521</span>  private static final long serialVersionUID = 0;<a name="line.521"></a>
-<span class="sourceLineNo">522</span>}<a name="line.522"></a>
+<span class="sourceLineNo">490</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.490"></a>
+<span class="sourceLineNo">491</span>   * versions.<a name="line.491"></a>
+<span class="sourceLineNo">492</span>   */<a name="line.492"></a>
+<span class="sourceLineNo">493</span>  public byte[] toByteArray() {<a name="line.493"></a>
+<span class="sourceLineNo">494</span>    ByteBuffer buff = ByteBuffer.allocate(BYTES).order(ByteOrder.LITTLE_ENDIAN);<a name="line.494"></a>
+<span class="sourceLineNo">495</span>    writeTo(buff);<a name="line.495"></a>
+<span class="sourceLineNo">496</span>    return buff.array();<a name="line.496"></a>
+<span class="sourceLineNo">497</span>  }<a name="line.497"></a>
+<span class="sourceLineNo">498</span><a name="line.498"></a>
+<span class="sourceLineNo">499</span>  /**<a name="line.499"></a>
+<span class="sourceLineNo">500</span>   * Writes to the given {@link ByteBuffer} a byte representation of this instance.<a name="line.500"></a>
+<span class="sourceLineNo">501</span>   *<a name="line.501"></a>
+<span class="sourceLineNo">502</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.502"></a>
+<span class="sourceLineNo">503</span>   * versions.<a name="line.503"></a>
+<span class="sourceLineNo">504</span>   *<a name="line.504"></a>
+<span class="sourceLineNo">505</span>   * @param buffer A {@link ByteBuffer} with at least BYTES {@link ByteBuffer#remaining}, ordered as<a name="line.505"></a>
+<span class="sourceLineNo">506</span>   *     {@link ByteOrder#LITTLE_ENDIAN}, to which a BYTES-long byte representation of this instance<a name="line.506"></a>
+<span class="sourceLineNo">507</span>   *     is written. In the process increases the position of {@link ByteBuffer} by BYTES.<a name="line.507"></a>
+<span class="sourceLineNo">508</span>   */<a name="line.508"></a>
+<span class="sourceLineNo">509</span>  void writeTo(ByteBuffer buffer) {<a name="line.509"></a>
+<span class="sourceLineNo">510</span>    checkNotNull(buffer);<a name="line.510"></a>
+<span class="sourceLineNo">511</span>    checkArgument(buffer.remaining() &gt;= BYTES,<a name="line.511"></a>
+<span class="sourceLineNo">512</span>        "Expected at least Stats.BYTES = %s remaining , got %s", BYTES, buffer.remaining());<a name="line.512"></a>
+<span class="sourceLineNo">513</span>    buffer.putLong(count)<a name="line.513"></a>
+<span class="sourceLineNo">514</span>        .putDouble(mean)<a name="line.514"></a>
+<span class="sourceLineNo">515</span>        .putDouble(sumOfSquaresOfDeltas)<a name="line.515"></a>
+<span class="sourceLineNo">516</span>        .putDouble(min)<a name="line.516"></a>
+<span class="sourceLineNo">517</span>        .putDouble(max);<a name="line.517"></a>
+<span class="sourceLineNo">518</span>  }<a name="line.518"></a>
+<span class="sourceLineNo">519</span><a name="line.519"></a>
+<span class="sourceLineNo">520</span>  /**<a name="line.520"></a>
+<span class="sourceLineNo">521</span>   * Creates a Stats instance from the given byte representation which was obtained by<a name="line.521"></a>
+<span class="sourceLineNo">522</span>   * {@link #toByteArray}.<a name="line.522"></a>
+<span class="sourceLineNo">523</span>   *<a name="line.523"></a>
+<span class="sourceLineNo">524</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.524"></a>
+<span class="sourceLineNo">525</span>   * versions.<a name="line.525"></a>
+<span class="sourceLineNo">526</span>   */<a name="line.526"></a>
+<span class="sourceLineNo">527</span>  public static Stats fromByteArray(byte[] byteArray) {<a name="line.527"></a>
+<span class="sourceLineNo">528</span>    checkNotNull(byteArray);<a name="line.528"></a>
+<span class="sourceLineNo">529</span>    checkArgument(byteArray.length == BYTES,<a name="line.529"></a>
+<span class="sourceLineNo">530</span>        "Expected Stats.BYTES = %s remaining , got %s", BYTES, byteArray.length);<a name="line.530"></a>
+<span class="sourceLineNo">531</span>    return readFrom(ByteBuffer.wrap(byteArray).order(ByteOrder.LITTLE_ENDIAN));<a name="line.531"></a>
+<span class="sourceLineNo">532</span>  }<a name="line.532"></a>
+<span class="sourceLineNo">533</span><a name="line.533"></a>
+<span class="sourceLineNo">534</span>  /**<a name="line.534"></a>
+<span class="sourceLineNo">535</span>   * Creates a Stats instance from the byte representation read from the given {@link ByteBuffer}.<a name="line.535"></a>
+<span class="sourceLineNo">536</span>   *<a name="line.536"></a>
+<span class="sourceLineNo">537</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.537"></a>
+<span class="sourceLineNo">538</span>   * versions.<a name="line.538"></a>
+<span class="sourceLineNo">539</span>   *<a name="line.539"></a>
+<span class="sourceLineNo">540</span>   * @param buffer A {@link ByteBuffer} with at least BYTES {@link ByteBuffer#remaining}, ordered as<a name="line.540"></a>
+<span class="sourceLineNo">541</span>   *     {@link ByteOrder#LITTLE_ENDIAN}, from which a BYTES-long byte representation of this<a name="line.541"></a>
+<span class="sourceLineNo">542</span>   *     instance is read. In the process increases the position of {@link ByteBuffer} by BYTES.<a name="line.542"></a>
+<span class="sourceLineNo">543</span>   */<a name="line.543"></a>
+<span class="sourceLineNo">544</span>  static Stats readFrom(ByteBuffer buffer) {<a name="line.544"></a>
+<span class="sourceLineNo">545</span>    checkNotNull(buffer);<a name="line.545"></a>
+<span class="sourceLineNo">546</span>    checkArgument(buffer.remaining() &gt;= BYTES,<a name="line.546"></a>
+<span class="sourceLineNo">547</span>        "Expected at least Stats.BYTES = %s remaining , got %s", BYTES, buffer.remaining());<a name="line.547"></a>
+<span class="sourceLineNo">548</span>    return new Stats(<a name="line.548"></a>
+<span class="sourceLineNo">549</span>        buffer.getLong(),<a name="line.549"></a>
+<span class="sourceLineNo">550</span>        buffer.getDouble(),<a name="line.550"></a>
+<span class="sourceLineNo">551</span>        buffer.getDouble(),<a name="line.551"></a>
+<span class="sourceLineNo">552</span>        buffer.getDouble(),<a name="line.552"></a>
+<span class="sourceLineNo">553</span>        buffer.getDouble());<a name="line.553"></a>
+<span class="sourceLineNo">554</span>  }<a name="line.554"></a>
+<span class="sourceLineNo">555</span><a name="line.555"></a>
+<span class="sourceLineNo">556</span>  private static final long serialVersionUID = 0;<a name="line.556"></a>
+<span class="sourceLineNo">557</span>}<a name="line.557"></a>
 
 
 

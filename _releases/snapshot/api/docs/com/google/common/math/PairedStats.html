@@ -100,7 +100,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/math/PairedStats.html#line.40">PairedStats</a>
+public final class <a href="../../../../src-html/com/google/common/math/PairedStats.html#line.44">PairedStats</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
 <div class="block">An immutable value object capturing some basic statistics about a collection of paired double
@@ -139,10 +139,17 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <td class="colLast"><code><strong><a href="../../../../com/google/common/math/PairedStats.html#equals(java.lang.Object)">equals</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</code></td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/math/PairedStats.html#fromByteArray(byte[])">fromByteArray</a></strong>(byte[]&nbsp;byteArray)</code>
+<div class="block">Creates a <a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math"><code>PairedStats</code></a> instance from the given byte representation which was obtained by
+ <a href="../../../../com/google/common/math/PairedStats.html#toByteArray()"><code>toByteArray()</code></a>.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/math/PairedStats.html#hashCode()">hashCode</a></strong>()</code></td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/math/PairedStats.html#leastSquaresFit()">leastSquaresFit</a></strong>()</code>
 <div class="block">Returns a linear transformation giving the best fit to the data according to
@@ -150,23 +157,29 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
  regression</a> of <code>y</code> as a function of <code>x</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/math/PairedStats.html#pearsonsCorrelationCoefficient()">pearsonsCorrelationCoefficient</a></strong>()</code>
 <div class="block">Returns the <a href="http://mathworld.wolfram.com/CorrelationCoefficient.html">Pearson's or
  product-moment correlation coefficient</a> of the values.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>double</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/math/PairedStats.html#populationCovariance()">populationCovariance</a></strong>()</code>
 <div class="block">Returns the population covariance of the values.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>double</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/math/PairedStats.html#sampleCovariance()">sampleCovariance</a></strong>()</code>
 <div class="block">Returns the sample covariance of the values.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>byte[]</code></td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/math/PairedStats.html#toByteArray()">toByteArray</a></strong>()</code>
+<div class="block">Gets a byte array representation of this instance.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -213,7 +226,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.66">count</a>()</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.70">count</a>()</pre>
 <div class="block">Returns the number of pairs in the dataset.</div>
 </li>
 </ul>
@@ -223,7 +236,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>xStats</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.73">xStats</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.77">xStats</a>()</pre>
 <div class="block">Returns the statistics on the <code>x</code> values alone.</div>
 </li>
 </ul>
@@ -233,7 +246,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>yStats</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.80">yStats</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.84">yStats</a>()</pre>
 <div class="block">Returns the statistics on the <code>y</code> values alone.</div>
 </li>
 </ul>
@@ -243,7 +256,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>populationCovariance</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.98">populationCovariance</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.102">populationCovariance</a>()</pre>
 <div class="block">Returns the population covariance of the values. The count must be non-zero.
 
  <p>This is guaranteed to return zero if the dataset contains a single pair of finite values.
@@ -264,7 +277,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>sampleCovariance</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.116">sampleCovariance</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.120">sampleCovariance</a>()</pre>
 <div class="block">Returns the sample covariance of the values. The count must be greater than one.
 
  <p>This is not guaranteed to return zero when the dataset consists of the same pair of values
@@ -284,7 +297,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>pearsonsCorrelationCoefficient</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.137">pearsonsCorrelationCoefficient</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.141">pearsonsCorrelationCoefficient</a>()</pre>
 <div class="block">Returns the <a href="http://mathworld.wolfram.com/CorrelationCoefficient.html">Pearson's or
  product-moment correlation coefficient</a> of the values. The count must greater than one, and
  the <code>x</code> and <code>y</code> values must both have non-zero population variance (i.e.
@@ -307,7 +320,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>leastSquaresFit</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.184">leastSquaresFit</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.188">leastSquaresFit</a>()</pre>
 <div class="block">Returns a linear transformation giving the best fit to the data according to
  <a href="http://mathworld.wolfram.com/LeastSquaresFitting.html">Ordinary Least Squares linear
  regression</a> of <code>y</code> as a function of <code>x</code>. The count must be greater than one, and
@@ -345,7 +358,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.213">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.217">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <div class="block">
 
@@ -366,7 +379,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.234">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.238">hashCode</a>()</pre>
 <div class="block">
 
  <p><b>Note:</b> This hash code is consistent with exact equality of the calculated
@@ -380,14 +393,41 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <a name="toString()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.239">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.243">toString</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
 </dl>
+</li>
+</ul>
+<a name="toByteArray()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>toByteArray</h4>
+<pre>public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.282">toByteArray</a>()</pre>
+<div class="block">Gets a byte array representation of this instance.
+
+ <p><b>Note:</b> No guarantees are made regarding stability of the representation between
+ versions.</div>
+</li>
+</ul>
+<a name="fromByteArray(byte[])">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>fromByteArray</h4>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStats.html#line.297">fromByteArray</a>(byte[]&nbsp;byteArray)</pre>
+<div class="block">Creates a <a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math"><code>PairedStats</code></a> instance from the given byte representation which was obtained by
+ <a href="../../../../com/google/common/math/PairedStats.html#toByteArray()"><code>toByteArray()</code></a>.
+
+ <p><b>Note:</b> No guarantees are made regarding stability of the representation between
+ versions.</div>
 </li>
 </ul>
 </li>

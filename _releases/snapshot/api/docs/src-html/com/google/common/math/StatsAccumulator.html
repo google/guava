@@ -68,9 +68,9 @@
 <span class="sourceLineNo">060</span>    } else {<a name="line.60"></a>
 <span class="sourceLineNo">061</span>      if (isFinite(value) &amp;&amp; isFinite(mean)) {<a name="line.61"></a>
 <span class="sourceLineNo">062</span>        // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15) and (16)<a name="line.62"></a>
-<span class="sourceLineNo">063</span>        double nextMean = mean + (value - mean) / count;<a name="line.63"></a>
-<span class="sourceLineNo">064</span>        sumOfSquaresOfDeltas += (value - mean) * (value - nextMean);<a name="line.64"></a>
-<span class="sourceLineNo">065</span>        mean = nextMean;<a name="line.65"></a>
+<span class="sourceLineNo">063</span>        double delta = value - mean;<a name="line.63"></a>
+<span class="sourceLineNo">064</span>        mean += delta / count;<a name="line.64"></a>
+<span class="sourceLineNo">065</span>        sumOfSquaresOfDeltas += delta * (value - mean);<a name="line.65"></a>
 <span class="sourceLineNo">066</span>      } else {<a name="line.66"></a>
 <span class="sourceLineNo">067</span>        mean = calculateNewMeanNonFinite(mean, value);<a name="line.67"></a>
 <span class="sourceLineNo">068</span>        sumOfSquaresOfDeltas = NaN;<a name="line.68"></a>
