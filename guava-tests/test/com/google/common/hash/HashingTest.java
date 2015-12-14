@@ -104,7 +104,6 @@ public class HashingTest extends TestCase {
     assertEquals("Hashing.murmur3_128(0)", Hashing.murmur3_128().toString());
   }
 
-  @AndroidIncompatible // TODO(cpovirk): Surprisingly often has more then 5% collisions there.
   public void testMurmur3_32() {
     HashTestUtils.check2BitAvalanche(Hashing.murmur3_32(), 250, 0.20);
     HashTestUtils.checkAvalanche(Hashing.murmur3_32(), 250, 0.17);
@@ -114,7 +113,6 @@ public class HashingTest extends TestCase {
     assertEquals("Hashing.murmur3_32(0)", Hashing.murmur3_32().toString());
   }
 
-  @AndroidIncompatible // TODO(cpovirk): Surprisingly often has more then 5% collisions there.
   public void testSipHash24() {
     HashTestUtils.check2BitAvalanche(Hashing.sipHash24(), 250, 0.14);
     HashTestUtils.checkAvalanche(Hashing.sipHash24(), 250, 0.10);
@@ -134,7 +132,6 @@ public class HashingTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // TODO(cpovirk): Surprisingly often has more then 5% collisions there.
   // goodFastHash(32) uses Murmur3_32. Use the same epsilon bounds.
   public void testGoodFastHash32() {
     HashTestUtils.check2BitAvalanche(Hashing.goodFastHash(32), 250, 0.20);
