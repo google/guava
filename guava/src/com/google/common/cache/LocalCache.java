@@ -3957,6 +3957,14 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return value;
   }
 
+  // Only becomes available in Java 8 when it's on the interface.
+  // @Override
+  @Nullable
+  public V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
+    V result = get(key);
+    return (result != null) ? result : defaultValue;
+  }
+
   V get(K key, CacheLoader<? super K, V> loader) throws ExecutionException {
     int hash = hash(checkNotNull(key));
     return segmentFor(hash).get(key, hash, loader);
