@@ -128,7 +128,7 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F>
   abstract void doFallback(F fallback, X throwable) throws Exception;
 
   @Override
-  final void done() {
+  protected final void done() {
     maybePropagateCancellation(inputFuture);
     this.inputFuture = null;
     this.exceptionType = null;

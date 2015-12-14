@@ -122,7 +122,7 @@ final class TimeoutFuture<V> extends AbstractFuture.TrustedFuture<V> {
   }
 
   @Override
-  void done() {
+  protected void done() {
     maybePropagateCancellation(delegateRef);
 
     Future<?> localTimer = timer;
