@@ -601,6 +601,123 @@ public final class LongMath {
     }
   }
 
+  /**
+   * Returns the sum of {@code a} and {@code b} unless it would overflow or underflow in which case
+   * {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is returned, respectively.
+   *
+   * @since 20.0
+   */
+  public static long saturatedAdd(long a, long b) {
+    long naiveSum = a + b;
+    if ((a ^ b) < 0 | (a ^ naiveSum) >= 0) {
+      // If a and b have different signs or a has the same sign as the result then there was no
+      // overflow, return.
+      return naiveSum;
+    }
+    // we did over/under flow, if the sign is negative we should return MAX otherwise MIN
+    return Long.MAX_VALUE + ((naiveSum >>> (Long.SIZE - 1)) ^ 1);
+  }
+
+  /**
+   * Returns the difference of {@code a} and {@code b} unless it would overflow or underflow in
+   * which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is returned, respectively.
+   *
+   * @since 20.0
+   */
+  public static long saturatedSubtract(long a, long b) {
+    long naiveDifference = a - b;
+    if ((a ^ b) >= 0 | (a ^ naiveDifference) >= 0) {
+      // If a and b have the same signs or a has the same sign as the result then there was no
+      // overflow, return.
+      return naiveDifference;
+    }
+    // we did over/under flow
+    return Long.MAX_VALUE + ((naiveDifference >>> (Long.SIZE - 1)) ^ 1);
+  }
+
+  /**
+   * Returns the product of {@code a} and {@code b} unless it would overflow or underflow in
+   * which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is returned, respectively.
+   *
+   * @since 20.0
+   */
+  public static long saturatedMultiply(long a, long b) {
+    // see checkedMultiply for explanation
+    int leadingZeros =
+        Long.numberOfLeadingZeros(a)
+            + Long.numberOfLeadingZeros(~a)
+            + Long.numberOfLeadingZeros(b)
+            + Long.numberOfLeadingZeros(~b);
+    if (leadingZeros > Long.SIZE + 1) {
+      return a * b;
+    }
+    // the return value if we will overflow (which we calculate by overflowing a long :) )
+    long limit = Long.MAX_VALUE + ((a ^ b) >>> (Long.SIZE - 1));
+    if (leadingZeros < Long.SIZE | (a < 0 & b == Long.MIN_VALUE)) {
+      // overflow
+      return limit;
+    }
+    long result = a * b;
+    if (a == 0 || result / a == b) {
+      return result;
+    }
+    return limit;
+  }
+
+  /**
+   * Returns the {@code b} to the {@code k}th power, unless it would overflow or underflow in
+   * which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is returned, respectively.
+   *
+   * @since 20.0
+   */
+  public static long saturatedPow(long b, int k) {
+    checkNonNegative("exponent", k);
+    if (b >= -2 & b <= 2) {
+      switch ((int) b) {
+        case 0:
+          return (k == 0) ? 1 : 0;
+        case 1:
+          return 1;
+        case (-1):
+          return ((k & 1) == 0) ? 1 : -1;
+        case 2:
+          if (k >= Long.SIZE - 1) {
+            return Long.MAX_VALUE;
+          }
+          return 1L << k;
+        case (-2):
+          if (k >= Long.SIZE) {
+            return Long.MAX_VALUE + (k & 1);
+          }
+          return ((k & 1) == 0) ? (1L << k) : (-1L << k);
+        default:
+          throw new AssertionError();
+      }
+    }
+    long accum = 1;
+    // if b is negative and k is odd then the limit is MIN otherwise the limit is MAX
+    long limit = Long.MAX_VALUE + ((b >>> Long.SIZE - 1) & (k & 1));
+    while (true) {
+      switch (k) {
+        case 0:
+          return accum;
+        case 1:
+          return saturatedMultiply(accum, b);
+        default:
+          if ((k & 1) != 0) {
+            accum = saturatedMultiply(accum, b);
+          }
+          k >>= 1;
+          if (k > 0) {
+            if (-FLOOR_SQRT_MAX_LONG > b | b > FLOOR_SQRT_MAX_LONG) {
+              return limit;
+            }
+            b *= b;
+          }
+      }
+    }
+  }
+
   @VisibleForTesting static final long FLOOR_SQRT_MAX_LONG = 3037000499L;
 
   /**

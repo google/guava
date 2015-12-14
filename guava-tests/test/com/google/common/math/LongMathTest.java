@@ -582,6 +582,63 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
+  @GwtIncompatible("TODO")
+  public void testSaturatedAdd() {
+    for (long a : ALL_LONG_CANDIDATES) {
+      for (long b : ALL_LONG_CANDIDATES) {
+        assertOperationEquals(
+            a, b, "s+", saturatedCast(valueOf(a).add(valueOf(b))), LongMath.saturatedAdd(a, b));
+      }
+    }
+  }
+
+  @AndroidIncompatible // slow
+  @GwtIncompatible("TODO")
+  public void testSaturatedSubtract() {
+    for (long a : ALL_LONG_CANDIDATES) {
+      for (long b : ALL_LONG_CANDIDATES) {
+        assertOperationEquals(
+            a,
+            b,
+            "s-",
+            saturatedCast(valueOf(a).subtract(valueOf(b))),
+            LongMath.saturatedSubtract(a, b));
+      }
+    }
+  }
+
+  @AndroidIncompatible // slow
+  @GwtIncompatible("TODO")
+  public void testSaturatedMultiply() {
+    for (long a : ALL_LONG_CANDIDATES) {
+      for (long b : ALL_LONG_CANDIDATES) {
+        assertOperationEquals(
+            a,
+            b,
+            "s*",
+            saturatedCast(valueOf(a).multiply(valueOf(b))),
+            LongMath.saturatedMultiply(a, b));
+      }
+    }
+  }
+
+  @GwtIncompatible("TODO")
+  public void testSaturatedPow() {
+    for (long a : ALL_LONG_CANDIDATES) {
+      for (int b : EXPONENTS) {
+        assertOperationEquals(
+            a, b, "s^", saturatedCast(valueOf(a).pow(b)), LongMath.saturatedPow(a, b));
+      }
+    }
+  }
+
+  private void assertOperationEquals(long a, long b, String op, long expected, long actual) {
+    if (expected != actual) {
+      fail("Expected for " + a + " " + op + " " + b + " = " + expected + ", but got " + actual);
+    }
+  }
+
   // Depends on the correctness of BigIntegerMath.factorial.
   @GwtIncompatible("TODO")
   public void testFactorial() {
@@ -731,6 +788,19 @@ public class LongMathTest extends TestCase {
 
   private static boolean fitsInLong(BigInteger big) {
     return big.bitLength() <= 63;
+  }
+
+  private static final BigInteger MAX_LONG = BigInteger.valueOf(Long.MAX_VALUE);
+  private static final BigInteger MIN_LONG = BigInteger.valueOf(Long.MIN_VALUE);
+
+  private static long saturatedCast(BigInteger big) {
+    if (big.compareTo(MAX_LONG) > 0) {
+      return Long.MAX_VALUE;
+    }
+    if (big.compareTo(MIN_LONG) < 0) {
+      return Long.MIN_VALUE;
+    }
+    return big.longValue();
   }
 
   @GwtIncompatible("NullPointerTester")

@@ -465,6 +465,76 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
+  @GwtIncompatible("TODO")
+  public void testSaturatedAdd() {
+    for (int a : ALL_INTEGER_CANDIDATES) {
+      for (int b : ALL_INTEGER_CANDIDATES) {
+        assertOperationEquals(
+            a, b, "s+", saturatedCast(valueOf(a).add(valueOf(b))), IntMath.saturatedAdd(a, b));
+      }
+    }
+  }
+
+  @AndroidIncompatible // slow
+  @GwtIncompatible("TODO")
+  public void testSaturatedSubtract() {
+    for (int a : ALL_INTEGER_CANDIDATES) {
+      for (int b : ALL_INTEGER_CANDIDATES) {
+        assertOperationEquals(
+            a,
+            b,
+            "s-",
+            saturatedCast(valueOf(a).subtract(valueOf(b))),
+            IntMath.saturatedSubtract(a, b));
+      }
+    }
+  }
+
+  @AndroidIncompatible // slow
+  @GwtIncompatible("TODO")
+  public void testSaturatedMultiply() {
+    for (int a : ALL_INTEGER_CANDIDATES) {
+      for (int b : ALL_INTEGER_CANDIDATES) {
+        assertOperationEquals(
+            a,
+            b,
+            "s*",
+            saturatedCast(valueOf(a).multiply(valueOf(b))),
+            IntMath.saturatedMultiply(a, b));
+      }
+    }
+  }
+
+  @GwtIncompatible("TODO")
+  public void testSaturatedPow() {
+    for (int a : ALL_INTEGER_CANDIDATES) {
+      for (int b : EXPONENTS) {
+        assertOperationEquals(
+            a, b, "s^", saturatedCast(valueOf(a).pow(b)), IntMath.saturatedPow(a, b));
+      }
+    }
+  }
+
+  private static final BigInteger MAX_INT = BigInteger.valueOf(Integer.MAX_VALUE);
+  private static final BigInteger MIN_INT = BigInteger.valueOf(Integer.MIN_VALUE);
+
+  private static int saturatedCast(BigInteger big) {
+    if (big.compareTo(MAX_INT) > 0) {
+      return Integer.MAX_VALUE;
+    }
+    if (big.compareTo(MIN_INT) < 0) {
+      return Integer.MIN_VALUE;
+    }
+    return big.intValue();
+  }
+
+  private void assertOperationEquals(int a, int b, String op, int expected, int actual) {
+    if (expected != actual) {
+      fail("Expected for " + a + " " + op + " " + b + " = " + expected + ", but got " + actual);
+    }
+  }
+
   // Depends on the correctness of BigIntegerMath.factorial.
   public void testFactorial() {
     for (int n = 0; n <= 50; n++) {
