@@ -18,7 +18,7 @@ com.google.common.util.concurrent.AbstractFuture
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.util.concurrent.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -31,7 +31,7 @@ com.google.common.util.concurrent.AbstractFuture
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<B>PREV CLASS</B>&nbsp;
-&nbsp;<A HREF="com.google.common.util.concurrent.AbstractListeningExecutorService.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.AsyncFunction.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.util.concurrent.AbstractFuture.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -57,12 +57,10 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.AbstractFuture.setFuture_added(com.google.common.util.concurrent.ListenableFuture<? extends V>)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture<? extends V>)" target="_top"><tt>setFuture</tt></A>(<code>ListenableFuture&lt;? extends V&gt;</code>)</nobr>
+  <A NAME="com.google.common.util.concurrent.AbstractFuture.done_added()"></A>
+  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture.html#done()" target="_top"><tt>done</tt></A>()</nobr>
   </TD>
-  <TD VALIGN="TOP">Sets the result of this {@code Future} to match the supplied input {@code Future} once the
- supplied {@code Future} is done, unless this {@code Future} has already been cancelled or set
- (including "set asynchronously," defined below).</TD>
+  <TD VALIGN="TOP">Callback method that is called exactly once after the future is completed.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -74,7 +72,7 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.util.concurrent.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -87,7 +85,7 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<B>PREV CLASS</B>&nbsp;
-&nbsp;<A HREF="com.google.common.util.concurrent.AbstractListeningExecutorService.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.AsyncFunction.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.util.concurrent.AbstractFuture.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
