@@ -119,7 +119,7 @@ abstract class AbstractTransformFuture<I, O, F> extends AbstractFuture.TrustedFu
   abstract void doTransform(F function, I result) throws Exception;
 
   @Override
-  protected final void done() {
+  final void done() {
     maybePropagateCancellation(inputFuture);
     this.inputFuture = null;
     this.function = null;
