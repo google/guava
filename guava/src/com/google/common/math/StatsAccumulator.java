@@ -60,9 +60,9 @@ public final class StatsAccumulator {
     } else {
       if (isFinite(value) && isFinite(mean)) {
         // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15) and (16)
-        double nextMean = mean + (value - mean) / count;
-        sumOfSquaresOfDeltas += (value - mean) * (value - nextMean);
-        mean = nextMean;
+        double delta = value - mean;
+        mean += delta / count;
+        sumOfSquaresOfDeltas += delta * (value - mean);
       } else {
         mean = calculateNewMeanNonFinite(mean, value);
         sumOfSquaresOfDeltas = NaN;
