@@ -254,7 +254,7 @@ public final class Sets {
    * @since 15.0
    */
   public static <E> Set<E> newConcurrentHashSet() {
-    return newSetFromMap(new ConcurrentHashMap<E, Boolean>());
+    return Collections.newSetFromMap(new ConcurrentHashMap<E, Boolean>());
   }
 
   /**
@@ -410,7 +410,7 @@ public final class Sets {
    * @since 8.0
    */
   public static <E> Set<E> newIdentityHashSet() {
-    return Sets.newSetFromMap(Maps.<E, Boolean>newIdentityHashMap());
+    return Collections.newSetFromMap(Maps.<E, Boolean>newIdentityHashMap());
   }
 
   /**
@@ -526,7 +526,7 @@ public final class Sets {
    * @return the set backed by the map
    * @throws IllegalArgumentException if {@code map} is not empty
    * @deprecated Use {@link Collections#newSetFromMap} instead. This method
-   *     will be removed in August 2017.
+   *     will be removed in December 2017.
    */
   @Deprecated
   public static <E> Set<E> newSetFromMap(Map<E, Boolean> map) {
