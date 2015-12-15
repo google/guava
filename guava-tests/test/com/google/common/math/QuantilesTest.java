@@ -462,6 +462,7 @@ public class QuantilesTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   public void testPercentiles_index_computeInPlace() {
     for (int index = 0; index <= 100; index++) {
       double[] dataset = Doubles.toArray(PSEUDORANDOM_DATASET);
