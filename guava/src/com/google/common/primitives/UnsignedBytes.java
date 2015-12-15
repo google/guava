@@ -406,7 +406,7 @@ public final class UnsignedBytes {
              * shift to get that least significant nonzero byte.
              */
             int n = Long.numberOfTrailingZeros(lw ^ rw) & ~0x7;
-            return (int) (((lw >>> n) & UNSIGNED_MASK) - ((rw >>> n) & UNSIGNED_MASK));
+            return ((int) ((lw >>> n) & UNSIGNED_MASK)) - ((int) ((rw >>> n) & UNSIGNED_MASK));
           }
         }
 
