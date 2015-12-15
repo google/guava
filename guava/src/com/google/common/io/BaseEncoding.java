@@ -207,15 +207,7 @@ public abstract class BaseEncoding {
    * encoding.
    */
   @CheckReturnValue
-  public final boolean canDecode(CharSequence chars) {
-    // TODO(lowasser): Optimize this instead of decoding and catching the exception.
-    try {
-      decodeChecked(chars);
-      return true;
-    } catch (DecodingException badInput) {
-      return false;
-    }
-  }
+  public abstract boolean canDecode(CharSequence chars);
 
   /**
    * Decodes the specified character sequence, and returns the resulting {@code byte[]}.
@@ -495,6 +487,10 @@ public abstract class BaseEncoding {
       return validPadding[index % charsPerChunk];
     }
 
+    boolean canDecode(char ch) {
+      return ch <= Ascii.MAX && decodabet[ch] != -1;
+    }
+
     int decode(char ch) throws DecodingException {
       if (ch > Ascii.MAX || decodabet[ch] == -1) {
         throw new DecodingException("Unrecognized character: "
@@ -671,6 +667,20 @@ public abstract class BaseEncoding {
     @Override
     int maxDecodedSize(int chars) {
       return (int) ((alphabet.bitsPerChar * (long) chars + 7L) / 8L);
+    }
+
+    @Override
+    public boolean canDecode(CharSequence chars) {
+      chars = padding().trimTrailingFrom(chars);
+      if (!alphabet.isValidPaddingStartPosition(chars.length())) {
+        return false;
+      }
+      for (int i = 0; i < chars.length(); i++) {
+        if (!alphabet.canDecode(chars.charAt(i))) {
+          return false;
+        }
+      }
+      return true;
     }
 
     @Override
@@ -1046,6 +1056,11 @@ public abstract class BaseEncoding {
     @Override
     int maxDecodedSize(int chars) {
       return delegate.maxDecodedSize(chars);
+    }
+
+    @Override
+    public boolean canDecode(CharSequence chars) {
+      return delegate.canDecode(separatorChars.removeFrom(chars));
     }
 
     @Override
