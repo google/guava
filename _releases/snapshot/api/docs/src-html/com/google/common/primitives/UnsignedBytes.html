@@ -414,7 +414,7 @@
 <span class="sourceLineNo">406</span>             * shift to get that least significant nonzero byte.<a name="line.406"></a>
 <span class="sourceLineNo">407</span>             */<a name="line.407"></a>
 <span class="sourceLineNo">408</span>            int n = Long.numberOfTrailingZeros(lw ^ rw) &amp; ~0x7;<a name="line.408"></a>
-<span class="sourceLineNo">409</span>            return (int) (((lw &gt;&gt;&gt; n) &amp; UNSIGNED_MASK) - ((rw &gt;&gt;&gt; n) &amp; UNSIGNED_MASK));<a name="line.409"></a>
+<span class="sourceLineNo">409</span>            return ((int) ((lw &gt;&gt;&gt; n) &amp; UNSIGNED_MASK)) - ((int) ((rw &gt;&gt;&gt; n) &amp; UNSIGNED_MASK));<a name="line.409"></a>
 <span class="sourceLineNo">410</span>          }<a name="line.410"></a>
 <span class="sourceLineNo">411</span>        }<a name="line.411"></a>
 <span class="sourceLineNo">412</span><a name="line.412"></a>
