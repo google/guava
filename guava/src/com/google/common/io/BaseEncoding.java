@@ -203,13 +203,28 @@ public abstract class BaseEncoding {
   }
 
   /**
+   * Determines whether the specified character sequence is a valid encoded string according to this
+   * encoding.
+   */
+  @CheckReturnValue
+  public final boolean canDecode(CharSequence chars) {
+    // TODO(lowasser): Optimize this instead of decoding and catching the exception.
+    try {
+      decodeChecked(chars);
+      return true;
+    } catch (DecodingException badInput) {
+      return false;
+    }
+  }
+
+  /**
    * Decodes the specified character sequence, and returns the resulting {@code byte[]}.
    * This is the inverse operation to {@link #encode(byte[])}.
    *
    * @throws IllegalArgumentException if the input is not a valid encoded string according to this
    *         encoding.
    */
-  public final byte[] decode(CharSequence chars) {
+  public final byte[] decode(CharSequence chars) { // TODO(kak): @CheckReturnValue
     try {
       return decodeChecked(chars);
     } catch (DecodingException badInput) {
@@ -224,7 +239,7 @@ public abstract class BaseEncoding {
    * @throws DecodingException if the input is not a valid encoded string according to this
    *         encoding.
    */ final byte[] decodeChecked(CharSequence chars)
-      throws DecodingException {
+      throws DecodingException { // TODO(kak): @CheckReturnValue
     chars = padding().trimTrailingFrom(chars);
     byte[] tmp = new byte[maxDecodedSize(chars.length())];
     int len = decodeTo(tmp, chars);

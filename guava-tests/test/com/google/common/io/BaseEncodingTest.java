@@ -387,6 +387,7 @@ public class BaseEncodingTest extends TestCase {
   }
 
   private static void testDecodes(BaseEncoding encoding, String encoded, String decoded) {
+    assertTrue(encoding.canDecode(encoded));
     assertEquals(getBytes(decoded), encoding.decode(encoded));
   }
 
@@ -397,6 +398,7 @@ public class BaseEncodingTest extends TestCase {
   @SuppressWarnings("CheckReturnValue")
   private static void assertFailsToDecode(
       BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
+    assertFalse(encoding.canDecode(cannotDecode));
     try {
       encoding.decode(cannotDecode);
       fail("Expected IllegalArgumentException");
