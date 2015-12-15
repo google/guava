@@ -262,7 +262,7 @@
 <span class="sourceLineNo">254</span>   * @since 15.0<a name="line.254"></a>
 <span class="sourceLineNo">255</span>   */<a name="line.255"></a>
 <span class="sourceLineNo">256</span>  public static &lt;E&gt; Set&lt;E&gt; newConcurrentHashSet() {<a name="line.256"></a>
-<span class="sourceLineNo">257</span>    return newSetFromMap(new ConcurrentHashMap&lt;E, Boolean&gt;());<a name="line.257"></a>
+<span class="sourceLineNo">257</span>    return Collections.newSetFromMap(new ConcurrentHashMap&lt;E, Boolean&gt;());<a name="line.257"></a>
 <span class="sourceLineNo">258</span>  }<a name="line.258"></a>
 <span class="sourceLineNo">259</span><a name="line.259"></a>
 <span class="sourceLineNo">260</span>  /**<a name="line.260"></a>
@@ -418,7 +418,7 @@
 <span class="sourceLineNo">410</span>   * @since 8.0<a name="line.410"></a>
 <span class="sourceLineNo">411</span>   */<a name="line.411"></a>
 <span class="sourceLineNo">412</span>  public static &lt;E&gt; Set&lt;E&gt; newIdentityHashSet() {<a name="line.412"></a>
-<span class="sourceLineNo">413</span>    return Sets.newSetFromMap(Maps.&lt;E, Boolean&gt;newIdentityHashMap());<a name="line.413"></a>
+<span class="sourceLineNo">413</span>    return Collections.newSetFromMap(Maps.&lt;E, Boolean&gt;newIdentityHashMap());<a name="line.413"></a>
 <span class="sourceLineNo">414</span>  }<a name="line.414"></a>
 <span class="sourceLineNo">415</span><a name="line.415"></a>
 <span class="sourceLineNo">416</span>  /**<a name="line.416"></a>
@@ -534,7 +534,7 @@
 <span class="sourceLineNo">526</span>   * @return the set backed by the map<a name="line.526"></a>
 <span class="sourceLineNo">527</span>   * @throws IllegalArgumentException if {@code map} is not empty<a name="line.527"></a>
 <span class="sourceLineNo">528</span>   * @deprecated Use {@link Collections#newSetFromMap} instead. This method<a name="line.528"></a>
-<span class="sourceLineNo">529</span>   *     will be removed in August 2017.<a name="line.529"></a>
+<span class="sourceLineNo">529</span>   *     will be removed in December 2017.<a name="line.529"></a>
 <span class="sourceLineNo">530</span>   */<a name="line.530"></a>
 <span class="sourceLineNo">531</span>  @Deprecated<a name="line.531"></a>
 <span class="sourceLineNo">532</span>  public static &lt;E&gt; Set&lt;E&gt; newSetFromMap(Map&lt;E, Boolean&gt; map) {<a name="line.532"></a>

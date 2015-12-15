@@ -396,13 +396,18 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">K</a>,<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.173">asMap</a>()</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">K</a>,<a href="../../../../com/google/common/cache/Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.178">asMap</a>()</pre>
 <div class="block">Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to
  the map directly affect the cache.
 
  <p>Iterators from the returned map are at least <i>weakly consistent</i>: they are safe for
  concurrent use, but if the cache is modified (including by eviction) after the iterator is
- created, it is undefined which of the changes (if any) will be reflected in that iterator.</div>
+ created, it is undefined which of the changes (if any) will be reflected in that iterator.
+
+ <p><b>Warning to users of Java 8+:</b> do not call any of the new <i>default methods</i> that
+ have been newly added to <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent"><code>ConcurrentMap</code></a>! These are marked with "Since: 1.8" in the
+ <code>ConcurrentMap</code> documentation. They will not function correctly and it is impossible for
+ Guava to fix them until Guava is ready to <i>require</i> Java 8 for all users.</div>
 </li>
 </ul>
 <a name="cleanUp()">
@@ -411,7 +416,7 @@ public interface <a href="../../../../src-html/com/google/common/cache/Cache.htm
 <ul class="blockListLast">
 <li class="blockList">
 <h4>cleanUp</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.179">cleanUp</a>()</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/Cache.html#line.184">cleanUp</a>()</pre>
 <div class="block">Performs any pending maintenance operations needed by the cache. Exactly which activities are
  performed -- if any -- is implementation-dependent.</div>
 </li>

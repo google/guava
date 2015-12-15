@@ -1361,8 +1361,9 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Ch
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Provided only to satisfy the <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> interface; use <a href="../../../../com/google/common/base/CharMatcher.html#matches(char)"><code>matches(char)</code></a>
      instead.</i></div>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/base/Predicate.html#apply(T)">Predicate</a></code></strong></div>
-<div class="block">Returns the result of applying this predicate to <code>input</code>. This method is <i>generally
- expected</i>, but not absolutely required, to have the following properties:
+<div class="block">Returns the result of applying this predicate to <code>input</code> (Java 8 users, see notes in the
+ class documentation above). This method is <i>generally expected</i>, but not absolutely
+ required, to have the following properties:
 
  <ul>
  <li>Its execution does not cause any observable side effects.

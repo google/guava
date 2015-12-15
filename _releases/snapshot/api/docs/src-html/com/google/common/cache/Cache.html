@@ -177,15 +177,20 @@
 <span class="sourceLineNo">169</span>   * &lt;p&gt;Iterators from the returned map are at least &lt;i&gt;weakly consistent&lt;/i&gt;: they are safe for<a name="line.169"></a>
 <span class="sourceLineNo">170</span>   * concurrent use, but if the cache is modified (including by eviction) after the iterator is<a name="line.170"></a>
 <span class="sourceLineNo">171</span>   * created, it is undefined which of the changes (if any) will be reflected in that iterator.<a name="line.171"></a>
-<span class="sourceLineNo">172</span>   */<a name="line.172"></a>
-<span class="sourceLineNo">173</span>  ConcurrentMap&lt;K, V&gt; asMap();<a name="line.173"></a>
-<span class="sourceLineNo">174</span><a name="line.174"></a>
-<span class="sourceLineNo">175</span>  /**<a name="line.175"></a>
-<span class="sourceLineNo">176</span>   * Performs any pending maintenance operations needed by the cache. Exactly which activities are<a name="line.176"></a>
-<span class="sourceLineNo">177</span>   * performed -- if any -- is implementation-dependent.<a name="line.177"></a>
-<span class="sourceLineNo">178</span>   */<a name="line.178"></a>
-<span class="sourceLineNo">179</span>  void cleanUp();<a name="line.179"></a>
-<span class="sourceLineNo">180</span>}<a name="line.180"></a>
+<span class="sourceLineNo">172</span>   *<a name="line.172"></a>
+<span class="sourceLineNo">173</span>   * &lt;p&gt;&lt;b&gt;Warning to users of Java 8+:&lt;/b&gt; do not call any of the new &lt;i&gt;default methods&lt;/i&gt; that<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * have been newly added to {@link ConcurrentMap}! These are marked with "Since: 1.8" in the<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   * {@code ConcurrentMap} documentation. They will not function correctly and it is impossible for<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   * Guava to fix them until Guava is ready to &lt;i&gt;require&lt;/i&gt; Java 8 for all users.<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   */<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  ConcurrentMap&lt;K, V&gt; asMap();<a name="line.178"></a>
+<span class="sourceLineNo">179</span><a name="line.179"></a>
+<span class="sourceLineNo">180</span>  /**<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   * Performs any pending maintenance operations needed by the cache. Exactly which activities are<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * performed -- if any -- is implementation-dependent.<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   */<a name="line.183"></a>
+<span class="sourceLineNo">184</span>  void cleanUp();<a name="line.184"></a>
+<span class="sourceLineNo">185</span>}<a name="line.185"></a>
 
 
 

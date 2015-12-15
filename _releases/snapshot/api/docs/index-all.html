@@ -1062,7 +1062,8 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Predicate.html#apply(T)">apply(T)</a></span> - Method in interface com.google.common.base.<a href="./com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a></dt>
 <dd>
-<div class="block">Returns the result of applying this predicate to <code>input</code>.</div>
+<div class="block">Returns the result of applying this predicate to <code>input</code> (Java 8 users, see notes in the
+ class documentation above).</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/cache/AbstractLoadingCache.html#apply(K)">apply(K)</a></span> - Method in class com.google.common.cache.<a href="./com/google/common/cache/AbstractLoadingCache.html" title="class in com.google.common.cache">AbstractLoadingCache</a></dt>
 <dd>&nbsp;</dd>
@@ -10857,7 +10858,7 @@
 <dd>
 <div class="block"><span class="strong">Deprecated.</span>
 <div class="block"><i>Use <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#newSetFromMap(java.util.Map)" title="class or interface in java.util"><code>Collections.newSetFromMap(java.util.Map&lt;E, java.lang.Boolean&gt;)</code></a> instead. This method
-     will be removed in August 2017.</i></div>
+     will be removed in December 2017.</i></div>
 </div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Multimaps.html#newSetMultimap(java.util.Map,%20com.google.common.base.Supplier)">newSetMultimap(Map&lt;K, Collection&lt;V&gt;&gt;, Supplier&lt;? extends Set&lt;V&gt;&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Multimaps.html" title="class in com.google.common.collect">Multimaps</a></dt>
@@ -12199,7 +12200,7 @@
 <dd>&nbsp;</dd>
 <dt><a href="./com/google/common/base/Predicate.html" title="interface in com.google.common.base"><span class="strong">Predicate</span></a>&lt;<a href="./com/google/common/base/Predicate.html" title="type parameter in Predicate">T</a>&gt; - Interface in <a href="./com/google/common/base/package-summary.html">com.google.common.base</a></dt>
 <dd>
-<div class="block">Determines a true or false value for a given input.</div>
+<div class="block">Determines a true or false value for a given input; a pre-Java-8 version of <code>java.util.function.Predicate</code>.</div>
 </dd>
 <dt><a href="./com/google/common/base/Predicates.html" title="class in com.google.common.base"><span class="strong">Predicates</span></a> - Class in <a href="./com/google/common/base/package-summary.html">com.google.common.base</a></dt>
 <dd>
@@ -13756,6 +13757,16 @@
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbaised sample
  variance</a> of the values.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/math/IntMath.html#saturatedAdd(int,%20int)">saturatedAdd(int, int)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/IntMath.html" title="class in com.google.common.math">IntMath</a></dt>
+<dd>
+<div class="block">Returns the sum of <code>a</code> and <code>b</code> unless it would overflow or underflow in which case
+ <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/math/LongMath.html#saturatedAdd(long,%20long)">saturatedAdd(long, long)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/LongMath.html" title="class in com.google.common.math">LongMath</a></dt>
+<dd>
+<div class="block">Returns the sum of <code>a</code> and <code>b</code> unless it would overflow or underflow in which case
+ <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/primitives/Chars.html#saturatedCast(long)">saturatedCast(long)</a></span> - Static method in class com.google.common.primitives.<a href="./com/google/common/primitives/Chars.html" title="class in com.google.common.primitives">Chars</a></dt>
 <dd>
 <div class="block">Returns the <code>char</code> nearest in value to <code>value</code>.</div>
@@ -13776,6 +13787,36 @@
 <dd>
 <div class="block">Returns the <code>byte</code> value that, when treated as unsigned, is nearest
  in value to <code>value</code>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/math/IntMath.html#saturatedMultiply(int,%20int)">saturatedMultiply(int, int)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/IntMath.html" title="class in com.google.common.math">IntMath</a></dt>
+<dd>
+<div class="block">Returns the product of <code>a</code> and <code>b</code> unless it would overflow or underflow in
+ which case <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/math/LongMath.html#saturatedMultiply(long,%20long)">saturatedMultiply(long, long)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/LongMath.html" title="class in com.google.common.math">LongMath</a></dt>
+<dd>
+<div class="block">Returns the product of <code>a</code> and <code>b</code> unless it would overflow or underflow in
+ which case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/math/IntMath.html#saturatedPow(int,%20int)">saturatedPow(int, int)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/IntMath.html" title="class in com.google.common.math">IntMath</a></dt>
+<dd>
+<div class="block">Returns the <code>b</code> to the <code>k</code>th power, unless it would overflow or underflow in
+ which case <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/math/LongMath.html#saturatedPow(long,%20int)">saturatedPow(long, int)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/LongMath.html" title="class in com.google.common.math">LongMath</a></dt>
+<dd>
+<div class="block">Returns the <code>b</code> to the <code>k</code>th power, unless it would overflow or underflow in
+ which case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/math/IntMath.html#saturatedSubtract(int,%20int)">saturatedSubtract(int, int)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/IntMath.html" title="class in com.google.common.math">IntMath</a></dt>
+<dd>
+<div class="block">Returns the difference of <code>a</code> and <code>b</code> unless it would overflow or underflow in
+ which case <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/math/LongMath.html#saturatedSubtract(long,%20long)">saturatedSubtract(long, long)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/LongMath.html" title="class in com.google.common.math">LongMath</a></dt>
+<dd>
+<div class="block">Returns the difference of <code>a</code> and <code>b</code> unless it would overflow or underflow in
+ which case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/math/Quantiles.html#scale(int)">scale(int)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/Quantiles.html" title="class in com.google.common.math">Quantiles</a></dt>
 <dd>
