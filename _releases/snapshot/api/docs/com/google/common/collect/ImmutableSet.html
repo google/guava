@@ -414,13 +414,14 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.106">of</a>(E&nbsp;e1,
-                     E&nbsp;e2,
-                     E&nbsp;e3,
-                     E&nbsp;e4,
-                     E&nbsp;e5,
-                     E&nbsp;e6,
-                     E...&nbsp;others)</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang">@SafeVarargs</a>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.107">of</a>(E&nbsp;e1,
+                                 E&nbsp;e2,
+                                 E&nbsp;e3,
+                                 E&nbsp;e4,
+                                 E&nbsp;e5,
+                                 E&nbsp;e6,
+                                 E...&nbsp;others)</pre>
 <div class="block">Returns an immutable set containing the given elements, minus duplicates, in the order each was
  first specified. That is, if multiple elements are <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equal</a>, all except
  the first are ignored.</div>
@@ -434,7 +435,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.232">copyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.233">copyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable set containing each of <code>elements</code>, minus duplicates, in the order
  each appears first in the source collection.
 
@@ -453,7 +454,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.262">copyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.263">copyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable set containing each of <code>elements</code>, minus duplicates, in the order
  each appears first in the source iterable. This method iterates over <code>elements</code> only
  once.
@@ -472,7 +473,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.274">copyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.275">copyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an immutable set containing each of <code>elements</code>, minus duplicates, in the order
  each appears first in the source iterator.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -487,7 +488,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.297">copyOf</a>(E[]&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.298">copyOf</a>(E[]&nbsp;elements)</pre>
 <div class="block">Returns an immutable set containing each of <code>elements</code>, minus duplicates, in the order
  each appears first in the source array.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -501,7 +502,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.321">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.322">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -519,7 +520,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.334">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.335">hashCode</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#hashCode()" title="class or interface in java.util">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="type parameter in ImmutableSet">E</a>&gt;</code></dd>
@@ -536,7 +537,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="type parameter in ImmutableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.341">iterator</a>()</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="type parameter in ImmutableSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.342">iterator</a>()</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.html#iterator()">ImmutableCollection</a></code></strong></div>
 <div class="block">Returns an unmodifiable iterator across the elements in this collection.</div>
 <dl>
@@ -557,7 +558,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>builder</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.397">builder</a>()</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.398">builder</a>()</pre>
 <div class="block">Returns a new builder. The generated builder is equivalent to the builder
  created by the <a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect"><code>ImmutableSet.Builder</code></a> constructor.</div>
 </li>
