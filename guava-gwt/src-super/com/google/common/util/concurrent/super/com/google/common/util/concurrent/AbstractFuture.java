@@ -186,10 +186,10 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       listener.execute();
     }
     listeners = null;
-    done();
+    afterDone();
   }
 
-  void done() {}
+  protected void afterDone() {}
 
   final Throwable trustedGetException() {
     checkState(state == State.FAILURE);

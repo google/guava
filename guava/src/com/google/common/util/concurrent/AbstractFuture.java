@@ -755,21 +755,26 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     for (; reversedList != null; reversedList = reversedList.next) {
       executeListener(reversedList.task, reversedList.executor);
     }
-    // We call this after the listeners on the theory that done() will only be used for 'cleanup'
-    // oriented tasks (e.g. clearing fields) and so can wait behind listeners which may be executing
-    // more important work.  A counter argument would be that done() is trusted code and therefore
-    // it would be safe to run before potentially slow or poorly behaved listeners.  Reevaluate this
-    // once we have more examples of done() implementations.
-    done();
+    // We call this after the listeners on the theory that afterDone() will only be used for
+    // 'cleanup' oriented tasks (e.g. clearing fields) and so can wait behind listeners which may be
+    // executing more important work.  A counter argument would be that done() is trusted code and
+    // therefore it would be safe to run before potentially slow or poorly behaved listeners.
+    // Reevaluate this once we have more examples of afterDone() implementations.
+    afterDone();
   }
 
   /**
-   * Callback method that is called immediately after the future is completed.
+   * Callback method that is called exactly once after the future is completed.
    *
-   * <p>This is called exactly once, after all listeners have executed.  By default it does nothing.
+   * <p>If {@link #interruptTask} is also run during completion, {@link #afterDone} runs after it.
+   *
+   * <p>The default implementation of this method in {@code AbstractFuture} does nothing.
+   *
+   * @since 20.0
    */
   // TODO(cpovirk): @ForOverride https://github.com/google/error-prone/issues/342
-  void done() {}
+  @Beta
+  protected void afterDone() {}
 
   /**
    * Returns the exception that this {@code Future} completed with. This includes completion through

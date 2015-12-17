@@ -45,8 +45,8 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
   private RunningState runningState;
 
   @Override
-  final void done() {
-    super.done();
+  protected final void afterDone() {
+    super.afterDone();
 
     // Let go of the memory held by the running state
     this.runningState = null;

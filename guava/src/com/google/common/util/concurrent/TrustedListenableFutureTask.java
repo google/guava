@@ -78,8 +78,8 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     }
   }
 
-  @Override final void done() {
-    super.done();
+  @Override protected final void afterDone() {
+    super.afterDone();
 
     // Free all resources associated with the running task
     this.task = null;
