@@ -117,11 +117,9 @@ public class Utf8Test extends TestCase {
     testEncodedLengthFails(newString(MIN_HIGH_SURROGATE, MIN_HIGH_SURROGATE), 0);
   }
 
-  @SuppressWarnings("CheckReturnValue")
-  private static void testEncodedLengthFails(String invalidString,
-      int invalidCodePointIndex) {
+  private static void testEncodedLengthFails(String invalidString, int invalidCodePointIndex) {
     try {
-      Utf8.encodedLength(invalidString);
+      int unused = Utf8.encodedLength(invalidString);
       fail();
     } catch (IllegalArgumentException expected) {
       assertThat(expected).hasMessage("Unpaired surrogate at index " + invalidCodePointIndex);

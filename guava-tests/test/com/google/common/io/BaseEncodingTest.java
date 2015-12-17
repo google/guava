@@ -59,24 +59,22 @@ public class BaseEncodingTest extends TestCase {
     testEncodes(base32().withSeparator("*", 4), "foobar", "MZXW*6YTB*OI==*====");
   }
 
-  @SuppressWarnings("ReturnValueIgnored")
   public void testSeparatorSameAsPadChar() {
     try {
-      base64().withSeparator("=", 3);
+      BaseEncoding unused = base64().withSeparator("=", 3);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {}
 
     try {
-      base64().withPadChar('#').withSeparator("!#!", 3);
+      BaseEncoding unused = base64().withPadChar('#').withSeparator("!#!", 3);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {}
   }
 
-  @SuppressWarnings("ReturnValueIgnored")
   public void testAtMostOneSeparator() {
     BaseEncoding separated = base64().withSeparator("\n", 3);
     try {
-      separated.withSeparator("$", 4);
+      BaseEncoding unused = separated.withSeparator("$", 4);
       fail("Expected UnsupportedOperationException");
     } catch (UnsupportedOperationException expected) {}
   }
@@ -126,20 +124,18 @@ public class BaseEncodingTest extends TestCase {
     assertFailsToDecode(base64(), "?", "Invalid input length 1");
   }
 
-  @SuppressWarnings("ReturnValueIgnored")
   public void testBase64CannotUpperCase() {
     try {
-      base64().upperCase();
+      BaseEncoding unused = base64().upperCase();
       fail();
     } catch (IllegalStateException expected) {
       // success
     }
   }
 
-  @SuppressWarnings("ReturnValueIgnored")
   public void testBase64CannotLowerCase() {
     try {
-      base64().lowerCase();
+      BaseEncoding unused = base64().lowerCase();
       fail();
     } catch (IllegalStateException expected) {
       // success
@@ -395,12 +391,11 @@ public class BaseEncodingTest extends TestCase {
     assertFailsToDecode(encoding, cannotDecode, null);
   }
 
-  @SuppressWarnings("CheckReturnValue")
   private static void assertFailsToDecode(
       BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
     assertFalse(encoding.canDecode(cannotDecode));
     try {
-      encoding.decode(cannotDecode);
+      byte[] unused = encoding.decode(cannotDecode);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
       if (expectedMessage != null) {
@@ -408,7 +403,7 @@ public class BaseEncodingTest extends TestCase {
       }
     }
     try {
-      encoding.decodeChecked(cannotDecode);
+      byte[] unused = encoding.decodeChecked(cannotDecode);
       fail("Expected DecodingException");
     } catch (DecodingException expected) {
       if (expectedMessage != null) {

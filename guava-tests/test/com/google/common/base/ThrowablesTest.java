@@ -515,10 +515,9 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testGetCasualChainNull() {
     try {
-      Throwables.getCausalChain(null);
+      List<Throwable> unused = Throwables.getCausalChain(null);
       fail("Should have throw NPE");
     } catch (NullPointerException expected) {
     }

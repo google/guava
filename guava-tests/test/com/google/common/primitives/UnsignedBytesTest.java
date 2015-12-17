@@ -71,10 +71,9 @@ public class UnsignedBytesTest extends TestCase {
     assertEquals(LEAST, UnsignedBytes.saturatedCast(Long.MIN_VALUE));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   private static void assertCastFails(long value) {
     try {
-      UnsignedBytes.checkedCast(value);
+      byte unused = UnsignedBytes.checkedCast(value);
       fail("Cast to byte should have failed: " + value);
     } catch (IllegalArgumentException ex) {
       assertTrue(value + " not found in exception text: " + ex.getMessage(),
@@ -97,10 +96,9 @@ public class UnsignedBytesTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
-      UnsignedBytes.max();
+      byte unused = UnsignedBytes.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -113,10 +111,9 @@ public class UnsignedBytesTest extends TestCase {
         (byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
-      UnsignedBytes.min();
+      byte unused = UnsignedBytes.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -131,10 +128,9 @@ public class UnsignedBytesTest extends TestCase {
         (byte) -1, (byte) 127, (byte) 1, (byte) -128, (byte) 0));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   private static void assertParseFails(String value) {
     try {
-      UnsignedBytes.parseUnsignedByte(value);
+      byte unused = UnsignedBytes.parseUnsignedByte(value);
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -156,10 +152,9 @@ public class UnsignedBytesTest extends TestCase {
         .compare(UnsignedBytes.MAX_VALUE, (byte) (UnsignedBytes.MAX_VALUE + 1)) > 0);
   }
 
-  @SuppressWarnings("CheckReturnValue")
   private static void assertParseFails(String value, int radix) {
     try {
-      UnsignedBytes.parseUnsignedByte(value, radix);
+      byte unused = UnsignedBytes.parseUnsignedByte(value, radix);
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -178,19 +173,18 @@ public class UnsignedBytesTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testParseUnsignedByteThrowsExceptionForInvalidRadix() {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX,
     // inclusive.
     try {
-      UnsignedBytes.parseUnsignedByte("0", Character.MIN_RADIX - 1);
+      byte unused = UnsignedBytes.parseUnsignedByte("0", Character.MIN_RADIX - 1);
       fail();
     } catch (NumberFormatException nfe) {
       // expected
     }
 
     try {
-      UnsignedBytes.parseUnsignedByte("0", Character.MAX_RADIX + 1);
+      byte unused = UnsignedBytes.parseUnsignedByte("0", Character.MAX_RADIX + 1);
       fail();
     } catch (NumberFormatException nfe) {
       // expected
@@ -198,7 +192,7 @@ public class UnsignedBytesTest extends TestCase {
 
     // The radix is used as an array index, so try a negative value.
     try {
-      UnsignedBytes.parseUnsignedByte("0", -1);
+      byte unused = UnsignedBytes.parseUnsignedByte("0", -1);
       fail();
     } catch (NumberFormatException nfe) {
       // expected

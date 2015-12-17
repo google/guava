@@ -181,10 +181,9 @@ public class ImmutableSimpleUndirectedGraphTest extends AbstractImmutableGraphTe
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void copyOf_nullArgument() {
     try {
-      ImmutableUndirectedGraph.copyOf(null);
+      ImmutableUndirectedGraph<Object, Object> unused = ImmutableUndirectedGraph.copyOf(null);
       fail("Should have rejected a null graph");
     } catch (NullPointerException expected) {
     }

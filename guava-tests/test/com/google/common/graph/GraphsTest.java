@@ -150,10 +150,9 @@ public class GraphsTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void config_expectedNodeCount_negative() {
     try {
-      config().expectedNodeCount(-1);
+      GraphConfig unused = config().expectedNodeCount(-1);
       fail(ERROR_NEGATIVE_NODE_COUNT);
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_NEGATIVE_NODE_COUNT);
@@ -188,10 +187,9 @@ public class GraphsTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void config_expectedEdgeCount_negative() {
     try {
-      config().expectedEdgeCount(-1);
+      GraphConfig unused = config().expectedEdgeCount(-1);
       fail(ERROR_NEGATIVE_EDGE_COUNT);
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_NEGATIVE_EDGE_COUNT);
@@ -232,15 +230,14 @@ public class GraphsTest {
 
   // Note that this test works precisely because config() returns a new object every time.
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void config_immutability() {
-    config().multigraph();
+    GraphConfig unused = config().multigraph();
     assertThat(config().isMultigraph()).isFalse();
-    config().expectedNodeCount(NODE_COUNT);
+    unused = config().expectedNodeCount(NODE_COUNT);
     assertThat(config().getExpectedNodeCount()).isAbsent();
-    config().expectedEdgeCount(EDGE_COUNT);
+    unused = config().expectedEdgeCount(EDGE_COUNT);
     assertThat(config().getExpectedEdgeCount()).isAbsent();
-    config().noSelfLoops();
+    unused = config().noSelfLoops();
     assertThat(config().isSelfLoopsAllowed()).isTrue();
   }
 
@@ -299,15 +296,14 @@ public class GraphsTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void copyOf_nullArgument() {
     try {
-      copyOf((DirectedGraph) null);
+      DirectedGraph<Object, Object> unused = copyOf((DirectedGraph) null);
       fail("Should have rejected a null graph");
     } catch (NullPointerException expected) {
     }
     try {
-      copyOf((UndirectedGraph) null);
+      UndirectedGraph<Object, Object> unused = copyOf((UndirectedGraph) null);
       fail("Should have rejected a null graph");
     } catch (NullPointerException expected) {
     }

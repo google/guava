@@ -73,7 +73,6 @@ public class MessageDigestHashFunctionTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testHashTwice() {
     Hasher sha1 = Hashing.sha1().newHasher();
 
@@ -82,7 +81,7 @@ public class MessageDigestHashFunctionTest extends TestCase {
             .hash()
             .toString());
     try {
-      sha1.hash();
+      HashCode unused = sha1.hash();
       fail();
     } catch (IllegalStateException expected) {
     }

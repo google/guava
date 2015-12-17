@@ -207,10 +207,9 @@ public class HashingTest extends TestCase {
   private static final int ITERS = 10000;
   private static final int MAX_SHARDS = 500;
 
-  @SuppressWarnings("CheckReturnValue")
   public void testConsistentHash_outOfRange() {
     try {
-      Hashing.consistentHash(5L, 0);
+      int unused = Hashing.consistentHash(5L, 0);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -248,19 +247,18 @@ public class HashingTest extends TestCase {
   private static final double MAX_PERCENT_SPREAD = 0.5;
   private static final long RANDOM_SEED = 177L;
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCombineOrdered_empty() {
     try {
-      Hashing.combineOrdered(Collections.<HashCode>emptySet());
+      HashCode unused = Hashing.combineOrdered(Collections.<HashCode>emptySet());
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCombineOrdered_differentBitLengths() {
     try {
-      Hashing.combineOrdered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
+      HashCode unused =
+          Hashing.combineOrdered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -292,19 +290,18 @@ public class HashingTest extends TestCase {
     assertFalse(hashCode1.equals(hashCode2));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCombineUnordered_empty() {
     try {
-      Hashing.combineUnordered(Collections.<HashCode>emptySet());
+      HashCode unused = Hashing.combineUnordered(Collections.<HashCode>emptySet());
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCombineUnordered_differentBitLengths() {
     try {
-      Hashing.combineUnordered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
+      HashCode unused =
+          Hashing.combineUnordered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
       fail();
     } catch (IllegalArgumentException expected) {
     }

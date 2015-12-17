@@ -23,6 +23,8 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Set;
+
 /**
  * Abstract base class for testing implementations of {@link Graph} interface. Graph
  * instances created for testing should have Integer node and String edge objects.
@@ -245,10 +247,9 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void incidentEdges_nodeNotInGraph() {
     try {
-      graph.incidentEdges(NODE_NOT_IN_GRAPH);
+      Set<String> unused = graph.incidentEdges(NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
@@ -262,10 +263,9 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void incidentNodes_edgeNotInGraph() {
     try {
-      graph.incidentNodes(EDGE_NOT_IN_GRAPH);
+      Set<Integer> unused = graph.incidentNodes(EDGE_NOT_IN_GRAPH);
       fail(ERROR_EDGE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);
@@ -286,10 +286,9 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void adjacentNodes_nodeNotInGraph() {
     try {
-      graph.adjacentNodes(NODE_NOT_IN_GRAPH);
+      Set<Integer> unused = graph.adjacentNodes(NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
@@ -311,10 +310,9 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void adjacentEdges_nodeNotInGraph() {
     try {
-      graph.adjacentEdges(EDGE_NOT_IN_GRAPH);
+      Set<String> unused = graph.adjacentEdges(EDGE_NOT_IN_GRAPH);
       fail(ERROR_EDGE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);
@@ -329,24 +327,23 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void edgesConnecting_nodesNotInGraph() {
     addNode(N1);
     addNode(N2);
     try {
-      graph.edgesConnecting(N1, NODE_NOT_IN_GRAPH);
+      Set<String> unused = graph.edgesConnecting(N1, NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
     }
     try {
-      graph.edgesConnecting(NODE_NOT_IN_GRAPH, N2);
+      Set<String> unused = graph.edgesConnecting(NODE_NOT_IN_GRAPH, N2);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
     }
     try {
-      graph.edgesConnecting(NODE_NOT_IN_GRAPH, NODE_NOT_IN_GRAPH);
+      Set<String> unused = graph.edgesConnecting(NODE_NOT_IN_GRAPH, NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
@@ -360,10 +357,9 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void inEdges_nodeNotInGraph() {
     try {
-      graph.inEdges(NODE_NOT_IN_GRAPH);
+      Set<String> unused = graph.inEdges(NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
@@ -377,10 +373,9 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void outEdges_nodeNotInGraph() {
     try {
-      graph.outEdges(NODE_NOT_IN_GRAPH);
+      Set<String> unused = graph.outEdges(NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
@@ -394,10 +389,9 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void predecessors_nodeNotInGraph() {
     try {
-      graph.predecessors(NODE_NOT_IN_GRAPH);
+      Set<Integer> unused = graph.predecessors(NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
@@ -411,10 +405,9 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void successors_nodeNotInGraph() {
     try {
-      graph.successors(NODE_NOT_IN_GRAPH);
+      Set<Integer> unused = graph.successors(NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
@@ -435,10 +428,9 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void degree_nodeNotInGraph() {
     try {
-      graph.degree(NODE_NOT_IN_GRAPH);
+      long unused = graph.degree(NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
@@ -452,10 +444,9 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void inDegree_nodeNotInGraph() {
     try {
-      graph.inDegree(NODE_NOT_IN_GRAPH);
+      long unused = graph.inDegree(NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
@@ -469,10 +460,9 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void outDegree_nodeNotInGraph() {
     try {
-      graph.outDegree(NODE_NOT_IN_GRAPH);
+      long unused = graph.outDegree(NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);

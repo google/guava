@@ -82,13 +82,12 @@ public class MacHashFunctionTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   @AndroidIncompatible // sun.security
   public void testNoProviders() {
     ProviderList providers = Providers.getProviderList();
     Providers.setProviderList(ProviderList.newList());
     try {
-      Hashing.hmacMd5(MD5_KEY);
+      HashFunction unused = Hashing.hmacMd5(MD5_KEY);
       fail("expected ISE");
     } catch (IllegalStateException expected) {
     } finally {
@@ -125,7 +124,6 @@ public class MacHashFunctionTest extends TestCase {
             .hash());
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCustomKey() throws Exception {
     SecretKey customKey = new SecretKey() {
       @Override public String getAlgorithm() {
@@ -144,7 +142,6 @@ public class MacHashFunctionTest extends TestCase {
             .toString());
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testBadKey_emptyKey() throws Exception {
     SecretKey badKey = new SecretKey() {
       @Override public String getAlgorithm() {
@@ -158,7 +155,7 @@ public class MacHashFunctionTest extends TestCase {
       }
     };
     try {
-      Hashing.hmacMd5(badKey);
+      HashFunction unused = Hashing.hmacMd5(badKey);
       fail();
     } catch (IllegalArgumentException expected) {
     } catch (NullPointerException toleratedOnAndroid) {
@@ -223,14 +220,13 @@ public class MacHashFunctionTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testHashTwice() {
     Hasher hasher = Hashing.hmacMd5(MD5_KEY).newHasher();
 
     assertEquals("9753980fe94daa8ecaa82216519393a9",
         hasher.putString("The quick brown fox jumps over the lazy dog", UTF_8).hash().toString());
     try {
-      hasher.hash();
+      HashCode unused = hasher.hash();
       fail();
     } catch (IllegalStateException expected) {
     }

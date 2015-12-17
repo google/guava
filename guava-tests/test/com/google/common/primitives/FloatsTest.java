@@ -179,10 +179,9 @@ public class FloatsTest extends TestCase {
     assertEquals(-1, Floats.lastIndexOf(new float[] {NaN, 5f}, NaN));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
-      Floats.max();
+      float unused = Floats.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -201,10 +200,9 @@ public class FloatsTest extends TestCase {
     assertTrue(Float.isNaN(Floats.max(VALUES)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
-      Floats.min();
+      float unused = Floats.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -247,16 +245,15 @@ public class FloatsTest extends TestCase {
         Floats.ensureCapacity(ARRAY1, 2, 1)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
-      Floats.ensureCapacity(ARRAY1, -1, 1);
+      float[] unused = Floats.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      Floats.ensureCapacity(ARRAY1, 1, -1);
+      float[] unused = Floats.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -330,11 +327,10 @@ public class FloatsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Float> list = Arrays.asList((float) 0, (float) 1, null);
     try {
-      Floats.toArray(list);
+      float[] unused = Floats.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -508,10 +504,9 @@ public class FloatsTest extends TestCase {
     assertEquals((Float) 1e-6f, converter.convert("1e-6"));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testStringConverter_convertError() {
     try {
-      Floats.stringConverter().convert("notanumber");
+      float unused = Floats.stringConverter().convert("notanumber");
       fail();
     } catch (NumberFormatException expected) {
     }

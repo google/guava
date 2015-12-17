@@ -65,10 +65,9 @@ public class UnsignedIntsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
-      UnsignedInts.max();
+      int unused = UnsignedInts.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -83,10 +82,9 @@ public class UnsignedIntsTest extends TestCase {
         (int) 0xff1a618bL, (int) 0L));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
-      UnsignedInts.min();
+      int unused = UnsignedInts.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -164,10 +162,9 @@ public class UnsignedIntsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testParseIntFail() {
     try {
-      UnsignedInts.parseUnsignedInt(Long.toString(1L << 32));
+      int unused = UnsignedInts.parseUnsignedInt(Long.toString(1L << 32));
       fail("Expected NumberFormatException");
     } catch (NumberFormatException expected) {}
   }
@@ -180,7 +177,6 @@ public class UnsignedIntsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testParseIntWithRadixLimits() {
     // loops through all legal radix values.
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
@@ -192,29 +188,28 @@ public class UnsignedIntsTest extends TestCase {
         // tests that we get exception whre an overflow would occur.
         long overflow = 1L << 32;
         String overflowAsString = Long.toString(overflow, radix);
-        UnsignedInts.parseUnsignedInt(overflowAsString, radix);
+        int unused = UnsignedInts.parseUnsignedInt(overflowAsString, radix);
         fail();
       } catch (NumberFormatException expected) {}
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testParseIntThrowsExceptionForInvalidRadix() {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX,
     // inclusive.
     try {
-      UnsignedInts.parseUnsignedInt("0", Character.MIN_RADIX - 1);
+      int unused = UnsignedInts.parseUnsignedInt("0", Character.MIN_RADIX - 1);
       fail();
     } catch (NumberFormatException expected) {}
 
     try {
-      UnsignedInts.parseUnsignedInt("0", Character.MAX_RADIX + 1);
+      int unused = UnsignedInts.parseUnsignedInt("0", Character.MAX_RADIX + 1);
       fail();
     } catch (NumberFormatException expected) {}
 
     // The radix is used as an array index, so try a negative value.
     try {
-      UnsignedInts.parseUnsignedInt("0", -1);
+      int unused = UnsignedInts.parseUnsignedInt("0", -1);
       fail();
     } catch (NumberFormatException expected) {}
   }
@@ -229,29 +224,28 @@ public class UnsignedIntsTest extends TestCase {
     assertEquals(0, UnsignedInts.decode("0"));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testDecodeIntFails() {
     try {
       // One more than maximum value
-      UnsignedInts.decode("0xfffffffff");
+      int unused = UnsignedInts.decode("0xfffffffff");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      UnsignedInts.decode("-5");
+      int unused = UnsignedInts.decode("-5");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      UnsignedInts.decode("-0x5");
+      int unused = UnsignedInts.decode("-0x5");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      UnsignedInts.decode("-05");
+      int unused = UnsignedInts.decode("-05");
       fail();
     } catch (NumberFormatException expected) {
     }

@@ -75,7 +75,6 @@ import javax.annotation.Nullable;
  *
  * @author Nishant Thakkar
  */
-@SuppressWarnings("CheckReturnValue")
 @GwtCompatible(emulated = true)
 public class FuturesTest extends TestCase {
   private static final Logger aggregateFutureLogger =
@@ -1869,7 +1868,7 @@ public class FuturesTest extends TestCase {
     ListenableFuture<List<String>> compound =
         Futures.allAsList(future1, future2);
     // This next call is "unused," but it is an important part of the test. Don't remove it!
-    Futures.allAsList(future1, future2);
+    ListenableFuture<List<String>> unused = Futures.allAsList(future1, future2);
 
     assertTrue(compound.cancel(false));
     assertTrue(future1.isCancelled());

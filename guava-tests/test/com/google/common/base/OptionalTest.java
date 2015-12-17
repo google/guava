@@ -47,10 +47,9 @@ public final class OptionalTest extends TestCase {
     assertEquals("training", Optional.of("training").get());
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testOf_null() {
     try {
-      Optional.of(null);
+      Optional<Object> unused = Optional.of(null);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -74,11 +73,10 @@ public final class OptionalTest extends TestCase {
     assertTrue(Optional.of("training").isPresent());
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testGet_absent() {
     Optional<String> optional = Optional.absent();
     try {
-      optional.get();
+      String unused = optional.get();
       fail();
     } catch (IllegalStateException expected) {
     }
@@ -104,12 +102,11 @@ public final class OptionalTest extends TestCase {
     assertEquals("fallback", Optional.absent().or(Suppliers.ofInstance("fallback")));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testOr_nullSupplier_absent() {
     Supplier<Object> nullSupplier = Suppliers.ofInstance(null);
     Optional<Object> absentOptional = Optional.absent();
     try {
-      absentOptional.or(nullSupplier);
+      Object unused = absentOptional.or(nullSupplier);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -176,15 +173,17 @@ public final class OptionalTest extends TestCase {
     assertEquals(Optional.of("42"), Optional.of(42).transform(Functions.toStringFunction()));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testTransform_present_functionReturnsNull() {
     try {
-      Optional.of("a").transform(
-          new Function<String, String>() {
-            @Override public String apply(String input) {
-              return null;
-            }
-          });
+      Optional<String> unused =
+          Optional.of("a")
+              .transform(
+                  new Function<String, String>() {
+                    @Override
+                    public String apply(String input) {
+                      return null;
+                    }
+                  });
       fail("Should throw if Function returns null.");
     } catch (NullPointerException expected) {
     }

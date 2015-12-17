@@ -72,10 +72,9 @@ public class ObjectsTest extends TestCase {
     assertSame(n1, n2);
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testFirstNonNull_throwsNullPointerException() throws Exception {
     try {
-      firstNonNull(null, null);
+      Object unused = firstNonNull(null, null);
       fail("expected NullPointerException");
     } catch (NullPointerException expected) {
     }

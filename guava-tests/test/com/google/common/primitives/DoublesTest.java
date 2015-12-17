@@ -181,10 +181,9 @@ public class DoublesTest extends TestCase {
     assertEquals(-1, Doubles.lastIndexOf(new double[] {NaN, 5.0}, NaN));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
-      Doubles.max();
+      double unused = Doubles.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -203,10 +202,9 @@ public class DoublesTest extends TestCase {
     assertTrue(Double.isNaN(Doubles.max(VALUES)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
-      Doubles.min();
+      double unused = Doubles.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -249,16 +247,15 @@ public class DoublesTest extends TestCase {
         Doubles.ensureCapacity(ARRAY1, 2, 1)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
-      Doubles.ensureCapacity(ARRAY1, -1, 1);
+      double[] unused = Doubles.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      Doubles.ensureCapacity(ARRAY1, 1, -1);
+      double[] unused = Doubles.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -339,11 +336,10 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Double> list = Arrays.asList((double) 0, (double) 1, null);
     try {
-      Doubles.toArray(list);
+      double[] unused = Doubles.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -531,10 +527,9 @@ public class DoublesTest extends TestCase {
     assertEquals((Double) 1e-6, converter.convert("1e-6"));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testStringConverter_convertError() {
     try {
-      Doubles.stringConverter().convert("notanumber");
+      double unused = Doubles.stringConverter().convert("notanumber");
       fail();
     } catch (NumberFormatException expected) {
     }

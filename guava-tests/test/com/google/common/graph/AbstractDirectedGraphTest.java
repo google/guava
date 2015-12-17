@@ -111,10 +111,9 @@ public abstract class AbstractDirectedGraphTest extends AbstractMutableGraphTest
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void source_edgeNotInGraph() {
     try {
-      directedGraph.source(EDGE_NOT_IN_GRAPH);
+      Integer unused = directedGraph.source(EDGE_NOT_IN_GRAPH);
       fail(ERROR_EDGE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);
@@ -128,10 +127,9 @@ public abstract class AbstractDirectedGraphTest extends AbstractMutableGraphTest
   }
 
   @Test
-  @SuppressWarnings("CheckReturnValue")
   public void target_edgeNotInGraph() {
     try {
-      directedGraph.target(EDGE_NOT_IN_GRAPH);
+      Integer unused = directedGraph.target(EDGE_NOT_IN_GRAPH);
       fail(ERROR_EDGE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);
