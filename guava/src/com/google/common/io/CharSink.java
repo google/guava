@@ -18,6 +18,8 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Reader;
@@ -46,6 +48,7 @@ import java.nio.charset.Charset;
  * @since 14.0
  * @author Colin Decker
  */
+@GwtIncompatible
 public abstract class CharSink {
 
   /**

@@ -14,6 +14,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import java.util.concurrent.Callable;
 
 /**
@@ -25,6 +27,7 @@ import java.util.concurrent.Callable;
  * @author Isaac Shum
  * @since 10.0
  */
+@GwtIncompatible
 public abstract class ForwardingListeningExecutorService extends ForwardingExecutorService
     implements ListeningExecutorService {
   /** Constructor for use by subclasses. */

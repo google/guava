@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.Closeable;
@@ -35,6 +36,7 @@ import javax.annotation.Nullable;
  * @since 1.0
  */
 @Beta
+@GwtIncompatible
 public final class Closeables {
   @VisibleForTesting static final Logger logger
       = Logger.getLogger(Closeables.class.getName());

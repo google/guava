@@ -17,6 +17,7 @@
 package com.google.common.net;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
@@ -113,6 +114,7 @@ import javax.annotation.Nullable;
  * @since 5.0
  */
 @Beta
+@GwtIncompatible
 public final class InetAddresses {
   private static final int IPV4_PART_COUNT = 4;
   private static final int IPV6_PART_COUNT = 8;

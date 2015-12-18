@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 
 /**
  * Provides equivalent behavior to {@link String#intern} for other immutable
@@ -26,6 +27,7 @@ import com.google.common.annotations.Beta;
  * @since 3.0
  */
 @Beta
+@GwtIncompatible
 public interface Interner<E> {
   /**
    * Chooses and returns the representative instance for any of a collection of

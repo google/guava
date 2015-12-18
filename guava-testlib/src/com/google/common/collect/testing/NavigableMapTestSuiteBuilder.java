@@ -19,6 +19,7 @@ package com.google.common.collect.testing;
 import static com.google.common.collect.testing.Helpers.castOrCopyToList;
 import static java.util.Collections.reverse;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.DerivedCollectionGenerators.Bound;
 import com.google.common.collect.testing.DerivedCollectionGenerators.ForwardingTestMapGenerator;
 import com.google.common.collect.testing.DerivedCollectionGenerators.SortedMapSubmapTestMapGenerator;
@@ -38,6 +39,7 @@ import java.util.SortedMap;
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
  * a NavigableMap implementation.
  */
+@GwtIncompatible
 public class NavigableMapTestSuiteBuilder<K, V> extends SortedMapTestSuiteBuilder<K, V> {
   public static <K, V> NavigableMapTestSuiteBuilder<K, V> using(
       TestSortedMapGenerator<K, V> generator) {

@@ -31,6 +31,7 @@ import java.util.concurrent.ConcurrentMap;
  * @since 3.0
  */
 @Beta
+@GwtIncompatible
 public final class Interners {
   private Interners() {}
 

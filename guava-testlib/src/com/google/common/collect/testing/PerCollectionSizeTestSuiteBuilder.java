@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.FeatureUtil;
@@ -47,11 +48,10 @@ import java.util.logging.Logger;
  *
  * @author George van den Driessche
  */
+@GwtIncompatible
 public abstract class PerCollectionSizeTestSuiteBuilder<
-    B extends PerCollectionSizeTestSuiteBuilder<B, G, T, E>,
-    G extends TestContainerGenerator<T, E>,
-    T,
-    E>
+        B extends PerCollectionSizeTestSuiteBuilder<B, G, T, E>,
+        G extends TestContainerGenerator<T, E>, T, E>
     extends FeatureSpecificTestSuiteBuilder<B, G> {
   private static final Logger logger = Logger.getLogger(
       PerCollectionSizeTestSuiteBuilder.class.getName());

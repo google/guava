@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 
 import java.util.concurrent.ExecutionException;
@@ -33,6 +34,7 @@ import javax.annotation.Nullable;
  * in an {@link ExecutionException}) if the specified duration expires. The delegate future is
  * interrupted and cancelled if it times out.
  */
+@GwtIncompatible
 final class TimeoutFuture<V> extends AbstractFuture.TrustedFuture<V> {
   static <V> ListenableFuture<V> create(
       ListenableFuture<V> delegate,

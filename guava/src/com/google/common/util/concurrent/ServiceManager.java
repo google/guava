@@ -32,6 +32,7 @@ import static com.google.common.util.concurrent.Service.State.TERMINATED;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Stopwatch;
@@ -121,6 +122,7 @@ import javax.annotation.concurrent.GuardedBy;
  * @since 14.0
  */
 @Beta
+@GwtIncompatible
 public final class ServiceManager {
   private static final Logger logger = Logger.getLogger(ServiceManager.class.getName());
   private static final Callback<Listener> HEALTHY_CALLBACK = new Callback<Listener>("healthy()") {

@@ -21,6 +21,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.PrintWriter;
@@ -45,6 +46,7 @@ import javax.annotation.Nullable;
  * @author Ben Yu
  * @since 1.0
  */
+@GwtIncompatible
 public final class Throwables {
   private Throwables() {}
 

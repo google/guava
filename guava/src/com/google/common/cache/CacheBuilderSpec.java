@@ -18,6 +18,7 @@ package com.google.common.cache;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
@@ -79,6 +80,7 @@ import javax.annotation.Nullable;
  * @author Adam Winer
  * @since 12.0
  */
+@GwtIncompatible
 public final class CacheBuilderSpec {
   /** Parses a single value. */
   private interface ValueParser {

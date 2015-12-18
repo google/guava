@@ -19,6 +19,7 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 
@@ -88,6 +89,7 @@ import javax.annotation.Nullable;
  */
 // Coffee's for {@link Closer closers} only.
 @Beta
+@GwtIncompatible
 public final class Closer implements Closeable {
 
   /**

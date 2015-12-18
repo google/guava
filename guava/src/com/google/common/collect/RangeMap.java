@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.util.Map;
 
@@ -33,6 +34,7 @@ import javax.annotation.Nullable;
  * @since 14.0
  */
 @Beta
+@GwtIncompatible
 public interface RangeMap<K extends Comparable, V> {
   /**
    * Returns the value associated with the specified key, or {@code null} if there is no

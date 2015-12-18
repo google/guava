@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.concurrent.Executor;
@@ -41,6 +42,7 @@ import javax.annotation.concurrent.GuardedBy;
  * @author Sven Mawson
  * @since 1.0
  */
+@GwtIncompatible
 public final class ExecutionList {
   // Logger to log exceptions caught when running runnables.
   @VisibleForTesting static final Logger log = Logger.getLogger(ExecutionList.class.getName());

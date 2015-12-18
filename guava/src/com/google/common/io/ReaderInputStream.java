@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.UnsignedBytes;
 
 import java.io.IOException;
@@ -45,6 +46,7 @@ import java.util.Arrays;
  *
  * @author Chris Nokleberg
  */
+@GwtIncompatible
 final class ReaderInputStream extends InputStream {
   private final Reader reader;
   private final CharsetEncoder encoder;

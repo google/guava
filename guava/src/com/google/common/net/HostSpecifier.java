@@ -17,6 +17,7 @@
 package com.google.common.net;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 
 import java.net.InetAddress;
@@ -49,6 +50,7 @@ import javax.annotation.Nullable;
  * @since 5.0
  */
 @Beta
+@GwtIncompatible
 public final class HostSpecifier {
 
   private final String canonicalForm;

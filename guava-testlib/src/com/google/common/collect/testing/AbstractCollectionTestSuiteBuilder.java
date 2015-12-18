@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.testers.CollectionAddAllTester;
 import com.google.common.collect.testing.testers.CollectionAddTester;
 import com.google.common.collect.testing.testers.CollectionClearTester;
@@ -45,10 +46,10 @@ import java.util.List;
  *
  * @author George van den Driessche
  */
+@GwtIncompatible
 public abstract class AbstractCollectionTestSuiteBuilder<
-    B extends AbstractCollectionTestSuiteBuilder<B, E>, E>
-    extends PerCollectionSizeTestSuiteBuilder<
-        B, TestCollectionGenerator<E>, Collection<E>, E> {
+        B extends AbstractCollectionTestSuiteBuilder<B, E>, E>
+    extends PerCollectionSizeTestSuiteBuilder<B, TestCollectionGenerator<E>, Collection<E>, E> {
   // Class parameters must be raw.
   @SuppressWarnings("unchecked")
   @Override protected List<Class<? extends AbstractTester>> getTesters() {

@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import com.google.j2objc.annotations.WeakOuter;
 
@@ -91,6 +92,7 @@ import javax.annotation.concurrent.GuardedBy;
  * @since 11.0
  */
 @Beta
+@GwtIncompatible
 public abstract class AbstractScheduledService implements Service {
   private static final Logger logger = Logger.getLogger(AbstractScheduledService.class.getName());
 

@@ -17,14 +17,15 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * An object with an operational state, plus asynchronous {@link #startAsync()} and 
- * {@link #stopAsync()} lifecycle methods to transition between states. Example services include 
+ * An object with an operational state, plus asynchronous {@link #startAsync()} and
+ * {@link #stopAsync()} lifecycle methods to transition between states. Example services include
  * webservers, RPC servers and timers.
  *
  * <p>The normal lifecycle of a service is:
@@ -38,13 +39,13 @@ import java.util.concurrent.TimeoutException;
  *
  * <p>There are deviations from this if there are failures or if {@link Service#stopAsync} is called
  * before the {@link Service} reaches the {@linkplain State#RUNNING RUNNING} state. The set of legal
- * transitions form a <a href="http://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a>, 
+ * transitions form a <a href="http://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a>,
  * therefore every method of the listener will be called at most once. N.B. The {@link State#FAILED}
  * and {@link State#TERMINATED} states are terminal states, once a service enters either of these
  * states it cannot ever leave them.
  *
- * <p>Implementors of this interface are strongly encouraged to extend one of the abstract classes 
- * in this package which implement this interface and make the threading and state management 
+ * <p>Implementors of this interface are strongly encouraged to extend one of the abstract classes
+ * in this package which implement this interface and make the threading and state management
  * easier.
  *
  * @author Jesse Wilson
@@ -52,6 +53,7 @@ import java.util.concurrent.TimeoutException;
  * @since 9.0 (in 1.0 as {@code com.google.common.base.Service})
  */
 @Beta
+@GwtIncompatible
 public interface Service {
   /**
    * If the service state is {@link State#NEW}, this initiates service startup and returns

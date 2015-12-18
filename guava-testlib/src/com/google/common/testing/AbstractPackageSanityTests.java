@@ -21,6 +21,7 @@ import static com.google.common.base.Predicates.not;
 import static com.google.common.testing.AbstractPackageSanityTests.Chopper.suffix;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -99,6 +100,7 @@ import java.util.logging.Logger;
  */
 @Beta
 // TODO: Switch to JUnit 4 and use @Parameterized and @BeforeClass
+@GwtIncompatible
 @J2ObjCIncompatible // com.google.common.reflect.ClassPath
 public abstract class AbstractPackageSanityTests extends TestCase {
 

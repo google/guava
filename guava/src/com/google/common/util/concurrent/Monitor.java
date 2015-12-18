@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Throwables;
 import com.google.j2objc.annotations.Weak;
 
@@ -197,6 +198,7 @@ import javax.annotation.concurrent.GuardedBy;
  * @since 10.0
  */
 @Beta
+@GwtIncompatible
 public final class Monitor {
   // TODO(user): Use raw LockSupport or AbstractQueuedSynchronizer instead of ReentrantLock.
   // TODO(user): "Port" jsr166 tests for ReentrantLock.

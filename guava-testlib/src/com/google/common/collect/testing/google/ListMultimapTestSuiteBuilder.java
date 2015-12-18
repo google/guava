@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.google;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.testing.AbstractTester;
 import com.google.common.collect.testing.FeatureSpecificTestSuiteBuilder;
@@ -42,8 +43,9 @@ import java.util.Set;
  *
  * @author Louis Wasserman
  */
-public class ListMultimapTestSuiteBuilder<K, V> extends
-    MultimapTestSuiteBuilder<K, V, ListMultimap<K, V>> {
+@GwtIncompatible
+public class ListMultimapTestSuiteBuilder<K, V>
+    extends MultimapTestSuiteBuilder<K, V, ListMultimap<K, V>> {
 
   public static <K, V> ListMultimapTestSuiteBuilder<K, V> using(
       TestListMultimapGenerator<K, V> generator) {
