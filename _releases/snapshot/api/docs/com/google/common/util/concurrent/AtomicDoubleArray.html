@@ -99,7 +99,8 @@
 </dl>
 <hr>
 <br>
-<pre>public class <a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.42">AtomicDoubleArray</a>
+<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public class <a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.45">AtomicDoubleArray</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
 <div class="block">A <code>double</code> array in which elements may be updated atomically.
@@ -269,7 +270,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>AtomicDoubleArray</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.55">AtomicDoubleArray</a>(int&nbsp;length)</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.58">AtomicDoubleArray</a>(int&nbsp;length)</pre>
 <div class="block">Creates a new <code>AtomicDoubleArray</code> of the given length,
  with all elements initially zero.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>length</code> - the length of the array</dd></dl>
@@ -281,7 +282,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AtomicDoubleArray</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.66">AtomicDoubleArray</a>(double[]&nbsp;array)</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.69">AtomicDoubleArray</a>(double[]&nbsp;array)</pre>
 <div class="block">Creates a new <code>AtomicDoubleArray</code> with the same length
  as, and all elements copied from, the given array.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - the array to copy elements from</dd>
@@ -303,7 +304,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>length</h4>
-<pre>public final&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.80">length</a>()</pre>
+<pre>public final&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.83">length</a>()</pre>
 <div class="block">Returns the length of the array.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>the length of the array</dd></dl>
 </li>
@@ -314,7 +315,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.90">get</a>(int&nbsp;i)</pre>
+<pre>public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.93">get</a>(int&nbsp;i)</pre>
 <div class="block">Gets the current value at position <code>i</code>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>i</code> - the index</dd>
 <dt><span class="strong">Returns:</span></dt><dd>the current value</dd></dl>
@@ -326,7 +327,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.100">set</a>(int&nbsp;i,
+<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.103">set</a>(int&nbsp;i,
        double&nbsp;newValue)</pre>
 <div class="block">Sets the element at position <code>i</code> to the given value.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>i</code> - the index</dd><dd><code>newValue</code> - the new value</dd></dl>
@@ -338,7 +339,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>lazySet</h4>
-<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.111">lazySet</a>(int&nbsp;i,
+<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.114">lazySet</a>(int&nbsp;i,
            double&nbsp;newValue)</pre>
 <div class="block">Eventually sets the element at position <code>i</code> to the given value.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>i</code> - the index</dd><dd><code>newValue</code> - the new value</dd></dl>
@@ -350,7 +351,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>getAndSet</h4>
-<pre>public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.126">getAndSet</a>(int&nbsp;i,
+<pre>public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.129">getAndSet</a>(int&nbsp;i,
                double&nbsp;newValue)</pre>
 <div class="block">Atomically sets the element at position <code>i</code> to the given value
  and returns the old value.</div>
@@ -364,7 +365,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>compareAndSet</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.143">compareAndSet</a>(int&nbsp;i,
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.146">compareAndSet</a>(int&nbsp;i,
                     double&nbsp;expect,
                     double&nbsp;update)</pre>
 <div class="block">Atomically sets the element at position <code>i</code> to the given
@@ -382,7 +383,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>weakCompareAndSet</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.166">weakCompareAndSet</a>(int&nbsp;i,
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.169">weakCompareAndSet</a>(int&nbsp;i,
                         double&nbsp;expect,
                         double&nbsp;update)</pre>
 <div class="block">Atomically sets the element at position <code>i</code> to the given
@@ -405,7 +406,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>getAndAdd</h4>
-<pre>public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.179">getAndAdd</a>(int&nbsp;i,
+<pre>public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.182">getAndAdd</a>(int&nbsp;i,
                double&nbsp;delta)</pre>
 <div class="block">Atomically adds the given value to the element at index <code>i</code>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>i</code> - the index</dd><dd><code>delta</code> - the value to add</dd>
@@ -418,7 +419,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>addAndGet</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.198">addAndGet</a>(int&nbsp;i,
+<pre>public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.201">addAndGet</a>(int&nbsp;i,
                double&nbsp;delta)</pre>
 <div class="block">Atomically adds the given value to the element at index <code>i</code>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>i</code> - the index</dd><dd><code>delta</code> - the value to add</dd>
@@ -431,7 +432,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.214">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDoubleArray.html#line.217">toString</a>()</pre>
 <div class="block">Returns the String representation of the current values of array.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>

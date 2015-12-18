@@ -113,7 +113,8 @@
 </dl>
 <hr>
 <br>
-<pre>public abstract class <a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.35">ForwardingLoadingCache</a>&lt;K,V&gt;
+<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public abstract class <a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.37">ForwardingLoadingCache</a>&lt;K,V&gt;
 extends <a href="../../../../com/google/common/cache/ForwardingCache.html" title="class in com.google.common.cache">ForwardingCache</a>&lt;K,V&gt;
 implements <a href="../../../../com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;K,V&gt;</pre>
 <div class="block">A cache which forwards all its method calls to another cache. Subclasses should override one or
@@ -296,7 +297,7 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingLoadingCache</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.39">ForwardingLoadingCache</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.41">ForwardingLoadingCache</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -314,7 +315,7 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre>protected abstract&nbsp;<a href="../../../../com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.42">delegate</a>()</pre>
+<pre>protected abstract&nbsp;<a href="../../../../com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.44">delegate</a>()</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></strong></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to.
  Abstract subclasses generally override this method with an abstract method
@@ -334,7 +335,7 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.45">get</a>(<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&nbsp;key)
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.47">get</a>(<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&nbsp;key)
       throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/LoadingCache.html#get(K)">LoadingCache</a></code></strong></div>
 <div class="block">Returns the value associated with <code>key</code> in this cache, first loading that value if
@@ -369,7 +370,7 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>getUnchecked</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.50">getUnchecked</a>(<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&nbsp;key)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.52">getUnchecked</a>(<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&nbsp;key)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/LoadingCache.html#getUnchecked(K)">LoadingCache</a></code></strong></div>
 <div class="block">Returns the value associated with <code>key</code> in this cache, first loading that value if
  necessary. No observable state associated with this cache is modified until loading
@@ -401,7 +402,7 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>getAll</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.55">getAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&gt;&nbsp;keys)
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.57">getAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&gt;&nbsp;keys)
                          throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/LoadingCache.html#getAll(java.lang.Iterable)">LoadingCache</a></code></strong></div>
 <div class="block">Returns a map of the values associated with <code>keys</code>, creating or retrieving those values
@@ -434,7 +435,7 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>apply</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.60">apply</a>(<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&nbsp;key)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.62">apply</a>(<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&nbsp;key)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/base/Function.html#apply(F)">Function</a></code></strong></div>
 <div class="block">Returns the result of applying this function to <code>input</code>. This method is <i>generally
  expected</i>, but not absolutely required, to have the following properties:
@@ -460,7 +461,7 @@ implements <a href="../../../../com/google/common/cache/LoadingCache.html" title
 <ul class="blockListLast">
 <li class="blockList">
 <h4>refresh</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.65">refresh</a>(<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&nbsp;key)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingLoadingCache.html#line.67">refresh</a>(<a href="../../../../com/google/common/cache/ForwardingLoadingCache.html" title="type parameter in ForwardingLoadingCache">K</a>&nbsp;key)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/LoadingCache.html#refresh(K)">LoadingCache</a></code></strong></div>
 <div class="block">Loads a new value for key <code>key</code>, possibly asynchronously. While the new value is loading
  the previous value (if any) will continue to be returned by <code>get(key)</code> unless it is

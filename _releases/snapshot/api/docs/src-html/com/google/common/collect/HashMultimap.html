@@ -124,13 +124,13 @@
 <span class="sourceLineNo">116</span>   *     each distinct key: the key, number of values for that key, and the<a name="line.116"></a>
 <span class="sourceLineNo">117</span>   *     key's values<a name="line.117"></a>
 <span class="sourceLineNo">118</span>   */<a name="line.118"></a>
-<span class="sourceLineNo">119</span>  @GwtIncompatible("java.io.ObjectOutputStream")<a name="line.119"></a>
+<span class="sourceLineNo">119</span>  @GwtIncompatible // java.io.ObjectOutputStream<a name="line.119"></a>
 <span class="sourceLineNo">120</span>  private void writeObject(ObjectOutputStream stream) throws IOException {<a name="line.120"></a>
 <span class="sourceLineNo">121</span>    stream.defaultWriteObject();<a name="line.121"></a>
 <span class="sourceLineNo">122</span>    Serialization.writeMultimap(this, stream);<a name="line.122"></a>
 <span class="sourceLineNo">123</span>  }<a name="line.123"></a>
 <span class="sourceLineNo">124</span><a name="line.124"></a>
-<span class="sourceLineNo">125</span>  @GwtIncompatible("java.io.ObjectInputStream")<a name="line.125"></a>
+<span class="sourceLineNo">125</span>  @GwtIncompatible // java.io.ObjectInputStream<a name="line.125"></a>
 <span class="sourceLineNo">126</span>  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {<a name="line.126"></a>
 <span class="sourceLineNo">127</span>    stream.defaultReadObject();<a name="line.127"></a>
 <span class="sourceLineNo">128</span>    expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;<a name="line.128"></a>
@@ -140,7 +140,7 @@
 <span class="sourceLineNo">132</span>    Serialization.populateMultimap(this, stream, distinctKeys);<a name="line.132"></a>
 <span class="sourceLineNo">133</span>  }<a name="line.133"></a>
 <span class="sourceLineNo">134</span><a name="line.134"></a>
-<span class="sourceLineNo">135</span>  @GwtIncompatible("Not needed in emulated source")<a name="line.135"></a>
+<span class="sourceLineNo">135</span>  @GwtIncompatible // Not needed in emulated source<a name="line.135"></a>
 <span class="sourceLineNo">136</span>  private static final long serialVersionUID = 0;<a name="line.136"></a>
 <span class="sourceLineNo">137</span>}<a name="line.137"></a>
 

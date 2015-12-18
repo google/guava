@@ -130,7 +130,7 @@
 <span class="sourceLineNo">122</span>   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}<a name="line.122"></a>
 <span class="sourceLineNo">123</span>   *         is not a power of ten<a name="line.123"></a>
 <span class="sourceLineNo">124</span>   */<a name="line.124"></a>
-<span class="sourceLineNo">125</span>  @GwtIncompatible("TODO")<a name="line.125"></a>
+<span class="sourceLineNo">125</span>  @GwtIncompatible // TODO<a name="line.125"></a>
 <span class="sourceLineNo">126</span>  @SuppressWarnings("fallthrough")<a name="line.126"></a>
 <span class="sourceLineNo">127</span>  // TODO(kevinb): remove after this warning is disabled globally<a name="line.127"></a>
 <span class="sourceLineNo">128</span>  public static int log10(long x, RoundingMode mode) {<a name="line.128"></a>
@@ -157,7 +157,7 @@
 <span class="sourceLineNo">149</span>    }<a name="line.149"></a>
 <span class="sourceLineNo">150</span>  }<a name="line.150"></a>
 <span class="sourceLineNo">151</span><a name="line.151"></a>
-<span class="sourceLineNo">152</span>  @GwtIncompatible("TODO")<a name="line.152"></a>
+<span class="sourceLineNo">152</span>  @GwtIncompatible // TODO<a name="line.152"></a>
 <span class="sourceLineNo">153</span>  static int log10Floor(long x) {<a name="line.153"></a>
 <span class="sourceLineNo">154</span>    /*<a name="line.154"></a>
 <span class="sourceLineNo">155</span>     * Based on Hacker's Delight Fig. 11-5, the two-table-lookup, branch-free implementation.<a name="line.155"></a>
@@ -180,7 +180,7 @@
 <span class="sourceLineNo">172</span>      12, 12, 11, 11, 11, 10, 10, 10, 9, 9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4,<a name="line.172"></a>
 <span class="sourceLineNo">173</span>      3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0 };<a name="line.173"></a>
 <span class="sourceLineNo">174</span><a name="line.174"></a>
-<span class="sourceLineNo">175</span>  @GwtIncompatible("TODO")<a name="line.175"></a>
+<span class="sourceLineNo">175</span>  @GwtIncompatible // TODO<a name="line.175"></a>
 <span class="sourceLineNo">176</span>  @VisibleForTesting<a name="line.176"></a>
 <span class="sourceLineNo">177</span>  static final long[] powersOf10 = {<a name="line.177"></a>
 <span class="sourceLineNo">178</span>    1L,<a name="line.178"></a>
@@ -205,7 +205,7 @@
 <span class="sourceLineNo">197</span>  };<a name="line.197"></a>
 <span class="sourceLineNo">198</span><a name="line.198"></a>
 <span class="sourceLineNo">199</span>  // halfPowersOf10[i] = largest long less than 10^(i + 0.5)<a name="line.199"></a>
-<span class="sourceLineNo">200</span>  @GwtIncompatible("TODO")<a name="line.200"></a>
+<span class="sourceLineNo">200</span>  @GwtIncompatible // TODO<a name="line.200"></a>
 <span class="sourceLineNo">201</span>  @VisibleForTesting<a name="line.201"></a>
 <span class="sourceLineNo">202</span>  static final long[] halfPowersOf10 = {<a name="line.202"></a>
 <span class="sourceLineNo">203</span>    3L,<a name="line.203"></a>
@@ -236,7 +236,7 @@
 <span class="sourceLineNo">228</span>   *<a name="line.228"></a>
 <span class="sourceLineNo">229</span>   * @throws IllegalArgumentException if {@code k &lt; 0}<a name="line.229"></a>
 <span class="sourceLineNo">230</span>   */<a name="line.230"></a>
-<span class="sourceLineNo">231</span>  @GwtIncompatible("TODO")<a name="line.231"></a>
+<span class="sourceLineNo">231</span>  @GwtIncompatible // TODO<a name="line.231"></a>
 <span class="sourceLineNo">232</span>  public static long pow(long b, int k) {<a name="line.232"></a>
 <span class="sourceLineNo">233</span>    checkNonNegative("exponent", k);<a name="line.233"></a>
 <span class="sourceLineNo">234</span>    if (-2 &lt;= b &amp;&amp; b &lt;= 2) {<a name="line.234"></a>
@@ -279,7 +279,7 @@
 <span class="sourceLineNo">271</span>   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and<a name="line.271"></a>
 <span class="sourceLineNo">272</span>   *         {@code sqrt(x)} is not an integer<a name="line.272"></a>
 <span class="sourceLineNo">273</span>   */<a name="line.273"></a>
-<span class="sourceLineNo">274</span>  @GwtIncompatible("TODO")<a name="line.274"></a>
+<span class="sourceLineNo">274</span>  @GwtIncompatible // TODO<a name="line.274"></a>
 <span class="sourceLineNo">275</span>  @SuppressWarnings("fallthrough")<a name="line.275"></a>
 <span class="sourceLineNo">276</span>  public static long sqrt(long x, RoundingMode mode) {<a name="line.276"></a>
 <span class="sourceLineNo">277</span>    checkNonNegative("x", x);<a name="line.277"></a>
@@ -351,7 +351,7 @@
 <span class="sourceLineNo">343</span>   * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}<a name="line.343"></a>
 <span class="sourceLineNo">344</span>   *         is not an integer multiple of {@code b}<a name="line.344"></a>
 <span class="sourceLineNo">345</span>   */<a name="line.345"></a>
-<span class="sourceLineNo">346</span>  @GwtIncompatible("TODO")<a name="line.346"></a>
+<span class="sourceLineNo">346</span>  @GwtIncompatible // TODO<a name="line.346"></a>
 <span class="sourceLineNo">347</span>  @SuppressWarnings("fallthrough")<a name="line.347"></a>
 <span class="sourceLineNo">348</span>  public static long divide(long p, long q, RoundingMode mode) {<a name="line.348"></a>
 <span class="sourceLineNo">349</span>    checkNotNull(mode);<a name="line.349"></a>
@@ -424,7 +424,7 @@
 <span class="sourceLineNo">416</span>   * @see &lt;a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3"&gt;<a name="line.416"></a>
 <span class="sourceLineNo">417</span>   *      Remainder Operator&lt;/a&gt;<a name="line.417"></a>
 <span class="sourceLineNo">418</span>   */<a name="line.418"></a>
-<span class="sourceLineNo">419</span>  @GwtIncompatible("TODO")<a name="line.419"></a>
+<span class="sourceLineNo">419</span>  @GwtIncompatible // TODO<a name="line.419"></a>
 <span class="sourceLineNo">420</span>  public static int mod(long x, int m) {<a name="line.420"></a>
 <span class="sourceLineNo">421</span>    // Cast is safe because the result is guaranteed in the range [0, m)<a name="line.421"></a>
 <span class="sourceLineNo">422</span>    return (int) mod(x, (long) m);<a name="line.422"></a>
@@ -448,7 +448,7 @@
 <span class="sourceLineNo">440</span>   * @see &lt;a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3"&gt;<a name="line.440"></a>
 <span class="sourceLineNo">441</span>   *      Remainder Operator&lt;/a&gt;<a name="line.441"></a>
 <span class="sourceLineNo">442</span>   */<a name="line.442"></a>
-<span class="sourceLineNo">443</span>  @GwtIncompatible("TODO")<a name="line.443"></a>
+<span class="sourceLineNo">443</span>  @GwtIncompatible // TODO<a name="line.443"></a>
 <span class="sourceLineNo">444</span>  public static long mod(long x, long m) {<a name="line.444"></a>
 <span class="sourceLineNo">445</span>    if (m &lt;= 0) {<a name="line.445"></a>
 <span class="sourceLineNo">446</span>      throw new ArithmeticException("Modulus must be positive");<a name="line.446"></a>
@@ -513,7 +513,7 @@
 <span class="sourceLineNo">505</span>   *<a name="line.505"></a>
 <span class="sourceLineNo">506</span>   * @throws ArithmeticException if {@code a + b} overflows in signed {@code long} arithmetic<a name="line.506"></a>
 <span class="sourceLineNo">507</span>   */<a name="line.507"></a>
-<span class="sourceLineNo">508</span>  @GwtIncompatible("TODO")<a name="line.508"></a>
+<span class="sourceLineNo">508</span>  @GwtIncompatible // TODO<a name="line.508"></a>
 <span class="sourceLineNo">509</span>  public static long checkedAdd(long a, long b) {<a name="line.509"></a>
 <span class="sourceLineNo">510</span>    long result = a + b;<a name="line.510"></a>
 <span class="sourceLineNo">511</span>    checkNoOverflow((a ^ b) &lt; 0 | (a ^ result) &gt;= 0);<a name="line.511"></a>
@@ -525,7 +525,7 @@
 <span class="sourceLineNo">517</span>   *<a name="line.517"></a>
 <span class="sourceLineNo">518</span>   * @throws ArithmeticException if {@code a - b} overflows in signed {@code long} arithmetic<a name="line.518"></a>
 <span class="sourceLineNo">519</span>   */<a name="line.519"></a>
-<span class="sourceLineNo">520</span>  @GwtIncompatible("TODO")<a name="line.520"></a>
+<span class="sourceLineNo">520</span>  @GwtIncompatible // TODO<a name="line.520"></a>
 <span class="sourceLineNo">521</span>  public static long checkedSubtract(long a, long b) {<a name="line.521"></a>
 <span class="sourceLineNo">522</span>    long result = a - b;<a name="line.522"></a>
 <span class="sourceLineNo">523</span>    checkNoOverflow((a ^ b) &gt;= 0 | (a ^ result) &gt;= 0);<a name="line.523"></a>
@@ -537,7 +537,7 @@
 <span class="sourceLineNo">529</span>   *<a name="line.529"></a>
 <span class="sourceLineNo">530</span>   * @throws ArithmeticException if {@code a * b} overflows in signed {@code long} arithmetic<a name="line.530"></a>
 <span class="sourceLineNo">531</span>   */<a name="line.531"></a>
-<span class="sourceLineNo">532</span>  @GwtIncompatible("TODO")<a name="line.532"></a>
+<span class="sourceLineNo">532</span>  @GwtIncompatible // TODO<a name="line.532"></a>
 <span class="sourceLineNo">533</span>  public static long checkedMultiply(long a, long b) {<a name="line.533"></a>
 <span class="sourceLineNo">534</span>    // Hacker's Delight, Section 2-12<a name="line.534"></a>
 <span class="sourceLineNo">535</span>    int leadingZeros = Long.numberOfLeadingZeros(a) + Long.numberOfLeadingZeros(~a)<a name="line.535"></a>
@@ -568,7 +568,7 @@
 <span class="sourceLineNo">560</span>   * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed<a name="line.560"></a>
 <span class="sourceLineNo">561</span>   *         {@code long} arithmetic<a name="line.561"></a>
 <span class="sourceLineNo">562</span>   */<a name="line.562"></a>
-<span class="sourceLineNo">563</span>  @GwtIncompatible("TODO")<a name="line.563"></a>
+<span class="sourceLineNo">563</span>  @GwtIncompatible // TODO<a name="line.563"></a>
 <span class="sourceLineNo">564</span>  public static long checkedPow(long b, int k) {<a name="line.564"></a>
 <span class="sourceLineNo">565</span>    checkNonNegative("exponent", k);<a name="line.565"></a>
 <span class="sourceLineNo">566</span>    if (b &gt;= -2 &amp; b &lt;= 2) {<a name="line.566"></a>
@@ -735,7 +735,7 @@
 <span class="sourceLineNo">727</span>   *<a name="line.727"></a>
 <span class="sourceLineNo">728</span>   * @throws IllegalArgumentException if {@code n &lt; 0}<a name="line.728"></a>
 <span class="sourceLineNo">729</span>   */<a name="line.729"></a>
-<span class="sourceLineNo">730</span>  @GwtIncompatible("TODO")<a name="line.730"></a>
+<span class="sourceLineNo">730</span>  @GwtIncompatible // TODO<a name="line.730"></a>
 <span class="sourceLineNo">731</span>  public static long factorial(int n) {<a name="line.731"></a>
 <span class="sourceLineNo">732</span>    checkNonNegative("n", n);<a name="line.732"></a>
 <span class="sourceLineNo">733</span>    return (n &lt; factorials.length) ? factorials[n] : Long.MAX_VALUE;<a name="line.733"></a>

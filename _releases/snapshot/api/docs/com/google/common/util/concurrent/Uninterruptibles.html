@@ -239,7 +239,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>awaitUninterruptibly</h4>
-<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="concurrency")
+<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.56">awaitUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true" title="class or interface in java.util.concurrent">CountDownLatch</a>&nbsp;latch)</pre>
 <div class="block">Invokes <code>latch.</code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true#await()" title="class or interface in java.util.concurrent"><code>await()</code></a>
  uninterruptibly.</div>
@@ -251,10 +251,10 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>awaitUninterruptibly</h4>
-<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="concurrency")
+<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.80">awaitUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true" title="class or interface in java.util.concurrent">CountDownLatch</a>&nbsp;latch,
-                                                long&nbsp;timeout,
-                                                <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
+                                           long&nbsp;timeout,
+                                           <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Invokes
  <code>latch.</code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CountDownLatch.html?is-external=true#await(long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent"><code>await(timeout, unit)</code></a> uninterruptibly.</div>
 </li>
@@ -265,8 +265,8 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <ul class="blockList">
 <li class="blockList">
 <h4>joinUninterruptibly</h4>
-<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="concurrency")
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.107">joinUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang">Thread</a>&nbsp;toJoin)</pre>
+<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.106">joinUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang">Thread</a>&nbsp;toJoin)</pre>
 <div class="block">Invokes <code>toJoin.</code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html?is-external=true#join()" title="class or interface in java.lang"><code>join()</code></a> uninterruptibly.</div>
 </li>
 </ul>
@@ -276,7 +276,7 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>getUninterruptibly</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.137">getUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future)
+<pre>public static&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.136">getUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future)
                             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block">Invokes <code>future.</code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent"><code>get()</code></a> uninterruptibly.
  To get uninterruptibility and remove checked exceptions, see
@@ -295,10 +295,10 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>getUninterruptibly</h4>
-<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="TODO")
-public static&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.169">getUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future,
-                                            long&nbsp;timeout,
-                                            <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
+<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.168">getUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future,
+                                       long&nbsp;timeout,
+                                       <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a>,
                                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></pre>
 <div class="block">Invokes
@@ -319,10 +319,10 @@ public static&nbsp;&lt;V&gt;&nbsp;V&nbsp;<a href="../../../../../src-html/com/go
 <ul class="blockList">
 <li class="blockList">
 <h4>joinUninterruptibly</h4>
-<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="concurrency")
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.199">joinUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang">Thread</a>&nbsp;toJoin,
-                                            long&nbsp;timeout,
-                                            <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
+<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.197">joinUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang">Thread</a>&nbsp;toJoin,
+                                       long&nbsp;timeout,
+                                       <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Invokes
  <code>unit.</code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true#timedJoin(java.lang.Thread,%20long)" title="class or interface in java.util.concurrent"><code>timedJoin(toJoin, timeout)</code></a> uninterruptibly.</div>
 </li>
@@ -333,8 +333,8 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>takeUninterruptibly</h4>
-<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="concurrency")
-public static&nbsp;&lt;E&gt;&nbsp;E&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.227">takeUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;E&gt;&nbsp;queue)</pre>
+<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;&lt;E&gt;&nbsp;E&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.224">takeUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;E&gt;&nbsp;queue)</pre>
 <div class="block">Invokes <code>queue.</code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#take()" title="class or interface in java.util.concurrent"><code>take()</code></a> uninterruptibly.</div>
 </li>
 </ul>
@@ -346,9 +346,9 @@ public static&nbsp;&lt;E&gt;&nbsp;E&nbsp;<a href="../../../../../src-html/com/go
 <ul class="blockList">
 <li class="blockList">
 <h4>putUninterruptibly</h4>
-<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="concurrency")
-public static&nbsp;&lt;E&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.254">putUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;E&gt;&nbsp;queue,
-                                               E&nbsp;element)</pre>
+<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;&lt;E&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.251">putUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;E&gt;&nbsp;queue,
+                                          E&nbsp;element)</pre>
 <div class="block">Invokes <code>queue.</code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#put(E)" title="class or interface in java.util.concurrent"><code>put(element)</code></a>
  uninterruptibly.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -364,9 +364,9 @@ public static&nbsp;&lt;E&gt;&nbsp;void&nbsp;<a href="../../../../../src-html/com
 <ul class="blockList">
 <li class="blockList">
 <h4>sleepUninterruptibly</h4>
-<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="concurrency")
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.278">sleepUninterruptibly</a>(long&nbsp;sleepFor,
-                                             <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
+<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.275">sleepUninterruptibly</a>(long&nbsp;sleepFor,
+                                        <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Invokes <code>unit.</code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true#sleep(long)" title="class or interface in java.util.concurrent"><code>sleep(sleepFor)</code></a>
  uninterruptibly.</div>
 </li>
@@ -377,10 +377,10 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>tryAcquireUninterruptibly</h4>
-<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="concurrency")
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.307">tryAcquireUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent">Semaphore</a>&nbsp;semaphore,
-                                                     long&nbsp;timeout,
-                                                     <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
+<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.304">tryAcquireUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent">Semaphore</a>&nbsp;semaphore,
+                                                long&nbsp;timeout,
+                                                <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Invokes <code>semaphore.</code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Semaphore.html?is-external=true#tryAcquire(int,%20long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent"><code>tryAcquire(1, timeout, unit)</code></a> uninterruptibly.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>18.0</dd></dl>
@@ -392,11 +392,11 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <ul class="blockListLast">
 <li class="blockList">
 <h4>tryAcquireUninterruptibly</h4>
-<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="concurrency")
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.319">tryAcquireUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent">Semaphore</a>&nbsp;semaphore,
-                                                     int&nbsp;permits,
-                                                     long&nbsp;timeout,
-                                                     <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
+<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Uninterruptibles.html#line.316">tryAcquireUninterruptibly</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Semaphore.html?is-external=true" title="class or interface in java.util.concurrent">Semaphore</a>&nbsp;semaphore,
+                                                int&nbsp;permits,
+                                                long&nbsp;timeout,
+                                                <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Invokes <code>semaphore.</code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Semaphore.html?is-external=true#tryAcquire(int,%20long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent"><code>tryAcquire(permits, timeout, unit)</code></a> uninterruptibly.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>18.0</dd></dl>

@@ -228,7 +228,7 @@
 <span class="sourceLineNo">220</span>   *     empty string<a name="line.220"></a>
 <span class="sourceLineNo">221</span>   */<a name="line.221"></a>
 <span class="sourceLineNo">222</span>  @CheckReturnValue<a name="line.222"></a>
-<span class="sourceLineNo">223</span>  @GwtIncompatible("java.util.regex")<a name="line.223"></a>
+<span class="sourceLineNo">223</span>  @GwtIncompatible // java.util.regex<a name="line.223"></a>
 <span class="sourceLineNo">224</span>  public static Splitter on(final Pattern separatorPattern) {<a name="line.224"></a>
 <span class="sourceLineNo">225</span>    checkNotNull(separatorPattern);<a name="line.225"></a>
 <span class="sourceLineNo">226</span>    checkArgument(<a name="line.226"></a>
@@ -272,7 +272,7 @@
 <span class="sourceLineNo">264</span>   *     empty string<a name="line.264"></a>
 <span class="sourceLineNo">265</span>   */<a name="line.265"></a>
 <span class="sourceLineNo">266</span>  @CheckReturnValue<a name="line.266"></a>
-<span class="sourceLineNo">267</span>  @GwtIncompatible("java.util.regex")<a name="line.267"></a>
+<span class="sourceLineNo">267</span>  @GwtIncompatible // java.util.regex<a name="line.267"></a>
 <span class="sourceLineNo">268</span>  public static Splitter onPattern(String separatorPattern) {<a name="line.268"></a>
 <span class="sourceLineNo">269</span>    return on(Pattern.compile(separatorPattern));<a name="line.269"></a>
 <span class="sourceLineNo">270</span>  }<a name="line.270"></a>

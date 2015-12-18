@@ -132,7 +132,7 @@
 <span class="sourceLineNo">124</span>   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}<a name="line.124"></a>
 <span class="sourceLineNo">125</span>   *         is not a power of ten<a name="line.125"></a>
 <span class="sourceLineNo">126</span>   */<a name="line.126"></a>
-<span class="sourceLineNo">127</span>  @GwtIncompatible("TODO")<a name="line.127"></a>
+<span class="sourceLineNo">127</span>  @GwtIncompatible // TODO<a name="line.127"></a>
 <span class="sourceLineNo">128</span>  @SuppressWarnings("fallthrough")<a name="line.128"></a>
 <span class="sourceLineNo">129</span>  public static int log10(BigInteger x, RoundingMode mode) {<a name="line.129"></a>
 <span class="sourceLineNo">130</span>    checkPositive("x", x);<a name="line.130"></a>
@@ -210,7 +210,7 @@
 <span class="sourceLineNo">202</span>   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and<a name="line.202"></a>
 <span class="sourceLineNo">203</span>   *         {@code sqrt(x)} is not an integer<a name="line.203"></a>
 <span class="sourceLineNo">204</span>   */<a name="line.204"></a>
-<span class="sourceLineNo">205</span>  @GwtIncompatible("TODO")<a name="line.205"></a>
+<span class="sourceLineNo">205</span>  @GwtIncompatible // TODO<a name="line.205"></a>
 <span class="sourceLineNo">206</span>  @SuppressWarnings("fallthrough")<a name="line.206"></a>
 <span class="sourceLineNo">207</span>  public static BigInteger sqrt(BigInteger x, RoundingMode mode) {<a name="line.207"></a>
 <span class="sourceLineNo">208</span>    checkNonNegative("x", x);<a name="line.208"></a>
@@ -246,7 +246,7 @@
 <span class="sourceLineNo">238</span>    }<a name="line.238"></a>
 <span class="sourceLineNo">239</span>  }<a name="line.239"></a>
 <span class="sourceLineNo">240</span><a name="line.240"></a>
-<span class="sourceLineNo">241</span>  @GwtIncompatible("TODO")<a name="line.241"></a>
+<span class="sourceLineNo">241</span>  @GwtIncompatible // TODO<a name="line.241"></a>
 <span class="sourceLineNo">242</span>  private static BigInteger sqrtFloor(BigInteger x) {<a name="line.242"></a>
 <span class="sourceLineNo">243</span>    /*<a name="line.243"></a>
 <span class="sourceLineNo">244</span>     * Adapted from Hacker's Delight, Figure 11-1.<a name="line.244"></a>
@@ -290,7 +290,7 @@
 <span class="sourceLineNo">282</span>    return sqrt0;<a name="line.282"></a>
 <span class="sourceLineNo">283</span>  }<a name="line.283"></a>
 <span class="sourceLineNo">284</span><a name="line.284"></a>
-<span class="sourceLineNo">285</span>  @GwtIncompatible("TODO")<a name="line.285"></a>
+<span class="sourceLineNo">285</span>  @GwtIncompatible // TODO<a name="line.285"></a>
 <span class="sourceLineNo">286</span>  private static BigInteger sqrtApproxWithDoubles(BigInteger x) {<a name="line.286"></a>
 <span class="sourceLineNo">287</span>    return DoubleMath.roundToBigInteger(Math.sqrt(DoubleUtils.bigToDouble(x)), HALF_EVEN);<a name="line.287"></a>
 <span class="sourceLineNo">288</span>  }<a name="line.288"></a>
@@ -302,7 +302,7 @@
 <span class="sourceLineNo">294</span>   * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}<a name="line.294"></a>
 <span class="sourceLineNo">295</span>   *         is not an integer multiple of {@code b}<a name="line.295"></a>
 <span class="sourceLineNo">296</span>   */<a name="line.296"></a>
-<span class="sourceLineNo">297</span>  @GwtIncompatible("TODO")<a name="line.297"></a>
+<span class="sourceLineNo">297</span>  @GwtIncompatible // TODO<a name="line.297"></a>
 <span class="sourceLineNo">298</span>  public static BigInteger divide(BigInteger p, BigInteger q, RoundingMode mode) {<a name="line.298"></a>
 <span class="sourceLineNo">299</span>    BigDecimal pDec = new BigDecimal(p);<a name="line.299"></a>
 <span class="sourceLineNo">300</span>    BigDecimal qDec = new BigDecimal(q);<a name="line.300"></a>
@@ -453,7 +453,7 @@
 <span class="sourceLineNo">445</span>  }<a name="line.445"></a>
 <span class="sourceLineNo">446</span><a name="line.446"></a>
 <span class="sourceLineNo">447</span>  // Returns true if BigInteger.valueOf(x.longValue()).equals(x).<a name="line.447"></a>
-<span class="sourceLineNo">448</span>  @GwtIncompatible("TODO")<a name="line.448"></a>
+<span class="sourceLineNo">448</span>  @GwtIncompatible // TODO<a name="line.448"></a>
 <span class="sourceLineNo">449</span>  static boolean fitsInLong(BigInteger x) {<a name="line.449"></a>
 <span class="sourceLineNo">450</span>    return x.bitLength() &lt;= Long.SIZE - 1;<a name="line.450"></a>
 <span class="sourceLineNo">451</span>  }<a name="line.451"></a>

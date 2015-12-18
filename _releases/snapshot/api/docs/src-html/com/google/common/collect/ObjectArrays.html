@@ -52,7 +52,7 @@
 <span class="sourceLineNo">044</span>   * @param type the component type<a name="line.44"></a>
 <span class="sourceLineNo">045</span>   * @param length the length of the new array<a name="line.45"></a>
 <span class="sourceLineNo">046</span>   */<a name="line.46"></a>
-<span class="sourceLineNo">047</span>  @GwtIncompatible("Array.newInstance(Class, int)")<a name="line.47"></a>
+<span class="sourceLineNo">047</span>  @GwtIncompatible // Array.newInstance(Class, int)<a name="line.47"></a>
 <span class="sourceLineNo">048</span>  @SuppressWarnings("unchecked")<a name="line.48"></a>
 <span class="sourceLineNo">049</span>  public static &lt;T&gt; T[] newArray(Class&lt;T&gt; type, int length) {<a name="line.49"></a>
 <span class="sourceLineNo">050</span>    return (T[]) Array.newInstance(type, length);<a name="line.50"></a>
@@ -76,7 +76,7 @@
 <span class="sourceLineNo">068</span>   * @param second the second array of elements to concatenate<a name="line.68"></a>
 <span class="sourceLineNo">069</span>   * @param type the component type of the returned array<a name="line.69"></a>
 <span class="sourceLineNo">070</span>   */<a name="line.70"></a>
-<span class="sourceLineNo">071</span>  @GwtIncompatible("Array.newInstance(Class, int)")<a name="line.71"></a>
+<span class="sourceLineNo">071</span>  @GwtIncompatible // Array.newInstance(Class, int)<a name="line.71"></a>
 <span class="sourceLineNo">072</span>  public static &lt;T&gt; T[] concat(T[] first, T[] second, Class&lt;T&gt; type) {<a name="line.72"></a>
 <span class="sourceLineNo">073</span>    T[] result = newArray(type, first.length + second.length);<a name="line.73"></a>
 <span class="sourceLineNo">074</span>    System.arraycopy(first, 0, result, 0, first.length);<a name="line.74"></a>

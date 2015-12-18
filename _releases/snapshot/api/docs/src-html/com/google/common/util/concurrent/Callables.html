@@ -63,7 +63,7 @@
 <span class="sourceLineNo">055</span>   * @param nameSupplier The supplier of thread names, {@link Supplier#get get} will be called once<a name="line.55"></a>
 <span class="sourceLineNo">056</span>   *     for each invocation of the wrapped callable.<a name="line.56"></a>
 <span class="sourceLineNo">057</span>   */<a name="line.57"></a>
-<span class="sourceLineNo">058</span>  @GwtIncompatible("threads")<a name="line.58"></a>
+<span class="sourceLineNo">058</span>  @GwtIncompatible // threads<a name="line.58"></a>
 <span class="sourceLineNo">059</span>  static &lt;T&gt; Callable&lt;T&gt; threadRenaming(<a name="line.59"></a>
 <span class="sourceLineNo">060</span>      final Callable&lt;T&gt; callable, final Supplier&lt;String&gt; nameSupplier) {<a name="line.60"></a>
 <span class="sourceLineNo">061</span>    checkNotNull(nameSupplier);<a name="line.61"></a>
@@ -94,7 +94,7 @@
 <span class="sourceLineNo">086</span>   * @param nameSupplier The supplier of thread names, {@link Supplier#get get} will be called once<a name="line.86"></a>
 <span class="sourceLineNo">087</span>   *     for each invocation of the wrapped callable.<a name="line.87"></a>
 <span class="sourceLineNo">088</span>   */<a name="line.88"></a>
-<span class="sourceLineNo">089</span>  @GwtIncompatible("threads")<a name="line.89"></a>
+<span class="sourceLineNo">089</span>  @GwtIncompatible // threads<a name="line.89"></a>
 <span class="sourceLineNo">090</span>  static Runnable threadRenaming(final Runnable task, final Supplier&lt;String&gt; nameSupplier) {<a name="line.90"></a>
 <span class="sourceLineNo">091</span>    checkNotNull(nameSupplier);<a name="line.91"></a>
 <span class="sourceLineNo">092</span>    checkNotNull(task);<a name="line.92"></a>
@@ -116,7 +116,7 @@
 <span class="sourceLineNo">108</span>  }<a name="line.108"></a>
 <span class="sourceLineNo">109</span><a name="line.109"></a>
 <span class="sourceLineNo">110</span>  /** Tries to set name of the given {@link Thread}, returns true if successful. */<a name="line.110"></a>
-<span class="sourceLineNo">111</span>  @GwtIncompatible("threads")<a name="line.111"></a>
+<span class="sourceLineNo">111</span>  @GwtIncompatible // threads<a name="line.111"></a>
 <span class="sourceLineNo">112</span>  private static boolean trySetName(final String threadName, Thread currentThread) {<a name="line.112"></a>
 <span class="sourceLineNo">113</span>    // In AppEngine this will always fail, should we test for that explicitly using<a name="line.113"></a>
 <span class="sourceLineNo">114</span>    // MoreExecutors.isAppEngine.  More generally, is there a way to see if we have the modifyThread<a name="line.114"></a>

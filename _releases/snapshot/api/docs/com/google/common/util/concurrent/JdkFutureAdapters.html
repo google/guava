@@ -96,7 +96,8 @@
 <hr>
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../../src-html/com/google/common/util/concurrent/JdkFutureAdapters.html#line.37">JdkFutureAdapters</a>
+<a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public final class <a href="../../../../../src-html/com/google/common/util/concurrent/JdkFutureAdapters.html#line.39">JdkFutureAdapters</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Utilities necessary for working with libraries that supply plain <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> instances. Note
  that, whenver possible, it is strongly preferred to modify those libraries to return <code>ListenableFuture</code> directly.</div>
@@ -164,7 +165,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>listenInPoolThread</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/JdkFutureAdapters.html#line.51">listenInPoolThread</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future)</pre>
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/JdkFutureAdapters.html#line.53">listenInPoolThread</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future)</pre>
 <div class="block">Assigns a thread to the given <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> to provide <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> functionality.
 
  <p><b>Warning:</b> If the input future does not already implement <code>ListenableFuture</code>, the
@@ -181,7 +182,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>listenInPoolThread</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/JdkFutureAdapters.html#line.78">listenInPoolThread</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future,
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/JdkFutureAdapters.html#line.80">listenInPoolThread</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;&nbsp;future,
                                          <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Submits a blocking task for the given <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> to provide <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>
  functionality.
