@@ -17,7 +17,6 @@
 package com.google.common.util.concurrent.testing;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -32,8 +31,8 @@ import java.util.concurrent.TimeUnit;
  * @since 10.0
  */
 @Beta
-@GwtIncompatible
-public abstract class AbstractCheckedFutureTest extends AbstractListenableFutureTest {
+public abstract class AbstractCheckedFutureTest
+    extends AbstractListenableFutureTest {
 
   /**
    * More specific type for the create method.

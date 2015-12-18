@@ -19,7 +19,6 @@ package com.google.common.collect.testing;
 import static java.util.Collections.disjoint;
 import static java.util.logging.Level.FINER;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.ConflictingRequirementsException;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.FeatureUtil;
@@ -57,7 +56,6 @@ import java.util.logging.Logger;
  *
  * @author George van den Driessche
  */
-@GwtIncompatible
 public abstract class FeatureSpecificTestSuiteBuilder<
     B extends FeatureSpecificTestSuiteBuilder<B, G>, G> {
   @SuppressWarnings("unchecked")

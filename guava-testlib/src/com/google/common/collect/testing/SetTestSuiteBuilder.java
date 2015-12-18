@@ -19,7 +19,6 @@ package com.google.common.collect.testing;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.testers.CollectionSerializationEqualTester;
 import com.google.common.collect.testing.testers.SetAddAllTester;
@@ -44,7 +43,6 @@ import java.util.Set;
  *
  * @author George van den Driessche
  */
-@GwtIncompatible
 public class SetTestSuiteBuilder<E>
     extends AbstractCollectionTestSuiteBuilder<SetTestSuiteBuilder<E>, E> {
   public static <E> SetTestSuiteBuilder<E> using(

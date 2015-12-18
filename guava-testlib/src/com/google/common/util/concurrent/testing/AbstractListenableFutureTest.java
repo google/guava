@@ -17,7 +17,6 @@
 package com.google.common.util.concurrent.testing;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import junit.framework.TestCase;
@@ -39,7 +38,6 @@ import java.util.concurrent.TimeoutException;
  * @since 10.0
  */
 @Beta
-@GwtIncompatible
 public abstract class AbstractListenableFutureTest extends TestCase {
 
   protected CountDownLatch latch;

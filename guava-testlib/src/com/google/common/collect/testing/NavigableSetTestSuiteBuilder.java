@@ -19,7 +19,6 @@ package com.google.common.collect.testing;
 import static com.google.common.collect.testing.features.CollectionFeature.DESCENDING_VIEW;
 import static com.google.common.collect.testing.features.CollectionFeature.SUBSET_VIEW;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.DerivedCollectionGenerators.Bound;
 import com.google.common.collect.testing.DerivedCollectionGenerators.SortedSetSubsetTestSetGenerator;
 import com.google.common.collect.testing.features.Feature;
@@ -39,8 +38,8 @@ import java.util.SortedSet;
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
  * a NavigableSet implementation.
  */
-@GwtIncompatible
-public final class NavigableSetTestSuiteBuilder<E> extends SortedSetTestSuiteBuilder<E> {
+public final class NavigableSetTestSuiteBuilder<E>
+    extends SortedSetTestSuiteBuilder<E> {
   public static <E> NavigableSetTestSuiteBuilder<E> using(
       TestSortedSetGenerator<E> generator) {
     NavigableSetTestSuiteBuilder<E> builder =

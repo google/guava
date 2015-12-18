@@ -16,8 +16,6 @@
 
 package com.google.common.io;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import java.io.DataInput;
 import java.io.IOException;
 
@@ -34,7 +32,6 @@ import java.io.IOException;
  * @author Kevin Bourrillion
  * @since 1.0
  */
-@GwtIncompatible
 public interface ByteArrayDataInput extends DataInput {
   @Override void readFully(byte b[]);
 

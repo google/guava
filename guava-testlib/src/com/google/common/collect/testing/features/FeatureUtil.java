@@ -16,7 +16,6 @@
 
 package com.google.common.collect.testing.features;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
 
 import java.lang.annotation.Annotation;
@@ -35,7 +34,6 @@ import java.util.Set;
  *
  * @author George van den Driessche
  */
-@GwtIncompatible
 public class FeatureUtil {
   /**
    * A cache of annotated objects (typically a Class or Method) to its

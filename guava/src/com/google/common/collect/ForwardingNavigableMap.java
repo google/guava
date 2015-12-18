@@ -20,7 +20,6 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.Maps.keyOrNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.util.Iterator;
 import java.util.NavigableMap;
@@ -50,7 +49,6 @@ import java.util.SortedMap;
  * @author Louis Wasserman
  * @since 12.0
  */
-@GwtIncompatible
 public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K, V>
     implements NavigableMap<K, V> {
 

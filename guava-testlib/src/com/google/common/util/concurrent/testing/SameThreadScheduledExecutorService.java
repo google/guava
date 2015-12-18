@@ -18,7 +18,6 @@ package com.google.common.util.concurrent.testing;
 
 import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -46,7 +45,6 @@ import java.util.concurrent.TimeoutException;
  * @author John Sirois
  * @author Zach van Schouwen
  */
-@GwtIncompatible
 class SameThreadScheduledExecutorService extends AbstractExecutorService
     implements ListeningScheduledExecutorService {
 

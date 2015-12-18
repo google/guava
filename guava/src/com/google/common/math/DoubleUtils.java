@@ -25,8 +25,6 @@ import static java.lang.Double.isNaN;
 import static java.lang.Double.longBitsToDouble;
 import static java.lang.Math.getExponent;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import java.math.BigInteger;
 
 /**
@@ -34,7 +32,6 @@ import java.math.BigInteger;
  *
  * @author Louis Wasserman
  */
-@GwtIncompatible
 final class DoubleUtils {
   private DoubleUtils() {
   }

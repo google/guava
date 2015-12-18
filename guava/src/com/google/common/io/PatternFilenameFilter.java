@@ -17,7 +17,6 @@
 package com.google.common.io;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 
 import java.io.File;
@@ -35,7 +34,6 @@ import javax.annotation.Nullable;
  * @since 1.0
  */
 @Beta
-@GwtIncompatible
 public final class PatternFilenameFilter implements FilenameFilter {
 
   private final Pattern pattern;

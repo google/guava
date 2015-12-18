@@ -18,8 +18,6 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
@@ -36,7 +34,6 @@ import javax.annotation.Nullable;
  * @author Sebastian Kanthak
  * @since 1.0
  */
-@GwtIncompatible
 class AppendableWriter extends Writer {
   private final Appendable target;
   private boolean closed;

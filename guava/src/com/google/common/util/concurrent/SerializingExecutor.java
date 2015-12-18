@@ -16,7 +16,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 
 import java.util.ArrayDeque;
@@ -47,7 +46,6 @@ import javax.annotation.concurrent.GuardedBy;
  * logged and the executor keeps trucking. If an {@code Error} is thrown, the error will propagate
  * and execution will stop until it is restarted by external calls.
  */
-@GwtIncompatible
 final class SerializingExecutor implements Executor {
   private static final Logger log =
       Logger.getLogger(SerializingExecutor.class.getName());

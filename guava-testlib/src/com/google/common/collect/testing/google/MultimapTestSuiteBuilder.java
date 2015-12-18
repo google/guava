@@ -19,7 +19,6 @@ package com.google.common.collect.testing.google;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -64,10 +63,10 @@ import java.util.Set;
  *
  * @author Louis Wasserman
  */
-@GwtIncompatible
-public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
-    extends PerCollectionSizeTestSuiteBuilder<
-        MultimapTestSuiteBuilder<K, V, M>, TestMultimapGenerator<K, V, M>, M, Map.Entry<K, V>> {
+public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
+    PerCollectionSizeTestSuiteBuilder<
+    MultimapTestSuiteBuilder<K, V, M>,
+    TestMultimapGenerator<K, V, M>, M, Map.Entry<K, V>> {
 
   public static <K, V, M extends Multimap<K, V>> MultimapTestSuiteBuilder<K, V, M> using(
       TestMultimapGenerator<K, V, M> generator) {

@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -35,7 +34,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @since 10.0 (replacing {@code Futures.makeListenable}, which existed in 1.0)
  */
 @Beta
-@GwtIncompatible
 public final class JdkFutureAdapters {
   /**
    * Assigns a thread to the given {@link Future} to provide {@link ListenableFuture} functionality.

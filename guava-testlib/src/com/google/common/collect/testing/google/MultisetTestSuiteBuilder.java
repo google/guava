@@ -18,7 +18,6 @@ package com.google.common.collect.testing.google;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.Multisets;
@@ -54,9 +53,8 @@ import java.util.Set;
  * @author Jared Levy
  * @author Louis Wasserman
  */
-@GwtIncompatible
-public class MultisetTestSuiteBuilder<E>
-    extends AbstractCollectionTestSuiteBuilder<MultisetTestSuiteBuilder<E>, E> {
+public class MultisetTestSuiteBuilder<E> extends
+    AbstractCollectionTestSuiteBuilder<MultisetTestSuiteBuilder<E>, E> {
   public static <E> MultisetTestSuiteBuilder<E> using(
       TestMultisetGenerator<E> generator) {
     return new MultisetTestSuiteBuilder<E>().usingGenerator(generator);

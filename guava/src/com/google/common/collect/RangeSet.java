@@ -15,7 +15,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -50,7 +49,6 @@ import javax.annotation.Nullable;
  * @since 14.0
  */
 @Beta
-@GwtIncompatible
 public interface RangeSet<C extends Comparable> {
 
   // Query methods

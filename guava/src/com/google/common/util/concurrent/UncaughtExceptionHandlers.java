@@ -18,7 +18,6 @@ package com.google.common.util.concurrent;
 
 import static java.util.logging.Level.SEVERE;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -31,7 +30,6 @@ import java.util.logging.Logger;
  * @author Gregory Kick
  * @since 8.0
  */
-@GwtIncompatible
 public final class UncaughtExceptionHandlers {
   private UncaughtExceptionHandlers() {}
 

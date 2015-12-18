@@ -16,7 +16,6 @@
 
 package com.google.common.cache;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingObject;
 import com.google.common.collect.ImmutableMap;
@@ -36,7 +35,6 @@ import javax.annotation.Nullable;
  * @author Charles Fry
  * @since 10.0
  */
-@GwtIncompatible
 public abstract class ForwardingCache<K, V> extends ForwardingObject implements Cache<K, V> {
 
   /** Constructor for use by subclasses. */

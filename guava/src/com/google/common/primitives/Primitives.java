@@ -18,8 +18,6 @@ package com.google.common.primitives;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +33,6 @@ import javax.annotation.CheckReturnValue;
  * @since 1.0
  */
 @CheckReturnValue
-@GwtIncompatible
 public final class Primitives {
   private Primitives() {}
 

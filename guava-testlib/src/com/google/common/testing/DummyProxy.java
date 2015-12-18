@@ -18,7 +18,6 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.reflect.AbstractInvocationHandler;
@@ -38,7 +37,6 @@ import javax.annotation.Nullable;
  *
  * @author Ben Yu
  */
-@GwtIncompatible
 abstract class DummyProxy {
 
   /**

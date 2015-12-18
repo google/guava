@@ -16,7 +16,6 @@
 
 package com.google.common.collect.testing;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.SetFeature;
@@ -47,7 +46,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
  *
  * @author Kevin Bourrillion
  */
-@GwtIncompatible
 public class TestsForSetsInJavaUtil {
   public static Test suite() {
     return new TestsForSetsInJavaUtil().allTests();

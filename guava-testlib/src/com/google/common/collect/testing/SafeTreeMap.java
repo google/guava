@@ -16,8 +16,6 @@
 
 package com.google.common.collect.testing;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -37,8 +35,8 @@ import java.util.TreeMap;
  *
  * @author Louis Wasserman
  */
-@GwtIncompatible
-public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V> {
+public final class SafeTreeMap<K, V>
+    implements Serializable, NavigableMap<K, V> {
   @SuppressWarnings("unchecked")
   private static final Comparator<Object> NATURAL_ORDER = new Comparator<Object>() {
     @Override public int compare(Object o1, Object o2) {

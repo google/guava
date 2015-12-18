@@ -18,7 +18,6 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 
@@ -44,7 +43,6 @@ import java.util.concurrent.TimeoutException;
  *
  * @author Chris Nokleberg
  */
-@GwtIncompatible
 abstract class WrappingExecutorService implements ExecutorService {
   private final ExecutorService delegate;
 

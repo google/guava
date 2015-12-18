@@ -14,7 +14,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingObject;
 
@@ -33,7 +32,6 @@ import java.util.concurrent.TimeoutException;
  * @author Sven Mawson
  * @since 1.0
  */
-@GwtIncompatible
 public abstract class ForwardingFuture<V> extends ForwardingObject implements Future<V> {
   /** Constructor for use by subclasses. */
   protected ForwardingFuture() {}

@@ -20,7 +20,6 @@ import static com.google.common.collect.testing.features.CollectionFeature.KNOWN
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.testers.CollectionSerializationEqualTester;
@@ -58,9 +57,8 @@ import java.util.Set;
  *
  * @author George van den Driessche
  */
-@GwtIncompatible
-public final class ListTestSuiteBuilder<E>
-    extends AbstractCollectionTestSuiteBuilder<ListTestSuiteBuilder<E>, E> {
+public final class ListTestSuiteBuilder<E> extends
+    AbstractCollectionTestSuiteBuilder<ListTestSuiteBuilder<E>, E> {
   public static <E> ListTestSuiteBuilder<E> using(
       TestListGenerator<E> generator) {
     return new ListTestSuiteBuilder<E>().usingGenerator(generator);

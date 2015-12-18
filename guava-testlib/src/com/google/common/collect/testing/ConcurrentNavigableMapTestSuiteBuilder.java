@@ -16,19 +16,16 @@
 
 package com.google.common.collect.testing;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import java.util.List;
 
 /**
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
  * a ConcurrentNavigableMap implementation.
- *
+ * 
  * @author Louis Wasserman
  */
-@GwtIncompatible
-public class ConcurrentNavigableMapTestSuiteBuilder<K, V>
-    extends NavigableMapTestSuiteBuilder<K, V> {
+public class ConcurrentNavigableMapTestSuiteBuilder<K, V> extends
+    NavigableMapTestSuiteBuilder<K, V> {
 
   public static <K, V> ConcurrentNavigableMapTestSuiteBuilder<K, V> using(
       TestSortedMapGenerator<K, V> generator) {

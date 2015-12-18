@@ -16,8 +16,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import javax.annotation.Nullable;
 
 /**
@@ -26,7 +24,6 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 1.0
  */
-@GwtIncompatible
 public class UncheckedTimeoutException extends RuntimeException {
   public UncheckedTimeoutException() {}
 

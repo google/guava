@@ -14,8 +14,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtIncompatible;
-
 /**
  * "Overrides" the {@link ImmutableMultiset} static methods that lack
  * {@link ImmutableSortedMultiset} equivalents with deprecated, exception-throwing versions. This
@@ -33,7 +31,6 @@ import com.google.common.annotations.GwtIncompatible;
  *
  * @author Louis Wasserman
  */
-@GwtIncompatible
 abstract class ImmutableSortedMultisetFauxverideShim<E> extends ImmutableMultiset<E> {
   /**
    * Not supported. Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better

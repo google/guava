@@ -16,7 +16,6 @@
 
 package com.google.common.io;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 
 import java.io.IOException;
@@ -31,7 +30,6 @@ import javax.annotation.Nullable;
  * @author Bin Zhu
  * @since 1.0
  */
-@GwtIncompatible
 class MultiReader extends Reader {
   private final Iterator<? extends CharSource> it;
   private Reader current;

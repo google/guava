@@ -19,7 +19,6 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -36,7 +35,6 @@ import java.util.Queue;
  * @since 1.0
  */
 @Beta
-@GwtIncompatible
 public final class LineReader {
   private final Readable readable;
   private final Reader reader;

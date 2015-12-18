@@ -19,7 +19,6 @@ package com.google.common.testing;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 
 import java.lang.ref.WeakReference;
@@ -102,7 +101,6 @@ import java.util.concurrent.TimeoutException;
  * @since 11.0
  */
 @Beta
-@GwtIncompatible
 @J2ObjCIncompatible // gc
 public final class GcFinalization {
   private GcFinalization() {}

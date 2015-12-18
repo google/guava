@@ -16,8 +16,6 @@
 
 package com.google.common.collect.testing;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import junit.framework.TestSuite;
 
 import java.util.List;
@@ -28,10 +26,10 @@ import java.util.List;
  *
  * @author George van den Driessche
  */
-@GwtIncompatible
 public class DerivedIteratorTestSuiteBuilder<E>
     extends FeatureSpecificTestSuiteBuilder<
-        DerivedIteratorTestSuiteBuilder<E>, TestSubjectGenerator<? extends Iterable<E>>> {
+        DerivedIteratorTestSuiteBuilder<E>,
+        TestSubjectGenerator<? extends Iterable<E>>> {
   /**
    * We rely entirely on the delegate builder for test creation, so this
    * just throws UnsupportedOperationException.

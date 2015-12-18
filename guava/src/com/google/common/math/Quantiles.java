@@ -24,7 +24,6 @@ import static java.util.Arrays.sort;
 import static java.util.Collections.unmodifiableMap;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 
@@ -126,7 +125,6 @@ import java.util.Map;
  * @since 20.0
  */
 @Beta
-@GwtIncompatible
 public final class Quantiles {
 
   /**
