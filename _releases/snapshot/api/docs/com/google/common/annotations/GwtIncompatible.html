@@ -60,8 +60,8 @@
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li><a href="#annotation_type_required_element_summary">Required</a>&nbsp;|&nbsp;</li>
-<li>Optional</li>
+<li>Required&nbsp;|&nbsp;</li>
+<li><a href="#annotation_type_optional_element_summary">Optional</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
@@ -87,16 +87,13 @@
 <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Target.html?is-external=true" title="class or interface in java.lang.annotation">@Target</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Target.html?is-external=true#value()" title="class or interface in java.lang.annotation">value</a>={<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/ElementType.html?is-external=true#TYPE" title="class or interface in java.lang.annotation">TYPE</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/ElementType.html?is-external=true#METHOD" title="class or interface in java.lang.annotation">METHOD</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/ElementType.html?is-external=true#CONSTRUCTOR" title="class or interface in java.lang.annotation">CONSTRUCTOR</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/ElementType.html?is-external=true#FIELD" title="class or interface in java.lang.annotation">FIELD</a>})
 <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Documented.html?is-external=true" title="class or interface in java.lang.annotation">@Documented</a>
 <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public @interface <a href="../../../../src-html/com/google/common/annotations/GwtIncompatible.html#line.44">GwtIncompatible</a></pre>
-<div class="block">The presence of this annotation on a method indicates that the method may
- <em>not</em> be used with the
- <a href="http://code.google.com/webtoolkit/">Google Web Toolkit</a> (GWT),
- even though its type is annotated as <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations"><code>GwtCompatible</code></a> and accessible in
- GWT.  They can cause GWT compilation errors or simply unexpected exceptions
- when used in GWT.
+public @interface <a href="../../../../src-html/com/google/common/annotations/GwtIncompatible.html#line.37">GwtIncompatible</a></pre>
+<div class="block">The presence of this annotation on an API indicates that the method may <em>not</em> be used with
+ the <a href="http://www.gwtproject.org/">Google Web Toolkit</a> (GWT).
 
- <p>Note that this annotation should only be applied to methods, fields, or
- inner classes of types which are annotated as <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations"><code>GwtCompatible</code></a>.</div>
+ <p>This annotation behaves identically to <a
+ href="http://www.gwtproject.org/javadoc/latest/com/google/gwt/core/shared/GwtIncompatible.html">the
+ <code>@GwtCompatible</code> annotation in GWT itself</a>.</div>
 <dl><dt><span class="strong">Author:</span></dt>
   <dd>Charles Fry</dd></dl>
 </li>
@@ -105,17 +102,17 @@ public @interface <a href="../../../../src-html/com/google/common/annotations/Gw
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
-<!-- =========== ANNOTATION TYPE REQUIRED MEMBER SUMMARY =========== -->
+<!-- =========== ANNOTATION TYPE OPTIONAL MEMBER SUMMARY =========== -->
 <ul class="blockList">
-<li class="blockList"><a name="annotation_type_required_element_summary">
+<li class="blockList"><a name="annotation_type_optional_element_summary">
 <!--   -->
 </a>
-<h3>Required Element Summary</h3>
-<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Required Element Summary table, listing required elements, and an explanation">
-<caption><span>Required Elements</span><span class="tabEnd">&nbsp;</span></caption>
+<h3>Optional Element Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Optional Element Summary table, listing optional elements, and an explanation">
+<caption><span>Optional Elements</span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Required Element and Description</th>
+<th class="colLast" scope="col">Optional Element and Description</th>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
@@ -144,11 +141,17 @@ public @interface <a href="../../../../src-html/com/google/common/annotations/Gw
 <ul class="blockListLast">
 <li class="blockList">
 <h4>value</h4>
-<pre>public abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/annotations/GwtIncompatible.html#line.51">value</a></pre>
-<div class="block">Describes why the annotated element is incompatible with GWT. Since this is
- generally due to a dependence on a type/method which GWT doesn't support,
- it is sufficient to simply reference the unsupported type/method. E.g.
- "Class.isInstance".</div>
+<pre>public abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/annotations/GwtIncompatible.html#line.46">value</a></pre>
+<div class="block">Describes why the annotated element is incompatible with GWT. Since this is generally due to a
+ dependence on a type/method which GWT doesn't support, it is sufficient to simply reference the
+ unsupported type/method. E.g. "Class.isInstance".
+
+ <p>As of Guava 20.0, this value is optional. We encourage authors who wish to describe why
+ an API is <code>@GwtIncompatible</code> to instead leave an implementation comment.</div>
+<dl>
+<dt>Default:</dt>
+<dd>""</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -202,8 +205,8 @@ public @interface <a href="../../../../src-html/com/google/common/annotations/Gw
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li><a href="#annotation_type_required_element_summary">Required</a>&nbsp;|&nbsp;</li>
-<li>Optional</li>
+<li>Required&nbsp;|&nbsp;</li>
+<li><a href="#annotation_type_optional_element_summary">Optional</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>

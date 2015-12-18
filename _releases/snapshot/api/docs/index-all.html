@@ -810,6 +810,10 @@
 <div class="block">Calls <code>next()</code> on <code>iterator</code>, either <code>numberToAdvance</code> times
  or until <code>hasNext()</code> returns <code>false</code>, whichever comes first.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/AbstractFuture.html#afterDone()">afterDone()</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a></dt>
+<dd>
+<div class="block">Callback method that is called exactly once after the future is completed.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/net/HttpHeaders.html#AGE">AGE</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
 <div class="block">The HTTP <code>Age</code> header field name.</div>
@@ -7360,11 +7364,8 @@
 </dd>
 <dt><a href="./com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations"><span class="strong">GwtIncompatible</span></a> - Annotation Type in <a href="./com/google/common/annotations/package-summary.html">com.google.common.annotations</a></dt>
 <dd>
-<div class="block">The presence of this annotation on a method indicates that the method may
- <em>not</em> be used with the
- <a href="http://code.google.com/webtoolkit/">Google Web Toolkit</a> (GWT),
- even though its type is annotated as <a href="./com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations"><code>GwtCompatible</code></a> and accessible in
- GWT.</div>
+<div class="block">The presence of this annotation on an API indicates that the method may <em>not</em> be used with
+ the <a href="http://www.gwtproject.org/">Google Web Toolkit</a> (GWT).</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/MediaType.html#GZIP">GZIP</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>&nbsp;</dd>

@@ -763,285 +763,290 @@
 <span class="sourceLineNo">755</span>    for (; reversedList != null; reversedList = reversedList.next) {<a name="line.755"></a>
 <span class="sourceLineNo">756</span>      executeListener(reversedList.task, reversedList.executor);<a name="line.756"></a>
 <span class="sourceLineNo">757</span>    }<a name="line.757"></a>
-<span class="sourceLineNo">758</span>    // We call this after the listeners on the theory that done() will only be used for 'cleanup'<a name="line.758"></a>
-<span class="sourceLineNo">759</span>    // oriented tasks (e.g. clearing fields) and so can wait behind listeners which may be executing<a name="line.759"></a>
-<span class="sourceLineNo">760</span>    // more important work.  A counter argument would be that done() is trusted code and therefore<a name="line.760"></a>
-<span class="sourceLineNo">761</span>    // it would be safe to run before potentially slow or poorly behaved listeners.  Reevaluate this<a name="line.761"></a>
-<span class="sourceLineNo">762</span>    // once we have more examples of done() implementations.<a name="line.762"></a>
-<span class="sourceLineNo">763</span>    done();<a name="line.763"></a>
+<span class="sourceLineNo">758</span>    // We call this after the listeners on the theory that afterDone() will only be used for<a name="line.758"></a>
+<span class="sourceLineNo">759</span>    // 'cleanup' oriented tasks (e.g. clearing fields) and so can wait behind listeners which may be<a name="line.759"></a>
+<span class="sourceLineNo">760</span>    // executing more important work.  A counter argument would be that done() is trusted code and<a name="line.760"></a>
+<span class="sourceLineNo">761</span>    // therefore it would be safe to run before potentially slow or poorly behaved listeners.<a name="line.761"></a>
+<span class="sourceLineNo">762</span>    // Reevaluate this once we have more examples of afterDone() implementations.<a name="line.762"></a>
+<span class="sourceLineNo">763</span>    afterDone();<a name="line.763"></a>
 <span class="sourceLineNo">764</span>  }<a name="line.764"></a>
 <span class="sourceLineNo">765</span><a name="line.765"></a>
 <span class="sourceLineNo">766</span>  /**<a name="line.766"></a>
-<span class="sourceLineNo">767</span>   * Callback method that is called immediately after the future is completed.<a name="line.767"></a>
+<span class="sourceLineNo">767</span>   * Callback method that is called exactly once after the future is completed.<a name="line.767"></a>
 <span class="sourceLineNo">768</span>   *<a name="line.768"></a>
-<span class="sourceLineNo">769</span>   * &lt;p&gt;This is called exactly once, after all listeners have executed.  By default it does nothing.<a name="line.769"></a>
-<span class="sourceLineNo">770</span>   */<a name="line.770"></a>
-<span class="sourceLineNo">771</span>  // TODO(cpovirk): @ForOverride https://github.com/google/error-prone/issues/342<a name="line.771"></a>
-<span class="sourceLineNo">772</span>  void done() {}<a name="line.772"></a>
-<span class="sourceLineNo">773</span><a name="line.773"></a>
-<span class="sourceLineNo">774</span>  /**<a name="line.774"></a>
-<span class="sourceLineNo">775</span>   * Returns the exception that this {@code Future} completed with. This includes completion through<a name="line.775"></a>
-<span class="sourceLineNo">776</span>   * a call to {@link setException} or {@link setFuture}{@code (failedFuture)} but not cancellation.<a name="line.776"></a>
-<span class="sourceLineNo">777</span>   *<a name="line.777"></a>
-<span class="sourceLineNo">778</span>   * @throws RuntimeException if the {@code Future} has not failed<a name="line.778"></a>
-<span class="sourceLineNo">779</span>   */<a name="line.779"></a>
-<span class="sourceLineNo">780</span>  final Throwable trustedGetException() {<a name="line.780"></a>
-<span class="sourceLineNo">781</span>    return ((Failure) value).exception;<a name="line.781"></a>
-<span class="sourceLineNo">782</span>  }<a name="line.782"></a>
-<span class="sourceLineNo">783</span><a name="line.783"></a>
-<span class="sourceLineNo">784</span>  /**<a name="line.784"></a>
-<span class="sourceLineNo">785</span>   * If this future has been cancelled (and possibly interrupted), cancels (and possibly interrupts)<a name="line.785"></a>
-<span class="sourceLineNo">786</span>   * the given future (if available).<a name="line.786"></a>
-<span class="sourceLineNo">787</span>   *<a name="line.787"></a>
-<span class="sourceLineNo">788</span>   * &lt;p&gt;This method should be used only when this future is completed. It is designed to be called<a name="line.788"></a>
-<span class="sourceLineNo">789</span>   * from {@code done}.<a name="line.789"></a>
-<span class="sourceLineNo">790</span>   */<a name="line.790"></a>
-<span class="sourceLineNo">791</span>  final void maybePropagateCancellation(@Nullable Future&lt;?&gt; related) {<a name="line.791"></a>
-<span class="sourceLineNo">792</span>    if (related != null &amp; isCancelled()) {<a name="line.792"></a>
-<span class="sourceLineNo">793</span>      related.cancel(wasInterrupted());<a name="line.793"></a>
-<span class="sourceLineNo">794</span>    }<a name="line.794"></a>
-<span class="sourceLineNo">795</span>  }<a name="line.795"></a>
-<span class="sourceLineNo">796</span><a name="line.796"></a>
-<span class="sourceLineNo">797</span>  /** Clears the {@link #waiters} list and returns the most recently added value. */<a name="line.797"></a>
-<span class="sourceLineNo">798</span>  private Waiter clearWaiters() {<a name="line.798"></a>
-<span class="sourceLineNo">799</span>    Waiter head;<a name="line.799"></a>
-<span class="sourceLineNo">800</span>    do {<a name="line.800"></a>
-<span class="sourceLineNo">801</span>      head = waiters;<a name="line.801"></a>
-<span class="sourceLineNo">802</span>    } while (!ATOMIC_HELPER.casWaiters(this, head, Waiter.TOMBSTONE));<a name="line.802"></a>
-<span class="sourceLineNo">803</span>    return head;<a name="line.803"></a>
-<span class="sourceLineNo">804</span>  }<a name="line.804"></a>
-<span class="sourceLineNo">805</span><a name="line.805"></a>
-<span class="sourceLineNo">806</span>  /** Clears the {@link #listeners} list and returns the most recently added value. */<a name="line.806"></a>
-<span class="sourceLineNo">807</span>  private Listener clearListeners() {<a name="line.807"></a>
-<span class="sourceLineNo">808</span>    Listener head;<a name="line.808"></a>
-<span class="sourceLineNo">809</span>    do {<a name="line.809"></a>
-<span class="sourceLineNo">810</span>      head = listeners;<a name="line.810"></a>
-<span class="sourceLineNo">811</span>    } while (!ATOMIC_HELPER.casListeners(this, head, Listener.TOMBSTONE));<a name="line.811"></a>
-<span class="sourceLineNo">812</span>    return head;<a name="line.812"></a>
-<span class="sourceLineNo">813</span>  }<a name="line.813"></a>
-<span class="sourceLineNo">814</span><a name="line.814"></a>
-<span class="sourceLineNo">815</span>  /**<a name="line.815"></a>
-<span class="sourceLineNo">816</span>   * Submits the given runnable to the given {@link Executor} catching and logging all<a name="line.816"></a>
-<span class="sourceLineNo">817</span>   * {@linkplain RuntimeException runtime exceptions} thrown by the executor.<a name="line.817"></a>
-<span class="sourceLineNo">818</span>   */<a name="line.818"></a>
-<span class="sourceLineNo">819</span>  private static void executeListener(Runnable runnable, Executor executor) {<a name="line.819"></a>
-<span class="sourceLineNo">820</span>    try {<a name="line.820"></a>
-<span class="sourceLineNo">821</span>      executor.execute(runnable);<a name="line.821"></a>
-<span class="sourceLineNo">822</span>    } catch (RuntimeException e) {<a name="line.822"></a>
-<span class="sourceLineNo">823</span>      // Log it and keep going, bad runnable and/or executor.  Don't<a name="line.823"></a>
-<span class="sourceLineNo">824</span>      // punish the other runnables if we're given a bad one.  We only<a name="line.824"></a>
-<span class="sourceLineNo">825</span>      // catch RuntimeException because we want Errors to propagate up.<a name="line.825"></a>
-<span class="sourceLineNo">826</span>      log.log(<a name="line.826"></a>
-<span class="sourceLineNo">827</span>          Level.SEVERE,<a name="line.827"></a>
-<span class="sourceLineNo">828</span>          "RuntimeException while executing runnable " + runnable + " with executor " + executor,<a name="line.828"></a>
-<span class="sourceLineNo">829</span>          e);<a name="line.829"></a>
-<span class="sourceLineNo">830</span>    }<a name="line.830"></a>
-<span class="sourceLineNo">831</span>  }<a name="line.831"></a>
-<span class="sourceLineNo">832</span><a name="line.832"></a>
-<span class="sourceLineNo">833</span>  static final CancellationException cancellationExceptionWithCause(<a name="line.833"></a>
-<span class="sourceLineNo">834</span>      @Nullable String message, @Nullable Throwable cause) {<a name="line.834"></a>
-<span class="sourceLineNo">835</span>    CancellationException exception = new CancellationException(message);<a name="line.835"></a>
-<span class="sourceLineNo">836</span>    exception.initCause(cause);<a name="line.836"></a>
-<span class="sourceLineNo">837</span>    return exception;<a name="line.837"></a>
-<span class="sourceLineNo">838</span>  }<a name="line.838"></a>
-<span class="sourceLineNo">839</span><a name="line.839"></a>
-<span class="sourceLineNo">840</span>  private abstract static class AtomicHelper {<a name="line.840"></a>
-<span class="sourceLineNo">841</span>    /** Non volatile write of the thread to the {@link Waiter#thread} field. */<a name="line.841"></a>
-<span class="sourceLineNo">842</span>    abstract void putThread(Waiter waiter, Thread newValue);<a name="line.842"></a>
-<span class="sourceLineNo">843</span><a name="line.843"></a>
-<span class="sourceLineNo">844</span>    /** Non volatile write of the waiter to the {@link Waiter#next} field. */<a name="line.844"></a>
-<span class="sourceLineNo">845</span>    abstract void putNext(Waiter waiter, Waiter newValue);<a name="line.845"></a>
-<span class="sourceLineNo">846</span><a name="line.846"></a>
-<span class="sourceLineNo">847</span>    /** Performs a CAS operation on the {@link #waiters} field. */<a name="line.847"></a>
-<span class="sourceLineNo">848</span>    abstract boolean casWaiters(AbstractFuture&lt;?&gt; future, Waiter expect, Waiter update);<a name="line.848"></a>
-<span class="sourceLineNo">849</span><a name="line.849"></a>
-<span class="sourceLineNo">850</span>    /** Performs a CAS operation on the {@link #listeners} field. */<a name="line.850"></a>
-<span class="sourceLineNo">851</span>    abstract boolean casListeners(AbstractFuture&lt;?&gt; future, Listener expect, Listener update);<a name="line.851"></a>
-<span class="sourceLineNo">852</span><a name="line.852"></a>
-<span class="sourceLineNo">853</span>    /** Performs a CAS operation on the {@link #value} field. */<a name="line.853"></a>
-<span class="sourceLineNo">854</span>    abstract boolean casValue(AbstractFuture&lt;?&gt; future, Object expect, Object update);<a name="line.854"></a>
-<span class="sourceLineNo">855</span>  }<a name="line.855"></a>
-<span class="sourceLineNo">856</span><a name="line.856"></a>
-<span class="sourceLineNo">857</span>  /**<a name="line.857"></a>
-<span class="sourceLineNo">858</span>   * {@link AtomicHelper} based on {@link sun.misc.Unsafe}.<a name="line.858"></a>
-<span class="sourceLineNo">859</span>   *<a name="line.859"></a>
-<span class="sourceLineNo">860</span>   * &lt;p&gt;Static initialization of this class will fail if the {@link sun.misc.Unsafe} object cannot<a name="line.860"></a>
-<span class="sourceLineNo">861</span>   * be accessed.<a name="line.861"></a>
-<span class="sourceLineNo">862</span>   */<a name="line.862"></a>
-<span class="sourceLineNo">863</span>  private static final class UnsafeAtomicHelper extends AtomicHelper {<a name="line.863"></a>
-<span class="sourceLineNo">864</span>    static final sun.misc.Unsafe UNSAFE;<a name="line.864"></a>
-<span class="sourceLineNo">865</span>    static final long LISTENERS_OFFSET;<a name="line.865"></a>
-<span class="sourceLineNo">866</span>    static final long WAITERS_OFFSET;<a name="line.866"></a>
-<span class="sourceLineNo">867</span>    static final long VALUE_OFFSET;<a name="line.867"></a>
-<span class="sourceLineNo">868</span>    static final long WAITER_THREAD_OFFSET;<a name="line.868"></a>
-<span class="sourceLineNo">869</span>    static final long WAITER_NEXT_OFFSET;<a name="line.869"></a>
-<span class="sourceLineNo">870</span><a name="line.870"></a>
-<span class="sourceLineNo">871</span>    static {<a name="line.871"></a>
-<span class="sourceLineNo">872</span>      sun.misc.Unsafe unsafe = null;<a name="line.872"></a>
-<span class="sourceLineNo">873</span>      try {<a name="line.873"></a>
-<span class="sourceLineNo">874</span>        unsafe = sun.misc.Unsafe.getUnsafe();<a name="line.874"></a>
-<span class="sourceLineNo">875</span>      } catch (SecurityException tryReflectionInstead) {<a name="line.875"></a>
-<span class="sourceLineNo">876</span>        try {<a name="line.876"></a>
-<span class="sourceLineNo">877</span>          unsafe =<a name="line.877"></a>
-<span class="sourceLineNo">878</span>              AccessController.doPrivileged(<a name="line.878"></a>
-<span class="sourceLineNo">879</span>                  new PrivilegedExceptionAction&lt;sun.misc.Unsafe&gt;() {<a name="line.879"></a>
-<span class="sourceLineNo">880</span>                    @Override<a name="line.880"></a>
-<span class="sourceLineNo">881</span>                    public sun.misc.Unsafe run() throws Exception {<a name="line.881"></a>
-<span class="sourceLineNo">882</span>                      Class&lt;sun.misc.Unsafe&gt; k = sun.misc.Unsafe.class;<a name="line.882"></a>
-<span class="sourceLineNo">883</span>                      for (java.lang.reflect.Field f : k.getDeclaredFields()) {<a name="line.883"></a>
-<span class="sourceLineNo">884</span>                        f.setAccessible(true);<a name="line.884"></a>
-<span class="sourceLineNo">885</span>                        Object x = f.get(null);<a name="line.885"></a>
-<span class="sourceLineNo">886</span>                        if (k.isInstance(x)) {<a name="line.886"></a>
-<span class="sourceLineNo">887</span>                          return k.cast(x);<a name="line.887"></a>
-<span class="sourceLineNo">888</span>                        }<a name="line.888"></a>
-<span class="sourceLineNo">889</span>                      }<a name="line.889"></a>
-<span class="sourceLineNo">890</span>                      throw new NoSuchFieldError("the Unsafe");<a name="line.890"></a>
-<span class="sourceLineNo">891</span>                    }<a name="line.891"></a>
-<span class="sourceLineNo">892</span>                  });<a name="line.892"></a>
-<span class="sourceLineNo">893</span>        } catch (PrivilegedActionException e) {<a name="line.893"></a>
-<span class="sourceLineNo">894</span>          throw new RuntimeException("Could not initialize intrinsics", e.getCause());<a name="line.894"></a>
-<span class="sourceLineNo">895</span>        }<a name="line.895"></a>
-<span class="sourceLineNo">896</span>      }<a name="line.896"></a>
-<span class="sourceLineNo">897</span>      try {<a name="line.897"></a>
-<span class="sourceLineNo">898</span>        Class&lt;?&gt; abstractFuture = AbstractFuture.class;<a name="line.898"></a>
-<span class="sourceLineNo">899</span>        WAITERS_OFFSET = unsafe.objectFieldOffset(abstractFuture.getDeclaredField("waiters"));<a name="line.899"></a>
-<span class="sourceLineNo">900</span>        LISTENERS_OFFSET = unsafe.objectFieldOffset(abstractFuture.getDeclaredField("listeners"));<a name="line.900"></a>
-<span class="sourceLineNo">901</span>        VALUE_OFFSET = unsafe.objectFieldOffset(abstractFuture.getDeclaredField("value"));<a name="line.901"></a>
-<span class="sourceLineNo">902</span>        WAITER_THREAD_OFFSET = unsafe.objectFieldOffset(Waiter.class.getDeclaredField("thread"));<a name="line.902"></a>
-<span class="sourceLineNo">903</span>        WAITER_NEXT_OFFSET = unsafe.objectFieldOffset(Waiter.class.getDeclaredField("next"));<a name="line.903"></a>
-<span class="sourceLineNo">904</span>        UNSAFE = unsafe;<a name="line.904"></a>
-<span class="sourceLineNo">905</span>      } catch (Exception e) {<a name="line.905"></a>
-<span class="sourceLineNo">906</span>        throw Throwables.propagate(e);<a name="line.906"></a>
-<span class="sourceLineNo">907</span>      }<a name="line.907"></a>
-<span class="sourceLineNo">908</span>    }<a name="line.908"></a>
-<span class="sourceLineNo">909</span><a name="line.909"></a>
-<span class="sourceLineNo">910</span>    @Override<a name="line.910"></a>
-<span class="sourceLineNo">911</span>    void putThread(Waiter waiter, Thread newValue) {<a name="line.911"></a>
-<span class="sourceLineNo">912</span>      UNSAFE.putObject(waiter, WAITER_THREAD_OFFSET, newValue);<a name="line.912"></a>
+<span class="sourceLineNo">769</span>   * &lt;p&gt;If {@link #interruptTask} is also run during completion, {@link #afterDone} runs after it.<a name="line.769"></a>
+<span class="sourceLineNo">770</span>   *<a name="line.770"></a>
+<span class="sourceLineNo">771</span>   * &lt;p&gt;The default implementation of this method in {@code AbstractFuture} does nothing.<a name="line.771"></a>
+<span class="sourceLineNo">772</span>   *<a name="line.772"></a>
+<span class="sourceLineNo">773</span>   * @since 20.0<a name="line.773"></a>
+<span class="sourceLineNo">774</span>   */<a name="line.774"></a>
+<span class="sourceLineNo">775</span>  // TODO(cpovirk): @ForOverride https://github.com/google/error-prone/issues/342<a name="line.775"></a>
+<span class="sourceLineNo">776</span>  @Beta<a name="line.776"></a>
+<span class="sourceLineNo">777</span>  protected void afterDone() {}<a name="line.777"></a>
+<span class="sourceLineNo">778</span><a name="line.778"></a>
+<span class="sourceLineNo">779</span>  /**<a name="line.779"></a>
+<span class="sourceLineNo">780</span>   * Returns the exception that this {@code Future} completed with. This includes completion through<a name="line.780"></a>
+<span class="sourceLineNo">781</span>   * a call to {@link setException} or {@link setFuture}{@code (failedFuture)} but not cancellation.<a name="line.781"></a>
+<span class="sourceLineNo">782</span>   *<a name="line.782"></a>
+<span class="sourceLineNo">783</span>   * @throws RuntimeException if the {@code Future} has not failed<a name="line.783"></a>
+<span class="sourceLineNo">784</span>   */<a name="line.784"></a>
+<span class="sourceLineNo">785</span>  final Throwable trustedGetException() {<a name="line.785"></a>
+<span class="sourceLineNo">786</span>    return ((Failure) value).exception;<a name="line.786"></a>
+<span class="sourceLineNo">787</span>  }<a name="line.787"></a>
+<span class="sourceLineNo">788</span><a name="line.788"></a>
+<span class="sourceLineNo">789</span>  /**<a name="line.789"></a>
+<span class="sourceLineNo">790</span>   * If this future has been cancelled (and possibly interrupted), cancels (and possibly interrupts)<a name="line.790"></a>
+<span class="sourceLineNo">791</span>   * the given future (if available).<a name="line.791"></a>
+<span class="sourceLineNo">792</span>   *<a name="line.792"></a>
+<span class="sourceLineNo">793</span>   * &lt;p&gt;This method should be used only when this future is completed. It is designed to be called<a name="line.793"></a>
+<span class="sourceLineNo">794</span>   * from {@code done}.<a name="line.794"></a>
+<span class="sourceLineNo">795</span>   */<a name="line.795"></a>
+<span class="sourceLineNo">796</span>  final void maybePropagateCancellation(@Nullable Future&lt;?&gt; related) {<a name="line.796"></a>
+<span class="sourceLineNo">797</span>    if (related != null &amp; isCancelled()) {<a name="line.797"></a>
+<span class="sourceLineNo">798</span>      related.cancel(wasInterrupted());<a name="line.798"></a>
+<span class="sourceLineNo">799</span>    }<a name="line.799"></a>
+<span class="sourceLineNo">800</span>  }<a name="line.800"></a>
+<span class="sourceLineNo">801</span><a name="line.801"></a>
+<span class="sourceLineNo">802</span>  /** Clears the {@link #waiters} list and returns the most recently added value. */<a name="line.802"></a>
+<span class="sourceLineNo">803</span>  private Waiter clearWaiters() {<a name="line.803"></a>
+<span class="sourceLineNo">804</span>    Waiter head;<a name="line.804"></a>
+<span class="sourceLineNo">805</span>    do {<a name="line.805"></a>
+<span class="sourceLineNo">806</span>      head = waiters;<a name="line.806"></a>
+<span class="sourceLineNo">807</span>    } while (!ATOMIC_HELPER.casWaiters(this, head, Waiter.TOMBSTONE));<a name="line.807"></a>
+<span class="sourceLineNo">808</span>    return head;<a name="line.808"></a>
+<span class="sourceLineNo">809</span>  }<a name="line.809"></a>
+<span class="sourceLineNo">810</span><a name="line.810"></a>
+<span class="sourceLineNo">811</span>  /** Clears the {@link #listeners} list and returns the most recently added value. */<a name="line.811"></a>
+<span class="sourceLineNo">812</span>  private Listener clearListeners() {<a name="line.812"></a>
+<span class="sourceLineNo">813</span>    Listener head;<a name="line.813"></a>
+<span class="sourceLineNo">814</span>    do {<a name="line.814"></a>
+<span class="sourceLineNo">815</span>      head = listeners;<a name="line.815"></a>
+<span class="sourceLineNo">816</span>    } while (!ATOMIC_HELPER.casListeners(this, head, Listener.TOMBSTONE));<a name="line.816"></a>
+<span class="sourceLineNo">817</span>    return head;<a name="line.817"></a>
+<span class="sourceLineNo">818</span>  }<a name="line.818"></a>
+<span class="sourceLineNo">819</span><a name="line.819"></a>
+<span class="sourceLineNo">820</span>  /**<a name="line.820"></a>
+<span class="sourceLineNo">821</span>   * Submits the given runnable to the given {@link Executor} catching and logging all<a name="line.821"></a>
+<span class="sourceLineNo">822</span>   * {@linkplain RuntimeException runtime exceptions} thrown by the executor.<a name="line.822"></a>
+<span class="sourceLineNo">823</span>   */<a name="line.823"></a>
+<span class="sourceLineNo">824</span>  private static void executeListener(Runnable runnable, Executor executor) {<a name="line.824"></a>
+<span class="sourceLineNo">825</span>    try {<a name="line.825"></a>
+<span class="sourceLineNo">826</span>      executor.execute(runnable);<a name="line.826"></a>
+<span class="sourceLineNo">827</span>    } catch (RuntimeException e) {<a name="line.827"></a>
+<span class="sourceLineNo">828</span>      // Log it and keep going, bad runnable and/or executor.  Don't<a name="line.828"></a>
+<span class="sourceLineNo">829</span>      // punish the other runnables if we're given a bad one.  We only<a name="line.829"></a>
+<span class="sourceLineNo">830</span>      // catch RuntimeException because we want Errors to propagate up.<a name="line.830"></a>
+<span class="sourceLineNo">831</span>      log.log(<a name="line.831"></a>
+<span class="sourceLineNo">832</span>          Level.SEVERE,<a name="line.832"></a>
+<span class="sourceLineNo">833</span>          "RuntimeException while executing runnable " + runnable + " with executor " + executor,<a name="line.833"></a>
+<span class="sourceLineNo">834</span>          e);<a name="line.834"></a>
+<span class="sourceLineNo">835</span>    }<a name="line.835"></a>
+<span class="sourceLineNo">836</span>  }<a name="line.836"></a>
+<span class="sourceLineNo">837</span><a name="line.837"></a>
+<span class="sourceLineNo">838</span>  static final CancellationException cancellationExceptionWithCause(<a name="line.838"></a>
+<span class="sourceLineNo">839</span>      @Nullable String message, @Nullable Throwable cause) {<a name="line.839"></a>
+<span class="sourceLineNo">840</span>    CancellationException exception = new CancellationException(message);<a name="line.840"></a>
+<span class="sourceLineNo">841</span>    exception.initCause(cause);<a name="line.841"></a>
+<span class="sourceLineNo">842</span>    return exception;<a name="line.842"></a>
+<span class="sourceLineNo">843</span>  }<a name="line.843"></a>
+<span class="sourceLineNo">844</span><a name="line.844"></a>
+<span class="sourceLineNo">845</span>  private abstract static class AtomicHelper {<a name="line.845"></a>
+<span class="sourceLineNo">846</span>    /** Non volatile write of the thread to the {@link Waiter#thread} field. */<a name="line.846"></a>
+<span class="sourceLineNo">847</span>    abstract void putThread(Waiter waiter, Thread newValue);<a name="line.847"></a>
+<span class="sourceLineNo">848</span><a name="line.848"></a>
+<span class="sourceLineNo">849</span>    /** Non volatile write of the waiter to the {@link Waiter#next} field. */<a name="line.849"></a>
+<span class="sourceLineNo">850</span>    abstract void putNext(Waiter waiter, Waiter newValue);<a name="line.850"></a>
+<span class="sourceLineNo">851</span><a name="line.851"></a>
+<span class="sourceLineNo">852</span>    /** Performs a CAS operation on the {@link #waiters} field. */<a name="line.852"></a>
+<span class="sourceLineNo">853</span>    abstract boolean casWaiters(AbstractFuture&lt;?&gt; future, Waiter expect, Waiter update);<a name="line.853"></a>
+<span class="sourceLineNo">854</span><a name="line.854"></a>
+<span class="sourceLineNo">855</span>    /** Performs a CAS operation on the {@link #listeners} field. */<a name="line.855"></a>
+<span class="sourceLineNo">856</span>    abstract boolean casListeners(AbstractFuture&lt;?&gt; future, Listener expect, Listener update);<a name="line.856"></a>
+<span class="sourceLineNo">857</span><a name="line.857"></a>
+<span class="sourceLineNo">858</span>    /** Performs a CAS operation on the {@link #value} field. */<a name="line.858"></a>
+<span class="sourceLineNo">859</span>    abstract boolean casValue(AbstractFuture&lt;?&gt; future, Object expect, Object update);<a name="line.859"></a>
+<span class="sourceLineNo">860</span>  }<a name="line.860"></a>
+<span class="sourceLineNo">861</span><a name="line.861"></a>
+<span class="sourceLineNo">862</span>  /**<a name="line.862"></a>
+<span class="sourceLineNo">863</span>   * {@link AtomicHelper} based on {@link sun.misc.Unsafe}.<a name="line.863"></a>
+<span class="sourceLineNo">864</span>   *<a name="line.864"></a>
+<span class="sourceLineNo">865</span>   * &lt;p&gt;Static initialization of this class will fail if the {@link sun.misc.Unsafe} object cannot<a name="line.865"></a>
+<span class="sourceLineNo">866</span>   * be accessed.<a name="line.866"></a>
+<span class="sourceLineNo">867</span>   */<a name="line.867"></a>
+<span class="sourceLineNo">868</span>  private static final class UnsafeAtomicHelper extends AtomicHelper {<a name="line.868"></a>
+<span class="sourceLineNo">869</span>    static final sun.misc.Unsafe UNSAFE;<a name="line.869"></a>
+<span class="sourceLineNo">870</span>    static final long LISTENERS_OFFSET;<a name="line.870"></a>
+<span class="sourceLineNo">871</span>    static final long WAITERS_OFFSET;<a name="line.871"></a>
+<span class="sourceLineNo">872</span>    static final long VALUE_OFFSET;<a name="line.872"></a>
+<span class="sourceLineNo">873</span>    static final long WAITER_THREAD_OFFSET;<a name="line.873"></a>
+<span class="sourceLineNo">874</span>    static final long WAITER_NEXT_OFFSET;<a name="line.874"></a>
+<span class="sourceLineNo">875</span><a name="line.875"></a>
+<span class="sourceLineNo">876</span>    static {<a name="line.876"></a>
+<span class="sourceLineNo">877</span>      sun.misc.Unsafe unsafe = null;<a name="line.877"></a>
+<span class="sourceLineNo">878</span>      try {<a name="line.878"></a>
+<span class="sourceLineNo">879</span>        unsafe = sun.misc.Unsafe.getUnsafe();<a name="line.879"></a>
+<span class="sourceLineNo">880</span>      } catch (SecurityException tryReflectionInstead) {<a name="line.880"></a>
+<span class="sourceLineNo">881</span>        try {<a name="line.881"></a>
+<span class="sourceLineNo">882</span>          unsafe =<a name="line.882"></a>
+<span class="sourceLineNo">883</span>              AccessController.doPrivileged(<a name="line.883"></a>
+<span class="sourceLineNo">884</span>                  new PrivilegedExceptionAction&lt;sun.misc.Unsafe&gt;() {<a name="line.884"></a>
+<span class="sourceLineNo">885</span>                    @Override<a name="line.885"></a>
+<span class="sourceLineNo">886</span>                    public sun.misc.Unsafe run() throws Exception {<a name="line.886"></a>
+<span class="sourceLineNo">887</span>                      Class&lt;sun.misc.Unsafe&gt; k = sun.misc.Unsafe.class;<a name="line.887"></a>
+<span class="sourceLineNo">888</span>                      for (java.lang.reflect.Field f : k.getDeclaredFields()) {<a name="line.888"></a>
+<span class="sourceLineNo">889</span>                        f.setAccessible(true);<a name="line.889"></a>
+<span class="sourceLineNo">890</span>                        Object x = f.get(null);<a name="line.890"></a>
+<span class="sourceLineNo">891</span>                        if (k.isInstance(x)) {<a name="line.891"></a>
+<span class="sourceLineNo">892</span>                          return k.cast(x);<a name="line.892"></a>
+<span class="sourceLineNo">893</span>                        }<a name="line.893"></a>
+<span class="sourceLineNo">894</span>                      }<a name="line.894"></a>
+<span class="sourceLineNo">895</span>                      throw new NoSuchFieldError("the Unsafe");<a name="line.895"></a>
+<span class="sourceLineNo">896</span>                    }<a name="line.896"></a>
+<span class="sourceLineNo">897</span>                  });<a name="line.897"></a>
+<span class="sourceLineNo">898</span>        } catch (PrivilegedActionException e) {<a name="line.898"></a>
+<span class="sourceLineNo">899</span>          throw new RuntimeException("Could not initialize intrinsics", e.getCause());<a name="line.899"></a>
+<span class="sourceLineNo">900</span>        }<a name="line.900"></a>
+<span class="sourceLineNo">901</span>      }<a name="line.901"></a>
+<span class="sourceLineNo">902</span>      try {<a name="line.902"></a>
+<span class="sourceLineNo">903</span>        Class&lt;?&gt; abstractFuture = AbstractFuture.class;<a name="line.903"></a>
+<span class="sourceLineNo">904</span>        WAITERS_OFFSET = unsafe.objectFieldOffset(abstractFuture.getDeclaredField("waiters"));<a name="line.904"></a>
+<span class="sourceLineNo">905</span>        LISTENERS_OFFSET = unsafe.objectFieldOffset(abstractFuture.getDeclaredField("listeners"));<a name="line.905"></a>
+<span class="sourceLineNo">906</span>        VALUE_OFFSET = unsafe.objectFieldOffset(abstractFuture.getDeclaredField("value"));<a name="line.906"></a>
+<span class="sourceLineNo">907</span>        WAITER_THREAD_OFFSET = unsafe.objectFieldOffset(Waiter.class.getDeclaredField("thread"));<a name="line.907"></a>
+<span class="sourceLineNo">908</span>        WAITER_NEXT_OFFSET = unsafe.objectFieldOffset(Waiter.class.getDeclaredField("next"));<a name="line.908"></a>
+<span class="sourceLineNo">909</span>        UNSAFE = unsafe;<a name="line.909"></a>
+<span class="sourceLineNo">910</span>      } catch (Exception e) {<a name="line.910"></a>
+<span class="sourceLineNo">911</span>        throw Throwables.propagate(e);<a name="line.911"></a>
+<span class="sourceLineNo">912</span>      }<a name="line.912"></a>
 <span class="sourceLineNo">913</span>    }<a name="line.913"></a>
 <span class="sourceLineNo">914</span><a name="line.914"></a>
 <span class="sourceLineNo">915</span>    @Override<a name="line.915"></a>
-<span class="sourceLineNo">916</span>    void putNext(Waiter waiter, Waiter newValue) {<a name="line.916"></a>
-<span class="sourceLineNo">917</span>      UNSAFE.putObject(waiter, WAITER_NEXT_OFFSET, newValue);<a name="line.917"></a>
+<span class="sourceLineNo">916</span>    void putThread(Waiter waiter, Thread newValue) {<a name="line.916"></a>
+<span class="sourceLineNo">917</span>      UNSAFE.putObject(waiter, WAITER_THREAD_OFFSET, newValue);<a name="line.917"></a>
 <span class="sourceLineNo">918</span>    }<a name="line.918"></a>
 <span class="sourceLineNo">919</span><a name="line.919"></a>
-<span class="sourceLineNo">920</span>    /** Performs a CAS operation on the {@link #waiters} field. */<a name="line.920"></a>
-<span class="sourceLineNo">921</span>    @Override<a name="line.921"></a>
-<span class="sourceLineNo">922</span>    boolean casWaiters(AbstractFuture&lt;?&gt; future, Waiter expect, Waiter update) {<a name="line.922"></a>
-<span class="sourceLineNo">923</span>      return UNSAFE.compareAndSwapObject(future, WAITERS_OFFSET, expect, update);<a name="line.923"></a>
-<span class="sourceLineNo">924</span>    }<a name="line.924"></a>
-<span class="sourceLineNo">925</span><a name="line.925"></a>
-<span class="sourceLineNo">926</span>    /** Performs a CAS operation on the {@link #listeners} field. */<a name="line.926"></a>
-<span class="sourceLineNo">927</span>    @Override<a name="line.927"></a>
-<span class="sourceLineNo">928</span>    boolean casListeners(AbstractFuture&lt;?&gt; future, Listener expect, Listener update) {<a name="line.928"></a>
-<span class="sourceLineNo">929</span>      return UNSAFE.compareAndSwapObject(future, LISTENERS_OFFSET, expect, update);<a name="line.929"></a>
-<span class="sourceLineNo">930</span>    }<a name="line.930"></a>
-<span class="sourceLineNo">931</span><a name="line.931"></a>
-<span class="sourceLineNo">932</span>    /** Performs a CAS operation on the {@link #value} field. */<a name="line.932"></a>
-<span class="sourceLineNo">933</span>    @Override<a name="line.933"></a>
-<span class="sourceLineNo">934</span>    boolean casValue(AbstractFuture&lt;?&gt; future, Object expect, Object update) {<a name="line.934"></a>
-<span class="sourceLineNo">935</span>      return UNSAFE.compareAndSwapObject(future, VALUE_OFFSET, expect, update);<a name="line.935"></a>
-<span class="sourceLineNo">936</span>    }<a name="line.936"></a>
-<span class="sourceLineNo">937</span>  }<a name="line.937"></a>
-<span class="sourceLineNo">938</span><a name="line.938"></a>
-<span class="sourceLineNo">939</span>  /** {@link AtomicHelper} based on {@link AtomicReferenceFieldUpdater}. */<a name="line.939"></a>
-<span class="sourceLineNo">940</span>  private static final class SafeAtomicHelper extends AtomicHelper {<a name="line.940"></a>
-<span class="sourceLineNo">941</span>    final AtomicReferenceFieldUpdater&lt;Waiter, Thread&gt; waiterThreadUpdater;<a name="line.941"></a>
-<span class="sourceLineNo">942</span>    final AtomicReferenceFieldUpdater&lt;Waiter, Waiter&gt; waiterNextUpdater;<a name="line.942"></a>
-<span class="sourceLineNo">943</span>    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Waiter&gt; waitersUpdater;<a name="line.943"></a>
-<span class="sourceLineNo">944</span>    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Listener&gt; listenersUpdater;<a name="line.944"></a>
-<span class="sourceLineNo">945</span>    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Object&gt; valueUpdater;<a name="line.945"></a>
-<span class="sourceLineNo">946</span><a name="line.946"></a>
-<span class="sourceLineNo">947</span>    SafeAtomicHelper(<a name="line.947"></a>
-<span class="sourceLineNo">948</span>        AtomicReferenceFieldUpdater&lt;Waiter, Thread&gt; waiterThreadUpdater,<a name="line.948"></a>
-<span class="sourceLineNo">949</span>        AtomicReferenceFieldUpdater&lt;Waiter, Waiter&gt; waiterNextUpdater,<a name="line.949"></a>
-<span class="sourceLineNo">950</span>        AtomicReferenceFieldUpdater&lt;AbstractFuture, Waiter&gt; waitersUpdater,<a name="line.950"></a>
-<span class="sourceLineNo">951</span>        AtomicReferenceFieldUpdater&lt;AbstractFuture, Listener&gt; listenersUpdater,<a name="line.951"></a>
-<span class="sourceLineNo">952</span>        AtomicReferenceFieldUpdater&lt;AbstractFuture, Object&gt; valueUpdater) {<a name="line.952"></a>
-<span class="sourceLineNo">953</span>      this.waiterThreadUpdater = waiterThreadUpdater;<a name="line.953"></a>
-<span class="sourceLineNo">954</span>      this.waiterNextUpdater = waiterNextUpdater;<a name="line.954"></a>
-<span class="sourceLineNo">955</span>      this.waitersUpdater = waitersUpdater;<a name="line.955"></a>
-<span class="sourceLineNo">956</span>      this.listenersUpdater = listenersUpdater;<a name="line.956"></a>
-<span class="sourceLineNo">957</span>      this.valueUpdater = valueUpdater;<a name="line.957"></a>
-<span class="sourceLineNo">958</span>    }<a name="line.958"></a>
-<span class="sourceLineNo">959</span><a name="line.959"></a>
-<span class="sourceLineNo">960</span>    @Override<a name="line.960"></a>
-<span class="sourceLineNo">961</span>    void putThread(Waiter waiter, Thread newValue) {<a name="line.961"></a>
-<span class="sourceLineNo">962</span>      waiterThreadUpdater.lazySet(waiter, newValue);<a name="line.962"></a>
+<span class="sourceLineNo">920</span>    @Override<a name="line.920"></a>
+<span class="sourceLineNo">921</span>    void putNext(Waiter waiter, Waiter newValue) {<a name="line.921"></a>
+<span class="sourceLineNo">922</span>      UNSAFE.putObject(waiter, WAITER_NEXT_OFFSET, newValue);<a name="line.922"></a>
+<span class="sourceLineNo">923</span>    }<a name="line.923"></a>
+<span class="sourceLineNo">924</span><a name="line.924"></a>
+<span class="sourceLineNo">925</span>    /** Performs a CAS operation on the {@link #waiters} field. */<a name="line.925"></a>
+<span class="sourceLineNo">926</span>    @Override<a name="line.926"></a>
+<span class="sourceLineNo">927</span>    boolean casWaiters(AbstractFuture&lt;?&gt; future, Waiter expect, Waiter update) {<a name="line.927"></a>
+<span class="sourceLineNo">928</span>      return UNSAFE.compareAndSwapObject(future, WAITERS_OFFSET, expect, update);<a name="line.928"></a>
+<span class="sourceLineNo">929</span>    }<a name="line.929"></a>
+<span class="sourceLineNo">930</span><a name="line.930"></a>
+<span class="sourceLineNo">931</span>    /** Performs a CAS operation on the {@link #listeners} field. */<a name="line.931"></a>
+<span class="sourceLineNo">932</span>    @Override<a name="line.932"></a>
+<span class="sourceLineNo">933</span>    boolean casListeners(AbstractFuture&lt;?&gt; future, Listener expect, Listener update) {<a name="line.933"></a>
+<span class="sourceLineNo">934</span>      return UNSAFE.compareAndSwapObject(future, LISTENERS_OFFSET, expect, update);<a name="line.934"></a>
+<span class="sourceLineNo">935</span>    }<a name="line.935"></a>
+<span class="sourceLineNo">936</span><a name="line.936"></a>
+<span class="sourceLineNo">937</span>    /** Performs a CAS operation on the {@link #value} field. */<a name="line.937"></a>
+<span class="sourceLineNo">938</span>    @Override<a name="line.938"></a>
+<span class="sourceLineNo">939</span>    boolean casValue(AbstractFuture&lt;?&gt; future, Object expect, Object update) {<a name="line.939"></a>
+<span class="sourceLineNo">940</span>      return UNSAFE.compareAndSwapObject(future, VALUE_OFFSET, expect, update);<a name="line.940"></a>
+<span class="sourceLineNo">941</span>    }<a name="line.941"></a>
+<span class="sourceLineNo">942</span>  }<a name="line.942"></a>
+<span class="sourceLineNo">943</span><a name="line.943"></a>
+<span class="sourceLineNo">944</span>  /** {@link AtomicHelper} based on {@link AtomicReferenceFieldUpdater}. */<a name="line.944"></a>
+<span class="sourceLineNo">945</span>  private static final class SafeAtomicHelper extends AtomicHelper {<a name="line.945"></a>
+<span class="sourceLineNo">946</span>    final AtomicReferenceFieldUpdater&lt;Waiter, Thread&gt; waiterThreadUpdater;<a name="line.946"></a>
+<span class="sourceLineNo">947</span>    final AtomicReferenceFieldUpdater&lt;Waiter, Waiter&gt; waiterNextUpdater;<a name="line.947"></a>
+<span class="sourceLineNo">948</span>    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Waiter&gt; waitersUpdater;<a name="line.948"></a>
+<span class="sourceLineNo">949</span>    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Listener&gt; listenersUpdater;<a name="line.949"></a>
+<span class="sourceLineNo">950</span>    final AtomicReferenceFieldUpdater&lt;AbstractFuture, Object&gt; valueUpdater;<a name="line.950"></a>
+<span class="sourceLineNo">951</span><a name="line.951"></a>
+<span class="sourceLineNo">952</span>    SafeAtomicHelper(<a name="line.952"></a>
+<span class="sourceLineNo">953</span>        AtomicReferenceFieldUpdater&lt;Waiter, Thread&gt; waiterThreadUpdater,<a name="line.953"></a>
+<span class="sourceLineNo">954</span>        AtomicReferenceFieldUpdater&lt;Waiter, Waiter&gt; waiterNextUpdater,<a name="line.954"></a>
+<span class="sourceLineNo">955</span>        AtomicReferenceFieldUpdater&lt;AbstractFuture, Waiter&gt; waitersUpdater,<a name="line.955"></a>
+<span class="sourceLineNo">956</span>        AtomicReferenceFieldUpdater&lt;AbstractFuture, Listener&gt; listenersUpdater,<a name="line.956"></a>
+<span class="sourceLineNo">957</span>        AtomicReferenceFieldUpdater&lt;AbstractFuture, Object&gt; valueUpdater) {<a name="line.957"></a>
+<span class="sourceLineNo">958</span>      this.waiterThreadUpdater = waiterThreadUpdater;<a name="line.958"></a>
+<span class="sourceLineNo">959</span>      this.waiterNextUpdater = waiterNextUpdater;<a name="line.959"></a>
+<span class="sourceLineNo">960</span>      this.waitersUpdater = waitersUpdater;<a name="line.960"></a>
+<span class="sourceLineNo">961</span>      this.listenersUpdater = listenersUpdater;<a name="line.961"></a>
+<span class="sourceLineNo">962</span>      this.valueUpdater = valueUpdater;<a name="line.962"></a>
 <span class="sourceLineNo">963</span>    }<a name="line.963"></a>
 <span class="sourceLineNo">964</span><a name="line.964"></a>
 <span class="sourceLineNo">965</span>    @Override<a name="line.965"></a>
-<span class="sourceLineNo">966</span>    void putNext(Waiter waiter, Waiter newValue) {<a name="line.966"></a>
-<span class="sourceLineNo">967</span>      waiterNextUpdater.lazySet(waiter, newValue);<a name="line.967"></a>
+<span class="sourceLineNo">966</span>    void putThread(Waiter waiter, Thread newValue) {<a name="line.966"></a>
+<span class="sourceLineNo">967</span>      waiterThreadUpdater.lazySet(waiter, newValue);<a name="line.967"></a>
 <span class="sourceLineNo">968</span>    }<a name="line.968"></a>
 <span class="sourceLineNo">969</span><a name="line.969"></a>
 <span class="sourceLineNo">970</span>    @Override<a name="line.970"></a>
-<span class="sourceLineNo">971</span>    boolean casWaiters(AbstractFuture&lt;?&gt; future, Waiter expect, Waiter update) {<a name="line.971"></a>
-<span class="sourceLineNo">972</span>      return waitersUpdater.compareAndSet(future, expect, update);<a name="line.972"></a>
+<span class="sourceLineNo">971</span>    void putNext(Waiter waiter, Waiter newValue) {<a name="line.971"></a>
+<span class="sourceLineNo">972</span>      waiterNextUpdater.lazySet(waiter, newValue);<a name="line.972"></a>
 <span class="sourceLineNo">973</span>    }<a name="line.973"></a>
 <span class="sourceLineNo">974</span><a name="line.974"></a>
 <span class="sourceLineNo">975</span>    @Override<a name="line.975"></a>
-<span class="sourceLineNo">976</span>    boolean casListeners(AbstractFuture&lt;?&gt; future, Listener expect, Listener update) {<a name="line.976"></a>
-<span class="sourceLineNo">977</span>      return listenersUpdater.compareAndSet(future, expect, update);<a name="line.977"></a>
+<span class="sourceLineNo">976</span>    boolean casWaiters(AbstractFuture&lt;?&gt; future, Waiter expect, Waiter update) {<a name="line.976"></a>
+<span class="sourceLineNo">977</span>      return waitersUpdater.compareAndSet(future, expect, update);<a name="line.977"></a>
 <span class="sourceLineNo">978</span>    }<a name="line.978"></a>
 <span class="sourceLineNo">979</span><a name="line.979"></a>
 <span class="sourceLineNo">980</span>    @Override<a name="line.980"></a>
-<span class="sourceLineNo">981</span>    boolean casValue(AbstractFuture&lt;?&gt; future, Object expect, Object update) {<a name="line.981"></a>
-<span class="sourceLineNo">982</span>      return valueUpdater.compareAndSet(future, expect, update);<a name="line.982"></a>
+<span class="sourceLineNo">981</span>    boolean casListeners(AbstractFuture&lt;?&gt; future, Listener expect, Listener update) {<a name="line.981"></a>
+<span class="sourceLineNo">982</span>      return listenersUpdater.compareAndSet(future, expect, update);<a name="line.982"></a>
 <span class="sourceLineNo">983</span>    }<a name="line.983"></a>
-<span class="sourceLineNo">984</span>  }<a name="line.984"></a>
-<span class="sourceLineNo">985</span><a name="line.985"></a>
-<span class="sourceLineNo">986</span>  /**<a name="line.986"></a>
-<span class="sourceLineNo">987</span>   * {@link AtomicHelper} based on {@code synchronized} and volatile writes.<a name="line.987"></a>
-<span class="sourceLineNo">988</span>   *<a name="line.988"></a>
-<span class="sourceLineNo">989</span>   * &lt;p&gt;This is an implementation of last resort for when certain basic VM features are broken<a name="line.989"></a>
-<span class="sourceLineNo">990</span>   * (like AtomicReferenceFieldUpdater).<a name="line.990"></a>
-<span class="sourceLineNo">991</span>   */<a name="line.991"></a>
-<span class="sourceLineNo">992</span>  private static final class SynchronizedHelper extends AtomicHelper {<a name="line.992"></a>
-<span class="sourceLineNo">993</span>    @Override<a name="line.993"></a>
-<span class="sourceLineNo">994</span>    void putThread(Waiter waiter, Thread newValue) {<a name="line.994"></a>
-<span class="sourceLineNo">995</span>      waiter.thread = newValue;<a name="line.995"></a>
-<span class="sourceLineNo">996</span>    }<a name="line.996"></a>
-<span class="sourceLineNo">997</span><a name="line.997"></a>
+<span class="sourceLineNo">984</span><a name="line.984"></a>
+<span class="sourceLineNo">985</span>    @Override<a name="line.985"></a>
+<span class="sourceLineNo">986</span>    boolean casValue(AbstractFuture&lt;?&gt; future, Object expect, Object update) {<a name="line.986"></a>
+<span class="sourceLineNo">987</span>      return valueUpdater.compareAndSet(future, expect, update);<a name="line.987"></a>
+<span class="sourceLineNo">988</span>    }<a name="line.988"></a>
+<span class="sourceLineNo">989</span>  }<a name="line.989"></a>
+<span class="sourceLineNo">990</span><a name="line.990"></a>
+<span class="sourceLineNo">991</span>  /**<a name="line.991"></a>
+<span class="sourceLineNo">992</span>   * {@link AtomicHelper} based on {@code synchronized} and volatile writes.<a name="line.992"></a>
+<span class="sourceLineNo">993</span>   *<a name="line.993"></a>
+<span class="sourceLineNo">994</span>   * &lt;p&gt;This is an implementation of last resort for when certain basic VM features are broken<a name="line.994"></a>
+<span class="sourceLineNo">995</span>   * (like AtomicReferenceFieldUpdater).<a name="line.995"></a>
+<span class="sourceLineNo">996</span>   */<a name="line.996"></a>
+<span class="sourceLineNo">997</span>  private static final class SynchronizedHelper extends AtomicHelper {<a name="line.997"></a>
 <span class="sourceLineNo">998</span>    @Override<a name="line.998"></a>
-<span class="sourceLineNo">999</span>    void putNext(Waiter waiter, Waiter newValue) {<a name="line.999"></a>
-<span class="sourceLineNo">1000</span>      waiter.next = newValue;<a name="line.1000"></a>
+<span class="sourceLineNo">999</span>    void putThread(Waiter waiter, Thread newValue) {<a name="line.999"></a>
+<span class="sourceLineNo">1000</span>      waiter.thread = newValue;<a name="line.1000"></a>
 <span class="sourceLineNo">1001</span>    }<a name="line.1001"></a>
 <span class="sourceLineNo">1002</span><a name="line.1002"></a>
 <span class="sourceLineNo">1003</span>    @Override<a name="line.1003"></a>
-<span class="sourceLineNo">1004</span>    boolean casWaiters(AbstractFuture&lt;?&gt; future, Waiter expect, Waiter update) {<a name="line.1004"></a>
-<span class="sourceLineNo">1005</span>      synchronized (future) {<a name="line.1005"></a>
-<span class="sourceLineNo">1006</span>        if (future.waiters == expect) {<a name="line.1006"></a>
-<span class="sourceLineNo">1007</span>          future.waiters = update;<a name="line.1007"></a>
-<span class="sourceLineNo">1008</span>          return true;<a name="line.1008"></a>
-<span class="sourceLineNo">1009</span>        }<a name="line.1009"></a>
-<span class="sourceLineNo">1010</span>        return false;<a name="line.1010"></a>
-<span class="sourceLineNo">1011</span>      }<a name="line.1011"></a>
-<span class="sourceLineNo">1012</span>    }<a name="line.1012"></a>
-<span class="sourceLineNo">1013</span><a name="line.1013"></a>
-<span class="sourceLineNo">1014</span>    @Override<a name="line.1014"></a>
-<span class="sourceLineNo">1015</span>    boolean casListeners(AbstractFuture&lt;?&gt; future, Listener expect, Listener update) {<a name="line.1015"></a>
-<span class="sourceLineNo">1016</span>      synchronized (future) {<a name="line.1016"></a>
-<span class="sourceLineNo">1017</span>        if (future.listeners == expect) {<a name="line.1017"></a>
-<span class="sourceLineNo">1018</span>          future.listeners = update;<a name="line.1018"></a>
-<span class="sourceLineNo">1019</span>          return true;<a name="line.1019"></a>
-<span class="sourceLineNo">1020</span>        }<a name="line.1020"></a>
-<span class="sourceLineNo">1021</span>        return false;<a name="line.1021"></a>
-<span class="sourceLineNo">1022</span>      }<a name="line.1022"></a>
-<span class="sourceLineNo">1023</span>    }<a name="line.1023"></a>
-<span class="sourceLineNo">1024</span><a name="line.1024"></a>
-<span class="sourceLineNo">1025</span>    @Override<a name="line.1025"></a>
-<span class="sourceLineNo">1026</span>    boolean casValue(AbstractFuture&lt;?&gt; future, Object expect, Object update) {<a name="line.1026"></a>
-<span class="sourceLineNo">1027</span>      synchronized (future) {<a name="line.1027"></a>
-<span class="sourceLineNo">1028</span>        if (future.value == expect) {<a name="line.1028"></a>
-<span class="sourceLineNo">1029</span>          future.value = update;<a name="line.1029"></a>
-<span class="sourceLineNo">1030</span>          return true;<a name="line.1030"></a>
-<span class="sourceLineNo">1031</span>        }<a name="line.1031"></a>
-<span class="sourceLineNo">1032</span>        return false;<a name="line.1032"></a>
-<span class="sourceLineNo">1033</span>      }<a name="line.1033"></a>
-<span class="sourceLineNo">1034</span>    }<a name="line.1034"></a>
-<span class="sourceLineNo">1035</span>  }<a name="line.1035"></a>
-<span class="sourceLineNo">1036</span>}<a name="line.1036"></a>
+<span class="sourceLineNo">1004</span>    void putNext(Waiter waiter, Waiter newValue) {<a name="line.1004"></a>
+<span class="sourceLineNo">1005</span>      waiter.next = newValue;<a name="line.1005"></a>
+<span class="sourceLineNo">1006</span>    }<a name="line.1006"></a>
+<span class="sourceLineNo">1007</span><a name="line.1007"></a>
+<span class="sourceLineNo">1008</span>    @Override<a name="line.1008"></a>
+<span class="sourceLineNo">1009</span>    boolean casWaiters(AbstractFuture&lt;?&gt; future, Waiter expect, Waiter update) {<a name="line.1009"></a>
+<span class="sourceLineNo">1010</span>      synchronized (future) {<a name="line.1010"></a>
+<span class="sourceLineNo">1011</span>        if (future.waiters == expect) {<a name="line.1011"></a>
+<span class="sourceLineNo">1012</span>          future.waiters = update;<a name="line.1012"></a>
+<span class="sourceLineNo">1013</span>          return true;<a name="line.1013"></a>
+<span class="sourceLineNo">1014</span>        }<a name="line.1014"></a>
+<span class="sourceLineNo">1015</span>        return false;<a name="line.1015"></a>
+<span class="sourceLineNo">1016</span>      }<a name="line.1016"></a>
+<span class="sourceLineNo">1017</span>    }<a name="line.1017"></a>
+<span class="sourceLineNo">1018</span><a name="line.1018"></a>
+<span class="sourceLineNo">1019</span>    @Override<a name="line.1019"></a>
+<span class="sourceLineNo">1020</span>    boolean casListeners(AbstractFuture&lt;?&gt; future, Listener expect, Listener update) {<a name="line.1020"></a>
+<span class="sourceLineNo">1021</span>      synchronized (future) {<a name="line.1021"></a>
+<span class="sourceLineNo">1022</span>        if (future.listeners == expect) {<a name="line.1022"></a>
+<span class="sourceLineNo">1023</span>          future.listeners = update;<a name="line.1023"></a>
+<span class="sourceLineNo">1024</span>          return true;<a name="line.1024"></a>
+<span class="sourceLineNo">1025</span>        }<a name="line.1025"></a>
+<span class="sourceLineNo">1026</span>        return false;<a name="line.1026"></a>
+<span class="sourceLineNo">1027</span>      }<a name="line.1027"></a>
+<span class="sourceLineNo">1028</span>    }<a name="line.1028"></a>
+<span class="sourceLineNo">1029</span><a name="line.1029"></a>
+<span class="sourceLineNo">1030</span>    @Override<a name="line.1030"></a>
+<span class="sourceLineNo">1031</span>    boolean casValue(AbstractFuture&lt;?&gt; future, Object expect, Object update) {<a name="line.1031"></a>
+<span class="sourceLineNo">1032</span>      synchronized (future) {<a name="line.1032"></a>
+<span class="sourceLineNo">1033</span>        if (future.value == expect) {<a name="line.1033"></a>
+<span class="sourceLineNo">1034</span>          future.value = update;<a name="line.1034"></a>
+<span class="sourceLineNo">1035</span>          return true;<a name="line.1035"></a>
+<span class="sourceLineNo">1036</span>        }<a name="line.1036"></a>
+<span class="sourceLineNo">1037</span>        return false;<a name="line.1037"></a>
+<span class="sourceLineNo">1038</span>      }<a name="line.1038"></a>
+<span class="sourceLineNo">1039</span>    }<a name="line.1039"></a>
+<span class="sourceLineNo">1040</span>  }<a name="line.1040"></a>
+<span class="sourceLineNo">1041</span>}<a name="line.1041"></a>
 
 
 
