@@ -59,23 +59,20 @@ import java.nio.charset.UnsupportedCharsetException;
  */
 @GwtCompatible(emulated = true)
 public class MediaTypeTest extends TestCase {
-  @GwtIncompatible // reflection
-  public void testParse_useConstants() throws Exception {
+  @GwtIncompatible("reflection") public void testParse_useConstants() throws Exception {
     for (MediaType constant : getConstants()) {
       assertSame(constant, MediaType.parse(constant.toString()));
     }
   }
 
-  @GwtIncompatible // reflection
-  public void testCreate_useConstants() throws Exception {
+  @GwtIncompatible("reflection") public void testCreate_useConstants() throws Exception {
     for (MediaType constant : getConstants()) {
       assertSame(constant, MediaType.create(constant.type(), constant.subtype())
           .withParameters(constant.parameters()));
     }
   }
 
-  @GwtIncompatible // reflection
-  public void testConstants_charset() throws Exception {
+  @GwtIncompatible("reflection") public void testConstants_charset() throws Exception {
     for (Field field : getConstantFields()) {
       Optional<Charset> charset = ((MediaType) field.get(null)).charset();
       if (field.getName().endsWith("_UTF_8")) {
@@ -86,8 +83,7 @@ public class MediaTypeTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // reflection
-  private static FluentIterable<Field> getConstantFields() {
+  @GwtIncompatible("reflection") private static FluentIterable<Field> getConstantFields() {
     return FluentIterable.from(asList(MediaType.class.getDeclaredFields()))
         .filter(new Predicate<Field>() {
           @Override public boolean apply(Field input) {
@@ -98,8 +94,7 @@ public class MediaTypeTest extends TestCase {
         });
   }
 
-  @GwtIncompatible // reflection
-  private static FluentIterable<MediaType> getConstants() {
+  @GwtIncompatible("reflection") private static FluentIterable<MediaType> getConstants() {
     return getConstantFields()
         .transform(new Function<Field, MediaType>() {
           @Override public MediaType apply(Field input) {
@@ -341,7 +336,7 @@ public class MediaTypeTest extends TestCase {
     assertThat(MediaType.parse("text/plain; charset=utf-8").charset()).hasValue(UTF_8);
   }
 
-  @GwtIncompatible // Non-UTF-8 Charset
+  @GwtIncompatible("Non-UTF-8 Charset")
   public void testGetCharset_utf16() {
     assertThat(MediaType.parse("text/plain; charset=utf-16").charset()).hasValue(UTF_16);
   }
@@ -408,8 +403,7 @@ public class MediaTypeTest extends TestCase {
         .testEquals();
   }
 
-  @GwtIncompatible // Non-UTF-8 Charset
-  public void testEquals_nonUtf8Charsets() {
+  @GwtIncompatible("Non-UTF-8 Charset") public void testEquals_nonUtf8Charsets() {
     new EqualsTester()
         .addEqualityGroup(MediaType.create("text", "plain"))
         .addEqualityGroup(MediaType.create("text", "plain").withCharset(UTF_8))
@@ -417,7 +411,7 @@ public class MediaTypeTest extends TestCase {
         .testEquals();
   }
 
-  @GwtIncompatible // com.google.common.testing.NullPointerTester
+  @GwtIncompatible("com.google.common.testing.NullPointerTester")
   public void testNullPointer() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicConstructors(MediaType.class);

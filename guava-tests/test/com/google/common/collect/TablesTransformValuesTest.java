@@ -50,9 +50,8 @@ public class TablesTransformValuesTest extends AbstractTableTest {
   }
 
   // Null support depends on the underlying table and function.
-  @GwtIncompatible // NullPointerTester
-  @Override
-  public void testNullPointerInstance() {}
+  @GwtIncompatible("NullPointerTester")
+  @Override public void testNullPointerInstance() {}
 
   // put() and putAll() aren't supported.
   @Override public void testPut() {

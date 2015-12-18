@@ -601,10 +601,10 @@ public final class Doubles {
    * semantically fine if not all inputs that pass this regex are valid --
    * only a performance hit is incurred, not a semantics bug.
    */
-  @GwtIncompatible // regular expressions
+  @GwtIncompatible("regular expressions")
   static final Pattern FLOATING_POINT_PATTERN = fpPattern();
 
-  @GwtIncompatible // regular expressions
+  @GwtIncompatible("regular expressions")
   private static Pattern fpPattern() {
     String decimal = "(?:\\d++(?:\\.\\d*+)?|\\.\\d++)";
     String completeDec = decimal + "(?:[eE][+-]?\\d++)?[fFdD]?";
@@ -636,7 +636,7 @@ public final class Doubles {
   @Beta
   @Nullable
   @CheckForNull
-  @GwtIncompatible // regular expressions
+  @GwtIncompatible("regular expressions")
   public static Double tryParse(String string) {
     if (FLOATING_POINT_PATTERN.matcher(string).matches()) {
       // TODO(lowasser): could be potentially optimized, but only with

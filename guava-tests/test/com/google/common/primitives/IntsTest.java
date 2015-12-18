@@ -217,7 +217,7 @@ public class IntsTest extends TestCase {
         Ints.concat(ARRAY1, ARRAY234)));
   }
 
-  @GwtIncompatible // Ints.toByteArray
+  @GwtIncompatible("Ints.toByteArray")
   public void testToByteArray() {
     assertTrue(Arrays.equals(
         new byte[] {0x12, 0x13, 0x14, 0x15}, Ints.toByteArray(0x12131415)));
@@ -226,7 +226,7 @@ public class IntsTest extends TestCase {
         Ints.toByteArray(0xFFEEDDCC)));
   }
 
-  @GwtIncompatible // Ints.fromByteArray
+  @GwtIncompatible("Ints.fromByteArray")
   public void testFromByteArray() {
     assertEquals(0x12131415,
         Ints.fromByteArray(new byte[] {0x12, 0x13, 0x14, 0x15, 0x33}));
@@ -234,7 +234,7 @@ public class IntsTest extends TestCase {
         new byte[] {(byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC}));
   }
 
-  @GwtIncompatible // Ints.fromByteArray
+  @GwtIncompatible("Ints.fromByteArray")
   public void testFromByteArrayFails() {
     try {
       int unused = Ints.fromByteArray(new byte[Ints.BYTES - 1]);
@@ -243,7 +243,7 @@ public class IntsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // Ints.fromBytes
+  @GwtIncompatible("Ints.fromBytes")
   public void testFromBytes() {
     assertEquals(0x12131415, Ints.fromBytes(
         (byte) 0x12, (byte) 0x13, (byte) 0x14, (byte) 0x15));
@@ -251,7 +251,7 @@ public class IntsTest extends TestCase {
         (byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC));
   }
 
-  @GwtIncompatible // Ints.fromByteArray, Ints.toByteArray
+  @GwtIncompatible("Ints.fromByteArray, Ints.toByteArray")
   public void testByteArrayRoundTrips() {
     Random r = new Random(5);
     byte[] b = new byte[Ints.BYTES];
@@ -313,13 +313,13 @@ public class IntsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible // SerializableTester
+  @GwtIncompatible("SerializableTester")
   public void testLexicographicalComparatorSerializable() {
     Comparator<int[]> comparator = Ints.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
-  @GwtIncompatible // SerializableTester
+  @GwtIncompatible("SerializableTester")
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Ints.stringConverter());
   }
@@ -419,7 +419,7 @@ public class IntsTest extends TestCase {
     assertSame(Collections.emptyList(), Ints.asList(EMPTY));
   }
 
-  @GwtIncompatible // NullPointerTester
+  @GwtIncompatible("NullPointerTester")
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Ints.class);
   }
@@ -460,7 +460,7 @@ public class IntsTest extends TestCase {
     assertEquals("438", converter.reverse().convert(0666));
   }
 
-  @GwtIncompatible // NullPointerTester
+  @GwtIncompatible("NullPointerTester")
   public void testStringConverter_nullPointerTester() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Ints.stringConverter());

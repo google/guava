@@ -171,14 +171,14 @@ public abstract class BaseEncoding {
    * {@code Writer}.  When the returned {@code OutputStream} is closed, so is the backing
    * {@code Writer}.
    */
-  @GwtIncompatible // Writer,OutputStream
+  @GwtIncompatible("Writer,OutputStream")
   @CheckReturnValue
   public abstract OutputStream encodingStream(Writer writer);
 
   /**
    * Returns a {@code ByteSink} that writes base-encoded bytes to the specified {@code CharSink}.
    */
-  @GwtIncompatible // ByteSink,CharSink
+  @GwtIncompatible("ByteSink,CharSink")
   @CheckReturnValue
   public final ByteSink encodingSink(final CharSink encodedSink) {
     checkNotNull(encodedSink);
@@ -243,7 +243,7 @@ public abstract class BaseEncoding {
    * {@code Reader}.  The returned stream throws a {@link DecodingException} upon decoding-specific
    * errors.
    */
-  @GwtIncompatible // Reader,InputStream
+  @GwtIncompatible("Reader,InputStream")
   @CheckReturnValue
   public abstract InputStream decodingStream(Reader reader);
 
@@ -251,7 +251,7 @@ public abstract class BaseEncoding {
    * Returns a {@code ByteSource} that reads base-encoded bytes from the specified
    * {@code CharSource}.
    */
-  @GwtIncompatible // ByteSource,CharSource
+  @GwtIncompatible("ByteSource,CharSource")
   @CheckReturnValue
   public final ByteSource decodingSource(final CharSource encodedSource) {
     checkNotNull(encodedSource);
@@ -582,7 +582,7 @@ public abstract class BaseEncoding {
       return alphabet.charsPerChunk * divide(bytes, alphabet.bytesPerChunk, CEILING);
     }
 
-    @GwtIncompatible // Writer,OutputStream
+    @GwtIncompatible("Writer,OutputStream")
     @Override
     public OutputStream encodingStream(final Writer out) {
       checkNotNull(out);
@@ -708,7 +708,7 @@ public abstract class BaseEncoding {
       return bytesWritten;
     }
 
-    @GwtIncompatible // Reader,InputStream
+    @GwtIncompatible("Reader,InputStream")
     @Override
     public InputStream decodingStream(final Reader reader) {
       checkNotNull(reader);
@@ -930,7 +930,7 @@ public abstract class BaseEncoding {
     }
   }
 
-  @GwtIncompatible // Reader
+  @GwtIncompatible("Reader")
   static Reader ignoringReader(final Reader delegate, final CharMatcher toIgnore) {
     checkNotNull(delegate);
     checkNotNull(toIgnore);
@@ -987,7 +987,7 @@ public abstract class BaseEncoding {
     };
   }
 
-  @GwtIncompatible // Writer
+  @GwtIncompatible("Writer")
   static Writer separatingWriter(
       final Writer delegate, final String separator, final int afterEveryChars) {
     final Appendable seperatingAppendable =
@@ -1042,7 +1042,7 @@ public abstract class BaseEncoding {
           * divide(Math.max(0, unseparatedSize - 1), afterEveryChars, FLOOR);
     }
 
-    @GwtIncompatible // Writer,OutputStream
+    @GwtIncompatible("Writer,OutputStream")
     @Override
     public OutputStream encodingStream(final Writer output) {
       return delegate.encodingStream(separatingWriter(output, separator, afterEveryChars));
@@ -1068,7 +1068,7 @@ public abstract class BaseEncoding {
       return delegate.decodeTo(target, separatorChars.removeFrom(chars));
     }
 
-    @GwtIncompatible // Reader,InputStream
+    @GwtIncompatible("Reader,InputStream")
     @Override
     public InputStream decodingStream(final Reader reader) {
       return delegate.decodingStream(ignoringReader(reader, separatorChars));

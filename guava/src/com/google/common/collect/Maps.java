@@ -802,7 +802,7 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   public static <K, V> NavigableMap<K, V> asMap(
       NavigableSet<K> set, Function<? super K, V> function) {
     return new NavigableAsMapView<K, V>(set, function);
@@ -944,7 +944,7 @@ public final class Maps {
     }
   }
 
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   private static final class NavigableAsMapView<K, V> extends AbstractNavigableMap<K, V> {
     /*
      * Using AbstractNavigableMap is simpler than extending SortedAsMapView and rewriting all the
@@ -1076,7 +1076,7 @@ public final class Maps {
     };
   }
 
-  @GwtIncompatible // NavigableSet
+  @GwtIncompatible("NavigableSet")
   private static <E> NavigableSet<E> removeOnlyNavigableSet(final NavigableSet<E> set) {
     return new ForwardingNavigableSet<E>() {
       @Override
@@ -1276,7 +1276,7 @@ public final class Maps {
    * @throws NullPointerException if any key or value in {@code Properties} is
    *         null
    */
-  @GwtIncompatible // java.util.Properties
+  @GwtIncompatible("java.util.Properties")
   public static ImmutableMap<String, String> fromProperties(Properties properties) {
     ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
 
@@ -1684,7 +1684,7 @@ public final class Maps {
    *
    * @since 13.0
    */
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   public static <K, V1, V2> NavigableMap<K, V2> transformValues(
       NavigableMap<K, V1> fromMap, Function<? super V1, V2> function) {
     return transformEntries(fromMap, asEntryTransformer(function));
@@ -1859,7 +1859,7 @@ public final class Maps {
    *
    * @since 13.0
    */
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   public static <K, V1, V2> NavigableMap<K, V2> transformEntries(
       NavigableMap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesNavigableMap<K, V1, V2>(fromMap, transformer);
@@ -2078,7 +2078,7 @@ public final class Maps {
     }
   }
 
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   private static class TransformedEntriesNavigableMap<K, V1, V2>
       extends TransformedEntriesSortedMap<K, V1, V2> implements NavigableMap<K, V2> {
 
@@ -2324,7 +2324,7 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   @CheckReturnValue
   public static <K, V> NavigableMap<K, V> filterKeys(
       NavigableMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
@@ -2473,7 +2473,7 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   @CheckReturnValue
   public static <K, V> NavigableMap<K, V> filterValues(
       NavigableMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
@@ -2633,7 +2633,7 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   @CheckReturnValue
   public static <K, V> NavigableMap<K, V> filterEntries(
       NavigableMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
@@ -3029,14 +3029,14 @@ public final class Maps {
    * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when
    * filtering a filtered navigable map.
    */
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   private static <K, V> NavigableMap<K, V> filterFiltered(
       FilteredEntryNavigableMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
     Predicate<Entry<K, V>> predicate = Predicates.and(map.entryPredicate, entryPredicate);
     return new FilteredEntryNavigableMap<K, V>(map.unfiltered, predicate);
   }
 
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   private static class FilteredEntryNavigableMap<K, V> extends AbstractNavigableMap<K, V> {
     /*
      * It's less code to extend AbstractNavigableMap and forward the filtering logic to
@@ -3243,7 +3243,7 @@ public final class Maps {
    * @return an unmodifiable view of the specified navigable map
    * @since 12.0
    */
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   public static <K, V> NavigableMap<K, V> unmodifiableNavigableMap(NavigableMap<K, V> map) {
     checkNotNull(map);
     if (map instanceof UnmodifiableNavigableMap) {
@@ -3258,7 +3258,7 @@ public final class Maps {
     return (entry == null) ? null : Maps.unmodifiableEntry(entry);
   }
 
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   static class UnmodifiableNavigableMap<K, V> extends ForwardingSortedMap<K, V>
       implements NavigableMap<K, V>, Serializable {
     private final NavigableMap<K, V> delegate;
@@ -3444,7 +3444,7 @@ public final class Maps {
    * @return a synchronized view of the specified navigable map.
    * @since 13.0
    */
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   public static <K, V> NavigableMap<K, V> synchronizedNavigableMap(
       NavigableMap<K, V> navigableMap) {
     return Synchronized.navigableMap(navigableMap);
@@ -3752,7 +3752,7 @@ public final class Maps {
     }
   }
 
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   static class NavigableKeySet<K, V> extends SortedKeySet<K, V> implements NavigableSet<K> {
     NavigableKeySet(NavigableMap<K, V> map) {
       super(map);
@@ -3983,7 +3983,7 @@ public final class Maps {
     }
   }
 
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   abstract static class DescendingMap<K, V> extends ForwardingMap<K, V>
       implements NavigableMap<K, V> {
 
@@ -4206,7 +4206,7 @@ public final class Maps {
    * @since 20.0
    */
   @Beta
-  @GwtIncompatible // NavigableMap
+  @GwtIncompatible("NavigableMap")
   public static <K extends Comparable<? super K>, V> NavigableMap<K, V> subMap(
       NavigableMap<K, V> map, Range<K> range) {
     if (map.comparator() != null && map.comparator() != Ordering.natural()

@@ -313,7 +313,7 @@ public final class Iterables {
    * @return a newly-allocated array into which all the elements of the iterable
    *     have been copied
    */
-  @GwtIncompatible // Array.newInstance(Class, int)
+  @GwtIncompatible("Array.newInstance(Class, int)")
   public static <T> T[] toArray(Iterable<? extends T> iterable, Class<T> type) {
     return toArray(iterable, ObjectArrays.newArray(type, 0));
   }
@@ -606,7 +606,7 @@ public final class Iterables {
    * @return an unmodifiable iterable containing all elements of the original
    *     iterable that were of the requested type
    */
-  @GwtIncompatible // Class.isInstance
+  @GwtIncompatible("Class.isInstance")
   @CheckReturnValue
   public static <T> Iterable<T> filter(final Iterable<?> unfiltered, final Class<T> desiredType) {
     checkNotNull(unfiltered);

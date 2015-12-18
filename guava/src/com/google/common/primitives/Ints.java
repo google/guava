@@ -296,7 +296,7 @@ public final class Ints {
    * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable
    * buffer.
    */
-  @GwtIncompatible // doesn't work
+  @GwtIncompatible("doesn't work")
   public static byte[] toByteArray(int value) {
     return new byte[] {
       (byte) (value >> 24),
@@ -318,7 +318,7 @@ public final class Ints {
    *
    * @throws IllegalArgumentException if {@code bytes} has fewer than 4 elements
    */
-  @GwtIncompatible // doesn't work
+  @GwtIncompatible("doesn't work")
   public static int fromByteArray(byte[] bytes) {
     checkArgument(bytes.length >= BYTES, "array too small: %s < %s", bytes.length, BYTES);
     return fromBytes(bytes[0], bytes[1], bytes[2], bytes[3]);
@@ -331,7 +331,7 @@ public final class Ints {
    *
    * @since 7.0
    */
-  @GwtIncompatible // doesn't work
+  @GwtIncompatible("doesn't work")
   public static int fromBytes(byte b1, byte b2, byte b3, byte b4) {
     return b1 << 24 | (b2 & 0xFF) << 16 | (b3 & 0xFF) << 8 | (b4 & 0xFF);
   }

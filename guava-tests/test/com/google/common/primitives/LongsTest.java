@@ -52,7 +52,7 @@ public class LongsTest extends TestCase {
   private static final long[] VALUES =
       { MIN_VALUE, (long) -1, (long) 0, (long) 1, MAX_VALUE };
 
-  @GwtIncompatible // Long.hashCode returns different values in GWT.
+  @GwtIncompatible("Long.hashCode returns different values in GWT.")
   public void testHashCode() {
     for (long value : VALUES) {
       assertEquals("hashCode for " + value,
@@ -295,13 +295,13 @@ public class LongsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible // SerializableTester
+  @GwtIncompatible("SerializableTester")
   public void testLexicographicalComparatorSerializable() {
     Comparator<long[]> comparator = Longs.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
-  @GwtIncompatible // SerializableTester
+  @GwtIncompatible("SerializableTester")
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Longs.stringConverter());
   }
@@ -401,7 +401,7 @@ public class LongsTest extends TestCase {
     assertSame(Collections.emptyList(), Longs.asList(EMPTY));
   }
 
-  @GwtIncompatible // NullPointerTester
+  @GwtIncompatible("NullPointerTester")
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Longs.class);
   }
@@ -442,7 +442,7 @@ public class LongsTest extends TestCase {
     assertEquals("438", converter.reverse().convert(0666L));
   }
 
-  @GwtIncompatible // NullPointerTester
+  @GwtIncompatible("NullPointerTester")
   public void testStringConverter_nullPointerTester() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Longs.stringConverter());

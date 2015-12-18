@@ -111,7 +111,7 @@ public class SetsTest extends TestCase {
   private static final Comparator<Integer> SOME_COMPARATOR
       = Collections.reverseOrder();
 
-  @GwtIncompatible // suite
+  @GwtIncompatible("suite")
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SetsTest.class);
@@ -206,7 +206,7 @@ public class SetsTest extends TestCase {
     return suite;
   }
 
-  @GwtIncompatible // suite
+  @GwtIncompatible("suite")
   private static Test testsForFilter() {
     return SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override public Set<String> create(String[] elements) {
@@ -227,7 +227,7 @@ public class SetsTest extends TestCase {
         .createTestSuite();
   }
 
-  @GwtIncompatible // suite
+  @GwtIncompatible("suite")
   private static Test testsForFilterNoNulls() {
     TestSuite suite = new TestSuite();
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -272,7 +272,7 @@ public class SetsTest extends TestCase {
     return suite;
   }
 
-  @GwtIncompatible // suite
+  @GwtIncompatible("suite")
   private static Test testsForFilterFiltered() {
     return SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override public Set<String> create(String[] elements) {
@@ -312,7 +312,7 @@ public class SetsTest extends TestCase {
     } catch (UnsupportedOperationException expected) {}
   }
 
-  @GwtIncompatible // SerializableTester
+  @GwtIncompatible("SerializableTester")
   public void testImmutableEnumSet_serialized() {
     Set<SomeEnum> units = Sets.immutableEnumSet(SomeEnum.D, SomeEnum.B);
 
@@ -335,8 +335,9 @@ public class SetsTest extends TestCase {
     assertThat(two).containsExactly(SomeEnum.B, SomeEnum.D).inOrder();
   }
 
-  @GwtIncompatible // java serialization not supported in GWT.
-  public void testImmutableEnumSet_deserializationMakesDefensiveCopy() throws Exception {
+  @GwtIncompatible("java serialization not supported in GWT.")
+  public void testImmutableEnumSet_deserializationMakesDefensiveCopy()
+      throws Exception {
     ImmutableSet<SomeEnum> original =
         Sets.immutableEnumSet(SomeEnum.A, SomeEnum.B);
     int handleOffset = 6;
@@ -352,9 +353,9 @@ public class SetsTest extends TestCase {
     assertTrue(deserialized.contains(SomeEnum.A));
   }
 
-  @GwtIncompatible // java serialization not supported in GWT.
-  private static byte[] serializeWithBackReference(Object original, int handleOffset)
-      throws IOException {
+  @GwtIncompatible("java serialization not supported in GWT.")
+  private static byte[] serializeWithBackReference(
+      Object original, int handleOffset) throws IOException {
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
     ObjectOutputStream out = new ObjectOutputStream(bos);
 
@@ -374,7 +375,7 @@ public class SetsTest extends TestCase {
     return out;
   }
 
-  @GwtIncompatible // java.nio.ByteBuffer
+  @GwtIncompatible("java.nio.ByteBuffer")
   private static byte[] toByteArray(int h) {
     return ByteBuffer.allocate(4).putInt(h).array();
   }
@@ -540,13 +541,13 @@ public class SetsTest extends TestCase {
     assertEquals(2, set.size());
   }
 
-  @GwtIncompatible // CopyOnWriteArraySet
+  @GwtIncompatible("CopyOnWriteArraySet")
   public void testNewCOWASEmpty() {
     CopyOnWriteArraySet<Integer> set = Sets.newCopyOnWriteArraySet();
     verifySetContents(set, EMPTY_COLLECTION);
   }
 
-  @GwtIncompatible // CopyOnWriteArraySet
+  @GwtIncompatible("CopyOnWriteArraySet")
   public void testNewCOWASFromIterable() {
     CopyOnWriteArraySet<Integer> set = Sets.newCopyOnWriteArraySet(SOME_ITERABLE);
     verifySetContents(set, SOME_COLLECTION);
@@ -602,7 +603,7 @@ public class SetsTest extends TestCase {
     } catch (IllegalArgumentException expected) {}
   }
 
-  @GwtIncompatible // NullPointerTester
+  @GwtIncompatible("NullPointerTester")
   public void testNullPointerExceptions() {
     new NullPointerTester()
         .setDefault(Enum.class, SomeEnum.A)
@@ -616,7 +617,7 @@ public class SetsTest extends TestCase {
     verifySetContents(set, SOME_COLLECTION);
   }
 
-  @GwtIncompatible // SerializableTester
+  @GwtIncompatible("SerializableTester")
   public void testNewSetFromMapSerialization() {
     Set<Integer> set =
         Sets.newSetFromMap(new LinkedHashMap<Integer, Boolean>());
@@ -826,7 +827,7 @@ public class SetsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // too slow for GWT
+  @GwtIncompatible("too slow for GWT")
   public void testPowerSetIteration_iteratorTester() {
     ImmutableSet<Integer> elements = ImmutableSet.of(1, 2);
 
@@ -1067,7 +1068,7 @@ public class SetsTest extends TestCase {
     private static final long serialVersionUID = 0;
   }
 
-  @GwtIncompatible // NavigableSet
+  @GwtIncompatible("NavigableSet")
   public void testUnmodifiableNavigableSet() {
     TreeSet<Integer> mod = Sets.newTreeSet();
     mod.add(1);
@@ -1134,7 +1135,7 @@ public class SetsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // NavigableSet
+  @GwtIncompatible("NavigableSet")
   void ensureNotDirectlyModifiable(NavigableSet<Integer> unmod) {
     try {
       unmod.add(4);
@@ -1177,7 +1178,7 @@ public class SetsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // NavigableSet
+  @GwtIncompatible("NavigableSet")
   public void testSubSet_boundedRange() {
     ImmutableSortedSet<Integer> set = ImmutableSortedSet.of(2, 4, 6, 8, 10);
     ImmutableSortedSet<Integer> empty = ImmutableSortedSet.of();
@@ -1207,7 +1208,7 @@ public class SetsTest extends TestCase {
     assertEquals(empty, Sets.subSet(set, Range.closedOpen(20, 30)));
   }
 
-  @GwtIncompatible // NavigableSet
+  @GwtIncompatible("NavigableSet")
   public void testSubSet_halfBoundedRange() {
     ImmutableSortedSet<Integer> set = ImmutableSortedSet.of(2, 4, 6, 8, 10);
     ImmutableSortedSet<Integer> empty = ImmutableSortedSet.of();
@@ -1233,14 +1234,14 @@ public class SetsTest extends TestCase {
     assertEquals(set, Sets.subSet(set, Range.atMost(20)));
   }
 
-  @GwtIncompatible // NavigableSet
+  @GwtIncompatible("NavigableSet")
   public void testSubSet_unboundedRange() {
     ImmutableSortedSet<Integer> set = ImmutableSortedSet.of(2, 4, 6, 8, 10);
 
     assertEquals(set, Sets.subSet(set, Range.<Integer>all()));
   }
 
-  @GwtIncompatible // NavigableSet
+  @GwtIncompatible("NavigableSet")
   public void testSubSet_unnaturalOrdering() {
     ImmutableSortedSet<Integer> set =
         ImmutableSortedSet.<Integer>reverseOrder().add(2, 4, 6, 8, 10).build();

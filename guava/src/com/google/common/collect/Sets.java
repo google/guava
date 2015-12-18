@@ -422,7 +422,7 @@ public final class Sets {
    * @return a new, empty {@code CopyOnWriteArraySet}
    * @since 12.0
    */
-  @GwtIncompatible // CopyOnWriteArraySet
+  @GwtIncompatible("CopyOnWriteArraySet")
   public static <E> CopyOnWriteArraySet<E> newCopyOnWriteArraySet() {
     return new CopyOnWriteArraySet<E>();
   }
@@ -434,7 +434,7 @@ public final class Sets {
    * @return a new {@code CopyOnWriteArraySet} containing those elements
    * @since 12.0
    */
-  @GwtIncompatible // CopyOnWriteArraySet
+  @GwtIncompatible("CopyOnWriteArraySet")
   public static <E> CopyOnWriteArraySet<E> newCopyOnWriteArraySet(Iterable<? extends E> elements) {
     // We copy elements to an ArrayList first, rather than incurring the
     // quadratic cost of adding them to the COWAS directly.
@@ -973,7 +973,7 @@ public final class Sets {
    *
    * @since 14.0
    */
-  @GwtIncompatible // NavigableSet
+  @GwtIncompatible("NavigableSet")
   @SuppressWarnings("unchecked")
   @CheckReturnValue
   public static <E> NavigableSet<E> filter(
@@ -989,7 +989,7 @@ public final class Sets {
     return new FilteredNavigableSet<E>(checkNotNull(unfiltered), checkNotNull(predicate));
   }
 
-  @GwtIncompatible // NavigableSet
+  @GwtIncompatible("NavigableSet")
   private static class FilteredNavigableSet<E> extends FilteredSortedSet<E>
       implements NavigableSet<E> {
     FilteredNavigableSet(NavigableSet<E> unfiltered, Predicate<? super E> predicate) {
@@ -1455,7 +1455,7 @@ public final class Sets {
    * @return an unmodifiable view of the specified navigable set
    * @since 12.0
    */
-  @GwtIncompatible // NavigableSet
+  @GwtIncompatible("NavigableSet")
   public static <E> NavigableSet<E> unmodifiableNavigableSet(NavigableSet<E> set) {
     if (set instanceof ImmutableSortedSet || set instanceof UnmodifiableNavigableSet) {
       return set;
@@ -1463,7 +1463,7 @@ public final class Sets {
     return new UnmodifiableNavigableSet<E>(set);
   }
 
-  @GwtIncompatible // NavigableSet
+  @GwtIncompatible("NavigableSet")
   static final class UnmodifiableNavigableSet<E> extends ForwardingSortedSet<E>
       implements NavigableSet<E>, Serializable {
     private final NavigableSet<E> delegate;
@@ -1587,7 +1587,7 @@ public final class Sets {
    * @return a synchronized view of the specified navigable set.
    * @since 13.0
    */
-  @GwtIncompatible // NavigableSet
+  @GwtIncompatible("NavigableSet")
   public static <E> NavigableSet<E> synchronizedNavigableSet(NavigableSet<E> navigableSet) {
     return Synchronized.navigableSet(navigableSet);
   }
@@ -1622,7 +1622,7 @@ public final class Sets {
     }
   }
 
-  @GwtIncompatible // NavigableSet
+  @GwtIncompatible("NavigableSet")
   static class DescendingSet<E> extends ForwardingNavigableSet<E> {
     private final NavigableSet<E> forward;
 
@@ -1771,7 +1771,7 @@ public final class Sets {
    * @since 20.0
    */
   @Beta
-  @GwtIncompatible // NavigableSet
+  @GwtIncompatible("NavigableSet")
   public static <K extends Comparable<? super K>> NavigableSet<K> subSet(
       NavigableSet<K> set, Range<K> range) {
     if (set.comparator() != null && set.comparator() != Ordering.natural()
