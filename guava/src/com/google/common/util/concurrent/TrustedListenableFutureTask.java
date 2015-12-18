@@ -85,8 +85,9 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     this.task = null;
   }
 
-  @GwtIncompatible("Interruption not supported")
-  @Override protected final void interruptTask() {
+  @GwtIncompatible // Interruption not supported
+  @Override
+  protected final void interruptTask() {
     TrustedFutureInterruptibleTask localTask = task;
     if (localTask != null) {
       localTask.interruptTask();

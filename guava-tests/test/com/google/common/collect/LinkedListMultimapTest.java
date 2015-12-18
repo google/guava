@@ -59,7 +59,7 @@ import java.util.Set;
 @GwtCompatible(emulated = true)
 public class LinkedListMultimapTest extends TestCase {
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(ListMultimapTestSuiteBuilder.using(new TestStringListMultimapGenerator() {
@@ -341,7 +341,7 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   @SuppressWarnings("unchecked")
-  @GwtIncompatible("unreasonably slow")
+  @GwtIncompatible // unreasonably slow
   public void testEntriesIteration() {
     List<Entry<String, Integer>> addItems = ImmutableList.of(
         Maps.immutableEntry("foo", 99),
@@ -374,7 +374,7 @@ public class LinkedListMultimapTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("unreasonably slow")
+  @GwtIncompatible // unreasonably slow
   public void testKeysIteration() {
     new IteratorTester<String>(6, MODIFIABLE, newArrayList("foo", "foo", "bar",
         "bar", "foo"), IteratorTester.KnownOrder.KNOWN_ORDER) {
@@ -394,7 +394,7 @@ public class LinkedListMultimapTest extends TestCase {
     }.test();
   }
 
-  @GwtIncompatible("unreasonably slow")
+  @GwtIncompatible // unreasonably slow
   public void testValuesIteration() {
     List<Integer> addItems = ImmutableList.of(99, 88, 77);
 
@@ -420,7 +420,7 @@ public class LinkedListMultimapTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("unreasonably slow")
+  @GwtIncompatible // unreasonably slow
   public void testKeySetIteration() {
     new IteratorTester<String>(6, MODIFIABLE, newLinkedHashSet(asList(
         "foo", "bar", "baz", "dog", "cat")),
@@ -446,7 +446,7 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   @SuppressWarnings("unchecked")
-  @GwtIncompatible("unreasonably slow")
+  @GwtIncompatible // unreasonably slow
   public void testAsSetIteration() {
     Set<Entry<String, Collection<Integer>>> set = Sets.newLinkedHashSet(asList(
         Maps.immutableEntry("foo",

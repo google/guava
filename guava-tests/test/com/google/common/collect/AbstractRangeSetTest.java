@@ -27,7 +27,7 @@ import java.util.NoSuchElementException;
  *
  * @author Louis Wasserman
  */
-@GwtIncompatible("TreeRangeSet")
+@GwtIncompatible // TreeRangeSet
 public abstract class AbstractRangeSetTest extends TestCase {
   public static void testInvariants(RangeSet<?> rangeSet) {
     testInvariantsInternal(rangeSet);

@@ -107,12 +107,12 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
         .entrySet().contains(Helpers.mapEntry(getKeyForNullValue(), null)));
   }
   
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getContainsEntryWithIncomparableKeyMethod() {
     return Helpers.getMethod(MapEntrySetTester.class, "testContainsEntryWithIncomparableKey");
   }
   
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getContainsEntryWithIncomparableValueMethod() {
     return Helpers.getMethod(MapEntrySetTester.class, "testContainsEntryWithIncomparableValue");
   }

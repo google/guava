@@ -499,7 +499,7 @@ public class Helpers {
     }
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getMethod(Class<?> clazz, String name) {
     try {
       return clazz.getMethod(name);

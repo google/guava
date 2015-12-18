@@ -58,7 +58,7 @@ public class SetAddTester<E> extends AbstractSetTester<E> {
    * {@link #testAdd_supportedNullPresent()} so that tests can suppress it. See
    * {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddSupportedNullPresentMethod() {
     return Helpers.getMethod(SetAddTester.class, "testAdd_supportedNullPresent");
   }

@@ -89,7 +89,7 @@ public abstract class CacheLoader<K, V> {
    *     the thread's interrupt status is set
    * @since 11.0
    */
-  @GwtIncompatible("Futures")
+  @GwtIncompatible // Futures
   public ListenableFuture<V> reload(K key, V oldValue) throws Exception {
     checkNotNull(key);
     checkNotNull(oldValue);
@@ -174,9 +174,9 @@ public abstract class CacheLoader<K, V> {
    *
    * @since 17.0
    */
-  @GwtIncompatible("Executor + Futures")
-  public static <K, V> CacheLoader<K, V> asyncReloading(final CacheLoader<K, V> loader,
-      final Executor executor) {
+  @GwtIncompatible // Executor + Futures
+  public static <K, V> CacheLoader<K, V> asyncReloading(
+      final CacheLoader<K, V> loader, final Executor executor) {
     checkNotNull(loader);
     checkNotNull(executor);
     return new CacheLoader<K, V>() {

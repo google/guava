@@ -129,9 +129,8 @@ public class SetGenerators {
     }
   }
 
-  @GwtIncompatible("NavigableSet")
-  public static class ImmutableSortedSetDescendingGenerator
-      extends TestStringSortedSetGenerator {
+  @GwtIncompatible // NavigableSet
+  public static class ImmutableSortedSetDescendingGenerator extends TestStringSortedSetGenerator {
     @Override protected SortedSet<String> create(String[] elements) {
       return ImmutableSortedSet
           .<String>reverseOrder()
@@ -231,9 +230,8 @@ public class SetGenerators {
     }
   }
 
-  @GwtIncompatible("NavigableSet")
-  public static class ImmutableSortedSetDescendingAsListGenerator
-      extends TestStringListGenerator {
+  @GwtIncompatible // NavigableSet
+  public static class ImmutableSortedSetDescendingAsListGenerator extends TestStringListGenerator {
     @Override protected List<String> create(String[] elements) {
       Comparator<String> comparator = createExplicitComparator(elements).reverse();
       return ImmutableSortedSet
@@ -356,7 +354,7 @@ public class SetGenerators {
     }
   }
 
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   public static class ContiguousSetDescendingGenerator extends AbstractContiguousSetGenerator {
     @Override protected SortedSet<Integer> create(Integer[] elements) {
       return checkedCreate(nullCheckedTreeSet(elements)).descendingSet();

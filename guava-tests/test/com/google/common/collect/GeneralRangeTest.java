@@ -202,7 +202,7 @@ public class GeneralRangeTest extends TestCase {
         GeneralRange.range(ORDERING, 3, CLOSED, 5, OPEN).reverse());
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(GeneralRange.class);
   }

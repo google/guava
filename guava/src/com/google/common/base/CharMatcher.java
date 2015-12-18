@@ -434,7 +434,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * scenario, it constructs an eight-kilobyte bit array and queries that.
    * In many situations this produces a matcher which is faster to query than the original.
    */
-  @GwtIncompatible("java.util.BitSet")
+  @GwtIncompatible // java.util.BitSet
   CharMatcher precomputedInternal() {
     final BitSet table = new BitSet();
     setBits(table);
@@ -464,7 +464,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /**
    * Helper method for {@link #precomputedInternal} that doesn't test if the negation is cheaper.
    */
-  @GwtIncompatible("java.util.BitSet")
+  @GwtIncompatible // java.util.BitSet
   private static CharMatcher precomputedPositive(
       int totalCharacters, BitSet table, String description) {
     switch (totalCharacters) {
@@ -483,7 +483,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     }
   }
 
-  @GwtIncompatible("SmallCharMatcher")
+  @GwtIncompatible // SmallCharMatcher
   private static boolean isSmall(int totalCharacters, int tableLength) {
     return totalCharacters <= SmallCharMatcher.MAX_SIZE
         && tableLength > (totalCharacters * 4 * Character.SIZE);
@@ -493,7 +493,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /**
    * Sets bits in {@code table} matched by this matcher.
    */
-  @GwtIncompatible("java.util.BitSet")
+  @GwtIncompatible // java.util.BitSet
   void setBits(BitSet table) {
     for (int c = Character.MAX_VALUE; c >= Character.MIN_VALUE; c--) {
       if (matches((char) c)) {
@@ -994,7 +994,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /** Fast matcher using a {@link BitSet} table of matching characters. */
-  @GwtIncompatible("java.util.BitSet")
+  @GwtIncompatible // java.util.BitSet
   private static final class BitSetMatcher extends NamedFastMatcher {
 
     private final BitSet table;
@@ -1244,7 +1244,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       return TABLE.charAt((MULTIPLIER * c) >>> SHIFT) == c;
     }
 
-    @GwtIncompatible("java.util.BitSet")
+    @GwtIncompatible // java.util.BitSet
     @Override
     void setBits(BitSet table) {
       for (int i = 0; i < TABLE.length(); i++) {
@@ -1526,7 +1526,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       return sequence.length() - original.countIn(sequence);
     }
 
-    @GwtIncompatible("java.util.BitSet")
+    @GwtIncompatible // java.util.BitSet
     @Override
     void setBits(BitSet table) {
       BitSet tmp = new BitSet();
@@ -1562,7 +1562,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       return first.matches(c) && second.matches(c);
     }
 
-    @GwtIncompatible("java.util.BitSet")
+    @GwtIncompatible // java.util.BitSet
     @Override
     void setBits(BitSet table) {
       BitSet tmp1 = new BitSet();
@@ -1590,7 +1590,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       second = checkNotNull(b);
     }
 
-    @GwtIncompatible("java.util.BitSet")
+    @GwtIncompatible // java.util.BitSet
     @Override
     void setBits(BitSet table) {
       first.setBits(table);
@@ -1644,7 +1644,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       return isNot(match);
     }
 
-    @GwtIncompatible("java.util.BitSet")
+    @GwtIncompatible // java.util.BitSet
     @Override
     void setBits(BitSet table) {
       table.set(match);
@@ -1680,7 +1680,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       return other.matches(match) ? any() : this;
     }
 
-    @GwtIncompatible("java.util.BitSet")
+    @GwtIncompatible // java.util.BitSet
     @Override
     void setBits(BitSet table) {
       table.set(0, match);
@@ -1718,7 +1718,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       return c == match1 || c == match2;
     }
 
-    @GwtIncompatible("java.util.BitSet")
+    @GwtIncompatible // java.util.BitSet
     @Override
     void setBits(BitSet table) {
       table.set(match1);
@@ -1747,7 +1747,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     }
 
     @Override
-    @GwtIncompatible("java.util.BitSet")
+    @GwtIncompatible // java.util.BitSet
     void setBits(BitSet table) {
       for (char c : chars) {
         table.set(c);
@@ -1782,7 +1782,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       return startInclusive <= c && c <= endInclusive;
     }
 
-    @GwtIncompatible("java.util.BitSet")
+    @GwtIncompatible // java.util.BitSet
     @Override
     void setBits(BitSet table) {
       table.set(startInclusive, endInclusive + 1);

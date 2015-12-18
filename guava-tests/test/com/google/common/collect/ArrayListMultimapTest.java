@@ -44,7 +44,7 @@ import java.util.RandomAccess;
 @GwtCompatible(emulated = true)
 public class ArrayListMultimapTest extends TestCase {
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(ListMultimapTestSuiteBuilder.using(new TestStringListMultimapGenerator() {

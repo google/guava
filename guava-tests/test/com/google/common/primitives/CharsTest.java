@@ -216,7 +216,7 @@ public class CharsTest extends TestCase {
         Chars.concat(ARRAY1, ARRAY234)));
   }
 
-  @GwtIncompatible("Chars.fromByteArray")
+  @GwtIncompatible // Chars.fromByteArray
   public void testFromByteArray() {
     assertEquals('\u2345', Chars.fromByteArray(
         new byte[] {0x23, 0x45, (byte) 0xDC}));
@@ -224,7 +224,7 @@ public class CharsTest extends TestCase {
         new byte[] {(byte) 0xFE, (byte) 0xDC}));
   }
 
-  @GwtIncompatible("Chars.fromByteArray")
+  @GwtIncompatible // Chars.fromByteArray
   public void testFromByteArrayFails() {
     try {
       char unused = Chars.fromByteArray(new byte[Chars.BYTES - 1]);
@@ -233,13 +233,13 @@ public class CharsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Chars.fromBytes")
+  @GwtIncompatible // Chars.fromBytes
   public void testFromBytes() {
     assertEquals('\u2345', Chars.fromBytes((byte) 0x23, (byte) 0x45));
     assertEquals('\uFEDC', Chars.fromBytes((byte) 0xFE, (byte) 0xDC));
   }
 
-  @GwtIncompatible("Chars.fromByteArray, Chars.toByteArray")
+  @GwtIncompatible // Chars.fromByteArray, Chars.toByteArray
   public void testByteArrayRoundTrips() {
     char c = 0;
     for (int hi = 0; hi < 256; hi++) {
@@ -259,7 +259,7 @@ public class CharsTest extends TestCase {
     assertEquals((char) 0, c); // sanity check
   }
 
-  @GwtIncompatible("Chars.fromByteArray, Chars.toByteArray")
+  @GwtIncompatible // Chars.fromByteArray, Chars.toByteArray
   public void testByteArrayRoundTripsFails() {
     try {
       char unused = Chars.fromByteArray(new byte[] {0x11});
@@ -314,7 +314,7 @@ public class CharsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<char[]> comparator = Chars.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
@@ -397,7 +397,7 @@ public class CharsTest extends TestCase {
     assertSame(Collections.emptyList(), Chars.asList(EMPTY));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Chars.class);
   }

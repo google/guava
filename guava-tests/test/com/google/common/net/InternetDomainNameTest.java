@@ -399,7 +399,7 @@ public final class InternetDomainNameTest extends TestCase {
     return InternetDomainName.from(domain);
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     final NullPointerTester tester = new NullPointerTester();
 

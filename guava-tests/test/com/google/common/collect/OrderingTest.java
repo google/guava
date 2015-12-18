@@ -699,7 +699,7 @@ public class OrderingTest extends TestCase {
     assertEquals(ImmutableList.of(-1, 3, foo, bar), result);
   }
 
-  @GwtIncompatible("slow")
+  @GwtIncompatible // slow
   public void testLeastOf_reconcileAgainstSortAndSublist() {
     runLeastOfComparison(1000, 300, 20);
   }
@@ -869,24 +869,24 @@ public class OrderingTest extends TestCase {
     testExhaustively(Ordering.<String>natural(), "a", "b", "d");
   }
   
-  @GwtIncompatible("too slow")
+  @GwtIncompatible // too slow
   public void testCombinationsExhaustively_startingFromExplicit() {
     testExhaustively(Ordering.explicit("a", "b", "c", "d"),
         "a", "b", "d");
   }
   
-  @GwtIncompatible("too slow")
+  @GwtIncompatible // too slow
   public void testCombinationsExhaustively_startingFromUsingToString() {
     testExhaustively(Ordering.usingToString(), 1, 12, 2);
   }
 
-  @GwtIncompatible("too slow")
+  @GwtIncompatible // too slow
   public void testCombinationsExhaustively_startingFromFromComparator() {
     testExhaustively(Ordering.from(String.CASE_INSENSITIVE_ORDER),
         "A", "b", "C", "d");
   }
   
-  @GwtIncompatible("too slow")
+  @GwtIncompatible // too slow
   public void testCombinationsExhaustively_startingFromArbitrary() {
     Ordering<Object> arbitrary = Ordering.arbitrary();
     Object[] array = {1, "foo", new Object()};
@@ -1134,7 +1134,7 @@ public class OrderingTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Ordering.class);

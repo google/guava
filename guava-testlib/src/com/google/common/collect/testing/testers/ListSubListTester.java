@@ -337,7 +337,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570631">Sun bug
    * 6570631</a> is fixed.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getSubListOriginalListSetAffectsSubListMethod() {
     return getMethod(ListSubListTester.class, "testSubList_originalListSetAffectsSubList");
   }
@@ -350,7 +350,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570631">Sun bug
    * 6570631</a> is fixed.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getSubListOriginalListSetAffectsSubListLargeListMethod() {
     return getMethod(ListSubListTester.class, "testSubList_originalListSetAffectsSubListLargeList");
   }
@@ -363,7 +363,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug
    * 6570575</a> is fixed.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getSubListSubListRemoveAffectsOriginalLargeListMethod() {
     return getMethod(ListSubListTester.class, "testSubList_subListRemoveAffectsOriginalLargeList");
   }

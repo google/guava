@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
 @GwtCompatible(emulated = true)
 public class FluentIterableTest extends TestCase {
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(FluentIterable.class);
@@ -277,7 +277,7 @@ public class FluentIterableTest extends TestCase {
   private interface TypeB {}
   private static class HasBoth extends TypeA implements TypeB {}
 
-  @GwtIncompatible("Iterables.filter(Iterable, Class)")
+  @GwtIncompatible // Iterables.filter(Iterable, Class)
   public void testFilterByType() throws Exception {
     HasBoth hasBoth = new HasBoth();
     FluentIterable<TypeA> alist =

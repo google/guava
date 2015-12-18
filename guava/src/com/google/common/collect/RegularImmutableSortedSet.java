@@ -60,7 +60,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return elements.iterator();
   }
 
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   @Override
   public UnmodifiableIterator<E> descendingIterator() {
     return elements.reverse().iterator();

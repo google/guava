@@ -289,7 +289,7 @@ public final class Chars {
    * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable
    * buffer.
    */
-  @GwtIncompatible("doesn't work")
+  @GwtIncompatible // doesn't work
   public static byte[] toByteArray(char value) {
     return new byte[] {(byte) (value >> 8), (byte) value};
   }
@@ -306,7 +306,7 @@ public final class Chars {
    * @throws IllegalArgumentException if {@code bytes} has fewer than 2
    *     elements
    */
-  @GwtIncompatible("doesn't work")
+  @GwtIncompatible // doesn't work
   public static char fromByteArray(byte[] bytes) {
     checkArgument(bytes.length >= BYTES, "array too small: %s < %s", bytes.length, BYTES);
     return fromBytes(bytes[0], bytes[1]);
@@ -319,7 +319,7 @@ public final class Chars {
    *
    * @since 7.0
    */
-  @GwtIncompatible("doesn't work")
+  @GwtIncompatible // doesn't work
   public static char fromBytes(byte b1, byte b2) {
     return (char) ((b1 << 8) | (b2 & 0xFF));
   }

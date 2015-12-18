@@ -89,7 +89,7 @@ public class MultisetCountTester<E> extends AbstractMultisetTester<E> {
    * support duplicates so that the test of {@code Multisets.forSet()} can
    * suppress them.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static List<Method> getCountDuplicateInitializingMethods() {
     return Arrays.asList(
         Helpers.getMethod(MultisetCountTester.class, "testCount_3"));

@@ -101,7 +101,7 @@ public class FutureCallbackTest extends TestCase {
     Futures.addCallback(f, callback);
   }
 
-  @GwtIncompatible("Mockito")
+  @GwtIncompatible // Mockito
   public void testOnSuccessThrowsRuntimeException() throws Exception {
     RuntimeException exception = new RuntimeException();
     String result = "result";
@@ -116,7 +116,7 @@ public class FutureCallbackTest extends TestCase {
     Mockito.verifyNoMoreInteractions(callback);
   }
 
-  @GwtIncompatible("Mockito")
+  @GwtIncompatible // Mockito
   public void testOnSuccessThrowsError() throws Exception {
     class TestError extends Error {}
     TestError error = new TestError();

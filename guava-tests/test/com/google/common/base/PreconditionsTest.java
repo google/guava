@@ -335,7 +335,7 @@ public class PreconditionsTest extends TestCase {
     assertEquals("null [5, 6]", Preconditions.format(null, 5, 6));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Preconditions.class);

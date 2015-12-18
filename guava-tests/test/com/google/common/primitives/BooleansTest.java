@@ -160,7 +160,7 @@ public class BooleansTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<boolean[]> comparator = Booleans.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
@@ -296,7 +296,7 @@ public class BooleansTest extends TestCase {
     assertEquals(1, Booleans.countTrue(false, false, true, false, false));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Booleans.class);
   }

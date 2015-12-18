@@ -612,7 +612,7 @@ public final class Floats {
   @Beta
   @Nullable
   @CheckForNull
-  @GwtIncompatible("regular expressions")
+  @GwtIncompatible // regular expressions
   public static Float tryParse(String string) {
     if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {
       // TODO(lowasser): could be potentially optimized, but only with

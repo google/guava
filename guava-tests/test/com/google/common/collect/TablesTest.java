@@ -32,7 +32,7 @@ import junit.framework.TestCase;
 @GwtCompatible(emulated = true)
 public class TablesTest extends TestCase {
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testImmutableEntrySerialization() {
     Cell<String, Integer, Character> entry
         = Tables.immutableCell("foo", 1, 'a');

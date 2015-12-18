@@ -247,7 +247,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug
    * 5045147</a> is fixed.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getPutNullKeyUnsupportedMethod() {
     return Helpers.getMethod(MapPutTester.class, "testPut_nullKeyUnsupported");
   }

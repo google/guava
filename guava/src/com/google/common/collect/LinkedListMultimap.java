@@ -820,7 +820,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    *     the first key, the number of values for that key, and the key's values,
    *     followed by successive keys and values from the entries() ordering
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
+  @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeInt(size());
@@ -830,7 +830,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  @GwtIncompatible("java.io.ObjectInputStream")
+  @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     keyToKeyList = Maps.newLinkedHashMap();
@@ -844,6 +844,6 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  @GwtIncompatible("java serialization not supported")
+  @GwtIncompatible // java serialization not supported
   private static final long serialVersionUID = 0;
 }

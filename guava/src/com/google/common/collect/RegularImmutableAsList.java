@@ -56,7 +56,7 @@ class RegularImmutableAsList<E> extends ImmutableAsList<E> {
     return (UnmodifiableListIterator<E>) delegateList.listIterator(index);
   }
 
-  @GwtIncompatible("not present in emulated superclass")
+  @GwtIncompatible // not present in emulated superclass
   @Override
   int copyIntoArray(Object[] dst, int offset) {
     return delegateList.copyIntoArray(dst, offset);

@@ -330,7 +330,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *   @SuppressWarnings("unchecked") // safe by runtime check
    *   Stream<MyType> result = (Stream) stream.filter(e -> e instanceof MyType);}</pre>
    */
-  @GwtIncompatible("Class.isInstance")
+  @GwtIncompatible // Class.isInstance
   @CheckReturnValue
   public final <T> FluentIterable<T> filter(Class<T> type) {
     return from(Iterables.filter(iterable, type));
@@ -688,7 +688,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @return a newly-allocated array into which all the elements of this fluent iterable have
    *     been copied
    */
-  @GwtIncompatible("Array.newArray(Class, int)")
+  @GwtIncompatible // Array.newArray(Class, int)
   @CheckReturnValue
   public final E[] toArray(Class<E> type) {
     return Iterables.toArray(iterable, type);

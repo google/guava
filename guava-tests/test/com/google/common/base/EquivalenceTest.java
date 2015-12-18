@@ -85,7 +85,7 @@ public class EquivalenceTest extends TestCase {
     assertSame(test, wrapper.get());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization() {
     SerializableTester.reserializeAndAssert(LENGTH_EQUIVALENCE.wrap("hello"));
     SerializableTester.reserializeAndAssert(Equivalence.equals());
@@ -159,7 +159,7 @@ public class EquivalenceTest extends TestCase {
         .testEquals();
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Equivalence.class);
     new NullPointerTester().testAllPublicInstanceMethods(Equivalence.equals());

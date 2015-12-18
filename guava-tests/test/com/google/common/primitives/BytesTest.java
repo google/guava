@@ -254,7 +254,7 @@ public class BytesTest extends TestCase {
     assertSame(Collections.emptyList(), Bytes.asList(EMPTY));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Bytes.class);
   }

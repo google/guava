@@ -55,7 +55,7 @@ import java.util.Set;
 @GwtCompatible(emulated = true)
 public class ImmutableMultisetTest extends TestCase {
 
-  @GwtIncompatible("suite") // TODO(cpovirk): add to collect/gwt/suites
+  @GwtIncompatible // suite // TODO(cpovirk): add to collect/gwt/suites
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableMultisetTest.class);
@@ -436,26 +436,26 @@ public class ImmutableMultisetTest extends TestCase {
     } catch (IllegalArgumentException expected) {}
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableMultiset.class);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization_empty() {
     Collection<String> c = ImmutableMultiset.of();
     assertSame(c, SerializableTester.reserialize(c));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization_multiple() {
     Collection<String> c = ImmutableMultiset.of("a", "b", "a");
     Collection<String> copy = SerializableTester.reserializeAndAssert(c);
     assertThat(copy).containsExactly("a", "a", "b").inOrder();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization_elementSet() {
     Multiset<String> c = ImmutableMultiset.of("a", "b", "a");
     Collection<String> copy =
@@ -463,7 +463,7 @@ public class ImmutableMultisetTest extends TestCase {
     assertThat(copy).containsExactly("a", "b").inOrder();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization_entrySet() {
     Multiset<String> c = ImmutableMultiset.of("a", "b", "c");
     SerializableTester.reserializeAndAssert(c.entrySet());
@@ -496,7 +496,7 @@ public class ImmutableMultisetTest extends TestCase {
     assertEquals(4, list.lastIndexOf("b"));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization_asList() {
     ImmutableMultiset<String> multiset
         = ImmutableMultiset.of("a", "a", "b", "b", "b");

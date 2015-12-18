@@ -107,13 +107,13 @@ public class MultimapsTest extends TestCase {
     assertSame(immutable, Multimaps.unmodifiableMultimap((Multimap<String, Integer>) immutable));
   }
 
-  @GwtIncompatible("slow (~10s)")
+  @GwtIncompatible // slow (~10s)
   public void testUnmodifiableArrayListMultimap() {
     checkUnmodifiableMultimap(
         ArrayListMultimap.<String, Integer>create(), true);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableArrayListMultimap() {
     Multimap<String, Integer> unmodifiable =
         prepareUnmodifiableTests(ArrayListMultimap.<String, Integer>create(), true, null, null);
@@ -139,38 +139,38 @@ public class MultimapsTest extends TestCase {
     assertThat(multimap.get("bar")).isNotInstanceOf(RandomAccess.class);
   }
 
-  @GwtIncompatible("slow (~10s)")
+  @GwtIncompatible // slow (~10s)
   public void testUnmodifiableHashMultimap() {
     checkUnmodifiableMultimap(HashMultimap.<String, Integer>create(), false);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableHashMultimap() {
     Multimap<String, Integer> unmodifiable =
         prepareUnmodifiableTests(HashMultimap.<String, Integer>create(), false, null, null);
     SerializableTester.reserializeAndAssert(unmodifiable);
   }
 
-  @GwtIncompatible("slow (~10s)")
+  @GwtIncompatible // slow (~10s)
   public void testUnmodifiableTreeMultimap() {
     checkUnmodifiableMultimap(
         TreeMultimap.<String, Integer>create(), false, "null", 42);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableTreeMultimap() {
     Multimap<String, Integer> unmodifiable =
         prepareUnmodifiableTests(TreeMultimap.<String, Integer>create(), false, "null", 42);
     SerializableTester.reserializeAndAssert(unmodifiable);
   }
 
-  @GwtIncompatible("slow (~10s)")
+  @GwtIncompatible // slow (~10s)
   public void testUnmodifiableSynchronizedArrayListMultimap() {
     checkUnmodifiableMultimap(Multimaps.synchronizedListMultimap(
         ArrayListMultimap.<String, Integer>create()), true);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableSynchronizedArrayListMultimap() {
     Multimap<String, Integer> unmodifiable =
         prepareUnmodifiableTests(Multimaps.synchronizedListMultimap(
@@ -178,13 +178,13 @@ public class MultimapsTest extends TestCase {
     SerializableTester.reserializeAndAssert(unmodifiable);
   }
 
-  @GwtIncompatible("slow (~10s)")
+  @GwtIncompatible // slow (~10s)
   public void testUnmodifiableSynchronizedHashMultimap() {
     checkUnmodifiableMultimap(Multimaps.synchronizedSetMultimap(
         HashMultimap.<String, Integer>create()), false);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableSynchronizedHashMultimap() {
     Multimap<String, Integer> unmodifiable =
         prepareUnmodifiableTests(Multimaps.synchronizedSetMultimap(
@@ -192,7 +192,7 @@ public class MultimapsTest extends TestCase {
     SerializableTester.reserializeAndAssert(unmodifiable);
   }
 
-  @GwtIncompatible("slow (~10s)")
+  @GwtIncompatible // slow (~10s)
   public void testUnmodifiableSynchronizedTreeMultimap() {
     TreeMultimap<String, Integer> delegate
         = TreeMultimap.create(Ordering.<String>natural(), INT_COMPARATOR);
@@ -202,7 +202,7 @@ public class MultimapsTest extends TestCase {
     assertSame(INT_COMPARATOR, multimap.valueComparator());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableSynchronizedTreeMultimap() {
     TreeMultimap<String, Integer> delegate =
         TreeMultimap.create(Ordering.<String>natural(), INT_COMPARATOR);
@@ -462,7 +462,7 @@ public class MultimapsTest extends TestCase {
     assertEquals(multimapView, ArrayListMultimap.create());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testForMapSerialization() {
     Map<String, Integer> map = Maps.newHashMap();
     map.put("foo", 1);
@@ -633,7 +633,7 @@ public class MultimapsTest extends TestCase {
     assertThat(multimap.asMap()).isNotInstanceOf(SortedMap.class);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testNewMultimapSerialization() {
     CountingSupplier<Queue<Integer>> factory = new QueueSupplier();
     Map<Color, Collection<Integer>> map = Maps.newEnumMap(Color.class);
@@ -668,7 +668,7 @@ public class MultimapsTest extends TestCase {
     assertTrue(multimap.asMap() instanceof SortedMap);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testNewListMultimapSerialization() {
     CountingSupplier<LinkedList<Integer>> factory = new ListSupplier();
     Map<Color, Collection<Integer>> map = Maps.newTreeMap();
@@ -698,7 +698,7 @@ public class MultimapsTest extends TestCase {
     assertEquals(Sets.newHashSet(4, 3, 1), multimap.get(Color.BLUE));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testNewSetMultimapSerialization() {
     CountingSupplier<Set<Integer>> factory = new SetSupplier();
     Map<Color, Collection<Integer>> map = Maps.newHashMap();
@@ -731,7 +731,7 @@ public class MultimapsTest extends TestCase {
     assertEquals(INT_COMPARATOR, multimap.valueComparator());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testNewSortedSetMultimapSerialization() {
     CountingSupplier<TreeSet<Integer>> factory = new SortedSetSupplier();
     Map<Color, Collection<Integer>> map = Maps.newEnumMap(Color.class);
@@ -994,7 +994,7 @@ public class MultimapsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(Multimaps.class);
   }

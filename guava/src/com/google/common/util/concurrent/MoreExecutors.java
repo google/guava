@@ -83,7 +83,7 @@ public final class MoreExecutors {
    * @return an unmodifiable version of the input which will not hang the JVM
    */
   @Beta
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   public static ExecutorService getExitingExecutorService(
       ThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {
     return new Application()
@@ -107,7 +107,7 @@ public final class MoreExecutors {
    * @return an unmodifiable version of the input which will not hang the JVM
    */
   @Beta
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   public static ScheduledExecutorService getExitingScheduledExecutorService(
       ScheduledThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {
     return new Application()
@@ -126,7 +126,7 @@ public final class MoreExecutors {
    * @param timeUnit unit of time for the time parameter
    */
   @Beta
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   public static void addDelayedShutdownHook(
       ExecutorService service, long terminationTimeout, TimeUnit timeUnit) {
     new Application()
@@ -149,7 +149,7 @@ public final class MoreExecutors {
    * @return an unmodifiable version of the input which will not hang the JVM
    */
   @Beta
-  @GwtIncompatible("concurrency")
+  @GwtIncompatible // concurrency
   public static ExecutorService getExitingExecutorService(ThreadPoolExecutor executor) {
     return new Application().getExitingExecutorService(executor);
   }
@@ -170,14 +170,14 @@ public final class MoreExecutors {
    * @return an unmodifiable version of the input which will not hang the JVM
    */
   @Beta
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   public static ScheduledExecutorService getExitingScheduledExecutorService(
       ScheduledThreadPoolExecutor executor) {
     return new Application().getExitingScheduledExecutorService(executor);
   }
 
   /** Represents the current application to register shutdown hooks. */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   @VisibleForTesting
   static class Application {
 
@@ -233,7 +233,7 @@ public final class MoreExecutors {
     }
   }
 
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   private static void useDaemonThreadFactory(ThreadPoolExecutor executor) {
     executor.setThreadFactory(new ThreadFactoryBuilder()
         .setDaemon(true)
@@ -278,15 +278,14 @@ public final class MoreExecutors {
    *     method will be removed in August 2016.
    */
   @Deprecated
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   public static ListeningExecutorService sameThreadExecutor() {
     return new DirectExecutorService();
   }
 
   // See sameThreadExecutor javadoc for behavioral notes.
-  @GwtIncompatible("TODO")
-  private static final class DirectExecutorService
-      extends AbstractListeningExecutorService {
+  @GwtIncompatible // TODO
+  private static final class DirectExecutorService extends AbstractListeningExecutorService {
     /**
      * Lock used whenever accessing the state variables
      * (runningTasks, shutdown) of the executor
@@ -424,7 +423,7 @@ public final class MoreExecutors {
    *
    * @since 18.0 (present as MoreExecutors.sameThreadExecutor() since 10.0)
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   public static ListeningExecutorService newDirectExecutorService() {
     return new DirectExecutorService();
   }
@@ -479,9 +478,8 @@ public final class MoreExecutors {
    *
    * @since 10.0
    */
-  @GwtIncompatible("TODO")
-  public static ListeningExecutorService listeningDecorator(
-      ExecutorService delegate) {
+  @GwtIncompatible // TODO
+  public static ListeningExecutorService listeningDecorator(ExecutorService delegate) {
     return (delegate instanceof ListeningExecutorService)
         ? (ListeningExecutorService) delegate
         : (delegate instanceof ScheduledExecutorService)
@@ -508,7 +506,7 @@ public final class MoreExecutors {
    *
    * @since 10.0
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   public static ListeningScheduledExecutorService listeningDecorator(
       ScheduledExecutorService delegate) {
     return (delegate instanceof ListeningScheduledExecutorService)
@@ -516,9 +514,8 @@ public final class MoreExecutors {
         : new ScheduledListeningDecorator(delegate);
   }
 
-  @GwtIncompatible("TODO")
-  private static class ListeningDecorator
-      extends AbstractListeningExecutorService {
+  @GwtIncompatible // TODO
+  private static class ListeningDecorator extends AbstractListeningExecutorService {
     private final ExecutorService delegate;
 
     ListeningDecorator(ExecutorService delegate) {
@@ -557,9 +554,9 @@ public final class MoreExecutors {
     }
   }
 
-  @GwtIncompatible("TODO")
-  private static final class ScheduledListeningDecorator
-      extends ListeningDecorator implements ListeningScheduledExecutorService {
+  @GwtIncompatible // TODO
+  private static final class ScheduledListeningDecorator extends ListeningDecorator
+      implements ListeningScheduledExecutorService {
     @SuppressWarnings("hiding")
     final ScheduledExecutorService delegate;
 
@@ -641,9 +638,8 @@ public final class MoreExecutors {
       }
     }
 
-    @GwtIncompatible("TODO")
-    private static final class NeverSuccessfulListenableFutureTask
-        extends AbstractFuture<Void>
+    @GwtIncompatible // TODO
+    private static final class NeverSuccessfulListenableFutureTask extends AbstractFuture<Void>
         implements Runnable {
       private final Runnable delegate;
 
@@ -678,9 +674,12 @@ public final class MoreExecutors {
    * An implementation of {@link ExecutorService#invokeAny} for {@link ListeningExecutorService}
    * implementations.
    */
-  @GwtIncompatible("TODO") static <T> T invokeAnyImpl(ListeningExecutorService executorService,
-      Collection<? extends Callable<T>> tasks, boolean timed, long nanos)
-          throws InterruptedException, ExecutionException, TimeoutException {
+  @GwtIncompatible static <T> T invokeAnyImpl(
+      ListeningExecutorService executorService,
+      Collection<? extends Callable<T>> tasks,
+      boolean timed,
+      long nanos)
+      throws InterruptedException, ExecutionException, TimeoutException {
     checkNotNull(executorService);
     int ntasks = tasks.size();
     checkArgument(ntasks > 0);
@@ -751,9 +750,10 @@ public final class MoreExecutors {
   /**
    * Submits the task and adds a listener that adds the future to {@code queue} when it completes.
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   private static <T> ListenableFuture<T> submitAndAddQueueListener(
-      ListeningExecutorService executorService, Callable<T> task,
+      ListeningExecutorService executorService,
+      Callable<T> task,
       final BlockingQueue<Future<T>> queue) {
     final ListenableFuture<T> future = executorService.submit(task);
     future.addListener(new Runnable() {
@@ -773,7 +773,7 @@ public final class MoreExecutors {
    * @since 14.0
    */
   @Beta
-  @GwtIncompatible("concurrency")
+  @GwtIncompatible // concurrency
   public static ThreadFactory platformThreadFactory() {
     if (!isAppEngine()) {
       return Executors.defaultThreadFactory();
@@ -793,7 +793,7 @@ public final class MoreExecutors {
     }
   }
 
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   private static boolean isAppEngine() {
     if (System.getProperty("com.google.appengine.runtime.environment") == null) {
       return false;
@@ -822,7 +822,7 @@ public final class MoreExecutors {
    * Creates a thread using {@link #platformThreadFactory}, and sets its name to {@code name}
    * unless changing the name is forbidden by the security manager.
    */
-  @GwtIncompatible("concurrency")
+  @GwtIncompatible // concurrency
   static Thread newThread(String name, Runnable runnable) {
     checkNotNull(name);
     checkNotNull(runnable);
@@ -850,7 +850,7 @@ public final class MoreExecutors {
    * @param executor The executor to decorate
    * @param nameSupplier The source of names for each task
    */
-  @GwtIncompatible("concurrency")
+  @GwtIncompatible // concurrency
   static Executor renamingDecorator(final Executor executor, final Supplier<String> nameSupplier) {
     checkNotNull(executor);
     checkNotNull(nameSupplier);
@@ -877,9 +877,9 @@ public final class MoreExecutors {
    * @param service The executor to decorate
    * @param nameSupplier The source of names for each task
    */
-  @GwtIncompatible("concurrency")
-  static ExecutorService renamingDecorator(final ExecutorService service,
-      final Supplier<String> nameSupplier) {
+  @GwtIncompatible // concurrency
+  static ExecutorService renamingDecorator(
+      final ExecutorService service, final Supplier<String> nameSupplier) {
     checkNotNull(service);
     checkNotNull(nameSupplier);
     if (isAppEngine()) {
@@ -908,9 +908,9 @@ public final class MoreExecutors {
    * @param service The executor to decorate
    * @param nameSupplier The source of names for each task
    */
-  @GwtIncompatible("concurrency")
-  static ScheduledExecutorService renamingDecorator(final ScheduledExecutorService service,
-      final Supplier<String> nameSupplier) {
+  @GwtIncompatible // concurrency
+  static ScheduledExecutorService renamingDecorator(
+      final ScheduledExecutorService service, final Supplier<String> nameSupplier) {
     checkNotNull(service);
     checkNotNull(nameSupplier);
     if (isAppEngine()) {
@@ -951,7 +951,7 @@ public final class MoreExecutors {
    * @since 17.0
    */
   @Beta
-  @GwtIncompatible("concurrency")
+  @GwtIncompatible // concurrency
   public static boolean shutdownAndAwaitTermination(
       ExecutorService service, long timeout, TimeUnit unit) {
     checkNotNull(unit);

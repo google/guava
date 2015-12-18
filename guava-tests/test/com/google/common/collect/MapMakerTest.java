@@ -43,13 +43,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 @GwtCompatible(emulated = true)
 public class MapMakerTest extends TestCase {
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullParameters() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(new MapMaker());
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testRemovalNotification_clear() throws InterruptedException {
     // If a clear() happens while a computation is pending, we should not get a removal
@@ -106,7 +106,7 @@ public class MapMakerTest extends TestCase {
    * removal listener), or else is not affected by the {@code clear()} (and therefore exists in the
    * map afterward).
    */
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testRemovalNotification_clear_basher() throws InterruptedException {
     // If a clear() happens close to the end of computation, one of two things should happen:
@@ -179,7 +179,7 @@ public class MapMakerTest extends TestCase {
     assertTrue(Sets.intersection(map.keySet(), removalNotifications.keySet()).isEmpty());
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
   static final class DelayingIdentityLoader<T> implements Function<T, T> {
     private final CountDownLatch delayLatch;
 

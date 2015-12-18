@@ -147,7 +147,7 @@ public class ListSetTester<E> extends AbstractListTester<E> {
    * seems more likely that code would depend on that behavior than on the
    * other. Thus, we say the bug is in set(), which fails to support null.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getSetNullSupportedMethod() {
     return Helpers.getMethod(ListSetTester.class, "testSet_null");
   }

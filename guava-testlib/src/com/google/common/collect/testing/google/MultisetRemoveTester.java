@@ -170,7 +170,7 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
    * support duplicates so that the test of {@code Multisets.forSet()} can
    * suppress them.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static List<Method> getRemoveDuplicateInitializingMethods() {
     return Arrays.asList(
         Helpers.getMethod(MultisetRemoveTester.class, "testRemove_some_occurrences_present"));

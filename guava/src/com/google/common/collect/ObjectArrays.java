@@ -44,7 +44,7 @@ public final class ObjectArrays {
    * @param type the component type
    * @param length the length of the new array
    */
-  @GwtIncompatible("Array.newInstance(Class, int)")
+  @GwtIncompatible // Array.newInstance(Class, int)
   @SuppressWarnings("unchecked")
   public static <T> T[] newArray(Class<T> type, int length) {
     return (T[]) Array.newInstance(type, length);
@@ -68,7 +68,7 @@ public final class ObjectArrays {
    * @param second the second array of elements to concatenate
    * @param type the component type of the returned array
    */
-  @GwtIncompatible("Array.newInstance(Class, int)")
+  @GwtIncompatible // Array.newInstance(Class, int)
   public static <T> T[] concat(T[] first, T[] second, Class<T> type) {
     T[] result = newArray(type, first.length + second.length);
     System.arraycopy(first, 0, result, 0, first.length);

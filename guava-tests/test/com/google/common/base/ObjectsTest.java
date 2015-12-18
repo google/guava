@@ -80,7 +80,7 @@ public class ObjectsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Objects.class);

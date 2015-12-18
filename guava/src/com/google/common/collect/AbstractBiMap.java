@@ -418,28 +418,28 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     /**
      * @serialData the forward bimap
      */
-    @GwtIncompatible("java.io.ObjectOuputStream")
+    @GwtIncompatible // java.io.ObjectOuputStream
     private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(inverse());
     }
 
-    @GwtIncompatible("java.io.ObjectInputStream")
+    @GwtIncompatible // java.io.ObjectInputStream
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
       setInverse((AbstractBiMap<V, K>) stream.readObject());
     }
 
-    @GwtIncompatible("Not needed in the emulated source.")
+    @GwtIncompatible // Not needed in the emulated source.
     Object readResolve() {
       return inverse().inverse();
     }
 
-    @GwtIncompatible("Not needed in emulated source.")
+    @GwtIncompatible // Not needed in emulated source.
     private static final long serialVersionUID = 0;
   }
 
-  @GwtIncompatible("Not needed in emulated source.")
+  @GwtIncompatible // Not needed in emulated source.
   private static final long serialVersionUID = 0;
 }

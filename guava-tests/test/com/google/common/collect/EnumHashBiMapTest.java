@@ -91,7 +91,7 @@ public class EnumHashBiMapTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(BiMapTestSuiteBuilder.using(new EnumHashBiMapGenerator())
@@ -213,12 +213,12 @@ public class EnumHashBiMapTest extends TestCase {
     assertEquals(3, uniqueEntries.size());
   }
 
-  @GwtIncompatible("serialize")
+  @GwtIncompatible // serialize
   public void testSerializable() {
     SerializableTester.reserializeAndAssert(EnumHashBiMap.create(Currency.class));
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(EnumHashBiMap.class);
     new NullPointerTester().testAllPublicInstanceMethods(EnumHashBiMap.create(Currency.class));

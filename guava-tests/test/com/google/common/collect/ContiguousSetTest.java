@@ -108,7 +108,7 @@ public class ContiguousSetTest extends TestCase {
         ContiguousSet.create(Range.atMost(Integer.MAX_VALUE), integers()));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization() {
     ContiguousSet<Integer> empty = ContiguousSet.create(Range.closedOpen(1, 1), integers());
     assertTrue(empty instanceof EmptyContiguousSet);
@@ -330,7 +330,7 @@ public class ContiguousSetTest extends TestCase {
         ImmutableSet.of(3), set.intersection(ContiguousSet.create(Range.closed(3, 5), integers())));
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static class BuiltTests extends TestCase {
     public static Test suite() {
       TestSuite suite = new TestSuite();

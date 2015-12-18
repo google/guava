@@ -220,7 +220,7 @@ public final class Splitter {
    *     empty string
    */
   @CheckReturnValue
-  @GwtIncompatible("java.util.regex")
+  @GwtIncompatible // java.util.regex
   public static Splitter on(final Pattern separatorPattern) {
     checkNotNull(separatorPattern);
     checkArgument(
@@ -264,7 +264,7 @@ public final class Splitter {
    *     empty string
    */
   @CheckReturnValue
-  @GwtIncompatible("java.util.regex")
+  @GwtIncompatible // java.util.regex
   public static Splitter onPattern(String separatorPattern) {
     return on(Pattern.compile(separatorPattern));
   }

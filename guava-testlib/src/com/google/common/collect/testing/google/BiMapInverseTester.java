@@ -71,12 +71,12 @@ public class BiMapInverseTester<K, V> extends AbstractBiMapTester<K, V> {
    * Returns {@link Method} instances for the tests that assume that the inverse will be the same
    * after serialization.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static List<Method> getInverseSameAfterSerializingMethods() {
     return Collections.singletonList(getMethod("testInverseSerialization"));
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   private static Method getMethod(String methodName) {
     return Helpers.getMethod(BiMapInverseTester.class, methodName);
   }

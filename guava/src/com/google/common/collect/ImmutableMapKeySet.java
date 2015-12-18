@@ -63,13 +63,13 @@ final class ImmutableMapKeySet<K, V> extends ImmutableSet.Indexed<K> {
     return true;
   }
 
-  @GwtIncompatible("serialization")
+  @GwtIncompatible // serialization
   @Override
   Object writeReplace() {
     return new KeySetSerializedForm<K>(map);
   }
 
-  @GwtIncompatible("serialization")
+  @GwtIncompatible // serialization
   private static class KeySetSerializedForm<K> implements Serializable {
     final ImmutableMap<K, ?> map;
 

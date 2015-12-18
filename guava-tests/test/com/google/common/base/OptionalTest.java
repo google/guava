@@ -299,13 +299,13 @@ public final class OptionalTest extends TestCase {
     Number value = first.or(0.5); // fine
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization() {
     SerializableTester.reserializeAndAssert(Optional.absent());
     SerializableTester.reserializeAndAssert(Optional.of("foo"));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester npTester = new NullPointerTester();
     npTester.testAllPublicConstructors(Optional.class);

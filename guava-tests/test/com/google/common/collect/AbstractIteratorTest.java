@@ -134,7 +134,7 @@ public class AbstractIteratorTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("weak references")
+  @GwtIncompatible // weak references
   public void testFreesNextReference() {
     Iterator<Object> itr = new AbstractIterator<Object>() {
       @Override public Object computeNext() {

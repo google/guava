@@ -59,7 +59,7 @@ import java.util.TreeSet;
 @GwtCompatible(emulated = true)
 public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
 
@@ -206,7 +206,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     return ImmutableSortedSet.copyOf(elements);
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(ImmutableSortedSet.class);
   }
@@ -249,7 +249,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     }
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testEmpty_serialization() {
     SortedSet<String> set = of();
     SortedSet<String> copy = SerializableTester.reserialize(set);
@@ -297,7 +297,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertEquals("e", set.last());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSingle_serialization() {
     SortedSet<String> set = of("e");
     SortedSet<String> copy = SerializableTester.reserializeAndAssert(set);
@@ -395,7 +395,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     }
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testOf_subSetSerialization() {
     SortedSet<String> set = of("e", "f", "b", "d", "c");
     SerializableTester.reserializeAndAssert(set.subSet("c", "e"));
@@ -411,7 +411,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertEquals("f", set.last());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testOf_serialization() {
     SortedSet<String> set = of("e", "f", "b", "d", "c");
     SortedSet<String> copy = SerializableTester.reserializeAndAssert(set);
@@ -509,7 +509,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertEquals("jumped", set.last());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testExplicitEmpty_serialization() {
     SortedSet<String> set = ImmutableSortedSet.orderedBy(STRING_LENGTH).build();
     SortedSet<String> copy = SerializableTester.reserializeAndAssert(set);
@@ -518,7 +518,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertSame(set.comparator(), copy.comparator());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testExplicit_serialization() {
     SortedSet<String> set = ImmutableSortedSet.orderedBy(STRING_LENGTH).add(
         "in", "the", "quick", "jumped", "over", "a").build();
@@ -746,7 +746,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertFalse(set.containsAll(Sets.newTreeSet(asList("f", "d", "a"))));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testDifferentComparator_serialization() {
     // don't use Collections.reverseOrder(); it didn't reserialize to the same instance in JDK5
     Comparator<Comparable<?>> comparator = Ordering.natural().reverse();
@@ -860,7 +860,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertSame(list, ImmutableList.copyOf(set));
   }
 
-  @GwtIncompatible("SerializableTester, ImmutableSortedAsList")
+  @GwtIncompatible // SerializableTester, ImmutableSortedAsList
   public void testAsListReturnTypeAndSerialization() {
     ImmutableSet<String> set = ImmutableSortedSet.of("a", "e", "i", "o", "u");
     ImmutableList<String> list = set.asList();
@@ -877,7 +877,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertEquals(list, ImmutableList.copyOf(set));
   }
 
-  @GwtIncompatible("SerializableTester, ImmutableSortedAsList")
+  @GwtIncompatible // SerializableTester, ImmutableSortedAsList
   public void testSubsetAsListReturnTypeAndSerialization() {
     ImmutableSet<String> set
         = ImmutableSortedSet.of("a", "e", "i", "o", "u").subSet("c", "r");

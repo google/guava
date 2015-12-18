@@ -268,7 +268,7 @@ public final class Lists {
    * @return a new, empty {@code CopyOnWriteArrayList}
    * @since 12.0
    */
-  @GwtIncompatible("CopyOnWriteArrayList")
+  @GwtIncompatible // CopyOnWriteArrayList
   public static <E> CopyOnWriteArrayList<E> newCopyOnWriteArrayList() {
     return new CopyOnWriteArrayList<E>();
   }
@@ -280,7 +280,7 @@ public final class Lists {
    * @return a new {@code CopyOnWriteArrayList} containing those elements
    * @since 12.0
    */
-  @GwtIncompatible("CopyOnWriteArrayList")
+  @GwtIncompatible // CopyOnWriteArrayList
   public static <E> CopyOnWriteArrayList<E> newCopyOnWriteArrayList(
       Iterable<? extends E> elements) {
     // We copy elements to an ArrayList first, rather than incurring the

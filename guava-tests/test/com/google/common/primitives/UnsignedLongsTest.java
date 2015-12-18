@@ -130,7 +130,7 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(4, UnsignedLongs.remainder(0xfffffffffffffffeL, 5));
   }
 
-  @GwtIncompatible("Too slow in GWT (~3min fully optimized)")
+  @GwtIncompatible // Too slow in GWT (~3min fully optimized)
   public void testDivideRemainderEuclideanProperty() {
     // Use a seed so that the test is deterministic:
     Random r = new Random(0L);
@@ -279,7 +279,7 @@ public class UnsignedLongsTest extends TestCase {
         UnsignedLongs.join("", -1, Long.MIN_VALUE));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(UnsignedLongs.class);
   }

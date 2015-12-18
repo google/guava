@@ -70,7 +70,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     return cancelled;
   }
 
-  @GwtIncompatible("Interruption not supported")
+  @GwtIncompatible // Interruption not supported
   @Override
   protected final void interruptTask() {
     RunningState localRunningState = runningState;

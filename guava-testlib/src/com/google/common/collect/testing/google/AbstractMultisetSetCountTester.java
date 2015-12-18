@@ -395,7 +395,7 @@ public abstract class AbstractMultisetSetCountTester<E>
    * assume multisets support duplicates so that the test of {@code
    * Multisets.forSet()} can suppress them.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static List<Method> getSetCountDuplicateInitializingMethods() {
     return Arrays.asList(
         getMethod("testSetCount_threeToThree_removeSupported"),
@@ -403,7 +403,7 @@ public abstract class AbstractMultisetSetCountTester<E>
         getMethod("testSetCount_threeToOne_supported"));
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   private static Method getMethod(String methodName) {
     return Helpers.getMethod(AbstractMultisetSetCountTester.class, methodName);
   }

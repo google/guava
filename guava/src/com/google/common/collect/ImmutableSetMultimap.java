@@ -485,7 +485,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * @serialData number of distinct keys, and then for each distinct key: the
    *     key, the number of values for that key, and the key's values
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
+  @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(valueComparator());
@@ -499,7 +499,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
         : null;
   }
 
-  @GwtIncompatible("java.io.ObjectInputStream")
+  @GwtIncompatible // java.io.ObjectInputStream
   // Serialization type safety is at the caller's mercy.
   @SuppressWarnings("unchecked")
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
@@ -543,6 +543,6 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     FieldSettersHolder.EMPTY_SET_FIELD_SETTER.set(this, emptySet(valueComparator));
   }
 
-  @GwtIncompatible("not needed in emulated source.")
+  @GwtIncompatible // not needed in emulated source.
   private static final long serialVersionUID = 0;
 }

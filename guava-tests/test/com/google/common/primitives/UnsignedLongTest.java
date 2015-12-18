@@ -110,7 +110,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("too slow")
+  @GwtIncompatible // too slow
   public void testToStringRadix() {
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
       for (long l : TEST_LONGS) {
@@ -252,7 +252,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("too slow")
+  @GwtIncompatible // too slow
   public void testEquals() {
     EqualsTester equalsTester = new EqualsTester();
     for (long a : TEST_LONGS) {
@@ -272,14 +272,14 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("serialization")
+  @GwtIncompatible // serialization
   public void testSerialization() {
     for (long a : TEST_LONGS) {
       SerializableTester.reserializeAndAssert(UnsignedLong.fromLongBits(a));
     }
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(UnsignedLong.class);
   }

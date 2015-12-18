@@ -41,7 +41,7 @@ import javax.annotation.Nullable;
  * @since 14.0
  */
 @Beta
-@GwtIncompatible("uses NavigableMap")
+@GwtIncompatible // uses NavigableMap
 public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     implements Serializable {
 

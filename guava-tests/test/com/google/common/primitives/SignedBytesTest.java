@@ -148,13 +148,13 @@ public class SignedBytesTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<byte[]> comparator = SignedBytes.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(SignedBytes.class);
   }

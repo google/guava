@@ -345,7 +345,7 @@ public class JoinerTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("StringBuilder.append in GWT invokes Object.toString(), unlike the JRE version.")
+  @GwtIncompatible // StringBuilder.append in GWT invokes Object.toString(), unlike the JRE version.
   public void testDontConvertCharSequenceToString() {
     assertEquals("foo,foo", Joiner.on(",").join(
         new DontStringMeBro(), new DontStringMeBro()));
@@ -353,7 +353,7 @@ public class JoinerTest extends TestCase {
         new DontStringMeBro(), null, new DontStringMeBro()));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Joiner.class);

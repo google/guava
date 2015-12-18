@@ -4268,7 +4268,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   Set<Entry<K, V>> entrySet;
 
   @Override
-  @GwtIncompatible("Not supported.")
+  @GwtIncompatible // Not supported.
   public Set<Entry<K, V>> entrySet() {
     // does not impact recency ordering
     Set<Entry<K, V>> es = entrySet;

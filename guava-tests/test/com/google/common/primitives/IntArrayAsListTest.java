@@ -51,7 +51,7 @@ public class IntArrayAsListTest extends TestCase {
     return Ints.asList(temp);
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     List<ListTestSuiteBuilder<Integer>> builders =
         ImmutableList.of(

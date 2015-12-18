@@ -292,11 +292,11 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
   }
 
   // Don't allow default serialization.
-  @GwtIncompatible("java.io.ObjectStreamException")
+  @GwtIncompatible // java.io.ObjectStreamException
   private void readObjectNoData() throws ObjectStreamException {
     throw new InvalidObjectException("Stream data required");
   }
 
-  @GwtIncompatible("not needed in emulated source.")
+  @GwtIncompatible // not needed in emulated source.
   private static final long serialVersionUID = -2250766705698539974L;
 }

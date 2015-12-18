@@ -160,7 +160,7 @@ public class EvictingQueueTest extends TestCase {
     assertEquals(1, queue.remainingCapacity());
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(EvictingQueue.class);

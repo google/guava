@@ -695,7 +695,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   @WeakOuter
   class WrappedNavigableSet extends WrappedSortedSet implements NavigableSet<V> {
     WrappedNavigableSet(
@@ -1043,7 +1043,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   @WeakOuter
   class NavigableKeySet extends SortedKeySet implements NavigableSet<K> {
     NavigableKeySet(NavigableMap<K, Collection<V>> subMap) {
@@ -1454,7 +1454,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  @GwtIncompatible("NavigableAsMap")
+  @GwtIncompatible // NavigableAsMap
   class NavigableAsMap extends SortedAsMap implements NavigableMap<K, Collection<V>> {
 
     NavigableAsMap(NavigableMap<K, Collection<V>> submap) {

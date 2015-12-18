@@ -43,7 +43,7 @@ import java.util.Arrays;
 @GwtCompatible(emulated = true)
 public class HashMultisetTest extends TestCase {
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(MultisetTestSuiteBuilder.using(hashMultisetGenerator())
@@ -90,7 +90,7 @@ public class HashMultisetTest extends TestCase {
     assertEquals(2, multiset.count("foo"));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerializationContainingSelf() {
     Multiset<Multiset<?>> multiset = HashMultiset.create();
     multiset.add(multiset, 2);
@@ -99,7 +99,7 @@ public class HashMultisetTest extends TestCase {
     assertSame(copy, copy.iterator().next());
   }
 
-  @GwtIncompatible("Only used by @GwtIncompatible code")
+  @GwtIncompatible // Only used by @GwtIncompatible code
   private static class MultisetHolder implements Serializable {
     public Multiset<?> member;
     MultisetHolder(Multiset<?> multiset) {
@@ -108,7 +108,7 @@ public class HashMultisetTest extends TestCase {
     private static final long serialVersionUID = 1L;
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerializationIndirectSelfReference() {
     Multiset<MultisetHolder> multiset = HashMultiset.create();
     MultisetHolder holder = new MultisetHolder(multiset);

@@ -156,7 +156,7 @@ public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
    * {@link #testAddAtIndex_nullSupported()} so that tests can suppress it. See
    * {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddNullSupportedMethod() {
     return Helpers.getMethod(
         ListAddAtIndexTester.class, "testAddAtIndex_nullSupported");
