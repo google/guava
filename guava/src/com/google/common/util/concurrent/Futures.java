@@ -33,6 +33,7 @@ import com.google.common.util.concurrent.ImmediateFuture.ImmediateSuccessfulChec
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateSuccessfulFuture;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
@@ -995,6 +996,147 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   public static <V> ListenableFuture<List<V>> allAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
     return new ListFuture<V>(ImmutableList.copyOf(futures), true);
+  }
+
+  /**
+   * Creates a {@link FutureCombiner} that processes the completed futures whether or not they're
+   * successful.
+   *
+   * @since 20.0
+   */
+  @SafeVarargs
+  @CheckReturnValue
+  public static <V> FutureCombiner<V> whenAllComplete(ListenableFuture<? extends V>... futures) {
+    return new FutureCombiner<V>(false, ImmutableList.copyOf(futures));
+  }
+
+  /**
+   * Creates a {@link FutureCombiner} that processes the completed futures whether or not they're
+   * successful.
+   *
+   * @since 20.0
+   */
+  @CheckReturnValue
+  public static <V> FutureCombiner<V> whenAllComplete(
+      Iterable<? extends ListenableFuture<? extends V>> futures) {
+    return new FutureCombiner<V>(false, ImmutableList.copyOf(futures));
+  }
+
+  /**
+   * Creates a {@link FutureCombiner} requiring that all passed in futures are successful.
+   *
+   * <p>If any input fails, the returned future fails immediately.
+   *
+   * @since 20.0
+   */
+  @SafeVarargs
+  @CheckReturnValue
+  public static <V> FutureCombiner<V> whenAllSucceed(ListenableFuture<? extends V>... futures) {
+    return new FutureCombiner<V>(true, ImmutableList.copyOf(futures));
+  }
+
+  /**
+   * Creates a {@link FutureCombiner} requiring that all passed in futures are successful.
+   *
+   * <p>If any input fails, the returned future fails immediately.
+   *
+   * @since 20.0
+   */
+  @CheckReturnValue
+  public static <V> FutureCombiner<V> whenAllSucceed(
+      Iterable<? extends ListenableFuture<? extends V>> futures) {
+    return new FutureCombiner<V>(true, ImmutableList.copyOf(futures));
+  }
+
+  /**
+   * A helper to create a new {@code ListenableFuture} whose result is generated from a combination
+   * of input futures.
+   *
+   * <p>See {@link #whenAllComplete} and {@link #whenAllSucceed} for how to instantiate this class.
+   *
+   * <p>Example:
+   *
+   * <pre>   {@code
+   *   final ListenableFuture<Instant> loginDateFuture =
+   *       loginService.findLastLoginDate(username);
+   *   final ListenableFuture<List<String>> recentCommandsFuture =
+   *       recentCommandsService.findRecentCommands(username);
+   *   Callable<UsageHistory> usageComputation =
+   *       new Callable<UsageHistory>() {
+   *         public UsageHistory call() throws Exception {
+   *           return new UsageHistory(
+   *               username, loginDateFuture.get(), recentCommandsFuture.get());
+   *         }
+   *       };
+   *   ListenableFuture<UsageHistory> usageFuture =
+   *       Futures.whenAllSucceed(loginDateFuture, recentCommandsFuture)
+   *           .call(usageComputation, executor);}</pre>
+   *
+   * @since 20.0
+   */
+  @Beta
+  @GwtCompatible
+  public static final class FutureCombiner<V> {
+    private final boolean allMustSucceed;
+    private final ImmutableList<ListenableFuture<? extends V>> futures;
+
+    private FutureCombiner(
+        boolean allMustSucceed, ImmutableList<ListenableFuture<? extends V>> futures) {
+      this.allMustSucceed = allMustSucceed;
+      this.futures = futures;
+    }
+
+    /**
+     * Creates the {@link ListenableFuture} which will return the result of calling {@link
+     * AsyncCallable#call} in {@code combiner} when all futures complete, using the specified {@code
+     * executor}.
+     *
+     * <p>If the combiner throws a {@code CancellationException}, the returned future will be
+     * cancelled.
+     *
+     * <p>If the combiner throws an {@code ExecutionException}, the cause of the thrown {@code
+     * ExecutionException} will be extracted and returned as the cause of the new {@code
+     * ExecutionException} that gets thrown by the returned combined future.
+     *
+     * <p>Canceling this future will attempt to cancel all the component futures.
+     */
+    public <C> ListenableFuture<C> callAsync(AsyncCallable<C> combiner, Executor executor) {
+      return new CombinedFuture<C>(futures, allMustSucceed, executor, combiner);
+    }
+
+    /**
+     * Like {@link #callAsync(AsyncCallable, Executor)} but using {@linkplain
+     * MoreExecutors#directExecutor direct executor}.
+     */
+    public <C> ListenableFuture<C> callAsync(AsyncCallable<C> combiner) {
+      return callAsync(combiner, directExecutor());
+    }
+
+    /**
+     * Creates the {@link ListenableFuture} which will return the result of calling {@link
+     * Callable#call} in {@code combiner} when all futures complete, using the specified {@code
+     * executor}.
+     *
+     * <p>If the combiner throws a {@code CancellationException}, the returned future will be
+     * cancelled.
+     *
+     * <p>If the combiner throws an {@code ExecutionException}, the cause of the thrown {@code
+     * ExecutionException} will be extracted and returned as the cause of the new {@code
+     * ExecutionException} that gets thrown by the returned combined future.
+     *
+     * <p>Canceling this future will attempt to cancel all the component futures.
+     */
+    public <C> ListenableFuture<C> call(Callable<C> combiner, Executor executor) {
+      return new CombinedFuture<C>(futures, allMustSucceed, executor, combiner);
+    }
+
+    /**
+     * Like {@link #call(Callable, Executor)} but using {@linkplain MoreExecutors#directExecutor
+     * direct executor}.
+     */
+    public <C> ListenableFuture<C> call(Callable<C> combiner) {
+      return call(combiner, directExecutor());
+    }
   }
 
   /**

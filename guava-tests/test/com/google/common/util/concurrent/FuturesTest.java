@@ -2098,6 +2098,161 @@ public class FuturesTest extends TestCase {
     return "-" + i + "-" + b;
   }
 
+  public void testWhenAllComplete_asyncResult() throws Exception {
+    final SettableFuture<Integer> futureInteger = SettableFuture.create();
+    final SettableFuture<Boolean> futureBoolean = SettableFuture.create();
+    AsyncCallable<String> combiner = new AsyncCallable<String>() {
+      @Override
+      public ListenableFuture<String> call() throws Exception {
+        assertTrue(futureInteger.isDone());
+        assertTrue(futureBoolean.isDone());
+        return Futures.immediateFuture(
+            createCombinedResult(futureInteger.get(), futureBoolean.get()));
+      }
+    };
+
+    ListenableFuture<String> futureResult = Futures.whenAllComplete(futureInteger, futureBoolean)
+        .callAsync(combiner);
+    Integer integerPartial = 1;
+    futureInteger.set(integerPartial);
+    Boolean booleanPartial = true;
+    futureBoolean.set(booleanPartial);
+    assertEquals(createCombinedResult(integerPartial, booleanPartial),
+        futureResult.get());
+  }
+
+  public void testWhenAllComplete_asyncError() throws Exception {
+    final Exception thrown = new RuntimeException("test");
+
+    final SettableFuture<Integer> futureInteger = SettableFuture.create();
+    final SettableFuture<Boolean> futureBoolean = SettableFuture.create();
+    AsyncCallable<String> combiner = new AsyncCallable<String>() {
+      @Override
+      public ListenableFuture<String> call() throws Exception {
+        assertTrue(futureInteger.isDone());
+        assertTrue(futureBoolean.isDone());
+        return Futures.immediateFailedFuture(thrown);
+      }
+    };
+
+    ListenableFuture<String> futureResult =
+        Futures.whenAllComplete(futureInteger, futureBoolean).callAsync(combiner);
+    Integer integerPartial = 1;
+    futureInteger.set(integerPartial);
+    Boolean booleanPartial = true;
+    futureBoolean.set(booleanPartial);
+
+    try {
+      futureResult.get();
+      fail("Expected ExecutionException");
+    } catch (ExecutionException expected) {
+      assertSame(thrown, expected.getCause());
+    }
+  }
+
+  @GwtIncompatible("threads")
+
+  public void testWhenAllComplete_cancelledNotInterrupted() throws Exception {
+    SettableFuture<String> stringFuture = SettableFuture.create();
+    SettableFuture<Boolean> booleanFuture = SettableFuture.create();
+    final CountDownLatch inFunction = new CountDownLatch(1);
+    final CountDownLatch shouldCompleteFunction = new CountDownLatch(1);
+    final SettableFuture<String> resultFuture = SettableFuture.create();
+    AsyncCallable<String> combiner = new AsyncCallable<String>() {
+      @Override
+      public ListenableFuture<String> call() throws Exception {
+        inFunction.countDown();
+        shouldCompleteFunction.await();
+        return resultFuture;
+      }
+    };
+
+    ListenableFuture<String> futureResult = Futures.whenAllComplete(stringFuture, booleanFuture)
+        .callAsync(combiner, newSingleThreadExecutor());
+
+    stringFuture.set("value");
+    booleanFuture.set(true);
+    inFunction.await();
+    futureResult.cancel(false);
+    shouldCompleteFunction.countDown();
+    try {
+      futureResult.get();
+      fail();
+    } catch (CancellationException expected) {}
+
+    try {
+      resultFuture.get();
+      fail();
+    } catch (CancellationException expected) {}
+  }
+
+  @GwtIncompatible("threads")
+
+  public void testWhenAllComplete_interrupted() throws Exception {
+    SettableFuture<String> stringFuture = SettableFuture.create();
+    SettableFuture<Boolean> booleanFuture = SettableFuture.create();
+    final CountDownLatch inFunction = new CountDownLatch(1);
+    final CountDownLatch shouldCompleteFunction = new CountDownLatch(1);
+    final CountDownLatch gotException = new CountDownLatch(1);
+    AsyncCallable<String> combiner = new AsyncCallable<String>() {
+      @Override
+      public ListenableFuture<String> call() throws Exception {
+        inFunction.countDown();
+        try {
+          shouldCompleteFunction.await();
+        } catch (InterruptedException expected) {
+          gotException.countDown();
+          throw expected;
+        }
+        return Futures.immediateFuture("a");
+      }
+    };
+
+    ListenableFuture<String> futureResult = Futures.whenAllComplete(stringFuture, booleanFuture)
+        .callAsync(combiner, newSingleThreadExecutor());
+
+    stringFuture.set("value");
+    booleanFuture.set(true);
+    inFunction.await();
+    futureResult.cancel(true);
+    shouldCompleteFunction.countDown();
+    try {
+      futureResult.get();
+      fail();
+    } catch (CancellationException expected) {}
+    gotException.await();
+  }
+
+  public void testWhenAllSucceed()  throws Exception {
+    class PartialResultException extends Exception {
+
+    }
+    final SettableFuture<Integer> futureInteger = SettableFuture.create();
+    final SettableFuture<Boolean> futureBoolean = SettableFuture.create();
+    AsyncCallable<String> combiner = new AsyncCallable<String>() {
+      @Override
+      public ListenableFuture<String> call() throws Exception {
+        throw new AssertionFailedError(
+            "AsyncCallable should not have been called.");
+      }
+    };
+
+    ListenableFuture<String> futureResult =
+        Futures.whenAllSucceed(futureInteger, futureBoolean).callAsync(combiner);
+    PartialResultException partialResultException =
+        new PartialResultException();
+    futureInteger.setException(partialResultException);
+    Boolean booleanPartial = true;
+    futureBoolean.set(booleanPartial);
+    assertTrue(futureResult.isDone());
+    try {
+      futureResult.get();
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(partialResultException, expected.getCause());
+    }
+  }
+
   /*
    * TODO(cpovirk): maybe pass around TestFuture instances instead of
    * ListenableFuture instances
