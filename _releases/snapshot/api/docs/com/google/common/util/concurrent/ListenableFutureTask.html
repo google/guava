@@ -104,8 +104,7 @@
 </dl>
 <hr>
 <br>
-<pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public class <a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFutureTask.html#line.36">ListenableFutureTask</a>&lt;V&gt;
+<pre>public class <a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFutureTask.html#line.33">ListenableFutureTask</a>&lt;V&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/FutureTask.html?is-external=true" title="class or interface in java.util.concurrent">FutureTask</a>&lt;V&gt;
 implements <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</pre>
 <div class="block">A <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/FutureTask.html?is-external=true" title="class or interface in java.util.concurrent"><code>FutureTask</code></a> that also implements the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> interface.  Unlike <code>FutureTask</code>, <code>ListenableFutureTask</code> does not provide an overrideable <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/FutureTask.html?is-external=true#done()" title="class or interface in java.util.concurrent"><code>done()</code></a> method.  For similar functionality, call <a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html#addListener(java.lang.Runnable,%20java.util.concurrent.Executor)"><code>addListener(java.lang.Runnable, java.util.concurrent.Executor)</code></a>.
@@ -201,7 +200,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent">ListenableFutureTask</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFutureTask.html#line.51">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;V&gt;&nbsp;callable)</pre>
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent">ListenableFutureTask</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFutureTask.html#line.48">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;V&gt;&nbsp;callable)</pre>
 <div class="block">Creates a <code>ListenableFutureTask</code> that will upon running, execute the given <code>Callable</code>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>callable</code> - the callable task</dd><dt><span class="strong">Since:</span></dt>
   <dd>10.0</dd></dl>
@@ -215,7 +214,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent">ListenableFutureTask</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFutureTask.html#line.65">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;runnable,
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent">ListenableFutureTask</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFutureTask.html#line.62">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;runnable,
                                  <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                  V&nbsp;result)</pre>
 <div class="block">Creates a <code>ListenableFutureTask</code> that will upon running, execute the given <code>Runnable</code>, and arrange that <code>get</code> will return the given result on successful completion.</div>
@@ -231,7 +230,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <ul class="blockList">
 <li class="blockList">
 <h4>addListener</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFutureTask.html#line.78">addListener</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFutureTask.html#line.75">addListener</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
                <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;exec)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener(java.lang.Runnable,%20java.util.concurrent.Executor)">ListenableFuture</a></code></strong></div>
 <div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">run</a> on the given executor.
@@ -277,7 +276,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListenableF
 <ul class="blockListLast">
 <li class="blockList">
 <h4>done</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFutureTask.html#line.86">done</a>()</pre>
+<pre>protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFutureTask.html#line.83">done</a>()</pre>
 <div class="block">Internal implementation detail used to invoke the listeners.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>

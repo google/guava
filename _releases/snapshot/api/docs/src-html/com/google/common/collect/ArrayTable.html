@@ -360,7 +360,7 @@
 <span class="sourceLineNo">352</span>   *<a name="line.352"></a>
 <span class="sourceLineNo">353</span>   * @param valueClass class of values stored in the returned array<a name="line.353"></a>
 <span class="sourceLineNo">354</span>   */<a name="line.354"></a>
-<span class="sourceLineNo">355</span>  @GwtIncompatible // reflection<a name="line.355"></a>
+<span class="sourceLineNo">355</span>  @GwtIncompatible("reflection")<a name="line.355"></a>
 <span class="sourceLineNo">356</span>  public V[][] toArray(Class&lt;V&gt; valueClass) {<a name="line.356"></a>
 <span class="sourceLineNo">357</span>    // Can change to use varargs in JDK 1.6 if we want<a name="line.357"></a>
 <span class="sourceLineNo">358</span>    @SuppressWarnings("unchecked") // TODO: safe?<a name="line.358"></a>

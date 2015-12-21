@@ -810,7 +810,7 @@
 <span class="sourceLineNo">802</span>   *<a name="line.802"></a>
 <span class="sourceLineNo">803</span>   * @since 14.0<a name="line.803"></a>
 <span class="sourceLineNo">804</span>   */<a name="line.804"></a>
-<span class="sourceLineNo">805</span>  @GwtIncompatible // NavigableMap<a name="line.805"></a>
+<span class="sourceLineNo">805</span>  @GwtIncompatible("NavigableMap")<a name="line.805"></a>
 <span class="sourceLineNo">806</span>  public static &lt;K, V&gt; NavigableMap&lt;K, V&gt; asMap(<a name="line.806"></a>
 <span class="sourceLineNo">807</span>      NavigableSet&lt;K&gt; set, Function&lt;? super K, V&gt; function) {<a name="line.807"></a>
 <span class="sourceLineNo">808</span>    return new NavigableAsMapView&lt;K, V&gt;(set, function);<a name="line.808"></a>
@@ -952,7 +952,7 @@
 <span class="sourceLineNo">944</span>    }<a name="line.944"></a>
 <span class="sourceLineNo">945</span>  }<a name="line.945"></a>
 <span class="sourceLineNo">946</span><a name="line.946"></a>
-<span class="sourceLineNo">947</span>  @GwtIncompatible // NavigableMap<a name="line.947"></a>
+<span class="sourceLineNo">947</span>  @GwtIncompatible("NavigableMap")<a name="line.947"></a>
 <span class="sourceLineNo">948</span>  private static final class NavigableAsMapView&lt;K, V&gt; extends AbstractNavigableMap&lt;K, V&gt; {<a name="line.948"></a>
 <span class="sourceLineNo">949</span>    /*<a name="line.949"></a>
 <span class="sourceLineNo">950</span>     * Using AbstractNavigableMap is simpler than extending SortedAsMapView and rewriting all the<a name="line.950"></a>
@@ -1084,7 +1084,7 @@
 <span class="sourceLineNo">1076</span>    };<a name="line.1076"></a>
 <span class="sourceLineNo">1077</span>  }<a name="line.1077"></a>
 <span class="sourceLineNo">1078</span><a name="line.1078"></a>
-<span class="sourceLineNo">1079</span>  @GwtIncompatible // NavigableSet<a name="line.1079"></a>
+<span class="sourceLineNo">1079</span>  @GwtIncompatible("NavigableSet")<a name="line.1079"></a>
 <span class="sourceLineNo">1080</span>  private static &lt;E&gt; NavigableSet&lt;E&gt; removeOnlyNavigableSet(final NavigableSet&lt;E&gt; set) {<a name="line.1080"></a>
 <span class="sourceLineNo">1081</span>    return new ForwardingNavigableSet&lt;E&gt;() {<a name="line.1081"></a>
 <span class="sourceLineNo">1082</span>      @Override<a name="line.1082"></a>
@@ -1284,7 +1284,7 @@
 <span class="sourceLineNo">1276</span>   * @throws NullPointerException if any key or value in {@code Properties} is<a name="line.1276"></a>
 <span class="sourceLineNo">1277</span>   *         null<a name="line.1277"></a>
 <span class="sourceLineNo">1278</span>   */<a name="line.1278"></a>
-<span class="sourceLineNo">1279</span>  @GwtIncompatible // java.util.Properties<a name="line.1279"></a>
+<span class="sourceLineNo">1279</span>  @GwtIncompatible("java.util.Properties")<a name="line.1279"></a>
 <span class="sourceLineNo">1280</span>  public static ImmutableMap&lt;String, String&gt; fromProperties(Properties properties) {<a name="line.1280"></a>
 <span class="sourceLineNo">1281</span>    ImmutableMap.Builder&lt;String, String&gt; builder = ImmutableMap.builder();<a name="line.1281"></a>
 <span class="sourceLineNo">1282</span><a name="line.1282"></a>
@@ -1692,7 +1692,7 @@
 <span class="sourceLineNo">1684</span>   *<a name="line.1684"></a>
 <span class="sourceLineNo">1685</span>   * @since 13.0<a name="line.1685"></a>
 <span class="sourceLineNo">1686</span>   */<a name="line.1686"></a>
-<span class="sourceLineNo">1687</span>  @GwtIncompatible // NavigableMap<a name="line.1687"></a>
+<span class="sourceLineNo">1687</span>  @GwtIncompatible("NavigableMap")<a name="line.1687"></a>
 <span class="sourceLineNo">1688</span>  public static &lt;K, V1, V2&gt; NavigableMap&lt;K, V2&gt; transformValues(<a name="line.1688"></a>
 <span class="sourceLineNo">1689</span>      NavigableMap&lt;K, V1&gt; fromMap, Function&lt;? super V1, V2&gt; function) {<a name="line.1689"></a>
 <span class="sourceLineNo">1690</span>    return transformEntries(fromMap, asEntryTransformer(function));<a name="line.1690"></a>
@@ -1867,7 +1867,7 @@
 <span class="sourceLineNo">1859</span>   *<a name="line.1859"></a>
 <span class="sourceLineNo">1860</span>   * @since 13.0<a name="line.1860"></a>
 <span class="sourceLineNo">1861</span>   */<a name="line.1861"></a>
-<span class="sourceLineNo">1862</span>  @GwtIncompatible // NavigableMap<a name="line.1862"></a>
+<span class="sourceLineNo">1862</span>  @GwtIncompatible("NavigableMap")<a name="line.1862"></a>
 <span class="sourceLineNo">1863</span>  public static &lt;K, V1, V2&gt; NavigableMap&lt;K, V2&gt; transformEntries(<a name="line.1863"></a>
 <span class="sourceLineNo">1864</span>      NavigableMap&lt;K, V1&gt; fromMap, EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer) {<a name="line.1864"></a>
 <span class="sourceLineNo">1865</span>    return new TransformedEntriesNavigableMap&lt;K, V1, V2&gt;(fromMap, transformer);<a name="line.1865"></a>
@@ -2086,7 +2086,7 @@
 <span class="sourceLineNo">2078</span>    }<a name="line.2078"></a>
 <span class="sourceLineNo">2079</span>  }<a name="line.2079"></a>
 <span class="sourceLineNo">2080</span><a name="line.2080"></a>
-<span class="sourceLineNo">2081</span>  @GwtIncompatible // NavigableMap<a name="line.2081"></a>
+<span class="sourceLineNo">2081</span>  @GwtIncompatible("NavigableMap")<a name="line.2081"></a>
 <span class="sourceLineNo">2082</span>  private static class TransformedEntriesNavigableMap&lt;K, V1, V2&gt;<a name="line.2082"></a>
 <span class="sourceLineNo">2083</span>      extends TransformedEntriesSortedMap&lt;K, V1, V2&gt; implements NavigableMap&lt;K, V2&gt; {<a name="line.2083"></a>
 <span class="sourceLineNo">2084</span><a name="line.2084"></a>
@@ -2332,7 +2332,7 @@
 <span class="sourceLineNo">2324</span>   *<a name="line.2324"></a>
 <span class="sourceLineNo">2325</span>   * @since 14.0<a name="line.2325"></a>
 <span class="sourceLineNo">2326</span>   */<a name="line.2326"></a>
-<span class="sourceLineNo">2327</span>  @GwtIncompatible // NavigableMap<a name="line.2327"></a>
+<span class="sourceLineNo">2327</span>  @GwtIncompatible("NavigableMap")<a name="line.2327"></a>
 <span class="sourceLineNo">2328</span>  @CheckReturnValue<a name="line.2328"></a>
 <span class="sourceLineNo">2329</span>  public static &lt;K, V&gt; NavigableMap&lt;K, V&gt; filterKeys(<a name="line.2329"></a>
 <span class="sourceLineNo">2330</span>      NavigableMap&lt;K, V&gt; unfiltered, final Predicate&lt;? super K&gt; keyPredicate) {<a name="line.2330"></a>
@@ -2481,7 +2481,7 @@
 <span class="sourceLineNo">2473</span>   *<a name="line.2473"></a>
 <span class="sourceLineNo">2474</span>   * @since 14.0<a name="line.2474"></a>
 <span class="sourceLineNo">2475</span>   */<a name="line.2475"></a>
-<span class="sourceLineNo">2476</span>  @GwtIncompatible // NavigableMap<a name="line.2476"></a>
+<span class="sourceLineNo">2476</span>  @GwtIncompatible("NavigableMap")<a name="line.2476"></a>
 <span class="sourceLineNo">2477</span>  @CheckReturnValue<a name="line.2477"></a>
 <span class="sourceLineNo">2478</span>  public static &lt;K, V&gt; NavigableMap&lt;K, V&gt; filterValues(<a name="line.2478"></a>
 <span class="sourceLineNo">2479</span>      NavigableMap&lt;K, V&gt; unfiltered, final Predicate&lt;? super V&gt; valuePredicate) {<a name="line.2479"></a>
@@ -2641,7 +2641,7 @@
 <span class="sourceLineNo">2633</span>   *<a name="line.2633"></a>
 <span class="sourceLineNo">2634</span>   * @since 14.0<a name="line.2634"></a>
 <span class="sourceLineNo">2635</span>   */<a name="line.2635"></a>
-<span class="sourceLineNo">2636</span>  @GwtIncompatible // NavigableMap<a name="line.2636"></a>
+<span class="sourceLineNo">2636</span>  @GwtIncompatible("NavigableMap")<a name="line.2636"></a>
 <span class="sourceLineNo">2637</span>  @CheckReturnValue<a name="line.2637"></a>
 <span class="sourceLineNo">2638</span>  public static &lt;K, V&gt; NavigableMap&lt;K, V&gt; filterEntries(<a name="line.2638"></a>
 <span class="sourceLineNo">2639</span>      NavigableMap&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2639"></a>
@@ -3037,14 +3037,14 @@
 <span class="sourceLineNo">3029</span>   * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when<a name="line.3029"></a>
 <span class="sourceLineNo">3030</span>   * filtering a filtered navigable map.<a name="line.3030"></a>
 <span class="sourceLineNo">3031</span>   */<a name="line.3031"></a>
-<span class="sourceLineNo">3032</span>  @GwtIncompatible // NavigableMap<a name="line.3032"></a>
+<span class="sourceLineNo">3032</span>  @GwtIncompatible("NavigableMap")<a name="line.3032"></a>
 <span class="sourceLineNo">3033</span>  private static &lt;K, V&gt; NavigableMap&lt;K, V&gt; filterFiltered(<a name="line.3033"></a>
 <span class="sourceLineNo">3034</span>      FilteredEntryNavigableMap&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.3034"></a>
 <span class="sourceLineNo">3035</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate = Predicates.and(map.entryPredicate, entryPredicate);<a name="line.3035"></a>
 <span class="sourceLineNo">3036</span>    return new FilteredEntryNavigableMap&lt;K, V&gt;(map.unfiltered, predicate);<a name="line.3036"></a>
 <span class="sourceLineNo">3037</span>  }<a name="line.3037"></a>
 <span class="sourceLineNo">3038</span><a name="line.3038"></a>
-<span class="sourceLineNo">3039</span>  @GwtIncompatible // NavigableMap<a name="line.3039"></a>
+<span class="sourceLineNo">3039</span>  @GwtIncompatible("NavigableMap")<a name="line.3039"></a>
 <span class="sourceLineNo">3040</span>  private static class FilteredEntryNavigableMap&lt;K, V&gt; extends AbstractNavigableMap&lt;K, V&gt; {<a name="line.3040"></a>
 <span class="sourceLineNo">3041</span>    /*<a name="line.3041"></a>
 <span class="sourceLineNo">3042</span>     * It's less code to extend AbstractNavigableMap and forward the filtering logic to<a name="line.3042"></a>
@@ -3251,7 +3251,7 @@
 <span class="sourceLineNo">3243</span>   * @return an unmodifiable view of the specified navigable map<a name="line.3243"></a>
 <span class="sourceLineNo">3244</span>   * @since 12.0<a name="line.3244"></a>
 <span class="sourceLineNo">3245</span>   */<a name="line.3245"></a>
-<span class="sourceLineNo">3246</span>  @GwtIncompatible // NavigableMap<a name="line.3246"></a>
+<span class="sourceLineNo">3246</span>  @GwtIncompatible("NavigableMap")<a name="line.3246"></a>
 <span class="sourceLineNo">3247</span>  public static &lt;K, V&gt; NavigableMap&lt;K, V&gt; unmodifiableNavigableMap(NavigableMap&lt;K, V&gt; map) {<a name="line.3247"></a>
 <span class="sourceLineNo">3248</span>    checkNotNull(map);<a name="line.3248"></a>
 <span class="sourceLineNo">3249</span>    if (map instanceof UnmodifiableNavigableMap) {<a name="line.3249"></a>
@@ -3266,7 +3266,7 @@
 <span class="sourceLineNo">3258</span>    return (entry == null) ? null : Maps.unmodifiableEntry(entry);<a name="line.3258"></a>
 <span class="sourceLineNo">3259</span>  }<a name="line.3259"></a>
 <span class="sourceLineNo">3260</span><a name="line.3260"></a>
-<span class="sourceLineNo">3261</span>  @GwtIncompatible // NavigableMap<a name="line.3261"></a>
+<span class="sourceLineNo">3261</span>  @GwtIncompatible("NavigableMap")<a name="line.3261"></a>
 <span class="sourceLineNo">3262</span>  static class UnmodifiableNavigableMap&lt;K, V&gt; extends ForwardingSortedMap&lt;K, V&gt;<a name="line.3262"></a>
 <span class="sourceLineNo">3263</span>      implements NavigableMap&lt;K, V&gt;, Serializable {<a name="line.3263"></a>
 <span class="sourceLineNo">3264</span>    private final NavigableMap&lt;K, V&gt; delegate;<a name="line.3264"></a>
@@ -3452,7 +3452,7 @@
 <span class="sourceLineNo">3444</span>   * @return a synchronized view of the specified navigable map.<a name="line.3444"></a>
 <span class="sourceLineNo">3445</span>   * @since 13.0<a name="line.3445"></a>
 <span class="sourceLineNo">3446</span>   */<a name="line.3446"></a>
-<span class="sourceLineNo">3447</span>  @GwtIncompatible // NavigableMap<a name="line.3447"></a>
+<span class="sourceLineNo">3447</span>  @GwtIncompatible("NavigableMap")<a name="line.3447"></a>
 <span class="sourceLineNo">3448</span>  public static &lt;K, V&gt; NavigableMap&lt;K, V&gt; synchronizedNavigableMap(<a name="line.3448"></a>
 <span class="sourceLineNo">3449</span>      NavigableMap&lt;K, V&gt; navigableMap) {<a name="line.3449"></a>
 <span class="sourceLineNo">3450</span>    return Synchronized.navigableMap(navigableMap);<a name="line.3450"></a>
@@ -3760,7 +3760,7 @@
 <span class="sourceLineNo">3752</span>    }<a name="line.3752"></a>
 <span class="sourceLineNo">3753</span>  }<a name="line.3753"></a>
 <span class="sourceLineNo">3754</span><a name="line.3754"></a>
-<span class="sourceLineNo">3755</span>  @GwtIncompatible // NavigableMap<a name="line.3755"></a>
+<span class="sourceLineNo">3755</span>  @GwtIncompatible("NavigableMap")<a name="line.3755"></a>
 <span class="sourceLineNo">3756</span>  static class NavigableKeySet&lt;K, V&gt; extends SortedKeySet&lt;K, V&gt; implements NavigableSet&lt;K&gt; {<a name="line.3756"></a>
 <span class="sourceLineNo">3757</span>    NavigableKeySet(NavigableMap&lt;K, V&gt; map) {<a name="line.3757"></a>
 <span class="sourceLineNo">3758</span>      super(map);<a name="line.3758"></a>
@@ -3991,7 +3991,7 @@
 <span class="sourceLineNo">3983</span>    }<a name="line.3983"></a>
 <span class="sourceLineNo">3984</span>  }<a name="line.3984"></a>
 <span class="sourceLineNo">3985</span><a name="line.3985"></a>
-<span class="sourceLineNo">3986</span>  @GwtIncompatible // NavigableMap<a name="line.3986"></a>
+<span class="sourceLineNo">3986</span>  @GwtIncompatible("NavigableMap")<a name="line.3986"></a>
 <span class="sourceLineNo">3987</span>  abstract static class DescendingMap&lt;K, V&gt; extends ForwardingMap&lt;K, V&gt;<a name="line.3987"></a>
 <span class="sourceLineNo">3988</span>      implements NavigableMap&lt;K, V&gt; {<a name="line.3988"></a>
 <span class="sourceLineNo">3989</span><a name="line.3989"></a>
@@ -4214,7 +4214,7 @@
 <span class="sourceLineNo">4206</span>   * @since 20.0<a name="line.4206"></a>
 <span class="sourceLineNo">4207</span>   */<a name="line.4207"></a>
 <span class="sourceLineNo">4208</span>  @Beta<a name="line.4208"></a>
-<span class="sourceLineNo">4209</span>  @GwtIncompatible // NavigableMap<a name="line.4209"></a>
+<span class="sourceLineNo">4209</span>  @GwtIncompatible("NavigableMap")<a name="line.4209"></a>
 <span class="sourceLineNo">4210</span>  public static &lt;K extends Comparable&lt;? super K&gt;, V&gt; NavigableMap&lt;K, V&gt; subMap(<a name="line.4210"></a>
 <span class="sourceLineNo">4211</span>      NavigableMap&lt;K, V&gt; map, Range&lt;K&gt; range) {<a name="line.4211"></a>
 <span class="sourceLineNo">4212</span>    if (map.comparator() != null &amp;&amp; map.comparator() != Ordering.natural()<a name="line.4212"></a>

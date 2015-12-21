@@ -351,7 +351,7 @@
 <span class="sourceLineNo">343</span>   * @return a newly-allocated array into which all the elements of the iterator<a name="line.343"></a>
 <span class="sourceLineNo">344</span>   *         have been copied<a name="line.344"></a>
 <span class="sourceLineNo">345</span>   */<a name="line.345"></a>
-<span class="sourceLineNo">346</span>  @GwtIncompatible // Array.newInstance(Class, int)<a name="line.346"></a>
+<span class="sourceLineNo">346</span>  @GwtIncompatible("Array.newInstance(Class, int)")<a name="line.346"></a>
 <span class="sourceLineNo">347</span>  public static &lt;T&gt; T[] toArray(Iterator&lt;? extends T&gt; iterator, Class&lt;T&gt; type) {<a name="line.347"></a>
 <span class="sourceLineNo">348</span>    List&lt;T&gt; list = Lists.newArrayList(iterator);<a name="line.348"></a>
 <span class="sourceLineNo">349</span>    return Iterables.toArray(list, type);<a name="line.349"></a>
@@ -699,7 +699,7 @@
 <span class="sourceLineNo">691</span>   *     iterator that were of the requested type<a name="line.691"></a>
 <span class="sourceLineNo">692</span>   */<a name="line.692"></a>
 <span class="sourceLineNo">693</span>  @SuppressWarnings("unchecked") // can cast to &lt;T&gt; because non-Ts are removed<a name="line.693"></a>
-<span class="sourceLineNo">694</span>  @GwtIncompatible // Class.isInstance<a name="line.694"></a>
+<span class="sourceLineNo">694</span>  @GwtIncompatible("Class.isInstance")<a name="line.694"></a>
 <span class="sourceLineNo">695</span>  @CheckReturnValue<a name="line.695"></a>
 <span class="sourceLineNo">696</span>  public static &lt;T&gt; UnmodifiableIterator&lt;T&gt; filter(Iterator&lt;?&gt; unfiltered, Class&lt;T&gt; desiredType) {<a name="line.696"></a>
 <span class="sourceLineNo">697</span>    return (UnmodifiableIterator&lt;T&gt;) filter(unfiltered, instanceOf(desiredType));<a name="line.697"></a>

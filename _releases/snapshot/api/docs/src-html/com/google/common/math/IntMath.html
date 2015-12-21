@@ -132,7 +132,7 @@
 <span class="sourceLineNo">124</span>   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}<a name="line.124"></a>
 <span class="sourceLineNo">125</span>   *         is not a power of ten<a name="line.125"></a>
 <span class="sourceLineNo">126</span>   */<a name="line.126"></a>
-<span class="sourceLineNo">127</span>  @GwtIncompatible // need BigIntegerMath to adequately test<a name="line.127"></a>
+<span class="sourceLineNo">127</span>  @GwtIncompatible("need BigIntegerMath to adequately test")<a name="line.127"></a>
 <span class="sourceLineNo">128</span>  @SuppressWarnings("fallthrough")<a name="line.128"></a>
 <span class="sourceLineNo">129</span>  public static int log10(int x, RoundingMode mode) {<a name="line.129"></a>
 <span class="sourceLineNo">130</span>    checkPositive("x", x);<a name="line.130"></a>
@@ -194,7 +194,7 @@
 <span class="sourceLineNo">186</span>   *<a name="line.186"></a>
 <span class="sourceLineNo">187</span>   * @throws IllegalArgumentException if {@code k &lt; 0}<a name="line.187"></a>
 <span class="sourceLineNo">188</span>   */<a name="line.188"></a>
-<span class="sourceLineNo">189</span>  @GwtIncompatible // failing tests<a name="line.189"></a>
+<span class="sourceLineNo">189</span>  @GwtIncompatible("failing tests")<a name="line.189"></a>
 <span class="sourceLineNo">190</span>  public static int pow(int b, int k) {<a name="line.190"></a>
 <span class="sourceLineNo">191</span>    checkNonNegative("exponent", k);<a name="line.191"></a>
 <span class="sourceLineNo">192</span>    switch (b) {<a name="line.192"></a>
@@ -235,7 +235,7 @@
 <span class="sourceLineNo">227</span>   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and<a name="line.227"></a>
 <span class="sourceLineNo">228</span>   *         {@code sqrt(x)} is not an integer<a name="line.228"></a>
 <span class="sourceLineNo">229</span>   */<a name="line.229"></a>
-<span class="sourceLineNo">230</span>  @GwtIncompatible // need BigIntegerMath to adequately test<a name="line.230"></a>
+<span class="sourceLineNo">230</span>  @GwtIncompatible("need BigIntegerMath to adequately test")<a name="line.230"></a>
 <span class="sourceLineNo">231</span>  @SuppressWarnings("fallthrough")<a name="line.231"></a>
 <span class="sourceLineNo">232</span>  public static int sqrt(int x, RoundingMode mode) {<a name="line.232"></a>
 <span class="sourceLineNo">233</span>    checkNonNegative("x", x);<a name="line.233"></a>
@@ -611,7 +611,7 @@
 <span class="sourceLineNo">603</span>   *<a name="line.603"></a>
 <span class="sourceLineNo">604</span>   * @throws IllegalArgumentException if {@code n &lt; 0}, {@code k &lt; 0} or {@code k &gt; n}<a name="line.604"></a>
 <span class="sourceLineNo">605</span>   */<a name="line.605"></a>
-<span class="sourceLineNo">606</span>  @GwtIncompatible // need BigIntegerMath to adequately test<a name="line.606"></a>
+<span class="sourceLineNo">606</span>  @GwtIncompatible("need BigIntegerMath to adequately test")<a name="line.606"></a>
 <span class="sourceLineNo">607</span>  public static int binomial(int n, int k) {<a name="line.607"></a>
 <span class="sourceLineNo">608</span>    checkNonNegative("n", n);<a name="line.608"></a>
 <span class="sourceLineNo">609</span>    checkNonNegative("k", k);<a name="line.609"></a>

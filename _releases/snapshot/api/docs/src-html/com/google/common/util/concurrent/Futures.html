@@ -134,7 +134,7 @@
 <span class="sourceLineNo">126</span>   *<a name="line.126"></a>
 <span class="sourceLineNo">127</span>   * @since 9.0 (source-compatible since 1.0)<a name="line.127"></a>
 <span class="sourceLineNo">128</span>   */<a name="line.128"></a>
-<span class="sourceLineNo">129</span>  @GwtIncompatible // TODO<a name="line.129"></a>
+<span class="sourceLineNo">129</span>  @GwtIncompatible("TODO")<a name="line.129"></a>
 <span class="sourceLineNo">130</span>  @CheckReturnValue<a name="line.130"></a>
 <span class="sourceLineNo">131</span>  public static &lt;V, X extends Exception&gt; CheckedFuture&lt;V, X&gt; makeChecked(<a name="line.131"></a>
 <span class="sourceLineNo">132</span>      ListenableFuture&lt;V&gt; future, Function&lt;? super Exception, X&gt; mapper) {<a name="line.132"></a>
@@ -164,7 +164,7 @@
 <span class="sourceLineNo">156</span>   * returns {@code true}. Calling {@code get()} or {@code checkedGet()} will immediately return the<a name="line.156"></a>
 <span class="sourceLineNo">157</span>   * provided value.<a name="line.157"></a>
 <span class="sourceLineNo">158</span>   */<a name="line.158"></a>
-<span class="sourceLineNo">159</span>  @GwtIncompatible // TODO<a name="line.159"></a>
+<span class="sourceLineNo">159</span>  @GwtIncompatible("TODO")<a name="line.159"></a>
 <span class="sourceLineNo">160</span>  @CheckReturnValue<a name="line.160"></a>
 <span class="sourceLineNo">161</span>  public static &lt;V, X extends Exception&gt; CheckedFuture&lt;V, X&gt; immediateCheckedFuture(<a name="line.161"></a>
 <span class="sourceLineNo">162</span>      @Nullable V value) {<a name="line.162"></a>
@@ -190,7 +190,7 @@
 <span class="sourceLineNo">182</span>   *<a name="line.182"></a>
 <span class="sourceLineNo">183</span>   * @since 14.0<a name="line.183"></a>
 <span class="sourceLineNo">184</span>   */<a name="line.184"></a>
-<span class="sourceLineNo">185</span>  @GwtIncompatible // TODO<a name="line.185"></a>
+<span class="sourceLineNo">185</span>  @GwtIncompatible("TODO")<a name="line.185"></a>
 <span class="sourceLineNo">186</span>  @CheckReturnValue<a name="line.186"></a>
 <span class="sourceLineNo">187</span>  public static &lt;V&gt; ListenableFuture&lt;V&gt; immediateCancelledFuture() {<a name="line.187"></a>
 <span class="sourceLineNo">188</span>    return new ImmediateCancelledFuture&lt;V&gt;();<a name="line.188"></a>
@@ -204,7 +204,7 @@
 <span class="sourceLineNo">196</span>   * Exception} wrapped in an {@code ExecutionException}, and calling {@code checkedGet()} will<a name="line.196"></a>
 <span class="sourceLineNo">197</span>   * throw the provided exception itself.<a name="line.197"></a>
 <span class="sourceLineNo">198</span>   */<a name="line.198"></a>
-<span class="sourceLineNo">199</span>  @GwtIncompatible // TODO<a name="line.199"></a>
+<span class="sourceLineNo">199</span>  @GwtIncompatible("TODO")<a name="line.199"></a>
 <span class="sourceLineNo">200</span>  @CheckReturnValue<a name="line.200"></a>
 <span class="sourceLineNo">201</span>  public static &lt;V, X extends Exception&gt; CheckedFuture&lt;V, X&gt; immediateFailedCheckedFuture(<a name="line.201"></a>
 <span class="sourceLineNo">202</span>      X exception) {<a name="line.202"></a>
@@ -373,7 +373,7 @@
 <span class="sourceLineNo">365</span>   *     the expected exception type<a name="line.365"></a>
 <span class="sourceLineNo">366</span>   * @since 19.0<a name="line.366"></a>
 <span class="sourceLineNo">367</span>   */<a name="line.367"></a>
-<span class="sourceLineNo">368</span>  @GwtIncompatible // AVAILABLE but requires exceptionType to be Throwable.class<a name="line.368"></a>
+<span class="sourceLineNo">368</span>  @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")<a name="line.368"></a>
 <span class="sourceLineNo">369</span>  @CheckReturnValue<a name="line.369"></a>
 <span class="sourceLineNo">370</span>  public static &lt;V, X extends Throwable&gt; ListenableFuture&lt;V&gt; catching(<a name="line.370"></a>
 <span class="sourceLineNo">371</span>      ListenableFuture&lt;? extends V&gt; input,<a name="line.371"></a>
@@ -419,7 +419,7 @@
 <span class="sourceLineNo">411</span>   * @param executor the executor that runs {@code fallback} if {@code input} fails<a name="line.411"></a>
 <span class="sourceLineNo">412</span>   * @since 19.0<a name="line.412"></a>
 <span class="sourceLineNo">413</span>   */<a name="line.413"></a>
-<span class="sourceLineNo">414</span>  @GwtIncompatible // AVAILABLE but requires exceptionType to be Throwable.class<a name="line.414"></a>
+<span class="sourceLineNo">414</span>  @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")<a name="line.414"></a>
 <span class="sourceLineNo">415</span>  @CheckReturnValue<a name="line.415"></a>
 <span class="sourceLineNo">416</span>  public static &lt;V, X extends Throwable&gt; ListenableFuture&lt;V&gt; catching(<a name="line.416"></a>
 <span class="sourceLineNo">417</span>      ListenableFuture&lt;? extends V&gt; input,<a name="line.417"></a>
@@ -485,7 +485,7 @@
 <span class="sourceLineNo">477</span>   *     with the expected exception type<a name="line.477"></a>
 <span class="sourceLineNo">478</span>   * @since 19.0 (similar functionality in 14.0 as {@code withFallback})<a name="line.478"></a>
 <span class="sourceLineNo">479</span>   */<a name="line.479"></a>
-<span class="sourceLineNo">480</span>  @GwtIncompatible // AVAILABLE but requires exceptionType to be Throwable.class<a name="line.480"></a>
+<span class="sourceLineNo">480</span>  @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")<a name="line.480"></a>
 <span class="sourceLineNo">481</span>  // TODO(kak): @CheckReturnValue<a name="line.481"></a>
 <span class="sourceLineNo">482</span>  public static &lt;V, X extends Throwable&gt; ListenableFuture&lt;V&gt; catchingAsync(<a name="line.482"></a>
 <span class="sourceLineNo">483</span>      ListenableFuture&lt;? extends V&gt; input,<a name="line.483"></a>
@@ -551,7 +551,7 @@
 <span class="sourceLineNo">543</span>   * @param executor the executor that runs {@code fallback} if {@code input} fails<a name="line.543"></a>
 <span class="sourceLineNo">544</span>   * @since 19.0 (similar functionality in 14.0 as {@code withFallback})<a name="line.544"></a>
 <span class="sourceLineNo">545</span>   */<a name="line.545"></a>
-<span class="sourceLineNo">546</span>  @GwtIncompatible // AVAILABLE but requires exceptionType to be Throwable.class<a name="line.546"></a>
+<span class="sourceLineNo">546</span>  @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")<a name="line.546"></a>
 <span class="sourceLineNo">547</span>  // TODO(kak): @CheckReturnValue<a name="line.547"></a>
 <span class="sourceLineNo">548</span>  public static &lt;V, X extends Throwable&gt; ListenableFuture&lt;V&gt; catchingAsync(<a name="line.548"></a>
 <span class="sourceLineNo">549</span>      ListenableFuture&lt;? extends V&gt; input,<a name="line.549"></a>
@@ -588,7 +588,7 @@
 <span class="sourceLineNo">580</span>   *<a name="line.580"></a>
 <span class="sourceLineNo">581</span>   * @since 19.0<a name="line.581"></a>
 <span class="sourceLineNo">582</span>   */<a name="line.582"></a>
-<span class="sourceLineNo">583</span>  @GwtIncompatible // java.util.concurrent.ScheduledExecutorService<a name="line.583"></a>
+<span class="sourceLineNo">583</span>  @GwtIncompatible("java.util.concurrent.ScheduledExecutorService")<a name="line.583"></a>
 <span class="sourceLineNo">584</span>  @CheckReturnValue<a name="line.584"></a>
 <span class="sourceLineNo">585</span>  public static &lt;V&gt; ListenableFuture&lt;V&gt; withTimeout(<a name="line.585"></a>
 <span class="sourceLineNo">586</span>      ListenableFuture&lt;V&gt; delegate,<a name="line.586"></a>
@@ -883,7 +883,7 @@
 <span class="sourceLineNo">875</span>   * @return A future that returns the result of the transformation.<a name="line.875"></a>
 <span class="sourceLineNo">876</span>   * @since 10.0<a name="line.876"></a>
 <span class="sourceLineNo">877</span>   */<a name="line.877"></a>
-<span class="sourceLineNo">878</span>  @GwtIncompatible // TODO<a name="line.878"></a>
+<span class="sourceLineNo">878</span>  @GwtIncompatible("TODO")<a name="line.878"></a>
 <span class="sourceLineNo">879</span>  @CheckReturnValue<a name="line.879"></a>
 <span class="sourceLineNo">880</span>  public static &lt;I, O&gt; Future&lt;O&gt; lazyTransform(<a name="line.880"></a>
 <span class="sourceLineNo">881</span>      final Future&lt;I&gt; input, final Function&lt;? super I, ? extends O&gt; function) {<a name="line.881"></a>
@@ -1012,7 +1012,7 @@
 <span class="sourceLineNo">1004</span>   *<a name="line.1004"></a>
 <span class="sourceLineNo">1005</span>   * @since 15.0<a name="line.1005"></a>
 <span class="sourceLineNo">1006</span>   */<a name="line.1006"></a>
-<span class="sourceLineNo">1007</span>  @GwtIncompatible // TODO<a name="line.1007"></a>
+<span class="sourceLineNo">1007</span>  @GwtIncompatible("TODO")<a name="line.1007"></a>
 <span class="sourceLineNo">1008</span>  @CheckReturnValue<a name="line.1008"></a>
 <span class="sourceLineNo">1009</span>  public static &lt;V&gt; ListenableFuture&lt;V&gt; nonCancellationPropagating(ListenableFuture&lt;V&gt; future) {<a name="line.1009"></a>
 <span class="sourceLineNo">1010</span>    return new NonCancellationPropagatingFuture&lt;V&gt;(future);<a name="line.1010"></a>
@@ -1021,7 +1021,7 @@
 <span class="sourceLineNo">1013</span>  /**<a name="line.1013"></a>
 <span class="sourceLineNo">1014</span>   * A wrapped future that does not propagate cancellation to its delegate.<a name="line.1014"></a>
 <span class="sourceLineNo">1015</span>   */<a name="line.1015"></a>
-<span class="sourceLineNo">1016</span>  @GwtIncompatible // TODO<a name="line.1016"></a>
+<span class="sourceLineNo">1016</span>  @GwtIncompatible("TODO")<a name="line.1016"></a>
 <span class="sourceLineNo">1017</span>  private static final class NonCancellationPropagatingFuture&lt;V&gt;<a name="line.1017"></a>
 <span class="sourceLineNo">1018</span>      extends AbstractFuture.TrustedFuture&lt;V&gt; {<a name="line.1018"></a>
 <span class="sourceLineNo">1019</span>    NonCancellationPropagatingFuture(final ListenableFuture&lt;V&gt; delegate) {<a name="line.1019"></a>
@@ -1093,7 +1093,7 @@
 <span class="sourceLineNo">1085</span>   * @since 17.0<a name="line.1085"></a>
 <span class="sourceLineNo">1086</span>   */<a name="line.1086"></a>
 <span class="sourceLineNo">1087</span>  @Beta<a name="line.1087"></a>
-<span class="sourceLineNo">1088</span>  @GwtIncompatible // TODO<a name="line.1088"></a>
+<span class="sourceLineNo">1088</span>  @GwtIncompatible("TODO")<a name="line.1088"></a>
 <span class="sourceLineNo">1089</span>  @CheckReturnValue<a name="line.1089"></a>
 <span class="sourceLineNo">1090</span>  public static &lt;T&gt; ImmutableList&lt;ListenableFuture&lt;T&gt;&gt; inCompletionOrder(<a name="line.1090"></a>
 <span class="sourceLineNo">1091</span>      Iterable&lt;? extends ListenableFuture&lt;? extends T&gt;&gt; futures) {<a name="line.1091"></a>
@@ -1271,7 +1271,7 @@
 <span class="sourceLineNo">1263</span>   *     release 20.0.<a name="line.1263"></a>
 <span class="sourceLineNo">1264</span>   */<a name="line.1264"></a>
 <span class="sourceLineNo">1265</span>  @Deprecated<a name="line.1265"></a>
-<span class="sourceLineNo">1266</span>  @GwtIncompatible // reflection<a name="line.1266"></a>
+<span class="sourceLineNo">1266</span>  @GwtIncompatible("reflection")<a name="line.1266"></a>
 <span class="sourceLineNo">1267</span>  public static &lt;V, X extends Exception&gt; V get(Future&lt;V&gt; future, Class&lt;X&gt; exceptionClass) throws X {<a name="line.1267"></a>
 <span class="sourceLineNo">1268</span>    return getChecked(future, exceptionClass);<a name="line.1268"></a>
 <span class="sourceLineNo">1269</span>  }<a name="line.1269"></a>
@@ -1321,7 +1321,7 @@
 <span class="sourceLineNo">1313</span>   *     parameter order. This method will be removed in Guava release 20.0.<a name="line.1313"></a>
 <span class="sourceLineNo">1314</span>   */<a name="line.1314"></a>
 <span class="sourceLineNo">1315</span>  @Deprecated<a name="line.1315"></a>
-<span class="sourceLineNo">1316</span>  @GwtIncompatible // reflection<a name="line.1316"></a>
+<span class="sourceLineNo">1316</span>  @GwtIncompatible("reflection")<a name="line.1316"></a>
 <span class="sourceLineNo">1317</span>  public static &lt;V, X extends Exception&gt; V get(<a name="line.1317"></a>
 <span class="sourceLineNo">1318</span>      Future&lt;V&gt; future, long timeout, TimeUnit unit, Class&lt;X&gt; exceptionClass) throws X {<a name="line.1318"></a>
 <span class="sourceLineNo">1319</span>    return getChecked(future, exceptionClass, timeout, unit);<a name="line.1319"></a>
@@ -1368,7 +1368,7 @@
 <span class="sourceLineNo">1360</span>   *     does not have a suitable constructor<a name="line.1360"></a>
 <span class="sourceLineNo">1361</span>   * @since 19.0 (in 10.0 as {@code get})<a name="line.1361"></a>
 <span class="sourceLineNo">1362</span>   */<a name="line.1362"></a>
-<span class="sourceLineNo">1363</span>  @GwtIncompatible // reflection<a name="line.1363"></a>
+<span class="sourceLineNo">1363</span>  @GwtIncompatible("reflection")<a name="line.1363"></a>
 <span class="sourceLineNo">1364</span>  public static &lt;V, X extends Exception&gt; V getChecked(Future&lt;V&gt; future, Class&lt;X&gt; exceptionClass)<a name="line.1364"></a>
 <span class="sourceLineNo">1365</span>      throws X {<a name="line.1365"></a>
 <span class="sourceLineNo">1366</span>    return FuturesGetChecked.getChecked(future, exceptionClass);<a name="line.1366"></a>
@@ -1416,7 +1416,7 @@
 <span class="sourceLineNo">1408</span>   *     does not have a suitable constructor<a name="line.1408"></a>
 <span class="sourceLineNo">1409</span>   * @since 19.0 (in 10.0 as {@code get} and with different parameter order)<a name="line.1409"></a>
 <span class="sourceLineNo">1410</span>   */<a name="line.1410"></a>
-<span class="sourceLineNo">1411</span>  @GwtIncompatible // reflection<a name="line.1411"></a>
+<span class="sourceLineNo">1411</span>  @GwtIncompatible("reflection")<a name="line.1411"></a>
 <span class="sourceLineNo">1412</span>  public static &lt;V, X extends Exception&gt; V getChecked(<a name="line.1412"></a>
 <span class="sourceLineNo">1413</span>      Future&lt;V&gt; future, Class&lt;X&gt; exceptionClass, long timeout, TimeUnit unit) throws X {<a name="line.1413"></a>
 <span class="sourceLineNo">1414</span>    return FuturesGetChecked.getChecked(future, exceptionClass, timeout, unit);<a name="line.1414"></a>
@@ -1455,7 +1455,7 @@
 <span class="sourceLineNo">1447</span>   * @throws CancellationException if {@code get} throws a {@code CancellationException}<a name="line.1447"></a>
 <span class="sourceLineNo">1448</span>   * @since 10.0<a name="line.1448"></a>
 <span class="sourceLineNo">1449</span>   */<a name="line.1449"></a>
-<span class="sourceLineNo">1450</span>  @GwtIncompatible // TODO<a name="line.1450"></a>
+<span class="sourceLineNo">1450</span>  @GwtIncompatible("TODO")<a name="line.1450"></a>
 <span class="sourceLineNo">1451</span>  public static &lt;V&gt; V getUnchecked(Future&lt;V&gt; future) {<a name="line.1451"></a>
 <span class="sourceLineNo">1452</span>    checkNotNull(future);<a name="line.1452"></a>
 <span class="sourceLineNo">1453</span>    try {<a name="line.1453"></a>
@@ -1466,7 +1466,7 @@
 <span class="sourceLineNo">1458</span>    }<a name="line.1458"></a>
 <span class="sourceLineNo">1459</span>  }<a name="line.1459"></a>
 <span class="sourceLineNo">1460</span><a name="line.1460"></a>
-<span class="sourceLineNo">1461</span>  @GwtIncompatible // TODO<a name="line.1461"></a>
+<span class="sourceLineNo">1461</span>  @GwtIncompatible("TODO")<a name="line.1461"></a>
 <span class="sourceLineNo">1462</span>  private static void wrapAndThrowUnchecked(Throwable cause) {<a name="line.1462"></a>
 <span class="sourceLineNo">1463</span>    if (cause instanceof Error) {<a name="line.1463"></a>
 <span class="sourceLineNo">1464</span>      throw new ExecutionError((Error) cause);<a name="line.1464"></a>
@@ -1493,7 +1493,7 @@
 <span class="sourceLineNo">1485</span>  /**<a name="line.1485"></a>
 <span class="sourceLineNo">1486</span>   * A checked future that uses a function to map from exceptions to the appropriate checked type.<a name="line.1486"></a>
 <span class="sourceLineNo">1487</span>   */<a name="line.1487"></a>
-<span class="sourceLineNo">1488</span>  @GwtIncompatible // TODO<a name="line.1488"></a>
+<span class="sourceLineNo">1488</span>  @GwtIncompatible("TODO")<a name="line.1488"></a>
 <span class="sourceLineNo">1489</span>  private static class MappingCheckedFuture&lt;V, X extends Exception&gt;<a name="line.1489"></a>
 <span class="sourceLineNo">1490</span>      extends AbstractCheckedFuture&lt;V, X&gt; {<a name="line.1490"></a>
 <span class="sourceLineNo">1491</span><a name="line.1491"></a>

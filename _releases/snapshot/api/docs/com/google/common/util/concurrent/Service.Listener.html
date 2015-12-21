@@ -100,7 +100,7 @@
 <hr>
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public abstract static class <a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.257">Service.Listener</a>
+public abstract static class <a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line.255">Service.Listener</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A listener for the various state changes that a <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> goes through in its lifecycle.
 
@@ -205,7 +205,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Service.Listener</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.257">Service.Listener</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.255">Service.Listener</a>()</pre>
 </li>
 </ul>
 </li>
@@ -222,7 +222,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>starting</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.263">starting</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.261">starting</a>()</pre>
 <div class="block">Called when the service transitions from <a href="../../../../../com/google/common/util/concurrent/Service.State.html#NEW">NEW</a> to 
  <a href="../../../../../com/google/common/util/concurrent/Service.State.html#STARTING">STARTING</a>. This occurs when <a href="../../../../../com/google/common/util/concurrent/Service.html#startAsync()"><code>Service.startAsync()</code></a> is called 
  the first time.</div>
@@ -234,7 +234,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>running</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.269">running</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.267">running</a>()</pre>
 <div class="block">Called when the service transitions from <a href="../../../../../com/google/common/util/concurrent/Service.State.html#STARTING">STARTING</a> to 
  <a href="../../../../../com/google/common/util/concurrent/Service.State.html#RUNNING">RUNNING</a>. This occurs when a service has successfully started.</div>
 </li>
@@ -245,7 +245,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>stopping</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.278">stopping</a>(<a href="../../../../../com/google/common/util/concurrent/Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.276">stopping</a>(<a href="../../../../../com/google/common/util/concurrent/Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from)</pre>
 <div class="block">Called when the service transitions to the <a href="../../../../../com/google/common/util/concurrent/Service.State.html#STOPPING">STOPPING</a> state. The 
  only valid values for <code>from</code> are <a href="../../../../../com/google/common/util/concurrent/Service.State.html#STARTING">STARTING</a> or 
  <a href="../../../../../com/google/common/util/concurrent/Service.State.html#RUNNING">RUNNING</a>.  This occurs when <a href="../../../../../com/google/common/util/concurrent/Service.html#stopAsync()"><code>Service.stopAsync()</code></a> is called.</div>
@@ -258,7 +258,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>terminated</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.290">terminated</a>(<a href="../../../../../com/google/common/util/concurrent/Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.288">terminated</a>(<a href="../../../../../com/google/common/util/concurrent/Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from)</pre>
 <div class="block">Called when the service transitions to the <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED">TERMINATED</a> state. 
  The <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED">TERMINATED</a> state is a terminal state in the transition
  diagram.  Therefore, if this method is called, no other methods will be called on the 
@@ -274,7 +274,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>failed</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.302">failed</a>(<a href="../../../../../com/google/common/util/concurrent/Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from,
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line.300">failed</a>(<a href="../../../../../com/google/common/util/concurrent/Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from,
           <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;failure)</pre>
 <div class="block">Called when the service transitions to the <a href="../../../../../com/google/common/util/concurrent/Service.State.html#FAILED">FAILED</a> state. The 
  <a href="../../../../../com/google/common/util/concurrent/Service.State.html#FAILED">FAILED</a> state is a terminal state in the transition diagram.  

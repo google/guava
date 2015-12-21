@@ -179,14 +179,14 @@
 <span class="sourceLineNo">171</span>   * {@code Writer}.  When the returned {@code OutputStream} is closed, so is the backing<a name="line.171"></a>
 <span class="sourceLineNo">172</span>   * {@code Writer}.<a name="line.172"></a>
 <span class="sourceLineNo">173</span>   */<a name="line.173"></a>
-<span class="sourceLineNo">174</span>  @GwtIncompatible // Writer,OutputStream<a name="line.174"></a>
+<span class="sourceLineNo">174</span>  @GwtIncompatible("Writer,OutputStream")<a name="line.174"></a>
 <span class="sourceLineNo">175</span>  @CheckReturnValue<a name="line.175"></a>
 <span class="sourceLineNo">176</span>  public abstract OutputStream encodingStream(Writer writer);<a name="line.176"></a>
 <span class="sourceLineNo">177</span><a name="line.177"></a>
 <span class="sourceLineNo">178</span>  /**<a name="line.178"></a>
 <span class="sourceLineNo">179</span>   * Returns a {@code ByteSink} that writes base-encoded bytes to the specified {@code CharSink}.<a name="line.179"></a>
 <span class="sourceLineNo">180</span>   */<a name="line.180"></a>
-<span class="sourceLineNo">181</span>  @GwtIncompatible // ByteSink,CharSink<a name="line.181"></a>
+<span class="sourceLineNo">181</span>  @GwtIncompatible("ByteSink,CharSink")<a name="line.181"></a>
 <span class="sourceLineNo">182</span>  @CheckReturnValue<a name="line.182"></a>
 <span class="sourceLineNo">183</span>  public final ByteSink encodingSink(final CharSink encodedSink) {<a name="line.183"></a>
 <span class="sourceLineNo">184</span>    checkNotNull(encodedSink);<a name="line.184"></a>
@@ -251,7 +251,7 @@
 <span class="sourceLineNo">243</span>   * {@code Reader}.  The returned stream throws a {@link DecodingException} upon decoding-specific<a name="line.243"></a>
 <span class="sourceLineNo">244</span>   * errors.<a name="line.244"></a>
 <span class="sourceLineNo">245</span>   */<a name="line.245"></a>
-<span class="sourceLineNo">246</span>  @GwtIncompatible // Reader,InputStream<a name="line.246"></a>
+<span class="sourceLineNo">246</span>  @GwtIncompatible("Reader,InputStream")<a name="line.246"></a>
 <span class="sourceLineNo">247</span>  @CheckReturnValue<a name="line.247"></a>
 <span class="sourceLineNo">248</span>  public abstract InputStream decodingStream(Reader reader);<a name="line.248"></a>
 <span class="sourceLineNo">249</span><a name="line.249"></a>
@@ -259,7 +259,7 @@
 <span class="sourceLineNo">251</span>   * Returns a {@code ByteSource} that reads base-encoded bytes from the specified<a name="line.251"></a>
 <span class="sourceLineNo">252</span>   * {@code CharSource}.<a name="line.252"></a>
 <span class="sourceLineNo">253</span>   */<a name="line.253"></a>
-<span class="sourceLineNo">254</span>  @GwtIncompatible // ByteSource,CharSource<a name="line.254"></a>
+<span class="sourceLineNo">254</span>  @GwtIncompatible("ByteSource,CharSource")<a name="line.254"></a>
 <span class="sourceLineNo">255</span>  @CheckReturnValue<a name="line.255"></a>
 <span class="sourceLineNo">256</span>  public final ByteSource decodingSource(final CharSource encodedSource) {<a name="line.256"></a>
 <span class="sourceLineNo">257</span>    checkNotNull(encodedSource);<a name="line.257"></a>
@@ -590,7 +590,7 @@
 <span class="sourceLineNo">582</span>      return alphabet.charsPerChunk * divide(bytes, alphabet.bytesPerChunk, CEILING);<a name="line.582"></a>
 <span class="sourceLineNo">583</span>    }<a name="line.583"></a>
 <span class="sourceLineNo">584</span><a name="line.584"></a>
-<span class="sourceLineNo">585</span>    @GwtIncompatible // Writer,OutputStream<a name="line.585"></a>
+<span class="sourceLineNo">585</span>    @GwtIncompatible("Writer,OutputStream")<a name="line.585"></a>
 <span class="sourceLineNo">586</span>    @Override<a name="line.586"></a>
 <span class="sourceLineNo">587</span>    public OutputStream encodingStream(final Writer out) {<a name="line.587"></a>
 <span class="sourceLineNo">588</span>      checkNotNull(out);<a name="line.588"></a>
@@ -716,7 +716,7 @@
 <span class="sourceLineNo">708</span>      return bytesWritten;<a name="line.708"></a>
 <span class="sourceLineNo">709</span>    }<a name="line.709"></a>
 <span class="sourceLineNo">710</span><a name="line.710"></a>
-<span class="sourceLineNo">711</span>    @GwtIncompatible // Reader,InputStream<a name="line.711"></a>
+<span class="sourceLineNo">711</span>    @GwtIncompatible("Reader,InputStream")<a name="line.711"></a>
 <span class="sourceLineNo">712</span>    @Override<a name="line.712"></a>
 <span class="sourceLineNo">713</span>    public InputStream decodingStream(final Reader reader) {<a name="line.713"></a>
 <span class="sourceLineNo">714</span>      checkNotNull(reader);<a name="line.714"></a>
@@ -938,7 +938,7 @@
 <span class="sourceLineNo">930</span>    }<a name="line.930"></a>
 <span class="sourceLineNo">931</span>  }<a name="line.931"></a>
 <span class="sourceLineNo">932</span><a name="line.932"></a>
-<span class="sourceLineNo">933</span>  @GwtIncompatible // Reader<a name="line.933"></a>
+<span class="sourceLineNo">933</span>  @GwtIncompatible("Reader")<a name="line.933"></a>
 <span class="sourceLineNo">934</span>  static Reader ignoringReader(final Reader delegate, final CharMatcher toIgnore) {<a name="line.934"></a>
 <span class="sourceLineNo">935</span>    checkNotNull(delegate);<a name="line.935"></a>
 <span class="sourceLineNo">936</span>    checkNotNull(toIgnore);<a name="line.936"></a>
@@ -995,7 +995,7 @@
 <span class="sourceLineNo">987</span>    };<a name="line.987"></a>
 <span class="sourceLineNo">988</span>  }<a name="line.988"></a>
 <span class="sourceLineNo">989</span><a name="line.989"></a>
-<span class="sourceLineNo">990</span>  @GwtIncompatible // Writer<a name="line.990"></a>
+<span class="sourceLineNo">990</span>  @GwtIncompatible("Writer")<a name="line.990"></a>
 <span class="sourceLineNo">991</span>  static Writer separatingWriter(<a name="line.991"></a>
 <span class="sourceLineNo">992</span>      final Writer delegate, final String separator, final int afterEveryChars) {<a name="line.992"></a>
 <span class="sourceLineNo">993</span>    final Appendable seperatingAppendable =<a name="line.993"></a>
@@ -1050,7 +1050,7 @@
 <span class="sourceLineNo">1042</span>          * divide(Math.max(0, unseparatedSize - 1), afterEveryChars, FLOOR);<a name="line.1042"></a>
 <span class="sourceLineNo">1043</span>    }<a name="line.1043"></a>
 <span class="sourceLineNo">1044</span><a name="line.1044"></a>
-<span class="sourceLineNo">1045</span>    @GwtIncompatible // Writer,OutputStream<a name="line.1045"></a>
+<span class="sourceLineNo">1045</span>    @GwtIncompatible("Writer,OutputStream")<a name="line.1045"></a>
 <span class="sourceLineNo">1046</span>    @Override<a name="line.1046"></a>
 <span class="sourceLineNo">1047</span>    public OutputStream encodingStream(final Writer output) {<a name="line.1047"></a>
 <span class="sourceLineNo">1048</span>      return delegate.encodingStream(separatingWriter(output, separator, afterEveryChars));<a name="line.1048"></a>
@@ -1076,7 +1076,7 @@
 <span class="sourceLineNo">1068</span>      return delegate.decodeTo(target, separatorChars.removeFrom(chars));<a name="line.1068"></a>
 <span class="sourceLineNo">1069</span>    }<a name="line.1069"></a>
 <span class="sourceLineNo">1070</span><a name="line.1070"></a>
-<span class="sourceLineNo">1071</span>    @GwtIncompatible // Reader,InputStream<a name="line.1071"></a>
+<span class="sourceLineNo">1071</span>    @GwtIncompatible("Reader,InputStream")<a name="line.1071"></a>
 <span class="sourceLineNo">1072</span>    @Override<a name="line.1072"></a>
 <span class="sourceLineNo">1073</span>    public InputStream decodingStream(final Reader reader) {<a name="line.1073"></a>
 <span class="sourceLineNo">1074</span>      return delegate.decodingStream(ignoringReader(reader, separatorChars));<a name="line.1074"></a>

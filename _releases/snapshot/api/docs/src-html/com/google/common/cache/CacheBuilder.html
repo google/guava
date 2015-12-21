@@ -261,7 +261,7 @@
 <span class="sourceLineNo">253</span>   *<a name="line.253"></a>
 <span class="sourceLineNo">254</span>   * @since 12.0<a name="line.254"></a>
 <span class="sourceLineNo">255</span>   */<a name="line.255"></a>
-<span class="sourceLineNo">256</span>  @GwtIncompatible // To be supported<a name="line.256"></a>
+<span class="sourceLineNo">256</span>  @GwtIncompatible("To be supported")<a name="line.256"></a>
 <span class="sourceLineNo">257</span>  public static CacheBuilder&lt;Object, Object&gt; from(CacheBuilderSpec spec) {<a name="line.257"></a>
 <span class="sourceLineNo">258</span>    return spec.toCacheBuilder()<a name="line.258"></a>
 <span class="sourceLineNo">259</span>        .lenientParsing();<a name="line.259"></a>
@@ -274,7 +274,7 @@
 <span class="sourceLineNo">266</span>   * @param spec a String in the format specified by {@link CacheBuilderSpec}<a name="line.266"></a>
 <span class="sourceLineNo">267</span>   * @since 12.0<a name="line.267"></a>
 <span class="sourceLineNo">268</span>   */<a name="line.268"></a>
-<span class="sourceLineNo">269</span>  @GwtIncompatible // To be supported<a name="line.269"></a>
+<span class="sourceLineNo">269</span>  @GwtIncompatible("To be supported")<a name="line.269"></a>
 <span class="sourceLineNo">270</span>  public static CacheBuilder&lt;Object, Object&gt; from(String spec) {<a name="line.270"></a>
 <span class="sourceLineNo">271</span>    return from(CacheBuilderSpec.parse(spec));<a name="line.271"></a>
 <span class="sourceLineNo">272</span>  }<a name="line.272"></a>
@@ -282,7 +282,7 @@
 <span class="sourceLineNo">274</span>  /**<a name="line.274"></a>
 <span class="sourceLineNo">275</span>   * Enables lenient parsing. Useful for tests and spec parsing.<a name="line.275"></a>
 <span class="sourceLineNo">276</span>   */<a name="line.276"></a>
-<span class="sourceLineNo">277</span>  @GwtIncompatible // To be supported<a name="line.277"></a>
+<span class="sourceLineNo">277</span>  @GwtIncompatible("To be supported")<a name="line.277"></a>
 <span class="sourceLineNo">278</span>  CacheBuilder&lt;K, V&gt; lenientParsing() {<a name="line.278"></a>
 <span class="sourceLineNo">279</span>    strictParsing = false;<a name="line.279"></a>
 <span class="sourceLineNo">280</span>    return this;<a name="line.280"></a>
@@ -294,7 +294,7 @@
 <span class="sourceLineNo">286</span>   * &lt;p&gt;By default, the cache uses {@link Equivalence#identity} to determine key equality when<a name="line.286"></a>
 <span class="sourceLineNo">287</span>   * {@link #weakKeys} is specified, and {@link Equivalence#equals()} otherwise.<a name="line.287"></a>
 <span class="sourceLineNo">288</span>   */<a name="line.288"></a>
-<span class="sourceLineNo">289</span>  @GwtIncompatible // To be supported<a name="line.289"></a>
+<span class="sourceLineNo">289</span>  @GwtIncompatible("To be supported")<a name="line.289"></a>
 <span class="sourceLineNo">290</span>  CacheBuilder&lt;K, V&gt; keyEquivalence(Equivalence&lt;Object&gt; equivalence) {<a name="line.290"></a>
 <span class="sourceLineNo">291</span>    checkState(keyEquivalence == null, "key equivalence was already set to %s", keyEquivalence);<a name="line.291"></a>
 <span class="sourceLineNo">292</span>    keyEquivalence = checkNotNull(equivalence);<a name="line.292"></a>
@@ -312,7 +312,7 @@
 <span class="sourceLineNo">304</span>   * {@link #weakValues} or {@link #softValues} is specified, and {@link Equivalence#equals()}<a name="line.304"></a>
 <span class="sourceLineNo">305</span>   * otherwise.<a name="line.305"></a>
 <span class="sourceLineNo">306</span>   */<a name="line.306"></a>
-<span class="sourceLineNo">307</span>  @GwtIncompatible // To be supported<a name="line.307"></a>
+<span class="sourceLineNo">307</span>  @GwtIncompatible("To be supported")<a name="line.307"></a>
 <span class="sourceLineNo">308</span>  CacheBuilder&lt;K, V&gt; valueEquivalence(Equivalence&lt;Object&gt; equivalence) {<a name="line.308"></a>
 <span class="sourceLineNo">309</span>    checkState(valueEquivalence == null,<a name="line.309"></a>
 <span class="sourceLineNo">310</span>        "value equivalence was already set to %s", valueEquivalence);<a name="line.310"></a>
@@ -438,7 +438,7 @@
 <span class="sourceLineNo">430</span>   * @throws IllegalStateException if a maximum weight or size was already set<a name="line.430"></a>
 <span class="sourceLineNo">431</span>   * @since 11.0<a name="line.431"></a>
 <span class="sourceLineNo">432</span>   */<a name="line.432"></a>
-<span class="sourceLineNo">433</span>  @GwtIncompatible // To be supported<a name="line.433"></a>
+<span class="sourceLineNo">433</span>  @GwtIncompatible("To be supported")<a name="line.433"></a>
 <span class="sourceLineNo">434</span>  public CacheBuilder&lt;K, V&gt; maximumWeight(long weight) {<a name="line.434"></a>
 <span class="sourceLineNo">435</span>    checkState(this.maximumWeight == UNSET_INT, "maximum weight was already set to %s",<a name="line.435"></a>
 <span class="sourceLineNo">436</span>        this.maximumWeight);<a name="line.436"></a>
@@ -477,7 +477,7 @@
 <span class="sourceLineNo">469</span>   * @throws IllegalStateException if a maximum size was already set<a name="line.469"></a>
 <span class="sourceLineNo">470</span>   * @since 11.0<a name="line.470"></a>
 <span class="sourceLineNo">471</span>   */<a name="line.471"></a>
-<span class="sourceLineNo">472</span>  @GwtIncompatible // To be supported<a name="line.472"></a>
+<span class="sourceLineNo">472</span>  @GwtIncompatible("To be supported")<a name="line.472"></a>
 <span class="sourceLineNo">473</span>  public &lt;K1 extends K, V1 extends V&gt; CacheBuilder&lt;K1, V1&gt; weigher(<a name="line.473"></a>
 <span class="sourceLineNo">474</span>      Weigher&lt;? super K1, ? super V1&gt; weigher) {<a name="line.474"></a>
 <span class="sourceLineNo">475</span>    checkState(this.weigher == null);<a name="line.475"></a>
@@ -519,7 +519,7 @@
 <span class="sourceLineNo">511</span>   *<a name="line.511"></a>
 <span class="sourceLineNo">512</span>   * @throws IllegalStateException if the key strength was already set<a name="line.512"></a>
 <span class="sourceLineNo">513</span>   */<a name="line.513"></a>
-<span class="sourceLineNo">514</span>  @GwtIncompatible // java.lang.ref.WeakReference<a name="line.514"></a>
+<span class="sourceLineNo">514</span>  @GwtIncompatible("java.lang.ref.WeakReference")<a name="line.514"></a>
 <span class="sourceLineNo">515</span>  public CacheBuilder&lt;K, V&gt; weakKeys() {<a name="line.515"></a>
 <span class="sourceLineNo">516</span>    return setKeyStrength(Strength.WEAK);<a name="line.516"></a>
 <span class="sourceLineNo">517</span>  }<a name="line.517"></a>
@@ -550,7 +550,7 @@
 <span class="sourceLineNo">542</span>   *<a name="line.542"></a>
 <span class="sourceLineNo">543</span>   * @throws IllegalStateException if the value strength was already set<a name="line.543"></a>
 <span class="sourceLineNo">544</span>   */<a name="line.544"></a>
-<span class="sourceLineNo">545</span>  @GwtIncompatible // java.lang.ref.WeakReference<a name="line.545"></a>
+<span class="sourceLineNo">545</span>  @GwtIncompatible("java.lang.ref.WeakReference")<a name="line.545"></a>
 <span class="sourceLineNo">546</span>  public CacheBuilder&lt;K, V&gt; weakValues() {<a name="line.546"></a>
 <span class="sourceLineNo">547</span>    return setValueStrength(Strength.WEAK);<a name="line.547"></a>
 <span class="sourceLineNo">548</span>  }<a name="line.548"></a>
@@ -574,7 +574,7 @@
 <span class="sourceLineNo">566</span>   *<a name="line.566"></a>
 <span class="sourceLineNo">567</span>   * @throws IllegalStateException if the value strength was already set<a name="line.567"></a>
 <span class="sourceLineNo">568</span>   */<a name="line.568"></a>
-<span class="sourceLineNo">569</span>  @GwtIncompatible // java.lang.ref.SoftReference<a name="line.569"></a>
+<span class="sourceLineNo">569</span>  @GwtIncompatible("java.lang.ref.SoftReference")<a name="line.569"></a>
 <span class="sourceLineNo">570</span>  public CacheBuilder&lt;K, V&gt; softValues() {<a name="line.570"></a>
 <span class="sourceLineNo">571</span>    return setValueStrength(Strength.SOFT);<a name="line.571"></a>
 <span class="sourceLineNo">572</span>  }<a name="line.572"></a>
@@ -680,7 +680,7 @@
 <span class="sourceLineNo">672</span>   * @throws IllegalStateException if the refresh interval was already set<a name="line.672"></a>
 <span class="sourceLineNo">673</span>   * @since 11.0<a name="line.673"></a>
 <span class="sourceLineNo">674</span>   */<a name="line.674"></a>
-<span class="sourceLineNo">675</span>  @GwtIncompatible // To be supported (synchronously).<a name="line.675"></a>
+<span class="sourceLineNo">675</span>  @GwtIncompatible("To be supported (synchronously).")<a name="line.675"></a>
 <span class="sourceLineNo">676</span>  public CacheBuilder&lt;K, V&gt; refreshAfterWrite(long duration, TimeUnit unit) {<a name="line.676"></a>
 <span class="sourceLineNo">677</span>    checkNotNull(unit);<a name="line.677"></a>
 <span class="sourceLineNo">678</span>    checkState(refreshNanos == UNSET_INT, "refresh was already set to %s ns", refreshNanos);<a name="line.678"></a>

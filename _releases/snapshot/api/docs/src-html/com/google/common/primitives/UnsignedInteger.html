@@ -154,7 +154,7 @@
 <span class="sourceLineNo">146</span>   *<a name="line.146"></a>
 <span class="sourceLineNo">147</span>   * @since 14.0<a name="line.147"></a>
 <span class="sourceLineNo">148</span>   */<a name="line.148"></a>
-<span class="sourceLineNo">149</span>  @GwtIncompatible // Does not truncate correctly<a name="line.149"></a>
+<span class="sourceLineNo">149</span>  @GwtIncompatible("Does not truncate correctly")<a name="line.149"></a>
 <span class="sourceLineNo">150</span>  public UnsignedInteger times(UnsignedInteger val) {<a name="line.150"></a>
 <span class="sourceLineNo">151</span>    // TODO(lowasser): make this GWT-compatible<a name="line.151"></a>
 <span class="sourceLineNo">152</span>    return fromIntBits(value * checkNotNull(val).value);<a name="line.152"></a>

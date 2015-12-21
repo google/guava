@@ -92,8 +92,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.38">RangeMap</a>&lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>,V&gt;</pre>
+public interface <a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.36">RangeMap</a>&lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>,V&gt;</pre>
 <div class="block">A mapping from disjoint nonempty ranges to non-null values. Queries look up the value
  associated with the range (if any) that contains a specified key.
 
@@ -227,7 +226,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <li class="blockList">
 <h4>get</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.47">get</a>(<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</pre>
+<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.45">get</a>(<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</pre>
 <div class="block">Returns the value associated with the specified key, or <code>null</code> if there is no
  such value.
 
@@ -244,7 +243,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <li class="blockList">
 <h4>getEntry</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.54">getEntry</a>(<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</pre>
+<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.52">getEntry</a>(<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</pre>
 <div class="block">Returns the range containing this key and its associated value, if such a range is present
  in the range map, or <code>null</code> otherwise.</div>
 </li>
@@ -255,7 +254,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>span</h4>
-<pre><a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.62">span</a>()</pre>
+<pre><a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.60">span</a>()</pre>
 <div class="block">Returns the minimal range <a href="../../../../com/google/common/collect/Range.html#encloses(com.google.common.collect.Range)">enclosing</a> the ranges
  in this <code>RangeMap</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -270,7 +269,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.73">put</a>(<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.71">put</a>(<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
        <a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;value)</pre>
 <div class="block">Maps a range to a specified value (optional operation).
 
@@ -287,7 +286,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.78">putAll</a>(<a href="../../../../com/google/common/collect/RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>,<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;rangeMap)</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.76">putAll</a>(<a href="../../../../com/google/common/collect/RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>,<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;rangeMap)</pre>
 <div class="block">Puts all the associations from <code>rangeMap</code> into this range map (optional operation).</div>
 </li>
 </ul>
@@ -297,7 +296,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.83">clear</a>()</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.81">clear</a>()</pre>
 <div class="block">Removes all associations from this range map (optional operation).</div>
 </li>
 </ul>
@@ -307,7 +306,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.92">remove</a>(<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.90">remove</a>(<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</pre>
 <div class="block">Removes all associations from this range map in the specified range (optional operation).
 
  <p>If <code>!range.contains(k)</code>, <a href="../../../../com/google/common/collect/RangeMap.html#get(K)"><code>get(k)</code></a> will return the same result
@@ -321,7 +320,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>asMapOfRanges</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.103">asMapOfRanges</a>()</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.101">asMapOfRanges</a>()</pre>
 <div class="block">Returns a view of this range map as an unmodifiable <code>Map&lt;Range&lt;K&gt;, V&gt;</code>.
  Modifications to this range map are guaranteed to read through to the returned <code>Map</code>.
 
@@ -337,7 +336,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>asDescendingMapOfRanges</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.116">asDescendingMapOfRanges</a>()</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.114">asDescendingMapOfRanges</a>()</pre>
 <div class="block">Returns a view of this range map as an unmodifiable <code>Map&lt;Range&lt;K&gt;, V&gt;</code>.
  Modifications to this range map are guaranteed to read through to the returned <code>Map</code>.
 
@@ -355,7 +354,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>subRangeMap</h4>
-<pre><a href="../../../../com/google/common/collect/RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>,<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.132">subRangeMap</a>(<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</pre>
+<pre><a href="../../../../com/google/common/collect/RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>,<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.130">subRangeMap</a>(<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</pre>
 <div class="block">Returns a view of the part of this range map that intersects with <code>range</code>.
 
  <p>For example, if <code>rangeMap</code> had the entries
@@ -376,7 +375,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.139">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.137">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;o)</pre>
 <div class="block">Returns <code>true</code> if <code>obj</code> is another <code>RangeMap</code> that has an equivalent
  <a href="../../../../com/google/common/collect/RangeMap.html#asMapOfRanges()"><code>asMapOfRanges()</code></a>.</div>
@@ -392,7 +391,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.145">hashCode</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.143">hashCode</a>()</pre>
 <div class="block">Returns <code>asMapOfRanges().hashCode()</code>.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -406,7 +405,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/RangeMa
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.151">toString</a>()</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/RangeMap.html#line.149">toString</a>()</pre>
 <div class="block">Returns a readable string representation of this range map.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>

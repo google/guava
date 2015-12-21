@@ -61,7 +61,7 @@
 <span class="sourceLineNo">053</span>   * This method returns a value y such that rounding y DOWN (towards zero) gives the same result<a name="line.53"></a>
 <span class="sourceLineNo">054</span>   * as rounding x according to the specified mode.<a name="line.54"></a>
 <span class="sourceLineNo">055</span>   */<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  @GwtIncompatible // #isMathematicalInteger, com.google.common.math.DoubleUtils<a name="line.56"></a>
+<span class="sourceLineNo">056</span>  @GwtIncompatible("#isMathematicalInteger, com.google.common.math.DoubleUtils")<a name="line.56"></a>
 <span class="sourceLineNo">057</span>  static double roundIntermediate(double x, RoundingMode mode) {<a name="line.57"></a>
 <span class="sourceLineNo">058</span>    if (!isFinite(x)) {<a name="line.58"></a>
 <span class="sourceLineNo">059</span>      throw new ArithmeticException("input is infinite or NaN");<a name="line.59"></a>
@@ -135,7 +135,7 @@
 <span class="sourceLineNo">127</span>   *         {@link RoundingMode#UNNECESSARY}<a name="line.127"></a>
 <span class="sourceLineNo">128</span>   *         &lt;/ul&gt;<a name="line.128"></a>
 <span class="sourceLineNo">129</span>   */<a name="line.129"></a>
-<span class="sourceLineNo">130</span>  @GwtIncompatible // #roundIntermediate<a name="line.130"></a>
+<span class="sourceLineNo">130</span>  @GwtIncompatible("#roundIntermediate")<a name="line.130"></a>
 <span class="sourceLineNo">131</span>  public static int roundToInt(double x, RoundingMode mode) {<a name="line.131"></a>
 <span class="sourceLineNo">132</span>    double z = roundIntermediate(x, mode);<a name="line.132"></a>
 <span class="sourceLineNo">133</span>    checkInRange(z &gt; MIN_INT_AS_DOUBLE - 1.0 &amp; z &lt; MAX_INT_AS_DOUBLE + 1.0);<a name="line.133"></a>
@@ -159,7 +159,7 @@
 <span class="sourceLineNo">151</span>   *         {@link RoundingMode#UNNECESSARY}<a name="line.151"></a>
 <span class="sourceLineNo">152</span>   *         &lt;/ul&gt;<a name="line.152"></a>
 <span class="sourceLineNo">153</span>   */<a name="line.153"></a>
-<span class="sourceLineNo">154</span>  @GwtIncompatible // #roundIntermediate<a name="line.154"></a>
+<span class="sourceLineNo">154</span>  @GwtIncompatible("#roundIntermediate")<a name="line.154"></a>
 <span class="sourceLineNo">155</span>  public static long roundToLong(double x, RoundingMode mode) {<a name="line.155"></a>
 <span class="sourceLineNo">156</span>    double z = roundIntermediate(x, mode);<a name="line.156"></a>
 <span class="sourceLineNo">157</span>    checkInRange(MIN_LONG_AS_DOUBLE - z &lt; 1.0 &amp; z &lt; MAX_LONG_AS_DOUBLE_PLUS_ONE);<a name="line.157"></a>
@@ -201,7 +201,7 @@
 <span class="sourceLineNo">193</span>   * Returns {@code true} if {@code x} is exactly equal to {@code 2^k} for some finite integer<a name="line.193"></a>
 <span class="sourceLineNo">194</span>   * {@code k}.<a name="line.194"></a>
 <span class="sourceLineNo">195</span>   */<a name="line.195"></a>
-<span class="sourceLineNo">196</span>  @GwtIncompatible // com.google.common.math.DoubleUtils<a name="line.196"></a>
+<span class="sourceLineNo">196</span>  @GwtIncompatible("com.google.common.math.DoubleUtils")<a name="line.196"></a>
 <span class="sourceLineNo">197</span>  public static boolean isPowerOfTwo(double x) {<a name="line.197"></a>
 <span class="sourceLineNo">198</span>    return x &gt; 0.0 &amp;&amp; isFinite(x) &amp;&amp; LongMath.isPowerOfTwo(getSignificand(x));<a name="line.198"></a>
 <span class="sourceLineNo">199</span>  }<a name="line.199"></a>
@@ -236,7 +236,7 @@
 <span class="sourceLineNo">228</span>   * @throws IllegalArgumentException if {@code x &lt;= 0.0}, {@code x} is NaN, or {@code x} is<a name="line.228"></a>
 <span class="sourceLineNo">229</span>   *         infinite<a name="line.229"></a>
 <span class="sourceLineNo">230</span>   */<a name="line.230"></a>
-<span class="sourceLineNo">231</span>  @GwtIncompatible // java.lang.Math.getExponent, com.google.common.math.DoubleUtils<a name="line.231"></a>
+<span class="sourceLineNo">231</span>  @GwtIncompatible("java.lang.Math.getExponent, com.google.common.math.DoubleUtils")<a name="line.231"></a>
 <span class="sourceLineNo">232</span>  @SuppressWarnings("fallthrough")<a name="line.232"></a>
 <span class="sourceLineNo">233</span>  public static int log2(double x, RoundingMode mode) {<a name="line.233"></a>
 <span class="sourceLineNo">234</span>    checkArgument(x &gt; 0.0 &amp;&amp; isFinite(x), "x must be positive and finite");<a name="line.234"></a>
@@ -283,7 +283,7 @@
 <span class="sourceLineNo">275</span>   * &lt;p&gt;This is equivalent to, but not necessarily implemented as, the expression {@code<a name="line.275"></a>
 <span class="sourceLineNo">276</span>   * !Double.isNaN(x) &amp;&amp; !Double.isInfinite(x) &amp;&amp; x == Math.rint(x)}.<a name="line.276"></a>
 <span class="sourceLineNo">277</span>   */<a name="line.277"></a>
-<span class="sourceLineNo">278</span>  @GwtIncompatible // java.lang.Math.getExponent, com.google.common.math.DoubleUtils<a name="line.278"></a>
+<span class="sourceLineNo">278</span>  @GwtIncompatible("java.lang.Math.getExponent, com.google.common.math.DoubleUtils")<a name="line.278"></a>
 <span class="sourceLineNo">279</span>  public static boolean isMathematicalInteger(double x) {<a name="line.279"></a>
 <span class="sourceLineNo">280</span>    return isFinite(x)<a name="line.280"></a>
 <span class="sourceLineNo">281</span>        &amp;&amp; (x == 0.0 ||<a name="line.281"></a>
@@ -404,7 +404,7 @@
 <span class="sourceLineNo">396</span>   *     values. This method will be removed in February 2018.<a name="line.396"></a>
 <span class="sourceLineNo">397</span>   */<a name="line.397"></a>
 <span class="sourceLineNo">398</span>  @Deprecated<a name="line.398"></a>
-<span class="sourceLineNo">399</span>  @GwtIncompatible // com.google.common.math.DoubleUtils<a name="line.399"></a>
+<span class="sourceLineNo">399</span>  @GwtIncompatible("com.google.common.math.DoubleUtils")<a name="line.399"></a>
 <span class="sourceLineNo">400</span>  public static double mean(double... values) {<a name="line.400"></a>
 <span class="sourceLineNo">401</span>    checkArgument(values.length &gt; 0, "Cannot take mean of 0 values");<a name="line.401"></a>
 <span class="sourceLineNo">402</span>    long count = 1;<a name="line.402"></a>
@@ -483,7 +483,7 @@
 <span class="sourceLineNo">475</span>   *     values. This method will be removed in February 2018.<a name="line.475"></a>
 <span class="sourceLineNo">476</span>   */<a name="line.476"></a>
 <span class="sourceLineNo">477</span>  @Deprecated<a name="line.477"></a>
-<span class="sourceLineNo">478</span>  @GwtIncompatible // com.google.common.math.DoubleUtils<a name="line.478"></a>
+<span class="sourceLineNo">478</span>  @GwtIncompatible("com.google.common.math.DoubleUtils")<a name="line.478"></a>
 <span class="sourceLineNo">479</span>  public static double mean(Iterable&lt;? extends Number&gt; values) {<a name="line.479"></a>
 <span class="sourceLineNo">480</span>    return mean(values.iterator());<a name="line.480"></a>
 <span class="sourceLineNo">481</span>  }<a name="line.481"></a>
@@ -502,7 +502,7 @@
 <span class="sourceLineNo">494</span>   *     values. This method will be removed in February 2018.<a name="line.494"></a>
 <span class="sourceLineNo">495</span>   */<a name="line.495"></a>
 <span class="sourceLineNo">496</span>  @Deprecated<a name="line.496"></a>
-<span class="sourceLineNo">497</span>  @GwtIncompatible // com.google.common.math.DoubleUtils<a name="line.497"></a>
+<span class="sourceLineNo">497</span>  @GwtIncompatible("com.google.common.math.DoubleUtils")<a name="line.497"></a>
 <span class="sourceLineNo">498</span>  public static double mean(Iterator&lt;? extends Number&gt; values) {<a name="line.498"></a>
 <span class="sourceLineNo">499</span>    checkArgument(values.hasNext(), "Cannot take mean of 0 values");<a name="line.499"></a>
 <span class="sourceLineNo">500</span>    long count = 1;<a name="line.500"></a>
@@ -516,7 +516,7 @@
 <span class="sourceLineNo">508</span>    return mean;<a name="line.508"></a>
 <span class="sourceLineNo">509</span>  }<a name="line.509"></a>
 <span class="sourceLineNo">510</span><a name="line.510"></a>
-<span class="sourceLineNo">511</span>  @GwtIncompatible // com.google.common.math.DoubleUtils<a name="line.511"></a>
+<span class="sourceLineNo">511</span>  @GwtIncompatible("com.google.common.math.DoubleUtils")<a name="line.511"></a>
 <span class="sourceLineNo">512</span>  private static double checkFinite(double argument) {<a name="line.512"></a>
 <span class="sourceLineNo">513</span>    checkArgument(isFinite(argument));<a name="line.513"></a>
 <span class="sourceLineNo">514</span>    return argument;<a name="line.514"></a>

@@ -88,7 +88,7 @@
 <span class="sourceLineNo">080</span>    this.type = type;<a name="line.80"></a>
 <span class="sourceLineNo">081</span>  }<a name="line.81"></a>
 <span class="sourceLineNo">082</span><a name="line.82"></a>
-<span class="sourceLineNo">083</span>  @GwtIncompatible // java.io.ObjectOutputStream<a name="line.83"></a>
+<span class="sourceLineNo">083</span>  @GwtIncompatible("java.io.ObjectOutputStream")<a name="line.83"></a>
 <span class="sourceLineNo">084</span>  private void writeObject(ObjectOutputStream stream) throws IOException {<a name="line.84"></a>
 <span class="sourceLineNo">085</span>    stream.defaultWriteObject();<a name="line.85"></a>
 <span class="sourceLineNo">086</span>    stream.writeObject(type);<a name="line.86"></a>
@@ -100,7 +100,7 @@
 <span class="sourceLineNo">092</span>   *             elements, the first element, its count, the second element, its<a name="line.92"></a>
 <span class="sourceLineNo">093</span>   *             count, and so on<a name="line.93"></a>
 <span class="sourceLineNo">094</span>   */<a name="line.94"></a>
-<span class="sourceLineNo">095</span>  @GwtIncompatible // java.io.ObjectInputStream<a name="line.95"></a>
+<span class="sourceLineNo">095</span>  @GwtIncompatible("java.io.ObjectInputStream")<a name="line.95"></a>
 <span class="sourceLineNo">096</span>  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {<a name="line.96"></a>
 <span class="sourceLineNo">097</span>    stream.defaultReadObject();<a name="line.97"></a>
 <span class="sourceLineNo">098</span>    @SuppressWarnings("unchecked") // reading data stored by writeObject<a name="line.98"></a>
@@ -110,7 +110,7 @@
 <span class="sourceLineNo">102</span>    Serialization.populateMultiset(this, stream);<a name="line.102"></a>
 <span class="sourceLineNo">103</span>  }<a name="line.103"></a>
 <span class="sourceLineNo">104</span><a name="line.104"></a>
-<span class="sourceLineNo">105</span>  @GwtIncompatible // Not needed in emulated source<a name="line.105"></a>
+<span class="sourceLineNo">105</span>  @GwtIncompatible("Not needed in emulated source")<a name="line.105"></a>
 <span class="sourceLineNo">106</span>  private static final long serialVersionUID = 0;<a name="line.106"></a>
 <span class="sourceLineNo">107</span>}<a name="line.107"></a>
 

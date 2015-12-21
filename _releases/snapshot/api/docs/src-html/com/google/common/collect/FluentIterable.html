@@ -338,7 +338,7 @@
 <span class="sourceLineNo">330</span>   *   @SuppressWarnings("unchecked") // safe by runtime check<a name="line.330"></a>
 <span class="sourceLineNo">331</span>   *   Stream&lt;MyType&gt; result = (Stream) stream.filter(e -&gt; e instanceof MyType);}&lt;/pre&gt;<a name="line.331"></a>
 <span class="sourceLineNo">332</span>   */<a name="line.332"></a>
-<span class="sourceLineNo">333</span>  @GwtIncompatible // Class.isInstance<a name="line.333"></a>
+<span class="sourceLineNo">333</span>  @GwtIncompatible("Class.isInstance")<a name="line.333"></a>
 <span class="sourceLineNo">334</span>  @CheckReturnValue<a name="line.334"></a>
 <span class="sourceLineNo">335</span>  public final &lt;T&gt; FluentIterable&lt;T&gt; filter(Class&lt;T&gt; type) {<a name="line.335"></a>
 <span class="sourceLineNo">336</span>    return from(Iterables.filter(iterable, type));<a name="line.336"></a>
@@ -696,7 +696,7 @@
 <span class="sourceLineNo">688</span>   * @return a newly-allocated array into which all the elements of this fluent iterable have<a name="line.688"></a>
 <span class="sourceLineNo">689</span>   *     been copied<a name="line.689"></a>
 <span class="sourceLineNo">690</span>   */<a name="line.690"></a>
-<span class="sourceLineNo">691</span>  @GwtIncompatible // Array.newArray(Class, int)<a name="line.691"></a>
+<span class="sourceLineNo">691</span>  @GwtIncompatible("Array.newArray(Class, int)")<a name="line.691"></a>
 <span class="sourceLineNo">692</span>  @CheckReturnValue<a name="line.692"></a>
 <span class="sourceLineNo">693</span>  public final E[] toArray(Class&lt;E&gt; type) {<a name="line.693"></a>
 <span class="sourceLineNo">694</span>    return Iterables.toArray(iterable, type);<a name="line.694"></a>

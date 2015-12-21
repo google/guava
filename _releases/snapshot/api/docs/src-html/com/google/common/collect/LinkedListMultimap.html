@@ -828,7 +828,7 @@
 <span class="sourceLineNo">820</span>   *     the first key, the number of values for that key, and the key's values,<a name="line.820"></a>
 <span class="sourceLineNo">821</span>   *     followed by successive keys and values from the entries() ordering<a name="line.821"></a>
 <span class="sourceLineNo">822</span>   */<a name="line.822"></a>
-<span class="sourceLineNo">823</span>  @GwtIncompatible // java.io.ObjectOutputStream<a name="line.823"></a>
+<span class="sourceLineNo">823</span>  @GwtIncompatible("java.io.ObjectOutputStream")<a name="line.823"></a>
 <span class="sourceLineNo">824</span>  private void writeObject(ObjectOutputStream stream) throws IOException {<a name="line.824"></a>
 <span class="sourceLineNo">825</span>    stream.defaultWriteObject();<a name="line.825"></a>
 <span class="sourceLineNo">826</span>    stream.writeInt(size());<a name="line.826"></a>
@@ -838,7 +838,7 @@
 <span class="sourceLineNo">830</span>    }<a name="line.830"></a>
 <span class="sourceLineNo">831</span>  }<a name="line.831"></a>
 <span class="sourceLineNo">832</span><a name="line.832"></a>
-<span class="sourceLineNo">833</span>  @GwtIncompatible // java.io.ObjectInputStream<a name="line.833"></a>
+<span class="sourceLineNo">833</span>  @GwtIncompatible("java.io.ObjectInputStream")<a name="line.833"></a>
 <span class="sourceLineNo">834</span>  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {<a name="line.834"></a>
 <span class="sourceLineNo">835</span>    stream.defaultReadObject();<a name="line.835"></a>
 <span class="sourceLineNo">836</span>    keyToKeyList = Maps.newLinkedHashMap();<a name="line.836"></a>
@@ -852,7 +852,7 @@
 <span class="sourceLineNo">844</span>    }<a name="line.844"></a>
 <span class="sourceLineNo">845</span>  }<a name="line.845"></a>
 <span class="sourceLineNo">846</span><a name="line.846"></a>
-<span class="sourceLineNo">847</span>  @GwtIncompatible // java serialization not supported<a name="line.847"></a>
+<span class="sourceLineNo">847</span>  @GwtIncompatible("java serialization not supported")<a name="line.847"></a>
 <span class="sourceLineNo">848</span>  private static final long serialVersionUID = 0;<a name="line.848"></a>
 <span class="sourceLineNo">849</span>}<a name="line.849"></a>
 

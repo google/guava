@@ -25,33 +25,31 @@
 <span class="sourceLineNo">017</span>package com.google.common.collect;<a name="line.17"></a>
 <span class="sourceLineNo">018</span><a name="line.18"></a>
 <span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import com.google.common.annotations.GwtIncompatible;<a name="line.20"></a>
-<span class="sourceLineNo">021</span><a name="line.21"></a>
-<span class="sourceLineNo">022</span>/**<a name="line.22"></a>
-<span class="sourceLineNo">023</span> * Provides equivalent behavior to {@link String#intern} for other immutable<a name="line.23"></a>
-<span class="sourceLineNo">024</span> * types.<a name="line.24"></a>
-<span class="sourceLineNo">025</span> *<a name="line.25"></a>
-<span class="sourceLineNo">026</span> * @author Kevin Bourrillion<a name="line.26"></a>
-<span class="sourceLineNo">027</span> * @since 3.0<a name="line.27"></a>
-<span class="sourceLineNo">028</span> */<a name="line.28"></a>
-<span class="sourceLineNo">029</span>@Beta<a name="line.29"></a>
-<span class="sourceLineNo">030</span>@GwtIncompatible<a name="line.30"></a>
-<span class="sourceLineNo">031</span>public interface Interner&lt;E&gt; {<a name="line.31"></a>
-<span class="sourceLineNo">032</span>  /**<a name="line.32"></a>
-<span class="sourceLineNo">033</span>   * Chooses and returns the representative instance for any of a collection of<a name="line.33"></a>
-<span class="sourceLineNo">034</span>   * instances that are equal to each other. If two {@linkplain Object#equals<a name="line.34"></a>
-<span class="sourceLineNo">035</span>   * equal} inputs are given to this method, both calls will return the same<a name="line.35"></a>
-<span class="sourceLineNo">036</span>   * instance.  That is, {@code intern(a).equals(a)} always holds, and {@code<a name="line.36"></a>
-<span class="sourceLineNo">037</span>   * intern(a) == intern(b)} if and only if {@code a.equals(b)}. Note that<a name="line.37"></a>
-<span class="sourceLineNo">038</span>   * {@code intern(a)} is permitted to return one instance now and a different<a name="line.38"></a>
-<span class="sourceLineNo">039</span>   * instance later if the original interned instance was garbage-collected.<a name="line.39"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>/**<a name="line.21"></a>
+<span class="sourceLineNo">022</span> * Provides equivalent behavior to {@link String#intern} for other immutable<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * types.<a name="line.23"></a>
+<span class="sourceLineNo">024</span> *<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * @author Kevin Bourrillion<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * @since 3.0<a name="line.26"></a>
+<span class="sourceLineNo">027</span> */<a name="line.27"></a>
+<span class="sourceLineNo">028</span>@Beta<a name="line.28"></a>
+<span class="sourceLineNo">029</span>public interface Interner&lt;E&gt; {<a name="line.29"></a>
+<span class="sourceLineNo">030</span>  /**<a name="line.30"></a>
+<span class="sourceLineNo">031</span>   * Chooses and returns the representative instance for any of a collection of<a name="line.31"></a>
+<span class="sourceLineNo">032</span>   * instances that are equal to each other. If two {@linkplain Object#equals<a name="line.32"></a>
+<span class="sourceLineNo">033</span>   * equal} inputs are given to this method, both calls will return the same<a name="line.33"></a>
+<span class="sourceLineNo">034</span>   * instance.  That is, {@code intern(a).equals(a)} always holds, and {@code<a name="line.34"></a>
+<span class="sourceLineNo">035</span>   * intern(a) == intern(b)} if and only if {@code a.equals(b)}. Note that<a name="line.35"></a>
+<span class="sourceLineNo">036</span>   * {@code intern(a)} is permitted to return one instance now and a different<a name="line.36"></a>
+<span class="sourceLineNo">037</span>   * instance later if the original interned instance was garbage-collected.<a name="line.37"></a>
+<span class="sourceLineNo">038</span>   *<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; do not use with mutable objects.<a name="line.39"></a>
 <span class="sourceLineNo">040</span>   *<a name="line.40"></a>
-<span class="sourceLineNo">041</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; do not use with mutable objects.<a name="line.41"></a>
-<span class="sourceLineNo">042</span>   *<a name="line.42"></a>
-<span class="sourceLineNo">043</span>   * @throws NullPointerException if {@code sample} is null<a name="line.43"></a>
-<span class="sourceLineNo">044</span>   */<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  E intern(E sample);<a name="line.45"></a>
-<span class="sourceLineNo">046</span>}<a name="line.46"></a>
+<span class="sourceLineNo">041</span>   * @throws NullPointerException if {@code sample} is null<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   */<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  E intern(E sample);<a name="line.43"></a>
+<span class="sourceLineNo">044</span>}<a name="line.44"></a>
 
 
 

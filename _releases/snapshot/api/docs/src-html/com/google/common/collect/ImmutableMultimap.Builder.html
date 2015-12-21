@@ -335,7 +335,7 @@
 <span class="sourceLineNo">327</span>  // These constants allow the deserialization code to set final fields. This<a name="line.327"></a>
 <span class="sourceLineNo">328</span>  // holder class makes sure they are not initialized unless an instance is<a name="line.328"></a>
 <span class="sourceLineNo">329</span>  // deserialized.<a name="line.329"></a>
-<span class="sourceLineNo">330</span>  @GwtIncompatible // java serialization is not supported<a name="line.330"></a>
+<span class="sourceLineNo">330</span>  @GwtIncompatible("java serialization is not supported")<a name="line.330"></a>
 <span class="sourceLineNo">331</span>  static class FieldSettersHolder {<a name="line.331"></a>
 <span class="sourceLineNo">332</span>    static final Serialization.FieldSetter&lt;ImmutableMultimap&gt; MAP_FIELD_SETTER =<a name="line.332"></a>
 <span class="sourceLineNo">333</span>        Serialization.getFieldSetter(ImmutableMultimap.class, "map");<a name="line.333"></a>
@@ -681,7 +681,7 @@
 <span class="sourceLineNo">673</span>      return multimap.valueIterator();<a name="line.673"></a>
 <span class="sourceLineNo">674</span>    }<a name="line.674"></a>
 <span class="sourceLineNo">675</span><a name="line.675"></a>
-<span class="sourceLineNo">676</span>    @GwtIncompatible // not present in emulated superclass<a name="line.676"></a>
+<span class="sourceLineNo">676</span>    @GwtIncompatible("not present in emulated superclass")<a name="line.676"></a>
 <span class="sourceLineNo">677</span>    @Override<a name="line.677"></a>
 <span class="sourceLineNo">678</span>    int copyIntoArray(Object[] dst, int offset) {<a name="line.678"></a>
 <span class="sourceLineNo">679</span>      for (ImmutableCollection&lt;V&gt; valueCollection : multimap.map.values()) {<a name="line.679"></a>

@@ -120,8 +120,7 @@
 <hr>
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingCheckedFuture.html#line.39">ForwardingCheckedFuture</a>&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;
+public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingCheckedFuture.html#line.37">ForwardingCheckedFuture</a>&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;
 extends <a href="../../../../../com/google/common/util/concurrent/ForwardingListenableFuture.html" title="class in com.google.common.util.concurrent">ForwardingListenableFuture</a>&lt;V&gt;
 implements <a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X&gt;</pre>
 <div class="block">A future which forwards all its method calls to another future. Subclasses should override one or
@@ -288,7 +287,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingCheckedFuture</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingCheckedFuture.html#line.39">ForwardingCheckedFuture</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingCheckedFuture.html#line.37">ForwardingCheckedFuture</a>()</pre>
 </li>
 </ul>
 </li>
@@ -305,7 +304,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedGet</h4>
-<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="type parameter in ForwardingCheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingCheckedFuture.html#line.43">checkedGet</a>()
+<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="type parameter in ForwardingCheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingCheckedFuture.html#line.41">checkedGet</a>()
              throws <a href="../../../../../com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="type parameter in ForwardingCheckedFuture">X</a> extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html#checkedGet()">CheckedFuture</a></code></strong></div>
 <div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> that will translate <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into
@@ -325,7 +324,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedGet</h4>
-<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="type parameter in ForwardingCheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingCheckedFuture.html#line.48">checkedGet</a>(long&nbsp;timeout,
+<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="type parameter in ForwardingCheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingCheckedFuture.html#line.46">checkedGet</a>(long&nbsp;timeout,
            <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
              throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a>,
                     <a href="../../../../../com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="type parameter in ForwardingCheckedFuture">X</a> extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
@@ -348,7 +347,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <ul class="blockListLast">
 <li class="blockList">
 <h4>delegate</h4>
-<pre>protected abstract&nbsp;<a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="type parameter in ForwardingCheckedFuture">V</a>,<a href="../../../../../com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="type parameter in ForwardingCheckedFuture">X</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingCheckedFuture.html#line.53">delegate</a>()</pre>
+<pre>protected abstract&nbsp;<a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="type parameter in ForwardingCheckedFuture">V</a>,<a href="../../../../../com/google/common/util/concurrent/ForwardingCheckedFuture.html" title="type parameter in ForwardingCheckedFuture">X</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingCheckedFuture.html#line.51">delegate</a>()</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></strong></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to.
  Abstract subclasses generally override this method with an abstract method

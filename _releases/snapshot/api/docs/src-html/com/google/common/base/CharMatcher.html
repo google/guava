@@ -442,7 +442,7 @@
 <span class="sourceLineNo">434</span>   * scenario, it constructs an eight-kilobyte bit array and queries that.<a name="line.434"></a>
 <span class="sourceLineNo">435</span>   * In many situations this produces a matcher which is faster to query than the original.<a name="line.435"></a>
 <span class="sourceLineNo">436</span>   */<a name="line.436"></a>
-<span class="sourceLineNo">437</span>  @GwtIncompatible // java.util.BitSet<a name="line.437"></a>
+<span class="sourceLineNo">437</span>  @GwtIncompatible("java.util.BitSet")<a name="line.437"></a>
 <span class="sourceLineNo">438</span>  CharMatcher precomputedInternal() {<a name="line.438"></a>
 <span class="sourceLineNo">439</span>    final BitSet table = new BitSet();<a name="line.439"></a>
 <span class="sourceLineNo">440</span>    setBits(table);<a name="line.440"></a>
@@ -472,7 +472,7 @@
 <span class="sourceLineNo">464</span>  /**<a name="line.464"></a>
 <span class="sourceLineNo">465</span>   * Helper method for {@link #precomputedInternal} that doesn't test if the negation is cheaper.<a name="line.465"></a>
 <span class="sourceLineNo">466</span>   */<a name="line.466"></a>
-<span class="sourceLineNo">467</span>  @GwtIncompatible // java.util.BitSet<a name="line.467"></a>
+<span class="sourceLineNo">467</span>  @GwtIncompatible("java.util.BitSet")<a name="line.467"></a>
 <span class="sourceLineNo">468</span>  private static CharMatcher precomputedPositive(<a name="line.468"></a>
 <span class="sourceLineNo">469</span>      int totalCharacters, BitSet table, String description) {<a name="line.469"></a>
 <span class="sourceLineNo">470</span>    switch (totalCharacters) {<a name="line.470"></a>
@@ -491,7 +491,7 @@
 <span class="sourceLineNo">483</span>    }<a name="line.483"></a>
 <span class="sourceLineNo">484</span>  }<a name="line.484"></a>
 <span class="sourceLineNo">485</span><a name="line.485"></a>
-<span class="sourceLineNo">486</span>  @GwtIncompatible // SmallCharMatcher<a name="line.486"></a>
+<span class="sourceLineNo">486</span>  @GwtIncompatible("SmallCharMatcher")<a name="line.486"></a>
 <span class="sourceLineNo">487</span>  private static boolean isSmall(int totalCharacters, int tableLength) {<a name="line.487"></a>
 <span class="sourceLineNo">488</span>    return totalCharacters &lt;= SmallCharMatcher.MAX_SIZE<a name="line.488"></a>
 <span class="sourceLineNo">489</span>        &amp;&amp; tableLength &gt; (totalCharacters * 4 * Character.SIZE);<a name="line.489"></a>
@@ -501,7 +501,7 @@
 <span class="sourceLineNo">493</span>  /**<a name="line.493"></a>
 <span class="sourceLineNo">494</span>   * Sets bits in {@code table} matched by this matcher.<a name="line.494"></a>
 <span class="sourceLineNo">495</span>   */<a name="line.495"></a>
-<span class="sourceLineNo">496</span>  @GwtIncompatible // java.util.BitSet<a name="line.496"></a>
+<span class="sourceLineNo">496</span>  @GwtIncompatible("java.util.BitSet")<a name="line.496"></a>
 <span class="sourceLineNo">497</span>  void setBits(BitSet table) {<a name="line.497"></a>
 <span class="sourceLineNo">498</span>    for (int c = Character.MAX_VALUE; c &gt;= Character.MIN_VALUE; c--) {<a name="line.498"></a>
 <span class="sourceLineNo">499</span>      if (matches((char) c)) {<a name="line.499"></a>
@@ -1002,7 +1002,7 @@
 <span class="sourceLineNo">994</span>  }<a name="line.994"></a>
 <span class="sourceLineNo">995</span><a name="line.995"></a>
 <span class="sourceLineNo">996</span>  /** Fast matcher using a {@link BitSet} table of matching characters. */<a name="line.996"></a>
-<span class="sourceLineNo">997</span>  @GwtIncompatible // java.util.BitSet<a name="line.997"></a>
+<span class="sourceLineNo">997</span>  @GwtIncompatible("java.util.BitSet")<a name="line.997"></a>
 <span class="sourceLineNo">998</span>  private static final class BitSetMatcher extends NamedFastMatcher {<a name="line.998"></a>
 <span class="sourceLineNo">999</span><a name="line.999"></a>
 <span class="sourceLineNo">1000</span>    private final BitSet table;<a name="line.1000"></a>
@@ -1252,7 +1252,7 @@
 <span class="sourceLineNo">1244</span>      return TABLE.charAt((MULTIPLIER * c) &gt;&gt;&gt; SHIFT) == c;<a name="line.1244"></a>
 <span class="sourceLineNo">1245</span>    }<a name="line.1245"></a>
 <span class="sourceLineNo">1246</span><a name="line.1246"></a>
-<span class="sourceLineNo">1247</span>    @GwtIncompatible // java.util.BitSet<a name="line.1247"></a>
+<span class="sourceLineNo">1247</span>    @GwtIncompatible("java.util.BitSet")<a name="line.1247"></a>
 <span class="sourceLineNo">1248</span>    @Override<a name="line.1248"></a>
 <span class="sourceLineNo">1249</span>    void setBits(BitSet table) {<a name="line.1249"></a>
 <span class="sourceLineNo">1250</span>      for (int i = 0; i &lt; TABLE.length(); i++) {<a name="line.1250"></a>
@@ -1534,7 +1534,7 @@
 <span class="sourceLineNo">1526</span>      return sequence.length() - original.countIn(sequence);<a name="line.1526"></a>
 <span class="sourceLineNo">1527</span>    }<a name="line.1527"></a>
 <span class="sourceLineNo">1528</span><a name="line.1528"></a>
-<span class="sourceLineNo">1529</span>    @GwtIncompatible // java.util.BitSet<a name="line.1529"></a>
+<span class="sourceLineNo">1529</span>    @GwtIncompatible("java.util.BitSet")<a name="line.1529"></a>
 <span class="sourceLineNo">1530</span>    @Override<a name="line.1530"></a>
 <span class="sourceLineNo">1531</span>    void setBits(BitSet table) {<a name="line.1531"></a>
 <span class="sourceLineNo">1532</span>      BitSet tmp = new BitSet();<a name="line.1532"></a>
@@ -1570,7 +1570,7 @@
 <span class="sourceLineNo">1562</span>      return first.matches(c) &amp;&amp; second.matches(c);<a name="line.1562"></a>
 <span class="sourceLineNo">1563</span>    }<a name="line.1563"></a>
 <span class="sourceLineNo">1564</span><a name="line.1564"></a>
-<span class="sourceLineNo">1565</span>    @GwtIncompatible // java.util.BitSet<a name="line.1565"></a>
+<span class="sourceLineNo">1565</span>    @GwtIncompatible("java.util.BitSet")<a name="line.1565"></a>
 <span class="sourceLineNo">1566</span>    @Override<a name="line.1566"></a>
 <span class="sourceLineNo">1567</span>    void setBits(BitSet table) {<a name="line.1567"></a>
 <span class="sourceLineNo">1568</span>      BitSet tmp1 = new BitSet();<a name="line.1568"></a>
@@ -1598,7 +1598,7 @@
 <span class="sourceLineNo">1590</span>      second = checkNotNull(b);<a name="line.1590"></a>
 <span class="sourceLineNo">1591</span>    }<a name="line.1591"></a>
 <span class="sourceLineNo">1592</span><a name="line.1592"></a>
-<span class="sourceLineNo">1593</span>    @GwtIncompatible // java.util.BitSet<a name="line.1593"></a>
+<span class="sourceLineNo">1593</span>    @GwtIncompatible("java.util.BitSet")<a name="line.1593"></a>
 <span class="sourceLineNo">1594</span>    @Override<a name="line.1594"></a>
 <span class="sourceLineNo">1595</span>    void setBits(BitSet table) {<a name="line.1595"></a>
 <span class="sourceLineNo">1596</span>      first.setBits(table);<a name="line.1596"></a>
@@ -1652,7 +1652,7 @@
 <span class="sourceLineNo">1644</span>      return isNot(match);<a name="line.1644"></a>
 <span class="sourceLineNo">1645</span>    }<a name="line.1645"></a>
 <span class="sourceLineNo">1646</span><a name="line.1646"></a>
-<span class="sourceLineNo">1647</span>    @GwtIncompatible // java.util.BitSet<a name="line.1647"></a>
+<span class="sourceLineNo">1647</span>    @GwtIncompatible("java.util.BitSet")<a name="line.1647"></a>
 <span class="sourceLineNo">1648</span>    @Override<a name="line.1648"></a>
 <span class="sourceLineNo">1649</span>    void setBits(BitSet table) {<a name="line.1649"></a>
 <span class="sourceLineNo">1650</span>      table.set(match);<a name="line.1650"></a>
@@ -1688,7 +1688,7 @@
 <span class="sourceLineNo">1680</span>      return other.matches(match) ? any() : this;<a name="line.1680"></a>
 <span class="sourceLineNo">1681</span>    }<a name="line.1681"></a>
 <span class="sourceLineNo">1682</span><a name="line.1682"></a>
-<span class="sourceLineNo">1683</span>    @GwtIncompatible // java.util.BitSet<a name="line.1683"></a>
+<span class="sourceLineNo">1683</span>    @GwtIncompatible("java.util.BitSet")<a name="line.1683"></a>
 <span class="sourceLineNo">1684</span>    @Override<a name="line.1684"></a>
 <span class="sourceLineNo">1685</span>    void setBits(BitSet table) {<a name="line.1685"></a>
 <span class="sourceLineNo">1686</span>      table.set(0, match);<a name="line.1686"></a>
@@ -1726,7 +1726,7 @@
 <span class="sourceLineNo">1718</span>      return c == match1 || c == match2;<a name="line.1718"></a>
 <span class="sourceLineNo">1719</span>    }<a name="line.1719"></a>
 <span class="sourceLineNo">1720</span><a name="line.1720"></a>
-<span class="sourceLineNo">1721</span>    @GwtIncompatible // java.util.BitSet<a name="line.1721"></a>
+<span class="sourceLineNo">1721</span>    @GwtIncompatible("java.util.BitSet")<a name="line.1721"></a>
 <span class="sourceLineNo">1722</span>    @Override<a name="line.1722"></a>
 <span class="sourceLineNo">1723</span>    void setBits(BitSet table) {<a name="line.1723"></a>
 <span class="sourceLineNo">1724</span>      table.set(match1);<a name="line.1724"></a>
@@ -1755,7 +1755,7 @@
 <span class="sourceLineNo">1747</span>    }<a name="line.1747"></a>
 <span class="sourceLineNo">1748</span><a name="line.1748"></a>
 <span class="sourceLineNo">1749</span>    @Override<a name="line.1749"></a>
-<span class="sourceLineNo">1750</span>    @GwtIncompatible // java.util.BitSet<a name="line.1750"></a>
+<span class="sourceLineNo">1750</span>    @GwtIncompatible("java.util.BitSet")<a name="line.1750"></a>
 <span class="sourceLineNo">1751</span>    void setBits(BitSet table) {<a name="line.1751"></a>
 <span class="sourceLineNo">1752</span>      for (char c : chars) {<a name="line.1752"></a>
 <span class="sourceLineNo">1753</span>        table.set(c);<a name="line.1753"></a>
@@ -1790,7 +1790,7 @@
 <span class="sourceLineNo">1782</span>      return startInclusive &lt;= c &amp;&amp; c &lt;= endInclusive;<a name="line.1782"></a>
 <span class="sourceLineNo">1783</span>    }<a name="line.1783"></a>
 <span class="sourceLineNo">1784</span><a name="line.1784"></a>
-<span class="sourceLineNo">1785</span>    @GwtIncompatible // java.util.BitSet<a name="line.1785"></a>
+<span class="sourceLineNo">1785</span>    @GwtIncompatible("java.util.BitSet")<a name="line.1785"></a>
 <span class="sourceLineNo">1786</span>    @Override<a name="line.1786"></a>
 <span class="sourceLineNo">1787</span>    void setBits(BitSet table) {<a name="line.1787"></a>
 <span class="sourceLineNo">1788</span>      table.set(startInclusive, endInclusive + 1);<a name="line.1788"></a>

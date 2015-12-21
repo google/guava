@@ -198,7 +198,7 @@
 <span class="sourceLineNo">190</span>   * instanceOf(ArrayList.class)} will yield different results for the two equal<a name="line.190"></a>
 <span class="sourceLineNo">191</span>   * instances {@code Lists.newArrayList(1)} and {@code Arrays.asList(1)}.<a name="line.191"></a>
 <span class="sourceLineNo">192</span>   */<a name="line.192"></a>
-<span class="sourceLineNo">193</span>  @GwtIncompatible // Class.isInstance<a name="line.193"></a>
+<span class="sourceLineNo">193</span>  @GwtIncompatible("Class.isInstance")<a name="line.193"></a>
 <span class="sourceLineNo">194</span>  public static Predicate&lt;Object&gt; instanceOf(Class&lt;?&gt; clazz) {<a name="line.194"></a>
 <span class="sourceLineNo">195</span>    return new InstanceOfPredicate(clazz);<a name="line.195"></a>
 <span class="sourceLineNo">196</span>  }<a name="line.196"></a>
@@ -210,7 +210,7 @@
 <span class="sourceLineNo">202</span>   *<a name="line.202"></a>
 <span class="sourceLineNo">203</span>   * @since 10.0<a name="line.203"></a>
 <span class="sourceLineNo">204</span>   */<a name="line.204"></a>
-<span class="sourceLineNo">205</span>  @GwtIncompatible // Class.isAssignableFrom<a name="line.205"></a>
+<span class="sourceLineNo">205</span>  @GwtIncompatible("Class.isAssignableFrom")<a name="line.205"></a>
 <span class="sourceLineNo">206</span>  @Beta<a name="line.206"></a>
 <span class="sourceLineNo">207</span>  public static Predicate&lt;Class&lt;?&gt;&gt; assignableFrom(Class&lt;?&gt; clazz) {<a name="line.207"></a>
 <span class="sourceLineNo">208</span>    return new AssignableFromPredicate(clazz);<a name="line.208"></a>
@@ -487,7 +487,7 @@
 <span class="sourceLineNo">479</span>  }<a name="line.479"></a>
 <span class="sourceLineNo">480</span><a name="line.480"></a>
 <span class="sourceLineNo">481</span>  /** @see Predicates#instanceOf(Class) */<a name="line.481"></a>
-<span class="sourceLineNo">482</span>  @GwtIncompatible // Class.isInstance<a name="line.482"></a>
+<span class="sourceLineNo">482</span>  @GwtIncompatible("Class.isInstance")<a name="line.482"></a>
 <span class="sourceLineNo">483</span>  private static class InstanceOfPredicate implements Predicate&lt;Object&gt;, Serializable {<a name="line.483"></a>
 <span class="sourceLineNo">484</span>    private final Class&lt;?&gt; clazz;<a name="line.484"></a>
 <span class="sourceLineNo">485</span><a name="line.485"></a>
@@ -523,7 +523,7 @@
 <span class="sourceLineNo">515</span>  }<a name="line.515"></a>
 <span class="sourceLineNo">516</span><a name="line.516"></a>
 <span class="sourceLineNo">517</span>  /** @see Predicates#assignableFrom(Class) */<a name="line.517"></a>
-<span class="sourceLineNo">518</span>  @GwtIncompatible // Class.isAssignableFrom<a name="line.518"></a>
+<span class="sourceLineNo">518</span>  @GwtIncompatible("Class.isAssignableFrom")<a name="line.518"></a>
 <span class="sourceLineNo">519</span>  private static class AssignableFromPredicate implements Predicate&lt;Class&lt;?&gt;&gt;, Serializable {<a name="line.519"></a>
 <span class="sourceLineNo">520</span>    private final Class&lt;?&gt; clazz;<a name="line.520"></a>
 <span class="sourceLineNo">521</span><a name="line.521"></a>
@@ -638,7 +638,7 @@
 <span class="sourceLineNo">630</span>  }<a name="line.630"></a>
 <span class="sourceLineNo">631</span><a name="line.631"></a>
 <span class="sourceLineNo">632</span>  /** @see Predicates#contains(Pattern) */<a name="line.632"></a>
-<span class="sourceLineNo">633</span>  @GwtIncompatible // Only used by other GWT-incompatible code.<a name="line.633"></a>
+<span class="sourceLineNo">633</span>  @GwtIncompatible("Only used by other GWT-incompatible code.")<a name="line.633"></a>
 <span class="sourceLineNo">634</span>  private static class ContainsPatternPredicate implements Predicate&lt;CharSequence&gt;, Serializable {<a name="line.634"></a>
 <span class="sourceLineNo">635</span>    final Pattern pattern;<a name="line.635"></a>
 <span class="sourceLineNo">636</span><a name="line.636"></a>
@@ -685,7 +685,7 @@
 <span class="sourceLineNo">677</span>  }<a name="line.677"></a>
 <span class="sourceLineNo">678</span><a name="line.678"></a>
 <span class="sourceLineNo">679</span>  /** @see Predicates#containsPattern(String) */<a name="line.679"></a>
-<span class="sourceLineNo">680</span>  @GwtIncompatible // Only used by other GWT-incompatible code.<a name="line.680"></a>
+<span class="sourceLineNo">680</span>  @GwtIncompatible("Only used by other GWT-incompatible code.")<a name="line.680"></a>
 <span class="sourceLineNo">681</span>  private static class ContainsPatternFromStringPredicate extends ContainsPatternPredicate {<a name="line.681"></a>
 <span class="sourceLineNo">682</span><a name="line.682"></a>
 <span class="sourceLineNo">683</span>    ContainsPatternFromStringPredicate(String string) {<a name="line.683"></a>

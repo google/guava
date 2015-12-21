@@ -573,7 +573,7 @@
 <span class="sourceLineNo">565</span>  /**<a name="line.565"></a>
 <span class="sourceLineNo">566</span>   * @since 12.0<a name="line.566"></a>
 <span class="sourceLineNo">567</span>   */<a name="line.567"></a>
-<span class="sourceLineNo">568</span>  @GwtIncompatible // NavigableSet<a name="line.568"></a>
+<span class="sourceLineNo">568</span>  @GwtIncompatible("NavigableSet")<a name="line.568"></a>
 <span class="sourceLineNo">569</span>  @Override<a name="line.569"></a>
 <span class="sourceLineNo">570</span>  public ImmutableSortedSet&lt;E&gt; headSet(E toElement, boolean inclusive) {<a name="line.570"></a>
 <span class="sourceLineNo">571</span>    return headSetImpl(checkNotNull(toElement), inclusive);<a name="line.571"></a>
@@ -600,7 +600,7 @@
 <span class="sourceLineNo">592</span>  /**<a name="line.592"></a>
 <span class="sourceLineNo">593</span>   * @since 12.0<a name="line.593"></a>
 <span class="sourceLineNo">594</span>   */<a name="line.594"></a>
-<span class="sourceLineNo">595</span>  @GwtIncompatible // NavigableSet<a name="line.595"></a>
+<span class="sourceLineNo">595</span>  @GwtIncompatible("NavigableSet")<a name="line.595"></a>
 <span class="sourceLineNo">596</span>  @Override<a name="line.596"></a>
 <span class="sourceLineNo">597</span>  public ImmutableSortedSet&lt;E&gt; subSet(<a name="line.597"></a>
 <span class="sourceLineNo">598</span>      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {<a name="line.598"></a>
@@ -629,7 +629,7 @@
 <span class="sourceLineNo">621</span>  /**<a name="line.621"></a>
 <span class="sourceLineNo">622</span>   * @since 12.0<a name="line.622"></a>
 <span class="sourceLineNo">623</span>   */<a name="line.623"></a>
-<span class="sourceLineNo">624</span>  @GwtIncompatible // NavigableSet<a name="line.624"></a>
+<span class="sourceLineNo">624</span>  @GwtIncompatible("NavigableSet")<a name="line.624"></a>
 <span class="sourceLineNo">625</span>  @Override<a name="line.625"></a>
 <span class="sourceLineNo">626</span>  public ImmutableSortedSet&lt;E&gt; tailSet(E fromElement, boolean inclusive) {<a name="line.626"></a>
 <span class="sourceLineNo">627</span>    return tailSetImpl(checkNotNull(fromElement), inclusive);<a name="line.627"></a>
@@ -649,7 +649,7 @@
 <span class="sourceLineNo">641</span>  /**<a name="line.641"></a>
 <span class="sourceLineNo">642</span>   * @since 12.0<a name="line.642"></a>
 <span class="sourceLineNo">643</span>   */<a name="line.643"></a>
-<span class="sourceLineNo">644</span>  @GwtIncompatible // NavigableSet<a name="line.644"></a>
+<span class="sourceLineNo">644</span>  @GwtIncompatible("NavigableSet")<a name="line.644"></a>
 <span class="sourceLineNo">645</span>  @Override<a name="line.645"></a>
 <span class="sourceLineNo">646</span>  public E lower(E e) {<a name="line.646"></a>
 <span class="sourceLineNo">647</span>    return Iterators.getNext(headSet(e, false).descendingIterator(), null);<a name="line.647"></a>
@@ -658,7 +658,7 @@
 <span class="sourceLineNo">650</span>  /**<a name="line.650"></a>
 <span class="sourceLineNo">651</span>   * @since 12.0<a name="line.651"></a>
 <span class="sourceLineNo">652</span>   */<a name="line.652"></a>
-<span class="sourceLineNo">653</span>  @GwtIncompatible // NavigableSet<a name="line.653"></a>
+<span class="sourceLineNo">653</span>  @GwtIncompatible("NavigableSet")<a name="line.653"></a>
 <span class="sourceLineNo">654</span>  @Override<a name="line.654"></a>
 <span class="sourceLineNo">655</span>  public E floor(E e) {<a name="line.655"></a>
 <span class="sourceLineNo">656</span>    return Iterators.getNext(headSet(e, true).descendingIterator(), null);<a name="line.656"></a>
@@ -667,7 +667,7 @@
 <span class="sourceLineNo">659</span>  /**<a name="line.659"></a>
 <span class="sourceLineNo">660</span>   * @since 12.0<a name="line.660"></a>
 <span class="sourceLineNo">661</span>   */<a name="line.661"></a>
-<span class="sourceLineNo">662</span>  @GwtIncompatible // NavigableSet<a name="line.662"></a>
+<span class="sourceLineNo">662</span>  @GwtIncompatible("NavigableSet")<a name="line.662"></a>
 <span class="sourceLineNo">663</span>  @Override<a name="line.663"></a>
 <span class="sourceLineNo">664</span>  public E ceiling(E e) {<a name="line.664"></a>
 <span class="sourceLineNo">665</span>    return Iterables.getFirst(tailSet(e, true), null);<a name="line.665"></a>
@@ -676,7 +676,7 @@
 <span class="sourceLineNo">668</span>  /**<a name="line.668"></a>
 <span class="sourceLineNo">669</span>   * @since 12.0<a name="line.669"></a>
 <span class="sourceLineNo">670</span>   */<a name="line.670"></a>
-<span class="sourceLineNo">671</span>  @GwtIncompatible // NavigableSet<a name="line.671"></a>
+<span class="sourceLineNo">671</span>  @GwtIncompatible("NavigableSet")<a name="line.671"></a>
 <span class="sourceLineNo">672</span>  @Override<a name="line.672"></a>
 <span class="sourceLineNo">673</span>  public E higher(E e) {<a name="line.673"></a>
 <span class="sourceLineNo">674</span>    return Iterables.getFirst(tailSet(e, false), null);<a name="line.674"></a>
@@ -700,7 +700,7 @@
 <span class="sourceLineNo">692</span>   * @deprecated Unsupported operation.<a name="line.692"></a>
 <span class="sourceLineNo">693</span>   */<a name="line.693"></a>
 <span class="sourceLineNo">694</span>  @Deprecated<a name="line.694"></a>
-<span class="sourceLineNo">695</span>  @GwtIncompatible // NavigableSet<a name="line.695"></a>
+<span class="sourceLineNo">695</span>  @GwtIncompatible("NavigableSet")<a name="line.695"></a>
 <span class="sourceLineNo">696</span>  @Override<a name="line.696"></a>
 <span class="sourceLineNo">697</span>  public final E pollFirst() {<a name="line.697"></a>
 <span class="sourceLineNo">698</span>    throw new UnsupportedOperationException();<a name="line.698"></a>
@@ -714,19 +714,19 @@
 <span class="sourceLineNo">706</span>   * @deprecated Unsupported operation.<a name="line.706"></a>
 <span class="sourceLineNo">707</span>   */<a name="line.707"></a>
 <span class="sourceLineNo">708</span>  @Deprecated<a name="line.708"></a>
-<span class="sourceLineNo">709</span>  @GwtIncompatible // NavigableSet<a name="line.709"></a>
+<span class="sourceLineNo">709</span>  @GwtIncompatible("NavigableSet")<a name="line.709"></a>
 <span class="sourceLineNo">710</span>  @Override<a name="line.710"></a>
 <span class="sourceLineNo">711</span>  public final E pollLast() {<a name="line.711"></a>
 <span class="sourceLineNo">712</span>    throw new UnsupportedOperationException();<a name="line.712"></a>
 <span class="sourceLineNo">713</span>  }<a name="line.713"></a>
 <span class="sourceLineNo">714</span><a name="line.714"></a>
-<span class="sourceLineNo">715</span>  @GwtIncompatible // NavigableSet<a name="line.715"></a>
+<span class="sourceLineNo">715</span>  @GwtIncompatible("NavigableSet")<a name="line.715"></a>
 <span class="sourceLineNo">716</span>  transient ImmutableSortedSet&lt;E&gt; descendingSet;<a name="line.716"></a>
 <span class="sourceLineNo">717</span><a name="line.717"></a>
 <span class="sourceLineNo">718</span>  /**<a name="line.718"></a>
 <span class="sourceLineNo">719</span>   * @since 12.0<a name="line.719"></a>
 <span class="sourceLineNo">720</span>   */<a name="line.720"></a>
-<span class="sourceLineNo">721</span>  @GwtIncompatible // NavigableSet<a name="line.721"></a>
+<span class="sourceLineNo">721</span>  @GwtIncompatible("NavigableSet")<a name="line.721"></a>
 <span class="sourceLineNo">722</span>  @Override<a name="line.722"></a>
 <span class="sourceLineNo">723</span>  public ImmutableSortedSet&lt;E&gt; descendingSet() {<a name="line.723"></a>
 <span class="sourceLineNo">724</span>    // racy single-check idiom<a name="line.724"></a>
@@ -738,7 +738,7 @@
 <span class="sourceLineNo">730</span>    return result;<a name="line.730"></a>
 <span class="sourceLineNo">731</span>  }<a name="line.731"></a>
 <span class="sourceLineNo">732</span><a name="line.732"></a>
-<span class="sourceLineNo">733</span>  @GwtIncompatible // NavigableSet<a name="line.733"></a>
+<span class="sourceLineNo">733</span>  @GwtIncompatible("NavigableSet")<a name="line.733"></a>
 <span class="sourceLineNo">734</span>  ImmutableSortedSet&lt;E&gt; createDescendingSet() {<a name="line.734"></a>
 <span class="sourceLineNo">735</span>    return new DescendingImmutableSortedSet&lt;E&gt;(this);<a name="line.735"></a>
 <span class="sourceLineNo">736</span>  }<a name="line.736"></a>
@@ -746,7 +746,7 @@
 <span class="sourceLineNo">738</span>  /**<a name="line.738"></a>
 <span class="sourceLineNo">739</span>   * @since 12.0<a name="line.739"></a>
 <span class="sourceLineNo">740</span>   */<a name="line.740"></a>
-<span class="sourceLineNo">741</span>  @GwtIncompatible // NavigableSet<a name="line.741"></a>
+<span class="sourceLineNo">741</span>  @GwtIncompatible("NavigableSet")<a name="line.741"></a>
 <span class="sourceLineNo">742</span>  @Override<a name="line.742"></a>
 <span class="sourceLineNo">743</span>  public abstract UnmodifiableIterator&lt;E&gt; descendingIterator();<a name="line.743"></a>
 <span class="sourceLineNo">744</span><a name="line.744"></a>

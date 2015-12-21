@@ -60,7 +60,7 @@
 <span class="sourceLineNo">052</span> * @since 14.0<a name="line.52"></a>
 <span class="sourceLineNo">053</span> */<a name="line.53"></a>
 <span class="sourceLineNo">054</span>@Beta<a name="line.54"></a>
-<span class="sourceLineNo">055</span>@GwtIncompatible // NavigableMap<a name="line.55"></a>
+<span class="sourceLineNo">055</span>@GwtIncompatible("NavigableMap")<a name="line.55"></a>
 <span class="sourceLineNo">056</span>public final class TreeRangeMap&lt;K extends Comparable, V&gt; implements RangeMap&lt;K, V&gt; {<a name="line.56"></a>
 <span class="sourceLineNo">057</span><a name="line.57"></a>
 <span class="sourceLineNo">058</span>  private final NavigableMap&lt;Cut&lt;K&gt;, RangeMapEntry&lt;K, V&gt;&gt; entriesByLowerBound;<a name="line.58"></a>

@@ -101,7 +101,7 @@
 <span class="sourceLineNo">093</span>  /**<a name="line.93"></a>
 <span class="sourceLineNo">094</span>   * @since 12.0<a name="line.94"></a>
 <span class="sourceLineNo">095</span>   */<a name="line.95"></a>
-<span class="sourceLineNo">096</span>  @GwtIncompatible // NavigableSet<a name="line.96"></a>
+<span class="sourceLineNo">096</span>  @GwtIncompatible("NavigableSet")<a name="line.96"></a>
 <span class="sourceLineNo">097</span>  @Override<a name="line.97"></a>
 <span class="sourceLineNo">098</span>  public ContiguousSet&lt;C&gt; headSet(C toElement, boolean inclusive) {<a name="line.98"></a>
 <span class="sourceLineNo">099</span>    return headSetImpl(checkNotNull(toElement), inclusive);<a name="line.99"></a>
@@ -118,7 +118,7 @@
 <span class="sourceLineNo">110</span>  /**<a name="line.110"></a>
 <span class="sourceLineNo">111</span>   * @since 12.0<a name="line.111"></a>
 <span class="sourceLineNo">112</span>   */<a name="line.112"></a>
-<span class="sourceLineNo">113</span>  @GwtIncompatible // NavigableSet<a name="line.113"></a>
+<span class="sourceLineNo">113</span>  @GwtIncompatible("NavigableSet")<a name="line.113"></a>
 <span class="sourceLineNo">114</span>  @Override<a name="line.114"></a>
 <span class="sourceLineNo">115</span>  public ContiguousSet&lt;C&gt; subSet(<a name="line.115"></a>
 <span class="sourceLineNo">116</span>      C fromElement, boolean fromInclusive, C toElement, boolean toInclusive) {<a name="line.116"></a>
@@ -136,7 +136,7 @@
 <span class="sourceLineNo">128</span>  /**<a name="line.128"></a>
 <span class="sourceLineNo">129</span>   * @since 12.0<a name="line.129"></a>
 <span class="sourceLineNo">130</span>   */<a name="line.130"></a>
-<span class="sourceLineNo">131</span>  @GwtIncompatible // NavigableSet<a name="line.131"></a>
+<span class="sourceLineNo">131</span>  @GwtIncompatible("NavigableSet")<a name="line.131"></a>
 <span class="sourceLineNo">132</span>  @Override<a name="line.132"></a>
 <span class="sourceLineNo">133</span>  public ContiguousSet&lt;C&gt; tailSet(C fromElement, boolean inclusive) {<a name="line.133"></a>
 <span class="sourceLineNo">134</span>    return tailSetImpl(checkNotNull(fromElement), inclusive);<a name="line.134"></a>

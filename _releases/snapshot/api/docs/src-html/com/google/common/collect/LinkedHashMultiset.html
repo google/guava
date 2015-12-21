@@ -97,13 +97,13 @@
 <span class="sourceLineNo">089</span>   * @serialData the number of distinct elements, the first element, its count,<a name="line.89"></a>
 <span class="sourceLineNo">090</span>   *     the second element, its count, and so on<a name="line.90"></a>
 <span class="sourceLineNo">091</span>   */<a name="line.91"></a>
-<span class="sourceLineNo">092</span>  @GwtIncompatible // java.io.ObjectOutputStream<a name="line.92"></a>
+<span class="sourceLineNo">092</span>  @GwtIncompatible("java.io.ObjectOutputStream")<a name="line.92"></a>
 <span class="sourceLineNo">093</span>  private void writeObject(ObjectOutputStream stream) throws IOException {<a name="line.93"></a>
 <span class="sourceLineNo">094</span>    stream.defaultWriteObject();<a name="line.94"></a>
 <span class="sourceLineNo">095</span>    Serialization.writeMultiset(this, stream);<a name="line.95"></a>
 <span class="sourceLineNo">096</span>  }<a name="line.96"></a>
 <span class="sourceLineNo">097</span><a name="line.97"></a>
-<span class="sourceLineNo">098</span>  @GwtIncompatible // java.io.ObjectInputStream<a name="line.98"></a>
+<span class="sourceLineNo">098</span>  @GwtIncompatible("java.io.ObjectInputStream")<a name="line.98"></a>
 <span class="sourceLineNo">099</span>  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {<a name="line.99"></a>
 <span class="sourceLineNo">100</span>    stream.defaultReadObject();<a name="line.100"></a>
 <span class="sourceLineNo">101</span>    int distinctElements = Serialization.readCount(stream);<a name="line.101"></a>
@@ -111,7 +111,7 @@
 <span class="sourceLineNo">103</span>    Serialization.populateMultiset(this, stream, distinctElements);<a name="line.103"></a>
 <span class="sourceLineNo">104</span>  }<a name="line.104"></a>
 <span class="sourceLineNo">105</span><a name="line.105"></a>
-<span class="sourceLineNo">106</span>  @GwtIncompatible // not needed in emulated source<a name="line.106"></a>
+<span class="sourceLineNo">106</span>  @GwtIncompatible("not needed in emulated source")<a name="line.106"></a>
 <span class="sourceLineNo">107</span>  private static final long serialVersionUID = 0;<a name="line.107"></a>
 <span class="sourceLineNo">108</span>}<a name="line.108"></a>
 

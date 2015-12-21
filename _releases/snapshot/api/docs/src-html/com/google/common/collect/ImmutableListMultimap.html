@@ -363,13 +363,13 @@
 <span class="sourceLineNo">355</span>   * @serialData number of distinct keys, and then for each distinct key: the<a name="line.355"></a>
 <span class="sourceLineNo">356</span>   *     key, the number of values for that key, and the key's values<a name="line.356"></a>
 <span class="sourceLineNo">357</span>   */<a name="line.357"></a>
-<span class="sourceLineNo">358</span>  @GwtIncompatible // java.io.ObjectOutputStream<a name="line.358"></a>
+<span class="sourceLineNo">358</span>  @GwtIncompatible("java.io.ObjectOutputStream")<a name="line.358"></a>
 <span class="sourceLineNo">359</span>  private void writeObject(ObjectOutputStream stream) throws IOException {<a name="line.359"></a>
 <span class="sourceLineNo">360</span>    stream.defaultWriteObject();<a name="line.360"></a>
 <span class="sourceLineNo">361</span>    Serialization.writeMultimap(this, stream);<a name="line.361"></a>
 <span class="sourceLineNo">362</span>  }<a name="line.362"></a>
 <span class="sourceLineNo">363</span><a name="line.363"></a>
-<span class="sourceLineNo">364</span>  @GwtIncompatible // java.io.ObjectInputStream<a name="line.364"></a>
+<span class="sourceLineNo">364</span>  @GwtIncompatible("java.io.ObjectInputStream")<a name="line.364"></a>
 <span class="sourceLineNo">365</span>  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {<a name="line.365"></a>
 <span class="sourceLineNo">366</span>    stream.defaultReadObject();<a name="line.366"></a>
 <span class="sourceLineNo">367</span>    int keyCount = stream.readInt();<a name="line.367"></a>
@@ -405,7 +405,7 @@
 <span class="sourceLineNo">397</span>    FieldSettersHolder.SIZE_FIELD_SETTER.set(this, tmpSize);<a name="line.397"></a>
 <span class="sourceLineNo">398</span>  }<a name="line.398"></a>
 <span class="sourceLineNo">399</span><a name="line.399"></a>
-<span class="sourceLineNo">400</span>  @GwtIncompatible // Not needed in emulated source<a name="line.400"></a>
+<span class="sourceLineNo">400</span>  @GwtIncompatible("Not needed in emulated source")<a name="line.400"></a>
 <span class="sourceLineNo">401</span>  private static final long serialVersionUID = 0;<a name="line.401"></a>
 <span class="sourceLineNo">402</span>}<a name="line.402"></a>
 

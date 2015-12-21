@@ -327,9 +327,9 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>log10</h4>
-<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="need BigIntegerMath to adequately test")
 public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.129">log10</a>(int&nbsp;x,
-                        <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math">RoundingMode</a>&nbsp;mode)</pre>
+                             <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the base-10 logarithm of <code>x</code>, rounded according to the specified rounding mode.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>x &lt;= 0</code></dd>
@@ -343,9 +343,9 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>pow</h4>
-<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="failing tests")
 public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.190">pow</a>(int&nbsp;b,
-                      int&nbsp;k)</pre>
+                           int&nbsp;k)</pre>
 <div class="block">Returns <code>b</code> to the <code>k</code>th power. Even if the result overflows, it will be equal to
  <code>BigInteger.valueOf(b).pow(k).intValue()</code>. This implementation runs in <code>O(log k)</code>
  time.
@@ -361,9 +361,9 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>sqrt</h4>
-<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="need BigIntegerMath to adequately test")
 public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.232">sqrt</a>(int&nbsp;x,
-                       <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math">RoundingMode</a>&nbsp;mode)</pre>
+                            <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the square root of <code>x</code>, rounded with the specified rounding mode.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>x &lt; 0</code></dd>
@@ -553,9 +553,9 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>binomial</h4>
-<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="need BigIntegerMath to adequately test")
 public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.607">binomial</a>(int&nbsp;n,
-                           int&nbsp;k)</pre>
+                                int&nbsp;k)</pre>
 <div class="block">Returns <code>n</code> choose <code>k</code>, also known as the binomial coefficient of <code>n</code> and
  <code>k</code>, or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Integer.MAX_VALUE</code></a> if the result does not fit in an <code>int</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
