@@ -204,21 +204,49 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     return Range.create(firstRange.lowerBound, lastRange.upperBound);
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
   @Override
   public void put(Range<K> range, V value) {
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
   @Override
   public void putAll(RangeMap<K, V> rangeMap) {
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
   @Override
   public void clear() {
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
   @Override
   public void remove(Range<K> range) {
     throw new UnsupportedOperationException();

@@ -155,21 +155,49 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     return ranges.isEmpty();
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeSet} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
   @Override
   public void add(Range<C> range) {
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeSet} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
   @Override
   public void addAll(RangeSet<C> other) {
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeSet} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
   @Override
   public void remove(Range<C> range) {
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeSet} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
   @Override
   public void removeAll(RangeSet<C> other) {
     throw new UnsupportedOperationException();
