@@ -344,8 +344,17 @@ public final class NullPointerTester {
       if (policy.isExpectedType(cause)) {
         return;
       }
-      AssertionFailedError error = new AssertionFailedError(
-          "wrong exception thrown from " + invokable + ": " + cause);
+      AssertionFailedError error =
+          new AssertionFailedError(
+              String.format(
+                  "wrong exception thrown from %s when passing null to %s parameter at index %s.%n"
+                      + "Full parameters: %s%n"
+                      + "Actual exception message: %s",
+                  invokable,
+                  invokable.getParameters().get(paramIndex).getType(),
+                  paramIndex,
+                  Arrays.toString(params),
+                  cause));
       error.initCause(cause);
       throw error;
     } catch (IllegalAccessException e) {
