@@ -122,6 +122,21 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
   }
 
   @Override
+  public boolean intersects(Range<C> range) {
+    checkNotNull(range);
+    Entry<Cut<C>, Range<C>> ceilingEntry = rangesByLowerBound.ceilingEntry(range.lowerBound);
+    if (ceilingEntry != null
+        && ceilingEntry.getValue().isConnected(range)
+        && !ceilingEntry.getValue().intersection(range).isEmpty()) {
+      return true;
+    }
+    Entry<Cut<C>, Range<C>> priorEntry = rangesByLowerBound.lowerEntry(range.lowerBound);
+    return priorEntry != null
+        && priorEntry.getValue().isConnected(range)
+        && !priorEntry.getValue().intersection(range).isEmpty();
+  }
+
+  @Override
   public boolean encloses(Range<C> range) {
     checkNotNull(range);
     Entry<Cut<C>, Range<C>> floorEntry = rangesByLowerBound.floorEntry(range.lowerBound);

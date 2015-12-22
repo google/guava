@@ -77,6 +77,11 @@ abstract class AbstractRangeSet<C extends Comparable> implements RangeSet<C> {
   }
 
   @Override
+  public boolean intersects(Range<C> otherRange) {
+    return !subRangeSet(otherRange).isEmpty();
+  }
+
+  @Override
   public abstract boolean encloses(Range<C> otherRange);
 
   @Override
