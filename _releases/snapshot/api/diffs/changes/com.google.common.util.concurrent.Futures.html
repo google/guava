@@ -18,7 +18,7 @@ com.google.common.util.concurrent.Futures
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/Futures.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/Futures.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.util.concurrent.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -31,7 +31,7 @@ com.google.common.util.concurrent.Futures
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<A HREF="com.google.common.util.concurrent.FutureFallback.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.util.concurrent.SettableFuture.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.ListenableFuture.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.util.concurrent.Futures.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -47,7 +47,6 @@ FIELDS
 <H2>
 Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/util/concurrent/Futures.html" target="_top"><tt>Futures</tt></A>
 </H2>
-<p><font size="+1">The superclass changed from <code>java.lang.Object</code> to <code>com.google.common.util.concurrent.GwtFuturesCatchingSpecialization</code>.<br></font>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
 <p>
@@ -58,146 +57,33 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.catching_added(com.google.common.util.concurrent.ListenableFuture<? extends V>, java.lang.Class<X>, com.google.common.base.Function<? super X, ? extends V>)"></A>
-  <nobr><code>ListenableFuture&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#catching(com.google.common.util.concurrent.ListenableFuture<? extends V>, java.lang.Class<X>, com.google.common.base.Function<? super X, ? extends V>)" target="_top"><tt>catching</tt></A>(<code>ListenableFuture&lt;?,</nobr> extends<nobr>,</nobr> V&gt;<nobr>,</nobr> Class&lt;X&gt;<nobr>,</nobr> Function&lt;?<nobr>,</nobr> super<nobr>,</nobr> X<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.util.concurrent.Futures.whenAllComplete_added(com.google.common.util.concurrent.ListenableFuture[])"></A>
+  <nobr><code>FutureCombiner&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#whenAllComplete(com.google.common.util.concurrent.ListenableFuture[])" target="_top"><tt>whenAllComplete</tt></A>(<code>ListenableFuture[]</code>)</nobr>
   </TD>
-  <TD VALIGN="TOP">Returns a {@code Future} whose result is taken from the given primary {@code input} or, if the
- primary input fails with the given {@code exceptionType}, from the result provided by the
- {@code fallback}.</TD>
+  <TD VALIGN="TOP">Creates a <A HREF="../../docs/FutureCombiner.html"><TT>FutureCombiner</TT></A> that processes the completed futures whether or not they're
+ successful.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.catching_added(com.google.common.util.concurrent.ListenableFuture<? extends V>, java.lang.Class<X>, com.google.common.base.Function<? super X, ? extends V>, java.util.concurrent.Executor)"></A>
-  <nobr><code>ListenableFuture&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#catching(com.google.common.util.concurrent.ListenableFuture<? extends V>, java.lang.Class<X>, com.google.common.base.Function<? super X, ? extends V>, java.util.concurrent.Executor)" target="_top"><tt>catching</tt></A>(<code>ListenableFuture&lt;?,</nobr> extends<nobr>,</nobr> V&gt;<nobr>,</nobr> Class&lt;X&gt;<nobr>,</nobr> Function&lt;?<nobr>,</nobr> super<nobr>,</nobr> X<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr>,</nobr> Executor<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.util.concurrent.Futures.whenAllComplete_added(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)"></A>
+  <nobr><code>FutureCombiner&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#whenAllComplete(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)" target="_top"><tt>whenAllComplete</tt></A>(<code>Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt;</code>)</nobr>
   </TD>
-  <TD VALIGN="TOP">Returns a {@code Future} whose result is taken from the given primary {@code input} or, if the
- primary input fails with the given {@code exceptionType}, from the result provided by the
- {@code fallback}.</TD>
+  <TD VALIGN="TOP">Creates a <A HREF="../../docs/FutureCombiner.html"><TT>FutureCombiner</TT></A> that processes the completed futures whether or not they're
+ successful.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.catchingAsync_added(com.google.common.util.concurrent.ListenableFuture<? extends V>, java.lang.Class<X>, com.google.common.util.concurrent.AsyncFunction<? super X, ? extends V>)"></A>
-  <nobr><code>ListenableFuture&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#catchingAsync(com.google.common.util.concurrent.ListenableFuture<? extends V>, java.lang.Class<X>, com.google.common.util.concurrent.AsyncFunction<? super X, ? extends V>)" target="_top"><tt>catchingAsync</tt></A>(<code>ListenableFuture&lt;?,</nobr> extends<nobr>,</nobr> V&gt;<nobr>,</nobr> Class&lt;X&gt;<nobr>,</nobr> AsyncFunction&lt;?<nobr>,</nobr> super<nobr>,</nobr> X<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.util.concurrent.Futures.whenAllSucceed_added(com.google.common.util.concurrent.ListenableFuture[])"></A>
+  <nobr><code>FutureCombiner&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#whenAllSucceed(com.google.common.util.concurrent.ListenableFuture[])" target="_top"><tt>whenAllSucceed</tt></A>(<code>ListenableFuture[]</code>)</nobr>
   </TD>
-  <TD VALIGN="TOP">Returns a {@code Future} whose result is taken from the given primary {@code input} or, if the
- primary input fails with the given {@code exceptionType}, from the result provided by the
- {@code fallback}.</TD>
+  <TD VALIGN="TOP">Creates a <A HREF="../../docs/FutureCombiner.html"><TT>FutureCombiner</TT></A> requiring that all passed in futures are successful.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.catchingAsync_added(com.google.common.util.concurrent.ListenableFuture<? extends V>, java.lang.Class<X>, com.google.common.util.concurrent.AsyncFunction<? super X, ? extends V>, java.util.concurrent.Executor)"></A>
-  <nobr><code>ListenableFuture&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#catchingAsync(com.google.common.util.concurrent.ListenableFuture<? extends V>, java.lang.Class<X>, com.google.common.util.concurrent.AsyncFunction<? super X, ? extends V>, java.util.concurrent.Executor)" target="_top"><tt>catchingAsync</tt></A>(<code>ListenableFuture&lt;?,</nobr> extends<nobr>,</nobr> V&gt;<nobr>,</nobr> Class&lt;X&gt;<nobr>,</nobr> AsyncFunction&lt;?<nobr>,</nobr> super<nobr>,</nobr> X<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr>,</nobr> Executor<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.util.concurrent.Futures.whenAllSucceed_added(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)"></A>
+  <nobr><code>FutureCombiner&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#whenAllSucceed(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)" target="_top"><tt>whenAllSucceed</tt></A>(<code>Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt;</code>)</nobr>
   </TD>
-  <TD VALIGN="TOP">Returns a {@code Future} whose result is taken from the given primary {@code input} or, if the
- primary input fails with the given {@code exceptionType}, from the result provided by the
- {@code fallback}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.getChecked_added(java.util.concurrent.Future<V>, java.lang.Class<X>)"></A>
-  <nobr><code>V</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#getChecked(java.util.concurrent.Future<V>, java.lang.Class<X>)" target="_top"><tt>getChecked</tt></A>(<code>Future&lt;V&gt;,</nobr> Class&lt;X&gt;<nobr><nobr></code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Returns the result of <A HREF="../../docs/Future.html#get()"><TT>Future.get()</TT></A>, converting most exceptions to a new instance of the
- given checked exception type.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.getChecked_added(java.util.concurrent.Future<V>, java.lang.Class<X>, long, java.util.concurrent.TimeUnit)"></A>
-  <nobr><code>V</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#getChecked(java.util.concurrent.Future<V>, java.lang.Class<X>, long, java.util.concurrent.TimeUnit)" target="_top"><tt>getChecked</tt></A>(<code>Future&lt;V&gt;,</nobr> Class&lt;X&gt;<nobr>,</nobr> long<nobr>,</nobr> TimeUnit<nobr><nobr></code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Returns the result of <A HREF="../../docs/Future.html#get(long, TimeUnit)"><TT>Future.get(long, TimeUnit)</TT></A>, converting most exceptions to a new
- instance of the given checked exception type.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.transformAsync_added(com.google.common.util.concurrent.ListenableFuture<I>, com.google.common.util.concurrent.AsyncFunction<? super I, ? extends O>)"></A>
-  <nobr><code>ListenableFuture&lt;O&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#transformAsync(com.google.common.util.concurrent.ListenableFuture<I>, com.google.common.util.concurrent.AsyncFunction<? super I, ? extends O>)" target="_top"><tt>transformAsync</tt></A>(<code>ListenableFuture&lt;I&gt;,</nobr> AsyncFunction&lt;?<nobr>,</nobr> super<nobr>,</nobr> I<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> O&gt;<nobr><nobr></code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Returns a new {@code Future} whose result is asynchronously derived from the result of the
- given {@code Future}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.transformAsync_added(com.google.common.util.concurrent.ListenableFuture<I>, com.google.common.util.concurrent.AsyncFunction<? super I, ? extends O>, java.util.concurrent.Executor)"></A>
-  <nobr><code>ListenableFuture&lt;O&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#transformAsync(com.google.common.util.concurrent.ListenableFuture<I>, com.google.common.util.concurrent.AsyncFunction<? super I, ? extends O>, java.util.concurrent.Executor)" target="_top"><tt>transformAsync</tt></A>(<code>ListenableFuture&lt;I&gt;,</nobr> AsyncFunction&lt;?<nobr>,</nobr> super<nobr>,</nobr> I<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> O&gt;<nobr>,</nobr> Executor<nobr><nobr></code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Returns a new {@code Future} whose result is asynchronously derived from the result of the
- given {@code Future}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.withTimeout_added(com.google.common.util.concurrent.ListenableFuture<V>, long, java.util.concurrent.TimeUnit, java.util.concurrent.ScheduledExecutorService)"></A>
-  <nobr><code>ListenableFuture&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#withTimeout(com.google.common.util.concurrent.ListenableFuture<V>, long, java.util.concurrent.TimeUnit, java.util.concurrent.ScheduledExecutorService)" target="_top"><tt>withTimeout</tt></A>(<code>ListenableFuture&lt;V&gt;,</nobr> long<nobr>,</nobr> TimeUnit<nobr>,</nobr> ScheduledExecutorService<nobr><nobr></code>)</nobr>
-  </TD>
-  <TD VALIGN="TOP">Returns a future that delegates to another but will finish early (via a <A HREF="../../docs/TimeoutException.html"><TT>TimeoutException</TT></A> wrapped in an <A HREF="../../docs/ExecutionException.html"><TT>ExecutionException</TT></A>) if the specified duration expires.</TD>
-</TR>
-</TABLE>
-&nbsp;
-<p>
-<a NAME="Changed"></a>
-<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
-<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.get_changed(java.util.concurrent.Future<V>, java.lang.Class<X>)"></A>
-  <nobr><code>V</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#get(java.util.concurrent.Future<V>, java.lang.Class<X>)" target="_top"><tt>get</tt></A>(<code>Future&lt;V&gt;,</nobr> Class&lt;X&gt;<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-<b>Now deprecated</b>.<br>
-  </TD>
-  <TD VALIGN="TOP">Use {@link #getChecked(Future, Class)}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.get_changed(java.util.concurrent.Future<V>, long, java.util.concurrent.TimeUnit, java.lang.Class<X>)"></A>
-  <nobr><code>V</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#get(java.util.concurrent.Future<V>, long, java.util.concurrent.TimeUnit, java.lang.Class<X>)" target="_top"><tt>get</tt></A>(<code>Future&lt;V&gt;,</nobr> long<nobr>,</nobr> TimeUnit<nobr>,</nobr> Class&lt;X&gt;<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-<b>Now deprecated</b>.<br>
-  </TD>
-  <TD VALIGN="TOP">Use {@link #getChecked(Future, Class, long, TimeUnit)}, noting the change in      parameter order.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.transform_changed(com.google.common.util.concurrent.ListenableFuture<I>, com.google.common.util.concurrent.AsyncFunction<? super I, ? extends O>)"></A>
-  <nobr><code>ListenableFuture&lt;O&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture<I>, com.google.common.util.concurrent.AsyncFunction<? super I, ? extends O>)" target="_top"><tt>transform</tt></A>(<code>ListenableFuture&lt;I&gt;,</nobr> AsyncFunction&lt;?<nobr>,</nobr> super<nobr>,</nobr> I<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> O&gt;<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-<b>Now deprecated</b>.<br>
-  </TD>
-  <TD VALIGN="TOP">These {@code AsyncFunction} overloads of {@code transform} are being renamed to      {@code transformAsync}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.transform_changed(com.google.common.util.concurrent.ListenableFuture<I>, com.google.common.util.concurrent.AsyncFunction<? super I, ? extends O>, java.util.concurrent.Executor)"></A>
-  <nobr><code>ListenableFuture&lt;O&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture<I>, com.google.common.util.concurrent.AsyncFunction<? super I, ? extends O>, java.util.concurrent.Executor)" target="_top"><tt>transform</tt></A>(<code>ListenableFuture&lt;I&gt;,</nobr> AsyncFunction&lt;?<nobr>,</nobr> super<nobr>,</nobr> I<nobr>,</nobr> ?<nobr>,</nobr> extends<nobr>,</nobr> O&gt;<nobr>,</nobr> Executor<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-<b>Now deprecated</b>.<br>
-  </TD>
-  <TD VALIGN="TOP">These {@code AsyncFunction} overloads of {@code transform} are being renamed to      {@code transformAsync}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.withFallback_changed(com.google.common.util.concurrent.ListenableFuture<? extends V>, com.google.common.util.concurrent.FutureFallback<? extends V>)"></A>
-  <nobr><code>ListenableFuture&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#withFallback(com.google.common.util.concurrent.ListenableFuture<? extends V>, com.google.common.util.concurrent.FutureFallback<? extends V>)" target="_top"><tt>withFallback</tt></A>(<code>ListenableFuture&lt;?,</nobr> extends<nobr>,</nobr> V&gt;<nobr>,</nobr> FutureFallback&lt;?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-<b>Now deprecated</b>.<br>
-  </TD>
-  <TD VALIGN="TOP">Use {@link #catchingAsync(ListenableFuture, Class, AsyncFunction)      catchingAsync(input, Throwable.class, fallbackImplementedAsAnAsyncFunction)}, usually      replacing {@code Throwable.class} with the specific type you want to handle.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.util.concurrent.Futures.withFallback_changed(com.google.common.util.concurrent.ListenableFuture<? extends V>, com.google.common.util.concurrent.FutureFallback<? extends V>, java.util.concurrent.Executor)"></A>
-  <nobr><code>ListenableFuture&lt;V&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/Futures.html#withFallback(com.google.common.util.concurrent.ListenableFuture<? extends V>, com.google.common.util.concurrent.FutureFallback<? extends V>, java.util.concurrent.Executor)" target="_top"><tt>withFallback</tt></A>(<code>ListenableFuture&lt;?,</nobr> extends<nobr>,</nobr> V&gt;<nobr>,</nobr> FutureFallback&lt;?<nobr>,</nobr> extends<nobr>,</nobr> V&gt;<nobr>,</nobr> Executor<nobr><nobr></code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-<b>Now deprecated</b>.<br>
-  </TD>
-  <TD VALIGN="TOP">Use {@link #catchingAsync(ListenableFuture, Class, AsyncFunction, Executor)      catchingAsync(input, Throwable.class, fallbackImplementedAsAnAsyncFunction, executor)},      usually replacing {@code Throwable.class} with the specific type you want to handle.</TD>
+  <TD VALIGN="TOP">Creates a <A HREF="../../docs/FutureCombiner.html"><TT>FutureCombiner</TT></A> requiring that all passed in futures are successful.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -209,7 +95,7 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/Futures.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/Futures.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.util.concurrent.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -222,7 +108,7 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<A HREF="com.google.common.util.concurrent.FutureFallback.html"><B>PREV CLASS</B></A>
-&nbsp;<A HREF="com.google.common.util.concurrent.SettableFuture.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.util.concurrent.ListenableFuture.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.util.concurrent.Futures.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

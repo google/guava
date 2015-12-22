@@ -81,71 +81,77 @@
 </tr>
 <tbody>
 <tr class="altColor">
+<td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;V&gt;</td>
+<td class="colLast">
+<div class="block">Computes a value, possibly asynchronously.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;I,O&gt;</td>
 <td class="colLast">
 <div class="block">Transforms a value, possibly asynchronously.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;</td>
 <td class="colLast">
 <div class="block">A <code>CheckedFuture</code> is a <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that includes versions of the <code>get</code>
  methods that can throw a checked exception.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.Policy.html" title="interface in com.google.common.util.concurrent">CycleDetectingLockFactory.Policy</a></td>
 <td class="colLast">
 <div class="block">Encapsulates the action to be taken when a potential deadlock is
  encountered.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a>&lt;V&gt;</td>
 <td class="colLast">
 <div class="block">A callback for accepting the results of a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> computation
  asynchronously.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/FutureFallback.html" title="interface in com.google.common.util.concurrent">FutureFallback</a>&lt;V&gt;</td>
 <td class="colLast">Deprecated
 <div class="block"><i>This interface's main user, <a href="../../../../../com/google/common/util/concurrent/Futures.html#withFallback(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.FutureFallback)"><code>Futures.withFallback</code></a>, has been replaced with <a href="../../../../../com/google/common/util/concurrent/Futures.html#catchingAsync(com.google.common.util.concurrent.ListenableFuture,%20java.lang.Class,%20com.google.common.util.concurrent.AsyncFunction)"><code>catchingAsync</code></a>, which uses <a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent"><code>AsyncFunction</code></a> instead of <code>FutureFallback</code>.</i></div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</td>
 <td class="colLast">
 <div class="block">A <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> that accepts completion listeners.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/ListenableScheduledFuture.html" title="interface in com.google.common.util.concurrent">ListenableScheduledFuture</a>&lt;V&gt;</td>
 <td class="colLast">
 <div class="block">Helper interface to implement both <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> and <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledFuture.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledFuture</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></td>
 <td class="colLast">
 <div class="block">An <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutorService</code></a> that returns <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a></td>
 <td class="colLast">
 <div class="block">A <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> that returns <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances from its
  <code>ExecutorService</code> methods.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a></td>
 <td class="colLast">
 <div class="block">An object with an operational state, plus asynchronous <a href="../../../../../com/google/common/util/concurrent/Service.html#startAsync()"><code>Service.startAsync()</code></a> and 
  <a href="../../../../../com/google/common/util/concurrent/Service.html#stopAsync()"><code>Service.stopAsync()</code></a> lifecycle methods to transition between states.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></td>
 <td class="colLast">
 <div class="block">Produces proxies that impose a time limit on method
@@ -355,85 +361,92 @@
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;</td>
+<td class="colLast">
+<div class="block">A helper to create a new <code>ListenableFuture</code> whose result is generated from a combination
+ of input futures.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/JdkFutureAdapters.html" title="class in com.google.common.util.concurrent">JdkFutureAdapters</a></td>
 <td class="colLast">
 <div class="block">Utilities necessary for working with libraries that supply plain <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> instances.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent">ListenableFutureTask</a>&lt;V&gt;</td>
 <td class="colLast">
 <div class="block">A <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/FutureTask.html?is-external=true" title="class or interface in java.util.concurrent"><code>FutureTask</code></a> that also implements the <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> interface.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></td>
 <td class="colLast">
 <div class="block">A synchronization abstraction supporting waiting on arbitrary boolean conditions.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a></td>
 <td class="colLast">
 <div class="block">A boolean condition for which a thread may wait.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent">MoreExecutors</a></td>
 <td class="colLast">
 <div class="block">Factory and utility methods for <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><code>Executor</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutorService</code></a>, and <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent"><code>ThreadFactory</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></td>
 <td class="colLast">
 <div class="block">A rate limiter.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/Runnables.html" title="class in com.google.common.util.concurrent">Runnables</a></td>
 <td class="colLast">
 <div class="block">Static utility methods pertaining to the <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang"><code>Runnable</code></a> interface.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/Service.Listener.html" title="class in com.google.common.util.concurrent">Service.Listener</a></td>
 <td class="colLast">
 <div class="block">A listener for the various state changes that a <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> goes through in its lifecycle.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent">ServiceManager</a></td>
 <td class="colLast">
 <div class="block">A manager for monitoring and controlling a set of <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">services</a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/ServiceManager.Listener.html" title="class in com.google.common.util.concurrent">ServiceManager.Listener</a></td>
 <td class="colLast">
 <div class="block">A listener for the aggregate state changes of the services that are under management.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a>&lt;V&gt;</td>
 <td class="colLast">
 <div class="block">A <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> whose result can be set by a <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#set(V)"><code>SettableFuture.set(Object)</code></a>, <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#setException(java.lang.Throwable)"><code>SettableFuture.setException(Throwable)</code></a> or <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)"><code>SettableFuture.setFuture(ListenableFuture)</code></a> call.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/SimpleTimeLimiter.html" title="class in com.google.common.util.concurrent">SimpleTimeLimiter</a></td>
 <td class="colLast">
 <div class="block">A TimeLimiter that runs method calls in the background using an
  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutorService</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;L&gt;</td>
 <td class="colLast">
 <div class="block">A striped <code>Lock/Semaphore/ReadWriteLock</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></td>
 <td class="colLast">
 <div class="block">A ThreadFactory builder, providing any combination of these features:
@@ -448,13 +461,13 @@
  </div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/UncaughtExceptionHandlers.html" title="class in com.google.common.util.concurrent">UncaughtExceptionHandlers</a></td>
 <td class="colLast">
 <div class="block">Factories for <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Thread.UncaughtExceptionHandler.html?is-external=true" title="class or interface in java.lang"><code>Thread.UncaughtExceptionHandler</code></a> instances.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../../com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></td>
 <td class="colLast">
 <div class="block">Utilities for treating interruptible operations as uninterruptible.</div>

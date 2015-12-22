@@ -1,3 +1,5 @@
+OK: com.google.common.util.concurrent.AsyncCallable Interface
+OK: com.google.common.util.concurrent.Futures.FutureCombiner Class
 OK: com.google.common.math.LinearTransformation Class
 MISSING @SINCE TAG: com.google.common.math.LinearTransformation.LinearTransformationBuilder Class
 OK: com.google.common.math.PairedStats Class
@@ -33,4 +35,8 @@ OK: com.google.common.math.IntMath Method saturatedSubtract(int, int)
 OK: com.google.common.math.LongMath Method saturatedSubtract(long, long)
 OK: com.google.common.collect.Maps Method subMap(java.util.NavigableMap<K, V>, com.google.common.collect.Range<K>)
 OK: com.google.common.collect.Sets Method subSet(java.util.NavigableSet<K>, com.google.common.collect.Range<K>)
+OK: com.google.common.util.concurrent.Futures Method whenAllComplete(com.google.common.util.concurrent.ListenableFuture[])
+OK: com.google.common.util.concurrent.Futures Method whenAllComplete(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)
+OK: com.google.common.util.concurrent.Futures Method whenAllSucceed(com.google.common.util.concurrent.ListenableFuture[])
+OK: com.google.common.util.concurrent.Futures Method whenAllSucceed(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)
 OK: com.google.common.net.MediaType Field SOAP_XML_UTF_8

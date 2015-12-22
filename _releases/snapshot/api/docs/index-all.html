@@ -411,7 +411,11 @@
 <div class="block">Adds each element of <code>elements</code> to the <code>ImmutableMultiset</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeSet.html#add(com.google.common.collect.Range)">add(Range&lt;C&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>Unsupported operation.</i></div>
+</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeSet.Builder.html#add(com.google.common.collect.Range)">add(Range&lt;C&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a></dt>
 <dd>
 <div class="block">Add the specified range to this builder.</div>
@@ -526,7 +530,11 @@
 <div class="block">Adds each element of <code>elements</code> to the <code>ImmutableMultiset</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeSet.html#addAll(com.google.common.collect.RangeSet)">addAll(RangeSet&lt;C&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>Unsupported operation.</i></div>
+</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeSet.Builder.html#addAll(com.google.common.collect.RangeSet)">addAll(RangeSet&lt;C&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a></dt>
 <dd>
 <div class="block">Add all ranges from the specified range set to this builder.</div>
@@ -1452,6 +1460,10 @@
 <div class="block">Returns a Writer that sends all output to the given <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang"><code>Appendable</code></a>
  target.</div>
 </dd>
+<dt><a href="./com/google/common/util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent"><span class="strong">AsyncCallable</span></a>&lt;<a href="./com/google/common/util/concurrent/AsyncCallable.html" title="type parameter in AsyncCallable">V</a>&gt; - Interface in <a href="./com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">Computes a value, possibly asynchronously.</div>
+</dd>
 <dt><a href="./com/google/common/eventbus/AsyncEventBus.html" title="class in com.google.common.eventbus"><span class="strong">AsyncEventBus</span></a> - Class in <a href="./com/google/common/eventbus/package-summary.html">com.google.common.eventbus</a></dt>
 <dd>
 <div class="block">An <a href="./com/google/common/eventbus/EventBus.html" title="class in com.google.common.eventbus"><code>EventBus</code></a> that takes the Executor of your choice and uses it to
@@ -2113,9 +2125,29 @@
 <dd>
 <div class="block">Constructs a new <code>CacheStats</code> instance.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/AsyncCallable.html#call()">call()</a></span> - Method in interface com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a></dt>
+<dd>
+<div class="block">Computes a result <code>Future</code>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html#call(java.util.concurrent.Callable,%20java.util.concurrent.Executor)">call(Callable&lt;C&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a></dt>
+<dd>
+<div class="block">Creates the <a href="./com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of calling <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true#call()" title="class or interface in java.util.concurrent"><code>Callable.call()</code></a> in <code>combiner</code> when all futures complete, using the specified <code>executor</code>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html#call(java.util.concurrent.Callable)">call(Callable&lt;C&gt;)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a></dt>
+<dd>
+<div class="block">Like <a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html#call(java.util.concurrent.Callable,%20java.util.concurrent.Executor)"><code>Futures.FutureCombiner.call(Callable, Executor)</code></a> but using <a href="./com/google/common/util/concurrent/MoreExecutors.html#directExecutor()">direct executor</a>.</div>
+</dd>
 <dt><a href="./com/google/common/util/concurrent/Callables.html" title="class in com.google.common.util.concurrent"><span class="strong">Callables</span></a> - Class in <a href="./com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">Static utility methods pertaining to the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent"><code>Callable</code></a> interface.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html#callAsync(com.google.common.util.concurrent.AsyncCallable,%20java.util.concurrent.Executor)">callAsync(AsyncCallable&lt;C&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a></dt>
+<dd>
+<div class="block">Creates the <a href="./com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of calling <a href="./com/google/common/util/concurrent/AsyncCallable.html#call()"><code>AsyncCallable.call()</code></a> in <code>combiner</code> when all futures complete, using the specified <code>executor</code>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html#callAsync(com.google.common.util.concurrent.AsyncCallable)">callAsync(AsyncCallable&lt;C&gt;)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a></dt>
+<dd>
+<div class="block">Like <a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html#callAsync(com.google.common.util.concurrent.AsyncCallable,%20java.util.concurrent.Executor)"><code>Futures.FutureCombiner.callAsync(AsyncCallable, Executor)</code></a> but using <a href="./com/google/common/util/concurrent/MoreExecutors.html#directExecutor()">direct executor</a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/FakeTimeLimiter.html#callWithTimeout(java.util.concurrent.Callable,%20long,%20java.util.concurrent.TimeUnit,%20boolean)">callWithTimeout(Callable&lt;T&gt;, long, TimeUnit, boolean)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/FakeTimeLimiter.html" title="class in com.google.common.util.concurrent">FakeTimeLimiter</a></dt>
 <dd>&nbsp;</dd>
@@ -2526,7 +2558,11 @@
 </div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeMap.html#clear()">clear()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>Unsupported operation.</i></div>
+</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableTable.html#clear()">clear()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a></dt>
 <dd>
 <div class="block"><span class="strong">Deprecated.</span>
@@ -6627,6 +6663,11 @@
 <dt><a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent"><span class="strong">Futures</span></a> - Class in <a href="./com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">Static utility methods pertaining to the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> interface.</div>
+</dd>
+<dt><a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><span class="strong">Futures.FutureCombiner</span></a>&lt;<a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html" title="type parameter in Futures.FutureCombiner">V</a>&gt; - Class in <a href="./com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A helper to create a new <code>ListenableFuture</code> whose result is generated from a combination
+ of input futures.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/math/DoubleMath.html#fuzzyCompare(double,%20double,%20double)">fuzzyCompare(double, double, double)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/DoubleMath.html" title="class in com.google.common.math">DoubleMath</a></dt>
 <dd>
@@ -12387,7 +12428,11 @@
 <div class="block">Associates the specified range with the specified value.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeMap.html#put(com.google.common.collect.Range,%20V)">put(Range&lt;K&gt;, V)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>Unsupported operation.</i></div>
+</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableSetMultimap.Builder.html#put(K,%20V)">put(K, V)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableSetMultimap.Builder.html" title="class in com.google.common.collect">ImmutableSetMultimap.Builder</a></dt>
 <dd>
 <div class="block">Adds a key-value mapping to the built multimap if it is not already
@@ -12552,7 +12597,11 @@
 <div class="block">Copies all associations from the specified range map into this builder.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeMap.html#putAll(com.google.common.collect.RangeMap)">putAll(RangeMap&lt;K, V&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>Unsupported operation.</i></div>
+</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableSetMultimap.Builder.html#putAll(java.lang.Iterable)">putAll(Iterable&lt;? extends Map.Entry&lt;? extends K, ? extends V&gt;&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableSetMultimap.Builder.html" title="class in com.google.common.collect">ImmutableSetMultimap.Builder</a></dt>
 <dd>
 <div class="block">Adds entries to the built multimap.</div>
@@ -13210,9 +13259,17 @@
 </div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeMap.html#remove(com.google.common.collect.Range)">remove(Range&lt;K&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>Unsupported operation.</i></div>
+</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeSet.html#remove(com.google.common.collect.Range)">remove(Range&lt;C&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>Unsupported operation.</i></div>
+</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableTable.html#remove(java.lang.Object,%20java.lang.Object)">remove(Object, Object)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect">ImmutableTable</a></dt>
 <dd>
 <div class="block"><span class="strong">Deprecated.</span>
@@ -13292,7 +13349,11 @@
 </div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeSet.html#removeAll(com.google.common.collect.RangeSet)">removeAll(RangeSet&lt;C&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>Unsupported operation.</i></div>
+</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableSetMultimap.html#removeAll(java.lang.Object)">removeAll(Object)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a></dt>
 <dd>
 <div class="block"><span class="strong">Deprecated.</span>
@@ -16923,6 +16984,24 @@ the order they are declared.</div>
 <dt><a href="./com/google/common/cache/Weigher.html" title="interface in com.google.common.cache"><span class="strong">Weigher</span></a>&lt;<a href="./com/google/common/cache/Weigher.html" title="type parameter in Weigher">K</a>,<a href="./com/google/common/cache/Weigher.html" title="type parameter in Weigher">V</a>&gt; - Interface in <a href="./com/google/common/cache/package-summary.html">com.google.common.cache</a></dt>
 <dd>
 <div class="block">Calculates the weights of cache entries.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#whenAllComplete(com.google.common.util.concurrent.ListenableFuture...)">whenAllComplete(ListenableFuture&lt;? extends V&gt;...)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
+<dd>
+<div class="block">Creates a <a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> that processes the completed futures whether or not they're
+ successful.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#whenAllComplete(java.lang.Iterable)">whenAllComplete(Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
+<dd>
+<div class="block">Creates a <a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> that processes the completed futures whether or not they're
+ successful.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#whenAllSucceed(com.google.common.util.concurrent.ListenableFuture...)">whenAllSucceed(ListenableFuture&lt;? extends V&gt;...)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
+<dd>
+<div class="block">Creates a <a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> requiring that all passed in futures are successful.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#whenAllSucceed(java.lang.Iterable)">whenAllSucceed(Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
+<dd>
+<div class="block">Creates a <a href="./com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> requiring that all passed in futures are successful.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/TypeResolver.html#where(java.lang.reflect.Type,%20java.lang.reflect.Type)">where(Type, Type)</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/TypeResolver.html" title="class in com.google.common.reflect">TypeResolver</a></dt>
 <dd>
