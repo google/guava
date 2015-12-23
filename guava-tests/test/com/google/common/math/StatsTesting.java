@@ -26,6 +26,7 @@ import static org.junit.Assert.fail;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 
@@ -148,7 +149,9 @@ class StatsTesting {
 
   static final ImmutableList<Double> OTHER_MANY_VALUES =
       ImmutableList.of(1.11, -2.22, 33.3333, -44.4444, 555.555555);
+  static final int OTHER_MANY_VALUES_COUNT = 5;
   static final double OTHER_MANY_VALUES_MEAN = (1.11 - 2.22 + 33.3333 - 44.4444 + 555.555555) / 5;
+
   static final double MANY_VALUES_SUM_OF_PRODUCTS_OF_DELTAS =
       (1.1 - MANY_VALUES_MEAN) * (1.11 - OTHER_MANY_VALUES_MEAN)
           + (-44.44 - MANY_VALUES_MEAN) * (-2.22 - OTHER_MANY_VALUES_MEAN)
@@ -442,6 +445,24 @@ class StatsTesting {
     PairedStatsAccumulator accumulator = new PairedStatsAccumulator();
     for (int index = 0; index < xValues.size(); index++) {
       accumulator.add(xValues.get(index), yValues.get(index));
+    }
+    return accumulator;
+  }
+
+  /**
+   * Creates a {@link PairedStatsAccumulator} filled with the given lists of {@code x} and {@code y}
+   * values, which must be of the same size, added in groups of {@code partitionSize} using
+   * {@link PairedStatsAccumulator#addAll(PairedStats)}.
+   */
+  static PairedStatsAccumulator createPartitionedFilledPairedStatsAccumulator(
+      List<Double> xValues, List<Double> yValues, int partitionSize) {
+    checkArgument(xValues.size() == yValues.size());
+    checkArgument(partitionSize > 0);
+    PairedStatsAccumulator accumulator = new PairedStatsAccumulator();
+    List<List<Double>> xPartitions = Lists.partition(xValues, partitionSize);
+    List<List<Double>> yPartitions = Lists.partition(yValues, partitionSize);
+    for (int index = 0; index < xPartitions.size(); index++) {
+      accumulator.addAll(createPairedStatsOf(xPartitions.get(index), yPartitions.get(index)));
     }
     return accumulator;
   }

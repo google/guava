@@ -248,6 +248,10 @@ public final class PairedStats implements Serializable {
         .toString();
   }
 
+  double sumOfProductsOfDeltas() {
+    return sumOfProductsOfDeltas;
+  }
+
   private static double ensurePositive(double value) {
     if (value > 0.0) {
       return value;

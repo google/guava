@@ -67,12 +67,8 @@ public final class StatsAccumulator {
         mean = calculateNewMeanNonFinite(mean, value);
         sumOfSquaresOfDeltas = NaN;
       }
-      if (value < min || isNaN(value)) {
-        min = value;
-      }
-      if (value > max || isNaN(value)) {
-        max = value;
-      }
+      min = Math.min(min, value);
+      max = Math.max(max, value);
     }
   }
 
@@ -131,6 +127,40 @@ public final class StatsAccumulator {
   public void addAll(long... values) {
     for (long value : values) {
       add(value);
+    }
+  }
+
+  /**
+   * Adds the given statistics to the dataset, as if the individual values used to compute the
+   * statistics had been added directly.
+   */
+  // TODO(b/26080783): Make public once ready (including exhaustive tests for edge cases).
+  void addAll(Stats values) {
+    if (values.count() == 0) {
+      return;
+    }
+
+    if (count == 0) {
+      count = values.count();
+      mean = values.mean();
+      sumOfSquaresOfDeltas = values.sumOfSquaresOfDeltas();
+      min = values.min();
+      max = values.max();
+    } else {
+      // Updating algorithm (1.5) from Chan et al. (1983). Algorithms for Computing the Sample
+      // Variance: Analysis and Recommendations. The American Statistician 37, 242-247.
+      long nextCount = count + values.count();
+      double delta = values.mean() - mean;
+      // Note that this is the naive mean formula, so non-finite values are handled naturally.
+      // TODO(b/26080783): Decide whether to use naive or Knuth formula. Consider MAX_VALUE case.
+      mean = (sum() + values.sum()) / nextCount;
+      // Note that non-finite inputs will have sumOfSquaresOfDeltas = NaN, so non-finite values will
+      // result in NaN naturally.
+      sumOfSquaresOfDeltas +=
+          values.sumOfSquaresOfDeltas() + values.count() * delta * (values.mean() - mean);
+      count = nextCount;
+      min = Math.min(min, values.min());
+      max = Math.max(max, values.max());
     }
   }
 
@@ -325,7 +355,10 @@ public final class StatsAccumulator {
    */
   static double calculateNewMeanNonFinite(double previousMean, double value) {
     /*
-     * Desired behaviour:
+     * Desired behaviour is to match the results of applying the naive mean formula. In particular,
+     * the update formula can subtract infinities in cases where the naive formula would add them.
+     *
+     * Consequently:
      * 1. If the previous mean is finite and the new value is non-finite then the new mean is that
      *    value (whether it is NaN or infinity).
      * 2. If the new value is finite and the previous mean is non-finite then the mean is unchanged

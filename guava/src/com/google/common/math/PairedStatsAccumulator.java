@@ -66,6 +66,34 @@ public final class PairedStatsAccumulator {
   }
 
   /**
+   * Adds the given statistics to the dataset, as if the individual values used to compute the
+   * statistics had been added directly.
+   */
+  // TODO(b/26080783): Make public once ready (including exhaustive tests for edge cases).
+  void addAll(PairedStats values) {
+    if (values.count() == 0) {
+      return;
+    }
+
+    if (count() == 0) {
+      sumOfProductsOfDeltas = values.sumOfProductsOfDeltas();
+    } else {
+      long nextCount = count() + values.count();
+      double xMeanDelta = xStats.mean() - values.xStats().mean();
+      double yMeanDelta = yStats.mean() - values.yStats().mean();
+      // Note that non-finite inputs will have sumOfSquaresOfDeltas = NaN, so non-finite values will
+      // result in NaN naturally.
+      // TODO(b/26080783): Consider optimizations similar to those in StatsAccumulator.addAll().
+      sumOfProductsOfDeltas +=
+          values.sumOfProductsOfDeltas()
+              + xMeanDelta * yMeanDelta * count() * values.count() / nextCount;
+    }
+
+    xStats.addAll(values.xStats());
+    yStats.addAll(values.yStats());
+  }
+
+  /**
    * Returns an immutable snapshot of the current statistics.
    */
   public PairedStats snapshot() {
