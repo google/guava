@@ -430,24 +430,39 @@
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><span class="strong">ImmutableRangeSet.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableRangeSet.html#intersects(com.google.common.collect.Range)">intersects</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;otherRange)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><span class="strong">RangeSet.</span><code><strong><a href="../../../../../com/google/common/collect/RangeSet.html#intersects(com.google.common.collect.Range)">intersects</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;otherRange)</code>
+<div class="block">Returns <code>true</code> if there exists a non-empty range enclosed by both a member range in this
+ range set and the specified range.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><span class="strong">TreeRangeSet.</span><code><strong><a href="../../../../../com/google/common/collect/TreeRangeSet.html#intersects(com.google.common.collect.Range)">intersects</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;range)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><span class="strong">Range.</span><code><strong><a href="../../../../../com/google/common/collect/Range.html#isConnected(com.google.common.collect.Range)">isConnected</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;other)</code>
 <div class="block">Returns <code>true</code> if there exists a (possibly empty) range which is <a href="../../../../../com/google/common/collect/Range.html#encloses(com.google.common.collect.Range)">enclosed</a> by both this range and <code>other</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<br><a href="../../../../../com/google/common/collect/ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;C&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableRangeSet.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableRangeSet.html#of(com.google.common.collect.Range)">of</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;range)</code>
 <div class="block">Returns an immutable range set containing the specified single range.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;,V&gt;&nbsp;<br><a href="../../../../../com/google/common/collect/ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableRangeMap.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableRangeMap.html#of(com.google.common.collect.Range,%20V)">of</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range,
     V&nbsp;value)</code>
 <div class="block">Returns an immutable range map mapping a single range to a single value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="strong">ImmutableRangeMap.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableRangeMap.html#put(com.google.common.collect.Range,%20V)">put</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;&nbsp;range,
       <a href="../../../../../com/google/common/collect/ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&nbsp;value)</code>
@@ -456,26 +471,26 @@
 </div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/ImmutableRangeMap.Builder.html" title="class in com.google.common.collect">ImmutableRangeMap.Builder</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableRangeMap.Builder.html" title="type parameter in ImmutableRangeMap.Builder">K</a>,<a href="../../../../../com/google/common/collect/ImmutableRangeMap.Builder.html" title="type parameter in ImmutableRangeMap.Builder">V</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableRangeMap.Builder.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableRangeMap.Builder.html#put(com.google.common.collect.Range,%20V)">put</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableRangeMap.Builder.html" title="type parameter in ImmutableRangeMap.Builder">K</a>&gt;&nbsp;range,
       <a href="../../../../../com/google/common/collect/ImmutableRangeMap.Builder.html" title="type parameter in ImmutableRangeMap.Builder">V</a>&nbsp;value)</code>
 <div class="block">Associates the specified range with the specified value.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="strong">RangeMap.</span><code><strong><a href="../../../../../com/google/common/collect/RangeMap.html#put(com.google.common.collect.Range,%20V)">put</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
       <a href="../../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;value)</code>
 <div class="block">Maps a range to a specified value (optional operation).</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="strong">TreeRangeMap.</span><code><strong><a href="../../../../../com/google/common/collect/TreeRangeMap.html#put(com.google.common.collect.Range,%20V)">put</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;range,
       <a href="../../../../../com/google/common/collect/TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&nbsp;value)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="strong">ImmutableRangeSet.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableRangeSet.html#remove(com.google.common.collect.Range)">remove</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;range)</code>
 <div class="block"><strong>Deprecated.</strong>&nbsp;
@@ -483,17 +498,17 @@
 </div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="strong">RangeSet.</span><code><strong><a href="../../../../../com/google/common/collect/RangeSet.html#remove(com.google.common.collect.Range)">remove</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;range)</code>
 <div class="block">Removes the specified range from this <code>RangeSet</code> (optional operation).</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="strong">TreeRangeSet.</span><code><strong><a href="../../../../../com/google/common/collect/TreeRangeSet.html#remove(com.google.common.collect.Range)">remove</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;rangeToRemove)</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="strong">ImmutableRangeMap.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableRangeMap.html#remove(com.google.common.collect.Range)">remove</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;&nbsp;range)</code>
 <div class="block"><strong>Deprecated.</strong>&nbsp;
@@ -501,60 +516,60 @@
 </div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="strong">RangeMap.</span><code><strong><a href="../../../../../com/google/common/collect/RangeMap.html#remove(com.google.common.collect.Range)">remove</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</code>
 <div class="block">Removes all associations from this range map in the specified range (optional operation).</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="strong">TreeRangeMap.</span><code><strong><a href="../../../../../com/google/common/collect/TreeRangeMap.html#remove(com.google.common.collect.Range)">remove</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;rangeToRemove)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;</code></td>
 <td class="colLast"><span class="strong">Range.</span><code><strong><a href="../../../../../com/google/common/collect/Range.html#span(com.google.common.collect.Range)">span</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;other)</code>
 <div class="block">Returns the minimal range that <a href="../../../../../com/google/common/collect/Range.html#encloses(com.google.common.collect.Range)">encloses</a> both this range and <code>other</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super K&gt;,V&gt;&nbsp;<br><a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="strong">Maps.</span><code><strong><a href="../../../../../com/google/common/collect/Maps.html#subMap(java.util.NavigableMap,%20com.google.common.collect.Range)">subMap</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;map,
             <a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range)</code>
 <div class="block">Returns a view of the portion of <code>map</code> whose keys are contained by <code>range</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/ImmutableRangeMap.html" title="class in com.google.common.collect">ImmutableRangeMap</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>,<a href="../../../../../com/google/common/collect/ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableRangeMap.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableRangeMap.html#subRangeMap(com.google.common.collect.Range)">subRangeMap</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a>&gt;&nbsp;range)</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="../../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>,<a href="../../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">V</a>&gt;</code></td>
 <td class="colLast"><span class="strong">RangeMap.</span><code><strong><a href="../../../../../com/google/common/collect/RangeMap.html#subRangeMap(com.google.common.collect.Range)">subRangeMap</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</code>
 <div class="block">Returns a view of the part of this range map that intersects with <code>range</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="../../../../../com/google/common/collect/TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>,<a href="../../../../../com/google/common/collect/TreeRangeMap.html" title="type parameter in TreeRangeMap">V</a>&gt;</code></td>
 <td class="colLast"><span class="strong">TreeRangeMap.</span><code><strong><a href="../../../../../com/google/common/collect/TreeRangeMap.html#subRangeMap(com.google.common.collect.Range)">subRangeMap</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/TreeRangeMap.html" title="type parameter in TreeRangeMap">K</a>&gt;&nbsp;subRange)</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableRangeSet.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableRangeSet.html#subRangeSet(com.google.common.collect.Range)">subRangeSet</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a>&gt;&nbsp;range)</code>
 <div class="block">Returns a view of the intersection of this range set with the given range.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="../../../../../com/google/common/collect/RangeSet.html" title="type parameter in RangeSet">C</a>&gt;</code></td>
 <td class="colLast"><span class="strong">RangeSet.</span><code><strong><a href="../../../../../com/google/common/collect/RangeSet.html#subRangeSet(com.google.common.collect.Range)">subRangeSet</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;view)</code>
 <div class="block">Returns a view of the intersection of this <code>RangeSet</code> with the specified range.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="../../../../../com/google/common/collect/TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;</code></td>
 <td class="colLast"><span class="strong">TreeRangeSet.</span><code><strong><a href="../../../../../com/google/common/collect/TreeRangeSet.html#subRangeSet(com.google.common.collect.Range)">subRangeSet</a></strong>(<a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../../com/google/common/collect/TreeRangeSet.html" title="type parameter in TreeRangeSet">C</a>&gt;&nbsp;view)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super K&gt;&gt;&nbsp;<br><a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;</code></td>
 <td class="colLast"><span class="strong">Sets.</span><code><strong><a href="../../../../../com/google/common/collect/Sets.html#subSet(java.util.NavigableSet,%20com.google.common.collect.Range)">subSet</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;&nbsp;set,
             <a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range)</code>
