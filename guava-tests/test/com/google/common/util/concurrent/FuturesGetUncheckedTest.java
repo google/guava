@@ -22,25 +22,30 @@ import static com.google.common.util.concurrent.FuturesGetCheckedInputs.FAILED_F
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.FAILED_FUTURE_ERROR;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.FAILED_FUTURE_OTHER_THROWABLE;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.FAILED_FUTURE_UNCHECKED_EXCEPTION;
+import static com.google.common.util.concurrent.FuturesGetCheckedInputs.FAILED_FUTURE_TIMEOUT_EXCEPTION;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.OTHER_THROWABLE;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.RUNTIME_EXCEPTION;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.RUNTIME_EXCEPTION_FUTURE;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.UNCHECKED_EXCEPTION;
+import static com.google.common.util.concurrent.FuturesGetCheckedInputs.TIMEOUT_EXCEPTION;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import junit.framework.TestCase;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Unit tests for {@link Futures#getUnchecked(Future)}.
+ * Unit tests for {@link Futures#getUnchecked(Future)} and
+ *   {@link Futures#getUnchecked(Future, long, TimeUnit)}.
  */
 public class FuturesGetUncheckedTest extends TestCase {
-  public void testGetUnchecked_success() {
+  public void testGetUncheckedUntimed_success() {
     assertEquals("foo", getUnchecked(immediateFuture("foo")));
   }
 
-  public void testGetUnchecked_interrupted() {
+  public void testGetUncheckedUntimed_interrupted() {
     Thread.currentThread().interrupt();
     try {
       assertEquals("foo", getUnchecked(immediateFuture("foo")));
@@ -50,7 +55,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     }
   }
 
-  public void testGetUnchecked_cancelled() {
+  public void testGetUncheckedUntimed_cancelled() {
     SettableFuture<String> future = SettableFuture.create();
     future.cancel(true);
     try {
@@ -60,7 +65,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     }
   }
 
-  public void testGetUnchecked_ExecutionExceptionChecked() {
+  public void testGetUncheckedUntimed_ExecutionExceptionChecked() {
     try {
       getUnchecked(FAILED_FUTURE_CHECKED_EXCEPTION);
       fail();
@@ -69,7 +74,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     }
   }
 
-  public void testGetUnchecked_ExecutionExceptionUnchecked() {
+  public void testGetUncheckedUntimed_ExecutionExceptionUnchecked() {
     try {
       getUnchecked(FAILED_FUTURE_UNCHECKED_EXCEPTION);
       fail();
@@ -78,7 +83,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     }
   }
 
-  public void testGetUnchecked_ExecutionExceptionError() {
+  public void testGetUncheckedUntimed_ExecutionExceptionError() {
     try {
       getUnchecked(FAILED_FUTURE_ERROR);
       fail();
@@ -87,7 +92,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     }
   }
 
-  public void testGetUnchecked_ExecutionExceptionOtherThrowable() {
+  public void testGetUncheckedUntimed_ExecutionExceptionOtherThrowable() {
     try {
       getUnchecked(FAILED_FUTURE_OTHER_THROWABLE);
       fail();
@@ -96,7 +101,7 @@ public class FuturesGetUncheckedTest extends TestCase {
     }
   }
 
-  public void testGetUnchecked_RuntimeException() {
+  public void testGetUncheckedUntimed_RuntimeException() {
     try {
       getUnchecked(RUNTIME_EXCEPTION_FUTURE);
       fail();
@@ -104,4 +109,83 @@ public class FuturesGetUncheckedTest extends TestCase {
       assertEquals(RUNTIME_EXCEPTION, expected);
     }
   }
+
+  public void testGetUncheckedTimed_success() {
+    assertEquals("foo", getUnchecked(immediateFuture("foo"), 0, SECONDS));
+  }
+
+  public void testGetUncheckedTimed_interrupted() {
+    Thread.currentThread().interrupt();
+    try {
+      assertEquals("foo", getUnchecked(immediateFuture("foo"), 0, SECONDS));
+      assertTrue(Thread.currentThread().isInterrupted());
+    } finally {
+      Thread.interrupted();
+    }
+  }
+
+  public void testGetUncheckedTimed_cancelled() {
+    SettableFuture<String> future = SettableFuture.create();
+    future.cancel(true);
+    try {
+      getUnchecked(future, 0, SECONDS);
+      fail();
+    } catch (CancellationException expected) {
+    }
+  }
+
+  public void testGetUncheckedTimed_ExecutionExceptionChecked() {
+    try {
+      getUnchecked(FAILED_FUTURE_CHECKED_EXCEPTION, 0, SECONDS);
+      fail();
+    } catch (UncheckedExecutionException expected) {
+      assertEquals(CHECKED_EXCEPTION, expected.getCause());
+    }
+  }
+
+  public void testGetUncheckedTimed_ExecutionExceptionUnchecked() {
+    try {
+      getUnchecked(FAILED_FUTURE_UNCHECKED_EXCEPTION, 0, SECONDS);
+      fail();
+    } catch (UncheckedExecutionException expected) {
+      assertEquals(UNCHECKED_EXCEPTION, expected.getCause());
+    }
+  }
+
+  public void testGetUncheckedTimed_ExecutionExceptionError() {
+    try {
+      getUnchecked(FAILED_FUTURE_ERROR, 0, SECONDS);
+      fail();
+    } catch (ExecutionError expected) {
+      assertEquals(ERROR, expected.getCause());
+    }
+  }
+
+  public void testGetUncheckedTimed_ExecutionExceptionOtherThrowable() {
+    try {
+      getUnchecked(FAILED_FUTURE_OTHER_THROWABLE, 0, SECONDS);
+      fail();
+    } catch (UncheckedExecutionException expected) {
+      assertEquals(OTHER_THROWABLE, expected.getCause());
+    }
+  }
+
+  public void testGetUncheckedTimed_RuntimeException() {
+    try {
+      getUnchecked(RUNTIME_EXCEPTION_FUTURE, 0, SECONDS);
+      fail();
+    } catch (RuntimeException expected) {
+      assertEquals(RUNTIME_EXCEPTION, expected);
+    }
+  }
+
+  public void testGetUncheckedTimed_TimeoutException() {
+    try {
+      getUnchecked(FAILED_FUTURE_TIMEOUT_EXCEPTION, 0, SECONDS);
+      fail();
+    } catch (UncheckedTimeoutException expected) {
+      assertEquals(TIMEOUT_EXCEPTION, expected.getCause());
+    }
+  }
+
 }
