@@ -216,7 +216,8 @@ public abstract class BaseEncoding {
    * @throws IllegalArgumentException if the input is not a valid encoded string according to this
    *         encoding.
    */
-  public final byte[] decode(CharSequence chars) { // TODO(kak): @CheckReturnValue
+  @CheckReturnValue
+  public final byte[] decode(CharSequence chars) {
     try {
       return decodeChecked(chars);
     } catch (DecodingException badInput) {
@@ -230,8 +231,9 @@ public abstract class BaseEncoding {
    *
    * @throws DecodingException if the input is not a valid encoded string according to this
    *         encoding.
-   */ final byte[] decodeChecked(CharSequence chars)
-      throws DecodingException { // TODO(kak): @CheckReturnValue
+   */
+  @CheckReturnValue final byte[] decodeChecked(CharSequence chars)
+      throws DecodingException {
     chars = padding().trimTrailingFrom(chars);
     byte[] tmp = new byte[maxDecodedSize(chars.length())];
     int len = decodeTo(tmp, chars);
