@@ -113,7 +113,6 @@ public class XmlEscapers {
     return XML_ATTRIBUTE_ESCAPER;
   }
 
-  private static final Escaper XML_ESCAPER;
   private static final Escaper XML_CONTENT_ESCAPER;
   private static final Escaper XML_ATTRIBUTE_ESCAPER;
   static {
@@ -149,7 +148,6 @@ public class XmlEscapers {
     XML_CONTENT_ESCAPER = builder.build();
     builder.addEscape('\'', "&apos;");
     builder.addEscape('"', "&quot;");
-    XML_ESCAPER = builder.build();
     builder.addEscape('\t', "&#x9;");
     builder.addEscape('\n', "&#xA;");
     builder.addEscape('\r', "&#xD;");
