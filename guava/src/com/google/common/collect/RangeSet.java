@@ -68,6 +68,8 @@ public interface RangeSet<C extends Comparable> {
    * Returns {@code true} if there exists a non-empty range enclosed by both a member range in this
    * range set and the specified range. This is equivalent to calling
    * {@code subRangeSet(otherRange)} and testing whether the resulting range set is non-empty.
+   *
+   * @since 20.0
    */
   boolean intersects(Range<C> otherRange);
 
