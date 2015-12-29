@@ -256,65 +256,69 @@
 <span class="sourceLineNo">248</span>        .toString();<a name="line.248"></a>
 <span class="sourceLineNo">249</span>  }<a name="line.249"></a>
 <span class="sourceLineNo">250</span><a name="line.250"></a>
-<span class="sourceLineNo">251</span>  private static double ensurePositive(double value) {<a name="line.251"></a>
-<span class="sourceLineNo">252</span>    if (value &gt; 0.0) {<a name="line.252"></a>
-<span class="sourceLineNo">253</span>      return value;<a name="line.253"></a>
-<span class="sourceLineNo">254</span>    } else {<a name="line.254"></a>
-<span class="sourceLineNo">255</span>      return Double.MIN_VALUE;<a name="line.255"></a>
-<span class="sourceLineNo">256</span>    }<a name="line.256"></a>
-<span class="sourceLineNo">257</span>  }<a name="line.257"></a>
-<span class="sourceLineNo">258</span><a name="line.258"></a>
-<span class="sourceLineNo">259</span>  private static double ensureInUnitRange(double value) {<a name="line.259"></a>
-<span class="sourceLineNo">260</span>    if (value &gt;= 1.0) {<a name="line.260"></a>
-<span class="sourceLineNo">261</span>      return 1.0;<a name="line.261"></a>
-<span class="sourceLineNo">262</span>    }<a name="line.262"></a>
-<span class="sourceLineNo">263</span>    if (value &lt;= -1.0) {<a name="line.263"></a>
-<span class="sourceLineNo">264</span>      return -1.0;<a name="line.264"></a>
-<span class="sourceLineNo">265</span>    }<a name="line.265"></a>
-<span class="sourceLineNo">266</span>    return value;<a name="line.266"></a>
-<span class="sourceLineNo">267</span>  }<a name="line.267"></a>
-<span class="sourceLineNo">268</span><a name="line.268"></a>
-<span class="sourceLineNo">269</span>  // Serialization helpers<a name="line.269"></a>
-<span class="sourceLineNo">270</span><a name="line.270"></a>
-<span class="sourceLineNo">271</span>  /**<a name="line.271"></a>
-<span class="sourceLineNo">272</span>   * The size of byte array representaion in bytes.<a name="line.272"></a>
-<span class="sourceLineNo">273</span>   */<a name="line.273"></a>
-<span class="sourceLineNo">274</span>  private static final int BYTES = Stats.BYTES * 2 + Double.SIZE / Byte.SIZE;<a name="line.274"></a>
-<span class="sourceLineNo">275</span><a name="line.275"></a>
-<span class="sourceLineNo">276</span>  /**<a name="line.276"></a>
-<span class="sourceLineNo">277</span>   * Gets a byte array representation of this instance.<a name="line.277"></a>
-<span class="sourceLineNo">278</span>   *<a name="line.278"></a>
-<span class="sourceLineNo">279</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.279"></a>
-<span class="sourceLineNo">280</span>   * versions.<a name="line.280"></a>
-<span class="sourceLineNo">281</span>   */<a name="line.281"></a>
-<span class="sourceLineNo">282</span>  public byte[] toByteArray() {<a name="line.282"></a>
-<span class="sourceLineNo">283</span>    ByteBuffer buffer = ByteBuffer.allocate(BYTES).order(ByteOrder.LITTLE_ENDIAN);<a name="line.283"></a>
-<span class="sourceLineNo">284</span>    xStats.writeTo(buffer);<a name="line.284"></a>
-<span class="sourceLineNo">285</span>    yStats.writeTo(buffer);<a name="line.285"></a>
-<span class="sourceLineNo">286</span>    buffer.putDouble(sumOfProductsOfDeltas);<a name="line.286"></a>
-<span class="sourceLineNo">287</span>    return buffer.array();<a name="line.287"></a>
-<span class="sourceLineNo">288</span>  }<a name="line.288"></a>
-<span class="sourceLineNo">289</span><a name="line.289"></a>
-<span class="sourceLineNo">290</span>  /**<a name="line.290"></a>
-<span class="sourceLineNo">291</span>   * Creates a {@link PairedStats} instance from the given byte representation which was obtained by<a name="line.291"></a>
-<span class="sourceLineNo">292</span>   * {@link #toByteArray}.<a name="line.292"></a>
-<span class="sourceLineNo">293</span>   *<a name="line.293"></a>
-<span class="sourceLineNo">294</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.294"></a>
-<span class="sourceLineNo">295</span>   * versions.<a name="line.295"></a>
-<span class="sourceLineNo">296</span>   */<a name="line.296"></a>
-<span class="sourceLineNo">297</span>  public static PairedStats fromByteArray(byte[] byteArray) {<a name="line.297"></a>
-<span class="sourceLineNo">298</span>    checkNotNull(byteArray);<a name="line.298"></a>
-<span class="sourceLineNo">299</span>    checkArgument(byteArray.length == BYTES,<a name="line.299"></a>
-<span class="sourceLineNo">300</span>        "Expected PairedStats.BYTES = %s, got %s", BYTES, byteArray.length);<a name="line.300"></a>
-<span class="sourceLineNo">301</span>    ByteBuffer buffer = ByteBuffer.wrap(byteArray).order(ByteOrder.LITTLE_ENDIAN);<a name="line.301"></a>
-<span class="sourceLineNo">302</span>    Stats xStats = Stats.readFrom(buffer);<a name="line.302"></a>
-<span class="sourceLineNo">303</span>    Stats yStats = Stats.readFrom(buffer);<a name="line.303"></a>
-<span class="sourceLineNo">304</span>    double sumOfProductsOfDeltas = buffer.getDouble();<a name="line.304"></a>
-<span class="sourceLineNo">305</span>    return new PairedStats(xStats, yStats, sumOfProductsOfDeltas);<a name="line.305"></a>
-<span class="sourceLineNo">306</span>  }<a name="line.306"></a>
-<span class="sourceLineNo">307</span><a name="line.307"></a>
-<span class="sourceLineNo">308</span>  private static final long serialVersionUID = 0;<a name="line.308"></a>
-<span class="sourceLineNo">309</span>}<a name="line.309"></a>
+<span class="sourceLineNo">251</span>  double sumOfProductsOfDeltas() {<a name="line.251"></a>
+<span class="sourceLineNo">252</span>    return sumOfProductsOfDeltas;<a name="line.252"></a>
+<span class="sourceLineNo">253</span>  }<a name="line.253"></a>
+<span class="sourceLineNo">254</span><a name="line.254"></a>
+<span class="sourceLineNo">255</span>  private static double ensurePositive(double value) {<a name="line.255"></a>
+<span class="sourceLineNo">256</span>    if (value &gt; 0.0) {<a name="line.256"></a>
+<span class="sourceLineNo">257</span>      return value;<a name="line.257"></a>
+<span class="sourceLineNo">258</span>    } else {<a name="line.258"></a>
+<span class="sourceLineNo">259</span>      return Double.MIN_VALUE;<a name="line.259"></a>
+<span class="sourceLineNo">260</span>    }<a name="line.260"></a>
+<span class="sourceLineNo">261</span>  }<a name="line.261"></a>
+<span class="sourceLineNo">262</span><a name="line.262"></a>
+<span class="sourceLineNo">263</span>  private static double ensureInUnitRange(double value) {<a name="line.263"></a>
+<span class="sourceLineNo">264</span>    if (value &gt;= 1.0) {<a name="line.264"></a>
+<span class="sourceLineNo">265</span>      return 1.0;<a name="line.265"></a>
+<span class="sourceLineNo">266</span>    }<a name="line.266"></a>
+<span class="sourceLineNo">267</span>    if (value &lt;= -1.0) {<a name="line.267"></a>
+<span class="sourceLineNo">268</span>      return -1.0;<a name="line.268"></a>
+<span class="sourceLineNo">269</span>    }<a name="line.269"></a>
+<span class="sourceLineNo">270</span>    return value;<a name="line.270"></a>
+<span class="sourceLineNo">271</span>  }<a name="line.271"></a>
+<span class="sourceLineNo">272</span><a name="line.272"></a>
+<span class="sourceLineNo">273</span>  // Serialization helpers<a name="line.273"></a>
+<span class="sourceLineNo">274</span><a name="line.274"></a>
+<span class="sourceLineNo">275</span>  /**<a name="line.275"></a>
+<span class="sourceLineNo">276</span>   * The size of byte array representaion in bytes.<a name="line.276"></a>
+<span class="sourceLineNo">277</span>   */<a name="line.277"></a>
+<span class="sourceLineNo">278</span>  private static final int BYTES = Stats.BYTES * 2 + Double.SIZE / Byte.SIZE;<a name="line.278"></a>
+<span class="sourceLineNo">279</span><a name="line.279"></a>
+<span class="sourceLineNo">280</span>  /**<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   * Gets a byte array representation of this instance.<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   *<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.283"></a>
+<span class="sourceLineNo">284</span>   * versions.<a name="line.284"></a>
+<span class="sourceLineNo">285</span>   */<a name="line.285"></a>
+<span class="sourceLineNo">286</span>  public byte[] toByteArray() {<a name="line.286"></a>
+<span class="sourceLineNo">287</span>    ByteBuffer buffer = ByteBuffer.allocate(BYTES).order(ByteOrder.LITTLE_ENDIAN);<a name="line.287"></a>
+<span class="sourceLineNo">288</span>    xStats.writeTo(buffer);<a name="line.288"></a>
+<span class="sourceLineNo">289</span>    yStats.writeTo(buffer);<a name="line.289"></a>
+<span class="sourceLineNo">290</span>    buffer.putDouble(sumOfProductsOfDeltas);<a name="line.290"></a>
+<span class="sourceLineNo">291</span>    return buffer.array();<a name="line.291"></a>
+<span class="sourceLineNo">292</span>  }<a name="line.292"></a>
+<span class="sourceLineNo">293</span><a name="line.293"></a>
+<span class="sourceLineNo">294</span>  /**<a name="line.294"></a>
+<span class="sourceLineNo">295</span>   * Creates a {@link PairedStats} instance from the given byte representation which was obtained by<a name="line.295"></a>
+<span class="sourceLineNo">296</span>   * {@link #toByteArray}.<a name="line.296"></a>
+<span class="sourceLineNo">297</span>   *<a name="line.297"></a>
+<span class="sourceLineNo">298</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.298"></a>
+<span class="sourceLineNo">299</span>   * versions.<a name="line.299"></a>
+<span class="sourceLineNo">300</span>   */<a name="line.300"></a>
+<span class="sourceLineNo">301</span>  public static PairedStats fromByteArray(byte[] byteArray) {<a name="line.301"></a>
+<span class="sourceLineNo">302</span>    checkNotNull(byteArray);<a name="line.302"></a>
+<span class="sourceLineNo">303</span>    checkArgument(byteArray.length == BYTES,<a name="line.303"></a>
+<span class="sourceLineNo">304</span>        "Expected PairedStats.BYTES = %s, got %s", BYTES, byteArray.length);<a name="line.304"></a>
+<span class="sourceLineNo">305</span>    ByteBuffer buffer = ByteBuffer.wrap(byteArray).order(ByteOrder.LITTLE_ENDIAN);<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    Stats xStats = Stats.readFrom(buffer);<a name="line.306"></a>
+<span class="sourceLineNo">307</span>    Stats yStats = Stats.readFrom(buffer);<a name="line.307"></a>
+<span class="sourceLineNo">308</span>    double sumOfProductsOfDeltas = buffer.getDouble();<a name="line.308"></a>
+<span class="sourceLineNo">309</span>    return new PairedStats(xStats, yStats, sumOfProductsOfDeltas);<a name="line.309"></a>
+<span class="sourceLineNo">310</span>  }<a name="line.310"></a>
+<span class="sourceLineNo">311</span><a name="line.311"></a>
+<span class="sourceLineNo">312</span>  private static final long serialVersionUID = 0;<a name="line.312"></a>
+<span class="sourceLineNo">313</span>}<a name="line.313"></a>
 
 
 
