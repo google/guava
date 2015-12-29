@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.Iterators;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.CheckReturnValue;
+import javax.annotation.Nullable;
 
 /**
  * Extracts non-overlapping substrings from an input string, typically by
@@ -422,8 +424,40 @@ public final class Splitter {
     };
   }
 
-  private Iterator<String> splittingIterator(CharSequence sequence) {
+  /**
+   * Splits {@code sequence} into char sequence components and makes them available
+   * through an {@link Iterator}, which may be lazily evaluated. If you want
+   * an eagerly computed {@link List}, use {@link #splitToCharSequenceList(CharSequence)}.
+   *
+   * @param sequence the sequence of characters to split
+   * @return an iteration over the segments split from the parameter.
+   */
+  @CheckReturnValue
+  public Iterable<CharSequence> splitToCharSequence(final CharSequence sequence) {
+    checkNotNull(sequence);
+
+    return new Iterable<CharSequence>() {
+      @Override
+      public Iterator<CharSequence> iterator() {
+        return sequenceIterator(sequence);
+      }
+
+      @Override
+      public String toString() {
+        return Joiner.on(", ")
+                     .appendTo(new StringBuilder().append('['), this)
+                     .append(']')
+                     .toString();
+      }
+    };
+  }
+
+  private Iterator<CharSequence> sequenceIterator(CharSequence sequence) {
     return strategy.iterator(this, sequence);
+  }
+
+  private Iterator<String> splittingIterator(CharSequence sequence) {
+    return Iterators.transform(strategy.iterator(this, sequence), CHAR_SEQUENCE_TO_STRING);
   }
 
   /**
@@ -442,6 +476,29 @@ public final class Splitter {
 
     Iterator<String> iterator = splittingIterator(sequence);
     List<String> result = new ArrayList<String>();
+
+    while (iterator.hasNext()) {
+      result.add(iterator.next());
+    }
+
+    return Collections.unmodifiableList(result);
+  }
+
+  /**
+   * Splits {@code sequence} into string components and returns them as
+   * an immutable list. If you want an {@link Iterable} which may be lazily
+   * evaluated, use {@link #split(CharSequence)}.
+   *
+   * @param sequence the sequence of characters to split
+   * @return an immutable list of the segments split from the parameter
+   * @since 15.0
+   */
+  @Beta
+  public List<CharSequence> splitToCharSequenceList(CharSequence sequence) {
+    checkNotNull(sequence);
+
+    Iterator<CharSequence> iterator = sequenceIterator(sequence);
+    List<CharSequence> result = new ArrayList<CharSequence>();
 
     while (iterator.hasNext()) {
       result.add(iterator.next());
@@ -538,13 +595,53 @@ public final class Splitter {
       }
       return Collections.unmodifiableMap(map);
     }
+
+    /**
+     * Splits {@code sequence} into character sequences, splits each character sequence into
+     * an entry, and returns an unmodifiable map with each of the entries. For
+     * example, <code>
+     * Splitter.on(';').trimResults().withKeyValueSeparator("=>")
+     * .split("a=>b ; c=>b")
+     * </code> will return a mapping from {@code "a"} to {@code "b"} and
+     * {@code "c"} to {@code b}.
+     *
+     * <p>The returned map preserves the order of the entries from
+     * {@code sequence}.
+     *
+     * @throws IllegalArgumentException if the specified sequence does not split
+     *         into valid map entries, or if there are duplicate keys
+     */
+    @CheckReturnValue
+    public Map<CharSequence, CharSequence> splitToCharSequence(CharSequence sequence) {
+      Map<CharSequence, CharSequence> map = new LinkedHashMap<CharSequence, CharSequence>();
+      for (CharSequence entry : outerSplitter.splitToCharSequence(sequence)) {
+        Iterator<CharSequence> entryFields = entrySplitter.sequenceIterator(entry);
+
+        checkArgument(entryFields.hasNext(), INVALID_ENTRY_MESSAGE, entry);
+        CharSequence key = entryFields.next();
+        checkArgument(!map.containsKey(key), "Duplicate key [%s] found.", key);
+
+        checkArgument(entryFields.hasNext(), INVALID_ENTRY_MESSAGE, entry);
+        CharSequence value = entryFields.next();
+        map.put(key, value);
+
+        checkArgument(!entryFields.hasNext(), INVALID_ENTRY_MESSAGE, entry);
+      }
+      return Collections.unmodifiableMap(map);
+    }
   }
+
+  private static final Function<CharSequence,String> CHAR_SEQUENCE_TO_STRING = new Function<CharSequence, String>() {
+    @Override public String apply(@Nullable CharSequence input) {
+      return (input == null) ? null : input.toString();
+    }
+  };
 
   private interface Strategy {
-    Iterator<String> iterator(Splitter splitter, CharSequence toSplit);
+    Iterator<CharSequence> iterator(Splitter splitter, CharSequence toSplit);
   }
 
-  private abstract static class SplittingIterator extends AbstractIterator<String> {
+  private abstract static class SplittingIterator extends AbstractIterator<CharSequence> {
     final CharSequence toSplit;
     final CharMatcher trimmer;
     final boolean omitEmptyStrings;
@@ -573,7 +670,7 @@ public final class Splitter {
     }
 
     @Override
-    protected String computeNext() {
+    protected CharSequence computeNext() {
       /*
        * The returned string will be from the end of the last match to the
        * beginning of the next one. nextStart is the start position of the
@@ -635,7 +732,7 @@ public final class Splitter {
           limit--;
         }
 
-        return toSplit.subSequence(start, end).toString();
+        return toSplit.subSequence(start, end);
       }
       return endOfData();
     }

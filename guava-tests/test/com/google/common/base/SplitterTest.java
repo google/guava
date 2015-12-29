@@ -66,6 +66,12 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "b", "c").inOrder();
   }
 
+  public void testCharacterSimpleSplitToCharSequenceList() {
+    String simple = "a,b,c";
+    List<CharSequence> letters = COMMA_SPLITTER.splitToCharSequenceList(simple);
+    assertThat(letters).containsExactly("a", "b", "c").inOrder();
+  }
+
   public void testToString() {
     assertEquals("[]", Splitter.on(',').split("").toString());
     assertEquals("[a, b, c]", Splitter.on(',').split("a,b,c").toString());
@@ -710,6 +716,19 @@ public class SplitterTest extends TestCase {
         .split("boy:tom,girl:tina,cat:kitty,dog:tommy");
     ImmutableMap<String, String> expected =
         ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
+
+    assertThat(m).isEqualTo(expected);
+    assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
+  }
+
+  public void testMapSplitter_ToCharacterSequence() {
+    // try different delimiters.
+    Map<CharSequence, CharSequence> m = Splitter
+            .on(",")
+            .withKeyValueSeparator(':')
+            .splitToCharSequence("boy:tom,girl:tina,cat:kitty,dog:tommy");
+    ImmutableMap<String, String> expected =
+            ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
 
     assertThat(m).isEqualTo(expected);
     assertThat(m.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
