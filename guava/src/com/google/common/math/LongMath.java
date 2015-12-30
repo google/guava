@@ -951,7 +951,7 @@ public final class LongMath {
         long bLo = b & 0xFFFFFFFFL; // < 2^32
 
         /*
-         * a * b == aHi * bHi * 2^64 + (aHi * bLo + aLo * bHi) * 2^63 + aLo * bLo.
+         * a * b == aHi * bHi * 2^64 + (aHi * bLo + aLo * bHi) * 2^32 + aLo * bLo.
          *       == (aHi * bHi * 2^32 + aHi * bLo + aLo * bHi) * 2^32 + aLo * bLo
          *
          * We carry out this computation in modular arithmetic.  Since times2ToThe32Mod accepts
