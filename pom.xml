@@ -11,7 +11,7 @@
   </parent>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>19.0-SNAPSHOT</version>
+  <version>20.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <url>https://github.com/google/guava</url>
@@ -19,7 +19,8 @@
     <gpg.skip>true</gpg.skip>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>**/*Test.java</test.include>
-    <truth.version>0.25</truth.version>
+    <truth.version>0.28</truth.version>
+    <animal.sniffer.version>1.14</animal.sniffer.version>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -137,12 +138,12 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>animal-sniffer-maven-plugin</artifactId>
-          <version>1.7</version>
+          <version>${animal.sniffer.version}</version>
           <configuration>
             <signature>
               <groupId>org.codehaus.mojo.signature</groupId>
               <artifactId>java16-sun</artifactId>
-              <version>1.0</version>
+              <version>1.10</version>
             </signature>
           </configuration>
           <executions>
@@ -159,7 +160,7 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>2.8</version>
           <configuration>
-            <stylesheetfile>javadoc-stylesheet.css</stylesheetfile>
+            <notimestamp>true</notimestamp>
           </configuration>
           <executions>
             <execution>
@@ -171,7 +172,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.3</version>
+          <version>2.10</version>
         </plugin>
         <plugin>
           <artifactId>maven-antrun-plugin</artifactId>
@@ -207,6 +208,11 @@
         <groupId>com.google.errorprone</groupId>
         <artifactId>error_prone_annotations</artifactId>
         <version>2.0.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.j2objc</groupId>
+        <artifactId>j2objc-annotations</artifactId>
+        <version>0.1</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>
@@ -255,6 +261,35 @@
     </dependencies>
   </dependencyManagement>
   <profiles>
+    <profile>
+      <id>jdk7</id>
+      <activation>
+        <jdk>1.7</jdk>
+      </activation>
+      <!-- Set custom stylesheet under JDK7 -->
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <stylesheetfile>javadoc-stylesheet.css</stylesheetfile>
+            </configuration>
+          </plugin>
+        </plugins>
+      </reporting>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <stylesheetfile>javadoc-stylesheet.css</stylesheetfile>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>jdk8</id>
       <activation>

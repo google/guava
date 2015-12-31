@@ -32,32 +32,32 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0
  */
-public final class ImmutableClassToInstanceMap<B> 
-    extends ForwardingMap<Class<? extends B>, B> 
+public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? extends B>, B>
     implements ClassToInstanceMap<B>, Serializable {
-  
-  private static final ImmutableClassToInstanceMap<Object> EMPTY = 
-      new ImmutableClassToInstanceMap<Object>(
-          ImmutableMap.<Class<?>, Object>of());
-  
+
+  private static final ImmutableClassToInstanceMap<Object> EMPTY =
+      new ImmutableClassToInstanceMap<Object>(ImmutableMap.<Class<?>, Object>of());
+
   /**
    * Returns an empty {@code ImmutableClassToInstanceMap}.
+   *
+   * @since 19.0
    */
   @SuppressWarnings("unchecked")
   public static <B> ImmutableClassToInstanceMap<B> of() {
     return (ImmutableClassToInstanceMap<B>) EMPTY;
   }
-  
+
   /**
    * Returns an {@code ImmutableClassToInstanceMap} containing a single entry.
+   *
+   * @since 19.0
    */
-  public static <B, T extends B> ImmutableClassToInstanceMap<B> of(
-      Class<T> type, T value) {
-    ImmutableMap<Class<? extends B>, B> map = 
-        ImmutableMap.<Class<? extends B>, B>of(type, value);
+  public static <B, T extends B> ImmutableClassToInstanceMap<B> of(Class<T> type, T value) {
+    ImmutableMap<Class<? extends B>, B> map = ImmutableMap.<Class<? extends B>, B>of(type, value);
     return new ImmutableClassToInstanceMap<B>(map);
   }
-  
+
   /**
    * Returns a new builder. The generated builder is equivalent to the builder
    * created by the {@link Builder} constructor.
@@ -84,8 +84,7 @@ public final class ImmutableClassToInstanceMap<B>
    * @since 2.0
    */
   public static final class Builder<B> {
-    private final ImmutableMap.Builder<Class<? extends B>, B> mapBuilder
-        = ImmutableMap.builder();
+    private final ImmutableMap.Builder<Class<? extends B>, B> mapBuilder = ImmutableMap.builder();
 
     /**
      * Associates {@code key} with {@code value} in the built map. Duplicate
@@ -104,10 +103,8 @@ public final class ImmutableClassToInstanceMap<B>
      * @throws ClassCastException if any value is not an instance of the type
      *     specified by its key
      */
-    public <T extends B> Builder<B> putAll(
-        Map<? extends Class<? extends T>, ? extends T> map) {
-      for (Entry<? extends Class<? extends T>, ? extends T> entry
-          : map.entrySet()) {
+    public <T extends B> Builder<B> putAll(Map<? extends Class<? extends T>, ? extends T> map) {
+      for (Entry<? extends Class<? extends T>, ? extends T> entry : map.entrySet()) {
         Class<? extends T> type = entry.getKey();
         T value = entry.getValue();
         mapBuilder.put(type, cast(type, value));
@@ -161,12 +158,12 @@ public final class ImmutableClassToInstanceMap<B>
 
   private final ImmutableMap<Class<? extends B>, B> delegate;
 
-  private ImmutableClassToInstanceMap(
-      ImmutableMap<Class<? extends B>, B> delegate) {
+  private ImmutableClassToInstanceMap(ImmutableMap<Class<? extends B>, B> delegate) {
     this.delegate = delegate;
   }
 
-  @Override protected Map<Class<? extends B>, B> delegate() {
+  @Override
+  protected Map<Class<? extends B>, B> delegate() {
     return delegate;
   }
 
@@ -188,7 +185,7 @@ public final class ImmutableClassToInstanceMap<B>
   public <T extends B> T putInstance(Class<T> type, T value) {
     throw new UnsupportedOperationException();
   }
-  
+
   Object readResolve() {
     return isEmpty() ? of() : this;
   }

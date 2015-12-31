@@ -46,14 +46,14 @@ public class ObjectArraysTest extends TestCase {
   public void testNewArray_fromClass_Empty() {
     String[] empty = ObjectArrays.newArray(String.class, 0);
     assertEquals(String[].class, empty.getClass());
-    assertEquals(0, empty.length);
+    assertThat(empty).isEmpty();
   }
 
   @GwtIncompatible("ObjectArrays.newArray(Class, int)")
   public void testNewArray_fromClass_Nonempty() {
     String[] array = ObjectArrays.newArray(String.class, 2);
     assertEquals(String[].class, array.getClass());
-    assertEquals(2, array.length);
+    assertThat(array).hasLength(2);
     assertNull(array[0]);
   }
 
@@ -61,27 +61,27 @@ public class ObjectArraysTest extends TestCase {
   public void testNewArray_fromClass_OfArray() {
     String[][] array = ObjectArrays.newArray(String[].class, 1);
     assertEquals(String[][].class, array.getClass());
-    assertEquals(1, array.length);
+    assertThat(array).hasLength(1);
     assertNull(array[0]);
   }
 
   public void testNewArray_fromArray_Empty() {
     String[] in = new String[0];
     String[] empty = ObjectArrays.newArray(in, 0);
-    assertEquals(0, empty.length);
+    assertThat(empty).isEmpty();
   }
 
   public void testNewArray_fromArray_Nonempty() {
     String[] array = ObjectArrays.newArray(new String[0], 2);
     assertEquals(String[].class, array.getClass());
-    assertEquals(2, array.length);
+    assertThat(array).hasLength(2);
     assertNull(array[0]);
   }
 
   public void testNewArray_fromArray_OfArray() {
     String[][] array = ObjectArrays.newArray(new String[0][0], 1);
     assertEquals(String[][].class, array.getClass());
-    assertEquals(1, array.length);
+    assertThat(array).hasLength(1);
     assertNull(array[0]);
   }
 
@@ -90,7 +90,7 @@ public class ObjectArraysTest extends TestCase {
     String[] result
         = ObjectArrays.concat(new String[0], new String[0], String.class);
     assertEquals(String[].class, result.getClass());
-    assertEquals(0, result.length);
+    assertThat(result).isEmpty();
   }
 
   @GwtIncompatible("ObjectArrays.concat(Object[], Object[], Class)")

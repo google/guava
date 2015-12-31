@@ -60,7 +60,7 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    *
    * @throws ExecutionException if a checked exception was thrown while loading the value. ({@code
    *     ExecutionException} is thrown <a
-   *     href="http://code.google.com/p/guava-libraries/wiki/CachesExplained#Interruption">even if
+   *     href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
    *     computation was interrupted by an {@code InterruptedException}</a>.)
    * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
    *     value
@@ -111,7 +111,7 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    *
    * @throws ExecutionException if a checked exception was thrown while loading the value. ({@code
    *     ExecutionException} is thrown <a
-   *     href="http://code.google.com/p/guava-libraries/wiki/CachesExplained#Interruption">even if
+   *     href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
    *     computation was interrupted by an {@code InterruptedException}</a>.)
    * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
    *     values

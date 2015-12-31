@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
  */
 public final class TestThread<L> extends Thread implements TearDown {
 
-  private static final long DUE_DILIGENCE_MILLIS = 50;
+  private static final long DUE_DILIGENCE_MILLIS = 100;
   private static final long TIMEOUT_MILLIS = 5000;
 
   private final L lockLikeObject;

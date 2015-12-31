@@ -16,14 +16,15 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
+import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_ANY_NULL_QUERIES;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableSetMultimap.Builder;
-import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
@@ -73,18 +74,18 @@ public class ImmutableSetMultimapTest extends TestCase {
     suite.addTest(SetMultimapTestSuiteBuilder.using(new ImmutableSetMultimapGenerator())
         .named("ImmutableSetMultimap")
         .withFeatures(
-            MapFeature.ALLOWS_ANY_NULL_QUERIES,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.SERIALIZABLE,
+            ALLOWS_ANY_NULL_QUERIES,
+            KNOWN_ORDER,
+            SERIALIZABLE,
             CollectionSize.ANY)
         .createTestSuite());
     suite.addTest(SetMultimapTestSuiteBuilder.using(
             new ImmutableSetMultimapCopyOfEntriesGenerator())
         .named("ImmutableSetMultimap.copyOf[Iterable<Entry>]")
         .withFeatures(
-            MapFeature.ALLOWS_ANY_NULL_QUERIES,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.SERIALIZABLE,
+            ALLOWS_ANY_NULL_QUERIES,
+            KNOWN_ORDER,
+            SERIALIZABLE,
             CollectionSize.ANY)
             .createTestSuite());
     return suite;
@@ -273,9 +274,9 @@ public class ImmutableSetMultimapTest extends TestCase {
     assertThat(multimap.values()).containsExactly(2, 4, 3, 6, 5, 2).inOrder();
     assertThat(multimap.get("a")).containsExactly(5, 2).inOrder();
     assertThat(multimap.get("b")).containsExactly(3, 6).inOrder();
-    assertFalse(multimap.get("a") instanceof ImmutableSortedSet);
-    assertFalse(multimap.get("x") instanceof ImmutableSortedSet);
-    assertFalse(multimap.asMap().get("a") instanceof ImmutableSortedSet);
+    assertThat(multimap.get("a")).isNotInstanceOf(ImmutableSortedSet.class);
+    assertThat(multimap.get("x")).isNotInstanceOf(ImmutableSortedSet.class);
+    assertThat(multimap.asMap().get("a")).isNotInstanceOf(ImmutableSortedSet.class);
   }
 
   public void testBuilderOrderKeysByDuplicates() {
@@ -298,9 +299,9 @@ public class ImmutableSetMultimapTest extends TestCase {
     assertThat(multimap.values()).containsExactly(2, 5, 2, 3, 6, 4).inOrder();
     assertThat(multimap.get("a")).containsExactly(5, 2).inOrder();
     assertThat(multimap.get("bb")).containsExactly(3, 6).inOrder();
-    assertFalse(multimap.get("a") instanceof ImmutableSortedSet);
-    assertFalse(multimap.get("x") instanceof ImmutableSortedSet);
-    assertFalse(multimap.asMap().get("a") instanceof ImmutableSortedSet);
+    assertThat(multimap.get("a")).isNotInstanceOf(ImmutableSortedSet.class);
+    assertThat(multimap.get("x")).isNotInstanceOf(ImmutableSortedSet.class);
+    assertThat(multimap.asMap().get("a")).isNotInstanceOf(ImmutableSortedSet.class);
   }
 
   public void testBuilderOrderValuesBy() {

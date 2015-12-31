@@ -31,9 +31,9 @@ import java.util.LinkedHashMap;
  * element, those instances are consecutive in the iteration order. If all
  * occurrences of an element are removed, after which that element is added to
  * the multiset, the element will appear at the end of the iteration.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">
  * {@code Multiset}</a>.
  *
  * @author Kevin Bourrillion
@@ -71,10 +71,8 @@ public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
    *
    * @param elements the elements that the multiset should contain
    */
-  public static <E> LinkedHashMultiset<E> create(
-      Iterable<? extends E> elements) {
-    LinkedHashMultiset<E> multiset =
-        create(Multisets.inferDistinctElements(elements));
+  public static <E> LinkedHashMultiset<E> create(Iterable<? extends E> elements) {
+    LinkedHashMultiset<E> multiset = create(Multisets.inferDistinctElements(elements));
     Iterables.addAll(multiset, elements);
     return multiset;
   }
@@ -98,8 +96,7 @@ public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
   }
 
   @GwtIncompatible("java.io.ObjectInputStream")
-  private void readObject(ObjectInputStream stream)
-      throws IOException, ClassNotFoundException {
+  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     int distinctElements = Serialization.readCount(stream);
     setBackingMap(new LinkedHashMap<E, Count>());

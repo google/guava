@@ -62,13 +62,21 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   public void testContainsEntryWithIncomparableKey() {
-    assertFalse(getMap()
-        .entrySet().contains(Helpers.mapEntry(IncomparableType.INSTANCE, v0())));
+    try {
+      assertFalse(getMap()
+          .entrySet().contains(Helpers.mapEntry(IncomparableType.INSTANCE, v0())));
+    } catch (ClassCastException acceptable) {
+      // allowed by the spec
+    }
   }
 
   public void testContainsEntryWithIncomparableValue() {
-    assertFalse(getMap()
-        .entrySet().contains(Helpers.mapEntry(k0(), IncomparableType.INSTANCE)));
+    try {
+      assertFalse(getMap()
+          .entrySet().contains(Helpers.mapEntry(k0(), IncomparableType.INSTANCE)));
+    } catch (ClassCastException acceptable) {
+      // allowed by the spec
+    }
   }
   
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)

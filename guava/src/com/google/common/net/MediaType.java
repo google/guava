@@ -237,6 +237,14 @@ public final class MediaType {
   public static final MediaType DART_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "dart");
 
   /**
+   * Media type for <a href="https://goo.gl/2QoMvg">Apple Passbook</a>.
+   *
+   * @since 19.0
+   */
+  public static final MediaType APPLE_PASSBOOK = createConstant(APPLICATION_TYPE,
+      "vnd.apple.pkpass");
+
+  /**
    * Media type for <a href="http://en.wikipedia.org/wiki/Embedded_OpenType">Embedded OpenType</a>
    * fonts. This is
    * <a href="http://www.iana.org/assignments/media-types/application/vnd.ms-fontobject">registered
@@ -286,6 +294,14 @@ public final class MediaType {
   public static final MediaType JAVASCRIPT_UTF_8 =
       createConstantUtf8(APPLICATION_TYPE, "javascript");
   public static final MediaType JSON_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "json");
+  /**
+   * Media type for the
+   * <a href="http://www.w3.org/TR/appmanifest/">Manifest for a web application</a>.
+   *
+   * @since 19.0
+   */
+  public static final MediaType MANIFEST_JSON_UTF_8 =
+      createConstantUtf8(APPLICATION_TYPE, "manifest+json");
   public static final MediaType KML = createConstant(APPLICATION_TYPE, "vnd.google-earth.kml+xml");
   public static final MediaType KMZ = createConstant(APPLICATION_TYPE, "vnd.google-earth.kmz");
   public static final MediaType MBOX = createConstant(APPLICATION_TYPE, "mbox");
@@ -341,6 +357,18 @@ public final class MediaType {
   public static final MediaType SHOCKWAVE_FLASH = createConstant(APPLICATION_TYPE,
       "x-shockwave-flash");
   public static final MediaType SKETCHUP = createConstant(APPLICATION_TYPE, "vnd.sketchup.skp");
+  /**
+   * As described in <a href="http://www.ietf.org/rfc/rfc3902.txt">RFC 3902<a/>, this constant
+   * ({@code application/soap+xml}) is used to identify SOAP 1.2 message envelopes that have been
+   * serialized with XML 1.0.
+   *
+   * <p>For SOAP 1.1 messages, see {@code XML_UTF_8} per
+   * <a href="http://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C Note on Simple Object Access
+   * Protocol (SOAP) 1.1</a>
+   *
+   * @since 20.0
+   */
+  public static final MediaType SOAP_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "soap+xml");
   public static final MediaType TAR = createConstant(APPLICATION_TYPE, "x-tar");
   /**
    * Media type for the
@@ -367,8 +395,9 @@ public final class MediaType {
   private final String subtype;
   private final ImmutableListMultimap<String, String> parameters;
 
-  // lazily computed
-  private volatile String toString;
+  private String toString;
+
+  private int hashCode;
 
   private MediaType(String type, String subtype,
       ImmutableListMultimap<String, String> parameters) {
@@ -702,7 +731,13 @@ public final class MediaType {
   }
 
   @Override public int hashCode() {
-    return Objects.hashCode(type, subtype, parametersAsMap());
+    // racy single-check idiom
+    int h = hashCode;
+    if (h == 0) {
+      h = Objects.hashCode(type, subtype, parametersAsMap());
+      hashCode = h;
+    }
+    return h;
   }
 
   private static final MapJoiner PARAMETER_JOINER = Joiner.on("; ").withKeyValueSeparator("=");
@@ -712,9 +747,11 @@ public final class MediaType {
    * href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>.
    */
   @Override public String toString() {
+    // racy single-check idiom, safe because String is immutable
     String result = toString;
     if (result == null) {
-      toString = result = computeToString();
+      result = computeToString();
+      toString = result;
     }
     return result;
   }
@@ -736,7 +773,8 @@ public final class MediaType {
 
   private static String escapeAndQuote(String value) {
     StringBuilder escaped = new StringBuilder(value.length() + 16).append('"');
-    for (char ch : value.toCharArray()) {
+    for (int i = 0; i < value.length(); i++) {
+      char ch = value.charAt(i);
       if (ch == '\r' || ch == '\\' || ch == '"') {
         escaped.append('\\');
       }

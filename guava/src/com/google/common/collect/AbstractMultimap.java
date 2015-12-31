@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.AbstractCollection;
 import java.util.Collection;
@@ -31,7 +32,7 @@ import javax.annotation.Nullable;
 
 /**
  * A skeleton {@code Multimap} implementation, not necessarily in terms of a {@code Map}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
@@ -57,7 +58,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     Collection<V> collection = asMap().get(key);
     return collection != null && collection.contains(value);
   }
-  
+
   @Override
   public boolean remove(@Nullable Object key, @Nullable Object value) {
     Collection<V> collection = asMap().get(key);
@@ -99,7 +100,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     putAll(key, values);
     return result;
   }
-  
+
   private transient Collection<Entry<K, V>> entries;
 
   @Override
@@ -107,7 +108,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     Collection<Entry<K, V>> result = entries;
     return (result == null) ? entries = createEntries() : result;
   }
-  
+
   Collection<Entry<K, V>> createEntries() {
     if (this instanceof SetMultimap) {
       return new EntrySet();
@@ -115,7 +116,8 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
       return new Entries();
     }
   }
-  
+
+  @WeakOuter
   private class Entries extends Multimaps.Entries<K, V> {
     @Override
     Multimap<K, V> multimap() {
@@ -127,7 +129,8 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
       return entryIterator();
     }
   }
-  
+
+  @WeakOuter
   private class EntrySet extends Entries implements Set<Entry<K, V>> {
     @Override
     public int hashCode() {
@@ -137,9 +140,9 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     @Override
     public boolean equals(@Nullable Object obj) {
       return Sets.equalsImpl(this, obj);
-    }    
+    }
   }
-  
+
   abstract Iterator<Entry<K, V>> entryIterator();
 
   private transient Set<K> keySet;
@@ -153,66 +156,72 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
   Set<K> createKeySet() {
     return new Maps.KeySet<K, Collection<V>>(asMap());
   }
-  
+
   private transient Multiset<K> keys;
-  
+
   @Override
   public Multiset<K> keys() {
     Multiset<K> result = keys;
     return (result == null) ? keys = createKeys() : result;
   }
-  
+
   Multiset<K> createKeys() {
     return new Multimaps.Keys<K, V>(this);
   }
-  
+
   private transient Collection<V> values;
-  
+
   @Override
   public Collection<V> values() {
     Collection<V> result = values;
     return (result == null) ? values = createValues() : result;
   }
-  
+
   Collection<V> createValues() {
     return new Values();
   }
 
+  @WeakOuter
   class Values extends AbstractCollection<V> {
-    @Override public Iterator<V> iterator() {
+    @Override
+    public Iterator<V> iterator() {
       return valueIterator();
     }
 
-    @Override public int size() {
+    @Override
+    public int size() {
       return AbstractMultimap.this.size();
     }
 
-    @Override public boolean contains(@Nullable Object o) {
+    @Override
+    public boolean contains(@Nullable Object o) {
       return AbstractMultimap.this.containsValue(o);
     }
 
-    @Override public void clear() {
+    @Override
+    public void clear() {
       AbstractMultimap.this.clear();
     }
   }
-  
+
   Iterator<V> valueIterator() {
     return Maps.valueIterator(entries().iterator());
   }
-  
+
   private transient Map<K, Collection<V>> asMap;
-  
+
   @Override
   public Map<K, Collection<V>> asMap() {
     Map<K, Collection<V>> result = asMap;
     return (result == null) ? asMap = createAsMap() : result;
   }
-  
+
   abstract Map<K, Collection<V>> createAsMap();
 
   // Comparison and hashing
 
-  @Override public boolean equals(@Nullable Object object) {
+  @Override
+  public boolean equals(@Nullable Object object) {
     return Multimaps.equalsImpl(this, object);
   }
 
@@ -224,7 +233,8 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
    *
    * @see Map#hashCode
    */
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return asMap().hashCode();
   }
 

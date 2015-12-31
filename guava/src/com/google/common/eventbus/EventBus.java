@@ -92,7 +92,7 @@ import java.util.logging.Logger;
  * <p>This class is safe for concurrent use.
  * 
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/EventBusExplained">
+ * "https://github.com/google/guava/wiki/EventBusExplained">
  * {@code EventBus}</a>.
  *
  * @author Cliff Biffle
@@ -149,6 +149,8 @@ public class EventBus {
 
   /**
    * Returns the identifier for this event bus.
+   *
+   * @since 19.0
    */
   public final String identifier() {
     return identifier;

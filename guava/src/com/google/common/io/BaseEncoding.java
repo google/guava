@@ -122,7 +122,7 @@ import javax.annotation.Nullable;
 @Beta
 @GwtCompatible(emulated = true)
 public abstract class BaseEncoding {
-  // TODO(user): consider making encodeTo(Appendable, byte[], int, int) public.
+  // TODO(lowasser): consider making encodeTo(Appendable, byte[], int, int) public.
 
   BaseEncoding() {}
 
@@ -145,6 +145,7 @@ public abstract class BaseEncoding {
   /**
    * Encodes the specified byte array, and returns the encoded {@code String}.
    */
+  @CheckReturnValue
   public String encode(byte[] bytes) {
     return encode(bytes, 0, bytes.length);
   }
@@ -153,6 +154,7 @@ public abstract class BaseEncoding {
    * Encodes the specified range of the specified byte array, and returns the encoded
    * {@code String}.
    */
+  @CheckReturnValue
   public final String encode(byte[] bytes, int off, int len) {
     checkPositionIndexes(off, off + len, bytes.length);
     StringBuilder result = new StringBuilder(maxEncodedSize(len));
@@ -170,12 +172,14 @@ public abstract class BaseEncoding {
    * {@code Writer}.
    */
   @GwtIncompatible("Writer,OutputStream")
+  @CheckReturnValue
   public abstract OutputStream encodingStream(Writer writer);
 
   /**
    * Returns a {@code ByteSink} that writes base-encoded bytes to the specified {@code CharSink}.
    */
   @GwtIncompatible("ByteSink,CharSink")
+  @CheckReturnValue
   public final ByteSink encodingSink(final CharSink encodedSink) {
     checkNotNull(encodedSink);
     return new ByteSink() {
@@ -186,7 +190,7 @@ public abstract class BaseEncoding {
     };
   }
 
-  // TODO(user): document the extent of leniency, probably after adding ignore(CharMatcher)
+  // TODO(lowasser): document the extent of leniency, probably after adding ignore(CharMatcher)
 
   private static byte[] extract(byte[] result, int length) {
     if (length == result.length) {
@@ -199,12 +203,20 @@ public abstract class BaseEncoding {
   }
 
   /**
+   * Determines whether the specified character sequence is a valid encoded string according to this
+   * encoding.
+   */
+  @CheckReturnValue
+  public abstract boolean canDecode(CharSequence chars);
+
+  /**
    * Decodes the specified character sequence, and returns the resulting {@code byte[]}.
    * This is the inverse operation to {@link #encode(byte[])}.
    *
    * @throws IllegalArgumentException if the input is not a valid encoded string according to this
    *         encoding.
    */
+  @CheckReturnValue
   public final byte[] decode(CharSequence chars) {
     try {
       return decodeChecked(chars);
@@ -220,7 +232,8 @@ public abstract class BaseEncoding {
    * @throws DecodingException if the input is not a valid encoded string according to this
    *         encoding.
    */
-  final byte[] decodeChecked(CharSequence chars) throws DecodingException {
+  @CheckReturnValue final byte[] decodeChecked(CharSequence chars)
+      throws DecodingException {
     chars = padding().trimTrailingFrom(chars);
     byte[] tmp = new byte[maxDecodedSize(chars.length())];
     int len = decodeTo(tmp, chars);
@@ -233,6 +246,7 @@ public abstract class BaseEncoding {
    * errors.
    */
   @GwtIncompatible("Reader,InputStream")
+  @CheckReturnValue
   public abstract InputStream decodingStream(Reader reader);
 
   /**
@@ -240,6 +254,7 @@ public abstract class BaseEncoding {
    * {@code CharSource}.
    */
   @GwtIncompatible("ByteSource,CharSource")
+  @CheckReturnValue
   public final ByteSource decodingSource(final CharSource encodedSource) {
     checkNotNull(encodedSource);
     return new ByteSource() {
@@ -330,6 +345,7 @@ public abstract class BaseEncoding {
    * href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
    * Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
+  @CheckReturnValue
   public static BaseEncoding base64() {
     return BASE64;
   }
@@ -351,6 +367,7 @@ public abstract class BaseEncoding {
    * href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
    * Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
+  @CheckReturnValue
   public static BaseEncoding base64Url() {
     return BASE64_URL;
   }
@@ -371,6 +388,7 @@ public abstract class BaseEncoding {
    * href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
    * Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
+  @CheckReturnValue
   public static BaseEncoding base32() {
     return BASE32;
   }
@@ -390,6 +408,7 @@ public abstract class BaseEncoding {
    * href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
    * Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
+  @CheckReturnValue
   public static BaseEncoding base32Hex() {
     return BASE32_HEX;
   }
@@ -410,6 +429,7 @@ public abstract class BaseEncoding {
    * href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
    * Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
+  @CheckReturnValue
   public static BaseEncoding base16() {
     return BASE16;
   }
@@ -467,6 +487,10 @@ public abstract class BaseEncoding {
 
     boolean isValidPaddingStartPosition(int index) {
       return validPadding[index % charsPerChunk];
+    }
+
+    boolean canDecode(char ch) {
+      return ch <= Ascii.MAX && decodabet[ch] != -1;
     }
 
     int decode(char ch) throws DecodingException {
@@ -533,7 +557,7 @@ public abstract class BaseEncoding {
   }
 
   static class StandardBaseEncoding extends BaseEncoding {
-    // TODO(user): provide a useful toString
+    // TODO(lowasser): provide a useful toString
     final Alphabet alphabet;
 
     @Nullable
@@ -645,6 +669,20 @@ public abstract class BaseEncoding {
     @Override
     int maxDecodedSize(int chars) {
       return (int) ((alphabet.bitsPerChar * (long) chars + 7L) / 8L);
+    }
+
+    @Override
+    public boolean canDecode(CharSequence chars) {
+      chars = padding().trimTrailingFrom(chars);
+      if (!alphabet.isValidPaddingStartPosition(chars.length())) {
+        return false;
+      }
+      for (int i = 0; i < chars.length(); i++) {
+        if (!alphabet.canDecode(chars.charAt(i))) {
+          return false;
+        }
+      }
+      return true;
     }
 
     @Override
@@ -1020,6 +1058,11 @@ public abstract class BaseEncoding {
     @Override
     int maxDecodedSize(int chars) {
       return delegate.maxDecodedSize(chars);
+    }
+
+    @Override
+    public boolean canDecode(CharSequence chars) {
+      return delegate.canDecode(separatorChars.removeFrom(chars));
     }
 
     @Override

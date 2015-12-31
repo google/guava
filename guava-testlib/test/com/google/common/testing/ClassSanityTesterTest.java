@@ -84,10 +84,11 @@ public class ClassSanityTesterTest extends TestCase {
     try {
       tester.forAllPublicStaticMethods(NoPublicStaticMethods.class).testEquals();
     } catch (AssertionFailedError expected) {
-      assertEquals(
-          "No public static methods that return java.lang.Object or subtype are found in "
-              + NoPublicStaticMethods.class + ".",
-          expected.getMessage());
+      assertThat(expected)
+          .hasMessage(
+              "No public static methods that return java.lang.Object or subtype are found in "
+                  + NoPublicStaticMethods.class
+                  + ".");
       return;
     }
     fail();
@@ -141,10 +142,11 @@ public class ClassSanityTesterTest extends TestCase {
           .thatReturn(Iterable.class)
           .testNulls();
     } catch (AssertionFailedError expected) {
-      assertEquals(
-          "No public static methods that return java.lang.Iterable or subtype are found in "
-              + BadNullsFactory.class + ".",
-          expected.getMessage());
+      assertThat(expected)
+          .hasMessage(
+              "No public static methods that return java.lang.Iterable or subtype are found in "
+                  + BadNullsFactory.class
+                  + ".");
       return;
     }
     fail();
@@ -156,6 +158,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException... ClassSanityTesterTest$AnInterface
   public void testSerializableOnReturnValues_good() throws Exception {
     tester.forAllPublicStaticMethods(GoodSerializableFactory.class).testSerializable();
   }
@@ -172,7 +175,7 @@ public class ClassSanityTesterTest extends TestCase {
   public void testSerializableOnReturnValues_bad() throws Exception {
     try {
       tester.forAllPublicStaticMethods(BadSerializableFactory.class).testSerializable();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
       return;
     }
     fail();
@@ -191,7 +194,7 @@ public class ClassSanityTesterTest extends TestCase {
       throws Exception {
     try {
       tester.forAllPublicStaticMethods(GoodEqualsFactory.class).testEqualsAndSerializable();
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
       return;
     }
     fail("should have failed");
@@ -207,8 +210,8 @@ public class ClassSanityTesterTest extends TestCase {
     fail("should have failed");
   }
 
-  public void testEqualsAndSerializableOnReturnValues_good()
-      throws Exception {
+  @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException... ClassSanityTesterTest$AnInterface
+  public void testEqualsAndSerializableOnReturnValues_good() throws Exception {
     tester.forAllPublicStaticMethods(GoodEqualsAndSerialiableFactory.class)
         .testEqualsAndSerializable();
   }
@@ -342,6 +345,7 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testEquals(SameListInstance.class);
   }
 
+  @AndroidIncompatible // problem with equality of Type objects?
   public void testEqualsUsingReferentialEquality() throws Exception {
     assertBadUseOfReferentialEquality(SameIntegerInstance.class);
     assertBadUseOfReferentialEquality(SameLongInstance.class);
@@ -363,7 +367,7 @@ public class ClassSanityTesterTest extends TestCase {
       assertThat(expected.getMessage()).contains(cls.getSimpleName() + "(");
       return;
     }
-    fail("should have failed");
+    fail("should have failed for " + cls);
   }
 
   public void testParameterNotInstantiableForEqualsTest() throws Exception {
@@ -587,6 +591,7 @@ public class ClassSanityTesterTest extends TestCase {
     assertEquals("good", tester.instantiate(InstantiableFactoryMethodChosen.class).name);
   }
 
+  @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException... ClassSanityTesterTest$AnInterface
   public void testInterfaceProxySerializable() throws Exception {
     SerializableTester.reserializeAndAssert(tester.instantiate(HasAnInterface.class));
   }

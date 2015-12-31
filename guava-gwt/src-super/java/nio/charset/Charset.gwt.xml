@@ -1,4 +1,0 @@
-<module>
- <source path=""/>
- <inherits name="java.nio.charset.Charset"/>
-</module>

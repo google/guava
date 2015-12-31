@@ -200,7 +200,7 @@ public class UnsignedIntegerTest extends TestCase {
   public void testDivideByZeroThrows() {
     for (int a : TEST_INTS) {
       try {
-        UnsignedInteger ignored =
+        UnsignedInteger unused =
             UnsignedInteger.fromIntBits(a).dividedBy(UnsignedInteger.ZERO);
         fail("Expected ArithmeticException");
       } catch (ArithmeticException expected) {}
@@ -222,11 +222,10 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("ReturnValueIgnored")
   public void testModByZero() {
     for (int a : TEST_INTS) {
       try {
-        UnsignedInteger.fromIntBits(a).mod(UnsignedInteger.ZERO);
+        UnsignedInteger unused = UnsignedInteger.fromIntBits(a).mod(UnsignedInteger.ZERO);
         fail("Expected ArithmeticException");
       } catch (ArithmeticException expected) {}
     }

@@ -43,7 +43,7 @@ import javax.annotation.Nullable;
  * already found in either {@link Long} or {@link Arrays}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained">
+ * "https://github.com/google/guava/wiki/PrimitivesExplained">
  * primitive utilities</a>.
  *
  * @author Kevin Bourrillion
@@ -131,8 +131,7 @@ public final class Longs {
   }
 
   // TODO(kevinb): consider making this public
-  private static int indexOf(
-      long[] array, long target, int start, int end) {
+  private static int indexOf(long[] array, long target, int start, int end) {
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i;
@@ -185,8 +184,7 @@ public final class Longs {
   }
 
   // TODO(kevinb): consider making this public
-  private static int lastIndexOf(
-      long[] array, long target, int start, int end) {
+  private static int lastIndexOf(long[] array, long target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {
       if (array[i] == target) {
         return i;
@@ -292,10 +290,9 @@ public final class Longs {
    *     elements
    */
   public static long fromByteArray(byte[] bytes) {
-    checkArgument(bytes.length >= BYTES,
-        "array too small: %s < %s", bytes.length, BYTES);
-    return fromBytes(bytes[0], bytes[1], bytes[2], bytes[3],
-        bytes[4], bytes[5], bytes[6], bytes[7]);
+    checkArgument(bytes.length >= BYTES, "array too small: %s < %s", bytes.length, BYTES);
+    return fromBytes(
+        bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]);
   }
 
   /**
@@ -305,8 +302,8 @@ public final class Longs {
    *
    * @since 7.0
    */
-  public static long fromBytes(byte b1, byte b2, byte b3, byte b4,
-      byte b5, byte b6, byte b7, byte b8) {
+  public static long fromBytes(
+      byte b1, byte b2, byte b3, byte b4, byte b5, byte b6, byte b7, byte b8) {
     return (b1 & 0xFFL) << 56
         | (b2 & 0xFFL) << 48
         | (b3 & 0xFFL) << 40
@@ -315,6 +312,25 @@ public final class Longs {
         | (b6 & 0xFFL) << 16
         | (b7 & 0xFFL) << 8
         | (b8 & 0xFFL);
+  }
+
+  private static final byte[] asciiDigits = createAsciiDigits();
+
+  private static byte[] createAsciiDigits() {
+    byte[] result = new byte[128];
+    Arrays.fill(result, (byte) -1);
+    for (int i = 0; i <= 9; i++) {
+      result['0' + i] = (byte) i;
+    }
+    for (int i = 0; i <= 26; i++) {
+      result['A' + i] = (byte) (10 + i);
+      result['a' + i] = (byte) (10 + i);
+    }
+    return result;
+  }
+
+  private static int digit(char c) {
+    return (c < 128) ? asciiDigits[c] : -1;
   }
 
   /**
@@ -341,25 +357,62 @@ public final class Longs {
   @Nullable
   @CheckForNull
   public static Long tryParse(String string) {
+    return tryParse(string, 10);
+  }
+
+  /**
+   * Parses the specified string as a signed long value using the specified
+   * radix. The ASCII character {@code '-'} (<code>'&#92;u002D'</code>) is
+   * recognized as the minus sign.
+   *
+   * <p>Unlike {@link Long#parseLong(String, int)}, this method returns
+   * {@code null} instead of throwing an exception if parsing fails.
+   * Additionally, this method only accepts ASCII digits, and returns
+   * {@code null} if non-ASCII digits are present in the string.
+   *
+   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even
+   * under JDK 7, despite the change to {@link Long#parseLong(String, int)}
+   * for that version.
+   *
+   * @param string the string representation of an long value
+   * @param radix the radix to use when parsing
+   * @return the long value represented by {@code string} using
+   *     {@code radix}, or {@code null} if {@code string} has a length of zero
+   *     or cannot be parsed as a long value
+   * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or
+   *     {@code radix > Character.MAX_RADIX}
+   * @since 19.0
+   */
+  @Beta
+  @Nullable
+  @CheckForNull
+  public static Long tryParse(String string, int radix) {
     if (checkNotNull(string).isEmpty()) {
       return null;
+    }
+    if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+      throw new IllegalArgumentException(
+          "radix must be between MIN_RADIX and MAX_RADIX but was " + radix);
     }
     boolean negative = string.charAt(0) == '-';
     int index = negative ? 1 : 0;
     if (index == string.length()) {
       return null;
     }
-    int digit = string.charAt(index++) - '0';
-    if (digit < 0 || digit > 9) {
+    int digit = digit(string.charAt(index++));
+    if (digit < 0 || digit >= radix) {
       return null;
     }
     long accum = -digit;
+
+    long cap = Long.MIN_VALUE / radix;
+
     while (index < string.length()) {
-      digit = string.charAt(index++) - '0';
-      if (digit < 0 || digit > 9 || accum < Long.MIN_VALUE / 10) {
+      digit = digit(string.charAt(index++));
+      if (digit < 0 || digit >= radix || accum < cap) {
         return null;
       }
-      accum *= 10;
+      accum *= radix;
       if (accum < Long.MIN_VALUE + digit) {
         return null;
       }
@@ -396,12 +449,18 @@ public final class Longs {
     private Object readResolve() {
       return INSTANCE;
     }
+
     private static final long serialVersionUID = 1;
   }
 
   /**
-   * Returns a serializable converter object that converts between strings and
-   * longs using {@link Long#decode} and {@link Long#toString()}.
+   * Returns a serializable converter object that converts between strings and longs using {@link
+   * Long#decode} and {@link Long#toString()}. The returned converter throws {@link
+   * NumberFormatException} if the input string is invalid.
+   *
+   * <p><b>Warning:</b> please see {@link Long#decode} to understand exactly how strings are parsed.
+   * For example, the string {@code "0123"} is treated as <i>octal</i> and converted to the value
+   * {@code 83L}.
    *
    * @since 16.0
    */
@@ -426,8 +485,7 @@ public final class Longs {
    * @return an array containing the values of {@code array}, with guaranteed
    *     minimum length {@code minLength}
    */
-  public static long[] ensureCapacity(
-      long[] array, int minLength, int padding) {
+  public static long[] ensureCapacity(long[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
     checkArgument(padding >= 0, "Invalid padding: %s", padding);
     return (array.length < minLength)
@@ -500,6 +558,11 @@ public final class Longs {
       }
       return left.length - right.length;
     }
+
+    @Override
+    public String toString() {
+      return "Longs.lexicographicalComparator()";
+    }
   }
 
   /**
@@ -570,26 +633,30 @@ public final class Longs {
       this.end = end;
     }
 
-    @Override public int size() {
+    @Override
+    public int size() {
       return end - start;
     }
 
-    @Override public boolean isEmpty() {
+    @Override
+    public boolean isEmpty() {
       return false;
     }
 
-    @Override public Long get(int index) {
+    @Override
+    public Long get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
     }
 
-    @Override public boolean contains(Object target) {
+    @Override
+    public boolean contains(Object target) {
       // Overridden to prevent a ton of boxing
-      return (target instanceof Long)
-          && Longs.indexOf(array, (Long) target, start, end) != -1;
+      return (target instanceof Long) && Longs.indexOf(array, (Long) target, start, end) != -1;
     }
 
-    @Override public int indexOf(Object target) {
+    @Override
+    public int indexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Long) {
         int i = Longs.indexOf(array, (Long) target, start, end);
@@ -600,7 +667,8 @@ public final class Longs {
       return -1;
     }
 
-    @Override public int lastIndexOf(Object target) {
+    @Override
+    public int lastIndexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Long) {
         int i = Longs.lastIndexOf(array, (Long) target, start, end);
@@ -611,7 +679,8 @@ public final class Longs {
       return -1;
     }
 
-    @Override public Long set(int index, Long element) {
+    @Override
+    public Long set(int index, Long element) {
       checkElementIndex(index, size());
       long oldValue = array[start + index];
       // checkNotNull for GWT (do not optimize)
@@ -619,7 +688,8 @@ public final class Longs {
       return oldValue;
     }
 
-    @Override public List<Long> subList(int fromIndex, int toIndex) {
+    @Override
+    public List<Long> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {
@@ -628,7 +698,8 @@ public final class Longs {
       return new LongArrayAsList(array, start + fromIndex, start + toIndex);
     }
 
-    @Override public boolean equals(@Nullable Object object) {
+    @Override
+    public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }
@@ -648,7 +719,8 @@ public final class Longs {
       return super.equals(object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       int result = 1;
       for (int i = start; i < end; i++) {
         result = 31 * result + Longs.hashCode(array[i]);
@@ -656,7 +728,8 @@ public final class Longs {
       return result;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       StringBuilder builder = new StringBuilder(size() * 10);
       builder.append('[').append(array[start]);
       for (int i = start + 1; i < end; i++) {

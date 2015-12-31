@@ -206,11 +206,10 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("ReturnValueIgnored")
   public void testDivideByZeroThrows() {
     for (long a : TEST_LONGS) {
       try {
-        UnsignedLong.fromLongBits(a).dividedBy(UnsignedLong.ZERO);
+        UnsignedLong unused = UnsignedLong.fromLongBits(a).dividedBy(UnsignedLong.ZERO);
         fail("Expected ArithmeticException");
       } catch (ArithmeticException expected) {}
     }
@@ -233,11 +232,10 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testModByZero() {
     for (long a : TEST_LONGS) {
       try {
-        UnsignedLong.fromLongBits(a).mod(UnsignedLong.ZERO);
+        UnsignedLong unused = UnsignedLong.fromLongBits(a).mod(UnsignedLong.ZERO);
         fail("Expected ArithmeticException");
       } catch (ArithmeticException expected) {}
     }

@@ -120,8 +120,8 @@ import javax.annotation.Nullable;
  * <li>There is no need to populate an empty collection before adding an entry
  *     with {@link #put put}.
  * <li>{@code get} never returns {@code null}, only an empty collection.
- * <li>A key is contained in the multimap if and only if it maps to at least 
- *     one value. Any operation that causes a key to have zero associated 
+ * <li>A key is contained in the multimap if and only if it maps to at least
+ *     one value. Any operation that causes a key to have zero associated
  *     values has the effect of <i>removing</i> that key from the multimap.
  * <li>The total entry count is available as {@link #size}.
  * <li>Many complex operations become easier; for example, {@code
@@ -142,10 +142,10 @@ import javax.annotation.Nullable;
  * to multimaps.
  *
  * <h3>Other Notes</h3>
- * 
- * <p>As with {@code Map}, the behavior of a {@code Multimap} is not specified 
- * if key objects already present in the multimap change in a manner that 
- * affects {@code equals} comparisons.  Use caution if mutable objects are used 
+ *
+ * <p>As with {@code Map}, the behavior of a {@code Multimap} is not specified
+ * if key objects already present in the multimap change in a manner that
+ * affects {@code equals} comparisons.  Use caution if mutable objects are used
  * as keys in a {@code Multimap}.
  *
  * <p>All methods that modify the multimap are optional. The view collections
@@ -154,7 +154,7 @@ import javax.annotation.Nullable;
  * UnsupportedOperationException}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multimap">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">
  * {@code Multimap}</a>.
  *
  * @author Jared Levy
@@ -230,11 +230,11 @@ public interface Multimap<K, V> {
    * Stores a key-value pair in this multimap for each of {@code values}, all
    * using the same key, {@code key}. Equivalent to (but expected to be more
    * efficient than): <pre>   {@code
-   * 
+   *
    *   for (V value : values) {
    *     put(key, value);
    *   }}</pre>
-   * 
+   *
    * <p>In particular, this is a no-op if {@code values} is empty.
    *
    * @return {@code true} if the multimap changed
@@ -252,8 +252,8 @@ public interface Multimap<K, V> {
   /**
    * Stores a collection of values with the same key, replacing any existing
    * values for that key.
-   * 
-   * <p>If {@code values} is empty, this is equivalent to 
+   *
+   * <p>If {@code values} is empty, this is equivalent to
    * {@link #removeAll(Object) removeAll(key)}.
    *
    * @return the collection of replaced values, or an empty collection if no
@@ -265,10 +265,10 @@ public interface Multimap<K, V> {
 
   /**
    * Removes all values associated with the key {@code key}.
-   * 
+   *
    * <p>Once this method returns, {@code key} will not be mapped to any values,
    * so it will not appear in {@link #keySet()}, {@link #asMap()}, or any other
-   * views. 
+   * views.
    *
    * @return the values that were removed (possibly empty). The returned
    *     collection <i>may</i> be modifiable, but updating it will have no
@@ -286,7 +286,7 @@ public interface Multimap<K, V> {
 
   /**
    * Returns a view collection of the values associated with {@code key} in this
-   * multimap, if any. Note that when {@code containsKey(key)} is false, this 
+   * multimap, if any. Note that when {@code containsKey(key)} is false, this
    * returns an empty collection, not {@code null}.
    *
    * <p>Changes to the returned collection will update the underlying multimap,
@@ -382,7 +382,7 @@ public interface Multimap<K, V> {
    * not have the same hash codes, depending on the implementation. For
    * example, two {@link SetMultimap} instances with the same key-value
    * mappings will have the same {@code hashCode}, but the {@code hashCode}
-   * of {@link ListMultimap} instances depends on the ordering of the values 
+   * of {@link ListMultimap} instances depends on the ordering of the values
    * for each key.
    */
   @Override

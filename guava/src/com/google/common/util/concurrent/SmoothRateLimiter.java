@@ -357,11 +357,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
     long waitMicros = storedPermitsToWaitTime(this.storedPermits, storedPermitsToSpend)
         + (long) (freshPermits * stableIntervalMicros);
 
-    try {
-      this.nextFreeTicketMicros = LongMath.checkedAdd(nextFreeTicketMicros, waitMicros);
-    } catch (ArithmeticException e) {
-      this.nextFreeTicketMicros = Long.MAX_VALUE;
-    }
+    this.nextFreeTicketMicros = LongMath.saturatedAdd(nextFreeTicketMicros, waitMicros);
     this.storedPermits -= storedPermitsToSpend;
     return returnValue;
   }

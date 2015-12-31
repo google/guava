@@ -453,7 +453,7 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
     }
   }
 
-  private int totalSize(Iterable<? extends Entry<?>> entries) {
+  private static int totalSize(Iterable<? extends Entry<?>> entries) {
     int sum = 0;
     for (Entry<?> entry : entries) {
       sum += entry.getCount();

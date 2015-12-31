@@ -28,16 +28,15 @@ import java.util.List;
 /**
  * This class implements the GWT serialization of
  * {@link RegularImmutableSortedSet}.
- * 
+ *
  * @author Chris Povirk
  */
 public class RegularImmutableSortedSet_CustomFieldSerializer {
-  public static void deserialize(SerializationStreamReader reader,
-      RegularImmutableSortedSet<?> instance) {
-  }
+  public static void deserialize(
+      SerializationStreamReader reader, RegularImmutableSortedSet<?> instance) {}
 
-  public static RegularImmutableSortedSet<Object> instantiate(
-      SerializationStreamReader reader) throws SerializationException {
+  public static RegularImmutableSortedSet<Object> instantiate(SerializationStreamReader reader)
+      throws SerializationException {
     /*
      * Nothing we can do, but we're already assuming the serialized form is
      * correctly typed, anyway.
@@ -53,12 +52,12 @@ public class RegularImmutableSortedSet_CustomFieldSerializer {
      * RegularImmutableSortedSet always have one or more elements,
      * ImmutableSortedSet.copyOf always return a RegularImmutableSortedSet back.
      */
-    return (RegularImmutableSortedSet<Object>)
-        ImmutableSortedSet.copyOf(comparator, elements);
+    return (RegularImmutableSortedSet<Object>) ImmutableSortedSet.copyOf(comparator, elements);
   }
 
-  public static void serialize(SerializationStreamWriter writer,
-      RegularImmutableSortedSet<?> instance) throws SerializationException {
+  public static void serialize(
+      SerializationStreamWriter writer, RegularImmutableSortedSet<?> instance)
+      throws SerializationException {
     writer.writeObject(instance.comparator());
 
     Collection_CustomFieldSerializerBase.serialize(writer, instance);

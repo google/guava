@@ -14,6 +14,9 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.Helpers.assertContentsAnyOrder;
+import static com.google.common.collect.testing.Helpers.assertContentsInOrder;
+import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
@@ -21,7 +24,6 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
-import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Iterables;
@@ -56,24 +58,24 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
 
       Collection<V> collection = multimap().asMap().get(key);
       if (expectedValues.isEmpty()) {
-        assertThat(collection).isNull();
+        assertNull(collection);
       } else {
-        assertThat(collection).containsExactlyElementsIn(expectedValues);
+        assertEqualIgnoringOrder(expectedValues, collection);
       }
     }
   }
- 
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testAsMapGetNullKeyPresent() {
     initMultimapWithNullKey();
-    assertThat(multimap().asMap().get(null)).containsExactly(getValueForNullKey());
+    assertContentsAnyOrder(multimap().asMap().get(null), getValueForNullKey());
   }
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testAsMapGetNullKeyAbsent() {
-    assertThat(multimap().asMap().get(null)).isNull();
+    assertNull(multimap().asMap().get(null));
   }
- 
+
   @MapFeature.Require(absent = ALLOWS_NULL_KEY_QUERIES)
   public void testAsMapGetNullKeyUnsupported() {
     try {
@@ -81,11 +83,11 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {}
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testAsMapRemove() {
-    assertThat(multimap().asMap().remove(k0())).containsExactly(v0()).inOrder();
+    assertContentsInOrder(multimap().asMap().remove(k0()), v0());
     assertGet(k0());
     assertEquals(getNumElements() - 1, multimap().size());
   }
@@ -96,14 +98,12 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
     resetContainer(
         Helpers.mapEntry(k0(), v0()),
         Helpers.mapEntry(k0(), v3()));
-    
+
     Set<Entry<K, Collection<V>>> asMapEntrySet = multimap().asMap().entrySet();
     Collection<V> valueCollection = Iterables.getOnlyElement(asMapEntrySet).getValue();
-    assertThat(valueCollection)
-        .containsExactly(v0(), v3());
+    assertContentsAnyOrder(valueCollection, v0(), v3());
     assertTrue(multimap().put(k0(), v4()));
-    assertThat(valueCollection)
-        .containsExactly(v0(), v3(), v4());
+    assertContentsAnyOrder(valueCollection, v0(), v3(), v4());
   }
 
   @CollectionSize.Require(SEVERAL)
@@ -112,7 +112,7 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
     resetContainer(
         Helpers.mapEntry(k0(), v0()),
         Helpers.mapEntry(k0(), v3()));
-    
+
     Set<Entry<K, Collection<V>>> asMapEntrySet = multimap().asMap().entrySet();
     assertTrue(multimap().put(k1(), v4()));
     assertEquals(2, asMapEntrySet.size());
@@ -129,7 +129,7 @@ public class MultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, Mult
     assertTrue(multimap().put(k1(), v4()));
     assertTrue(asMapEntrySet.remove(asMapEntry0));
     assertEquals(1, multimap().size());
-    assertThat(multimap().keySet()).containsExactly(k1()).inOrder();
+    assertContentsInOrder(multimap().keySet(), k1());
   }
 
   @CollectionSize.Require(SEVERAL)

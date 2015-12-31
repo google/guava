@@ -254,31 +254,4 @@ public final class CharStreams {
     }
     return new AppendableWriter(target);
   }
-
-  // TODO(cgdecker): Remove these once Input/OutputSupplier methods are removed
-
-  static Reader asReader(final Readable readable) {
-    checkNotNull(readable);
-    if (readable instanceof Reader) {
-      return (Reader) readable;
-    }
-    return new Reader() {
-      @Override
-      public int read(char[] cbuf, int off, int len) throws IOException {
-        return read(CharBuffer.wrap(cbuf, off, len));
-      }
-
-      @Override
-      public int read(CharBuffer target) throws IOException {
-        return readable.read(target);
-      }
-
-      @Override
-      public void close() throws IOException {
-        if (readable instanceof Closeable) {
-          ((Closeable) readable).close();
-        }
-      }
-    };
-  }
 }

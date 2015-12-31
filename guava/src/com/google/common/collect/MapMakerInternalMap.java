@@ -25,6 +25,8 @@ import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMaker.RemovalListener;
 import com.google.common.collect.MapMaker.RemovalNotification;
 import com.google.common.primitives.Ints;
+import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -38,6 +40,7 @@ import java.util.AbstractCollection;
 import java.util.AbstractMap;
 import java.util.AbstractQueue;
 import java.util.AbstractSet;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -68,8 +71,8 @@ import javax.annotation.concurrent.GuardedBy;
  * @author Charles Fry
  * @author Doug Lea ({@code ConcurrentHashMap})
  */
-class MapMakerInternalMap<K, V>
-    extends AbstractMap<K, V> implements ConcurrentMap<K, V>, Serializable {
+class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
+    implements ConcurrentMap<K, V>, Serializable {
 
   /*
    * The basic strategy is to subdivide the table among Segments, each of which itself is a
@@ -209,9 +212,10 @@ class MapMakerInternalMap<K, V>
     ticker = builder.getTicker();
 
     removalListener = builder.getRemovalListener();
-    removalNotificationQueue = (removalListener == NullListener.INSTANCE)
-        ? MapMakerInternalMap.<RemovalNotification<K, V>>discardingQueue()
-        : new ConcurrentLinkedQueue<RemovalNotification<K, V>>();
+    removalNotificationQueue =
+        (removalListener == NullListener.INSTANCE)
+            ? MapMakerInternalMap.<RemovalNotification<K, V>>discardingQueue()
+            : new ConcurrentLinkedQueue<RemovalNotification<K, V>>();
 
     int initialCapacity = Math.min(builder.getInitialCapacity(), MAXIMUM_CAPACITY);
     if (evictsBySize()) {
@@ -251,13 +255,11 @@ class MapMakerInternalMap<K, V>
         if (i == remainder) {
           maximumSegmentSize--;
         }
-        this.segments[i] =
-            createSegment(segmentSize, maximumSegmentSize);
+        this.segments[i] = createSegment(segmentSize, maximumSegmentSize);
       }
     } else {
       for (int i = 0; i < this.segments.length; ++i) {
-        this.segments[i] =
-            createSegment(segmentSize, MapMaker.UNSET_INT);
+        this.segments[i] = createSegment(segmentSize, MapMaker.UNSET_INT);
       }
     }
   }
@@ -461,6 +463,7 @@ class MapMakerInternalMap<K, V>
      * Masks used to compute indices in the following table.
      */
     static final int EXPIRABLE_MASK = 1;
+
     static final int EVICTABLE_MASK = 2;
 
     /**
@@ -468,13 +471,13 @@ class MapMakerInternalMap<K, V>
      * the result of OR-ing the feature masks.
      */
     static final EntryFactory[][] factories = {
-      { STRONG, STRONG_EXPIRABLE, STRONG_EVICTABLE, STRONG_EXPIRABLE_EVICTABLE },
+      {STRONG, STRONG_EXPIRABLE, STRONG_EVICTABLE, STRONG_EXPIRABLE_EVICTABLE},
       {}, // no support for SOFT keys
-      { WEAK, WEAK_EXPIRABLE, WEAK_EVICTABLE, WEAK_EXPIRABLE_EVICTABLE }
+      {WEAK, WEAK_EXPIRABLE, WEAK_EVICTABLE, WEAK_EXPIRABLE_EVICTABLE}
     };
 
-    static EntryFactory getFactory(Strength keyStrength, boolean expireAfterWrite,
-        boolean evictsBySize) {
+    static EntryFactory getFactory(
+        Strength keyStrength, boolean expireAfterWrite, boolean evictsBySize) {
       int flags = (expireAfterWrite ? EXPIRABLE_MASK : 0) | (evictsBySize ? EVICTABLE_MASK : 0);
       return factories[keyStrength.ordinal()][flags];
     }
@@ -575,36 +578,39 @@ class MapMakerInternalMap<K, V>
   /**
    * Placeholder. Indicates that the value hasn't been set yet.
    */
-  static final ValueReference<Object, Object> UNSET = new ValueReference<Object, Object>() {
-    @Override
-    public Object get() {
-      return null;
-    }
+  static final ValueReference<Object, Object> UNSET =
+      new ValueReference<Object, Object>() {
+        @Override
+        public Object get() {
+          return null;
+        }
 
-    @Override
-    public ReferenceEntry<Object, Object> getEntry() {
-      return null;
-    }
+        @Override
+        public ReferenceEntry<Object, Object> getEntry() {
+          return null;
+        }
 
-    @Override
-    public ValueReference<Object, Object> copyFor(ReferenceQueue<Object> queue,
-        @Nullable Object value, ReferenceEntry<Object, Object> entry) {
-      return this;
-    }
+        @Override
+        public ValueReference<Object, Object> copyFor(
+            ReferenceQueue<Object> queue,
+            @Nullable Object value,
+            ReferenceEntry<Object, Object> entry) {
+          return this;
+        }
 
-    @Override
-    public boolean isComputingReference() {
-      return false;
-    }
+        @Override
+        public boolean isComputingReference() {
+          return false;
+        }
 
-    @Override
-    public Object waitForValue() {
-      return null;
-    }
+        @Override
+        public Object waitForValue() {
+          return null;
+        }
 
-    @Override
-    public void clear(ValueReference<Object, Object> newValue) {}
-  };
+        @Override
+        public void clear(ValueReference<Object, Object> newValue) {}
+      };
 
   /**
    * Singleton placeholder that indicates a value is being computed.
@@ -865,32 +871,33 @@ class MapMakerInternalMap<K, V>
     return (ReferenceEntry<K, V>) NullEntry.INSTANCE;
   }
 
-  static final Queue<? extends Object> DISCARDING_QUEUE = new AbstractQueue<Object>() {
-    @Override
-    public boolean offer(Object o) {
-      return true;
-    }
+  static final Queue<? extends Object> DISCARDING_QUEUE =
+      new AbstractQueue<Object>() {
+        @Override
+        public boolean offer(Object o) {
+          return true;
+        }
 
-    @Override
-    public Object peek() {
-      return null;
-    }
+        @Override
+        public Object peek() {
+          return null;
+        }
 
-    @Override
-    public Object poll() {
-      return null;
-    }
+        @Override
+        public Object poll() {
+          return null;
+        }
 
-    @Override
-    public int size() {
-      return 0;
-    }
+        @Override
+        public int size() {
+          return 0;
+        }
 
-    @Override
-    public Iterator<Object> iterator() {
-      return Iterators.emptyIterator();
-    }
-  };
+        @Override
+        public Iterator<Object> iterator() {
+          return Iterators.emptyIterator();
+        }
+      };
 
   /**
    * Queue that discards all elements.
@@ -1055,8 +1062,8 @@ class MapMakerInternalMap<K, V>
     }
   }
 
-  static final class StrongEvictableEntry<K, V>
-      extends StrongEntry<K, V> implements ReferenceEntry<K, V> {
+  static final class StrongEvictableEntry<K, V> extends StrongEntry<K, V>
+      implements ReferenceEntry<K, V> {
     StrongEvictableEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
@@ -1090,8 +1097,8 @@ class MapMakerInternalMap<K, V>
     }
   }
 
-  static final class StrongExpirableEvictableEntry<K, V>
-      extends StrongEntry<K, V> implements ReferenceEntry<K, V> {
+  static final class StrongExpirableEvictableEntry<K, V> extends StrongEntry<K, V>
+      implements ReferenceEntry<K, V> {
     StrongExpirableEvictableEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
@@ -1262,8 +1269,8 @@ class MapMakerInternalMap<K, V>
     }
   }
 
-  static final class SoftExpirableEntry<K, V>
-      extends SoftEntry<K, V> implements ReferenceEntry<K, V> {
+  static final class SoftExpirableEntry<K, V> extends SoftEntry<K, V>
+      implements ReferenceEntry<K, V> {
     SoftExpirableEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
@@ -1310,8 +1317,8 @@ class MapMakerInternalMap<K, V>
     }
   }
 
-  static final class SoftEvictableEntry<K, V>
-      extends SoftEntry<K, V> implements ReferenceEntry<K, V> {
+  static final class SoftEvictableEntry<K, V> extends SoftEntry<K, V>
+      implements ReferenceEntry<K, V> {
     SoftEvictableEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
@@ -1346,8 +1353,8 @@ class MapMakerInternalMap<K, V>
     }
   }
 
-  static final class SoftExpirableEvictableEntry<K, V>
-      extends SoftEntry<K, V> implements ReferenceEntry<K, V> {
+  static final class SoftExpirableEvictableEntry<K, V> extends SoftEntry<K, V>
+      implements ReferenceEntry<K, V> {
     SoftExpirableEvictableEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
@@ -1520,8 +1527,8 @@ class MapMakerInternalMap<K, V>
     }
   }
 
-  static final class WeakExpirableEntry<K, V>
-      extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
+  static final class WeakExpirableEntry<K, V> extends WeakEntry<K, V>
+      implements ReferenceEntry<K, V> {
     WeakExpirableEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
@@ -1568,8 +1575,8 @@ class MapMakerInternalMap<K, V>
     }
   }
 
-  static final class WeakEvictableEntry<K, V>
-      extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
+  static final class WeakEvictableEntry<K, V> extends WeakEntry<K, V>
+      implements ReferenceEntry<K, V> {
     WeakEvictableEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
@@ -1604,8 +1611,8 @@ class MapMakerInternalMap<K, V>
     }
   }
 
-  static final class WeakExpirableEvictableEntry<K, V>
-      extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
+  static final class WeakExpirableEvictableEntry<K, V> extends WeakEntry<K, V>
+      implements ReferenceEntry<K, V> {
     WeakExpirableEvictableEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
@@ -1683,8 +1690,8 @@ class MapMakerInternalMap<K, V>
   /**
    * References a weak value.
    */
-  static final class WeakValueReference<K, V>
-      extends WeakReference<V> implements ValueReference<K, V> {
+  static final class WeakValueReference<K, V> extends WeakReference<V>
+      implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
 
     WeakValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry) {
@@ -1722,8 +1729,8 @@ class MapMakerInternalMap<K, V>
   /**
    * References a soft value.
    */
-  static final class SoftValueReference<K, V>
-      extends SoftReference<V> implements ValueReference<K, V> {
+  static final class SoftValueReference<K, V> extends SoftReference<V>
+      implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
 
     SoftValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry) {
@@ -2016,7 +2023,7 @@ class MapMakerInternalMap<K, V>
      * comments.
      */
 
-    final MapMakerInternalMap<K, V> map;
+    @Weak final MapMakerInternalMap<K, V> map;
 
     /**
      * The number of live elements in this segment's region. This does not include unset elements
@@ -2092,23 +2099,24 @@ class MapMakerInternalMap<K, V>
       this.maxSegmentSize = maxSegmentSize;
       initTable(newEntryArray(initialCapacity));
 
-      keyReferenceQueue = map.usesKeyReferences()
-           ? new ReferenceQueue<K>() : null;
+      keyReferenceQueue = map.usesKeyReferences() ? new ReferenceQueue<K>() : null;
 
-      valueReferenceQueue = map.usesValueReferences()
-           ? new ReferenceQueue<V>() : null;
+      valueReferenceQueue = map.usesValueReferences() ? new ReferenceQueue<V>() : null;
 
-      recencyQueue = (map.evictsBySize() || map.expiresAfterAccess())
-          ? new ConcurrentLinkedQueue<ReferenceEntry<K, V>>()
-          : MapMakerInternalMap.<ReferenceEntry<K, V>>discardingQueue();
+      recencyQueue =
+          (map.evictsBySize() || map.expiresAfterAccess())
+              ? new ConcurrentLinkedQueue<ReferenceEntry<K, V>>()
+              : MapMakerInternalMap.<ReferenceEntry<K, V>>discardingQueue();
 
-      evictionQueue = map.evictsBySize()
-          ? new EvictionQueue<K, V>()
-          : MapMakerInternalMap.<ReferenceEntry<K, V>>discardingQueue();
+      evictionQueue =
+          map.evictsBySize()
+              ? new EvictionQueue<K, V>()
+              : MapMakerInternalMap.<ReferenceEntry<K, V>>discardingQueue();
 
-      expirationQueue = map.expires()
-          ? new ExpirationQueue<K, V>()
-          : MapMakerInternalMap.<ReferenceEntry<K, V>>discardingQueue();
+      expirationQueue =
+          map.expires()
+              ? new ExpirationQueue<K, V>()
+              : MapMakerInternalMap.<ReferenceEntry<K, V>>discardingQueue();
     }
 
     AtomicReferenceArray<ReferenceEntry<K, V>> newEntryArray(int size) {
@@ -2283,9 +2291,8 @@ class MapMakerInternalMap<K, V>
       if (map.expires()) {
         // currently MapMaker ensures that expireAfterWrite and
         // expireAfterAccess are mutually exclusive
-        long expiration = map.expiresAfterAccess()
-            ? map.expireAfterAccessNanos
-            : map.expireAfterWriteNanos;
+        long expiration =
+            map.expiresAfterAccess() ? map.expireAfterAccessNanos : map.expireAfterWriteNanos;
         recordExpirationTime(entry, expiration);
         expirationQueue.add(entry);
       }
@@ -2512,7 +2519,8 @@ class MapMakerInternalMap<K, V>
         // Look for an existing entry.
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           K entryKey = e.getKey();
-          if (e.getHash() == hash && entryKey != null
+          if (e.getHash() == hash
+              && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
             // We found an existing entry.
 
@@ -2645,7 +2653,8 @@ class MapMakerInternalMap<K, V>
 
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           K entryKey = e.getKey();
-          if (e.getHash() == hash && entryKey != null
+          if (e.getHash() == hash
+              && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
             // If the value disappeared, this entry is partially collected,
             // and we should pretend like it doesn't exist.
@@ -2696,7 +2705,8 @@ class MapMakerInternalMap<K, V>
 
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           K entryKey = e.getKey();
-          if (e.getHash() == hash && entryKey != null
+          if (e.getHash() == hash
+              && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
             // If the value disappeared, this entry is partially collected,
             // and we should pretend like it doesn't exist.
@@ -2741,7 +2751,8 @@ class MapMakerInternalMap<K, V>
 
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           K entryKey = e.getKey();
-          if (e.getHash() == hash && entryKey != null
+          if (e.getHash() == hash
+              && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
             ValueReference<K, V> valueReference = e.getValueReference();
             V entryValue = valueReference.get();
@@ -2784,7 +2795,8 @@ class MapMakerInternalMap<K, V>
 
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           K entryKey = e.getKey();
-          if (e.getHash() == hash && entryKey != null
+          if (e.getHash() == hash
+              && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
             ValueReference<K, V> valueReference = e.getValueReference();
             V entryValue = valueReference.get();
@@ -2929,7 +2941,8 @@ class MapMakerInternalMap<K, V>
 
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           K entryKey = e.getKey();
-          if (e.getHash() == hash && entryKey != null
+          if (e.getHash() == hash
+              && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
             ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
@@ -2966,7 +2979,8 @@ class MapMakerInternalMap<K, V>
 
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           K entryKey = e.getKey();
-          if (e.getHash() == hash && entryKey != null
+          if (e.getHash() == hash
+              && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
             ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
@@ -3092,7 +3106,6 @@ class MapMakerInternalMap<K, V>
         map.processPendingNotifications();
       }
     }
-
   }
 
   // Queues
@@ -3109,32 +3122,33 @@ class MapMakerInternalMap<K, V>
    * for the current model.
    */
   static final class EvictionQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
-    final ReferenceEntry<K, V> head = new AbstractReferenceEntry<K, V>() {
+    final ReferenceEntry<K, V> head =
+        new AbstractReferenceEntry<K, V>() {
 
-      ReferenceEntry<K, V> nextEvictable = this;
+          ReferenceEntry<K, V> nextEvictable = this;
 
-      @Override
-      public ReferenceEntry<K, V> getNextEvictable() {
-        return nextEvictable;
-      }
+          @Override
+          public ReferenceEntry<K, V> getNextEvictable() {
+            return nextEvictable;
+          }
 
-      @Override
-      public void setNextEvictable(ReferenceEntry<K, V> next) {
-        this.nextEvictable = next;
-      }
+          @Override
+          public void setNextEvictable(ReferenceEntry<K, V> next) {
+            this.nextEvictable = next;
+          }
 
-      ReferenceEntry<K, V> previousEvictable = this;
+          ReferenceEntry<K, V> previousEvictable = this;
 
-      @Override
-      public ReferenceEntry<K, V> getPreviousEvictable() {
-        return previousEvictable;
-      }
+          @Override
+          public ReferenceEntry<K, V> getPreviousEvictable() {
+            return previousEvictable;
+          }
 
-      @Override
-      public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-        this.previousEvictable = previous;
-      }
-    };
+          @Override
+          public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
+            this.previousEvictable = previous;
+          }
+        };
 
     // implements Queue
 
@@ -3237,40 +3251,41 @@ class MapMakerInternalMap<K, V>
    * for the current model.
    */
   static final class ExpirationQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
-    final ReferenceEntry<K, V> head = new AbstractReferenceEntry<K, V>() {
+    final ReferenceEntry<K, V> head =
+        new AbstractReferenceEntry<K, V>() {
 
-      @Override
-      public long getExpirationTime() {
-        return Long.MAX_VALUE;
-      }
+          @Override
+          public long getExpirationTime() {
+            return Long.MAX_VALUE;
+          }
 
-      @Override
-      public void setExpirationTime(long time) {}
+          @Override
+          public void setExpirationTime(long time) {}
 
-      ReferenceEntry<K, V> nextExpirable = this;
+          ReferenceEntry<K, V> nextExpirable = this;
 
-      @Override
-      public ReferenceEntry<K, V> getNextExpirable() {
-        return nextExpirable;
-      }
+          @Override
+          public ReferenceEntry<K, V> getNextExpirable() {
+            return nextExpirable;
+          }
 
-      @Override
-      public void setNextExpirable(ReferenceEntry<K, V> next) {
-        this.nextExpirable = next;
-      }
+          @Override
+          public void setNextExpirable(ReferenceEntry<K, V> next) {
+            this.nextExpirable = next;
+          }
 
-      ReferenceEntry<K, V> previousExpirable = this;
+          ReferenceEntry<K, V> previousExpirable = this;
 
-      @Override
-      public ReferenceEntry<K, V> getPreviousExpirable() {
-        return previousExpirable;
-      }
+          @Override
+          public ReferenceEntry<K, V> getPreviousExpirable() {
+            return previousExpirable;
+          }
 
-      @Override
-      public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-        this.previousExpirable = previous;
-      }
-    };
+          @Override
+          public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
+            this.previousExpirable = previous;
+          }
+        };
 
     // implements Queue
 
@@ -3472,8 +3487,7 @@ class MapMakerInternalMap<K, V>
       long sum = 0L;
       for (Segment<K, V> segment : segments) {
         // ensure visibility of most recent completed write
-        @SuppressWarnings({"UnusedDeclaration", "unused"})
-        int c = segment.count; // read-volatile
+        int unused = segment.count; // read-volatile
 
         AtomicReferenceArray<ReferenceEntry<K, V>> table = segment.table;
         for (int j = 0; j < table.length(); j++) {
@@ -3770,7 +3784,8 @@ class MapMakerInternalMap<K, V>
     }
   }
 
-  final class KeySet extends AbstractSet<K> {
+  @WeakOuter
+  final class KeySet extends SafeToArraySet<K> {
 
     @Override
     public Iterator<K> iterator() {
@@ -3803,6 +3818,7 @@ class MapMakerInternalMap<K, V>
     }
   }
 
+  @WeakOuter
   final class Values extends AbstractCollection<V> {
 
     @Override
@@ -3829,9 +3845,23 @@ class MapMakerInternalMap<K, V>
     public void clear() {
       MapMakerInternalMap.this.clear();
     }
+
+    // super.toArray() may misbehave if size() is inaccurate, at least on old versions of Android.
+    // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
+
+    @Override
+    public Object[] toArray() {
+      return toArrayList(this).toArray();
+    }
+
+    @Override
+    public <E> E[] toArray(E[] a) {
+      return toArrayList(this).toArray(a);
+    }
   }
 
-  final class EntrySet extends AbstractSet<Entry<K, V>> {
+  @WeakOuter
+  final class EntrySet extends SafeToArraySet<Entry<K, V>> {
 
     @Override
     public Iterator<Entry<K, V>> iterator() {
@@ -3879,22 +3909,52 @@ class MapMakerInternalMap<K, V>
     }
   }
 
+  private abstract static class SafeToArraySet<E> extends AbstractSet<E> {
+    // super.toArray() may misbehave if size() is inaccurate, at least on old versions of Android.
+    // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
+
+    @Override
+    public Object[] toArray() {
+      return toArrayList(this).toArray();
+    }
+
+    @Override
+    public <E> E[] toArray(E[] a) {
+      return toArrayList(this).toArray(a);
+    }
+  }
+
+  private static <E> ArrayList<E> toArrayList(Collection<E> c) {
+    // Avoid calling ArrayList(Collection), which may call back into toArray.
+    ArrayList<E> result = new ArrayList<E>(c.size());
+    Iterators.addAll(result, c.iterator());
+    return result;
+  }
+
   // Serialization Support
 
   private static final long serialVersionUID = 5;
 
   Object writeReplace() {
-    return new SerializationProxy<K, V>(keyStrength, valueStrength, keyEquivalence,
-        valueEquivalence, expireAfterWriteNanos, expireAfterAccessNanos, maximumSize,
-        concurrencyLevel, removalListener, this);
+    return new SerializationProxy<K, V>(
+        keyStrength,
+        valueStrength,
+        keyEquivalence,
+        valueEquivalence,
+        expireAfterWriteNanos,
+        expireAfterAccessNanos,
+        maximumSize,
+        concurrencyLevel,
+        removalListener,
+        this);
   }
 
   /**
    * The actual object that gets serialized. Unfortunately, readResolve() doesn't get called when a
    * circular dependency is present, so the proxy must be able to behave as the map itself.
    */
-  abstract static class AbstractSerializationProxy<K, V>
-      extends ForwardingConcurrentMap<K, V> implements Serializable {
+  abstract static class AbstractSerializationProxy<K, V> extends ForwardingConcurrentMap<K, V>
+      implements Serializable {
     private static final long serialVersionUID = 3;
 
     final Strength keyStrength;
@@ -3909,10 +3969,16 @@ class MapMakerInternalMap<K, V>
 
     transient ConcurrentMap<K, V> delegate;
 
-    AbstractSerializationProxy(Strength keyStrength, Strength valueStrength,
-        Equivalence<Object> keyEquivalence, Equivalence<Object> valueEquivalence,
-        long expireAfterWriteNanos, long expireAfterAccessNanos, int maximumSize,
-        int concurrencyLevel, RemovalListener<? super K, ? super V> removalListener,
+    AbstractSerializationProxy(
+        Strength keyStrength,
+        Strength valueStrength,
+        Equivalence<Object> keyEquivalence,
+        Equivalence<Object> valueEquivalence,
+        long expireAfterWriteNanos,
+        long expireAfterAccessNanos,
+        int maximumSize,
+        int concurrencyLevel,
+        RemovalListener<? super K, ? super V> removalListener,
         ConcurrentMap<K, V> delegate) {
       this.keyStrength = keyStrength;
       this.valueStrength = valueStrength;
@@ -3943,12 +4009,13 @@ class MapMakerInternalMap<K, V>
     @SuppressWarnings("deprecation") // serialization of deprecated feature
     MapMaker readMapMaker(ObjectInputStream in) throws IOException {
       int size = in.readInt();
-      MapMaker mapMaker = new MapMaker()
-          .initialCapacity(size)
-          .setKeyStrength(keyStrength)
-          .setValueStrength(valueStrength)
-          .keyEquivalence(keyEquivalence)
-          .concurrencyLevel(concurrencyLevel);
+      MapMaker mapMaker =
+          new MapMaker()
+              .initialCapacity(size)
+              .setKeyStrength(keyStrength)
+              .setValueStrength(valueStrength)
+              .keyEquivalence(keyEquivalence)
+              .concurrencyLevel(concurrencyLevel);
       mapMaker.removalListener(removalListener);
       if (expireAfterWriteNanos > 0) {
         mapMaker.expireAfterWrite(expireAfterWriteNanos, TimeUnit.NANOSECONDS);
@@ -3982,13 +4049,28 @@ class MapMakerInternalMap<K, V>
   private static final class SerializationProxy<K, V> extends AbstractSerializationProxy<K, V> {
     private static final long serialVersionUID = 3;
 
-    SerializationProxy(Strength keyStrength, Strength valueStrength,
-        Equivalence<Object> keyEquivalence, Equivalence<Object> valueEquivalence,
-        long expireAfterWriteNanos, long expireAfterAccessNanos, int maximumSize,
-        int concurrencyLevel, RemovalListener<? super K, ? super V> removalListener,
+    SerializationProxy(
+        Strength keyStrength,
+        Strength valueStrength,
+        Equivalence<Object> keyEquivalence,
+        Equivalence<Object> valueEquivalence,
+        long expireAfterWriteNanos,
+        long expireAfterAccessNanos,
+        int maximumSize,
+        int concurrencyLevel,
+        RemovalListener<? super K, ? super V> removalListener,
         ConcurrentMap<K, V> delegate) {
-      super(keyStrength, valueStrength, keyEquivalence, valueEquivalence, expireAfterWriteNanos,
-          expireAfterAccessNanos, maximumSize, concurrencyLevel, removalListener, delegate);
+      super(
+          keyStrength,
+          valueStrength,
+          keyEquivalence,
+          valueEquivalence,
+          expireAfterWriteNanos,
+          expireAfterAccessNanos,
+          maximumSize,
+          concurrencyLevel,
+          removalListener,
+          delegate);
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

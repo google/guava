@@ -16,12 +16,12 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.Helpers.assertEmpty;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
-import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -38,11 +38,11 @@ import java.util.List;
 /**
  * Tests for {@code Multiset#remove}, {@code Multiset.removeAll}, and {@code Multiset.retainAll}
  * not already covered by the corresponding Collection testers.
- * 
+ *
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {  
+public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveNegative() {
     try {
@@ -51,7 +51,7 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
     } catch (IllegalArgumentException expected) {}
     expectUnchanged();
   }
-  
+
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testRemoveUnsupported() {
     try {
@@ -124,7 +124,7 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
     assertEquals("multiset.remove(wrongType, 1) didn't return 0",
         0, getMultiset().remove(WrongType.VALUE, 1));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_VALUES})
   public void testRemove_nullPresent() {
@@ -134,12 +134,12 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
         getMultiset().contains(null));
     assertEquals(0, getMultiset().count(null));
   }
-  
+
   @CollectionFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_QUERIES})
   public void testRemove_nullAbsent() {
     assertEquals(0, getMultiset().remove(null, 2));
   }
-  
+
   @CollectionFeature.Require(value = SUPPORTS_REMOVE, absent = ALLOWS_NULL_QUERIES)
   public void testRemove_nullForbidden() {
     try {
@@ -147,15 +147,15 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
       fail("Expected NullPointerException");
     } catch (NullPointerException expected) {}
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllIgnoresCount() {
     initThreeCopies();
     assertTrue(getMultiset().removeAll(Collections.singleton(e0())));
-    assertThat(getMultiset()).isEmpty();
+    assertEmpty(getMultiset());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRetainAllIgnoresCount() {
@@ -164,7 +164,7 @@ public class MultisetRemoveTester<E> extends AbstractMultisetTester<E> {
     assertFalse(getMultiset().retainAll(Collections.singleton(e0())));
     expectContents(contents);
   }
-  
+
   /**
    * Returns {@link Method} instances for the remove tests that assume multisets
    * support duplicates so that the test of {@code Multisets.forSet()} can

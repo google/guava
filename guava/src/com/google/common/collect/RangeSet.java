@@ -40,13 +40,17 @@ import javax.annotation.Nullable;
  *
  * <p>For a {@link Set} whose contents are specified by a {@link Range}, see {@link ContiguousSet}.
  *
+ * <p>See the Guava User Guide article on <a href=
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#rangeset">
+ * RangeSets</a>.
+ *
  * @author Kevin Bourrillion
  * @author Louis Wasserman
  * @since 14.0
  */
 @Beta
 public interface RangeSet<C extends Comparable> {
-  
+
   // Query methods
 
   /**
@@ -59,6 +63,15 @@ public interface RangeSet<C extends Comparable> {
    * {@code value}, or {@code null} if this range set does not contain {@code value}.
    */
   Range<C> rangeContaining(C value);
+
+  /**
+   * Returns {@code true} if there exists a non-empty range enclosed by both a member range in this
+   * range set and the specified range. This is equivalent to calling
+   * {@code subRangeSet(otherRange)} and testing whether the resulting range set is non-empty.
+   *
+   * @since 20.0
+   */
+  boolean intersects(Range<C> otherRange);
 
   /**
    * Returns {@code true} if there exists a member range in this range set which
@@ -91,7 +104,7 @@ public interface RangeSet<C extends Comparable> {
   Range<C> span();
 
   // Views
-  
+
   /**
    * Returns a view of the {@linkplain Range#isConnected disconnected} ranges that make up this
    * range set.  The returned set may be empty. The iterators returned by its
@@ -105,6 +118,8 @@ public interface RangeSet<C extends Comparable> {
    * make up this range set. The returned set may be empty. The iterators returned by its
    * {@link Iterable#iterator} method return the ranges in decreasing order of lower bound
    * (equivalently, of upper bound).
+   *
+   * @since 19.0
    */
   Set<Range<C>> asDescendingSetOfRanges();
 
@@ -115,7 +130,7 @@ public interface RangeSet<C extends Comparable> {
    * {@link #remove}, and vice versa.
    */
   RangeSet<C> complement();
-  
+
   /**
    * Returns a view of the intersection of this {@code RangeSet} with the specified range.
    *
@@ -125,7 +140,7 @@ public interface RangeSet<C extends Comparable> {
    * {@code view}.
    */
   RangeSet<C> subRangeSet(Range<C> view);
-  
+
   // Modification
 
   /**
@@ -152,13 +167,13 @@ public interface RangeSet<C extends Comparable> {
    *         operation
    */
   void remove(Range<C> range);
-  
+
   /**
    * Removes all ranges from this {@code RangeSet} (optional operation).  After this operation,
    * {@code this.contains(c)} will return false for all {@code c}.
-   * 
+   *
    * <p>This is equivalent to {@code remove(Range.all())}.
-   * 
+   *
    * @throws UnsupportedOperationException if this range set does not support the {@code clear}
    *         operation
    */
@@ -188,7 +203,7 @@ public interface RangeSet<C extends Comparable> {
    *         operation
    */
   void removeAll(RangeSet<C> other);
-  
+
   // Object methods
 
   /**
@@ -197,7 +212,7 @@ public interface RangeSet<C extends Comparable> {
    */
   @Override
   boolean equals(@Nullable Object obj);
-  
+
   /**
    * Returns {@code asRanges().hashCode()}.
    */

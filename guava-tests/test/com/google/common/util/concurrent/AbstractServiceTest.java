@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.lang.Thread.currentThread;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -380,7 +381,7 @@ public class AbstractServiceTest extends TestCase {
     assertEquals(State.FAILED, service.state());
     waiter.join(LONG_TIMEOUT_MILLIS);
     assertFalse(waiter.isAlive());
-    assertTrue(exception.get() instanceof IllegalStateException);
+    assertThat(exception.get()).isInstanceOf(IllegalStateException.class);
     assertEquals(EXCEPTION, exception.get().getCause());
   }
 
@@ -460,12 +461,12 @@ public class AbstractServiceTest extends TestCase {
     service.startAsync();
     service.notifyFailed(new Exception("1"));
     service.notifyFailed(new Exception("2"));
-    assertEquals("1", service.failureCause().getMessage());
+    assertThat(service.failureCause()).hasMessage("1");
     try {
       service.awaitRunning();
       fail();
     } catch (IllegalStateException e) {
-      assertEquals("1", e.getCause().getMessage());
+      assertThat(e.getCause()).hasMessage("1");
     }
   }
 

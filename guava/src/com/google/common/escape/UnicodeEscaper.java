@@ -46,10 +46,9 @@ import com.google.common.annotations.GwtCompatible;
  * <p>A {@code UnicodeEscaper} instance is required to be stateless, and safe
  * when used concurrently by multiple threads.
  *
- * <p>Several popular escapers are defined as constants in classes like {@link
- * com.google.common.html.HtmlEscapers}, {@link
- * com.google.common.xml.XmlEscapers}, and {@link SourceCodeEscapers}. To create
- * your own escapers extend this class and implement the {@link #escape(int)}
+ * <p>Popular escapers are defined as constants in classes like {@link
+ * com.google.common.html.HtmlEscapers} and {@link com.google.common.xml.XmlEscapers}.
+ * To create your own escapers extend this class and implement the {@link #escape(int)}
  * method.
  *
  * @author David Beaumont

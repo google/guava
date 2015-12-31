@@ -134,9 +134,10 @@ public class FinalizableReferenceQueue implements Closeable {
 
   /** Reference to Finalizer.startFinalizer(). */
   private static final Method startFinalizer;
+
   static {
-    Class<?> finalizer = loadFinalizer(
-        new SystemLoader(), new DecoupledLoader(), new DirectLoader());
+    Class<?> finalizer =
+        loadFinalizer(new SystemLoader(), new DecoupledLoader(), new DirectLoader());
     startFinalizer = getStartFinalizer(finalizer);
   }
 
@@ -166,8 +167,11 @@ public class FinalizableReferenceQueue implements Closeable {
     } catch (IllegalAccessException impossible) {
       throw new AssertionError(impossible); // startFinalizer() is public
     } catch (Throwable t) {
-      logger.log(Level.INFO, "Failed to start reference finalizer thread."
-          + " Reference cleanup will only occur when new references are created.", t);
+      logger.log(
+          Level.INFO,
+          "Failed to start reference finalizer thread."
+              + " Reference cleanup will only occur when new references are created.",
+          t);
     }
 
     this.threadStarted = threadStarted;
@@ -241,8 +245,7 @@ public class FinalizableReferenceQueue implements Closeable {
   static class SystemLoader implements FinalizerLoader {
     // This is used by the ClassLoader-leak test in FinalizableReferenceQueueTest to disable
     // finding Finalizer on the system class path even if it is there.
-    @VisibleForTesting
-    static boolean disabled;
+    @VisibleForTesting static boolean disabled;
 
     @Override
     public Class<?> loadFinalizer() {
@@ -275,10 +278,11 @@ public class FinalizableReferenceQueue implements Closeable {
    * it would prevent our class loader from getting garbage collected.
    */
   static class DecoupledLoader implements FinalizerLoader {
-    private static final String LOADING_ERROR = "Could not load Finalizer in its own class loader."
-        + "Loading Finalizer in the current class loader instead. As a result, you will not be able"
-        + "to garbage collect this class loader. To support reclaiming this class loader, either"
-        + "resolve the underlying issue, or move Google Collections to your system class path.";
+    private static final String LOADING_ERROR =
+        "Could not load Finalizer in its own class loader. Loading Finalizer in the current class "
+            + "loader instead. As a result, you will not be able to garbage collect this class "
+            + "loader. To support reclaiming this class loader, either resolve the underlying "
+            + "issue, or move Guava to your system class path.";
 
     @Override
     public Class<?> loadFinalizer() {
@@ -350,10 +354,7 @@ public class FinalizableReferenceQueue implements Closeable {
   static Method getStartFinalizer(Class<?> finalizer) {
     try {
       return finalizer.getMethod(
-          "startFinalizer",
-          Class.class,
-          ReferenceQueue.class,
-          PhantomReference.class);
+          "startFinalizer", Class.class, ReferenceQueue.class, PhantomReference.class);
     } catch (NoSuchMethodException e) {
       throw new AssertionError(e);
     }

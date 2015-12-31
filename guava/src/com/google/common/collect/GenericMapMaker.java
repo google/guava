@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
  *     com.google.common.cache.CacheBuilder}, which is a properly generified class and thus needs no
  *     "Generic" equivalent; simple use {@code CacheBuilder} naturally. For general migration
  *     instructions, see the <a
- *     href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration">MapMaker Migration
+ *     href="https://github.com/google/guava/wiki/MapMakerMigration">MapMaker Migration
  *     Guide</a>.
  */
 @Beta

@@ -16,7 +16,7 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.collect.Sets;
+import static com.google.common.collect.Sets.newHashSet;
 
 import java.util.Set;
 
@@ -33,12 +33,15 @@ abstract class AggregateFutureState {
     this.remaining = remainingFutures;
   }
 
-  final Set<Throwable> getSeenExceptions() {
+  final Set<Throwable> getOrInitSeenExceptions() {
     if (seenExceptions == null) {
-      seenExceptions = Sets.<Throwable>newHashSet();
+      seenExceptions = newHashSet();
+      addInitialException(seenExceptions);
     }
     return seenExceptions;
   }
+
+  abstract void addInitialException(Set<Throwable> seen);
 
   final int decrementRemainingAndGet() {
     return --remaining;

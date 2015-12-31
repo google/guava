@@ -98,7 +98,7 @@ public final class Strings {
    * @return the padded string
    */
   public static String padStart(String string, int minLength, char padChar) {
-    checkNotNull(string);  // eager for GWT.
+    checkNotNull(string); // eager for GWT.
     if (string.length() >= minLength) {
       return string;
     }
@@ -130,7 +130,7 @@ public final class Strings {
    * @return the padded string
    */
   public static String padEnd(String string, int minLength, char padChar) {
-    checkNotNull(string);  // eager for GWT.
+    checkNotNull(string); // eager for GWT.
     if (string.length() >= minLength) {
       return string;
     }
@@ -154,7 +154,7 @@ public final class Strings {
    * @throws IllegalArgumentException if {@code count} is negative
    */
   public static String repeat(String string, int count) {
-    checkNotNull(string);  // eager for GWT.
+    checkNotNull(string); // eager for GWT.
 
     if (count <= 1) {
       checkArgument(count >= 0, "invalid count: %s", count);
@@ -166,8 +166,7 @@ public final class Strings {
     final long longSize = (long) len * (long) count;
     final int size = (int) longSize;
     if (size != longSize) {
-      throw new ArrayIndexOutOfBoundsException(
-          "Required array size too large: " + longSize);
+      throw new ArrayIndexOutOfBoundsException("Required array size too large: " + longSize);
     }
 
     final char[] array = new char[size];
@@ -217,8 +216,7 @@ public final class Strings {
 
     int maxSuffixLength = Math.min(a.length(), b.length());
     int s = 0;
-    while (s < maxSuffixLength
-        && a.charAt(a.length() - s - 1) == b.charAt(b.length() - s - 1)) {
+    while (s < maxSuffixLength && a.charAt(a.length() - s - 1) == b.charAt(b.length() - s - 1)) {
       s++;
     }
     if (validSurrogatePairAt(a, a.length() - s - 1)
@@ -234,7 +232,8 @@ public final class Strings {
    */
   @VisibleForTesting
   static boolean validSurrogatePairAt(CharSequence string, int index) {
-    return index >= 0 && index <= (string.length() - 2)
+    return index >= 0
+        && index <= (string.length() - 2)
         && Character.isHighSurrogate(string.charAt(index))
         && Character.isLowSurrogate(string.charAt(index + 1));
   }

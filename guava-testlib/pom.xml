@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>19.0-SNAPSHOT</version>
+    <version>20.0-SNAPSHOT</version>
   </parent>
   <artifactId>guava-testlib</artifactId>
   <name>Guava Testing Library</name>
@@ -23,6 +23,11 @@
       <artifactId>error_prone_annotations</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.google.j2objc</groupId>
+      <artifactId>j2objc-annotations</artifactId>
+      <optional>true</optional><!-- needed only for annotations -->
+    </dependency>
+    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>guava</artifactId>
       <version>${project.version}</version>
@@ -33,9 +38,12 @@
       <scope>compile</scope><!-- testlib must carry these transitively -->
     </dependency>
     <dependency>
+      <!--
+      Do not include Truth in non-test scope! Doing so creates a problematic dependency cycle.
+      -->
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
-      <scope>compile</scope><!-- testlib must carry these transitively -->
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>

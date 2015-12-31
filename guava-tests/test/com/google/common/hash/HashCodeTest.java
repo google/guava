@@ -219,44 +219,40 @@ public class HashCodeTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testFromStringFailsWithInvalidHexChar() {
     try {
-      HashCode.fromString("7f8005ff0z");
+      HashCode unused = HashCode.fromString("7f8005ff0z");
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testFromStringFailsWithUpperCaseString() {
     String string = Hashing.sha1().hashString("foo", Charsets.US_ASCII).toString().toUpperCase();
     try {
-      HashCode.fromString(string);
+      HashCode unused = HashCode.fromString(string);
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testFromStringFailsWithShortInputs() {
     try {
-      HashCode.fromString("");
+      HashCode unused = HashCode.fromString("");
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
-      HashCode.fromString("7");
+      HashCode unused = HashCode.fromString("7");
       fail();
     } catch (IllegalArgumentException expected) {
     }
-    HashCode.fromString("7f");
+    HashCode unused = HashCode.fromString("7f");
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testFromStringFailsWithOddLengthInput() {
     try {
-      HashCode.fromString("7f8");
+      HashCode unused = HashCode.fromString("7f8");
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -347,7 +343,6 @@ public class HashCodeTest extends TestCase {
         .forAllPublicStaticMethods(HashCode.class);
   }
 
-  @SuppressWarnings("CheckReturnValue")
   private static void assertExpectedHashCode(ExpectedHashCode expectedHashCode, HashCode hash) {
     assertTrue(Arrays.equals(expectedHashCode.bytes, hash.asBytes()));
     byte[] bb = new byte[hash.bits() / 8];
@@ -356,7 +351,7 @@ public class HashCodeTest extends TestCase {
     assertEquals(expectedHashCode.asInt, hash.asInt());
     if (expectedHashCode.asLong == null) {
       try {
-        hash.asLong();
+        long unused = hash.asLong();
         fail();
       } catch (IllegalStateException expected) {}
     } else {

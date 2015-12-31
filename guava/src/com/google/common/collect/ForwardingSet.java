@@ -46,20 +46,22 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingSet<E> extends ForwardingCollection<E>
-    implements Set<E> {
-  // TODO(user): identify places where thread safety is actually lost
+public abstract class ForwardingSet<E> extends ForwardingCollection<E> implements Set<E> {
+  // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
   protected ForwardingSet() {}
 
-  @Override protected abstract Set<E> delegate();
+  @Override
+  protected abstract Set<E> delegate();
 
-  @Override public boolean equals(@Nullable Object object) {
+  @Override
+  public boolean equals(@Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return delegate().hashCode();
   }
 

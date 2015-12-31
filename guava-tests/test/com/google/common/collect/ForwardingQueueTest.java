@@ -203,7 +203,7 @@ public class ForwardingQueueTest extends ForwardingTestCase {
   }
 
   public void testRemove_Object() {
-    forward.remove(Object.class);
+    forward.remove("asdf");
     assertEquals("[remove(Object)]", getCalls());
   }
 

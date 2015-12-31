@@ -50,6 +50,7 @@ import java.util.Random;
  *
  * @author Chris Nokleberg
  */
+
 public class FilesTest extends IoTestCase {
 
   public static TestSuite suite() {
@@ -61,13 +62,20 @@ public class FilesTest extends IoTestCase {
     suite.addTest(ByteSinkTester.tests("Files.asByteSink[File, APPEND]",
         SourceSinkFactories.appendingFileByteSinkFactory()));
     suite.addTest(CharSourceTester.tests("Files.asCharSource[File, Charset]",
-        SourceSinkFactories.fileCharSourceFactory()));
+        SourceSinkFactories.fileCharSourceFactory(), false));
     suite.addTest(CharSinkTester.tests("Files.asCharSink[File, Charset]",
         SourceSinkFactories.fileCharSinkFactory()));
     suite.addTest(CharSinkTester.tests("Files.asCharSink[File, Charset, APPEND]",
         SourceSinkFactories.appendingFileCharSinkFactory()));
     suite.addTestSuite(FilesTest.class);
     return suite;
+  }
+
+  public void testRoundTripSources() throws Exception {
+    File asciiFile = getTestFile("ascii.txt");
+    ByteSource byteSource = Files.asByteSource(asciiFile);
+    assertSame(byteSource,
+        byteSource.asCharSource(Charsets.UTF_8).asByteSource(Charsets.UTF_8));
   }
 
   public void testToByteArray() throws IOException {
@@ -142,7 +150,7 @@ public class FilesTest extends IoTestCase {
   }
 
   /**
-   * A {@link File} that provides a specialized value for {link File#length()}.
+   * A {@link File} that provides a specialized value for {@link File#length()}.
    */
   private static class BadLengthFile extends File {
 
@@ -416,7 +424,7 @@ public class FilesTest extends IoTestCase {
     File temp = Files.createTempDir();
     assertTrue(temp.exists());
     assertTrue(temp.isDirectory());
-    assertEquals(0, temp.listFiles().length);
+    assertThat(temp.listFiles()).isEmpty();
     assertTrue(temp.delete());
   }
 

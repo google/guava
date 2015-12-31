@@ -399,6 +399,7 @@ public class SuppliersTest extends TestCase {
   }
 
   @GwtIncompatible("reflection")
+  @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException: com.google.common.base.Function
   public void testSuppliersSerializable() throws Exception {
     new ClassSanityTester().forAllPublicStaticMethods(Suppliers.class)
         .testSerializable();

@@ -15,6 +15,8 @@
 package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static java.lang.Character.MAX_SURROGATE;
+import static java.lang.Character.MIN_SURROGATE;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -63,7 +65,7 @@ public final class Utf8 {
     for (; i < utf16Length; i++) {
       char c = sequence.charAt(i);
       if (c < 0x800) {
-        utf8Length += ((0x7f - c) >>> 31);  // branch free!
+        utf8Length += ((0x7f - c) >>> 31); // branch free!
       } else {
         utf8Length += encodedLengthGeneral(sequence, i);
         break;
@@ -72,8 +74,8 @@ public final class Utf8 {
 
     if (utf8Length < utf16Length) {
       // Necessary and sufficient condition for overflow because of maximum 3x expansion
-      throw new IllegalArgumentException("UTF-8 length does not fit in int: "
-                                         + (utf8Length + (1L << 32)));
+      throw new IllegalArgumentException(
+          "UTF-8 length does not fit in int: " + (utf8Length + (1L << 32)));
     }
     return utf8Length;
   }
@@ -88,11 +90,10 @@ public final class Utf8 {
       } else {
         utf8Length += 2;
         // jdk7+: if (Character.isSurrogate(c)) {
-        if (Character.MIN_SURROGATE <= c && c <= Character.MAX_SURROGATE) {
+        if (MIN_SURROGATE <= c && c <= MAX_SURROGATE) {
           // Check that we have a well-formed surrogate pair.
-          int cp = Character.codePointAt(sequence, i);
-          if (cp < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
-            throw new IllegalArgumentException("Unpaired surrogate at index " + i);
+          if (Character.codePointAt(sequence, i) == c) {
+            throw new IllegalArgumentException(unpairedSurrogateMsg(i));
           }
           i++;
         }
@@ -195,6 +196,10 @@ public final class Utf8 {
         }
       }
     }
+  }
+
+  private static String unpairedSurrogateMsg(int i) {
+    return "Unpaired surrogate at index " + i;
   }
 
   private Utf8() {}

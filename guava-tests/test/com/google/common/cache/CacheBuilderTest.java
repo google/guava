@@ -88,7 +88,7 @@ public class CacheBuilderTest extends TestCase {
         .build(identityLoader());
     LocalCache<?, ?> map = CacheTesting.toLocalCache(cache);
 
-    assertEquals(4, map.segments.length);
+    assertThat(map.segments).hasLength(4);
     assertEquals(2, map.segments[0].table.length());
     assertEquals(2, map.segments[1].table.length());
     assertEquals(2, map.segments[2].table.length());
@@ -102,7 +102,7 @@ public class CacheBuilderTest extends TestCase {
         .build(identityLoader());
     LocalCache<?, ?> map = CacheTesting.toLocalCache(cache);
 
-    assertEquals(4, map.segments.length);
+    assertThat(map.segments).hasLength(4);
     // 1 is as low as it goes, not 0. it feels dirty to know this/test this.
     assertEquals(1, map.segments[0].table.length());
     assertEquals(1, map.segments[1].table.length());
@@ -139,7 +139,7 @@ public class CacheBuilderTest extends TestCase {
         .concurrencyLevel(1)
         .build(identityLoader());
     LocalCache<?, ?> map = CacheTesting.toLocalCache(cache);
-    assertEquals(1, map.segments.length);
+    assertThat(map.segments).hasLength(1);
   }
 
   public void testConcurrencyLevel_large() {
@@ -219,15 +219,11 @@ public class CacheBuilderTest extends TestCase {
   @GwtIncompatible("weigher")
   public void testWeigher_withMaximumSize() {
     try {
-      CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>()
-          .weigher(constantWeigher(42))
-          .maximumSize(1);
+      new CacheBuilder<Object, Object>().weigher(constantWeigher(42)).maximumSize(1);
       fail();
     } catch (IllegalStateException expected) {}
     try {
-      CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>()
-          .maximumSize(1)
-          .weigher(constantWeigher(42));
+      new CacheBuilder<Object, Object>().maximumSize(1).weigher(constantWeigher(42));
       fail();
     } catch (IllegalStateException expected) {}
   }
@@ -612,7 +608,7 @@ public class CacheBuilderTest extends TestCase {
   public void testSizingDefaults() {
     LoadingCache<?, ?> cache = CacheBuilder.newBuilder().build(identityLoader());
     LocalCache<?, ?> map = CacheTesting.toLocalCache(cache);
-    assertEquals(4, map.segments.length); // concurrency level
+    assertThat(map.segments).hasLength(4); // concurrency level
     assertEquals(4, map.segments[0].table.length()); // capacity / conc level
   }
 

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2010 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -20,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Throwables;
+import com.google.j2objc.annotations.Weak;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
@@ -33,11 +32,10 @@ import javax.annotation.concurrent.GuardedBy;
  * <p>This class is intended as a replacement for {@link ReentrantLock}. Code using {@code Monitor}
  * is less error-prone and more readable than code using {@code ReentrantLock}, without significant
  * performance loss. {@code Monitor} even has the potential for performance gain by optimizing the
- * evaluation and signaling of conditions.  Signaling is entirely
- * <a href="http://en.wikipedia.org/wiki/Monitor_(synchronization)#Implicit_signaling">
- * implicit</a>.
- * By eliminating explicit signaling, this class can guarantee that only one thread is awakened
- * when a condition becomes true (no "signaling storms" due to use of {@link
+ * evaluation and signaling of conditions. Signaling is entirely <a
+ * href="http://en.wikipedia.org/wiki/Monitor_(synchronization)#Implicit_signaling">implicit</a>.
+ * By eliminating explicit signaling, this class can guarantee that only one thread is awakened when
+ * a condition becomes true (no "signaling storms" due to use of {@link
  * java.util.concurrent.locks.Condition#signalAll Condition.signalAll}) and that no signals are lost
  * (no "hangs" due to incorrect use of {@link java.util.concurrent.locks.Condition#signal
  * Condition.signal}).
@@ -59,9 +57,9 @@ import javax.annotation.concurrent.GuardedBy;
  *     monitor.leave();
  *   }}</pre>
  *
- * <p>A call to any of the <i>enter</i> methods with <b>boolean</b> return type should always
- * appear as the condition of an <i>if</i> statement containing a <i>try/finally</i> block to
- * ensure that the current thread leaves the monitor cleanly: <pre>   {@code
+ * <p>A call to any of the <i>enter</i> methods with <b>boolean</b> return type should always appear
+ * as the condition of an <i>if</i> statement containing a <i>try/finally</i> block to ensure that
+ * the current thread leaves the monitor cleanly: <pre>   {@code
  *
  *   if (monitor.tryEnter()) {
  *     try {
@@ -303,7 +301,7 @@ public final class Monitor {
   @Beta
   public abstract static class Guard {
 
-    final Monitor monitor;
+    @Weak final Monitor monitor;
     final Condition condition;
 
     @GuardedBy("monitor.lock")
@@ -324,7 +322,6 @@ public final class Monitor {
      * by the associated monitor, and must not modify that state.
      */
     public abstract boolean isSatisfied();
-
   }
 
   /**
@@ -393,7 +390,7 @@ public final class Monitor {
     boolean interrupted = Thread.interrupted();
     try {
       final long startTime = System.nanoTime();
-      for (long remainingNanos = timeoutNanos;;) {
+      for (long remainingNanos = timeoutNanos; ; ) {
         try {
           return lock.tryLock(remainingNanos, TimeUnit.NANOSECONDS);
         } catch (InterruptedException interrupt) {
@@ -496,7 +493,8 @@ public final class Monitor {
     boolean reentrant = lock.isHeldByCurrentThread();
     long startTime = 0L;
 
- locked: {
+    locked:
+    {
       if (!fair) {
         // Check interrupt status to get behavior consistent with fair case.
         if (Thread.interrupted()) {
@@ -515,12 +513,12 @@ public final class Monitor {
     boolean satisfied = false;
     boolean threw = true;
     try {
-      satisfied = guard.isSatisfied()
-          || awaitNanos(guard,
-                        (startTime == 0L)
-                            ? timeoutNanos
-                            : remainingNanos(startTime, timeoutNanos),
-                        reentrant);
+      satisfied =
+          guard.isSatisfied()
+              || awaitNanos(
+                  guard,
+                  (startTime == 0L) ? timeoutNanos : remainingNanos(startTime, timeoutNanos),
+                  reentrant);
       threw = false;
       return satisfied;
     } finally {
@@ -555,7 +553,7 @@ public final class Monitor {
     try {
       if (fair || !lock.tryLock()) {
         startTime = initNanoTime(timeoutNanos);
-        for (long remainingNanos = timeoutNanos;;) {
+        for (long remainingNanos = timeoutNanos; ; ) {
           try {
             if (lock.tryLock(remainingNanos, TimeUnit.NANOSECONDS)) {
               break;
@@ -593,7 +591,7 @@ public final class Monitor {
         }
       } finally {
         if (!satisfied) {
-          lock.unlock();  // No need to signal if timed out
+          lock.unlock(); // No need to signal if timed out
         }
       }
     } finally {
@@ -794,7 +792,7 @@ public final class Monitor {
     final long startTime = initNanoTime(timeoutNanos);
     boolean interrupted = Thread.interrupted();
     try {
-      for (long remainingNanos = timeoutNanos;;) {
+      for (long remainingNanos = timeoutNanos; ; ) {
         try {
           return awaitNanos(guard, remainingNanos, signalBeforeWaiting);
         } catch (InterruptedException interrupt) {
@@ -824,7 +822,7 @@ public final class Monitor {
         signalNextWaiter();
       }
     } finally {
-      lock.unlock();  // Will throw IllegalMonitorStateException if not held
+      lock.unlock(); // Will throw IllegalMonitorStateException if not held
     }
   }
 
@@ -924,9 +922,9 @@ public final class Monitor {
    */
   private static long toSafeNanos(long time, TimeUnit unit) {
     long timeoutNanos = unit.toNanos(time);
-    return (timeoutNanos <= 0L) ? 0L
-        : (timeoutNanos > (Long.MAX_VALUE / 4) * 3) ? (Long.MAX_VALUE / 4) * 3
-        : timeoutNanos;
+    return (timeoutNanos <= 0L)
+        ? 0L
+        : (timeoutNanos > (Long.MAX_VALUE / 4) * 3) ? (Long.MAX_VALUE / 4) * 3 : timeoutNanos;
   }
 
   /**
@@ -1054,14 +1052,14 @@ public final class Monitor {
     int waiters = --guard.waiterCount;
     if (waiters == 0) {
       // unlink guard from activeGuards
-      for (Guard p = activeGuards, pred = null;; pred = p, p = p.next) {
+      for (Guard p = activeGuards, pred = null; ; pred = p, p = p.next) {
         if (p == guard) {
           if (pred == null) {
             activeGuards = p.next;
           } else {
             pred.next = p.next;
           }
-          p.next = null;  // help GC
+          p.next = null; // help GC
           break;
         }
       }
@@ -1075,8 +1073,7 @@ public final class Monitor {
    */
 
   @GuardedBy("lock")
-  private void await(Guard guard, boolean signalBeforeWaiting)
-      throws InterruptedException {
+  private void await(Guard guard, boolean signalBeforeWaiting) throws InterruptedException {
     if (signalBeforeWaiting) {
       signalNextWaiter();
     }
@@ -1133,5 +1130,4 @@ public final class Monitor {
       }
     }
   }
-
 }

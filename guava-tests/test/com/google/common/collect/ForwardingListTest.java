@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -305,7 +307,7 @@ public class ForwardingListTest extends ForwardingTestCase {
   }
 
   public void testRandomAccess() {
-    assertFalse(forward instanceof RandomAccess);
+    assertThat(forward).isNotInstanceOf(RandomAccess.class);
   }
 
   public void testToString() {

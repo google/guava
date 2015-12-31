@@ -354,6 +354,7 @@ public class BigIntegerMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
+  @AndroidIncompatible // slow
   public void testDivNonZero() {
     for (BigInteger p : NONZERO_BIGINTEGER_CANDIDATES) {
       for (BigInteger q : NONZERO_BIGINTEGER_CANDIDATES) {
@@ -366,14 +367,35 @@ public class BigIntegerMathTest extends TestCase {
     }
   }
 
+  private static final BigInteger BAD_FOR_ANDROID_P = new BigInteger("-9223372036854775808");
+  private static final BigInteger BAD_FOR_ANDROID_Q = new BigInteger("-1");
+
+  private static final BigInteger BAD_FOR_GINGERBREAD_P = new BigInteger("-9223372036854775808");
+  private static final BigInteger BAD_FOR_GINGERBREAD_Q = new BigInteger("-4294967296");
+
   @GwtIncompatible("TODO")
+  @AndroidIncompatible // slow
   public void testDivNonZeroExact() {
+    boolean isAndroid = System.getProperties().getProperty("java.runtime.name").contains("Android");
     for (BigInteger p : NONZERO_BIGINTEGER_CANDIDATES) {
       for (BigInteger q : NONZERO_BIGINTEGER_CANDIDATES) {
+        if (isAndroid && p.equals(BAD_FOR_ANDROID_P) && q.equals(BAD_FOR_ANDROID_Q)) {
+          // https://code.google.com/p/android/issues/detail?id=196555
+          continue;
+        }
+        if (isAndroid && p.equals(BAD_FOR_GINGERBREAD_P) && q.equals(BAD_FOR_GINGERBREAD_Q)) {
+          // Works fine under Marshmallow, so I haven't filed a bug.
+          continue;
+        }
+
         boolean dividesEvenly = p.remainder(q).equals(ZERO);
 
         try {
-          assertEquals(p, BigIntegerMath.divide(p, q, UNNECESSARY).multiply(q));
+          BigInteger quotient = BigIntegerMath.divide(p, q, UNNECESSARY);
+          BigInteger undone = quotient.multiply(q);
+          if (!p.equals(undone)) {
+            failFormat("expected %s.multiply(%s) = %s; got %s", quotient, q, p, undone);
+          }
           assertTrue(dividesEvenly);
         } catch (ArithmeticException e) {
           assertFalse(dividesEvenly);
@@ -464,5 +486,10 @@ public class BigIntegerMathTest extends TestCase {
     tester.setDefault(int.class, 1);
     tester.setDefault(long.class, 1L);
     tester.testAllPublicStaticMethods(BigIntegerMath.class);
+  }
+
+  @GwtIncompatible("String.format")
+  private static void failFormat(String template, Object... args) {
+    fail(String.format(template, args));
   }
 }

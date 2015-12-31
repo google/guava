@@ -33,45 +33,47 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible
-final class FunctionalEquivalence<F, T> extends Equivalence<F>
-    implements Serializable {
+final class FunctionalEquivalence<F, T> extends Equivalence<F> implements Serializable {
 
   private static final long serialVersionUID = 0;
 
   private final Function<F, ? extends T> function;
   private final Equivalence<T> resultEquivalence;
 
-  FunctionalEquivalence(
-      Function<F, ? extends T> function, Equivalence<T> resultEquivalence) {
+  FunctionalEquivalence(Function<F, ? extends T> function, Equivalence<T> resultEquivalence) {
     this.function = checkNotNull(function);
     this.resultEquivalence = checkNotNull(resultEquivalence);
   }
 
-  @Override protected boolean doEquivalent(F a, F b) {
+  @Override
+  protected boolean doEquivalent(F a, F b) {
     return resultEquivalence.equivalent(function.apply(a), function.apply(b));
   }
 
-  @Override protected int doHash(F a) {
+  @Override
+  protected int doHash(F a) {
     return resultEquivalence.hash(function.apply(a));
   }
 
-  @Override public boolean equals(@Nullable Object obj) {
+  @Override
+  public boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
     }
     if (obj instanceof FunctionalEquivalence) {
       FunctionalEquivalence<?, ?> that = (FunctionalEquivalence<?, ?>) obj;
-      return function.equals(that.function)
-          && resultEquivalence.equals(that.resultEquivalence);
+      return function.equals(that.function) && resultEquivalence.equals(that.resultEquivalence);
     }
     return false;
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return Objects.hashCode(function, resultEquivalence);
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return resultEquivalence + ".onResultOf(" + function + ")";
   }
 }

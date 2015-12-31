@@ -55,9 +55,9 @@ import javax.annotation.Nullable;
  *   Joiner joiner = Joiner.on(',');
  *   joiner.skipNulls(); // does nothing!
  *   return joiner.join("wrong", null, "wrong");}</pre>
- *   
+ *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/StringsExplained#Joiner">{@code Joiner}</a>. 
+ * "https://github.com/google/guava/wiki/StringsExplained#joiner">{@code Joiner}</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0
@@ -129,7 +129,7 @@ public class Joiner {
    */
   public final <A extends Appendable> A appendTo(
       A appendable, @Nullable Object first, @Nullable Object second, Object... rest)
-          throws IOException {
+      throws IOException {
     return appendTo(appendable, iterable(first, second, rest));
   }
 
@@ -223,15 +223,18 @@ public class Joiner {
   public Joiner useForNull(final String nullText) {
     checkNotNull(nullText);
     return new Joiner(this) {
-      @Override CharSequence toString(@Nullable Object part) {
+      @Override
+      CharSequence toString(@Nullable Object part) {
         return (part == null) ? nullText : Joiner.this.toString(part);
       }
 
-      @Override public Joiner useForNull(String nullText) {
+      @Override
+      public Joiner useForNull(String nullText) {
         throw new UnsupportedOperationException("already specified useForNull");
       }
 
-      @Override public Joiner skipNulls() {
+      @Override
+      public Joiner skipNulls() {
         throw new UnsupportedOperationException("already specified useForNull");
       }
     };
@@ -244,8 +247,8 @@ public class Joiner {
   @CheckReturnValue
   public Joiner skipNulls() {
     return new Joiner(this) {
-      @Override public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts)
-          throws IOException {
+      @Override
+      public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts) throws IOException {
         checkNotNull(appendable, "appendable");
         checkNotNull(parts, "parts");
         while (parts.hasNext()) {
@@ -265,11 +268,13 @@ public class Joiner {
         return appendable;
       }
 
-      @Override public Joiner useForNull(String nullText) {
+      @Override
+      public Joiner useForNull(String nullText) {
         throw new UnsupportedOperationException("already specified skipNulls");
       }
 
-      @Override public MapJoiner withKeyValueSeparator(String kvs) {
+      @Override
+      public MapJoiner withKeyValueSeparator(String kvs) {
         throw new UnsupportedOperationException("can't use .skipNulls() with maps");
       }
     };
@@ -439,7 +444,7 @@ public class Joiner {
   }
 
   CharSequence toString(Object part) {
-    checkNotNull(part);  // checkNotNull for GWT (do not optimize).
+    checkNotNull(part); // checkNotNull for GWT (do not optimize).
     return (part instanceof CharSequence) ? (CharSequence) part : part.toString();
   }
 
@@ -447,11 +452,13 @@ public class Joiner {
       final Object first, final Object second, final Object[] rest) {
     checkNotNull(rest);
     return new AbstractList<Object>() {
-      @Override public int size() {
+      @Override
+      public int size() {
         return rest.length + 2;
       }
 
-      @Override public Object get(int index) {
+      @Override
+      public Object get(int index) {
         switch (index) {
           case 0:
             return first;

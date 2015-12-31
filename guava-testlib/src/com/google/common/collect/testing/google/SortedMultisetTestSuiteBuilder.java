@@ -16,6 +16,11 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
+import static com.google.common.collect.testing.features.CollectionFeature.RESTRICTS_ELEMENTS;
+import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
+import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS;
+
 import com.google.common.collect.BoundType;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -27,7 +32,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.OneSizeTestContainerGenerator;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
-import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.testing.SerializableTester;
 
@@ -62,7 +66,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends
 
   @Override
   public TestSuite createTestSuite() {
-    withFeatures(CollectionFeature.KNOWN_ORDER);
+    withFeatures(KNOWN_ORDER);
     TestSuite suite = super.createTestSuite();
     for (TestSuite subSuite : createDerivedSuites(this)) {
       suite.addTest(subSuite);
@@ -81,7 +85,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends
   @Override
   TestSuite createElementSetTestSuite(FeatureSpecificTestSuiteBuilder<
       ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
-    // TODO(user): make a SortedElementSetGenerator
+    // TODO(lowasser): make a SortedElementSetGenerator
     return SetTestSuiteBuilder
         .using(new ElementSetGenerator<E>(parentBuilder.getSubjectGenerator()))
         .named(getName() + ".elementSet")
@@ -118,7 +122,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends
       derivedSuites.add(createDescendingSuite(parentBuilder));
     }
 
-    if (parentBuilder.getFeatures().contains(CollectionFeature.SERIALIZABLE)) {
+    if (parentBuilder.getFeatures().contains(SERIALIZABLE)) {
       derivedSuites.add(createReserializedSuite(parentBuilder));
     }
 
@@ -152,11 +156,11 @@ public class SortedMultisetTestSuiteBuilder<E> extends
 
     Set<Feature<?>> features = new HashSet<Feature<?>>();
     features.add(NoRecurse.SUBMULTISET);
-    features.add(CollectionFeature.RESTRICTS_ELEMENTS);
+    features.add(RESTRICTS_ELEMENTS);
     features.addAll(parentBuilder.getFeatures());
 
-    if (!features.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)) {
-      features.remove(CollectionFeature.SERIALIZABLE);
+    if (!features.remove(SERIALIZABLE_INCLUDING_VIEWS)) {
+      features.remove(SERIALIZABLE);
     }
 
     SortedMultiset<E> emptyMultiset = (SortedMultiset<E>) delegate.create();
@@ -252,8 +256,8 @@ public class SortedMultisetTestSuiteBuilder<E> extends
     Set<Feature<?>> features = new HashSet<Feature<?>>();
     features.add(NoRecurse.DESCENDING);
     features.addAll(parentBuilder.getFeatures());
-    if (!features.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)) {
-      features.remove(CollectionFeature.SERIALIZABLE);
+    if (!features.remove(SERIALIZABLE_INCLUDING_VIEWS)) {
+      features.remove(SERIALIZABLE);
     }
 
     return SortedMultisetTestSuiteBuilder
@@ -282,8 +286,8 @@ public class SortedMultisetTestSuiteBuilder<E> extends
 
     Set<Feature<?>> features = new HashSet<Feature<?>>();
     features.addAll(parentBuilder.getFeatures());
-    features.remove(CollectionFeature.SERIALIZABLE);
-    features.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS);
+    features.remove(SERIALIZABLE);
+    features.remove(SERIALIZABLE_INCLUDING_VIEWS);
 
     return SortedMultisetTestSuiteBuilder
         .using(new ForwardingTestMultisetGenerator<E>(delegate) {

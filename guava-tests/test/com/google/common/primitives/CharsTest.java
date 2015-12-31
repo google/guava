@@ -76,10 +76,9 @@ public class CharsTest extends TestCase {
     assertEquals(LEAST, Chars.saturatedCast(Long.MIN_VALUE));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   private void assertCastFails(long value) {
     try {
-      Chars.checkedCast(value);
+      char unused = Chars.checkedCast(value);
       fail("Cast to char should have failed: " + value);
     } catch (IllegalArgumentException ex) {
       assertTrue(value + " not found in exception text: " + ex.getMessage(),
@@ -170,10 +169,9 @@ public class CharsTest extends TestCase {
         (char) 3));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
-      Chars.max();
+      char unused = Chars.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -187,10 +185,9 @@ public class CharsTest extends TestCase {
         (char) 5, (char) 3, (char) 0, (char) 9));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
-      Chars.min();
+      char unused = Chars.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -227,11 +224,10 @@ public class CharsTest extends TestCase {
         new byte[] {(byte) 0xFE, (byte) 0xDC}));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   @GwtIncompatible("Chars.fromByteArray")
   public void testFromByteArrayFails() {
     try {
-      Chars.fromByteArray(new byte[Chars.BYTES - 1]);
+      char unused = Chars.fromByteArray(new byte[Chars.BYTES - 1]);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -263,11 +259,10 @@ public class CharsTest extends TestCase {
     assertEquals((char) 0, c); // sanity check
   }
 
-  @SuppressWarnings("CheckReturnValue")
   @GwtIncompatible("Chars.fromByteArray, Chars.toByteArray")
   public void testByteArrayRoundTripsFails() {
     try {
-      Chars.fromByteArray(new byte[] {0x11});
+      char unused = Chars.fromByteArray(new byte[] {0x11});
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -282,16 +277,15 @@ public class CharsTest extends TestCase {
         Chars.ensureCapacity(ARRAY1, 2, 1)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
-      Chars.ensureCapacity(ARRAY1, -1, 1);
+      char[] unused = Chars.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      Chars.ensureCapacity(ARRAY1, 1, -1);
+      char[] unused = Chars.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -358,11 +352,10 @@ public class CharsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Character> list = Arrays.asList((char) 0, (char) 1, null);
     try {
-      Chars.toArray(list);
+      char[] unused = Chars.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }

@@ -18,8 +18,11 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.io.ByteStreams.BUF_SIZE;
+import static com.google.common.io.ByteStreams.skipUpTo;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Ascii;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Funnels;
@@ -58,8 +61,6 @@ import java.util.Iterator;
  */
 public abstract class ByteSource {
 
-  private static final int BUF_SIZE = 0x1000; // 4K
-
   /**
    * Constructor for use by subclasses.
    */
@@ -68,6 +69,11 @@ public abstract class ByteSource {
   /**
    * Returns a {@link CharSource} view of this byte source that decodes bytes read from this source
    * as characters using the given {@link Charset}.
+   *
+   * <p>If {@link CharSource#asByteSource} is called on the returned source with the same charset,
+   * the default implementation of this method will ensure that the original {@code ByteSource} is
+   * returned, rather than round-trip encoding. Subclasses that override this method should behave
+   * the same way.
    */
   public CharSource asCharSource(Charset charset) {
     return new AsCharSource(charset);
@@ -104,7 +110,10 @@ public abstract class ByteSource {
 
   /**
    * Returns a view of a slice of this byte source that is at most {@code length} bytes long
-   * starting at the given {@code offset}.
+   * starting at the given {@code offset}. If {@code offset} is greater than the size of this
+   * source, the returned source will be empty. If {@code offset + length} is greater than the size
+   * of this source, the returned source will contain the slice starting at {@code offset} and
+   * ending at the end of this source.
    *
    * @throws IllegalArgumentException if {@code offset} or {@code length} is negative
    */
@@ -116,6 +125,11 @@ public abstract class ByteSource {
    * Returns whether the source has zero bytes. The default implementation returns true if
    * {@link #sizeIfKnown} returns zero, falling back to opening a stream and checking for
    * EOF if the size is not known.
+   *
+   * <p>Note that, in cases where {@code sizeIfKnown} returns zero, it is <i>possible</i> that bytes
+   * are actually available for reading. (For example, some special files may return a size of 0
+   * despite actually having content when read.) This means that a source may return {@code true}
+   * from {@code isEmpty()} despite having readable content.
    *
    * @throws IOException if an I/O error occurs
    * @since 15.0
@@ -207,31 +221,17 @@ public abstract class ByteSource {
    */
   private long countBySkipping(InputStream in) throws IOException {
     long count = 0;
-    while (true) {
-      // don't try to skip more than available()
-      // things may work really wrong with FileInputStream otherwise
-      long skipped = in.skip(Math.min(in.available(), Integer.MAX_VALUE));
-      if (skipped <= 0) {
-        if (in.read() == -1) {
-          return count;
-        } else if (count == 0 && in.available() == 0) {
-          // if available is still zero after reading a single byte, it
-          // will probably always be zero, so we should countByReading
-          throw new IOException();
-        }
-        count++;
-      } else {
-        count += skipped;
-      }
+    long skipped;
+    while ((skipped = skipUpTo(in, Integer.MAX_VALUE)) > 0) {
+      count += skipped;
     }
+    return count;
   }
-
-  private static final byte[] countBuffer = new byte[BUF_SIZE];
 
   private long countByReading(InputStream in) throws IOException {
     long count = 0;
     long read;
-    while ((read = in.read(countBuffer)) != -1) {
+    while ((read = in.read(ByteStreams.skipBuffer)) != -1) {
       count += read;
     }
     return count;
@@ -442,10 +442,18 @@ public abstract class ByteSource {
    */
   private final class AsCharSource extends CharSource {
 
-    private final Charset charset;
+    final Charset charset;
 
-    private AsCharSource(Charset charset) {
+    AsCharSource(Charset charset) {
       this.charset = checkNotNull(charset);
+    }
+
+    @Override
+    public ByteSource asByteSource(Charset charset) {
+      if (charset.equals(this.charset)) {
+        return ByteSource.this;
+      }
+      return super.asByteSource(charset);
     }
 
     @Override
@@ -486,8 +494,9 @@ public abstract class ByteSource {
 
     private InputStream sliceStream(InputStream in) throws IOException {
       if (offset > 0) {
+        long skipped;
         try {
-          ByteStreams.skipFully(in, offset);
+          skipped = ByteStreams.skipUpTo(in, offset);
         } catch (Throwable e) {
           Closer closer = Closer.create();
           closer.register(in);
@@ -496,6 +505,12 @@ public abstract class ByteSource {
           } finally {
             closer.close();
           }
+        }
+
+        if (skipped < offset) {
+          // offset was beyond EOF
+          in.close();
+          return new ByteArrayInputStream(new byte[0]);
         }
       }
       return ByteStreams.limit(in, length);
@@ -516,9 +531,11 @@ public abstract class ByteSource {
 
     @Override
     public Optional<Long> sizeIfKnown() {
-      Optional<Long> unslicedSize = ByteSource.this.sizeIfKnown();
-      if (unslicedSize.isPresent()) {
-        return Optional.of(Math.min(offset + length, unslicedSize.get()) - offset);
+      Optional<Long> optionalUnslicedSize = ByteSource.this.sizeIfKnown();
+      if (optionalUnslicedSize.isPresent()) {
+        long unslicedSize = optionalUnslicedSize.get();
+        long off = Math.min(offset, unslicedSize);
+        return Optional.of(Math.min(length, unslicedSize - off));
       }
       return Optional.absent();
     }
@@ -598,77 +615,16 @@ public abstract class ByteSource {
       checkArgument(offset >= 0, "offset (%s) may not be negative", offset);
       checkArgument(length >= 0, "length (%s) may not be negative", length);
 
-      int newOffset = this.offset + (int) Math.min(this.length, offset);
-      int endOffset = this.offset + (int) Math.min(this.length, offset + length);
-      return new ByteArrayByteSource(bytes, newOffset, endOffset - newOffset);
+      offset = Math.min(offset, this.length);
+      length = Math.min(length, this.length - offset);
+      int newOffset = this.offset + (int) offset;
+      return new ByteArrayByteSource(bytes, newOffset, (int) length);
     }
 
     @Override
     public String toString() {
       return "ByteSource.wrap("
-          + truncate(BaseEncoding.base16().encode(bytes, offset, length), 30, "...") + ")";
-    }
-
-    /**
-     * Truncates the given character sequence to the given maximum length. If the length of the
-     * sequence is greater than {@code maxLength}, the returned string will be exactly
-     * {@code maxLength} chars in length and will end with the given {@code truncationIndicator}.
-     * Otherwise, the sequence will be returned as a string with no changes to the content.
-     *
-     * <p>Examples:
-     *
-     * <pre>   {@code
-     *   truncate("foobar", 7, "..."); // returns "foobar"
-     *   truncate("foobar", 5, "..."); // returns "fo..." }</pre>
-     *
-     * <p><b>Note:</b> This method <i>may</i> work with certain non-ASCII text but is not safe for
-     * use with arbitrary Unicode text. It is mostly intended for use with text that is known to be
-     * safe for use with it (such as all-ASCII text) and for simple debugging text. When using this
-     * method, consider the following:
-     *
-     * <ul>
-     *   <li>it may split surrogate pairs</li>
-     *   <li>it may split characters and combining characters</li>
-     *   <li>it does not consider word boundaries</li>
-     *   <li>if truncating for display to users, there are other considerations that must be taken
-     *   into account</li>
-     *   <li>the appropriate truncation indicator may be locale-dependent</li>
-     *   <li>it is safe to use non-ASCII characters in the truncation indicator</li>
-     * </ul>
-     *
-     *
-     * @throws IllegalArgumentException if {@code maxLength} is less than the length of
-     *     {@code truncationIndicator}
-     */
-    /*
-     * <p>TODO(user, cpovirk): Use Ascii.truncate once it is available in our internal copy of
-     * guava_jdk5.
-     */
-    private static String truncate(CharSequence seq, int maxLength, String truncationIndicator) {
-      checkNotNull(seq);
-
-      // length to truncate the sequence to, not including the truncation indicator
-      int truncationLength = maxLength - truncationIndicator.length();
-
-      // in this worst case, this allows a maxLength equal to the length of the truncationIndicator,
-      // meaning that a string will be truncated to just the truncation indicator itself
-      checkArgument(truncationLength >= 0,
-          "maxLength (%s) must be >= length of the truncation indicator (%s)",
-          maxLength, truncationIndicator.length());
-
-      if (seq.length() <= maxLength) {
-        String string = seq.toString();
-        if (string.length() <= maxLength) {
-          return string;
-        }
-        // if the length of the toString() result was > maxLength for some reason, truncate that
-        seq = string;
-      }
-
-      return new StringBuilder(maxLength)
-          .append(seq, 0, truncationLength)
-          .append(truncationIndicator)
-          .toString();
+          + Ascii.truncate(BaseEncoding.base16().encode(bytes, offset, length), 30, "...") + ")";
     }
   }
 

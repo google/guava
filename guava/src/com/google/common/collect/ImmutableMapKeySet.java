@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.j2objc.annotations.Weak;
 
 import java.io.Serializable;
 
@@ -31,7 +32,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 final class ImmutableMapKeySet<K, V> extends ImmutableSet.Indexed<K> {
-  private final ImmutableMap<K, V> map;
+  @Weak private final ImmutableMap<K, V> map;
 
   ImmutableMapKeySet(ImmutableMap<K, V> map) {
     this.map = map;
@@ -63,19 +64,23 @@ final class ImmutableMapKeySet<K, V> extends ImmutableSet.Indexed<K> {
   }
 
   @GwtIncompatible("serialization")
-  @Override Object writeReplace() {
+  @Override
+  Object writeReplace() {
     return new KeySetSerializedForm<K>(map);
   }
 
   @GwtIncompatible("serialization")
   private static class KeySetSerializedForm<K> implements Serializable {
     final ImmutableMap<K, ?> map;
+
     KeySetSerializedForm(ImmutableMap<K, ?> map) {
       this.map = map;
     }
+
     Object readResolve() {
       return map.keySet();
     }
+
     private static final long serialVersionUID = 0;
   }
 }

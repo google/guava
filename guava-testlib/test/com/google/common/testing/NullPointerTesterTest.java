@@ -220,6 +220,32 @@ public class NullPointerTesterTest extends TestCase {
     }
   }
 
+  public void testMessageOtherException() throws Exception {
+    Method method = OneArg.class.getMethod("staticOneArgThrowsOtherThanNpe", String.class);
+    boolean foundProblem = false;
+    try {
+      new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
+    } catch (AssertionFailedError expected) {
+      assertThat(expected.getMessage()).contains("index 0");
+      assertThat(expected.getMessage()).contains("[null]");
+      foundProblem = true;
+    }
+    assertTrue("Should report error when different exception is thrown", foundProblem);
+  }
+
+  public void testMessageNoException() throws Exception {
+    Method method = OneArg.class.getMethod("staticOneArgShouldThrowNpeButDoesnt", String.class);
+    boolean foundProblem = false;
+    try {
+      new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
+    } catch (AssertionFailedError expected) {
+      assertThat(expected.getMessage()).contains("index 0");
+      assertThat(expected.getMessage()).contains("[null]");
+      foundProblem = true;
+    }
+    assertTrue("Should report error when no exception is thrown", foundProblem);
+  }
+
   /**
    * Class for testing all permutations of nullable/non-nullable two-argument
    * methods using testMethod().
@@ -902,7 +928,7 @@ public class NullPointerTesterTest extends TestCase {
     void check() {
       runTester();
       Object[] defaultArray = (Object[]) getDefaultParameterValue(0);
-      assertEquals(0, defaultArray.length);
+      assertThat(defaultArray).isEmpty();
     }
   }
 
@@ -921,7 +947,7 @@ public class NullPointerTesterTest extends TestCase {
     void check() {
       runTester();
       String[] defaultArray = (String[]) getDefaultParameterValue(0);
-      assertEquals(0, defaultArray.length);
+      assertThat(defaultArray).isEmpty();
     }
   }
 
@@ -961,7 +987,7 @@ public class NullPointerTesterTest extends TestCase {
     void check() {
       try {
         runTester();
-      } catch (AssertionError expected) {
+      } catch (AssertionFailedError expected) {
         return;
       }
       fail("Should have failed because enum has no constant");

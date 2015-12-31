@@ -100,6 +100,27 @@ public class SourceSinkFactories {
     return new UrlCharSourceFactory();
   }
 
+  public static ByteSourceFactory asByteSourceFactory(final CharSourceFactory factory) {
+    checkNotNull(factory);
+    return new ByteSourceFactory() {
+      @Override
+      public ByteSource createSource(byte[] data) throws IOException {
+        return factory.createSource(new String(data, Charsets.UTF_8))
+            .asByteSource(Charsets.UTF_8);
+      }
+
+      @Override
+      public byte[] getExpected(byte[] data) {
+        return factory.getExpected(new String(data, Charsets.UTF_8)).getBytes(Charsets.UTF_8);
+      }
+
+      @Override
+      public void tearDown() throws IOException {
+        factory.tearDown();
+      }
+    };
+  }
+
   public static CharSourceFactory asCharSourceFactory(final ByteSourceFactory factory) {
     checkNotNull(factory);
     return new CharSourceFactory() {
@@ -152,7 +173,7 @@ public class SourceSinkFactories {
   }
 
   public static ByteSourceFactory asSlicedByteSourceFactory(final ByteSourceFactory factory,
-      final int off, final int len) {
+      final long off, final long len) {
     checkNotNull(factory);
     return new ByteSourceFactory() {
       @Override
@@ -163,7 +184,9 @@ public class SourceSinkFactories {
       @Override
       public byte[] getExpected(byte[] bytes) {
         byte[] baseExpected = factory.getExpected(bytes);
-        return Arrays.copyOfRange(baseExpected, off, Math.min(baseExpected.length, off + len));
+        int startOffset = (int) Math.min(off, baseExpected.length);
+        int actualLen = (int) Math.min(len, baseExpected.length - startOffset);
+        return Arrays.copyOfRange(baseExpected, startOffset, startOffset + actualLen);
       }
 
       @Override

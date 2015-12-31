@@ -77,9 +77,9 @@ import javax.annotation.Nullable;
  * may wish to use {@link com.google.common.util.concurrent.AtomicLongMap}
  * instead. Note, however, that unlike {@code Multiset}, {@code AtomicLongMap}
  * does not automatically remove zeros.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">
  * {@code Multiset}</a>.
  *
  * @author Kevin Bourrillion
@@ -380,6 +380,9 @@ public interface Multiset<E> extends Collection<E> {
    * always increment the count of the element, and the overall size of the
    * collection, by one.
    *
+   * <p>To both add the element and obtain the previous count of that element,
+   * use {@link #add(E, int) add}{@code (element, 1)} instead.
+   *
    * @param element the element to add one occurrence of; may be null only if
    *     explicitly allowed by the implementation
    * @return {@code true} always, since this call is required to modify the
@@ -400,6 +403,9 @@ public interface Multiset<E> extends Collection<E> {
    * <b>may not</b> throw an exception in response to {@code element} being null
    * or of the wrong type.
    *
+   * <p>To both remove the element and obtain the previous count of that element,
+   * use {@link #remove(E, int) remove}{@code (element, 1)} instead.
+   *
    * @param element the element to remove one occurrence of
    * @return {@code true} if an occurrence was found and removed
    */
@@ -413,10 +419,10 @@ public interface Multiset<E> extends Collection<E> {
    * {@code c}, and only cares whether or not an element appears at all.
    * If you wish to remove one occurrence in this multiset for every occurrence
    * in {@code c}, see {@link Multisets#removeOccurrences(Multiset, Multiset)}.
-   * 
+   *
    * <p>This method refines {@link Collection#removeAll} to further specify that
    * it <b>may not</b> throw an exception in response to any of {@code elements}
-   * being null or of the wrong type. 
+   * being null or of the wrong type.
    */
   @Override
   boolean removeAll(Collection<?> c);
@@ -428,11 +434,11 @@ public interface Multiset<E> extends Collection<E> {
    * {@code c}, and only cares whether or not an element appears at all.
    * If you wish to remove one occurrence in this multiset for every occurrence
    * in {@code c}, see {@link Multisets#retainOccurrences(Multiset, Multiset)}.
-   * 
+   *
    * <p>This method refines {@link Collection#retainAll} to further specify that
    * it <b>may not</b> throw an exception in response to any of {@code elements}
    * being null or of the wrong type.
-   * 
+   *
    * @see Multisets#retainOccurrences(Multiset, Multiset)
    */
   @Override

@@ -181,10 +181,9 @@ public class DoublesTest extends TestCase {
     assertEquals(-1, Doubles.lastIndexOf(new double[] {NaN, 5.0}, NaN));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
-      Doubles.max();
+      double unused = Doubles.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -203,10 +202,9 @@ public class DoublesTest extends TestCase {
     assertTrue(Double.isNaN(Doubles.max(VALUES)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
-      Doubles.min();
+      double unused = Doubles.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -249,16 +247,15 @@ public class DoublesTest extends TestCase {
         Doubles.ensureCapacity(ARRAY1, 2, 1)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
-      Doubles.ensureCapacity(ARRAY1, -1, 1);
+      double[] unused = Doubles.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      Doubles.ensureCapacity(ARRAY1, 1, -1);
+      double[] unused = Doubles.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -339,11 +336,10 @@ public class DoublesTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Double> list = Arrays.asList((double) 0, (double) 1, null);
     try {
-      Doubles.toArray(list);
+      double[] unused = Doubles.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -422,14 +418,24 @@ public class DoublesTest extends TestCase {
   private static void checkTryParse(String input) {
     Double expected = referenceTryParse(input);
     assertEquals(expected, Doubles.tryParse(input));
-    assertEquals(expected != null,
-        Doubles.FLOATING_POINT_PATTERN.matcher(input).matches());
+    if (expected != null && !Doubles.FLOATING_POINT_PATTERN.matcher(input).matches()) {
+      // TODO(cpovirk): Use SourceCodeEscapers if it is added to Guava.
+      StringBuilder escapedInput = new StringBuilder();
+      for (char c : input.toCharArray()) {
+        if (c >= 0x20 && c <= 0x7E) {
+          escapedInput.append(c);
+        } else {
+          escapedInput.append(String.format("\\u%04x", (int) c));
+        }
+      }
+      fail("FLOATING_POINT_PATTERN should have matched valid input <" + escapedInput + ">");
+    }
   }
 
   @GwtIncompatible("Doubles.tryParse")
   private static void checkTryParse(double expected, String input) {
     assertEquals(Double.valueOf(expected), Doubles.tryParse(input));
-    assertTrue(Doubles.FLOATING_POINT_PATTERN.matcher(input).matches());
+    assertThat(input).matches(Doubles.FLOATING_POINT_PATTERN);
   }
 
   @GwtIncompatible("Doubles.tryParse")
@@ -452,6 +458,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   @GwtIncompatible("Doubles.tryParse")
   public void testTryParseAllCodePoints() {
     // Exercise non-ASCII digit test cases and the like.
@@ -497,7 +504,7 @@ public class DoublesTest extends TestCase {
   @GwtIncompatible("Doubles.tryParse")
   public void testTryParseFailures() {
     for (String badInput : BAD_TRY_PARSE_INPUTS) {
-      assertFalse(Doubles.FLOATING_POINT_PATTERN.matcher(badInput).matches());
+      assertThat(badInput).doesNotMatch(Doubles.FLOATING_POINT_PATTERN);
       assertEquals(referenceTryParse(badInput), Doubles.tryParse(badInput));
       assertNull(Doubles.tryParse(badInput));
     }
@@ -520,10 +527,9 @@ public class DoublesTest extends TestCase {
     assertEquals((Double) 1e-6, converter.convert("1e-6"));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testStringConverter_convertError() {
     try {
-      Doubles.stringConverter().convert("notanumber");
+      double unused = Doubles.stringConverter().convert("notanumber");
       fail();
     } catch (NumberFormatException expected) {
     }

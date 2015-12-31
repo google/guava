@@ -397,9 +397,9 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     // At this point, it's either a raw class or parameterized type.
     checkArgument(getRawType().isAssignableFrom(subclass),
         "%s isn't a subclass of %s", subclass, this);
+    Type resolvedTypeArgs = resolveTypeArgsForSubclass(subclass);
     @SuppressWarnings("unchecked") // guarded by the isAssignableFrom() statement above
-    TypeToken<? extends T> subtype = (TypeToken<? extends T>)
-        of(resolveTypeArgsForSubclass(subclass));
+    TypeToken<? extends T> subtype = (TypeToken<? extends T>) of(resolvedTypeArgs);
     return subtype;
   }
 
@@ -992,10 +992,13 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       return result;
     }
     TypeVariable<Class<T>>[] typeParams = cls.getTypeParameters();
-    if (typeParams.length > 0) {
+    Type ownerType = cls.isMemberClass()
+        ? toGenericType(cls.getEnclosingClass()).runtimeType : null;
+
+    if ((typeParams.length > 0) || (ownerType != cls.getEnclosingClass())) {
       @SuppressWarnings("unchecked") // Like, it's Iterable<T> for Iterable.class
       TypeToken<? extends T> type = (TypeToken<? extends T>)
-          of(Types.newParameterizedType(cls, typeParams));
+          of(Types.newParameterizedTypeWithOwner(ownerType, cls, typeParams));
       return type;
     } else {
       return of(cls);
@@ -1164,7 +1167,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
     /** Collects all types to map, and returns the total depth from T up to Object. */
     private int collectTypes(K type, Map<? super K, Integer> map) {
-      Integer existing = map.get(this);
+      Integer existing = map.get(type);
       if (existing != null) {
         // short circuit: if set contains type it already contains its supertypes
         return existing;

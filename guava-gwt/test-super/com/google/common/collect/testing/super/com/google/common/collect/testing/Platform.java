@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import java.util.Arrays;
+
 /**
  * Minimal GWT emulation of {@code com.google.common.collect.testing.Platform}.
  *
@@ -39,7 +41,7 @@ final class Platform {
   }
 
   static <T> T[] clone(T[] array) {
-    return GwtPlatform.clone(array);
+    return (T[]) Arrays.copyOfRange(array, 0, array.length);
   }
 
   // TODO: Consolidate different copies in one single place.

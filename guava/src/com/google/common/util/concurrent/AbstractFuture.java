@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -30,6 +28,7 @@ import java.security.PrivilegedExceptionAction;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
@@ -40,26 +39,19 @@ import java.util.logging.Logger;
 import javax.annotation.Nullable;
 
 /**
- * An abstract implementation of the {@link ListenableFuture} interface. This
- * class is preferable to {@link java.util.concurrent.FutureTask} for two
- * reasons: It implements {@code ListenableFuture}, and it does not implement
- * {@code Runnable}. (If you want a {@code Runnable} implementation of {@code
- * ListenableFuture}, create a {@link ListenableFutureTask}, or submit your
- * tasks to a {@link ListeningExecutorService}.)
+ * An abstract implementation of {@link ListenableFuture}, intended for advanced users only. More
+ * common ways to create a {@code ListenableFuture} include instantiating a {@link SettableFuture},
+ * submitting a task to a {@link ListeningExecutorService}, and deriving a {@code Future} from an
+ * existing one, typically using methods like {@link Futures#transform(ListenableFuture, Function)
+ * Futures.transform} and {@link Futures#catching(ListenableFuture, Class, Function)
+ * Futures.catching}.
  *
- * <p>This class implements all methods in {@code ListenableFuture}.
- * Subclasses should provide a way to set the result of the computation through
- * the protected methods {@link #set(Object)},
- * {@link #setFuture(ListenableFuture)} and {@link #setException(Throwable)}.
- * Subclasses may also override {@link #interruptTask()}, which will be invoked
- * automatically if a call to {@link #cancel(boolean) cancel(true)} succeeds in
- * canceling the future.
- *
- * <p>Subclasses should rarely override other methods. Instead, prefer designs
- * that derive a new {@code Future} to return to clients, typically using
- * methods like {@link Futures#transform(ListenableFuture, AsyncFunction)
- * Futures.transform} and {@link Futures#withFallback(ListenableFuture,
- * FutureFallback) Futures.withFallback}.
+ * <p>This class implements all methods in {@code ListenableFuture}. Subclasses should provide a way
+ * to set the result of the computation through the protected methods {@link #set(Object)}, {@link
+ * #setFuture(ListenableFuture)} and {@link #setException(Throwable)}. Subclasses may also override
+ * {@link #interruptTask()}, which will be invoked automatically if a call to {@link
+ * #cancel(boolean) cancel(true)} succeeds in canceling the future. Subclasses should rarely
+ * override other methods.
  *
  * @author Sven Mawson
  * @author Luke Sandberg
@@ -67,6 +59,9 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 public abstract class AbstractFuture<V> implements ListenableFuture<V> {
+  private static final boolean GENERATE_CANCELLATION_CAUSES =
+      Boolean.parseBoolean(
+          System.getProperty("guava.concurrent.generate_cancellation_cause", "false"));
 
   /**
    * A less abstract subclass of AbstractFuture.  This can be used to optimize setFuture by ensuring
@@ -75,25 +70,32 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   abstract static class TrustedFuture<V> extends AbstractFuture<V> {
     // N.B. cancel is not overridden to be final, because many future utilities need to override
     // cancel in order to propagate cancellation to other futures.
+    // TODO(lukes): with maybePropagateCancellation this is no longer really true.  Track down the
+    // final few cases and eliminate their overrides of cancel()
 
-    @Override public final V get() throws InterruptedException, ExecutionException {
+    @Override
+    public final V get() throws InterruptedException, ExecutionException {
       return super.get();
     }
 
-    @Override public final V get(long timeout, TimeUnit unit)
+    @Override
+    public final V get(long timeout, TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException {
       return super.get(timeout, unit);
     }
 
-    @Override public final boolean isDone() {
+    @Override
+    public final boolean isDone() {
       return super.isDone();
     }
 
-    @Override public final boolean isCancelled() {
+    @Override
+    public final boolean isCancelled() {
       return super.isCancelled();
     }
 
-    @Override public final void addListener(Runnable listener, Executor executor) {
+    @Override
+    public final void addListener(Runnable listener, Executor executor) {
       super.addListener(listener, executor);
     }
   }
@@ -106,39 +108,38 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   private static final long SPIN_THRESHOLD_NANOS = 1000L;
 
   private static final AtomicHelper ATOMIC_HELPER;
-  private static final AtomicReferenceFieldUpdater<Waiter, Thread> WAITER_THREAD_UPDATER;
-  private static final AtomicReferenceFieldUpdater<Waiter, Waiter> WAITER_NEXT_UPDATER;
-  private static final AtomicReferenceFieldUpdater<AbstractFuture, Waiter> WAITERS_UPDATER;
-  private static final AtomicReferenceFieldUpdater<AbstractFuture, Listener> LISTENERS_UPDATER;
-  private static final AtomicReferenceFieldUpdater<AbstractFuture, Object> VALUE_UPDATER;
 
   static {
-    AtomicHelper helper = null;
+    AtomicHelper helper;
+
     try {
       helper = new UnsafeAtomicHelper();
-    } catch (Throwable e) {
-      // catch absolutely everything and fall through
-    }
-    if (helper == null) {
+    } catch (Throwable unsafeFailure) {
+      // catch absolutely everything and fall through to our 'SafeAtomicHelper'
       // The access control checks that ARFU does means the caller class has to be AbstractFuture
       // instead of SafeAtomicHelper, so we annoyingly define these here
-      WAITER_THREAD_UPDATER = newUpdater(Waiter.class, Thread.class, "thread");
-      WAITER_NEXT_UPDATER = newUpdater(Waiter.class, Waiter.class, "next");
-      WAITERS_UPDATER = newUpdater(AbstractFuture.class, Waiter.class, "waiters");
-      LISTENERS_UPDATER = newUpdater(AbstractFuture.class, Listener.class, "listeners");
-      VALUE_UPDATER = newUpdater(AbstractFuture.class, Object.class, "value");
-      helper = new SafeAtomicHelper();
-    } else {
-      WAITER_THREAD_UPDATER = null;
-      WAITER_NEXT_UPDATER = null;
-      WAITERS_UPDATER = null;
-      LISTENERS_UPDATER = null;
-      VALUE_UPDATER = null;
+      try {
+        helper = new SafeAtomicHelper(
+            newUpdater(Waiter.class, Thread.class, "thread"),
+            newUpdater(Waiter.class, Waiter.class, "next"),
+            newUpdater(AbstractFuture.class, Waiter.class, "waiters"),
+            newUpdater(AbstractFuture.class, Listener.class, "listeners"),
+            newUpdater(AbstractFuture.class, Object.class, "value"));
+      } catch (Throwable atomicReferenceFieldUpdaterFailure) {
+        // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
+        // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
+        // For these users fallback to a suboptimal implementation, based on synchronized.  This
+        // will be a definite performance hit to those users.
+        log.log(Level.SEVERE, "UnsafeAtomicHelper is broken!", unsafeFailure);
+        log.log(Level.SEVERE, "SafeAtomicHelper is broken!", atomicReferenceFieldUpdaterFailure);
+        helper = new SynchronizedHelper();
+      }
     }
     ATOMIC_HELPER = helper;
 
     // Prevent rare disastrous classloading in first call to LockSupport.park.
     // See: https://bugs.openjdk.java.net/browse/JDK-8074773
+    @SuppressWarnings("unused")
     Class<?> ensureLoaded = LockSupport.class;
   }
 
@@ -151,9 +152,11 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     @Nullable volatile Thread thread;
     @Nullable volatile Waiter next;
 
-    // Constructor for the TOMBSTONE, avoids use of ATOMIC_HELPER in case this class is loaded
-    // before the ATOMIC_HELPER.  Apparently this is possible on some android platforms.
-    Waiter(@SuppressWarnings("unused") boolean ignored) {}
+    /**
+     * Constructor for the TOMBSTONE, avoids use of ATOMIC_HELPER in case this class is loaded
+     * before the ATOMIC_HELPER. Apparently this is possible on some android platforms.
+     */
+    Waiter(boolean unused) {}
 
     Waiter() {
       // avoid volatile write, write is made visible by subsequent CAS on waiters field
@@ -189,25 +192,26 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * </ul>
    */
   private void removeWaiter(Waiter node) {
-    node.thread = null;  // mark as 'deleted'
-    restart: while (true) {
+    node.thread = null; // mark as 'deleted'
+    restart:
+    while (true) {
       Waiter pred = null;
       Waiter curr = waiters;
       if (curr == Waiter.TOMBSTONE) {
-        return;  // give up if someone is calling complete
+        return; // give up if someone is calling complete
       }
       Waiter succ;
       while (curr != null) {
         succ = curr.next;
-        if (curr.thread != null) {  // we aren't unlinking this node, update pred.
+        if (curr.thread != null) { // we aren't unlinking this node, update pred.
           pred = curr;
         } else if (pred != null) { // We are unlinking this node and it has a predecessor.
           pred.next = succ;
-          if (pred.thread == null) {  // We raced with another node that unlinked pred. Restart.
+          if (pred.thread == null) { // We raced with another node that unlinked pred. Restart.
             continue restart;
           }
-        } else if (!ATOMIC_HELPER.casWaiters(this, curr, succ)) {  // We are unlinking head
-          continue restart;  // We raced with an add or complete
+        } else if (!ATOMIC_HELPER.casWaiters(this, curr, succ)) { // We are unlinking head
+          continue restart; // We raced with an add or complete
         }
         curr = succ;
       }
@@ -235,12 +239,14 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
   /** A special value to represent failure, when {@link #setException} is called successfully. */
   private static final class Failure {
-    static final Failure FALLBACK_INSTANCE = new Failure(
-        new Throwable("Failure occurred while trying to finish a future.") {
-          @Override public synchronized Throwable fillInStackTrace() {
-            return this;  // no stack trace
-          }
-        });
+    static final Failure FALLBACK_INSTANCE =
+        new Failure(
+            new Throwable("Failure occurred while trying to finish a future.") {
+              @Override
+              public synchronized Throwable fillInStackTrace() {
+                return this; // no stack trace
+              }
+            });
     final Throwable exception;
 
     Failure(Throwable exception) {
@@ -251,11 +257,11 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   /** A special value to represent cancellation and the 'wasInterrupted' bit. */
   private static final class Cancellation {
     final boolean wasInterrupted;
-    final Throwable cause;
+    @Nullable final Throwable cause;
 
-    Cancellation(boolean wasInterrupted, Throwable cause) {
+    Cancellation(boolean wasInterrupted, @Nullable Throwable cause) {
       this.wasInterrupted = wasInterrupted;
-      this.cause = checkNotNull(cause);
+      this.cause = cause;
     }
   }
 
@@ -267,7 +273,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       this.future = future;
     }
 
-    @Override public void run() {
+    @Override
+    public void run() {
       if (value != this) {
         // nothing to do, we must have been cancelled
         return;
@@ -305,11 +312,6 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    */
   protected AbstractFuture() {}
 
-  /*
-   * Improve the documentation of when InterruptedException is thrown. Our
-   * behavior matches the JDK's, but the JDK's documentation is misleading.
-   */
-
   // Gets and Timed Gets
   //
   // * Be responsive to interruption
@@ -334,15 +336,20 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   //   node and we could use that to make a decision about whether or not we timed out prior to
   //   being unparked.
 
+  /*
+   * Improve the documentation of when InterruptedException is thrown. Our behavior matches the
+   * JDK's, but the JDK's documentation is misleading.
+   */
+
   /**
    * {@inheritDoc}
    *
-   * <p>The default {@link AbstractFuture} implementation throws {@code
-   * InterruptedException} if the current thread is interrupted before or during
-   * the call, even if the value is already available.
+   * <p>The default {@link AbstractFuture} implementation throws {@code InterruptedException} if the
+   * current thread is interrupted before or during the call, even if the value is already
+   * available.
    *
-   * @throws InterruptedException if the current thread was interrupted before
-   *     or during the call (optional but recommended).
+   * @throws InterruptedException if the current thread was interrupted before or during the call
+   *     (optional but recommended).
    * @throws CancellationException {@inheritDoc}
    */
   @Override
@@ -360,7 +367,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     }
     // we delay calling nanoTime until we know we will need to either park or spin
     final long endNanos = remainingNanos > 0 ? System.nanoTime() + remainingNanos : 0;
-    long_wait_loop: if (remainingNanos >= SPIN_THRESHOLD_NANOS) {
+    long_wait_loop:
+    if (remainingNanos >= SPIN_THRESHOLD_NANOS) {
       Waiter oldHead = waiters;
       if (oldHead != Waiter.TOMBSTONE) {
         Waiter node = new Waiter();
@@ -387,11 +395,11 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
               if (remainingNanos < SPIN_THRESHOLD_NANOS) {
                 // Remove the waiter, one way or another we are done parking this thread.
                 removeWaiter(node);
-                break long_wait_loop;  // jump down to the busy wait loop
+                break long_wait_loop; // jump down to the busy wait loop
               }
             }
           }
-          oldHead = waiters;  // re-read and loop.
+          oldHead = waiters; // re-read and loop.
         } while (oldHead != Waiter.TOMBSTONE);
       }
       // re-read value, if we get here then we must have observed a TOMBSTONE while trying to add a
@@ -414,21 +422,23 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   /*
-   * Improve the documentation of when InterruptedException is thrown. Our
-   * behavior matches the JDK's, but the JDK's documentation is misleading.
+   * Improve the documentation of when InterruptedException is thrown. Our behavior matches the
+   * JDK's, but the JDK's documentation is misleading.
    */
+
   /**
    * {@inheritDoc}
    *
-   * <p>The default {@link AbstractFuture} implementation throws {@code
-   * InterruptedException} if the current thread is interrupted before or during
-   * the call, even if the value is already available.
+   * <p>The default {@link AbstractFuture} implementation throws {@code InterruptedException} if the
+   * current thread is interrupted before or during the call, even if the value is already
+   * available.
    *
-   * @throws InterruptedException if the current thread was interrupted before
-   *     or during the call (optional but recommended).
+   * @throws InterruptedException if the current thread was interrupted before or during the call
+   *     (optional but recommended).
    * @throws CancellationException {@inheritDoc}
    */
-  @Override public V get() throws InterruptedException, ExecutionException {
+  @Override
+  public V get() throws InterruptedException, ExecutionException {
     if (Thread.interrupted()) {
       throw new InterruptedException();
     }
@@ -458,7 +468,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
             }
           }
         }
-        oldHead = waiters;  // re-read and loop.
+        oldHead = waiters; // re-read and loop.
       } while (oldHead != Waiter.TOMBSTONE);
     }
     // re-read value, if we get here then we must have observed a TOMBSTONE while trying to add a
@@ -479,7 +489,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     } else if (obj == NULL) {
       return null;
     } else {
-      @SuppressWarnings("unchecked")  // this is the only other option
+      @SuppressWarnings("unchecked") // this is the only other option
       V asV = (V) obj;
       return asV;
     }
@@ -512,7 +522,11 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       // certainly less likely.
       // TODO(lukes): this exception actually makes cancellation significantly more expensive :(
       // I wonder if we should consider removing it or providing a mechanism to not do it.
-      Object valueToSet = new Cancellation(mayInterruptIfRunning, newCancellationCause());
+      Throwable cause =
+          GENERATE_CANCELLATION_CAUSES
+              ? new CancellationException("Future.cancel() was called.")
+              : null;
+      Object valueToSet = new Cancellation(mayInterruptIfRunning, cause);
       do {
         if (ATOMIC_HELPER.casValue(this, localValue, valueToSet)) {
           // We call interuptTask before calling complete(), first which is consistent with
@@ -538,34 +552,18 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   /**
-   * Returns an exception to be used as the cause of the CancellationException thrown by
-   * {@link #get}.
-   *
-   * <p>Note: this method may be called speculatively.  There is no guarantee that the future will
-   * be cancelled if this method is called.
-   *
-   * @since 19.0
-   */
-  @Beta
-  protected Throwable newCancellationCause() {
-    return new CancellationException("Future.cancel() was called.");
-  }
-
-  /**
-   * Subclasses can override this method to implement interruption of the
-   * future's computation. The method is invoked automatically by a successful
-   * call to {@link #cancel(boolean) cancel(true)}.
+   * Subclasses can override this method to implement interruption of the future's computation. The
+   * method is invoked automatically by a successful call to {@link #cancel(boolean) cancel(true)}.
    *
    * <p>The default implementation does nothing.
    *
    * @since 10.0
    */
-  protected void interruptTask() {
-  }
+  protected void interruptTask() {}
 
   /**
-   * Returns true if this future was cancelled with {@code
-   * mayInterruptIfRunning} set to {@code true}.
+   * Returns true if this future was cancelled with {@code mayInterruptIfRunning} set to {@code
+   * true}.
    *
    * @since 14.0
    */
@@ -591,7 +589,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
         if (ATOMIC_HELPER.casListeners(this, oldHead, newNode)) {
           return;
         }
-        oldHead = listeners;  // re-read
+        oldHead = listeners; // re-read
       } while (oldHead != Listener.TOMBSTONE);
     }
     // If we get here then the Listener TOMBSTONE was set, which means the future is done, call
@@ -662,7 +660,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    *     cancelled or set.
    * @since 19.0
    */
-  @Beta protected boolean setFuture(ListenableFuture<? extends V> future) {
+  @Beta
+  protected boolean setFuture(ListenableFuture<? extends V> future) {
     checkNotNull(future);
     Object localValue = value;
     if (localValue == null) {
@@ -690,7 +689,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
         }
         return true;
       }
-      localValue = value;  // we lost the cas, fall through and maybe cancel
+      localValue = value; // we lost the cas, fall through and maybe cancel
     }
     // The future has already been set to something.  If it is cancellation we should cancel the
     // incoming future.
@@ -756,20 +755,49 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     for (; reversedList != null; reversedList = reversedList.next) {
       executeListener(reversedList.task, reversedList.executor);
     }
-    // We call this after the listeners on the theory that done() will only be used for 'cleanup'
-    // oriented tasks (e.g. clearing fields) and so can wait behind listeners which may be executing
-    // more important work.  A counter argument would be that done() is trusted code and therefore
-    // it would be safe to run before potentially slow or poorly behaved listeners.  Reevaluate this
-    // once we have more examples of done() implementations.
-    done();
+    // We call this after the listeners on the theory that afterDone() will only be used for
+    // 'cleanup' oriented tasks (e.g. clearing fields) and so can wait behind listeners which may be
+    // executing more important work.  A counter argument would be that done() is trusted code and
+    // therefore it would be safe to run before potentially slow or poorly behaved listeners.
+    // Reevaluate this once we have more examples of afterDone() implementations.
+    afterDone();
   }
 
   /**
-   * Callback method that is called immediately after the future is completed.
+   * Callback method that is called exactly once after the future is completed.
    *
-   * <p>This is called exactly once, after all listeners have executed.  By default it does nothing.
+   * <p>If {@link #interruptTask} is also run during completion, {@link #afterDone} runs after it.
+   *
+   * <p>The default implementation of this method in {@code AbstractFuture} does nothing.
+   *
+   * @since 20.0
    */
-  void done() {}
+  // TODO(cpovirk): @ForOverride https://github.com/google/error-prone/issues/342
+  @Beta
+  protected void afterDone() {}
+
+  /**
+   * Returns the exception that this {@code Future} completed with. This includes completion through
+   * a call to {@link setException} or {@link setFuture}{@code (failedFuture)} but not cancellation.
+   *
+   * @throws RuntimeException if the {@code Future} has not failed
+   */
+  final Throwable trustedGetException() {
+    return ((Failure) value).exception;
+  }
+
+  /**
+   * If this future has been cancelled (and possibly interrupted), cancels (and possibly interrupts)
+   * the given future (if available).
+   *
+   * <p>This method should be used only when this future is completed. It is designed to be called
+   * from {@code done}.
+   */
+  final void maybePropagateCancellation(@Nullable Future<?> related) {
+    if (related != null & isCancelled()) {
+      related.cancel(wasInterrupted());
+    }
+  }
 
   /** Clears the {@link #waiters} list and returns the most recently added value. */
   private Waiter clearWaiters() {
@@ -800,8 +828,10 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       // Log it and keep going, bad runnable and/or executor.  Don't
       // punish the other runnables if we're given a bad one.  We only
       // catch RuntimeException because we want Errors to propagate up.
-      log.log(Level.SEVERE, "RuntimeException while executing runnable "
-          + runnable + " with executor " + executor, e);
+      log.log(
+          Level.SEVERE,
+          "RuntimeException while executing runnable " + runnable + " with executor " + executor,
+          e);
     }
   }
 
@@ -814,19 +844,19 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
   private abstract static class AtomicHelper {
     /** Non volatile write of the thread to the {@link Waiter#thread} field. */
-    abstract void putThread(Waiter waiter, Thread thread);
+    abstract void putThread(Waiter waiter, Thread newValue);
 
     /** Non volatile write of the waiter to the {@link Waiter#next} field. */
-    abstract void putNext(Waiter waiter, Waiter next);
+    abstract void putNext(Waiter waiter, Waiter newValue);
 
     /** Performs a CAS operation on the {@link #waiters} field. */
-    abstract boolean casWaiters(AbstractFuture future, Waiter curr, Waiter next);
+    abstract boolean casWaiters(AbstractFuture<?> future, Waiter expect, Waiter update);
 
     /** Performs a CAS operation on the {@link #listeners} field. */
-    abstract boolean casListeners(AbstractFuture future, Listener curr, Listener next);
+    abstract boolean casListeners(AbstractFuture<?> future, Listener expect, Listener update);
 
     /** Performs a CAS operation on the {@link #value} field. */
-    abstract boolean casValue(AbstractFuture future, Object expected, Object v);
+    abstract boolean casValue(AbstractFuture<?> future, Object expect, Object update);
   }
 
   /**
@@ -849,20 +879,22 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
         unsafe = sun.misc.Unsafe.getUnsafe();
       } catch (SecurityException tryReflectionInstead) {
         try {
-          unsafe = AccessController.doPrivileged(
-              new PrivilegedExceptionAction<sun.misc.Unsafe>() {
-                @Override public sun.misc.Unsafe run() throws Exception {
-                  Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
-                  for (java.lang.reflect.Field f : k.getDeclaredFields()) {
-                    f.setAccessible(true);
-                    Object x = f.get(null);
-                    if (k.isInstance(x)) {
-                      return k.cast(x);
+          unsafe =
+              AccessController.doPrivileged(
+                  new PrivilegedExceptionAction<sun.misc.Unsafe>() {
+                    @Override
+                    public sun.misc.Unsafe run() throws Exception {
+                      Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
+                      for (java.lang.reflect.Field f : k.getDeclaredFields()) {
+                        f.setAccessible(true);
+                        Object x = f.get(null);
+                        if (k.isInstance(x)) {
+                          return k.cast(x);
+                        }
+                      }
+                      throw new NoSuchFieldError("the Unsafe");
                     }
-                  }
-                  throw new NoSuchFieldError("the Unsafe");
-                }
-              });
+                  });
         } catch (PrivilegedActionException e) {
           throw new RuntimeException("Could not initialize intrinsics", e.getCause());
         }
@@ -880,50 +912,130 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       }
     }
 
-    @Override void putThread(Waiter waiter, Thread thread) {
-      UNSAFE.putObject(waiter, WAITER_THREAD_OFFSET, thread);
+    @Override
+    void putThread(Waiter waiter, Thread newValue) {
+      UNSAFE.putObject(waiter, WAITER_THREAD_OFFSET, newValue);
     }
 
-    @Override void putNext(Waiter waiter, Waiter next) {
-      UNSAFE.putObject(waiter, WAITER_NEXT_OFFSET, next);
+    @Override
+    void putNext(Waiter waiter, Waiter newValue) {
+      UNSAFE.putObject(waiter, WAITER_NEXT_OFFSET, newValue);
     }
 
     /** Performs a CAS operation on the {@link #waiters} field. */
-    @Override boolean casWaiters(AbstractFuture future, Waiter curr, Waiter next) {
-      return UNSAFE.compareAndSwapObject(future, WAITERS_OFFSET, curr, next);
+    @Override
+    boolean casWaiters(AbstractFuture<?> future, Waiter expect, Waiter update) {
+      return UNSAFE.compareAndSwapObject(future, WAITERS_OFFSET, expect, update);
     }
 
     /** Performs a CAS operation on the {@link #listeners} field. */
-    @Override boolean casListeners(AbstractFuture future, Listener curr, Listener next) {
-      return UNSAFE.compareAndSwapObject(future, LISTENERS_OFFSET, curr, next);
+    @Override
+    boolean casListeners(AbstractFuture<?> future, Listener expect, Listener update) {
+      return UNSAFE.compareAndSwapObject(future, LISTENERS_OFFSET, expect, update);
     }
 
     /** Performs a CAS operation on the {@link #value} field. */
-    @Override boolean casValue(AbstractFuture future, Object expected, Object v) {
-      return UNSAFE.compareAndSwapObject(future, VALUE_OFFSET, expected, v);
+    @Override
+    boolean casValue(AbstractFuture<?> future, Object expect, Object update) {
+      return UNSAFE.compareAndSwapObject(future, VALUE_OFFSET, expect, update);
     }
   }
 
   /** {@link AtomicHelper} based on {@link AtomicReferenceFieldUpdater}. */
   private static final class SafeAtomicHelper extends AtomicHelper {
-    @Override void putThread(Waiter waiter, Thread thread) {
-      WAITER_THREAD_UPDATER.lazySet(waiter, thread);
+    final AtomicReferenceFieldUpdater<Waiter, Thread> waiterThreadUpdater;
+    final AtomicReferenceFieldUpdater<Waiter, Waiter> waiterNextUpdater;
+    final AtomicReferenceFieldUpdater<AbstractFuture, Waiter> waitersUpdater;
+    final AtomicReferenceFieldUpdater<AbstractFuture, Listener> listenersUpdater;
+    final AtomicReferenceFieldUpdater<AbstractFuture, Object> valueUpdater;
+
+    SafeAtomicHelper(
+        AtomicReferenceFieldUpdater<Waiter, Thread> waiterThreadUpdater,
+        AtomicReferenceFieldUpdater<Waiter, Waiter> waiterNextUpdater,
+        AtomicReferenceFieldUpdater<AbstractFuture, Waiter> waitersUpdater,
+        AtomicReferenceFieldUpdater<AbstractFuture, Listener> listenersUpdater,
+        AtomicReferenceFieldUpdater<AbstractFuture, Object> valueUpdater) {
+      this.waiterThreadUpdater = waiterThreadUpdater;
+      this.waiterNextUpdater = waiterNextUpdater;
+      this.waitersUpdater = waitersUpdater;
+      this.listenersUpdater = listenersUpdater;
+      this.valueUpdater = valueUpdater;
     }
 
-    @Override void putNext(Waiter waiter, Waiter next) {
-      WAITER_NEXT_UPDATER.lazySet(waiter, next);
+    @Override
+    void putThread(Waiter waiter, Thread newValue) {
+      waiterThreadUpdater.lazySet(waiter, newValue);
     }
 
-    @Override boolean casWaiters(AbstractFuture future, Waiter curr, Waiter next) {
-      return WAITERS_UPDATER.compareAndSet(future, curr, next);
+    @Override
+    void putNext(Waiter waiter, Waiter newValue) {
+      waiterNextUpdater.lazySet(waiter, newValue);
     }
 
-    @Override boolean casListeners(AbstractFuture future, Listener curr, Listener next) {
-      return LISTENERS_UPDATER.compareAndSet(future, curr, next);
+    @Override
+    boolean casWaiters(AbstractFuture<?> future, Waiter expect, Waiter update) {
+      return waitersUpdater.compareAndSet(future, expect, update);
     }
 
-    @Override boolean casValue(AbstractFuture future, Object expected, Object v) {
-      return VALUE_UPDATER.compareAndSet(future, expected, v);
+    @Override
+    boolean casListeners(AbstractFuture<?> future, Listener expect, Listener update) {
+      return listenersUpdater.compareAndSet(future, expect, update);
+    }
+
+    @Override
+    boolean casValue(AbstractFuture<?> future, Object expect, Object update) {
+      return valueUpdater.compareAndSet(future, expect, update);
+    }
+  }
+
+  /**
+   * {@link AtomicHelper} based on {@code synchronized} and volatile writes.
+   *
+   * <p>This is an implementation of last resort for when certain basic VM features are broken
+   * (like AtomicReferenceFieldUpdater).
+   */
+  private static final class SynchronizedHelper extends AtomicHelper {
+    @Override
+    void putThread(Waiter waiter, Thread newValue) {
+      waiter.thread = newValue;
+    }
+
+    @Override
+    void putNext(Waiter waiter, Waiter newValue) {
+      waiter.next = newValue;
+    }
+
+    @Override
+    boolean casWaiters(AbstractFuture<?> future, Waiter expect, Waiter update) {
+      synchronized (future) {
+        if (future.waiters == expect) {
+          future.waiters = update;
+          return true;
+        }
+        return false;
+      }
+    }
+
+    @Override
+    boolean casListeners(AbstractFuture<?> future, Listener expect, Listener update) {
+      synchronized (future) {
+        if (future.listeners == expect) {
+          future.listeners = update;
+          return true;
+        }
+        return false;
+      }
+    }
+
+    @Override
+    boolean casValue(AbstractFuture<?> future, Object expect, Object update) {
+      synchronized (future) {
+        if (future.value == expect) {
+          future.value = update;
+          return true;
+        }
+        return false;
+      }
     }
   }
 }

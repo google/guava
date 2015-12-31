@@ -25,13 +25,11 @@ import com.google.gwt.user.client.rpc.SerializationStreamWriter;
  * @author Chris Povirk
  */
 public class AllEqualOrdering_CustomFieldSerializer {
-  public static void deserialize(SerializationStreamReader reader, AllEqualOrdering instance) {
-  }
+  public static void deserialize(SerializationStreamReader reader, AllEqualOrdering instance) {}
 
   public static AllEqualOrdering instantiate(SerializationStreamReader reader) {
     return AllEqualOrdering.INSTANCE;
   }
 
-  public static void serialize(SerializationStreamWriter writer, AllEqualOrdering instance) {
-  }
+  public static void serialize(SerializationStreamWriter writer, AllEqualOrdering instance) {}
 }

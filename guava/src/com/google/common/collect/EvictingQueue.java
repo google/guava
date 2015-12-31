@@ -20,17 +20,17 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.Serializable;
-import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Queue;
 
 /**
  * A non-blocking queue which automatically evicts elements from the head of the queue when
- * attempting to add new elements onto the queue and it is full.
+ * attempting to add new elements onto the queue and it is full. This data structure is logically
+ * equivalent to a circular buffer (i.e., cyclic buffer or ring buffer).
  *
  * <p>An evicting queue must be configured with a maximum size. Each time an element is added
  * to a full queue, the queue automatically removes its head element. This is different from
@@ -42,17 +42,16 @@ import java.util.Queue;
  * @since 15.0
  */
 @Beta
-@GwtIncompatible("java.util.ArrayDeque")
+@GwtCompatible
 public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serializable {
 
   private final Queue<E> delegate;
 
-  @VisibleForTesting
-  final int maxSize;
+  @VisibleForTesting final int maxSize;
 
   private EvictingQueue(int maxSize) {
     checkArgument(maxSize >= 0, "maxSize (%s) must >= 0", maxSize);
-    this.delegate = new ArrayDeque<E>(maxSize);
+    this.delegate = Platform.newFastestDeque(maxSize);
     this.maxSize = maxSize;
   }
 
@@ -76,7 +75,8 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
     return maxSize - size();
   }
 
-  @Override protected Queue<E> delegate() {
+  @Override
+  protected Queue<E> delegate() {
     return delegate;
   }
 
@@ -86,7 +86,8 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
    *
    * @return {@code true} always
    */
-  @Override public boolean offer(E e) {
+  @Override
+  public boolean offer(E e) {
     return add(e);
   }
 
@@ -96,8 +97,9 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
    *
    * @return {@code true} always
    */
-  @Override public boolean add(E e) {
-    checkNotNull(e);  // check before removing
+  @Override
+  public boolean add(E e) {
+    checkNotNull(e); // check before removing
     if (maxSize == 0) {
       return true;
     }
@@ -108,7 +110,8 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
     return true;
   }
 
-  @Override public boolean addAll(Collection<? extends E> collection) {
+  @Override
+  public boolean addAll(Collection<? extends E> collection) {
     return standardAddAll(collection);
   }
 

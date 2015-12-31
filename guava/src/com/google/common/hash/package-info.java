@@ -17,7 +17,7 @@
  * Hash functions and related structures.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/HashingExplained">
+ * "https://github.com/google/guava/wiki/HashingExplained">
  * hashing</a>.
  */
 @ParametersAreNonnullByDefault

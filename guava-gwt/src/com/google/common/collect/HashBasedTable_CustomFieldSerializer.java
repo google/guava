@@ -24,8 +24,7 @@ import com.google.gwt.user.client.rpc.SerializationStreamWriter;
  * @author Hayward Chan
  */
 public class HashBasedTable_CustomFieldSerializer {
-  public static void deserialize(SerializationStreamReader reader, HashBasedTable<?, ?, ?> table) {
-  }
+  public static void deserialize(SerializationStreamReader reader, HashBasedTable<?, ?, ?> table) {}
 
   public static HashBasedTable<Object, Object, Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {

@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
@@ -30,6 +31,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.annotation.Nullable;
 
 /**
  * Emulation for AbstractFuture in GWT.
@@ -183,10 +186,21 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       listener.execute();
     }
     listeners = null;
-    done();
+    afterDone();
   }
 
-  void done() {}
+  protected void afterDone() {}
+
+  final Throwable trustedGetException() {
+    checkState(state == State.FAILURE);
+    return throwable;
+  }
+
+  final void maybePropagateCancellation(@Nullable Future<?> related) {
+    if (related != null & isCancelled()) {
+      related.cancel(wasInterrupted());
+    }
+  }
 
   private enum State {
     PENDING {

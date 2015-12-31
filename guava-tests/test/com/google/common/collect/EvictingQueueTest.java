@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import static java.util.Arrays.asList;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
@@ -30,6 +32,7 @@ import java.util.NoSuchElementException;
  *
  * @author Kurt Alfred Kluever
  */
+@GwtCompatible(emulated = true)
 public class EvictingQueueTest extends TestCase {
 
   public void testCreateWithNegativeSize() throws Exception {
@@ -157,6 +160,7 @@ public class EvictingQueueTest extends TestCase {
     assertEquals(1, queue.remainingCapacity());
   }
 
+  @GwtIncompatible("NullPointerTester")
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(EvictingQueue.class);

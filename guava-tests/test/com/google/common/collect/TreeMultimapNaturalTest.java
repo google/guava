@@ -65,7 +65,7 @@ public class TreeMultimapNaturalTest extends TestCase {
   @GwtIncompatible("suite")
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    // TODO(user): should we force TreeMultimap to be more thorough about checking nulls?
+    // TODO(lowasser): should we force TreeMultimap to be more thorough about checking nulls?
     suite.addTest(SortedSetMultimapTestSuiteBuilder.using(new TestStringSetMultimapGenerator() {
         @Override
         protected SetMultimap<String, String> create(Entry<String, String>[] entries) {

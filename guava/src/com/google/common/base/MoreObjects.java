@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 
+import java.util.Arrays;
+
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
@@ -28,7 +30,7 @@ import javax.annotation.Nullable;
  * {@link java.util.Objects}.
  *
  * <p>See the Guava User Guide on <a
- * href="http://code.google.com/p/guava-libraries/wiki/CommonObjectUtilitiesExplained">writing
+ * href="https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained">writing
  * {@code Object} methods with {@code MoreObjects}</a>.
  *
  * @author Laurence Gonsalves
@@ -39,6 +41,11 @@ public final class MoreObjects {
   /**
    * Returns the first of two given parameters that is not {@code null}, if either is, or otherwise
    * throws a {@link NullPointerException}.
+   *
+   * <p>To find the first non-null element in an iterable, use {@code
+   * Iterables.find(iterable, Predicates.notNull())}. For varargs, use {@code
+   * Iterables.find(Arrays.asList(a, b, c, ...), Predicates.notNull())}, static importing as
+   * necessary.
    *
    * <p><b>Note:</b> if {@code first} is represented as an {@link Optional}, this can be
    * accomplished with {@link Optional#or(Object) first.or(second)}. That approach also allows for
@@ -320,22 +327,30 @@ public final class MoreObjects {
      * properties (multiple name/value pairs with the same name can be added).
      */
     @CheckReturnValue
-    @Override public String toString() {
+    @Override
+    public String toString() {
       // create a copy to keep it consistent in case value changes
       boolean omitNullValuesSnapshot = omitNullValues;
       String nextSeparator = "";
-      StringBuilder builder = new StringBuilder(32).append(className)
-          .append('{');
-      for (ValueHolder valueHolder = holderHead.next; valueHolder != null;
+      StringBuilder builder = new StringBuilder(32).append(className).append('{');
+      for (ValueHolder valueHolder = holderHead.next;
+          valueHolder != null;
           valueHolder = valueHolder.next) {
-        if (!omitNullValuesSnapshot || valueHolder.value != null) {
+        Object value = valueHolder.value;
+        if (!omitNullValuesSnapshot || value != null) {
           builder.append(nextSeparator);
           nextSeparator = ", ";
 
           if (valueHolder.name != null) {
             builder.append(valueHolder.name).append('=');
           }
-          builder.append(valueHolder.value);
+          if (value != null && value.getClass().isArray()) {
+            Object[] objectArray = {value};
+            String arrayString = Arrays.deepToString(objectArray);
+            builder.append(arrayString.substring(1, arrayString.length() - 1));
+          } else {
+            builder.append(value);
+          }
         }
       }
       return builder.append('}').toString();

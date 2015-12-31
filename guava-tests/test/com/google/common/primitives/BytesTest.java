@@ -145,16 +145,15 @@ public class BytesTest extends TestCase {
         Bytes.ensureCapacity(ARRAY1, 2, 1)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
-      Bytes.ensureCapacity(ARRAY1, -1, 1);
+      byte[] unused = Bytes.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      Bytes.ensureCapacity(ARRAY1, 1, -1);
+      byte[] unused = Bytes.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -192,11 +191,10 @@ public class BytesTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Byte> list = Arrays.asList((byte) 0, (byte) 1, null);
     try {
-      Bytes.toArray(list);
+      byte[] unused = Bytes.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }

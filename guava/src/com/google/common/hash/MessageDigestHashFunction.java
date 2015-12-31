@@ -47,8 +47,8 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
     this.toString = checkNotNull(toString);
     this.prototype = getMessageDigest(algorithmName);
     int maxLength = prototype.getDigestLength();
-    checkArgument(bytes >= 4 && bytes <= maxLength,
-        "bytes (%s) must be >= 4 and < %s", bytes, maxLength);
+    checkArgument(
+        bytes >= 4 && bytes <= maxLength, "bytes (%s) must be >= 4 and < %s", bytes, maxLength);
     this.bytes = bytes;
     this.supportsClone = supportsClone();
   }
@@ -62,11 +62,13 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
     }
   }
 
-  @Override public int bits() {
+  @Override
+  public int bits() {
     return bytes * Byte.SIZE;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return toString;
   }
 
@@ -78,7 +80,8 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
     }
   }
 
-  @Override public Hasher newHasher() {
+  @Override
+  public Hasher newHasher() {
     if (supportsClone) {
       try {
         return new MessageDigestHasher((MessageDigest) prototype.clone(), bytes);
@@ -115,7 +118,6 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
    * Hasher that updates a message digest.
    */
   private static final class MessageDigestHasher extends AbstractByteHasher {
-
     private final MessageDigest digest;
     private final int bytes;
     private boolean done;

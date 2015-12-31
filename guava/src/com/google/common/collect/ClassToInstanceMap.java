@@ -31,9 +31,9 @@ import javax.annotation.Nullable;
  * <p>Like any other {@code Map<Class, Object>}, this map may contain entries
  * for primitive types, and a primitive type and its corresponding wrapper type
  * may map to different values.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#ClassToInstanceMap">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">
  * {@code ClassToInstanceMap}</a>.
  *
  * <p>To map a generic type to an instance of that type, use {@link

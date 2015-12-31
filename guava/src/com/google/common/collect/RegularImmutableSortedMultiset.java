@@ -32,12 +32,15 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // uses writeReplace, not default serialization
 final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   private static final long[] ZERO_CUMULATIVE_COUNTS = {0};
-  
+
+  static final ImmutableSortedMultiset<Comparable> NATURAL_EMPTY_MULTISET =
+      new RegularImmutableSortedMultiset<Comparable>(Ordering.natural());
+
   private final transient RegularImmutableSortedSet<E> elementSet;
   private final transient long[] cumulativeCounts;
   private final transient int offset;
   private final transient int length;
-  
+
   RegularImmutableSortedMultiset(Comparator<? super E> comparator) {
     this.elementSet = ImmutableSortedSet.emptySet(comparator);
     this.cumulativeCounts = ZERO_CUMULATIVE_COUNTS;
@@ -46,16 +49,13 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
   }
 
   RegularImmutableSortedMultiset(
-      RegularImmutableSortedSet<E> elementSet,
-      long[] cumulativeCounts,
-      int offset,
-      int length) {
+      RegularImmutableSortedSet<E> elementSet, long[] cumulativeCounts, int offset, int length) {
     this.elementSet = elementSet;
     this.cumulativeCounts = cumulativeCounts;
     this.offset = offset;
     this.length = length;
   }
-  
+
   private int getCount(int index) {
     return (int) (cumulativeCounts[offset + index + 1] - cumulativeCounts[offset + index]);
   }
@@ -99,8 +99,8 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
 
   @Override
   public ImmutableSortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType) {
-    return getSubMultiset(elementSet.tailIndex(lowerBound, checkNotNull(boundType) == CLOSED),
-        length);
+    return getSubMultiset(
+        elementSet.tailIndex(lowerBound, checkNotNull(boundType) == CLOSED), length);
   }
 
   ImmutableSortedMultiset<E> getSubMultiset(int from, int to) {

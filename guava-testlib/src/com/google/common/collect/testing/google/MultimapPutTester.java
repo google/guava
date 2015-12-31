@@ -16,11 +16,13 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.Helpers.assertContains;
+import static com.google.common.collect.testing.Helpers.assertEmpty;
+import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
-import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
@@ -49,7 +51,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
       fail("Expected UnsupportedOperationException");
     } catch (UnsupportedOperationException expected) {}
   }
-  
+
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutEmpty() {
     int size = getNumElements();
@@ -126,9 +128,9 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
   public void testPutNotPresentKeyPropagatesToGet() {
     int size = getNumElements();
     Collection<V> collection = multimap().get(k3());
-    assertThat(collection).isEmpty();
+    assertEmpty(collection);
     multimap().put(k3(), v3());
-    assertThat(collection).contains(v3());
+    assertContains(collection, v3());
     assertEquals(size + 1, multimap().size());
   }
 
@@ -137,7 +139,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
     Collection<Entry<K, V>> entries = multimap().entries();
     assertFalse(entries.contains(Helpers.mapEntry(k3(), v3())));
     multimap().put(k3(), v3());
-    assertThat(entries).contains(Helpers.mapEntry(k3(), v3()));
+    assertContains(entries, Helpers.mapEntry(k3(), v3()));
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -146,7 +148,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
     Collection<Entry<K, V>> entries = multimap().entries();
     assertFalse(entries.contains(Helpers.mapEntry(k0(), v3())));
     multimap().put(k0(), v3());
-    assertThat(entries).contains(Helpers.mapEntry(k0(), v3()));
+    assertContains(entries, Helpers.mapEntry(k0(), v3()));
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
@@ -163,7 +165,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
 
       multimap().put(key, v3());
       expectedCollection.add(v3());
-      assertThat(collection).containsExactlyElementsIn(expectedCollection);
+      assertEqualIgnoringOrder(expectedCollection, collection);
       assertEquals(size + 1, multimap().size());
     }
   }
@@ -183,7 +185,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
 
       multimap().put(key, v3());
       expectedCollection.add(v3());
-      assertThat(collection).containsExactlyElementsIn(expectedCollection);
+      assertEqualIgnoringOrder(expectedCollection, collection);
       assertEquals(size + 1, multimap().size());
     }
   }
@@ -211,7 +213,7 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
 
       multimap().put(key, v3());
       expectedCollection.add(v3());
-      assertThat(collection).containsExactlyElementsIn(expectedCollection);
+      assertEqualIgnoringOrder(expectedCollection, collection);
       assertEquals(size + 1, multimap().size());
     }
   }

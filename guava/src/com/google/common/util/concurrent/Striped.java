@@ -466,8 +466,9 @@ public abstract class Striped<L> {
      * a fourth long here, to minimize chance of interference between consecutive locks,
      * but I couldn't observe any benefit from that.
      */
-    @SuppressWarnings("unused")
-    long q1, q2, q3;
+    long unused1;
+    long unused2;
+    long unused3;
 
     PaddedLock() {
       super(false);
@@ -476,8 +477,9 @@ public abstract class Striped<L> {
 
   private static class PaddedSemaphore extends Semaphore {
     // See PaddedReentrantLock comment
-    @SuppressWarnings("unused")
-    long q1, q2, q3;
+    long unused1;
+    long unused2;
+    long unused3;
 
     PaddedSemaphore(int permits) {
       super(permits, false);

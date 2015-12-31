@@ -141,10 +141,11 @@ public abstract class HashCode {
     @Override
     public byte[] asBytes() {
       return new byte[] {
-          (byte) hash,
-          (byte) (hash >> 8),
-          (byte) (hash >> 16),
-          (byte) (hash >> 24)};
+        (byte) hash,
+        (byte) (hash >> 8),
+        (byte) (hash >> 16),
+        (byte) (hash >> 24)
+      };
     }
 
     @Override
@@ -169,7 +170,8 @@ public abstract class HashCode {
       }
     }
 
-    @Override boolean equalsSameBits(HashCode that) {
+    @Override
+    boolean equalsSameBits(HashCode that) {
       return hash == that.asInt();
     }
 
@@ -202,14 +204,15 @@ public abstract class HashCode {
     @Override
     public byte[] asBytes() {
       return new byte[] {
-          (byte) hash,
-          (byte) (hash >> 8),
-          (byte) (hash >> 16),
-          (byte) (hash >> 24),
-          (byte) (hash >> 32),
-          (byte) (hash >> 40),
-          (byte) (hash >> 48),
-          (byte) (hash >> 56)};
+        (byte) hash,
+        (byte) (hash >> 8),
+        (byte) (hash >> 16),
+        (byte) (hash >> 24),
+        (byte) (hash >> 32),
+        (byte) (hash >> 40),
+        (byte) (hash >> 48),
+        (byte) (hash >> 56)
+      };
     }
 
     @Override
@@ -281,8 +284,10 @@ public abstract class HashCode {
 
     @Override
     public int asInt() {
-      checkState(bytes.length >= 4,
-          "HashCode#asInt() requires >= 4 bytes (it only has %s bytes).", bytes.length);
+      checkState(
+          bytes.length >= 4,
+          "HashCode#asInt() requires >= 4 bytes (it only has %s bytes).",
+          bytes.length);
       return (bytes[0] & 0xFF)
           | ((bytes[1] & 0xFF) << 8)
           | ((bytes[2] & 0xFF) << 16)
@@ -291,8 +296,10 @@ public abstract class HashCode {
 
     @Override
     public long asLong() {
-      checkState(bytes.length >= 8,
-          "HashCode#asLong() requires >= 8 bytes (it only has %s bytes).", bytes.length);
+      checkState(
+          bytes.length >= 8,
+          "HashCode#asLong() requires >= 8 bytes (it only has %s bytes).",
+          bytes.length);
       return padToLong();
     }
 
@@ -345,10 +352,12 @@ public abstract class HashCode {
    */
   @CheckReturnValue
   public static HashCode fromString(String string) {
-    checkArgument(string.length() >= 2,
-        "input string (%s) must have at least 2 characters", string);
-    checkArgument(string.length() % 2 == 0,
-        "input string (%s) must have an even number of characters", string);
+    checkArgument(
+        string.length() >= 2, "input string (%s) must have at least 2 characters", string);
+    checkArgument(
+        string.length() % 2 == 0,
+        "input string (%s) must have an even number of characters",
+        string);
 
     byte[] bytes = new byte[string.length() / 2];
     for (int i = 0; i < string.length(); i += 2) {

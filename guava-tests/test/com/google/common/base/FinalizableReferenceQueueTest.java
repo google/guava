@@ -107,6 +107,7 @@ public class FinalizableReferenceQueueTest extends TestCase {
     };
   }
 
+  @AndroidIncompatible // no concept of separate ClassLoaders
   public void testDecoupledLoader() {
     FinalizableReferenceQueue.DecoupledLoader decoupledLoader =
         new FinalizableReferenceQueue.DecoupledLoader() {
@@ -146,6 +147,7 @@ public class FinalizableReferenceQueueTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // TODO(cpovirk): How significant is this failure?
   public void testGetFinalizerUrl() {
     assertNotNull(getClass().getResource("internal/Finalizer.class"));
   }

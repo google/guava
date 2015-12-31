@@ -44,7 +44,8 @@ public final class Interners {
   public static <E> Interner<E> newStrongInterner() {
     final ConcurrentMap<E, E> map = new MapMaker().makeMap();
     return new Interner<E>() {
-      @Override public E intern(E sample) {
+      @Override
+      public E intern(E sample) {
         E canonical = map.putIfAbsent(checkNotNull(sample), sample);
         return (canonical == null) ? sample : canonical;
       }
@@ -65,12 +66,14 @@ public final class Interners {
 
   private static class WeakInterner<E> implements Interner<E> {
     // MapMaker is our friend, we know about this type
-    private final MapMakerInternalMap<E, Dummy> map = new MapMaker()
-          .weakKeys()
-          .keyEquivalence(Equivalence.equals())
-          .makeCustomMap();
+    private final MapMakerInternalMap<E, Dummy> map =
+        new MapMaker()
+            .weakKeys()
+            .keyEquivalence(Equivalence.equals())
+            .makeCustomMap();
 
-    @Override public E intern(E sample) {
+    @Override
+    public E intern(E sample) {
       while (true) {
         // trying to read the canonical...
         ReferenceEntry<E, Dummy> entry = map.getEntry(sample);
@@ -96,7 +99,9 @@ public final class Interners {
       }
     }
 
-    private enum Dummy { VALUE }
+    private enum Dummy {
+      VALUE
+    }
   }
 
   /**
@@ -116,15 +121,18 @@ public final class Interners {
       this.interner = interner;
     }
 
-    @Override public E apply(E input) {
+    @Override
+    public E apply(E input) {
       return interner.intern(input);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return interner.hashCode();
     }
 
-    @Override public boolean equals(Object other) {
+    @Override
+    public boolean equals(Object other) {
       if (other instanceof InternerFunction) {
         InternerFunction<?> that = (InternerFunction<?>) other;
         return interner.equals(that.interner);

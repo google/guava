@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.primitives.Bytes;
 
 import junit.framework.TestCase;
@@ -97,7 +99,7 @@ public class LittleEndianDataInputStreamTest extends TestCase {
       in.readLine();
       fail();
     } catch (UnsupportedOperationException expected) {
-      assertEquals("readLine is not supported", expected.getMessage()); 
+      assertThat(expected).hasMessage("readLine is not supported");
     }
   }
   

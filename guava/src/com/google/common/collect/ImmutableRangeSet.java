@@ -16,6 +16,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_HIGHER;
 import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_LOWER;
 import static com.google.common.collect.SortedLists.KeyPresentBehavior.ANY_PRESENT;
 
@@ -113,24 +114,47 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
   private transient final ImmutableList<Range<C>> ranges;
 
   @Override
-  public boolean encloses(Range<C> otherRange) {
-    int index = SortedLists.binarySearch(ranges,
+  public boolean intersects(Range<C> otherRange) {
+    int ceilingIndex = SortedLists.binarySearch(
+        ranges,
         Range.<C>lowerBoundFn(),
         otherRange.lowerBound,
         Ordering.natural(),
         ANY_PRESENT,
-        NEXT_LOWER);
+        NEXT_HIGHER);
+    if (ceilingIndex < ranges.size()
+        && ranges.get(ceilingIndex).isConnected(otherRange)
+        && !ranges.get(ceilingIndex).intersection(otherRange).isEmpty()) {
+      return true;
+    }
+    return ceilingIndex > 0
+        && ranges.get(ceilingIndex - 1).isConnected(otherRange)
+        && !ranges.get(ceilingIndex - 1).intersection(otherRange).isEmpty();
+  }
+
+  @Override
+  public boolean encloses(Range<C> otherRange) {
+    int index =
+        SortedLists.binarySearch(
+            ranges,
+            Range.<C>lowerBoundFn(),
+            otherRange.lowerBound,
+            Ordering.natural(),
+            ANY_PRESENT,
+            NEXT_LOWER);
     return index != -1 && ranges.get(index).encloses(otherRange);
   }
 
   @Override
   public Range<C> rangeContaining(C value) {
-    int index = SortedLists.binarySearch(ranges,
-        Range.<C>lowerBoundFn(),
-        Cut.belowValue(value),
-        Ordering.natural(),
-        ANY_PRESENT,
-        NEXT_LOWER);
+    int index =
+        SortedLists.binarySearch(
+            ranges,
+            Range.<C>lowerBoundFn(),
+            Cut.belowValue(value),
+            Ordering.natural(),
+            ANY_PRESENT,
+            NEXT_LOWER);
     if (index != -1) {
       Range<C> range = ranges.get(index);
       return range.contains(value) ? range : null;
@@ -143,9 +167,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     if (ranges.isEmpty()) {
       throw new NoSuchElementException();
     }
-    return Range.create(
-        ranges.get(0).lowerBound,
-        ranges.get(ranges.size() - 1).upperBound);
+    return Range.create(ranges.get(0).lowerBound, ranges.get(ranges.size() - 1).upperBound);
   }
 
   @Override
@@ -153,21 +175,49 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     return ranges.isEmpty();
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeSet} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
   @Override
   public void add(Range<C> range) {
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeSet} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
   @Override
   public void addAll(RangeSet<C> other) {
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeSet} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
   @Override
   public void remove(Range<C> range) {
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeSet} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
   @Override
   public void removeAll(RangeSet<C> other) {
     throw new UnsupportedOperationException();
@@ -276,18 +326,26 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
     final int fromIndex;
     if (range.hasLowerBound()) {
-      fromIndex = SortedLists.binarySearch(
-          ranges, Range.<C>upperBoundFn(), range.lowerBound, KeyPresentBehavior.FIRST_AFTER,
-          KeyAbsentBehavior.NEXT_HIGHER);
+      fromIndex =
+          SortedLists.binarySearch(
+              ranges,
+              Range.<C>upperBoundFn(),
+              range.lowerBound,
+              KeyPresentBehavior.FIRST_AFTER,
+              KeyAbsentBehavior.NEXT_HIGHER);
     } else {
       fromIndex = 0;
     }
 
     int toIndex;
     if (range.hasUpperBound()) {
-      toIndex = SortedLists.binarySearch(
-          ranges, Range.<C>lowerBoundFn(), range.upperBound, KeyPresentBehavior.FIRST_PRESENT,
-          KeyAbsentBehavior.NEXT_HIGHER);
+      toIndex =
+          SortedLists.binarySearch(
+              ranges,
+              Range.<C>lowerBoundFn(),
+              range.upperBound,
+              KeyPresentBehavior.FIRST_PRESENT,
+              KeyAbsentBehavior.NEXT_HIGHER);
     } else {
       toIndex = ranges.size();
     }
@@ -318,7 +376,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       };
     }
   }
-  
+
   /**
    * Returns a view of the intersection of this range set with the given range.
    */
@@ -460,9 +518,10 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       if (!fromInclusive && !toInclusive && Range.compareOrThrow(fromElement, toElement) == 0) {
         return ImmutableSortedSet.of();
       }
-      return subSet(Range.range(
-          fromElement, BoundType.forBoolean(fromInclusive),
-          toElement, BoundType.forBoolean(toInclusive)));
+      return subSet(
+          Range.range(
+              fromElement, BoundType.forBoolean(fromInclusive),
+              toElement, BoundType.forBoolean(toInclusive)));
     }
 
     @Override
@@ -573,7 +632,9 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         for (Range<C> currentRange : rangeSet.asRanges()) {
           checkArgument(
               !currentRange.isConnected(range) || currentRange.intersection(range).isEmpty(),
-              "Ranges may not overlap, but received %s and %s", currentRange, range);
+              "Ranges may not overlap, but received %s and %s",
+              currentRange,
+              range);
         }
         throw new AssertionError("should have thrown an IAE above");
       }

@@ -37,6 +37,15 @@ public class ComparisonChainTest extends TestCase {
     }
   }
 
+  public void testCompareBooleans() {
+    assertEquals(0, ComparisonChain.start()
+        .compare(true, true)
+        .compare(true, Boolean.TRUE)
+        .compare(Boolean.TRUE, true)
+        .compare(Boolean.TRUE, Boolean.TRUE)
+        .result());
+  }
+
   public void testDegenerate() {
     // kinda bogus, but who cares?
     assertEquals(0, ComparisonChain.start().result());

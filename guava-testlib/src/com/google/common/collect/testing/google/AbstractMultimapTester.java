@@ -16,7 +16,7 @@
 
 package com.google.common.collect.testing.google;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -97,15 +97,15 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
   }
 
   protected void initMultimapWithNullKey() {
-    resetContainer(getSubjectGenerator().create(createArrayWithNullKey()));
+    resetContainer(getSubjectGenerator().create((Object[]) createArrayWithNullKey()));
   }
 
   protected void initMultimapWithNullValue() {
-    resetContainer(getSubjectGenerator().create(createArrayWithNullValue()));
+    resetContainer(getSubjectGenerator().create((Object[]) createArrayWithNullValue()));
   }
 
   protected void initMultimapWithNullKeyAndValue() {
-    resetContainer(getSubjectGenerator().create(createArrayWithNullKeyAndValue()));
+    resetContainer(getSubjectGenerator().create((Object[]) createArrayWithNullKeyAndValue()));
   }
 
   protected SampleElements<K> sampleKeys() {
@@ -131,7 +131,7 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
   }
 
   protected Multimap<K, V> resetContainer(Entry<K, V>... newContents) {
-    multimap = super.resetContainer(getSubjectGenerator().create(newContents));
+    multimap = super.resetContainer(getSubjectGenerator().create((Object[]) newContents));
     return multimap;
   }
 
@@ -145,18 +145,16 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
   }
 
   protected void assertGet(K key, Collection<V> values) {
-    assertThat(multimap().get(key)).containsExactlyElementsIn(values);
+    assertEqualIgnoringOrder(values, multimap().get(key));
 
     if (!values.isEmpty()) {
-      assertThat(multimap().asMap().get(key)).containsExactlyElementsIn(values);
+      assertEqualIgnoringOrder(values, multimap().asMap().get(key));
       assertFalse(multimap().isEmpty());
     } else {
-      assertThat(multimap().asMap().get(key)).isNull();
+      assertNull(multimap().asMap().get(key));
     }
 
-    // TODO(cgruber): Add proper overrides to prevent autoboxing.
-    // Truth+autoboxing == compile error. Cast int to long to fix:
-    assertThat(multimap().get(key).size()).isEqualTo((long) values.size());
+    assertEquals(values.size(), multimap().get(key).size());
 
     assertEquals(values.size() > 0, multimap().containsKey(key));
     assertEquals(values.size() > 0, multimap().keySet().contains(key));

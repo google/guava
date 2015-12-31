@@ -69,8 +69,9 @@ import javax.annotation.Nullable;
  *     com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to create
  *     a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i> the
  *     {@code Converter} type using a mocking framework.
- * <li>Otherwise, extend this class and implement its {@link #doForward} and {@link #doBackward}
- *     methods.
+ * <li>Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.
+ * <li>If using Java 8, you may prefer to pass two lambda expressions or method references to the
+ *     {@link #from from} factory method.
  * </ul>
  *
  * <p>Using a converter:
@@ -84,6 +85,26 @@ import javax.annotation.Nullable;
  * <li><b>Do not</b> call {@link #doForward} or {@link #doBackward} directly; these exist only to be
  *     overridden.
  * </ul>
+ *
+ * <h3>Example</h3>
+ *
+ * <pre>
+ *   return new Converter&lt;Integer, String&gt;() {
+ *     &#64;Override
+ *     protected String doForward(Integer i) {
+ *       return Integer.toHexString(i);
+ *     }
+ *
+ *     &#64;Override
+ *     protected Integer doBackward(String s) {
+ *       return parseUnsignedInt(s, 16);
+ *     }
+ *   };</pre>
+ *
+ * <p>An alternative using Java 8:<pre>   {@code
+ *   return Converter.from(
+ *       Integer::toHexString,
+ *       s -> parseUnsignedInt(s, 16));}</pre>
  *
  * @author Mike Ward
  * @author Kurt Alfred Kluever
@@ -178,7 +199,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
   public Iterable<B> convertAll(final Iterable<? extends A> fromIterable) {
     checkNotNull(fromIterable, "fromIterable");
     return new Iterable<B>() {
-      @Override public Iterator<B> iterator() {
+      @Override
+      public Iterator<B> iterator() {
         return new Iterator<B>() {
           private final Iterator<? extends A> fromIterator = fromIterable.iterator();
 
@@ -213,8 +235,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
     return (result == null) ? reverse = new ReverseConverter<A, B>(this) : result;
   }
 
-  private static final class ReverseConverter<A, B>
-      extends Converter<B, A> implements Serializable {
+  private static final class ReverseConverter<A, B> extends Converter<B, A>
+      implements Serializable {
     final Converter<A, B> original;
 
     ReverseConverter(Converter<A, B> original) {
@@ -295,8 +317,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
     return new ConverterComposition<A, B, C>(this, checkNotNull(secondConverter));
   }
 
-  private static final class ConverterComposition<A, B, C>
-      extends Converter<A, C> implements Serializable {
+  private static final class ConverterComposition<A, B, C> extends Converter<A, C>
+      implements Serializable {
     final Converter<A, B> first;
     final Converter<B, C> second;
 
@@ -338,8 +360,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     public boolean equals(@Nullable Object object) {
       if (object instanceof ConverterComposition) {
         ConverterComposition<?, ?, ?> that = (ConverterComposition<?, ?, ?>) object;
-        return this.first.equals(that.first)
-            && this.second.equals(that.second);
+        return this.first.equals(that.first) && this.second.equals(that.second);
       }
       return false;
     }
@@ -405,8 +426,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
     return new FunctionBasedConverter<A, B>(forwardFunction, backwardFunction);
   }
 
-  private static final class FunctionBasedConverter<A, B>
-      extends Converter<A, B> implements Serializable {
+  private static final class FunctionBasedConverter<A, B> extends Converter<A, B>
+      implements Serializable {
     private final Function<? super A, ? extends B> forwardFunction;
     private final Function<? super B, ? extends A> backwardFunction;
 

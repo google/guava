@@ -19,6 +19,7 @@ import static com.google.common.collect.Range.range;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.testing.SerializableTester;
 
 import java.util.List;
 import java.util.NavigableMap;
@@ -130,6 +131,20 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  public void testIntersects(RangeSet<Integer> rangeSet) {
+    for (Range<Integer> query : QUERY_RANGES) {
+      boolean expectIntersect = false;
+      for (Range<Integer> expectedRange : rangeSet.asRanges()) {
+        if (expectedRange.isConnected(query) && !expectedRange.intersection(query).isEmpty()) {
+          expectIntersect = true;
+          break;
+        }
+      }
+      assertEquals(rangeSet + " was incorrect on intersects(" + query + ")", expectIntersect,
+          rangeSet.intersects(query));
+    }
+  }
+
   public void testEnclosing(RangeSet<Integer> rangeSet) {
     for (Range<Integer> query : QUERY_RANGES) {
       boolean expectEnclose = false;
@@ -163,6 +178,37 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
 
   public void testInvariantsEmpty() {
     testInvariants(TreeRangeSet.create());
+  }
+
+  public void testEmptyIntersecting() {
+    testIntersects(TreeRangeSet.<Integer>create());
+    testIntersects(TreeRangeSet.<Integer>create().complement());
+  }
+
+  public void testAllSingleRangesIntersecting() {
+    for (Range<Integer> range : QUERY_RANGES) {
+      TreeRangeSet<Integer> rangeSet = TreeRangeSet.create();
+      rangeSet.add(range);
+      testIntersects(rangeSet);
+      testIntersects(rangeSet.complement());
+    }
+  }
+
+  public void testAllTwoRangesIntersecting() {
+    for (Range<Integer> range1 : QUERY_RANGES) {
+      for (Range<Integer> range2 : QUERY_RANGES) {
+        TreeRangeSet<Integer> rangeSet = TreeRangeSet.create();
+        rangeSet.add(range1);
+        rangeSet.add(range2);
+        testIntersects(rangeSet);
+        testIntersects(rangeSet.complement());
+      }
+    }
+  }
+
+  public void testEmptyEnclosing() {
+    testEnclosing(TreeRangeSet.<Integer>create());
+    testEnclosing(TreeRangeSet.<Integer>create().complement());
   }
 
   public void testAllSingleRangesEnclosing() {
@@ -587,5 +633,13 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     assertTrue(rangeSet.contains(8));
     assertNull(rangeSet.rangeContaining(6));
     assertFalse(rangeSet.contains(6));
+  }
+
+  @GwtIncompatible("SerializableTester")
+  public void testSerialization() {
+    RangeSet<Integer> rangeSet = TreeRangeSet.create();
+    rangeSet.add(Range.closed(3, 10));
+    rangeSet.remove(Range.open(5, 7));
+    SerializableTester.reserializeAndAssert(rangeSet);
   }
 }

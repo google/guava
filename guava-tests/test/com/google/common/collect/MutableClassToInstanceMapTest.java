@@ -73,6 +73,7 @@ public class MutableClassToInstanceMapTest extends TestCase {
             MapFeature.RESTRICTS_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
             CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             MapFeature.ALLOWS_ANY_NULL_QUERIES)
         .suppressing(remapTest)

@@ -37,15 +37,15 @@ import javax.annotation.Nullable;
  * <p>If the values corresponding to a single key should be ordered according to
  * a {@link java.util.Comparator} (or the natural order), see the
  * {@link SortedSetMultimap} subinterface.
- * 
+ *
  * <p>Since the value collections are sets, the behavior of a {@code SetMultimap}
- * is not specified if key <em>or value</em> objects already present in the 
- * multimap change in a manner that affects {@code equals} comparisons.  
- * Use caution if mutable objects are used as keys or values in a 
+ * is not specified if key <em>or value</em> objects already present in the
+ * multimap change in a manner that affects {@code equals} comparisons.
+ * Use caution if mutable objects are used as keys or values in a
  * {@code SetMultimap}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multimap">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">
  * {@code Multimap}</a>.
  *
  * @author Jared Levy

@@ -50,7 +50,11 @@ final class TestPlatform {
   }
 
   static void verifyThreadWasNotInterrupted() {
-    // There are no threads in GWT so there's nothing to assert.
+    // There is no thread interruption in GWT, so there's nothing to do.
+  }
+
+  static void clearInterrupt() {
+    // There is no thread interruption in GWT, so there's nothing to do.
   }
 
   private TestPlatform() {}

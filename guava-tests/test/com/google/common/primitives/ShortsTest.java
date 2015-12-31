@@ -77,10 +77,9 @@ public class ShortsTest extends TestCase {
     assertEquals(LEAST, Shorts.saturatedCast(Long.MIN_VALUE));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   private static void assertCastFails(long value) {
     try {
-      Shorts.checkedCast(value);
+      short unused = Shorts.checkedCast(value);
       fail("Cast to short should have failed: " + value);
     } catch (IllegalArgumentException ex) {
       assertTrue(value + " not found in exception text: " + ex.getMessage(),
@@ -179,10 +178,9 @@ public class ShortsTest extends TestCase {
         (short) 3));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
-      Shorts.max();
+      short unused = Shorts.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -196,10 +194,9 @@ public class ShortsTest extends TestCase {
         (short) 5, (short) 3, (short) 0, (short) 9));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
-      Shorts.min();
+      short unused = Shorts.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -245,11 +242,10 @@ public class ShortsTest extends TestCase {
         new byte[] {(byte) 0xFE, (byte) 0xDC}));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   @GwtIncompatible("Shorts.fromByteArray")
   public void testFromByteArrayFails() {
     try {
-      Shorts.fromByteArray(new byte[] {0x01});
+      short unused = Shorts.fromByteArray(new byte[] {0x01});
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -286,16 +282,15 @@ public class ShortsTest extends TestCase {
         Shorts.ensureCapacity(ARRAY1, 2, 1)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
-      Shorts.ensureCapacity(ARRAY1, -1, 1);
+      short[] unused = Shorts.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      Shorts.ensureCapacity(ARRAY1, 1, -1);
+      short[] unused = Shorts.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -368,11 +363,10 @@ public class ShortsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Short> list = Arrays.asList((short) 0, (short) 1, null);
     try {
-      Shorts.toArray(list);
+      short[] unused = Shorts.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -449,10 +443,9 @@ public class ShortsTest extends TestCase {
     assertEquals((Short) (short) 438, converter.convert("0666"));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testStringConverter_convertError() {
     try {
-      Shorts.stringConverter().convert("notanumber");
+      short unused = Shorts.stringConverter().convert("notanumber");
       fail();
     } catch (NumberFormatException expected) {
     }

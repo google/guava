@@ -25,6 +25,8 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.math.IntMath;
+import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.AbstractQueue;
 import java.util.ArrayDeque;
@@ -77,13 +79,18 @@ import java.util.Queue;
  * <p><i>Performance notes:</i>
  *
  * <ul>
+ * <li>If you only access one end of the queue, and do use a maximum size,
+ *     this class will perform significantly worse than a {@code PriorityQueue}
+ *     with manual eviction above the maximum size.  In many cases
+ *     {@link Ordering#leastOf} may work for your use case with significantly
+ *     improved (and asymptotically superior) performance.
  * <li>The retrieval operations {@link #peek}, {@link #peekFirst}, {@link
- *     #peekLast}, {@link #element}, and {@link #size} are constant-time
+ *     #peekLast}, {@link #element}, and {@link #size} are constant-time.
  * <li>The enqueing and dequeing operations ({@link #offer}, {@link #add}, and
  *     all the forms of {@link #poll} and {@link #remove()}) run in {@code
- *     O(log n) time}
+ *     O(log n) time}.
  * <li>The {@link #remove(Object)} and {@link #contains} operations require
- *     linear ({@code O(n)}) time
+ *     linear ({@code O(n)}) time.
  * <li>If you only access one end of the queue, and don't use a maximum size,
  *     this class is functionally equivalent to {@link PriorityQueue}, but
  *     significantly slower.
@@ -129,8 +136,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * expectedSize} elements.
    */
   public static Builder<Comparable> expectedSize(int expectedSize) {
-    return new Builder<Comparable>(Ordering.natural())
-        .expectedSize(expectedSize);
+    return new Builder<Comparable>(Ordering.natural()).expectedSize(expectedSize);
   }
 
   /**
@@ -141,8 +147,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * the element that was just added.
    */
   public static Builder<Comparable> maximumSize(int maximumSize) {
-    return new Builder<Comparable>(Ordering.natural())
-        .maximumSize(maximumSize);
+    return new Builder<Comparable>(Ordering.natural()).maximumSize(maximumSize);
   }
 
   /**
@@ -208,10 +213,10 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
      * Builds a new min-max priority queue using the previously specified
      * options, and having the given initial elements.
      */
-    public <T extends B> MinMaxPriorityQueue<T> create(
-        Iterable<? extends T> initialContents) {
-      MinMaxPriorityQueue<T> queue = new MinMaxPriorityQueue<T>(
-          this, initialQueueSize(expectedSize, maximumSize, initialContents));
+    public <T extends B> MinMaxPriorityQueue<T> create(Iterable<? extends T> initialContents) {
+      MinMaxPriorityQueue<T> queue =
+          new MinMaxPriorityQueue<T>(
+              this, initialQueueSize(expectedSize, maximumSize, initialContents));
       for (T element : initialContents) {
         queue.offer(element);
       }
@@ -243,7 +248,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     this.queue = new Object[queueSize];
   }
 
-  @Override public int size() {
+  @Override
+  public int size() {
     return size;
   }
 
@@ -255,12 +261,14 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    *
    * @return {@code true} always
    */
-  @Override public boolean add(E element) {
+  @Override
+  public boolean add(E element) {
     offer(element);
     return true;
   }
 
-  @Override public boolean addAll(Collection<? extends E> newElements) {
+  @Override
+  public boolean addAll(Collection<? extends E> newElements) {
     boolean modified = false;
     for (E element : newElements) {
       offer(element);
@@ -275,7 +283,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * greatest element (according to its comparator), which may be {@code
    * element} itself.
    */
-  @Override public boolean offer(E element) {
+  @Override
+  public boolean offer(E element) {
     checkNotNull(element);
     modCount++;
     int insertIndex = size++;
@@ -288,7 +297,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     return size <= maximumSize || pollLast() != element;
   }
 
-  @Override public E poll() {
+  @Override
+  public E poll() {
     return isEmpty() ? null : removeAndGet(0);
   }
 
@@ -297,7 +307,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     return (E) queue[index];
   }
 
-  @Override public E peek() {
+  @Override
+  public E peek() {
     return isEmpty() ? null : elementData(0);
   }
 
@@ -385,7 +396,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * used by iterator.remove so as to visit elements during a traversal once and
    * only once.
    */
-  @VisibleForTesting MoveDesc<E> removeAt(int index) {
+  @VisibleForTesting
+  MoveDesc<E> removeAt(int index) {
     checkPositionIndex(index, size);
     modCount++;
     size--;
@@ -394,8 +406,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       return null;
     }
     E actualLastElement = elementData(size);
-    int lastElementAt = heapForIndex(size)
-        .getCorrectLastElement(actualLastElement);
+    int lastElementAt = heapForIndex(size).getCorrectLastElement(actualLastElement);
     E toTrickle = elementData(size);
     queue[size] = null;
     MoveDesc<E> changes = fillHole(index, toTrickle);
@@ -432,9 +443,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       // there.
       return heap.tryCrossOverAndBubbleUp(index, vacated, toTrickle);
     } else {
-      return (bubbledTo < index)
-          ? new MoveDesc<E>(toTrickle, elementData(index))
-          : null;
+      return (bubbledTo < index) ? new MoveDesc<E>(toTrickle, elementData(index)) : null;
     }
   }
 
@@ -465,7 +474,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   private static final int EVEN_POWERS_OF_TWO = 0x55555555;
   private static final int ODD_POWERS_OF_TWO = 0xaaaaaaaa;
 
-  @VisibleForTesting static boolean isEvenLevel(int index) {
+  @VisibleForTesting
+  static boolean isEvenLevel(int index) {
     int oneBased = index + 1;
     checkState(oneBased > 0, "negative index");
     return (oneBased & EVEN_POWERS_OF_TWO) > (oneBased & ODD_POWERS_OF_TWO);
@@ -477,7 +487,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    *
    * TODO(kevinb): move to the test class?
    */
-  @VisibleForTesting boolean isIntact() {
+  @VisibleForTesting
+  boolean isIntact() {
     for (int i = 1; i < size; i++) {
       if (!heapForIndex(i).verifyIndex(i)) {
         return false;
@@ -492,9 +503,10 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * array for storage, but for efficiency's sake they are stored interleaved on
    * alternate heap levels in the same array (MMPQ.queue).
    */
+  @WeakOuter
   private class Heap {
     final Ordering<E> ordering;
-    Heap otherHeap;
+    @Weak Heap otherHeap;
 
     Heap(Ordering<E> ordering) {
       this.ordering = ordering;
@@ -509,8 +521,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
      * bubble up there. If it moved before {@code removeIndex} this method
      * returns a pair as described in {@link #removeAt}.
      */
-    MoveDesc<E> tryCrossOverAndBubbleUp(
-        int removeIndex, int vacated, E toTrickle) {
+    MoveDesc<E> tryCrossOverAndBubbleUp(int removeIndex, int vacated, E toTrickle) {
       int crossOver = crossOver(vacated, toTrickle);
       if (crossOver == vacated) {
         return null;
@@ -529,8 +540,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
         parent = elementData(getParentIndex(removeIndex));
       }
       // bubble it up the opposite heap
-      if (otherHeap.bubbleUpAlternatingLevels(crossOver, toTrickle)
-          < removeIndex) {
+      if (otherHeap.bubbleUpAlternatingLevels(crossOver, toTrickle) < removeIndex) {
         return new MoveDesc<E>(toTrickle, parent);
       } else {
         return null;
@@ -628,8 +638,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
         // bubble up alternate levels, violating the invariant.
         int grandparentIndex = getParentIndex(parentIndex);
         int uncleIndex = getRightChildIndex(grandparentIndex);
-        if (uncleIndex != parentIndex
-            && getLeftChildIndex(uncleIndex) >= size) {
+        if (uncleIndex != parentIndex && getLeftChildIndex(uncleIndex) >= size) {
           E uncleElement = elementData(uncleIndex);
           if (ordering.compare(uncleElement, parentElement) < 0) {
             parentIndex = uncleIndex;
@@ -660,8 +669,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       if (parentIndex != 0) {
         int grandparentIndex = getParentIndex(parentIndex);
         int uncleIndex = getRightChildIndex(grandparentIndex);
-        if (uncleIndex != parentIndex
-            && getLeftChildIndex(uncleIndex) >= size) {
+        if (uncleIndex != parentIndex && getLeftChildIndex(uncleIndex) >= size) {
           E uncleElement = elementData(uncleIndex);
           if (ordering.compare(uncleElement, actualLastElement) < 0) {
             queue[uncleIndex] = actualLastElement;
@@ -683,8 +691,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       int minChildIndex = findMinChild(index);
       // TODO(kevinb): split the && into two if's and move crossOverUp so it's
       // only called when there's no child.
-      if ((minChildIndex > 0)
-          && (ordering.compare(elementData(minChildIndex), x) < 0)) {
+      if ((minChildIndex > 0) && (ordering.compare(elementData(minChildIndex), x) < 0)) {
         queue[index] = elementData(minChildIndex);
         queue[minChildIndex] = x;
         return minChildIndex;
@@ -710,12 +717,10 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     }
 
     private boolean verifyIndex(int i) {
-      if ((getLeftChildIndex(i) < size)
-          && (compareElements(i, getLeftChildIndex(i)) > 0)) {
+      if ((getLeftChildIndex(i) < size) && (compareElements(i, getLeftChildIndex(i)) > 0)) {
         return false;
       }
-      if ((getRightChildIndex(i) < size)
-          && (compareElements(i, getRightChildIndex(i)) > 0)) {
+      if ((getRightChildIndex(i) < size) && (compareElements(i, getRightChildIndex(i)) > 0)) {
         return false;
       }
       if ((i > 0) && (compareElements(i, getParentIndex(i)) > 0)) {
@@ -760,13 +765,15 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     private E lastFromForgetMeNot;
     private boolean canRemove;
 
-    @Override public boolean hasNext() {
+    @Override
+    public boolean hasNext() {
       checkModCount();
       return (nextNotInSkipMe(cursor + 1) < size())
           || ((forgetMeNot != null) && !forgetMeNot.isEmpty());
     }
 
-    @Override public E next() {
+    @Override
+    public E next() {
       checkModCount();
       int tempCursor = nextNotInSkipMe(cursor + 1);
       if (tempCursor < size()) {
@@ -781,11 +788,11 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
           return lastFromForgetMeNot;
         }
       }
-      throw new NoSuchElementException(
-          "iterator moved past last element in queue.");
+      throw new NoSuchElementException("iterator moved past last element in queue.");
     }
 
-    @Override public void remove() {
+    @Override
+    public void remove() {
       checkRemove(canRemove);
       checkModCount();
       canRemove = false;
@@ -870,18 +877,21 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    *
    * @return an iterator over the elements contained in this collection
    */
-  @Override public Iterator<E> iterator() {
+  @Override
+  public Iterator<E> iterator() {
     return new QueueIterator();
   }
 
-  @Override public void clear() {
+  @Override
+  public void clear() {
     for (int i = 0; i < size; i++) {
       queue[i] = null;
     }
     size = 0;
   }
 
-  @Override public Object[] toArray() {
+  @Override
+  public Object[] toArray() {
     Object[] copyTo = new Object[size];
     System.arraycopy(queue, 0, copyTo, 0, size);
     return copyTo;
@@ -896,7 +906,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     return minHeap.ordering;
   }
 
-  @VisibleForTesting int capacity() {
+  @VisibleForTesting
+  int capacity() {
     return queue.length;
   }
 
@@ -904,12 +915,14 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   private static final int DEFAULT_CAPACITY = 11;
 
-  @VisibleForTesting static int initialQueueSize(int configuredExpectedSize,
-      int maximumSize, Iterable<?> initialContents) {
+  @VisibleForTesting
+  static int initialQueueSize(
+      int configuredExpectedSize, int maximumSize, Iterable<?> initialContents) {
     // Start with what they said, if they said it, otherwise DEFAULT_CAPACITY
-    int result = (configuredExpectedSize == Builder.UNSET_EXPECTED_SIZE)
-        ? DEFAULT_CAPACITY
-        : configuredExpectedSize;
+    int result =
+        (configuredExpectedSize == Builder.UNSET_EXPECTED_SIZE)
+            ? DEFAULT_CAPACITY
+            : configuredExpectedSize;
 
     // Enlarge to contain initial contents
     if (initialContents instanceof Collection) {
@@ -933,9 +946,10 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   /** Returns ~2x the old capacity if small; ~1.5x otherwise. */
   private int calculateNewCapacity() {
     int oldCapacity = queue.length;
-    int newCapacity = (oldCapacity < 64)
-        ? (oldCapacity + 1) * 2
-        : IntMath.checkedMultiply(oldCapacity / 2, 3);
+    int newCapacity =
+        (oldCapacity < 64)
+            ? (oldCapacity + 1) * 2
+            : IntMath.checkedMultiply(oldCapacity / 2, 3);
     return capAtMaximumSize(newCapacity, maximumSize);
   }
 

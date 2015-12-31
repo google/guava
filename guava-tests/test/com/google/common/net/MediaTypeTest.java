@@ -27,12 +27,12 @@ import static com.google.common.net.MediaType.ANY_VIDEO_TYPE;
 import static com.google.common.net.MediaType.HTML_UTF_8;
 import static com.google.common.net.MediaType.JPEG;
 import static com.google.common.net.MediaType.PLAIN_TEXT_UTF_8;
+import static com.google.common.truth.Truth.assertThat;
 import static java.lang.reflect.Modifier.isFinal;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.Arrays.asList;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -57,7 +57,6 @@ import java.nio.charset.UnsupportedCharsetException;
  *
  * @author Gregory Kick
  */
-@Beta
 @GwtCompatible(emulated = true)
 public class MediaTypeTest extends TestCase {
   @GwtIncompatible("reflection") public void testParse_useConstants() throws Exception {
@@ -77,9 +76,9 @@ public class MediaTypeTest extends TestCase {
     for (Field field : getConstantFields()) {
       Optional<Charset> charset = ((MediaType) field.get(null)).charset();
       if (field.getName().endsWith("_UTF_8")) {
-        assertEquals(Optional.of(UTF_8), charset);
+        assertThat(charset).hasValue(UTF_8);
       } else {
-        assertEquals(Optional.absent(), charset);
+        assertThat(charset).isAbsent();
       }
     }
   }
@@ -333,14 +332,13 @@ public class MediaTypeTest extends TestCase {
   }
 
   public void testGetCharset() {
-    assertEquals(Optional.absent(), MediaType.parse("text/plain").charset());
-    assertEquals(Optional.of(UTF_8),
-        MediaType.parse("text/plain; charset=utf-8").charset());
+    assertThat(MediaType.parse("text/plain").charset()).isAbsent();
+    assertThat(MediaType.parse("text/plain; charset=utf-8").charset()).hasValue(UTF_8);
   }
 
-  @GwtIncompatible("Non-UTF-8 Charset") public void testGetCharset_utf16() {
-    assertEquals(Optional.of(UTF_16),
-        MediaType.parse("text/plain; charset=utf-16").charset());
+  @GwtIncompatible("Non-UTF-8 Charset")
+  public void testGetCharset_utf16() {
+    assertThat(MediaType.parse("text/plain; charset=utf-16").charset()).hasValue(UTF_16);
   }
 
   public void testGetCharset_tooMany() {

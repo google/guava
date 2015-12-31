@@ -31,7 +31,8 @@ final class NullsLastOrdering<T> extends Ordering<T> implements Serializable {
     this.ordering = ordering;
   }
 
-  @Override public int compare(@Nullable T left, @Nullable T right) {
+  @Override
+  public int compare(@Nullable T left, @Nullable T right) {
     if (left == right) {
       return 0;
     }
@@ -44,21 +45,25 @@ final class NullsLastOrdering<T> extends Ordering<T> implements Serializable {
     return ordering.compare(left, right);
   }
 
-  @Override public <S extends T> Ordering<S> reverse() {
+  @Override
+  public <S extends T> Ordering<S> reverse() {
     // ordering.reverse() might be optimized, so let it do its thing
     return ordering.reverse().nullsFirst();
   }
 
-  @Override public <S extends T> Ordering<S> nullsFirst() {
+  @Override
+  public <S extends T> Ordering<S> nullsFirst() {
     return ordering.nullsFirst();
   }
 
   @SuppressWarnings("unchecked") // still need the right way to explain this
-  @Override public <S extends T> Ordering<S> nullsLast() {
+  @Override
+  public <S extends T> Ordering<S> nullsLast() {
     return (Ordering<S>) this;
   }
 
-  @Override public boolean equals(@Nullable Object object) {
+  @Override
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }
@@ -69,11 +74,13 @@ final class NullsLastOrdering<T> extends Ordering<T> implements Serializable {
     return false;
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return ordering.hashCode() ^ -921210296; // meaningless
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return ordering + ".nullsLast()";
   }
 

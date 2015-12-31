@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
+import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -24,7 +26,6 @@ import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.TestEnumMapGenerator;
-import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
 import junit.framework.Test;
@@ -58,8 +59,8 @@ public class ImmutableEnumMapTest extends TestCase {
     suite.addTest(MapTestSuiteBuilder.using(new ImmutableEnumMapGenerator())
       .named("Maps.immutableEnumMap")
       .withFeatures(CollectionSize.ANY,
-          CollectionFeature.SERIALIZABLE,
-          CollectionFeature.ALLOWS_NULL_QUERIES)
+          SERIALIZABLE,
+          ALLOWS_NULL_QUERIES)
       .createTestSuite());
     suite.addTestSuite(ImmutableEnumMapTest.class);
     return suite;

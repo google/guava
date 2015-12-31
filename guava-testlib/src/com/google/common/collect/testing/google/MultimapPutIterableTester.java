@@ -16,13 +16,14 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.testing.Helpers.assertContainsAllOf;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
-import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -51,7 +52,7 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     }));
     assertGet(k0(), v0(), v3(), v4());
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllNonEmptyCollectionOnPresentKey() {
@@ -77,14 +78,14 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
         k3(), Lists.newArrayList(v3(), v4())));
     assertGet(k3(), v3(), v4());
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
   public void testPutAllNullValueOnPresentKey_supported() {
     assertTrue(multimap().putAll(k0(), Lists.newArrayList(v3(), null)));
     assertGet(k0(), v0(), v3(), null);
   }
-  
+
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
   public void testPutAllNullValueOnAbsentKey_supported() {
     assertTrue(multimap().putAll(k3(), Lists.newArrayList(v3(), null)));
@@ -98,7 +99,7 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
   }
 
   // In principle, it would be nice to apply these two tests to keys with existing values, too.
-  
+
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
   public void testPutAllNullValueNullLast_unsupported() {
     int size = getNumElements();
@@ -159,8 +160,6 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     }
   }
 
-  private static final Object[] EMPTY = new Object[0];
-
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllEmptyCollectionOnAbsentKey() {
     assertFalse(multimap().putAll(k3(), Collections.<V>emptyList()));
@@ -172,7 +171,7 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     Iterable<V> iterable = new Iterable<V>() {
       @Override
       public Iterator<V> iterator() {
-        return Iterators.emptyIterator();
+        return ImmutableSet.<V>of().iterator();
       }
     };
 
@@ -186,7 +185,7 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     multimap().putAll(k0(), Collections.<V>emptyList());
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllOnlyCallsIteratorOnce() {
     Iterable<V> iterable = new Iterable<V>() {
@@ -199,7 +198,7 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
         return Iterators.forArray(v3());
       }
     };
-    
+
     multimap().putAll(k3(), iterable);
   }
 
@@ -210,6 +209,6 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     assertTrue(multimap().putAll(
         k0(), Lists.newArrayList(v3(), v4())));
     assertEquals(getCollectionSize + 2, getCollection.size());
-    assertThat(getCollection).containsAllOf(v3(), v4());
+    assertContainsAllOf(getCollection, v3(), v4());
   }
 }

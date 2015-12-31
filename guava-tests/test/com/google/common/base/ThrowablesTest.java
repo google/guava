@@ -341,7 +341,7 @@ public class ThrowablesTest extends TestCase {
       sample.noneDeclared();
       fail();
     } catch (RuntimeException expected) {
-      assertTrue(expected.getCause() instanceof SomeCheckedException);
+      assertThat(expected.getCause()).isInstanceOf(SomeCheckedException.class);
     }
   }
 
@@ -421,7 +421,7 @@ public class ThrowablesTest extends TestCase {
       sample.oneDeclared();
       fail();
     } catch (RuntimeException expected) {
-      assertTrue(expected.getCause() instanceof SomeOtherCheckedException);
+      assertThat(expected.getCause()).isInstanceOf(SomeOtherCheckedException.class);
     }
   }
 
@@ -495,7 +495,7 @@ public class ThrowablesTest extends TestCase {
     String secondLine = "\\s*at " + ThrowablesTest.class.getName() + "\\..*";
     String moreLines = "(?:.*\n?)*";
     String expected = firstLine + "\n" + secondLine + "\n" + moreLines;
-    assertTrue(getStackTraceAsString(e).matches(expected));
+    assertThat(getStackTraceAsString(e)).matches(expected);
   }
 
   public void testGetCausalChain() {
@@ -515,19 +515,21 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testGetCasualChainNull() {
     try {
-      Throwables.getCausalChain(null);
+      List<Throwable> unused = Throwables.getCausalChain(null);
       fail("Should have throw NPE");
     } catch (NullPointerException expected) {
     }
   }
 
-  public void testLazyStackTrace() {
-    // Obviously this isn't guaranteed, but it works well enough for now:
+  @AndroidIncompatible // No getJavaLangAccess in Android (at least not in the version we use).
+  public void testLazyStackTraceWorksInProd() {
+    // Obviously this isn't guaranteed in every environment, but it works well enough for now:
     assertTrue(lazyStackTraceIsLazy());
+  }
 
+  public void testLazyStackTrace() {
     Exception e = new Exception();
     StackTraceElement[] originalStackTrace = e.getStackTrace();
 
@@ -537,6 +539,12 @@ public class ThrowablesTest extends TestCase {
       lazyStackTrace(e).set(0, null);
       fail();
     } catch (UnsupportedOperationException expected) {
+    }
+
+    // Now we test a property that holds only for the lazy implementation.
+
+    if (!lazyStackTraceIsLazy()) {
+      return;
     }
 
     e.setStackTrace(new StackTraceElement[0]);

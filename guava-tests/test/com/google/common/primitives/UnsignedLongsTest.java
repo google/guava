@@ -61,10 +61,9 @@ public class UnsignedLongsTest extends TestCase {
     assertTrue(UnsignedLongs.compare(0xff1a618b7f65ea12L, 0xff1a618b7f65ea12L) == 0);
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
-      UnsignedLongs.max();
+      long unused = UnsignedLongs.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -78,10 +77,9 @@ public class UnsignedLongsTest extends TestCase {
         0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
-      UnsignedLongs.min();
+      long unused = UnsignedLongs.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -154,11 +152,10 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(0x6cf78a4b139a4e2aL, UnsignedLongs.parseUnsignedLong("7851896530399809066"));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testParseLongFails() {
     try {
       // One more than maximum value
-      UnsignedLongs.parseUnsignedLong("18446744073709551616");
+      long unused = UnsignedLongs.parseUnsignedLong("18446744073709551616");
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -174,29 +171,28 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(0L, UnsignedLongs.decode("0"));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testDecodeLongFails() {
     try {
       // One more than maximum value
-      UnsignedLongs.decode("0xfffffffffffffffff");
+      long unused = UnsignedLongs.decode("0xfffffffffffffffff");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      UnsignedLongs.decode("-5");
+      long unused = UnsignedLongs.decode("-5");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      UnsignedLongs.decode("-0x5");
+      long unused = UnsignedLongs.decode("-0x5");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      UnsignedLongs.decode("-05");
+      long unused = UnsignedLongs.decode("-05");
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -207,7 +203,6 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(0x1234567890abcdefL, UnsignedLongs.parseUnsignedLong("1234567890abcdef", 16));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testParseLongWithRadixLimits() {
     BigInteger max = BigInteger.ZERO.setBit(64).subtract(ONE);
     // loops through all legal radix values.
@@ -220,7 +215,7 @@ public class UnsignedLongsTest extends TestCase {
         // tests that we get exception whre an overflow would occur.
         BigInteger overflow = max.add(ONE);
         String overflowAsString = overflow.toString(radix);
-        UnsignedLongs.parseUnsignedLong(overflowAsString, radix);
+        long unused = UnsignedLongs.parseUnsignedLong(overflowAsString, radix);
         fail();
       } catch (NumberFormatException expected) {
       }
@@ -233,24 +228,23 @@ public class UnsignedLongsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testParseLongThrowsExceptionForInvalidRadix() {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX, inclusive.
     try {
-      UnsignedLongs.parseUnsignedLong("0", Character.MIN_RADIX - 1);
+      long unused = UnsignedLongs.parseUnsignedLong("0", Character.MIN_RADIX - 1);
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      UnsignedLongs.parseUnsignedLong("0", Character.MAX_RADIX + 1);
+      long unused = UnsignedLongs.parseUnsignedLong("0", Character.MAX_RADIX + 1);
       fail();
     } catch (NumberFormatException expected) {
     }
 
     // The radix is used as an array index, so try a negative value.
     try {
-      UnsignedLongs.parseUnsignedLong("0", -1);
+      long unused = UnsignedLongs.parseUnsignedLong("0", -1);
       fail();
     } catch (NumberFormatException expected) {
     }

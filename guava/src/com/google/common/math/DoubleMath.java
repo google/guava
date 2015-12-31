@@ -392,7 +392,10 @@ public final class DoubleMath {
    *
    * @param values a nonempty series of values
    * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
+   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   *     values. This method will be removed in February 2018.
    */
+  @Deprecated
   @GwtIncompatible("com.google.common.math.DoubleUtils")
   public static double mean(double... values) {
     checkArgument(values.length > 0, "Cannot take mean of 0 values");
@@ -416,7 +419,10 @@ public final class DoubleMath {
    *
    * @param values a nonempty series of values
    * @throws IllegalArgumentException if {@code values} is empty
+   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   *     values. This method will be removed in February 2018.
    */
+  @Deprecated
   public static double mean(int... values) {
     checkArgument(values.length > 0, "Cannot take mean of 0 values");
     // The upper bound on the the length of an array and the bounds on the int values mean that, in
@@ -439,7 +445,10 @@ public final class DoubleMath {
    * @param values a nonempty series of values, which will be converted to {@code double} values
    *     (this may cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
    * @throws IllegalArgumentException if {@code values} is empty
+   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   *     values. This method will be removed in February 2018.
    */
+  @Deprecated
   public static double mean(long... values) {
     checkArgument(values.length > 0, "Cannot take mean of 0 values");
     long count = 1;
@@ -462,7 +471,10 @@ public final class DoubleMath {
    * @param values a nonempty series of values, which will be converted to {@code double} values
    *     (this may cause loss of precision)
    * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
+   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   *     values. This method will be removed in February 2018.
    */
+  @Deprecated
   @GwtIncompatible("com.google.common.math.DoubleUtils")
   public static double mean(Iterable<? extends Number> values) {
     return mean(values.iterator());
@@ -478,7 +490,10 @@ public final class DoubleMath {
    * @param values a nonempty series of values, which will be converted to {@code double} values
    *     (this may cause loss of precision)
    * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
+   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   *     values. This method will be removed in February 2018.
    */
+  @Deprecated
   @GwtIncompatible("com.google.common.math.DoubleUtils")
   public static double mean(Iterator<? extends Number> values) {
     checkArgument(values.hasNext(), "Cannot take mean of 0 values");

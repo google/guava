@@ -29,6 +29,7 @@ import com.google.common.primitives.UnsignedLong;
 import com.google.common.testing.ForwardingWrapperTester;
 import com.google.common.testing.NullPointerTester;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import java.io.InputStream;
@@ -220,7 +221,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
       String... expectedMessages) {
     try {
       tester.testForwarding(interfaceType, wrapperFunction);
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
       for (String message : expectedMessages) {
         assertThat(expected.getMessage()).contains(message);
       }
@@ -335,11 +336,11 @@ public class ForwardingWrapperTesterTest extends TestCase {
     }
 
     @Override public int minus(int a, int b) { // bad!
-      return arithmetic.add(b, a);
+      return arithmetic.add(a, b);
     }
 
     @Override public int add(int a, int b) {
-      return arithmetic.add(b, a);
+      return arithmetic.add(a, b);
     }
 
     @Override public String toString() {
@@ -445,7 +446,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
       new ForwardingWrapperTester()
           .includingEquals()
           .testForwarding(Equals.class, NoDelegateToEquals.WRAPPER);
-    } catch (AssertionError expected) {
+    } catch (AssertionFailedError expected) {
       return;
     }
     fail("Should have failed");

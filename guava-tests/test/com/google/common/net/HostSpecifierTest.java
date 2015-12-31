@@ -16,6 +16,8 @@
 
 package com.google.common.net;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -112,7 +114,7 @@ public final class HostSpecifierTest extends TestCase {
       HostSpecifier.from(spec);
       fail("Should have thrown ParseException: " + spec);
     } catch (ParseException expected) {
-      assertTrue(expected.getCause() instanceof IllegalArgumentException);
+      assertThat(expected.getCause()).isInstanceOf(IllegalArgumentException.class);
     }
 
     assertFalse(HostSpecifier.isValid(spec));

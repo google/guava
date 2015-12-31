@@ -41,6 +41,7 @@ import java.util.List;
  *
  * @author Chris Nokleberg
  */
+
 public class ResourcesTest extends IoTestCase {
 
   public static TestSuite suite() {
@@ -48,7 +49,7 @@ public class ResourcesTest extends IoTestCase {
     suite.addTest(ByteSourceTester.tests("Resources.asByteSource[URL]",
         SourceSinkFactories.urlByteSourceFactory(), true));
     suite.addTest(CharSourceTester.tests("Resources.asCharSource[URL, Charset]",
-        SourceSinkFactories.urlCharSourceFactory()));
+        SourceSinkFactories.urlCharSourceFactory(), false));
     suite.addTestSuite(ResourcesTest.class);
     return suite;
   }
@@ -108,7 +109,7 @@ public class ResourcesTest extends IoTestCase {
       Resources.getResource("no such resource");
       fail();
     } catch (IllegalArgumentException e) {
-      assertEquals("resource no such resource not found.", e.getMessage());
+      assertThat(e).hasMessage("resource no such resource not found.");
     }
   }
 
@@ -123,9 +124,10 @@ public class ResourcesTest extends IoTestCase {
           getClass(), "com/google/common/io/testdata/i18n.txt");
       fail();
     } catch (IllegalArgumentException e) {
-      assertEquals("resource com/google/common/io/testdata/i18n.txt" +
-          " relative to com.google.common.io.ResourcesTest not found.",
-          e.getMessage());
+      assertThat(e)
+          .hasMessage(
+              "resource com/google/common/io/testdata/i18n.txt"
+                  + " relative to com.google.common.io.ResourcesTest not found.");
     }
   }
 

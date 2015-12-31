@@ -589,9 +589,11 @@ public final class Ascii {
 
     // in this worst case, this allows a maxLength equal to the length of the truncationIndicator,
     // meaning that a string will be truncated to just the truncation indicator itself
-    checkArgument(truncationLength >= 0,
+    checkArgument(
+        truncationLength >= 0,
         "maxLength (%s) must be >= length of the truncation indicator (%s)",
-        maxLength, truncationIndicator.length());
+        maxLength,
+        truncationIndicator.length());
 
     if (seq.length() <= maxLength) {
       String string = seq.toString();

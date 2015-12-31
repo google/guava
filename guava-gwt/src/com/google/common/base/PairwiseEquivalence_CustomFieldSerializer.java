@@ -29,8 +29,8 @@ public class PairwiseEquivalence_CustomFieldSerializer {
 
   private PairwiseEquivalence_CustomFieldSerializer() {}
 
-  public static void deserialize(SerializationStreamReader reader,
-      PairwiseEquivalence<?> instance) {}
+  public static void deserialize(
+      SerializationStreamReader reader, PairwiseEquivalence<?> instance) {}
 
   public static PairwiseEquivalence<?> instantiate(SerializationStreamReader reader)
       throws SerializationException {

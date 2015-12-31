@@ -353,6 +353,7 @@ public class TreeMultisetTest extends TestCase {
   }
 
   @GwtIncompatible("reflection")
+  @AndroidIncompatible // Reflection bug, or actual binary compatibility problem?
   public void testElementSetBridgeMethods() {
     for (Method m : TreeMultiset.class.getMethods()) {
       if (m.getName().equals("elementSet") && m.getReturnType().equals(SortedSet.class)) {

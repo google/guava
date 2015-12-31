@@ -33,10 +33,12 @@ import junit.framework.TestCase;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -49,6 +51,7 @@ import java.util.Map;
  * @author Sven Mawson
  * @author Ben Yu
  */
+@AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
 public class TypeTokenTest extends TestCase {
 
   private abstract static class StringList implements List<String> {}
@@ -112,13 +115,13 @@ public class TypeTokenTest extends TestCase {
   public void testGenericArrayType() {
     TypeToken<List<String>[]> token = new TypeToken<List<String>[]>() {};
     assertEquals(List[].class, token.getRawType());
-    assertTrue(token.getType() instanceof GenericArrayType);
+    assertThat(token.getType()).isInstanceOf(GenericArrayType.class);
   }
 
   public void testMultiDimensionalGenericArrayType() {
     TypeToken<List<Long>[][][]> token = new TypeToken<List<Long>[][][]>() {};
     assertEquals(List[][][].class, token.getRawType());
-    assertTrue(token.getType() instanceof GenericArrayType);
+    assertThat(token.getType()).isInstanceOf(GenericArrayType.class);
   }
 
   public <T> void testGenericVariableTypeArrays() {
@@ -1229,6 +1232,134 @@ public class TypeTokenTest extends TestCase {
         new TypeToken<Iterable<String>[]>() {}.getSubtype(List[].class));
   }
 
+  public void testGetSubtype_toWildcard() {
+    class TwoTypeArgs<K, V> {}
+    class StringForFirstTypeArg<V> extends TwoTypeArgs<String, V> {}
+    TypeToken<TwoTypeArgs<?, ?>> superType =
+        new TypeToken<TwoTypeArgs<?, ?>>() {};
+    TypeToken<StringForFirstTypeArg<String>> subType =
+        new TypeToken<StringForFirstTypeArg<String>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    assertEquals(new TypeToken<StringForFirstTypeArg<?>>() {},
+        superType.getSubtype(subType.getRawType()));
+  }
+
+  private static class TwoTypeArgs<K, V> {
+    class InnerType<K2, V2> {}
+  }
+
+  private static class StringForFirstTypeArg<V> extends TwoTypeArgs<String, V> {
+    class StringInnerType<V2> extends InnerType<String, V2> {}
+  }
+
+  public void testGetSubtype_innerTypeOfGenericClassTranslatesOwnerTypeVars() {
+    TypeToken<TwoTypeArgs<?, ?>.InnerType<?, ?>> superType =
+        new TypeToken<TwoTypeArgs<?, ?>.InnerType<?, ?>>() {};
+    TypeToken<StringForFirstTypeArg<Integer>.StringInnerType<Long>> subType =
+        new TypeToken<StringForFirstTypeArg<Integer>.StringInnerType<Long>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    ParameterizedType actualSubType = (ParameterizedType)
+        superType.getSubtype(subType.getRawType()).getType();
+    assertEquals(StringForFirstTypeArg.StringInnerType.class, actualSubType.getRawType());
+    assertThat(actualSubType.getActualTypeArguments()[0]).isInstanceOf(WildcardType.class);
+    ParameterizedType actualOwnerType = (ParameterizedType) actualSubType.getOwnerType();
+    assertEquals(StringForFirstTypeArg.class, actualOwnerType.getRawType());
+  }
+
+  public void testGetSubtype_outerTypeVarTranslatesInnerTypeVar() {
+    class TwoTypeArgs<K, V> {}
+    class StringForFirstTypeArg<V> extends TwoTypeArgs<String, V> {}
+    class OuterTypeVar<V> extends StringForFirstTypeArg<List<V>> {}
+    TypeToken<StringForFirstTypeArg<List<?>>> type =
+        new TypeToken<StringForFirstTypeArg<List<?>>>() {};
+    assertEquals(new TypeToken<OuterTypeVar<?>>() {},
+        type.getSubtype(OuterTypeVar.class));
+  }
+  
+  public void testGetSubtype_toWildcardWithBounds() {
+    class TwoTypeArgs<K, V> {}
+    class StringForFirstTypeArg<V> extends TwoTypeArgs<String, V> {}
+    TypeToken<TwoTypeArgs<?, ? extends Number>> superType =
+        new TypeToken<TwoTypeArgs<?, ? extends Number>>() {};
+    TypeToken<StringForFirstTypeArg<Integer>> subType =
+        new TypeToken<StringForFirstTypeArg<Integer>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+
+    // TODO(benyu): This should check equality to an expected value, see discussion in cl/98674873
+    superType.getSubtype(subType.getRawType());
+  }
+  
+  public void testGetSubtype_baseClassWithNoTypeArgs() {
+    class SingleGenericExtendsBase<T> extends Base {}
+    TypeToken<Base> superType = new TypeToken<Base>() {};
+    TypeToken<SingleGenericExtendsBase<String>> subType =
+        new TypeToken<SingleGenericExtendsBase<String>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    assertEquals(TypeToken.of(SingleGenericExtendsBase.class),
+        superType.getSubtype(subType.getRawType()));
+  }
+
+  public void testGetSubtype_baseClassWithLessTypeArgs() {
+    class SingleGenericExtendsBase<T> extends Base {}
+    class DoubleGenericExtendsSingleGeneric<T1, TUnused> extends SingleGenericExtendsBase<T1> {}
+    TypeToken<SingleGenericExtendsBase<?>> superType =
+        new TypeToken<SingleGenericExtendsBase<?>>() {};
+    TypeToken<DoubleGenericExtendsSingleGeneric<String, Integer>> subType =
+        new TypeToken<DoubleGenericExtendsSingleGeneric<String, Integer>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    ParameterizedType actualSubType = (ParameterizedType)
+        superType.getSubtype(subType.getRawType()).getType();
+    assertEquals(DoubleGenericExtendsSingleGeneric.class, actualSubType.getRawType());
+    assertThat(actualSubType.getActualTypeArguments()[0]).isInstanceOf(WildcardType.class);
+  }
+
+  public <T> void testGetSubtype_manyGenericArgs() {
+    class FourTypeArgs<T1, T2, T3, T4> {}
+    class ThreeTypeArgs<T1, T2, T3> extends FourTypeArgs<T1, T2, T3, String> {}
+    TypeToken<FourTypeArgs<T, Integer, ?, ?>> superType =
+        new TypeToken<FourTypeArgs<T, Integer, ?, ?>>() {};
+    TypeToken<ThreeTypeArgs<T, Integer, String>> subType =
+        new TypeToken<ThreeTypeArgs<T, Integer, String>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    assertEquals(new TypeToken<ThreeTypeArgs<T, Integer, ?>>() {},
+        superType.getSubtype(subType.getRawType()));
+  }
+
+  public void testGetSubtype_recursiveTypeBoundInSubTypeTranslatedAsIs() {
+    class BaseWithTypeVar<T> {}
+    class Outer<O> {
+      class Sub<X> extends BaseWithTypeVar<List<X>> {}
+      class Sub2<Y extends Sub2<Y>> extends BaseWithTypeVar<List<Y>> {}
+    }
+    ParameterizedType subtype = (ParameterizedType) new TypeToken<BaseWithTypeVar<List<?>>>() {}
+            .getSubtype(Outer.Sub.class)
+            .getType();
+    assertEquals(Outer.Sub.class, subtype.getRawType());
+    assertThat(subtype.getActualTypeArguments()[0]).isInstanceOf(WildcardType.class);
+    ParameterizedType owner = (ParameterizedType) subtype.getOwnerType();
+    assertEquals(Outer.class, owner.getRawType());
+    // This returns a strange ? extends Sub2<Y> type, which isn't ideal.
+    new TypeToken<BaseWithTypeVar<List<?>>>() {}.getSubtype(Outer.Sub2.class);
+  }
+  
+  public void testGetSubtype_subtypeSameAsDeclaringType() throws Exception {
+    class Bar<T> {}
+    class SubBar<T> extends Bar<T> {
+      @SuppressWarnings("unused")
+      Bar<T> delegate;
+      
+      TypeToken<SubBar<T>> fieldTypeAsSubBar() {
+        return new TypeToken<SubBar<T>>() {};
+      }
+    }
+
+    Field delegateField = SubBar.class.getDeclaredField("delegate");
+    // barType is Bar<T>, a ParameterizedType with no generic arguments specified
+    TypeToken<?> barType = TypeToken.of(delegateField.getGenericType());
+    assertThat(barType.getSubtype(SubBar.class))
+        .isEqualTo(new SubBar<Void>().fieldTypeAsSubBar());
+  }
+
   @SuppressWarnings("unchecked") // To construct TypeToken<T> with TypeToken.of()
   public <T> void testWhere_circleRejected() {
     TypeToken<List<T>> type = new TypeToken<List<T>>() {};
@@ -1679,7 +1810,7 @@ public class TypeTokenTest extends TestCase {
   private static void assertAssignable(TypeToken<?> from, TypeToken<?> to) {
     assertTrue(
         from.getType() + " is expected to be assignable to " + to.getType(),
-        to.isAssignableFrom(from));
+        to.isSupertypeOf(from));
     assertTrue(
         to.getType() + " is expected to be a supertype of " + from.getType(),
         to.isSupertypeOf(from));
@@ -1691,7 +1822,7 @@ public class TypeTokenTest extends TestCase {
   private static void assertNotAssignable(TypeToken<?> from, TypeToken<?> to) {
     assertFalse(
         from.getType() + " shouldn't be assignable to " + to.getType(),
-        to.isAssignableFrom(from));
+        to.isSupertypeOf(from));
     assertFalse(
         to.getType() + " shouldn't be a supertype of " + from.getType(),
         to.isSupertypeOf(from));
@@ -1741,7 +1872,7 @@ public class TypeTokenTest extends TestCase {
   private static class Base implements BaseInterface {}
   private static class Sub extends Base {}
 
-  private static IterableSubject<?, Object, ?> makeUnmodifiable(Collection<?> actual) {
+  private static IterableSubject makeUnmodifiable(Collection<?> actual) {
     return assertThat(Collections.<Object>unmodifiableCollection(actual));
   }
 }

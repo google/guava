@@ -96,6 +96,7 @@ public class IntMathTest extends TestCase {
     assertEquals(IntMath.sqrt(Integer.MAX_VALUE, FLOOR), IntMath.FLOOR_SQRT_MAX_INT);
   }
 
+  @AndroidIncompatible // presumably slow
   public void testLessThanBranchFree() {
     for (int x : ALL_INTEGER_CANDIDATES) {
       for (int y : ALL_INTEGER_CANDIDATES) {
@@ -275,6 +276,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   public void testDivNonZero() {
     for (int p : NONZERO_INTEGER_CANDIDATES) {
       for (int q : NONZERO_INTEGER_CANDIDATES) {
@@ -292,6 +294,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // presumably slow
   public void testDivNonZeroExact() {
     for (int p : NONZERO_INTEGER_CANDIDATES) {
       for (int q : NONZERO_INTEGER_CANDIDATES) {
@@ -399,6 +402,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   public void testCheckedAdd() {
     for (int a : ALL_INTEGER_CANDIDATES) {
       for (int b : ALL_INTEGER_CANDIDATES) {
@@ -414,6 +418,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   public void testCheckedSubtract() {
     for (int a : ALL_INTEGER_CANDIDATES) {
       for (int b : ALL_INTEGER_CANDIDATES) {
@@ -429,6 +434,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // presumably slow
   public void testCheckedMultiply() {
     for (int a : ALL_INTEGER_CANDIDATES) {
       for (int b : ALL_INTEGER_CANDIDATES) {
@@ -456,6 +462,76 @@ public class IntMathTest extends TestCase {
           assertFalse(b + "^" + k + " should have failed", expectedSuccess);
         }
       }
+    }
+  }
+
+  @AndroidIncompatible // slow
+  @GwtIncompatible("TODO")
+  public void testSaturatedAdd() {
+    for (int a : ALL_INTEGER_CANDIDATES) {
+      for (int b : ALL_INTEGER_CANDIDATES) {
+        assertOperationEquals(
+            a, b, "s+", saturatedCast(valueOf(a).add(valueOf(b))), IntMath.saturatedAdd(a, b));
+      }
+    }
+  }
+
+  @AndroidIncompatible // slow
+  @GwtIncompatible("TODO")
+  public void testSaturatedSubtract() {
+    for (int a : ALL_INTEGER_CANDIDATES) {
+      for (int b : ALL_INTEGER_CANDIDATES) {
+        assertOperationEquals(
+            a,
+            b,
+            "s-",
+            saturatedCast(valueOf(a).subtract(valueOf(b))),
+            IntMath.saturatedSubtract(a, b));
+      }
+    }
+  }
+
+  @AndroidIncompatible // slow
+  @GwtIncompatible("TODO")
+  public void testSaturatedMultiply() {
+    for (int a : ALL_INTEGER_CANDIDATES) {
+      for (int b : ALL_INTEGER_CANDIDATES) {
+        assertOperationEquals(
+            a,
+            b,
+            "s*",
+            saturatedCast(valueOf(a).multiply(valueOf(b))),
+            IntMath.saturatedMultiply(a, b));
+      }
+    }
+  }
+
+  @GwtIncompatible("TODO")
+  public void testSaturatedPow() {
+    for (int a : ALL_INTEGER_CANDIDATES) {
+      for (int b : EXPONENTS) {
+        assertOperationEquals(
+            a, b, "s^", saturatedCast(valueOf(a).pow(b)), IntMath.saturatedPow(a, b));
+      }
+    }
+  }
+
+  private static final BigInteger MAX_INT = BigInteger.valueOf(Integer.MAX_VALUE);
+  private static final BigInteger MIN_INT = BigInteger.valueOf(Integer.MIN_VALUE);
+
+  private static int saturatedCast(BigInteger big) {
+    if (big.compareTo(MAX_INT) > 0) {
+      return Integer.MAX_VALUE;
+    }
+    if (big.compareTo(MIN_INT) < 0) {
+      return Integer.MIN_VALUE;
+    }
+    return big.intValue();
+  }
+
+  private void assertOperationEquals(int a, int b, String op, int expected, int actual) {
+    if (expected != actual) {
+      fail("Expected for " + a + " " + op + " " + b + " = " + expected + ", but got " + actual);
     }
   }
 
@@ -513,6 +589,7 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   @GwtIncompatible("java.math.BigInteger")
   public void testMean() {
     // Odd-sized ranges have an obvious mean

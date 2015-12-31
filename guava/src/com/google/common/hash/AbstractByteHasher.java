@@ -34,7 +34,6 @@ import java.nio.ByteOrder;
  * @author Colin Decker
  */
 abstract class AbstractByteHasher extends AbstractHasher {
-
   private final ByteBuffer scratch = ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN);
 
   /**

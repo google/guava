@@ -136,6 +136,7 @@ public class LongMathTest extends TestCase {
     } catch (ArithmeticException expected) {}
   }
 
+  @AndroidIncompatible // slow
   public void testLessThanBranchFree() {
     for (long x : ALL_LONG_CANDIDATES) {
       for (long y : ALL_LONG_CANDIDATES) {
@@ -251,12 +252,14 @@ public class LongMathTest extends TestCase {
   public void testLog10Exact() {
     for (long x : POSITIVE_LONG_CANDIDATES) {
       int floor = LongMath.log10(x, FLOOR);
-      boolean expectSuccess = LongMath.pow(10, floor) == x;
+      boolean expectedSuccess = LongMath.pow(10, floor) == x;
       try {
         assertEquals(floor, LongMath.log10(x, UNNECESSARY));
-        assertTrue(expectSuccess);
+        assertTrue(expectedSuccess);
       } catch (ArithmeticException e) {
-        assertFalse(expectSuccess);
+        if (expectedSuccess) {
+          failFormat("expected log10(%s, UNNECESSARY) = %s; got ArithmeticException", x, floor);
+        }
       }
     }
   }
@@ -321,29 +324,37 @@ public class LongMathTest extends TestCase {
   }
 
   @GwtIncompatible("TODO")
+  @AndroidIncompatible // TODO(cpovirk): File BigDecimal.divide() rounding bug.
   public void testDivNonZero() {
     for (long p : NONZERO_LONG_CANDIDATES) {
       for (long q : NONZERO_LONG_CANDIDATES) {
         for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
           long expected =
               new BigDecimal(valueOf(p)).divide(new BigDecimal(valueOf(q)), 0, mode).longValue();
-          assertEquals(expected, LongMath.divide(p, q, mode));
+          long actual = LongMath.divide(p, q, mode);
+          if (expected != actual) {
+            failFormat("expected divide(%s, %s, %s) = %s; got %s", p, q, mode, expected, actual);
+          }
         }
       }
     }
   }
 
   @GwtIncompatible("TODO")
+  @AndroidIncompatible // Bug in older versions of Android we test against, since fixed.
   public void testDivNonZeroExact() {
     for (long p : NONZERO_LONG_CANDIDATES) {
       for (long q : NONZERO_LONG_CANDIDATES) {
-        boolean dividesEvenly = (p % q) == 0L;
+        boolean expectedSuccess = (p % q) == 0L;
 
         try {
           assertEquals(p, LongMath.divide(p, q, UNNECESSARY) * q);
-          assertTrue(dividesEvenly);
+          assertTrue(expectedSuccess);
         } catch (ArithmeticException e) {
-          assertFalse(dividesEvenly);
+          if (expectedSuccess) {
+            failFormat(
+                "expected divide(%s, %s, UNNECESSARY) to succeed; got ArithmeticException", p, q);
+          }
         }
       }
     }
@@ -403,6 +414,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   @GwtIncompatible("TODO")
   public void testMod() {
     for (long x : ALL_LONG_CANDIDATES) {
@@ -471,6 +483,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // slow
   @GwtIncompatible("TODO")
   public void testCheckedAdd() {
     for (long a : ALL_LONG_CANDIDATES) {
@@ -481,13 +494,17 @@ public class LongMathTest extends TestCase {
           assertEquals(a + b, LongMath.checkedAdd(a, b));
           assertTrue(expectedSuccess);
         } catch (ArithmeticException e) {
-          assertFalse(expectedSuccess);
+          if (expectedSuccess) {
+            failFormat(
+                "expected checkedAdd(%s, %s) = %s; got ArithmeticException", a, b, expectedResult);
+          }
         }
       }
     }
   }
 
   @GwtIncompatible("TODO")
+  @AndroidIncompatible // slow
   public void testCheckedSubtract() {
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {
@@ -497,23 +514,47 @@ public class LongMathTest extends TestCase {
           assertEquals(a - b, LongMath.checkedSubtract(a, b));
           assertTrue(expectedSuccess);
         } catch (ArithmeticException e) {
-          assertFalse(expectedSuccess);
+          if (expectedSuccess) {
+            failFormat(
+                "expected checkedSubtract(%s, %s) = %s; got ArithmeticException",
+                a,
+                b,
+                expectedResult);
+          }
         }
       }
     }
   }
 
   @GwtIncompatible("TODO")
+  @AndroidIncompatible // slow
   public void testCheckedMultiply() {
+    boolean isAndroid = System.getProperties().getProperty("java.runtime.name").contains("Android");
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {
+        if (isAndroid && a == -4294967296L && b == 2147483648L) {
+          /*
+           * Bug in older versions of Android we test against, since fixed: -9223372036854775808L /
+           * -4294967296L = -9223372036854775808L!
+           *
+           * To be clear, this bug affects not the test's computation of the expected result but the
+           * _actual prod code_. But it probably affects only unusual cases.
+           */
+          continue;
+        }
         BigInteger expectedResult = valueOf(a).multiply(valueOf(b));
         boolean expectedSuccess = fitsInLong(expectedResult);
         try {
           assertEquals(a * b, LongMath.checkedMultiply(a, b));
           assertTrue(expectedSuccess);
         } catch (ArithmeticException e) {
-          assertFalse(expectedSuccess);
+          if (expectedSuccess) {
+            failFormat(
+                "expected checkedMultiply(%s, %s) = %s; got ArithmeticException",
+                a,
+                b,
+                expectedResult);
+          }
         }
       }
     }
@@ -529,9 +570,72 @@ public class LongMathTest extends TestCase {
           assertEquals(expectedResult.longValue(), LongMath.checkedPow(b, exp));
           assertTrue(expectedSuccess);
         } catch (ArithmeticException e) {
-          assertFalse(expectedSuccess);
+          if (expectedSuccess) {
+            failFormat(
+                "expected checkedPow(%s, %s) = %s; got ArithmeticException",
+                b,
+                exp,
+                expectedResult);
+          }
         }
       }
+    }
+  }
+
+  @AndroidIncompatible // slow
+  @GwtIncompatible("TODO")
+  public void testSaturatedAdd() {
+    for (long a : ALL_LONG_CANDIDATES) {
+      for (long b : ALL_LONG_CANDIDATES) {
+        assertOperationEquals(
+            a, b, "s+", saturatedCast(valueOf(a).add(valueOf(b))), LongMath.saturatedAdd(a, b));
+      }
+    }
+  }
+
+  @AndroidIncompatible // slow
+  @GwtIncompatible("TODO")
+  public void testSaturatedSubtract() {
+    for (long a : ALL_LONG_CANDIDATES) {
+      for (long b : ALL_LONG_CANDIDATES) {
+        assertOperationEquals(
+            a,
+            b,
+            "s-",
+            saturatedCast(valueOf(a).subtract(valueOf(b))),
+            LongMath.saturatedSubtract(a, b));
+      }
+    }
+  }
+
+  @AndroidIncompatible // slow
+  @GwtIncompatible("TODO")
+  public void testSaturatedMultiply() {
+    for (long a : ALL_LONG_CANDIDATES) {
+      for (long b : ALL_LONG_CANDIDATES) {
+        assertOperationEquals(
+            a,
+            b,
+            "s*",
+            saturatedCast(valueOf(a).multiply(valueOf(b))),
+            LongMath.saturatedMultiply(a, b));
+      }
+    }
+  }
+
+  @GwtIncompatible("TODO")
+  public void testSaturatedPow() {
+    for (long a : ALL_LONG_CANDIDATES) {
+      for (int b : EXPONENTS) {
+        assertOperationEquals(
+            a, b, "s^", saturatedCast(valueOf(a).pow(b)), LongMath.saturatedPow(a, b));
+      }
+    }
+  }
+
+  private void assertOperationEquals(long a, long b, String op, long expected, long actual) {
+    if (expected != actual) {
+      fail("Expected for " + a + " " + op + " " + b + " = " + expected + ", but got " + actual);
     }
   }
 
@@ -613,6 +717,7 @@ public class LongMathTest extends TestCase {
     assertTrue(sqrtMaxLong <= LongMath.FLOOR_SQRT_MAX_LONG);
   }
 
+  @AndroidIncompatible // slow
   @GwtIncompatible("java.math.BigInteger")
   public void testMean() {
     // Odd-sized ranges have an obvious mean
@@ -685,11 +790,29 @@ public class LongMathTest extends TestCase {
     return big.bitLength() <= 63;
   }
 
+  private static final BigInteger MAX_LONG = BigInteger.valueOf(Long.MAX_VALUE);
+  private static final BigInteger MIN_LONG = BigInteger.valueOf(Long.MIN_VALUE);
+
+  private static long saturatedCast(BigInteger big) {
+    if (big.compareTo(MAX_LONG) > 0) {
+      return Long.MAX_VALUE;
+    }
+    if (big.compareTo(MIN_LONG) < 0) {
+      return Long.MIN_VALUE;
+    }
+    return big.longValue();
+  }
+
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(int.class, 1);
     tester.setDefault(long.class, 1L);
     tester.testAllPublicStaticMethods(LongMath.class);
+  }
+
+  @GwtIncompatible("String.format")
+  private static void failFormat(String template, Object... args) {
+    fail(String.format(template, args));
   }
 }

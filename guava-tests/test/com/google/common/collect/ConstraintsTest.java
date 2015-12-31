@@ -203,7 +203,7 @@ public class ConstraintsTest extends TestCase {
         list, TEST_CONSTRAINT);
     list.add(TEST_ELEMENT);
     constrained.add("qux");
-    assertFalse(constrained instanceof RandomAccess);
+    assertThat(constrained).isNotInstanceOf(RandomAccess.class);
   }
 
   public void testConstrainedListIllegal() {

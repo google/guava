@@ -309,7 +309,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     ListeningExecutorService executor = newDirectExecutorService();
     List<Callable<T>> tasks = ImmutableList.of();
     @SuppressWarnings("unchecked") // guaranteed by invokeAll contract
-    List<ListenableFuture<T>> futures = (List) executor.invokeAll(tasks);
+    List<ListenableFuture<T>> unused = (List) executor.invokeAll(tasks);
   }
 
   public void testListeningDecorator() throws Exception {
@@ -352,8 +352,8 @@ public class MoreExecutorsTest extends JSR166TestCase {
       }
     };
     ListeningScheduledExecutorService service = listeningDecorator(delegate);
-    ListenableFuture<?> future =
-        service.schedule(Callables.returning(null), 1, TimeUnit.MILLISECONDS);
+    ListenableFuture<Integer> future =
+        service.schedule(Callables.returning(42), 1, TimeUnit.MILLISECONDS);
 
     /*
      * Wait not just until the Future's value is set (as in future.get()) but
@@ -362,6 +362,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
      */
     completed.await();
     assertTrue(future.isDone());
+    assertThat(future.get()).isEqualTo(42);
     assertListenerRunImmediately(future);
     assertEquals(0, delegate.getQueue().size());
   }
@@ -518,7 +519,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
       invokeAnyImpl(e, l, false, 0);
       shouldThrow();
     } catch (ExecutionException success) {
-      assertTrue(success.getCause() instanceof NullPointerException);
+      assertThat(success.getCause()).isInstanceOf(NullPointerException.class);
     } finally {
       joinPool(e);
     }

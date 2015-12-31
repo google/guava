@@ -35,13 +35,13 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingMultimap<K, V> extends ForwardingObject
-    implements Multimap<K, V> {
+public abstract class ForwardingMultimap<K, V> extends ForwardingObject implements Multimap<K, V> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingMultimap() {}
 
-  @Override protected abstract Multimap<K, V> delegate();
+  @Override
+  protected abstract Multimap<K, V> delegate();
 
   @Override
   public Map<K, Collection<V>> asMap() {
@@ -133,11 +133,13 @@ public abstract class ForwardingMultimap<K, V> extends ForwardingObject
     return delegate().values();
   }
 
-  @Override public boolean equals(@Nullable Object object) {
+  @Override
+  public boolean equals(@Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return delegate().hashCode();
   }
 }

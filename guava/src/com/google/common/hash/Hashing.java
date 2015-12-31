@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Supplier;
 
+import java.security.Key;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +32,7 @@ import java.util.zip.Checksum;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Static methods to obtain {@link HashFunction} instances, and other static hashing-related
@@ -182,6 +184,10 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the MD5 hash algorithm (128 hash bits) by delegating to
    * the MD5 {@link MessageDigest}.
+   *
+   * <p><b>Warning:</b> MD5 is not cryptographically secure or collision-resistant and is not
+   * recommended for use in new code.  It should be used for legacy compatibility reasons only.
+   * Please consider using a hash function in the SHA-2 family of functions (e.g., SHA-256).
    */
   public static HashFunction md5() {
     return Md5Holder.MD5;
@@ -194,14 +200,17 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the SHA-1 algorithm (160 hash bits) by delegating to the
    * SHA-1 {@link MessageDigest}.
+   *
+   * <p><b>Warning:</b> SHA1 is not cryptographically secure and is not recommended for use in new
+   * code. It should be used for legacy compatibility reasons only. Please consider using a hash
+   * function in the SHA-2 family of functions (e.g., SHA-256).
    */
   public static HashFunction sha1() {
     return Sha1Holder.SHA_1;
   }
 
   private static class Sha1Holder {
-    static final HashFunction SHA_1 =
-        new MessageDigestHashFunction("SHA-1", "Hashing.sha1()");
+    static final HashFunction SHA_1 = new MessageDigestHashFunction("SHA-1", "Hashing.sha1()");
   }
 
   /**
@@ -246,6 +255,118 @@ public final class Hashing {
   }
 
   /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the MD5 (128 hash bits) hash function and the given secret key.
+   *
+   *
+   * @param key the secret key
+   * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
+   * @since 20.0
+   */
+  public static HashFunction hmacMd5(Key key) {
+    return new MacHashFunction("HmacMD5", key, hmacToString("hmacMd5", key));
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the MD5 (128 hash bits) hash function and a {@link SecretSpecKey} created from the given
+   * byte array and the MD5 algorithm.
+   *
+   *
+   * @param key the key material of the secret key
+   * @since 20.0
+   */
+  public static HashFunction hmacMd5(byte[] key) {
+    return hmacMd5(new SecretKeySpec(checkNotNull(key), "HmacMD5"));
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the SHA-1 (160 hash bits) hash function and the given secret key.
+   *
+   *
+   * @param key the secret key
+   * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
+   * @since 20.0
+   */
+  public static HashFunction hmacSha1(Key key) {
+    return new MacHashFunction("HmacSHA1", key, hmacToString("hmacSha1", key));
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the SHA-1 (160 hash bits) hash function and a {@link SecretSpecKey} created from the given
+   * byte array and the SHA-1 algorithm.
+   *
+   *
+   * @param key the key material of the secret key
+   * @since 20.0
+   */
+  public static HashFunction hmacSha1(byte[] key) {
+    return hmacSha1(new SecretKeySpec(checkNotNull(key), "HmacSHA1"));
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the SHA-256 (256 hash bits) hash function and the given secret key.
+   *
+   *
+   * @param key the secret key
+   * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
+   * @since 20.0
+   */
+  public static HashFunction hmacSha256(Key key) {
+    return new MacHashFunction("HmacSHA256", key, hmacToString("hmacSha256", key));
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the SHA-256 (256 hash bits) hash function and a {@link SecretSpecKey} created from the given
+   * byte array and the SHA-256 algorithm.
+   *
+   *
+   * @param key the key material of the secret key
+   * @since 20.0
+   */
+  public static HashFunction hmacSha256(byte[] key) {
+    return hmacSha256(new SecretKeySpec(checkNotNull(key), "HmacSHA256"));
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the SHA-512 (512 hash bits) hash function and the given secret key.
+   *
+   *
+   * @param key the secret key
+   * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
+   * @since 20.0
+   */
+  public static HashFunction hmacSha512(Key key) {
+    return new MacHashFunction("HmacSHA512", key, hmacToString("hmacSha512", key));
+  }
+
+  /**
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
+   * the SHA-512 (512 hash bits) hash function and a {@link SecretSpecKey} created from the given
+   * byte array and the SHA-512 algorithm.
+   *
+   *
+   * @param key the key material of the secret key
+   * @since 20.0
+   */
+  public static HashFunction hmacSha512(byte[] key) {
+    return hmacSha512(new SecretKeySpec(checkNotNull(key), "HmacSHA512"));
+  }
+
+  private static String hmacToString(String methodName, Key key) {
+    return String.format(
+        "Hashing.%s(Key[algorithm=%s, format=%s])",
+        methodName,
+        key.getAlgorithm(),
+        key.getFormat());
+  }
+
+  /**
    * Returns a hash function implementing the CRC32C checksum algorithm (32 hash bits) as described
    * by RFC 3720, Section 12.1.
    *
@@ -273,8 +394,7 @@ public final class Hashing {
   }
 
   private static class Crc32Holder {
-    static final HashFunction CRC_32 =
-        checksumHashFunction(ChecksumType.CRC_32, "Hashing.crc32()");
+    static final HashFunction CRC_32 = checksumHashFunction(ChecksumType.CRC_32, "Hashing.crc32()");
   }
 
   /**
@@ -321,6 +441,26 @@ public final class Hashing {
 
     @Override
     public abstract Checksum get();
+  }
+
+  /**
+   * Returns a hash function implementing FarmHash's Fingerprint64, an open-source algorithm.
+   * <p>
+   * This is designed for generating persistent fingerprints of strings.  It isn't cryptographically
+   * secure, but it produces a high-quality hash with fewer collisions than some alternatives we've
+   * used in the past.  FarmHashFingerprints generated using this are byte-wise identical to those
+   * created using the C++ version, but note that this uses unsigned integers (see
+   * {@link com.google.common.primitives.UnsignedInts}).  Comparisons between the two should take
+   * this into account.
+   *
+   * @since 20.0
+   */
+  public static HashFunction farmHashFingerprint64() {
+    return FarmHashFingerprint64Holder.FARMHASH_FINGERPRINT_64;
+  }
+
+  private static class FarmHashFingerprint64Holder {
+    static final HashFunction FARMHASH_FINGERPRINT_64 = new FarmHashFingerprint64();
   }
 
   /**
@@ -423,8 +563,8 @@ public final class Hashing {
     byte[] resultBytes = new byte[bits / 8];
     for (HashCode hashCode : hashCodes) {
       byte[] nextBytes = hashCode.asBytes();
-      checkArgument(nextBytes.length == resultBytes.length,
-          "All hashcodes must have the same bit length.");
+      checkArgument(
+          nextBytes.length == resultBytes.length, "All hashcodes must have the same bit length.");
       for (int i = 0; i < nextBytes.length; i++) {
         resultBytes[i] = (byte) (resultBytes[i] * 37 ^ nextBytes[i]);
       }
@@ -448,8 +588,8 @@ public final class Hashing {
     byte[] resultBytes = new byte[iterator.next().bits() / 8];
     for (HashCode hashCode : hashCodes) {
       byte[] nextBytes = hashCode.asBytes();
-      checkArgument(nextBytes.length == resultBytes.length,
-          "All hashcodes must have the same bit length.");
+      checkArgument(
+          nextBytes.length == resultBytes.length, "All hashcodes must have the same bit length.");
       for (int i = 0; i < nextBytes.length; i++) {
         resultBytes[i] += nextBytes[i];
       }
@@ -516,9 +656,11 @@ public final class Hashing {
       int bitSum = 0;
       for (HashFunction function : functions) {
         bitSum += function.bits();
-        checkArgument(function.bits() % 8 == 0,
+        checkArgument(
+            function.bits() % 8 == 0,
             "the number of bits (%s) in hashFunction (%s) must be divisible by 8",
-            function.bits(), function);
+            function.bits(),
+            function);
       }
       this.bits = bitSum;
     }

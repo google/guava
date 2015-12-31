@@ -106,7 +106,7 @@ public class MapsTest extends TestCase {
     try {
       Maps.capacity(-1);
       fail("Negative expected size must result in IllegalArgumentException");
-    } catch (IllegalArgumentException ex) {
+    } catch (IllegalArgumentException expected) {
     }
   }
 
@@ -120,6 +120,7 @@ public class MapsTest extends TestCase {
    * This test may fail miserably on non-OpenJDK environments...
    */
   @GwtIncompatible("reflection")
+  @AndroidIncompatible // relies on assumptions about OpenJDK
   public void testNewHashMapWithExpectedSize_wontGrow() throws Exception {
     // before jdk7u40: creates one-bucket table
     // after  jdk7u40: creates empty table
@@ -136,6 +137,7 @@ public class MapsTest extends TestCase {
    * Same test as above but for newLinkedHashMapWithExpectedSize
    */
   @GwtIncompatible("reflection")
+  @AndroidIncompatible // relies on assumptions about OpenJDK
   public void testNewLinkedHashMapWithExpectedSize_wontGrow() throws Exception {
     assertTrue(bucketsOf(Maps.newLinkedHashMapWithExpectedSize(0)) <= 1);
 
@@ -1033,6 +1035,7 @@ public class MapsTest extends TestCase {
       Maps.uniqueIndex(ImmutableSet.of("one", "uno"), Functions.constant(1));
       fail();
     } catch (IllegalArgumentException expected) {
+      assertThat(expected.getMessage()).contains("Multimaps.index");
     }
   }
 
@@ -1966,7 +1969,7 @@ public class MapsTest extends TestCase {
     } catch (UnsupportedOperationException expected) {
     }
     try {
-      unmod.remove("four");
+      unmod.remove(4);
       fail("UnsupportedOperationException expected");
     } catch (UnsupportedOperationException expected) {
     }
@@ -1980,5 +1983,89 @@ public class MapsTest extends TestCase {
       fail("UnsupportedOperationException expected");
     } catch (UnsupportedOperationException expected) {
     }
+  }
+
+  @GwtIncompatible("NavigableMap")
+  public void testSubMap_boundedRange() {
+    ImmutableSortedMap<Integer, Integer> map = ImmutableSortedMap.of(2, 0, 4, 0, 6, 0, 8, 0, 10, 0);
+    ImmutableSortedMap<Integer, Integer> empty = ImmutableSortedMap.of();
+
+    assertEquals(map, Maps.subMap(map, Range.closed(0, 12)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0), Maps.subMap(map, Range.closed(0, 4)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0, 6, 0), Maps.subMap(map, Range.closed(2, 6)));
+    assertEquals(ImmutableSortedMap.of(4, 0, 6, 0), Maps.subMap(map, Range.closed(3, 7)));
+    assertEquals(empty, Maps.subMap(map, Range.closed(20, 30)));
+
+    assertEquals(map, Maps.subMap(map, Range.open(0, 12)));
+    assertEquals(ImmutableSortedMap.of(2, 0), Maps.subMap(map, Range.open(0, 4)));
+    assertEquals(ImmutableSortedMap.of(4, 0), Maps.subMap(map, Range.open(2, 6)));
+    assertEquals(ImmutableSortedMap.of(4, 0, 6, 0), Maps.subMap(map, Range.open(3, 7)));
+    assertEquals(empty, Maps.subMap(map, Range.open(20, 30)));
+
+    assertEquals(map, Maps.subMap(map, Range.openClosed(0, 12)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0), Maps.subMap(map, Range.openClosed(0, 4)));
+    assertEquals(ImmutableSortedMap.of(4, 0, 6, 0), Maps.subMap(map, Range.openClosed(2, 6)));
+    assertEquals(ImmutableSortedMap.of(4, 0, 6, 0), Maps.subMap(map, Range.openClosed(3, 7)));
+    assertEquals(empty, Maps.subMap(map, Range.openClosed(20, 30)));
+
+    assertEquals(map, Maps.subMap(map, Range.closedOpen(0, 12)));
+    assertEquals(ImmutableSortedMap.of(2, 0), Maps.subMap(map, Range.closedOpen(0, 4)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0), Maps.subMap(map, Range.closedOpen(2, 6)));
+    assertEquals(ImmutableSortedMap.of(4, 0, 6, 0), Maps.subMap(map, Range.closedOpen(3, 7)));
+    assertEquals(empty, Maps.subMap(map, Range.closedOpen(20, 30)));
+  }
+
+  @GwtIncompatible("NavigableMap")
+  public void testSubMap_halfBoundedRange() {
+    ImmutableSortedMap<Integer, Integer> map = ImmutableSortedMap.of(2, 0, 4, 0, 6, 0, 8, 0, 10, 0);
+    ImmutableSortedMap<Integer, Integer> empty = ImmutableSortedMap.of();
+
+    assertEquals(map, Maps.subMap(map, Range.atLeast(0)));
+    assertEquals(ImmutableSortedMap.of(4, 0, 6, 0, 8, 0, 10, 0),
+        Maps.subMap(map, Range.atLeast(4)));
+    assertEquals(ImmutableSortedMap.of(8, 0, 10, 0), Maps.subMap(map, Range.atLeast(7)));
+    assertEquals(empty, Maps.subMap(map, Range.atLeast(20)));
+
+    assertEquals(map, Maps.subMap(map, Range.greaterThan(0)));
+    assertEquals(ImmutableSortedMap.of(6, 0, 8, 0, 10, 0), Maps.subMap(map, Range.greaterThan(4)));
+    assertEquals(ImmutableSortedMap.of(8, 0, 10, 0), Maps.subMap(map, Range.greaterThan(7)));
+    assertEquals(empty, Maps.subMap(map, Range.greaterThan(20)));
+
+    assertEquals(empty, Maps.subMap(map, Range.lessThan(0)));
+    assertEquals(ImmutableSortedMap.of(2, 0), Maps.subMap(map, Range.lessThan(4)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0, 6, 0), Maps.subMap(map, Range.lessThan(7)));
+    assertEquals(map, Maps.subMap(map, Range.lessThan(20)));
+
+    assertEquals(empty, Maps.subMap(map, Range.atMost(0)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0), Maps.subMap(map, Range.atMost(4)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0, 6, 0), Maps.subMap(map, Range.atMost(7)));
+    assertEquals(map, Maps.subMap(map, Range.atMost(20)));
+  }
+
+  @GwtIncompatible("NavigableMap")
+  public void testSubMap_unboundedRange() {
+    ImmutableSortedMap<Integer, Integer> map = ImmutableSortedMap.of(2, 0, 4, 0, 6, 0, 8, 0, 10, 0);
+
+    assertEquals(map, Maps.subMap(map, Range.<Integer>all()));
+  }
+
+  @GwtIncompatible("NavigableMap")
+  public void testSubMap_unnaturalOrdering() {
+    ImmutableSortedMap<Integer, Integer> map =
+        ImmutableSortedMap.<Integer, Integer>reverseOrder()
+            .put(2, 0).put(4, 0).put(6, 0).put(8, 0).put(10, 0).build();
+
+    try {
+      Maps.subMap(map, Range.closed(4, 8));
+      fail("IllegalArgumentException expected");
+    } catch (IllegalArgumentException expected) {
+    }
+
+    // These results are all incorrect, but there's no way (short of iterating over the result)
+    // to verify that with an arbitrary ordering or comparator.
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0), Maps.subMap(map, Range.atLeast(4)));
+    assertEquals(ImmutableSortedMap.of(8, 0, 10, 0), Maps.subMap(map, Range.atMost(8)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0, 6, 0, 8, 0, 10, 0),
+        Maps.subMap(map, Range.<Integer>all()));
   }
 }

@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Multisets.ImmutableEntry;
 import com.google.common.primitives.Ints;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Collection;
 
@@ -34,13 +35,14 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
-  static final RegularImmutableMultiset<Object> EMPTY = 
+  static final RegularImmutableMultiset<Object> EMPTY =
       new RegularImmutableMultiset<Object>(ImmutableList.<Entry<Object>>of());
-  
+
   private final transient Multisets.ImmutableEntry<E>[] entries;
   private final transient Multisets.ImmutableEntry<E>[] hashTable;
   private final transient int size;
   private final transient int hashCode;
+
   private transient ImmutableSet<E> elementSet;
 
   RegularImmutableMultiset(Collection<? extends Entry<? extends E>> entries) {
@@ -70,9 +72,10 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
         Multisets.ImmutableEntry<E> bucketHead = hashTable[bucket];
         Multisets.ImmutableEntry<E> newEntry;
         if (bucketHead == null) {
-          boolean canReuseEntry = entry instanceof Multisets.ImmutableEntry
-              && !(entry instanceof NonTerminalEntry);
-          newEntry = canReuseEntry
+          boolean canReuseEntry =
+              entry instanceof Multisets.ImmutableEntry && !(entry instanceof NonTerminalEntry);
+          newEntry =
+              canReuseEntry
                   ? (Multisets.ImmutableEntry<E>) entry
                   : new Multisets.ImmutableEntry<E>(element, count);
         } else {
@@ -117,7 +120,8 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     }
     int hash = Hashing.smearedHash(element);
     int mask = hashTable.length - 1;
-    for (Multisets.ImmutableEntry<E> entry = hashTable[hash & mask]; entry != null;
+    for (Multisets.ImmutableEntry<E> entry = hashTable[hash & mask];
+        entry != null;
         entry = entry.nextInBucket()) {
       if (Objects.equal(element, entry.getElement())) {
         return entry.getCount();
@@ -137,6 +141,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     return (result == null) ? elementSet = new ElementSet() : result;
   }
 
+  @WeakOuter
   private final class ElementSet extends ImmutableSet.Indexed<E> {
 
     @Override

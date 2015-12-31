@@ -166,7 +166,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   @Override
   public MapMaker initialCapacity(int initialCapacity) {
-    checkState(this.initialCapacity == UNSET_INT, "initial capacity was already set to %s",
+    checkState(
+        this.initialCapacity == UNSET_INT,
+        "initial capacity was already set to %s",
         this.initialCapacity);
     checkArgument(initialCapacity >= 0);
     this.initialCapacity = initialCapacity;
@@ -203,7 +205,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   @Deprecated
   @Override
   MapMaker maximumSize(int size) {
-    checkState(this.maximumSize == UNSET_INT, "maximum size was already set to %s",
+    checkState(
+        this.maximumSize == UNSET_INT,
+        "maximum size was already set to %s",
         this.maximumSize);
     checkArgument(size >= 0, "maximum size must not be negative");
     this.maximumSize = size;
@@ -236,7 +240,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   @Override
   public MapMaker concurrencyLevel(int concurrencyLevel) {
-    checkState(this.concurrencyLevel == UNSET_INT, "concurrency level was already set to %s",
+    checkState(
+        this.concurrencyLevel == UNSET_INT,
+        "concurrency level was already set to %s",
         this.concurrencyLevel);
     checkArgument(concurrencyLevel > 0);
     this.concurrencyLevel = concurrencyLevel;
@@ -386,9 +392,13 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   private void checkExpiration(long duration, TimeUnit unit) {
-    checkState(expireAfterWriteNanos == UNSET_INT, "expireAfterWrite was already set to %s ns",
+    checkState(
+        expireAfterWriteNanos == UNSET_INT,
+        "expireAfterWrite was already set to %s ns",
         expireAfterWriteNanos);
-    checkState(expireAfterAccessNanos == UNSET_INT, "expireAfterAccess was already set to %s ns",
+    checkState(
+        expireAfterAccessNanos == UNSET_INT,
+        "expireAfterAccess was already set to %s ns",
         expireAfterAccessNanos);
     checkArgument(duration >= 0, "duration cannot be negative: %s %s", duration, unit);
   }
@@ -438,7 +448,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   long getExpireAfterAccessNanos() {
     return (expireAfterAccessNanos == UNSET_INT)
-        ? DEFAULT_EXPIRATION_NANOS : expireAfterAccessNanos;
+        ? DEFAULT_EXPIRATION_NANOS
+        : expireAfterAccessNanos;
   }
 
   Ticker getTicker() {
@@ -572,13 +583,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @deprecated Caching functionality in {@code MapMaker} has been moved to
    *     {@link com.google.common.cache.CacheBuilder}, with {@link #makeComputingMap} being replaced
    *     by {@link com.google.common.cache.CacheBuilder#build}. See the
-   *     <a href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration">MapMaker
+   *     <a href="https://github.com/google/guava/wiki/MapMakerMigration">MapMaker
    *     Migration Guide</a> for more details.
    */
   @Deprecated
   @Override
-  <K, V> ConcurrentMap<K, V> makeComputingMap(
-      Function<? super K, ? extends V> computingFunction) {
+  <K, V> ConcurrentMap<K, V> makeComputingMap(Function<? super K, ? extends V> computingFunction) {
     return (nullRemovalCause == null)
         ? new MapMaker.ComputingMapAdapter<K, V>(this, computingFunction)
         : new NullComputingConcurrentMap<K, V>(this, computingFunction);
@@ -865,12 +875,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * This might make more sense in ComputingConcurrentHashMap, but it causes a javac crash in some
    * cases there: http://code.google.com/p/guava-libraries/issues/detail?id=950
    */
-  static final class ComputingMapAdapter<K, V>
-      extends ComputingConcurrentHashMap<K, V> implements Serializable {
+  static final class ComputingMapAdapter<K, V> extends ComputingConcurrentHashMap<K, V>
+      implements Serializable {
     private static final long serialVersionUID = 0;
 
-    ComputingMapAdapter(MapMaker mapMaker,
-        Function<? super K, ? extends V> computingFunction) {
+    ComputingMapAdapter(MapMaker mapMaker, Function<? super K, ? extends V> computingFunction) {
       super(mapMaker, computingFunction);
     }
 

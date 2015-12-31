@@ -30,7 +30,7 @@ import javax.annotation.CheckReturnValue;
  *
  * @author Kevin Bourrillion
  * @since 10.0
- *     (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
+ *     (<a href="https://github.com/google/guava/wiki/Compatibility"
  *     >mostly source-compatible</a> since 9.0)
  */
 @Beta
@@ -57,10 +57,11 @@ public abstract class Ticker {
     return SYSTEM_TICKER;
   }
 
-  private static final Ticker SYSTEM_TICKER = new Ticker() {
-    @Override
-    public long read() {
-      return Platform.systemNanoTime();
-    }
-  };
+  private static final Ticker SYSTEM_TICKER =
+      new Ticker() {
+        @Override
+        public long read() {
+          return Platform.systemNanoTime();
+        }
+      };
 }

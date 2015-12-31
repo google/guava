@@ -46,13 +46,13 @@ final class Hashing {
   static int smear(int hashCode) {
     return C2 * Integer.rotateLeft(hashCode * C1, 15);
   }
-  
+
   static int smearedHash(@Nullable Object o) {
     return smear((o == null) ? 0 : o.hashCode());
   }
-  
+
   private static int MAX_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;
-  
+
   static int closedTableSize(int expectedEntries, double loadFactor) {
     // Get the recommended table size.
     // Round down to the nearest power of 2.
@@ -65,7 +65,7 @@ final class Hashing {
     }
     return tableSize;
   }
-  
+
   static boolean needsResizing(int size, int tableSize, double loadFactor) {
     return size > loadFactor * tableSize && tableSize < MAX_TABLE_SIZE;
   }

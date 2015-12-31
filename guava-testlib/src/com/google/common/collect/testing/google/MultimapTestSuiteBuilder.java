@@ -450,7 +450,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
       for (int i = 0; i < elements.length; i++) {
         entries[i] = mapEntry(k, (V) elements[i]);
       }
-      return multimapGenerator.create(entries).values();
+      return multimapGenerator.create((Object[]) entries).values();
     }
 
     @SuppressWarnings("unchecked")
@@ -514,7 +514,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
         }
         entries[i] = mapEntry((K) elements[i], valueItr.next());
       }
-      return multimapGenerator.create(entries).keys();
+      return multimapGenerator.create((Object[]) entries).keys();
     }
 
     private Iterator<V> sampleValuesIterator() {
@@ -591,7 +591,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
       for (int i = 0; i < elements.length; i++) {
         array[i] = mapEntry(k, (V) elements[i]);
       }
-      return multimapGenerator.create(array).get(k);
+      return multimapGenerator.create((Object[]) array).get(k);
     }
   }
 
@@ -612,7 +612,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
       for (int i = 0; i < elements.length; i++) {
         array[i] = mapEntry(k, (V) elements[i]);
       }
-      return multimapGenerator.create(array).asMap().get(k);
+      return multimapGenerator.create((Object[]) array).asMap().get(k);
     }
   }
 

@@ -14,13 +14,13 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.Helpers.assertContainsAllOf;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
-import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -50,17 +50,17 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
     assertEquals(2, keys.count(k0()));
     assertEquals(1, keys.count(k1()));
     assertEquals(3, keys.size());
-    assertThat(keys).containsAllOf(k0(), k1());
-    assertThat(keys.entrySet()).containsAllOf(
+    assertContainsAllOf(keys, k0(), k1());
+    assertContainsAllOf(keys.entrySet(),
         Multisets.immutableEntry(k0(), 2),
         Multisets.immutableEntry(k1(), 1));
   }
-  
+
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testKeysCountAbsentNullKey() {
     assertEquals(0, multimap().keys().count(null));
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testKeysWithNullKey() {
@@ -72,12 +72,12 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
     assertEquals(2, keys.count(null));
     assertEquals(1, keys.count(k1()));
     assertEquals(3, keys.size());
-    assertThat(keys).containsAllOf(null, k1());
-    assertThat(keys.entrySet()).containsAllOf(
+    assertContainsAllOf(keys, null, k1());
+    assertContainsAllOf(keys.entrySet(),
         Multisets.immutableEntry((K) null, 2),
         Multisets.immutableEntry(k1(), 1));
   }
-  
+
   public void testKeysElementSet() {
     assertEquals(multimap().keySet(), multimap().keys().elementSet());
   }
@@ -87,7 +87,7 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
     int original = multimap().keys().remove(k0(), 1);
     assertEquals(Math.max(original - 1, 0), multimap().get(k0()).size());
   }
-  
+
   @CollectionSize.Require(ONE)
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   public void testKeysEntrySetIteratorRemove() {
@@ -98,7 +98,7 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
     itr.remove();
     assertTrue(multimap().isEmpty());
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testKeysEntrySetRemove() {

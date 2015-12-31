@@ -42,7 +42,7 @@ import javax.annotation.CheckReturnValue;
  * already found in either {@link Short} or {@link Arrays}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained">
+ * "https://github.com/google/guava/wiki/PrimitivesExplained">
  * primitive utilities</a>.
  *
  * @author Kevin Bourrillion
@@ -161,8 +161,7 @@ public final class Shorts {
   }
 
   // TODO(kevinb): consider making this public
-  private static int indexOf(
-      short[] array, short target, int start, int end) {
+  private static int indexOf(short[] array, short target, int start, int end) {
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i;
@@ -215,8 +214,7 @@ public final class Shorts {
   }
 
   // TODO(kevinb): consider making this public
-  private static int lastIndexOf(
-      short[] array, short target, int start, int end) {
+  private static int lastIndexOf(short[] array, short target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {
       if (array[i] == target) {
         return i;
@@ -301,8 +299,9 @@ public final class Shorts {
   @GwtIncompatible("doesn't work")
   public static byte[] toByteArray(short value) {
     return new byte[] {
-        (byte) (value >> 8),
-        (byte) value};
+      (byte) (value >> 8),
+      (byte) value
+    };
   }
 
   /**
@@ -319,8 +318,7 @@ public final class Shorts {
    */
   @GwtIncompatible("doesn't work")
   public static short fromByteArray(byte[] bytes) {
-    checkArgument(bytes.length >= BYTES,
-        "array too small: %s < %s", bytes.length, BYTES);
+    checkArgument(bytes.length >= BYTES, "array too small: %s < %s", bytes.length, BYTES);
     return fromBytes(bytes[0], bytes[1]);
   }
 
@@ -336,8 +334,8 @@ public final class Shorts {
     return (short) ((b1 << 8) | (b2 & 0xFF));
   }
 
-  private static final class ShortConverter
-      extends Converter<String, Short> implements Serializable {
+  private static final class ShortConverter extends Converter<String, Short>
+      implements Serializable {
     static final ShortConverter INSTANCE = new ShortConverter();
 
     @Override
@@ -358,12 +356,18 @@ public final class Shorts {
     private Object readResolve() {
       return INSTANCE;
     }
+
     private static final long serialVersionUID = 1;
   }
 
   /**
-   * Returns a serializable converter object that converts between strings and
-   * shorts using {@link Short#decode} and {@link Short#toString()}.
+   * Returns a serializable converter object that converts between strings and shorts using {@link
+   * Short#decode} and {@link Short#toString()}. The returned converter throws {@link
+   * NumberFormatException} if the input string is invalid.
+   *
+   * <p><b>Warning:</b> please see {@link Short#decode} to understand exactly how strings are
+   * parsed. For example, the string {@code "0123"} is treated as <i>octal</i> and converted to the
+   * value {@code 83}.
    *
    * @since 16.0
    */
@@ -388,8 +392,7 @@ public final class Shorts {
    * @return an array containing the values of {@code array}, with guaranteed
    *     minimum length {@code minLength}
    */
-  public static short[] ensureCapacity(
-      short[] array, int minLength, int padding) {
+  public static short[] ensureCapacity(short[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
     checkArgument(padding >= 0, "Invalid padding: %s", padding);
     return (array.length < minLength)
@@ -462,6 +465,11 @@ public final class Shorts {
       }
       return left.length - right.length;
     }
+
+    @Override
+    public String toString() {
+      return "Shorts.lexicographicalComparator()";
+    }
   }
 
   /**
@@ -532,26 +540,30 @@ public final class Shorts {
       this.end = end;
     }
 
-    @Override public int size() {
+    @Override
+    public int size() {
       return end - start;
     }
 
-    @Override public boolean isEmpty() {
+    @Override
+    public boolean isEmpty() {
       return false;
     }
 
-    @Override public Short get(int index) {
+    @Override
+    public Short get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
     }
 
-    @Override public boolean contains(Object target) {
+    @Override
+    public boolean contains(Object target) {
       // Overridden to prevent a ton of boxing
-      return (target instanceof Short)
-          && Shorts.indexOf(array, (Short) target, start, end) != -1;
+      return (target instanceof Short) && Shorts.indexOf(array, (Short) target, start, end) != -1;
     }
 
-    @Override public int indexOf(Object target) {
+    @Override
+    public int indexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Short) {
         int i = Shorts.indexOf(array, (Short) target, start, end);
@@ -562,7 +574,8 @@ public final class Shorts {
       return -1;
     }
 
-    @Override public int lastIndexOf(Object target) {
+    @Override
+    public int lastIndexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Short) {
         int i = Shorts.lastIndexOf(array, (Short) target, start, end);
@@ -573,7 +586,8 @@ public final class Shorts {
       return -1;
     }
 
-    @Override public Short set(int index, Short element) {
+    @Override
+    public Short set(int index, Short element) {
       checkElementIndex(index, size());
       short oldValue = array[start + index];
       // checkNotNull for GWT (do not optimize)
@@ -581,7 +595,8 @@ public final class Shorts {
       return oldValue;
     }
 
-    @Override public List<Short> subList(int fromIndex, int toIndex) {
+    @Override
+    public List<Short> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {
@@ -590,7 +605,8 @@ public final class Shorts {
       return new ShortArrayAsList(array, start + fromIndex, start + toIndex);
     }
 
-    @Override public boolean equals(Object object) {
+    @Override
+    public boolean equals(Object object) {
       if (object == this) {
         return true;
       }
@@ -610,7 +626,8 @@ public final class Shorts {
       return super.equals(object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       int result = 1;
       for (int i = start; i < end; i++) {
         result = 31 * result + Shorts.hashCode(array[i]);
@@ -618,7 +635,8 @@ public final class Shorts {
       return result;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       StringBuilder builder = new StringBuilder(size() * 6);
       builder.append('[').append(array[start]);
       for (int i = start + 1; i < end; i++) {

@@ -25,8 +25,7 @@ import com.google.gwt.user.client.rpc.SerializationStreamWriter;
  */
 public class DenseImmutableTable_CustomFieldSerializer {
   public static void deserialize(
-      SerializationStreamReader reader, DenseImmutableTable<?, ?, ?> instance) {
-  }
+      SerializationStreamReader reader, DenseImmutableTable<?, ?, ?> instance) {}
 
   public static DenseImmutableTable<Object, Object, Object> instantiate(
       SerializationStreamReader reader) throws SerializationException {

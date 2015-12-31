@@ -16,6 +16,8 @@
 
 package com.google.common.testing;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.testing.GcFinalization.FinalizationPredicate;
 import com.google.common.util.concurrent.SettableFuture;
 
@@ -118,8 +120,8 @@ public class GcFinalizationTest extends TestCase {
   }
 
   void assertWrapsInterruptedException(RuntimeException e) {
-    assertTrue(e.getMessage().contains("Unexpected interrupt"));
-    assertTrue(e.getCause() instanceof InterruptedException);
+    assertThat(e.getMessage()).contains("Unexpected interrupt");
+    assertThat(e.getCause()).isInstanceOf(InterruptedException.class);
   }
 
   public void testAwait_CountDownLatch_Interrupted() {

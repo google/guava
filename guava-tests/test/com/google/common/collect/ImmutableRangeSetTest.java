@@ -38,19 +38,6 @@ import java.util.Set;
  */
 @GwtIncompatible("ImmutableRangeSet")
 public class ImmutableRangeSetTest extends AbstractRangeSetTest {
-  @SuppressWarnings("unchecked") // varargs
-  private static final ImmutableSet<Range<Integer>> RANGES = ImmutableSet.of(
-      Range.<Integer>all(),
-      Range.closedOpen(3, 5),
-      Range.singleton(1),
-      Range.lessThan(2),
-      Range.greaterThan(10),
-      Range.atMost(4),
-      Range.atLeast(3),
-      Range.closed(4, 6),
-      Range.closedOpen(1, 3),
-      Range.openClosed(5, 7),
-      Range.open(3, 4));
   
   static final class ImmutableRangeSetIntegerAsSetGenerator implements TestSetGenerator<Integer> {
     @Override
@@ -146,6 +133,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     assertThat(rangeSet.asRanges()).isEmpty();
     assertEquals(ImmutableRangeSet.<Integer>all(), rangeSet.complement());
     assertFalse(rangeSet.contains(0));
+    assertFalse(rangeSet.intersects(Range.singleton(0)));
     assertFalse(rangeSet.encloses(Range.singleton(0)));
     assertTrue(rangeSet.enclosesAll(rangeSet));
     assertTrue(rangeSet.isEmpty());
@@ -156,6 +144,8 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
 
     assertThat(rangeSet.asRanges()).contains(Range.<Integer>all());
     assertTrue(rangeSet.contains(0));
+    assertTrue(rangeSet.intersects(Range.singleton(0)));
+    assertTrue(rangeSet.intersects(Range.<Integer>all()));
     assertTrue(rangeSet.encloses(Range.<Integer>all()));
     assertTrue(rangeSet.enclosesAll(rangeSet));
     assertEquals(ImmutableRangeSet.<Integer>of(), rangeSet.complement());
@@ -165,6 +155,12 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.of(Range.closedOpen(1, 5));
 
     assertThat(rangeSet.asRanges()).contains(Range.closedOpen(1, 5));
+
+    assertTrue(rangeSet.intersects(Range.closed(3, 4)));
+    assertTrue(rangeSet.intersects(Range.closedOpen(0, 2)));
+    assertTrue(rangeSet.intersects(Range.closedOpen(3, 7)));
+    assertTrue(rangeSet.intersects(Range.greaterThan(2)));
+    assertFalse(rangeSet.intersects(Range.greaterThan(7)));
 
     assertTrue(rangeSet.encloses(Range.closed(3, 4)));
     assertTrue(rangeSet.encloses(Range.closedOpen(1, 4)));
@@ -187,6 +183,12 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
 
     assertThat(rangeSet.asRanges()).contains(Range.greaterThan(2));
 
+    assertTrue(rangeSet.intersects(Range.closed(3, 4)));
+    assertTrue(rangeSet.intersects(Range.closedOpen(1, 5)));
+    assertFalse(rangeSet.intersects(Range.lessThan(1)));
+    assertTrue(rangeSet.intersects(Range.greaterThan(1)));
+    assertTrue(rangeSet.intersects(Range.greaterThan(3)));
+
     assertTrue(rangeSet.encloses(Range.closed(3, 4)));
     assertTrue(rangeSet.encloses(Range.greaterThan(3)));
     assertFalse(rangeSet.encloses(Range.closedOpen(1, 5)));
@@ -203,6 +205,13 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.of(Range.atMost(3));
 
     assertThat(rangeSet.asRanges()).contains(Range.atMost(3));
+
+    assertTrue(rangeSet.intersects(Range.closed(3, 4)));
+    assertTrue(rangeSet.intersects(Range.closedOpen(1, 5)));
+    assertFalse(rangeSet.intersects(Range.closedOpen(4, 5)));
+    assertTrue(rangeSet.intersects(Range.lessThan(1)));
+    assertTrue(rangeSet.intersects(Range.greaterThan(1)));
+    assertFalse(rangeSet.intersects(Range.greaterThan(3)));
 
     assertTrue(rangeSet.encloses(Range.closed(2, 3)));
     assertTrue(rangeSet.encloses(Range.lessThan(1)));
@@ -222,6 +231,12 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
 
     assertThat(rangeSet.asRanges())
         .containsExactly(Range.closedOpen(1, 3), Range.closed(5, 8)).inOrder();
+
+    assertTrue(rangeSet.intersects(Range.closed(1, 2)));
+    assertTrue(rangeSet.intersects(Range.open(5, 8)));
+    assertFalse(rangeSet.intersects(Range.closed(3, 4)));
+    assertTrue(rangeSet.intersects(Range.greaterThan(5)));
+    assertFalse(rangeSet.intersects(Range.greaterThan(8)));
 
     assertTrue(rangeSet.encloses(Range.closed(1, 2)));
     assertTrue(rangeSet.encloses(Range.open(5, 8)));
@@ -244,6 +259,12 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     assertThat(rangeSet.asRanges())
         .containsExactly(Range.closedOpen(1, 3), Range.greaterThan(6)).inOrder();
 
+    assertTrue(rangeSet.intersects(Range.closed(1, 2)));
+    assertTrue(rangeSet.intersects(Range.open(6, 8)));
+    assertFalse(rangeSet.intersects(Range.closed(3, 6)));
+    assertTrue(rangeSet.intersects(Range.greaterThan(5)));
+    assertFalse(rangeSet.intersects(Range.lessThan(1)));
+
     assertTrue(rangeSet.encloses(Range.closed(1, 2)));
     assertTrue(rangeSet.encloses(Range.open(6, 8)));
     assertFalse(rangeSet.encloses(Range.closed(1, 8)));
@@ -263,6 +284,12 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
 
     assertThat(rangeSet.asRanges())
         .containsExactly(Range.atMost(0), Range.closedOpen(2, 5)).inOrder();
+
+    assertTrue(rangeSet.intersects(Range.closed(2, 4)));
+    assertTrue(rangeSet.intersects(Range.open(-5, -2)));
+    assertTrue(rangeSet.intersects(Range.closed(1, 8)));
+    assertFalse(rangeSet.intersects(Range.singleton(1)));
+    assertFalse(rangeSet.intersects(Range.greaterThan(5)));
 
     assertTrue(rangeSet.encloses(Range.closed(2, 4)));
     assertTrue(rangeSet.encloses(Range.open(-5, -2)));
@@ -332,6 +359,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  @AndroidIncompatible // slow
   public void testExhaustive() {
     @SuppressWarnings("unchecked")
     ImmutableSet<Range<Integer>> ranges = ImmutableSet.of(
@@ -350,7 +378,6 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
       RangeSet<Integer> mutable = TreeRangeSet.create();
       ImmutableRangeSet.Builder<Integer> builder = ImmutableRangeSet.builder();
 
-      int expectedRanges = 0;
       for (Range<Integer> range : subset) {
         boolean overlaps = false;
         for (Range<Integer> other : mutable.asRanges()) {

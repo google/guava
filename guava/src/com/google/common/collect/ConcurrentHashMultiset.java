@@ -26,6 +26,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Serialization.FieldSetter;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
+import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -47,7 +48,7 @@ import javax.annotation.Nullable;
  * {@code Multiset} operations (exceptions where noted). Null elements are not supported.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">
  * {@code Multiset}</a>.
  *
  * @author Cliff L. Biffle
@@ -137,7 +138,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    *     their counts. It must be empty.
    * @throws IllegalArgumentException if {@code countMap} is not empty
    */
-  @VisibleForTesting ConcurrentHashMultiset(ConcurrentMap<E, AtomicInteger> countMap) {
+  @VisibleForTesting
+  ConcurrentHashMultiset(ConcurrentMap<E, AtomicInteger> countMap) {
     checkArgument(countMap.isEmpty());
     this.countMap = countMap;
   }
@@ -150,7 +152,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @param element the element to look for
    * @return the nonnegative number of occurrences of the element
    */
-  @Override public int count(@Nullable Object element) {
+  @Override
+  public int count(@Nullable Object element) {
     AtomicInteger existingCounter = Maps.safeGet(countMap, element);
     return (existingCounter == null) ? 0 : existingCounter.get();
   }
@@ -161,7 +164,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * <p>If the data in the multiset is modified by any other threads during this method,
    * it is undefined which (if any) of these modifications will be reflected in the result.
    */
-  @Override public int size() {
+  @Override
+  public int size() {
     long sum = 0L;
     for (AtomicInteger value : countMap.values()) {
       sum += value.get();
@@ -174,11 +178,13 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * answer, which ours does not.
    */
 
-  @Override public Object[] toArray() {
+  @Override
+  public Object[] toArray() {
     return snapshot().toArray();
   }
 
-  @Override public <T> T[] toArray(T[] array) {
+  @Override
+  public <T> T[] toArray(T[] array) {
     return snapshot().toArray(array);
   }
 
@@ -208,12 +214,13 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @throws IllegalArgumentException if {@code occurrences} is negative, or if
    *     the resulting amount would exceed {@link Integer#MAX_VALUE}
    */
-  @Override public int add(E element, int occurrences) {
+  @Override
+  public int add(E element, int occurrences) {
     checkNotNull(element);
     if (occurrences == 0) {
       return count(element);
     }
-    checkArgument(occurrences > 0, "Invalid occurrences: %s", occurrences);
+    CollectPreconditions.checkPositive(occurrences, "occurences");
 
     while (true) {
       AtomicInteger existingCounter = Maps.safeGet(countMap, element);
@@ -235,8 +242,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
               return oldValue;
             }
           } catch (ArithmeticException overflow) {
-            throw new IllegalArgumentException("Overflow adding " + occurrences
-                + " occurrences to a count of " + oldValue);
+            throw new IllegalArgumentException(
+                "Overflow adding " + occurrences + " occurrences to a count of " + oldValue);
           }
         } else {
           // In the case of a concurrent remove, we might observe a zero value, which means another
@@ -273,11 +280,12 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * we'll want to remove @Nullable, add an eager checkNotNull, and loosen up
    * testRemove_nullAllowed.
    */
-  @Override public int remove(@Nullable Object element, int occurrences) {
+  @Override
+  public int remove(@Nullable Object element, int occurrences) {
     if (occurrences == 0) {
       return count(element);
     }
-    checkArgument(occurrences > 0, "Invalid occurrences: %s", occurrences);
+    CollectPreconditions.checkPositive(occurrences, "occurences");
 
     AtomicInteger existingCounter = Maps.safeGet(countMap, element);
     if (existingCounter == null) {
@@ -311,12 +319,13 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @param element the element to remove
    * @param occurrences the number of occurrences of {@code element} to remove
    * @return {@code true} if the removal was possible (including if {@code occurrences} is zero)
+   * @throws IllegalArgumentException if {@code occurrences} is negative
    */
   public boolean removeExactly(@Nullable Object element, int occurrences) {
     if (occurrences == 0) {
       return true;
     }
-    checkArgument(occurrences > 0, "Invalid occurrences: %s", occurrences);
+    CollectPreconditions.checkPositive(occurrences, "occurences");
 
     AtomicInteger existingCounter = Maps.safeGet(countMap, element);
     if (existingCounter == null) {
@@ -346,7 +355,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @return the count of {@code element} in the multiset before this call
    * @throws IllegalArgumentException if {@code count} is negative
    */
-  @Override public int setCount(E element, int count) {
+  @Override
+  public int setCount(E element, int count) {
     checkNotNull(element);
     checkNonnegative(count, "count");
     while (true) {
@@ -401,7 +411,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    *     the condition was met.
    * @throws IllegalArgumentException if {@code expectedOldCount} or {@code newCount} is negative
    */
-  @Override public boolean setCount(E element, int expectedOldCount, int newCount) {
+  @Override
+  public boolean setCount(E element, int expectedOldCount, int newCount) {
     checkNotNull(element);
     checkNonnegative(expectedOldCount, "oldCount");
     checkNonnegative(newCount, "newCount");
@@ -445,10 +456,12 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
 
   // Views
 
-  @Override Set<E> createElementSet() {
+  @Override
+  Set<E> createElementSet() {
     final Set<E> delegate = countMap.keySet();
     return new ForwardingSet<E>() {
-      @Override protected Set<E> delegate() {
+      @Override
+      protected Set<E> delegate() {
         return delegate;
       }
 
@@ -462,36 +475,43 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
         return standardContainsAll(collection);
       }
 
-      @Override public boolean remove(Object object) {
+      @Override
+      public boolean remove(Object object) {
         return object != null && Collections2.safeRemove(delegate, object);
       }
 
-      @Override public boolean removeAll(Collection<?> c) {
+      @Override
+      public boolean removeAll(Collection<?> c) {
         return standardRemoveAll(c);
       }
     };
   }
 
-  @Override public Set<Multiset.Entry<E>> createEntrySet() {
+  @Override
+  public Set<Multiset.Entry<E>> createEntrySet() {
     return new EntrySet();
   }
 
-  @Override int distinctElements() {
+  @Override
+  int distinctElements() {
     return countMap.size();
   }
 
-  @Override public boolean isEmpty() {
+  @Override
+  public boolean isEmpty() {
     return countMap.isEmpty();
   }
 
-  @Override Iterator<Entry<E>> entryIterator() {
+  @Override
+  Iterator<Entry<E>> entryIterator() {
     // AbstractIterator makes this fairly clean, but it doesn't support remove(). To support
     // remove(), we create an AbstractIterator, and then use ForwardingIterator to delegate to it.
     final Iterator<Entry<E>> readOnlyIterator =
         new AbstractIterator<Entry<E>>() {
           private Iterator<Map.Entry<E, AtomicInteger>> mapEntries = countMap.entrySet().iterator();
 
-          @Override protected Entry<E> computeNext() {
+          @Override
+          protected Entry<E> computeNext() {
             while (true) {
               if (!mapEntries.hasNext()) {
                 return endOfData();
@@ -508,16 +528,19 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     return new ForwardingIterator<Entry<E>>() {
       private Entry<E> last;
 
-      @Override protected Iterator<Entry<E>> delegate() {
+      @Override
+      protected Iterator<Entry<E>> delegate() {
         return readOnlyIterator;
       }
 
-      @Override public Entry<E> next() {
+      @Override
+      public Entry<E> next() {
         last = super.next();
         return last;
       }
 
-      @Override public void remove() {
+      @Override
+      public void remove() {
         checkRemove(last != null);
         ConcurrentHashMultiset.this.setCount(last.getElement(), 0);
         last = null;
@@ -525,12 +548,15 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     };
   }
 
-  @Override public void clear() {
+  @Override
+  public void clear() {
     countMap.clear();
   }
 
+  @WeakOuter
   private class EntrySet extends AbstractMultiset<E>.EntrySet {
-    @Override ConcurrentHashMultiset<E> multiset() {
+    @Override
+    ConcurrentHashMultiset<E> multiset() {
       return ConcurrentHashMultiset.this;
     }
 
@@ -539,11 +565,13 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
      * answer, which ours does not.
      */
 
-    @Override public Object[] toArray() {
+    @Override
+    public Object[] toArray() {
       return snapshot().toArray();
     }
 
-    @Override public <T> T[] toArray(T[] array) {
+    @Override
+    public <T> T[] toArray(T[] array) {
       return snapshot().toArray(array);
     }
 

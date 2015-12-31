@@ -45,14 +45,14 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingCollection<E> extends ForwardingObject
-    implements Collection<E> {
-  // TODO(user): identify places where thread safety is actually lost
+public abstract class ForwardingCollection<E> extends ForwardingObject implements Collection<E> {
+  // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
   protected ForwardingCollection() {}
 
-  @Override protected abstract Collection<E> delegate();
+  @Override
+  protected abstract Collection<E> delegate();
 
   @Override
   public Iterator<E> iterator() {

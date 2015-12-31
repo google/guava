@@ -143,7 +143,7 @@ import javax.annotation.Nullable;
  * <h3>See also</h3>
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">
  * immutable collections</a>.
  *
  * @since 2.0
@@ -152,8 +152,7 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // we're overriding default serialization
 // TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,
 // just to do everything we can to emphasize the "practically an interface" nature of this class.
-public abstract class ImmutableCollection<E> extends AbstractCollection<E>
-    implements Serializable {
+public abstract class ImmutableCollection<E> extends AbstractCollection<E> implements Serializable {
 
   ImmutableCollection() {}
 
@@ -301,7 +300,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
    * memory leaks.
    */
   abstract boolean isPartialView();
-  
+
   /**
    * Copies the contents of this immutable collection into the specified array at the specified
    * offset.  Returns {@code offset + size()}.
@@ -342,8 +341,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
       return newCapacity;
     }
 
-    Builder() {
-    }
+    Builder() {}
 
     /**
      * Adds {@code element} to the {@code ImmutableCollection} being built.
@@ -423,25 +421,26 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
      */
     public abstract ImmutableCollection<E> build();
   }
-  
+
   abstract static class ArrayBasedBuilder<E> extends ImmutableCollection.Builder<E> {
     Object[] contents;
     int size;
-    
+
     ArrayBasedBuilder(int initialCapacity) {
       checkNonnegative(initialCapacity, "initialCapacity");
       this.contents = new Object[initialCapacity];
       this.size = 0;
     }
-    
+
     /**
      * Expand the absolute capacity of the builder so it can accept at least
      * the specified number of elements without being resized.
      */
     private void ensureCapacity(int minCapacity) {
       if (contents.length < minCapacity) {
-        this.contents = ObjectArrays.arraysCopyOf(
-            this.contents, expandedCapacity(contents.length, minCapacity));
+        this.contents =
+            ObjectArrays.arraysCopyOf(
+                this.contents, expandedCapacity(contents.length, minCapacity));
       }
     }
 

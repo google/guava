@@ -39,7 +39,7 @@ import javax.annotation.Nullable;
  * Static utility methods pertaining to instances of {@link Throwable}.
  *
  * <p>See the Guava User Guide entry on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/ThrowablesExplained">Throwables</a>.
+ * "https://github.com/google/guava/wiki/ThrowablesExplained">Throwables</a>.
  *
  * @author Kevin Bourrillion
  * @author Ben Yu
@@ -124,9 +124,9 @@ public final class Throwables {
    * @param declaredType1 any checked exception type declared by the calling method
    * @param declaredType2 any other checked exception type declared by the calling method
    */
-  public static <X1 extends Throwable, X2 extends Throwable>
-      void propagateIfPossible(@Nullable Throwable throwable,
-          Class<X1> declaredType1, Class<X2> declaredType2) throws X1, X2 {
+  public static <X1 extends Throwable, X2 extends Throwable> void propagateIfPossible(
+      @Nullable Throwable throwable, Class<X1> declaredType1, Class<X2> declaredType2)
+      throws X1, X2 {
     checkNotNull(declaredType2);
     propagateIfInstanceOf(throwable, declaredType1);
     propagateIfPossible(throwable, declaredType2);
@@ -136,9 +136,9 @@ public final class Throwables {
    * Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or {@link
    * Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then propagates.
    * <p>
-   * This method always throws an exception. The {@code RuntimeException} return type is only for
-   * client code to make Java type system happy in case a return value is required by the enclosing
-   * method. Example usage:
+   * This method always throws an exception. The {@code RuntimeException} return type
+   * allows client code to signal to the compiler that statements after the call are
+   * unreachable. Example usage:
    * <pre>
    *   T doSomething() {
    *     try {
@@ -301,12 +301,10 @@ public final class Throwables {
   private static final String JAVA_LANG_ACCESS_CLASSNAME = "sun.misc.JavaLangAccess";
 
   /** SharedSecrets class name to load using reflection */
-  @VisibleForTesting
-  static final String SHARED_SECRETS_CLASSNAME = "sun.misc.SharedSecrets";
+  @VisibleForTesting static final String SHARED_SECRETS_CLASSNAME = "sun.misc.SharedSecrets";
 
   /** Access to some fancy internal JVM internals. */
-  @Nullable
-  private static final Object jla = getJLA();
+  @Nullable private static final Object jla = getJLA();
 
   /**
    * The "getStackTraceElementMethod" method, only available on some JDKs so we use reflection to

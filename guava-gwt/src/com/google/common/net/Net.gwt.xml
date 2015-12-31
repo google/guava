@@ -23,11 +23,9 @@
   <inherits name="com.google.common.collect.Collect"/>
    
   <inherits name="com.google.common.escape.Escape"/>
-   
-  <inherits name="java.nio.charset.Charset"/>
     
   <inherits name="com.google.thirdparty.publicsuffix.PublicSuffixPatterns"/>
-    
+     
   <inherits name="com.google.gwt.core.Core"/>
    
 </module>

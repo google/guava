@@ -30,13 +30,13 @@ import java.util.Iterator;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingIterator<T>
-    extends ForwardingObject implements Iterator<T> {
+public abstract class ForwardingIterator<T> extends ForwardingObject implements Iterator<T> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingIterator() {}
 
-  @Override protected abstract Iterator<T> delegate();
+  @Override
+  protected abstract Iterator<T> delegate();
 
   @Override
   public boolean hasNext() {

@@ -123,6 +123,7 @@ public class HashingTest extends TestCase {
         Hashing.sipHash24().toString());
   }
 
+  @AndroidIncompatible // slow TODO(cpovirk): Maybe just reduce iterations under Android.
   public void testGoodFastHash() {
     for (int i = 1; i < 200; i += 17) {
       HashFunction hasher = Hashing.goodFastHash(i);
@@ -206,10 +207,9 @@ public class HashingTest extends TestCase {
   private static final int ITERS = 10000;
   private static final int MAX_SHARDS = 500;
 
-  @SuppressWarnings("CheckReturnValue")
   public void testConsistentHash_outOfRange() {
     try {
-      Hashing.consistentHash(5L, 0);
+      int unused = Hashing.consistentHash(5L, 0);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -247,19 +247,18 @@ public class HashingTest extends TestCase {
   private static final double MAX_PERCENT_SPREAD = 0.5;
   private static final long RANDOM_SEED = 177L;
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCombineOrdered_empty() {
     try {
-      Hashing.combineOrdered(Collections.<HashCode>emptySet());
+      HashCode unused = Hashing.combineOrdered(Collections.<HashCode>emptySet());
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCombineOrdered_differentBitLengths() {
     try {
-      Hashing.combineOrdered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
+      HashCode unused =
+          Hashing.combineOrdered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -291,19 +290,18 @@ public class HashingTest extends TestCase {
     assertFalse(hashCode1.equals(hashCode2));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCombineUnordered_empty() {
     try {
-      Hashing.combineUnordered(Collections.<HashCode>emptySet());
+      HashCode unused = Hashing.combineUnordered(Collections.<HashCode>emptySet());
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCombineUnordered_differentBitLengths() {
     try {
-      Hashing.combineUnordered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
+      HashCode unused =
+          Hashing.combineUnordered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -432,30 +430,48 @@ public class HashingTest extends TestCase {
           .put(Hashing.sha1(), EMPTY_STRING, "da39a3ee5e6b4b0d3255bfef95601890afd80709")
           .put(Hashing.sha1(), TQBFJOTLD, "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12")
           .put(Hashing.sha1(), TQBFJOTLDP, "408d94384216f890ff7a0c3528e8bed1e0b01621")
-          .put(Hashing.sha256(), EMPTY_STRING,
-               "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
-          .put(Hashing.sha256(), TQBFJOTLD,
-               "d7a8fbb307d7809469ca9abcb0082e4f8d5651e46d3cdb762d02d0bf37c9e592")
-          .put(Hashing.sha256(), TQBFJOTLDP,
-               "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c")
-          .put(Hashing.sha384(), EMPTY_STRING,
-               "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da2"
-               + "74edebfe76f65fbd51ad2f14898b95b")
-          .put(Hashing.sha384(), TQBFJOTLD,
-               "ca737f1014a48f4c0b6dd43cb177b0afd9e5169367544c494011e3317dbf9a509"
-               + "cb1e5dc1e85a941bbee3d7f2afbc9b1")
-          .put(Hashing.sha384(), TQBFJOTLDP,
-               "ed892481d8272ca6df370bf706e4d7bc1b5739fa2177aae6c50e946678718fc67"
-               + "a7af2819a021c2fc34e91bdb63409d7")
-          .put(Hashing.sha512(), EMPTY_STRING,
-               "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce"
-               + "47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e")
-          .put(Hashing.sha512(), TQBFJOTLD,
-               "07e547d9586f6a73f73fbac0435ed76951218fb7d0c8d788a309d785436bbb64"
-               + "2e93a252a954f23912547d1e8a3b5ed6e1bfd7097821233fa0538f3db854fee6")
-          .put(Hashing.sha512(), TQBFJOTLDP,
-               "91ea1245f20d46ae9a037a989f54f1f790f0a47607eeb8a14d12890cea77a1bb"
-               + "c6c7ed9cf205e67b7f2b8fd4c7dfd3a7a8617e45f3c463d481c7e586c39ac1ed")
+          .put(
+              Hashing.sha256(),
+              EMPTY_STRING,
+              "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
+          .put(
+              Hashing.sha256(),
+              TQBFJOTLD,
+              "d7a8fbb307d7809469ca9abcb0082e4f8d5651e46d3cdb762d02d0bf37c9e592")
+          .put(
+              Hashing.sha256(),
+              TQBFJOTLDP,
+              "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c")
+          .put(
+              Hashing.sha384(),
+              EMPTY_STRING,
+              "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da2"
+                  + "74edebfe76f65fbd51ad2f14898b95b")
+          .put(
+              Hashing.sha384(),
+              TQBFJOTLD,
+              "ca737f1014a48f4c0b6dd43cb177b0afd9e5169367544c494011e3317dbf9a509"
+                  + "cb1e5dc1e85a941bbee3d7f2afbc9b1")
+          .put(
+              Hashing.sha384(),
+              TQBFJOTLDP,
+              "ed892481d8272ca6df370bf706e4d7bc1b5739fa2177aae6c50e946678718fc67"
+                  + "a7af2819a021c2fc34e91bdb63409d7")
+          .put(
+              Hashing.sha512(),
+              EMPTY_STRING,
+              "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce"
+                  + "47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e")
+          .put(
+              Hashing.sha512(),
+              TQBFJOTLD,
+              "07e547d9586f6a73f73fbac0435ed76951218fb7d0c8d788a309d785436bbb64"
+                  + "2e93a252a954f23912547d1e8a3b5ed6e1bfd7097821233fa0538f3db854fee6")
+          .put(
+              Hashing.sha512(),
+              TQBFJOTLDP,
+              "91ea1245f20d46ae9a037a989f54f1f790f0a47607eeb8a14d12890cea77a1bb"
+                  + "c6c7ed9cf205e67b7f2b8fd4c7dfd3a7a8617e45f3c463d481c7e586c39ac1ed")
           .put(Hashing.crc32(), EMPTY_STRING, "00000000")
           .put(Hashing.crc32(), TQBFJOTLD, "39a34f41")
           .put(Hashing.crc32(), TQBFJOTLDP, "e9259051")
@@ -465,6 +481,9 @@ public class HashingTest extends TestCase {
           .put(Hashing.crc32c(), EMPTY_STRING, "00000000")
           .put(Hashing.crc32c(), TQBFJOTLD, "04046222")
           .put(Hashing.crc32c(), TQBFJOTLDP, "b3970019")
+          .put(Hashing.farmHashFingerprint64(), EMPTY_STRING, "4f40902f3b6ae19a")
+          .put(Hashing.farmHashFingerprint64(), TQBFJOTLD, "34511b3bf383beab")
+          .put(Hashing.farmHashFingerprint64(), TQBFJOTLDP, "737d7e5f8660653e")
           .build();
 
   public void testAllHashFunctionsHaveKnownHashes() throws Exception {

@@ -78,6 +78,21 @@ public void testBuilderReuse__CreationTests() throws Exception {
   testCase.testBuilderReuse();
 }
 
+public void testBuilder_orderEntriesByValue__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableBiMapTest.CreationTests testCase = new com.google.common.collect.ImmutableBiMapTest.CreationTests();
+  testCase.testBuilder_orderEntriesByValue();
+}
+
+public void testBuilder_orderEntriesByValueAfterExactSizeBuild__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableBiMapTest.CreationTests testCase = new com.google.common.collect.ImmutableBiMapTest.CreationTests();
+  testCase.testBuilder_orderEntriesByValueAfterExactSizeBuild();
+}
+
+public void testBuilder_orderEntriesByValue_usedTwiceFails__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableBiMapTest.CreationTests testCase = new com.google.common.collect.ImmutableBiMapTest.CreationTests();
+  testCase.testBuilder_orderEntriesByValue_usedTwiceFails();
+}
+
 public void testBuilder_withImmutableEntry__CreationTests() throws Exception {
   com.google.common.collect.ImmutableBiMapTest.CreationTests testCase = new com.google.common.collect.ImmutableBiMapTest.CreationTests();
   testCase.testBuilder_withImmutableEntry();

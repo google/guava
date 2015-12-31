@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -33,16 +33,16 @@ import java.util.Set;
  * this implementation uses {@link Comparable#compareTo} or
  * {@link Comparator#compare} instead of {@link Object#equals} to determine
  * equivalence of instances.
- * 
+ *
  * <p><b>Warning:</b> The comparison must be <i>consistent with equals</i> as
  * explained by the {@link Comparable} class specification. Otherwise, the
  * resulting multiset will violate the {@link Collection} contract, which it is
  * specified in terms of {@link Object#equals}.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset">
  * {@code Multiset}</a>.
- * 
+ *
  * @author Louis Wasserman
  * @since 11.0
  */
@@ -81,18 +81,20 @@ public interface SortedMultiset<E> extends SortedMultisetBridge<E>, SortedIterab
 
   /**
    * Returns a {@link NavigableSet} view of the distinct elements in this multiset.
-   * 
+   *
    * @since 14.0 (present with return type {@code SortedSet} since 11.0)
    */
-  @Override NavigableSet<E> elementSet();
-  
+  @Override
+  NavigableSet<E> elementSet();
+
   /**
    * {@inheritDoc}
    *
    * <p>The {@code entrySet}'s iterator returns entries in ascending element
    * order according to the this multiset's comparator.
    */
-  @Override Set<Entry<E>> entrySet();
+  @Override
+  Set<Entry<E>> entrySet();
 
   /**
    * {@inheritDoc}
@@ -100,7 +102,8 @@ public interface SortedMultiset<E> extends SortedMultisetBridge<E>, SortedIterab
    * <p>The iterator returns the elements in ascending order according to this
    * multiset's comparator.
    */
-  @Override Iterator<E> iterator();
+  @Override
+  Iterator<E> iterator();
 
   /**
    * Returns a descending view of this multiset. Modifications made to either
@@ -114,7 +117,7 @@ public interface SortedMultiset<E> extends SortedMultisetBridge<E>, SortedIterab
    * returned multiset is a view of this multiset, so changes to one will be
    * reflected in the other. The returned multiset supports all operations that
    * this multiset supports.
-   * 
+   *
    * <p>The returned multiset will throw an {@link IllegalArgumentException} on
    * attempts to add elements outside its range.
    */
@@ -125,16 +128,16 @@ public interface SortedMultiset<E> extends SortedMultisetBridge<E>, SortedIterab
    * {@code lowerBound} and {@code upperBound}. The returned multiset is a view
    * of this multiset, so changes to one will be reflected in the other. The
    * returned multiset supports all operations that this multiset supports.
-   * 
+   *
    * <p>The returned multiset will throw an {@link IllegalArgumentException} on
    * attempts to add elements outside its range.
-   * 
+   *
    * <p>This method is equivalent to
    * {@code tailMultiset(lowerBound, lowerBoundType).headMultiset(upperBound,
    * upperBoundType)}.
    */
-  SortedMultiset<E> subMultiset(E lowerBound, BoundType lowerBoundType,
-      E upperBound, BoundType upperBoundType);
+  SortedMultiset<E> subMultiset(
+      E lowerBound, BoundType lowerBoundType, E upperBound, BoundType upperBoundType);
 
   /**
    * Returns a view of this multiset restricted to the elements greater than
@@ -142,7 +145,7 @@ public interface SortedMultiset<E> extends SortedMultisetBridge<E>, SortedIterab
    * returned multiset is a view of this multiset, so changes to one will be
    * reflected in the other. The returned multiset supports all operations that
    * this multiset supports.
-   * 
+   *
    * <p>The returned multiset will throw an {@link IllegalArgumentException} on
    * attempts to add elements outside its range.
    */

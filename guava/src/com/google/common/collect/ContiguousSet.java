@@ -66,10 +66,12 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
     }
 
     // Per class spec, we are allowed to throw CCE if necessary
-    boolean empty = effectiveRange.isEmpty()
-        || Range.compareOrThrow(
-            range.lowerBound.leastValueAbove(domain),
-            range.upperBound.greatestValueBelow(domain)) > 0;
+    boolean empty =
+        effectiveRange.isEmpty()
+            || Range.compareOrThrow(
+                    range.lowerBound.leastValueAbove(domain),
+                    range.upperBound.greatestValueBelow(domain))
+                > 0;
 
     return empty
         ? new EmptyContiguousSet<C>(domain)
@@ -83,7 +85,8 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
     this.domain = domain;
   }
 
-  @Override public ContiguousSet<C> headSet(C toElement) {
+  @Override
+  public ContiguousSet<C> headSet(C toElement) {
     return headSetImpl(checkNotNull(toElement), false);
   }
 
@@ -91,11 +94,13 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    * @since 12.0
    */
   @GwtIncompatible("NavigableSet")
-  @Override public ContiguousSet<C> headSet(C toElement, boolean inclusive) {
+  @Override
+  public ContiguousSet<C> headSet(C toElement, boolean inclusive) {
     return headSetImpl(checkNotNull(toElement), inclusive);
   }
 
-  @Override public ContiguousSet<C> subSet(C fromElement, C toElement) {
+  @Override
+  public ContiguousSet<C> subSet(C fromElement, C toElement) {
     checkNotNull(fromElement);
     checkNotNull(toElement);
     checkArgument(comparator().compare(fromElement, toElement) <= 0);
@@ -106,15 +111,17 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    * @since 12.0
    */
   @GwtIncompatible("NavigableSet")
-  @Override public ContiguousSet<C> subSet(C fromElement, boolean fromInclusive, C toElement,
-      boolean toInclusive) {
+  @Override
+  public ContiguousSet<C> subSet(
+      C fromElement, boolean fromInclusive, C toElement, boolean toInclusive) {
     checkNotNull(fromElement);
     checkNotNull(toElement);
     checkArgument(comparator().compare(fromElement, toElement) <= 0);
     return subSetImpl(fromElement, fromInclusive, toElement, toInclusive);
   }
 
-  @Override public ContiguousSet<C> tailSet(C fromElement) {
+  @Override
+  public ContiguousSet<C> tailSet(C fromElement) {
     return tailSetImpl(checkNotNull(fromElement), true);
   }
 
@@ -122,19 +129,24 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    * @since 12.0
    */
   @GwtIncompatible("NavigableSet")
-  @Override public ContiguousSet<C> tailSet(C fromElement, boolean inclusive) {
+  @Override
+  public ContiguousSet<C> tailSet(C fromElement, boolean inclusive) {
     return tailSetImpl(checkNotNull(fromElement), inclusive);
   }
 
   /*
    * These methods perform most headSet, subSet, and tailSet logic, besides parameter validation.
    */
-  /*@Override*/ abstract ContiguousSet<C> headSetImpl(C toElement, boolean inclusive);
+  // TODO(kevinb): we can probably make these real @Overrides now
+  /*@Override*/
+  abstract ContiguousSet<C> headSetImpl(C toElement, boolean inclusive);
 
-  /*@Override*/ abstract ContiguousSet<C> subSetImpl(C fromElement, boolean fromInclusive,
-      C toElement, boolean toInclusive);
+  /*@Override*/
+  abstract ContiguousSet<C> subSetImpl(
+      C fromElement, boolean fromInclusive, C toElement, boolean toInclusive);
 
-  /*@Override*/ abstract ContiguousSet<C> tailSetImpl(C fromElement, boolean inclusive);
+  /*@Override*/
+  abstract ContiguousSet<C> tailSetImpl(C fromElement, boolean inclusive);
 
   /**
    * Returns the set of values that are contained in both this set and the other.
@@ -166,7 +178,8 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
   public abstract Range<C> range(BoundType lowerBoundType, BoundType upperBoundType);
 
   /** Returns a short-hand representation of the contents such as {@code "[1..100]"}. */
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return range().toString();
   }
 
@@ -178,7 +191,8 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link #create}.
    */
-  @Deprecated public static <E> ImmutableSortedSet.Builder<E> builder() {
+  @Deprecated
+  public static <E> ImmutableSortedSet.Builder<E> builder() {
     throw new UnsupportedOperationException();
   }
 }

@@ -379,7 +379,7 @@ public class EmptyCachesTest extends TestCase {
             DurationSpec.of(1, DAYS)));
   }
 
-  private void warmUp(LoadingCache<Object, Object> cache, int minimum, int maximum) {
+  private static void warmUp(LoadingCache<Object, Object> cache, int minimum, int maximum) {
     for (int i = minimum; i < maximum; i++) {
       cache.getUnchecked(i);
     }

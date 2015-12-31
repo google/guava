@@ -102,13 +102,14 @@ public interface MapDifference<K, V> {
      * Two instances are considered equal if their {@link #leftValue()}
      * values are equal and their {@link #rightValue()} values are also equal.
      */
-    @Override boolean equals(@Nullable Object other);
+    @Override
+    boolean equals(@Nullable Object other);
 
     /**
      * The hash code equals the value
      * {@code Arrays.asList(leftValue(), rightValue()).hashCode()}.
      */
-    @Override int hashCode();
+    @Override
+    int hashCode();
   }
-
 }

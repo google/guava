@@ -22,6 +22,7 @@ import static com.google.common.collect.BoundType.OPEN;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Multiset.Entry;
+import com.google.j2objc.annotations.Weak;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -39,45 +40,50 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 final class SortedMultisets {
-  private SortedMultisets() {
-  }
+  private SortedMultisets() {}
 
   /**
    * A skeleton implementation for {@link SortedMultiset#elementSet}.
    */
-  static class ElementSet<E> extends Multisets.ElementSet<E> implements
-      SortedSet<E> {
-    private final SortedMultiset<E> multiset;
+  static class ElementSet<E> extends Multisets.ElementSet<E> implements SortedSet<E> {
+    @Weak private final SortedMultiset<E> multiset;
 
     ElementSet(SortedMultiset<E> multiset) {
       this.multiset = multiset;
     }
 
-    @Override final SortedMultiset<E> multiset() {
+    @Override
+    final SortedMultiset<E> multiset() {
       return multiset;
     }
 
-    @Override public Comparator<? super E> comparator() {
+    @Override
+    public Comparator<? super E> comparator() {
       return multiset().comparator();
     }
 
-    @Override public SortedSet<E> subSet(E fromElement, E toElement) {
+    @Override
+    public SortedSet<E> subSet(E fromElement, E toElement) {
       return multiset().subMultiset(fromElement, CLOSED, toElement, OPEN).elementSet();
     }
 
-    @Override public SortedSet<E> headSet(E toElement) {
+    @Override
+    public SortedSet<E> headSet(E toElement) {
       return multiset().headMultiset(toElement, OPEN).elementSet();
     }
 
-    @Override public SortedSet<E> tailSet(E fromElement) {
+    @Override
+    public SortedSet<E> tailSet(E fromElement) {
       return multiset().tailMultiset(fromElement, CLOSED).elementSet();
     }
 
-    @Override public E first() {
+    @Override
+    public E first() {
       return getElementOrThrow(multiset().firstEntry());
     }
 
-    @Override public E last() {
+    @Override
+    public E last() {
       return getElementOrThrow(multiset().lastEntry());
     }
   }
@@ -134,9 +140,10 @@ final class SortedMultisets {
     @Override
     public NavigableSet<E> subSet(
         E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
-      return new NavigableElementSet<E>(multiset().subMultiset(
-          fromElement, BoundType.forBoolean(fromInclusive),
-          toElement, BoundType.forBoolean(toInclusive)));
+      return new NavigableElementSet<E>(
+          multiset().subMultiset(
+              fromElement, BoundType.forBoolean(fromInclusive),
+              toElement, BoundType.forBoolean(toInclusive)));
     }
 
     @Override

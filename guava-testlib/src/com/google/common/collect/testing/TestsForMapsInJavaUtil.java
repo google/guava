@@ -247,10 +247,9 @@ public class TestsForMapsInJavaUtil {
   }
 
   public Test testsForConcurrentHashMap() {
-    return MapTestSuiteBuilder
+    return ConcurrentMapTestSuiteBuilder
         .using(new TestStringMapGenerator() {
-          @Override protected Map<String, String> create(
-              Entry<String, String>[] entries) {
+          @Override protected Map<String, String> create(Entry<String, String>[] entries) {
             return populate(new ConcurrentHashMap<String, String>(), entries);
           }
         })
@@ -265,7 +264,7 @@ public class TestsForMapsInJavaUtil {
   }
 
   public Test testsForConcurrentSkipListMapNatural() {
-    return NavigableMapTestSuiteBuilder
+    return ConcurrentNavigableMapTestSuiteBuilder
         .using(new TestStringSortedMapGenerator() {
           @Override protected SortedMap<String, String> create(
               Entry<String, String>[] entries) {
@@ -284,7 +283,7 @@ public class TestsForMapsInJavaUtil {
   }
 
   public Test testsForConcurrentSkipListMapWithComparator() {
-    return NavigableMapTestSuiteBuilder
+    return ConcurrentNavigableMapTestSuiteBuilder
         .using(new TestStringSortedMapGenerator() {
           @Override protected SortedMap<String, String> create(
               Entry<String, String>[] entries) {

@@ -25,17 +25,39 @@ import java.io.Serializable;
 /** An ordering that uses the natural order of the values. */
 @GwtCompatible(serializable = true)
 @SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
-final class NaturalOrdering
-    extends Ordering<Comparable> implements Serializable {
+final class NaturalOrdering extends Ordering<Comparable> implements Serializable {
   static final NaturalOrdering INSTANCE = new NaturalOrdering();
+  
+  private transient Ordering<Comparable> nullsFirst;
+  private transient Ordering<Comparable> nullsLast;
 
-  @Override public int compare(Comparable left, Comparable right) {
+  @Override
+  public int compare(Comparable left, Comparable right) {
     checkNotNull(left); // for GWT
     checkNotNull(right);
     return left.compareTo(right);
   }
 
-  @Override public <S extends Comparable> Ordering<S> reverse() {
+  @Override
+  public <S extends Comparable> Ordering<S> nullsFirst() {
+    Ordering<Comparable> result = nullsFirst;
+    if (result == null) {
+      result = nullsFirst = super.nullsFirst();
+    }
+    return (Ordering<S>) result;
+  }
+
+  @Override
+  public <S extends Comparable> Ordering<S> nullsLast() {
+    Ordering<Comparable> result = nullsLast;
+    if (result == null) {
+      result = nullsLast = super.nullsLast();
+    }
+    return (Ordering<S>) result;
+  }
+
+  @Override
+  public <S extends Comparable> Ordering<S> reverse() {
     return (Ordering<S>) ReverseNaturalOrdering.INSTANCE;
   }
 
@@ -44,7 +66,8 @@ final class NaturalOrdering
     return INSTANCE;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return "Ordering.natural()";
   }
 

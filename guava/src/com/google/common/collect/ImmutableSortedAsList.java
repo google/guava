@@ -31,8 +31,7 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial")
 final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
     implements SortedIterable<E> {
-  ImmutableSortedAsList(
-      ImmutableSortedSet<E> backingSet, ImmutableList<E> backingList) {
+  ImmutableSortedAsList(ImmutableSortedSet<E> backingSet, ImmutableList<E> backingList) {
     super(backingSet, backingList);
   }
 
@@ -41,7 +40,8 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
     return (ImmutableSortedSet<E>) super.delegateCollection();
   }
 
-  @Override public Comparator<? super E> comparator() {
+  @Override
+  public Comparator<? super E> comparator() {
     return delegateCollection().comparator();
   }
 
@@ -49,7 +49,8 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
 
   @GwtIncompatible("ImmutableSortedSet.indexOf")
   // TODO(cpovirk): consider manual binary search under GWT to preserve O(log N) lookup
-  @Override public int indexOf(@Nullable Object target) {
+  @Override
+  public int indexOf(@Nullable Object target) {
     int index = delegateCollection().indexOf(target);
 
     // TODO(kevinb): reconsider if it's really worth making feeble attempts at
@@ -61,7 +62,8 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
   }
 
   @GwtIncompatible("ImmutableSortedSet.indexOf")
-  @Override public int lastIndexOf(@Nullable Object target) {
+  @Override
+  public int lastIndexOf(@Nullable Object target) {
     return indexOf(target);
   }
 
@@ -79,8 +81,7 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
    */
   @Override
   ImmutableList<E> subListUnchecked(int fromIndex, int toIndex) {
-    return new RegularImmutableSortedSet<E>(
-        super.subListUnchecked(fromIndex, toIndex), comparator())
-        .asList();
+    ImmutableList<E> parentSubList = super.subListUnchecked(fromIndex, toIndex);
+    return new RegularImmutableSortedSet<E>(parentSubList, comparator()).asList();
   }
 }

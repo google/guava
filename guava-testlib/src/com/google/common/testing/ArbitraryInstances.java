@@ -150,7 +150,7 @@ import javax.annotation.Nullable;
 /**
  * Supplies an arbitrary "default" instance for a wide range of types, often useful in testing
  * utilities.
- * 
+ *
  * <p>Covers arrays, enums and common types defined in {@code java.lang}, {@code java.lang.reflect},
  * {@code java.io}, {@code java.nio}, {@code java.math}, {@code java.util}, {@code
  * java.util.concurrent}, {@code java.util.regex}, {@code com.google.common.base}, {@code
@@ -158,7 +158,7 @@ import javax.annotation.Nullable;
  * exposes at least one public static final constant of the same type, one of the constants will be
  * used; or if the class exposes a public parameter-less constructor then it will be "new"d and
  * returned.
- * 
+ *
  * <p>All default instances returned by {@link #get} are generics-safe. Clients won't get type
  * errors for using {@code get(Comparator.class)} as a {@code Comparator<Foo>}, for example.
  * Immutable empty instances are returned for collection types; {@code ""} for string;
@@ -235,7 +235,7 @@ public final class ArbitraryInstances {
       .put(CharSink.class, NullByteSink.INSTANCE.asCharSink(Charsets.UTF_8))
       // All collections are immutable empty. So safe for any type parameter.
       .put(Iterator.class, ImmutableSet.of().iterator())
-      .put(PeekingIterator.class, Iterators.peekingIterator(Iterators.emptyIterator()))
+      .put(PeekingIterator.class, Iterators.peekingIterator(ImmutableSet.of().iterator()))
       .put(ListIterator.class, ImmutableList.of().listIterator())
       .put(Iterable.class, ImmutableSet.of())
       .put(Collection.class, ImmutableList.of())
@@ -420,7 +420,6 @@ public final class ArbitraryInstances {
     }
 
     public static final class DeterministicRandom extends Random {
-      @SuppressWarnings("unused") // invoked by reflection
       public DeterministicRandom() {
         super(0);
       }

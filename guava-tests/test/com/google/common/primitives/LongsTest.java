@@ -143,10 +143,9 @@ public class LongsTest extends TestCase {
         (long) 3));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
-      Longs.max();
+      long unused = Longs.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -160,10 +159,9 @@ public class LongsTest extends TestCase {
         (long) 5, (long) 3, (long) 0, (long) 9));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
-      Longs.min();
+      long unused = Longs.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -218,10 +216,9 @@ public class LongsTest extends TestCase {
             (byte) 0xBB, (byte) 0xAA, (byte) 0x99, (byte) 0x88}));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testFromByteArrayFails() {
     try {
-      Longs.fromByteArray(new byte[Longs.BYTES - 1]);
+      long unused = Longs.fromByteArray(new byte[Longs.BYTES - 1]);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -260,16 +257,15 @@ public class LongsTest extends TestCase {
         Longs.ensureCapacity(ARRAY1, 2, 1)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
-      Longs.ensureCapacity(ARRAY1, -1, 1);
+      long[] unused = Longs.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      Longs.ensureCapacity(ARRAY1, 1, -1);
+      long[] unused = Longs.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -342,11 +338,10 @@ public class LongsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Long> list = Arrays.asList((long) 0, (long) 1, null);
     try {
-      Longs.toArray(list);
+      long[] unused = Longs.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -483,5 +478,49 @@ public class LongsTest extends TestCase {
    */
   private static void tryParseAndAssertEquals(Long expected, String value) {
     assertEquals(expected, Longs.tryParse(value));
+  }
+
+  public void testTryParse_radix() {
+    for (int radix = Character.MIN_RADIX;
+        radix <= Character.MAX_RADIX; radix++) {
+      radixEncodeParseAndAssertEquals((long) 0, radix);
+      radixEncodeParseAndAssertEquals((long) 8000, radix);
+      radixEncodeParseAndAssertEquals((long) -8000, radix);
+      radixEncodeParseAndAssertEquals(MAX_VALUE, radix);
+      radixEncodeParseAndAssertEquals(MIN_VALUE, radix);
+      assertNull("Radix: " + radix, Longs.tryParse("999999999999999999999999", radix));
+      assertNull("Radix: " + radix,
+          Longs.tryParse(BigInteger.valueOf(MAX_VALUE).add(BigInteger.ONE).toString(), radix));
+      assertNull("Radix: " + radix,
+          Longs.tryParse(BigInteger.valueOf(MIN_VALUE).subtract(BigInteger.ONE).toString(), radix));
+    }
+    assertNull("Hex string and dec parm", Longs.tryParse("FFFF", 10));
+    assertEquals("Mixed hex case", 65535, Longs.tryParse("ffFF", 16).longValue());
+  }
+
+  /**
+   * Encodes the long as a string with given radix, then uses
+   * {@link Longs#tryParse(String, int)} to parse the result. Asserts the result
+   * is the same as what we started with.
+   */
+  private static void radixEncodeParseAndAssertEquals(Long value, int radix) {
+    assertEquals("Radix: " + radix, value,
+        Longs.tryParse(Long.toString(value, radix), radix));
+  }
+
+  public void testTryParse_radixTooBig() {
+    try {
+      Long unused = Longs.tryParse("0", Character.MAX_RADIX + 1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testTryParse_radixTooSmall() {
+    try {
+      Long unused = Longs.tryParse("0", Character.MIN_RADIX - 1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 }

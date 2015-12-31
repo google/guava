@@ -55,12 +55,13 @@ import javax.annotation.Nullable;
 @GwtCompatible
 public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
     implements SortedMap<K, V> {
-  // TODO(user): identify places where thread safety is actually lost
+  // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
   protected ForwardingSortedMap() {}
 
-  @Override protected abstract SortedMap<K, V> delegate();
+  @Override
+  protected abstract SortedMap<K, V> delegate();
 
   @Override
   public Comparator<? super K> comparator() {
@@ -126,7 +127,9 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
    *
    * @since 7.0
    */
-  @Override @Beta protected boolean standardContainsKey(@Nullable Object key) {
+  @Override
+  @Beta
+  protected boolean standardContainsKey(@Nullable Object key) {
     try {
       // any CCE will be caught
       @SuppressWarnings("unchecked")
@@ -150,7 +153,8 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
    *
    * @since 7.0
    */
-  @Beta protected SortedMap<K, V> standardSubMap(K fromKey, K toKey) {
+  @Beta
+  protected SortedMap<K, V> standardSubMap(K fromKey, K toKey) {
     checkArgument(unsafeCompare(fromKey, toKey) <= 0, "fromKey must be <= toKey");
     return tailMap(fromKey).headMap(toKey);
   }

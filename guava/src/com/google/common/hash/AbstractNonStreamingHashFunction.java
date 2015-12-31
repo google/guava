@@ -41,11 +41,13 @@ abstract class AbstractNonStreamingHashFunction implements HashFunction {
     return new BufferingHasher(expectedInputSize);
   }
 
-  @Override public <T> HashCode hashObject(T instance, Funnel<? super T> funnel) {
+  @Override
+  public <T> HashCode hashObject(T instance, Funnel<? super T> funnel) {
     return newHasher().putObject(instance, funnel).hash();
   }
 
-  @Override public HashCode hashUnencodedChars(CharSequence input) {
+  @Override
+  public HashCode hashUnencodedChars(CharSequence input) {
     int len = input.length();
     Hasher hasher = newHasher(len * 2);
     for (int i = 0; i < len; i++) {
@@ -54,19 +56,23 @@ abstract class AbstractNonStreamingHashFunction implements HashFunction {
     return hasher.hash();
   }
 
-  @Override public HashCode hashString(CharSequence input, Charset charset) {
+  @Override
+  public HashCode hashString(CharSequence input, Charset charset) {
     return hashBytes(input.toString().getBytes(charset));
   }
 
-  @Override public HashCode hashInt(int input) {
+  @Override
+  public HashCode hashInt(int input) {
     return newHasher(4).putInt(input).hash();
   }
 
-  @Override public HashCode hashLong(long input) {
+  @Override
+  public HashCode hashLong(long input) {
     return newHasher(8).putLong(input).hash();
   }
 
-  @Override public HashCode hashBytes(byte[] input) {
+  @Override
+  public HashCode hashBytes(byte[] input) {
     return hashBytes(input, 0, input.length);
   }
 
@@ -106,7 +112,7 @@ abstract class AbstractNonStreamingHashFunction implements HashFunction {
     @Override
     public Hasher putShort(short s) {
       stream.write(s & BOTTOM_BYTE);
-      stream.write((s >>> 8)  & BOTTOM_BYTE);
+      stream.write((s >>> 8) & BOTTOM_BYTE);
       return this;
     }
 
@@ -151,9 +157,11 @@ abstract class AbstractNonStreamingHashFunction implements HashFunction {
     ExposedByteArrayOutputStream(int expectedInputSize) {
       super(expectedInputSize);
     }
+
     byte[] byteArray() {
       return buf;
     }
+
     int length() {
       return count;
     }

@@ -25,16 +25,15 @@ import java.util.List;
 
 /**
  * This class implements the GWT serialization of {@link RegularImmutableMultiset}.
- * 
+ *
  * @author Louis Wasserman
  */
 public class RegularImmutableMultiset_CustomFieldSerializer {
-  public static void deserialize(SerializationStreamReader reader,
-      RegularImmutableMultiset<?> instance) {
-  }
+  public static void deserialize(
+      SerializationStreamReader reader, RegularImmutableMultiset<?> instance) {}
 
-  public static RegularImmutableMultiset<Object> instantiate(
-      SerializationStreamReader reader) throws SerializationException {
+  public static RegularImmutableMultiset<Object> instantiate(SerializationStreamReader reader)
+      throws SerializationException {
     List<Object> elements = Lists.newArrayList();
     Collection_CustomFieldSerializerBase.deserialize(reader, elements);
     /*
@@ -43,12 +42,12 @@ public class RegularImmutableMultiset_CustomFieldSerializer {
      * RegularImmutableMultiset always have one or more elements,
      * ImmutableMultiset.copyOf always return a RegularImmutableMultiset back.
      */
-    return (RegularImmutableMultiset<Object>) ImmutableMultiset
-        .copyOf(elements);
+    return (RegularImmutableMultiset<Object>) ImmutableMultiset.copyOf(elements);
   }
 
-  public static void serialize(SerializationStreamWriter writer,
-      RegularImmutableMultiset<?> instance) throws SerializationException {
+  public static void serialize(
+      SerializationStreamWriter writer, RegularImmutableMultiset<?> instance)
+      throws SerializationException {
     Collection_CustomFieldSerializerBase.serialize(writer, instance);
   }
 }

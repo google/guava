@@ -26,7 +26,6 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
@@ -74,7 +73,6 @@ import javax.annotation.CheckReturnValue;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@Beta
 @GwtCompatible(emulated = true)
 public final class Stopwatch {
   private final Ticker ticker;
@@ -126,24 +124,10 @@ public final class Stopwatch {
     return new Stopwatch(ticker).start();
   }
 
-  /**
-   * Creates (but does not start) a new stopwatch using {@link System#nanoTime}
-   * as its time source.
-   *
-   * @deprecated Use {@link Stopwatch#createUnstarted()} instead.
-   */
-  @Deprecated
   Stopwatch() {
-    this(Ticker.systemTicker());
+    this.ticker = Ticker.systemTicker();
   }
 
-  /**
-   * Creates (but does not start) a new stopwatch, using the specified time
-   * source.
-   *
-   * @deprecated Use {@link Stopwatch#createUnstarted(Ticker)} instead.
-   */
-  @Deprecated
   Stopwatch(Ticker ticker) {
     this.ticker = checkNotNull(ticker, "ticker");
   }
@@ -221,7 +205,8 @@ public final class Stopwatch {
    * Returns a string representation of the current elapsed time.
    */
   @GwtIncompatible("String.format()")
-  @Override public String toString() {
+  @Override
+  public String toString() {
     long nanos = elapsedNanos();
 
     TimeUnit unit = chooseUnit(nanos);
