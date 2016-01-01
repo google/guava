@@ -296,7 +296,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
         return false;
       }
 
-      // safe because esDelgate.contains(object).
+      // safe because esDelegate.contains(object).
       Entry<?, ?> entry = (Entry<?, ?>) object;
       inverse.delegate.remove(entry.getValue());
       /*
@@ -418,7 +418,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     /**
      * @serialData the forward bimap
      */
-    @GwtIncompatible("java.io.ObjectOuputStream")
+    @GwtIncompatible("java.io.ObjectOutputStream")
     private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(inverse());
