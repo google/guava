@@ -67,7 +67,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @GwtCompatible(emulated = true)
 public class ImmutableListTest extends TestCase {
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(ListTestSuiteBuilder.using(new ImmutableListOfGenerator())
@@ -429,7 +429,7 @@ public class ImmutableListTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static class ConcurrentTests extends TestCase {
     enum WrapWithIterable { WRAP, NO_WRAP }
 
@@ -640,26 +640,26 @@ public class ImmutableListTest extends TestCase {
 
   public static class BasicTests extends TestCase {
 
-    @GwtIncompatible("NullPointerTester")
+    @GwtIncompatible // NullPointerTester
     public void testNullPointers() {
       NullPointerTester tester = new NullPointerTester();
       tester.testAllPublicStaticMethods(ImmutableList.class);
       tester.testAllPublicInstanceMethods(ImmutableList.of(1, 2, 3));
     }
 
-    @GwtIncompatible("SerializableTester")
+    @GwtIncompatible // SerializableTester
     public void testSerialization_empty() {
       Collection<String> c = ImmutableList.of();
       assertSame(c, SerializableTester.reserialize(c));
     }
 
-    @GwtIncompatible("SerializableTester")
+    @GwtIncompatible // SerializableTester
     public void testSerialization_singleton() {
       Collection<String> c = ImmutableList.of("a");
       SerializableTester.reserializeAndAssert(c);
     }
 
-    @GwtIncompatible("SerializableTester")
+    @GwtIncompatible // SerializableTester
     public void testSerialization_multiple() {
       Collection<String> c = ImmutableList.of("a", "b", "c");
       SerializableTester.reserializeAndAssert(c);

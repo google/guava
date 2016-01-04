@@ -120,7 +120,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
    * seems more likely that code would depend on that behavior than on the
    * other. Thus, we say the bug is in add(), which fails to support null.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddNullSupportedMethod() {
     return Helpers.getMethod(CollectionAddTester.class, "testAdd_nullSupported");
   }
@@ -132,7 +132,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun bug
    * 5045147</a> is fixed.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddNullUnsupportedMethod() {
     return Helpers.getMethod(CollectionAddTester.class, "testAdd_nullUnsupported");
   }
@@ -144,7 +144,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
    * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap}
    * support for {@code entrySet().add()}</a>.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddUnsupportedNotPresentMethod() {
     return Helpers.getMethod(CollectionAddTester.class, "testAdd_unsupportedNotPresent");
   }

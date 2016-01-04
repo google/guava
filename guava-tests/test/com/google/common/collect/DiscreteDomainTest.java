@@ -27,7 +27,7 @@ import junit.framework.TestCase;
  *
  * @author Chris Povirk
  */
-@GwtIncompatible("SerializableTester")
+@GwtIncompatible // SerializableTester
 public class DiscreteDomainTest extends TestCase {
   public void testSerialization() {
     reserializeAndAssert(DiscreteDomain.integers());

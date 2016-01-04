@@ -32,7 +32,7 @@ import java.util.NoSuchElementException;
 /** Tests for {@link AbstractSequentialIterator}. */
 @GwtCompatible(emulated = true)
 public class AbstractSequentialIteratorTest extends TestCase {
-  @GwtIncompatible("Too slow")
+  @GwtIncompatible // Too slow
   public void testDoublerExhaustive() {
     new IteratorTester<Integer>(3, UNMODIFIABLE, ImmutableList.of(1, 2),
         IteratorTester.KnownOrder.KNOWN_ORDER) {

@@ -149,7 +149,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("immediateCancelledFuture")
+  @GwtIncompatible // immediateCancelledFuture
   public void testImmediateCancelledFuture() throws Exception {
     ListenableFuture<String> future = CallerClass1.immediateCancelledFuture();
     assertTrue(future.isCancelled());
@@ -172,7 +172,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static Predicate<StackTraceElement> hasClassName(final Class<?> clazz) {
     return new Predicate<StackTraceElement>() {
       @Override
@@ -182,7 +182,7 @@ public class FuturesTest extends TestCase {
     };
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static final class CallerClass1 {
 
     static ListenableFuture<String> immediateCancelledFuture() {
@@ -190,7 +190,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static final class CallerClass2 {
 
     static <V> V get(ListenableFuture<V> future) throws ExecutionException, InterruptedException {
@@ -202,7 +202,7 @@ public class FuturesTest extends TestCase {
 
   }
 
-  @GwtIncompatible("immediateCheckedFuture")
+  @GwtIncompatible // immediateCheckedFuture
   public void testImmediateCheckedFuture() throws Exception {
     CheckedFuture<String, MyException> future = Futures.immediateCheckedFuture(
         DATA1);
@@ -212,7 +212,7 @@ public class FuturesTest extends TestCase {
     assertSame(DATA1, future.checkedGet(0L, TimeUnit.MILLISECONDS));
   }
 
-  @GwtIncompatible("immediateCheckedFuture")
+  @GwtIncompatible // immediateCheckedFuture
   public void testMultipleImmediateCheckedFutures() throws Exception {
     CheckedFuture<String, MyException> future1 = Futures.immediateCheckedFuture(
         DATA1);
@@ -226,7 +226,7 @@ public class FuturesTest extends TestCase {
     assertSame(DATA2, future2.checkedGet(0L, TimeUnit.MILLISECONDS));
   }
 
-  @GwtIncompatible("immediateFailedCheckedFuture")
+  @GwtIncompatible // immediateFailedCheckedFuture
   public void testImmediateFailedCheckedFuture() throws Exception {
     MyException exception = new MyException();
     CheckedFuture<String, MyException> future =
@@ -379,7 +379,7 @@ public class FuturesTest extends TestCase {
     assertTrue(input.wasInterrupted());
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testTransformAsync_interruptPropagatesToTransformingThread() throws Exception {
     SettableFuture<String> input = SettableFuture.create();
@@ -541,7 +541,7 @@ public class FuturesTest extends TestCase {
    * Test that the function is invoked only once, even if it throws an exception. Also, test that
    * that function's result is wrapped in an ExecutionException.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testTransformExceptionRemainsMemoized() throws Throwable {
     // We need to test with two input futures since ExecutionList.execute
     // doesn't catch Errors and we cannot depend on the order that our
@@ -572,9 +572,10 @@ public class FuturesTest extends TestCase {
     runGetIdempotencyTest(errorComposedFuture, MyError.class);
   }
 
-  @GwtIncompatible("reflection")
-  private static void runGetIdempotencyTest(Future<Integer> transformedFuture,
-      Class<? extends Throwable> expectedExceptionClass) throws Throwable {
+  @GwtIncompatible // reflection
+  private static void runGetIdempotencyTest(
+      Future<Integer> transformedFuture, Class<? extends Throwable> expectedExceptionClass)
+      throws Throwable {
     for (int i = 0; i < 5; i++) {
       try {
         transformedFuture.get();
@@ -587,7 +588,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static Function<Integer, Integer> newOneTimeExceptionThrower() {
     return new Function<Integer, Integer>() {
       int calls = 0;
@@ -602,7 +603,7 @@ public class FuturesTest extends TestCase {
     };
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static Function<Integer, Integer> newOneTimeErrorThrower() {
     return new Function<Integer, Integer>() {
       int calls = 0;
@@ -648,7 +649,7 @@ public class FuturesTest extends TestCase {
     assertTrue(spy.wasExecuted);
   }
 
-  @GwtIncompatible("lazyTransform")
+  @GwtIncompatible // lazyTransform
   public void testLazyTransform() throws Exception {
     FunctionSpy<Object, String> spy =
         new FunctionSpy<Object, String>(Functions.constant("bar"));
@@ -661,7 +662,7 @@ public class FuturesTest extends TestCase {
     spy.verifyCallCount(2);
   }
 
-  @GwtIncompatible("lazyTransform")
+  @GwtIncompatible // lazyTransform
   public void testLazyTransform_exception() throws Exception {
     final RuntimeException exception = new RuntimeException("deliberate");
     Function<Integer, String> function = new Function<Integer, String>() {
@@ -907,7 +908,7 @@ public class FuturesTest extends TestCase {
     assertFalse(primary.wasInterrupted());
   }
 
-  @GwtIncompatible("mocks")
+  @GwtIncompatible // mocks
   @SuppressWarnings("unchecked")
   public void testWithFallback_resultCancelledAfterFallback() throws Exception {
     final SettableFuture<Integer> secondary = SettableFuture.create();
@@ -1071,7 +1072,7 @@ public class FuturesTest extends TestCase {
     assertFalse(primary.wasInterrupted());
   }
 
-  @GwtIncompatible("mocks")
+  @GwtIncompatible // mocks
   @SuppressWarnings("unchecked")
   public void testCatchingAsync_resultCancelledAfterFallback() throws Exception {
     final SettableFuture<Integer> secondary = SettableFuture.create();
@@ -1114,7 +1115,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testCatchingAsync_interruptPropagatesToTransformingThread() throws Exception {
     SettableFuture<String> input = SettableFuture.create();
@@ -1266,7 +1267,7 @@ public class FuturesTest extends TestCase {
     assertEquals(1, (int) faultTolerantFuture.get());
   }
 
-  @GwtIncompatible("non-Throwable exceptionType")
+  @GwtIncompatible // non-Throwable exceptionType
   public void testCatching_customTypeMatch() throws Exception {
     Function<IOException, Integer> fallback = functionReturningOne();
     ListenableFuture<Integer> originalFuture = immediateFailedFuture(new FileNotFoundException());
@@ -1275,7 +1276,7 @@ public class FuturesTest extends TestCase {
     assertEquals(1, (int) faultTolerantFuture.get());
   }
 
-  @GwtIncompatible("non-Throwable exceptionType")
+  @GwtIncompatible // non-Throwable exceptionType
   public void testCatching_customTypeNoMatch() throws Exception {
     Function<IOException, Integer> fallback = functionReturningOne();
     ListenableFuture<Integer> originalFuture = immediateFailedFuture(new RuntimeException());
@@ -1297,7 +1298,7 @@ public class FuturesTest extends TestCase {
     assertEquals(1, (int) faultTolerantFuture.get());
   }
 
-  @GwtIncompatible("non-Throwable exceptionType")
+  @GwtIncompatible // non-Throwable exceptionType
   public void testCatchingAsync_customTypeMatch() throws Exception {
     AsyncFunction<IOException, Integer> fallback = asyncFunctionReturningOne();
     ListenableFuture<Integer> originalFuture = immediateFailedFuture(new FileNotFoundException());
@@ -1306,7 +1307,7 @@ public class FuturesTest extends TestCase {
     assertEquals(1, (int) faultTolerantFuture.get());
   }
 
-  @GwtIncompatible("non-Throwable exceptionType")
+  @GwtIncompatible // non-Throwable exceptionType
   public void testCatchingAsync_customTypeNoMatch() throws Exception {
     AsyncFunction<IOException, Integer> fallback = asyncFunctionReturningOne();
     ListenableFuture<Integer> originalFuture = immediateFailedFuture(new RuntimeException());
@@ -1385,7 +1386,7 @@ public class FuturesTest extends TestCase {
     assertSame(barChild, bar);
   }
 
-  @GwtIncompatible("get() timeout")
+  @GwtIncompatible // get() timeout
   public void testTransform_asyncFunction_timeout()
       throws InterruptedException, ExecutionException {
     AsyncFunction<String, Integer> function = constantAsyncFunction(Futures.immediateFuture(1));
@@ -1431,7 +1432,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testTransform_asyncFunction_cancelledWhileApplyingFunction()
       throws InterruptedException, ExecutionException {
@@ -1465,7 +1466,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testTransform_asyncFunction_cancelledBeforeApplyingFunction()
       throws InterruptedException {
@@ -1526,7 +1527,7 @@ public class FuturesTest extends TestCase {
     assertSame(barChild, bar);
   }
 
-  @GwtIncompatible("get() timeout")
+  @GwtIncompatible // get() timeout
   public void testTransformAsync_asyncFunction_timeout()
       throws InterruptedException, ExecutionException {
     AsyncFunction<String, Integer> function = constantAsyncFunction(Futures.immediateFuture(1));
@@ -1572,7 +1573,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testTransformAsync_asyncFunction_cancelledWhileApplyingFunction()
       throws InterruptedException, ExecutionException {
@@ -1712,7 +1713,7 @@ public class FuturesTest extends TestCase {
     assertThat(results).containsExactly(DATA1, DATA2, DATA3).inOrder();
   }
 
-  @GwtIncompatible("allAsList")
+  @GwtIncompatible // allAsList
   public void testAllAsList_emptyList() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
@@ -1759,7 +1760,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("allAsList")
+  @GwtIncompatible // allAsList
   public void testAllAsList_singleFailure() throws Exception {
     Throwable exception = new Throwable("failed");
     ListenableFuture<String> future = Futures.immediateFailedFuture(exception);
@@ -1773,7 +1774,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("allAsList")
+  @GwtIncompatible // allAsList
   public void testAllAsList_immediateFailure() throws Exception {
     Throwable exception = new Throwable("failed");
     ListenableFuture<String> future1 = Futures.immediateFailedFuture(exception);
@@ -1788,7 +1789,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("allAsList")
+  @GwtIncompatible // allAsList
   public void testAllAsList_error() throws Exception {
     Error error = new Error("deliberate");
     SettableFuture<String> future1 = SettableFuture.create();
@@ -2150,7 +2151,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testWhenAllComplete_cancelledNotInterrupted() throws Exception {
     SettableFuture<String> stringFuture = SettableFuture.create();
@@ -2186,7 +2187,7 @@ public class FuturesTest extends TestCase {
     } catch (CancellationException expected) {}
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testWhenAllComplete_interrupted() throws Exception {
     SettableFuture<String> stringFuture = SettableFuture.create();
@@ -2263,7 +2264,7 @@ public class FuturesTest extends TestCase {
    * finisher}, a task that will complete the future in some fashion when it is called, allowing for
    * testing both before and after the completion of the future.
    */
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static final class TestFuture {
 
     final ListenableFuture<String> future;
@@ -2286,7 +2287,7 @@ public class FuturesTest extends TestCase {
    * <p>Each test requires a new {@link TestFutureBatch} because we need new delayed futures each
    * time, as the old delayed futures were completed as part of the old test.
    */
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static final class TestFutureBatch {
 
     final ListenableFuture<String> doneSuccess = immediateFuture("a");
@@ -2471,7 +2472,7 @@ public class FuturesTest extends TestCase {
    * {@link Futures#allAsList(Iterable)} or {@link Futures#successfulAsList(Iterable)}, hidden
    * behind a common interface for testing.
    */
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private interface Merger {
 
     ListenableFuture<List<String>> merged(
@@ -2500,9 +2501,8 @@ public class FuturesTest extends TestCase {
    * <p>We need this to test the behavior of no-arg get methods without hanging the main test thread
    * forever in the case of failure.
    */
-  @GwtIncompatible("threads")
-  static <V> V pseudoTimedGetUninterruptibly(
-      final Future<V> input, long timeout, TimeUnit unit)
+  @GwtIncompatible // threads
+  static <V> V pseudoTimedGetUninterruptibly(final Future<V> input, long timeout, TimeUnit unit)
       throws ExecutionException, TimeoutException {
     ExecutorService executor = newSingleThreadExecutor();
     Future<V> waiter = executor.submit(new Callable<V>() {
@@ -2530,9 +2530,8 @@ public class FuturesTest extends TestCase {
    * before future completion, and untimed after future completion) return or throw the proper
    * values.
    */
-  @GwtIncompatible("used only in GwtIncompatible tests")
-  private static void runExtensiveMergerTest(Merger merger)
-      throws InterruptedException {
+  @GwtIncompatible // used only in GwtIncompatible tests
+  private static void runExtensiveMergerTest(Merger merger) throws InterruptedException {
     int inputCount = new TestFutureBatch().allFutures.size();
 
     for (int i = 0; i < inputCount; i++) {
@@ -2613,7 +2612,7 @@ public class FuturesTest extends TestCase {
    * expected to succeed; the fact that the numbers match is only a coincidence.) See the comment
    * below for how to restore the fast but hang-y version.
    */
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static List<String> conditionalPseudoTimedGetUninterruptibly(
       TestFutureBatch inputs,
       ListenableFuture<String> iFuture,
@@ -2632,17 +2631,17 @@ public class FuturesTest extends TestCase {
         : pseudoTimedGetUninterruptibly(future, 2500, MILLISECONDS);
   }
 
-  @GwtIncompatible("allAsList")
+  @GwtIncompatible // allAsList
   public void testAllAsList_extensive() throws InterruptedException {
     runExtensiveMergerTest(Merger.allMerger);
   }
 
-  @GwtIncompatible("successfulAsList")
+  @GwtIncompatible // successfulAsList
   public void testSuccessfulAsList_extensive() throws InterruptedException {
     runExtensiveMergerTest(Merger.successMerger);
   }
 
-  @GwtIncompatible("successfulAsList")
+  @GwtIncompatible // successfulAsList
   public void testSuccessfulAsList() throws Exception {
     // Create input and output
     SettableFuture<String> future1 = SettableFuture.create();
@@ -2671,7 +2670,7 @@ public class FuturesTest extends TestCase {
     assertThat(results).containsExactly(DATA1, DATA2, DATA3).inOrder();
   }
 
-  @GwtIncompatible("successfulAsList")
+  @GwtIncompatible // successfulAsList
   public void testSuccessfulAsList_emptyList() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
@@ -2683,7 +2682,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
   }
 
-  @GwtIncompatible("successfulAsList")
+  @GwtIncompatible // successfulAsList
   public void testSuccessfulAsList_emptyArray() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     listener.expectCall();
@@ -2695,7 +2694,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
   }
 
-  @GwtIncompatible("successfulAsList")
+  @GwtIncompatible // successfulAsList
   public void testSuccessfulAsList_partialFailure() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
@@ -2717,7 +2716,7 @@ public class FuturesTest extends TestCase {
     assertThat(results).containsExactly(null, DATA2).inOrder();
   }
 
-  @GwtIncompatible("successfulAsList")
+  @GwtIncompatible // successfulAsList
   public void testSuccessfulAsList_totalFailure() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
@@ -2739,7 +2738,7 @@ public class FuturesTest extends TestCase {
     assertThat(results).containsExactly(null, null).inOrder();
   }
 
-  @GwtIncompatible("successfulAsList")
+  @GwtIncompatible // successfulAsList
   public void testSuccessfulAsList_cancelled() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
@@ -2761,7 +2760,7 @@ public class FuturesTest extends TestCase {
     assertThat(results).containsExactly(null, DATA2).inOrder();
   }
 
-  @GwtIncompatible("successfulAsList")
+  @GwtIncompatible // successfulAsList
   public void testSuccessfulAsList_resultCancelled() throws Exception {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
@@ -2777,9 +2776,8 @@ public class FuturesTest extends TestCase {
     assertFalse(future1.wasInterrupted());
   }
 
-  @GwtIncompatible("successfulAsList")
-  public void testSuccessfulAsList_resultCancelledRacingInputDone()
-      throws Exception {
+  @GwtIncompatible // successfulAsList
+  public void testSuccessfulAsList_resultCancelledRacingInputDone() throws Exception {
     /*
      * The IllegalStateException that we're testing for is caught by
      * ExecutionList and logged rather than allowed to propagate. We need to
@@ -2809,9 +2807,8 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("successfulAsList")
-  private static void doTestSuccessfulAsList_resultCancelledRacingInputDone()
-      throws Exception {
+  @GwtIncompatible // successfulAsList
+  private static void doTestSuccessfulAsList_resultCancelledRacingInputDone() throws Exception {
     // Simple (combined.cancel -> input.cancel -> setOneValue):
     Futures.successfulAsList(ImmutableList.of(SettableFuture.create()))
         .cancel(true);
@@ -2855,7 +2852,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("successfulAsList")
+  @GwtIncompatible // successfulAsList
   public void testSuccessfulAsList_resultInterrupted() throws Exception {
     SettableFuture<String> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
@@ -2871,7 +2868,7 @@ public class FuturesTest extends TestCase {
     assertTrue(future1.wasInterrupted());
   }
 
-  @GwtIncompatible("successfulAsList")
+  @GwtIncompatible // successfulAsList
   public void testSuccessfulAsList_mixed() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
@@ -2931,7 +2928,7 @@ public class FuturesTest extends TestCase {
     assertThat(logged.get(0).getThrown()).isInstanceOf(MyError.class);
   }
 
-  @GwtIncompatible("nonCancellationPropagating")
+  @GwtIncompatible // nonCancellationPropagating
   public void testNonCancellationPropagating_successful() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     ListenableFuture<Foo> wrapper = Futures.nonCancellationPropagating(input);
@@ -2943,7 +2940,7 @@ public class FuturesTest extends TestCase {
     assertSame(foo, wrapper.get());
   }
 
-  @GwtIncompatible("nonCancellationPropagating")
+  @GwtIncompatible // nonCancellationPropagating
   public void testNonCancellationPropagating_failure() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     ListenableFuture<Foo> wrapper = Futures.nonCancellationPropagating(input);
@@ -2960,7 +2957,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("nonCancellationPropagating")
+  @GwtIncompatible // nonCancellationPropagating
   public void testNonCancellationPropagating_delegateCancelled() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     ListenableFuture<Foo> wrapper = Futures.nonCancellationPropagating(input);
@@ -2970,7 +2967,7 @@ public class FuturesTest extends TestCase {
     assertTrue(wrapper.isCancelled());
   }
 
-  @GwtIncompatible("nonCancellationPropagating")
+  @GwtIncompatible // nonCancellationPropagating
   public void testNonCancellationPropagating_doesNotPropagate() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     ListenableFuture<Foo> wrapper = Futures.nonCancellationPropagating(input);
@@ -2982,7 +2979,7 @@ public class FuturesTest extends TestCase {
     assertFalse(input.isDone());
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static class TestException extends Exception {
 
     TestException(@Nullable Throwable cause) {
@@ -2990,7 +2987,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
+  @GwtIncompatible // used only in GwtIncompatible tests
   private static final Function<Exception, TestException> mapper =
       new Function<Exception, TestException>() {
         @Override
@@ -2998,15 +2995,15 @@ public class FuturesTest extends TestCase {
           if (from instanceof ExecutionException) {
             return new TestException(from.getCause());
           } else {
-            assertTrue("got " + from.getClass(),
-                from instanceof InterruptedException
-                    || from instanceof CancellationException);
+            assertTrue(
+                "got " + from.getClass(),
+                from instanceof InterruptedException || from instanceof CancellationException);
             return new TestException(from);
           }
         }
       };
 
-  @GwtIncompatible("makeChecked")
+  @GwtIncompatible // makeChecked
   public void testMakeChecked_mapsExecutionExceptions() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
 
@@ -3047,7 +3044,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("makeChecked")
+  @GwtIncompatible // makeChecked
   public void testMakeChecked_mapsInterruption() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
 
@@ -3091,7 +3088,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("makeChecked")
+  @GwtIncompatible // makeChecked
   public void testMakeChecked_mapsCancellation() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
 
@@ -3127,7 +3124,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("makeChecked")
+  @GwtIncompatible // makeChecked
   public void testMakeChecked_propagatesFailedMappers() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
 
@@ -3154,7 +3151,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("makeChecked")
+  @GwtIncompatible // makeChecked
 
   public void testMakeChecked_listenersRunOnceCompleted() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
@@ -3174,7 +3171,7 @@ public class FuturesTest extends TestCase {
     tester.tearDown();
   }
 
-  @GwtIncompatible("makeChecked")
+  @GwtIncompatible // makeChecked
 
   public void testMakeChecked_listenersRunOnCancel() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
@@ -3194,7 +3191,7 @@ public class FuturesTest extends TestCase {
     tester.tearDown();
   }
 
-  @GwtIncompatible("makeChecked")
+  @GwtIncompatible // makeChecked
 
   public void testMakeChecked_listenersRunOnFailure() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
@@ -3214,12 +3211,10 @@ public class FuturesTest extends TestCase {
     tester.tearDown();
   }
 
-  @GwtIncompatible("used only in GwtIncompatible tests")
-  private interface MapperFunction extends Function<Throwable, Exception> {
+  @GwtIncompatible // used only in GwtIncompatible tests
+  private interface MapperFunction extends Function<Throwable, Exception> {}
 
-  }
-
-  @GwtIncompatible("inCompletionOrder")
+  @GwtIncompatible // inCompletionOrder
   public void testCompletionOrder() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<Long> future2 = SettableFuture.create();
@@ -3242,7 +3237,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("inCompletionOrder")
+  @GwtIncompatible // inCompletionOrder
   public void testCompletionOrderExceptionThrown() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<Long> future2 = SettableFuture.create();
@@ -3275,7 +3270,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("inCompletionOrder")
+  @GwtIncompatible // inCompletionOrder
   public void testCompletionOrderFutureCancelled() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<Long> future2 = SettableFuture.create();
@@ -3307,7 +3302,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("inCompletionOrder")
+  @GwtIncompatible // inCompletionOrder
   public void testCancellingADelegateDoesNotPropagate() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<Long> future2 = SettableFuture.create();
@@ -3327,7 +3322,7 @@ public class FuturesTest extends TestCase {
   }
 
   // Mostly an example of how it would look like to use a list of mixed types
-  @GwtIncompatible("inCompletionOrder")
+  @GwtIncompatible // inCompletionOrder
   public void testCompletionOrderMixedBagOTypes() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<String> future2 = SettableFuture.create();
@@ -3346,7 +3341,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("ClassSanityTester")
+  @GwtIncompatible // ClassSanityTester
   public void testFutures_nullChecks() throws Exception {
     new ClassSanityTester()
         .forAllPublicStaticMethods(Futures.class)

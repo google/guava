@@ -327,7 +327,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   // These constants allow the deserialization code to set final fields. This
   // holder class makes sure they are not initialized unless an instance is
   // deserialized.
-  @GwtIncompatible("java serialization is not supported")
+  @GwtIncompatible // java serialization is not supported
   static class FieldSettersHolder {
     static final Serialization.FieldSetter<ImmutableMultimap> MAP_FIELD_SETTER =
         Serialization.getFieldSetter(ImmutableMultimap.class, "map");
@@ -673,7 +673,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
       return multimap.valueIterator();
     }
 
-    @GwtIncompatible("not present in emulated superclass")
+    @GwtIncompatible // not present in emulated superclass
     @Override
     int copyIntoArray(Object[] dst, int offset) {
       for (ImmutableCollection<V> valueCollection : multimap.map.values()) {

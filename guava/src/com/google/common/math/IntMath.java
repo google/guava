@@ -124,7 +124,7 @@ public final class IntMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
    *         is not a power of ten
    */
-  @GwtIncompatible("need BigIntegerMath to adequately test")
+  @GwtIncompatible // need BigIntegerMath to adequately test
   @SuppressWarnings("fallthrough")
   public static int log10(int x, RoundingMode mode) {
     checkPositive("x", x);
@@ -186,7 +186,7 @@ public final class IntMath {
    *
    * @throws IllegalArgumentException if {@code k < 0}
    */
-  @GwtIncompatible("failing tests")
+  @GwtIncompatible // failing tests
   public static int pow(int b, int k) {
     checkNonNegative("exponent", k);
     switch (b) {
@@ -227,7 +227,7 @@ public final class IntMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and
    *         {@code sqrt(x)} is not an integer
    */
-  @GwtIncompatible("need BigIntegerMath to adequately test")
+  @GwtIncompatible // need BigIntegerMath to adequately test
   @SuppressWarnings("fallthrough")
   public static int sqrt(int x, RoundingMode mode) {
     checkNonNegative("x", x);
@@ -603,7 +603,7 @@ public final class IntMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0} or {@code k > n}
    */
-  @GwtIncompatible("need BigIntegerMath to adequately test")
+  @GwtIncompatible // need BigIntegerMath to adequately test
   public static int binomial(int n, int k) {
     checkNonNegative("n", n);
     checkNonNegative("k", k);

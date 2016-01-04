@@ -105,7 +105,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
    * @serialData the key class, number of entries, first key, first value,
    *     second key, second value, and so on.
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
+  @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(keyType);
@@ -113,7 +113,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
   }
 
   @SuppressWarnings("unchecked") // reading field populated by writeObject
-  @GwtIncompatible("java.io.ObjectInputStream")
+  @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     keyType = (Class<K>) stream.readObject();
@@ -123,6 +123,6 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
     Serialization.populateMap(this, stream);
   }
 
-  @GwtIncompatible("only needed in emulated source.")
+  @GwtIncompatible // only needed in emulated source.
   private static final long serialVersionUID = 0;
 }

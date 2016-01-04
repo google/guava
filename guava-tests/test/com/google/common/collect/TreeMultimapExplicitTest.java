@@ -206,7 +206,7 @@ public class TreeMultimapExplicitTest extends TestCase {
     assertEquals(Sets.newHashSet("tree"), keySet.subSet("ask", "yahoo"));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testExplicitComparatorSerialization() {
     TreeMultimap<String, Integer> multimap = createPopulate();
     TreeMultimap<String, Integer> copy

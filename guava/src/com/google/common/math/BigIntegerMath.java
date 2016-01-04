@@ -124,7 +124,7 @@ public final class BigIntegerMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
    *         is not a power of ten
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   @SuppressWarnings("fallthrough")
   public static int log10(BigInteger x, RoundingMode mode) {
     checkPositive("x", x);
@@ -202,7 +202,7 @@ public final class BigIntegerMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and
    *         {@code sqrt(x)} is not an integer
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   @SuppressWarnings("fallthrough")
   public static BigInteger sqrt(BigInteger x, RoundingMode mode) {
     checkNonNegative("x", x);
@@ -238,7 +238,7 @@ public final class BigIntegerMath {
     }
   }
 
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   private static BigInteger sqrtFloor(BigInteger x) {
     /*
      * Adapted from Hacker's Delight, Figure 11-1.
@@ -282,7 +282,7 @@ public final class BigIntegerMath {
     return sqrt0;
   }
 
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   private static BigInteger sqrtApproxWithDoubles(BigInteger x) {
     return DoubleMath.roundToBigInteger(Math.sqrt(DoubleUtils.bigToDouble(x)), HALF_EVEN);
   }
@@ -294,7 +294,7 @@ public final class BigIntegerMath {
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
    *         is not an integer multiple of {@code b}
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   public static BigInteger divide(BigInteger p, BigInteger q, RoundingMode mode) {
     BigDecimal pDec = new BigDecimal(p);
     BigDecimal qDec = new BigDecimal(q);
@@ -445,7 +445,7 @@ public final class BigIntegerMath {
   }
 
   // Returns true if BigInteger.valueOf(x.longValue()).equals(x).
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   static boolean fitsInLong(BigInteger x) {
     return x.bitLength() <= Long.SIZE - 1;
   }

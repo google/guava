@@ -193,7 +193,7 @@ public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6260652">Sun bug
    * 6260652</a> is fixed.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getToArrayIsPlainObjectArrayMethod() {
     return Helpers.getMethod(CollectionToArrayTester.class, "testToArray_isPlainObjectArray");
   }

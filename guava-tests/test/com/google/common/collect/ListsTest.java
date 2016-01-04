@@ -107,7 +107,7 @@ public class ListsTest extends TestCase {
     private static final long serialVersionUID = 0;
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ListsTest.class);
@@ -352,20 +352,20 @@ public class ListsTest extends TestCase {
     assertEquals(SOME_COLLECTION, list);
   }
 
-  @GwtIncompatible("CopyOnWriteArrayList")
+  @GwtIncompatible // CopyOnWriteArrayList
   public void testNewCOWALEmpty() {
     CopyOnWriteArrayList<Integer> list = Lists.newCopyOnWriteArrayList();
     assertEquals(Collections.emptyList(), list);
   }
 
-  @GwtIncompatible("CopyOnWriteArrayList")
+  @GwtIncompatible // CopyOnWriteArrayList
   public void testNewCOWALFromIterable() {
     CopyOnWriteArrayList<Integer> list = Lists.newCopyOnWriteArrayList(
         SOME_ITERABLE);
     assertEquals(SOME_COLLECTION, list);
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Lists.class);
@@ -401,7 +401,7 @@ public class ListsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testAsList1() {
     List<String> list = Lists.asList("foo", new String[] { "bar", "baz" });
     checkFooBarBazList(list);
@@ -457,7 +457,7 @@ public class ListsTest extends TestCase {
     }.test();
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testAsList2Small() {
     List<String> list = Lists.asList("foo", "bar", new String[0]);
     assertThat(list).containsExactly("foo", "bar").inOrder();
@@ -759,7 +759,7 @@ public class ListsTest extends TestCase {
    * listIterator(int)}. This is fine because the behavior is clearly
    * documented so it's not expected to change.
    */
-  @GwtIncompatible("EsayMock")
+  @GwtIncompatible // EsayMock
   public void testTransformedSequentialIterationUsesBackingListIterationOnly() {
     List<Integer> randomAccessList = Lists.newArrayList(SOME_SEQUENTIAL_LIST);
     ListIterator<Integer> sampleListIterator =
@@ -840,7 +840,7 @@ public class ListsTest extends TestCase {
     assertEquals(asList(3), partitions.get(1));
   }
 
-  @GwtIncompatible("ArrayList.subList doesn't implement RandomAccess in GWT.")
+  @GwtIncompatible // ArrayList.subList doesn't implement RandomAccess in GWT.
   public void testPartitionRandomAccessTrue() {
     List<Integer> source = asList(1, 2, 3);
     List<List<Integer>> partitions = Lists.partition(source, 2);
@@ -898,7 +898,7 @@ public class ListsTest extends TestCase {
     assertEquals(1, Lists.partition(list, Integer.MAX_VALUE - 1).size());
   }
 
-  @GwtIncompatible("cannot do such a big explicit copy")
+  @GwtIncompatible // cannot do such a big explicit copy
   public void testPartitionSize_2() {
     assertEquals(2, Lists.partition(Collections.nCopies(0x40000001, 1), 0x40000000).size());
   }

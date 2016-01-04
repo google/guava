@@ -38,7 +38,7 @@ import java.util.Map.Entry;
 @GwtCompatible(emulated = true)
 public class HashMultimapTest extends TestCase {
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(SetMultimapTestSuiteBuilder.using(new TestStringSetMultimapGenerator() {

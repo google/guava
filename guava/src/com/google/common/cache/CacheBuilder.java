@@ -253,7 +253,7 @@ public final class CacheBuilder<K, V> {
    *
    * @since 12.0
    */
-  @GwtIncompatible("To be supported")
+  @GwtIncompatible // To be supported
   public static CacheBuilder<Object, Object> from(CacheBuilderSpec spec) {
     return spec.toCacheBuilder()
         .lenientParsing();
@@ -266,7 +266,7 @@ public final class CacheBuilder<K, V> {
    * @param spec a String in the format specified by {@link CacheBuilderSpec}
    * @since 12.0
    */
-  @GwtIncompatible("To be supported")
+  @GwtIncompatible // To be supported
   public static CacheBuilder<Object, Object> from(String spec) {
     return from(CacheBuilderSpec.parse(spec));
   }
@@ -274,7 +274,7 @@ public final class CacheBuilder<K, V> {
   /**
    * Enables lenient parsing. Useful for tests and spec parsing.
    */
-  @GwtIncompatible("To be supported")
+  @GwtIncompatible // To be supported
   CacheBuilder<K, V> lenientParsing() {
     strictParsing = false;
     return this;
@@ -286,7 +286,7 @@ public final class CacheBuilder<K, V> {
    * <p>By default, the cache uses {@link Equivalence#identity} to determine key equality when
    * {@link #weakKeys} is specified, and {@link Equivalence#equals()} otherwise.
    */
-  @GwtIncompatible("To be supported")
+  @GwtIncompatible // To be supported
   CacheBuilder<K, V> keyEquivalence(Equivalence<Object> equivalence) {
     checkState(keyEquivalence == null, "key equivalence was already set to %s", keyEquivalence);
     keyEquivalence = checkNotNull(equivalence);
@@ -304,7 +304,7 @@ public final class CacheBuilder<K, V> {
    * {@link #weakValues} or {@link #softValues} is specified, and {@link Equivalence#equals()}
    * otherwise.
    */
-  @GwtIncompatible("To be supported")
+  @GwtIncompatible // To be supported
   CacheBuilder<K, V> valueEquivalence(Equivalence<Object> equivalence) {
     checkState(valueEquivalence == null,
         "value equivalence was already set to %s", valueEquivalence);
@@ -430,7 +430,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if a maximum weight or size was already set
    * @since 11.0
    */
-  @GwtIncompatible("To be supported")
+  @GwtIncompatible // To be supported
   public CacheBuilder<K, V> maximumWeight(long weight) {
     checkState(this.maximumWeight == UNSET_INT, "maximum weight was already set to %s",
         this.maximumWeight);
@@ -469,7 +469,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if a maximum size was already set
    * @since 11.0
    */
-  @GwtIncompatible("To be supported")
+  @GwtIncompatible // To be supported
   public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> weigher(
       Weigher<? super K1, ? super V1> weigher) {
     checkState(this.weigher == null);
@@ -511,7 +511,7 @@ public final class CacheBuilder<K, V> {
    *
    * @throws IllegalStateException if the key strength was already set
    */
-  @GwtIncompatible("java.lang.ref.WeakReference")
+  @GwtIncompatible // java.lang.ref.WeakReference
   public CacheBuilder<K, V> weakKeys() {
     return setKeyStrength(Strength.WEAK);
   }
@@ -542,7 +542,7 @@ public final class CacheBuilder<K, V> {
    *
    * @throws IllegalStateException if the value strength was already set
    */
-  @GwtIncompatible("java.lang.ref.WeakReference")
+  @GwtIncompatible // java.lang.ref.WeakReference
   public CacheBuilder<K, V> weakValues() {
     return setValueStrength(Strength.WEAK);
   }
@@ -566,7 +566,7 @@ public final class CacheBuilder<K, V> {
    *
    * @throws IllegalStateException if the value strength was already set
    */
-  @GwtIncompatible("java.lang.ref.SoftReference")
+  @GwtIncompatible // java.lang.ref.SoftReference
   public CacheBuilder<K, V> softValues() {
     return setValueStrength(Strength.SOFT);
   }
@@ -672,7 +672,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if the refresh interval was already set
    * @since 11.0
    */
-  @GwtIncompatible("To be supported (synchronously).")
+  @GwtIncompatible // To be supported (synchronously).
   public CacheBuilder<K, V> refreshAfterWrite(long duration, TimeUnit unit) {
     checkNotNull(unit);
     checkState(refreshNanos == UNSET_INT, "refresh was already set to %s ns", refreshNanos);

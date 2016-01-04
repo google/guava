@@ -127,7 +127,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * @since 9.0 (source-compatible since 1.0)
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   @CheckReturnValue
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
       ListenableFuture<V> future, Function<? super Exception, X> mapper) {
@@ -157,7 +157,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * returns {@code true}. Calling {@code get()} or {@code checkedGet()} will immediately return the
    * provided value.
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   @CheckReturnValue
   public static <V, X extends Exception> CheckedFuture<V, X> immediateCheckedFuture(
       @Nullable V value) {
@@ -183,7 +183,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * @since 14.0
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   @CheckReturnValue
   public static <V> ListenableFuture<V> immediateCancelledFuture() {
     return new ImmediateCancelledFuture<V>();
@@ -197,7 +197,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * Exception} wrapped in an {@code ExecutionException}, and calling {@code checkedGet()} will
    * throw the provided exception itself.
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   @CheckReturnValue
   public static <V, X extends Exception> CheckedFuture<V, X> immediateFailedCheckedFuture(
       X exception) {
@@ -366,7 +366,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     the expected exception type
    * @since 19.0
    */
-  @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
+  @GwtIncompatible // AVAILABLE but requires exceptionType to be Throwable.class
   @CheckReturnValue
   public static <V, X extends Throwable> ListenableFuture<V> catching(
       ListenableFuture<? extends V> input,
@@ -412,7 +412,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @param executor the executor that runs {@code fallback} if {@code input} fails
    * @since 19.0
    */
-  @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
+  @GwtIncompatible // AVAILABLE but requires exceptionType to be Throwable.class
   @CheckReturnValue
   public static <V, X extends Throwable> ListenableFuture<V> catching(
       ListenableFuture<? extends V> input,
@@ -478,7 +478,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     with the expected exception type
    * @since 19.0 (similar functionality in 14.0 as {@code withFallback})
    */
-  @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
+  @GwtIncompatible // AVAILABLE but requires exceptionType to be Throwable.class
   // TODO(kak): @CheckReturnValue
   public static <V, X extends Throwable> ListenableFuture<V> catchingAsync(
       ListenableFuture<? extends V> input,
@@ -544,7 +544,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @param executor the executor that runs {@code fallback} if {@code input} fails
    * @since 19.0 (similar functionality in 14.0 as {@code withFallback})
    */
-  @GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
+  @GwtIncompatible // AVAILABLE but requires exceptionType to be Throwable.class
   // TODO(kak): @CheckReturnValue
   public static <V, X extends Throwable> ListenableFuture<V> catchingAsync(
       ListenableFuture<? extends V> input,
@@ -581,7 +581,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * @since 19.0
    */
-  @GwtIncompatible("java.util.concurrent.ScheduledExecutorService")
+  @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
   @CheckReturnValue
   public static <V> ListenableFuture<V> withTimeout(
       ListenableFuture<V> delegate,
@@ -876,7 +876,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @return A future that returns the result of the transformation.
    * @since 10.0
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   @CheckReturnValue
   public static <I, O> Future<O> lazyTransform(
       final Future<I> input, final Function<? super I, ? extends O> function) {
@@ -1146,7 +1146,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * @since 15.0
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   @CheckReturnValue
   public static <V> ListenableFuture<V> nonCancellationPropagating(ListenableFuture<V> future) {
     return new NonCancellationPropagatingFuture<V>(future);
@@ -1155,7 +1155,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   /**
    * A wrapped future that does not propagate cancellation to its delegate.
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   private static final class NonCancellationPropagatingFuture<V>
       extends AbstractFuture.TrustedFuture<V> {
     NonCancellationPropagatingFuture(final ListenableFuture<V> delegate) {
@@ -1227,7 +1227,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 17.0
    */
   @Beta
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   @CheckReturnValue
   public static <T> ImmutableList<ListenableFuture<T>> inCompletionOrder(
       Iterable<? extends ListenableFuture<? extends T>> futures) {
@@ -1405,7 +1405,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     release 20.0.
    */
   @Deprecated
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static <V, X extends Exception> V get(Future<V> future, Class<X> exceptionClass) throws X {
     return getChecked(future, exceptionClass);
   }
@@ -1455,7 +1455,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     parameter order. This method will be removed in Guava release 20.0.
    */
   @Deprecated
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static <V, X extends Exception> V get(
       Future<V> future, long timeout, TimeUnit unit, Class<X> exceptionClass) throws X {
     return getChecked(future, exceptionClass, timeout, unit);
@@ -1502,7 +1502,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     does not have a suitable constructor
    * @since 19.0 (in 10.0 as {@code get})
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static <V, X extends Exception> V getChecked(Future<V> future, Class<X> exceptionClass)
       throws X {
     return FuturesGetChecked.getChecked(future, exceptionClass);
@@ -1550,7 +1550,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     does not have a suitable constructor
    * @since 19.0 (in 10.0 as {@code get} and with different parameter order)
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static <V, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, long timeout, TimeUnit unit) throws X {
     return FuturesGetChecked.getChecked(future, exceptionClass, timeout, unit);
@@ -1589,7 +1589,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @throws CancellationException if {@code get} throws a {@code CancellationException}
    * @since 10.0
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   public static <V> V getUnchecked(Future<V> future) {
     checkNotNull(future);
     try {
@@ -1600,7 +1600,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     }
   }
 
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   private static void wrapAndThrowUnchecked(Throwable cause) {
     if (cause instanceof Error) {
       throw new ExecutionError((Error) cause);
@@ -1627,7 +1627,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   /**
    * A checked future that uses a function to map from exceptions to the appropriate checked type.
    */
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   private static class MappingCheckedFuture<V, X extends Exception>
       extends AbstractCheckedFuture<V, X> {
 

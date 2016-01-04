@@ -352,7 +352,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    *
    * @param valueClass class of values stored in the returned array
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public V[][] toArray(Class<V> valueClass) {
     // Can change to use varargs in JDK 1.6 if we want
     @SuppressWarnings("unchecked") // TODO: safe?

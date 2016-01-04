@@ -146,7 +146,7 @@ public class TreeTraverserTest extends TestCase {
     assertThat(binaryIterationOrder(BIN_ADAPTER.inOrderTraversal(bd))).isEqualTo("abcdegf");
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(ADAPTER);

@@ -170,7 +170,7 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun
    * bug 5045147</a> is fixed.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddAllNullUnsupportedMethod() {
     return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_nullUnsupported");
   }
@@ -182,7 +182,7 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
    * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap}
    * support for {@code entrySet().add()}</a>.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddAllUnsupportedNonePresentMethod() {
     return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_unsupportedNonePresent");
   }
@@ -194,7 +194,7 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
    * what to do with <a href="http://goo.gl/qJBruX">{@code ConcurrentHashMap}
    * support for {@code entrySet().add()}</a>.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getAddAllUnsupportedSomePresentMethod() {
     return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_unsupportedSomePresent");
   }

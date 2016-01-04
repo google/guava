@@ -96,7 +96,7 @@ public class MultisetIteratorTester<E> extends AbstractMultisetTester<E> {
    * Returns {@link Method} instances for the tests that assume multisets support duplicates so that
    * the test of {@code Multisets.forSet()} can suppress them.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static List<Method> getIteratorDuplicateInitializingMethods() {
     return Arrays.asList(
         Helpers.getMethod(MultisetIteratorTester.class, "testIteratorKnownOrder"),

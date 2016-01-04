@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
  * @since 15.0
  */
 @Beta
-@GwtIncompatible("java.lang.System#getProperty")
+@GwtIncompatible // java.lang.System#getProperty
 @CheckReturnValue
 public enum StandardSystemProperty {
 

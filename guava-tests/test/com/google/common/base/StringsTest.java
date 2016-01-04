@@ -220,7 +220,7 @@ public class StringsTest extends TestCase {
     assertFalse(Strings.validSurrogatePairAt("\uD8ABx", 0));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Strings.class);

@@ -90,7 +90,7 @@ public class BaseEncodingTest extends TestCase {
     testEncodingWithSeparators(base64(), "foobar", "Zm9vYmFy");
   }
 
-  @GwtIncompatible("Reader/Writer")
+  @GwtIncompatible // Reader/Writer
   public void testBase64Streaming() throws IOException {
     // The following test vectors are specified in RFC 4648 itself
     testStreamingEncodingWithSeparators(base64(), "", "");
@@ -153,7 +153,7 @@ public class BaseEncodingTest extends TestCase {
     testEncodingWithSeparators(enc, "foobar", "Zm9vYmFy");
   }
 
-  @GwtIncompatible("Reader/Writer")
+  @GwtIncompatible // Reader/Writer
   public void testBase64StreamingAlternatePadding() throws IOException {
     BaseEncoding enc = base64().withPadChar('~');
     testStreamingEncodingWithSeparators(enc, "", "");
@@ -176,7 +176,7 @@ public class BaseEncodingTest extends TestCase {
     testEncodingWithSeparators(enc, "foobar", "Zm9vYmFy");
   }
 
-  @GwtIncompatible("Reader/Writer")
+  @GwtIncompatible // Reader/Writer
   public void testBase64StreamingOmitPadding() throws IOException {
     BaseEncoding enc = base64().omitPadding();
     testStreamingEncodingWithSeparators(enc, "", "");
@@ -207,7 +207,7 @@ public class BaseEncodingTest extends TestCase {
     testEncodingWithCasing(base32(), "foobar", "MZXW6YTBOI======");
   }
 
-  @GwtIncompatible("Reader/Writer")
+  @GwtIncompatible // Reader/Writer
   public void testBase32Streaming() throws IOException {
     // The following test vectors are specified in RFC 4648 itself
     testStreamingEncodingWithCasing(base32(), "", "");
@@ -278,7 +278,7 @@ public class BaseEncodingTest extends TestCase {
     testEncodingWithCasing(base32Hex(), "foobar", "CPNMUOJ1E8======");
   }
 
-  @GwtIncompatible("Reader/Writer")
+  @GwtIncompatible // Reader/Writer
   public void testBase32HexStreaming() throws IOException {
     // The following test vectors are specified in RFC 4648 itself
     testStreamingEncodingWithCasing(base32Hex(), "", "");
@@ -412,7 +412,7 @@ public class BaseEncodingTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Reader/Writer")
+  @GwtIncompatible // Reader/Writer
   private static void testStreamingEncodingWithCasing(
       BaseEncoding encoding, String decoded, String encoded) throws IOException {
     testStreamingEncodingWithSeparators(encoding, decoded, encoded);
@@ -420,7 +420,7 @@ public class BaseEncodingTest extends TestCase {
     testStreamingEncodingWithSeparators(encoding.lowerCase(), decoded, Ascii.toLowerCase(encoded));
   }
 
-  @GwtIncompatible("Reader/Writer")
+  @GwtIncompatible // Reader/Writer
   private static void testStreamingEncodingWithSeparators(
       BaseEncoding encoding, String decoded, String encoded) throws IOException {
     testStreamingEncoding(encoding, decoded, encoded);
@@ -434,14 +434,14 @@ public class BaseEncodingTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Reader/Writer")
+  @GwtIncompatible // Reader/Writer
   private static void testStreamingEncoding(BaseEncoding encoding, String decoded, String encoded)
       throws IOException {
     testStreamingEncodes(encoding, decoded, encoded);
     testStreamingDecodes(encoding, encoded, decoded);
   }
 
-  @GwtIncompatible("Writer")
+  @GwtIncompatible // Writer
   private static void testStreamingEncodes(BaseEncoding encoding, String decoded, String encoded)
       throws IOException {
     StringWriter writer = new StringWriter();
@@ -451,7 +451,7 @@ public class BaseEncodingTest extends TestCase {
     assertEquals(encoded, writer.toString());
   }
 
-  @GwtIncompatible("Reader")
+  @GwtIncompatible // Reader
   private static void testStreamingDecodes(BaseEncoding encoding, String encoded, String decoded)
       throws IOException {
     byte[] bytes = getBytes(decoded);

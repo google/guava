@@ -113,7 +113,7 @@ public class SuppliersTest extends TestCase {
     assertSame(memoizedSupplier, Suppliers.memoize(memoizedSupplier));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testMemoizeSerialized() {
     CountingSupplier countingSupplier = new CountingSupplier();
     Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
@@ -167,7 +167,7 @@ public class SuppliersTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Thread.sleep")
+  @GwtIncompatible // Thread.sleep
   public void testMemoizeWithExpiration() throws InterruptedException {
     CountingSupplier countingSupplier = new CountingSupplier();
 
@@ -177,9 +177,8 @@ public class SuppliersTest extends TestCase {
     checkExpiration(countingSupplier, memoizedSupplier);
   }
 
-  @GwtIncompatible("Thread.sleep, SerializationTester")
-  public void testMemoizeWithExpirationSerialized()
-      throws InterruptedException {
+  @GwtIncompatible // Thread.sleep, SerializationTester
+  public void testMemoizeWithExpirationSerialized() throws InterruptedException {
     CountingSupplier countingSupplier = new CountingSupplier();
 
     Supplier<Integer> memoizedSupplier = Suppliers.memoizeWithExpiration(
@@ -195,7 +194,7 @@ public class SuppliersTest extends TestCase {
     checkExpiration(countingCopy, copy);
   }
 
-  @GwtIncompatible("Thread.sleep")
+  @GwtIncompatible // Thread.sleep
   private void checkExpiration(
       CountingSupplier countingSupplier, Supplier<Integer> memoizedSupplier)
       throws InterruptedException {
@@ -233,7 +232,7 @@ public class SuppliersTest extends TestCase {
     assertNull(nullSupplier.get());
   }
 
-  @GwtIncompatible("Thread")
+  @GwtIncompatible // Thread
 
   public void testExpiringMemoizedSupplierThreadSafe() throws Throwable {
     Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
@@ -246,7 +245,7 @@ public class SuppliersTest extends TestCase {
     testSupplierThreadSafe(memoizer);
   }
 
-  @GwtIncompatible("Thread")
+  @GwtIncompatible // Thread
 
   public void testMemoizedSupplierThreadSafe() throws Throwable {
     Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
@@ -258,9 +257,8 @@ public class SuppliersTest extends TestCase {
     testSupplierThreadSafe(memoizer);
   }
 
-  @GwtIncompatible("Thread")
-  public void testSupplierThreadSafe(
-      Function<Supplier<Boolean>, Supplier<Boolean>> memoizer)
+  @GwtIncompatible // Thread
+  public void testSupplierThreadSafe(Function<Supplier<Boolean>, Supplier<Boolean>> memoizer)
       throws Throwable {
     final AtomicInteger count = new AtomicInteger(0);
     final AtomicReference<Throwable> thrown =
@@ -332,10 +330,9 @@ public class SuppliersTest extends TestCase {
     assertEquals(1, count.get());
   }
 
-  @GwtIncompatible("Thread")
+  @GwtIncompatible // Thread
 
-  public void testSynchronizedSupplierThreadSafe()
-      throws InterruptedException {
+  public void testSynchronizedSupplierThreadSafe() throws InterruptedException {
     final Supplier<Integer> nonThreadSafe = new Supplier<Integer>() {
       int counter = 0;
       @Override
@@ -377,7 +374,7 @@ public class SuppliersTest extends TestCase {
     assertEquals(14, (int) supplierFunction.apply(supplier));
   }
 
-  @GwtIncompatible("SerializationTester")
+  @GwtIncompatible // SerializationTester
   public void testSerialization() {
     assertEquals(
         Integer.valueOf(5), reserialize(Suppliers.ofInstance(5)).get());
@@ -392,13 +389,13 @@ public class SuppliersTest extends TestCase {
         Suppliers.synchronizedSupplier(Suppliers.ofInstance(5))).get());
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testSuppliersNullChecks() throws Exception {
     new ClassSanityTester().forAllPublicStaticMethods(Suppliers.class)
         .testNulls();
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException: com.google.common.base.Function
   public void testSuppliersSerializable() throws Exception {
     new ClassSanityTester().forAllPublicStaticMethods(Suppliers.class)

@@ -278,7 +278,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
     throw new UnsupportedOperationException();
   }
 
-  @GwtIncompatible("not present in emulated superclass")
+  @GwtIncompatible // not present in emulated superclass
   @Override
   int copyIntoArray(Object[] dst, int offset) {
     for (Multiset.Entry<E> entry : entrySet()) {

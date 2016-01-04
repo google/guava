@@ -204,7 +204,7 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
    * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun
    * bug 5045147</a> is fixed.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getPutAllNullKeyUnsupportedMethod() {
     return Helpers.getMethod(MapPutAllTester.class, "testPutAll_nullKeyUnsupported");
   }

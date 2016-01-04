@@ -67,7 +67,7 @@ public class SetHashCodeTester<E> extends AbstractSetTester<E> {
    * unhashable objects can suppress it with
    * {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method[] getHashCodeMethods() {
     return new Method[]{
         Helpers.getMethod(SetHashCodeTester.class, "testHashCode"),

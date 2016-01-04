@@ -44,7 +44,7 @@ public class CallablesTest extends TestCase {
     assertSame(value, callable.call());
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
   public void testRenaming() throws Exception {
     String oldName = Thread.currentThread().getName();
     final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
@@ -58,7 +58,7 @@ public class CallablesTest extends TestCase {
     assertEquals(oldName, Thread.currentThread().getName());
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
   public void testRenaming_exceptionalReturn() throws Exception {
     String oldName = Thread.currentThread().getName();
     final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
@@ -76,7 +76,7 @@ public class CallablesTest extends TestCase {
     assertEquals(oldName, Thread.currentThread().getName());
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
 
   public void testRenaming_noPermissions() throws Exception {
     System.setSecurityManager(new SecurityManager() {

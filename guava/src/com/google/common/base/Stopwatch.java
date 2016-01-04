@@ -204,7 +204,7 @@ public final class Stopwatch {
   /**
    * Returns a string representation of the current elapsed time.
    */
-  @GwtIncompatible("String.format()")
+  @GwtIncompatible // String.format()
   @Override
   public String toString() {
     long nanos = elapsedNanos();

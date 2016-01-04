@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 @GwtCompatible(emulated = true)
 public class FakeTickerTest extends TestCase {
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(new FakeTicker());
@@ -100,7 +100,7 @@ public class FakeTickerTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("concurrency")
+  @GwtIncompatible // concurrency
 
   public void testConcurrentAdvance() throws Exception {
     final FakeTicker ticker = new FakeTicker();
@@ -121,7 +121,7 @@ public class FakeTickerTest extends TestCase {
     assertEquals(numberOfThreads * 2, ticker.read());
   }
 
-  @GwtIncompatible("concurrency")
+  @GwtIncompatible // concurrency
 
   public void testConcurrentAutoIncrementStep() throws Exception {
     int incrementByNanos = 3;
@@ -144,7 +144,7 @@ public class FakeTickerTest extends TestCase {
   /**
    * Runs {@code callable} concurrently {@code numberOfThreads} times.
    */
-  @GwtIncompatible("concurrency")
+  @GwtIncompatible // concurrency
   private void runConcurrentTest(int numberOfThreads, final Callable<Void> callable)
       throws Exception {
     ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);

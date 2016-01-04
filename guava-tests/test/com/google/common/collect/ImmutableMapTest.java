@@ -67,7 +67,7 @@ import java.util.Map.Entry;
 @GwtCompatible(emulated = true)
 public class ImmutableMapTest extends TestCase {
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableMapTest.class);
@@ -212,9 +212,8 @@ public class ImmutableMapTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("SerializableTester")
-  public static class ReserializedMapTests
-      extends AbstractMapTests<String, Integer> {
+  @GwtIncompatible // SerializableTester
+  public static class ReserializedMapTests extends AbstractMapTests<String, Integer> {
     @Override protected Map<String, Integer> makePopulatedMap() {
       return SerializableTester.reserialize(
           ImmutableMap.of("one", 1, "two", 2, "three", 3));
@@ -254,7 +253,7 @@ public class ImmutableMapTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("GWT's ImmutableMap emulation is backed by java.util.HashMap.")
+  @GwtIncompatible // GWT's ImmutableMap emulation is backed by java.util.HashMap.
   public static class MapTestsWithUnhashableValues
       extends AbstractMapTests<Integer, UnhashableObject> {
     @Override protected Map<Integer, UnhashableObject> makeEmptyMap() {
@@ -276,9 +275,8 @@ public class ImmutableMapTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("GWT's ImmutableMap emulation is backed by java.util.HashMap.")
-  public static class MapTestsWithSingletonUnhashableValue
-      extends MapTestsWithUnhashableValues {
+  @GwtIncompatible // GWT's ImmutableMap emulation is backed by java.util.HashMap.
+  public static class MapTestsWithSingletonUnhashableValue extends MapTestsWithUnhashableValues {
     @Override protected Map<Integer, UnhashableObject> makePopulatedMap() {
       Unhashables unhashables = new Unhashables();
       return ImmutableMap.of(0, unhashables.e0());
@@ -633,7 +631,7 @@ public class ImmutableMapTest extends TestCase {
     assertSame(multimap1, multimap2);
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableMap.class);
@@ -692,7 +690,7 @@ public class ImmutableMapTest extends TestCase {
     assertTrue(ImmutableMap.copyOf(map) instanceof ImmutableEnumMap);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testViewSerialization() {
     Map<String, Integer> map = ImmutableMap.of("one", 1, "two", 2, "three", 3);
     LenientSerializableTester.reserializeAndAssertLenient(map.entrySet());

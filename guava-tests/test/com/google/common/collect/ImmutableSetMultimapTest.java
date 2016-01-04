@@ -67,7 +67,7 @@ public class ImmutableSetMultimapTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableSetMultimapTest.class);
@@ -525,7 +525,7 @@ public class ImmutableSetMultimapTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization() {
     Multimap<String, Integer> multimap = createMultimap();
     SerializableTester.reserializeAndAssert(multimap);
@@ -541,13 +541,13 @@ public class ImmutableSetMultimapTest extends TestCase {
         HashMultiset.create(valuesCopy));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testEmptySerialization() {
     Multimap<String, Integer> multimap = ImmutableSetMultimap.of();
     assertSame(multimap, SerializableTester.reserialize(multimap));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSortedSerialization() {
     Multimap<String, Integer> multimap = new ImmutableSetMultimap.Builder<String, Integer>()
         .orderKeysBy(Ordering.natural().reverse())

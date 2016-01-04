@@ -689,13 +689,13 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   /**
    * @serialData the number of entries, first key, first value, second key, second value, and so on.
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
+  @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMap(this, stream);
   }
 
-  @GwtIncompatible("java.io.ObjectInputStream")
+  @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     init(16);
@@ -703,6 +703,6 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     Serialization.populateMap(this, stream, size);
   }
 
-  @GwtIncompatible("Not needed in emulated source")
+  @GwtIncompatible // Not needed in emulated source
   private static final long serialVersionUID = 0;
 }

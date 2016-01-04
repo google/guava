@@ -136,7 +136,7 @@ public class AsciiTest extends TestCase {
     assertFalse(Ascii.equalsIgnoreCase("[", "{"));
   }
 
-  @GwtIncompatible("String.toUpperCase() has browser semantics")
+  @GwtIncompatible // String.toUpperCase() has browser semantics
   public void testEqualsIgnoreCaseUnicodeEquivalence() {
     // Note that it's possible in future that the JDK's idea to toUpperCase() or equalsIgnoreCase()
     // may change and break assumptions in this test [*]. This is not a bug in the implementation of

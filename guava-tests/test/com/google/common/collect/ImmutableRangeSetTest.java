@@ -36,7 +36,7 @@ import java.util.Set;
  *
  * @author Louis Wasserman
  */
-@GwtIncompatible("ImmutableRangeSet")
+@GwtIncompatible // ImmutableRangeSet
 public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   
   static final class ImmutableRangeSetIntegerAsSetGenerator implements TestSetGenerator<Integer> {

@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
  * @since 14.0
  */
 @Beta
-@GwtIncompatible("NavigableMap")
+@GwtIncompatible // NavigableMap
 public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K, V>, Serializable {
 
   private static final ImmutableRangeMap<Comparable<?>, Object> EMPTY =

@@ -91,7 +91,7 @@ final class SortedMultisets {
   /**
    * A skeleton navigable implementation for {@link SortedMultiset#elementSet}.
    */
-  @GwtIncompatible("Navigable")
+  @GwtIncompatible // Navigable
   static class NavigableElementSet<E> extends ElementSet<E> implements NavigableSet<E> {
     NavigableElementSet(SortedMultiset<E> multiset) {
       super(multiset);

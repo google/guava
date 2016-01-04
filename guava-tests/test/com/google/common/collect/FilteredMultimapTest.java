@@ -30,7 +30,7 @@ import java.util.Map.Entry;
  *
  * @author Jared Levy
  */
-@GwtIncompatible("nottested")
+@GwtIncompatible // nottested
 public class FilteredMultimapTest extends TestCase {
 
   private static final Predicate<Map.Entry<String, Integer>> ENTRY_PREDICATE

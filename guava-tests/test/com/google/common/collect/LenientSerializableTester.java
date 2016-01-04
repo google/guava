@@ -43,7 +43,7 @@ final class LenientSerializableTester {
    * that it can be GWTified?
    */
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   static <E> Set<E> reserializeAndAssertLenient(Set<E> original) {
     Set<E> copy = reserialize(original);
     assertEquals(original, copy);
@@ -51,7 +51,7 @@ final class LenientSerializableTester {
     return copy;
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   static <E> Multiset<E> reserializeAndAssertLenient(Multiset<E> original) {
     Multiset<E> copy = reserialize(original);
     assertEquals(original, copy);

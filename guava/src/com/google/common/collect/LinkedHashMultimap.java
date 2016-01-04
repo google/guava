@@ -543,7 +543,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
    * @serialData the expected values per key, the number of distinct keys,
    * the number of entries, and the entries in order
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
+  @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeInt(keySet().size());
@@ -557,7 +557,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     }
   }
 
-  @GwtIncompatible("java.io.ObjectInputStream")
+  @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     multimapHeaderEntry = new ValueEntry<K, V>(null, null, 0, null);
@@ -581,6 +581,6 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     setMap(map);
   }
 
-  @GwtIncompatible("java serialization not supported")
+  @GwtIncompatible // java serialization not supported
   private static final long serialVersionUID = 1;
 }

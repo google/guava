@@ -252,7 +252,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     assertEquals("[a, b, c, d, e, f, g]", set.toString());
   }
 
-  @GwtIncompatible("slow (~40s)")
+  @GwtIncompatible // slow (~40s)
   public void testIterator_oneElement() {
     new IteratorTester<String>(5, UNMODIFIABLE, Collections.singleton("a"),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
@@ -262,7 +262,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     }.test();
   }
 
-  @GwtIncompatible("slow (~30s)")
+  @GwtIncompatible // slow (~30s)
   public void testIterator_general() {
     new IteratorTester<String>(5, UNMODIFIABLE, asList("a", "b", "c"),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
@@ -460,7 +460,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
    */
   // TODO(benyu): turn this into a test once all copyOf(Collection) are
   // thread-safe
-  @GwtIncompatible("GWT is single threaded")
+  @GwtIncompatible // GWT is single threaded
   void verifyThreadSafe() {
     List<String> sample = Lists.newArrayList("a", "b", "c");
     for (int delta : new int[] {-1, 0, 1}) {

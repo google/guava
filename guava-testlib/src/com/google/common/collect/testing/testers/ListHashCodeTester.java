@@ -45,7 +45,7 @@ public class ListHashCodeTester<E> extends AbstractListTester<E> {
    * list tests on unhashable objects can suppress it with
    * {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public static Method getHashCodeMethod() {
     return Helpers.getMethod(ListHashCodeTester.class, "testHashCode");
   }

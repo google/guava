@@ -30,7 +30,7 @@ import java.util.NavigableMap;
  * @author Louis Wasserman
  * @author Chris Povirk
  */
-@GwtIncompatible("TreeRangeSet")
+@GwtIncompatible // TreeRangeSet
 public class TreeRangeSetTest extends AbstractRangeSetTest {
   // TODO(cpovirk): test all of these with the ranges added in the reverse order
 
@@ -635,7 +635,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     assertFalse(rangeSet.contains(6));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization() {
     RangeSet<Integer> rangeSet = TreeRangeSet.create();
     rangeSet.add(Range.closed(3, 10));
