@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.RESTR
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.BoundType;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -54,8 +55,8 @@ import java.util.Set;
  *
  * @author Louis Wasserman
  */
-public class SortedMultisetTestSuiteBuilder<E> extends
-    MultisetTestSuiteBuilder<E> {
+@GwtIncompatible
+public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<E> {
   public static <E> SortedMultisetTestSuiteBuilder<E> using(
       TestMultisetGenerator<E> generator) {
     SortedMultisetTestSuiteBuilder<E> result =

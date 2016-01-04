@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Queues;
 
@@ -33,6 +34,7 @@ import javax.annotation.concurrent.GuardedBy;
  * <p>This class is very similar to {@link SerializingExecutor} with the exception that tasks can be
  * enqueued without necessarily executing immediately.
  */
+@GwtIncompatible
 final class ListenerCallQueue<L> implements Runnable {
   // TODO(cpovirk): consider using the logger associated with listener.getClass().
   private static final Logger logger = Logger.getLogger(ListenerCallQueue.class.getName());

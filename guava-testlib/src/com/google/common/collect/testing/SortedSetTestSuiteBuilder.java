@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.DerivedCollectionGenerators.Bound;
 import com.google.common.collect.testing.DerivedCollectionGenerators.SortedSetSubsetTestSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -32,6 +33,7 @@ import java.util.List;
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
  * a SortedSet implementation.
  */
+@GwtIncompatible
 public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
   public static <E> SortedSetTestSuiteBuilder<E> using(
       TestSortedSetGenerator<E> generator) {

@@ -22,6 +22,7 @@ import static com.google.common.io.ByteStreams.BUF_SIZE;
 import static com.google.common.io.ByteStreams.skipUpTo;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -59,6 +60,7 @@ import java.util.Iterator;
  * @since 14.0
  * @author Colin Decker
  */
+@GwtIncompatible
 public abstract class ByteSource {
 
   /**

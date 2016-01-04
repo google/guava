@@ -25,6 +25,7 @@ import static com.google.common.util.concurrent.Service.State.STOPPING;
 import static com.google.common.util.concurrent.Service.State.TERMINATED;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.ListenerCallQueue.Callback;
 import com.google.common.util.concurrent.Monitor.Guard;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
@@ -52,6 +53,7 @@ import javax.annotation.concurrent.Immutable;
  * @since 1.0
  */
 @Beta
+@GwtIncompatible
 public abstract class AbstractService implements Service {
   private static final Callback<Listener> STARTING_CALLBACK =
       new Callback<Listener>("starting()") {

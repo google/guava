@@ -18,6 +18,7 @@ package com.google.common.collect.testing;
 
 import static com.google.common.collect.testing.DerivedCollectionGenerators.keySetGenerator;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.DerivedCollectionGenerators.MapEntrySetGenerator;
 import com.google.common.collect.testing.DerivedCollectionGenerators.MapValueCollectionGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -55,10 +56,10 @@ import java.util.Set;
  *
  * @author George van den Driessche
  */
+@GwtIncompatible
 public class MapTestSuiteBuilder<K, V>
     extends PerCollectionSizeTestSuiteBuilder<
-        MapTestSuiteBuilder<K, V>,
-        TestMapGenerator<K, V>, Map<K, V>, Map.Entry<K, V>> {
+        MapTestSuiteBuilder<K, V>, TestMapGenerator<K, V>, Map<K, V>, Map.Entry<K, V>> {
   public static <K, V> MapTestSuiteBuilder<K, V> using(
       TestMapGenerator<K, V> generator) {
     return new MapTestSuiteBuilder<K, V>().usingGenerator(generator);

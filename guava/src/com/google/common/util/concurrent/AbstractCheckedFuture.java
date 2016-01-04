@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -29,6 +30,7 @@ import java.util.concurrent.TimeoutException;
  * @since 1.0
  */
 @Beta
+@GwtIncompatible
 public abstract class AbstractCheckedFuture<V, X extends Exception>
     extends ForwardingListenableFuture.SimpleForwardingListenableFuture<V>
     implements CheckedFuture<V, X> {

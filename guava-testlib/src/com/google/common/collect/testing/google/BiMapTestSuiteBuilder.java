@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.google;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.AbstractTester;
 import com.google.common.collect.testing.FeatureSpecificTestSuiteBuilder;
@@ -47,9 +48,10 @@ import java.util.Set;
  *
  * @author Louis Wasserman
  */
+@GwtIncompatible
 public class BiMapTestSuiteBuilder<K, V>
-    extends PerCollectionSizeTestSuiteBuilder<BiMapTestSuiteBuilder<K, V>,
-            TestBiMapGenerator<K, V>, BiMap<K, V>, Map.Entry<K, V>> {
+    extends PerCollectionSizeTestSuiteBuilder<
+        BiMapTestSuiteBuilder<K, V>, TestBiMapGenerator<K, V>, BiMap<K, V>, Map.Entry<K, V>> {
   public static <K, V> BiMapTestSuiteBuilder<K, V> using(TestBiMapGenerator<K, V> generator) {
     return new BiMapTestSuiteBuilder<K, V>().usingGenerator(generator);
   }

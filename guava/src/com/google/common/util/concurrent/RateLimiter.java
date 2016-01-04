@@ -23,6 +23,7 @@ import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.SmoothRateLimiter.SmoothBursty;
@@ -94,6 +95,7 @@ import javax.annotation.concurrent.ThreadSafe;
 //     would mean a maximum rate of "1MB/s", which might be small in some cases.
 @ThreadSafe
 @Beta
+@GwtIncompatible
 public abstract class RateLimiter {
   /**
    * Creates a {@code RateLimiter} with the specified stable throughput, given as

@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 
 import java.util.ArrayDeque;
@@ -38,6 +39,7 @@ import java.util.concurrent.TimeUnit;
  * @author Kurt Alfred Kluever
  * @since 11.0
  */
+@GwtIncompatible
 public final class Queues {
   private Queues() {}
 

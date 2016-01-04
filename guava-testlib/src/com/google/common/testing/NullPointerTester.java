@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.base.Objects;
 import com.google.common.collect.ClassToInstanceMap;
@@ -66,6 +67,7 @@ import javax.annotation.Nullable;
  * @since 10.0
  */
 @Beta
+@GwtIncompatible
 public final class NullPointerTester {
 
   private final ClassToInstanceMap<Object> defaults =

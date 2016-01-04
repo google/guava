@@ -42,6 +42,7 @@ import javax.annotation.Nullable;
  * @since 14.0
  */
 @Beta
+@GwtIncompatible
 public final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
     implements Serializable {
 

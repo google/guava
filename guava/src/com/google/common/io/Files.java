@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.io.FileWriteMode.APPEND;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
@@ -63,6 +64,7 @@ import java.util.List;
  * @since 1.0
  */
 @Beta
+@GwtIncompatible
 public final class Files {
 
   /** Maximum loop count when creating temp directories. */

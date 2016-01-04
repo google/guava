@@ -22,6 +22,7 @@ import static com.google.common.math.DoubleUtils.isFinite;
 import static java.lang.Double.NaN;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 
 /**
  * The representation of a linear transformation between real numbers {@code x} and {@code y}.
@@ -35,6 +36,7 @@ import com.google.common.annotations.Beta;
  * @since 20.0
  */
 @Beta
+@GwtIncompatible
 public abstract class LinearTransformation {
 
   /**

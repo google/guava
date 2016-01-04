@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Longs;
 
@@ -40,8 +41,8 @@ import java.io.OutputStream;
  * @since 8.0
  */
 @Beta
-public class LittleEndianDataOutputStream extends FilterOutputStream
-    implements DataOutput {
+@GwtIncompatible
+public class LittleEndianDataOutputStream extends FilterOutputStream implements DataOutput {
 
   /**
    * Creates a {@code LittleEndianDataOutputStream} that wraps the given stream.

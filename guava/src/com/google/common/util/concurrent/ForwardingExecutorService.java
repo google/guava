@@ -14,6 +14,7 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ForwardingObject;
 
 import java.util.Collection;
@@ -33,6 +34,7 @@ import java.util.concurrent.TimeoutException;
  * @author Kurt Alfred Kluever
  * @since 10.0
  */
+@GwtIncompatible
 public abstract class ForwardingExecutorService extends ForwardingObject
     implements ExecutorService {
   /** Constructor for use by subclasses. */

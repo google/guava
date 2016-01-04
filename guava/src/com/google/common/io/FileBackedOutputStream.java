@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.ByteArrayInputStream;
@@ -38,6 +39,7 @@ import java.io.OutputStream;
  * @since 1.0
  */
 @Beta
+@GwtIncompatible
 public final class FileBackedOutputStream extends OutputStream {
 
   private final int fileThreshold;

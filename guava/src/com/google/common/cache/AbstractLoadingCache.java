@@ -16,6 +16,7 @@
 
 package com.google.common.cache;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.UncheckedExecutionException;
@@ -39,8 +40,9 @@ import java.util.concurrent.ExecutionException;
  * @author Charles Fry
  * @since 11.0
  */
-public abstract class AbstractLoadingCache<K, V>
-    extends AbstractCache<K, V> implements LoadingCache<K, V> {
+@GwtIncompatible
+public abstract class AbstractLoadingCache<K, V> extends AbstractCache<K, V>
+    implements LoadingCache<K, V> {
 
   /** Constructor for use by subclasses. */
   protected AbstractLoadingCache() {}

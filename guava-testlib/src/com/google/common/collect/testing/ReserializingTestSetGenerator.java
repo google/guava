@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import java.util.Set;
 
 /**
@@ -25,8 +27,8 @@ import java.util.Set;
  *
  * @author Jesse Wilson
  */
-public class ReserializingTestSetGenerator<E>
-    extends ReserializingTestCollectionGenerator<E>
+@GwtIncompatible
+public class ReserializingTestSetGenerator<E> extends ReserializingTestCollectionGenerator<E>
     implements TestSetGenerator<E> {
 
   ReserializingTestSetGenerator(TestSetGenerator<E> delegate) {

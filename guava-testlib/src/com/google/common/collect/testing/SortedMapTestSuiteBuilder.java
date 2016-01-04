@@ -18,6 +18,7 @@ package com.google.common.collect.testing;
 
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.DerivedCollectionGenerators.Bound;
 import com.google.common.collect.testing.DerivedCollectionGenerators.SortedMapSubmapTestMapGenerator;
 import com.google.common.collect.testing.features.Feature;
@@ -36,6 +37,7 @@ import java.util.Set;
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
  * a SortedMap implementation.
  */
+@GwtIncompatible
 public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
   public static <K, V> SortedMapTestSuiteBuilder<K, V> using(
       TestSortedMapGenerator<K, V> generator) {

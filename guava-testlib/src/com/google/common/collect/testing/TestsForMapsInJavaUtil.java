@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
@@ -45,6 +46,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
  *
  * @author Kevin Bourrillion
  */
+@GwtIncompatible
 public class TestsForMapsInJavaUtil {
 
   public static Test suite() {

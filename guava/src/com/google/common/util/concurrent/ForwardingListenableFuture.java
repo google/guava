@@ -14,6 +14,7 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 
 import java.util.concurrent.Executor;
@@ -28,6 +29,7 @@ import java.util.concurrent.Executor;
  * @author Shardul Deo
  * @since 4.0
  */
+@GwtIncompatible
 public abstract class ForwardingListenableFuture<V> extends ForwardingFuture<V>
     implements ListenableFuture<V> {
 

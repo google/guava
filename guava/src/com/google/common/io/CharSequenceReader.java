@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;
@@ -31,6 +33,7 @@ import java.nio.CharBuffer;
  * @author Colin Decker
  */
 // TODO(cgdecker): make this public? as a type, or a method in CharStreams?
+@GwtIncompatible
 final class CharSequenceReader extends Reader {
 
   private CharSequence seq;

@@ -27,6 +27,7 @@ import static java.lang.Double.doubleToLongBits;
 import static java.lang.Double.isNaN;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
@@ -47,6 +48,7 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
+@GwtIncompatible
 public final class Stats implements Serializable {
 
   private final long count;

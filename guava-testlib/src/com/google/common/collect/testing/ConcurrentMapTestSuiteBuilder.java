@@ -14,6 +14,7 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.testers.ConcurrentMapPutIfAbsentTester;
 import com.google.common.collect.testing.testers.ConcurrentMapRemoveTester;
 import com.google.common.collect.testing.testers.ConcurrentMapReplaceEntryTester;
@@ -28,6 +29,7 @@ import java.util.List;
  *
  * @author Louis Wasserman
  */
+@GwtIncompatible
 public class ConcurrentMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
   public static <K, V> ConcurrentMapTestSuiteBuilder<K, V> using(
       TestMapGenerator<K, V> generator) {

@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 
@@ -27,6 +29,7 @@ import java.lang.ref.WeakReference;
  * @author Bob Lee
  * @since 2.0
  */
+@GwtIncompatible
 public abstract class FinalizableWeakReference<T> extends WeakReference<T>
     implements FinalizableReference {
   /**
