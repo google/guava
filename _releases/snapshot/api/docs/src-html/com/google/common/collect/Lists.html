@@ -276,7 +276,7 @@
 <span class="sourceLineNo">268</span>   * @return a new, empty {@code CopyOnWriteArrayList}<a name="line.268"></a>
 <span class="sourceLineNo">269</span>   * @since 12.0<a name="line.269"></a>
 <span class="sourceLineNo">270</span>   */<a name="line.270"></a>
-<span class="sourceLineNo">271</span>  @GwtIncompatible("CopyOnWriteArrayList")<a name="line.271"></a>
+<span class="sourceLineNo">271</span>  @GwtIncompatible // CopyOnWriteArrayList<a name="line.271"></a>
 <span class="sourceLineNo">272</span>  public static &lt;E&gt; CopyOnWriteArrayList&lt;E&gt; newCopyOnWriteArrayList() {<a name="line.272"></a>
 <span class="sourceLineNo">273</span>    return new CopyOnWriteArrayList&lt;E&gt;();<a name="line.273"></a>
 <span class="sourceLineNo">274</span>  }<a name="line.274"></a>
@@ -288,7 +288,7 @@
 <span class="sourceLineNo">280</span>   * @return a new {@code CopyOnWriteArrayList} containing those elements<a name="line.280"></a>
 <span class="sourceLineNo">281</span>   * @since 12.0<a name="line.281"></a>
 <span class="sourceLineNo">282</span>   */<a name="line.282"></a>
-<span class="sourceLineNo">283</span>  @GwtIncompatible("CopyOnWriteArrayList")<a name="line.283"></a>
+<span class="sourceLineNo">283</span>  @GwtIncompatible // CopyOnWriteArrayList<a name="line.283"></a>
 <span class="sourceLineNo">284</span>  public static &lt;E&gt; CopyOnWriteArrayList&lt;E&gt; newCopyOnWriteArrayList(<a name="line.284"></a>
 <span class="sourceLineNo">285</span>      Iterable&lt;? extends E&gt; elements) {<a name="line.285"></a>
 <span class="sourceLineNo">286</span>    // We copy elements to an ArrayList first, rather than incurring the<a name="line.286"></a>

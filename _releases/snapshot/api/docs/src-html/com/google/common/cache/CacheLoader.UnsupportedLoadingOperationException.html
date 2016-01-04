@@ -97,7 +97,7 @@
 <span class="sourceLineNo">089</span>   *     the thread's interrupt status is set<a name="line.89"></a>
 <span class="sourceLineNo">090</span>   * @since 11.0<a name="line.90"></a>
 <span class="sourceLineNo">091</span>   */<a name="line.91"></a>
-<span class="sourceLineNo">092</span>  @GwtIncompatible("Futures")<a name="line.92"></a>
+<span class="sourceLineNo">092</span>  @GwtIncompatible // Futures<a name="line.92"></a>
 <span class="sourceLineNo">093</span>  public ListenableFuture&lt;V&gt; reload(K key, V oldValue) throws Exception {<a name="line.93"></a>
 <span class="sourceLineNo">094</span>    checkNotNull(key);<a name="line.94"></a>
 <span class="sourceLineNo">095</span>    checkNotNull(oldValue);<a name="line.95"></a>
@@ -182,9 +182,9 @@
 <span class="sourceLineNo">174</span>   *<a name="line.174"></a>
 <span class="sourceLineNo">175</span>   * @since 17.0<a name="line.175"></a>
 <span class="sourceLineNo">176</span>   */<a name="line.176"></a>
-<span class="sourceLineNo">177</span>  @GwtIncompatible("Executor + Futures")<a name="line.177"></a>
-<span class="sourceLineNo">178</span>  public static &lt;K, V&gt; CacheLoader&lt;K, V&gt; asyncReloading(final CacheLoader&lt;K, V&gt; loader,<a name="line.178"></a>
-<span class="sourceLineNo">179</span>      final Executor executor) {<a name="line.179"></a>
+<span class="sourceLineNo">177</span>  @GwtIncompatible // Executor + Futures<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  public static &lt;K, V&gt; CacheLoader&lt;K, V&gt; asyncReloading(<a name="line.178"></a>
+<span class="sourceLineNo">179</span>      final CacheLoader&lt;K, V&gt; loader, final Executor executor) {<a name="line.179"></a>
 <span class="sourceLineNo">180</span>    checkNotNull(loader);<a name="line.180"></a>
 <span class="sourceLineNo">181</span>    checkNotNull(executor);<a name="line.181"></a>
 <span class="sourceLineNo">182</span>    return new CacheLoader&lt;K, V&gt;() {<a name="line.182"></a>

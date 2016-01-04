@@ -97,7 +97,8 @@
 <br>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/concurrent/ThreadSafe.html?is-external=true" title="class or interface in javax.annotation.concurrent">@ThreadSafe</a>
 <a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.97">RateLimiter</a>
+<a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.99">RateLimiter</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A rate limiter. Conceptually, a rate limiter distributes permits at a
  configurable rate. Each <a href="../../../../../com/google/common/util/concurrent/RateLimiter.html#acquire()"><code>acquire()</code></a> blocks if necessary until a permit is
@@ -284,7 +285,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.116">create</a>(double&nbsp;permitsPerSecond)</pre>
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.118">create</a>(double&nbsp;permitsPerSecond)</pre>
 <div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as
  "permits per second" (commonly referred to as <i>QPS</i>, queries per second).
 
@@ -305,7 +306,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.168">create</a>(double&nbsp;permitsPerSecond,
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.170">create</a>(double&nbsp;permitsPerSecond,
                  long&nbsp;warmupPeriod,
                  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as
@@ -336,7 +337,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>setRate</h4>
-<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.228">setRate</a>(double&nbsp;permitsPerSecond)</pre>
+<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.230">setRate</a>(double&nbsp;permitsPerSecond)</pre>
 <div class="block">Updates the stable rate of this <code>RateLimiter</code>, that is, the
  <code>permitsPerSecond</code> argument provided in the factory method that
  constructed the <code>RateLimiter</code>. Currently throttled threads will <b>not</b>
@@ -362,7 +363,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>getRate</h4>
-<pre>public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.245">getRate</a>()</pre>
+<pre>public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.247">getRate</a>()</pre>
 <div class="block">Returns the stable rate (as <code>permits per seconds</code>) with which this
  <code>RateLimiter</code> is configured with. The initial value of this is the same as
  the <code>permitsPerSecond</code> argument passed in the factory method that produced
@@ -376,7 +377,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>acquire</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.262">acquire</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.264">acquire</a>()</pre>
 <div class="block">Acquires a single permit from this <code>RateLimiter</code>, blocking until the
  request can be granted. Tells the amount of time slept, if any.
 
@@ -391,7 +392,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>acquire</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.275">acquire</a>(int&nbsp;permits)</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.277">acquire</a>(int&nbsp;permits)</pre>
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code>, blocking until the
  request can be granted. Tells the amount of time slept, if any.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>permits</code> - the number of permits to acquire</dd>
@@ -407,7 +408,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>tryAcquire</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.307">tryAcquire</a>(long&nbsp;timeout,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.309">tryAcquire</a>(long&nbsp;timeout,
                  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained
  without exceeding the specified <code>timeout</code>, or returns <code>false</code>
@@ -427,7 +428,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>tryAcquire</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.322">tryAcquire</a>(int&nbsp;permits)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.324">tryAcquire</a>(int&nbsp;permits)</pre>
 <div class="block">Acquires permits from this <a href="../../../../../com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent"><code>RateLimiter</code></a> if it can be acquired immediately without delay.
 
  <p>
@@ -445,7 +446,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>tryAcquire</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.336">tryAcquire</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.338">tryAcquire</a>()</pre>
 <div class="block">Acquires a permit from this <a href="../../../../../com/google/common/util/concurrent/RateLimiter.html" title="class in com.google.common.util.concurrent"><code>RateLimiter</code></a> if it can be acquired immediately without
  delay.
 
@@ -461,7 +462,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>tryAcquire</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.352">tryAcquire</a>(int&nbsp;permits,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.354">tryAcquire</a>(int&nbsp;permits,
                  long&nbsp;timeout,
                  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code> if it can be obtained
@@ -480,7 +481,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.400">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line.402">toString</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -554,6 +555,6 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <!--   -->
 </a></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
-<p class="legalCopy"><small>Copyright &#169; 2010-2015. All Rights Reserved.</small></p>
+<p class="legalCopy"><small>Copyright &#169; 2010-2016. All Rights Reserved.</small></p>
 </body>
 </html>

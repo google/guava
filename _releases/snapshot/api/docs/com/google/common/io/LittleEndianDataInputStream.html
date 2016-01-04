@@ -110,7 +110,8 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.44">LittleEndianDataInputStream</a>
+<a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public final class <a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.46">LittleEndianDataInputStream</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/FilterInputStream.html?is-external=true" title="class or interface in java.io">FilterInputStream</a>
 implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></pre>
 <div class="block">An implementation of <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io"><code>DataInput</code></a> that uses little-endian byte ordering
@@ -297,7 +298,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>LittleEndianDataInputStream</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.52">LittleEndianDataInputStream</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in)</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.53">LittleEndianDataInputStream</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in)</pre>
 <div class="block">Creates a <code>LittleEndianDataInputStream</code> that wraps the given stream.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - the stream to delegate to</dd></dl>
 </li>
@@ -316,7 +317,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockList">
 <li class="blockList">
 <h4>readLine</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.60">readLine</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.61">readLine</a>()</pre>
 <div class="block">This method will throw an <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a>.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -330,7 +331,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockList">
 <li class="blockList">
 <h4>readFully</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.65">readFully</a>(byte[]&nbsp;b)
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.66">readFully</a>(byte[]&nbsp;b)
                throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -345,7 +346,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockList">
 <li class="blockList">
 <h4>readFully</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.70">readFully</a>(byte[]&nbsp;b,
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.71">readFully</a>(byte[]&nbsp;b,
              int&nbsp;off,
              int&nbsp;len)
                throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
@@ -362,7 +363,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockList">
 <li class="blockList">
 <h4>skipBytes</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.75">skipBytes</a>(int&nbsp;n)
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.76">skipBytes</a>(int&nbsp;n)
               throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -377,7 +378,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockList">
 <li class="blockList">
 <h4>readUnsignedByte</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.80">readUnsignedByte</a>()
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.81">readUnsignedByte</a>()
                      throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -392,7 +393,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockList">
 <li class="blockList">
 <h4>readUnsignedShort</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.99">readUnsignedShort</a>()
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.100">readUnsignedShort</a>()
                       throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads an unsigned <code>short</code> as specified by
  <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInputStream.html?is-external=true#readUnsignedShort()" title="class or interface in java.io"><code>DataInputStream.readUnsignedShort()</code></a>, except using little-endian
@@ -412,7 +413,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockList">
 <li class="blockList">
 <h4>readInt</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.115">readInt</a>()
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.116">readInt</a>()
             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads an integer as specified by <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInputStream.html?is-external=true#readInt()" title="class or interface in java.io"><code>DataInputStream.readInt()</code></a>, except
  using little-endian byte order.</div>
@@ -431,7 +432,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockList">
 <li class="blockList">
 <h4>readLong</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.133">readLong</a>()
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.134">readLong</a>()
               throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads a <code>long</code> as specified by <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInputStream.html?is-external=true#readLong()" title="class or interface in java.io"><code>DataInputStream.readLong()</code></a>,
  except using little-endian byte order.</div>
@@ -450,7 +451,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockList">
 <li class="blockList">
 <h4>readFloat</h4>
-<pre>public&nbsp;float&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.155">readFloat</a>()
+<pre>public&nbsp;float&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.156">readFloat</a>()
                 throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads a <code>float</code> as specified by <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInputStream.html?is-external=true#readFloat()" title="class or interface in java.io"><code>DataInputStream.readFloat()</code></a>,
  except using little-endian byte order.</div>
@@ -469,7 +470,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockList">
 <li class="blockList">
 <h4>readDouble</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.169">readDouble</a>()
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.170">readDouble</a>()
                   throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads a <code>double</code> as specified by
  <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInputStream.html?is-external=true#readDouble()" title="class or interface in java.io"><code>DataInputStream.readDouble()</code></a>, except using little-endian byte
@@ -489,7 +490,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockList">
 <li class="blockList">
 <h4>readUTF</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.174">readUTF</a>()
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.175">readUTF</a>()
                throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -504,7 +505,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockList">
 <li class="blockList">
 <h4>readShort</h4>
-<pre>public&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.187">readShort</a>()
+<pre>public&nbsp;short&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.188">readShort</a>()
                 throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads a <code>short</code> as specified by <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInputStream.html?is-external=true#readShort()" title="class or interface in java.io"><code>DataInputStream.readShort()</code></a>,
  except using little-endian byte order.</div>
@@ -523,7 +524,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockList">
 <li class="blockList">
 <h4>readChar</h4>
-<pre>public&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.200">readChar</a>()
+<pre>public&nbsp;char&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.201">readChar</a>()
               throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads a char as specified by <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInputStream.html?is-external=true#readChar()" title="class or interface in java.io"><code>DataInputStream.readChar()</code></a>, except
  using little-endian byte order.</div>
@@ -542,7 +543,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockList">
 <li class="blockList">
 <h4>readByte</h4>
-<pre>public&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.205">readByte</a>()
+<pre>public&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.206">readByte</a>()
               throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -557,7 +558,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>readBoolean</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.210">readBoolean</a>()
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/LittleEndianDataInputStream.html#line.211">readBoolean</a>()
                     throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -633,6 +634,6 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.h
 <!--   -->
 </a></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
-<p class="legalCopy"><small>Copyright &#169; 2010-2015. All Rights Reserved.</small></p>
+<p class="legalCopy"><small>Copyright &#169; 2010-2016. All Rights Reserved.</small></p>
 </body>
 </html>

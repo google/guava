@@ -430,7 +430,7 @@
 <span class="sourceLineNo">422</span>   * @return a new, empty {@code CopyOnWriteArraySet}<a name="line.422"></a>
 <span class="sourceLineNo">423</span>   * @since 12.0<a name="line.423"></a>
 <span class="sourceLineNo">424</span>   */<a name="line.424"></a>
-<span class="sourceLineNo">425</span>  @GwtIncompatible("CopyOnWriteArraySet")<a name="line.425"></a>
+<span class="sourceLineNo">425</span>  @GwtIncompatible // CopyOnWriteArraySet<a name="line.425"></a>
 <span class="sourceLineNo">426</span>  public static &lt;E&gt; CopyOnWriteArraySet&lt;E&gt; newCopyOnWriteArraySet() {<a name="line.426"></a>
 <span class="sourceLineNo">427</span>    return new CopyOnWriteArraySet&lt;E&gt;();<a name="line.427"></a>
 <span class="sourceLineNo">428</span>  }<a name="line.428"></a>
@@ -442,7 +442,7 @@
 <span class="sourceLineNo">434</span>   * @return a new {@code CopyOnWriteArraySet} containing those elements<a name="line.434"></a>
 <span class="sourceLineNo">435</span>   * @since 12.0<a name="line.435"></a>
 <span class="sourceLineNo">436</span>   */<a name="line.436"></a>
-<span class="sourceLineNo">437</span>  @GwtIncompatible("CopyOnWriteArraySet")<a name="line.437"></a>
+<span class="sourceLineNo">437</span>  @GwtIncompatible // CopyOnWriteArraySet<a name="line.437"></a>
 <span class="sourceLineNo">438</span>  public static &lt;E&gt; CopyOnWriteArraySet&lt;E&gt; newCopyOnWriteArraySet(Iterable&lt;? extends E&gt; elements) {<a name="line.438"></a>
 <span class="sourceLineNo">439</span>    // We copy elements to an ArrayList first, rather than incurring the<a name="line.439"></a>
 <span class="sourceLineNo">440</span>    // quadratic cost of adding them to the COWAS directly.<a name="line.440"></a>
@@ -981,7 +981,7 @@
 <span class="sourceLineNo">973</span>   *<a name="line.973"></a>
 <span class="sourceLineNo">974</span>   * @since 14.0<a name="line.974"></a>
 <span class="sourceLineNo">975</span>   */<a name="line.975"></a>
-<span class="sourceLineNo">976</span>  @GwtIncompatible("NavigableSet")<a name="line.976"></a>
+<span class="sourceLineNo">976</span>  @GwtIncompatible // NavigableSet<a name="line.976"></a>
 <span class="sourceLineNo">977</span>  @SuppressWarnings("unchecked")<a name="line.977"></a>
 <span class="sourceLineNo">978</span>  @CheckReturnValue<a name="line.978"></a>
 <span class="sourceLineNo">979</span>  public static &lt;E&gt; NavigableSet&lt;E&gt; filter(<a name="line.979"></a>
@@ -997,7 +997,7 @@
 <span class="sourceLineNo">989</span>    return new FilteredNavigableSet&lt;E&gt;(checkNotNull(unfiltered), checkNotNull(predicate));<a name="line.989"></a>
 <span class="sourceLineNo">990</span>  }<a name="line.990"></a>
 <span class="sourceLineNo">991</span><a name="line.991"></a>
-<span class="sourceLineNo">992</span>  @GwtIncompatible("NavigableSet")<a name="line.992"></a>
+<span class="sourceLineNo">992</span>  @GwtIncompatible // NavigableSet<a name="line.992"></a>
 <span class="sourceLineNo">993</span>  private static class FilteredNavigableSet&lt;E&gt; extends FilteredSortedSet&lt;E&gt;<a name="line.993"></a>
 <span class="sourceLineNo">994</span>      implements NavigableSet&lt;E&gt; {<a name="line.994"></a>
 <span class="sourceLineNo">995</span>    FilteredNavigableSet(NavigableSet&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {<a name="line.995"></a>
@@ -1463,7 +1463,7 @@
 <span class="sourceLineNo">1455</span>   * @return an unmodifiable view of the specified navigable set<a name="line.1455"></a>
 <span class="sourceLineNo">1456</span>   * @since 12.0<a name="line.1456"></a>
 <span class="sourceLineNo">1457</span>   */<a name="line.1457"></a>
-<span class="sourceLineNo">1458</span>  @GwtIncompatible("NavigableSet")<a name="line.1458"></a>
+<span class="sourceLineNo">1458</span>  @GwtIncompatible // NavigableSet<a name="line.1458"></a>
 <span class="sourceLineNo">1459</span>  public static &lt;E&gt; NavigableSet&lt;E&gt; unmodifiableNavigableSet(NavigableSet&lt;E&gt; set) {<a name="line.1459"></a>
 <span class="sourceLineNo">1460</span>    if (set instanceof ImmutableSortedSet || set instanceof UnmodifiableNavigableSet) {<a name="line.1460"></a>
 <span class="sourceLineNo">1461</span>      return set;<a name="line.1461"></a>
@@ -1471,7 +1471,7 @@
 <span class="sourceLineNo">1463</span>    return new UnmodifiableNavigableSet&lt;E&gt;(set);<a name="line.1463"></a>
 <span class="sourceLineNo">1464</span>  }<a name="line.1464"></a>
 <span class="sourceLineNo">1465</span><a name="line.1465"></a>
-<span class="sourceLineNo">1466</span>  @GwtIncompatible("NavigableSet")<a name="line.1466"></a>
+<span class="sourceLineNo">1466</span>  @GwtIncompatible // NavigableSet<a name="line.1466"></a>
 <span class="sourceLineNo">1467</span>  static final class UnmodifiableNavigableSet&lt;E&gt; extends ForwardingSortedSet&lt;E&gt;<a name="line.1467"></a>
 <span class="sourceLineNo">1468</span>      implements NavigableSet&lt;E&gt;, Serializable {<a name="line.1468"></a>
 <span class="sourceLineNo">1469</span>    private final NavigableSet&lt;E&gt; delegate;<a name="line.1469"></a>
@@ -1595,7 +1595,7 @@
 <span class="sourceLineNo">1587</span>   * @return a synchronized view of the specified navigable set.<a name="line.1587"></a>
 <span class="sourceLineNo">1588</span>   * @since 13.0<a name="line.1588"></a>
 <span class="sourceLineNo">1589</span>   */<a name="line.1589"></a>
-<span class="sourceLineNo">1590</span>  @GwtIncompatible("NavigableSet")<a name="line.1590"></a>
+<span class="sourceLineNo">1590</span>  @GwtIncompatible // NavigableSet<a name="line.1590"></a>
 <span class="sourceLineNo">1591</span>  public static &lt;E&gt; NavigableSet&lt;E&gt; synchronizedNavigableSet(NavigableSet&lt;E&gt; navigableSet) {<a name="line.1591"></a>
 <span class="sourceLineNo">1592</span>    return Synchronized.navigableSet(navigableSet);<a name="line.1592"></a>
 <span class="sourceLineNo">1593</span>  }<a name="line.1593"></a>
@@ -1630,7 +1630,7 @@
 <span class="sourceLineNo">1622</span>    }<a name="line.1622"></a>
 <span class="sourceLineNo">1623</span>  }<a name="line.1623"></a>
 <span class="sourceLineNo">1624</span><a name="line.1624"></a>
-<span class="sourceLineNo">1625</span>  @GwtIncompatible("NavigableSet")<a name="line.1625"></a>
+<span class="sourceLineNo">1625</span>  @GwtIncompatible // NavigableSet<a name="line.1625"></a>
 <span class="sourceLineNo">1626</span>  static class DescendingSet&lt;E&gt; extends ForwardingNavigableSet&lt;E&gt; {<a name="line.1626"></a>
 <span class="sourceLineNo">1627</span>    private final NavigableSet&lt;E&gt; forward;<a name="line.1627"></a>
 <span class="sourceLineNo">1628</span><a name="line.1628"></a>
@@ -1779,7 +1779,7 @@
 <span class="sourceLineNo">1771</span>   * @since 20.0<a name="line.1771"></a>
 <span class="sourceLineNo">1772</span>   */<a name="line.1772"></a>
 <span class="sourceLineNo">1773</span>  @Beta<a name="line.1773"></a>
-<span class="sourceLineNo">1774</span>  @GwtIncompatible("NavigableSet")<a name="line.1774"></a>
+<span class="sourceLineNo">1774</span>  @GwtIncompatible // NavigableSet<a name="line.1774"></a>
 <span class="sourceLineNo">1775</span>  public static &lt;K extends Comparable&lt;? super K&gt;&gt; NavigableSet&lt;K&gt; subSet(<a name="line.1775"></a>
 <span class="sourceLineNo">1776</span>      NavigableSet&lt;K&gt; set, Range&lt;K&gt; range) {<a name="line.1776"></a>
 <span class="sourceLineNo">1777</span>    if (set.comparator() != null &amp;&amp; set.comparator() != Ordering.natural()<a name="line.1777"></a>

@@ -104,7 +104,8 @@
 </dl>
 <hr>
 <br>
-<pre>public final class <a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.58">ConcurrentHashMultiset</a>&lt;E&gt;
+<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public final class <a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.60">ConcurrentHashMultiset</a>&lt;E&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;E&gt;
 implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
 <div class="block">A multiset that supports concurrent modifications and that provides atomic versions of most
@@ -347,7 +348,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.84">create</a>()</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.86">create</a>()</pre>
 <div class="block">Creates a new, empty <code>ConcurrentHashMultiset</code> using the default
  initial capacity, load factor, and concurrency settings.</div>
 </li>
@@ -358,7 +359,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.99">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.101">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates a new <code>ConcurrentHashMultiset</code> containing the specified elements, using
  the default initial capacity, load factor, and concurrency settings.
 
@@ -373,7 +374,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <li class="blockList">
 <h4>create</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.127">create</a>(<a href="../../../../com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a>&nbsp;mapMaker)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.129">create</a>(<a href="../../../../com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a>&nbsp;mapMaker)</pre>
 <div class="block">Creates a new, empty <code>ConcurrentHashMultiset</code> using <code>mapMaker</code>
  to construct the internal backing map.
 
@@ -401,7 +402,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.156">count</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.158">count</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
         <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
 <div class="block">Returns the number of occurrences of <code>element</code> in this multiset.</div>
 <dl>
@@ -417,7 +418,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.168">size</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.170">size</a>()</pre>
 <div class="block">
 
  <p>If the data in the multiset is modified by any other threads during this method,
@@ -434,7 +435,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.182">toArray</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.184">toArray</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#toArray()" title="class or interface in java.util">toArray</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
@@ -451,7 +452,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre>public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.187">toArray</a>(T[]&nbsp;array)</pre>
+<pre>public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.189">toArray</a>(T[]&nbsp;array)</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#toArray(T[])" title="class or interface in java.util">toArray</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
@@ -468,7 +469,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>add</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.218">add</a>(<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&nbsp;element,
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.220">add</a>(<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&nbsp;element,
       int&nbsp;occurrences)</pre>
 <div class="block">Adds a number of occurrences of the specified element to this multiset.</div>
 <dl>
@@ -487,7 +488,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.284">remove</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.286">remove</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
          <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element,
          int&nbsp;occurrences)</pre>
 <div class="block">Removes a number of occurrences of the specified element from this multiset. If the multiset
@@ -507,7 +508,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>removeExactly</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.324">removeExactly</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.326">removeExactly</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element,
                     int&nbsp;occurrences)</pre>
 <div class="block">Removes exactly the specified number of occurrences of <code>element</code>, or makes no
@@ -529,7 +530,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>setCount</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.359">setCount</a>(<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&nbsp;element,
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.361">setCount</a>(<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&nbsp;element,
            int&nbsp;count)</pre>
 <div class="block">Adds or removes occurrences of <code>element</code> such that the <a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html#count(java.lang.Object)"><code>count(java.lang.Object)</code></a> of the
  element becomes <code>count</code>.</div>
@@ -551,7 +552,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>setCount</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.415">setCount</a>(<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&nbsp;element,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.417">setCount</a>(<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&nbsp;element,
                int&nbsp;expectedOldCount,
                int&nbsp;newCount)</pre>
 <div class="block">Sets the number of occurrences of <code>element</code> to <code>newCount</code>, but only if
@@ -576,7 +577,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>createEntrySet</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.491">createEntrySet</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.493">createEntrySet</a>()</pre>
 </li>
 </ul>
 <a name="isEmpty()">
@@ -585,7 +586,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.501">isEmpty</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.503">isEmpty</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#isEmpty()" title="class or interface in java.util">isEmpty</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
@@ -598,7 +599,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.552">clear</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ConcurrentHashMultiset.html#line.554">clear</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#clear()" title="class or interface in java.util">clear</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ConcurrentHashMultiset.html" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
@@ -985,6 +986,6 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <!--   -->
 </a></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
-<p class="legalCopy"><small>Copyright &#169; 2010-2015. All Rights Reserved.</small></p>
+<p class="legalCopy"><small>Copyright &#169; 2010-2016. All Rights Reserved.</small></p>
 </body>
 </html>

@@ -174,7 +174,7 @@
 <span class="sourceLineNo">166</span>   */<a name="line.166"></a>
 <span class="sourceLineNo">167</span><a name="line.167"></a>
 <span class="sourceLineNo">168</span>  @Override<a name="line.168"></a>
-<span class="sourceLineNo">169</span>  @GwtIncompatible("NavigableMap")<a name="line.169"></a>
+<span class="sourceLineNo">169</span>  @GwtIncompatible // NavigableMap<a name="line.169"></a>
 <span class="sourceLineNo">170</span>  NavigableMap&lt;K, Collection&lt;V&gt;&gt; backingMap() {<a name="line.170"></a>
 <span class="sourceLineNo">171</span>    return (NavigableMap&lt;K, Collection&lt;V&gt;&gt;) super.backingMap();<a name="line.171"></a>
 <span class="sourceLineNo">172</span>  }<a name="line.172"></a>
@@ -183,19 +183,19 @@
 <span class="sourceLineNo">175</span>   * @since 14.0 (present with return type {@code SortedSet} since 2.0)<a name="line.175"></a>
 <span class="sourceLineNo">176</span>   */<a name="line.176"></a>
 <span class="sourceLineNo">177</span>  @Override<a name="line.177"></a>
-<span class="sourceLineNo">178</span>  @GwtIncompatible("NavigableSet")<a name="line.178"></a>
+<span class="sourceLineNo">178</span>  @GwtIncompatible // NavigableSet<a name="line.178"></a>
 <span class="sourceLineNo">179</span>  public NavigableSet&lt;V&gt; get(@Nullable K key) {<a name="line.179"></a>
 <span class="sourceLineNo">180</span>    return (NavigableSet&lt;V&gt;) super.get(key);<a name="line.180"></a>
 <span class="sourceLineNo">181</span>  }<a name="line.181"></a>
 <span class="sourceLineNo">182</span><a name="line.182"></a>
 <span class="sourceLineNo">183</span>  @Override<a name="line.183"></a>
-<span class="sourceLineNo">184</span>  @GwtIncompatible("NavigableSet")<a name="line.184"></a>
+<span class="sourceLineNo">184</span>  @GwtIncompatible // NavigableSet<a name="line.184"></a>
 <span class="sourceLineNo">185</span>  Collection&lt;V&gt; unmodifiableCollectionSubclass(Collection&lt;V&gt; collection) {<a name="line.185"></a>
 <span class="sourceLineNo">186</span>    return Sets.unmodifiableNavigableSet((NavigableSet&lt;V&gt;) collection);<a name="line.186"></a>
 <span class="sourceLineNo">187</span>  }<a name="line.187"></a>
 <span class="sourceLineNo">188</span><a name="line.188"></a>
 <span class="sourceLineNo">189</span>  @Override<a name="line.189"></a>
-<span class="sourceLineNo">190</span>  @GwtIncompatible("NavigableSet")<a name="line.190"></a>
+<span class="sourceLineNo">190</span>  @GwtIncompatible // NavigableSet<a name="line.190"></a>
 <span class="sourceLineNo">191</span>  Collection&lt;V&gt; wrapCollection(K key, Collection&lt;V&gt; collection) {<a name="line.191"></a>
 <span class="sourceLineNo">192</span>    return new WrappedNavigableSet(key, (NavigableSet&lt;V&gt;) collection, null);<a name="line.192"></a>
 <span class="sourceLineNo">193</span>  }<a name="line.193"></a>
@@ -210,13 +210,13 @@
 <span class="sourceLineNo">202</span>   * @since 14.0 (present with return type {@code SortedSet} since 2.0)<a name="line.202"></a>
 <span class="sourceLineNo">203</span>   */<a name="line.203"></a>
 <span class="sourceLineNo">204</span>  @Override<a name="line.204"></a>
-<span class="sourceLineNo">205</span>  @GwtIncompatible("NavigableSet")<a name="line.205"></a>
+<span class="sourceLineNo">205</span>  @GwtIncompatible // NavigableSet<a name="line.205"></a>
 <span class="sourceLineNo">206</span>  public NavigableSet&lt;K&gt; keySet() {<a name="line.206"></a>
 <span class="sourceLineNo">207</span>    return (NavigableSet&lt;K&gt;) super.keySet();<a name="line.207"></a>
 <span class="sourceLineNo">208</span>  }<a name="line.208"></a>
 <span class="sourceLineNo">209</span><a name="line.209"></a>
 <span class="sourceLineNo">210</span>  @Override<a name="line.210"></a>
-<span class="sourceLineNo">211</span>  @GwtIncompatible("NavigableSet")<a name="line.211"></a>
+<span class="sourceLineNo">211</span>  @GwtIncompatible // NavigableSet<a name="line.211"></a>
 <span class="sourceLineNo">212</span>  NavigableSet&lt;K&gt; createKeySet() {<a name="line.212"></a>
 <span class="sourceLineNo">213</span>    return new NavigableKeySet(backingMap());<a name="line.213"></a>
 <span class="sourceLineNo">214</span>  }<a name="line.214"></a>
@@ -231,13 +231,13 @@
 <span class="sourceLineNo">223</span>   * @since 14.0 (present with return type {@code SortedMap} since 2.0)<a name="line.223"></a>
 <span class="sourceLineNo">224</span>   */<a name="line.224"></a>
 <span class="sourceLineNo">225</span>  @Override<a name="line.225"></a>
-<span class="sourceLineNo">226</span>  @GwtIncompatible("NavigableMap")<a name="line.226"></a>
+<span class="sourceLineNo">226</span>  @GwtIncompatible // NavigableMap<a name="line.226"></a>
 <span class="sourceLineNo">227</span>  public NavigableMap&lt;K, Collection&lt;V&gt;&gt; asMap() {<a name="line.227"></a>
 <span class="sourceLineNo">228</span>    return (NavigableMap&lt;K, Collection&lt;V&gt;&gt;) super.asMap();<a name="line.228"></a>
 <span class="sourceLineNo">229</span>  }<a name="line.229"></a>
 <span class="sourceLineNo">230</span><a name="line.230"></a>
 <span class="sourceLineNo">231</span>  @Override<a name="line.231"></a>
-<span class="sourceLineNo">232</span>  @GwtIncompatible("NavigableMap")<a name="line.232"></a>
+<span class="sourceLineNo">232</span>  @GwtIncompatible // NavigableMap<a name="line.232"></a>
 <span class="sourceLineNo">233</span>  NavigableMap&lt;K, Collection&lt;V&gt;&gt; createAsMap() {<a name="line.233"></a>
 <span class="sourceLineNo">234</span>    return new NavigableAsMap(backingMap());<a name="line.234"></a>
 <span class="sourceLineNo">235</span>  }<a name="line.235"></a>
@@ -247,7 +247,7 @@
 <span class="sourceLineNo">239</span>   *     then for each distinct key: the key, number of values for that key, and<a name="line.239"></a>
 <span class="sourceLineNo">240</span>   *     key values<a name="line.240"></a>
 <span class="sourceLineNo">241</span>   */<a name="line.241"></a>
-<span class="sourceLineNo">242</span>  @GwtIncompatible("java.io.ObjectOutputStream")<a name="line.242"></a>
+<span class="sourceLineNo">242</span>  @GwtIncompatible // java.io.ObjectOutputStream<a name="line.242"></a>
 <span class="sourceLineNo">243</span>  private void writeObject(ObjectOutputStream stream) throws IOException {<a name="line.243"></a>
 <span class="sourceLineNo">244</span>    stream.defaultWriteObject();<a name="line.244"></a>
 <span class="sourceLineNo">245</span>    stream.writeObject(keyComparator());<a name="line.245"></a>
@@ -255,7 +255,7 @@
 <span class="sourceLineNo">247</span>    Serialization.writeMultimap(this, stream);<a name="line.247"></a>
 <span class="sourceLineNo">248</span>  }<a name="line.248"></a>
 <span class="sourceLineNo">249</span><a name="line.249"></a>
-<span class="sourceLineNo">250</span>  @GwtIncompatible("java.io.ObjectInputStream")<a name="line.250"></a>
+<span class="sourceLineNo">250</span>  @GwtIncompatible // java.io.ObjectInputStream<a name="line.250"></a>
 <span class="sourceLineNo">251</span>  @SuppressWarnings("unchecked") // reading data stored by writeObject<a name="line.251"></a>
 <span class="sourceLineNo">252</span>  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {<a name="line.252"></a>
 <span class="sourceLineNo">253</span>    stream.defaultReadObject();<a name="line.253"></a>
@@ -265,7 +265,7 @@
 <span class="sourceLineNo">257</span>    Serialization.populateMultimap(this, stream);<a name="line.257"></a>
 <span class="sourceLineNo">258</span>  }<a name="line.258"></a>
 <span class="sourceLineNo">259</span><a name="line.259"></a>
-<span class="sourceLineNo">260</span>  @GwtIncompatible("not needed in emulated source")<a name="line.260"></a>
+<span class="sourceLineNo">260</span>  @GwtIncompatible // not needed in emulated source<a name="line.260"></a>
 <span class="sourceLineNo">261</span>  private static final long serialVersionUID = 0;<a name="line.261"></a>
 <span class="sourceLineNo">262</span>}<a name="line.262"></a>
 

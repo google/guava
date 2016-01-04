@@ -96,7 +96,8 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/io/CharStreams.html#line.49">CharStreams</a>
+<a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public final class <a href="../../../../src-html/com/google/common/io/CharStreams.html#line.51">CharStreams</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Provides utility methods for working with character streams.
 
@@ -205,7 +206,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>copy</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.63">copy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang">Readable</a>&nbsp;from,
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.65">copy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang">Readable</a>&nbsp;from,
         <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang">Appendable</a>&nbsp;to)
                  throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Copies all characters between the <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang"><code>Readable</code></a> and <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang"><code>Appendable</code></a>
@@ -222,7 +223,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.85">toString</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang">Readable</a>&nbsp;r)
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.87">toString</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang">Readable</a>&nbsp;r)
                        throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads all characters from a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang"><code>Readable</code></a> object into a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a>.
  Does not close the <code>Readable</code>.</div>
@@ -238,7 +239,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>readLines</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.116">readLines</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang">Readable</a>&nbsp;r)
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.118">readLines</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang">Readable</a>&nbsp;r)
                               throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads all of the lines from a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang"><code>Readable</code></a> object. The lines do
  not include line-termination characters, but do include other
@@ -259,7 +260,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>readLines</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.136">readLines</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang">Readable</a>&nbsp;readable,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.138">readLines</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang">Readable</a>&nbsp;readable,
               <a href="../../../../com/google/common/io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;processor)
                    throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Streams lines from a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Readable.html?is-external=true" title="class or interface in java.lang"><code>Readable</code></a> object, stopping when the processor
@@ -278,7 +279,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>skipFully</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.162">skipFully</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io">Reader</a>&nbsp;reader,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.164">skipFully</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io">Reader</a>&nbsp;reader,
              long&nbsp;n)
                       throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Discards <code>n</code> characters of data from the reader. This method
@@ -297,7 +298,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>nullWriter</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io">Writer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.178">nullWriter</a>()</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io">Writer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.180">nullWriter</a>()</pre>
 <div class="block">Returns a <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io"><code>Writer</code></a> that simply discards written chars.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>15.0</dd></dl>
@@ -309,7 +310,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asWriter</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io">Writer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.251">asWriter</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang">Appendable</a>&nbsp;target)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io">Writer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/CharStreams.html#line.253">asWriter</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang">Appendable</a>&nbsp;target)</pre>
 <div class="block">Returns a Writer that sends all output to the given <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang"><code>Appendable</code></a>
  target. Closing the writer will close the target if it is <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io"><code>Closeable</code></a>, and flushing the writer will flush the target if it is <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Flushable.html?is-external=true" title="class or interface in java.io"><code>Flushable</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>target</code> - the object to which output will be sent</dd>
@@ -384,6 +385,6 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <!--   -->
 </a></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
-<p class="legalCopy"><small>Copyright &#169; 2010-2015. All Rights Reserved.</small></p>
+<p class="legalCopy"><small>Copyright &#169; 2010-2016. All Rights Reserved.</small></p>
 </body>
 </html>

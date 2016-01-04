@@ -96,7 +96,8 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.34">PairedStatsAccumulator</a>
+<a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public final class <a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.36">PairedStatsAccumulator</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A mutable object which accumulates paired double values (e.g. points on a plane) and tracks
  some basic statistics over all the values added so far. This class is not thread safe.</div>
@@ -225,7 +226,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>PairedStatsAccumulator</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.34">PairedStatsAccumulator</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.36">PairedStatsAccumulator</a>()</pre>
 </li>
 </ul>
 </li>
@@ -242,7 +243,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>add</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.45">add</a>(double&nbsp;x,
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.47">add</a>(double&nbsp;x,
        double&nbsp;y)</pre>
 <div class="block">Adds the given pair of values to the dataset.</div>
 </li>
@@ -253,7 +254,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>snapshot</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.99">snapshot</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.101">snapshot</a>()</pre>
 <div class="block">Returns an immutable snapshot of the current statistics.</div>
 </li>
 </ul>
@@ -263,7 +264,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.106">count</a>()</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.108">count</a>()</pre>
 <div class="block">Returns the number of pairs in the dataset.</div>
 </li>
 </ul>
@@ -273,7 +274,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>xStats</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.113">xStats</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.115">xStats</a>()</pre>
 <div class="block">Returns an immutable snapshot of the statistics on the <code>x</code> values alone.</div>
 </li>
 </ul>
@@ -283,7 +284,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>yStats</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.120">yStats</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.122">yStats</a>()</pre>
 <div class="block">Returns an immutable snapshot of the statistics on the <code>y</code> values alone.</div>
 </li>
 </ul>
@@ -293,7 +294,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>populationCovariance</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.138">populationCovariance</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.140">populationCovariance</a>()</pre>
 <div class="block">Returns the population covariance of the values. The count must be non-zero.
 
  <p>This is guaranteed to return zero if the dataset contains a single pair of finite values.
@@ -314,7 +315,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>sampleCovariance</h4>
-<pre>public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.156">sampleCovariance</a>()</pre>
+<pre>public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.158">sampleCovariance</a>()</pre>
 <div class="block">Returns the sample covariance of the values. The count must be greater than one.
 
  <p>This is not guaranteed to return zero when the dataset consists of the same pair of values
@@ -334,7 +335,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>pearsonsCorrelationCoefficient</h4>
-<pre>public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.177">pearsonsCorrelationCoefficient</a>()</pre>
+<pre>public final&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.179">pearsonsCorrelationCoefficient</a>()</pre>
 <div class="block">Returns the <a href="http://mathworld.wolfram.com/CorrelationCoefficient.html">Pearson's or
  product-moment correlation coefficient</a> of the values. The count must greater than one, and
  the <code>x</code> and <code>y</code> values must both have non-zero population variance (i.e.
@@ -357,7 +358,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>leastSquaresFit</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.224">leastSquaresFit</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a>&nbsp;<a href="../../../../src-html/com/google/common/math/PairedStatsAccumulator.html#line.226">leastSquaresFit</a>()</pre>
 <div class="block">Returns a linear transformation giving the best fit to the data according to
  <a href="http://mathworld.wolfram.com/LeastSquaresFitting.html">Ordinary Least Squares linear
  regression</a> of <code>y</code> as a function of <code>x</code>. The count must be greater than one, and
@@ -456,6 +457,6 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <!--   -->
 </a></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
-<p class="legalCopy"><small>Copyright &#169; 2010-2015. All Rights Reserved.</small></p>
+<p class="legalCopy"><small>Copyright &#169; 2010-2016. All Rights Reserved.</small></p>
 </body>
 </html>

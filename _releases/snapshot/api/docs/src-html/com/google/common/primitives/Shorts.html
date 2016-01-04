@@ -304,7 +304,7 @@
 <span class="sourceLineNo">296</span>   * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable<a name="line.296"></a>
 <span class="sourceLineNo">297</span>   * buffer.<a name="line.297"></a>
 <span class="sourceLineNo">298</span>   */<a name="line.298"></a>
-<span class="sourceLineNo">299</span>  @GwtIncompatible("doesn't work")<a name="line.299"></a>
+<span class="sourceLineNo">299</span>  @GwtIncompatible // doesn't work<a name="line.299"></a>
 <span class="sourceLineNo">300</span>  public static byte[] toByteArray(short value) {<a name="line.300"></a>
 <span class="sourceLineNo">301</span>    return new byte[] {<a name="line.301"></a>
 <span class="sourceLineNo">302</span>      (byte) (value &gt;&gt; 8),<a name="line.302"></a>
@@ -324,7 +324,7 @@
 <span class="sourceLineNo">316</span>   * @throws IllegalArgumentException if {@code bytes} has fewer than 2<a name="line.316"></a>
 <span class="sourceLineNo">317</span>   *     elements<a name="line.317"></a>
 <span class="sourceLineNo">318</span>   */<a name="line.318"></a>
-<span class="sourceLineNo">319</span>  @GwtIncompatible("doesn't work")<a name="line.319"></a>
+<span class="sourceLineNo">319</span>  @GwtIncompatible // doesn't work<a name="line.319"></a>
 <span class="sourceLineNo">320</span>  public static short fromByteArray(byte[] bytes) {<a name="line.320"></a>
 <span class="sourceLineNo">321</span>    checkArgument(bytes.length &gt;= BYTES, "array too small: %s &lt; %s", bytes.length, BYTES);<a name="line.321"></a>
 <span class="sourceLineNo">322</span>    return fromBytes(bytes[0], bytes[1]);<a name="line.322"></a>
@@ -337,7 +337,7 @@
 <span class="sourceLineNo">329</span>   *<a name="line.329"></a>
 <span class="sourceLineNo">330</span>   * @since 7.0<a name="line.330"></a>
 <span class="sourceLineNo">331</span>   */<a name="line.331"></a>
-<span class="sourceLineNo">332</span>  @GwtIncompatible("doesn't work")<a name="line.332"></a>
+<span class="sourceLineNo">332</span>  @GwtIncompatible // doesn't work<a name="line.332"></a>
 <span class="sourceLineNo">333</span>  public static short fromBytes(byte b1, byte b2) {<a name="line.333"></a>
 <span class="sourceLineNo">334</span>    return (short) ((b1 &lt;&lt; 8) | (b2 &amp; 0xFF));<a name="line.334"></a>
 <span class="sourceLineNo">335</span>  }<a name="line.335"></a>

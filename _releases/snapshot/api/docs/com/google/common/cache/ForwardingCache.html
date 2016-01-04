@@ -108,7 +108,8 @@
 </dl>
 <hr>
 <br>
-<pre>public abstract class <a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.38">ForwardingCache</a>&lt;K,V&gt;
+<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public abstract class <a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.40">ForwardingCache</a>&lt;K,V&gt;
 extends <a href="../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a>
 implements <a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache">Cache</a>&lt;K,V&gt;</pre>
 <div class="block">A cache which forwards all its method calls to another cache. Subclasses should override one or
@@ -296,7 +297,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingCache</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.41">ForwardingCache</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.43">ForwardingCache</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -314,7 +315,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre>protected abstract&nbsp;<a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache">Cache</a>&lt;<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.44">delegate</a>()</pre>
+<pre>protected abstract&nbsp;<a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache">Cache</a>&lt;<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.46">delegate</a>()</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></strong></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to.
  Abstract subclasses generally override this method with an abstract method
@@ -333,7 +334,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <li class="blockList">
 <h4>getIfPresent</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.51">getIfPresent</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
+public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.53">getIfPresent</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#getIfPresent(java.lang.Object)">Cache</a></code></strong></div>
 <div class="block">Returns the value associated with <code>key</code> in this cache, or <code>null</code> if there is no
  cached value for <code>key</code>.</div>
@@ -352,7 +353,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.59">get</a>(<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">K</a>&nbsp;key,
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.61">get</a>(<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">K</a>&nbsp;key,
     <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;? extends <a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&gt;&nbsp;valueLoader)
       throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#get(K,%20java.util.concurrent.Callable)">Cache</a></code></strong></div>
@@ -405,7 +406,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllPresent</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.67">getAllPresent</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.69">getAllPresent</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#getAllPresent(java.lang.Iterable)">Cache</a></code></strong></div>
 <div class="block">Returns a map of the values associated with <code>keys</code> in this cache. The returned map will
  only contain entries which are already present in the cache.</div>
@@ -424,7 +425,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.75">put</a>(<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">K</a>&nbsp;key,
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.77">put</a>(<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">K</a>&nbsp;key,
        <a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&nbsp;value)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#put(K,%20V)">Cache</a></code></strong></div>
 <div class="block">Associates <code>value</code> with <code>key</code> in this cache. If the cache previously contained a
@@ -445,7 +446,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.83">putAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">K</a>,? extends <a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&gt;&nbsp;m)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.85">putAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">K</a>,? extends <a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&gt;&nbsp;m)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#putAll(java.util.Map)">Cache</a></code></strong></div>
 <div class="block">Copies all of the mappings from the specified map to the cache. The effect of this call is
  equivalent to that of calling <code>put(k, v)</code> on this map once for each mapping from key
@@ -464,7 +465,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>invalidate</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.88">invalidate</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.90">invalidate</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#invalidate(java.lang.Object)">Cache</a></code></strong></div>
 <div class="block">Discards any cached value for key <code>key</code>.</div>
 <dl>
@@ -479,7 +480,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>invalidateAll</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.96">invalidateAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.98">invalidateAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#invalidateAll(java.lang.Iterable)">Cache</a></code></strong></div>
 <div class="block">Discards any cached values for keys <code>keys</code>.</div>
 <dl>
@@ -495,7 +496,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>invalidateAll</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.101">invalidateAll</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.103">invalidateAll</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#invalidateAll()">Cache</a></code></strong></div>
 <div class="block">Discards all entries in the cache.</div>
 <dl>
@@ -510,7 +511,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.106">size</a>()</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.108">size</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#size()">Cache</a></code></strong></div>
 <div class="block">Returns the approximate number of entries in this cache.</div>
 <dl>
@@ -525,7 +526,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>stats</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.111">stats</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.113">stats</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#stats()">Cache</a></code></strong></div>
 <div class="block">Returns a current snapshot of this cache's cumulative statistics, or a set of default values if
  the cache is not recording statistics. All statistics begin at zero and never decrease over the
@@ -547,7 +548,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.116">asMap</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">K</a>,<a href="../../../../com/google/common/cache/ForwardingCache.html" title="type parameter in ForwardingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.118">asMap</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#asMap()">Cache</a></code></strong></div>
 <div class="block">Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to
  the map directly affect the cache.
@@ -572,7 +573,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" t
 <ul class="blockListLast">
 <li class="blockList">
 <h4>cleanUp</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.121">cleanUp</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/ForwardingCache.html#line.123">cleanUp</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#cleanUp()">Cache</a></code></strong></div>
 <div class="block">Performs any pending maintenance operations needed by the cache. Exactly which activities are
  performed -- if any -- is implementation-dependent.</div>
@@ -649,6 +650,6 @@ public&nbsp;<a href="../../../../com/google/common/cache/ForwardingCache.html" t
 <!--   -->
 </a></div>
 <!-- ======== END OF BOTTOM NAVBAR ======= -->
-<p class="legalCopy"><small>Copyright &#169; 2010-2015. All Rights Reserved.</small></p>
+<p class="legalCopy"><small>Copyright &#169; 2010-2016. All Rights Reserved.</small></p>
 </body>
 </html>
