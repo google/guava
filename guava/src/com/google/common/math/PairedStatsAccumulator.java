@@ -77,21 +77,19 @@ public final class PairedStatsAccumulator {
       return;
     }
 
-    if (count() == 0) {
+    xStats.addAll(values.xStats());
+    if (yStats.count() == 0) {
       sumOfProductsOfDeltas = values.sumOfProductsOfDeltas();
     } else {
-      long nextCount = count() + values.count();
-      double xMeanDelta = xStats.mean() - values.xStats().mean();
-      double yMeanDelta = yStats.mean() - values.yStats().mean();
-      // Note that non-finite inputs will have sumOfSquaresOfDeltas = NaN, so non-finite values will
-      // result in NaN naturally.
-      // TODO(b/26080783): Consider optimizations similar to those in StatsAccumulator.addAll().
+      // This is a generalized version of the calculation in add(double, double) above. Note that
+      // non-finite inputs will have sumOfProductsOfDeltas = NaN, so non-finite values will result
+      // in NaN naturally.
       sumOfProductsOfDeltas +=
           values.sumOfProductsOfDeltas()
-              + xMeanDelta * yMeanDelta * count() * values.count() / nextCount;
+              + (values.xStats().mean() - xStats.mean())
+              * (values.yStats().mean() - yStats.mean())
+              * values.count();
     }
-
-    xStats.addAll(values.xStats());
     yStats.addAll(values.yStats());
   }
 
