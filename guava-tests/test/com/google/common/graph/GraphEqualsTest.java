@@ -17,7 +17,8 @@
 package com.google.common.graph;
 
 import static com.google.common.graph.Graphs.MULTIGRAPH;
-import static com.google.common.truth.Truth.assertThat;
+
+import com.google.common.testing.EqualsTester;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -81,7 +82,7 @@ public final class GraphEqualsTest {
     Graph<Integer, String> g2 = createGraph();
     g2.addNode(N2);
 
-    assertThat(graph.equals(g2)).isFalse();
+    new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
   }
 
   // Node sets are the same, but edge sets differ.
@@ -92,7 +93,7 @@ public final class GraphEqualsTest {
     Graph<Integer, String> g2 = createGraph();
     g2.addEdge(E13, N1, N2);
 
-    assertThat(graph.equals(g2)).isFalse();
+    new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
   }
 
   // Node/edge sets are the same, but types differ.
@@ -115,7 +116,7 @@ public final class GraphEqualsTest {
 
     g2.addEdge(E12, N1, N2);
 
-    assertThat(graph.equals(g2)).isFalse();
+    new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
   }
 
   // Node/edge sets and graph type are the same, but node/edge connections differ.
@@ -129,7 +130,7 @@ public final class GraphEqualsTest {
     g2.addEdge(E13, N1, N2);
     g2.addEdge(E12, N1, N3);
 
-    assertThat(graph.equals(g2)).isFalse();
+    new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
   }
 
   // Node/edge sets, graph type, and node/edge connections are the same, but GraphConfigs differ.
@@ -141,7 +142,7 @@ public final class GraphEqualsTest {
     Graph<Integer, String> g2 = createGraph(MULTIGRAPH.noSelfLoops());
     g2.addEdge(E12, N1, N2);
 
-    assertThat(graph.equals(g2)).isTrue();
+    new EqualsTester().addEqualityGroup(graph, g2).testEquals();
   }
 
   // Node/edge sets, graph type, and node/edge connections are the same, but edge order differs.
@@ -159,6 +160,25 @@ public final class GraphEqualsTest {
     g2.addEdge(E12_A, N1, N2);
     g2.addEdge(E12, N1, N2);
 
-    assertThat(g1.equals(g2)).isTrue();
+    new EqualsTester().addEqualityGroup(g1, g2).testEquals();
+  }
+
+  @Test
+  public void equals_edgeDirectionsDiffer() {
+    graph.addEdge(E12, N1, N2);
+
+    Graph<Integer, String> g2 = createGraph();
+    g2.addEdge(E12, N2, N1);
+
+    switch (graphType) {
+      case UNDIRECTED:
+        new EqualsTester().addEqualityGroup(graph, g2).testEquals();
+        break;
+      case DIRECTED:
+        new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
+        break;
+      default:
+        throw new IllegalStateException("Unexpected graph type: " + graphType);
+    }
   }
 }
