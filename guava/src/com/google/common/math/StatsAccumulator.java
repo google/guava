@@ -51,8 +51,8 @@ public final class StatsAccumulator {
    * Adds the given value to the dataset.
    */
   public void add(double value) {
-    count++;
-    if (count == 1) {
+    if (count == 0) {
+      count = 1;
       mean = value;
       min = value;
       max = value;
@@ -60,6 +60,7 @@ public final class StatsAccumulator {
         sumOfSquaresOfDeltas = NaN;
       }
     } else {
+      count++;
       if (isFinite(value) && isFinite(mean)) {
         // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15) and (16)
         double delta = value - mean;
@@ -149,18 +150,17 @@ public final class StatsAccumulator {
       min = values.min();
       max = values.max();
     } else {
-      // Updating algorithm (1.5) from Chan et al. (1983). Algorithms for Computing the Sample
-      // Variance: Analysis and Recommendations. The American Statistician 37, 242-247.
-      long nextCount = count + values.count();
-      double delta = values.mean() - mean;
-      // Note that this is the naive mean formula, so non-finite values are handled naturally.
-      // TODO(b/26080783): Decide whether to use naive or Knuth formula. Consider MAX_VALUE case.
-      mean = (sum() + values.sum()) / nextCount;
-      // Note that non-finite inputs will have sumOfSquaresOfDeltas = NaN, so non-finite values will
-      // result in NaN naturally.
-      sumOfSquaresOfDeltas +=
-          values.sumOfSquaresOfDeltas() + values.count() * delta * (values.mean() - mean);
-      count = nextCount;
+      count += values.count();
+      if (isFinite(mean) && isFinite(values.mean())) {
+        // This is a generalized version of the calculation in add(double) above.
+        double delta = values.mean() - mean;
+        mean += delta * values.count() / count;
+        sumOfSquaresOfDeltas +=
+            values.sumOfSquaresOfDeltas() + delta * (values.mean() - mean) * values.count();
+      } else {
+        mean = calculateNewMeanNonFinite(mean, values.mean());
+        sumOfSquaresOfDeltas = NaN;
+      }
       min = Math.min(min, values.min());
       max = Math.max(max, values.max());
     }
