@@ -530,7 +530,7 @@ public final class Sets {
    */
   @Deprecated
   public static <E> Set<E> newSetFromMap(Map<E, Boolean> map) {
-    return Platform.newSetFromMap(map);
+    return Collections.newSetFromMap(map);
   }
 
   /**
