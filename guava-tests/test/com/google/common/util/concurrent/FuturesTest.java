@@ -713,7 +713,7 @@ public class FuturesTest extends TestCase {
     return new Function<X, V>() {
       @Override
       public V apply(X t) {
-        throw new AssertionError("Unexpected fallback", t);
+        throw newAssertionError("Unexpected fallback", t);
       }
     };
   }
@@ -746,7 +746,7 @@ public class FuturesTest extends TestCase {
     return new FutureFallback<V>() {
       @Override
       public ListenableFuture<V> create(Throwable t) {
-        throw new AssertionError("Unexpected fallback", t);
+        throw newAssertionError("Unexpected fallback", t);
       }
     };
   }
@@ -778,9 +778,16 @@ public class FuturesTest extends TestCase {
     return new AsyncFunction<X, V>() {
       @Override
       public ListenableFuture<V> apply(X t) {
-        throw new AssertionError("Unexpected fallback", t);
+        throw newAssertionError("Unexpected fallback", t);
       }
     };
+  }
+
+  /** Alternative to AssertionError(String, Throwable), which doesn't exist in GWT 2.6.1. */
+  private static AssertionError newAssertionError(String message, Throwable cause) {
+    AssertionError e = new AssertionError(message);
+    e.initCause(cause);
+    return e;
   }
 
   public void testWithFallback_inputDoesNotRaiseException() throws Exception {
