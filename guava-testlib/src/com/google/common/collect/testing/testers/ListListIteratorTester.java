@@ -70,11 +70,6 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
     new ListIteratorTester<E>(
         listListIteratorTesterNumIterations(), singleton(e4()), features,
         Helpers.copyToList(getOrderedElements()), 0) {
-      {
-        // TODO: don't set this universally
-        stopTestingWhenAddThrowsException();
-      }
-
       @Override protected ListIterator<E> newTargetIterator() {
         resetCollection();
         return getList().listIterator();

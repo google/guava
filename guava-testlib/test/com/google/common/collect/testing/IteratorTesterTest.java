@@ -154,25 +154,6 @@ public class IteratorTesterTest extends TestCase {
     fail("Should have caught jdk6 bug in target iterator");
   }
 
-  public void testCanWorkAroundSunJavaBug6529795InTargetIterator() {
-    IteratorTester<Integer> tester =
-        new IteratorTester<Integer>(4, MODIFIABLE, newArrayList(1, 2),
-            IteratorTester.KnownOrder.KNOWN_ORDER) {
-          @Override protected Iterator<Integer> newTargetIterator() {
-            Iterator<Integer> iterator = Lists.newArrayList(1, 2).iterator();
-            return new IteratorWithSunJavaBug6529795<Integer>(iterator);
-          }
-        };
-
-    /*
-     * Calling this method on an IteratorTester should avoid flagging
-     * the bug exposed by the preceding test.
-     */
-    tester.ignoreSunJavaBug6529795();
-
-    tester.test();
-  }
-
   private static final int STEPS = 3;
   static class TesterThatCountsCalls extends IteratorTester<Integer> {
     TesterThatCountsCalls() {

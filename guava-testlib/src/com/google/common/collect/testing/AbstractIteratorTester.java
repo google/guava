@@ -47,54 +47,6 @@ import java.util.Stack;
  */
 @GwtCompatible
 abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
-  private boolean whenNextThrowsExceptionStopTestingCallsToRemove;
-  private boolean whenAddThrowsExceptionStopTesting;
-
-  /**
-   * Don't verify iterator behavior on remove() after a call to next()
-   * throws an exception.
-   *
-   * <p>JDK 6 currently has a bug where some iterators get into a undefined
-   * state when next() throws a NoSuchElementException. The correct
-   * behavior is for remove() to remove the last element returned by
-   * next, even if a subsequent next() call threw an exception; however
-   * JDK 6's HashMap and related classes throw an IllegalStateException
-   * in this case.
-   *
-   * <p>Calling this method causes the iterator tester to skip testing
-   * any remove() in a stimulus sequence after the reference iterator
-   * throws an exception in next().
-   *
-   * <p>TODO: remove this once we're on 6u5, which has the fix.
-   *
-   * @see <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6529795">
-   *     Sun Java Bug 6529795</a>
-   */
-  public void ignoreSunJavaBug6529795() {
-    whenNextThrowsExceptionStopTestingCallsToRemove = true;
-  }
-
-  /**
-   * Don't verify iterator behavior after a call to add() throws an exception.
-   *
-   * <p>AbstractList's ListIterator implementation gets into a undefined state
-   * when add() throws an UnsupportedOperationException. Instead of leaving the
-   * iterator's position unmodified, it increments it, skipping an element or
-   * even moving past the end of the list.
-   *
-   * <p>Calling this method causes the iterator tester to skip testing in a
-   * stimulus sequence after the iterator under test throws an exception in
-   * add().
-   *
-   * <p>TODO: remove this once the behavior is fixed.
-   *
-   * @see <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6533203">
-   *     Sun Java Bug 6533203</a>
-   */
-  public void stopTestingWhenAddThrowsException() {
-    whenAddThrowsExceptionStopTesting = true;
-  }
-
   private Stimulus<E, ? super I>[] stimuli;
   private final Iterator<E> elementsToInsert;
   private final Set<IteratorFeature> features;
@@ -394,26 +346,10 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     MultiExceptionListIterator reference =
         new MultiExceptionListIterator(expectedElements);
     I target = newTargetIterator();
-    boolean shouldStopTestingCallsToRemove = false;
     for (int i = 0; i < stimuli.length; i++) {
-      Stimulus<E, ? super I> stimulus = stimuli[i];
-      if (stimulus.equals(remove) && shouldStopTestingCallsToRemove) {
-        break;
-      }
       try {
-        boolean threwException = stimulus.executeAndCompare(reference, target);
-        if (threwException
-            && stimulus.equals(next)
-            && whenNextThrowsExceptionStopTestingCallsToRemove) {
-          shouldStopTestingCallsToRemove = true;
-        }
-        if (threwException
-            && stimulus.equals(add)
-            && whenAddThrowsExceptionStopTesting) {
-          break;
-        }
-        List<E> elements = reference.getElements();
-        verify(elements);
+        stimuli[i].executeAndCompare(reference, target);
+        verify(reference.getElements());
       } catch (AssertionFailedError cause) {
         Helpers.fail(cause,
             "failed with stimuli " + subListCopy(stimuli, i + 1));
@@ -435,14 +371,10 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
    * Apply this method to both iterators and return normally only if both
    * produce the same response.
    *
-   * @return {@code true} if an exception was thrown by the iterators.
-   *
    * @see Stimulus#executeAndCompare(ListIterator, Iterator)
    */
-  private <T extends Iterator<E>> boolean internalExecuteAndCompare(
-      T reference, T target, IteratorOperation method)
-      throws AssertionFailedError {
-
+  private <T extends Iterator<E>> void internalExecuteAndCompare(
+      T reference, T target, IteratorOperation method) {
     Object referenceReturnValue = null;
     PermittedMetaException referenceException = null;
     Object targetReturnValue = null;
@@ -502,7 +434,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
        */
       assertEquals(referenceReturnValue, targetReturnValue);
 
-      return false;
+      return;
     }
 
     if (targetException == null) {
@@ -514,8 +446,6 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
      * exception from the target.
      */
     referenceException.assertPermitted(targetException);
-
-    return true;
   }
 
   private static final IteratorOperation REMOVE_METHOD =
@@ -579,36 +509,35 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     /**
      * Send this stimulus to both iterators and return normally only if both
      * produce the same response.
-     *
-     * @return {@code true} if an exception was thrown by the iterators.
      */
-    abstract boolean executeAndCompare(ListIterator<E> reference, T target);
+    abstract void executeAndCompare(ListIterator<E> reference, T target);
 
     @Override public String toString() {
       return toString;
     }
   }
 
-  Stimulus<E, Iterator<E>> hasNext = new Stimulus<E, Iterator<E>>("hasNext") {
-    @Override boolean
-        executeAndCompare(ListIterator<E> reference, Iterator<E> target) {
-      // return only if both are true or both are false
-      assertEquals(reference.hasNext(), target.hasNext());
-      return false;
-    }
-  };
-  Stimulus<E, Iterator<E>> next = new Stimulus<E, Iterator<E>>("next") {
-    @Override boolean
-        executeAndCompare(ListIterator<E> reference, Iterator<E> target) {
-      return internalExecuteAndCompare(reference, target, NEXT_METHOD);
-    }
-  };
-  Stimulus<E, Iterator<E>> remove = new Stimulus<E, Iterator<E>>("remove") {
-    @Override boolean
-        executeAndCompare(ListIterator<E> reference, Iterator<E> target) {
-      return internalExecuteAndCompare(reference, target, REMOVE_METHOD);
-    }
-  };
+  Stimulus<E, Iterator<E>> hasNext =
+      new Stimulus<E, Iterator<E>>("hasNext") {
+        @Override
+        void executeAndCompare(ListIterator<E> reference, Iterator<E> target) {
+          assertEquals(reference.hasNext(), target.hasNext());
+        }
+      };
+  Stimulus<E, Iterator<E>> next =
+      new Stimulus<E, Iterator<E>>("next") {
+        @Override
+        void executeAndCompare(ListIterator<E> reference, Iterator<E> target) {
+          internalExecuteAndCompare(reference, target, NEXT_METHOD);
+        }
+      };
+  Stimulus<E, Iterator<E>> remove =
+      new Stimulus<E, Iterator<E>>("remove") {
+        @Override
+        void executeAndCompare(ListIterator<E> reference, Iterator<E> target) {
+          internalExecuteAndCompare(reference, target, REMOVE_METHOD);
+        }
+      };
 
   @SuppressWarnings("unchecked")
   List<Stimulus<E, Iterator<E>>> iteratorStimuli() {
@@ -617,48 +546,46 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
 
   Stimulus<E, ListIterator<E>> hasPrevious =
       new Stimulus<E, ListIterator<E>>("hasPrevious") {
-        @Override boolean executeAndCompare(
-            ListIterator<E> reference, ListIterator<E> target) {
-          // return only if both are true or both are false
+        @Override
+        void executeAndCompare(ListIterator<E> reference, ListIterator<E> target) {
           assertEquals(reference.hasPrevious(), target.hasPrevious());
-          return false;
         }
       };
   Stimulus<E, ListIterator<E>> nextIndex =
       new Stimulus<E, ListIterator<E>>("nextIndex") {
-        @Override boolean executeAndCompare(
-            ListIterator<E> reference, ListIterator<E> target) {
+        @Override
+        void executeAndCompare(ListIterator<E> reference, ListIterator<E> target) {
           assertEquals(reference.nextIndex(), target.nextIndex());
-          return false;
         }
       };
   Stimulus<E, ListIterator<E>> previousIndex =
       new Stimulus<E, ListIterator<E>>("previousIndex") {
-        @Override boolean executeAndCompare(
-            ListIterator<E> reference, ListIterator<E> target) {
+        @Override
+        void executeAndCompare(ListIterator<E> reference, ListIterator<E> target) {
           assertEquals(reference.previousIndex(), target.previousIndex());
-          return false;
         }
       };
   Stimulus<E, ListIterator<E>> previous =
       new Stimulus<E, ListIterator<E>>("previous") {
-        @Override boolean executeAndCompare(
-            ListIterator<E> reference, ListIterator<E> target) {
-          return internalExecuteAndCompare(reference, target, PREVIOUS_METHOD);
+        @Override
+        void executeAndCompare(ListIterator<E> reference, ListIterator<E> target) {
+          internalExecuteAndCompare(reference, target, PREVIOUS_METHOD);
         }
       };
-  Stimulus<E, ListIterator<E>> add = new Stimulus<E, ListIterator<E>>("add") {
-    @Override boolean executeAndCompare(
-        ListIterator<E> reference, ListIterator<E> target) {
-      return internalExecuteAndCompare(reference, target, newAddMethod());
-    }
-  };
-  Stimulus<E, ListIterator<E>> set = new Stimulus<E, ListIterator<E>>("set") {
-    @Override boolean executeAndCompare(
-        ListIterator<E> reference, ListIterator<E> target) {
-      return internalExecuteAndCompare(reference, target, newSetMethod());
-    }
-  };
+  Stimulus<E, ListIterator<E>> add =
+      new Stimulus<E, ListIterator<E>>("add") {
+        @Override
+        void executeAndCompare(ListIterator<E> reference, ListIterator<E> target) {
+          internalExecuteAndCompare(reference, target, newAddMethod());
+        }
+      };
+  Stimulus<E, ListIterator<E>> set =
+      new Stimulus<E, ListIterator<E>>("set") {
+        @Override
+        void executeAndCompare(ListIterator<E> reference, ListIterator<E> target) {
+          internalExecuteAndCompare(reference, target, newSetMethod());
+        }
+      };
 
   @SuppressWarnings("unchecked")
   List<Stimulus<E, ListIterator<E>>> listIteratorStimuli() {
