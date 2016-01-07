@@ -343,16 +343,7 @@ public final class Chars {
   public static char[] ensureCapacity(char[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
     checkArgument(padding >= 0, "Invalid padding: %s", padding);
-    return (array.length < minLength)
-        ? copyOf(array, minLength + padding)
-        : array;
-  }
-
-  // Arrays.copyOf() requires Java 6
-  private static char[] copyOf(char[] original, int length) {
-    char[] copy = new char[length];
-    System.arraycopy(original, 0, copy, 0, Math.min(original.length, length));
-    return copy;
+    return (array.length < minLength) ? Arrays.copyOf(array, minLength + padding) : array;
   }
 
   /**
