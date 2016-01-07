@@ -19,9 +19,8 @@ package com.google.common.cache;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
 
-import java.util.Map.Entry;
+import java.util.AbstractMap.SimpleImmutableEntry;
 
 import javax.annotation.Nullable;
 
@@ -37,9 +36,7 @@ import javax.annotation.Nullable;
  * @since 10.0
  */
 @GwtCompatible
-public final class RemovalNotification<K, V> implements Entry<K, V> {
-  @Nullable private final K key;
-  @Nullable private final V value;
+public final class RemovalNotification<K, V> extends SimpleImmutableEntry<K, V> {
   private final RemovalCause cause;
 
   /**
@@ -55,8 +52,7 @@ public final class RemovalNotification<K, V> implements Entry<K, V> {
   }
 
   private RemovalNotification(@Nullable K key, @Nullable V value, RemovalCause cause) {
-    this.key = key;
-    this.value = value;
+    super(key, value);
     this.cause = checkNotNull(cause);
   }
 
@@ -75,38 +71,5 @@ public final class RemovalNotification<K, V> implements Entry<K, V> {
     return cause.wasEvicted();
   }
 
-  @Nullable @Override public K getKey() {
-    return key;
-  }
-
-  @Nullable @Override public V getValue() {
-    return value;
-  }
-
-  @Override public final V setValue(V value) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override public boolean equals(@Nullable Object object) {
-    if (object instanceof Entry) {
-      Entry<?, ?> that = (Entry<?, ?>) object;
-      return Objects.equal(this.getKey(), that.getKey())
-          && Objects.equal(this.getValue(), that.getValue());
-    }
-    return false;
-  }
-
-  @Override public int hashCode() {
-    K k = getKey();
-    V v = getValue();
-    return ((k == null) ? 0 : k.hashCode()) ^ ((v == null) ? 0 : v.hashCode());
-  }
-
-  /**
-   * Returns a string representation of the form <code>{key}={value}</code>.
-   */
-  @Override public String toString() {
-    return getKey() + "=" + getValue();
-  }
   private static final long serialVersionUID = 0;
 }
