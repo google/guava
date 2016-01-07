@@ -14,6 +14,7 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.io.BaseEncoding.base16;
 import static com.google.common.io.BaseEncoding.base32;
 import static com.google.common.io.BaseEncoding.base32Hex;
@@ -35,7 +36,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 
 import javax.annotation.Nullable;
 
@@ -46,13 +46,6 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 public class BaseEncodingTest extends TestCase {
-  public static void assertEquals(byte[] expected, byte[] actual) {
-    assertEquals(expected.length, actual.length);
-    for (int i = 0; i < expected.length; i++) {
-      assertEquals(expected[i], actual[i]);
-    }
-  }
-
   public void testSeparatorsExplicitly() {
     testEncodes(base64().withSeparator("\n", 3), "foobar", "Zm9\nvYm\nFy");
     testEncodes(base64().withSeparator("$", 4), "foobar", "Zm9v$YmFy");
@@ -374,17 +367,17 @@ public class BaseEncodingTest extends TestCase {
   }
 
   private static void testEncodes(BaseEncoding encoding, String decoded, String encoded) {
-    assertEquals(encoded, encoding.encode(getBytes(decoded)));
+    assertThat(encoding.encode(decoded.getBytes(UTF_8))).isEqualTo(encoded);
   }
 
   private static void testEncodesWithOffset(
       BaseEncoding encoding, String decoded, int offset, int len, String encoded) {
-    assertEquals(encoded, encoding.encode(getBytes(decoded), offset, len));
+    assertThat(encoding.encode(decoded.getBytes(UTF_8), offset, len)).isEqualTo(encoded);
   }
 
   private static void testDecodes(BaseEncoding encoding, String encoded, String decoded) {
     assertTrue(encoding.canDecode(encoded));
-    assertEquals(getBytes(decoded), encoding.decode(encoded));
+    assertThat(encoding.decode(encoded)).isEqualTo(decoded.getBytes(UTF_8));
   }
 
   private static void assertFailsToDecode(BaseEncoding encoding, String cannotDecode) {
@@ -446,30 +439,21 @@ public class BaseEncodingTest extends TestCase {
       throws IOException {
     StringWriter writer = new StringWriter();
     OutputStream encodingStream = encoding.encodingStream(writer);
-    encodingStream.write(getBytes(decoded));
+    encodingStream.write(decoded.getBytes(UTF_8));
     encodingStream.close();
-    assertEquals(encoded, writer.toString());
+    assertThat(writer.toString()).isEqualTo(encoded);
   }
 
   @GwtIncompatible // Reader
   private static void testStreamingDecodes(BaseEncoding encoding, String encoded, String decoded)
       throws IOException {
-    byte[] bytes = getBytes(decoded);
+    byte[] bytes = decoded.getBytes(UTF_8);
     InputStream decodingStream = encoding.decodingStream(new StringReader(encoded));
     for (int i = 0; i < bytes.length; i++) {
-      assertEquals(bytes[i] & 0xFF, decodingStream.read());
+      assertThat(decodingStream.read()).isEqualTo(bytes[i] & 0xFF);
     }
-    assertEquals(-1, decodingStream.read());
+    assertThat(decodingStream.read()).isEqualTo(-1);
     decodingStream.close();
-  }
-
-  private static byte[] getBytes(String decoded) {
-    try {
-      // GWT does not support String.getBytes(Charset)
-      return decoded.getBytes("UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new AssertionError();
-    }
   }
 
   public void testToString() {
