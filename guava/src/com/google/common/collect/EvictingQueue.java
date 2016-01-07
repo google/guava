@@ -116,6 +116,11 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
   @Override
   @CanIgnoreReturnValue
   public boolean addAll(Collection<? extends E> collection) {
+    int size = collection.size();
+    if (size >= maxSize) {
+      clear();
+      return Iterables.addAll(this, Iterables.skip(collection, size - maxSize));
+    }
     return standardAddAll(collection);
   }
 
