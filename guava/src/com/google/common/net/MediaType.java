@@ -101,6 +101,8 @@ public final class MediaType {
   private static final String APPLICATION_TYPE = "application";
   private static final String AUDIO_TYPE = "audio";
   private static final String IMAGE_TYPE = "image";
+  private static final String MESSAGE_TYPE = "message";
+  private static final String MODEL_TYPE = "model";
   private static final String TEXT_TYPE = "text";
   private static final String VIDEO_TYPE = "video";
 
@@ -145,6 +147,7 @@ public final class MediaType {
   public static final MediaType CSV_UTF_8 = createConstantUtf8(TEXT_TYPE, "csv");
   public static final MediaType HTML_UTF_8 = createConstantUtf8(TEXT_TYPE, "html");
   public static final MediaType I_CALENDAR_UTF_8 = createConstantUtf8(TEXT_TYPE, "calendar");
+  public static final MediaType JQUERY_TEMPLATE = createConstant(TEXT_TYPE, "x-jquery-tmpl");
   public static final MediaType PLAIN_TEXT_UTF_8 = createConstantUtf8(TEXT_TYPE, "plain");
   /**
    * <a href="http://www.rfc-editor.org/rfc/rfc4329.txt">RFC 4329</a> declares
@@ -183,6 +186,7 @@ public final class MediaType {
   public static final MediaType GIF = createConstant(IMAGE_TYPE, "gif");
   public static final MediaType ICO = createConstant(IMAGE_TYPE, "vnd.microsoft.icon");
   public static final MediaType JPEG = createConstant(IMAGE_TYPE, "jpeg");
+  public static final MediaType PJPEG = createConstant(IMAGE_TYPE, "pjpeg");
   public static final MediaType PNG = createConstant(IMAGE_TYPE, "png");
   /**
    * The media type for the Photoshop File Format ({@code psd} files) as defined by <a href=
@@ -203,21 +207,48 @@ public final class MediaType {
   public static final MediaType PSD = createConstant(IMAGE_TYPE, "vnd.adobe.photoshop");
   public static final MediaType SVG_UTF_8 = createConstantUtf8(IMAGE_TYPE, "svg+xml");
   public static final MediaType TIFF = createConstant(IMAGE_TYPE, "tiff");
+  public static final MediaType WBMP = createConstant(IMAGE_TYPE, "vnd.wap.wbmp");
   public static final MediaType WEBP = createConstant(IMAGE_TYPE, "webp");
 
   /* audio types */
+  public static final MediaType ACC = createConstant(AUDIO_TYPE, "aac");
+  public static final MediaType AUDIO_BASIC = createConstant(AUDIO_TYPE, "basic");
+  public static final MediaType L24 = createConstant(AUDIO_TYPE, "l24");
   public static final MediaType MP4_AUDIO = createConstant(AUDIO_TYPE, "mp4");
   public static final MediaType MPEG_AUDIO = createConstant(AUDIO_TYPE, "mpeg");
   public static final MediaType OGG_AUDIO = createConstant(AUDIO_TYPE, "ogg");
+  public static final MediaType REALAUDIO = createConstant(AUDIO_TYPE, "vnd.rn-realaudio");
+  public static final MediaType VORBIS = createConstant(AUDIO_TYPE, "vorbis");
+  public static final MediaType WAVE = createConstant(AUDIO_TYPE, "vnd.wave");
+  public static final MediaType WAX = createConstant(AUDIO_TYPE, "x-ms-wax");
   public static final MediaType WEBM_AUDIO = createConstant(AUDIO_TYPE, "webm");
+  public static final MediaType WMA = createConstant(AUDIO_TYPE, "x-ms-wma");
 
   /* video types */
+  public static final MediaType FLV = createConstant(VIDEO_TYPE, "x-flv");
   public static final MediaType MP4_VIDEO = createConstant(VIDEO_TYPE, "mp4");
   public static final MediaType MPEG_VIDEO = createConstant(VIDEO_TYPE, "mpeg");
   public static final MediaType OGG_VIDEO = createConstant(VIDEO_TYPE, "ogg");
   public static final MediaType QUICKTIME = createConstant(VIDEO_TYPE, "quicktime");
+  public static final MediaType THIRD_GPP = createConstant(VIDEO_TYPE, "3gpp");
+  public static final MediaType THIRD_GPP_2 = createConstant(VIDEO_TYPE, "3gpp2");
   public static final MediaType WEBM_VIDEO = createConstant(VIDEO_TYPE, "webm");
   public static final MediaType WMV = createConstant(VIDEO_TYPE, "x-ms-wmv");
+
+  /* message types */
+  public static final MediaType HTTP = createConstant(MESSAGE_TYPE, "http");
+  public static final MediaType IMDN = createConstant(MESSAGE_TYPE, "imdn+xml");
+  public static final MediaType PARTIAL = createConstant(MESSAGE_TYPE, "partial");
+  public static final MediaType RFC822 = createConstant(MESSAGE_TYPE, "rfc822");
+
+  /* model types */
+  public static final MediaType MODEL_EXAMPLE = createConstant(MODEL_TYPE, "example");
+  public static final MediaType IGES = createConstant(MODEL_TYPE, "iges");
+  public static final MediaType MESH = createConstant(MODEL_TYPE, "mesh");
+  public static final MediaType VRML = createConstant(MODEL_TYPE, "vrml");
+  public static final MediaType X3D_BINARY = createConstant(MODEL_TYPE, "x3d+binary");
+  public static final MediaType X3D_VRML = createConstant(MODEL_TYPE, "x3d-vrml");
+  public static final MediaType X3D_XML = createConstant(MODEL_TYPE, "x3d+xml");
 
   /* application types */
   /**
@@ -227,6 +258,7 @@ public final class MediaType {
    */
   public static final MediaType APPLICATION_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xml");
   public static final MediaType ATOM_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "atom+xml");
+  public static final MediaType BIT_TORRENT = createConstant(APPLICATION_TYPE, "x-bittorrent");
   public static final MediaType BZIP2 = createConstant(APPLICATION_TYPE, "x-bzip2");
 
   /**
@@ -243,7 +275,9 @@ public final class MediaType {
    */
   public static final MediaType APPLE_PASSBOOK = createConstant(APPLICATION_TYPE,
       "vnd.apple.pkpass");
-
+  public static final MediaType DVI = createConstant(APPLICATION_TYPE, "x-dvi");
+  public static final MediaType EDIFACT_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "edifact");
+  public static final MediaType EDI_X12_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "edi-x12");
   /**
    * Media type for <a href="http://en.wikipedia.org/wiki/Embedded_OpenType">Embedded OpenType</a>
    * fonts. This is
@@ -286,11 +320,13 @@ public final class MediaType {
    */
   public static final MediaType APPLICATION_BINARY = createConstant(APPLICATION_TYPE, "binary");
   public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");
-   /**
-    * <a href="http://www.rfc-editor.org/rfc/rfc4329.txt">RFC 4329</a> declares this to be the
-    * correct media type for JavaScript, but {@link #TEXT_JAVASCRIPT_UTF_8 text/javascript} may be
-    * necessary in certain situations for compatibility.
-    */
+  public static final MediaType JAVASCRIPT_UNREGISTERED =
+      createConstant(APPLICATION_TYPE, "x-javascript");
+  /**
+   * <a href="http://www.rfc-editor.org/rfc/rfc4329.txt">RFC 4329</a> declares this to be the
+   * correct media type for JavaScript, but {@link #TEXT_JAVASCRIPT_UTF_8 text/javascript} may be
+   * necessary in certain situations for compatibility.
+   */
   public static final MediaType JAVASCRIPT_UTF_8 =
       createConstantUtf8(APPLICATION_TYPE, "javascript");
   public static final MediaType JSON_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "json");
@@ -304,6 +340,7 @@ public final class MediaType {
       createConstantUtf8(APPLICATION_TYPE, "manifest+json");
   public static final MediaType KML = createConstant(APPLICATION_TYPE, "vnd.google-earth.kml+xml");
   public static final MediaType KMZ = createConstant(APPLICATION_TYPE, "vnd.google-earth.kmz");
+  public static final MediaType LATEX = createConstant(APPLICATION_TYPE, "x-latex");
   public static final MediaType MBOX = createConstant(APPLICATION_TYPE, "mbox");
 
   /**
@@ -335,6 +372,15 @@ public final class MediaType {
   public static final MediaType OPENDOCUMENT_TEXT =
       createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.text");
   public static final MediaType PDF = createConstant(APPLICATION_TYPE, "pdf");
+  public static final MediaType PKCS12_UNREGISTERED = createConstant(APPLICATION_TYPE, "x-pkcs12");
+  public static final MediaType PKCS7_CERTIFICATES_UNREGISTERED =
+      createConstant(APPLICATION_TYPE, "x-pkcs7-certificates");
+  public static final MediaType PKCS7_CERTREQRESP_UNREGISTERED =
+      createConstant(APPLICATION_TYPE, "x-pkcs7-certreqresp");
+  public static final MediaType PKCS7_MIME_UNREGISTERED =
+      createConstant(APPLICATION_TYPE, "x-pkcs7-mime");
+  public static final MediaType PKCS7_SIGNATURE_UNREGISTERED =
+      createConstant(APPLICATION_TYPE, "x-pkcs7-signature");
   public static final MediaType POSTSCRIPT = createConstant(APPLICATION_TYPE, "postscript");
   /**
    * <a href="http://tools.ietf.org/html/draft-rfernando-protocol-buffers-00">Protocol buffers</a>
@@ -342,6 +388,7 @@ public final class MediaType {
    * @since 15.0
    */
   public static final MediaType PROTOBUF = createConstant(APPLICATION_TYPE, "protobuf");
+  public static final MediaType RAR = createConstant(APPLICATION_TYPE, "x-rar-compressed");
   public static final MediaType RDF_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rdf+xml");
   public static final MediaType RTF_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rtf");
   /**
@@ -369,7 +416,10 @@ public final class MediaType {
    * @since 20.0
    */
   public static final MediaType SOAP_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "soap+xml");
+  public static final MediaType STUFF_IT = createConstant(APPLICATION_TYPE, "x-stuffit");
   public static final MediaType TAR = createConstant(APPLICATION_TYPE, "x-tar");
+  public static final MediaType TEX = createConstant(APPLICATION_TYPE, "x-tex");
+  public static final MediaType TTF = createConstant(APPLICATION_TYPE, "x-font-ttf");
   /**
    * Media type for the
    * <a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font Format</a> (WOFF)
@@ -380,7 +430,10 @@ public final class MediaType {
    * @since 17.0
    */
   public static final MediaType WOFF = createConstant(APPLICATION_TYPE, "font-woff");
+  public static final MediaType WOFF_UNREGISTERED = createConstant(APPLICATION_TYPE, "x-woff");
   public static final MediaType XHTML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xhtml+xml");
+  public static final MediaType XML_DTD_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xml-dtd");
+  public static final MediaType XOP_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xop+xml");
   /**
    * Media type for Extensible Resource Descriptors. This is not yet registered with the IANA, but
    * it is specified by OASIS in the
