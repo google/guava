@@ -71,8 +71,7 @@ public final class PairedStatsAccumulator {
    * Adds the given statistics to the dataset, as if the individual values used to compute the
    * statistics had been added directly.
    */
-  // TODO(b/26080783): Make public once ready (including exhaustive tests for edge cases).
-  void addAll(PairedStats values) {
+  public void addAll(PairedStats values) {
     if (values.count() == 0) {
       return;
     }
