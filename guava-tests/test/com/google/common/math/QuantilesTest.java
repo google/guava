@@ -724,6 +724,7 @@ public class QuantilesTest extends TestCase {
    * dataset.
    */
   private static void assertDatasetInOrder(Collection<Double> expected, double[] actual) {
+    // TODO(b/25905237): Use ofElementsIn(expected) when that's available in guava
     assertThat(actual).hasValuesWithin(0.0).of(Doubles.toArray(expected));
   }
 
