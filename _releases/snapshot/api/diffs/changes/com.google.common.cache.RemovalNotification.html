@@ -18,7 +18,7 @@ com.google.common.cache.RemovalNotification
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/cache/RemovalNotification.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/cache/RemovalNotification.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.cache.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,8 +30,8 @@ com.google.common.cache.RemovalNotification
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<B>PREV CLASS</B>&nbsp;
-&nbsp;<B>NEXT CLASS</B>&nbsp;
+&nbsp;<A HREF="com.google.common.cache.RemovalListener.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.cache.Weigher.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.cache.RemovalNotification.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -47,21 +47,56 @@ FIELDS
 <H2>
 Class com.google.common.cache.<A HREF="../../docs/com/google/common/cache/RemovalNotification.html" target="_top"><tt>RemovalNotification</tt></A>
 </H2>
+<p><font size="+1">The superclass changed from <code>java.lang.Object</code> to <code>java.util.AbstractMap.SimpleImmutableEntry<K, V></code>.<br> Removed interface <code>java.util.Map.Entry<K, V></code>.<br></font>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
 <p>
-<a NAME="Added"></a>
-<TABLE summary="Added Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<a NAME="Removed"></a>
+<TABLE summary="Removed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Methods</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Removed Methods</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.cache.RemovalNotification.create_added(K, V, com.google.common.cache.RemovalCause)"></A>
-  <nobr>(<code>RemovalNotification&lt;K, V&gt;</code>)&nbsp;<A HREF="../../docs/com/google/common/cache/RemovalNotification.html#create(K, V, com.google.common.cache.RemovalCause)" target="_top"><tt>create</tt></A>(<code>K,</nobr> V<nobr>,</nobr> RemovalCause<nobr><nobr></code>)</nobr>
+  <A NAME="com.google.common.cache.RemovalNotification.equals_removed(java.lang.Object)"></A>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../../../19.0/api/docs/com/google/common/cache/RemovalNotification.html#equals(java.lang.Object)" target="_top"><tt>equals</tt></A>(<code>Object</code>)</nobr>
   </TD>
-  <TD VALIGN="TOP">Creates a new {@code RemovalNotification} for the given {@code key}/{@code value} pair, with
- the given {@code cause} for the removal.</TD>
+  <TD>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.cache.RemovalNotification.getKey_removed()"></A>
+  <nobr><code>K</code>&nbsp;<A HREF="../../../../19.0/api/docs/com/google/common/cache/RemovalNotification.html#getKey()" target="_top"><tt>getKey</tt></A>()</nobr>
+  </TD>
+  <TD>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.cache.RemovalNotification.getValue_removed()"></A>
+  <nobr><code>V</code>&nbsp;<A HREF="../../../../19.0/api/docs/com/google/common/cache/RemovalNotification.html#getValue()" target="_top"><tt>getValue</tt></A>()</nobr>
+  </TD>
+  <TD>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.cache.RemovalNotification.hashCode_removed()"></A>
+  <nobr><code>int</code>&nbsp;<A HREF="../../../../19.0/api/docs/com/google/common/cache/RemovalNotification.html#hashCode()" target="_top"><tt>hashCode</tt></A>()</nobr>
+  </TD>
+  <TD>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.cache.RemovalNotification.setValue_removed(V)"></A>
+  <nobr><code>V</code>&nbsp;<A HREF="../../../../19.0/api/docs/com/google/common/cache/RemovalNotification.html#setValue(V)" target="_top"><tt>setValue</tt></A>(<code>V</code>)</nobr>
+  </TD>
+  <TD>&nbsp;</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.cache.RemovalNotification.toString_removed()"></A>
+  <nobr><code>String</code>&nbsp;<A HREF="../../../../19.0/api/docs/com/google/common/cache/RemovalNotification.html#toString()" target="_top"><tt>toString</tt></A>()</nobr>
+  </TD>
+  <TD VALIGN="TOP">Returns a string representation of the form <code>{key}={value}</code>.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -73,7 +108,7 @@ Class com.google.common.cache.<A HREF="../../docs/com/google/common/cache/Remova
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/cache/RemovalNotification.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/cache/RemovalNotification.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.cache.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -85,8 +120,8 @@ Class com.google.common.cache.<A HREF="../../docs/com/google/common/cache/Remova
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<B>PREV CLASS</B>&nbsp;
-&nbsp;<B>NEXT CLASS</B>&nbsp;
+&nbsp;<A HREF="com.google.common.cache.RemovalListener.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.cache.Weigher.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.cache.RemovalNotification.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

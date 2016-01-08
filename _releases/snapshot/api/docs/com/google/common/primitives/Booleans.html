@@ -385,7 +385,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.250">join</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.241">join</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
           boolean...&nbsp;array)</pre>
 <div class="block">Returns a string containing the supplied <code>boolean</code> values separated
  by <code>separator</code>. For example, <code>join("-", false, true, false)</code>
@@ -400,7 +400,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>lexicographicalComparator</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;boolean[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.281">lexicographicalComparator</a>()</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;boolean[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.272">lexicographicalComparator</a>()</pre>
 <div class="block">Returns a comparator that compares two <code>boolean</code> arrays
  lexicographically. That is, it compares, using <a href="../../../../com/google/common/primitives/Booleans.html#compare(boolean,%20boolean)"><code>compare(boolean, boolean)</code></a>), the first pair of values that follow any
  common prefix, or when one array is a prefix of the other, treats the
@@ -421,7 +421,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre>public static&nbsp;boolean[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.323">toArray</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;collection)</pre>
+<pre>public static&nbsp;boolean[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.314">toArray</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;collection)</pre>
 <div class="block">Copies a collection of <code>Boolean</code> instances into a new array of
  primitive <code>boolean</code> values.
 
@@ -443,7 +443,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.352">asList</a>(boolean...&nbsp;backingArray)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.343">asList</a>(boolean...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html?is-external=true#asList(T...)" title="class or interface in java.util"><code>Arrays.asList(Object[])</code></a>. The list supports <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true#set(int,%20E)" title="class or interface in java.util"><code>List.set(int, Object)</code></a>,
  but any attempt to set a value to <code>null</code> will result in a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang"><code>NullPointerException</code></a>.
 
@@ -462,7 +462,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>countTrue</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.499">countTrue</a>(boolean...&nbsp;values)</pre>
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Booleans.html#line.490">countTrue</a>(boolean...&nbsp;values)</pre>
 <div class="block">Returns the number of <code>values</code> that are <code>true</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>16.0</dd></dl>

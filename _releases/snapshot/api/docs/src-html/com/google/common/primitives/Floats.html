@@ -329,312 +329,303 @@
 <span class="sourceLineNo">321</span>  public static float[] ensureCapacity(float[] array, int minLength, int padding) {<a name="line.321"></a>
 <span class="sourceLineNo">322</span>    checkArgument(minLength &gt;= 0, "Invalid minLength: %s", minLength);<a name="line.322"></a>
 <span class="sourceLineNo">323</span>    checkArgument(padding &gt;= 0, "Invalid padding: %s", padding);<a name="line.323"></a>
-<span class="sourceLineNo">324</span>    return (array.length &lt; minLength)<a name="line.324"></a>
-<span class="sourceLineNo">325</span>        ? copyOf(array, minLength + padding)<a name="line.325"></a>
-<span class="sourceLineNo">326</span>        : array;<a name="line.326"></a>
-<span class="sourceLineNo">327</span>  }<a name="line.327"></a>
-<span class="sourceLineNo">328</span><a name="line.328"></a>
-<span class="sourceLineNo">329</span>  // Arrays.copyOf() requires Java 6<a name="line.329"></a>
-<span class="sourceLineNo">330</span>  private static float[] copyOf(float[] original, int length) {<a name="line.330"></a>
-<span class="sourceLineNo">331</span>    float[] copy = new float[length];<a name="line.331"></a>
-<span class="sourceLineNo">332</span>    System.arraycopy(original, 0, copy, 0, Math.min(original.length, length));<a name="line.332"></a>
-<span class="sourceLineNo">333</span>    return copy;<a name="line.333"></a>
-<span class="sourceLineNo">334</span>  }<a name="line.334"></a>
-<span class="sourceLineNo">335</span><a name="line.335"></a>
-<span class="sourceLineNo">336</span>  /**<a name="line.336"></a>
-<span class="sourceLineNo">337</span>   * Returns a string containing the supplied {@code float} values, converted<a name="line.337"></a>
-<span class="sourceLineNo">338</span>   * to strings as specified by {@link Float#toString(float)}, and separated by<a name="line.338"></a>
-<span class="sourceLineNo">339</span>   * {@code separator}. For example, {@code join("-", 1.0f, 2.0f, 3.0f)}<a name="line.339"></a>
-<span class="sourceLineNo">340</span>   * returns the string {@code "1.0-2.0-3.0"}.<a name="line.340"></a>
-<span class="sourceLineNo">341</span>   *<a name="line.341"></a>
-<span class="sourceLineNo">342</span>   * &lt;p&gt;Note that {@link Float#toString(float)} formats {@code float}<a name="line.342"></a>
-<span class="sourceLineNo">343</span>   * differently in GWT.  In the previous example, it returns the string {@code<a name="line.343"></a>
-<span class="sourceLineNo">344</span>   * "1-2-3"}.<a name="line.344"></a>
-<span class="sourceLineNo">345</span>   *<a name="line.345"></a>
-<span class="sourceLineNo">346</span>   * @param separator the text that should appear between consecutive values in<a name="line.346"></a>
-<span class="sourceLineNo">347</span>   *     the resulting string (but not at the start or end)<a name="line.347"></a>
-<span class="sourceLineNo">348</span>   * @param array an array of {@code float} values, possibly empty<a name="line.348"></a>
-<span class="sourceLineNo">349</span>   */<a name="line.349"></a>
-<span class="sourceLineNo">350</span>  public static String join(String separator, float... array) {<a name="line.350"></a>
-<span class="sourceLineNo">351</span>    checkNotNull(separator);<a name="line.351"></a>
-<span class="sourceLineNo">352</span>    if (array.length == 0) {<a name="line.352"></a>
-<span class="sourceLineNo">353</span>      return "";<a name="line.353"></a>
-<span class="sourceLineNo">354</span>    }<a name="line.354"></a>
+<span class="sourceLineNo">324</span>    return (array.length &lt; minLength) ? Arrays.copyOf(array, minLength + padding) : array;<a name="line.324"></a>
+<span class="sourceLineNo">325</span>  }<a name="line.325"></a>
+<span class="sourceLineNo">326</span><a name="line.326"></a>
+<span class="sourceLineNo">327</span>  /**<a name="line.327"></a>
+<span class="sourceLineNo">328</span>   * Returns a string containing the supplied {@code float} values, converted<a name="line.328"></a>
+<span class="sourceLineNo">329</span>   * to strings as specified by {@link Float#toString(float)}, and separated by<a name="line.329"></a>
+<span class="sourceLineNo">330</span>   * {@code separator}. For example, {@code join("-", 1.0f, 2.0f, 3.0f)}<a name="line.330"></a>
+<span class="sourceLineNo">331</span>   * returns the string {@code "1.0-2.0-3.0"}.<a name="line.331"></a>
+<span class="sourceLineNo">332</span>   *<a name="line.332"></a>
+<span class="sourceLineNo">333</span>   * &lt;p&gt;Note that {@link Float#toString(float)} formats {@code float}<a name="line.333"></a>
+<span class="sourceLineNo">334</span>   * differently in GWT.  In the previous example, it returns the string {@code<a name="line.334"></a>
+<span class="sourceLineNo">335</span>   * "1-2-3"}.<a name="line.335"></a>
+<span class="sourceLineNo">336</span>   *<a name="line.336"></a>
+<span class="sourceLineNo">337</span>   * @param separator the text that should appear between consecutive values in<a name="line.337"></a>
+<span class="sourceLineNo">338</span>   *     the resulting string (but not at the start or end)<a name="line.338"></a>
+<span class="sourceLineNo">339</span>   * @param array an array of {@code float} values, possibly empty<a name="line.339"></a>
+<span class="sourceLineNo">340</span>   */<a name="line.340"></a>
+<span class="sourceLineNo">341</span>  public static String join(String separator, float... array) {<a name="line.341"></a>
+<span class="sourceLineNo">342</span>    checkNotNull(separator);<a name="line.342"></a>
+<span class="sourceLineNo">343</span>    if (array.length == 0) {<a name="line.343"></a>
+<span class="sourceLineNo">344</span>      return "";<a name="line.344"></a>
+<span class="sourceLineNo">345</span>    }<a name="line.345"></a>
+<span class="sourceLineNo">346</span><a name="line.346"></a>
+<span class="sourceLineNo">347</span>    // For pre-sizing a builder, just get the right order of magnitude<a name="line.347"></a>
+<span class="sourceLineNo">348</span>    StringBuilder builder = new StringBuilder(array.length * 12);<a name="line.348"></a>
+<span class="sourceLineNo">349</span>    builder.append(array[0]);<a name="line.349"></a>
+<span class="sourceLineNo">350</span>    for (int i = 1; i &lt; array.length; i++) {<a name="line.350"></a>
+<span class="sourceLineNo">351</span>      builder.append(separator).append(array[i]);<a name="line.351"></a>
+<span class="sourceLineNo">352</span>    }<a name="line.352"></a>
+<span class="sourceLineNo">353</span>    return builder.toString();<a name="line.353"></a>
+<span class="sourceLineNo">354</span>  }<a name="line.354"></a>
 <span class="sourceLineNo">355</span><a name="line.355"></a>
-<span class="sourceLineNo">356</span>    // For pre-sizing a builder, just get the right order of magnitude<a name="line.356"></a>
-<span class="sourceLineNo">357</span>    StringBuilder builder = new StringBuilder(array.length * 12);<a name="line.357"></a>
-<span class="sourceLineNo">358</span>    builder.append(array[0]);<a name="line.358"></a>
-<span class="sourceLineNo">359</span>    for (int i = 1; i &lt; array.length; i++) {<a name="line.359"></a>
-<span class="sourceLineNo">360</span>      builder.append(separator).append(array[i]);<a name="line.360"></a>
-<span class="sourceLineNo">361</span>    }<a name="line.361"></a>
-<span class="sourceLineNo">362</span>    return builder.toString();<a name="line.362"></a>
-<span class="sourceLineNo">363</span>  }<a name="line.363"></a>
-<span class="sourceLineNo">364</span><a name="line.364"></a>
-<span class="sourceLineNo">365</span>  /**<a name="line.365"></a>
-<span class="sourceLineNo">366</span>   * Returns a comparator that compares two {@code float} arrays<a name="line.366"></a>
-<span class="sourceLineNo">367</span>   * lexicographically. That is, it compares, using {@link<a name="line.367"></a>
-<span class="sourceLineNo">368</span>   * #compare(float, float)}), the first pair of values that follow any<a name="line.368"></a>
-<span class="sourceLineNo">369</span>   * common prefix, or when one array is a prefix of the other, treats the<a name="line.369"></a>
-<span class="sourceLineNo">370</span>   * shorter array as the lesser. For example, {@code [] &lt; [1.0f] &lt; [1.0f, 2.0f]<a name="line.370"></a>
-<span class="sourceLineNo">371</span>   * &lt; [2.0f]}.<a name="line.371"></a>
-<span class="sourceLineNo">372</span>   *<a name="line.372"></a>
-<span class="sourceLineNo">373</span>   * &lt;p&gt;The returned comparator is inconsistent with {@link<a name="line.373"></a>
-<span class="sourceLineNo">374</span>   * Object#equals(Object)} (since arrays support only identity equality), but<a name="line.374"></a>
-<span class="sourceLineNo">375</span>   * it is consistent with {@link Arrays#equals(float[], float[])}.<a name="line.375"></a>
-<span class="sourceLineNo">376</span>   *<a name="line.376"></a>
-<span class="sourceLineNo">377</span>   * @see &lt;a href="http://en.wikipedia.org/wiki/Lexicographical_order"&gt;<a name="line.377"></a>
-<span class="sourceLineNo">378</span>   *     Lexicographical order article at Wikipedia&lt;/a&gt;<a name="line.378"></a>
-<span class="sourceLineNo">379</span>   * @since 2.0<a name="line.379"></a>
-<span class="sourceLineNo">380</span>   */<a name="line.380"></a>
-<span class="sourceLineNo">381</span>  public static Comparator&lt;float[]&gt; lexicographicalComparator() {<a name="line.381"></a>
-<span class="sourceLineNo">382</span>    return LexicographicalComparator.INSTANCE;<a name="line.382"></a>
-<span class="sourceLineNo">383</span>  }<a name="line.383"></a>
-<span class="sourceLineNo">384</span><a name="line.384"></a>
-<span class="sourceLineNo">385</span>  private enum LexicographicalComparator implements Comparator&lt;float[]&gt; {<a name="line.385"></a>
-<span class="sourceLineNo">386</span>    INSTANCE;<a name="line.386"></a>
-<span class="sourceLineNo">387</span><a name="line.387"></a>
-<span class="sourceLineNo">388</span>    @Override<a name="line.388"></a>
-<span class="sourceLineNo">389</span>    public int compare(float[] left, float[] right) {<a name="line.389"></a>
-<span class="sourceLineNo">390</span>      int minLength = Math.min(left.length, right.length);<a name="line.390"></a>
-<span class="sourceLineNo">391</span>      for (int i = 0; i &lt; minLength; i++) {<a name="line.391"></a>
-<span class="sourceLineNo">392</span>        int result = Float.compare(left[i], right[i]);<a name="line.392"></a>
-<span class="sourceLineNo">393</span>        if (result != 0) {<a name="line.393"></a>
-<span class="sourceLineNo">394</span>          return result;<a name="line.394"></a>
-<span class="sourceLineNo">395</span>        }<a name="line.395"></a>
-<span class="sourceLineNo">396</span>      }<a name="line.396"></a>
-<span class="sourceLineNo">397</span>      return left.length - right.length;<a name="line.397"></a>
-<span class="sourceLineNo">398</span>    }<a name="line.398"></a>
-<span class="sourceLineNo">399</span><a name="line.399"></a>
-<span class="sourceLineNo">400</span>    @Override<a name="line.400"></a>
-<span class="sourceLineNo">401</span>    public String toString() {<a name="line.401"></a>
-<span class="sourceLineNo">402</span>      return "Floats.lexicographicalComparator()";<a name="line.402"></a>
-<span class="sourceLineNo">403</span>    }<a name="line.403"></a>
-<span class="sourceLineNo">404</span>  }<a name="line.404"></a>
-<span class="sourceLineNo">405</span><a name="line.405"></a>
-<span class="sourceLineNo">406</span>  /**<a name="line.406"></a>
-<span class="sourceLineNo">407</span>   * Returns an array containing each value of {@code collection}, converted to<a name="line.407"></a>
-<span class="sourceLineNo">408</span>   * a {@code float} value in the manner of {@link Number#floatValue}.<a name="line.408"></a>
-<span class="sourceLineNo">409</span>   *<a name="line.409"></a>
-<span class="sourceLineNo">410</span>   * &lt;p&gt;Elements are copied from the argument collection as if by {@code<a name="line.410"></a>
-<span class="sourceLineNo">411</span>   * collection.toArray()}.  Calling this method is as thread-safe as calling<a name="line.411"></a>
-<span class="sourceLineNo">412</span>   * that method.<a name="line.412"></a>
-<span class="sourceLineNo">413</span>   *<a name="line.413"></a>
-<span class="sourceLineNo">414</span>   * @param collection a collection of {@code Number} instances<a name="line.414"></a>
-<span class="sourceLineNo">415</span>   * @return an array containing the same values as {@code collection}, in the<a name="line.415"></a>
-<span class="sourceLineNo">416</span>   *     same order, converted to primitives<a name="line.416"></a>
-<span class="sourceLineNo">417</span>   * @throws NullPointerException if {@code collection} or any of its elements<a name="line.417"></a>
-<span class="sourceLineNo">418</span>   *     is null<a name="line.418"></a>
-<span class="sourceLineNo">419</span>   * @since 1.0 (parameter was {@code Collection&lt;Float&gt;} before 12.0)<a name="line.419"></a>
-<span class="sourceLineNo">420</span>   */<a name="line.420"></a>
-<span class="sourceLineNo">421</span>  public static float[] toArray(Collection&lt;? extends Number&gt; collection) {<a name="line.421"></a>
-<span class="sourceLineNo">422</span>    if (collection instanceof FloatArrayAsList) {<a name="line.422"></a>
-<span class="sourceLineNo">423</span>      return ((FloatArrayAsList) collection).toFloatArray();<a name="line.423"></a>
-<span class="sourceLineNo">424</span>    }<a name="line.424"></a>
-<span class="sourceLineNo">425</span><a name="line.425"></a>
-<span class="sourceLineNo">426</span>    Object[] boxedArray = collection.toArray();<a name="line.426"></a>
-<span class="sourceLineNo">427</span>    int len = boxedArray.length;<a name="line.427"></a>
-<span class="sourceLineNo">428</span>    float[] array = new float[len];<a name="line.428"></a>
-<span class="sourceLineNo">429</span>    for (int i = 0; i &lt; len; i++) {<a name="line.429"></a>
-<span class="sourceLineNo">430</span>      // checkNotNull for GWT (do not optimize)<a name="line.430"></a>
-<span class="sourceLineNo">431</span>      array[i] = ((Number) checkNotNull(boxedArray[i])).floatValue();<a name="line.431"></a>
-<span class="sourceLineNo">432</span>    }<a name="line.432"></a>
-<span class="sourceLineNo">433</span>    return array;<a name="line.433"></a>
-<span class="sourceLineNo">434</span>  }<a name="line.434"></a>
-<span class="sourceLineNo">435</span><a name="line.435"></a>
-<span class="sourceLineNo">436</span>  /**<a name="line.436"></a>
-<span class="sourceLineNo">437</span>   * Returns a fixed-size list backed by the specified array, similar to {@link<a name="line.437"></a>
-<span class="sourceLineNo">438</span>   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)},<a name="line.438"></a>
-<span class="sourceLineNo">439</span>   * but any attempt to set a value to {@code null} will result in a {@link<a name="line.439"></a>
-<span class="sourceLineNo">440</span>   * NullPointerException}.<a name="line.440"></a>
-<span class="sourceLineNo">441</span>   *<a name="line.441"></a>
-<span class="sourceLineNo">442</span>   * &lt;p&gt;The returned list maintains the values, but not the identities, of<a name="line.442"></a>
-<span class="sourceLineNo">443</span>   * {@code Float} objects written to or read from it.  For example, whether<a name="line.443"></a>
-<span class="sourceLineNo">444</span>   * {@code list.get(0) == list.get(0)} is true for the returned list is<a name="line.444"></a>
-<span class="sourceLineNo">445</span>   * unspecified.<a name="line.445"></a>
-<span class="sourceLineNo">446</span>   *<a name="line.446"></a>
-<span class="sourceLineNo">447</span>   * &lt;p&gt;The returned list may have unexpected behavior if it contains {@code<a name="line.447"></a>
-<span class="sourceLineNo">448</span>   * NaN}, or if {@code NaN} is used as a parameter to any of its methods.<a name="line.448"></a>
-<span class="sourceLineNo">449</span>   *<a name="line.449"></a>
-<span class="sourceLineNo">450</span>   * @param backingArray the array to back the list<a name="line.450"></a>
-<span class="sourceLineNo">451</span>   * @return a list view of the array<a name="line.451"></a>
-<span class="sourceLineNo">452</span>   */<a name="line.452"></a>
-<span class="sourceLineNo">453</span>  public static List&lt;Float&gt; asList(float... backingArray) {<a name="line.453"></a>
-<span class="sourceLineNo">454</span>    if (backingArray.length == 0) {<a name="line.454"></a>
-<span class="sourceLineNo">455</span>      return Collections.emptyList();<a name="line.455"></a>
-<span class="sourceLineNo">456</span>    }<a name="line.456"></a>
-<span class="sourceLineNo">457</span>    return new FloatArrayAsList(backingArray);<a name="line.457"></a>
-<span class="sourceLineNo">458</span>  }<a name="line.458"></a>
-<span class="sourceLineNo">459</span><a name="line.459"></a>
-<span class="sourceLineNo">460</span>  @GwtCompatible<a name="line.460"></a>
-<span class="sourceLineNo">461</span>  private static class FloatArrayAsList extends AbstractList&lt;Float&gt;<a name="line.461"></a>
-<span class="sourceLineNo">462</span>      implements RandomAccess, Serializable {<a name="line.462"></a>
-<span class="sourceLineNo">463</span>    final float[] array;<a name="line.463"></a>
-<span class="sourceLineNo">464</span>    final int start;<a name="line.464"></a>
-<span class="sourceLineNo">465</span>    final int end;<a name="line.465"></a>
-<span class="sourceLineNo">466</span><a name="line.466"></a>
-<span class="sourceLineNo">467</span>    FloatArrayAsList(float[] array) {<a name="line.467"></a>
-<span class="sourceLineNo">468</span>      this(array, 0, array.length);<a name="line.468"></a>
-<span class="sourceLineNo">469</span>    }<a name="line.469"></a>
-<span class="sourceLineNo">470</span><a name="line.470"></a>
-<span class="sourceLineNo">471</span>    FloatArrayAsList(float[] array, int start, int end) {<a name="line.471"></a>
-<span class="sourceLineNo">472</span>      this.array = array;<a name="line.472"></a>
-<span class="sourceLineNo">473</span>      this.start = start;<a name="line.473"></a>
-<span class="sourceLineNo">474</span>      this.end = end;<a name="line.474"></a>
-<span class="sourceLineNo">475</span>    }<a name="line.475"></a>
-<span class="sourceLineNo">476</span><a name="line.476"></a>
-<span class="sourceLineNo">477</span>    @Override<a name="line.477"></a>
-<span class="sourceLineNo">478</span>    public int size() {<a name="line.478"></a>
-<span class="sourceLineNo">479</span>      return end - start;<a name="line.479"></a>
-<span class="sourceLineNo">480</span>    }<a name="line.480"></a>
-<span class="sourceLineNo">481</span><a name="line.481"></a>
-<span class="sourceLineNo">482</span>    @Override<a name="line.482"></a>
-<span class="sourceLineNo">483</span>    public boolean isEmpty() {<a name="line.483"></a>
-<span class="sourceLineNo">484</span>      return false;<a name="line.484"></a>
-<span class="sourceLineNo">485</span>    }<a name="line.485"></a>
-<span class="sourceLineNo">486</span><a name="line.486"></a>
-<span class="sourceLineNo">487</span>    @Override<a name="line.487"></a>
-<span class="sourceLineNo">488</span>    public Float get(int index) {<a name="line.488"></a>
-<span class="sourceLineNo">489</span>      checkElementIndex(index, size());<a name="line.489"></a>
-<span class="sourceLineNo">490</span>      return array[start + index];<a name="line.490"></a>
-<span class="sourceLineNo">491</span>    }<a name="line.491"></a>
-<span class="sourceLineNo">492</span><a name="line.492"></a>
-<span class="sourceLineNo">493</span>    @Override<a name="line.493"></a>
-<span class="sourceLineNo">494</span>    public boolean contains(Object target) {<a name="line.494"></a>
-<span class="sourceLineNo">495</span>      // Overridden to prevent a ton of boxing<a name="line.495"></a>
-<span class="sourceLineNo">496</span>      return (target instanceof Float) &amp;&amp; Floats.indexOf(array, (Float) target, start, end) != -1;<a name="line.496"></a>
-<span class="sourceLineNo">497</span>    }<a name="line.497"></a>
-<span class="sourceLineNo">498</span><a name="line.498"></a>
-<span class="sourceLineNo">499</span>    @Override<a name="line.499"></a>
-<span class="sourceLineNo">500</span>    public int indexOf(Object target) {<a name="line.500"></a>
-<span class="sourceLineNo">501</span>      // Overridden to prevent a ton of boxing<a name="line.501"></a>
-<span class="sourceLineNo">502</span>      if (target instanceof Float) {<a name="line.502"></a>
-<span class="sourceLineNo">503</span>        int i = Floats.indexOf(array, (Float) target, start, end);<a name="line.503"></a>
-<span class="sourceLineNo">504</span>        if (i &gt;= 0) {<a name="line.504"></a>
-<span class="sourceLineNo">505</span>          return i - start;<a name="line.505"></a>
-<span class="sourceLineNo">506</span>        }<a name="line.506"></a>
-<span class="sourceLineNo">507</span>      }<a name="line.507"></a>
-<span class="sourceLineNo">508</span>      return -1;<a name="line.508"></a>
-<span class="sourceLineNo">509</span>    }<a name="line.509"></a>
-<span class="sourceLineNo">510</span><a name="line.510"></a>
-<span class="sourceLineNo">511</span>    @Override<a name="line.511"></a>
-<span class="sourceLineNo">512</span>    public int lastIndexOf(Object target) {<a name="line.512"></a>
-<span class="sourceLineNo">513</span>      // Overridden to prevent a ton of boxing<a name="line.513"></a>
-<span class="sourceLineNo">514</span>      if (target instanceof Float) {<a name="line.514"></a>
-<span class="sourceLineNo">515</span>        int i = Floats.lastIndexOf(array, (Float) target, start, end);<a name="line.515"></a>
-<span class="sourceLineNo">516</span>        if (i &gt;= 0) {<a name="line.516"></a>
-<span class="sourceLineNo">517</span>          return i - start;<a name="line.517"></a>
-<span class="sourceLineNo">518</span>        }<a name="line.518"></a>
-<span class="sourceLineNo">519</span>      }<a name="line.519"></a>
-<span class="sourceLineNo">520</span>      return -1;<a name="line.520"></a>
+<span class="sourceLineNo">356</span>  /**<a name="line.356"></a>
+<span class="sourceLineNo">357</span>   * Returns a comparator that compares two {@code float} arrays<a name="line.357"></a>
+<span class="sourceLineNo">358</span>   * lexicographically. That is, it compares, using {@link<a name="line.358"></a>
+<span class="sourceLineNo">359</span>   * #compare(float, float)}), the first pair of values that follow any<a name="line.359"></a>
+<span class="sourceLineNo">360</span>   * common prefix, or when one array is a prefix of the other, treats the<a name="line.360"></a>
+<span class="sourceLineNo">361</span>   * shorter array as the lesser. For example, {@code [] &lt; [1.0f] &lt; [1.0f, 2.0f]<a name="line.361"></a>
+<span class="sourceLineNo">362</span>   * &lt; [2.0f]}.<a name="line.362"></a>
+<span class="sourceLineNo">363</span>   *<a name="line.363"></a>
+<span class="sourceLineNo">364</span>   * &lt;p&gt;The returned comparator is inconsistent with {@link<a name="line.364"></a>
+<span class="sourceLineNo">365</span>   * Object#equals(Object)} (since arrays support only identity equality), but<a name="line.365"></a>
+<span class="sourceLineNo">366</span>   * it is consistent with {@link Arrays#equals(float[], float[])}.<a name="line.366"></a>
+<span class="sourceLineNo">367</span>   *<a name="line.367"></a>
+<span class="sourceLineNo">368</span>   * @see &lt;a href="http://en.wikipedia.org/wiki/Lexicographical_order"&gt;<a name="line.368"></a>
+<span class="sourceLineNo">369</span>   *     Lexicographical order article at Wikipedia&lt;/a&gt;<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   * @since 2.0<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   */<a name="line.371"></a>
+<span class="sourceLineNo">372</span>  public static Comparator&lt;float[]&gt; lexicographicalComparator() {<a name="line.372"></a>
+<span class="sourceLineNo">373</span>    return LexicographicalComparator.INSTANCE;<a name="line.373"></a>
+<span class="sourceLineNo">374</span>  }<a name="line.374"></a>
+<span class="sourceLineNo">375</span><a name="line.375"></a>
+<span class="sourceLineNo">376</span>  private enum LexicographicalComparator implements Comparator&lt;float[]&gt; {<a name="line.376"></a>
+<span class="sourceLineNo">377</span>    INSTANCE;<a name="line.377"></a>
+<span class="sourceLineNo">378</span><a name="line.378"></a>
+<span class="sourceLineNo">379</span>    @Override<a name="line.379"></a>
+<span class="sourceLineNo">380</span>    public int compare(float[] left, float[] right) {<a name="line.380"></a>
+<span class="sourceLineNo">381</span>      int minLength = Math.min(left.length, right.length);<a name="line.381"></a>
+<span class="sourceLineNo">382</span>      for (int i = 0; i &lt; minLength; i++) {<a name="line.382"></a>
+<span class="sourceLineNo">383</span>        int result = Float.compare(left[i], right[i]);<a name="line.383"></a>
+<span class="sourceLineNo">384</span>        if (result != 0) {<a name="line.384"></a>
+<span class="sourceLineNo">385</span>          return result;<a name="line.385"></a>
+<span class="sourceLineNo">386</span>        }<a name="line.386"></a>
+<span class="sourceLineNo">387</span>      }<a name="line.387"></a>
+<span class="sourceLineNo">388</span>      return left.length - right.length;<a name="line.388"></a>
+<span class="sourceLineNo">389</span>    }<a name="line.389"></a>
+<span class="sourceLineNo">390</span><a name="line.390"></a>
+<span class="sourceLineNo">391</span>    @Override<a name="line.391"></a>
+<span class="sourceLineNo">392</span>    public String toString() {<a name="line.392"></a>
+<span class="sourceLineNo">393</span>      return "Floats.lexicographicalComparator()";<a name="line.393"></a>
+<span class="sourceLineNo">394</span>    }<a name="line.394"></a>
+<span class="sourceLineNo">395</span>  }<a name="line.395"></a>
+<span class="sourceLineNo">396</span><a name="line.396"></a>
+<span class="sourceLineNo">397</span>  /**<a name="line.397"></a>
+<span class="sourceLineNo">398</span>   * Returns an array containing each value of {@code collection}, converted to<a name="line.398"></a>
+<span class="sourceLineNo">399</span>   * a {@code float} value in the manner of {@link Number#floatValue}.<a name="line.399"></a>
+<span class="sourceLineNo">400</span>   *<a name="line.400"></a>
+<span class="sourceLineNo">401</span>   * &lt;p&gt;Elements are copied from the argument collection as if by {@code<a name="line.401"></a>
+<span class="sourceLineNo">402</span>   * collection.toArray()}.  Calling this method is as thread-safe as calling<a name="line.402"></a>
+<span class="sourceLineNo">403</span>   * that method.<a name="line.403"></a>
+<span class="sourceLineNo">404</span>   *<a name="line.404"></a>
+<span class="sourceLineNo">405</span>   * @param collection a collection of {@code Number} instances<a name="line.405"></a>
+<span class="sourceLineNo">406</span>   * @return an array containing the same values as {@code collection}, in the<a name="line.406"></a>
+<span class="sourceLineNo">407</span>   *     same order, converted to primitives<a name="line.407"></a>
+<span class="sourceLineNo">408</span>   * @throws NullPointerException if {@code collection} or any of its elements<a name="line.408"></a>
+<span class="sourceLineNo">409</span>   *     is null<a name="line.409"></a>
+<span class="sourceLineNo">410</span>   * @since 1.0 (parameter was {@code Collection&lt;Float&gt;} before 12.0)<a name="line.410"></a>
+<span class="sourceLineNo">411</span>   */<a name="line.411"></a>
+<span class="sourceLineNo">412</span>  public static float[] toArray(Collection&lt;? extends Number&gt; collection) {<a name="line.412"></a>
+<span class="sourceLineNo">413</span>    if (collection instanceof FloatArrayAsList) {<a name="line.413"></a>
+<span class="sourceLineNo">414</span>      return ((FloatArrayAsList) collection).toFloatArray();<a name="line.414"></a>
+<span class="sourceLineNo">415</span>    }<a name="line.415"></a>
+<span class="sourceLineNo">416</span><a name="line.416"></a>
+<span class="sourceLineNo">417</span>    Object[] boxedArray = collection.toArray();<a name="line.417"></a>
+<span class="sourceLineNo">418</span>    int len = boxedArray.length;<a name="line.418"></a>
+<span class="sourceLineNo">419</span>    float[] array = new float[len];<a name="line.419"></a>
+<span class="sourceLineNo">420</span>    for (int i = 0; i &lt; len; i++) {<a name="line.420"></a>
+<span class="sourceLineNo">421</span>      // checkNotNull for GWT (do not optimize)<a name="line.421"></a>
+<span class="sourceLineNo">422</span>      array[i] = ((Number) checkNotNull(boxedArray[i])).floatValue();<a name="line.422"></a>
+<span class="sourceLineNo">423</span>    }<a name="line.423"></a>
+<span class="sourceLineNo">424</span>    return array;<a name="line.424"></a>
+<span class="sourceLineNo">425</span>  }<a name="line.425"></a>
+<span class="sourceLineNo">426</span><a name="line.426"></a>
+<span class="sourceLineNo">427</span>  /**<a name="line.427"></a>
+<span class="sourceLineNo">428</span>   * Returns a fixed-size list backed by the specified array, similar to {@link<a name="line.428"></a>
+<span class="sourceLineNo">429</span>   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)},<a name="line.429"></a>
+<span class="sourceLineNo">430</span>   * but any attempt to set a value to {@code null} will result in a {@link<a name="line.430"></a>
+<span class="sourceLineNo">431</span>   * NullPointerException}.<a name="line.431"></a>
+<span class="sourceLineNo">432</span>   *<a name="line.432"></a>
+<span class="sourceLineNo">433</span>   * &lt;p&gt;The returned list maintains the values, but not the identities, of<a name="line.433"></a>
+<span class="sourceLineNo">434</span>   * {@code Float} objects written to or read from it.  For example, whether<a name="line.434"></a>
+<span class="sourceLineNo">435</span>   * {@code list.get(0) == list.get(0)} is true for the returned list is<a name="line.435"></a>
+<span class="sourceLineNo">436</span>   * unspecified.<a name="line.436"></a>
+<span class="sourceLineNo">437</span>   *<a name="line.437"></a>
+<span class="sourceLineNo">438</span>   * &lt;p&gt;The returned list may have unexpected behavior if it contains {@code<a name="line.438"></a>
+<span class="sourceLineNo">439</span>   * NaN}, or if {@code NaN} is used as a parameter to any of its methods.<a name="line.439"></a>
+<span class="sourceLineNo">440</span>   *<a name="line.440"></a>
+<span class="sourceLineNo">441</span>   * @param backingArray the array to back the list<a name="line.441"></a>
+<span class="sourceLineNo">442</span>   * @return a list view of the array<a name="line.442"></a>
+<span class="sourceLineNo">443</span>   */<a name="line.443"></a>
+<span class="sourceLineNo">444</span>  public static List&lt;Float&gt; asList(float... backingArray) {<a name="line.444"></a>
+<span class="sourceLineNo">445</span>    if (backingArray.length == 0) {<a name="line.445"></a>
+<span class="sourceLineNo">446</span>      return Collections.emptyList();<a name="line.446"></a>
+<span class="sourceLineNo">447</span>    }<a name="line.447"></a>
+<span class="sourceLineNo">448</span>    return new FloatArrayAsList(backingArray);<a name="line.448"></a>
+<span class="sourceLineNo">449</span>  }<a name="line.449"></a>
+<span class="sourceLineNo">450</span><a name="line.450"></a>
+<span class="sourceLineNo">451</span>  @GwtCompatible<a name="line.451"></a>
+<span class="sourceLineNo">452</span>  private static class FloatArrayAsList extends AbstractList&lt;Float&gt;<a name="line.452"></a>
+<span class="sourceLineNo">453</span>      implements RandomAccess, Serializable {<a name="line.453"></a>
+<span class="sourceLineNo">454</span>    final float[] array;<a name="line.454"></a>
+<span class="sourceLineNo">455</span>    final int start;<a name="line.455"></a>
+<span class="sourceLineNo">456</span>    final int end;<a name="line.456"></a>
+<span class="sourceLineNo">457</span><a name="line.457"></a>
+<span class="sourceLineNo">458</span>    FloatArrayAsList(float[] array) {<a name="line.458"></a>
+<span class="sourceLineNo">459</span>      this(array, 0, array.length);<a name="line.459"></a>
+<span class="sourceLineNo">460</span>    }<a name="line.460"></a>
+<span class="sourceLineNo">461</span><a name="line.461"></a>
+<span class="sourceLineNo">462</span>    FloatArrayAsList(float[] array, int start, int end) {<a name="line.462"></a>
+<span class="sourceLineNo">463</span>      this.array = array;<a name="line.463"></a>
+<span class="sourceLineNo">464</span>      this.start = start;<a name="line.464"></a>
+<span class="sourceLineNo">465</span>      this.end = end;<a name="line.465"></a>
+<span class="sourceLineNo">466</span>    }<a name="line.466"></a>
+<span class="sourceLineNo">467</span><a name="line.467"></a>
+<span class="sourceLineNo">468</span>    @Override<a name="line.468"></a>
+<span class="sourceLineNo">469</span>    public int size() {<a name="line.469"></a>
+<span class="sourceLineNo">470</span>      return end - start;<a name="line.470"></a>
+<span class="sourceLineNo">471</span>    }<a name="line.471"></a>
+<span class="sourceLineNo">472</span><a name="line.472"></a>
+<span class="sourceLineNo">473</span>    @Override<a name="line.473"></a>
+<span class="sourceLineNo">474</span>    public boolean isEmpty() {<a name="line.474"></a>
+<span class="sourceLineNo">475</span>      return false;<a name="line.475"></a>
+<span class="sourceLineNo">476</span>    }<a name="line.476"></a>
+<span class="sourceLineNo">477</span><a name="line.477"></a>
+<span class="sourceLineNo">478</span>    @Override<a name="line.478"></a>
+<span class="sourceLineNo">479</span>    public Float get(int index) {<a name="line.479"></a>
+<span class="sourceLineNo">480</span>      checkElementIndex(index, size());<a name="line.480"></a>
+<span class="sourceLineNo">481</span>      return array[start + index];<a name="line.481"></a>
+<span class="sourceLineNo">482</span>    }<a name="line.482"></a>
+<span class="sourceLineNo">483</span><a name="line.483"></a>
+<span class="sourceLineNo">484</span>    @Override<a name="line.484"></a>
+<span class="sourceLineNo">485</span>    public boolean contains(Object target) {<a name="line.485"></a>
+<span class="sourceLineNo">486</span>      // Overridden to prevent a ton of boxing<a name="line.486"></a>
+<span class="sourceLineNo">487</span>      return (target instanceof Float) &amp;&amp; Floats.indexOf(array, (Float) target, start, end) != -1;<a name="line.487"></a>
+<span class="sourceLineNo">488</span>    }<a name="line.488"></a>
+<span class="sourceLineNo">489</span><a name="line.489"></a>
+<span class="sourceLineNo">490</span>    @Override<a name="line.490"></a>
+<span class="sourceLineNo">491</span>    public int indexOf(Object target) {<a name="line.491"></a>
+<span class="sourceLineNo">492</span>      // Overridden to prevent a ton of boxing<a name="line.492"></a>
+<span class="sourceLineNo">493</span>      if (target instanceof Float) {<a name="line.493"></a>
+<span class="sourceLineNo">494</span>        int i = Floats.indexOf(array, (Float) target, start, end);<a name="line.494"></a>
+<span class="sourceLineNo">495</span>        if (i &gt;= 0) {<a name="line.495"></a>
+<span class="sourceLineNo">496</span>          return i - start;<a name="line.496"></a>
+<span class="sourceLineNo">497</span>        }<a name="line.497"></a>
+<span class="sourceLineNo">498</span>      }<a name="line.498"></a>
+<span class="sourceLineNo">499</span>      return -1;<a name="line.499"></a>
+<span class="sourceLineNo">500</span>    }<a name="line.500"></a>
+<span class="sourceLineNo">501</span><a name="line.501"></a>
+<span class="sourceLineNo">502</span>    @Override<a name="line.502"></a>
+<span class="sourceLineNo">503</span>    public int lastIndexOf(Object target) {<a name="line.503"></a>
+<span class="sourceLineNo">504</span>      // Overridden to prevent a ton of boxing<a name="line.504"></a>
+<span class="sourceLineNo">505</span>      if (target instanceof Float) {<a name="line.505"></a>
+<span class="sourceLineNo">506</span>        int i = Floats.lastIndexOf(array, (Float) target, start, end);<a name="line.506"></a>
+<span class="sourceLineNo">507</span>        if (i &gt;= 0) {<a name="line.507"></a>
+<span class="sourceLineNo">508</span>          return i - start;<a name="line.508"></a>
+<span class="sourceLineNo">509</span>        }<a name="line.509"></a>
+<span class="sourceLineNo">510</span>      }<a name="line.510"></a>
+<span class="sourceLineNo">511</span>      return -1;<a name="line.511"></a>
+<span class="sourceLineNo">512</span>    }<a name="line.512"></a>
+<span class="sourceLineNo">513</span><a name="line.513"></a>
+<span class="sourceLineNo">514</span>    @Override<a name="line.514"></a>
+<span class="sourceLineNo">515</span>    public Float set(int index, Float element) {<a name="line.515"></a>
+<span class="sourceLineNo">516</span>      checkElementIndex(index, size());<a name="line.516"></a>
+<span class="sourceLineNo">517</span>      float oldValue = array[start + index];<a name="line.517"></a>
+<span class="sourceLineNo">518</span>      // checkNotNull for GWT (do not optimize)<a name="line.518"></a>
+<span class="sourceLineNo">519</span>      array[start + index] = checkNotNull(element);<a name="line.519"></a>
+<span class="sourceLineNo">520</span>      return oldValue;<a name="line.520"></a>
 <span class="sourceLineNo">521</span>    }<a name="line.521"></a>
 <span class="sourceLineNo">522</span><a name="line.522"></a>
 <span class="sourceLineNo">523</span>    @Override<a name="line.523"></a>
-<span class="sourceLineNo">524</span>    public Float set(int index, Float element) {<a name="line.524"></a>
-<span class="sourceLineNo">525</span>      checkElementIndex(index, size());<a name="line.525"></a>
-<span class="sourceLineNo">526</span>      float oldValue = array[start + index];<a name="line.526"></a>
-<span class="sourceLineNo">527</span>      // checkNotNull for GWT (do not optimize)<a name="line.527"></a>
-<span class="sourceLineNo">528</span>      array[start + index] = checkNotNull(element);<a name="line.528"></a>
-<span class="sourceLineNo">529</span>      return oldValue;<a name="line.529"></a>
-<span class="sourceLineNo">530</span>    }<a name="line.530"></a>
-<span class="sourceLineNo">531</span><a name="line.531"></a>
-<span class="sourceLineNo">532</span>    @Override<a name="line.532"></a>
-<span class="sourceLineNo">533</span>    public List&lt;Float&gt; subList(int fromIndex, int toIndex) {<a name="line.533"></a>
-<span class="sourceLineNo">534</span>      int size = size();<a name="line.534"></a>
-<span class="sourceLineNo">535</span>      checkPositionIndexes(fromIndex, toIndex, size);<a name="line.535"></a>
-<span class="sourceLineNo">536</span>      if (fromIndex == toIndex) {<a name="line.536"></a>
-<span class="sourceLineNo">537</span>        return Collections.emptyList();<a name="line.537"></a>
-<span class="sourceLineNo">538</span>      }<a name="line.538"></a>
-<span class="sourceLineNo">539</span>      return new FloatArrayAsList(array, start + fromIndex, start + toIndex);<a name="line.539"></a>
-<span class="sourceLineNo">540</span>    }<a name="line.540"></a>
-<span class="sourceLineNo">541</span><a name="line.541"></a>
-<span class="sourceLineNo">542</span>    @Override<a name="line.542"></a>
-<span class="sourceLineNo">543</span>    public boolean equals(@Nullable Object object) {<a name="line.543"></a>
-<span class="sourceLineNo">544</span>      if (object == this) {<a name="line.544"></a>
-<span class="sourceLineNo">545</span>        return true;<a name="line.545"></a>
-<span class="sourceLineNo">546</span>      }<a name="line.546"></a>
-<span class="sourceLineNo">547</span>      if (object instanceof FloatArrayAsList) {<a name="line.547"></a>
-<span class="sourceLineNo">548</span>        FloatArrayAsList that = (FloatArrayAsList) object;<a name="line.548"></a>
-<span class="sourceLineNo">549</span>        int size = size();<a name="line.549"></a>
-<span class="sourceLineNo">550</span>        if (that.size() != size) {<a name="line.550"></a>
-<span class="sourceLineNo">551</span>          return false;<a name="line.551"></a>
-<span class="sourceLineNo">552</span>        }<a name="line.552"></a>
-<span class="sourceLineNo">553</span>        for (int i = 0; i &lt; size; i++) {<a name="line.553"></a>
-<span class="sourceLineNo">554</span>          if (array[start + i] != that.array[that.start + i]) {<a name="line.554"></a>
-<span class="sourceLineNo">555</span>            return false;<a name="line.555"></a>
-<span class="sourceLineNo">556</span>          }<a name="line.556"></a>
-<span class="sourceLineNo">557</span>        }<a name="line.557"></a>
-<span class="sourceLineNo">558</span>        return true;<a name="line.558"></a>
+<span class="sourceLineNo">524</span>    public List&lt;Float&gt; subList(int fromIndex, int toIndex) {<a name="line.524"></a>
+<span class="sourceLineNo">525</span>      int size = size();<a name="line.525"></a>
+<span class="sourceLineNo">526</span>      checkPositionIndexes(fromIndex, toIndex, size);<a name="line.526"></a>
+<span class="sourceLineNo">527</span>      if (fromIndex == toIndex) {<a name="line.527"></a>
+<span class="sourceLineNo">528</span>        return Collections.emptyList();<a name="line.528"></a>
+<span class="sourceLineNo">529</span>      }<a name="line.529"></a>
+<span class="sourceLineNo">530</span>      return new FloatArrayAsList(array, start + fromIndex, start + toIndex);<a name="line.530"></a>
+<span class="sourceLineNo">531</span>    }<a name="line.531"></a>
+<span class="sourceLineNo">532</span><a name="line.532"></a>
+<span class="sourceLineNo">533</span>    @Override<a name="line.533"></a>
+<span class="sourceLineNo">534</span>    public boolean equals(@Nullable Object object) {<a name="line.534"></a>
+<span class="sourceLineNo">535</span>      if (object == this) {<a name="line.535"></a>
+<span class="sourceLineNo">536</span>        return true;<a name="line.536"></a>
+<span class="sourceLineNo">537</span>      }<a name="line.537"></a>
+<span class="sourceLineNo">538</span>      if (object instanceof FloatArrayAsList) {<a name="line.538"></a>
+<span class="sourceLineNo">539</span>        FloatArrayAsList that = (FloatArrayAsList) object;<a name="line.539"></a>
+<span class="sourceLineNo">540</span>        int size = size();<a name="line.540"></a>
+<span class="sourceLineNo">541</span>        if (that.size() != size) {<a name="line.541"></a>
+<span class="sourceLineNo">542</span>          return false;<a name="line.542"></a>
+<span class="sourceLineNo">543</span>        }<a name="line.543"></a>
+<span class="sourceLineNo">544</span>        for (int i = 0; i &lt; size; i++) {<a name="line.544"></a>
+<span class="sourceLineNo">545</span>          if (array[start + i] != that.array[that.start + i]) {<a name="line.545"></a>
+<span class="sourceLineNo">546</span>            return false;<a name="line.546"></a>
+<span class="sourceLineNo">547</span>          }<a name="line.547"></a>
+<span class="sourceLineNo">548</span>        }<a name="line.548"></a>
+<span class="sourceLineNo">549</span>        return true;<a name="line.549"></a>
+<span class="sourceLineNo">550</span>      }<a name="line.550"></a>
+<span class="sourceLineNo">551</span>      return super.equals(object);<a name="line.551"></a>
+<span class="sourceLineNo">552</span>    }<a name="line.552"></a>
+<span class="sourceLineNo">553</span><a name="line.553"></a>
+<span class="sourceLineNo">554</span>    @Override<a name="line.554"></a>
+<span class="sourceLineNo">555</span>    public int hashCode() {<a name="line.555"></a>
+<span class="sourceLineNo">556</span>      int result = 1;<a name="line.556"></a>
+<span class="sourceLineNo">557</span>      for (int i = start; i &lt; end; i++) {<a name="line.557"></a>
+<span class="sourceLineNo">558</span>        result = 31 * result + Floats.hashCode(array[i]);<a name="line.558"></a>
 <span class="sourceLineNo">559</span>      }<a name="line.559"></a>
-<span class="sourceLineNo">560</span>      return super.equals(object);<a name="line.560"></a>
+<span class="sourceLineNo">560</span>      return result;<a name="line.560"></a>
 <span class="sourceLineNo">561</span>    }<a name="line.561"></a>
 <span class="sourceLineNo">562</span><a name="line.562"></a>
 <span class="sourceLineNo">563</span>    @Override<a name="line.563"></a>
-<span class="sourceLineNo">564</span>    public int hashCode() {<a name="line.564"></a>
-<span class="sourceLineNo">565</span>      int result = 1;<a name="line.565"></a>
-<span class="sourceLineNo">566</span>      for (int i = start; i &lt; end; i++) {<a name="line.566"></a>
-<span class="sourceLineNo">567</span>        result = 31 * result + Floats.hashCode(array[i]);<a name="line.567"></a>
-<span class="sourceLineNo">568</span>      }<a name="line.568"></a>
-<span class="sourceLineNo">569</span>      return result;<a name="line.569"></a>
-<span class="sourceLineNo">570</span>    }<a name="line.570"></a>
-<span class="sourceLineNo">571</span><a name="line.571"></a>
-<span class="sourceLineNo">572</span>    @Override<a name="line.572"></a>
-<span class="sourceLineNo">573</span>    public String toString() {<a name="line.573"></a>
-<span class="sourceLineNo">574</span>      StringBuilder builder = new StringBuilder(size() * 12);<a name="line.574"></a>
-<span class="sourceLineNo">575</span>      builder.append('[').append(array[start]);<a name="line.575"></a>
-<span class="sourceLineNo">576</span>      for (int i = start + 1; i &lt; end; i++) {<a name="line.576"></a>
-<span class="sourceLineNo">577</span>        builder.append(", ").append(array[i]);<a name="line.577"></a>
-<span class="sourceLineNo">578</span>      }<a name="line.578"></a>
-<span class="sourceLineNo">579</span>      return builder.append(']').toString();<a name="line.579"></a>
-<span class="sourceLineNo">580</span>    }<a name="line.580"></a>
-<span class="sourceLineNo">581</span><a name="line.581"></a>
-<span class="sourceLineNo">582</span>    float[] toFloatArray() {<a name="line.582"></a>
-<span class="sourceLineNo">583</span>      // Arrays.copyOfRange() is not available under GWT<a name="line.583"></a>
-<span class="sourceLineNo">584</span>      int size = size();<a name="line.584"></a>
-<span class="sourceLineNo">585</span>      float[] result = new float[size];<a name="line.585"></a>
-<span class="sourceLineNo">586</span>      System.arraycopy(array, start, result, 0, size);<a name="line.586"></a>
-<span class="sourceLineNo">587</span>      return result;<a name="line.587"></a>
-<span class="sourceLineNo">588</span>    }<a name="line.588"></a>
-<span class="sourceLineNo">589</span><a name="line.589"></a>
-<span class="sourceLineNo">590</span>    private static final long serialVersionUID = 0;<a name="line.590"></a>
-<span class="sourceLineNo">591</span>  }<a name="line.591"></a>
-<span class="sourceLineNo">592</span><a name="line.592"></a>
-<span class="sourceLineNo">593</span>  /**<a name="line.593"></a>
-<span class="sourceLineNo">594</span>   * Parses the specified string as a single-precision floating point value.<a name="line.594"></a>
-<span class="sourceLineNo">595</span>   * The ASCII character {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized<a name="line.595"></a>
-<span class="sourceLineNo">596</span>   * as the minus sign.<a name="line.596"></a>
-<span class="sourceLineNo">597</span>   *<a name="line.597"></a>
-<span class="sourceLineNo">598</span>   * &lt;p&gt;Unlike {@link Float#parseFloat(String)}, this method returns<a name="line.598"></a>
-<span class="sourceLineNo">599</span>   * {@code null} instead of throwing an exception if parsing fails.<a name="line.599"></a>
-<span class="sourceLineNo">600</span>   * Valid inputs are exactly those accepted by {@link Float#valueOf(String)},<a name="line.600"></a>
-<span class="sourceLineNo">601</span>   * except that leading and trailing whitespace is not permitted.<a name="line.601"></a>
-<span class="sourceLineNo">602</span>   *<a name="line.602"></a>
-<span class="sourceLineNo">603</span>   * &lt;p&gt;This implementation is likely to be faster than {@code<a name="line.603"></a>
-<span class="sourceLineNo">604</span>   * Float.parseFloat} if many failures are expected.<a name="line.604"></a>
-<span class="sourceLineNo">605</span>   *<a name="line.605"></a>
-<span class="sourceLineNo">606</span>   * @param string the string representation of a {@code float} value<a name="line.606"></a>
-<span class="sourceLineNo">607</span>   * @return the floating point value represented by {@code string}, or<a name="line.607"></a>
-<span class="sourceLineNo">608</span>   *     {@code null} if {@code string} has a length of zero or cannot be<a name="line.608"></a>
-<span class="sourceLineNo">609</span>   *     parsed as a {@code float} value<a name="line.609"></a>
-<span class="sourceLineNo">610</span>   * @since 14.0<a name="line.610"></a>
-<span class="sourceLineNo">611</span>   */<a name="line.611"></a>
-<span class="sourceLineNo">612</span>  @Beta<a name="line.612"></a>
-<span class="sourceLineNo">613</span>  @Nullable<a name="line.613"></a>
-<span class="sourceLineNo">614</span>  @CheckForNull<a name="line.614"></a>
-<span class="sourceLineNo">615</span>  @GwtIncompatible // regular expressions<a name="line.615"></a>
-<span class="sourceLineNo">616</span>  public static Float tryParse(String string) {<a name="line.616"></a>
-<span class="sourceLineNo">617</span>    if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {<a name="line.617"></a>
-<span class="sourceLineNo">618</span>      // TODO(lowasser): could be potentially optimized, but only with<a name="line.618"></a>
-<span class="sourceLineNo">619</span>      // extensive testing<a name="line.619"></a>
-<span class="sourceLineNo">620</span>      try {<a name="line.620"></a>
-<span class="sourceLineNo">621</span>        return Float.parseFloat(string);<a name="line.621"></a>
-<span class="sourceLineNo">622</span>      } catch (NumberFormatException e) {<a name="line.622"></a>
-<span class="sourceLineNo">623</span>        // Float.parseFloat has changed specs several times, so fall through<a name="line.623"></a>
-<span class="sourceLineNo">624</span>        // gracefully<a name="line.624"></a>
-<span class="sourceLineNo">625</span>      }<a name="line.625"></a>
-<span class="sourceLineNo">626</span>    }<a name="line.626"></a>
-<span class="sourceLineNo">627</span>    return null;<a name="line.627"></a>
-<span class="sourceLineNo">628</span>  }<a name="line.628"></a>
-<span class="sourceLineNo">629</span>}<a name="line.629"></a>
+<span class="sourceLineNo">564</span>    public String toString() {<a name="line.564"></a>
+<span class="sourceLineNo">565</span>      StringBuilder builder = new StringBuilder(size() * 12);<a name="line.565"></a>
+<span class="sourceLineNo">566</span>      builder.append('[').append(array[start]);<a name="line.566"></a>
+<span class="sourceLineNo">567</span>      for (int i = start + 1; i &lt; end; i++) {<a name="line.567"></a>
+<span class="sourceLineNo">568</span>        builder.append(", ").append(array[i]);<a name="line.568"></a>
+<span class="sourceLineNo">569</span>      }<a name="line.569"></a>
+<span class="sourceLineNo">570</span>      return builder.append(']').toString();<a name="line.570"></a>
+<span class="sourceLineNo">571</span>    }<a name="line.571"></a>
+<span class="sourceLineNo">572</span><a name="line.572"></a>
+<span class="sourceLineNo">573</span>    float[] toFloatArray() {<a name="line.573"></a>
+<span class="sourceLineNo">574</span>      // Arrays.copyOfRange() is not available under GWT<a name="line.574"></a>
+<span class="sourceLineNo">575</span>      int size = size();<a name="line.575"></a>
+<span class="sourceLineNo">576</span>      float[] result = new float[size];<a name="line.576"></a>
+<span class="sourceLineNo">577</span>      System.arraycopy(array, start, result, 0, size);<a name="line.577"></a>
+<span class="sourceLineNo">578</span>      return result;<a name="line.578"></a>
+<span class="sourceLineNo">579</span>    }<a name="line.579"></a>
+<span class="sourceLineNo">580</span><a name="line.580"></a>
+<span class="sourceLineNo">581</span>    private static final long serialVersionUID = 0;<a name="line.581"></a>
+<span class="sourceLineNo">582</span>  }<a name="line.582"></a>
+<span class="sourceLineNo">583</span><a name="line.583"></a>
+<span class="sourceLineNo">584</span>  /**<a name="line.584"></a>
+<span class="sourceLineNo">585</span>   * Parses the specified string as a single-precision floating point value.<a name="line.585"></a>
+<span class="sourceLineNo">586</span>   * The ASCII character {@code '-'} (&lt;code&gt;'&amp;#92;u002D'&lt;/code&gt;) is recognized<a name="line.586"></a>
+<span class="sourceLineNo">587</span>   * as the minus sign.<a name="line.587"></a>
+<span class="sourceLineNo">588</span>   *<a name="line.588"></a>
+<span class="sourceLineNo">589</span>   * &lt;p&gt;Unlike {@link Float#parseFloat(String)}, this method returns<a name="line.589"></a>
+<span class="sourceLineNo">590</span>   * {@code null} instead of throwing an exception if parsing fails.<a name="line.590"></a>
+<span class="sourceLineNo">591</span>   * Valid inputs are exactly those accepted by {@link Float#valueOf(String)},<a name="line.591"></a>
+<span class="sourceLineNo">592</span>   * except that leading and trailing whitespace is not permitted.<a name="line.592"></a>
+<span class="sourceLineNo">593</span>   *<a name="line.593"></a>
+<span class="sourceLineNo">594</span>   * &lt;p&gt;This implementation is likely to be faster than {@code<a name="line.594"></a>
+<span class="sourceLineNo">595</span>   * Float.parseFloat} if many failures are expected.<a name="line.595"></a>
+<span class="sourceLineNo">596</span>   *<a name="line.596"></a>
+<span class="sourceLineNo">597</span>   * @param string the string representation of a {@code float} value<a name="line.597"></a>
+<span class="sourceLineNo">598</span>   * @return the floating point value represented by {@code string}, or<a name="line.598"></a>
+<span class="sourceLineNo">599</span>   *     {@code null} if {@code string} has a length of zero or cannot be<a name="line.599"></a>
+<span class="sourceLineNo">600</span>   *     parsed as a {@code float} value<a name="line.600"></a>
+<span class="sourceLineNo">601</span>   * @since 14.0<a name="line.601"></a>
+<span class="sourceLineNo">602</span>   */<a name="line.602"></a>
+<span class="sourceLineNo">603</span>  @Beta<a name="line.603"></a>
+<span class="sourceLineNo">604</span>  @Nullable<a name="line.604"></a>
+<span class="sourceLineNo">605</span>  @CheckForNull<a name="line.605"></a>
+<span class="sourceLineNo">606</span>  @GwtIncompatible // regular expressions<a name="line.606"></a>
+<span class="sourceLineNo">607</span>  public static Float tryParse(String string) {<a name="line.607"></a>
+<span class="sourceLineNo">608</span>    if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {<a name="line.608"></a>
+<span class="sourceLineNo">609</span>      // TODO(lowasser): could be potentially optimized, but only with<a name="line.609"></a>
+<span class="sourceLineNo">610</span>      // extensive testing<a name="line.610"></a>
+<span class="sourceLineNo">611</span>      try {<a name="line.611"></a>
+<span class="sourceLineNo">612</span>        return Float.parseFloat(string);<a name="line.612"></a>
+<span class="sourceLineNo">613</span>      } catch (NumberFormatException e) {<a name="line.613"></a>
+<span class="sourceLineNo">614</span>        // Float.parseFloat has changed specs several times, so fall through<a name="line.614"></a>
+<span class="sourceLineNo">615</span>        // gracefully<a name="line.615"></a>
+<span class="sourceLineNo">616</span>      }<a name="line.616"></a>
+<span class="sourceLineNo">617</span>    }<a name="line.617"></a>
+<span class="sourceLineNo">618</span>    return null;<a name="line.618"></a>
+<span class="sourceLineNo">619</span>  }<a name="line.619"></a>
+<span class="sourceLineNo">620</span>}<a name="line.620"></a>
 
 
 

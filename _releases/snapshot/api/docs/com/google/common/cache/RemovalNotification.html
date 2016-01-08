@@ -86,7 +86,12 @@
 <li><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
+<li><a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractMap.SimpleImmutableEntry.html?is-external=true" title="class or interface in java.util">java.util.AbstractMap.SimpleImmutableEntry</a>&lt;K,V&gt;</li>
+<li>
+<ul class="inheritance">
 <li>com.google.common.cache.RemovalNotification&lt;K,V&gt;</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -95,14 +100,13 @@
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;</dd>
+<dd><a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;</dd>
 </dl>
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.40">RemovalNotification</a>&lt;K,V&gt;
-extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
-implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;</pre>
+public final class <a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.39">RemovalNotification</a>&lt;K,V&gt;
+extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractMap.SimpleImmutableEntry.html?is-external=true" title="class or interface in java.util">AbstractMap.SimpleImmutableEntry</a>&lt;K,V&gt;</pre>
 <div class="block">A notification of the removal of a single entry. The key and/or value may be null if they were
  already garbage collected.
 
@@ -112,7 +116,8 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>10.0</dd>
 <dt><span class="strong">Author:</span></dt>
-  <dd>Charles Fry</dd></dl>
+  <dd>Charles Fry</dd>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#com.google.common.cache.RemovalNotification">Serialized Form</a></dd></dl>
 </li>
 </ul>
 </div>
@@ -141,35 +146,9 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/cache/RemovalNotification.html#equals(java.lang.Object)">equals</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>&nbsp;</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/cache/RemovalCause.html" title="enum in com.google.common.cache">RemovalCause</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/cache/RemovalNotification.html#getCause()">getCause</a></strong>()</code>
 <div class="block">Returns the cause for which the entry was removed.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">K</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/cache/RemovalNotification.html#getKey()">getKey</a></strong>()</code>&nbsp;</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">V</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/cache/RemovalNotification.html#getValue()">getValue</a></strong>()</code>&nbsp;</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/cache/RemovalNotification.html#hashCode()">hashCode</a></strong>()</code>&nbsp;</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">V</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/cache/RemovalNotification.html#setValue(V)">setValue</a></strong>(<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">V</a>&nbsp;value)</code>&nbsp;</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/cache/RemovalNotification.html#toString()">toString</a></strong>()</code>
-<div class="block">Returns a string representation of the form <code>{key}={value}</code>.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -180,6 +159,13 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 </td>
 </tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.util.AbstractMap.SimpleImmutableEntry">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.util.<a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractMap.SimpleImmutableEntry.html?is-external=true" title="class or interface in java.util">AbstractMap.SimpleImmutableEntry</a></h3>
+<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractMap.SimpleImmutableEntry.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util">equals</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractMap.SimpleImmutableEntry.html?is-external=true#getKey()" title="class or interface in java.util">getKey</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractMap.SimpleImmutableEntry.html?is-external=true#getValue()" title="class or interface in java.util">getValue</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractMap.SimpleImmutableEntry.html?is-external=true#hashCode()" title="class or interface in java.util">hashCode</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractMap.SimpleImmutableEntry.html?is-external=true#setValue(V)" title="class or interface in java.util">setValue</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractMap.SimpleImmutableEntry.html?is-external=true#toString()" title="class or interface in java.util">toString</a></code></li>
+</ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
 <!--   -->
@@ -209,7 +195,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/cache/RemovalNotification.html" title="class in com.google.common.cache">RemovalNotification</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.52">create</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/cache/RemovalNotification.html" title="class in com.google.common.cache">RemovalNotification</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.49">create</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                     K&nbsp;key,
                                     <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                     V&nbsp;value,
@@ -227,107 +213,19 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 <ul class="blockList">
 <li class="blockList">
 <h4>getCause</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/RemovalCause.html" title="enum in com.google.common.cache">RemovalCause</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.66">getCause</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/RemovalCause.html" title="enum in com.google.common.cache">RemovalCause</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.62">getCause</a>()</pre>
 <div class="block">Returns the cause for which the entry was removed.</div>
 </li>
 </ul>
 <a name="wasEvicted()">
 <!--   -->
 </a>
-<ul class="blockList">
-<li class="blockList">
-<h4>wasEvicted</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.74">wasEvicted</a>()</pre>
-<div class="block">Returns <code>true</code> if there was an automatic removal due to eviction (the cause is neither
- <a href="../../../../com/google/common/cache/RemovalCause.html#EXPLICIT"><code>RemovalCause.EXPLICIT</code></a> nor <a href="../../../../com/google/common/cache/RemovalCause.html#REPLACED"><code>RemovalCause.REPLACED</code></a>).</div>
-</li>
-</ul>
-<a name="getKey()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getKey</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public&nbsp;<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">K</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.78">getKey</a>()</pre>
-<dl>
-<dt><strong>Specified by:</strong></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true#getKey()" title="class or interface in java.util">getKey</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">K</a>,<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">V</a>&gt;</code></dd>
-</dl>
-</li>
-</ul>
-<a name="getValue()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getValue</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public&nbsp;<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.82">getValue</a>()</pre>
-<dl>
-<dt><strong>Specified by:</strong></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true#getValue()" title="class or interface in java.util">getValue</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">K</a>,<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">V</a>&gt;</code></dd>
-</dl>
-</li>
-</ul>
-<a name="setValue(java.lang.Object)">
-<!--   -->
-</a><a name="setValue(V)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setValue</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.86">setValue</a>(<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">V</a>&nbsp;value)</pre>
-<dl>
-<dt><strong>Specified by:</strong></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true#setValue(V)" title="class or interface in java.util">setValue</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">K</a>,<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">V</a>&gt;</code></dd>
-</dl>
-</li>
-</ul>
-<a name="equals(java.lang.Object)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.90">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-             <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
-<dl>
-<dt><strong>Specified by:</strong></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.util">equals</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">K</a>,<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">V</a>&gt;</code></dd>
-<dt><strong>Overrides:</strong></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
-</dl>
-</li>
-</ul>
-<a name="hashCode()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.99">hashCode</a>()</pre>
-<dl>
-<dt><strong>Specified by:</strong></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true#hashCode()" title="class or interface in java.util">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">K</a>,<a href="../../../../com/google/common/cache/RemovalNotification.html" title="type parameter in RemovalNotification">V</a>&gt;</code></dd>
-<dt><strong>Overrides:</strong></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
-</dl>
-</li>
-</ul>
-<a name="toString()">
-<!--   -->
-</a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.108">toString</a>()</pre>
-<div class="block">Returns a string representation of the form <code>{key}={value}</code>.</div>
-<dl>
-<dt><strong>Overrides:</strong></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
-</dl>
+<h4>wasEvicted</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.70">wasEvicted</a>()</pre>
+<div class="block">Returns <code>true</code> if there was an automatic removal due to eviction (the cause is neither
+ <a href="../../../../com/google/common/cache/RemovalCause.html#EXPLICIT"><code>RemovalCause.EXPLICIT</code></a> nor <a href="../../../../com/google/common/cache/RemovalCause.html#REPLACED"><code>RemovalCause.REPLACED</code></a>).</div>
 </li>
 </ul>
 </li>
