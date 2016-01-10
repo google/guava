@@ -7,9 +7,9 @@ jdk:
   - oraclejdk7
   - openjdk7
 
-install: mvn install -U -DskipTests=true
+install: mvn -B install -U -DskipTests=true
 
-script: mvn verify -U -Dmaven.javadoc.skip=true
+script: mvn -B verify -U -Dmaven.javadoc.skip=true
 
 after_success:
   - util/deploy_snapshot.sh
