@@ -255,7 +255,7 @@
               <failOnError>true</failOnError>
               <logLevel>${gwt.logLevel}</logLevel>
               <validateOnly>true</validateOnly>
-              <sourceLevel>1.7</sourceLevel> <!-- TODO(cpovirk): Is it OK to bump this from 1.6 to 1.7? We need to if we're going to use GWT 2.8.0. Maybe we should at least revert when cutting a release? -->
+              <sourceLevel>1.7</sourceLevel>
             </configuration>
           </execution>
           <!--
