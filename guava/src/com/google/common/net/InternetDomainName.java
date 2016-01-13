@@ -199,7 +199,10 @@ public final class InternetDomainName {
    * the following ways:
    * <ul>
    * <li>Any part containing non-ASCII characters is considered valid.
-   * <li>Underscores ('_') are permitted wherever dashes ('-') are permitted.
+   * <li>Underscores ('_') are permitted within parts (not the first or
+   *     last character).
+   * <li>Dashes ('-') are permitted as the last character of parts (in
+   *     addition to being permitted within parts, per the standard).
    * <li>Parts other than the final part may start with a digit.
    * </ul>
    *
@@ -238,10 +241,12 @@ public final class InternetDomainName {
     return true;
   }
 
-  private static final CharMatcher DASH_MATCHER = CharMatcher.anyOf("-_");
+  private static final CharMatcher UNDERSCORE_MATCHER = CharMatcher.is('_');
+
+  private static final CharMatcher DASH_OR_UNDERSCORE_MATCHER = CharMatcher.anyOf("-_");
 
   private static final CharMatcher PART_CHAR_MATCHER =
-      CharMatcher.JAVA_LETTER_OR_DIGIT.or(DASH_MATCHER);
+      CharMatcher.JAVA_LETTER_OR_DIGIT.or(DASH_OR_UNDERSCORE_MATCHER);
 
   /**
    * Helper method for {@link #validateSyntax(List)}. Validates that one part of
@@ -276,10 +281,10 @@ public final class InternetDomainName {
       return false;
     }
 
-    // No initial or final dashes or underscores.
+    // No initial dash or underscore. No final underscore.
 
-    if (DASH_MATCHER.matches(part.charAt(0))
-        || DASH_MATCHER.matches(part.charAt(part.length() - 1))) {
+    if (DASH_OR_UNDERSCORE_MATCHER.matches(part.charAt(0))
+        || UNDERSCORE_MATCHER.matches(part.charAt(part.length() - 1))) {
       return false;
     }
 
