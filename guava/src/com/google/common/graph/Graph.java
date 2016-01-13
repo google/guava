@@ -82,9 +82,21 @@ import javax.annotation.Nullable;
  *
  * <p>General notes:
  * <ul>
- * <li><b>Nodes/Edges must be unique</b>, just as {@code Map} keys must be. So, nodes {@code node1}
- *     and {@code node2} are considered different if and only if
- *     {@code node1.equals(node2) == false}, and the same for edges.
+ * <li><b>Nodes/edges must be useable as {@code Map} keys</b>:
+ *   <ul>
+ *   <li>They must be unique in a graph: nodes {@code node1} and {@code node2} are considered
+ *       different if and only if {@code node1.equals(node2) == false}, and the same for edges.
+ *   <li>If graph elements have mutable state, both of the following must be true:
+ *     <ul>the mutable state must not be reflected in the {@code equals/hashCode} methods
+ *         (this is discussed in the {@code Map} documentation in detail)
+ *     <ul>don't construct multiple elements that are equal to each other and expect them to be
+ *         interchangeable.  In particular, when adding such elements to a graph, you should create
+ *         them once and store the reference if you will need to refer to those elements more than
+ *         once during creation (rather than passing {@code new MyMutableNode(id)} to each
+ *         {@code add*()} call).
+ *   </ul>
+ *   <br>Generally speaking, your design may be more robust if you use immutable nodes/edges and
+ * store mutable per-element state in a separate data structure (e.g. an element-to-state map).
  * <li>There are no Node or Edge classes built in.  So you can have a {@code Graph<Integer, String>}
  *     or a {@code Graph<Author,Publication>} or a {@code Graph<Webpage,Link>}.
  * <li>This framework supports multiple mechanisms for storing the topology of a graph, including:
@@ -93,7 +105,7 @@ import javax.annotation.Nullable;
  *       that maps nodes onto their incident edges); this implies that the nodes and edges
  *       are just keys, and can be shared among graphs
  *   <li>the nodes store the topology (for example, by storing a {@code List<E>} of incident edges);
- *       this (usually) implies that nodes are graph-specific or map
+ *       this (usually) implies that nodes are graph-specific
  *   <li>a separate data repository (for example, a database) stores the topology
  *   </ul>
  * <li>Users that are not interested in edges as first-class objects can create an implementation of
