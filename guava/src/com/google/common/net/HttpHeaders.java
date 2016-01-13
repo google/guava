@@ -78,6 +78,7 @@ public final class HttpHeaders {
   public static final String EXPECT = "Expect";
   /** The HTTP {@code From} header field name. */
   public static final String FROM = "From";
+
   /**
    * The HTTP {@code Follow-Only-When-Prerender-Shown}</a> header field name.
    *
@@ -109,6 +110,8 @@ public final class HttpHeaders {
   public static final String RANGE = "Range";
   /** The HTTP {@code Referer} header field name. */
   public static final String REFERER = "Referer";
+  /** The HTTP {@code Service-Worker} header field name. */
+  public static final String SERVICE_WORKER = "Service-Worker";
   /** The HTTP {@code TE} header field name. */
   public static final String TE = "TE";
   /** The HTTP {@code Upgrade} header field name. */
