@@ -203,7 +203,9 @@ public final class InternetDomainName {
    *     last character).
    * <li>Dashes ('-') are permitted as the last character of parts (in
    *     addition to being permitted within parts, per the standard).
-   * <li>Parts other than the final part may start with a digit.
+   * <li>Parts other than the final part may start with a digit, as mandated
+   *     by <a href="https://tools.ietf.org/html/rfc1123#section-2">RFC
+   *     1123</a>.
    * </ul>
    *
    *
