@@ -280,7 +280,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.217">from</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;domain)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.214">from</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;domain)</pre>
 <div class="block">Returns an instance of <a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net"><code>InternetDomainName</code></a> after lenient
  validation.  Specifically, validation against <a
  href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
@@ -290,10 +290,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  the following ways:
  <ul>
  <li>Any part containing non-ASCII characters is considered valid.
- <li>Underscores ('_') are permitted within parts (not the first or
-     last character).
- <li>Dashes ('-') are permitted as the last character of parts (in
-     addition to being permitted within parts, per the standard).
+ <li>Underscores ('_') are permitted wherever dashes ('-') are permitted.
  <li>Parts other than the final part may start with a digit, as mandated
      by <a href="https://tools.ietf.org/html/rfc1123#section-2">RFC
      1123</a>.
@@ -311,7 +308,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>parts</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.313">parts</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.308">parts</a>()</pre>
 <div class="block">Returns the individual components of this domain name, normalized to all
  lower case. For example, for the domain name <code>mail.google.com</code>, this
  method returns the list <code>["mail", "google", "com"]</code>.</div>
@@ -323,7 +320,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>isPublicSuffix</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.330">isPublicSuffix</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.325">isPublicSuffix</a>()</pre>
 <div class="block">Indicates whether this domain name represents a <i>public suffix</i>, as
  defined by the Mozilla Foundation's
  <a href="http://publicsuffix.org/">Public Suffix List</a> (PSL). A public
@@ -341,7 +338,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>hasPublicSuffix</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.344">hasPublicSuffix</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.339">hasPublicSuffix</a>()</pre>
 <div class="block">Indicates whether this domain name ends in a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>, including if it is a public suffix itself. For example,
  returns <code>true</code> for <code>www.google.com</code>, <code>foo.co.uk</code> and
  <code>com</code>, but not for <code>google</code> or <code>google.foo</code>. This is
@@ -357,7 +354,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>publicSuffix</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.354">publicSuffix</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.349">publicSuffix</a>()</pre>
 <div class="block">Returns the <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a> portion of the
  domain name, or <code>null</code> if no public suffix is present.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -370,7 +367,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>isUnderPublicSuffix</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.377">isUnderPublicSuffix</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.372">isUnderPublicSuffix</a>()</pre>
 <div class="block">Indicates whether this domain name ends in a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>, while not being a public suffix itself. For example,
  returns <code>true</code> for <code>www.google.com</code>, <code>foo.co.uk</code> and
  <code>bar.ca.us</code>, but not for <code>google</code>, <code>com</code>, or <code>google.foo</code>.
@@ -394,7 +391,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>isTopPrivateDomain</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.401">isTopPrivateDomain</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.396">isTopPrivateDomain</a>()</pre>
 <div class="block">Indicates whether this domain name is composed of exactly one subdomain
  component followed by a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>. For
  example, returns <code>true</code> for <code>google.com</code> and <code>foo.co.uk</code>,
@@ -421,7 +418,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>topPrivateDomain</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.427">topPrivateDomain</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.422">topPrivateDomain</a>()</pre>
 <div class="block">Returns the portion of this domain name that is one level beneath the
  public suffix. For example, for <code>x.adwords.google.co.uk</code> it returns
  <code>google.co.uk</code>, since <code>co.uk</code> is a public suffix.
@@ -450,7 +447,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>hasParent</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.438">hasParent</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.433">hasParent</a>()</pre>
 <div class="block">Indicates whether this domain is composed of two or more parts.</div>
 </li>
 </ul>
@@ -460,7 +457,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>parent</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.450">parent</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.445">parent</a>()</pre>
 <div class="block">Returns an <code>InternetDomainName</code> that is the immediate ancestor of
  this one; that is, the current domain with the leftmost part removed. For
  example, the parent of <code>www.google.com</code> is <code>google.com</code>.</div>
@@ -475,7 +472,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>child</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.477">child</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;leftParts)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.472">child</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;leftParts)</pre>
 <div class="block">Creates and returns a new <code>InternetDomainName</code> by prepending the
  argument and a dot to the current name. For example, <code>InternetDomainName.from("foo.com").child("www.bar")</code> returns a new
  <code>InternetDomainName</code> with the value <code>www.bar.foo.com</code>. Only
@@ -491,7 +488,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>isValid</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.503">isValid</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name)</pre>
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.498">isValid</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name)</pre>
 <div class="block">Indicates whether the argument is a syntactically valid domain name using
  lenient validation. Specifically, validation against <a
  href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
@@ -518,7 +515,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.525">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.520">toString</a>()</pre>
 <div class="block">Returns the domain name, normalized to all lower case.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -532,7 +529,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.537">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.532">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Equality testing is based on the text supplied by the caller,
  after normalization as described in the class documentation. For
@@ -550,7 +547,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.551">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.546">hashCode</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
