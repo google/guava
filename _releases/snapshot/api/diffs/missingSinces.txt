@@ -42,4 +42,5 @@ OK: com.google.common.util.concurrent.Futures Method whenAllComplete(com.google.
 OK: com.google.common.util.concurrent.Futures Method whenAllComplete(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)
 OK: com.google.common.util.concurrent.Futures Method whenAllSucceed(com.google.common.util.concurrent.ListenableFuture[])
 OK: com.google.common.util.concurrent.Futures Method whenAllSucceed(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)
+MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field SERVICE_WORKER
 OK: com.google.common.net.MediaType Field SOAP_XML_UTF_8
