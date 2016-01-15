@@ -25,24 +25,24 @@ import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
- * A class representing the incident nodes (source and target) on a directed edge.
+ * An immutable pair representing the incident nodes (source and target) on a directed edge.
  *
  * @author Joshua O'Madadhain
  * @param <N> Node parameter type
  */
 @CheckReturnValue
-final class IncidentNodes<N> {
+final class DirectedIncidentNodes<N> {
 
   private final N source;
   private final N target;
 
-  private IncidentNodes(N source, N target) {
+  private DirectedIncidentNodes(N source, N target) {
     this.source = checkNotNull(source, "source");
     this.target = checkNotNull(target, "target");
   }
 
-  static <N> IncidentNodes<N> of(N source, N target) {
-    return new IncidentNodes<N>(source, target);
+  static <N> DirectedIncidentNodes<N> of(N source, N target) {
+    return new DirectedIncidentNodes<N>(source, target);
   }
 
   N source() {
@@ -51,6 +51,10 @@ final class IncidentNodes<N> {
 
   N target() {
     return target;
+  }
+
+  boolean isSelfLoop() {
+    return source.equals(target);
   }
 
   ImmutableSet<N> asImmutableSet() {
@@ -64,8 +68,8 @@ final class IncidentNodes<N> {
 
   @Override
   public boolean equals(@Nullable Object object) {
-    if (object instanceof IncidentNodes<?>) {
-      IncidentNodes<?> that = (IncidentNodes<?>) object;
+    if (object instanceof DirectedIncidentNodes<?>) {
+      DirectedIncidentNodes<?> that = (DirectedIncidentNodes<?>) object;
       return this.source.equals(that.source)
           && this.target.equals(that.target);
     }

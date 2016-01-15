@@ -83,7 +83,7 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
   // All nodes in the graph exist in this map
   private final ImmutableMap<N, ImmutableSet<E>> nodeToIncidentEdges;
   // All edges in the graph exist in this map
-  private final ImmutableMap<E, ImmutableSet<N>> edgeToIncidentNodes;
+  private final ImmutableMap<E, UndirectedIncidentNodes<N>> edgeToIncidentNodes;
   private final GraphConfig config;
 
   private ImmutableUndirectedGraph(Builder<N, E> builder) {
@@ -93,9 +93,9 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
       nodeToEdgesBuilder.put(node, ImmutableSet.copyOf(undirectedGraph.incidentEdges(node)));
     }
     nodeToIncidentEdges = nodeToEdgesBuilder.build();
-    ImmutableMap.Builder<E, ImmutableSet<N>> edgeToNodesBuilder = ImmutableMap.builder();
+    ImmutableMap.Builder<E, UndirectedIncidentNodes<N>> edgeToNodesBuilder = ImmutableMap.builder();
     for (E edge : undirectedGraph.edges()) {
-      edgeToNodesBuilder.put(edge, ImmutableSet.copyOf(undirectedGraph.incidentNodes(edge)));
+      edgeToNodesBuilder.put(edge, UndirectedIncidentNodes.of(undirectedGraph.incidentNodes(edge)));
     }
     edgeToIncidentNodes = edgeToNodesBuilder.build();
     config = undirectedGraph.config();
@@ -119,7 +119,7 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
   @Override
   public Set<E> incidentEdges(Object node) {
     checkNotNull(node, "node");
-    Set<E> incidentEdges = nodeToIncidentEdges.get(node);
+    ImmutableSet<E> incidentEdges = nodeToIncidentEdges.get(node);
     checkArgument(incidentEdges != null, NODE_NOT_IN_GRAPH, node);
     return incidentEdges;
   }
@@ -127,7 +127,7 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
   @Override
   public Set<N> incidentNodes(Object edge) {
     checkNotNull(edge, "edge");
-    Set<N> incidentNodes = edgeToIncidentNodes.get(edge);
+    UndirectedIncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
     checkArgument(incidentNodes != null, EDGE_NOT_IN_GRAPH, edge);
     return incidentNodes;
   }
@@ -173,8 +173,7 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
     if (node1.equals(node2)) {
       Set<E> returnSet = Sets.newLinkedHashSet();
       for (E edge : incidentEdgesN1) {
-        // An edge is a self-loop iff it has exactly one incident node.
-        if (edgeToIncidentNodes.get(edge).size() == 1) {
+        if (edgeToIncidentNodes.get(edge).isSelfLoop()) {
           returnSet.add(edge);
         }
       }

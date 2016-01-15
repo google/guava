@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 
 import org.junit.Test;
@@ -23,13 +24,18 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public final class IncidentNodesTest {
+public final class UndirectedIncidentNodesTest {
 
   @Test
   public void testEquals() {
     new EqualsTester()
-        .addEqualityGroup(IncidentNodes.of("foo", "bar"))
-        .addEqualityGroup(IncidentNodes.of("bar", "foo"))
+        .addEqualityGroup(
+            UndirectedIncidentNodes.of("foo", "bar"),
+            UndirectedIncidentNodes.of("bar", "foo"),
+            UndirectedIncidentNodes.of(ImmutableSet.of("foo", "bar")))
+        .addEqualityGroup(
+            UndirectedIncidentNodes.of("test", "test"),
+            UndirectedIncidentNodes.of(ImmutableSet.of("test")))
         .testEquals();
   }
 }

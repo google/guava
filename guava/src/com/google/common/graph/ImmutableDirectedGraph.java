@@ -92,24 +92,26 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
     implements DirectedGraph<N, E> {
 
   // All nodes in the graph exist in this map
-  private final ImmutableMap<N, IncidentEdges<E>> nodeToIncidentEdges;
+  private final ImmutableMap<N, DirectedIncidentEdges<E>> nodeToIncidentEdges;
   // All edges in the graph exist in this map
-  private final ImmutableMap<E, IncidentNodes<N>> edgeToIncidentNodes;
+  private final ImmutableMap<E, DirectedIncidentNodes<N>> edgeToIncidentNodes;
   private final GraphConfig config;
 
   private ImmutableDirectedGraph(Builder<N, E> builder) {
     DirectedGraph<N, E> directedGraph = builder.directedGraph;
-    ImmutableMap.Builder<N, IncidentEdges<E>> nodeToIncidentEdgesBuilder = ImmutableMap.builder();
+    ImmutableMap.Builder<N, DirectedIncidentEdges<E>> nodeToIncidentEdgesBuilder =
+        ImmutableMap.builder();
     for (N node : directedGraph.nodes()) {
-      IncidentEdges<E> incidentEdges =
-          IncidentEdges.ofImmutable(directedGraph.inEdges(node), directedGraph.outEdges(node));
+      DirectedIncidentEdges<E> incidentEdges = DirectedIncidentEdges.ofImmutable(
+          directedGraph.inEdges(node), directedGraph.outEdges(node));
       nodeToIncidentEdgesBuilder.put(node, incidentEdges);
     }
     nodeToIncidentEdges = nodeToIncidentEdgesBuilder.build();
-    ImmutableMap.Builder<E, IncidentNodes<N>> edgeToIncidentNodesBuilder = ImmutableMap.builder();
+    ImmutableMap.Builder<E, DirectedIncidentNodes<N>> edgeToIncidentNodesBuilder =
+        ImmutableMap.builder();
     for (E edge : directedGraph.edges()) {
-      IncidentNodes<N> incidentNodes =
-          IncidentNodes.of(directedGraph.source(edge), directedGraph.target(edge));
+      DirectedIncidentNodes<N> incidentNodes = DirectedIncidentNodes.of(
+          directedGraph.source(edge), directedGraph.target(edge));
       edgeToIncidentNodesBuilder.put(edge, incidentNodes);
     }
     edgeToIncidentNodes = edgeToIncidentNodesBuilder.build();
@@ -139,7 +141,7 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
   @Override
   public Set<N> incidentNodes(Object edge) {
     checkNotNull(edge, "edge");
-    IncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
+    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
     checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
     return endpoints.asImmutableSet();
   }
@@ -152,11 +154,12 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
   @Override
   public Set<E> adjacentEdges(Object edge) {
     checkNotNull(edge, "edge");
-    IncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
+    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
     checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
     Set<E> adjacentEdges = Sets.newLinkedHashSet();
-    adjacentEdges.addAll(incidentEdges(endpoints.target()));
-    adjacentEdges.addAll(incidentEdges(endpoints.source()));
+    for (N node : endpoints.asImmutableSet()) {
+      adjacentEdges.addAll(incidentEdges(node));
+    }
     // Edges are not adjacent to themselves by definition.
     adjacentEdges.remove(edge);
     return Collections.unmodifiableSet(adjacentEdges);
@@ -186,7 +189,7 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
   @Override
   public Set<E> inEdges(Object node) {
     checkNotNull(node, "node");
-    IncidentEdges<E> incidentEdges = nodeToIncidentEdges.get(node);
+    DirectedIncidentEdges<E> incidentEdges = nodeToIncidentEdges.get(node);
     checkArgument(incidentEdges != null, NODE_NOT_IN_GRAPH, node);
     return incidentEdges.inEdges();
   }
@@ -194,7 +197,7 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
   @Override
   public Set<E> outEdges(Object node) {
     checkNotNull(node, "node");
-    IncidentEdges<E> incidentEdges = nodeToIncidentEdges.get(node);
+    DirectedIncidentEdges<E> incidentEdges = nodeToIncidentEdges.get(node);
     checkArgument(incidentEdges != null, NODE_NOT_IN_GRAPH, node);
     return incidentEdges.outEdges();
   }
@@ -235,7 +238,7 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
   @Override
   public N source(Object edge) {
     checkNotNull(edge, "edge");
-    IncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
+    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
     checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
     return endpoints.source();
   }
@@ -243,7 +246,7 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
   @Override
   public N target(Object edge) {
     checkNotNull(edge, "edge");
-    IncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
+    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
     checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
     return endpoints.target();
   }

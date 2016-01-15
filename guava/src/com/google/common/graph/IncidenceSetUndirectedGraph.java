@@ -31,6 +31,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -111,7 +112,7 @@ final class IncidenceSetUndirectedGraph<N, E> implements UndirectedGraph<N, E> {
   // All nodes in the graph exist in this map
   private final Map<N, Set<E>> nodeToIncidentEdges;
   // All edges in the graph exist in this map
-  private final Map<E, ImmutableSet<N>> edgeToIncidentNodes;
+  private final Map<E, UndirectedIncidentNodes<N>> edgeToIncidentNodes;
   private final GraphConfig config;
 
   IncidenceSetUndirectedGraph(GraphConfig config) {
@@ -149,9 +150,9 @@ final class IncidenceSetUndirectedGraph<N, E> implements UndirectedGraph<N, E> {
   @Override
   public Set<N> incidentNodes(Object edge) {
     checkNotNull(edge, "edge");
-    Set<N> incidentNodes = edgeToIncidentNodes.get(edge);
+    UndirectedIncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
     checkArgument(incidentNodes != null, EDGE_NOT_IN_GRAPH, edge);
-    return Collections.unmodifiableSet(incidentNodes);
+    return incidentNodes;
   }
 
   @Override
@@ -179,13 +180,14 @@ final class IncidenceSetUndirectedGraph<N, E> implements UndirectedGraph<N, E> {
   @Override
   public Set<E> adjacentEdges(Object edge) {
     checkNotNull(edge, "edge");
-    Set<N> incidentNodes = edgeToIncidentNodes.get(edge);
+    UndirectedIncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
     checkArgument(incidentNodes != null, EDGE_NOT_IN_GRAPH, edge);
-    Object[] endpoints = incidentNodes.toArray();
-    Set<E> endpointsIncidentEdges =
-        endpoints.length == 1
-            ? incidentEdges(endpoints[0])
-            : Sets.union(incidentEdges(endpoints[0]), incidentEdges(endpoints[1]));
+    Iterator<N> incidentNodesIterator = incidentNodes.iterator();
+    Set<E> endpointsIncidentEdges = incidentEdges(incidentNodesIterator.next());
+    while (incidentNodesIterator.hasNext()) {
+      endpointsIncidentEdges = Sets.union(incidentEdges(incidentNodesIterator.next()),
+          endpointsIncidentEdges);
+    }
     return Sets.difference(endpointsIncidentEdges, ImmutableSet.of(edge));
   }
 
@@ -219,8 +221,7 @@ final class IncidenceSetUndirectedGraph<N, E> implements UndirectedGraph<N, E> {
         Set<E> elements() {
           Set<E> selfLoopEdges = Sets.newLinkedHashSet();
           for (E edge : incidentEdgesN1) {
-            // An edge is a self-loop iff it has exactly one incident node.
-            if (edgeToIncidentNodes.get(edge).size() == 1) {
+            if (edgeToIncidentNodes.get(edge).isSelfLoop()) {
               selfLoopEdges.add(edge);
             }
           }
@@ -305,24 +306,23 @@ final class IncidenceSetUndirectedGraph<N, E> implements UndirectedGraph<N, E> {
     checkNotNull(edge, "edge");
     checkNotNull(node1, "node1");
     checkNotNull(node2, "node2");
-    checkArgument(config.isSelfLoopsAllowed() || !node1.equals(node2),
+    UndirectedIncidentNodes<N> incidentNodes = UndirectedIncidentNodes.of(node1, node2);
+    checkArgument(config.isSelfLoopsAllowed() || !incidentNodes.isSelfLoop(),
         SELF_LOOPS_NOT_ALLOWED, node1);
-    ImmutableSet<N> endpoints = ImmutableSet.of(node1, node2);
-    Set<N> incidentNodes = edgeToIncidentNodes.get(edge);
-    if (incidentNodes != null) {
-      checkArgument(incidentNodes.equals(endpoints), REUSING_EDGE, edge, incidentNodes, endpoints);
+    UndirectedIncidentNodes<N> previousIncidentNodes = edgeToIncidentNodes.get(edge);
+    if (previousIncidentNodes != null) {
+      checkArgument(previousIncidentNodes.equals(incidentNodes),
+          REUSING_EDGE, edge, previousIncidentNodes, incidentNodes);
       return false;
     } else if (!config.isMultigraph() && containsNode(node1) && containsNode(node2)) {
       E edgeConnecting = Iterables.getOnlyElement(edgesConnecting(node1, node2), null);
       checkArgument(edgeConnecting == null, ADDING_PARALLEL_EDGE, node1, node2, edgeConnecting);
     }
-    addNode(node1);
-    addNode(node2);
-    edgeToIncidentNodes.put(edge, endpoints);
-    nodeToIncidentEdges.get(node1).add(edge);
-    if (!node1.equals(node2)) {
-      nodeToIncidentEdges.get(node2).add(edge);
+    for (N node : incidentNodes) {
+      addNode(node);
+      nodeToIncidentEdges.get(node).add(edge);
     }
+    edgeToIncidentNodes.put(edge, incidentNodes);
     return true;
   }
 
@@ -347,7 +347,7 @@ final class IncidenceSetUndirectedGraph<N, E> implements UndirectedGraph<N, E> {
   public boolean removeEdge(Object edge) {
     checkNotNull(edge, "edge");
     // Return false if the edge doesn't exist in the graph
-    Set<N> incidentNodes = edgeToIncidentNodes.get(edge);
+    UndirectedIncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
     if (incidentNodes == null) {
       return false;
     }
