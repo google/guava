@@ -172,7 +172,6 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    * copy of a {@code SortedSet} that preserves the comparator, call {@link
    * #copyOfSorted} instead. This method iterates over {@code elements} at most
    * once.
-
    *
    * <p>Note that if {@code s} is a {@code Set<String>}, then {@code
    * ImmutableSortedSet.copyOf(s)} returns an {@code ImmutableSortedSet<String>}
