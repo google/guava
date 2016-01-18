@@ -555,4 +555,14 @@ public class DoublesTest extends TestCase {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Doubles.stringConverter());
   }
+
+  @GwtIncompatible
+  public void testTryParse_withNullNoGwt() {
+    assertNull(Doubles.tryParse("null"));
+    try {
+      double unused = Doubles.tryParse(null);
+      fail("Expected NPE");
+    } catch (NullPointerException expected) {
+    }
+  }
 }

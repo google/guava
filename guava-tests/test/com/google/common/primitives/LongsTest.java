@@ -523,4 +523,13 @@ public class LongsTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
+
+  public void testTryParse_withNullGwt() {
+    assertNull(Longs.tryParse("null"));
+    try {
+      long unused = Longs.tryParse(null);
+      fail("Expected NPE");
+    } catch (NullPointerException expected) {
+    }
+  }
 }

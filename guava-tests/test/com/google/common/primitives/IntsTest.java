@@ -544,4 +544,13 @@ public class IntsTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
+
+  public void testTryParse_withNullGwt() {
+    assertNull(Ints.tryParse("null"));
+    try {
+      int unused = Ints.tryParse(null);
+      fail("Expected NPE");
+    } catch (NullPointerException expected) {
+    }
+  }
 }

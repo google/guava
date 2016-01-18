@@ -532,4 +532,14 @@ public class FloatsTest extends TestCase {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Floats.stringConverter());
   }
+
+  @GwtIncompatible
+  public void testTryParse_withNullNoGwt() {
+    assertNull(Floats.tryParse("null"));
+    try {
+      float unused = Floats.tryParse(null);
+      fail("Expected NPE");
+    } catch (NullPointerException expected) {
+    }
+  }
 }
