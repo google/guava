@@ -29,6 +29,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Objects;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -459,8 +460,12 @@ public abstract class BaseEncoding {
        * for the smallest chunk size that still has charsPerChunk * bitsPerChar be a multiple of 8.
        */
       int gcd = Math.min(8, Integer.lowestOneBit(bitsPerChar));
-      this.charsPerChunk = 8 / gcd;
-      this.bytesPerChunk = bitsPerChar / gcd;
+      try {
+        this.charsPerChunk = 8 / gcd;
+        this.bytesPerChunk = bitsPerChar / gcd;
+      } catch (ArithmeticException e) {
+        throw new IllegalArgumentException("Illegal alphabet " + new String(chars), e);
+      }
 
       this.mask = chars.length - 1;
 
@@ -553,6 +558,20 @@ public abstract class BaseEncoding {
     @Override
     public String toString() {
       return name;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object other) {
+      if (other instanceof Alphabet) {
+        Alphabet that = (Alphabet) other;
+        return Arrays.equals(this.chars, that.chars);
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return Arrays.hashCode(chars);
     }
   }
 
@@ -825,6 +844,21 @@ public abstract class BaseEncoding {
         }
       }
       return builder.toString();
+    }
+
+    @Override
+    public boolean equals(@Nullable Object other) {
+      if (other instanceof StandardBaseEncoding) {
+        StandardBaseEncoding that = (StandardBaseEncoding) other;
+        return this.alphabet.equals(that.alphabet)
+            && Objects.equal(this.paddingChar, that.paddingChar);
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return alphabet.hashCode() ^ Objects.hashCode(paddingChar);
     }
   }
 
