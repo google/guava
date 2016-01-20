@@ -211,6 +211,64 @@ public final class MediaType {
   public static final MediaType OGG_AUDIO = createConstant(AUDIO_TYPE, "ogg");
   public static final MediaType WEBM_AUDIO = createConstant(AUDIO_TYPE, "webm");
 
+  /**
+   * Media type for Basic Audio, as defined by
+   * <a href="http://tools.ietf.org/html/rfc2046#section-4.3">RFC 2046</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType BASIC_AUDIO = createConstant(AUDIO_TYPE, "basic");
+
+  /**
+   * Media type for Advanced Audio Coding. For more information, see
+   * <a href="https://en.wikipedia.org/wiki/Advanced_Audio_Coding">Advanced Audio Coding</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType AAC_AUDIO = createConstant(AUDIO_TYPE, "aac");
+
+  /**
+   * Media type for Vorbis Audio, as defined by
+   * <a href="http://tools.ietf.org/html/rfc5215">RFC 5215</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType VORBIS_AUDIO = createConstant(AUDIO_TYPE, "vorbis");
+
+  /**
+   * Media type for Windows Media Audio. For more information, see
+   * <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd562994(v=vs.85).aspx"
+   * >file name extensions for Windows Media metafiles</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType WMA_AUDIO = createConstant(AUDIO_TYPE, "x-ms-wma");
+
+  /**
+   * Media type for Windows Media metafiles. For more information, see
+   * <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd562994(v=vs.85).aspx"
+   * >file name extensions for Windows Media metafiles</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType WAX_AUDIO = createConstant(AUDIO_TYPE, "x-ms-wax");
+
+  /**
+   * Media type for Real Audio. For more information, see
+   * <a href="http://service.real.com/help/faq/rp8/configrp8win.html">this link</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType VND_REAL_AUDIO = createConstant(AUDIO_TYPE, "vnd.rn-realaudio");
+
+  /**
+   * Media type for WAVE format, as defined by
+   * <a href="https://tools.ietf.org/html/rfc2361">RFC 2361</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType VND_WAVE_AUDIO = createConstant(AUDIO_TYPE, "vnd.wave");
+
   /* video types */
   public static final MediaType MP4_VIDEO = createConstant(VIDEO_TYPE, "mp4");
   public static final MediaType MPEG_VIDEO = createConstant(VIDEO_TYPE, "mpeg");
@@ -218,6 +276,33 @@ public final class MediaType {
   public static final MediaType QUICKTIME = createConstant(VIDEO_TYPE, "quicktime");
   public static final MediaType WEBM_VIDEO = createConstant(VIDEO_TYPE, "webm");
   public static final MediaType WMV = createConstant(VIDEO_TYPE, "x-ms-wmv");
+
+  /**
+   * Media type for Flash video. For more information, see
+   * <a href="http://help.adobe.com/en_US/ActionScript/3.0_ProgrammingAS3/WS5b3ccc516d4fbf351e63e3d118a9b90204-7d48.html"
+   * >this link</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType FLV_VIDEO = createConstant(VIDEO_TYPE, "x-flv");
+
+  /**
+   * Media type for the 3GP multimedia container format. For more information, see
+   * <a href="ftp://www.3gpp.org/tsg_sa/TSG_SA/TSGS_23/Docs/PDF/SP-040065.pdf#page=10"
+   * >3GPP TS 26.244</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType THREE_GPP_VIDEO = createConstant(VIDEO_TYPE, "3gpp");
+
+  /**
+   * Media type for the 3G2 multimedia container format. For more information, see
+   * <a href="http://www.3gpp2.org/Public_html/specs/C.S0050-B_v1.0_070521.pdf#page=16"
+   * >3GPP2 C.S0050-B</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType THREE_GPP2_VIDEO = createConstant(VIDEO_TYPE, "3gpp2");
 
   /* application types */
   /**
