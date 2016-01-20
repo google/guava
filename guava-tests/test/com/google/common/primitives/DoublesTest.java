@@ -560,7 +560,7 @@ public class DoublesTest extends TestCase {
   public void testTryParse_withNullNoGwt() {
     assertNull(Doubles.tryParse("null"));
     try {
-      double unused = Doubles.tryParse(null);
+      Double unused = Doubles.tryParse(null);
       fail("Expected NPE");
     } catch (NullPointerException expected) {
     }

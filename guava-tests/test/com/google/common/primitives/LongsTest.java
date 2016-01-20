@@ -527,7 +527,7 @@ public class LongsTest extends TestCase {
   public void testTryParse_withNullGwt() {
     assertNull(Longs.tryParse("null"));
     try {
-      long unused = Longs.tryParse(null);
+      Long unused = Longs.tryParse(null);
       fail("Expected NPE");
     } catch (NullPointerException expected) {
     }

@@ -537,7 +537,7 @@ public class FloatsTest extends TestCase {
   public void testTryParse_withNullNoGwt() {
     assertNull(Floats.tryParse("null"));
     try {
-      float unused = Floats.tryParse(null);
+      Float unused = Floats.tryParse(null);
       fail("Expected NPE");
     } catch (NullPointerException expected) {
     }

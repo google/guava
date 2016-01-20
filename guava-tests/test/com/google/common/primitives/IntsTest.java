@@ -548,7 +548,7 @@ public class IntsTest extends TestCase {
   public void testTryParse_withNullGwt() {
     assertNull(Ints.tryParse("null"));
     try {
-      int unused = Ints.tryParse(null);
+      Integer unused = Ints.tryParse(null);
       fail("Expected NPE");
     } catch (NullPointerException expected) {
     }
