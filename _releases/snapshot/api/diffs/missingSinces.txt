@@ -42,5 +42,16 @@ OK: com.google.common.util.concurrent.Futures Method whenAllComplete(com.google.
 OK: com.google.common.util.concurrent.Futures Method whenAllComplete(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)
 OK: com.google.common.util.concurrent.Futures Method whenAllSucceed(com.google.common.util.concurrent.ListenableFuture[])
 OK: com.google.common.util.concurrent.Futures Method whenAllSucceed(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)
+OK: com.google.common.net.MediaType Field AAC_AUDIO
+OK: com.google.common.net.MediaType Field BASIC_AUDIO
+OK: com.google.common.net.MediaType Field FLV_VIDEO
+OK: com.google.common.net.MediaType Field L24_AUDIO
 MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field SERVICE_WORKER
 OK: com.google.common.net.MediaType Field SOAP_XML_UTF_8
+OK: com.google.common.net.MediaType Field THREE_GPP2_VIDEO
+OK: com.google.common.net.MediaType Field THREE_GPP_VIDEO
+OK: com.google.common.net.MediaType Field VND_REAL_AUDIO
+OK: com.google.common.net.MediaType Field VND_WAVE_AUDIO
+OK: com.google.common.net.MediaType Field VORBIS_AUDIO
+OK: com.google.common.net.MediaType Field WAX_AUDIO
+OK: com.google.common.net.MediaType Field WMA_AUDIO

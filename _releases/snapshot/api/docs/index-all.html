@@ -66,6 +66,10 @@
 </a>
 <h2 class="title">A</h2>
 <dl>
+<dt><span class="strong"><a href="./com/google/common/net/MediaType.html#AAC_AUDIO">AAC_AUDIO</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
+<dd>
+<div class="block">Media type for Advanced Audio Coding.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/base/Optional.html#absent()">absent()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a></dt>
 <dd>
 <div class="block">Returns an <code>Optional</code> instance with no contained reference.</div>
@@ -1690,6 +1694,11 @@
 <dt><a href="./com/google/common/io/BaseEncoding.DecodingException.html" title="class in com.google.common.io"><span class="strong">BaseEncoding.DecodingException</span></a> - Exception in <a href="./com/google/common/io/package-summary.html">com.google.common.io</a></dt>
 <dd>
 <div class="block">Exception indicating invalid base-encoded input encountered while decoding.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/net/MediaType.html#BASIC_AUDIO">BASIC_AUDIO</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
+<dd>
+<div class="block">Media type for Basic Audio, as defined by
+ <a href="http://tools.ietf.org/html/rfc2046#section-4.3">RFC 2046</a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Ascii.html#BEL">BEL</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
 <dd>
@@ -5981,6 +5990,10 @@
 <div class="block">Equivalent to calling <code>flush(flushable, true)</code>, but with no
  <code>IOException</code> in the signature.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/net/MediaType.html#FLV_VIDEO">FLV_VIDEO</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
+<dd>
+<div class="block">Media type for Flash video.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/net/HttpHeaders.html#FOLLOW_ONLY_WHEN_PRERENDER_SHOWN">FOLLOW_ONLY_WHEN_PRERENDER_SHOWN</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
 <div class="block">The HTTP <code>Follow-Only-When-Prerender-Shown</code></a> header field name.</div>
@@ -9301,6 +9314,11 @@
 </a>
 <h2 class="title">L</h2>
 <dl>
+<dt><span class="strong"><a href="./com/google/common/net/MediaType.html#L24_AUDIO">L24_AUDIO</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
+<dd>
+<div class="block">Media type for L24 audio, as defined by
+ <a href="https://tools.ietf.org/html/rfc3190">RFC 3190</a>.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/FluentIterable.html#last()">last()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a></dt>
 <dd>
 <div class="block">Returns an <a href="./com/google/common/base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the last element in this fluent iterable.</div>
@@ -15441,6 +15459,14 @@
 <dd>
 <div class="block">Creates a new <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent"><code>ThreadFactory</code></a> builder.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/net/MediaType.html#THREE_GPP2_VIDEO">THREE_GPP2_VIDEO</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
+<dd>
+<div class="block">Media type for the 3G2 multimedia container format.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/net/MediaType.html#THREE_GPP_VIDEO">THREE_GPP_VIDEO</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
+<dd>
+<div class="block">Media type for the 3GP multimedia container format.</div>
+</dd>
 <dt><a href="./com/google/common/base/Throwables.html" title="class in com.google.common.base"><span class="strong">Throwables</span></a> - Class in <a href="./com/google/common/base/package-summary.html">com.google.common.base</a></dt>
 <dd>
 <div class="block">Static utility methods pertaining to instances of <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang"><code>Throwable</code></a>.</div>
@@ -16191,7 +16217,7 @@
 <dd>
 <div class="block">Returns a splitter that behaves equivalently to <code>this</code> splitter, but
  automatically removes leading and trailing <a href="./com/google/common/base/CharMatcher.html#WHITESPACE">whitespace</a> from each returned substring; equivalent
- to <code>trimResults(CharMatcher.WHITESPACE)</code>.</div>
+ to <code>trimResults(CharMatcher.whitespace())</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Splitter.html#trimResults(com.google.common.base.CharMatcher)">trimResults(CharMatcher)</a></span> - Method in class com.google.common.base.<a href="./com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a></dt>
 <dd>
@@ -16903,6 +16929,20 @@ the order they are declared.</div>
 <div class="block">Annotates a program element that exists, or is more widely visible than
  otherwise necessary, only for use in test code.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/net/MediaType.html#VND_REAL_AUDIO">VND_REAL_AUDIO</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
+<dd>
+<div class="block">Media type for Real Audio.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/net/MediaType.html#VND_WAVE_AUDIO">VND_WAVE_AUDIO</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
+<dd>
+<div class="block">Media type for WAVE format, as defined by
+ <a href="https://tools.ietf.org/html/rfc2361">RFC 2361</a>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/net/MediaType.html#VORBIS_AUDIO">VORBIS_AUDIO</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
+<dd>
+<div class="block">Media type for Vorbis Audio, as defined by
+ <a href="http://tools.ietf.org/html/rfc5215">RFC 5215</a>.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/base/Ascii.html#VT">VT</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
 <dd>
 <div class="block">Vertical Tabulation ('\v'): A format effector which controls the
@@ -16943,6 +16983,10 @@ the order they are declared.</div>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/AbstractFuture.html#wasInterrupted()">wasInterrupted()</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a></dt>
 <dd>
 <div class="block">Returns true if this future was cancelled with <code>mayInterruptIfRunning</code> set to <code>true</code>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/net/MediaType.html#WAX_AUDIO">WAX_AUDIO</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
+<dd>
+<div class="block">Media type for Windows Media metafiles.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/AtomicDouble.html#weakCompareAndSet(double,%20double)">weakCompareAndSet(double, double)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/AtomicDouble.html" title="class in com.google.common.util.concurrent">AtomicDouble</a></dt>
 <dd>
@@ -17113,6 +17157,10 @@ the order they are declared.</div>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#withTimeout(com.google.common.util.concurrent.ListenableFuture,%20long,%20java.util.concurrent.TimeUnit,%20java.util.concurrent.ScheduledExecutorService)">withTimeout(ListenableFuture&lt;V&gt;, long, TimeUnit, ScheduledExecutorService)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
 <div class="block">Returns a future that delegates to another but will finish early (via a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent"><code>TimeoutException</code></a> wrapped in an <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a>) if the specified duration expires.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/net/MediaType.html#WMA_AUDIO">WMA_AUDIO</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
+<dd>
+<div class="block">Media type for Windows Media Audio.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/MediaType.html#WML_UTF_8">WML_UTF_8</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>&nbsp;</dd>
