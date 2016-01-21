@@ -212,6 +212,14 @@ public final class MediaType {
   public static final MediaType WEBM_AUDIO = createConstant(AUDIO_TYPE, "webm");
 
   /**
+   * Media type for L24 audio, as defined by
+   * <a href="https://tools.ietf.org/html/rfc3190">RFC 3190</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType L24_AUDIO = createConstant(AUDIO_TYPE, "l24");
+
+  /**
    * Media type for Basic Audio, as defined by
    * <a href="http://tools.ietf.org/html/rfc2046#section-4.3">RFC 2046</a>.
    *
