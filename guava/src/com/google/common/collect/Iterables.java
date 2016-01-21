@@ -438,7 +438,7 @@ public final class Iterables {
    * corresponding input iterator supports it.
    */
   public static <T> Iterable<T> concat(Iterable<? extends T> a, Iterable<? extends T> b) {
-    return concat(ImmutableList.of(a, b));
+    return FluentIterable.concat(a, b);
   }
 
   /**
@@ -452,7 +452,7 @@ public final class Iterables {
    */
   public static <T> Iterable<T> concat(
       Iterable<? extends T> a, Iterable<? extends T> b, Iterable<? extends T> c) {
-    return concat(ImmutableList.of(a, b, c));
+    return FluentIterable.concat(a, b, c);
   }
 
   /**
@@ -470,7 +470,7 @@ public final class Iterables {
       Iterable<? extends T> b,
       Iterable<? extends T> c,
       Iterable<? extends T> d) {
-    return concat(ImmutableList.of(a, b, c, d));
+    return FluentIterable.concat(a, b, c, d);
   }
 
   /**
@@ -497,14 +497,8 @@ public final class Iterables {
    * iterable may throw {@code NullPointerException} if any of the input
    * iterators is null.
    */
-  public static <T> Iterable<T> concat(final Iterable<? extends Iterable<? extends T>> inputs) {
-    checkNotNull(inputs);
-    return new FluentIterable<T>() {
-      @Override
-      public Iterator<T> iterator() {
-        return Iterators.concat(Iterables.transform(inputs, Iterables.<T>toIterator()).iterator());
-      }
-    };
+  public static <T> Iterable<T> concat(Iterable<? extends Iterable<? extends T>> inputs) {
+    return FluentIterable.concat(inputs);
   }
 
   /**
@@ -1001,7 +995,7 @@ public final class Iterables {
 
   // TODO(user): Is this the best place for this? Move to fluent functions?
   // Useful as a public method?
-  private static <T> Function<Iterable<? extends T>, Iterator<? extends T>> toIterator() {
+  static <T> Function<Iterable<? extends T>, Iterator<? extends T>> toIterator() {
     return new Function<Iterable<? extends T>, Iterator<? extends T>>() {
       @Override
       public Iterator<? extends T> apply(Iterable<? extends T> iterable) {

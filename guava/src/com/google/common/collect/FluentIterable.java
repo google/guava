@@ -172,6 +172,102 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   }
 
   /**
+   * Returns a fluent iterable that combines two iterables. The returned iterable has an iterator
+   * that traverses the elements in {@code a}, followed by the elements in {@code b}. The source
+   * iterators are not polled until necessary.
+   *
+   * <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
+   * iterator supports it.
+   *
+   * @since 20.0
+   */
+  @Beta
+  @CheckReturnValue
+  public static <T> FluentIterable<T> concat(Iterable<? extends T> a, Iterable<? extends T> b) {
+    return concat(ImmutableList.of(a, b));
+  }
+
+  /**
+   * Returns a fluent iterable that combines three iterables. The returned iterable has an iterator
+   * that traverses the elements in {@code a}, followed by the elements in {@code b}, followed by
+   * the elements in {@code c}. The source iterators are not polled until necessary.
+   *
+   * <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
+   * iterator supports it.
+   *
+   * @since 20.0
+   */
+  @Beta
+  @CheckReturnValue
+  public static <T> FluentIterable<T> concat(
+      Iterable<? extends T> a, Iterable<? extends T> b, Iterable<? extends T> c) {
+    return concat(ImmutableList.of(a, b, c));
+  }
+
+  /**
+   * Returns a fluent iterable that combines four iterables. The returned iterable has an iterator
+   * that traverses the elements in {@code a}, followed by the elements in {@code b}, followed by
+   * the elements in {@code c}, followed by the elements in {@code d}. The source iterators are not
+   * polled until necessary.
+   *
+   * <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
+   * iterator supports it.
+   *
+   * @since 20.0
+   */
+  @Beta
+  @CheckReturnValue
+  public static <T> FluentIterable<T> concat(
+      Iterable<? extends T> a,
+      Iterable<? extends T> b,
+      Iterable<? extends T> c,
+      Iterable<? extends T> d) {
+    return concat(ImmutableList.of(a, b, c, d));
+  }
+
+  /**
+   * Returns a fluent iterable that combines several iterables. The returned iterable has an
+   * iterator that traverses the elements of each iterable in {@code inputs}. The input iterators
+   * are not polled until necessary.
+   *
+   * <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
+   * iterator supports it.
+   *
+   * @throws NullPointerException if any of the provided iterables is {@code null}
+   *
+   * @since 20.0
+   */
+  @Beta
+  @CheckReturnValue
+  public static <T> FluentIterable<T> concat(Iterable<? extends T>... inputs) {
+    return concat(ImmutableList.copyOf(inputs));
+  }
+
+  /**
+   * Returns a fluent iterable that combines several iterables. The returned iterable has an
+   * iterator that traverses the elements of each iterable in {@code inputs}. The input iterators
+   * are not polled until necessary.
+   *
+   * <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
+   * iterator supports it. The methods of the returned iterable may throw
+   * {@code NullPointerException} if any of the input iterators is {@code null}.
+   *
+   * @since 20.0
+   */
+  @Beta
+  @CheckReturnValue
+  public static <T> FluentIterable<T> concat(
+      final Iterable<? extends Iterable<? extends T>> inputs) {
+    checkNotNull(inputs);
+    return new FluentIterable<T>() {
+      @Override
+      public Iterator<T> iterator() {
+        return Iterators.concat(Iterables.transform(inputs, Iterables.<T>toIterator()).iterator());
+      }
+    };
+  }
+
+  /**
    * Returns a fluent iterable containing no elements.
    *
    * <p><b>{@code Stream} equivalent:</b> {@code Stream.empty()}.
@@ -287,7 +383,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   @Beta
   @CheckReturnValue
   public final FluentIterable<E> append(Iterable<? extends E> other) {
-    return from(Iterables.concat(iterable, other));
+    return from(FluentIterable.concat(iterable, other));
   }
 
   /**
@@ -301,7 +397,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   @Beta
   @CheckReturnValue
   public final FluentIterable<E> append(E... elements) {
-    return from(Iterables.concat(iterable, Arrays.asList(elements)));
+    return from(FluentIterable.concat(iterable, Arrays.asList(elements)));
   }
 
   /**
@@ -403,7 +499,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   @CheckReturnValue
   public <T> FluentIterable<T> transformAndConcat(
       Function<? super E, ? extends Iterable<? extends T>> function) {
-    return from(Iterables.concat(transform(function)));
+    return from(FluentIterable.concat(transform(function)));
   }
 
   /**

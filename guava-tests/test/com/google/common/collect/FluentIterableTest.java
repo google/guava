@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
@@ -106,6 +107,98 @@ public class FluentIterableTest extends TestCase {
 
   public void testOf_empty() {
     assertEquals(ImmutableList.of(), Lists.newArrayList(FluentIterable.of()));
+  }
+
+  // Exhaustive tests are in IteratorsTest. These are copied from IterablesTest.
+  public void testConcatIterable() {
+    List<Integer> list1 = newArrayList(1);
+    List<Integer> list2 = newArrayList(4);
+
+    @SuppressWarnings("unchecked")
+    List<List<Integer>> input = newArrayList(list1, list2);
+
+    FluentIterable<Integer> result = FluentIterable.concat(input);
+    assertEquals(asList(1, 4), newArrayList(result));
+
+    // Now change the inputs and see result dynamically change as well
+
+    list1.add(2);
+    List<Integer> list3 = newArrayList(3);
+    input.add(1, list3);
+
+    assertEquals(asList(1, 2, 3, 4), newArrayList(result));
+    assertEquals("[1, 2, 3, 4]", result.toString());
+  }
+
+  public void testConcatVarargs() {
+    List<Integer> list1 = newArrayList(1);
+    List<Integer> list2 = newArrayList(4);
+    List<Integer> list3 = newArrayList(7, 8);
+    List<Integer> list4 = newArrayList(9);
+    List<Integer> list5 = newArrayList(10);
+    @SuppressWarnings("unchecked")
+    FluentIterable<Integer> result = FluentIterable.concat(list1, list2, list3, list4, list5);
+    assertEquals(asList(1, 4, 7, 8, 9, 10), newArrayList(result));
+    assertEquals("[1, 4, 7, 8, 9, 10]", result.toString());
+  }
+
+  public void testConcatNullPointerException() {
+    List<Integer> list1 = newArrayList(1);
+    List<Integer> list2 = newArrayList(4);
+
+    try {
+      FluentIterable<Integer> unused = FluentIterable.concat(list1, null, list2);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testConcatPeformingFiniteCycle() {
+    Iterable<Integer> iterable = asList(1, 2, 3);
+    int n = 4;
+    FluentIterable<Integer> repeated = FluentIterable.concat(Collections.nCopies(n, iterable));
+    assertThat(repeated).containsExactly(1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3).inOrder();
+  }
+
+  interface X {}
+
+  interface Y {}
+
+  static class A implements X, Y {}
+
+  static class B implements X, Y {}
+
+  /**
+   * This test passes if the {@code concat(…).filter(…).filter(…)} statement at the end compiles.
+   * That statement compiles only if {@link FluentIterable#concat concat(aIterable, bIterable)}
+   * returns a {@link FluentIterable} of elements of an anonymous type whose supertypes are the
+   * <a href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-4.html#jls-4.9">intersection</a>
+   * of the supertypes of {@code A} and the supertypes of {@code B}.
+   */
+  public void testConcatIntersectionType() {
+    Iterable<A> aIterable = ImmutableList.of();
+    Iterable<B> bIterable = ImmutableList.of();
+
+    Predicate<X> xPredicate = Predicates.alwaysTrue();
+    Predicate<Y> yPredicate = Predicates.alwaysTrue();
+
+    FluentIterable<?> unused =
+        FluentIterable.concat(aIterable, bIterable).filter(xPredicate).filter(yPredicate);
+
+    /* The following fails to compile:
+     *
+     * The method append(Iterable<? extends FluentIterableTest.A>) in the type
+     * FluentIterable<FluentIterableTest.A> is not applicable for the arguments
+     * (Iterable<FluentIterableTest.B>)
+     */
+    // FluentIterable.from(aIterable).append(bIterable);
+
+    /* The following fails to compile:
+     *
+     * The method filter(Predicate<? super Object>) in the type FluentIterable<Object> is not
+     * applicable for the arguments (Predicate<FluentIterableTest.X>)
+     */
+    // FluentIterable.of().append(aIterable).append(bIterable).filter(xPredicate);
   }
 
   public void testSize0() {
