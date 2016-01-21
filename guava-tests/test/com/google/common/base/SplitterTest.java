@@ -112,7 +112,7 @@ public class SplitterTest extends TestCase {
 
   public void testCharacterSplitWithMatcherDelimiter() {
     Iterable<String> testCharacteringMotto = Splitter
-        .on(CharMatcher.WHITESPACE)
+        .on(CharMatcher.whitespace())
         .split("Testing\nrocks\tDebugging sucks");
     assertThat(testCharacteringMotto)
         .containsExactly("Testing", "rocks", "Debugging", "sucks")
@@ -163,7 +163,7 @@ public class SplitterTest extends TestCase {
     String jacksons = "arfo(Marlon)aorf, (Michael)orfa, afro(Jackie)orfa, "
         + "ofar(Jemaine), aff(Tito)";
     Iterable<String> family = COMMA_SPLITTER
-        .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.WHITESPACE))
+        .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.whitespace()))
         .split(jacksons);
     assertThat(family)
         .containsExactly("(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)")
@@ -291,7 +291,7 @@ public class SplitterTest extends TestCase {
     String jacksons = "arfo(Marlon)aorf, (Michael)orfa, afro(Jackie)orfa, "
         + "ofar(Jemaine), aff(Tito)";
     Iterable<String> family = Splitter.on(',')
-        .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.WHITESPACE))
+        .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.whitespace()))
         .split(jacksons);
     assertThat(family)
         .containsExactly("(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)")
@@ -448,7 +448,7 @@ public class SplitterTest extends TestCase {
     String jacksons = "arfo(Marlon)aorf, (Michael)orfa, afro(Jackie)orfa, "
         + "ofar(Jemaine), aff(Tito)";
     Iterable<String> family = Splitter.on(Pattern.compile(","))
-        .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.WHITESPACE))
+        .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.whitespace()))
         .split(jacksons);
     assertThat(family)
         .containsExactly("(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)")

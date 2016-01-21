@@ -107,7 +107,7 @@ public final class Splitter {
   private final int limit;
 
   private Splitter(Strategy strategy) {
-    this(strategy, false, CharMatcher.NONE, Integer.MAX_VALUE);
+    this(strategy, false, CharMatcher.none(), Integer.MAX_VALUE);
   }
 
   private Splitter(Strategy strategy, boolean omitEmptyStrings, CharMatcher trimmer, int limit) {
@@ -365,7 +365,7 @@ public final class Splitter {
    * Returns a splitter that behaves equivalently to {@code this} splitter, but
    * automatically removes leading and trailing {@linkplain
    * CharMatcher#WHITESPACE whitespace} from each returned substring; equivalent
-   * to {@code trimResults(CharMatcher.WHITESPACE)}. For example, {@code
+   * to {@code trimResults(CharMatcher.whitespace())}. For example, {@code
    * Splitter.on(',').trimResults().split(" a, b ,c ")} returns an iterable
    * containing {@code ["a", "b", "c"]}.
    *
@@ -373,7 +373,7 @@ public final class Splitter {
    */
   @CheckReturnValue
   public Splitter trimResults() {
-    return trimResults(CharMatcher.WHITESPACE);
+    return trimResults(CharMatcher.whitespace());
   }
 
   /**

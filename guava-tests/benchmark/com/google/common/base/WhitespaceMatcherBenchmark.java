@@ -65,7 +65,7 @@ public class WhitespaceMatcherBenchmark {
     }
     bitSet.clear(0);
     bitSet.clear(1);
-    matcher = useNew ? CharMatcher.WHITESPACE : OLD_WHITESPACE;
+    matcher = useNew ? CharMatcher.whitespace() : OLD_WHITESPACE;
     teststring = newTestString(new Random(1), bitSet, percentMatching);
   }
 
