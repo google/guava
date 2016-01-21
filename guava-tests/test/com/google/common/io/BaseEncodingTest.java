@@ -458,10 +458,10 @@ public class BaseEncodingTest extends TestCase {
   }
 
   public void testToString() {
-    assertEquals("BaseEncoding.base64().withPadChar(=)", base64().toString());
+    assertEquals("BaseEncoding.base64().withPadChar('=')", base64().toString());
     assertEquals("BaseEncoding.base32Hex().omitPadding()", base32Hex().omitPadding().toString());
     assertEquals(
-        "BaseEncoding.base32().lowerCase().withPadChar($)",
+        "BaseEncoding.base32().lowerCase().withPadChar('$')",
         base32().lowerCase().withPadChar('$').toString());
     assertEquals(
         "BaseEncoding.base16().withSeparator(\"\n\", 10)",

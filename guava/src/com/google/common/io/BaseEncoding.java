@@ -840,7 +840,7 @@ public abstract class BaseEncoding {
         if (paddingChar == null) {
           builder.append(".omitPadding()");
         } else {
-          builder.append(".withPadChar(").append(paddingChar).append(')');
+          builder.append(".withPadChar('").append(paddingChar).append("')");
         }
       }
       return builder.toString();
