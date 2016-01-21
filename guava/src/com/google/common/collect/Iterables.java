@@ -502,21 +502,7 @@ public final class Iterables {
     return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
-        return Iterators.concat(iterators(inputs));
-      }
-    };
-  }
-
-  /**
-   * Returns an iterator over the iterators of the given iterables.
-   */
-  private static <T> Iterator<Iterator<? extends T>> iterators(
-      Iterable<? extends Iterable<? extends T>> iterables) {
-    return new TransformedIterator<Iterable<? extends T>, Iterator<? extends T>>(
-        iterables.iterator()) {
-      @Override
-      Iterator<? extends T> transform(Iterable<? extends T> from) {
-        return from.iterator();
+        return Iterators.concat(Iterables.transform(inputs, Iterables.<T>toIterator()).iterator());
       }
     };
   }

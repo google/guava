@@ -817,6 +817,24 @@ public class IteratorsTest extends TestCase {
     }
   }
 
+  public void testConcatNested_appendToEnd() {
+    final int nestingDepth = 128;
+    Iterator<Integer> iterator = iterateOver();
+    for (int i = 0; i < nestingDepth; i++) {
+      iterator = Iterators.concat(iterator, iterateOver(1));
+    }
+    assertEquals(nestingDepth, Iterators.size(iterator));
+  }
+
+  public void testConcatNested_appendToBeginning() {
+    final int nestingDepth = 128;
+    Iterator<Integer> iterator = iterateOver();
+    for (int i = 0; i < nestingDepth; i++) {
+      iterator = Iterators.concat(iterateOver(1), iterator);
+    }
+    assertEquals(nestingDepth, Iterators.size(iterator));
+  }
+
   public void testAddAllWithEmptyIterator() {
     List<String> alreadyThere = Lists.newArrayList("already", "there");
 
