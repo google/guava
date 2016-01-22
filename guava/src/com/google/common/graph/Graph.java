@@ -86,6 +86,9 @@ import javax.annotation.Nullable;
  *   <ul>
  *   <li>They must be unique in a graph: nodes {@code node1} and {@code node2} are considered
  *       different if and only if {@code node1.equals(node2) == false}, and the same for edges.
+ *   <li>If you would otherwise have duplicate edges (e.g. weighted edges represented by a Double),
+ *       you can instead wrap the edges in a custom class that defers to {@link Object} for its
+ *       {@code equals()} and {@code hashCode()} implementations.
  *   <li>If graph elements have mutable state, both of the following must be true:
  *     <ul>the mutable state must not be reflected in the {@code equals/hashCode} methods
  *         (this is discussed in the {@code Map} documentation in detail)
@@ -108,56 +111,65 @@ import javax.annotation.Nullable;
  *       this (usually) implies that nodes are graph-specific
  *   <li>a separate data repository (for example, a database) stores the topology
  *   </ul>
- * <li>Users that are not interested in edges as first-class objects can create an implementation of
- *     (or subinterface of, or class delegating to) Graph that only exposes node-related methods.
- * <li>{@code Multimap}s can't be used as internal data structures for Graph implementations
- * that support isolated nodes (nodes that have no incident edges), due to their restriction
- * that a key either maps to at least one value, or is not present in the {@code Multimap}.
+ * <li>Users that are not interested in edges as first-class objects have a couple of options:
+ *   <ul>
+ *   <li>pass in arbitrary Objects as edges: {@code addEdge(new Object(), n1, n2)}
+ *   <li>create an implementation of (or subinterface of, or class delegating to) Graph
+ *       that only exposes node-related methods.
+ *   </ul>
  * </ul>
  *
  * <p>Notes on accessors:
  * <ul>
- * <li>Accessors which return collections return unmodifiable views.
+ * <li>Accessors which return collections may return views of the Graph. Modifications to the graph
+ *     which affect a view (e.g. calling {@code addNode(n)} or {@code removeNode(n)} while iterating
+ *     through {@code nodes()}) are not supported and may result in ConcurrentModificationException.
  * <li>Accessors which return collections will return empty collections if their inputs are valid
- * but no elements satisfy the request (for example: {@code adjacentNodes(node)} will return an
- * empty collection if {@code node} has no adjacent nodes).
+ *     but no elements satisfy the request (for example: {@code adjacentNodes(node)} will return an
+ *     empty collection if {@code node} has no adjacent nodes).
  * <li>Accessors will throw {@code IllegalArgumentException} if passed a node/edge
  *     that is not in the graph.
  * <li>Accessors take Object parameters rather than N/E generic type specifiers to match the pattern
  *     set by the Java Collections Framework.
  * </ul>
  *
- * <p>For accessors that return a {@code Set}, there are several options for the set behavior,
- *    including:
- * <ol>
- * <li>Set is an immutable copy (e.g. {@code ImmutableSet}): attempts to modify the set in any way
- *     will throw an exception, and modifications to the graph will <b>not</b> be reflected in
- *     the set.
- * <li>Set is an unmodifiable view (e.g. {@code Collections.unmodifiableSet()}): attempts to modify
- *     the set in any way will throw an exception, and modifications to the graph will be
- *     reflected in the set.
- * <li>Set is a mutable copy: it may be modified, but modifications to the graph will <b>not</b> be
- *     reflected in the set, and vice versa.
- * <li>Set is a modifiable view: it may be modified, and modifications to the graph will be
- *     reflected in the set (but modifications to the set will <b>not</b> be
- *     reflected in the graph).
- * <li>Set exposes the internal data directly: it may be modified, and modifications to the
- *     graph will be reflected in the set, and vice versa.
- * </ol>
- * Note that (1) and (2) are generally preferred. (5) is generally a hazardous design choice
- * and should be avoided, because keeping the internal data structures consistent can be tricky.
+ * <p>Notes for implementors:
+ * <ul>
+ * <li>For accessors that return a {@code Set}, there are several options for the set behavior,
+ *     including:
+ *     <ol>
+ *     <li>Set is an immutable copy (e.g. {@code ImmutableSet}): attempts to modify the set in any
+ *         way will throw an exception, and modifications to the graph will <b>not</b> be reflected
+ *         in the set.
+ *     <li>Set is an unmodifiable view (e.g. {@code Collections.unmodifiableSet()}): attempts to
+ *         modify the set in any way will throw an exception, and modifications to the graph will be
+ *         reflected in the set.
+ *     <li>Set is a mutable copy: it may be modified, but modifications to the graph will <b>not</b>
+ *         be reflected in the set, and vice versa.
+ *     <li>Set is a modifiable view: it may be modified, and modifications to the graph will be
+ *         reflected in the set (but modifications to the set will <b>not</b> be reflected in the
+ *         graph).
+ *     <li>Set exposes the internal data directly: it may be modified, and modifications to the
+ *         graph will be reflected in the set, and vice versa.
+ *     </ol>
+ *     Note that (1) and (2) are generally preferred. (5) is generally a hazardous design choice
+ *     and should be avoided, because keeping the internal data structures consistent can be tricky.
+ * <li>{@code Multimap}s are not sufficient internal data structures for Graph implementations
+ *     that support isolated nodes (nodes that have no incident edges), due to their restriction
+ *     that a key either maps to at least one value, or is not present in the {@code Multimap}.
+ * </ul>
  *
- * <p>Examples of common operations:
+ * <p>Examples of use:
  * <ul>
  * <li>Is {@code node} in the graph?
  *   <ul>
- *   <li>{@code graph.nodes().contains(n)}
+ *   <li>{@code graph.nodes().contains(node)}
  *   </ul>
  * <li>Traversing an undirected graph node-wise:
  * <p><pre><code>
- *   // visit nodes reachable from a given node n
- *   void depthFirstTraverse(N n) {
- *     for (N neighbor : graph.adjacentNodes(n)) {
+ *   // Visit nodes reachable from {@code node}.
+ *   void depthFirstTraverse(N node) {
+ *     for (N neighbor : graph.adjacentNodes(node)) {
  *       if (!isVisited(neighbor)) {
  *         visit(neighbor);
  *         depthFirstTraverse(neighbor);
@@ -167,15 +179,15 @@ import javax.annotation.Nullable;
  * </code></pre>
  * <li>Traversing a directed graph edge-wise:
  * <p><pre><code>
- *   // visit nodes reachable from a given node n via each of n's outedges
- *   // TODO(user): create a utility method for getting the 'other' node associated with an edge
- *   // that will work with non-directed graphs
- *   void depthFirstTraverse(N n) {
- *     for (E outEdge : graph.outEdges(n)) {
- *       N successor = graph.target(outEdge);
- *       if (!isVisited(successor)) {
- *         visit(successor);
- *         depthFirstTraverse(successor);
+ *   // Update the shortest-path distances of the successors to {@code node}
+ *   // in a directed graph (inner loop of Dijkstra's algorithm):
+ *   void updateDistances(N node) {
+ *     nodeDistance = distances.get(node);
+ *     for (E outEdge : graph.outEdges(node)) {
+ *       N target = graph.target(outEdge);
+ *       double targetDistance = nodeDistance + outEdge.getWeight();
+ *       if (targetDistance < distances.get(target)) {
+ *         distances.put(target, targetDistance);
  *       }
  *     }
  *   }
