@@ -208,7 +208,7 @@ public final class ArbitraryInstances {
       .put(Currency.class, Currency.getInstance(Locale.US))
       .put(Locale.class, Locale.US)
       // common.base
-      .put(CharMatcher.class, CharMatcher.NONE)
+      .put(CharMatcher.class, CharMatcher.none())
       .put(Joiner.class, Joiner.on(','))
       .put(Splitter.class, Splitter.on(','))
       .put(Optional.class, Optional.absent())
