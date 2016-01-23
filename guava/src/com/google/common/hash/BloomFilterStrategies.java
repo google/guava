@@ -22,6 +22,7 @@ import com.google.common.primitives.Longs;
 
 import java.math.RoundingMode;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 /**
  * Collections of strategies of generating the k * log(M) bits required for an element to
@@ -201,7 +202,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       if (o instanceof BitArray) {
         BitArray bitArray = (BitArray) o;
         return Arrays.equals(data, bitArray.data);

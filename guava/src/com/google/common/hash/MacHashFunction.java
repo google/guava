@@ -40,7 +40,7 @@ final class MacHashFunction extends AbstractStreamingHashFunction {
     this.key = checkNotNull(key);
     this.toString = checkNotNull(toString);
     this.bits = getMac(algorithmName, key).getMacLength() * Byte.SIZE;
-    this.supportsClone = supportsClone();
+    this.supportsClone = supportsClone(prototype);
   }
 
   @Override
@@ -48,9 +48,9 @@ final class MacHashFunction extends AbstractStreamingHashFunction {
     return bits;
   }
 
-  private boolean supportsClone() {
+  private static boolean supportsClone(Mac mac) {
     try {
-      prototype.clone();
+      mac.clone();
       return true;
     } catch (CloneNotSupportedException e) {
       return false;
