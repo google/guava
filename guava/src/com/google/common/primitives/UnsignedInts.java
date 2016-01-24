@@ -19,11 +19,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Arrays;
 import java.util.Comparator;
-
-import javax.annotation.CheckReturnValue;
 
 /**
  * Static utility methods pertaining to {@code int} primitives that interpret values as
@@ -66,7 +65,6 @@ public final class UnsignedInts {
    * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
    *         greater than {@code b}; or zero if they are equal
    */
-  @CheckReturnValue
   public static int compare(int a, int b) {
     return Ints.compare(flip(a), flip(b));
   }
@@ -74,7 +72,6 @@ public final class UnsignedInts {
   /**
    * Returns the value of the given {@code int} as a {@code long}, when treated as unsigned.
    */
-  @CheckReturnValue
   public static long toLong(int value) {
     return value & INT_MASK;
   }
@@ -87,7 +84,6 @@ public final class UnsignedInts {
    *         the array according to {@link #compare}
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  @CheckReturnValue
   public static int min(int... array) {
     checkArgument(array.length > 0);
     int min = flip(array[0]);
@@ -108,7 +104,6 @@ public final class UnsignedInts {
    *         in the array according to {@link #compare}
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  @CheckReturnValue
   public static int max(int... array) {
     checkArgument(array.length > 0);
     int max = flip(array[0]);
@@ -129,7 +124,6 @@ public final class UnsignedInts {
    *        string (but not at the start or end)
    * @param array an array of unsigned {@code int} values, possibly empty
    */
-  @CheckReturnValue
   public static String join(String separator, int... array) {
     checkNotNull(separator);
     if (array.length == 0) {
@@ -157,7 +151,6 @@ public final class UnsignedInts {
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order"> Lexicographical order
    *      article at Wikipedia</a>
    */
-  @CheckReturnValue
   public static Comparator<int[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;
   }
@@ -190,7 +183,6 @@ public final class UnsignedInts {
    * @param divisor the divisor (denominator)
    * @throws ArithmeticException if divisor is 0
    */
-  @CheckReturnValue
   public static int divide(int dividend, int divisor) {
     return (int) (toLong(dividend) / toLong(divisor));
   }
@@ -203,7 +195,6 @@ public final class UnsignedInts {
    * @param divisor the divisor (denominator)
    * @throws ArithmeticException if divisor is 0
    */
-  @CheckReturnValue
   public static int remainder(int dividend, int divisor) {
     return (int) (toLong(dividend) % toLong(divisor));
   }
@@ -223,6 +214,7 @@ public final class UnsignedInts {
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code int} value
    * @since 13.0
    */
+  @CanIgnoreReturnValue
   public static int decode(String stringValue) {
     ParseRequest request = ParseRequest.fromString(stringValue);
 
@@ -243,6 +235,7 @@ public final class UnsignedInts {
    * @throws NullPointerException if {@code s} is null
    *         (in contrast to {@link Integer#parseInt(String)})
    */
+  @CanIgnoreReturnValue
   public static int parseUnsignedInt(String s) {
     return parseUnsignedInt(s, 10);
   }
@@ -258,6 +251,7 @@ public final class UnsignedInts {
    * @throws NullPointerException if {@code s} is null
    *         (in contrast to {@link Integer#parseInt(String)})
    */
+  @CanIgnoreReturnValue
   public static int parseUnsignedInt(String string, int radix) {
     checkNotNull(string);
     long result = Long.parseLong(string, radix);
@@ -271,7 +265,6 @@ public final class UnsignedInts {
   /**
    * Returns a string representation of x, where x is treated as unsigned.
    */
-  @CheckReturnValue
   public static String toString(int x) {
     return toString(x, 10);
   }
@@ -285,7 +278,6 @@ public final class UnsignedInts {
    * @throws IllegalArgumentException if {@code radix} is not between {@link Character#MIN_RADIX}
    *         and {@link Character#MAX_RADIX}.
    */
-  @CheckReturnValue
   public static String toString(int x, int radix) {
     long asLong = x & INT_MASK;
     return Long.toString(asLong, radix);
