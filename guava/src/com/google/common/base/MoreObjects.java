@@ -19,10 +19,10 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Arrays;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -56,7 +56,6 @@ public final class MoreObjects {
    * @throws NullPointerException if both {@code first} and {@code second} are null
    * @since 18.0 (since 3.0 as {@code Objects.firstNonNull()}).
    */
-  @CheckReturnValue
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
     return first != null ? first : checkNotNull(second);
   }
@@ -100,7 +99,6 @@ public final class MoreObjects {
    *     class name
    * @since 18.0 (since 2.0 as {@code Objects.toStringHelper()}).
    */
-  @CheckReturnValue
   public static ToStringHelper toStringHelper(Object self) {
     return new ToStringHelper(self.getClass().getSimpleName());
   }
@@ -115,7 +113,6 @@ public final class MoreObjects {
    * @param clazz the {@link Class} of the instance
    * @since 18.0 (since 7.0 as {@code Objects.toStringHelper()}).
    */
-  @CheckReturnValue
   public static ToStringHelper toStringHelper(Class<?> clazz) {
     return new ToStringHelper(clazz.getSimpleName());
   }
@@ -128,7 +125,6 @@ public final class MoreObjects {
    * @param className the name of the instance type
    * @since 18.0 (since 7.0 as {@code Objects.toStringHelper()}).
    */
-  @CheckReturnValue
   public static ToStringHelper toStringHelper(String className) {
     return new ToStringHelper(className);
   }
@@ -159,6 +155,7 @@ public final class MoreObjects {
      *
      * @since 18.0 (since 12.0 as {@code Objects.ToStringHelper.omitNullValues()}).
      */
+    @CanIgnoreReturnValue
     public ToStringHelper omitNullValues() {
       omitNullValues = true;
       return this;
@@ -170,6 +167,7 @@ public final class MoreObjects {
      * is used, unless {@link #omitNullValues()} is called, in which case this
      * name/value pair will not be added.
      */
+    @CanIgnoreReturnValue
     public ToStringHelper add(String name, @Nullable Object value) {
       return addHolder(name, value);
     }
@@ -180,6 +178,7 @@ public final class MoreObjects {
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
+    @CanIgnoreReturnValue
     public ToStringHelper add(String name, boolean value) {
       return addHolder(name, String.valueOf(value));
     }
@@ -190,6 +189,7 @@ public final class MoreObjects {
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
+    @CanIgnoreReturnValue
     public ToStringHelper add(String name, char value) {
       return addHolder(name, String.valueOf(value));
     }
@@ -200,6 +200,7 @@ public final class MoreObjects {
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
+    @CanIgnoreReturnValue
     public ToStringHelper add(String name, double value) {
       return addHolder(name, String.valueOf(value));
     }
@@ -210,6 +211,7 @@ public final class MoreObjects {
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
+    @CanIgnoreReturnValue
     public ToStringHelper add(String name, float value) {
       return addHolder(name, String.valueOf(value));
     }
@@ -220,6 +222,7 @@ public final class MoreObjects {
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
+    @CanIgnoreReturnValue
     public ToStringHelper add(String name, int value) {
       return addHolder(name, String.valueOf(value));
     }
@@ -230,6 +233,7 @@ public final class MoreObjects {
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
+    @CanIgnoreReturnValue
     public ToStringHelper add(String name, long value) {
       return addHolder(name, String.valueOf(value));
     }
@@ -240,6 +244,7 @@ public final class MoreObjects {
      * <p>It is strongly encouraged to use {@link #add(String, Object)} instead
      * and give value a readable name.
      */
+    @CanIgnoreReturnValue
     public ToStringHelper addValue(@Nullable Object value) {
       return addHolder(value);
     }
@@ -252,6 +257,7 @@ public final class MoreObjects {
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
+    @CanIgnoreReturnValue
     public ToStringHelper addValue(boolean value) {
       return addHolder(String.valueOf(value));
     }
@@ -264,6 +270,7 @@ public final class MoreObjects {
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
+    @CanIgnoreReturnValue
     public ToStringHelper addValue(char value) {
       return addHolder(String.valueOf(value));
     }
@@ -276,6 +283,7 @@ public final class MoreObjects {
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
+    @CanIgnoreReturnValue
     public ToStringHelper addValue(double value) {
       return addHolder(String.valueOf(value));
     }
@@ -288,6 +296,7 @@ public final class MoreObjects {
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
+    @CanIgnoreReturnValue
     public ToStringHelper addValue(float value) {
       return addHolder(String.valueOf(value));
     }
@@ -300,6 +309,7 @@ public final class MoreObjects {
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
+    @CanIgnoreReturnValue
     public ToStringHelper addValue(int value) {
       return addHolder(String.valueOf(value));
     }
@@ -312,6 +322,7 @@ public final class MoreObjects {
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
+    @CanIgnoreReturnValue
     public ToStringHelper addValue(long value) {
       return addHolder(String.valueOf(value));
     }
@@ -326,7 +337,6 @@ public final class MoreObjects {
      * limited reuse of the helper instance. The helper allows duplication of
      * properties (multiple name/value pairs with the same name can be added).
      */
-    @CheckReturnValue
     @Override
     public String toString() {
       // create a copy to keep it consistent in case value changes

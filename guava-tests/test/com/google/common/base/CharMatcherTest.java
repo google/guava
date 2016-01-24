@@ -177,12 +177,12 @@ public class CharMatcherTest extends TestCase {
     assertEquals(-1, matcher.indexIn(""));
     assertEquals(-1, matcher.indexIn("", 0));
     try {
-      matcher.indexIn("", 1);
+      int unused = matcher.indexIn("", 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
     }
     try {
-      matcher.indexIn("", -1);
+      int unused = matcher.indexIn("", -1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
     }
@@ -266,12 +266,12 @@ public class CharMatcherTest extends TestCase {
     assertEquals(-1, matcher.indexIn(s, 1));
     assertEquals(-1, matcher.indexIn(s, s.length()));
     try {
-      matcher.indexIn(s, s.length() + 1);
+      int unused = matcher.indexIn(s, s.length() + 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
     }
     try {
-      matcher.indexIn(s, -1);
+      int unused = matcher.indexIn(s, -1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
     }

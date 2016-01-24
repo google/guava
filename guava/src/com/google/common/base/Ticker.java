@@ -18,8 +18,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
-import javax.annotation.CheckReturnValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * A time source; returns a time value representing the number of nanoseconds elapsed since some
@@ -45,6 +44,7 @@ public abstract class Ticker {
    * Returns the number of nanoseconds elapsed since this ticker's fixed
    * point of reference.
    */
+  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public abstract long read();
 
   /**
@@ -52,7 +52,6 @@ public abstract class Ticker {
    *
    * @since 10.0
    */
-  @CheckReturnValue
   public static Ticker systemTicker() {
     return SYSTEM_TICKER;
   }

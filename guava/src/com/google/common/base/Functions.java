@@ -25,7 +25,6 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Map;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -42,7 +41,6 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@CheckReturnValue
 public final class Functions {
   private Functions() {}
 

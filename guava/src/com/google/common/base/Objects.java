@@ -19,10 +19,10 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Arrays;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -55,7 +55,6 @@ public final class Objects {
    * <p><b>Note for Java 7 and later:</b> This method should be treated as
    * deprecated; use {@link java.util.Objects#equals} instead.
    */
-  @CheckReturnValue
   public static boolean equal(@Nullable Object a, @Nullable Object b) {
     return a == b || (a != null && a.equals(b));
   }
@@ -80,7 +79,6 @@ public final class Objects {
    * <p><b>Note for Java 7 and later:</b> This method should be treated as
    * deprecated; use {@link java.util.Objects#hash} instead.
    */
-  @CheckReturnValue
   public static int hashCode(@Nullable Object... objects) {
     return Arrays.hashCode(objects);
   }
@@ -126,7 +124,6 @@ public final class Objects {
    * @deprecated Use {@link MoreObjects#toStringHelper(Object)} instead. This
    *     method is scheduled for removal in August 2016.
    */
-  @CheckReturnValue
   @Deprecated
   public static ToStringHelper toStringHelper(Object self) {
     return new ToStringHelper(self.getClass().getSimpleName());
@@ -144,7 +141,6 @@ public final class Objects {
    * @deprecated Use {@link MoreObjects#toStringHelper(Class)} instead. This
    *     method is scheduled for removal in August 2016.
    */
-  @CheckReturnValue
   @Deprecated
   public static ToStringHelper toStringHelper(Class<?> clazz) {
     return new ToStringHelper(clazz.getSimpleName());
@@ -160,7 +156,6 @@ public final class Objects {
    * @deprecated Use {@link MoreObjects#toStringHelper(String)} instead. This
    *     method is scheduled for removal in August 2016.
    */
-  @CheckReturnValue
   @Deprecated
   public static ToStringHelper toStringHelper(String className) {
     return new ToStringHelper(className);
@@ -185,7 +180,6 @@ public final class Objects {
    * @deprecated Use {@link MoreObjects#firstNonNull} instead. This method is
    *      scheduled for removal in August 2016.
    */
-  @CheckReturnValue
   @Deprecated
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
     return MoreObjects.firstNonNull(first, second);
@@ -220,6 +214,7 @@ public final class Objects {
      *
      * @since 12.0
      */
+    @CanIgnoreReturnValue
     public ToStringHelper omitNullValues() {
       omitNullValues = true;
       return this;
@@ -231,6 +226,7 @@ public final class Objects {
      * is used, unless {@link #omitNullValues()} is called, in which case this
      * name/value pair will not be added.
      */
+    @CanIgnoreReturnValue
     public ToStringHelper add(String name, @Nullable Object value) {
       return addHolder(name, value);
     }
@@ -241,6 +237,7 @@ public final class Objects {
      *
      * @since 11.0 (source-compatible since 2.0)
      */
+    @CanIgnoreReturnValue
     public ToStringHelper add(String name, boolean value) {
       return addHolder(name, String.valueOf(value));
     }
@@ -251,6 +248,7 @@ public final class Objects {
      *
      * @since 11.0 (source-compatible since 2.0)
      */
+    @CanIgnoreReturnValue
     public ToStringHelper add(String name, char value) {
       return addHolder(name, String.valueOf(value));
     }
@@ -261,6 +259,7 @@ public final class Objects {
      *
      * @since 11.0 (source-compatible since 2.0)
      */
+    @CanIgnoreReturnValue
     public ToStringHelper add(String name, double value) {
       return addHolder(name, String.valueOf(value));
     }
@@ -271,6 +270,7 @@ public final class Objects {
      *
      * @since 11.0 (source-compatible since 2.0)
      */
+    @CanIgnoreReturnValue
     public ToStringHelper add(String name, float value) {
       return addHolder(name, String.valueOf(value));
     }
@@ -281,6 +281,7 @@ public final class Objects {
      *
      * @since 11.0 (source-compatible since 2.0)
      */
+    @CanIgnoreReturnValue
     public ToStringHelper add(String name, int value) {
       return addHolder(name, String.valueOf(value));
     }
@@ -291,6 +292,7 @@ public final class Objects {
      *
      * @since 11.0 (source-compatible since 2.0)
      */
+    @CanIgnoreReturnValue
     public ToStringHelper add(String name, long value) {
       return addHolder(name, String.valueOf(value));
     }
@@ -301,6 +303,7 @@ public final class Objects {
      * <p>It is strongly encouraged to use {@link #add(String, Object)} instead
      * and give value a readable name.
      */
+    @CanIgnoreReturnValue
     public ToStringHelper addValue(@Nullable Object value) {
       return addHolder(value);
     }
@@ -313,6 +316,7 @@ public final class Objects {
      *
      * @since 11.0 (source-compatible since 2.0)
      */
+    @CanIgnoreReturnValue
     public ToStringHelper addValue(boolean value) {
       return addHolder(String.valueOf(value));
     }
@@ -325,6 +329,7 @@ public final class Objects {
      *
      * @since 11.0 (source-compatible since 2.0)
      */
+    @CanIgnoreReturnValue
     public ToStringHelper addValue(char value) {
       return addHolder(String.valueOf(value));
     }
@@ -337,6 +342,7 @@ public final class Objects {
      *
      * @since 11.0 (source-compatible since 2.0)
      */
+    @CanIgnoreReturnValue
     public ToStringHelper addValue(double value) {
       return addHolder(String.valueOf(value));
     }
@@ -349,6 +355,7 @@ public final class Objects {
      *
      * @since 11.0 (source-compatible since 2.0)
      */
+    @CanIgnoreReturnValue
     public ToStringHelper addValue(float value) {
       return addHolder(String.valueOf(value));
     }
@@ -361,6 +368,7 @@ public final class Objects {
      *
      * @since 11.0 (source-compatible since 2.0)
      */
+    @CanIgnoreReturnValue
     public ToStringHelper addValue(int value) {
       return addHolder(String.valueOf(value));
     }
@@ -373,6 +381,7 @@ public final class Objects {
      *
      * @since 11.0 (source-compatible since 2.0)
      */
+    @CanIgnoreReturnValue
     public ToStringHelper addValue(long value) {
       return addHolder(String.valueOf(value));
     }

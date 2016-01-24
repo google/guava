@@ -19,6 +19,7 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -44,6 +45,7 @@ abstract class AbstractIterator<T> implements Iterator<T> {
 
   protected abstract T computeNext();
 
+  @CanIgnoreReturnValue
   protected final T endOfData() {
     state = State.DONE;
     return null;

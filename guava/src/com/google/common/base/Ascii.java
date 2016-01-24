@@ -22,8 +22,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * Static methods pertaining to ASCII characters (those in the range of values
  * {@code 0x00} through {@code 0x7F}), and to strings containing such
@@ -41,7 +39,6 @@ import javax.annotation.CheckReturnValue;
  * @author Gregory Kick
  * @since 7.0
  */
-@CheckReturnValue
 @GwtCompatible
 public final class Ascii {
 

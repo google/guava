@@ -28,8 +28,6 @@ import com.google.common.annotations.VisibleForTesting;
 import java.util.Arrays;
 import java.util.BitSet;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * Determines a true or false value for any Java {@code char} value, just as {@link Predicate} does
  * for any {@link Object}. Also offers basic text processing methods based on this function.
@@ -633,7 +631,6 @@ public abstract class CharMatcher implements Predicate<Character> {
    *
    * ... returns {@code "bzr"}.
    */
-  @CheckReturnValue
   public String removeFrom(CharSequence sequence) {
     String string = sequence.toString();
     int pos = indexIn(string);
@@ -671,7 +668,6 @@ public abstract class CharMatcher implements Predicate<Character> {
    *
    * ... returns {@code "aaa"}.
    */
-  @CheckReturnValue
   public String retainFrom(CharSequence sequence) {
     return negate().removeFrom(sequence);
   }
@@ -693,7 +689,6 @@ public abstract class CharMatcher implements Predicate<Character> {
    *        character in {@code sequence}
    * @return the new string
    */
-  @CheckReturnValue
   public String replaceFrom(CharSequence sequence, char replacement) {
     String string = sequence.toString();
     int pos = indexIn(string);
@@ -726,7 +721,6 @@ public abstract class CharMatcher implements Predicate<Character> {
    *        character in {@code sequence}
    * @return the new string
    */
-  @CheckReturnValue
   public String replaceFrom(CharSequence sequence, CharSequence replacement) {
     int replacementLen = replacement.length();
     if (replacementLen == 0) {
@@ -771,7 +765,6 @@ public abstract class CharMatcher implements Predicate<Character> {
    *
    * ... is equivalent to {@link String#trim()}.
    */
-  @CheckReturnValue
   public String trimFrom(CharSequence sequence) {
     int len = sequence.length();
     int first;
@@ -799,7 +792,6 @@ public abstract class CharMatcher implements Predicate<Character> {
    *
    * ... returns {@code "catbab"}.
    */
-  @CheckReturnValue
   public String trimLeadingFrom(CharSequence sequence) {
     int len = sequence.length();
     for (int first = 0; first < len; first++) {
@@ -818,7 +810,6 @@ public abstract class CharMatcher implements Predicate<Character> {
    *
    * ... returns {@code "abacat"}.
    */
-  @CheckReturnValue
   public String trimTrailingFrom(CharSequence sequence) {
     int len = sequence.length();
     for (int last = len - 1; last >= 0; last--) {
@@ -847,7 +838,6 @@ public abstract class CharMatcher implements Predicate<Character> {
    *        matching characters in {@code sequence}
    * @return the new string
    */
-  @CheckReturnValue
   public String collapseFrom(CharSequence sequence, char replacement) {
     // This implementation avoids unnecessary allocation.
     int len = sequence.length();
@@ -873,7 +863,6 @@ public abstract class CharMatcher implements Predicate<Character> {
    * groups of matching characters at the start or end of the sequence are removed without
    * replacement.
    */
-  @CheckReturnValue
   public String trimAndCollapseFrom(CharSequence sequence, char replacement) {
     // This implementation avoids unnecessary allocation.
     int len = sequence.length();

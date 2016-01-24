@@ -127,30 +127,35 @@ public class AbstractIteratorTest extends TestCase {
   }
 
   public void testExceptionAfterEndOfData() {
-    Iterator<Integer> iter = new AbstractIterator<Integer>() {
-      @Override public Integer computeNext() {
-        endOfData();
-        throw new SomeUncheckedException();
-      }
-    };
+    Iterator<Integer> iter =
+        new AbstractIterator<Integer>() {
+          @Override
+          public Integer computeNext() {
+            Integer unused = endOfData();
+            throw new SomeUncheckedException();
+          }
+        };
     try {
-      iter.hasNext();
+      boolean unused = iter.hasNext();
       fail("No exception thrown");
     } catch (SomeUncheckedException expected) {
     }
   }
 
   public void testCantRemove() {
-    Iterator<Integer> iter = new AbstractIterator<Integer>() {
-      boolean haveBeenCalled;
-      @Override public Integer computeNext() {
-        if (haveBeenCalled) {
-          endOfData();
-        }
-        haveBeenCalled = true;
-        return 0;
-      }
-    };
+    Iterator<Integer> iter =
+        new AbstractIterator<Integer>() {
+          boolean haveBeenCalled;
+
+          @Override
+          public Integer computeNext() {
+            if (haveBeenCalled) {
+              Integer unused = endOfData();
+            }
+            haveBeenCalled = true;
+            return 0;
+          }
+        };
 
     assertEquals(0, (int) iter.next());
 
@@ -173,12 +178,14 @@ public class AbstractIteratorTest extends TestCase {
   }
 
   public void testReentrantHasNext() {
-    Iterator<Integer> iter = new AbstractIterator<Integer>() {
-      @Override protected Integer computeNext() {
-        hasNext();
-        return null;
-      }
-    };
+    Iterator<Integer> iter =
+        new AbstractIterator<Integer>() {
+          @Override
+          protected Integer computeNext() {
+            boolean unused = hasNext();
+            return null;
+          }
+        };
     try {
       iter.hasNext();
       fail();

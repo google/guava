@@ -28,11 +28,10 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
-import javax.annotation.CheckReturnValue;
 
 /**
  * An object that measures elapsed time in nanoseconds. It is useful to measure
@@ -86,7 +85,6 @@ public final class Stopwatch {
    *
    * @since 15.0
    */
-  @CheckReturnValue
   public static Stopwatch createUnstarted() {
     return new Stopwatch();
   }
@@ -97,7 +95,6 @@ public final class Stopwatch {
    *
    * @since 15.0
    */
-  @CheckReturnValue
   public static Stopwatch createUnstarted(Ticker ticker) {
     return new Stopwatch(ticker);
   }
@@ -108,7 +105,6 @@ public final class Stopwatch {
    *
    * @since 15.0
    */
-  @CheckReturnValue
   public static Stopwatch createStarted() {
     return new Stopwatch().start();
   }
@@ -119,7 +115,6 @@ public final class Stopwatch {
    *
    * @since 15.0
    */
-  @CheckReturnValue
   public static Stopwatch createStarted(Ticker ticker) {
     return new Stopwatch(ticker).start();
   }
@@ -137,7 +132,6 @@ public final class Stopwatch {
    * and {@link #stop()} has not been called since the last call to {@code
    * start()}.
    */
-  @CheckReturnValue
   public boolean isRunning() {
     return isRunning;
   }
@@ -148,6 +142,7 @@ public final class Stopwatch {
    * @return this {@code Stopwatch} instance
    * @throws IllegalStateException if the stopwatch is already running.
    */
+  @CanIgnoreReturnValue
   public Stopwatch start() {
     checkState(!isRunning, "This stopwatch is already running.");
     isRunning = true;
@@ -162,6 +157,7 @@ public final class Stopwatch {
    * @return this {@code Stopwatch} instance
    * @throws IllegalStateException if the stopwatch is already stopped.
    */
+  @CanIgnoreReturnValue
   public Stopwatch stop() {
     long tick = ticker.read();
     checkState(isRunning, "This stopwatch is already stopped.");
@@ -176,6 +172,7 @@ public final class Stopwatch {
    *
    * @return this {@code Stopwatch} instance
    */
+  @CanIgnoreReturnValue
   public Stopwatch reset() {
     elapsedNanos = 0;
     isRunning = false;
@@ -196,7 +193,6 @@ public final class Stopwatch {
    *
    * @since 14.0 (since 10.0 as {@code elapsedTime()})
    */
-  @CheckReturnValue
   public long elapsed(TimeUnit desiredUnit) {
     return desiredUnit.convert(elapsedNanos(), NANOSECONDS);
   }

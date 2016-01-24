@@ -17,6 +17,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import javax.annotation.Nullable;
 
@@ -63,6 +64,7 @@ public interface Predicate<T> {
    * @throws NullPointerException if {@code input} is null and this predicate does not accept null
    *     arguments
    */
+  @CanIgnoreReturnValue
   boolean apply(@Nullable T input);
 
   /**

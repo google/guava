@@ -24,7 +24,6 @@ import com.google.common.annotations.VisibleForTesting;
 
 import java.util.Formatter;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -34,7 +33,6 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 3.0
  */
-@CheckReturnValue
 @GwtCompatible
 public final class Strings {
   private Strings() {}

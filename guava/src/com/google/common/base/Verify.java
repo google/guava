@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.format;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import javax.annotation.Nullable;
 
@@ -133,6 +134,7 @@ public final class Verify {
    * @return {@code reference}, guaranteed to be non-null, for convenience
    * @throws VerifyException if {@code reference} is {@code null}
    */
+  @CanIgnoreReturnValue
   public static <T> T verifyNotNull(@Nullable T reference) {
     return verifyNotNull(reference, "expected a non-null reference");
   }
@@ -153,6 +155,7 @@ public final class Verify {
    * @return {@code reference}, guaranteed to be non-null, for convenience
    * @throws VerifyException if {@code reference} is {@code null}
    */
+  @CanIgnoreReturnValue
   public static <T> T verifyNotNull(
       @Nullable T reference,
       @Nullable String errorMessageTemplate,

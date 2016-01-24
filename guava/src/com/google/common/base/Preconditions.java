@@ -15,6 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import javax.annotation.Nullable;
 
@@ -207,6 +208,7 @@ public final class Preconditions {
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
    */
+  @CanIgnoreReturnValue
   public static <T> T checkNotNull(T reference) {
     if (reference == null) {
       throw new NullPointerException();
@@ -223,6 +225,7 @@ public final class Preconditions {
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
    */
+  @CanIgnoreReturnValue
   public static <T> T checkNotNull(T reference, @Nullable Object errorMessage) {
     if (reference == null) {
       throw new NullPointerException(String.valueOf(errorMessage));
@@ -244,6 +247,7 @@ public final class Preconditions {
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
    */
+  @CanIgnoreReturnValue
   public static <T> T checkNotNull(
       T reference, @Nullable String errorMessageTemplate, @Nullable Object... errorMessageArgs) {
     if (reference == null) {
@@ -289,6 +293,7 @@ public final class Preconditions {
    * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than {@code size}
    * @throws IllegalArgumentException if {@code size} is negative
    */
+  @CanIgnoreReturnValue
   public static int checkElementIndex(int index, int size) {
     return checkElementIndex(index, size, "index");
   }
@@ -304,6 +309,7 @@ public final class Preconditions {
    * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than {@code size}
    * @throws IllegalArgumentException if {@code size} is negative
    */
+  @CanIgnoreReturnValue
   public static int checkElementIndex(int index, int size, @Nullable String desc) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (index < 0 || index >= size) {
@@ -332,6 +338,7 @@ public final class Preconditions {
    * @throws IndexOutOfBoundsException if {@code index} is negative or is greater than {@code size}
    * @throws IllegalArgumentException if {@code size} is negative
    */
+  @CanIgnoreReturnValue
   public static int checkPositionIndex(int index, int size) {
     return checkPositionIndex(index, size, "index");
   }
@@ -347,6 +354,7 @@ public final class Preconditions {
    * @throws IndexOutOfBoundsException if {@code index} is negative or is greater than {@code size}
    * @throws IllegalArgumentException if {@code size} is negative
    */
+  @CanIgnoreReturnValue
   public static int checkPositionIndex(int index, int size, @Nullable String desc) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (index < 0 || index > size) {

@@ -17,6 +17,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * A class that can supply objects of a single type.  Semantically, this could
@@ -34,5 +35,6 @@ public interface Supplier<T> {
    *
    * @return an instance of the appropriate type
    */
+  @CanIgnoreReturnValue
   T get();
 }

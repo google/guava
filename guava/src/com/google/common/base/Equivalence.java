@@ -23,7 +23,6 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -37,7 +36,6 @@ import javax.annotation.Nullable;
  * @since 10.0 (<a href="https://github.com/google/guava/wiki/Compatibility"
  *        >mostly source-compatible</a> since 4.0)
  */
-@CheckReturnValue
 @GwtCompatible
 public abstract class Equivalence<T> {
   /**

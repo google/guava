@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -164,6 +165,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * @return the converted value; is null <i>if and only if</i> {@code a} is null
    */
   @Nullable
+  @CanIgnoreReturnValue
   public final B convert(@Nullable A a) {
     return correctedDoForward(a);
   }
@@ -196,6 +198,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * a successful {@code remove()} call, {@code fromIterable} no longer contains the corresponding
    * element.
    */
+  @CanIgnoreReturnValue
   public Iterable<B> convertAll(final Iterable<? extends A> fromIterable) {
     checkNotNull(fromIterable, "fromIterable");
     return new Iterable<B>() {
@@ -230,6 +233,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * <p>The returned converter is serializable if {@code this} converter is.
    */
   // TODO(kak): Make this method final
+  @CanIgnoreReturnValue
   public Converter<B, A> reverse() {
     Converter<B, A> result = reverse;
     return (result == null) ? reverse = new ReverseConverter<A, B>(this) : result;
@@ -384,6 +388,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
   @Deprecated
   @Override
   @Nullable
+  @CanIgnoreReturnValue
   public final B apply(@Nullable A a) {
     return convert(a);
   }

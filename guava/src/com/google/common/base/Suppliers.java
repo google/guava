@@ -23,7 +23,6 @@ import com.google.common.annotations.VisibleForTesting;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -36,7 +35,6 @@ import javax.annotation.Nullable;
  * @author Harry Heymann
  * @since 2.0
  */
-@CheckReturnValue
 @GwtCompatible
 public final class Suppliers {
   private Suppliers() {}
