@@ -204,11 +204,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>firstNonNull</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.60">firstNonNull</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                                  T&nbsp;first,
-                                  <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                                  T&nbsp;second)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.59">firstNonNull</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                 T&nbsp;first,
+                 <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                 T&nbsp;second)</pre>
 <div class="block">Returns the first of two given parameters that is not <code>null</code>, if either is, or otherwise
  throws a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang"><code>NullPointerException</code></a>.
 
@@ -230,8 +229,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>toStringHelper</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;<a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.104">toStringHelper</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;self)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.102">toStringHelper</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;self)</pre>
 <div class="block">Creates an instance of <a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a>.
 
  <p>This is helpful for implementing <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang"><code>Object.toString()</code></a>.
@@ -275,8 +273,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/MoreObjects.ToStr
 <ul class="blockList">
 <li class="blockList">
 <h4>toStringHelper</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;<a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.119">toStringHelper</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;?&gt;&nbsp;clazz)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.116">toStringHelper</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;?&gt;&nbsp;clazz)</pre>
 <div class="block">Creates an instance of <a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a> in the same manner as <a href="../../../../com/google/common/base/MoreObjects.html#toStringHelper(java.lang.Object)"><code>toStringHelper(Object)</code></a>, but using the simple name of <code>clazz</code> instead of using an
  instance's <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang"><code>Object.getClass()</code></a>.
 
@@ -291,8 +288,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/MoreObjects.ToStr
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toStringHelper</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;<a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.132">toStringHelper</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;className)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.html#line.128">toStringHelper</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;className)</pre>
 <div class="block">Creates an instance of <a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a> in the same manner as <a href="../../../../com/google/common/base/MoreObjects.html#toStringHelper(java.lang.Object)"><code>toStringHelper(Object)</code></a>, but using <code>className</code> instead of using an instance's <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang"><code>Object.getClass()</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>className</code> - the name of the instance type</dd><dt><span class="strong">Since:</span></dt>
   <dd>18.0 (since 7.0 as <code>Objects.toStringHelper()</code>).</dd></dl>

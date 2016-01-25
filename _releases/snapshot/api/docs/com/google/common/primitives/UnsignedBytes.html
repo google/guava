@@ -96,7 +96,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.51">UnsignedBytes</a>
+public final class <a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.50">UnsignedBytes</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Static utility methods pertaining to <code>byte</code> primitives that interpret
  values as <i>unsigned</i> (that is, any negative value <code>b</code> is treated
@@ -267,7 +267,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>MAX_POWER_OF_TWO</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.60">MAX_POWER_OF_TWO</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.59">MAX_POWER_OF_TWO</a></pre>
 <div class="block">The largest power of two that can be represented as an unsigned <code>byte</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>10.0</dd>
@@ -280,7 +280,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>MAX_VALUE</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.67">MAX_VALUE</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.66">MAX_VALUE</a></pre>
 <div class="block">The largest value that fits into an unsigned byte.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>13.0</dd>
@@ -301,8 +301,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>toInt</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.79">toInt</a>(byte&nbsp;value)</pre>
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.77">toInt</a>(byte&nbsp;value)</pre>
 <div class="block">Returns the value of the given byte as an integer, when treated as
  unsigned. That is, returns <code>value + 256</code> if <code>value</code> is
  negative; <code>value</code> itself otherwise.</div>
@@ -316,7 +315,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedCast</h4>
-<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.93">checkedCast</a>(long&nbsp;value)</pre>
+<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.92">checkedCast</a>(long&nbsp;value)</pre>
 <div class="block">Returns the <code>byte</code> value that, when treated as unsigned, is equal to
  <code>value</code>, if possible.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - a value between 0 and 255 inclusive</dd>
@@ -333,7 +332,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedCast</h4>
-<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.109">saturatedCast</a>(long&nbsp;value)</pre>
+<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.108">saturatedCast</a>(long&nbsp;value)</pre>
 <div class="block">Returns the <code>byte</code> value that, when treated as unsigned, is nearest
  in value to <code>value</code>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - any <code>long</code> value</dd>
@@ -347,9 +346,8 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.131">compare</a>(byte&nbsp;a,
-                           byte&nbsp;b)</pre>
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.129">compare</a>(byte&nbsp;a,
+          byte&nbsp;b)</pre>
 <div class="block">Compares the two specified <code>byte</code> values, treating them as unsigned
  values between 0 and 255 inclusive. For example, <code>(byte) -127</code> is
  considered greater than <code>(byte) 127</code> because it is seen as having
@@ -365,8 +363,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/prim
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.144">min</a>(byte...&nbsp;array)</pre>
+<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.141">min</a>(byte...&nbsp;array)</pre>
 <div class="block">Returns the least value present in <code>array</code>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - a <i>nonempty</i> array of <code>byte</code> values</dd>
 <dt><span class="strong">Returns:</span></dt><dd>the value present in <code>array</code> that is less than or equal to
@@ -381,8 +378,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.165">max</a>(byte...&nbsp;array)</pre>
+<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.161">max</a>(byte...&nbsp;array)</pre>
 <div class="block">Returns the greatest value present in <code>array</code>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - a <i>nonempty</i> array of <code>byte</code> values</dd>
 <dt><span class="strong">Returns:</span></dt><dd>the value present in <code>array</code> that is greater than or equal
@@ -398,8 +394,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <li class="blockList">
 <h4>toString</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.184">toString</a>(byte&nbsp;x)</pre>
+public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.179">toString</a>(byte&nbsp;x)</pre>
 <div class="block">Returns a string representation of x, where x is treated as unsigned.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>13.0</dd></dl>
@@ -412,9 +407,8 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/S
 <li class="blockList">
 <h4>toString</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.200">toString</a>(byte&nbsp;x,
-                                    int&nbsp;radix)</pre>
+public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.194">toString</a>(byte&nbsp;x,
+                   int&nbsp;radix)</pre>
 <div class="block">Returns a string representation of <code>x</code> for the given radix, where <code>x</code> is treated
  as unsigned.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>x</code> - the value to convert to a string.</dd><dd><code>radix</code> - the radix to use while working with <code>x</code></dd>
@@ -431,12 +425,12 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/S
 <li class="blockList">
 <h4>parseUnsignedByte</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.219">parseUnsignedByte</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
+public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.214">parseUnsignedByte</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
 <div class="block">Returns the unsigned <code>byte</code> value represented by the given decimal string.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NumberFormatException.html?is-external=true" title="class or interface in java.lang">NumberFormatException</a></code> - if the string does not contain a valid unsigned <code>byte</code>
          value</dd>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>s</code> is null
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>string</code> is null
          (in contrast to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html?is-external=true#parseByte(java.lang.String)" title="class or interface in java.lang"><code>Byte.parseByte(String)</code></a>)</dd><dt><span class="strong">Since:</span></dt>
   <dd>13.0</dd></dl>
 </li>
@@ -448,7 +442,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <li class="blockList">
 <h4>parseUnsignedByte</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.236">parseUnsignedByte</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
+public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.232">parseUnsignedByte</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
                           int&nbsp;radix)</pre>
 <div class="block">Returns the unsigned <code>byte</code> value represented by a string with the given radix.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>string</code> - the string containing the unsigned <code>byte</code> representation to be parsed.</dd><dd><code>radix</code> - the radix to use while parsing <code>string</code></dd>
@@ -456,7 +450,7 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NumberFormatException.html?is-external=true" title="class or interface in java.lang">NumberFormatException</a></code> - if the string does not contain a valid unsigned <code>byte</code>
          with the given radix, or if <code>radix</code> is not between <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#MIN_RADIX" title="class or interface in java.lang"><code>Character.MIN_RADIX</code></a>
          and <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#MAX_RADIX" title="class or interface in java.lang"><code>Character.MAX_RADIX</code></a>.</dd>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>s</code> is null
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>string</code> is null
          (in contrast to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html?is-external=true#parseByte(java.lang.String)" title="class or interface in java.lang"><code>Byte.parseByte(String)</code></a>)</dd><dt><span class="strong">Since:</span></dt>
   <dd>13.0</dd></dl>
 </li>
@@ -467,9 +461,8 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.256">join</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
-                           byte...&nbsp;array)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.251">join</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
+          byte...&nbsp;array)</pre>
 <div class="block">Returns a string containing the supplied <code>byte</code> values separated by
  <code>separator</code>. For example, <code>join(":", (byte) 1, (byte) 2,
  (byte) 255)</code> returns the string <code>"1:2:255"</code>.</div>
@@ -483,8 +476,7 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/S
 <ul class="blockListLast">
 <li class="blockList">
 <h4>lexicographicalComparator</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;byte[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.288">lexicographicalComparator</a>()</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;byte[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.282">lexicographicalComparator</a>()</pre>
 <div class="block">Returns a comparator that compares two <code>byte</code> arrays
  lexicographically. That is, it compares, using <a href="../../../../com/google/common/primitives/UnsignedBytes.html#compare(byte,%20byte)"><code>compare(byte, byte)</code></a>), the first pair of values that follow any common
  prefix, or when one array is a prefix of the other, treats the shorter

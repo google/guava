@@ -95,9 +95,8 @@
 <li class="blockList">
 <hr>
 <br>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-<a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/base/Suppliers.html#line.41">Suppliers</a>
+<pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
+public final class <a href="../../../../src-html/com/google/common/base/Suppliers.html#line.39">Suppliers</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Useful suppliers.
 
@@ -198,7 +197,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>compose</h4>
-<pre>public static&nbsp;&lt;F,T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.51">compose</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,T&gt;&nbsp;function,
+<pre>public static&nbsp;&lt;F,T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.49">compose</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,T&gt;&nbsp;function,
                         <a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;F&gt;&nbsp;supplier)</pre>
 <div class="block">Returns a new supplier which is the composition of the provided function
  and supplier. In other words, the new supplier's value will be computed by
@@ -213,7 +212,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>memoize</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.107">memoize</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.105">memoize</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</pre>
 <div class="block">Returns a supplier which caches the instance retrieved during the first
  call to <code>get()</code> and returns that value on subsequent calls to
  <code>get()</code>. See:
@@ -233,7 +232,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>memoizeWithExpiration</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.167">memoizeWithExpiration</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.165">memoizeWithExpiration</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
                                     long&nbsp;duration,
                                     <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Returns a supplier that caches the instance supplied by the delegate and
@@ -260,7 +259,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>ofInstance</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.225">ofInstance</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.223">ofInstance</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                          T&nbsp;instance)</pre>
 <div class="block">Returns a supplier that always supplies <code>instance</code>.</div>
 </li>
@@ -271,7 +270,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>synchronizedSupplier</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.267">synchronizedSupplier</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.265">synchronizedSupplier</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</pre>
 <div class="block">Returns a supplier whose <code>get()</code> method synchronizes on
  <code>delegate</code> before calling it, making it thread-safe.</div>
 </li>
@@ -283,7 +282,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>supplierFunction</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;,T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.300">supplierFunction</a>()</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;,T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Suppliers.html#line.298">supplierFunction</a>()</pre>
 <div class="block">Returns a function that accepts a supplier and returns the result of
  invoking <a href="../../../../com/google/common/base/Supplier.html#get()"><code>Supplier.get()</code></a> on that supplier.</div>
 <dl><dt><span class="strong">Since:</span></dt>

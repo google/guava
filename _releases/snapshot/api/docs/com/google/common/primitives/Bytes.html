@@ -95,9 +95,8 @@
 <li class="blockList">
 <hr>
 <br>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-<a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.55">Bytes</a>
+<pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
+public final class <a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.53">Bytes</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Static utility methods pertaining to <code>byte</code> primitives, that are not
  already found in either <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html?is-external=true" title="class or interface in java.lang"><code>Byte</code></a> or <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html?is-external=true" title="class or interface in java.util"><code>Arrays</code></a>, <i>and interpret
@@ -223,7 +222,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.65">hashCode</a>(byte&nbsp;value)</pre>
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.63">hashCode</a>(byte&nbsp;value)</pre>
 <div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking
  <code>((Byte) value).hashCode()</code>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - a primitive <code>byte</code> value</dd>
@@ -236,7 +235,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.78">contains</a>(byte[]&nbsp;array,
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.76">contains</a>(byte[]&nbsp;array,
                byte&nbsp;target)</pre>
 <div class="block">Returns <code>true</code> if <code>target</code> is present as an element anywhere in
  <code>array</code>.</div>
@@ -250,7 +249,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.96">indexOf</a>(byte[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.94">indexOf</a>(byte[]&nbsp;array,
           byte&nbsp;target)</pre>
 <div class="block">Returns the index of the first appearance of the value <code>target</code> in
  <code>array</code>.</div>
@@ -265,7 +264,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.121">indexOf</a>(byte[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.119">indexOf</a>(byte[]&nbsp;array,
           byte[]&nbsp;target)</pre>
 <div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within <code>array</code>, or <code>-1</code> if there is no such occurrence.
 
@@ -280,7 +279,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>lastIndexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.149">lastIndexOf</a>(byte[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.147">lastIndexOf</a>(byte[]&nbsp;array,
               byte&nbsp;target)</pre>
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in
  <code>array</code>.</div>
@@ -295,7 +294,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.172">concat</a>(byte[]...&nbsp;arrays)</pre>
+<pre>public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.170">concat</a>(byte[]...&nbsp;arrays)</pre>
 <div class="block">Returns the values from each provided array combined into a single array.
  For example, <code>concat(new byte[] {a, b}, new byte[] {}, new
  byte[] {c}</code> returns the array <code>{a, b, c}</code>.</div>
@@ -310,7 +309,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>ensureCapacity</h4>
-<pre>public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.202">ensureCapacity</a>(byte[]&nbsp;array,
+<pre>public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.200">ensureCapacity</a>(byte[]&nbsp;array,
                     int&nbsp;minLength,
                     int&nbsp;padding)</pre>
 <div class="block">Returns an array containing the same values as <code>array</code>, but
@@ -333,7 +332,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre>public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.223">toArray</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;collection)</pre>
+<pre>public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.221">toArray</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;collection)</pre>
 <div class="block">Returns an array containing each value of <code>collection</code>, converted to
  a <code>byte</code> value in the manner of <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Number.html?is-external=true#byteValue()" title="class or interface in java.lang"><code>Number.byteValue()</code></a>.
 
@@ -354,7 +353,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asList</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html?is-external=true" title="class or interface in java.lang">Byte</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.252">asList</a>(byte...&nbsp;backingArray)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html?is-external=true" title="class or interface in java.lang">Byte</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Bytes.html#line.250">asList</a>(byte...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html?is-external=true#asList(T...)" title="class or interface in java.util"><code>Arrays.asList(Object[])</code></a>. The list supports <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true#set(int,%20E)" title="class or interface in java.util"><code>List.set(int, Object)</code></a>,
  but any attempt to set a value to <code>null</code> will result in a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang"><code>NullPointerException</code></a>.
 

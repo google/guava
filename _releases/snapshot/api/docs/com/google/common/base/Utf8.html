@@ -97,7 +97,7 @@
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/base/Utf8.html#line.43">Utf8</a>
+public final class <a href="../../../../src-html/com/google/common/base/Utf8.html#line.41">Utf8</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Low-level, high-performance utility methods related to the <a href="../../../../com/google/common/base/Charsets.html#UTF_8">UTF-8</a>
  character encoding. UTF-8 is defined in section D92 of
@@ -180,8 +180,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>encodedLength</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.53">encodedLength</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.50">encodedLength</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns the number of bytes in the UTF-8-encoded form of <code>sequence</code>. For a string,
  this method is equivalent to <code>string.getBytes(UTF_8).length</code>, but is more efficient in
  both time and space.</div>
@@ -196,8 +195,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base
 <ul class="blockList">
 <li class="blockList">
 <h4>isWellFormed</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.116">isWellFormed</a>(byte[]&nbsp;bytes)</pre>
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.112">isWellFormed</a>(byte[]&nbsp;bytes)</pre>
 <div class="block">Returns <code>true</code> if <code>bytes</code> is a <i>well-formed</i> UTF-8 byte sequence according to
  Unicode 6.0. Note that this is a stronger criterion than simply whether the bytes can be
  decoded. For example, some versions of the JDK decoder will accept "non-shortest form" byte
@@ -214,10 +212,9 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>isWellFormed</h4>
-<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.130">isWellFormed</a>(byte[]&nbsp;bytes,
-                                    int&nbsp;off,
-                                    int&nbsp;len)</pre>
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Utf8.html#line.125">isWellFormed</a>(byte[]&nbsp;bytes,
+                   int&nbsp;off,
+                   int&nbsp;len)</pre>
 <div class="block">Returns whether the given byte array slice is a well-formed UTF-8 byte sequence, as defined by
  <a href="../../../../com/google/common/base/Utf8.html#isWellFormed(byte[])"><code>isWellFormed(byte[])</code></a>. Note that this can be false even when <code>isWellFormed(bytes)</code> is true.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>bytes</code> - the input buffer</dd><dd><code>off</code> - the offset in the buffer of the first byte to read</dd><dd><code>len</code> - the number of bytes to read from the buffer</dd></dl>
