@@ -59,6 +59,8 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 public abstract class AbstractFuture<V> implements ListenableFuture<V> {
+  // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+
   private static final boolean GENERATE_CANCELLATION_CAUSES =
       Boolean.parseBoolean(
           System.getProperty("guava.concurrent.generate_cancellation_cause", "false"));
