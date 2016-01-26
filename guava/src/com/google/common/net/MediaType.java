@@ -16,8 +16,8 @@
 
 package com.google.common.net;
 
-import static com.google.common.base.CharMatcher.ASCII;
-import static com.google.common.base.CharMatcher.JAVA_ISO_CONTROL;
+import static com.google.common.base.CharMatcher.ascii;
+import static com.google.common.base.CharMatcher.javaIsoControl;
 import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -86,10 +86,10 @@ public final class MediaType {
       ImmutableListMultimap.of(CHARSET_ATTRIBUTE, Ascii.toLowerCase(UTF_8.name()));
 
   /** Matcher for type, subtype and attributes. */
-  private static final CharMatcher TOKEN_MATCHER = ASCII.and(JAVA_ISO_CONTROL.negate())
+  private static final CharMatcher TOKEN_MATCHER = ascii().and(javaIsoControl().negate())
       .and(CharMatcher.isNot(' '))
       .and(CharMatcher.noneOf("()<>@,;:\\\"/[]?="));
-  private static final CharMatcher QUOTED_TEXT_MATCHER = ASCII
+  private static final CharMatcher QUOTED_TEXT_MATCHER = ascii()
       .and(CharMatcher.noneOf("\"\\\r"));
   /*
    * This matches the same characters as linear-white-space from RFC 822, but we make no effort to
@@ -744,7 +744,7 @@ public final class MediaType {
           while ('"' != tokenizer.previewChar()) {
             if ('\\' == tokenizer.previewChar()) {
               tokenizer.consumeCharacter('\\');
-              valueBuilder.append(tokenizer.consumeCharacter(ASCII));
+              valueBuilder.append(tokenizer.consumeCharacter(ascii()));
             } else {
               valueBuilder.append(tokenizer.consumeToken(QUOTED_TEXT_MATCHER));
             }

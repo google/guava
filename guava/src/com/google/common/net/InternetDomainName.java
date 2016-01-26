@@ -243,7 +243,7 @@ public final class InternetDomainName {
   private static final CharMatcher DASH_MATCHER = CharMatcher.anyOf("-_");
 
   private static final CharMatcher PART_CHAR_MATCHER =
-      CharMatcher.JAVA_LETTER_OR_DIGIT.or(DASH_MATCHER);
+      CharMatcher.javaLetterOrDigit().or(DASH_MATCHER);
 
   /**
    * Helper method for {@link #validateSyntax(List)}. Validates that one part of
@@ -272,7 +272,7 @@ public final class InternetDomainName {
      * with underscore also being allowed due to widespread practice.
      */
 
-    String asciiChars = CharMatcher.ASCII.retainFrom(part);
+    String asciiChars = CharMatcher.ascii().retainFrom(part);
 
     if (!PART_CHAR_MATCHER.matchesAllOf(asciiChars)) {
       return false;
@@ -293,7 +293,7 @@ public final class InternetDomainName {
      * like 127.0.0.1 from looking like a valid domain name.
      */
 
-    if (isFinalPart && CharMatcher.DIGIT.matches(part.charAt(0))) {
+    if (isFinalPart && CharMatcher.digit().matches(part.charAt(0))) {
       return false;
     }
 
