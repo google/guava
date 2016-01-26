@@ -18,8 +18,6 @@ package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * A subinterface of {@code Graph} for graphs whose edges are all directed.
  *
@@ -29,7 +27,6 @@ import javax.annotation.CheckReturnValue;
  * @since 20.0
  */
 @Beta
-@CheckReturnValue
 public interface DirectedGraph<N, E> extends Graph<N, E> {
   /**
    * Returns the node for which {@code edge} is an outgoing edge.

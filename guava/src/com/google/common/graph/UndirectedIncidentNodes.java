@@ -25,15 +25,12 @@ import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * An immutable set representing the nodes incident to an undirected edge.
  *
  * @author James Sexton
  * @param <N> Node parameter type
  */
-@CheckReturnValue
 abstract class UndirectedIncidentNodes<N> extends AbstractSet<N> {
 
   static <N> UndirectedIncidentNodes<N> of(N node1, N node2) {

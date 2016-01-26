@@ -21,6 +21,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -35,12 +37,14 @@ public class ImmutableSimpleDirectedGraphTest extends AbstractImmutableGraphTest
   protected ImmutableDirectedGraph.Builder<Integer, String> builder;
 
   @Override
+  @CanIgnoreReturnValue
   final boolean addNode(Integer n) {
     graph = immutableGraph = builder.addNode(n).build();
     return true;
   }
 
   @Override
+  @CanIgnoreReturnValue
   final boolean addEdge(String e, Integer n1, Integer n2) {
     builder.addNode(n1);
     builder.addNode(n2);
@@ -125,7 +129,7 @@ public class ImmutableSimpleDirectedGraphTest extends AbstractImmutableGraphTest
   @Test
   public void source_edgeNotInGraph() {
     try {
-      immutableGraph.source(EDGE_NOT_IN_GRAPH);
+      Integer unused = immutableGraph.source(EDGE_NOT_IN_GRAPH);
       fail(ERROR_EDGE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);
@@ -141,7 +145,7 @@ public class ImmutableSimpleDirectedGraphTest extends AbstractImmutableGraphTest
   @Test
   public void target_edgeNotInGraph() {
     try {
-      immutableGraph.target(EDGE_NOT_IN_GRAPH);
+      Integer unused = immutableGraph.target(EDGE_NOT_IN_GRAPH);
       fail(ERROR_EDGE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);

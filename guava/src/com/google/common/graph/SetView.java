@@ -22,13 +22,10 @@ import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * An unmodifiable view of a set which may be backed by other sets; this view
  * will change as the backing sets do.
  */
-@CheckReturnValue
 abstract class SetView<E> extends AbstractSet<E> {
 
   SetView() {}

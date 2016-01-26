@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -34,7 +33,6 @@ import javax.annotation.Nullable;
  * @author Joshua O'Madadhain
  * @param <E> Edge parameter type
  */
-@CheckReturnValue
 final class DirectedIncidentEdges<E> {
 
   private final Set<E> inEdges;

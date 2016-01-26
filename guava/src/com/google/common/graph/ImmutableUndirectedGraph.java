@@ -26,11 +26,11 @@ import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collections;
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -236,7 +236,6 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
    * Returns a new builder. The generated builder is equivalent to the builder
    * created by the {@code Builder} constructor.
    */
-  @CheckReturnValue
   public static <N, E> Builder<N, E> builder() {
     return new Builder<N, E>();
   }
@@ -248,7 +247,6 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
    * @param config an instance of {@code GraphConfig} with the intended
    *        graph configuration.
    */
-  @CheckReturnValue
   public static <N, E> Builder<N, E> builder(GraphConfig config) {
     return new Builder<N, E>(config);
   }
@@ -256,7 +254,6 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
   /**
    * Returns an immutable copy of the input graph.
    */
-  @CheckReturnValue
   public static <N, E> ImmutableUndirectedGraph<N, E> copyOf(UndirectedGraph<N, E> graph) {
     return new Builder<N, E>(graph).build();
   }
@@ -308,12 +305,14 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
     }
 
     @Override
+    @CanIgnoreReturnValue
     public Builder<N, E> addNode(N node) {
       undirectedGraph.addNode(node);
       return this;
     }
 
     @Override
+    @CanIgnoreReturnValue
     public Builder<N, E> addEdge(E edge, N node1, N node2) {
       undirectedGraph.addEdge(edge, node1, node2);
       return this;
@@ -328,6 +327,7 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
      *     (2) calling {@code Graph.addEdge(e, n1, n2)} on the graph being built throws IAE
      * @see Graph#addEdge(e, n1, n2)
      */
+    @CanIgnoreReturnValue
     public Builder<N, E> addGraph(UndirectedGraph<N, E> graph) {
       checkArgument(
           undirectedGraph.config().compatibleWith(graph.config()),
@@ -347,7 +347,6 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
     }
 
     @Override
-    @CheckReturnValue
     public ImmutableUndirectedGraph<N, E> build() {
       return new ImmutableUndirectedGraph<N, E>(this);
     }

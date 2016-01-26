@@ -23,11 +23,11 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -48,7 +48,6 @@ public final class Graphs {
    * Returns the node at the other end of {@code e} from {@code n}.
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   public static <N> N oppositeNode(
       UndirectedGraph<N, ?> undirectedGraph, Object edge, Object node) {
     checkNotNull(edge, "edge");
@@ -69,6 +68,7 @@ public final class Graphs {
    * Adds {@code edge} to {@code graph} with the specified incident {@code nodes}, in the order
    * returned by {@code nodes}' iterator.
    */
+  @CanIgnoreReturnValue
   public static <N, E> boolean addEdge(Graph<N, E> graph, E edge, Iterable<N> nodes) {
     checkNotNull(graph, "graph");
     checkNotNull(nodes, "nodes");
@@ -94,7 +94,6 @@ public final class Graphs {
   /**
    * Creates a mutable copy of {@code graph}, using the same node and edge elements.
    */
-  @CheckReturnValue
   public static <N, E> DirectedGraph<N, E> copyOf(DirectedGraph<N, E> graph) {
     checkNotNull(graph, "graph");
     DirectedGraph<N, E> copy = createDirected(graph.config()
@@ -109,7 +108,6 @@ public final class Graphs {
    * Creates a mutable copy of {@code graph}, using all of its elements that satisfy
    * {@code nodePredicate} and {@code edgePredicate}.
    */
-  @CheckReturnValue
   public static <N, E> DirectedGraph<N, E> copyOf(
       DirectedGraph<N, E> graph,
       Predicate<? super N> nodePredicate,
@@ -213,7 +211,6 @@ public final class Graphs {
   /**
    * Creates a mutable copy of {@code graph}, using the same node and edge elements.
    */
-  @CheckReturnValue
   public static <N, E> UndirectedGraph<N, E> copyOf(UndirectedGraph<N, E> graph) {
     checkNotNull(graph, "graph");
     UndirectedGraph<N, E> copy = createUndirected(graph.config()
@@ -228,7 +225,6 @@ public final class Graphs {
    * Creates a mutable copy of {@code graph}, using all of its elements that satisfy
    * {@code nodePredicate} and {@code edgePredicate}.
    */
-  @CheckReturnValue
   public static <N, E> UndirectedGraph<N, E> copyOf(
       UndirectedGraph<N, E> graph,
       Predicate<? super N> nodePredicate,
@@ -318,7 +314,6 @@ public final class Graphs {
    *
    * @see GraphConfig
    */
-  @CheckReturnValue
   public static GraphConfig config() {
     return new GraphConfig();
   }
@@ -329,7 +324,6 @@ public final class Graphs {
    *
    * @see GraphConfig
    */
-  @CheckReturnValue
   public static <N, E> DirectedGraph<N, E> createDirected() {
     return new IncidenceSetDirectedGraph<N, E>(config());
   }
@@ -338,7 +332,6 @@ public final class Graphs {
    * Returns a new instance of {@link DirectedGraph} with the graph
    * configuration specified by {@code config}.
    */
-  @CheckReturnValue
   public static <N, E> DirectedGraph<N, E> createDirected(GraphConfig config) {
     return new IncidenceSetDirectedGraph<N, E>(config);
   }
@@ -349,7 +342,6 @@ public final class Graphs {
    *
    * @see GraphConfig
    */
-  @CheckReturnValue
   public static <N, E> UndirectedGraph<N, E> createUndirected() {
     return new IncidenceSetUndirectedGraph<N, E>(config());
   }
@@ -358,7 +350,6 @@ public final class Graphs {
    * Returns a new instance of {@link UndirectedGraph} with the graph
    * configuration specified by {@code config}.
    */
-  @CheckReturnValue
   public static <N, E> UndirectedGraph<N, E> createUndirected(GraphConfig config) {
     return new IncidenceSetUndirectedGraph<N, E>(config);
   }
@@ -369,7 +360,6 @@ public final class Graphs {
    *
    * @see Graph#equals(Object)
    */
-  @CheckReturnValue
   public static <N, E> boolean equal(
       @Nullable DirectedGraph<?, ?> g1, @Nullable DirectedGraph<?, ?> g2) {
     if (g1 == g2) {
@@ -398,7 +388,6 @@ public final class Graphs {
    *
    * @see Graph#equals(Object)
    */
-  @CheckReturnValue
   public static boolean equal(@Nullable Graph<?, ?> g1, @Nullable Graph<?, ?> g2) {
     if (g1 == g2) {
       return true;
@@ -426,7 +415,6 @@ public final class Graphs {
    * element. The predicate's {@code apply} method will throw a {@link IllegalStateException} if
    * {@code graph} does not contain {@code edge}.
    */
-  @CheckReturnValue
   public static <E> Predicate<E> noSelfLoopPredicate(final Graph<?, E> graph) {
     checkNotNull(graph, "graph");
     return new Predicate<E>() {

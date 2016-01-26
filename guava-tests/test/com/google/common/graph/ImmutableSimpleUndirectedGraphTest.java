@@ -21,6 +21,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -35,12 +37,14 @@ public class ImmutableSimpleUndirectedGraphTest extends AbstractImmutableGraphTe
   protected ImmutableUndirectedGraph.Builder<Integer, String> builder;
 
   @Override
+  @CanIgnoreReturnValue
   final boolean addNode(Integer n) {
     graph = immutableGraph = builder.addNode(n).build();
     return true;
   }
 
   @Override
+  @CanIgnoreReturnValue
   final boolean addEdge(String e, Integer n1, Integer n2) {
     graph = immutableGraph = builder.addEdge(e, n1, n2).build();
     return true;

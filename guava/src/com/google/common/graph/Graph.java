@@ -17,10 +17,10 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -201,15 +201,12 @@ import javax.annotation.Nullable;
 @Beta
 public interface Graph<N, E> {
   /** Returns all nodes in this graph. */
-  @CheckReturnValue
   Set<N> nodes();
 
   /** Returns all edges in this graph. */
-  @CheckReturnValue
   Set<E> edges();
 
   /** Returns the {@link GraphConfig} that defines this instance's configuration. */
-  @CheckReturnValue
   GraphConfig config();
 
   //
@@ -221,7 +218,6 @@ public interface Graph<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  @CheckReturnValue
   Set<E> incidentEdges(Object node);
 
   /**
@@ -229,7 +225,6 @@ public interface Graph<N, E> {
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this graph
    */
-  @CheckReturnValue
   Set<N> incidentNodes(Object edge);
 
   /**
@@ -238,7 +233,6 @@ public interface Graph<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  @CheckReturnValue
   Set<N> adjacentNodes(Object node);
 
   /**
@@ -250,7 +244,6 @@ public interface Graph<N, E> {
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this graph
    */
-  @CheckReturnValue
   Set<E> adjacentEdges(Object edge);
 
   /**
@@ -264,7 +257,6 @@ public interface Graph<N, E> {
    * @throws IllegalArgumentException if {@code node1} or {@code node2} is not an element
    *     of this graph
    */
-  @CheckReturnValue
   Set<E> edgesConnecting(Object node1, Object node2);
 
   /**
@@ -273,7 +265,6 @@ public interface Graph<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  @CheckReturnValue
   Set<E> inEdges(Object node);
 
   /**
@@ -282,7 +273,6 @@ public interface Graph<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  @CheckReturnValue
   Set<E> outEdges(Object node);
 
   /**
@@ -292,7 +282,6 @@ public interface Graph<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  @CheckReturnValue
   Set<N> predecessors(Object node);
 
   /**
@@ -305,7 +294,6 @@ public interface Graph<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  @CheckReturnValue
   Set<N> successors(Object node);
 
   //
@@ -320,7 +308,6 @@ public interface Graph<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  @CheckReturnValue
   long degree(Object node);
 
   /**
@@ -331,7 +318,6 @@ public interface Graph<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  @CheckReturnValue
   long inDegree(Object node);
 
   /**
@@ -342,7 +328,6 @@ public interface Graph<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  @CheckReturnValue
   long outDegree(Object node);
 
   //
@@ -357,6 +342,7 @@ public interface Graph<N, E> {
    * @return {@code true} iff the graph was modified as a result of this call
    * @throws UnsupportedOperationException if the add operation is not supported by this graph
    */
+  @CanIgnoreReturnValue
   boolean addNode(N node);
 
   /**
@@ -383,6 +369,7 @@ public interface Graph<N, E> {
    *     already connected to {@code node2}
    * @throws UnsupportedOperationException if the add operation is not supported by this graph
    */
+  @CanIgnoreReturnValue
   boolean addEdge(E edge, N node1, N node2);
 
   /**
@@ -393,6 +380,7 @@ public interface Graph<N, E> {
    * @return {@code true} iff the graph was modified as a result of this call
    * @throws UnsupportedOperationException if the remove operation is not supported by this graph
    */
+  @CanIgnoreReturnValue
   boolean removeNode(Object node);
 
   /**
@@ -403,6 +391,7 @@ public interface Graph<N, E> {
    * @return {@code true} iff the graph was modified as a result of this call
    * @throws UnsupportedOperationException if the remove operation is not supported by this graph
    */
+  @CanIgnoreReturnValue
   boolean removeEdge(Object edge);
 
   /**
@@ -431,6 +420,5 @@ public interface Graph<N, E> {
    * </ul>
    */
   @Override
-  @CheckReturnValue
   boolean equals(@Nullable Object object);
 }

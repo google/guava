@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collections;
 import java.util.Map;
@@ -304,6 +305,7 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
   // Element Mutation
 
   @Override
+  @CanIgnoreReturnValue
   public boolean addNode(N node) {
     checkNotNull(node, "node");
     if (containsNode(node)) {
@@ -329,6 +331,7 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
    *         Also, if self-loops are not allowed, and {@code node1} is equal to {@code node2}.
    */
   @Override
+  @CanIgnoreReturnValue
   public boolean addEdge(E edge, N node1, N node2) {
     checkNotNull(edge, "edge");
     checkNotNull(node1, "node1");
@@ -354,6 +357,7 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public boolean removeNode(Object node) {
     checkNotNull(node, "node");
     // Return false if the node doesn't exist in the graph
@@ -370,6 +374,7 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public boolean removeEdge(Object edge) {
     checkNotNull(edge, "edge");
     // Return false if the edge doesn't exist in the graph

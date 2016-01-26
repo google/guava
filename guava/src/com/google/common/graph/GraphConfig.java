@@ -27,7 +27,6 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -66,7 +65,6 @@ import javax.annotation.Nullable;
 // TODO(user): Handle sorted nodes/edges and expected number of nodes/edges together,
 //     in case sorted nodes/edges is supported.
 @Beta
-@CheckReturnValue
 public final class GraphConfig {
   private final boolean multigraph;
   private final boolean selfLoopsAllowed;

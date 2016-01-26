@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * A subinterface of {@code Graph} which specifies that all edges are hyperedges, that is,
@@ -43,6 +44,7 @@ public interface Hypergraph<N, E> extends Graph<N, E> {
    * @return {@code true} iff the graph was modified as a result of this call
    * @throws UnsupportedOperationException if the add operation is not supported by this graph
    */
+  @CanIgnoreReturnValue
   boolean addEdge(E edge, N... nodes);
 
   /**
@@ -51,5 +53,6 @@ public interface Hypergraph<N, E> extends Graph<N, E> {
    * @return {@code true} iff the graph was modified as a result of this call
    * @throws UnsupportedOperationException if the add operation is not supported by this graph
    */
+  @CanIgnoreReturnValue
   boolean addEdge(E edge, Iterable<N> nodes);
 }

@@ -24,8 +24,6 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * Static utility methods for calculating properties of {@link Graph} instances.
  *
@@ -33,7 +31,6 @@ import javax.annotation.CheckReturnValue;
  * @since 20.0
  */
 @Beta
-@CheckReturnValue
 public final class GraphProperties {
 
   private GraphProperties() {}

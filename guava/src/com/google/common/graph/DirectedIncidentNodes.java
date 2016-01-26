@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -30,7 +29,6 @@ import javax.annotation.Nullable;
  * @author Joshua O'Madadhain
  * @param <N> Node parameter type
  */
-@CheckReturnValue
 final class DirectedIncidentNodes<N> {
 
   private final N source;

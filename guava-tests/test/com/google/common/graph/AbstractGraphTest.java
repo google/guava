@@ -20,6 +20,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -102,6 +104,7 @@ public abstract class AbstractGraphTest {
    * @return {@code true} iff the graph was modified as a result of this call
    * TODO(user): Consider changing access modifier to be protected.
    */
+  @CanIgnoreReturnValue
   abstract boolean addNode(Integer n);
 
   /**
@@ -123,6 +126,7 @@ public abstract class AbstractGraphTest {
    * @return {@code true} iff the graph was modified as a result of this call
    * TODO(user): Consider changing access modifier to be protected.
    */
+  @CanIgnoreReturnValue
   abstract boolean addEdge(String e, Integer n1, Integer n2);
 
   @Before

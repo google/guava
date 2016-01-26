@@ -21,6 +21,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import org.junit.Test;
 
@@ -39,6 +40,7 @@ import org.junit.Test;
 public abstract class AbstractMutableGraphTest extends AbstractGraphTest {
 
   @Override
+  @CanIgnoreReturnValue
   final boolean addNode(Integer n) {
     return graph.addNode(n);
   }
@@ -48,6 +50,7 @@ public abstract class AbstractMutableGraphTest extends AbstractGraphTest {
    * elements of the graph), then adds the edge connecting them.
    */
   @Override
+  @CanIgnoreReturnValue
   final boolean addEdge(String e, Integer n1, Integer n2) {
     graph.addNode(n1);
     graph.addNode(n2);

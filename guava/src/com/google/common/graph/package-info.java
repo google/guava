@@ -21,7 +21,10 @@
  * <p>This package is a part of the open-source <a href="https://github.com/google/guava">Guava</a>
  * library.
  */
+@CheckReturnValue
 @ParametersAreNonnullByDefault
 package com.google.common.graph;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.ParametersAreNonnullByDefault;
+
