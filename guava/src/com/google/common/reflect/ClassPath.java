@@ -30,12 +30,16 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+import com.google.common.io.ByteSource;
+import com.google.common.io.CharSource;
+import com.google.common.io.Resources;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -175,15 +179,39 @@ public final class ClassPath {
      * Returns the url identifying the resource.
      *
      * <p>See {@link ClassLoader#getResource}
+     *
      * @throws NoSuchElementException if the resource cannot be loaded through the class loader,
-     *         despite physically existing in the class path.
+     *     despite physically existing in the class path.
      */
-    public final URL url() throws NoSuchElementException {
+    public final URL url() {
       URL url = loader.getResource(resourceName);
       if (url == null) {
         throw new NoSuchElementException(resourceName);
       }
       return url;
+    }
+
+    /**
+     * Returns a {@link ByteSource} view of the resource from which its bytes can be read.
+     *
+     * @throws NoSuchElementException if the resource cannot be loaded through the class loader,
+     *     despite physically existing in the class path.
+     * @since 20.0
+     */
+    public final ByteSource asByteSource() {
+      return Resources.asByteSource(url());
+    }
+
+    /**
+     * Returns a {@link CharSource} view of the resource from which its bytes can be read as
+     * characters decoded with the given {@code charset}.
+     *
+     * @throws NoSuchElementException if the resource cannot be loaded through the class loader,
+     *     despite physically existing in the class path.
+     * @since 20.0
+     */
+    public final CharSource asCharSource(Charset charset) {
+      return Resources.asCharSource(url(), charset);
     }
 
     /** Returns the fully qualified name of the resource. Such as "com/mycomp/foo/bar.txt". */
