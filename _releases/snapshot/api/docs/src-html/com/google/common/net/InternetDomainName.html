@@ -251,7 +251,7 @@
 <span class="sourceLineNo">243</span>  private static final CharMatcher DASH_MATCHER = CharMatcher.anyOf("-_");<a name="line.243"></a>
 <span class="sourceLineNo">244</span><a name="line.244"></a>
 <span class="sourceLineNo">245</span>  private static final CharMatcher PART_CHAR_MATCHER =<a name="line.245"></a>
-<span class="sourceLineNo">246</span>      CharMatcher.JAVA_LETTER_OR_DIGIT.or(DASH_MATCHER);<a name="line.246"></a>
+<span class="sourceLineNo">246</span>      CharMatcher.javaLetterOrDigit().or(DASH_MATCHER);<a name="line.246"></a>
 <span class="sourceLineNo">247</span><a name="line.247"></a>
 <span class="sourceLineNo">248</span>  /**<a name="line.248"></a>
 <span class="sourceLineNo">249</span>   * Helper method for {@link #validateSyntax(List)}. Validates that one part of<a name="line.249"></a>
@@ -280,7 +280,7 @@
 <span class="sourceLineNo">272</span>     * with underscore also being allowed due to widespread practice.<a name="line.272"></a>
 <span class="sourceLineNo">273</span>     */<a name="line.273"></a>
 <span class="sourceLineNo">274</span><a name="line.274"></a>
-<span class="sourceLineNo">275</span>    String asciiChars = CharMatcher.ASCII.retainFrom(part);<a name="line.275"></a>
+<span class="sourceLineNo">275</span>    String asciiChars = CharMatcher.ascii().retainFrom(part);<a name="line.275"></a>
 <span class="sourceLineNo">276</span><a name="line.276"></a>
 <span class="sourceLineNo">277</span>    if (!PART_CHAR_MATCHER.matchesAllOf(asciiChars)) {<a name="line.277"></a>
 <span class="sourceLineNo">278</span>      return false;<a name="line.278"></a>
@@ -301,7 +301,7 @@
 <span class="sourceLineNo">293</span>     * like 127.0.0.1 from looking like a valid domain name.<a name="line.293"></a>
 <span class="sourceLineNo">294</span>     */<a name="line.294"></a>
 <span class="sourceLineNo">295</span><a name="line.295"></a>
-<span class="sourceLineNo">296</span>    if (isFinalPart &amp;&amp; CharMatcher.DIGIT.matches(part.charAt(0))) {<a name="line.296"></a>
+<span class="sourceLineNo">296</span>    if (isFinalPart &amp;&amp; CharMatcher.digit().matches(part.charAt(0))) {<a name="line.296"></a>
 <span class="sourceLineNo">297</span>      return false;<a name="line.297"></a>
 <span class="sourceLineNo">298</span>    }<a name="line.298"></a>
 <span class="sourceLineNo">299</span><a name="line.299"></a>

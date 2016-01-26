@@ -24,8 +24,8 @@
 <span class="sourceLineNo">016</span><a name="line.16"></a>
 <span class="sourceLineNo">017</span>package com.google.common.net;<a name="line.17"></a>
 <span class="sourceLineNo">018</span><a name="line.18"></a>
-<span class="sourceLineNo">019</span>import static com.google.common.base.CharMatcher.ASCII;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import static com.google.common.base.CharMatcher.JAVA_ISO_CONTROL;<a name="line.20"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.base.CharMatcher.ascii;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import static com.google.common.base.CharMatcher.javaIsoControl;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>import static com.google.common.base.Charsets.UTF_8;<a name="line.21"></a>
 <span class="sourceLineNo">022</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.22"></a>
 <span class="sourceLineNo">023</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.23"></a>
@@ -94,10 +94,10 @@
 <span class="sourceLineNo">086</span>      ImmutableListMultimap.of(CHARSET_ATTRIBUTE, Ascii.toLowerCase(UTF_8.name()));<a name="line.86"></a>
 <span class="sourceLineNo">087</span><a name="line.87"></a>
 <span class="sourceLineNo">088</span>  /** Matcher for type, subtype and attributes. */<a name="line.88"></a>
-<span class="sourceLineNo">089</span>  private static final CharMatcher TOKEN_MATCHER = ASCII.and(JAVA_ISO_CONTROL.negate())<a name="line.89"></a>
+<span class="sourceLineNo">089</span>  private static final CharMatcher TOKEN_MATCHER = ascii().and(javaIsoControl().negate())<a name="line.89"></a>
 <span class="sourceLineNo">090</span>      .and(CharMatcher.isNot(' '))<a name="line.90"></a>
 <span class="sourceLineNo">091</span>      .and(CharMatcher.noneOf("()&lt;&gt;@,;:\\\"/[]?="));<a name="line.91"></a>
-<span class="sourceLineNo">092</span>  private static final CharMatcher QUOTED_TEXT_MATCHER = ASCII<a name="line.92"></a>
+<span class="sourceLineNo">092</span>  private static final CharMatcher QUOTED_TEXT_MATCHER = ascii()<a name="line.92"></a>
 <span class="sourceLineNo">093</span>      .and(CharMatcher.noneOf("\"\\\r"));<a name="line.93"></a>
 <span class="sourceLineNo">094</span>  /*<a name="line.94"></a>
 <span class="sourceLineNo">095</span>   * This matches the same characters as linear-white-space from RFC 822, but we make no effort to<a name="line.95"></a>
@@ -752,7 +752,7 @@
 <span class="sourceLineNo">744</span>          while ('"' != tokenizer.previewChar()) {<a name="line.744"></a>
 <span class="sourceLineNo">745</span>            if ('\\' == tokenizer.previewChar()) {<a name="line.745"></a>
 <span class="sourceLineNo">746</span>              tokenizer.consumeCharacter('\\');<a name="line.746"></a>
-<span class="sourceLineNo">747</span>              valueBuilder.append(tokenizer.consumeCharacter(ASCII));<a name="line.747"></a>
+<span class="sourceLineNo">747</span>              valueBuilder.append(tokenizer.consumeCharacter(ascii()));<a name="line.747"></a>
 <span class="sourceLineNo">748</span>            } else {<a name="line.748"></a>
 <span class="sourceLineNo">749</span>              valueBuilder.append(tokenizer.consumeToken(QUOTED_TEXT_MATCHER));<a name="line.749"></a>
 <span class="sourceLineNo">750</span>            }<a name="line.750"></a>

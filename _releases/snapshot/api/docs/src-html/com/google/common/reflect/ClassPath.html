@@ -254,7 +254,7 @@
 <span class="sourceLineNo">246</span>        String innerClassName = className.substring(lastDollarSign + 1);<a name="line.246"></a>
 <span class="sourceLineNo">247</span>        // local and anonymous classes are prefixed with number (1,2,3...), anonymous classes are<a name="line.247"></a>
 <span class="sourceLineNo">248</span>        // entirely numeric whereas local classes have the user supplied name as a suffix<a name="line.248"></a>
-<span class="sourceLineNo">249</span>        return CharMatcher.DIGIT.trimLeadingFrom(innerClassName);<a name="line.249"></a>
+<span class="sourceLineNo">249</span>        return CharMatcher.digit().trimLeadingFrom(innerClassName);<a name="line.249"></a>
 <span class="sourceLineNo">250</span>      }<a name="line.250"></a>
 <span class="sourceLineNo">251</span>      String packageName = getPackageName();<a name="line.251"></a>
 <span class="sourceLineNo">252</span>      if (packageName.isEmpty()) {<a name="line.252"></a>

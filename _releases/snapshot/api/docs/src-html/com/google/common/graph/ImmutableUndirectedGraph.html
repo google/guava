@@ -34,11 +34,11 @@
 <span class="sourceLineNo">026</span>import com.google.common.collect.ImmutableMap;<a name="line.26"></a>
 <span class="sourceLineNo">027</span>import com.google.common.collect.ImmutableSet;<a name="line.27"></a>
 <span class="sourceLineNo">028</span>import com.google.common.collect.Sets;<a name="line.28"></a>
-<span class="sourceLineNo">029</span><a name="line.29"></a>
-<span class="sourceLineNo">030</span>import java.util.Collections;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>import java.util.Set;<a name="line.31"></a>
-<span class="sourceLineNo">032</span><a name="line.32"></a>
-<span class="sourceLineNo">033</span>import javax.annotation.CheckReturnValue;<a name="line.33"></a>
+<span class="sourceLineNo">029</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.29"></a>
+<span class="sourceLineNo">030</span><a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.util.Collections;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.util.Set;<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
 <span class="sourceLineNo">034</span>import javax.annotation.Nullable;<a name="line.34"></a>
 <span class="sourceLineNo">035</span><a name="line.35"></a>
 <span class="sourceLineNo">036</span>/**<a name="line.36"></a>
@@ -244,98 +244,98 @@
 <span class="sourceLineNo">236</span>   * Returns a new builder. The generated builder is equivalent to the builder<a name="line.236"></a>
 <span class="sourceLineNo">237</span>   * created by the {@code Builder} constructor.<a name="line.237"></a>
 <span class="sourceLineNo">238</span>   */<a name="line.238"></a>
-<span class="sourceLineNo">239</span>  @CheckReturnValue<a name="line.239"></a>
-<span class="sourceLineNo">240</span>  public static &lt;N, E&gt; Builder&lt;N, E&gt; builder() {<a name="line.240"></a>
-<span class="sourceLineNo">241</span>    return new Builder&lt;N, E&gt;();<a name="line.241"></a>
-<span class="sourceLineNo">242</span>  }<a name="line.242"></a>
-<span class="sourceLineNo">243</span><a name="line.243"></a>
-<span class="sourceLineNo">244</span>  /**<a name="line.244"></a>
-<span class="sourceLineNo">245</span>   * Returns a new builder. The generated builder is equivalent to the builder<a name="line.245"></a>
-<span class="sourceLineNo">246</span>   * created by the {@code Builder} constructor.<a name="line.246"></a>
-<span class="sourceLineNo">247</span>   *<a name="line.247"></a>
-<span class="sourceLineNo">248</span>   * @param config an instance of {@code GraphConfig} with the intended<a name="line.248"></a>
-<span class="sourceLineNo">249</span>   *        graph configuration.<a name="line.249"></a>
-<span class="sourceLineNo">250</span>   */<a name="line.250"></a>
-<span class="sourceLineNo">251</span>  @CheckReturnValue<a name="line.251"></a>
-<span class="sourceLineNo">252</span>  public static &lt;N, E&gt; Builder&lt;N, E&gt; builder(GraphConfig config) {<a name="line.252"></a>
-<span class="sourceLineNo">253</span>    return new Builder&lt;N, E&gt;(config);<a name="line.253"></a>
-<span class="sourceLineNo">254</span>  }<a name="line.254"></a>
-<span class="sourceLineNo">255</span><a name="line.255"></a>
-<span class="sourceLineNo">256</span>  /**<a name="line.256"></a>
-<span class="sourceLineNo">257</span>   * Returns an immutable copy of the input graph.<a name="line.257"></a>
-<span class="sourceLineNo">258</span>   */<a name="line.258"></a>
-<span class="sourceLineNo">259</span>  @CheckReturnValue<a name="line.259"></a>
-<span class="sourceLineNo">260</span>  public static &lt;N, E&gt; ImmutableUndirectedGraph&lt;N, E&gt; copyOf(UndirectedGraph&lt;N, E&gt; graph) {<a name="line.260"></a>
-<span class="sourceLineNo">261</span>    return new Builder&lt;N, E&gt;(graph).build();<a name="line.261"></a>
-<span class="sourceLineNo">262</span>  }<a name="line.262"></a>
-<span class="sourceLineNo">263</span><a name="line.263"></a>
-<span class="sourceLineNo">264</span>  @Override<a name="line.264"></a>
-<span class="sourceLineNo">265</span>  public String toString() {<a name="line.265"></a>
-<span class="sourceLineNo">266</span>    return String.format("config: %s, nodes: %s, edges: %s",<a name="line.266"></a>
-<span class="sourceLineNo">267</span>        config,<a name="line.267"></a>
-<span class="sourceLineNo">268</span>        nodeToIncidentEdges.keySet(),<a name="line.268"></a>
-<span class="sourceLineNo">269</span>        edgeToIncidentNodes);<a name="line.269"></a>
-<span class="sourceLineNo">270</span>  }<a name="line.270"></a>
-<span class="sourceLineNo">271</span><a name="line.271"></a>
-<span class="sourceLineNo">272</span>  /**<a name="line.272"></a>
-<span class="sourceLineNo">273</span>   * A builder for creating immutable undirected graph instances.<a name="line.273"></a>
-<span class="sourceLineNo">274</span>   *<a name="line.274"></a>
-<span class="sourceLineNo">275</span>   * @param &lt;N&gt; Node parameter type<a name="line.275"></a>
-<span class="sourceLineNo">276</span>   * @param &lt;E&gt; edge parameter type<a name="line.276"></a>
-<span class="sourceLineNo">277</span>   * @see GraphConfig<a name="line.277"></a>
-<span class="sourceLineNo">278</span>   */<a name="line.278"></a>
-<span class="sourceLineNo">279</span>  public static final class Builder&lt;N, E&gt; implements AbstractImmutableGraph.Builder&lt;N, E&gt; {<a name="line.279"></a>
-<span class="sourceLineNo">280</span><a name="line.280"></a>
-<span class="sourceLineNo">281</span>    private final UndirectedGraph&lt;N, E&gt; undirectedGraph;<a name="line.281"></a>
-<span class="sourceLineNo">282</span><a name="line.282"></a>
-<span class="sourceLineNo">283</span>    /**<a name="line.283"></a>
-<span class="sourceLineNo">284</span>     * Creates a new builder with the default graph configuration.<a name="line.284"></a>
-<span class="sourceLineNo">285</span>     */<a name="line.285"></a>
-<span class="sourceLineNo">286</span>    public Builder() {<a name="line.286"></a>
-<span class="sourceLineNo">287</span>      this(Graphs.&lt;N, E&gt;createUndirected());<a name="line.287"></a>
-<span class="sourceLineNo">288</span>    }<a name="line.288"></a>
-<span class="sourceLineNo">289</span><a name="line.289"></a>
-<span class="sourceLineNo">290</span>    /**<a name="line.290"></a>
-<span class="sourceLineNo">291</span>     * Creates a new builder with the specified configuration.<a name="line.291"></a>
-<span class="sourceLineNo">292</span>     */<a name="line.292"></a>
-<span class="sourceLineNo">293</span>    public Builder(GraphConfig config) {<a name="line.293"></a>
-<span class="sourceLineNo">294</span>      this(Graphs.&lt;N, E&gt;createUndirected(config));<a name="line.294"></a>
-<span class="sourceLineNo">295</span>    }<a name="line.295"></a>
-<span class="sourceLineNo">296</span><a name="line.296"></a>
-<span class="sourceLineNo">297</span>    /**<a name="line.297"></a>
-<span class="sourceLineNo">298</span>     * Creates a new builder whose internal state is that of {@code graph}.<a name="line.298"></a>
-<span class="sourceLineNo">299</span>     *<a name="line.299"></a>
-<span class="sourceLineNo">300</span>     * &lt;p&gt;NOTE: This constructor should only be used in the case where it will be immediately<a name="line.300"></a>
-<span class="sourceLineNo">301</span>     * followed by a call to {@code build}, so that the input graph will not be modified.<a name="line.301"></a>
-<span class="sourceLineNo">302</span>     * Currently the only such contexts are {@code Immutable*Graph.copyOf()}, which use these<a name="line.302"></a>
-<span class="sourceLineNo">303</span>     * constructors to avoid making an extra copy of the graph state.<a name="line.303"></a>
-<span class="sourceLineNo">304</span>     * @see ImmutableUndirectedGraph#copyOf(UndirectedGraph)<a name="line.304"></a>
-<span class="sourceLineNo">305</span>     */<a name="line.305"></a>
-<span class="sourceLineNo">306</span>    private Builder(UndirectedGraph&lt;N, E&gt; undirectedGraph) {<a name="line.306"></a>
-<span class="sourceLineNo">307</span>      this.undirectedGraph = checkNotNull(undirectedGraph, "undirectedGraph");<a name="line.307"></a>
-<span class="sourceLineNo">308</span>    }<a name="line.308"></a>
-<span class="sourceLineNo">309</span><a name="line.309"></a>
-<span class="sourceLineNo">310</span>    @Override<a name="line.310"></a>
-<span class="sourceLineNo">311</span>    public Builder&lt;N, E&gt; addNode(N node) {<a name="line.311"></a>
-<span class="sourceLineNo">312</span>      undirectedGraph.addNode(node);<a name="line.312"></a>
-<span class="sourceLineNo">313</span>      return this;<a name="line.313"></a>
-<span class="sourceLineNo">314</span>    }<a name="line.314"></a>
-<span class="sourceLineNo">315</span><a name="line.315"></a>
-<span class="sourceLineNo">316</span>    @Override<a name="line.316"></a>
-<span class="sourceLineNo">317</span>    public Builder&lt;N, E&gt; addEdge(E edge, N node1, N node2) {<a name="line.317"></a>
-<span class="sourceLineNo">318</span>      undirectedGraph.addEdge(edge, node1, node2);<a name="line.318"></a>
-<span class="sourceLineNo">319</span>      return this;<a name="line.319"></a>
-<span class="sourceLineNo">320</span>    }<a name="line.320"></a>
-<span class="sourceLineNo">321</span><a name="line.321"></a>
-<span class="sourceLineNo">322</span>    /**<a name="line.322"></a>
-<span class="sourceLineNo">323</span>     * Adds all elements of {@code graph} to the graph being built.<a name="line.323"></a>
-<span class="sourceLineNo">324</span>     *<a name="line.324"></a>
-<span class="sourceLineNo">325</span>     * @throws IllegalArgumentException under either of two conditions:<a name="line.325"></a>
-<span class="sourceLineNo">326</span>     *     (1) the {@code GraphConfig} objects held by the graph being built and by {@code graph}<a name="line.326"></a>
-<span class="sourceLineNo">327</span>     *     are not compatible<a name="line.327"></a>
-<span class="sourceLineNo">328</span>     *     (2) calling {@code Graph.addEdge(e, n1, n2)} on the graph being built throws IAE<a name="line.328"></a>
-<span class="sourceLineNo">329</span>     * @see Graph#addEdge(e, n1, n2)<a name="line.329"></a>
-<span class="sourceLineNo">330</span>     */<a name="line.330"></a>
+<span class="sourceLineNo">239</span>  public static &lt;N, E&gt; Builder&lt;N, E&gt; builder() {<a name="line.239"></a>
+<span class="sourceLineNo">240</span>    return new Builder&lt;N, E&gt;();<a name="line.240"></a>
+<span class="sourceLineNo">241</span>  }<a name="line.241"></a>
+<span class="sourceLineNo">242</span><a name="line.242"></a>
+<span class="sourceLineNo">243</span>  /**<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   * Returns a new builder. The generated builder is equivalent to the builder<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * created by the {@code Builder} constructor.<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   *<a name="line.246"></a>
+<span class="sourceLineNo">247</span>   * @param config an instance of {@code GraphConfig} with the intended<a name="line.247"></a>
+<span class="sourceLineNo">248</span>   *        graph configuration.<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   */<a name="line.249"></a>
+<span class="sourceLineNo">250</span>  public static &lt;N, E&gt; Builder&lt;N, E&gt; builder(GraphConfig config) {<a name="line.250"></a>
+<span class="sourceLineNo">251</span>    return new Builder&lt;N, E&gt;(config);<a name="line.251"></a>
+<span class="sourceLineNo">252</span>  }<a name="line.252"></a>
+<span class="sourceLineNo">253</span><a name="line.253"></a>
+<span class="sourceLineNo">254</span>  /**<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   * Returns an immutable copy of the input graph.<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   */<a name="line.256"></a>
+<span class="sourceLineNo">257</span>  public static &lt;N, E&gt; ImmutableUndirectedGraph&lt;N, E&gt; copyOf(UndirectedGraph&lt;N, E&gt; graph) {<a name="line.257"></a>
+<span class="sourceLineNo">258</span>    return new Builder&lt;N, E&gt;(graph).build();<a name="line.258"></a>
+<span class="sourceLineNo">259</span>  }<a name="line.259"></a>
+<span class="sourceLineNo">260</span><a name="line.260"></a>
+<span class="sourceLineNo">261</span>  @Override<a name="line.261"></a>
+<span class="sourceLineNo">262</span>  public String toString() {<a name="line.262"></a>
+<span class="sourceLineNo">263</span>    return String.format("config: %s, nodes: %s, edges: %s",<a name="line.263"></a>
+<span class="sourceLineNo">264</span>        config,<a name="line.264"></a>
+<span class="sourceLineNo">265</span>        nodeToIncidentEdges.keySet(),<a name="line.265"></a>
+<span class="sourceLineNo">266</span>        edgeToIncidentNodes);<a name="line.266"></a>
+<span class="sourceLineNo">267</span>  }<a name="line.267"></a>
+<span class="sourceLineNo">268</span><a name="line.268"></a>
+<span class="sourceLineNo">269</span>  /**<a name="line.269"></a>
+<span class="sourceLineNo">270</span>   * A builder for creating immutable undirected graph instances.<a name="line.270"></a>
+<span class="sourceLineNo">271</span>   *<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   * @param &lt;N&gt; Node parameter type<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   * @param &lt;E&gt; edge parameter type<a name="line.273"></a>
+<span class="sourceLineNo">274</span>   * @see GraphConfig<a name="line.274"></a>
+<span class="sourceLineNo">275</span>   */<a name="line.275"></a>
+<span class="sourceLineNo">276</span>  public static final class Builder&lt;N, E&gt; implements AbstractImmutableGraph.Builder&lt;N, E&gt; {<a name="line.276"></a>
+<span class="sourceLineNo">277</span><a name="line.277"></a>
+<span class="sourceLineNo">278</span>    private final UndirectedGraph&lt;N, E&gt; undirectedGraph;<a name="line.278"></a>
+<span class="sourceLineNo">279</span><a name="line.279"></a>
+<span class="sourceLineNo">280</span>    /**<a name="line.280"></a>
+<span class="sourceLineNo">281</span>     * Creates a new builder with the default graph configuration.<a name="line.281"></a>
+<span class="sourceLineNo">282</span>     */<a name="line.282"></a>
+<span class="sourceLineNo">283</span>    public Builder() {<a name="line.283"></a>
+<span class="sourceLineNo">284</span>      this(Graphs.&lt;N, E&gt;createUndirected());<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    }<a name="line.285"></a>
+<span class="sourceLineNo">286</span><a name="line.286"></a>
+<span class="sourceLineNo">287</span>    /**<a name="line.287"></a>
+<span class="sourceLineNo">288</span>     * Creates a new builder with the specified configuration.<a name="line.288"></a>
+<span class="sourceLineNo">289</span>     */<a name="line.289"></a>
+<span class="sourceLineNo">290</span>    public Builder(GraphConfig config) {<a name="line.290"></a>
+<span class="sourceLineNo">291</span>      this(Graphs.&lt;N, E&gt;createUndirected(config));<a name="line.291"></a>
+<span class="sourceLineNo">292</span>    }<a name="line.292"></a>
+<span class="sourceLineNo">293</span><a name="line.293"></a>
+<span class="sourceLineNo">294</span>    /**<a name="line.294"></a>
+<span class="sourceLineNo">295</span>     * Creates a new builder whose internal state is that of {@code graph}.<a name="line.295"></a>
+<span class="sourceLineNo">296</span>     *<a name="line.296"></a>
+<span class="sourceLineNo">297</span>     * &lt;p&gt;NOTE: This constructor should only be used in the case where it will be immediately<a name="line.297"></a>
+<span class="sourceLineNo">298</span>     * followed by a call to {@code build}, so that the input graph will not be modified.<a name="line.298"></a>
+<span class="sourceLineNo">299</span>     * Currently the only such contexts are {@code Immutable*Graph.copyOf()}, which use these<a name="line.299"></a>
+<span class="sourceLineNo">300</span>     * constructors to avoid making an extra copy of the graph state.<a name="line.300"></a>
+<span class="sourceLineNo">301</span>     * @see ImmutableUndirectedGraph#copyOf(UndirectedGraph)<a name="line.301"></a>
+<span class="sourceLineNo">302</span>     */<a name="line.302"></a>
+<span class="sourceLineNo">303</span>    private Builder(UndirectedGraph&lt;N, E&gt; undirectedGraph) {<a name="line.303"></a>
+<span class="sourceLineNo">304</span>      this.undirectedGraph = checkNotNull(undirectedGraph, "undirectedGraph");<a name="line.304"></a>
+<span class="sourceLineNo">305</span>    }<a name="line.305"></a>
+<span class="sourceLineNo">306</span><a name="line.306"></a>
+<span class="sourceLineNo">307</span>    @Override<a name="line.307"></a>
+<span class="sourceLineNo">308</span>    @CanIgnoreReturnValue<a name="line.308"></a>
+<span class="sourceLineNo">309</span>    public Builder&lt;N, E&gt; addNode(N node) {<a name="line.309"></a>
+<span class="sourceLineNo">310</span>      undirectedGraph.addNode(node);<a name="line.310"></a>
+<span class="sourceLineNo">311</span>      return this;<a name="line.311"></a>
+<span class="sourceLineNo">312</span>    }<a name="line.312"></a>
+<span class="sourceLineNo">313</span><a name="line.313"></a>
+<span class="sourceLineNo">314</span>    @Override<a name="line.314"></a>
+<span class="sourceLineNo">315</span>    @CanIgnoreReturnValue<a name="line.315"></a>
+<span class="sourceLineNo">316</span>    public Builder&lt;N, E&gt; addEdge(E edge, N node1, N node2) {<a name="line.316"></a>
+<span class="sourceLineNo">317</span>      undirectedGraph.addEdge(edge, node1, node2);<a name="line.317"></a>
+<span class="sourceLineNo">318</span>      return this;<a name="line.318"></a>
+<span class="sourceLineNo">319</span>    }<a name="line.319"></a>
+<span class="sourceLineNo">320</span><a name="line.320"></a>
+<span class="sourceLineNo">321</span>    /**<a name="line.321"></a>
+<span class="sourceLineNo">322</span>     * Adds all elements of {@code graph} to the graph being built.<a name="line.322"></a>
+<span class="sourceLineNo">323</span>     *<a name="line.323"></a>
+<span class="sourceLineNo">324</span>     * @throws IllegalArgumentException under either of two conditions:<a name="line.324"></a>
+<span class="sourceLineNo">325</span>     *     (1) the {@code GraphConfig} objects held by the graph being built and by {@code graph}<a name="line.325"></a>
+<span class="sourceLineNo">326</span>     *     are not compatible<a name="line.326"></a>
+<span class="sourceLineNo">327</span>     *     (2) calling {@code Graph.addEdge(e, n1, n2)} on the graph being built throws IAE<a name="line.327"></a>
+<span class="sourceLineNo">328</span>     * @see Graph#addEdge(e, n1, n2)<a name="line.328"></a>
+<span class="sourceLineNo">329</span>     */<a name="line.329"></a>
+<span class="sourceLineNo">330</span>    @CanIgnoreReturnValue<a name="line.330"></a>
 <span class="sourceLineNo">331</span>    public Builder&lt;N, E&gt; addGraph(UndirectedGraph&lt;N, E&gt; graph) {<a name="line.331"></a>
 <span class="sourceLineNo">332</span>      checkArgument(<a name="line.332"></a>
 <span class="sourceLineNo">333</span>          undirectedGraph.config().compatibleWith(graph.config()),<a name="line.333"></a>
@@ -355,12 +355,11 @@
 <span class="sourceLineNo">347</span>    }<a name="line.347"></a>
 <span class="sourceLineNo">348</span><a name="line.348"></a>
 <span class="sourceLineNo">349</span>    @Override<a name="line.349"></a>
-<span class="sourceLineNo">350</span>    @CheckReturnValue<a name="line.350"></a>
-<span class="sourceLineNo">351</span>    public ImmutableUndirectedGraph&lt;N, E&gt; build() {<a name="line.351"></a>
-<span class="sourceLineNo">352</span>      return new ImmutableUndirectedGraph&lt;N, E&gt;(this);<a name="line.352"></a>
-<span class="sourceLineNo">353</span>    }<a name="line.353"></a>
-<span class="sourceLineNo">354</span>  }<a name="line.354"></a>
-<span class="sourceLineNo">355</span>}<a name="line.355"></a>
+<span class="sourceLineNo">350</span>    public ImmutableUndirectedGraph&lt;N, E&gt; build() {<a name="line.350"></a>
+<span class="sourceLineNo">351</span>      return new ImmutableUndirectedGraph&lt;N, E&gt;(this);<a name="line.351"></a>
+<span class="sourceLineNo">352</span>    }<a name="line.352"></a>
+<span class="sourceLineNo">353</span>  }<a name="line.353"></a>
+<span class="sourceLineNo">354</span>}<a name="line.354"></a>
 
 
 

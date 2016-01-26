@@ -25,42 +25,45 @@
 <span class="sourceLineNo">017</span>package com.google.common.graph;<a name="line.17"></a>
 <span class="sourceLineNo">018</span><a name="line.18"></a>
 <span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
-<span class="sourceLineNo">020</span><a name="line.20"></a>
-<span class="sourceLineNo">021</span>/**<a name="line.21"></a>
-<span class="sourceLineNo">022</span> * A subinterface of {@code Graph} which specifies that all edges are hyperedges, that is,<a name="line.22"></a>
-<span class="sourceLineNo">023</span> * they connect arbitrary sets of nodes rather than pairs of nodes.<a name="line.23"></a>
-<span class="sourceLineNo">024</span> *<a name="line.24"></a>
-<span class="sourceLineNo">025</span> * &lt;p&gt;A few notes about how hyperedges and connectivity:<a name="line.25"></a>
-<span class="sourceLineNo">026</span> * &lt;ul&gt;<a name="line.26"></a>
-<span class="sourceLineNo">027</span> * &lt;li&gt;Hyperedges, like undirected edges, are both incoming and outgoing edges.<a name="line.27"></a>
-<span class="sourceLineNo">028</span> * &lt;li&gt;Hyperedges incident to a single node {@code node} connect {@code node} to itself; such edges<a name="line.28"></a>
-<span class="sourceLineNo">029</span> *     are analogous to self-loops in graphs.  Hyperedges incident to &gt; 1 nodes do not connect any<a name="line.29"></a>
-<span class="sourceLineNo">030</span> *     of their incident nodes to themselves.<a name="line.30"></a>
-<span class="sourceLineNo">031</span> * &lt;/ul&gt;<a name="line.31"></a>
-<span class="sourceLineNo">032</span> *<a name="line.32"></a>
-<span class="sourceLineNo">033</span> * @author Joshua O'Madadhain<a name="line.33"></a>
-<span class="sourceLineNo">034</span> * @param &lt;N&gt; Node parameter type<a name="line.34"></a>
-<span class="sourceLineNo">035</span> * @param &lt;E&gt; Edge parameter type<a name="line.35"></a>
-<span class="sourceLineNo">036</span> * @since 20.0<a name="line.36"></a>
-<span class="sourceLineNo">037</span> */<a name="line.37"></a>
-<span class="sourceLineNo">038</span>@Beta<a name="line.38"></a>
-<span class="sourceLineNo">039</span>public interface Hypergraph&lt;N, E&gt; extends Graph&lt;N, E&gt; {<a name="line.39"></a>
-<span class="sourceLineNo">040</span>  /**<a name="line.40"></a>
-<span class="sourceLineNo">041</span>   * Adds {@code edge} to this graph, connecting {@code nodes}.<a name="line.41"></a>
-<span class="sourceLineNo">042</span>   *<a name="line.42"></a>
-<span class="sourceLineNo">043</span>   * @return {@code true} iff the graph was modified as a result of this call<a name="line.43"></a>
-<span class="sourceLineNo">044</span>   * @throws UnsupportedOperationException if the add operation is not supported by this graph<a name="line.44"></a>
-<span class="sourceLineNo">045</span>   */<a name="line.45"></a>
-<span class="sourceLineNo">046</span>  boolean addEdge(E edge, N... nodes);<a name="line.46"></a>
-<span class="sourceLineNo">047</span><a name="line.47"></a>
-<span class="sourceLineNo">048</span>  /**<a name="line.48"></a>
-<span class="sourceLineNo">049</span>   * Adds {@code edge} to this graph, connecting {@code nodes}.<a name="line.49"></a>
-<span class="sourceLineNo">050</span>   *<a name="line.50"></a>
-<span class="sourceLineNo">051</span>   * @return {@code true} iff the graph was modified as a result of this call<a name="line.51"></a>
-<span class="sourceLineNo">052</span>   * @throws UnsupportedOperationException if the add operation is not supported by this graph<a name="line.52"></a>
-<span class="sourceLineNo">053</span>   */<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  boolean addEdge(E edge, Iterable&lt;N&gt; nodes);<a name="line.54"></a>
-<span class="sourceLineNo">055</span>}<a name="line.55"></a>
+<span class="sourceLineNo">020</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>/**<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * A subinterface of {@code Graph} which specifies that all edges are hyperedges, that is,<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * they connect arbitrary sets of nodes rather than pairs of nodes.<a name="line.24"></a>
+<span class="sourceLineNo">025</span> *<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * &lt;p&gt;A few notes about how hyperedges and connectivity:<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * &lt;ul&gt;<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * &lt;li&gt;Hyperedges, like undirected edges, are both incoming and outgoing edges.<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * &lt;li&gt;Hyperedges incident to a single node {@code node} connect {@code node} to itself; such edges<a name="line.29"></a>
+<span class="sourceLineNo">030</span> *     are analogous to self-loops in graphs.  Hyperedges incident to &gt; 1 nodes do not connect any<a name="line.30"></a>
+<span class="sourceLineNo">031</span> *     of their incident nodes to themselves.<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * &lt;/ul&gt;<a name="line.32"></a>
+<span class="sourceLineNo">033</span> *<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * @author Joshua O'Madadhain<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * @param &lt;N&gt; Node parameter type<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * @param &lt;E&gt; Edge parameter type<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * @since 20.0<a name="line.37"></a>
+<span class="sourceLineNo">038</span> */<a name="line.38"></a>
+<span class="sourceLineNo">039</span>@Beta<a name="line.39"></a>
+<span class="sourceLineNo">040</span>public interface Hypergraph&lt;N, E&gt; extends Graph&lt;N, E&gt; {<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  /**<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   * Adds {@code edge} to this graph, connecting {@code nodes}.<a name="line.42"></a>
+<span class="sourceLineNo">043</span>   *<a name="line.43"></a>
+<span class="sourceLineNo">044</span>   * @return {@code true} iff the graph was modified as a result of this call<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   * @throws UnsupportedOperationException if the add operation is not supported by this graph<a name="line.45"></a>
+<span class="sourceLineNo">046</span>   */<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  @CanIgnoreReturnValue<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  boolean addEdge(E edge, N... nodes);<a name="line.48"></a>
+<span class="sourceLineNo">049</span><a name="line.49"></a>
+<span class="sourceLineNo">050</span>  /**<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   * Adds {@code edge} to this graph, connecting {@code nodes}.<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   *<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   * @return {@code true} iff the graph was modified as a result of this call<a name="line.53"></a>
+<span class="sourceLineNo">054</span>   * @throws UnsupportedOperationException if the add operation is not supported by this graph<a name="line.54"></a>
+<span class="sourceLineNo">055</span>   */<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  @CanIgnoreReturnValue<a name="line.56"></a>
+<span class="sourceLineNo">057</span>  boolean addEdge(E edge, Iterable&lt;N&gt; nodes);<a name="line.57"></a>
+<span class="sourceLineNo">058</span>}<a name="line.58"></a>
 
 
 
