@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Functions.identity;
 import static com.google.common.base.Throwables.propagateIfInstanceOf;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
@@ -353,6 +354,129 @@ public class FuturesTest extends TestCase {
     assertFalse(((AbstractFuture<?>) f2).wasInterrupted());
   }
 
+  @GwtIncompatible // StackOverflowError
+  public void testTransform_StackOverflow() throws Exception {
+    {
+      /*
+       * Initialize all relevant classes before running the test, which may otherwise poison any
+       * classes it is trying to load during its stack overflow.
+       */
+      SettableFuture<Object> root = SettableFuture.create();
+      ListenableFuture<Object> unused = Futures.transform(root, identity());
+      root.set("foo");
+    }
+
+    SettableFuture<Object> root = SettableFuture.create();
+    ListenableFuture<Object> output = root;
+    for (int i = 0; i < 10000; i++) {
+      output = Futures.transform(output, identity());
+    }
+    try {
+      root.set("foo");
+      fail();
+    } catch (StackOverflowError expected) {
+    }
+  }
+
+  public void testTransform_ErrorAfterCancellation() throws Exception {
+    class Transformer implements Function<Object, Object> {
+      ListenableFuture<Object> output;
+
+      @Override
+      public Object apply(Object input) {
+        output.cancel(false);
+        throw new MyError();
+      }
+    }
+    Transformer transformer = new Transformer();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output = Futures.transform(input, transformer);
+    transformer.output = output;
+
+    input.set("foo");
+    assertTrue(output.isCancelled());
+  }
+
+  public void testTransform_ExceptionAfterCancellation() throws Exception {
+    class Transformer implements Function<Object, Object> {
+      ListenableFuture<Object> output;
+
+      @Override
+      public Object apply(Object input) {
+        output.cancel(false);
+        throw new MyRuntimeException();
+      }
+    }
+    Transformer transformer = new Transformer();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output = Futures.transform(input, transformer);
+    transformer.output = output;
+
+    input.set("foo");
+    assertTrue(output.isCancelled());
+  }
+
+  public void testTransform_getThrowsRuntimeException() throws Exception {
+    // This is an evil way to accomplish this, but it works currently.
+    AbstractFuture<Object> input =
+        new AbstractFuture<Object>() {
+          @Override
+          public Object get() {
+            throw new MyRuntimeException();
+          }
+        };
+
+    ListenableFuture<Object> output = Futures.transform(input, identity());
+    input.set("foo");
+    try {
+      output.get();
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(MyRuntimeException.class);
+    }
+  }
+
+  public void testTransform_getThrowsError() throws Exception {
+    // This is an evil way to accomplish this, but it works currently.
+    AbstractFuture<Object> input =
+        new AbstractFuture<Object>() {
+          @Override
+          public Object get() {
+            throw new MyError();
+          }
+        };
+
+    ListenableFuture<Object> output = Futures.transform(input, identity());
+    input.set("foo");
+    try {
+      output.get();
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(MyError.class);
+    }
+  }
+
+  public void testTransform_listenerThrowsError() throws Exception {
+    SettableFuture<Object> input = SettableFuture.create();
+    ListenableFuture<Object> output = Futures.transform(input, identity());
+
+    output.addListener(
+        new Runnable() {
+          @Override
+          public void run() {
+            throw new MyError();
+          }
+        },
+        directExecutor());
+    try {
+      input.set("foo");
+      fail();
+    } catch (MyError expected) {
+    }
+  }
+
   public void testTransformAsync_cancelPropagatesToInput() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
@@ -464,6 +588,134 @@ public class FuturesTest extends TestCase {
      * test for the behavior that we have today.
      */
     assertFalse(((AbstractFuture<?>) f2).wasInterrupted());
+  }
+
+  /*
+   * Android does not handle this stack overflow gracefully... though somehow the other two
+   * stack-overflow tests work. It must depend on the exact place the error occurs.
+   */
+  @AndroidIncompatible
+  @GwtIncompatible // StackOverflowError
+  public void testTransformAsync_StackOverflow() throws Exception {
+    {
+      /*
+       * Initialize all relevant classes before running the test, which may otherwise poison any
+       * classes it is trying to load during its stack overflow.
+       */
+      SettableFuture<Object> root = SettableFuture.create();
+      ListenableFuture<Object> unused = Futures.transformAsync(root, asyncIdentity());
+      root.set("foo");
+    }
+
+    SettableFuture<Object> root = SettableFuture.create();
+    ListenableFuture<Object> output = root;
+    for (int i = 0; i < 10000; i++) {
+      output = Futures.transformAsync(output, asyncIdentity());
+    }
+    try {
+      root.set("foo");
+      fail();
+    } catch (StackOverflowError expected) {
+    }
+  }
+
+  public void testTransformAsync_ErrorAfterCancellation() throws Exception {
+    class Transformer implements AsyncFunction<Object, Object> {
+      ListenableFuture<Object> output;
+
+      @Override
+      public ListenableFuture<Object> apply(Object input) {
+        output.cancel(false);
+        throw new MyError();
+      }
+    }
+    Transformer transformer = new Transformer();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output = Futures.transformAsync(input, transformer);
+    transformer.output = output;
+
+    input.set("foo");
+    assertTrue(output.isCancelled());
+  }
+
+  public void testTransformAsync_ExceptionAfterCancellation() throws Exception {
+    class Transformer implements AsyncFunction<Object, Object> {
+      ListenableFuture<Object> output;
+
+      @Override
+      public ListenableFuture<Object> apply(Object input) {
+        output.cancel(false);
+        throw new MyRuntimeException();
+      }
+    }
+    Transformer transformer = new Transformer();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output = Futures.transformAsync(input, transformer);
+    transformer.output = output;
+
+    input.set("foo");
+    assertTrue(output.isCancelled());
+  }
+
+  public void testTransformAsync_getThrowsRuntimeException() throws Exception {
+    // This is an evil way to accomplish this, but it works currently.
+    AbstractFuture<Object> input =
+        new AbstractFuture<Object>() {
+          @Override
+          public Object get() {
+            throw new MyRuntimeException();
+          }
+        };
+
+    ListenableFuture<Object> output = Futures.transformAsync(input, asyncIdentity());
+    input.set("foo");
+    try {
+      output.get();
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(MyRuntimeException.class);
+    }
+  }
+
+  public void testTransformAsync_getThrowsError() throws Exception {
+    // This is an evil way to accomplish this, but it works currently.
+    AbstractFuture<Object> input =
+        new AbstractFuture<Object>() {
+          @Override
+          public Object get() {
+            throw new MyError();
+          }
+        };
+
+    ListenableFuture<Object> output = Futures.transformAsync(input, asyncIdentity());
+    input.set("foo");
+    try {
+      output.get();
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(MyError.class);
+    }
+  }
+
+  public void testTransformAsync_listenerThrowsError() throws Exception {
+    SettableFuture<Object> input = SettableFuture.create();
+    ListenableFuture<Object> output = Futures.transformAsync(input, asyncIdentity());
+
+    output.addListener(
+        new Runnable() {
+          @Override
+          public void run() {
+            throw new MyError();
+          }
+        },
+        directExecutor());
+    try {
+      input.set("foo");
+      fail();
+    } catch (MyError expected) {
+    }
   }
 
   public void testTransform_rejectionPropagatesToOutput()
@@ -1290,6 +1542,121 @@ public class FuturesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // StackOverflowError
+  public void testCatching_StackOverflow() throws Exception {
+    {
+      /*
+       * Initialize all relevant classes before running the test, which may otherwise poison any
+       * classes it is trying to load during its stack overflow.
+       */
+      SettableFuture<Object> root = SettableFuture.create();
+      ListenableFuture<Object> unused = Futures.catching(root, MyException.class, identity());
+      root.setException(new MyException());
+    }
+
+    SettableFuture<Object> root = SettableFuture.create();
+    ListenableFuture<Object> output = root;
+    for (int i = 0; i < 10000; i++) {
+      output = Futures.catching(output, MyException.class, identity());
+    }
+    try {
+      root.setException(new MyException());
+      fail();
+    } catch (StackOverflowError expected) {
+    }
+  }
+
+  public void testCatching_ErrorAfterCancellation() throws Exception {
+    class Fallback implements Function<Throwable, Object> {
+      ListenableFuture<Object> output;
+
+      @Override
+      public Object apply(Throwable input) {
+        output.cancel(false);
+        throw new MyError();
+      }
+    }
+    Fallback fallback = new Fallback();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output = Futures.catching(input, Throwable.class, fallback);
+    fallback.output = output;
+
+    input.setException(new MyException());
+    assertTrue(output.isCancelled());
+  }
+
+  public void testCatching_ExceptionAfterCancellation() throws Exception {
+    class Fallback implements Function<Throwable, Object> {
+      ListenableFuture<Object> output;
+
+      @Override
+      public Object apply(Throwable input) {
+        output.cancel(false);
+        throw new MyRuntimeException();
+      }
+    }
+    Fallback fallback = new Fallback();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output = Futures.catching(input, Throwable.class, fallback);
+    fallback.output = output;
+
+    input.setException(new MyException());
+    assertTrue(output.isCancelled());
+  }
+
+  public void testCatching_getThrowsRuntimeException() throws Exception {
+    // This is an evil way to accomplish this, but it works currently.
+    AbstractFuture<Object> input =
+        new AbstractFuture<Object>() {
+          @Override
+          public Object get() {
+            throw new MyRuntimeException();
+          }
+        };
+
+    // We'd catch only MyRuntimeException.class here, but then the test won't compile under GWT.
+    ListenableFuture<Object> output = Futures.catching(input, Throwable.class, identity());
+    input.setException(new MyException());
+    assertThat(output.get()).isInstanceOf(MyRuntimeException.class);
+  }
+
+  public void testCatching_getThrowsError() throws Exception {
+    // This is an evil way to accomplish this, but it works currently.
+    AbstractFuture<Object> input =
+        new AbstractFuture<Object>() {
+          @Override
+          public Object get() {
+            throw new MyError();
+          }
+        };
+
+    // We'd catch only MyError.class here, but then the test won't compile under GWT.
+    ListenableFuture<Object> output = Futures.catching(input, Throwable.class, identity());
+    input.setException(new MyException());
+    assertThat(output.get()).isInstanceOf(MyError.class);
+  }
+
+  public void testCatching_listenerThrowsError() throws Exception {
+    SettableFuture<Object> input = SettableFuture.create();
+    ListenableFuture<Object> output = Futures.catching(input, Throwable.class, identity());
+
+    output.addListener(
+        new Runnable() {
+          @Override
+          public void run() {
+            throw new MyError();
+          }
+        },
+        directExecutor());
+    try {
+      input.setException(new MyException());
+      fail();
+    } catch (MyError expected) {
+    }
+  }
+
   public void testCatchingAsync_Throwable() throws Exception {
     AsyncFunction<Throwable, Integer> fallback = asyncFunctionReturningOne();
     ListenableFuture<Integer> originalFuture = immediateFailedFuture(new IOException());
@@ -1318,6 +1685,125 @@ public class FuturesTest extends TestCase {
       fail();
     } catch (ExecutionException expected) {
       assertThat(expected.getCause()).isInstanceOf(RuntimeException.class);
+    }
+  }
+
+  @GwtIncompatible // StackOverflowError
+  public void testCatchingAsync_StackOverflow() throws Exception {
+    {
+      /*
+       * Initialize all relevant classes before running the test, which may otherwise poison any
+       * classes it is trying to load during its stack overflow.
+       */
+      SettableFuture<Object> root = SettableFuture.create();
+      ListenableFuture<Object> unused =
+          Futures.catchingAsync(root, MyException.class, asyncIdentity());
+      root.setException(new MyException());
+    }
+
+    SettableFuture<Object> root = SettableFuture.create();
+    ListenableFuture<Object> output = root;
+    for (int i = 0; i < 10000; i++) {
+      output = Futures.catchingAsync(output, MyException.class, asyncIdentity());
+    }
+    try {
+      root.setException(new MyException());
+      fail();
+    } catch (StackOverflowError expected) {
+    }
+  }
+
+  public void testCatchingAsync_ErrorAfterCancellation() throws Exception {
+    class Fallback implements AsyncFunction<Throwable, Object> {
+      ListenableFuture<Object> output;
+
+      @Override
+      public ListenableFuture<Object> apply(Throwable input) {
+        output.cancel(false);
+        throw new MyError();
+      }
+    }
+    Fallback fallback = new Fallback();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output = Futures.catchingAsync(input, Throwable.class, fallback);
+    fallback.output = output;
+
+    input.setException(new MyException());
+    assertTrue(output.isCancelled());
+  }
+
+  public void testCatchingAsync_ExceptionAfterCancellation() throws Exception {
+    class Fallback implements AsyncFunction<Throwable, Object> {
+      ListenableFuture<Object> output;
+
+      @Override
+      public ListenableFuture<Object> apply(Throwable input) {
+        output.cancel(false);
+        throw new MyRuntimeException();
+      }
+    }
+    Fallback fallback = new Fallback();
+    SettableFuture<Object> input = SettableFuture.create();
+
+    ListenableFuture<Object> output = Futures.catchingAsync(input, Throwable.class, fallback);
+    fallback.output = output;
+
+    input.setException(new MyException());
+    assertTrue(output.isCancelled());
+  }
+
+  public void testCatchingAsync_getThrowsRuntimeException() throws Exception {
+    // This is an evil way to accomplish this, but it works currently.
+    AbstractFuture<Object> input =
+        new AbstractFuture<Object>() {
+          @Override
+          public Object get() {
+            throw new MyRuntimeException();
+          }
+        };
+
+    // We'd catch only MyRuntimeException.class here, but then the test won't compile under GWT.
+    ListenableFuture<Object> output =
+        Futures.catchingAsync(input, Throwable.class, asyncIdentity());
+    input.setException(new MyException());
+    assertThat(output.get()).isInstanceOf(MyRuntimeException.class);
+  }
+
+  public void testCatchingAsync_getThrowsError() throws Exception {
+    // This is an evil way to accomplish this, but it works currently.
+    AbstractFuture<Object> input =
+        new AbstractFuture<Object>() {
+          @Override
+          public Object get() {
+            throw new MyError();
+          }
+        };
+
+    // We'd catch only MyError.class here, but then the test won't compile under GWT.
+    ListenableFuture<Object> output =
+        Futures.catchingAsync(input, Throwable.class, asyncIdentity());
+    input.setException(new MyException());
+    assertThat(output.get()).isInstanceOf(MyError.class);
+  }
+
+  public void testCatchingAsync_listenerThrowsError() throws Exception {
+    SettableFuture<Object> input = SettableFuture.create();
+    ListenableFuture<Object> output =
+        Futures.catchingAsync(input, Throwable.class, asyncIdentity());
+
+    output.addListener(
+        new Runnable() {
+          @Override
+          public void run() {
+            throw new MyError();
+          }
+        },
+        directExecutor());
+    try {
+      input.setException(new MyException());
+      fail();
+    } catch (MyError expected) {
     }
   }
 
@@ -3385,4 +3871,13 @@ public class FuturesTest extends TestCase {
           throw new RejectedExecutionException();
         }
       };
+
+  private static <V> AsyncFunction<V, V> asyncIdentity() {
+    return new AsyncFunction<V, V>() {
+      @Override
+      public ListenableFuture<V> apply(V input) {
+        return immediateFuture(input);
+      }
+    };
+  }
 }
