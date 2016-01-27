@@ -22,12 +22,15 @@ import com.google.common.collect.testing.Helpers;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 /**
@@ -41,12 +44,15 @@ public class FeatureUtil {
    * A cache of annotated objects (typically a Class or Method) to its
    * set of annotations.
    */
-  private static Map<AnnotatedElement, Annotation[]> annotationCache =
-      new HashMap<AnnotatedElement, Annotation[]>();
+  private static Map<AnnotatedElement, List<Annotation>> annotationCache =
+      new HashMap<AnnotatedElement, List<Annotation>>();
 
   private static final Map<Class<?>, TesterRequirements>
       classTesterRequirementsCache =
           new HashMap<Class<?>, TesterRequirements>();
+  
+  private static final Map<Method, TesterRequirements>
+      methodTesterRequirementsCache = new HashMap<Method, TesterRequirements>();
 
   /**
    * Given a set of features, add to it all the features directly or indirectly
@@ -55,10 +61,14 @@ public class FeatureUtil {
    * @return the same set of features, expanded with all implied features
    */
   public static Set<Feature<?>> addImpliedFeatures(Set<Feature<?>> features) {
-    // The base case of the recursion is an empty set of features, which will
-    // occur when the previous set contained only simple features.
-    if (!features.isEmpty()) {
-      features.addAll(impliedFeatures(features));
+    Queue<Feature<?>> queue = new ArrayDeque<Feature<?>>(features);
+    while (!queue.isEmpty()) {
+      Feature<?> feature = queue.remove();
+      for (Feature<?> implied : feature.getImpliedFeatures()) {
+        if (features.add(implied)) {
+          queue.add(implied);
+        }
+      }
     }
     return features;
   }
@@ -70,12 +80,17 @@ public class FeatureUtil {
    * @return the implied set of features
    */
   public static Set<Feature<?>> impliedFeatures(Set<Feature<?>> features) {
-    Set<Feature<?>> implied = new LinkedHashSet<Feature<?>>();
-    for (Feature<?> feature : features) {
-      implied.addAll(feature.getImpliedFeatures());
+    Set<Feature<?>> impliedSet = new LinkedHashSet<Feature<?>>();
+    Queue<Feature<?>> queue = new ArrayDeque<Feature<?>>(features);
+    while (!queue.isEmpty()) {
+      Feature<?> feature = queue.remove();
+      for (Feature<?> implied : feature.getImpliedFeatures()) {
+        if (!features.contains(implied) && impliedSet.add(implied)) {
+          queue.add(implied);
+        }
+      }
     }
-    addImpliedFeatures(implied);
-    return implied;
+    return impliedSet;
   }
 
   /**
@@ -109,7 +124,14 @@ public class FeatureUtil {
    */
   public static TesterRequirements getTesterRequirements(Method testerMethod)
       throws ConflictingRequirementsException {
-    return buildTesterRequirements(testerMethod);
+    synchronized (methodTesterRequirementsCache) {
+      TesterRequirements requirements = methodTesterRequirementsCache.get(testerMethod);
+      if (requirements == null) {
+        requirements = buildTesterRequirements(testerMethod);
+        methodTesterRequirementsCache.put(testerMethod, requirements);
+      }
+      return requirements;
+    }
   }
 
   /**
@@ -186,24 +208,20 @@ public class FeatureUtil {
    */
   public static Iterable<Annotation> getTesterAnnotations(
       AnnotatedElement classOrMethod) {
-    List<Annotation> result = new ArrayList<Annotation>();
-
-    Annotation[] annotations;
     synchronized (annotationCache) {
-      annotations = annotationCache.get(classOrMethod);
+      List<Annotation> annotations = annotationCache.get(classOrMethod);
       if (annotations == null) {
-        annotations = classOrMethod.getDeclaredAnnotations();
+        annotations = new ArrayList<Annotation>();
+        for (Annotation a : classOrMethod.getDeclaredAnnotations()) {
+          if (a.annotationType().isAnnotationPresent(TesterAnnotation.class)) {
+            annotations.add(a);
+          }
+        }
+        annotations = Collections.unmodifiableList(annotations);
         annotationCache.put(classOrMethod, annotations);
       }
+      return annotations;
     }
-
-    for (Annotation a : annotations) {
-      Class<? extends Annotation> annotationClass = a.annotationType();
-      if (annotationClass.isAnnotationPresent(TesterAnnotation.class)) {
-        result.add(a);
-      }
-    }
-    return result;
   }
 
   /**
@@ -233,13 +251,13 @@ public class FeatureUtil {
         addImpliedFeatures(Helpers.<Feature<?>>copyToSet(presentFeatures));
     Set<Feature<?>> allAbsentFeatures =
         addImpliedFeatures(Helpers.<Feature<?>>copyToSet(absentFeatures));
-    Set<Feature<?>> conflictingFeatures =
-        intersection(allPresentFeatures, allAbsentFeatures);
-    if (!conflictingFeatures.isEmpty()) {
-      throw new ConflictingRequirementsException("Annotation explicitly or "
-          + "implicitly requires one or more features to be both present "
-          + "and absent.",
-          conflictingFeatures, testerAnnotation);
+    if (!Collections.disjoint(allPresentFeatures, allAbsentFeatures)) {
+      throw new ConflictingRequirementsException(
+          "Annotation explicitly or "
+              + "implicitly requires one or more features to be both present "
+              + "and absent.",
+          intersection(allPresentFeatures, allAbsentFeatures),
+          testerAnnotation);
     }
     return new TesterRequirements(allPresentFeatures, allAbsentFeatures);
   }
@@ -278,14 +296,12 @@ public class FeatureUtil {
       String earlierRequirement, Set<Feature<?>> earlierFeatures,
       String newRequirement, Set<Feature<?>> newFeatures,
       Object source) throws ConflictingRequirementsException {
-    Set<Feature<?>> conflictingFeatures;
-    conflictingFeatures = intersection(newFeatures, earlierFeatures);
-    if (!conflictingFeatures.isEmpty()) {
+    if (!Collections.disjoint(newFeatures, earlierFeatures)) {
       throw new ConflictingRequirementsException(String.format(Locale.ROOT,
           "Annotation requires to be %s features that earlier "
           + "annotations required to be %s.",
               newRequirement, earlierRequirement),
-          conflictingFeatures, source);
+          intersection(newFeatures, earlierFeatures), source);
     }
   }
 
@@ -293,31 +309,10 @@ public class FeatureUtil {
    * Construct a new {@link java.util.Set} that is the intersection
    * of the given sets.
    */
-  // Calls generic varargs method.
-  @SuppressWarnings("unchecked")
   public static <T> Set<T> intersection(
       Set<? extends T> set1, Set<? extends T> set2) {
-    return intersection(new Set[] {set1, set2});
-  }
-
-  /**
-   * Construct a new {@link java.util.Set} that is the intersection
-   * of all the given sets.
-   * @param sets the sets to intersect
-   * @return the intersection of the sets
-   * @throws java.lang.IllegalArgumentException if there are no sets to
-   *         intersect
-   */
-  public static <T> Set<T> intersection(Set<? extends T> ... sets) {
-    if (sets.length == 0) {
-      throw new IllegalArgumentException(
-          "Can't intersect no sets; would have to return the universe.");
-    }
-    Set<T> results = Helpers.copyToSet(sets[0]);
-    for (int i = 1; i < sets.length; i++) {
-      Set<? extends T> set = sets[i];
-      results.retainAll(set);
-    }
-    return results;
+    Set<T> result = Helpers.<T>copyToSet(set1);
+    result.retainAll(set2);
+    return result;
   }
 }
