@@ -551,14 +551,6 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testEquals(ConstructorParameterMapOfNotInstantiable.class);
   }
 
-  public void testInstantiate_setSampleInstances_empty() throws Exception {
-    tester.setSampleInstances(NotInstantiable.class, ImmutableList.<NotInstantiable>of());
-    try {
-      tester.instantiate(ConstructorParameterNotInstantiable.class);
-      fail();
-    } catch (ParameterNotInstantiableException expected) {}
-  }
-
   public void testInstantiate_constructorThrows() throws Exception {
     try {
       tester.instantiate(ConstructorThrows.class);
