@@ -104,7 +104,7 @@ public class MapsTest extends TestCase {
 
   public void testCapacityForNegativeSizeFails() {
     try {
-      Maps.capacity(-1);
+      int unused = Maps.capacity(-1);
       fail("Negative expected size must result in IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }
@@ -312,7 +312,7 @@ public class MapsTest extends TestCase {
 
   public void testEnumMapNullClass() {
     try {
-      Maps.<SomeEnum, Long>newEnumMap((Class<MapsTest.SomeEnum>) null);
+      Map<SomeEnum, Long> unused = Maps.<SomeEnum, Long>newEnumMap((Class<MapsTest.SomeEnum>) null);
       fail("no exception thrown");
     } catch (NullPointerException expected) {
     }
@@ -342,7 +342,7 @@ public class MapsTest extends TestCase {
   public void testEnumMapWithInitialEmptyMap() {
     Map<SomeEnum, Integer> original = Maps.newHashMap();
     try {
-      Maps.newEnumMap(original);
+      Map<SomeEnum, Integer> unused = Maps.newEnumMap(original);
       fail("Empty map must result in an IllegalArgumentException");
     } catch (IllegalArgumentException expected) {}
   }
@@ -981,7 +981,7 @@ public class MapsTest extends TestCase {
   public void testToMapWithNullKeys() {
     Iterable<String> strings = Arrays.asList("one", null, "three");
     try {
-      Maps.toMap(strings, Functions.constant("foo"));
+      Map<String, String> unused = Maps.toMap(strings, Functions.constant("foo"));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -990,7 +990,7 @@ public class MapsTest extends TestCase {
   public void testToMapWithNullValues() {
     Iterable<String> strings = ImmutableList.of("one", "two", "three");
     try {
-      Maps.toMap(strings, Functions.constant(null));
+      Map<String, Object> unused = Maps.toMap(strings, Functions.constant(null));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -1032,7 +1032,8 @@ public class MapsTest extends TestCase {
   /** Can't create the map if more than one value maps to the same key. */
   public void testUniqueIndexDuplicates() {
     try {
-      Maps.uniqueIndex(ImmutableSet.of("one", "uno"), Functions.constant(1));
+      Map<Integer, String> unused =
+          Maps.uniqueIndex(ImmutableSet.of("one", "uno"), Functions.constant(1));
       fail();
     } catch (IllegalArgumentException expected) {
       assertThat(expected.getMessage()).contains("Multimaps.index");
@@ -1043,7 +1044,7 @@ public class MapsTest extends TestCase {
   public void testUniqueIndexNullValue() {
     List<String> listWithNull = Lists.newArrayList((String) null);
     try {
-      Maps.uniqueIndex(listWithNull, Functions.constant(1));
+      Map<Integer, String> unused = Maps.uniqueIndex(listWithNull, Functions.constant(1));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -1053,7 +1054,7 @@ public class MapsTest extends TestCase {
   public void testUniqueIndexNullKey() {
     List<String> oneStringList = Lists.newArrayList("foo");
     try {
-      Maps.uniqueIndex(oneStringList, Functions.constant(null));
+      Map<Object, String> unused = Maps.uniqueIndex(oneStringList, Functions.constant(null));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -1122,7 +1123,7 @@ public class MapsTest extends TestCase {
     properties.setProperty("second", "null");
 
     try {
-      Maps.fromProperties(properties);
+      Map<String, String> unused = Maps.fromProperties(properties);
       fail();
     } catch (NullPointerException expected) {}
   }
@@ -1138,7 +1139,7 @@ public class MapsTest extends TestCase {
     };
 
     try {
-      Maps.fromProperties(properties);
+      Map<String, String> unused = Maps.fromProperties(properties);
       fail();
     } catch (ClassCastException expected) {}
   }
@@ -2056,7 +2057,7 @@ public class MapsTest extends TestCase {
             .put(2, 0).put(4, 0).put(6, 0).put(8, 0).put(10, 0).build();
 
     try {
-      Maps.subMap(map, Range.closed(4, 8));
+      Map<Integer, Integer> unused = Maps.subMap(map, Range.closed(4, 8));
       fail("IllegalArgumentException expected");
     } catch (IllegalArgumentException expected) {
     }

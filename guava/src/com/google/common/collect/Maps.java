@@ -37,6 +37,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 
@@ -81,6 +82,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class Maps {
   private Maps() {}
@@ -1212,6 +1214,7 @@ public final class Maps {
    * @throws NullPointerException if any elements of {@code values} is null, or
    *         if {@code keyFunction} produces {@code null} for any value
    */
+  @CanIgnoreReturnValue
   public static <K, V> ImmutableMap<K, V> uniqueIndex(
       Iterable<V> values, Function<? super V, K> keyFunction) {
     // TODO(lowasser): consider presizing the builder if values is a Collection
@@ -1246,6 +1249,7 @@ public final class Maps {
    *         if {@code keyFunction} produces {@code null} for any value
    * @since 10.0
    */
+  @CanIgnoreReturnValue
   public static <K, V> ImmutableMap<K, V> uniqueIndex(
       Iterator<V> values, Function<? super V, K> keyFunction) {
     checkNotNull(keyFunction);
@@ -2241,7 +2245,6 @@ public final class Maps {
    * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
    * inconsistent with equals.
    */
-  @CheckReturnValue
   public static <K, V> Map<K, V> filterKeys(
       Map<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     if (unfiltered instanceof SortedMap) {
@@ -2286,7 +2289,6 @@ public final class Maps {
    *
    * @since 11.0
    */
-  @CheckReturnValue
   public static <K, V> SortedMap<K, V> filterKeys(
       SortedMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     // TODO(lowasser): Return a subclass of Maps.FilteredKeyMap for slightly better
@@ -2325,7 +2327,6 @@ public final class Maps {
    * @since 14.0
    */
   @GwtIncompatible // NavigableMap
-  @CheckReturnValue
   public static <K, V> NavigableMap<K, V> filterKeys(
       NavigableMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     // TODO(lowasser): Return a subclass of Maps.FilteredKeyMap for slightly better
@@ -2358,7 +2359,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @CheckReturnValue
   public static <K, V> BiMap<K, V> filterKeys(
       BiMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     checkNotNull(keyPredicate);
@@ -2394,7 +2394,6 @@ public final class Maps {
    * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
    * inconsistent with equals.
    */
-  @CheckReturnValue
   public static <K, V> Map<K, V> filterValues(
       Map<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     if (unfiltered instanceof SortedMap) {
@@ -2436,7 +2435,6 @@ public final class Maps {
    *
    * @since 11.0
    */
-  @CheckReturnValue
   public static <K, V> SortedMap<K, V> filterValues(
       SortedMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
@@ -2474,7 +2472,6 @@ public final class Maps {
    * @since 14.0
    */
   @GwtIncompatible // NavigableMap
-  @CheckReturnValue
   public static <K, V> NavigableMap<K, V> filterValues(
       NavigableMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
@@ -2508,7 +2505,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @CheckReturnValue
   public static <K, V> BiMap<K, V> filterValues(
       BiMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
@@ -2543,7 +2539,6 @@ public final class Maps {
    * <p><b>Warning:</b> {@code entryPredicate} must be <i>consistent with
    * equals</i>, as documented at {@link Predicate#apply}.
    */
-  @CheckReturnValue
   public static <K, V> Map<K, V> filterEntries(
       Map<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     if (unfiltered instanceof SortedMap) {
@@ -2588,7 +2583,6 @@ public final class Maps {
    *
    * @since 11.0
    */
-  @CheckReturnValue
   public static <K, V> SortedMap<K, V> filterEntries(
       SortedMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     return Platform.mapsFilterSortedMap(unfiltered, entryPredicate);
@@ -2634,7 +2628,6 @@ public final class Maps {
    * @since 14.0
    */
   @GwtIncompatible // NavigableMap
-  @CheckReturnValue
   public static <K, V> NavigableMap<K, V> filterEntries(
       NavigableMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
@@ -2670,7 +2663,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @CheckReturnValue
   public static <K, V> BiMap<K, V> filterEntries(
       BiMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(unfiltered);

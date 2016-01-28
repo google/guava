@@ -597,7 +597,7 @@ public class SetsTest extends TestCase {
   public void testComplementOfEmptySetWithoutTypeDoesntWork() {
     Set<SomeEnum> set = Collections.emptySet();
     try {
-      Sets.complementOf(set);
+      Set<SomeEnum> unused = Sets.complementOf(set);
       fail();
     } catch (IllegalArgumentException expected) {}
   }
@@ -629,7 +629,7 @@ public class SetsTest extends TestCase {
     Map<Integer, Boolean> map = new LinkedHashMap<Integer, Boolean>();
     map.put(2, true);
     try {
-      Sets.newSetFromMap(map);
+      Set<Integer> unused = Sets.newSetFromMap(map);
       fail();
     } catch (IllegalArgumentException expected) {}
   }
@@ -730,9 +730,10 @@ public class SetsTest extends TestCase {
   public void testCartesianProductTooBig() {
     Set<Integer> set = ContiguousSet.create(Range.closed(0, 10000), DiscreteDomain.integers());
     try {
-      Sets.cartesianProduct(set, set, set, set, set);
+      Set<List<Integer>> unused = Sets.cartesianProduct(set, set, set, set, set);
       fail("Expected IAE");
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   @SuppressWarnings("unchecked") // varargs!
@@ -875,15 +876,17 @@ public class SetsTest extends TestCase {
 
   public void testPowerSetCreationErrors() {
     try {
-      powerSet(newHashSet('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-          'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
-          'y', 'z', '1', '2', '3', '4', '5'));
+      Set<Set<Character>> unused =
+          powerSet(
+              newHashSet(
+                  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+                  'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5'));
       fail();
     } catch (IllegalArgumentException expected) {
     }
 
     try {
-      powerSet(singleton(null));
+      Set<Set<Object>> unused = powerSet(singleton(null));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -1246,7 +1249,7 @@ public class SetsTest extends TestCase {
         ImmutableSortedSet.<Integer>reverseOrder().add(2, 4, 6, 8, 10).build();
 
     try {
-      Sets.subSet(set, Range.closed(4, 8));
+      Set<Integer> unused = Sets.subSet(set, Range.closed(4, 8));
       fail("IllegalArgumentException expected");
     } catch (IllegalArgumentException expected) {
     }

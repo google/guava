@@ -803,7 +803,7 @@ public class MultimapsTest extends TestCase {
   public void testIndex_nullValue() {
     List<Integer> values = Arrays.asList(1, null);
     try {
-      Multimaps.index(values, Functions.identity());
+      Multimap<Object, Integer> unused = Multimaps.index(values, Functions.identity());
       fail();
     } catch (NullPointerException e) {}
   }
@@ -811,7 +811,7 @@ public class MultimapsTest extends TestCase {
   public void testIndex_nullKey() {
     List<Integer> values = Arrays.asList(1, 2);
     try {
-      Multimaps.index(values, Functions.constant(null));
+      Multimap<Object, Integer> unused = Multimaps.index(values, Functions.constant(null));
       fail();
     } catch (NullPointerException e) {}
   }

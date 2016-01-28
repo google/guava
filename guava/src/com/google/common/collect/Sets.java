@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 import java.util.AbstractSet;
@@ -62,6 +63,7 @@ import javax.annotation.Nullable;
  * @author Chris Povirk
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class Sets {
   private Sets() {}
@@ -568,6 +570,7 @@ public final class Sets {
      */
     // Note: S should logically extend Set<? super E> but can't due to either
     // some javac bug or some weirdness in the spec, not sure which.
+    @CanIgnoreReturnValue
     public <S extends Set<E>> S copyInto(S set) {
       set.addAll(this);
       return set;
@@ -815,7 +818,6 @@ public final class Sets {
    * functionality.)
    */
   // TODO(kevinb): how to omit that last sentence when building GWT javadoc?
-  @CheckReturnValue
   public static <E> Set<E> filter(Set<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof SortedSet) {
       return filter((SortedSet<E>) unfiltered, predicate);
@@ -876,7 +878,6 @@ public final class Sets {
    *
    * @since 11.0
    */
-  @CheckReturnValue
   public static <E> SortedSet<E> filter(SortedSet<E> unfiltered, Predicate<? super E> predicate) {
     return Platform.setsFilterSortedSet(unfiltered, predicate);
   }
@@ -970,7 +971,6 @@ public final class Sets {
    */
   @GwtIncompatible // NavigableSet
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   public static <E> NavigableSet<E> filter(
       NavigableSet<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredSet) {

@@ -35,6 +35,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -48,6 +49,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 7.0
  */
+@CheckReturnValue
 @GwtCompatible
 public final class Tables {
   private Tables() {}

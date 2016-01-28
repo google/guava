@@ -28,6 +28,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.EntryTransformer;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 
@@ -64,6 +65,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class Multimaps {
   private Multimaps() {}
@@ -400,6 +402,7 @@ public final class Multimaps {
    * @param dest the multimap to copy into; usually empty
    * @return {@code dest}
    */
+  @CanIgnoreReturnValue
   public static <K, V, M extends Multimap<K, V>> M invertFrom(
       Multimap<? extends V, ? extends K> source, M dest) {
     checkNotNull(dest);
@@ -1839,7 +1842,6 @@ public final class Multimaps {
    *
    * @since 11.0
    */
-  @CheckReturnValue
   public static <K, V> Multimap<K, V> filterKeys(
       Multimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     if (unfiltered instanceof SetMultimap) {
@@ -1888,7 +1890,6 @@ public final class Multimaps {
    *
    * @since 14.0
    */
-  @CheckReturnValue
   public static <K, V> SetMultimap<K, V> filterKeys(
       SetMultimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     if (unfiltered instanceof FilteredKeySetMultimap) {
@@ -1933,7 +1934,6 @@ public final class Multimaps {
    *
    * @since 14.0
    */
-  @CheckReturnValue
   public static <K, V> ListMultimap<K, V> filterKeys(
       ListMultimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     if (unfiltered instanceof FilteredKeyListMultimap) {
@@ -1975,7 +1975,6 @@ public final class Multimaps {
    *
    * @since 11.0
    */
-  @CheckReturnValue
   public static <K, V> Multimap<K, V> filterValues(
       Multimap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
@@ -2011,7 +2010,6 @@ public final class Multimaps {
    *
    * @since 14.0
    */
-  @CheckReturnValue
   public static <K, V> SetMultimap<K, V> filterValues(
       SetMultimap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
@@ -2045,7 +2043,6 @@ public final class Multimaps {
    *
    * @since 11.0
    */
-  @CheckReturnValue
   public static <K, V> Multimap<K, V> filterEntries(
       Multimap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
@@ -2085,7 +2082,6 @@ public final class Multimaps {
    *
    * @since 14.0
    */
-  @CheckReturnValue
   public static <K, V> SetMultimap<K, V> filterEntries(
       SetMultimap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
