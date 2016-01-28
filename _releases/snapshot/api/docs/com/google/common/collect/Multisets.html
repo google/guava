@@ -96,7 +96,8 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/Multisets.html#line.57">Multisets</a>
+<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
+public final class <a href="../../../../src-html/com/google/common/collect/Multisets.html#line.59">Multisets</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Provides static utility methods for creating and working with <a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a> instances.
 
@@ -254,7 +255,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableMultiset</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.73">unmodifiableMultiset</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.75">unmodifiableMultiset</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset)</pre>
 <div class="block">Returns an unmodifiable view of the specified multiset. Query operations on
  the returned multiset "read through" to the specified multiset, and
  attempts to modify the returned multiset result in an
@@ -274,7 +275,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>unmodifiableMultiset</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.90">unmodifiableMultiset</a>(<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;multiset)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.92">unmodifiableMultiset</a>(<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;multiset)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>no need to use this</i></div>
 <div class="block">Simply returns its argument.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -288,7 +289,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>unmodifiableSortedMultiset</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.208">unmodifiableSortedMultiset</a>(<a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;&nbsp;sortedMultiset)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.210">unmodifiableSortedMultiset</a>(<a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;&nbsp;sortedMultiset)</pre>
 <div class="block">Returns an unmodifiable view of the specified sorted multiset. Query
  operations on the returned multiset "read through" to the specified
  multiset, and attempts to modify the returned multiset result in an <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a>.
@@ -309,7 +310,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>immutableEntry</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.221">immutableEntry</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.223">immutableEntry</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                    E&nbsp;e,
                                    int&nbsp;n)</pre>
 <div class="block">Returns an immutable multiset entry with the specified element and count.
@@ -326,9 +327,8 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>filter</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.281">filter</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;unfiltered,
-                                           <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.282">filter</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;unfiltered,
+                          <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</pre>
 <div class="block">Returns a view of the elements of <code>unfiltered</code> that satisfy a predicate. The returned
  multiset is a live view of <code>unfiltered</code>; changes to one affect the other.
 
@@ -362,7 +362,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>union</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.396">union</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset1,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.397">union</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset1,
                          <a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset2)</pre>
 <div class="block">Returns an unmodifiable view of the union of two multisets.
  In the returned multiset, the count of each element is the <i>maximum</i>
@@ -385,7 +385,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>intersection</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.469">intersection</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;multiset1,
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.470">intersection</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;multiset1,
                            <a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multiset2)</pre>
 <div class="block">Returns an unmodifiable view of the intersection of two multisets.
  In the returned multiset, the count of each element is the <i>minimum</i>
@@ -408,7 +408,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>sum</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.529">sum</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset1,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.530">sum</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset1,
                        <a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset2)</pre>
 <div class="block">Returns an unmodifiable view of the sum of two multisets.
  In the returned multiset, the count of each element is the <i>sum</i> of
@@ -432,7 +432,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>difference</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.609">difference</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;multiset1,
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.610">difference</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;multiset1,
                               <a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multiset2)</pre>
 <div class="block">Returns an unmodifiable view of the difference of two multisets.
  In the returned multiset, the count of each element is the result of the
@@ -455,7 +455,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>containsOccurrences</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.654">containsOccurrences</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;superMultiset,
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.656">containsOccurrences</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;superMultiset,
                           <a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;subMultiset)</pre>
 <div class="block">Returns <code>true</code> if <code>subMultiset.count(o) &lt;=
  superMultiset.count(o)</code> for all <code>o</code>.</div>
@@ -469,7 +469,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>retainOccurrences</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.685">retainOccurrences</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multisetToModify,
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.688">retainOccurrences</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multisetToModify,
                         <a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multisetToRetain)</pre>
 <div class="block">Modifies <code>multisetToModify</code> so that its count for an element
  <code>e</code> is at most <code>multisetToRetain.count(e)</code>.
@@ -494,7 +494,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>removeOccurrences</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.738">removeOccurrences</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multisetToModify,
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.742">removeOccurrences</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multisetToModify,
                         <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;occurrencesToRemove)</pre>
 <div class="block">For each occurrence of an element <code>e</code> in <code>occurrencesToRemove</code>,
  removes one occurrence of <code>e</code> in <code>multisetToModify</code>.
@@ -523,7 +523,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>removeOccurrences</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.776">removeOccurrences</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multisetToModify,
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.781">removeOccurrences</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multisetToModify,
                         <a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;occurrencesToRemove)</pre>
 <div class="block">For each occurrence of an element <code>e</code> in <code>occurrencesToRemove</code>,
  removes one occurrence of <code>e</code> in <code>multisetToModify</code>.
@@ -552,7 +552,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>copyHighestCountFirst</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.1123">copyHighestCountFirst</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;multiset)</pre>
+public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multisets.html#line.1128">copyHighestCountFirst</a>(<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;multiset)</pre>
 <div class="block">Returns a copy of <code>multiset</code> as an <a href="../../../../com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect"><code>ImmutableMultiset</code></a> whose iteration order is
  highest count first, with ties broken by the iteration order of the original multiset.</div>
 <dl><dt><span class="strong">Since:</span></dt>
