@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -61,15 +60,25 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
    */
   // This class is accessible but not supported in GWT.
   private static final class PermittedMetaException extends RuntimeException {
-    final Set<? extends Class<? extends RuntimeException>> exceptionClasses;
+    static final PermittedMetaException UOE_OR_ISE =
+        new PermittedMetaException(
+            Arrays.asList(UnsupportedOperationException.class, IllegalStateException.class));
+    static final PermittedMetaException UOE =
+        new PermittedMetaException(UnsupportedOperationException.class);
+    static final PermittedMetaException ISE =
+        new PermittedMetaException(IllegalStateException.class);
+    static final PermittedMetaException NSEE =
+        new PermittedMetaException(NoSuchElementException.class);
 
-    PermittedMetaException(
-        Set<? extends Class<? extends RuntimeException>> exceptionClasses) {
+    final Collection<? extends Class<? extends RuntimeException>> exceptionClasses;
+
+    private PermittedMetaException(
+        Collection<? extends Class<? extends RuntimeException>> exceptionClasses) {
       super("one of " + exceptionClasses);
       this.exceptionClasses = exceptionClasses;
     }
 
-    PermittedMetaException(Class<? extends RuntimeException> exceptionClass) {
+    private PermittedMetaException(Class<? extends RuntimeException> exceptionClass) {
       this(Collections.singleton(exceptionClass));
     }
 
@@ -161,7 +170,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     @Override
     public void add(E e) {
       if (!features.contains(IteratorFeature.SUPPORTS_ADD)) {
-        throw new PermittedMetaException(UnsupportedOperationException.class);
+        throw PermittedMetaException.UOE;
       }
 
       previousElements.push(e);
@@ -237,7 +246,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
 
     private E transferElement(Stack<E> source, Stack<E> destination) {
       if (source.isEmpty()) {
-        throw new PermittedMetaException(NoSuchElementException.class);
+        throw PermittedMetaException.NSEE;
       }
 
       destination.push(source.pop());
@@ -246,19 +255,14 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     }
 
     private void throwIfInvalid(IteratorFeature methodFeature) {
-      Set<Class<? extends RuntimeException>> exceptions
-          = new HashSet<Class<? extends RuntimeException>>();
-
       if (!features.contains(methodFeature)) {
-        exceptions.add(UnsupportedOperationException.class);
-      }
-
-      if (stackWithLastReturnedElementAtTop == null) {
-        exceptions.add(IllegalStateException.class);
-      }
-
-      if (!exceptions.isEmpty()) {
-        throw new PermittedMetaException(exceptions);
+        if (stackWithLastReturnedElementAtTop == null) {
+          throw PermittedMetaException.UOE_OR_ISE;
+        } else {
+          throw PermittedMetaException.UOE;
+        }
+      } else if (stackWithLastReturnedElementAtTop == null) {
+        throw PermittedMetaException.ISE;
       }
     }
 
@@ -343,6 +347,14 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
   }
 
   private void compareResultsForThisListOfStimuli() {
+    int removes = Collections.frequency(Arrays.asList(stimuli), remove);
+    if ((!features.contains(IteratorFeature.SUPPORTS_REMOVE) && removes > 1)
+        || (stimuli.length >= 5 && removes > 2)) {
+      // removes are the most expensive thing to test, since they often throw exceptions with stack
+      // traces, so we test them a bit less aggressively
+      return;
+    }
+    
     MultiExceptionListIterator reference =
         new MultiExceptionListIterator(expectedElements);
     I target = newTargetIterator();
