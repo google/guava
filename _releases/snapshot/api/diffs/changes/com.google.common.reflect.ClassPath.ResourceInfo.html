@@ -18,7 +18,7 @@ com.google.common.reflect.ClassPath.ResourceInfo
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/reflect/ClassPath.ResourceInfo.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/reflect/ClassPath.ResourceInfo.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.reflect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -31,7 +31,7 @@ com.google.common.reflect.ClassPath.ResourceInfo
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<B>PREV CLASS</B>&nbsp;
-&nbsp;<A HREF="com.google.common.reflect.TypeToken.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.reflect.TypeToInstanceMap.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.reflect.ClassPath.ResourceInfo.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -50,6 +50,29 @@ Class com.google.common.reflect.<A HREF="../../docs/com/google/common/reflect/Cl
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
 <p>
+<a NAME="Added"></a>
+<TABLE summary="Added Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Methods</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.reflect.ClassPath.ResourceInfo.asByteSource_added()"></A>
+  <nobr><code>ByteSource</code>&nbsp;<A HREF="../../docs/com/google/common/reflect/ClassPath.ResourceInfo.html#asByteSource()" target="_top"><tt>asByteSource</tt></A>()</nobr>
+  </TD>
+  <TD VALIGN="TOP">Returns a <A HREF="../../docs/ByteSource.html"><TT>ByteSource</TT></A> view of the resource from which its bytes can be read.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.reflect.ClassPath.ResourceInfo.asCharSource_added(java.nio.charset.Charset)"></A>
+  <nobr><code>CharSource</code>&nbsp;<A HREF="../../docs/com/google/common/reflect/ClassPath.ResourceInfo.html#asCharSource(java.nio.charset.Charset)" target="_top"><tt>asCharSource</tt></A>(<code>Charset</code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Returns a <A HREF="../../docs/CharSource.html"><TT>CharSource</TT></A> view of the resource from which its bytes can be read as
+ characters decoded with the given {@code charset}.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<p>
 <a NAME="Changed"></a>
 <TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
@@ -61,7 +84,7 @@ Class com.google.common.reflect.<A HREF="../../docs/com/google/common/reflect/Cl
   <nobr><code>URL</code>&nbsp;<A HREF="../../docs/com/google/common/reflect/ClassPath.ResourceInfo.html#url()" target="_top"><tt>url</tt></A>()  </nobr>
   </TD>
   <TD VALIGN="TOP" WIDTH="30%">
-Change in exceptions thrown from no exceptions to <code>java.util.NoSuchElementException</code>.<br>
+Change in exceptions thrown from <code>java.util.NoSuchElementException</code> to no exceptions.<br>
   </TD>
   <TD VALIGN="TOP">Returns the url identifying the resource.</TD>
 </TR>
@@ -75,7 +98,7 @@ Change in exceptions thrown from no exceptions to <code>java.util.NoSuchElementE
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/reflect/ClassPath.ResourceInfo.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/reflect/ClassPath.ResourceInfo.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.reflect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -88,7 +111,7 @@ Change in exceptions thrown from no exceptions to <code>java.util.NoSuchElementE
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<B>PREV CLASS</B>&nbsp;
-&nbsp;<A HREF="com.google.common.reflect.TypeToken.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.reflect.TypeToInstanceMap.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.reflect.ClassPath.ResourceInfo.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

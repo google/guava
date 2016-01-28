@@ -12,6 +12,8 @@ OK: com.google.common.math.Stats Class
 OK: com.google.common.math.StatsAccumulator Class
 OK: com.google.common.util.concurrent.AbstractFuture Method afterDone()
 OK: com.google.common.io.CharSource Method asByteSource(java.nio.charset.Charset)
+OK: com.google.common.reflect.ClassPath.ResourceInfo Method asByteSource()
+OK: com.google.common.reflect.ClassPath.ResourceInfo Method asCharSource(java.nio.charset.Charset)
 MISSING @SINCE TAG: com.google.common.io.BaseEncoding Method canDecode(java.lang.CharSequence)
 OK: com.google.common.collect.FluentIterable Method concat(java.lang.Iterable<? extends T>, java.lang.Iterable<? extends T>)
 OK: com.google.common.collect.FluentIterable Method concat(java.lang.Iterable<? extends T>, java.lang.Iterable<? extends T>, java.lang.Iterable<? extends T>)

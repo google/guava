@@ -105,7 +105,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static final class <a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.219">ClassPath.ClassInfo</a>
+public static final class <a href="../../../../src-html/com/google/common/reflect/ClassPath.html#line.247">ClassPath.ClassInfo</a>
 extends <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.html" title="class in com.google.common.reflect">ClassPath.ResourceInfo</a></pre>
 <div class="block">Represents a class that can be loaded through <a href="../../../../com/google/common/reflect/ClassPath.ClassInfo.html#load()"><code>load()</code></a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -162,7 +162,7 @@ extends <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.ht
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.google.common.reflect.<a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.html" title="class in com.google.common.reflect">ClassPath.ResourceInfo</a></h3>
-<code><a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.html#equals(java.lang.Object)">equals</a>, <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.html#getResourceName()">getResourceName</a>, <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.html#hashCode()">hashCode</a>, <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.html#url()">url</a></code></li>
+<code><a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.html#asByteSource()">asByteSource</a>, <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.html#asCharSource(java.nio.charset.Charset)">asCharSource</a>, <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.html#equals(java.lang.Object)">equals</a>, <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.html#getResourceName()">getResourceName</a>, <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.html#hashCode()">hashCode</a>, <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.html#url()">url</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
@@ -191,7 +191,7 @@ extends <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>getPackageName</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.233">getPackageName</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.261">getPackageName</a>()</pre>
 <div class="block">Returns the package name of the class, without attempting to load the class.
 
  <p>Behaves identically to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Package.html?is-external=true#getName()" title="class or interface in java.lang"><code>Package.getName()</code></a> but does not require the class (or
@@ -204,7 +204,7 @@ extends <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>getSimpleName</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.243">getSimpleName</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.271">getSimpleName</a>()</pre>
 <div class="block">Returns the simple name of the underlying class as given in the source code.
 
  <p>Behaves identically to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true#getSimpleName()" title="class or interface in java.lang"><code>Class.getSimpleName()</code></a> but does not require the class to be
@@ -217,7 +217,7 @@ extends <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>getName</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.266">getName</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.294">getName</a>()</pre>
 <div class="block">Returns the fully qualified name of the class.
 
  <p>Behaves identically to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true#getName()" title="class or interface in java.lang"><code>Class.getName()</code></a> but does not require the class to be
@@ -230,7 +230,7 @@ extends <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>load</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.276">load</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.304">load</a>()</pre>
 <div class="block">Loads (but doesn't link or initialize) the class.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/LinkageError.html?is-external=true" title="class or interface in java.lang">LinkageError</a></code> - when there were errors in loading classes that this class depends on.
@@ -243,7 +243,7 @@ extends <a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.ht
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.285">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/ClassPath.ClassInfo.html#line.313">toString</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.html#toString()">toString</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/reflect/ClassPath.ResourceInfo.html" title="class in com.google.common.reflect">ClassPath.ResourceInfo</a></code></dd>
