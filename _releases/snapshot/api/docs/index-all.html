@@ -4282,12 +4282,6 @@
 <dd>
 <div class="block">Creates an <code>AtomicLongMap</code> with the same mappings as the specified <code>Map</code>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/util/concurrent/FutureFallback.html#create(java.lang.Throwable)">create(Throwable)</a></span> - Method in interface com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/FutureFallback.html" title="interface in com.google.common.util.concurrent">FutureFallback</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span></div>
-<div class="block">Returns a <code>Future</code> to be used in place of the <code>Future</code> that failed with the given
- exception.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/ListenableFutureTask.html#create(java.util.concurrent.Callable)">create(Callable&lt;V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent">ListenableFutureTask</a></dt>
 <dd>
 <div class="block">Creates a <code>ListenableFutureTask</code> that will upon running, execute the given <code>Callable</code>.</div>
@@ -6702,14 +6696,6 @@
 <div class="block">A callback for accepting the results of a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> computation
  asynchronously.</div>
 </dd>
-<dt><a href="./com/google/common/util/concurrent/FutureFallback.html" title="interface in com.google.common.util.concurrent"><span class="strong">FutureFallback</span></a>&lt;<a href="./com/google/common/util/concurrent/FutureFallback.html" title="type parameter in FutureFallback">V</a>&gt; - Interface in <a href="./com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>This interface's main user, <a href="./com/google/common/util/concurrent/Futures.html#withFallback(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.FutureFallback)"><code>Futures.withFallback</code></a>, has been replaced with <a href="./com/google/common/util/concurrent/Futures.html#catchingAsync(com.google.common.util.concurrent.ListenableFuture,%20java.lang.Class,%20com.google.common.util.concurrent.AsyncFunction)"><code>catchingAsync</code></a>, which uses <a href="./com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent"><code>AsyncFunction</code></a> instead of <code>FutureFallback</code>. We
-     recommend that other APIs be updated in the same way. This interface will be removed in Guava
-     release 20.0.</i></div>
-</div>
-</dd>
 <dt><a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent"><span class="strong">Futures</span></a> - Class in <a href="./com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">Static utility methods pertaining to the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> interface.</div>
@@ -6887,20 +6873,6 @@
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingFuture.html#get(long,%20java.util.concurrent.TimeUnit)">get(long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingFuture.html" title="class in com.google.common.util.concurrent">ForwardingFuture</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#get(java.util.concurrent.Future,%20java.lang.Class)">get(Future&lt;V&gt;, Class&lt;X&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>Use <a href="./com/google/common/util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,%20java.lang.Class)"><code>Futures.getChecked(Future, Class)</code></a>. This method will be removed in Guava
-     release 20.0.</i></div>
-</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#get(java.util.concurrent.Future,%20long,%20java.util.concurrent.TimeUnit,%20java.lang.Class)">get(Future&lt;V&gt;, long, TimeUnit, Class&lt;X&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>Use <a href="./com/google/common/util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,%20java.lang.Class,%20long,%20java.util.concurrent.TimeUnit)"><code>Futures.getChecked(Future, Class, long, TimeUnit)</code></a>, noting the change in
-     parameter order. This method will be removed in Guava release 20.0.</i></div>
-</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/Striped.html#get(java.lang.Object)">get(Object)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a></dt>
 <dd>
 <div class="block">Returns the stripe that corresponds to the passed key.</div>
@@ -8723,20 +8695,6 @@
 <dd>
 <div class="block">Returns true if this type is known to be an array type, such as <code>int[]</code>, <code>T[]</code>,
  <code>&lt;? extends Map&lt;String, Integer&gt;[]&gt;</code> etc.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/reflect/TypeToken.html#isAssignableFrom(com.google.common.reflect.TypeToken)">isAssignableFrom(TypeToken&lt;?&gt;)</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>Use the method under its new name, <a href="./com/google/common/reflect/TypeToken.html#isSupertypeOf(com.google.common.reflect.TypeToken)"><code>TypeToken.isSupertypeOf(TypeToken)</code></a>. This method
-     will be removed in Guava release 20.0.</i></div>
-</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/reflect/TypeToken.html#isAssignableFrom(java.lang.reflect.Type)">isAssignableFrom(Type)</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>Use the method under its new name, <a href="./com/google/common/reflect/TypeToken.html#isSupertypeOf(java.lang.reflect.Type)"><code>TypeToken.isSupertypeOf(Type)</code></a>. This method will
-     be removed in Guava release 20.0.</i></div>
-</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/AbstractFuture.html#isCancelled()">isCancelled()</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a></dt>
 <dd>&nbsp;</dd>
@@ -16067,22 +16025,6 @@
 <dd>
 <div class="block">Returns a list that applies <code>function</code> to each element of <code>fromList</code>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.AsyncFunction)">transform(ListenableFuture&lt;I&gt;, AsyncFunction&lt;? super I, ? extends O&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>These <code>AsyncFunction</code> overloads of <code>transform</code> are being renamed to
-     <code>transformAsync</code>. (The <code>Function</code> overloads are keeping the "transform" name.)
-     This method will be removed in Guava release 20.0.</i></div>
-</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.AsyncFunction,%20java.util.concurrent.Executor)">transform(ListenableFuture&lt;I&gt;, AsyncFunction&lt;? super I, ? extends O&gt;, Executor)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>These <code>AsyncFunction</code> overloads of <code>transform</code> are being renamed to
-     <code>transformAsync</code>. (The <code>Function</code> overloads are keeping the "transform" name.)
-     This method will be removed in Guava release 20.0.</i></div>
-</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.base.Function)">transform(ListenableFuture&lt;I&gt;, Function&lt;? super I, ? extends O&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
 <div class="block">Returns a new <code>Future</code> whose result is derived from the result of the given <code>Future</code>.</div>
@@ -17117,22 +17059,6 @@ the order they are declared.</div>
 <dt><span class="strong"><a href="./com/google/common/net/HostAndPort.html#withDefaultPort(int)">withDefaultPort(int)</a></span> - Method in class com.google.common.net.<a href="./com/google/common/net/HostAndPort.html" title="class in com.google.common.net">HostAndPort</a></dt>
 <dd>
 <div class="block">Provide a default port if the parsed string contained only a host.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#withFallback(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.FutureFallback)">withFallback(ListenableFuture&lt;? extends V&gt;, FutureFallback&lt;? extends V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>Use <a href="./com/google/common/util/concurrent/Futures.html#catchingAsync(com.google.common.util.concurrent.ListenableFuture,%20java.lang.Class,%20com.google.common.util.concurrent.AsyncFunction)"><code>catchingAsync(input, Throwable.class, fallbackImplementedAsAnAsyncFunction)</code></a>, usually
-     replacing <code>Throwable.class</code> with the specific type you want to handle. This method
-     will be removed in Guava release 20.0.</i></div>
-</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#withFallback(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.FutureFallback,%20java.util.concurrent.Executor)">withFallback(ListenableFuture&lt;? extends V&gt;, FutureFallback&lt;? extends V&gt;, Executor)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>Use <a href="./com/google/common/util/concurrent/Futures.html#catchingAsync(com.google.common.util.concurrent.ListenableFuture,%20java.lang.Class,%20com.google.common.util.concurrent.AsyncFunction,%20java.util.concurrent.Executor)"><code>catchingAsync(input, Throwable.class, fallbackImplementedAsAnAsyncFunction, executor)</code></a>,
-     usually replacing <code>Throwable.class</code> with the specific type you want to handle. This
-     method will be removed in Guava release 20.0.</i></div>
-</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Joiner.html#withKeyValueSeparator(java.lang.String)">withKeyValueSeparator(String)</a></span> - Method in class com.google.common.base.<a href="./com/google/common/base/Joiner.html" title="class in com.google.common.base">Joiner</a></dt>
 <dd>

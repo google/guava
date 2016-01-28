@@ -302,8 +302,6 @@ Method Differences Index
 </A></nobr><br>
 <nobr><A HREF="com.google.common.collect.Multiset.html#com.google.common.collect.Multiset.count_changed(java.lang.Object)" class="hiddenlink" target="rightframe">count
 (<code>Object</code>)</A></nobr><br>
-<nobr><A HREF="com.google.common.util.concurrent.FutureFallback.html#com.google.common.util.concurrent.FutureFallback.create_changed(java.lang.Throwable)" class="hiddenlink" target="rightframe">create
-(<code>Throwable</code>)</A></nobr><br>
 <A NAME="D"></A>
 <br><font size="+2">D</font>&nbsp;
 <a href="#A"><font size="-2">A</font></a> 
@@ -540,6 +538,12 @@ Method Differences Index
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.Table.html#com.google.common.collect.Table.get_changed(java.lang.Object, java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
 (<code>Object, Object</code>)&nbsp;in&nbsp;com.google.common.collect.Table
 </A></nobr><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.get_removed(java.util.concurrent.Future<V>, java.lang.Class<X>)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Future&lt;V&gt;, Class&lt;X&gt;</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.Futures
+</A></nobr><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.get_removed(java.util.concurrent.Future<V>, long, java.util.concurrent.TimeUnit, java.lang.Class<X>)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Future&lt;V&gt;, long, TimeUnit, Class&lt;X&gt;</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.Futures
+</A></nobr><br>
 <nobr><A HREF="com.google.common.cache.LoadingCache.html#com.google.common.cache.LoadingCache.getAll_changed(java.lang.Iterable<? extends K>)" class="hiddenlink" target="rightframe">getAll
 (<code>Iterable&lt;? extends K&gt;</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.cache.Cache.html#com.google.common.cache.Cache.getAllPresent_changed(java.lang.Iterable<?>)" class="hiddenlink" target="rightframe">getAllPresent
@@ -748,6 +752,13 @@ Method Differences Index
 </A></nobr><br>
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.ListeningExecutorService.html#com.google.common.util.concurrent.ListeningExecutorService.invokeAll_changed(java.util.Collection<? extends java.util.concurrent.Callable<T>>, long, java.util.concurrent.TimeUnit)" class="hiddenlink" target="rightframe">type&nbsp;
 (<code>Collection&lt;? extends Callable&lt;T&gt;&gt;, long, TimeUnit</code>)&nbsp;in&nbsp;com.google.common.util.concurrent.ListeningExecutorService
+</A></nobr><br>
+<i>isAssignableFrom</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.reflect.TypeToken.html#com.google.common.reflect.TypeToken.isAssignableFrom_removed(com.google.common.reflect.TypeToken<?>)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>TypeToken&lt;?&gt;</code>)</strike>&nbsp;in&nbsp;com.google.common.reflect.TypeToken
+</A></nobr><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.reflect.TypeToken.html#com.google.common.reflect.TypeToken.isAssignableFrom_removed(java.lang.reflect.Type)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Type</code>)</strike>&nbsp;in&nbsp;com.google.common.reflect.TypeToken
 </A></nobr><br>
 <i>isEmpty</i><br>
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.Multimap.html#com.google.common.collect.Multimap.isEmpty_changed()" class="hiddenlink" target="rightframe">type&nbsp;
@@ -1432,6 +1443,13 @@ Method Differences Index
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.RangeSet.html#com.google.common.collect.RangeSet.toString_changed()" class="hiddenlink" target="rightframe">type&nbsp;
 ()&nbsp;in&nbsp;com.google.common.collect.RangeSet
 </A></nobr><br>
+<i>transform</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.transform_removed(com.google.common.util.concurrent.ListenableFuture<I>, com.google.common.util.concurrent.AsyncFunction<? super I, ? extends O>)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>ListenableFuture&lt;I&gt;, AsyncFunction&lt;? super I, ? extends O&gt;</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.Futures
+</A></nobr><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.transform_removed(com.google.common.util.concurrent.ListenableFuture<I>, com.google.common.util.concurrent.AsyncFunction<? super I, ? extends O>, java.util.concurrent.Executor)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>ListenableFuture&lt;I&gt;, AsyncFunction&lt;? super I, ? extends O&gt;, Executor</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.Futures
+</A></nobr><br>
 <nobr><A HREF="com.google.common.collect.Maps.EntryTransformer.html#com.google.common.collect.Maps.EntryTransformer.transformEntry_changed(K, V1)" class="hiddenlink" target="rightframe">transformEntry
 (<code>K, V1</code>)</A></nobr><br>
 <A NAME="U"></A>
@@ -1535,6 +1553,13 @@ Method Differences Index
 </A></nobr><br>
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.whenAllSucceed_added(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)" class="hiddenlink" target="rightframe">type&nbsp;<b>
 (<code>Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt;</code>)</b>&nbsp;in&nbsp;com.google.common.util.concurrent.Futures
+</A></nobr><br>
+<i>withFallback</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.withFallback_removed(com.google.common.util.concurrent.ListenableFuture<? extends V>, com.google.common.util.concurrent.FutureFallback<? extends V>)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>ListenableFuture&lt;? extends V&gt;, FutureFallback&lt;? extends V&gt;</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.Futures
+</A></nobr><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.withFallback_removed(com.google.common.util.concurrent.ListenableFuture<? extends V>, com.google.common.util.concurrent.FutureFallback<? extends V>, java.util.concurrent.Executor)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>ListenableFuture&lt;? extends V&gt;, FutureFallback&lt;? extends V&gt;, Executor</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.Futures
 </A></nobr><br>
 <i>write</i><br>
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.io.ByteArrayDataOutput.html#com.google.common.io.ByteArrayDataOutput.write_changed(byte[])" class="hiddenlink" target="rightframe">type&nbsp;

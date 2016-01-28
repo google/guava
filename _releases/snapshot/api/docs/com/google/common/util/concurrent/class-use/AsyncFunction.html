@@ -119,29 +119,6 @@
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;I,O&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
-<td class="colLast"><span class="strong">Futures.</span><code><strong><a href="../../../../../../com/google/common/util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.AsyncFunction)">transform</a></strong>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
-                  <a href="../../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super I,? extends O&gt;&nbsp;function)</code>
-<div class="block"><strong>Deprecated.</strong>&nbsp;
-<div class="block"><i>These <code>AsyncFunction</code> overloads of <code>transform</code> are being renamed to
-     <code>transformAsync</code>. (The <code>Function</code> overloads are keeping the "transform" name.)
-     This method will be removed in Guava release 20.0.</i></div>
-</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;I,O&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
-<td class="colLast"><span class="strong">Futures.</span><code><strong><a href="../../../../../../com/google/common/util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.AsyncFunction,%20java.util.concurrent.Executor)">transform</a></strong>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
-                  <a href="../../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super I,? extends O&gt;&nbsp;function,
-                  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
-<div class="block"><strong>Deprecated.</strong>&nbsp;
-<div class="block"><i>These <code>AsyncFunction</code> overloads of <code>transform</code> are being renamed to
-     <code>transformAsync</code>. (The <code>Function</code> overloads are keeping the "transform" name.)
-     This method will be removed in Guava release 20.0.</i></div>
-</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;I,O&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
 <td class="colLast"><span class="strong">Futures.</span><code><strong><a href="../../../../../../com/google/common/util/concurrent/Futures.html#transformAsync(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.AsyncFunction)">transformAsync</a></strong>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
                             <a href="../../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super I,? extends O&gt;&nbsp;function)</code>
 <div class="block">Returns a new <code>Future</code> whose result is asynchronously derived from the result of the

@@ -267,24 +267,6 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/reflect/TypeToken.html#isAssignableFrom(java.lang.reflect.Type)">isAssignableFrom</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect">Type</a>&nbsp;type)</code>
-<div class="block"><strong>Deprecated.</strong>&nbsp;
-<div class="block"><i>Use the method under its new name, <a href="../../../../com/google/common/reflect/TypeToken.html#isSupertypeOf(java.lang.reflect.Type)"><code>isSupertypeOf(Type)</code></a>. This method will
-     be removed in Guava release 20.0.</i></div>
-</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/reflect/TypeToken.html#isAssignableFrom(com.google.common.reflect.TypeToken)">isAssignableFrom</a></strong>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;type)</code>
-<div class="block"><strong>Deprecated.</strong>&nbsp;
-<div class="block"><i>Use the method under its new name, <a href="../../../../com/google/common/reflect/TypeToken.html#isSupertypeOf(com.google.common.reflect.TypeToken)"><code>isSupertypeOf(TypeToken)</code></a>. This method
-     will be removed in Guava release 20.0.</i></div>
-</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/reflect/TypeToken.html#isPrimitive()">isPrimitive</a></strong>()</code>
 <div class="block">Returns true if this type is one of the nine primitive types (including <code>void</code>).</div>
 </td>
@@ -590,43 +572,13 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
  <code>List&lt;String&gt;</code> is returned.</div>
 </li>
 </ul>
-<a name="isAssignableFrom(com.google.common.reflect.TypeToken)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>isAssignableFrom</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.415">isAssignableFrom</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;type)</pre>
-<div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Use the method under its new name, <a href="../../../../com/google/common/reflect/TypeToken.html#isSupertypeOf(com.google.common.reflect.TypeToken)"><code>isSupertypeOf(TypeToken)</code></a>. This method
-     will be removed in Guava release 20.0.</i></div>
-<div class="block">Returns true if this type is a supertype of the given <code>type</code>. "Supertype" is defined
- according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1"
- >the rules for type arguments</a> introduced with Java generics.</div>
-</li>
-</ul>
-<a name="isAssignableFrom(java.lang.reflect.Type)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>isAssignableFrom</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.428">isAssignableFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect">Type</a>&nbsp;type)</pre>
-<div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Use the method under its new name, <a href="../../../../com/google/common/reflect/TypeToken.html#isSupertypeOf(java.lang.reflect.Type)"><code>isSupertypeOf(Type)</code></a>. This method will
-     be removed in Guava release 20.0.</i></div>
-<div class="block">Returns true if this type is a supertype of the given <code>type</code>. "Supertype" is defined
- according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1"
- >the rules for type arguments</a> introduced with Java generics.</div>
-</li>
-</ul>
 <a name="isSupertypeOf(com.google.common.reflect.TypeToken)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>isSupertypeOf</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.439">isSupertypeOf</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;type)</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.413">isSupertypeOf</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;type)</pre>
 <div class="block">Returns true if this type is a supertype of the given <code>type</code>. "Supertype" is defined
  according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1"
  >the rules for type arguments</a> introduced with Java generics.</div>
@@ -640,7 +592,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/r
 <ul class="blockList">
 <li class="blockList">
 <h4>isSupertypeOf</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.450">isSupertypeOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect">Type</a>&nbsp;type)</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.424">isSupertypeOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect">Type</a>&nbsp;type)</pre>
 <div class="block">Returns true if this type is a supertype of the given <code>type</code>. "Supertype" is defined
  according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1"
  >the rules for type arguments</a> introduced with Java generics.</div>
@@ -654,7 +606,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/r
 <ul class="blockList">
 <li class="blockList">
 <h4>isSubtypeOf</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.461">isSubtypeOf</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;type)</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.435">isSubtypeOf</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;type)</pre>
 <div class="block">Returns true if this type is a subtype of the given <code>type</code>. "Subtype" is defined
  according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1"
  >the rules for type arguments</a> introduced with Java generics.</div>
@@ -668,7 +620,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/r
 <ul class="blockList">
 <li class="blockList">
 <h4>isSubtypeOf</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.472">isSubtypeOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect">Type</a>&nbsp;supertype)</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.446">isSubtypeOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect">Type</a>&nbsp;supertype)</pre>
 <div class="block">Returns true if this type is a subtype of the given <code>type</code>. "Subtype" is defined
  according to <a href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1"
  >the rules for type arguments</a> introduced with Java generics.</div>
@@ -682,7 +634,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/r
 <ul class="blockList">
 <li class="blockList">
 <h4>isArray</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.511">isArray</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.485">isArray</a>()</pre>
 <div class="block">Returns true if this type is known to be an array type, such as <code>int[]</code>, <code>T[]</code>,
  <code>&lt;? extends Map&lt;String, Integer&gt;[]&gt;</code> etc.</div>
 </li>
@@ -693,7 +645,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/r
 <ul class="blockList">
 <li class="blockList">
 <h4>isPrimitive</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.520">isPrimitive</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.494">isPrimitive</a>()</pre>
 <div class="block">Returns true if this type is one of the nine primitive types (including <code>void</code>).</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>15.0</dd></dl>
@@ -705,7 +657,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/r
 <ul class="blockList">
 <li class="blockList">
 <h4>wrap</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="../../../../com/google/common/reflect/TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.530">wrap</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="../../../../com/google/common/reflect/TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.504">wrap</a>()</pre>
 <div class="block">Returns the corresponding wrapper type if this is a primitive type; otherwise returns
  <code>this</code> itself. Idempotent.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -718,7 +670,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/r
 <ul class="blockList">
 <li class="blockList">
 <h4>unwrap</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="../../../../com/google/common/reflect/TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.549">unwrap</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="../../../../com/google/common/reflect/TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.523">unwrap</a>()</pre>
 <div class="block">Returns the corresponding primitive type if this is a wrapper type; otherwise returns
  <code>this</code> itself. Idempotent.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -732,7 +684,7 @@ public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/r
 <li class="blockList">
 <h4>getComponentType</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public final&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.562">getComponentType</a>()</pre>
+public final&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.536">getComponentType</a>()</pre>
 <div class="block">Returns the array component type if this type represents an array (<code>int[]</code>, <code>T[]</code>,
  <code>&lt;? extends Map&lt;String, Integer&gt;[]&gt;</code> etc.), or else <code>null</code> is returned.</div>
 </li>
@@ -743,7 +695,7 @@ public final&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>method</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="../../../../com/google/common/reflect/TypeToken.html" title="type parameter in TypeToken">T</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.575">method</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect">Method</a>&nbsp;method)</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="../../../../com/google/common/reflect/TypeToken.html" title="type parameter in TypeToken">T</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.549">method</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect">Method</a>&nbsp;method)</pre>
 <div class="block">Returns the <a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> for <code>method</code>, which must be a member of <code>T</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>14.0</dd></dl>
@@ -755,7 +707,7 @@ public final&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>constructor</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="../../../../com/google/common/reflect/TypeToken.html" title="type parameter in TypeToken">T</a>,<a href="../../../../com/google/common/reflect/TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.602">constructor</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect">Constructor</a>&lt;?&gt;&nbsp;constructor)</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="../../../../com/google/common/reflect/TypeToken.html" title="type parameter in TypeToken">T</a>,<a href="../../../../com/google/common/reflect/TypeToken.html" title="type parameter in TypeToken">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.576">constructor</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect">Constructor</a>&lt;?&gt;&nbsp;constructor)</pre>
 <div class="block">Returns the <a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> for <code>constructor</code>, which must be a member of <code>T</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>14.0</dd></dl>
@@ -767,7 +719,7 @@ public final&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.779">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.753">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;o)</pre>
 <div class="block">Returns true if <code>o</code> is another <code>TypeToken</code> that represents the same <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Type.html?is-external=true" title="class or interface in java.lang.reflect"><code>Type</code></a>.</div>
 <dl>
@@ -782,7 +734,7 @@ public final&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.787">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.761">hashCode</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -795,7 +747,7 @@ public final&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.791">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.765">toString</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -808,7 +760,7 @@ public final&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html"
 <ul class="blockListLast">
 <li class="blockList">
 <h4>writeReplace</h4>
-<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.796">writeReplace</a>()</pre>
+<pre>protected&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line.770">writeReplace</a>()</pre>
 <div class="block">Implemented to support serialization of subclasses.</div>
 </li>
 </ul>
