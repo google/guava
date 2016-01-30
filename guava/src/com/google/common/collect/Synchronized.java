@@ -16,8 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -43,6 +41,8 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 
 import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Synchronized collection views. The returned synchronized collection views are
@@ -1884,8 +1884,8 @@ final class Synchronized {
     public Map<C, Map<R, V>> columnMap() {
       synchronized (mutex) {
         Function<Map<R, V>, Map<R, V>> mapFunction = synchronizedMapWrapper(mutex);
-        Map<C, Map<R, V>> rowMap = delegate().columnMap();
-        Map<C, Map<R, V>> transformed = Maps.transformValues(rowMap, mapFunction);
+          Map<C, Map<R, V>> columnMap = delegate().columnMap();
+          Map<C, Map<R, V>> transformed = Maps.transformValues(columnMap, mapFunction);
         return map(transformed, mutex);
       }
     }

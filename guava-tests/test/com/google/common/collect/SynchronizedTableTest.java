@@ -195,13 +195,13 @@ public class SynchronizedTableTest extends TestCase {
         private static long serialVersionUID = 0;
     }
 
-/*
- * Copied from SynchronizedMapTest:
- * This is somewhat of a weak test; we verify that all of the methods are
- * correct, but not that they're actually forwarding correctly. We also rely
- * on the other tests (e.g., SynchronizedSetTest) to verify that the
- * collection views are synchronized correctly.
- */
+  /*
+   * Copied from SynchronizedMapTest:
+   * This is somewhat of a weak test; we verify that all of the methods are
+   * correct, but not that they're actually forwarding correctly. We also rely
+   * on the other tests (e.g., SynchronizedSetTest) to verify that the
+   * collection views are synchronized correctly.
+   */
 
     public void testSize() {
         create().size();
