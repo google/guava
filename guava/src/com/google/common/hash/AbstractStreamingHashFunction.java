@@ -17,10 +17,13 @@ package com.google.common.hash;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
+
+import javax.annotation.CheckReturnValue;
 
 /**
  * Skeleton implementation of {@link HashFunction}. Provides default implementations which
@@ -82,6 +85,7 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
    * @author Dimitris Andreou
    */
   // TODO(kevinb): this class still needs some design-and-document-for-inheritance love
+  @CanIgnoreReturnValue
   protected static abstract class AbstractStreamingHasher extends AbstractHasher {
     /** Buffer via which we pass data to the hash algorithm (the implementor) */
     private final ByteBuffer buffer;
@@ -242,6 +246,7 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
     }
 
     @Override
+    @CheckReturnValue
     public final HashCode hash() {
       munch();
       buffer.flip();

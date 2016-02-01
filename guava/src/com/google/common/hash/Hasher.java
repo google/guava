@@ -15,6 +15,7 @@
 package com.google.common.hash;
 
 import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.nio.charset.Charset;
 
@@ -52,6 +53,7 @@ import javax.annotation.CheckReturnValue;
  * @since 11.0
  */
 @Beta
+@CanIgnoreReturnValue
 public interface Hasher extends PrimitiveSink {
   @Override
   Hasher putByte(byte b);
@@ -127,5 +129,6 @@ public interface Hasher extends PrimitiveSink {
    */
   @Override
   @Deprecated
+  @CheckReturnValue
   int hashCode();
 }

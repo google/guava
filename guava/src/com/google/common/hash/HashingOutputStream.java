@@ -22,8 +22,6 @@ import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * An {@link OutputStream} that maintains a hash of the data written to it.
  *
@@ -65,7 +63,6 @@ public final class HashingOutputStream extends FilterOutputStream {
    * Returns the {@link HashCode} based on the data written to this stream. The result is
    * unspecified if this method is called more than once on the same instance.
    */
-  @CheckReturnValue
   public HashCode hash() {
     return hasher.hash();
   }

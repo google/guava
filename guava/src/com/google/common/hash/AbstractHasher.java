@@ -14,6 +14,8 @@
 
 package com.google.common.hash;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.nio.charset.Charset;
 
 /**
@@ -23,6 +25,7 @@ import java.nio.charset.Charset;
  *
  * @author Dimitris Andreou
  */
+@CanIgnoreReturnValue
 abstract class AbstractHasher implements Hasher {
   @Override
   public final Hasher putBoolean(boolean b) {

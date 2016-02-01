@@ -22,10 +22,10 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.UnsignedInts;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -42,7 +42,6 @@ public abstract class HashCode {
   /**
    * Returns the number of bits in this hash code; a positive multiple of 8.
    */
-  @CheckReturnValue
   public abstract int bits();
 
   /**
@@ -51,7 +50,6 @@ public abstract class HashCode {
    *
    * @throws IllegalStateException if {@code bits() < 32}
    */
-  @CheckReturnValue
   public abstract int asInt();
 
   /**
@@ -60,7 +58,6 @@ public abstract class HashCode {
    *
    * @throws IllegalStateException if {@code bits() < 64}
    */
-  @CheckReturnValue
   public abstract long asLong();
 
   /**
@@ -70,7 +67,6 @@ public abstract class HashCode {
    *
    * @since 14.0 (since 11.0 as {@code Hashing.padToLong(HashCode)})
    */
-  @CheckReturnValue
   public abstract long padToLong();
 
   /**
@@ -79,7 +75,6 @@ public abstract class HashCode {
    * returned by this method.
    */
   // TODO(user): consider ByteString here, when that is available
-  @CheckReturnValue
   public abstract byte[] asBytes();
 
   /**
@@ -91,6 +86,7 @@ public abstract class HashCode {
    * @return the number of bytes written to {@code dest}
    * @throws IndexOutOfBoundsException if there is not enough room in {@code dest}
    */
+  @CanIgnoreReturnValue
   public int writeBytesTo(byte[] dest, int offset, int maxLength) {
     maxLength = Ints.min(maxLength, bits() / 8);
     Preconditions.checkPositionIndexes(offset, offset + maxLength, dest.length);
@@ -121,7 +117,6 @@ public abstract class HashCode {
    *
    * @since 15.0 (since 12.0 in HashCodes)
    */
-  @CheckReturnValue
   public static HashCode fromInt(int hash) {
     return new IntHashCode(hash);
   }
@@ -184,7 +179,6 @@ public abstract class HashCode {
    *
    * @since 15.0 (since 12.0 in HashCodes)
    */
-  @CheckReturnValue
   public static HashCode fromLong(long hash) {
     return new LongHashCode(hash);
   }
@@ -251,7 +245,6 @@ public abstract class HashCode {
    *
    * @since 15.0 (since 12.0 in HashCodes)
    */
-  @CheckReturnValue
   public static HashCode fromBytes(byte[] bytes) {
     checkArgument(bytes.length >= 1, "A HashCode must contain at least 1 byte.");
     return fromBytesNoCopy(bytes.clone());
@@ -350,7 +343,6 @@ public abstract class HashCode {
    *
    * @since 15.0
    */
-  @CheckReturnValue
   public static HashCode fromString(String string) {
     checkArgument(
         string.length() >= 2, "input string (%s) must have at least 2 characters", string);

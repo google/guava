@@ -21,7 +21,6 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -31,7 +30,6 @@ import javax.annotation.Nullable;
  * @since 11.0
  */
 @Beta
-@CheckReturnValue
 public final class Funnels {
   private Funnels() {}
 

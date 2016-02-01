@@ -30,7 +30,6 @@ import java.util.zip.Adler32;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -47,7 +46,6 @@ import javax.crypto.spec.SecretKeySpec;
  * @since 11.0
  */
 @Beta
-@CheckReturnValue
 public final class Hashing {
   /**
    * Returns a general-purpose, <b>temporary-use</b>, non-cryptographic hash function. The algorithm

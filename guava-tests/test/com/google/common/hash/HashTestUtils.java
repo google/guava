@@ -432,18 +432,20 @@ final class HashTestUtils {
   }
 
   static void assertHashBytesThrowsCorrectExceptions(HashFunction hashFunction) {
-    hashFunction.hashBytes(new byte[64], 0, 0);
+    {
+      HashCode unused = hashFunction.hashBytes(new byte[64], 0, 0);
+    }
 
     try {
-      hashFunction.hashBytes(new byte[128], -1, 128);
+      HashCode unused = hashFunction.hashBytes(new byte[128], -1, 128);
       Assert.fail();
     } catch (IndexOutOfBoundsException expected) {}
     try {
-      hashFunction.hashBytes(new byte[128], 64, 256 /* too long len */);
+      HashCode unused = hashFunction.hashBytes(new byte[128], 64, 256 /* too long len */);
       Assert.fail();
     } catch (IndexOutOfBoundsException expected) {}
     try {
-      hashFunction.hashBytes(new byte[64], 0, -1);
+      HashCode unused = hashFunction.hashBytes(new byte[64], 0, -1);
       Assert.fail();
     } catch (IndexOutOfBoundsException expected) {}
   }
