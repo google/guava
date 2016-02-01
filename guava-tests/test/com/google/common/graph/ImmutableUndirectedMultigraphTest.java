@@ -40,30 +40,30 @@ public class ImmutableUndirectedMultigraphTest extends ImmutableUndirectedGraphT
     assertTrue(addEdge(E12, N1, N2));
     assertTrue(addEdge(E12_A, N1, N2));
     assertTrue(addEdge(E21, N2, N1));
-    assertThat(immutableGraph.edgesConnecting(N1, N2)).containsExactly(E12, E12_A, E21).inOrder();
-    assertThat(immutableGraph.edgesConnecting(N2, N1)).containsExactly(E12, E12_A, E21).inOrder();
+    assertThat(undirectedGraph.edgesConnecting(N1, N2)).containsExactly(E12, E12_A, E21).inOrder();
+    assertThat(undirectedGraph.edgesConnecting(N2, N1)).containsExactly(E12, E12_A, E21).inOrder();
   }
 
   @Test
   public void edgesConnecting_parallelSelfLoopEdges() {
     assertTrue(addEdge(E11, N1, N1));
     assertTrue(addEdge(E11_A, N1, N1));
-    assertThat(immutableGraph.edgesConnecting(N1, N1)).containsExactly(E11, E11_A).inOrder();
+    assertThat(undirectedGraph.edgesConnecting(N1, N1)).containsExactly(E11, E11_A).inOrder();
   }
 
   @Override
-  public void addEdge_builder_parallelEdge() {
+  public void addEdge_parallelEdge() {
     assertTrue(addEdge(E12, N1, N2));
     assertTrue(addEdge(E12_A, N1, N2));
     assertTrue(addEdge(E21, N2, N1));
-    assertThat(immutableGraph.edges()).containsExactly(E12, E12_A, E21).inOrder();
+    assertThat(undirectedGraph.edges()).containsExactly(E12, E12_A, E21).inOrder();
   }
 
   @Override
-  public void addEdge_builder_parallelSelfLoopEdge() {
+  public void addEdge_parallelSelfLoopEdge() {
     assertTrue(addEdge(E11, N1, N1));
     assertTrue(addEdge(E11_A, N1, N1));
-    assertThat(immutableGraph.edges()).containsExactly(E11, E11_A).inOrder();
+    assertThat(undirectedGraph.edges()).containsExactly(E11, E11_A).inOrder();
   }
 
   @Test
@@ -83,6 +83,7 @@ public class ImmutableUndirectedMultigraphTest extends ImmutableUndirectedGraphT
     ));
   }
 
+  @Override
   protected void populateInputGraph(UndirectedGraph<Integer, String> graph) {
     super.populateInputGraph(graph);
     // Add some parallel edges

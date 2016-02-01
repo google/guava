@@ -16,15 +16,12 @@
 
 package com.google.common.graph;
 
-import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 /**
- * Abstract base class for testing immutable implementations of the {@link Graph}
+ * Abstract base class for testing immutable implementations of the {@link UndirectedGraph}
  * interface.
  *
  * <p>This class is testing that all mutation methods called directly
@@ -33,8 +30,7 @@ import org.junit.rules.ExpectedException;
  * Any other test cases should be either included in the superclasses or subclasses.
  *
  */
-public abstract class AbstractImmutableGraphTest extends AbstractGraphTest {
-
+public abstract class AbstractImmutableUndirectedGraphTest extends AbstractUndirectedGraphTest {
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
   @Override
@@ -112,38 +108,41 @@ public abstract class AbstractImmutableGraphTest extends AbstractGraphTest {
     graph.successors(N1).add(N2);
   }
 
-  // We want to test calling the mutation methods directly on the graph,
-  // hence the proxy methods are not needed. In case of immutable graphs,
-  // proxy methods add nodes/edges to the builder then build a new graph.
+  // Builder mutation methods only support addition, not removal, so these tests would fail.
+  @Override
+  public void removeNode_existingNode() {
+    expectedException.expect(UnsupportedOperationException.class);
+    super.removeNode_existingNode();
+  }
+
+  @Override
+  public void removeNode_invalidArgument() {
+    expectedException.expect(UnsupportedOperationException.class);
+    super.removeNode_invalidArgument();
+  }
+
+  @Override
+  public void removeEdge_existingEdge() {
+    expectedException.expect(UnsupportedOperationException.class);
+    super.removeEdge_existingEdge();
+  }
+
+  @Override
+  public void removeEdge_invalidArgument() {
+    expectedException.expect(UnsupportedOperationException.class);
+    super.removeEdge_invalidArgument();
+  }
+
+  // Test that adding to the graph directly (as opposed to via the proxy methods) is not supported.
   @Test
-  public void addNode() {
+  public void addNode_immutable() {
     expectedException.expect(UnsupportedOperationException.class);
     graph.addNode(N3);
   }
 
   @Test
-  public void addEdge() {
+  public void addEdge_immutable() {
     expectedException.expect(UnsupportedOperationException.class);
     graph.addEdge(E13, N1, N3);
-  }
-
-  @Test
-  public void removeNode() {
-    expectedException.expect(UnsupportedOperationException.class);
-    graph.removeNode(N1);
-  }
-
-  @Test
-  public void removeEdge() {
-    expectedException.expect(UnsupportedOperationException.class);
-    graph.removeEdge(E12);
-  }
-
-  // Builder mutation methods
-
-  @Test
-  public void addNode_builder_newNode() {
-    assertTrue(addNode(N1));
-    assertThat(graph.nodes()).contains(N1);
   }
 }

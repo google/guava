@@ -36,7 +36,7 @@ import org.junit.Test;
  * do not require the graph to be directed are found in superclasses.
  *
  */
-public abstract class AbstractDirectedGraphTest extends AbstractMutableGraphTest {
+public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
   DirectedGraph<Integer, String> directedGraph;
 
   @Override

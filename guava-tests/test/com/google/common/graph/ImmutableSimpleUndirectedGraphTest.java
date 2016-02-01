@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -32,22 +31,23 @@ import org.junit.runners.JUnit4;
  * self-loop edges are not allowed)
  */
 @RunWith(JUnit4.class)
-public class ImmutableSimpleUndirectedGraphTest extends AbstractImmutableGraphTest {
-  protected ImmutableUndirectedGraph<Integer, String> immutableGraph;
+public class ImmutableSimpleUndirectedGraphTest extends AbstractImmutableUndirectedGraphTest {
   protected ImmutableUndirectedGraph.Builder<Integer, String> builder;
 
   @Override
   @CanIgnoreReturnValue
   final boolean addNode(Integer n) {
-    graph = immutableGraph = builder.addNode(n).build();
-    return true;
+    UndirectedGraph<Integer, String> oldGraph = Graphs.copyOf(undirectedGraph);
+    graph = undirectedGraph = builder.addNode(n).build();
+    return !graph.equals(oldGraph);
   }
 
   @Override
   @CanIgnoreReturnValue
   final boolean addEdge(String e, Integer n1, Integer n2) {
-    graph = immutableGraph = builder.addEdge(e, n1, n2).build();
-    return true;
+    UndirectedGraph<Integer, String> oldGraph = Graphs.copyOf(undirectedGraph);
+    graph = undirectedGraph = builder.addEdge(e, n1, n2).build();
+    return !graph.equals(oldGraph);
   }
 
   @Override
@@ -56,110 +56,13 @@ public class ImmutableSimpleUndirectedGraphTest extends AbstractImmutableGraphTe
     return builder.build();
   }
 
-  @Override
-  public void init() {
-    graph = immutableGraph = createGraph();
-  }
-
   @Test
-  public void edgesConnecting_oneEdge() {
-    addEdge(E12, N1, N2);
-    assertThat(immutableGraph.edgesConnecting(N1, N2)).containsExactly(E12);
-    assertThat(immutableGraph.edgesConnecting(N2, N1)).containsExactly(E12);
-  }
-
-  @Test
-  public void inEdges_oneEdge() {
-    addEdge(E12, N1, N2);
-    assertThat(immutableGraph.inEdges(N2)).containsExactly(E12);
-    assertThat(immutableGraph.inEdges(N1)).containsExactly(E12);
-  }
-
-  @Test
-  public void outEdges_oneEdge() {
-    addEdge(E12, N1, N2);
-    assertThat(immutableGraph.outEdges(N2)).containsExactly(E12);
-    assertThat(immutableGraph.outEdges(N1)).containsExactly(E12);
-  }
-
-  @Test
-  public void predecessors_oneEdge() {
-    addEdge(E12, N1, N2);
-    assertThat(immutableGraph.predecessors(N2)).containsExactly(N1);
-    assertThat(immutableGraph.predecessors(N1)).containsExactly(N2);
-  }
-
-  @Test
-  public void successors_oneEdge() {
-    addEdge(E12, N1, N2);
-    assertThat(immutableGraph.successors(N1)).containsExactly(N2);
-    assertThat(immutableGraph.successors(N2)).containsExactly(N1);
-  }
-
-  @Test
-  public void inDegree_oneEdge() {
-    addEdge(E12, N1, N2);
-    assertEquals(1, immutableGraph.inDegree(N2));
-    assertEquals(1, immutableGraph.inDegree(N1));
-  }
-
-  @Test
-  public void outDegree_oneEdge() {
-    addEdge(E12, N1, N2);
-    assertEquals(1, immutableGraph.outDegree(N1));
-    assertEquals(1, immutableGraph.outDegree(N2));
-  }
-
-  // Builder mutation methods
-
-  @Test
-  public void addEdge_builder_selfLoop() {
+  public void addEdge_selfLoop() {
     try {
       addEdge(E11, N1, N1);
       fail(ERROR_ADDED_SELF_LOOP);
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_SELF_LOOP);
-    }
-  }
-
-  @Test
-  public void addEdge_builder_existingNodes() {
-    // Adding nodes initially for safety (insulating from possible future
-    // modifications to proxy methods)
-    addNode(N1);
-    addNode(N2);
-    assertTrue(addEdge(E12, N1, N2));
-    assertThat(immutableGraph.edges()).contains(E12);
-    assertThat(immutableGraph.edgesConnecting(N1, N2)).containsExactly(E12);
-    assertThat(immutableGraph.edgesConnecting(N2, N1)).containsExactly(E12);
-  }
-
-  @Test
-  public void addEdge_builder_existingEdgeBetweenDifferentNodes() {
-    addEdge(E12, N1, N2);
-    try {
-      // Edge between totally different nodes
-      addEdge(E12, N4, N5);
-      fail(ERROR_ADDED_EXISTING_EDGE);
-    } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
-    }
-  }
-
-  @Test
-  public void addEdge_builder_parallelEdge() {
-    addEdge(E12, N1, N2);
-    try {
-      addEdge(EDGE_NOT_IN_GRAPH, N1, N2);
-      fail(ERROR_ADDED_PARALLEL_EDGE);
-    } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
-    }
-    try {
-      addEdge(EDGE_NOT_IN_GRAPH, N2, N1);
-      fail(ERROR_ADDED_PARALLEL_EDGE);
-    } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
     }
   }
 
@@ -171,17 +74,17 @@ public class ImmutableSimpleUndirectedGraphTest extends AbstractImmutableGraphTe
    * of the graph.
    */
   @Test
-  public void addEdge_builder_nodesNotInGraph() {
+  public void addEdge_nodesNotInGraph() {
     addNode(N1);
     assertTrue(addEdge(E15, N1, N5));
     assertTrue(addEdge(E41, N4, N1));
     assertTrue(addEdge(E23, N2, N3));
-    assertThat(immutableGraph.nodes()).containsExactly(N1, N5, N4, N2, N3).inOrder();
-    assertThat(immutableGraph.edges()).containsExactly(E15, E41, E23).inOrder();
-    assertThat(immutableGraph.edgesConnecting(N1, N5)).containsExactly(E15);
-    assertThat(immutableGraph.edgesConnecting(N4, N1)).containsExactly(E41);
-    assertThat(immutableGraph.edgesConnecting(N2, N3)).containsExactly(E23);
-    assertThat(immutableGraph.edgesConnecting(N3, N2)).containsExactly(E23);
+    assertThat(undirectedGraph.nodes()).containsExactly(N1, N5, N4, N2, N3).inOrder();
+    assertThat(undirectedGraph.edges()).containsExactly(E15, E41, E23).inOrder();
+    assertThat(undirectedGraph.edgesConnecting(N1, N5)).containsExactly(E15);
+    assertThat(undirectedGraph.edgesConnecting(N4, N1)).containsExactly(E41);
+    assertThat(undirectedGraph.edgesConnecting(N2, N3)).containsExactly(E23);
+    assertThat(undirectedGraph.edgesConnecting(N3, N2)).containsExactly(E23);
   }
 
   @Test
@@ -195,7 +98,7 @@ public class ImmutableSimpleUndirectedGraphTest extends AbstractImmutableGraphTe
 
   @Test
   public void copyOf() {
-    UndirectedGraph<Integer, String> graph = Graphs.createUndirected(immutableGraph.config());
+    UndirectedGraph<Integer, String> graph = Graphs.createUndirected(undirectedGraph.config());
     populateInputGraph(graph);
     assertThat(ImmutableUndirectedGraph.copyOf(graph)).isEqualTo(graph);
   }
@@ -224,14 +127,14 @@ public class ImmutableSimpleUndirectedGraphTest extends AbstractImmutableGraphTe
 
   @Test
   public void addGraph() {
-    UndirectedGraph<Integer, String> graph = Graphs.createUndirected(immutableGraph.config());
+    UndirectedGraph<Integer, String> graph = Graphs.createUndirected(undirectedGraph.config());
     populateInputGraph(graph);
     assertThat(builder.addGraph(graph).build()).isEqualTo(graph);
   }
 
   @Test
   public void addGraph_overlap() {
-    UndirectedGraph<Integer, String> graph = Graphs.createUndirected(immutableGraph.config());
+    UndirectedGraph<Integer, String> graph = Graphs.createUndirected(undirectedGraph.config());
     populateInputGraph(graph);
     // Add an edge that is in 'graph' (overlap)
     builder.addEdge(E12, N1, N2);
@@ -241,7 +144,7 @@ public class ImmutableSimpleUndirectedGraphTest extends AbstractImmutableGraphTe
 
   @Test
   public void addGraph_inconsistentEdges() {
-    UndirectedGraph<Integer, String> graph = Graphs.createUndirected(immutableGraph.config());
+    UndirectedGraph<Integer, String> graph = Graphs.createUndirected(undirectedGraph.config());
     populateInputGraph(graph);
     builder.addEdge(E12, N5, N1);
     try {
@@ -250,39 +153,6 @@ public class ImmutableSimpleUndirectedGraphTest extends AbstractImmutableGraphTe
           + "builder state");
     } catch (IllegalArgumentException expected) {
     }
-  }
-
-  @Test
-  public void toString_emptyGraph() {
-    assertThat(graph.toString()).isEqualTo(String.format("config: %s, nodes: %s, edges: {}",
-        graph.config(), graph.nodes()));
-  }
-
-  @Test
-  public void toString_noEdges() {
-    addNode(N1);
-    assertThat(graph.toString()).isEqualTo(String.format("config: %s, nodes: %s, edges: {}",
-        graph.config(), graph.nodes()));
-  }
-
-  @Test
-  public void toString_singleEdge() {
-    addEdge(E12, N1, N2);
-    assertThat(graph.toString()).isEqualTo(String.format(
-        "config: %s, nodes: %s, edges: {%s=[%s, %s]}",
-        graph.config(), graph.nodes(), E12, N1, N2));
-  }
-
-  @Test
-  public void toString_multipleNodesAndEdges() {
-    addEdge(E12, N1, N2);
-    addEdge(E13, N1, N3);
-    assertThat(graph.toString()).isEqualTo(String.format(
-        "config: %s, nodes: %s, edges: {%s=[%s, %s], %s=[%s, %s]}",
-        graph.config(),
-        graph.nodes(),
-        E12, N1, N2,
-        E13, N1, N3));
   }
 
   protected void populateInputGraph(UndirectedGraph<Integer, String> graph) {

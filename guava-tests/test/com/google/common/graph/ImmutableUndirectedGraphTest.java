@@ -76,42 +76,42 @@ public class ImmutableUndirectedGraphTest extends ImmutableSimpleUndirectedGraph
   @Test
   public void edgesConnecting_selfLoop() {
     addEdge(E11, N1, N1);
-    assertThat(immutableGraph.edgesConnecting(N1, N1)).containsExactly(E11);
+    assertThat(undirectedGraph.edgesConnecting(N1, N1)).containsExactly(E11);
     addEdge(E12, N1, N2);
-    assertThat(immutableGraph.edgesConnecting(N1, N2)).containsExactly(E12);
-    assertThat(immutableGraph.edgesConnecting(N2, N1)).containsExactly(E12);
+    assertThat(undirectedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertThat(undirectedGraph.edgesConnecting(N2, N1)).containsExactly(E12);
   }
 
   @Test
   public void inEdges_selfLoop() {
     addEdge(E11, N1, N1);
-    assertThat(immutableGraph.inEdges(N1)).containsExactly(E11);
+    assertThat(undirectedGraph.inEdges(N1)).containsExactly(E11);
     addEdge(E12, N1, N2);
-    assertThat(immutableGraph.inEdges(N1)).containsExactly(E11, E12).inOrder();
+    assertThat(undirectedGraph.inEdges(N1)).containsExactly(E11, E12).inOrder();
   }
 
   @Test
   public void outEdges_selfLoop() {
     addEdge(E11, N1, N1);
-    assertThat(immutableGraph.outEdges(N1)).containsExactly(E11);
+    assertThat(undirectedGraph.outEdges(N1)).containsExactly(E11);
     addEdge(E12, N2, N1);
-    assertThat(immutableGraph.outEdges(N1)).containsExactly(E11, E12).inOrder();
+    assertThat(undirectedGraph.outEdges(N1)).containsExactly(E11, E12).inOrder();
   }
 
   @Test
   public void predecessors_selfLoop() {
     addEdge(E11, N1, N1);
-    assertThat(immutableGraph.predecessors(N1)).containsExactly(N1);
+    assertThat(undirectedGraph.predecessors(N1)).containsExactly(N1);
     addEdge(E12, N1, N2);
-    assertThat(immutableGraph.predecessors(N1)).containsExactly(N1, N2).inOrder();
+    assertThat(undirectedGraph.predecessors(N1)).containsExactly(N1, N2).inOrder();
   }
 
   @Test
   public void successors_selfLoop() {
     addEdge(E11, N1, N1);
-    assertThat(immutableGraph.successors(N1)).containsExactly(N1);
+    assertThat(undirectedGraph.successors(N1)).containsExactly(N1);
     addEdge(E12, N2, N1);
-    assertThat(immutableGraph.successors(N1)).containsExactly(N1, N2).inOrder();
+    assertThat(undirectedGraph.successors(N1)).containsExactly(N1, N2).inOrder();
   }
 
   @Test
@@ -125,30 +125,30 @@ public class ImmutableUndirectedGraphTest extends ImmutableSimpleUndirectedGraph
   @Test
   public void inDegree_selfLoop() {
     addEdge(E11, N1, N1);
-    assertEquals(1, immutableGraph.inDegree(N1));
+    assertEquals(1, undirectedGraph.inDegree(N1));
     addEdge(E12, N1, N2);
-    assertEquals(2, immutableGraph.inDegree(N1));
+    assertEquals(2, undirectedGraph.inDegree(N1));
   }
 
   @Test
   public void outDegree_selfLoop() {
     addEdge(E11, N1, N1);
-    assertEquals(1, immutableGraph.outDegree(N1));
+    assertEquals(1, undirectedGraph.outDegree(N1));
     addEdge(E12, N2, N1);
-    assertEquals(2, immutableGraph.outDegree(N1));
+    assertEquals(2, undirectedGraph.outDegree(N1));
   }
 
   // Builder mutation methods
 
   @Override
-  public void addEdge_builder_selfLoop() {
+  public void addEdge_selfLoop() {
     assertTrue(addEdge(E11, N1, N1));
     assertThat(graph.edges()).contains(E11);
     assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11);
   }
 
   @Test
-  public void addEdge_builder_existingEdgeBetweenDifferentNodes_selfLoops() {
+  public void addEdge_existingEdgeBetweenDifferentNodes_selfLoops() {
     addEdge(E11, N1, N1);
     try {
       addEdge(E11, N1, N2);
@@ -172,7 +172,7 @@ public class ImmutableUndirectedGraphTest extends ImmutableSimpleUndirectedGraph
   }
 
   @Test
-  public void addEdge_builder_parallelSelfLoopEdge() {
+  public void addEdge_parallelSelfLoopEdge() {
     addEdge(E11, N1, N1);
     try {
       addEdge(EDGE_NOT_IN_GRAPH, N1, N1);

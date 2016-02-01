@@ -18,8 +18,11 @@ package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import org.junit.Before;
@@ -105,7 +108,9 @@ public abstract class AbstractGraphTest {
    * TODO(user): Consider changing access modifier to be protected.
    */
   @CanIgnoreReturnValue
-  abstract boolean addNode(Integer n);
+  boolean addNode(Integer n) {
+    return graph.addNode(n);
+  }
 
   /**
    * A proxy method that adds the edge {@code e} to the graph
@@ -127,7 +132,11 @@ public abstract class AbstractGraphTest {
    * TODO(user): Consider changing access modifier to be protected.
    */
   @CanIgnoreReturnValue
-  abstract boolean addEdge(String e, Integer n1, Integer n2);
+  boolean addEdge(String e, Integer n1, Integer n2) {
+    graph.addNode(n1);
+    graph.addNode(n2);
+    return graph.addEdge(e, n1, n2);
+  }
 
   @Before
   public void init() {
@@ -471,6 +480,44 @@ public abstract class AbstractGraphTest {
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
     }
+  }
+
+  @Test
+  public void addNode_newNode() {
+    assertTrue(addNode(N1));
+    assertThat(graph.nodes()).contains(N1);
+  }
+
+  @Test
+  public void addNode_existingNode() {
+    addNode(N1);
+    ImmutableSet<Integer> nodes = ImmutableSet.copyOf(graph.nodes());
+    assertFalse(addNode(N1));
+    assertThat(graph.nodes()).containsExactlyElementsIn(nodes);
+  }
+
+  @Test
+  public void removeNode_existingNode() {
+    addEdge(E12, N1, N2);
+    addEdge(E41, N4, N1);
+    assertTrue(graph.removeNode(N1));
+    assertThat(graph.nodes()).containsExactly(N2, N4);
+    assertThat(graph.edges()).doesNotContain(E12);
+    assertThat(graph.edges()).doesNotContain(E41);
+  }
+
+  @Test
+  public void removeNode_invalidArgument() {
+    ImmutableSet<Integer> nodes = ImmutableSet.copyOf(graph.nodes());
+    assertFalse(graph.removeNode(NODE_NOT_IN_GRAPH));
+    assertThat(graph.nodes()).containsExactlyElementsIn(nodes);
+  }
+
+  @Test
+  public void removeEdge_invalidArgument() {
+    ImmutableSet<String> edges = ImmutableSet.copyOf(graph.edges());
+    assertFalse(graph.removeEdge(EDGE_NOT_IN_GRAPH));
+    assertThat(graph.edges()).containsExactlyElementsIn(edges);
   }
 
   static void assertNodeNotInGraphErrorMessage(Throwable throwable) {
