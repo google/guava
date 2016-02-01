@@ -39,6 +39,7 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   }
 
   @Override
+  @Test
   public void nodes_checkReturnedSetMutability() {
     Set<Integer> nodes = undirectedGraph.nodes();
     try {
@@ -51,6 +52,7 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   }
 
   @Override
+  @Test
   public void edges_checkReturnedSetMutability() {
     Set<String> edges = undirectedGraph.edges();
     try {
@@ -63,6 +65,7 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   }
 
   @Override
+  @Test
   public void incidentEdges_checkReturnedSetMutability() {
     addNode(N1);
     Set<String> incidentEdges = undirectedGraph.incidentEdges(N1);
@@ -76,6 +79,7 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   }
 
   @Override
+  @Test
   public void incidentNodes_checkReturnedSetMutability() {
     addEdge(E12, N1, N2);
     Set<Integer> incidentNodes = undirectedGraph.incidentNodes(E12);
@@ -87,6 +91,7 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   }
 
   @Override
+  @Test
   public void adjacentNodes_checkReturnedSetMutability() {
     addNode(N1);
     Set<Integer> adjacentNodes = undirectedGraph.adjacentNodes(N1);
@@ -100,6 +105,7 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   }
 
   @Override
+  @Test
   public void adjacentEdges_checkReturnedSetMutability() {
     addEdge(E12, N1, N2);
     Set<String> adjacentEdges = undirectedGraph.adjacentEdges(E12);
@@ -113,6 +119,7 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   }
 
   @Override
+  @Test
   public void edgesConnecting_checkReturnedSetMutability() {
     addNode(N1);
     addNode(N2);
@@ -128,6 +135,7 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   }
 
   @Override
+  @Test
   public void inEdges_checkReturnedSetMutability() {
     addNode(N2);
     Set<String> inEdges = undirectedGraph.inEdges(N2);
@@ -141,6 +149,7 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   }
 
   @Override
+  @Test
   public void outEdges_checkReturnedSetMutability() {
     addNode(N1);
     Set<String> outEdges = undirectedGraph.outEdges(N1);
@@ -154,6 +163,7 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   }
 
   @Override
+  @Test
   public void predecessors_checkReturnedSetMutability() {
     addNode(N2);
     Set<Integer> predecessors = undirectedGraph.predecessors(N2);
@@ -167,6 +177,7 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   }
 
   @Override
+  @Test
   public void successors_checkReturnedSetMutability() {
     addNode(N1);
     Set<Integer> successors = undirectedGraph.successors(N1);

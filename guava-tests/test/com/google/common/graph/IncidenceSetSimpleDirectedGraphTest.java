@@ -39,6 +39,7 @@ public class IncidenceSetSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   }
 
   @Override
+  @Test
   public void nodes_checkReturnedSetMutability() {
     Set<Integer> nodes = directedGraph.nodes();
     try {
@@ -51,6 +52,7 @@ public class IncidenceSetSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   }
 
   @Override
+  @Test
   public void edges_checkReturnedSetMutability() {
     Set<String> edges = directedGraph.edges();
     try {
@@ -63,6 +65,7 @@ public class IncidenceSetSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   }
 
   @Override
+  @Test
   public void incidentEdges_checkReturnedSetMutability() {
     addNode(N1);
     Set<String> incidentEdges = directedGraph.incidentEdges(N1);
@@ -76,6 +79,7 @@ public class IncidenceSetSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   }
 
   @Override
+  @Test
   public void incidentNodes_checkReturnedSetMutability() {
     addEdge(E12, N1, N2);
     Set<Integer> incidentNodes = directedGraph.incidentNodes(E12);
@@ -87,6 +91,7 @@ public class IncidenceSetSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   }
 
   @Override
+  @Test
   public void adjacentNodes_checkReturnedSetMutability() {
     addNode(N1);
     Set<Integer> adjacentNodes = directedGraph.adjacentNodes(N1);
@@ -100,6 +105,7 @@ public class IncidenceSetSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   }
 
   @Override
+  @Test
   public void adjacentEdges_checkReturnedSetMutability() {
     addEdge(E12, N1, N2);
     Set<String> adjacentEdges = directedGraph.adjacentEdges(E12);
@@ -113,6 +119,7 @@ public class IncidenceSetSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   }
 
   @Override
+  @Test
   public void edgesConnecting_checkReturnedSetMutability() {
     addNode(N1);
     addNode(N2);
@@ -127,6 +134,7 @@ public class IncidenceSetSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   }
 
   @Override
+  @Test
   public void inEdges_checkReturnedSetMutability() {
     addNode(N2);
     Set<String> inEdges = directedGraph.inEdges(N2);
@@ -140,6 +148,7 @@ public class IncidenceSetSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   }
 
   @Override
+  @Test
   public void outEdges_checkReturnedSetMutability() {
     addNode(N1);
     Set<String> outEdges = directedGraph.outEdges(N1);
@@ -153,6 +162,7 @@ public class IncidenceSetSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   }
 
   @Override
+  @Test
   public void predecessors_checkReturnedSetMutability() {
     addNode(N2);
     Set<Integer> predecessors = directedGraph.predecessors(N2);
@@ -166,6 +176,7 @@ public class IncidenceSetSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   }
 
   @Override
+  @Test
   public void successors_checkReturnedSetMutability() {
     addNode(N1);
     Set<Integer> successors = directedGraph.successors(N1);

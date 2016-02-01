@@ -141,6 +141,7 @@ public class ImmutableUndirectedGraphTest extends ImmutableSimpleUndirectedGraph
   // Builder mutation methods
 
   @Override
+  @Test
   public void addEdge_selfLoop() {
     assertTrue(addEdge(E11, N1, N1));
     assertThat(graph.edges()).contains(E11);
