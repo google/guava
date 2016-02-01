@@ -234,11 +234,16 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * listeners" refer here to the work done during {@code Function.apply}.
    *
    * @param input the primary input {@code Future}
-   * @param exceptionType the exception type that triggers use of {@code fallback}. To avoid hiding
-   *     bugs and other unrecoverable errors, callers should prefer more specific types, avoiding
-   *     {@code Throwable.class} in particular.
-   * @param fallback the {@link Function} implementation to be called if {@code input} fails with
-   *     the expected exception type
+   * @param exceptionType the exception type that triggers use of {@code fallback}. The exception
+   *     type is matched against the input's exception. "The input's exception" means the cause of
+   *     the {@link ExecutionException} thrown by {@code input.get()} or, if {@code get()} throws a
+   *     different kind of exception, that exception itself. To avoid hiding bugs and other
+   *     unrecoverable errors, callers should prefer more specific types, avoiding {@code
+   *     Throwable.class} in particular.
+   * @param fallback the {@link Function} to be called if {@code input} fails with the expected
+   *     exception type. The function's argument is the input's exception. "The input's exception"
+   *     means the cause of the {@link ExecutionException} thrown by {@code input.get()} or, if
+   *     {@code get()} throws a different kind of exception, that exception itself.
    * @since 19.0
    */
   @GwtIncompatible // AVAILABLE but requires exceptionType to be Throwable.class
@@ -279,11 +284,16 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * work done during {@code Function.apply}.
    *
    * @param input the primary input {@code Future}
-   * @param exceptionType the exception type that triggers use of {@code fallback}. To avoid hiding
-   *     bugs and other unrecoverable errors, callers should prefer more specific types, avoiding
-   *     {@code Throwable.class} in particular.
-   * @param fallback the {@link Function} implementation to be called if {@code input} fails with
-   *     the expected exception type
+   * @param exceptionType the exception type that triggers use of {@code fallback}. The exception
+   *     type is matched against the input's exception. "The input's exception" means the cause of
+   *     the {@link ExecutionException} thrown by {@code input.get()} or, if {@code get()} throws a
+   *     different kind of exception, that exception itself. To avoid hiding bugs and other
+   *     unrecoverable errors, callers should prefer more specific types, avoiding {@code
+   *     Throwable.class} in particular.
+   * @param fallback the {@link Function} to be called if {@code input} fails with the expected
+   *     exception type. The function's argument is the input's exception. "The input's exception"
+   *     means the cause of the {@link ExecutionException} thrown by {@code input.get()} or, if
+   *     {@code get()} throws a different kind of exception, that exception itself.
    * @param executor the executor that runs {@code fallback} if {@code input} fails
    * @since 19.0
    */
@@ -346,11 +356,16 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * to complete the returned {@code Future}.
    *
    * @param input the primary input {@code Future}
-   * @param exceptionType the exception type that triggers use of {@code fallback}. To avoid hiding
-   *     bugs and other unrecoverable errors, callers should prefer more specific types, avoiding
-   *     {@code Throwable.class} in particular.
-   * @param fallback the {@link AsyncFunction} implementation to be called if {@code input} fails
-   *     with the expected exception type
+   * @param exceptionType the exception type that triggers use of {@code fallback}. The exception
+   *     type is matched against the input's exception. "The input's exception" means the cause of
+   *     the {@link ExecutionException} thrown by {@code input.get()} or, if {@code get()} throws a
+   *     different kind of exception, that exception itself. To avoid hiding bugs and other
+   *     unrecoverable errors, callers should prefer more specific types, avoiding {@code
+   *     Throwable.class} in particular.
+   * @param fallback the {@link AsyncFunction} to be called if {@code input} fails with the expected
+   *     exception type. The function's argument is the input's exception. "The input's exception"
+   *     means the cause of the {@link ExecutionException} thrown by {@code input.get()} or, if
+   *     {@code get()} throws a different kind of exception, that exception itself.
    * @since 19.0 (similar functionality in 14.0 as {@code withFallback})
    */
   @GwtIncompatible // AVAILABLE but requires exceptionType to be Throwable.class
@@ -411,11 +426,16 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * {@code Future}.
    *
    * @param input the primary input {@code Future}
-   * @param exceptionType the exception type that triggers use of {@code fallback}. To avoid hiding
-   *     bugs and other unrecoverable errors, callers should prefer more specific types, avoiding
-   *     {@code Throwable.class} in particular.
-   * @param fallback the {@link AsyncFunction} implementation to be called if {@code input} fails
-   *     with the expected exception type
+   * @param exceptionType the exception type that triggers use of {@code fallback}. The exception
+   *     type is matched against the input's exception. "The input's exception" means the cause of
+   *     the {@link ExecutionException} thrown by {@code input.get()} or, if {@code get()} throws a
+   *     different kind of exception, that exception itself. To avoid hiding bugs and other
+   *     unrecoverable errors, callers should prefer more specific types, avoiding {@code
+   *     Throwable.class} in particular.
+   * @param fallback the {@link AsyncFunction} to be called if {@code input} fails with the expected
+   *     exception type. The function's argument is the input's exception. "The input's exception"
+   *     means the cause of the {@link ExecutionException} thrown by {@code input.get()} or, if
+   *     {@code get()} throws a different kind of exception, that exception itself.
    * @param executor the executor that runs {@code fallback} if {@code input} fails
    * @since 19.0 (similar functionality in 14.0 as {@code withFallback})
    */
