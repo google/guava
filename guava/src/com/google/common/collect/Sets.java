@@ -587,10 +587,6 @@ public final class Sets {
    * <p>Results are undefined if {@code set1} and {@code set2} are sets based on
    * different equivalence relations (as {@link HashSet}, {@link TreeSet}, and
    * the {@link Map#keySet} of an {@code IdentityHashMap} all are).
-   *
-   * <p><b>Note:</b> The returned view performs better when {@code set1} is the
-   * smaller of the two sets. If you have reason to believe one of your sets
-   * will generally be smaller than the other, pass it first.
    */
   public static <E> SetView<E> union(final Set<? extends E> set1, final Set<? extends E> set2) {
     checkNotNull(set1, "set1");
