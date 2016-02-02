@@ -90,13 +90,15 @@ import javax.annotation.Nullable;
  *       you can instead wrap the edges in a custom class that defers to {@link Object} for its
  *       {@code equals()} and {@code hashCode()} implementations.
  *   <li>If graph elements have mutable state, both of the following must be true:
- *     <ul>the mutable state must not be reflected in the {@code equals/hashCode} methods
+ *     <ul>
+ *     <li>the mutable state must not be reflected in the {@code equals/hashCode} methods
  *         (this is discussed in the {@code Map} documentation in detail)
- *     <ul>don't construct multiple elements that are equal to each other and expect them to be
+ *     <li>don't construct multiple elements that are equal to each other and expect them to be
  *         interchangeable.  In particular, when adding such elements to a graph, you should create
  *         them once and store the reference if you will need to refer to those elements more than
  *         once during creation (rather than passing {@code new MyMutableNode(id)} to each
  *         {@code add*()} call).
+ *     </ul>
  *   </ul>
  *   <br>Generally speaking, your design may be more robust if you use immutable nodes/edges and
  * store mutable per-element state in a separate data structure (e.g. an element-to-state map).
@@ -162,11 +164,11 @@ import javax.annotation.Nullable;
  * <p>Examples of use:
  * <ul>
  * <li>Is {@code node} in the graph?
- *   <ul>
- *   <li>{@code graph.nodes().contains(node)}
- *   </ul>
+ * <pre><code>
+ *   graph.nodes().contains(node)
+ * </code></pre>
  * <li>Traversing an undirected graph node-wise:
- * <p><pre><code>
+ * <pre><code>
  *   // Visit nodes reachable from {@code node}.
  *   void depthFirstTraverse(N node) {
  *     for (N neighbor : graph.adjacentNodes(node)) {
@@ -178,7 +180,7 @@ import javax.annotation.Nullable;
  *   }
  * </code></pre>
  * <li>Traversing a directed graph edge-wise:
- * <p><pre><code>
+ * <pre><code>
  *   // Update the shortest-path distances of the successors to {@code node}
  *   // in a directed graph (inner loop of Dijkstra's algorithm):
  *   void updateDistances(N node) {
@@ -191,6 +193,7 @@ import javax.annotation.Nullable;
  *       }
  *     }
  *   }
+ * </code></pre>
  * </ul>
  *
  * @author Joshua O'Madadhain
