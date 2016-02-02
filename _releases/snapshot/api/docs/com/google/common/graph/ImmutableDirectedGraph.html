@@ -101,7 +101,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.75">ImmutableDirectedGraph</a>&lt;N,E&gt;
+public final class <a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.91">ImmutableDirectedGraph</a>&lt;N,E&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;</pre>
 <div class="block">Implementation of an immutable directed graph consisting of nodes
@@ -127,12 +127,29 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
      self-loop, a node can be adjacent to itself, but an edge will never be.
  </ul>
 
- <p>The time complexity of all <code>Set</code>-returning accessors is O(1), since we
- are returning views. An exception to this is <code>edgesConnecting(node1, node2)</code>,
- which is O(min(outD_node1, inD_node2)).
+ <p>Most of the <code>Set</code>-returning accessors return an immutable set which is an internal
+ data structure, hence they have a time complexity of O(1). The rest of these accessors build
+ and return an immutable set that is <b>derived</b> from the internal data structures, hence
+ they have the following time complexities:
+ <ul>
+ <li><code>incidentEdges(node)</code>: O(d_node).
+ <li>Methods that ask for adjacent nodes:
+     <ul>
+     <li><code>adjacentNodes(node)</code>: O(d_node).
+     <li><code>predecessors(node)</code>: O(inD_node).
+     <li><code>successors(node)</code>: O(outD_node).
+     </ul>
+ <li><code>adjacentEdges(edge)</code>: O(d_node1 + d_node2), where node1 and node2 are
+     <code>edge</code>'s incident nodes.
+ <li><code>edgesConnecting(node1, node2)</code>: O(min(outD_node1, inD_node2)).
+ </ul>
+ where d_node is the degree of node, inD_node is the in-degree of node, and outD_node is the
+ out-degree of node. The set returned by these methods is <b>not</b> cached, so every time the
+ user calls the method, the same set will be reconstructed again.
 
- <p>All other accessors have a time complexity of O(1), except for <code>degree(node)</code>,
- whose time complexity is O(outD_node).</div>
+ <p>All other accessors have a time complexity of O(1), except for
+ <code>degree(node)</code>, whose time complexity is linear in the minimum of
+ the out-degree and in-degree of <code>node</code>. This is due to a call to <code>edgesConnecting</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>20.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -247,7 +264,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node1,
                               <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node2)</code>
-<div class="block">Returns the intersection of these two sets, using <a href="../../../../com/google/common/collect/Sets.html#intersection(java.util.Set,%20java.util.Set)"><code>Sets.intersection(java.util.Set&lt;E&gt;, java.util.Set&lt;?&gt;)</code></a>:
+<div class="block">Returns the intersection of these two sets, using <code>Sets.intersection</code>:
  
  Outgoing edges of <code>node1</code>.</div>
 </td>
@@ -388,7 +405,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>nodes</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.107">nodes</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.122">nodes</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#nodes()">Graph</a></code></strong></div>
 <div class="block">Returns all nodes in this graph.</div>
 <dl>
@@ -403,7 +420,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>edges</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.112">edges</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.127">edges</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#edges()">Graph</a></code></strong></div>
 <div class="block">Returns all edges in this graph.</div>
 <dl>
@@ -418,7 +435,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>config</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.117">config</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.132">config</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#config()">Graph</a></code></strong></div>
 <div class="block">Returns the <a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph"><code>GraphConfig</code></a> that defines this instance's configuration.</div>
 <dl>
@@ -433,7 +450,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentEdges</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.122">incidentEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.137">incidentEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns the edges whose endpoints in this graph include <code>node</code>.</div>
 <dl>
@@ -448,7 +465,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentNodes</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.127">incidentNodes</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.142">incidentNodes</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#incidentNodes(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this graph.</div>
 <dl>
@@ -463,7 +480,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentNodes</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.132">adjacentNodes</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.150">adjacentNodes</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#adjacentNodes(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns the nodes which have an <a href="../../../../com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incident edge</a>
  in common with <code>node</code> in this graph.</div>
@@ -479,7 +496,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentEdges</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.137">adjacentEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.155">adjacentEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#adjacentEdges(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns the edges which have an <a href="../../../../com/google/common/graph/Graph.html#incidentNodes(java.lang.Object)">incident node</a>
  in common with <code>edge</code> in this graph.
@@ -498,17 +515,18 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>edgesConnecting</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.155">edgesConnecting</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node1,
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.179">edgesConnecting</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node1,
                      <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node2)</pre>
-<div class="block">Returns the intersection of these two sets, using <a href="../../../../com/google/common/collect/Sets.html#intersection(java.util.Set,%20java.util.Set)"><code>Sets.intersection(java.util.Set&lt;E&gt;, java.util.Set&lt;?&gt;)</code></a>:
+<div class="block">Returns the intersection of these two sets, using <code>Sets.intersection</code>:
  <ol>
  <li>Outgoing edges of <code>node1</code>.
  <li>Incoming edges of <code>node2</code>.
- </ol></div>
+ </ol>
+ The first argument passed to <code>Sets.intersection</code> is the smaller of the two sets.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../com/google/common/graph/Graph.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>,<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt;</code></dd>
-</dl>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../com/google/common/collect/Sets.html#intersection(java.util.Set,%20java.util.Set)"><code>Sets.intersection(java.util.Set&lt;E&gt;, java.util.Set&lt;?&gt;)</code></a></dd></dl>
 </li>
 </ul>
 <a name="inEdges(java.lang.Object)">
@@ -517,7 +535,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>inEdges</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.167">inEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.190">inEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#inEdges(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns all edges in this graph which can be traversed in the direction (if any) of the edge
  to end at <code>node</code>.</div>
@@ -533,7 +551,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>outEdges</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.172">outEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.198">outEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#outEdges(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns all edges in this graph which can be traversed in the direction (if any) of the edge
  starting from <code>node</code>.</div>
@@ -549,7 +567,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>predecessors</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.177">predecessors</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.206">predecessors</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#predecessors(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s <a href="../../../../com/google/common/graph/Graph.html#inEdges(java.lang.Object)">incoming edges</a> <i>against</i> the direction
@@ -566,7 +584,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>successors</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.182">successors</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.215">successors</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#successors(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s <a href="../../../../com/google/common/graph/Graph.html#outEdges(java.lang.Object)">outgoing edges</a> in the direction (if any) of the
@@ -586,7 +604,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>degree</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.187">degree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.224">degree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#degree(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns the number of edges <a href="../../../../com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incident</a> in this graph
  to <code>node</code>.
@@ -604,7 +622,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>inDegree</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.192">inDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.229">inDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#inDegree(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns the number of <a href="../../../../com/google/common/graph/Graph.html#inEdges(java.lang.Object)">incoming edges</a> in this graph
  of <code>node</code>.
@@ -622,7 +640,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>outDegree</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.197">outDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.234">outDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#outDegree(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns the number of <a href="../../../../com/google/common/graph/Graph.html#outEdges(java.lang.Object)">outgoing edges</a> in this graph
  of <code>node</code>.
@@ -640,7 +658,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>source</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.202">source</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.239">source</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/DirectedGraph.html#source(java.lang.Object)">DirectedGraph</a></code></strong></div>
 <div class="block">Returns the node for which <code>edge</code> is an outgoing edge.</div>
 <dl>
@@ -655,7 +673,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>target</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.207">target</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.247">target</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/DirectedGraph.html#target(java.lang.Object)">DirectedGraph</a></code></strong></div>
 <div class="block">Returns the node for which <code>edge</code> is an incoming edge.</div>
 <dl>
@@ -670,7 +688,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.212">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.255">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#equals(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns <code>true</code> iff <code>object</code> is the same type of graph (directed, undirected,
@@ -710,23 +728,10 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.217">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.260">hashCode</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
-</dl>
-</li>
-</ul>
-<a name="toString()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.223">toString</a>()</pre>
-<dl>
-<dt><strong>Overrides:</strong></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -736,7 +741,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableDirectedGraph.Builder</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.248">builder</a>()</pre>
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableDirectedGraph.Builder</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.270">builder</a>()</pre>
 <div class="block">Returns a new builder. The generated builder is equivalent to the builder
  created by the <code>Builder</code> constructor.</div>
 </li>
@@ -747,7 +752,7 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>builder</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableDirectedGraph.Builder</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.259">builder</a>(<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;config)</pre>
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableDirectedGraph.Builder</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.281">builder</a>(<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;config)</pre>
 <div class="block">Returns a new builder. The generated builder is equivalent to the builder
  created by the <code>Builder</code> constructor.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>config</code> - an instance of <code>GraphConfig</code> with the intended
@@ -760,8 +765,21 @@ implements <a href="../../../../com/google/common/graph/DirectedGraph.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.266">copyOf</a>(<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.288">copyOf</a>(<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;graph)</pre>
 <div class="block">Returns an immutable copy of the input graph.</div>
+</li>
+</ul>
+<a name="toString()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>toString</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableDirectedGraph.html#line.293">toString</a>()</pre>
+<dl>
+<dt><strong>Overrides:</strong></dt>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+</dl>
 </li>
 </ul>
 <a name="addNode(java.lang.Object)">
