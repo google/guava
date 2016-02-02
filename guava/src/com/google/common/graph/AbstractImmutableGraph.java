@@ -73,7 +73,7 @@ abstract class AbstractImmutableGraph<N, E> implements Graph<N, E> {
      * @throws IllegalArgumentException when {@code Graph.addEdge(e, n1, n2)} throws
      *     on the graph being built
      * @throws NullPointerException if {@code e}, {@code n1}, or {@code n2} is null
-     * @see Graph#addEdge
+     * @see Graph#addEdge(E, N, N)
      */
     Builder<N, E> addEdge(E e, N n1, N n2);
 

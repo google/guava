@@ -24,8 +24,6 @@ import static com.google.common.graph.GraphErrorMessageUtils.NODE_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphErrorMessageUtils.REUSING_EDGE;
 import static com.google.common.graph.GraphErrorMessageUtils.SELF_LOOPS_NOT_ALLOWED;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -33,7 +31,6 @@ import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -75,27 +72,38 @@ import javax.annotation.Nullable;
  * <ul>
  * <li>Removing the element on which the accessor is called (e.g.:
  *     <pre>{@code
- *     Set<N> preds = predecessors(node);
- *     graph.removeNode(node);}</pre>
+ *     Set<N> preds = predecessors(n);
+ *     graph.removeNode(n);}</pre>
  *     At this point, the contents of {@code preds} are undefined.
  * </ul>
  *
  * <p>The time complexity of all {@code Set}-returning accessors is O(1), since we
- * are returning views.
+ * are returning views. It should be noted that for the following methods:
+ * <ul>
+ * <li>{@code incidentEdges}.
+ * <li>Methods that ask for adjacent nodes (e.g. {@code predecessors}).
+ * <li>{@code adjacentEdges}.
+ * <li>{@code edgesConnecting}.
+ * </ul>
+ * the view is calculated lazily and the backing set is <b>not</b> cached, so every time the user
+ * accesses the returned view, the backing set will be reconstructed again. If the user wants
+ * to avoid this, they should either use {@code ImmutableDirectedGraph}
+ * (if their input is not changing) or make a copy of the return value.
  *
- * <p>All other accessors have a time complexity of O(1), except for {@code degree(node)},
- * whose time complexity is O(outD_node).
+ * <p>All other accessors have a time complexity of O(1), except for
+ * {@code degree(n)}, whose time complexity is linear in the minimum of
+ * the out-degree and in-degree of {@code n}, in case of allowing self-loop edges.
+ * This is due to a call to {@code edgesConnecting}.
  *
  * <p>Time complexities for mutation methods:
  * <ul>
  * <li>{@code addNode}: O(1).
  * <li>{@code removeEdge}: O(1).
- * <li>{@code addEdge(E edge, N node1, N node2)}: O(1), unless this graph is not a multigraph
- *     (does not support parallel edges), then this method is O(min(outD_node1, inD_node2)).
- * <li>{@code removeNode(node)}: O(d_node).
+ * <li>{@code addEdge(E e, N n1, N n2)}: O(1), unless this graph is not a multigraph
+ * (does not support parallel edges). In such case, this method may call
+ * {@code edgesConnecting(n1, n2)}.
+ * <li>{@code removeNode(n)}: O(d), where d is the degree of the node {@code n}.
  * </ul>
- * where d_node is the degree of node, inD_node is the in-degree of node, and outD_node is the
- * out-degree of node.
  *
  * @author Joshua O'Madadhain
  * @param <N> Node parameter type
@@ -104,15 +112,15 @@ import javax.annotation.Nullable;
  * @see Graphs
  */
 final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
-  // TODO(b/24620028): Enable this class to support sorted nodes/edges.
+ // TODO(b/24620028): Enable this class to support sorted nodes/edges.
 
-  private final Map<N, NodeConnections<N, E>> nodeConnections;
+  private final Map<N, DirectedIncidentEdges<E>> nodeToIncidentEdges;
   private final Map<E, DirectedIncidentNodes<N>> edgeToIncidentNodes;
   private final GraphConfig config;
 
   IncidenceSetDirectedGraph(GraphConfig config) {
     // The default of 11 is rather arbitrary, but roughly matches the sizing of just new HashMap()
-    this.nodeConnections =
+    this.nodeToIncidentEdges =
         Maps.newLinkedHashMapWithExpectedSize(config.getExpectedNodeCount().or(11));
     this.edgeToIncidentNodes =
         Maps.newLinkedHashMapWithExpectedSize(config.getExpectedEdgeCount().or(11));
@@ -121,7 +129,7 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
 
   @Override
   public Set<N> nodes() {
-    return Collections.unmodifiableSet(nodeConnections.keySet());
+    return Collections.unmodifiableSet(nodeToIncidentEdges.keySet());
   }
 
   @Override
@@ -136,13 +144,19 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
 
   @Override
   public Set<E> incidentEdges(Object node) {
-    return Sets.union(inEdges(node), outEdges(node));
+    checkNotNull(node, "node");
+    DirectedIncidentEdges<E> incidentEdges = nodeToIncidentEdges.get(node);
+    checkArgument(incidentEdges != null, NODE_NOT_IN_GRAPH, node);
+    return Sets.union(incidentEdges.inEdges(), incidentEdges.outEdges());
   }
 
   @Override
-  public Set<N> incidentNodes(Object edge) {
+  public Set<N> incidentNodes(final Object edge) {
+    checkNotNull(edge, "edge");
     // Returning an immutable set here as the edge's endpoints will not change anyway.
-    return checkedEndpoints(edge).asImmutableSet();
+    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
+    checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
+    return endpoints.asImmutableSet();
   }
 
   @Override
@@ -152,77 +166,140 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
 
   @Override
   public Set<E> adjacentEdges(Object edge) {
-    Iterator<N> incidentNodesIterator = incidentNodes(edge).iterator();
-    Set<E> endpointsIncidentEdges = incidentEdges(incidentNodesIterator.next());
-    while (incidentNodesIterator.hasNext()) {
-      endpointsIncidentEdges =
-          Sets.union(incidentEdges(incidentNodesIterator.next()), endpointsIncidentEdges);
-    }
-    return Sets.difference(endpointsIncidentEdges, ImmutableSet.of(edge));
+    checkNotNull(edge, "edge");
+    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
+    checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
+    return Sets.difference(
+        Sets.union(incidentEdges(endpoints.target()), incidentEdges(endpoints.source())),
+        ImmutableSet.of(edge));
   }
 
   /**
-   * Returns the intersection of these two sets, using {@link Sets#intersection}:
+   * Returns the intersection of these two sets, using {@code Sets.intersection}:
    * <ol>
    * <li>Outgoing edges of {@code node1}.
    * <li>Incoming edges of {@code node2}.
    * </ol>
+   * The first argument passed to {@code Sets.intersection} is the smaller of
+   * the two sets.
+   *
+   * @see Sets#intersection
    */
   @Override
   public Set<E> edgesConnecting(Object node1, Object node2) {
-    Set<E> sourceOutEdges = outEdges(node1); // Verifies that node1 is in graph
-    if (!config.isSelfLoopsAllowed() && node1.equals(node2)) {
-      return ImmutableSet.of();
-    }
-    Set<E> targetInEdges = inEdges(node2);
-    return (sourceOutEdges.size() <= targetInEdges.size())
-        ? Sets.intersection(sourceOutEdges, targetInEdges)
-        : Sets.intersection(targetInEdges, sourceOutEdges);
+    checkNotNull(node1, "node1");
+    checkNotNull(node2, "node2");
+    DirectedIncidentEdges<E> incidentEdgesN1 = nodeToIncidentEdges.get(node1);
+    checkArgument(incidentEdgesN1 != null, NODE_NOT_IN_GRAPH, node1);
+    DirectedIncidentEdges<E> incidentEdgesN2 = nodeToIncidentEdges.get(node2);
+    checkArgument(incidentEdgesN2 != null, NODE_NOT_IN_GRAPH, node2);
+    Set<E> outEdges = incidentEdgesN1.outEdges();
+    Set<E> inEdges = incidentEdgesN2.inEdges();
+    return outEdges.size() <= inEdges.size()
+        ? Sets.intersection(outEdges, inEdges)
+        : Sets.intersection(inEdges, outEdges);
   }
 
   @Override
   public Set<E> inEdges(Object node) {
-    return checkedConnections(node).inEdges();
+    checkNotNull(node, "node");
+    DirectedIncidentEdges<E> incidentEdges = nodeToIncidentEdges.get(node);
+    checkArgument(incidentEdges != null, NODE_NOT_IN_GRAPH, node);
+    return Collections.unmodifiableSet(incidentEdges.inEdges());
   }
 
   @Override
   public Set<E> outEdges(Object node) {
-    return checkedConnections(node).outEdges();
+    checkNotNull(node, "node");
+    DirectedIncidentEdges<E> incidentEdges = nodeToIncidentEdges.get(node);
+    checkArgument(incidentEdges != null, NODE_NOT_IN_GRAPH, node);
+    return Collections.unmodifiableSet(incidentEdges.outEdges());
   }
 
   @Override
   public Set<N> predecessors(Object node) {
-    return checkedConnections(node).predecessors();
+    checkNotNull(node, "node");
+    DirectedIncidentEdges<E> incidentEdges = nodeToIncidentEdges.get(node);
+    checkArgument(incidentEdges != null, NODE_NOT_IN_GRAPH, node);
+    final Set<E> inEdges = incidentEdges.inEdges();
+    return new SetView<N>() {
+      @Override
+      public boolean isEmpty() {
+        return inEdges.isEmpty();
+      }
+
+      @Override
+      Set<N> elements() {
+        Set<N> nodes = Sets.newLinkedHashSet();
+        for (E edge : inEdges) {
+          nodes.add(source(edge));
+        }
+        return nodes;
+      }
+    };
   }
 
   @Override
   public Set<N> successors(Object node) {
-    return checkedConnections(node).successors();
+    checkNotNull(node, "node");
+    DirectedIncidentEdges<E> incidentEdges = nodeToIncidentEdges.get(node);
+    checkArgument(incidentEdges != null, NODE_NOT_IN_GRAPH, node);
+    final Set<E> outEdges = incidentEdges.outEdges();
+    return new SetView<N>() {
+      @Override
+      public boolean isEmpty() {
+        return outEdges.isEmpty();
+      }
+
+      @Override
+      Set<N> elements() {
+        Set<N> nodes = Sets.newLinkedHashSet();
+        for (E edge : outEdges) {
+          nodes.add(target(edge));
+        }
+        return nodes;
+      }
+    };
   }
 
   @Override
   public long degree(Object node) {
-    return incidentEdges(node).size();
+    checkNotNull(node, "node");
+    return config.isSelfLoopsAllowed()
+        ? inDegree(node) + outDegree(node) - edgesConnecting(node, node).size()
+        : inDegree(node) + outDegree(node);
   }
 
   @Override
   public long inDegree(Object node) {
-    return inEdges(node).size();
+    checkNotNull(node, "node");
+    DirectedIncidentEdges<E> incidentEdges = nodeToIncidentEdges.get(node);
+    checkArgument(incidentEdges != null, NODE_NOT_IN_GRAPH, node);
+    return incidentEdges.inEdges().size();
   }
 
   @Override
   public long outDegree(Object node) {
-    return outEdges(node).size();
+    checkNotNull(node, "node");
+    DirectedIncidentEdges<E> incidentEdges = nodeToIncidentEdges.get(node);
+    checkArgument(incidentEdges != null, NODE_NOT_IN_GRAPH, node);
+    return incidentEdges.outEdges().size();
   }
 
   @Override
   public N source(Object edge) {
-    return checkedEndpoints(edge).source();
+    checkNotNull(edge, "edge");
+    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
+    checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
+    return endpoints.source();
   }
 
   @Override
   public N target(Object edge) {
-    return checkedEndpoints(edge).target();
+    checkNotNull(edge, "edge");
+    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
+    checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
+    return endpoints.target();
   }
 
   // Element Mutation
@@ -231,10 +308,12 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
   @CanIgnoreReturnValue
   public boolean addNode(N node) {
     checkNotNull(node, "node");
-    if (nodes().contains(node)) {
+    if (containsNode(node)) {
       return false;
     }
-    nodeConnections.put(node, DirectedNodeConnections.<N, E>of());
+    // TODO(user): Enable users to specify the expected number of neighbors
+    // of a new node.
+    nodeToIncidentEdges.put(node, DirectedIncidentEdges.<E>of());
     return true;
   }
 
@@ -265,16 +344,14 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
       checkArgument(previousEndpoints.equals(endpoints),
           REUSING_EDGE, edge, previousEndpoints, endpoints);
       return false;
-    } else if (!config.isMultigraph() && nodes().contains(node1) && nodes().contains(node2)) {
+    } else if (!config.isMultigraph() && containsNode(node1) && containsNode(node2)) {
       E edgeConnecting = Iterables.getOnlyElement(edgesConnecting(node1, node2), null);
       checkArgument(edgeConnecting == null, ADDING_PARALLEL_EDGE, node1, node2, edgeConnecting);
     }
     addNode(node1);
-    NodeConnections<N, E> connectionsN1 = nodeConnections.get(node1);
-    connectionsN1.addSuccessor(node2, edge);
+    nodeToIncidentEdges.get(node1).outEdges().add(edge);
     addNode(node2);
-    NodeConnections<N, E> connectionsN2 = nodeConnections.get(node2);
-    connectionsN2.addPredecessor(node1, edge);
+    nodeToIncidentEdges.get(node2).inEdges().add(edge);
     edgeToIncidentNodes.put(edge, endpoints);
     return true;
   }
@@ -284,19 +361,15 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
   public boolean removeNode(Object node) {
     checkNotNull(node, "node");
     // Return false if the node doesn't exist in the graph
-    NodeConnections<N, E> connections = nodeConnections.get(node);
-    if (connections == null) {
+    if (!containsNode(node)) {
       return false;
     }
-    // Since views are returned, we need to copy the nodes and edges that will be removed.
-    // Thus we avoid modifying the underlying views while iterating over them.
-    for (E edge : ImmutableList.copyOf(incidentEdges(node))) {
+    // Since views are returned, we need to copy the set of incident edges
+    // to an equivalent collection to avoid removing the edges we are looping on.
+    for (Object edge : incidentEdges(node).toArray()) {
       removeEdge(edge);
     }
-    for (N adjacentNode : ImmutableList.copyOf(connections.adjacentNodes())) {
-      nodeConnections.get(adjacentNode).removeNode(node);
-    }
-    nodeConnections.remove(node);
+    nodeToIncidentEdges.remove(node);
     return true;
   }
 
@@ -309,42 +382,33 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
     if (endpoints == null) {
       return false;
     }
-    nodeConnections.get(endpoints.source()).removeEdge(edge);
-    nodeConnections.get(endpoints.target()).removeEdge(edge);
+    nodeToIncidentEdges.get(endpoints.source()).outEdges().remove(edge);
+    nodeToIncidentEdges.get(endpoints.target()).inEdges().remove(edge);
     edgeToIncidentNodes.remove(edge);
     return true;
   }
 
   @Override
   public boolean equals(@Nullable Object other) {
-    return (other instanceof DirectedGraph) && Graphs.equal(this, (DirectedGraph<?, ?>) other);
+    return (other instanceof DirectedGraph) && Graphs.equal(this, (DirectedGraph) other);
   }
 
   @Override
   public int hashCode() {
-    // The node set is included in the hash to differentiate between graphs with isolated nodes.
-    return Objects.hashCode(nodes(), edgeToIncidentNodes);
+    // This map encapsulates all of the structural relationships of this graph, so its hash code
+    // is consistent with the above definition of equals().
+    return nodeToIncidentEdges.hashCode();
   }
 
   @Override
   public String toString() {
     return String.format("config: %s, nodes: %s, edges: %s",
         config,
-        nodes(),
+        nodeToIncidentEdges.keySet(),
         edgeToIncidentNodes);
   }
 
-  private NodeConnections<N, E> checkedConnections(Object node) {
-    checkNotNull(node, "node");
-    NodeConnections<N, E> connections = nodeConnections.get(node);
-    checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);
-    return connections;
-  }
-
-  private DirectedIncidentNodes<N> checkedEndpoints(Object edge) {
-    checkNotNull(edge, "edge");
-    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
-    checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
-    return endpoints;
+  private boolean containsNode(Object node) {
+    return nodeToIncidentEdges.containsKey(node);
   }
 }

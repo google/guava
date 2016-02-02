@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Predicate;
@@ -409,17 +410,18 @@ public final class Graphs {
   }
 
   /**
-   * Returns a {@link Predicate} that returns {@code true} if the input edge is a self-loop in
+   * Returns a {@link Predicate} that returns {@code true} if the input edge is not a self-loop in
    * {@code graph}. A self-loop is defined as an edge whose set of incident nodes has exactly one
-   * element. The predicate's {@code apply} method will throw an {@link IllegalArgumentException} if
+   * element. The predicate's {@code apply} method will throw a {@link IllegalStateException} if
    * {@code graph} does not contain {@code edge}.
    */
-  public static <E> Predicate<E> selfLoopPredicate(final Graph<?, E> graph) {
+  public static <E> Predicate<E> noSelfLoopPredicate(final Graph<?, E> graph) {
     checkNotNull(graph, "graph");
     return new Predicate<E>() {
       @Override
       public boolean apply(E edge) {
-        return (graph.incidentNodes(edge).size() == 1);
+        checkState(graph.edges().contains(edge), "Graph does not contain edge %s", edge);
+        return graph.incidentNodes(edge).size() != 1;
       }
     };
   }
