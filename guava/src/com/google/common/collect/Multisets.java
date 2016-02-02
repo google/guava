@@ -27,6 +27,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Multiset.Entry;
+import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
@@ -546,7 +547,7 @@ public final class Multisets {
 
       @Override
       public int size() {
-        return multiset1.size() + multiset2.size();
+        return IntMath.saturatedAdd(multiset1.size(), multiset2.size());
       }
 
       @Override

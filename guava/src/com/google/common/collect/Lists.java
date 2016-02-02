@@ -330,7 +330,7 @@ public final class Lists {
 
     @Override
     public int size() {
-      return rest.length + 1;
+      return IntMath.saturatedAdd(rest.length, 1);
     }
 
     @Override
@@ -379,7 +379,7 @@ public final class Lists {
 
     @Override
     public int size() {
-      return rest.length + 2;
+      return IntMath.saturatedAdd(rest.length, 2);
     }
 
     @Override

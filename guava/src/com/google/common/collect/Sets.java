@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
+import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
@@ -597,7 +598,7 @@ public final class Sets {
     return new SetView<E>() {
       @Override
       public int size() {
-        return set1.size() + set2minus1.size();
+        return IntMath.saturatedAdd(set1.size(), set2minus1.size());
       }
 
       @Override

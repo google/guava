@@ -33,6 +33,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+import com.google.common.primitives.Ints;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -196,12 +197,12 @@ public final class Iterators {
    * {@code false}.
    */
   public static int size(Iterator<?> iterator) {
-    int count = 0;
+    long count = 0L;
     while (iterator.hasNext()) {
       iterator.next();
       count++;
     }
-    return count;
+    return Ints.saturatedCast(count);
   }
 
   /**
