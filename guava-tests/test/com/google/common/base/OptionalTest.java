@@ -49,7 +49,7 @@ public final class OptionalTest extends TestCase {
 
   public void testOf_null() {
     try {
-      Optional<Object> unused = Optional.of(null);
+      Optional.of(null);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -76,7 +76,7 @@ public final class OptionalTest extends TestCase {
   public void testGet_absent() {
     Optional<String> optional = Optional.absent();
     try {
-      String unused = optional.get();
+      optional.get();
       fail();
     } catch (IllegalStateException expected) {
     }
@@ -106,7 +106,7 @@ public final class OptionalTest extends TestCase {
     Supplier<Object> nullSupplier = Suppliers.ofInstance(null);
     Optional<Object> absentOptional = Optional.absent();
     try {
-      Object unused = absentOptional.or(nullSupplier);
+      absentOptional.or(nullSupplier);
       fail();
     } catch (NullPointerException expected) {
     }

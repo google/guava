@@ -70,7 +70,7 @@ public class StringsTest extends TestCase {
   // TODO: could remove if we got NPT working in GWT somehow
   public void testPadStart_null() {
     try {
-      String unused = Strings.padStart(null, 5, '0');
+      Strings.padStart(null, 5, '0');
       fail();
     } catch (NullPointerException expected) {
     }
@@ -99,7 +99,7 @@ public class StringsTest extends TestCase {
   // TODO: could remove if we got NPT working in GWT somehow
   public void testPadEnd_null() {
     try {
-      String unused = Strings.padEnd(null, 5, '0');
+      Strings.padEnd(null, 5, '0');
       fail();
     } catch (NullPointerException expected) {
     }
@@ -119,13 +119,13 @@ public class StringsTest extends TestCase {
     }
 
     try {
-      String unused = Strings.repeat("x", -1);
+      Strings.repeat("x", -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // Massive string
-      String unused = Strings.repeat("12345678", (1 << 30) + 3);
+      Strings.repeat("12345678", (1 << 30) + 3);
       fail();
     } catch (ArrayIndexOutOfBoundsException expected) {
     }
@@ -134,7 +134,7 @@ public class StringsTest extends TestCase {
   // TODO: could remove if we got NPT working in GWT somehow
   public void testRepeat_null() {
     try {
-      String unused = Strings.repeat(null, 5);
+      Strings.repeat(null, 5);
       fail();
     } catch (NullPointerException expected) {
     }

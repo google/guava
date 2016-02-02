@@ -131,12 +131,12 @@ public class AbstractIteratorTest extends TestCase {
         new AbstractIterator<Integer>() {
           @Override
           public Integer computeNext() {
-            Integer unused = endOfData();
+            endOfData();
             throw new SomeUncheckedException();
           }
         };
     try {
-      boolean unused = iter.hasNext();
+      iter.hasNext();
       fail("No exception thrown");
     } catch (SomeUncheckedException expected) {
     }
@@ -150,7 +150,7 @@ public class AbstractIteratorTest extends TestCase {
           @Override
           public Integer computeNext() {
             if (haveBeenCalled) {
-              Integer unused = endOfData();
+              endOfData();
             }
             haveBeenCalled = true;
             return 0;

@@ -209,7 +209,7 @@ public class UnsignedLongTest extends TestCase {
   public void testDivideByZeroThrows() {
     for (long a : TEST_LONGS) {
       try {
-        UnsignedLong unused = UnsignedLong.fromLongBits(a).dividedBy(UnsignedLong.ZERO);
+        UnsignedLong.fromLongBits(a).dividedBy(UnsignedLong.ZERO);
         fail("Expected ArithmeticException");
       } catch (ArithmeticException expected) {}
     }
@@ -235,7 +235,7 @@ public class UnsignedLongTest extends TestCase {
   public void testModByZero() {
     for (long a : TEST_LONGS) {
       try {
-        UnsignedLong unused = UnsignedLong.fromLongBits(a).mod(UnsignedLong.ZERO);
+        UnsignedLong.fromLongBits(a).mod(UnsignedLong.ZERO);
         fail("Expected ArithmeticException");
       } catch (ArithmeticException expected) {}
     }

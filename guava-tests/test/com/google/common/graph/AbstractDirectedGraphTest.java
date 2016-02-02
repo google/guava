@@ -113,7 +113,7 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
   @Test
   public void source_edgeNotInGraph() {
     try {
-      Integer unused = directedGraph.source(EDGE_NOT_IN_GRAPH);
+      directedGraph.source(EDGE_NOT_IN_GRAPH);
       fail(ERROR_EDGE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);
@@ -129,7 +129,7 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
   @Test
   public void target_edgeNotInGraph() {
     try {
-      Integer unused = directedGraph.target(EDGE_NOT_IN_GRAPH);
+      directedGraph.target(EDGE_NOT_IN_GRAPH);
       fail(ERROR_EDGE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);

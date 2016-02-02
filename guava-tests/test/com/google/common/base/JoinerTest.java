@@ -65,23 +65,23 @@ public class JoinerTest extends TestCase {
     checkResult(J, ITERABLE_123, "1-2-3");
 
     try {
-      String unused = J.join(ITERABLE_NULL);
+      J.join(ITERABLE_NULL);
       fail();
     } catch (NullPointerException expected) {
     }
     try {
-      String unused = J.join(ITERABLE_1_NULL_2);
+      J.join(ITERABLE_1_NULL_2);
       fail();
     } catch (NullPointerException expected) {
     }
 
     try {
-      String unused = J.join(ITERABLE_NULL.iterator());
+      J.join(ITERABLE_NULL.iterator());
       fail();
     } catch (NullPointerException expected) {
     }
     try {
-      String unused = J.join(ITERABLE_1_NULL_2.iterator());
+      J.join(ITERABLE_1_NULL_2.iterator());
       fail();
     } catch (NullPointerException expected) {
     }
@@ -247,7 +247,7 @@ public class JoinerTest extends TestCase {
     mapWithNulls.put(null, "b");
 
     try {
-      String unused = j.join(mapWithNulls);
+      j.join(mapWithNulls);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -274,13 +274,13 @@ public class JoinerTest extends TestCase {
     Set<Map.Entry<String, String>> entriesWithNulls = mapWithNulls.entrySet();
 
     try {
-      String unused = j.join(entriesWithNulls);
+      j.join(entriesWithNulls);
       fail();
     } catch (NullPointerException expected) {
     }
 
     try {
-      String unused = j.join(entriesWithNulls.iterator());
+      j.join(entriesWithNulls.iterator());
       fail();
     } catch (NullPointerException expected) {
     }
@@ -300,7 +300,7 @@ public class JoinerTest extends TestCase {
   public void test_skipNulls_onMap() {
     Joiner j = Joiner.on(",").skipNulls();
     try {
-      Joiner.MapJoiner unused = j.withKeyValueSeparator("/");
+      j.withKeyValueSeparator("/");
       fail();
     } catch (UnsupportedOperationException expected) {
     }

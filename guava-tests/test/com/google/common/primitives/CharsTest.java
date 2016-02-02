@@ -78,7 +78,7 @@ public class CharsTest extends TestCase {
 
   private void assertCastFails(long value) {
     try {
-      char unused = Chars.checkedCast(value);
+      Chars.checkedCast(value);
       fail("Cast to char should have failed: " + value);
     } catch (IllegalArgumentException ex) {
       assertTrue(value + " not found in exception text: " + ex.getMessage(),
@@ -171,7 +171,7 @@ public class CharsTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      char unused = Chars.max();
+      Chars.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -187,7 +187,7 @@ public class CharsTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      char unused = Chars.min();
+      Chars.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -227,7 +227,7 @@ public class CharsTest extends TestCase {
   @GwtIncompatible // Chars.fromByteArray
   public void testFromByteArrayFails() {
     try {
-      char unused = Chars.fromByteArray(new byte[Chars.BYTES - 1]);
+      Chars.fromByteArray(new byte[Chars.BYTES - 1]);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -262,7 +262,7 @@ public class CharsTest extends TestCase {
   @GwtIncompatible // Chars.fromByteArray, Chars.toByteArray
   public void testByteArrayRoundTripsFails() {
     try {
-      char unused = Chars.fromByteArray(new byte[] {0x11});
+      Chars.fromByteArray(new byte[] {0x11});
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -279,13 +279,13 @@ public class CharsTest extends TestCase {
 
   public void testEnsureCapacity_fail() {
     try {
-      char[] unused = Chars.ensureCapacity(ARRAY1, -1, 1);
+      Chars.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      char[] unused = Chars.ensureCapacity(ARRAY1, 1, -1);
+      Chars.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -355,7 +355,7 @@ public class CharsTest extends TestCase {
   public void testToArray_withNull() {
     List<Character> list = Arrays.asList((char) 0, (char) 1, null);
     try {
-      char[] unused = Chars.toArray(list);
+      Chars.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }

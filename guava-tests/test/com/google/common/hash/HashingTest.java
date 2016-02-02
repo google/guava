@@ -209,7 +209,7 @@ public class HashingTest extends TestCase {
 
   public void testConsistentHash_outOfRange() {
     try {
-      int unused = Hashing.consistentHash(5L, 0);
+      Hashing.consistentHash(5L, 0);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -249,7 +249,7 @@ public class HashingTest extends TestCase {
 
   public void testCombineOrdered_empty() {
     try {
-      HashCode unused = Hashing.combineOrdered(Collections.<HashCode>emptySet());
+      Hashing.combineOrdered(Collections.<HashCode>emptySet());
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -292,7 +292,7 @@ public class HashingTest extends TestCase {
 
   public void testCombineUnordered_empty() {
     try {
-      HashCode unused = Hashing.combineUnordered(Collections.<HashCode>emptySet());
+      Hashing.combineUnordered(Collections.<HashCode>emptySet());
       fail();
     } catch (IllegalArgumentException expected) {
     }

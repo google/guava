@@ -181,7 +181,7 @@ public class FloatsTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      float unused = Floats.max();
+      Floats.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -202,7 +202,7 @@ public class FloatsTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      float unused = Floats.min();
+      Floats.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -247,13 +247,13 @@ public class FloatsTest extends TestCase {
 
   public void testEnsureCapacity_fail() {
     try {
-      float[] unused = Floats.ensureCapacity(ARRAY1, -1, 1);
+      Floats.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      float[] unused = Floats.ensureCapacity(ARRAY1, 1, -1);
+      Floats.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -330,7 +330,7 @@ public class FloatsTest extends TestCase {
   public void testToArray_withNull() {
     List<Float> list = Arrays.asList((float) 0, (float) 1, null);
     try {
-      float[] unused = Floats.toArray(list);
+      Floats.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -506,7 +506,7 @@ public class FloatsTest extends TestCase {
 
   public void testStringConverter_convertError() {
     try {
-      float unused = Floats.stringConverter().convert("notanumber");
+      Floats.stringConverter().convert("notanumber");
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -537,7 +537,7 @@ public class FloatsTest extends TestCase {
   public void testTryParse_withNullNoGwt() {
     assertNull(Floats.tryParse("null"));
     try {
-      Float unused = Floats.tryParse(null);
+      Floats.tryParse(null);
       fail("Expected NPE");
     } catch (NullPointerException expected) {
     }

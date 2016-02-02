@@ -125,13 +125,13 @@ public class BooleansTest extends TestCase {
 
   public void testEnsureCapacity_fail() {
     try {
-      boolean[] unused = Booleans.ensureCapacity(ARRAY_FALSE, -1, 1);
+      Booleans.ensureCapacity(ARRAY_FALSE, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      boolean[] unused = Booleans.ensureCapacity(ARRAY_FALSE, 1, -1);
+      Booleans.ensureCapacity(ARRAY_FALSE, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -205,7 +205,7 @@ public class BooleansTest extends TestCase {
   public void testToArray_withNull() {
     List<Boolean> list = Arrays.asList(false, true, null);
     try {
-      boolean[] unused = Booleans.toArray(list);
+      Booleans.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }

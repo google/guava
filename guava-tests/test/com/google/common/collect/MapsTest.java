@@ -104,7 +104,7 @@ public class MapsTest extends TestCase {
 
   public void testCapacityForNegativeSizeFails() {
     try {
-      int unused = Maps.capacity(-1);
+      Maps.capacity(-1);
       fail("Negative expected size must result in IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }

@@ -437,15 +437,15 @@ final class HashTestUtils {
     }
 
     try {
-      HashCode unused = hashFunction.hashBytes(new byte[128], -1, 128);
+      hashFunction.hashBytes(new byte[128], -1, 128);
       Assert.fail();
     } catch (IndexOutOfBoundsException expected) {}
     try {
-      HashCode unused = hashFunction.hashBytes(new byte[128], 64, 256 /* too long len */);
+      hashFunction.hashBytes(new byte[128], 64, 256 /* too long len */);
       Assert.fail();
     } catch (IndexOutOfBoundsException expected) {}
     try {
-      HashCode unused = hashFunction.hashBytes(new byte[64], 0, -1);
+      hashFunction.hashBytes(new byte[64], 0, -1);
       Assert.fail();
     } catch (IndexOutOfBoundsException expected) {}
   }

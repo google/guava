@@ -183,7 +183,7 @@ public class DoublesTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      double unused = Doubles.max();
+      Doubles.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -204,7 +204,7 @@ public class DoublesTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      double unused = Doubles.min();
+      Doubles.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -249,13 +249,13 @@ public class DoublesTest extends TestCase {
 
   public void testEnsureCapacity_fail() {
     try {
-      double[] unused = Doubles.ensureCapacity(ARRAY1, -1, 1);
+      Doubles.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      double[] unused = Doubles.ensureCapacity(ARRAY1, 1, -1);
+      Doubles.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -339,7 +339,7 @@ public class DoublesTest extends TestCase {
   public void testToArray_withNull() {
     List<Double> list = Arrays.asList((double) 0, (double) 1, null);
     try {
-      double[] unused = Doubles.toArray(list);
+      Doubles.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -529,7 +529,7 @@ public class DoublesTest extends TestCase {
 
   public void testStringConverter_convertError() {
     try {
-      double unused = Doubles.stringConverter().convert("notanumber");
+      Doubles.stringConverter().convert("notanumber");
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -560,7 +560,7 @@ public class DoublesTest extends TestCase {
   public void testTryParse_withNullNoGwt() {
     assertNull(Doubles.tryParse("null"));
     try {
-      Double unused = Doubles.tryParse(null);
+      Doubles.tryParse(null);
       fail("Expected NPE");
     } catch (NullPointerException expected) {
     }

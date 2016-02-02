@@ -152,7 +152,7 @@ public class GraphsTest {
   @Test
   public void config_expectedNodeCount_negative() {
     try {
-      GraphConfig unused = config().expectedNodeCount(-1);
+      config().expectedNodeCount(-1);
       fail(ERROR_NEGATIVE_NODE_COUNT);
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_NEGATIVE_NODE_COUNT);
@@ -189,7 +189,7 @@ public class GraphsTest {
   @Test
   public void config_expectedEdgeCount_negative() {
     try {
-      GraphConfig unused = config().expectedEdgeCount(-1);
+      config().expectedEdgeCount(-1);
       fail(ERROR_NEGATIVE_EDGE_COUNT);
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_NEGATIVE_EDGE_COUNT);

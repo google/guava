@@ -308,8 +308,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
       throws Exception {
     ListeningExecutorService executor = newDirectExecutorService();
     List<Callable<T>> tasks = ImmutableList.of();
-    @SuppressWarnings("unchecked") // guaranteed by invokeAll contract
-    List<ListenableFuture<T>> unused = (List) executor.invokeAll(tasks);
+    executor.invokeAll(tasks);
   }
 
   public void testListeningDecorator() throws Exception {

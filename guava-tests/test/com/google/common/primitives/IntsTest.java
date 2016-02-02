@@ -79,7 +79,7 @@ public class IntsTest extends TestCase {
 
   private static void assertCastFails(long value) {
     try {
-      int unused = Ints.checkedCast(value);
+      Ints.checkedCast(value);
       fail("Cast to int should have failed: " + value);
     } catch (IllegalArgumentException ex) {
       assertTrue(value + " not found in exception text: " + ex.getMessage(),
@@ -172,7 +172,7 @@ public class IntsTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      int unused = Ints.max();
+      Ints.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -188,7 +188,7 @@ public class IntsTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      int unused = Ints.min();
+      Ints.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -237,7 +237,7 @@ public class IntsTest extends TestCase {
   @GwtIncompatible // Ints.fromByteArray
   public void testFromByteArrayFails() {
     try {
-      int unused = Ints.fromByteArray(new byte[Ints.BYTES - 1]);
+      Ints.fromByteArray(new byte[Ints.BYTES - 1]);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -277,13 +277,13 @@ public class IntsTest extends TestCase {
 
   public void testEnsureCapacity_fail() {
     try {
-      int[] unused = Ints.ensureCapacity(ARRAY1, -1, 1);
+      Ints.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      int[] unused = Ints.ensureCapacity(ARRAY1, 1, -1);
+      Ints.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -359,7 +359,7 @@ public class IntsTest extends TestCase {
   public void testToArray_withNull() {
     List<Integer> list = Arrays.asList((int) 0, (int) 1, null);
     try {
-      int[] unused = Ints.toArray(list);
+      Ints.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -438,7 +438,7 @@ public class IntsTest extends TestCase {
 
   public void testStringConverter_convertError() {
     try {
-      int unused = Ints.stringConverter().convert("notanumber");
+      Ints.stringConverter().convert("notanumber");
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -531,7 +531,7 @@ public class IntsTest extends TestCase {
 
   public void testTryParse_radixTooBig() {
     try {
-      Integer unused = Ints.tryParse("0", Character.MAX_RADIX + 1);
+      Ints.tryParse("0", Character.MAX_RADIX + 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -539,7 +539,7 @@ public class IntsTest extends TestCase {
 
   public void testTryParse_radixTooSmall() {
     try {
-      Integer unused = Ints.tryParse("0", Character.MIN_RADIX - 1);
+      Ints.tryParse("0", Character.MIN_RADIX - 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -548,7 +548,7 @@ public class IntsTest extends TestCase {
   public void testTryParse_withNullGwt() {
     assertNull(Ints.tryParse("null"));
     try {
-      Integer unused = Ints.tryParse(null);
+      Ints.tryParse(null);
       fail("Expected NPE");
     } catch (NullPointerException expected) {
     }

@@ -74,7 +74,7 @@ public class ObjectsTest extends TestCase {
 
   public void testFirstNonNull_throwsNullPointerException() throws Exception {
     try {
-      Object unused = firstNonNull(null, null);
+      firstNonNull(null, null);
       fail("expected NullPointerException");
     } catch (NullPointerException expected) {
     }

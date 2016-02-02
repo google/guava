@@ -225,7 +225,7 @@ public class UnsignedIntegerTest extends TestCase {
   public void testModByZero() {
     for (int a : TEST_INTS) {
       try {
-        UnsignedInteger unused = UnsignedInteger.fromIntBits(a).mod(UnsignedInteger.ZERO);
+        UnsignedInteger.fromIntBits(a).mod(UnsignedInteger.ZERO);
         fail("Expected ArithmeticException");
       } catch (ArithmeticException expected) {}
     }

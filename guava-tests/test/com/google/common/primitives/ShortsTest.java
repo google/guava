@@ -79,7 +79,7 @@ public class ShortsTest extends TestCase {
 
   private static void assertCastFails(long value) {
     try {
-      short unused = Shorts.checkedCast(value);
+      Shorts.checkedCast(value);
       fail("Cast to short should have failed: " + value);
     } catch (IllegalArgumentException ex) {
       assertTrue(value + " not found in exception text: " + ex.getMessage(),
@@ -180,7 +180,7 @@ public class ShortsTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      short unused = Shorts.max();
+      Shorts.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -196,7 +196,7 @@ public class ShortsTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      short unused = Shorts.min();
+      Shorts.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -245,7 +245,7 @@ public class ShortsTest extends TestCase {
   @GwtIncompatible // Shorts.fromByteArray
   public void testFromByteArrayFails() {
     try {
-      short unused = Shorts.fromByteArray(new byte[] {0x01});
+      Shorts.fromByteArray(new byte[] {0x01});
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -284,13 +284,13 @@ public class ShortsTest extends TestCase {
 
   public void testEnsureCapacity_fail() {
     try {
-      short[] unused = Shorts.ensureCapacity(ARRAY1, -1, 1);
+      Shorts.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      short[] unused = Shorts.ensureCapacity(ARRAY1, 1, -1);
+      Shorts.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -366,7 +366,7 @@ public class ShortsTest extends TestCase {
   public void testToArray_withNull() {
     List<Short> list = Arrays.asList((short) 0, (short) 1, null);
     try {
-      short[] unused = Shorts.toArray(list);
+      Shorts.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -445,7 +445,7 @@ public class ShortsTest extends TestCase {
 
   public void testStringConverter_convertError() {
     try {
-      short unused = Shorts.stringConverter().convert("notanumber");
+      Shorts.stringConverter().convert("notanumber");
       fail();
     } catch (NumberFormatException expected) {
     }

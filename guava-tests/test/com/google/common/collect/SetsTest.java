@@ -597,7 +597,7 @@ public class SetsTest extends TestCase {
   public void testComplementOfEmptySetWithoutTypeDoesntWork() {
     Set<SomeEnum> set = Collections.emptySet();
     try {
-      Set<SomeEnum> unused = Sets.complementOf(set);
+      Sets.complementOf(set);
       fail();
     } catch (IllegalArgumentException expected) {}
   }
@@ -629,7 +629,7 @@ public class SetsTest extends TestCase {
     Map<Integer, Boolean> map = new LinkedHashMap<Integer, Boolean>();
     map.put(2, true);
     try {
-      Set<Integer> unused = Sets.newSetFromMap(map);
+      Sets.newSetFromMap(map);
       fail();
     } catch (IllegalArgumentException expected) {}
   }
@@ -730,7 +730,7 @@ public class SetsTest extends TestCase {
   public void testCartesianProductTooBig() {
     Set<Integer> set = ContiguousSet.create(Range.closed(0, 10000), DiscreteDomain.integers());
     try {
-      Set<List<Integer>> unused = Sets.cartesianProduct(set, set, set, set, set);
+      Sets.cartesianProduct(set, set, set, set, set);
       fail("Expected IAE");
     } catch (IllegalArgumentException expected) {
     }
@@ -886,7 +886,7 @@ public class SetsTest extends TestCase {
     }
 
     try {
-      Set<Set<Object>> unused = powerSet(singleton(null));
+      powerSet(singleton(null));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -1249,7 +1249,7 @@ public class SetsTest extends TestCase {
         ImmutableSortedSet.<Integer>reverseOrder().add(2, 4, 6, 8, 10).build();
 
     try {
-      Set<Integer> unused = Sets.subSet(set, Range.closed(4, 8));
+      Sets.subSet(set, Range.closed(4, 8));
       fail("IllegalArgumentException expected");
     } catch (IllegalArgumentException expected) {
     }

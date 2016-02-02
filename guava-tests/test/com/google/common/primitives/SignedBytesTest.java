@@ -67,7 +67,7 @@ public class SignedBytesTest extends TestCase {
 
   private static void assertCastFails(long value) {
     try {
-      byte unused = SignedBytes.checkedCast(value);
+      SignedBytes.checkedCast(value);
       fail("Cast to byte should have failed: " + value);
     } catch (IllegalArgumentException ex) {
       assertTrue(value + " not found in exception text: " + ex.getMessage(),
@@ -96,7 +96,7 @@ public class SignedBytesTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      byte unused = SignedBytes.max();
+      SignedBytes.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -111,7 +111,7 @@ public class SignedBytesTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      byte unused = SignedBytes.min();
+      SignedBytes.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }

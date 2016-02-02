@@ -55,12 +55,12 @@ public class BaseEncodingTest extends TestCase {
 
   public void testSeparatorSameAsPadChar() {
     try {
-      BaseEncoding unused = base64().withSeparator("=", 3);
+      base64().withSeparator("=", 3);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {}
 
     try {
-      BaseEncoding unused = base64().withPadChar('#').withSeparator("!#!", 3);
+      base64().withPadChar('#').withSeparator("!#!", 3);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {}
   }
@@ -68,7 +68,7 @@ public class BaseEncodingTest extends TestCase {
   public void testAtMostOneSeparator() {
     BaseEncoding separated = base64().withSeparator("\n", 3);
     try {
-      BaseEncoding unused = separated.withSeparator("$", 4);
+      separated.withSeparator("$", 4);
       fail("Expected UnsupportedOperationException");
     } catch (UnsupportedOperationException expected) {}
   }
@@ -120,7 +120,7 @@ public class BaseEncodingTest extends TestCase {
 
   public void testBase64CannotUpperCase() {
     try {
-      BaseEncoding unused = base64().upperCase();
+      base64().upperCase();
       fail();
     } catch (IllegalStateException expected) {
       // success
@@ -129,7 +129,7 @@ public class BaseEncodingTest extends TestCase {
 
   public void testBase64CannotLowerCase() {
     try {
-      BaseEncoding unused = base64().lowerCase();
+      base64().lowerCase();
       fail();
     } catch (IllegalStateException expected) {
       // success
@@ -389,7 +389,7 @@ public class BaseEncodingTest extends TestCase {
       BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
     assertFalse(encoding.canDecode(cannotDecode));
     try {
-      byte[] unused = encoding.decode(cannotDecode);
+      encoding.decode(cannotDecode);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
       if (expectedMessage != null) {
@@ -397,7 +397,7 @@ public class BaseEncodingTest extends TestCase {
       }
     }
     try {
-      byte[] unused = encoding.decodeChecked(cannotDecode);
+      encoding.decodeChecked(cannotDecode);
       fail("Expected DecodingException");
     } catch (DecodingException expected) {
       if (expectedMessage != null) {

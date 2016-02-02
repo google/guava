@@ -119,7 +119,7 @@ public class Utf8Test extends TestCase {
 
   private static void testEncodedLengthFails(String invalidString, int invalidCodePointIndex) {
     try {
-      int unused = Utf8.encodedLength(invalidString);
+      Utf8.encodedLength(invalidString);
       fail();
     } catch (IllegalArgumentException expected) {
       assertThat(expected).hasMessage("Unpaired surrogate at index " + invalidCodePointIndex);

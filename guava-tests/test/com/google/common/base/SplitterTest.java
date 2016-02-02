@@ -40,7 +40,7 @@ public class SplitterTest extends TestCase {
 
   public void testSplitNullString() {
     try {
-      Iterable<String> unused = COMMA_SPLITTER.split(null);
+      COMMA_SPLITTER.split(null);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -262,7 +262,7 @@ public class SplitterTest extends TestCase {
 
   public void testStringSplitWithEmptyString() {
     try {
-      Splitter unused = Splitter.on("");
+      Splitter.on("");
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -437,7 +437,7 @@ public class SplitterTest extends TestCase {
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitInvalidPattern() {
     try {
-      Splitter unused = Splitter.on(Pattern.compile("a*"));
+      Splitter.on(Pattern.compile("a*"));
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -552,7 +552,7 @@ public class SplitterTest extends TestCase {
 
   public void testFixedLengthSplitZeroChunkLen() {
     try {
-      Splitter unused = Splitter.fixedLength(0);
+      Splitter.fixedLength(0);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -560,7 +560,7 @@ public class SplitterTest extends TestCase {
 
   public void testFixedLengthSplitNegativeChunkLen() {
     try {
-      Splitter unused = Splitter.fixedLength(-1);
+      Splitter.fixedLength(-1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -646,7 +646,7 @@ public class SplitterTest extends TestCase {
 
   public void testInvalidZeroLimit() {
     try {
-      Splitter unused = COMMA_SPLITTER.limit(0);
+      COMMA_SPLITTER.limit(0);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -730,7 +730,7 @@ public class SplitterTest extends TestCase {
 
   public void testMapSplitter_emptySeparator() {
     try {
-      Splitter.MapSplitter unused = COMMA_SPLITTER.withKeyValueSeparator("");
+      COMMA_SPLITTER.withKeyValueSeparator("");
       fail();
     } catch (IllegalArgumentException expected) {
     }

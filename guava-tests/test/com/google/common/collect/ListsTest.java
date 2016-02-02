@@ -286,7 +286,7 @@ public class ListsTest extends TestCase {
 
   public void testNewArrayListWithCapacity_negative() {
     try {
-      List<Object> unused = Lists.newArrayListWithCapacity(-1);
+      Lists.newArrayListWithCapacity(-1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -302,7 +302,7 @@ public class ListsTest extends TestCase {
 
   public void testNewArrayListWithExpectedSize_negative() {
     try {
-      List<Object> unused = Lists.newArrayListWithExpectedSize(-1);
+      Lists.newArrayListWithExpectedSize(-1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -582,7 +582,7 @@ public class ListsTest extends TestCase {
   public void testCartesianProductTooBig() {
     List<String> list = Collections.nCopies(10000, "foo");
     try {
-      List<List<String>> unused = Lists.cartesianProduct(list, list, list, list, list);
+      Lists.cartesianProduct(list, list, list, list, list);
       fail("Expected IAE");
     } catch (IllegalArgumentException expected) {}
   }
@@ -797,7 +797,7 @@ public class ListsTest extends TestCase {
   public void testPartition_badSize() {
     List<Integer> source = Collections.singletonList(1);
     try {
-      List<List<Integer>> unused = Lists.partition(source, 0);
+      Lists.partition(source, 0);
       fail();
     } catch (IllegalArgumentException expected) {
     }

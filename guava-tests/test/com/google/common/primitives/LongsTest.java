@@ -145,7 +145,7 @@ public class LongsTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      long unused = Longs.max();
+      Longs.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -161,7 +161,7 @@ public class LongsTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      long unused = Longs.min();
+      Longs.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -218,7 +218,7 @@ public class LongsTest extends TestCase {
 
   public void testFromByteArrayFails() {
     try {
-      long unused = Longs.fromByteArray(new byte[Longs.BYTES - 1]);
+      Longs.fromByteArray(new byte[Longs.BYTES - 1]);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -259,13 +259,13 @@ public class LongsTest extends TestCase {
 
   public void testEnsureCapacity_fail() {
     try {
-      long[] unused = Longs.ensureCapacity(ARRAY1, -1, 1);
+      Longs.ensureCapacity(ARRAY1, -1, 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
       // notice that this should even fail when no growth was needed
-      long[] unused = Longs.ensureCapacity(ARRAY1, 1, -1);
+      Longs.ensureCapacity(ARRAY1, 1, -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -341,7 +341,7 @@ public class LongsTest extends TestCase {
   public void testToArray_withNull() {
     List<Long> list = Arrays.asList((long) 0, (long) 1, null);
     try {
-      long[] unused = Longs.toArray(list);
+      Longs.toArray(list);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -510,7 +510,7 @@ public class LongsTest extends TestCase {
 
   public void testTryParse_radixTooBig() {
     try {
-      Long unused = Longs.tryParse("0", Character.MAX_RADIX + 1);
+      Longs.tryParse("0", Character.MAX_RADIX + 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -518,7 +518,7 @@ public class LongsTest extends TestCase {
 
   public void testTryParse_radixTooSmall() {
     try {
-      Long unused = Longs.tryParse("0", Character.MIN_RADIX - 1);
+      Longs.tryParse("0", Character.MIN_RADIX - 1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -527,7 +527,7 @@ public class LongsTest extends TestCase {
   public void testTryParse_withNullGwt() {
     assertNull(Longs.tryParse("null"));
     try {
-      Long unused = Longs.tryParse(null);
+      Longs.tryParse(null);
       fail("Expected NPE");
     } catch (NullPointerException expected) {
     }

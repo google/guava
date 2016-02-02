@@ -81,7 +81,7 @@ public class MessageDigestHashFunctionTest extends TestCase {
             .hash()
             .toString());
     try {
-      HashCode unused = sha1.hash();
+      sha1.hash();
       fail();
     } catch (IllegalStateException expected) {
     }

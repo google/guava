@@ -25,7 +25,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.testing.IteratorFeature;
@@ -147,7 +146,7 @@ public class FluentIterableTest extends TestCase {
     List<Integer> list2 = newArrayList(4);
 
     try {
-      FluentIterable<Integer> unused = FluentIterable.concat(list1, null, list2);
+      FluentIterable.concat(list1, null, list2);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -496,7 +495,7 @@ public class FluentIterableTest extends TestCase {
   public void testFirst_null() {
     List<String> list = Lists.newArrayList(null, "a", "b");
     try {
-      Optional<String> unused = FluentIterable.from(list).first();
+      FluentIterable.from(list).first();
       fail();
     } catch (NullPointerException expected) {
     }
@@ -535,7 +534,7 @@ public class FluentIterableTest extends TestCase {
   public void testLast_null() {
     List<String> list = Lists.newArrayList("a", "b", null);
     try {
-      Optional<String> unused = FluentIterable.from(list).last();
+      FluentIterable.from(list).last();
       fail();
     } catch (NullPointerException expected) {
     }
@@ -667,7 +666,7 @@ public class FluentIterableTest extends TestCase {
 
   public void testSkip_illegalArgument() {
     try {
-      FluentIterable<String> unused = FluentIterable.from(asList("a", "b", "c")).skip(-1);
+      FluentIterable.from(asList("a", "b", "c")).skip(-1);
       fail("Skipping negative number of elements should throw IllegalArgumentException.");
     } catch (IllegalArgumentException expected) {
     }
@@ -907,20 +906,20 @@ public class FluentIterableTest extends TestCase {
 
   public void testGet_outOfBounds() {
     try {
-      String unused = FluentIterable.from(Lists.newArrayList("a", "b", "c")).get(-1);
+      FluentIterable.from(Lists.newArrayList("a", "b", "c")).get(-1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
     }
 
     try {
-      String unused = FluentIterable.from(Lists.newArrayList("a", "b", "c")).get(3);
+      FluentIterable.from(Lists.newArrayList("a", "b", "c")).get(3);
       fail();
     } catch (IndexOutOfBoundsException expected) {
     }
   }
 
   private static void assertCanIterateAgain(Iterable<?> iterable) {
-    Object unused = Iterables.getLast(iterable);
+    Iterables.getLast(iterable);
   }
 
   private static FluentIterable<Integer> fluent(Integer... elements) {

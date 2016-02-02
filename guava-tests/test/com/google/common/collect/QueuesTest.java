@@ -22,7 +22,6 @@ import junit.framework.TestCase;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -211,7 +210,7 @@ public class QueuesTest extends TestCase {
 
   public void testNewLinkedBlockingDequeCapacity() {
     try {
-      Queue<Object> unused = Queues.newLinkedBlockingDeque(0);
+      Queues.newLinkedBlockingDeque(0);
       fail("Should have thrown IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
       // any capacity less than 1 should throw IllegalArgumentException
@@ -222,7 +221,7 @@ public class QueuesTest extends TestCase {
 
   public void testNewLinkedBlockingQueueCapacity() {
     try {
-      Queue<Object> unused = Queues.newLinkedBlockingQueue(0);
+      Queues.newLinkedBlockingQueue(0);
       fail("Should have thrown IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
       // any capacity less than 1 should throw IllegalArgumentException

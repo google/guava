@@ -295,7 +295,7 @@ public class FuturesTest extends TestCase {
        * classes it is trying to load during its stack overflow.
        */
       SettableFuture<Object> root = SettableFuture.create();
-      ListenableFuture<Object> unused = Futures.transform(root, identity());
+      Futures.transform(root, identity());
       root.set("foo");
     }
 
@@ -536,7 +536,7 @@ public class FuturesTest extends TestCase {
        * classes it is trying to load during its stack overflow.
        */
       SettableFuture<Object> root = SettableFuture.create();
-      ListenableFuture<Object> unused = Futures.transformAsync(root, asyncIdentity());
+      Futures.transformAsync(root, asyncIdentity());
       root.set("foo");
     }
 

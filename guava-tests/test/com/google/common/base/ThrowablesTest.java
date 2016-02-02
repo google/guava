@@ -517,7 +517,7 @@ public class ThrowablesTest extends TestCase {
 
   public void testGetCasualChainNull() {
     try {
-      List<Throwable> unused = Throwables.getCausalChain(null);
+      Throwables.getCausalChain(null);
       fail("Should have throw NPE");
     } catch (NullPointerException expected) {
     }

@@ -63,7 +63,7 @@ public class UnsignedLongsTest extends TestCase {
 
   public void testMax_noArgs() {
     try {
-      long unused = UnsignedLongs.max();
+      UnsignedLongs.max();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -79,7 +79,7 @@ public class UnsignedLongsTest extends TestCase {
 
   public void testMin_noArgs() {
     try {
-      long unused = UnsignedLongs.min();
+      UnsignedLongs.min();
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -155,7 +155,7 @@ public class UnsignedLongsTest extends TestCase {
   public void testParseLongFails() {
     try {
       // One more than maximum value
-      long unused = UnsignedLongs.parseUnsignedLong("18446744073709551616");
+      UnsignedLongs.parseUnsignedLong("18446744073709551616");
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -174,25 +174,25 @@ public class UnsignedLongsTest extends TestCase {
   public void testDecodeLongFails() {
     try {
       // One more than maximum value
-      long unused = UnsignedLongs.decode("0xfffffffffffffffff");
+      UnsignedLongs.decode("0xfffffffffffffffff");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      long unused = UnsignedLongs.decode("-5");
+      UnsignedLongs.decode("-5");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      long unused = UnsignedLongs.decode("-0x5");
+      UnsignedLongs.decode("-0x5");
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      long unused = UnsignedLongs.decode("-05");
+      UnsignedLongs.decode("-05");
       fail();
     } catch (NumberFormatException expected) {
     }
@@ -215,7 +215,7 @@ public class UnsignedLongsTest extends TestCase {
         // tests that we get exception whre an overflow would occur.
         BigInteger overflow = max.add(ONE);
         String overflowAsString = overflow.toString(radix);
-        long unused = UnsignedLongs.parseUnsignedLong(overflowAsString, radix);
+        UnsignedLongs.parseUnsignedLong(overflowAsString, radix);
         fail();
       } catch (NumberFormatException expected) {
       }
@@ -231,20 +231,20 @@ public class UnsignedLongsTest extends TestCase {
   public void testParseLongThrowsExceptionForInvalidRadix() {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX, inclusive.
     try {
-      long unused = UnsignedLongs.parseUnsignedLong("0", Character.MIN_RADIX - 1);
+      UnsignedLongs.parseUnsignedLong("0", Character.MIN_RADIX - 1);
       fail();
     } catch (NumberFormatException expected) {
     }
 
     try {
-      long unused = UnsignedLongs.parseUnsignedLong("0", Character.MAX_RADIX + 1);
+      UnsignedLongs.parseUnsignedLong("0", Character.MAX_RADIX + 1);
       fail();
     } catch (NumberFormatException expected) {
     }
 
     // The radix is used as an array index, so try a negative value.
     try {
-      long unused = UnsignedLongs.parseUnsignedLong("0", -1);
+      UnsignedLongs.parseUnsignedLong("0", -1);
       fail();
     } catch (NumberFormatException expected) {
     }
