@@ -155,9 +155,10 @@ public final class MoreExecutors {
   }
 
   /**
-   * Converts the given ThreadPoolExecutor into a ScheduledExecutorService that
-   * exits when the application is complete.  It does so by using daemon threads
-   * and adding a shutdown hook to wait for their completion.
+   * Converts the given ScheduledThreadPoolExecutor into a
+   * ScheduledExecutorService that exits when the application is complete.  It
+   * does so by using daemon threads and adding a shutdown hook to wait for
+   * their completion.
    *
    * <p>This method waits 120 seconds before continuing with JVM termination,
    * even if the executor has not finished its work.
