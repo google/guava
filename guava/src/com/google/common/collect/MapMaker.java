@@ -28,6 +28,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
 import com.google.common.base.Ticker;
 import com.google.common.collect.MapMakerInternalMap.Strength;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 import java.lang.ref.SoftReference;
@@ -42,6 +43,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -101,6 +103,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class MapMaker extends GenericMapMaker<Object, Object> {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
@@ -141,6 +144,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * #weakKeys} is specified, and {@link Equivalence#equals()} otherwise. The only place this is
    * used is in {@link Interners.WeakInterner}.
    */
+  @CanIgnoreReturnValue
   @GwtIncompatible // To be supported
   @Override
   MapMaker keyEquivalence(Equivalence<Object> equivalence) {
@@ -164,6 +168,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalArgumentException if {@code initialCapacity} is negative
    * @throws IllegalStateException if an initial capacity was already set
    */
+  @CanIgnoreReturnValue
   @Override
   public MapMaker initialCapacity(int initialCapacity) {
     checkState(
@@ -202,6 +207,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
    *     {@code MapMaker}.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   MapMaker maximumSize(int size) {
@@ -238,6 +244,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalArgumentException if {@code concurrencyLevel} is nonpositive
    * @throws IllegalStateException if a concurrency level was already set
    */
+  @CanIgnoreReturnValue
   @Override
   public MapMaker concurrencyLevel(int concurrencyLevel) {
     checkState(
@@ -264,6 +271,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalStateException if the key strength was already set
    * @see WeakReference
    */
+  @CanIgnoreReturnValue
   @GwtIncompatible // java.lang.ref.WeakReference
   @Override
   public MapMaker weakKeys() {
@@ -302,6 +310,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalStateException if the value strength was already set
    * @see WeakReference
    */
+  @CanIgnoreReturnValue
   @GwtIncompatible // java.lang.ref.WeakReference
   @Override
   public MapMaker weakValues() {
@@ -332,6 +341,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     com.google.common.cache.CacheBuilder#softValues}. Note that {@code CacheBuilder} is simply
    *     an enhanced API for an implementation which was branched from {@code MapMaker}.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @GwtIncompatible // java.lang.ref.SoftReference
   @Override
@@ -378,6 +388,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
    *     {@code MapMaker}.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   MapMaker expireAfterWrite(long duration, TimeUnit unit) {
@@ -432,6 +443,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     {@code CacheBuilder} is simply an enhanced API for an implementation which was branched
    *     from {@code MapMaker}.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @GwtIncompatible // To be supported
   @Override
@@ -485,6 +497,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
    *     {@code MapMaker}.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @GwtIncompatible // To be supported
   <K, V> GenericMapMaker<K, V> removalListener(RemovalListener<K, V> listener) {

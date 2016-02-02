@@ -97,7 +97,7 @@ public class ComputingConcurrentHashMapTest extends TestCase {
     Function<Object, Object> computingFunction = new ConstantLoader<Object, Object>(null);
     ComputingMapAdapter<Object, Object> map = makeAdaptedMap(createMapMaker(), computingFunction);
     try {
-      map.get(new Object());
+      Object unused = map.get(new Object());
       fail();
     } catch (NullPointerException expected) {}
   }
