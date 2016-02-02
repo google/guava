@@ -23,11 +23,12 @@ import static com.google.common.graph.Graphs.config;
 import static com.google.common.graph.Graphs.copyOf;
 import static com.google.common.graph.Graphs.mergeEdgesFrom;
 import static com.google.common.graph.Graphs.mergeNodesFrom;
-import static com.google.common.graph.Graphs.noSelfLoopPredicate;
+import static com.google.common.graph.Graphs.selfLoopPredicate;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableSet;
 
 import org.junit.Test;
@@ -332,7 +333,7 @@ public class GraphsTest {
     UndirectedGraph<Integer, String> undirectedGraph = buildUndirectedTestGraph();
     undirectedGraph.addNode(N3);
     Predicate<Integer> nodePredicate = connectedNodePredicate(undirectedGraph);
-    Predicate<String> edgePredicate = noSelfLoopPredicate(undirectedGraph);
+    Predicate<String> edgePredicate = Predicates.not(selfLoopPredicate(undirectedGraph));
 
     UndirectedGraph<Integer, String> filteredCopy =
         copyOf(undirectedGraph, nodePredicate, edgePredicate);
@@ -350,7 +351,7 @@ public class GraphsTest {
     DirectedGraph<Integer, String> directedGraph = buildDirectedTestGraph();
     directedGraph.addNode(N3);
     Predicate<Integer> nodePredicate = connectedNodePredicate(directedGraph);
-    Predicate<String> edgePredicate = noSelfLoopPredicate(directedGraph);
+    Predicate<String> edgePredicate = Predicates.not(selfLoopPredicate(directedGraph));
 
     DirectedGraph<Integer, String> filteredCopy =
         copyOf(directedGraph, nodePredicate, edgePredicate);
@@ -427,7 +428,7 @@ public class GraphsTest {
   public void mergeEdgesFrom_filtered_directed() {
     DirectedGraph<Integer, String> directedGraph = buildDirectedTestGraph();
     directedGraph.addNode(N3);
-    Predicate<String> edgePredicate = noSelfLoopPredicate(directedGraph);
+    Predicate<String> edgePredicate = Predicates.not(selfLoopPredicate(directedGraph));
 
     DirectedGraph<Integer, String> actualGraph = Graphs.createDirected(MULTIGRAPH);
     // prepopulate actualGraph to make sure that existing elements don't interfere with the merging
@@ -515,7 +516,7 @@ public class GraphsTest {
   public void mergeEdgesFrom_filtered_undirected() {
     UndirectedGraph<Integer, String> undirectedGraph = buildUndirectedTestGraph();
     undirectedGraph.addNode(N3);
-    Predicate<String> edgePredicate = noSelfLoopPredicate(undirectedGraph);
+    Predicate<String> edgePredicate = Predicates.not(selfLoopPredicate(undirectedGraph));
 
     UndirectedGraph<Integer, String> actualGraph = Graphs.createUndirected(MULTIGRAPH);
     // prepopulate actualGraph to make sure that existing elements don't interfere with the merging

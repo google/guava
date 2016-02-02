@@ -22,6 +22,7 @@ import static com.google.common.graph.GraphErrorMessageUtils.EDGE_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphErrorMessageUtils.NODE_NOT_IN_GRAPH;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -56,29 +57,12 @@ import javax.annotation.Nullable;
  *     self-loop, a node can be adjacent to itself, but an edge will never be.
  * </ul>
  *
- * <p>Most of the {@code Set}-returning accessors return an immutable set which is an internal
- * data structure, hence they have a time complexity of O(1). The rest of these accessors build
- * and return an immutable set that is <b>derived</b> from the internal data structures, hence
- * they have the following time complexities:
- * <ul>
- * <li>{@code incidentEdges(node)}: O(d_node).
- * <li>Methods that ask for adjacent nodes:
- *     <ul>
- *     <li>{@code adjacentNodes(node)}: O(d_node).
- *     <li>{@code predecessors(node)}: O(inD_node).
- *     <li>{@code successors(node)}: O(outD_node).
- *     </ul>
- * <li>{@code adjacentEdges(edge)}: O(d_node1 + d_node2), where node1 and node2 are
- *     {@code edge}'s incident nodes.
- * <li>{@code edgesConnecting(node1, node2)}: O(min(outD_node1, inD_node2)).
- * </ul>
- * where d_node is the degree of node, inD_node is the in-degree of node, and outD_node is the
- * out-degree of node. The set returned by these methods is <b>not</b> cached, so every time the
- * user calls the method, the same set will be reconstructed again.
+ * <p>The time complexity of all {@code Set}-returning accessors is O(1), since we
+ * are returning views. An exception to this is {@code edgesConnecting(node1, node2)},
+ * which is O(min(outD_node1, inD_node2)).
  *
- * <p>All other accessors have a time complexity of O(1), except for
- * {@code degree(node)}, whose time complexity is linear in the minimum of
- * the out-degree and in-degree of {@code node}. This is due to a call to {@code edgesConnecting}.
+ * <p>All other accessors have a time complexity of O(1), except for {@code degree(node)},
+ * whose time complexity is O(outD_node).
  *
  * @author Joshua O'Madadhain
  * @param <N> Node parameter type
@@ -92,21 +76,22 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
     implements DirectedGraph<N, E> {
 
   // All nodes in the graph exist in this map
-  private final ImmutableMap<N, DirectedIncidentEdges<E>> nodeToIncidentEdges;
+  private final ImmutableMap<N, NodeConnections<N, E>> nodeConnections;
   // All edges in the graph exist in this map
   private final ImmutableMap<E, DirectedIncidentNodes<N>> edgeToIncidentNodes;
   private final GraphConfig config;
 
   private ImmutableDirectedGraph(Builder<N, E> builder) {
     DirectedGraph<N, E> directedGraph = builder.directedGraph;
-    ImmutableMap.Builder<N, DirectedIncidentEdges<E>> nodeToIncidentEdgesBuilder =
+    ImmutableMap.Builder<N, NodeConnections<N, E>> nodeConnectionsBuilder =
         ImmutableMap.builder();
     for (N node : directedGraph.nodes()) {
-      DirectedIncidentEdges<E> incidentEdges = DirectedIncidentEdges.ofImmutable(
+      NodeConnections<N, E> connections = DirectedNodeConnections.ofImmutable(
+          directedGraph.predecessors(node), directedGraph.successors(node),
           directedGraph.inEdges(node), directedGraph.outEdges(node));
-      nodeToIncidentEdgesBuilder.put(node, incidentEdges);
+      nodeConnectionsBuilder.put(node, connections);
     }
-    nodeToIncidentEdges = nodeToIncidentEdgesBuilder.build();
+    this.nodeConnections = nodeConnectionsBuilder.build();
     ImmutableMap.Builder<E, DirectedIncidentNodes<N>> edgeToIncidentNodesBuilder =
         ImmutableMap.builder();
     for (E edge : directedGraph.edges()) {
@@ -114,13 +99,13 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
           directedGraph.source(edge), directedGraph.target(edge));
       edgeToIncidentNodesBuilder.put(edge, incidentNodes);
     }
-    edgeToIncidentNodes = edgeToIncidentNodesBuilder.build();
+    this.edgeToIncidentNodes = edgeToIncidentNodesBuilder.build();
     this.config = directedGraph.config();
   }
 
   @Override
   public Set<N> nodes() {
-    return nodeToIncidentEdges.keySet();
+    return nodeConnections.keySet();
   }
 
   @Override
@@ -135,29 +120,23 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
 
   @Override
   public Set<E> incidentEdges(Object node) {
-    return Sets.union(inEdges(node), outEdges(node)).immutableCopy();
+    return Sets.union(inEdges(node), outEdges(node));
   }
 
   @Override
   public Set<N> incidentNodes(Object edge) {
-    checkNotNull(edge, "edge");
-    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
-    checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
-    return endpoints.asImmutableSet();
+    return checkedEndpoints(edge).asImmutableSet();
   }
 
   @Override
   public Set<N> adjacentNodes(Object node) {
-    return Sets.union(predecessors(node), successors(node)).immutableCopy();
+    return Sets.union(predecessors(node), successors(node));
   }
 
   @Override
   public Set<E> adjacentEdges(Object edge) {
-    checkNotNull(edge, "edge");
-    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
-    checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
     Set<E> adjacentEdges = Sets.newLinkedHashSet();
-    for (N node : endpoints.asImmutableSet()) {
+    for (N node : incidentNodes(edge)) {
       adjacentEdges.addAll(incidentEdges(node));
     }
     // Edges are not adjacent to themselves by definition.
@@ -166,63 +145,47 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
   }
 
   /**
-   * Returns the intersection of these two sets, using {@code Sets.intersection}:
+   * Returns the intersection of these two sets, using {@link Sets#intersection}:
    * <ol>
    * <li>Outgoing edges of {@code node1}.
    * <li>Incoming edges of {@code node2}.
    * </ol>
-   * The first argument passed to {@code Sets.intersection} is the smaller of the two sets.
-   *
-   * @see Sets#intersection
    */
   @Override
   public Set<E> edgesConnecting(Object node1, Object node2) {
-    checkNotNull(node1, "node1");
-    checkNotNull(node2, "node2");
-    Set<E> sourceOutEdges = outEdges(node1);
+    Set<E> sourceOutEdges = outEdges(node1); // Verifies that node1 is in graph
+    if (!config.isSelfLoopsAllowed() && node1.equals(node2)) {
+      return ImmutableSet.of();
+    }
     Set<E> targetInEdges = inEdges(node2);
-    return sourceOutEdges.size() <= targetInEdges.size()
+    return (sourceOutEdges.size() <= targetInEdges.size())
         ? Sets.intersection(sourceOutEdges, targetInEdges).immutableCopy()
         : Sets.intersection(targetInEdges, sourceOutEdges).immutableCopy();
   }
 
   @Override
   public Set<E> inEdges(Object node) {
-    checkNotNull(node, "node");
-    DirectedIncidentEdges<E> incidentEdges = nodeToIncidentEdges.get(node);
-    checkArgument(incidentEdges != null, NODE_NOT_IN_GRAPH, node);
-    return incidentEdges.inEdges();
+    return checkedConnections(node).inEdges();
   }
 
   @Override
   public Set<E> outEdges(Object node) {
-    checkNotNull(node, "node");
-    DirectedIncidentEdges<E> incidentEdges = nodeToIncidentEdges.get(node);
-    checkArgument(incidentEdges != null, NODE_NOT_IN_GRAPH, node);
-    return incidentEdges.outEdges();
+    return checkedConnections(node).outEdges();
   }
 
   @Override
   public Set<N> predecessors(Object node) {
-    ImmutableSet.Builder<N> predecessorsBuilder = ImmutableSet.builder();
-    for (E edge : inEdges(node)) {
-      predecessorsBuilder.add(source(edge));
-    }
-    return predecessorsBuilder.build();
+    return checkedConnections(node).predecessors();
   }
 
   @Override
   public Set<N> successors(Object node) {
-    ImmutableSet.Builder<N> successorsBuilder = ImmutableSet.builder();
-    for (E edge : outEdges(node)) {
-      successorsBuilder.add(target(edge));
-    }
-    return successorsBuilder.build();
+    return checkedConnections(node).successors();
   }
 
   @Override
   public long degree(Object node) {
-    return inDegree(node) + outDegree(node) - edgesConnecting(node, node).size();
+    return incidentEdges(node).size();
   }
 
   @Override
@@ -237,30 +200,45 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
 
   @Override
   public N source(Object edge) {
-    checkNotNull(edge, "edge");
-    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
-    checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
-    return endpoints.source();
+    return checkedEndpoints(edge).source();
   }
 
   @Override
   public N target(Object edge) {
-    checkNotNull(edge, "edge");
-    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
-    checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
-    return endpoints.target();
+    return checkedEndpoints(edge).target();
   }
 
   @Override
   public boolean equals(@Nullable Object object) {
-    return (object instanceof DirectedGraph) && Graphs.equal(this, (DirectedGraph) object);
+    return (object instanceof DirectedGraph) && Graphs.equal(this, (DirectedGraph<?, ?>) object);
   }
 
   @Override
   public int hashCode() {
-    // This map encapsulates all of the structural relationships of this graph, so its hash code
-    // is consistent with the above definition of equals().
-    return nodeToIncidentEdges.hashCode();
+    // The node set is included in the hash to differentiate between graphs with isolated nodes.
+    return Objects.hashCode(nodes(), edgeToIncidentNodes);
+  }
+
+  @Override
+  public String toString() {
+    return String.format("config: %s, nodes: %s, edges: %s",
+        config,
+        nodes(),
+        edgeToIncidentNodes);
+  }
+
+  private NodeConnections<N, E> checkedConnections(Object node) {
+    checkNotNull(node, "node");
+    NodeConnections<N, E> connections = nodeConnections.get(node);
+    checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);
+    return connections;
+  }
+
+  private DirectedIncidentNodes<N> checkedEndpoints(Object edge) {
+    checkNotNull(edge, "edge");
+    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
+    checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
+    return endpoints;
   }
 
   /**
@@ -287,14 +265,6 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
    */
   public static <N, E> ImmutableDirectedGraph<N, E> copyOf(DirectedGraph<N, E> graph) {
     return new Builder<N, E>(graph).build();
-  }
-
-  @Override
-  public String toString() {
-    return String.format("config: %s, nodes: %s, edges: %s",
-        config,
-        nodeToIncidentEdges.keySet(),
-        edgeToIncidentNodes);
   }
 
   /**
