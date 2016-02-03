@@ -34,18 +34,21 @@ public abstract class AbstractImmutableUndirectedGraphTest extends AbstractUndir
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
   @Override
+  @Test
   public final void nodes_checkReturnedSetMutability() {
     expectedException.expect(UnsupportedOperationException.class);
     graph.nodes().add(N2);
   }
 
   @Override
+  @Test
   public final void edges_checkReturnedSetMutability() {
     expectedException.expect(UnsupportedOperationException.class);
     graph.edges().add(E12);
   }
 
   @Override
+  @Test
   public final void incidentEdges_checkReturnedSetMutability() {
     addNode(N1);
     expectedException.expect(UnsupportedOperationException.class);
@@ -53,6 +56,7 @@ public abstract class AbstractImmutableUndirectedGraphTest extends AbstractUndir
   }
 
   @Override
+  @Test
   public final void incidentNodes_checkReturnedSetMutability() {
     addEdge(E12, N1, N2);
     expectedException.expect(UnsupportedOperationException.class);
@@ -60,6 +64,7 @@ public abstract class AbstractImmutableUndirectedGraphTest extends AbstractUndir
   }
 
   @Override
+  @Test
   public final void adjacentNodes_checkReturnedSetMutability() {
     addNode(N1);
     expectedException.expect(UnsupportedOperationException.class);
@@ -67,6 +72,7 @@ public abstract class AbstractImmutableUndirectedGraphTest extends AbstractUndir
   }
 
   @Override
+  @Test
   public final void adjacentEdges_checkReturnedSetMutability() {
     addEdge(E12, N1, N2);
     expectedException.expect(UnsupportedOperationException.class);
@@ -74,6 +80,7 @@ public abstract class AbstractImmutableUndirectedGraphTest extends AbstractUndir
   }
 
   @Override
+  @Test
   public final void edgesConnecting_checkReturnedSetMutability() {
     addEdge(E12, N1, N2);
     expectedException.expect(UnsupportedOperationException.class);
@@ -81,6 +88,7 @@ public abstract class AbstractImmutableUndirectedGraphTest extends AbstractUndir
   }
 
   @Override
+  @Test
   public final void inEdges_checkReturnedSetMutability() {
     addEdge(E12, N1, N2);
     expectedException.expect(UnsupportedOperationException.class);
@@ -88,6 +96,7 @@ public abstract class AbstractImmutableUndirectedGraphTest extends AbstractUndir
   }
 
   @Override
+  @Test
   public final void outEdges_checkReturnedSetMutability() {
     addEdge(E12, N1, N2);
     expectedException.expect(UnsupportedOperationException.class);
@@ -95,6 +104,7 @@ public abstract class AbstractImmutableUndirectedGraphTest extends AbstractUndir
   }
 
   @Override
+  @Test
   public final void predecessors_checkReturnedSetMutability() {
     addEdge(E12, N1, N2);
     expectedException.expect(UnsupportedOperationException.class);
@@ -102,6 +112,7 @@ public abstract class AbstractImmutableUndirectedGraphTest extends AbstractUndir
   }
 
   @Override
+  @Test
   public final void successors_checkReturnedSetMutability() {
     addEdge(E12, N1, N2);
     expectedException.expect(UnsupportedOperationException.class);
@@ -110,24 +121,35 @@ public abstract class AbstractImmutableUndirectedGraphTest extends AbstractUndir
 
   // Builder mutation methods only support addition, not removal, so these tests would fail.
   @Override
+  @Test
   public void removeNode_existingNode() {
     expectedException.expect(UnsupportedOperationException.class);
     super.removeNode_existingNode();
   }
 
   @Override
+  @Test
   public void removeNode_invalidArgument() {
     expectedException.expect(UnsupportedOperationException.class);
     super.removeNode_invalidArgument();
   }
 
   @Override
+  @Test
   public void removeEdge_existingEdge() {
     expectedException.expect(UnsupportedOperationException.class);
     super.removeEdge_existingEdge();
   }
 
   @Override
+  @Test
+  public void removeEdge_oneOfMany() {
+    expectedException.expect(UnsupportedOperationException.class);
+    super.removeEdge_oneOfMany();
+  }
+
+  @Override
+  @Test
   public void removeEdge_invalidArgument() {
     expectedException.expect(UnsupportedOperationException.class);
     super.removeEdge_invalidArgument();

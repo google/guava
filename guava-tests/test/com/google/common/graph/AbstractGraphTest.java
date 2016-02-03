@@ -23,10 +23,15 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.testing.EqualsTester;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Set;
 
 /**
  * Abstract base class for testing implementations of {@link Graph} interface. Graph
@@ -139,6 +144,70 @@ public abstract class AbstractGraphTest {
   @Before
   public void init() {
     graph = createGraph();
+  }
+
+  @After
+  public void validateGraphState() {
+    new EqualsTester().addEqualityGroup(graph).testEquals();
+
+    for (String edge : graph.edges()) {
+      Set<Integer> incidentNodes = graph.incidentNodes(edge);
+      Integer node1 = Iterables.get(incidentNodes, 0);
+      Integer node2 = Iterables.get(incidentNodes, 1, node1);
+      assertThat(graph.successors(node1)).contains(node2);
+      assertThat(graph.adjacentNodes(node1)).contains(node2);
+      assertThat(graph.outEdges(node1)).contains(edge);
+      assertThat(graph.incidentEdges(node1)).contains(edge);
+      assertThat(graph.predecessors(node2)).contains(node1);
+      assertThat(graph.adjacentNodes(node2)).contains(node1);
+      assertThat(graph.inEdges(node2)).contains(edge);
+      assertThat(graph.incidentEdges(node2)).contains(edge);
+
+      for (Integer incidentNode : incidentNodes) {
+        for (String adjacentEdge : graph.incidentEdges(incidentNode)) {
+          assertTrue(adjacentEdge.equals(edge) || graph.adjacentEdges(edge).contains(adjacentEdge));
+        }
+      }
+    }
+
+    for (Integer node : graph.nodes()) {
+      for (String incidentEdge : graph.incidentEdges(node)) {
+        assertTrue(graph.inEdges(node).contains(incidentEdge)
+            || graph.outEdges(node).contains(incidentEdge));
+        assertThat(graph.incidentNodes(incidentEdge)).contains(node);
+      }
+
+      for (String inEdge : graph.inEdges(node)) {
+        assertThat(graph.incidentEdges(node)).contains(inEdge);
+      }
+
+      for (String outEdge : graph.outEdges(node)) {
+        assertThat(graph.incidentEdges(node)).contains(outEdge);
+      }
+
+      for (Integer adjacentNode : graph.adjacentNodes(node)) {
+        assertTrue(graph.predecessors(node).contains(adjacentNode)
+            || graph.successors(node).contains(adjacentNode));
+        assertTrue(!graph.edgesConnecting(node, adjacentNode).isEmpty()
+            || !graph.edgesConnecting(adjacentNode, node).isEmpty());
+        assertThat(graph.incidentEdges(node)).isNotEmpty();
+        assertThat(graph.incidentEdges(node)).hasSize((int) graph.degree(node));
+      }
+
+      for (Integer predecessor : graph.predecessors(node)) {
+        assertThat(graph.successors(predecessor)).contains(node);
+        assertThat(graph.edgesConnecting(predecessor, node)).isNotEmpty();
+        assertThat(graph.inEdges(node)).isNotEmpty();
+        assertThat(graph.inEdges(node)).hasSize((int) graph.inDegree(node));
+      }
+
+      for (Integer successor : graph.successors(node)) {
+        assertThat(graph.predecessors(successor)).contains(node);
+        assertThat(graph.edgesConnecting(node, successor)).isNotEmpty();
+        assertThat(graph.outEdges(node)).isNotEmpty();
+        assertThat(graph.outEdges(node)).hasSize((int) graph.outDegree(node));
+      }
+    }
   }
 
   /**
@@ -509,6 +578,16 @@ public abstract class AbstractGraphTest {
     ImmutableSet<Integer> nodes = ImmutableSet.copyOf(graph.nodes());
     assertFalse(graph.removeNode(NODE_NOT_IN_GRAPH));
     assertThat(graph.nodes()).containsExactlyElementsIn(nodes);
+  }
+
+  @Test
+  public void removeEdge_oneOfMany() {
+    addEdge(E12, N1, N2);
+    addEdge(E13, N1, N3);
+    addEdge(E14, N1, N4);
+    assertThat(graph.edges()).containsExactly(E12, E13, E14);
+    assertTrue(graph.removeEdge(E13));
+    assertThat(graph.edges()).containsExactly(E12, E14);
   }
 
   @Test

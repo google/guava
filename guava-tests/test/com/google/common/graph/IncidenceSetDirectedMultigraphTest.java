@@ -55,7 +55,7 @@ public class IncidenceSetDirectedMultigraphTest extends IncidenceSetDirectedGrap
   public void addEdge_parallelEdge() {
     assertTrue(addEdge(E12, N1, N2));
     assertTrue(addEdge(E12_A, N1, N2));
-    assertThat(directedGraph.edges()).containsExactly(E12, E12_A).inOrder();
+    assertThat(directedGraph.edgesConnecting(N1, N2)).containsExactly(E12, E12_A).inOrder();
   }
 
   @Override
@@ -63,7 +63,23 @@ public class IncidenceSetDirectedMultigraphTest extends IncidenceSetDirectedGrap
   public void addEdge_parallelSelfLoopEdge() {
     assertTrue(addEdge(E11, N1, N1));
     assertTrue(addEdge(E11_A, N1, N1));
-    assertThat(directedGraph.edges()).containsExactly(E11, E11_A).inOrder();
+    assertThat(directedGraph.edgesConnecting(N1, N1)).containsExactly(E11, E11_A).inOrder();
+  }
+
+  @Test
+  public void removeEdge_parallelEdge() {
+    addEdge(E12, N1, N2);
+    addEdge(E12_A, N1, N2);
+    assertTrue(graph.removeEdge(E12_A));
+    assertThat(directedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
+  }
+
+  @Test
+  public void removeEdge_parallelSelfLoopEdge() {
+    addEdge(E11, N1, N1);
+    addEdge(E11_A, N1, N1);
+    assertTrue(graph.removeEdge(E11_A));
+    assertThat(directedGraph.edgesConnecting(N1, N1)).containsExactly(E11);
   }
 
   @Test

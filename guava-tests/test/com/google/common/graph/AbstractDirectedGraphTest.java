@@ -24,6 +24,7 @@ import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
 
+import org.junit.After;
 import org.junit.Test;
 
 /**
@@ -45,6 +46,19 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
   @Override
   public void init() {
     graph = directedGraph = createGraph();
+  }
+
+  @After
+  public void validateSourceAndTarget() {
+    for (Integer node : graph.nodes()) {
+      for (String inEdge : graph.inEdges(node)) {
+        assertThat(directedGraph.target(inEdge)).isEqualTo(node);
+      }
+
+      for (String outEdge : graph.outEdges(node)) {
+        assertThat(directedGraph.source(outEdge)).isEqualTo(node);
+      }
+    }
   }
 
   @Test

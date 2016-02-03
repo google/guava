@@ -55,7 +55,7 @@ public class IncidenceSetUndirectedMultigraphTest extends IncidenceSetUndirected
     assertTrue(addEdge(E12, N1, N2));
     assertTrue(addEdge(E12_A, N1, N2));
     assertTrue(addEdge(E21, N2, N1));
-    assertThat(undirectedGraph.edges()).containsExactly(E12, E12_A, E21).inOrder();
+    assertThat(undirectedGraph.edgesConnecting(N1, N2)).containsExactly(E12, E12_A, E21).inOrder();
   }
 
   @Override
@@ -63,7 +63,24 @@ public class IncidenceSetUndirectedMultigraphTest extends IncidenceSetUndirected
   public void addEdge_parallelSelfLoopEdge() {
     assertTrue(addEdge(E11, N1, N1));
     assertTrue(addEdge(E11_A, N1, N1));
-    assertThat(undirectedGraph.edges()).containsExactly(E11, E11_A).inOrder();
+    assertThat(undirectedGraph.edgesConnecting(N1, N1)).containsExactly(E11, E11_A).inOrder();
+  }
+
+  @Test
+  public void removeEdge_parallelEdge() {
+    addEdge(E12, N1, N2);
+    addEdge(E12_A, N1, N2);
+    addEdge(E21, N2, N1);
+    assertTrue(graph.removeEdge(E12_A));
+    assertThat(undirectedGraph.edgesConnecting(N1, N2)).containsExactly(E12, E21).inOrder();
+  }
+
+  @Test
+  public void removeEdge_parallelSelfLoopEdge() {
+    addEdge(E11, N1, N1);
+    addEdge(E11_A, N1, N1);
+    assertTrue(graph.removeEdge(E11_A));
+    assertThat(undirectedGraph.edgesConnecting(N1, N1)).containsExactly(E11);
   }
 
   @Test
