@@ -338,7 +338,7 @@
 <span class="sourceLineNo">330</span><a name="line.330"></a>
 <span class="sourceLineNo">331</span>    @Override<a name="line.331"></a>
 <span class="sourceLineNo">332</span>    public int size() {<a name="line.332"></a>
-<span class="sourceLineNo">333</span>      return rest.length + 1;<a name="line.333"></a>
+<span class="sourceLineNo">333</span>      return IntMath.saturatedAdd(rest.length, 1);<a name="line.333"></a>
 <span class="sourceLineNo">334</span>    }<a name="line.334"></a>
 <span class="sourceLineNo">335</span><a name="line.335"></a>
 <span class="sourceLineNo">336</span>    @Override<a name="line.336"></a>
@@ -387,7 +387,7 @@
 <span class="sourceLineNo">379</span><a name="line.379"></a>
 <span class="sourceLineNo">380</span>    @Override<a name="line.380"></a>
 <span class="sourceLineNo">381</span>    public int size() {<a name="line.381"></a>
-<span class="sourceLineNo">382</span>      return rest.length + 2;<a name="line.382"></a>
+<span class="sourceLineNo">382</span>      return IntMath.saturatedAdd(rest.length, 2);<a name="line.382"></a>
 <span class="sourceLineNo">383</span>    }<a name="line.383"></a>
 <span class="sourceLineNo">384</span><a name="line.384"></a>
 <span class="sourceLineNo">385</span>    @Override<a name="line.385"></a>
