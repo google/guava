@@ -26,6 +26,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.math.IntMath;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 
@@ -41,6 +42,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
+
+import javax.annotation.CheckReturnValue;
 
 /**
  * A double-ended priority queue, which provides constant-time access to both
@@ -102,6 +105,7 @@ import java.util.Queue;
  * @since 8.0
  */
 // TODO(kevinb): GWT compatibility
+@CheckReturnValue
 @Beta
 @GwtIncompatible
 public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
@@ -185,6 +189,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
      * Configures this builder to build min-max priority queues with an initial
      * expected size of {@code expectedSize}.
      */
+    @CanIgnoreReturnValue
     public Builder<B> expectedSize(int expectedSize) {
       checkArgument(expectedSize >= 0);
       this.expectedSize = expectedSize;
@@ -197,6 +202,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
      * beyond this bound, it immediately removes its greatest element (according
      * to its comparator), which might be the element that was just added.
      */
+    @CanIgnoreReturnValue
     public Builder<B> maximumSize(int maximumSize) {
       checkArgument(maximumSize > 0);
       this.maximumSize = maximumSize;
@@ -263,12 +269,14 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    *
    * @return {@code true} always
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean add(E element) {
     offer(element);
     return true;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean addAll(Collection<? extends E> newElements) {
     boolean modified = false;
@@ -285,6 +293,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * greatest element (according to its comparator), which may be {@code
    * element} itself.
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean offer(E element) {
     checkNotNull(element);
@@ -299,6 +308,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     return size <= maximumSize || pollLast() != element;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public E poll() {
     return isEmpty() ? null : removeAndGet(0);
@@ -334,6 +344,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * Removes and returns the least element of this queue, or returns {@code
    * null} if the queue is empty.
    */
+  @CanIgnoreReturnValue
   public E pollFirst() {
     return poll();
   }
@@ -343,6 +354,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    *
    * @throws NoSuchElementException if the queue is empty
    */
+  @CanIgnoreReturnValue
   public E removeFirst() {
     return remove();
   }
@@ -359,6 +371,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * Removes and returns the greatest element of this queue, or returns {@code
    * null} if the queue is empty.
    */
+  @CanIgnoreReturnValue
   public E pollLast() {
     return isEmpty() ? null : removeAndGet(getMaxElementIndex());
   }
@@ -368,6 +381,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    *
    * @throws NoSuchElementException if the queue is empty
    */
+  @CanIgnoreReturnValue
   public E removeLast() {
     if (isEmpty()) {
       throw new NoSuchElementException();
@@ -399,6 +413,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * only once.
    */
   @VisibleForTesting
+  @CanIgnoreReturnValue
   MoveDesc<E> removeAt(int index) {
     checkPositionIndex(index, size);
     modCount++;
@@ -569,6 +584,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
      * Bubbles a value from {@code index} up the levels of this heap, and
      * returns the index the element ended up at.
      */
+    @CanIgnoreReturnValue
     int bubbleUpAlternatingLevels(int index, E x) {
       while (index > 2) {
         int grandParentIndex = getGrandparentIndex(index);
