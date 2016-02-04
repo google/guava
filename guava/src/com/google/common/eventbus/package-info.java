@@ -21,7 +21,7 @@
  * traditional Java in-process event distribution using explicit registration.
  * It is <em>not</em> a general-purpose publish-subscribe system, nor is it
  * intended for interprocess communication.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/EventBusExplained">
  * {@code EventBus}</a>.
@@ -251,4 +251,9 @@
  * <p>Because subscriber methods on your listener classes are normal methods, you can
  * simply call them from your test code to simulate the EventBus.
  */
+@CheckReturnValue
+@ParametersAreNonnullByDefault
 package com.google.common.eventbus;
+
+import javax.annotation.CheckReturnValue;
+import javax.annotation.ParametersAreNonnullByDefault;
