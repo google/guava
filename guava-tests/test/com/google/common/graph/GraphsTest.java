@@ -23,17 +23,21 @@ import static com.google.common.graph.Graphs.config;
 import static com.google.common.graph.Graphs.copyOf;
 import static com.google.common.graph.Graphs.mergeEdgesFrom;
 import static com.google.common.graph.Graphs.mergeNodesFrom;
+import static com.google.common.graph.Graphs.oppositeNode;
 import static com.google.common.graph.Graphs.selfLoopPredicate;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import java.util.List;
 
 /**
  * Tests for {@link Graphs}. Tests assume that the implementation of the method
@@ -51,6 +55,7 @@ public class GraphsTest {
   private static final String E12_A = "1-2a";
   private static final String E21 = "2-1";
   private static final String E22 = "2-2";
+  private static final String E13 = "1-3";
   private static final String E44 = "4-4";
   private static final int NODE_COUNT = 20;
   private static final int EDGE_COUNT = 20;
@@ -66,6 +71,57 @@ public class GraphsTest {
   private static final String ERROR_ADDED_SELF_LOOP =
       "Should not be allowed to add a self-loop edge.";
   static final String ERROR_SELF_LOOP = "self-loops are not allowed";
+
+  @Test
+  public void oppositeNode_basic() {
+    List<Graph<Integer, String>> testGraphs = ImmutableList.of(
+        Graphs.<Integer, String>createDirected(), Graphs.<Integer, String>createUndirected());
+    for (Graph<Integer, String> graph : testGraphs) {
+      graph.addEdge(E12, N1, N2);
+      assertThat(oppositeNode(graph, E12, N1)).isEqualTo(N2);
+      assertThat(oppositeNode(graph, E12, N2)).isEqualTo(N1);
+    }
+  }
+
+  @Test
+  public void oppositeNode_parallelEdge() {
+    List<Graph<Integer, String>> testGraphs = ImmutableList.of(
+        Graphs.<Integer, String>createDirected(MULTIGRAPH),
+        Graphs.<Integer, String>createUndirected(MULTIGRAPH));
+    for (Graph<Integer, String> graph : testGraphs) {
+      graph.addEdge(E12, N1, N2);
+      graph.addEdge(E12_A, N1, N2);
+      assertThat(oppositeNode(graph, E12, N1)).isEqualTo(N2);
+      assertThat(oppositeNode(graph, E12, N2)).isEqualTo(N1);
+      assertThat(oppositeNode(graph, E12_A, N1)).isEqualTo(N2);
+      assertThat(oppositeNode(graph, E12_A, N2)).isEqualTo(N1);
+    }
+  }
+
+  @Test
+  public void oppositeNode_selfLoop() {
+    List<Graph<Integer, String>> testGraphs = ImmutableList.of(
+        Graphs.<Integer, String>createDirected(), Graphs.<Integer, String>createUndirected());
+    for (Graph<Integer, String> graph : testGraphs) {
+      graph.addEdge(E11, N1, N1);
+      assertThat(oppositeNode(graph, E11, N1)).isEqualTo(N1);
+    }
+  }
+
+  @Test
+  public void oppositeNode_nodeNotIncident() {
+    List<Graph<Integer, String>> testGraphs = ImmutableList.of(
+        Graphs.<Integer, String>createDirected(), Graphs.<Integer, String>createUndirected());
+    for (Graph<Integer, String> graph : testGraphs) {
+      graph.addEdge(E12, N1, N2);
+      graph.addEdge(E13, N1, N3);
+      try {
+        Integer unused = oppositeNode(graph, E12, N3);
+        fail("Should have rejected oppositeNode() called without a node incident to edge");
+      } catch (IllegalArgumentException expected) {
+      }
+    }
+  }
 
   @Test
   public void createDirected() {

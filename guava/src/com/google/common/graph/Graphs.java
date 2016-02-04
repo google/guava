@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Predicate;
@@ -44,23 +45,33 @@ public final class Graphs {
   private Graphs() {}
 
   /**
-   * Returns the node at the other end of {@code e} from {@code n}.
+   * Returns the node at the other end of {@code edge} from {@code node}.
+   *
+   * @throws IllegalArgumentException if {@code edge} is not incident to {@code node}
+   * @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}
    */
   @SuppressWarnings("unchecked")
-  public static <N> N oppositeNode(
-      UndirectedGraph<N, ?> undirectedGraph, Object edge, Object node) {
+  public static <N> N oppositeNode(Graph<N, ?> graph, Object edge, Object node) {
+    checkNotNull(graph, "graph");
     checkNotNull(edge, "edge");
     checkNotNull(node, "node");
-    Set<N> incidentNodes = undirectedGraph.incidentNodes(edge);
-    checkArgument(incidentNodes.contains(node), "Edge %s is not incident to node %s", edge, node);
-    for (N incidentNode : incidentNodes) {
-      if (!incidentNode.equals(node)) {
-        return incidentNode;
-      }
+    if (graph instanceof Hypergraph) {
+      throw new UnsupportedOperationException();
     }
-    // Reaching this point means that incidentNodes contains only one node,
-    // which is node, hence edge is a self-loop for node, and node is its own opposite
-    return (N) node;
+
+    Iterator<N> incidentNodesIterator = graph.incidentNodes(edge).iterator();
+    N oppositeNode = incidentNodesIterator.next();
+    N equalNode = oppositeNode;
+    if (incidentNodesIterator.hasNext()) {
+      if (node.equals(oppositeNode)) {
+        oppositeNode = incidentNodesIterator.next();
+      } else {
+        equalNode = incidentNodesIterator.next();
+      }
+      checkState(!incidentNodesIterator.hasNext());
+    }
+    checkArgument(node.equals(equalNode), "Edge %s is not incident to node %s", edge, node);
+    return oppositeNode;
   }
 
   /**
