@@ -4826,14 +4826,13 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/ImmutableDirectedGraph.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting(Object, Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a></dt>
 <dd>
-<div class="block">Returns the intersection of these two sets, using <code>Sets.intersection</code>:
+<div class="block">Returns the intersection of these two sets, using <a href="./com/google/common/collect/Sets.html#intersection(java.util.Set,%20java.util.Set)"><code>Sets.intersection(java.util.Set&lt;E&gt;, java.util.Set&lt;?&gt;)</code></a>:
  
  Outgoing edges of <code>node1</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting(Object, Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dt>
 <dd>
-<div class="block">If <code>node1</code> is equal to <code>node2</code>, a <code>Set</code> instance is returned,
- calculating the set of self-loop edges.</div>
+<div class="block">If <code>node1</code> is equal to <code>node2</code>, the set of self-loop edges is returned.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Stopwatch.html#elapsed(java.util.concurrent.TimeUnit)">elapsed(TimeUnit)</a></span> - Method in class com.google.common.base.<a href="./com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></dt>
 <dd>
@@ -11043,11 +11042,6 @@
 <div class="block">Returns a <code>char</code> matcher that matches any character not present in the given character
  sequence.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#noSelfLoopPredicate(com.google.common.graph.Graph)">noSelfLoopPredicate(Graph&lt;?, E&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
-<dd>
-<div class="block">Returns a <a href="./com/google/common/base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> that returns <code>true</code> if the input edge is not a self-loop in
- <code>graph</code>.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/GraphConfig.html#noSelfLoops()">noSelfLoops()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a></dt>
 <dd>
 <div class="block">Specifies that this graph does not allow self-loop edges.</div>
@@ -13922,6 +13916,11 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/ListeningScheduledExecutorService.html#scheduleWithFixedDelay(java.lang.Runnable,%20long,%20long,%20java.util.concurrent.TimeUnit)">scheduleWithFixedDelay(Runnable, long, long, TimeUnit)</a></span> - Method in interface com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#selfLoopPredicate(com.google.common.graph.Graph)">selfLoopPredicate(Graph&lt;?, E&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
+<dd>
+<div class="block">Returns a <a href="./com/google/common/base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> that returns <code>true</code> if the input edge is a self-loop in
+ <code>graph</code>.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/Striped.html#semaphore(int,%20int)">semaphore(int, int)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a></dt>
 <dd>
 <div class="block">Creates a <code>Striped&lt;Semaphore&gt;</code> with eagerly initialized, strongly referenced semaphores,
