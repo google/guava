@@ -195,10 +195,16 @@ else
   # The release being updated currently may not be the latest release.
   version=$(latest_release)
 fi
-sed -i'.bak' -e "s/$fieldtoupdate:[ ]+.+/$fieldtoupdate: $version/g" _config.yml
-if [ -e _config.yml.bak ]; then
-  rm _config.yml.bak
+
+sedbinary=sed
+if [[ -n $(which gsed) ]]; then
+  # default sed on OS X isn't GNU sed and behaves differently
+  # use gsed if it's available
+  sedbinary=gsed
 fi
+
+$sedbinary -i'' -re "s/$fieldtoupdate:[ ]+.+/$fieldtoupdate: $version/g" _config.yml
+
 if ! git diff --quiet ; then
   echo -n "Updating $fieldtoupdate in _config.yml to $version..."
   git add _config.yml > /dev/null
