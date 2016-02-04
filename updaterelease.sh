@@ -69,6 +69,9 @@ function cleanup {
 }
 trap cleanup INT TERM EXIT
 
+# Make sure we have all the latest tags
+git fetch --tags
+
 # Switch to the git ref for the release to do things with the actual Guava repo.
 git_checkout_ref $releaseref
 
