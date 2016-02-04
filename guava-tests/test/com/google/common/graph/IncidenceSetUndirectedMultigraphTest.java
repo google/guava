@@ -79,8 +79,13 @@ public class IncidenceSetUndirectedMultigraphTest extends IncidenceSetUndirected
   public void removeEdge_parallelSelfLoopEdge() {
     addEdge(E11, N1, N1);
     addEdge(E11_A, N1, N1);
-    assertTrue(graph.removeEdge(E11_A));
+    addEdge(E12, N1, N2);
+    assertTrue(undirectedGraph.removeEdge(E11_A));
     assertThat(undirectedGraph.edgesConnecting(N1, N1)).containsExactly(E11);
+    assertThat(undirectedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertTrue(undirectedGraph.removeEdge(E11));
+    assertThat(undirectedGraph.edgesConnecting(N1, N1)).isEmpty();
+    assertThat(undirectedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
   }
 
   @Test

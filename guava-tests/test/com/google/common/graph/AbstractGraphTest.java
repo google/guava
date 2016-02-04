@@ -154,6 +154,7 @@ public abstract class AbstractGraphTest {
       Set<Integer> incidentNodes = graph.incidentNodes(edge);
       Integer node1 = Iterables.get(incidentNodes, 0);
       Integer node2 = Iterables.get(incidentNodes, 1, node1);
+      assertThat(graph.edgesConnecting(node1, node2)).contains(edge);
       assertThat(graph.successors(node1)).contains(node2);
       assertThat(graph.adjacentNodes(node1)).contains(node2);
       assertThat(graph.outEdges(node1)).contains(edge);

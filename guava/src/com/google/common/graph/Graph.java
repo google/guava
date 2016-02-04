@@ -253,7 +253,7 @@ public interface Graph<N, E> {
    * Returns the edges that are {@linkplain #incidentEdges(Object) incident} in this graph
    * to both nodes {@code node1} and {@code node2}.
    *
-   * <p>If the graph is directed, the {@linkplain #source(Object) source} and
+   * <p>If the graph is directed, the {@linkplain DirectedGraph#source(Object) source} and
    * {@linkplain DirectedGraph#target(Object) target} of the edges returned must be {@code node1}
    * and {@code node2}, respectively.
    *

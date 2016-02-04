@@ -78,8 +78,13 @@ public class IncidenceSetDirectedMultigraphTest extends IncidenceSetDirectedGrap
   public void removeEdge_parallelSelfLoopEdge() {
     addEdge(E11, N1, N1);
     addEdge(E11_A, N1, N1);
-    assertTrue(graph.removeEdge(E11_A));
+    addEdge(E12, N1, N2);
+    assertTrue(directedGraph.removeEdge(E11_A));
     assertThat(directedGraph.edgesConnecting(N1, N1)).containsExactly(E11);
+    assertThat(directedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertTrue(directedGraph.removeEdge(E11));
+    assertThat(directedGraph.edgesConnecting(N1, N1)).isEmpty();
+    assertThat(directedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
   }
 
   @Test

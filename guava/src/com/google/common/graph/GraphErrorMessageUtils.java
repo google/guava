@@ -29,7 +29,7 @@ final class GraphErrorMessageUtils {
       "Edge %s already exists between the "
           + "following nodes: %s, so it can't be reused to connect the given nodes: %s";
   static final String ADDING_PARALLEL_EDGE =
-      "Nodes %s and %s are already connected by a different edge: %s";
+      "Nodes %s and %s are already connected by a different edge.";
   static final String SELF_LOOPS_NOT_ALLOWED =
       "Can't add self-loop edge on node %s, as self-loops are not allowed.";
 }

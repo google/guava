@@ -16,7 +16,11 @@
 
 package com.google.common.graph;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.testing.AbstractPackageSanityTests;
+
+import junit.framework.AssertionFailedError;
 
 /**
  * Covers basic sanity checks for the entire package.
@@ -52,5 +56,14 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
     // the GraphConfig instances are *not* used to determine equality for mutable graphs. Therefore,
     // the tool ends up creating 2 equal mutable instances and it causes failures.
     // However, the tool is still checking the nullability contracts of the mutable graphs.
+  }
+
+  @Override
+  public void testNulls() throws Exception {
+    try {
+      super.testNulls();
+    } catch (AssertionFailedError e) {
+      assertThat(e.getCause().getMessage()).contains(AbstractGraphTest.ERROR_ELEMENT_NOT_IN_GRAPH);
+    }
   }
 }
