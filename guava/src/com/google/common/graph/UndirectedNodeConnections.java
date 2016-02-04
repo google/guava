@@ -46,8 +46,7 @@ final class UndirectedNodeConnections<N, E> implements NodeConnections<N, E> {
 
   static <N, E> UndirectedNodeConnections<N, E> of() {
     // TODO(user): Enable users to specify the expected number of neighbors of a new node.
-    return new UndirectedNodeConnections<N, E>(
-        Sets.<N>newLinkedHashSet(), Sets.<E>newLinkedHashSet());
+    return new UndirectedNodeConnections<N, E>(Sets.<N>newHashSet(), Sets.<E>newHashSet());
   }
 
   static <N, E> UndirectedNodeConnections<N, E> ofImmutable(

@@ -63,7 +63,7 @@ public class IncidenceSetUndirectedGraphTest extends IncidenceSetSimpleUndirecte
   public void adjacentNodes_selfLoop() {
     addEdge(E11, N1, N1);
     addEdge(E12, N1, N2);
-    assertThat(graph.adjacentNodes(N1)).containsExactly(N1, N2).inOrder();
+    assertThat(graph.adjacentNodes(N1)).containsExactly(N1, N2);
   }
 
   @Test
@@ -90,7 +90,7 @@ public class IncidenceSetUndirectedGraphTest extends IncidenceSetSimpleUndirecte
     addEdge(E11, N1, N1);
     assertThat(undirectedGraph.inEdges(N1)).containsExactly(E11);
     addEdge(E12, N1, N2);
-    assertThat(undirectedGraph.inEdges(N1)).containsExactly(E11, E12).inOrder();
+    assertThat(undirectedGraph.inEdges(N1)).containsExactly(E11, E12);
   }
 
   @Test
@@ -98,7 +98,7 @@ public class IncidenceSetUndirectedGraphTest extends IncidenceSetSimpleUndirecte
     addEdge(E11, N1, N1);
     assertThat(undirectedGraph.outEdges(N1)).containsExactly(E11);
     addEdge(E12, N2, N1);
-    assertThat(undirectedGraph.outEdges(N1)).containsExactly(E11, E12).inOrder();
+    assertThat(undirectedGraph.outEdges(N1)).containsExactly(E11, E12);
   }
 
   @Test
@@ -106,7 +106,7 @@ public class IncidenceSetUndirectedGraphTest extends IncidenceSetSimpleUndirecte
     addEdge(E11, N1, N1);
     assertThat(undirectedGraph.predecessors(N1)).containsExactly(N1);
     addEdge(E12, N1, N2);
-    assertThat(undirectedGraph.predecessors(N1)).containsExactly(N1, N2).inOrder();
+    assertThat(undirectedGraph.predecessors(N1)).containsExactly(N1, N2);
   }
 
   @Test
@@ -114,7 +114,7 @@ public class IncidenceSetUndirectedGraphTest extends IncidenceSetSimpleUndirecte
     addEdge(E11, N1, N1);
     assertThat(undirectedGraph.successors(N1)).containsExactly(N1);
     addEdge(E12, N2, N1);
-    assertThat(undirectedGraph.successors(N1)).containsExactly(N1, N2).inOrder();
+    assertThat(undirectedGraph.successors(N1)).containsExactly(N1, N2);
   }
 
   @Test

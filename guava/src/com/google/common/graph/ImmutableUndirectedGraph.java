@@ -29,7 +29,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
-import java.util.Collections;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -129,13 +128,15 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
 
   @Override
   public Set<E> adjacentEdges(Object edge) {
-    Set<E> adjacentEdges = Sets.newLinkedHashSet();
-    for (N node : incidentNodes(edge)) {
-      adjacentEdges.addAll(incidentEdges(node));
+    ImmutableSet.Builder<E> adjacentEdges = ImmutableSet.builder();
+    for (N endpoint : incidentNodes(edge)) {
+      for (E adjacentEdge : incidentEdges(endpoint)) {
+        if (!edge.equals(adjacentEdge)) { // Edges are not adjacent to themselves by definition.
+          adjacentEdges.add(adjacentEdge);
+        }
+      }
     }
-    // Edges are not adjacent to themselves by definition.
-    adjacentEdges.remove(edge);
-    return Collections.unmodifiableSet(adjacentEdges);
+    return adjacentEdges.build();
   }
 
   /**

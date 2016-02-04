@@ -60,7 +60,7 @@ public class ImmutableDirectedGraphTest extends ImmutableSimpleDirectedGraphTest
   public void adjacentNodes_selfLoop() {
     addEdge(E11, N1, N1);
     addEdge(E12, N1, N2);
-    assertThat(graph.adjacentNodes(N1)).containsExactly(N1, N2).inOrder();
+    assertThat(graph.adjacentNodes(N1)).containsExactly(N1, N2);
   }
 
   @Test
@@ -85,7 +85,7 @@ public class ImmutableDirectedGraphTest extends ImmutableSimpleDirectedGraphTest
     addEdge(E11, N1, N1);
     assertThat(directedGraph.inEdges(N1)).containsExactly(E11);
     addEdge(E41, N4, N1);
-    assertThat(directedGraph.inEdges(N1)).containsExactly(E11, E41).inOrder();
+    assertThat(directedGraph.inEdges(N1)).containsExactly(E11, E41);
   }
 
   @Test
@@ -93,7 +93,7 @@ public class ImmutableDirectedGraphTest extends ImmutableSimpleDirectedGraphTest
     addEdge(E11, N1, N1);
     assertThat(directedGraph.outEdges(N1)).containsExactly(E11);
     addEdge(E12, N1, N2);
-    assertThat(directedGraph.outEdges(N1)).containsExactly(E11, E12).inOrder();
+    assertThat(directedGraph.outEdges(N1)).containsExactly(E11, E12);
   }
 
   @Test
@@ -101,7 +101,7 @@ public class ImmutableDirectedGraphTest extends ImmutableSimpleDirectedGraphTest
     addEdge(E11, N1, N1);
     assertThat(directedGraph.predecessors(N1)).containsExactly(N1);
     addEdge(E41, N4, N1);
-    assertThat(directedGraph.predecessors(N1)).containsExactly(N1, N4).inOrder();
+    assertThat(directedGraph.predecessors(N1)).containsExactly(N1, N4);
   }
 
   @Test
@@ -109,7 +109,7 @@ public class ImmutableDirectedGraphTest extends ImmutableSimpleDirectedGraphTest
     addEdge(E11, N1, N1);
     assertThat(directedGraph.successors(N1)).containsExactly(N1);
     addEdge(E12, N1, N2);
-    assertThat(directedGraph.successors(N1)).containsExactly(N1, N2).inOrder();
+    assertThat(directedGraph.successors(N1)).containsExactly(N1, N2);
   }
 
   @Test

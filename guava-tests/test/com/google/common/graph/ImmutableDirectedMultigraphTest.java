@@ -38,7 +38,7 @@ public class ImmutableDirectedMultigraphTest extends ImmutableDirectedGraphTest 
   public void edgesConnecting_parallelEdges() {
     assertTrue(addEdge(E12, N1, N2));
     assertTrue(addEdge(E12_A, N1, N2));
-    assertThat(directedGraph.edgesConnecting(N1, N2)).containsExactly(E12, E12_A).inOrder();
+    assertThat(directedGraph.edgesConnecting(N1, N2)).containsExactly(E12, E12_A);
     // Passed nodes should be in the correct edge direction, first is the
     // source node and the second is the target node
     assertThat(directedGraph.edgesConnecting(N2, N1)).isEmpty();
@@ -48,7 +48,7 @@ public class ImmutableDirectedMultigraphTest extends ImmutableDirectedGraphTest 
   public void edgesConnecting_parallelSelfLoopEdges() {
     assertTrue(addEdge(E11, N1, N1));
     assertTrue(addEdge(E11_A, N1, N1));
-    assertThat(directedGraph.edgesConnecting(N1, N1)).containsExactly(E11, E11_A).inOrder();
+    assertThat(directedGraph.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
   }
 
   @Override

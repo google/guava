@@ -52,8 +52,7 @@ final class DirectedNodeConnections<N, E> implements NodeConnections<N, E> {
   static <N, E> DirectedNodeConnections<N, E> of() {
     // TODO(user): Enable users to specify the expected number of neighbors of a new node.
     return new DirectedNodeConnections<N, E>(
-        Sets.<N>newLinkedHashSet(), Sets.<N>newLinkedHashSet(),
-        Sets.<E>newLinkedHashSet(), Sets.<E>newLinkedHashSet());
+        Sets.<N>newHashSet(), Sets.<N>newHashSet(), Sets.<E>newHashSet(), Sets.<E>newHashSet());
   }
 
   static <N, E> DirectedNodeConnections<N, E> ofImmutable(Set<N> predecessors, Set<N> successors,
