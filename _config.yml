@@ -26,10 +26,14 @@ lsi: false
 # github: <repository metadata> (https://help.github.com/articles/repository-metadata-on-github-pages/)
 
 # Collections
-collections:
- releases:
-   output: true
-   permalink: /:collection/:path/
+#collections:
+# releases collection disabled until there's non-Javadoc/JDiff content that needs to go there
+# Files under the releases/ directory (where the Javadoc/JDiff is kept) are included directly.
+# When there are .md files that need rendering, they should go under _releases and this collection
+# should be re-enabled.
+# releases:
+#   output: true
+#   permalink: /:collection/:path/
 
 # Release data
 # Do not change! updaterelease.sh automatically updates these fields

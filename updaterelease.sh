@@ -11,8 +11,8 @@
 #   ./updaterelease.sh 18.0
 #   ./updaterelease.sh 18.0-rc1
 #
-# All of these update the Javadoc located at _releases/<release>/api/docs
-# and the JDiff located at _releases/<release>/api/diffs, creating those
+# All of these update the Javadoc located at releases/<release>/api/docs
+# and the JDiff located at releases/<release>/api/diffs, creating those
 # directories if this is a new release version. If <release> is 'snapshot',
 # Javadoc and JDiff is derived from the 'master' branch. Otherwise, it is
 # derived from the git tag 'v<release>'. In both cases, the actual version
@@ -125,15 +125,15 @@ echo -n "Determining previous release version..."
 prevrelease=$(latest_release $guavaversion)
 echo " $prevrelease"
 
-cp _releases/$prevrelease/api/diffs/$prevrelease.xml $tempdir/Guava_$prevrelease.xml
+cp releases/$prevrelease/api/diffs/$prevrelease.xml $tempdir/Guava_$prevrelease.xml
 
 # Generate Jdiff report, putting it in $tempdir/diffs
 
 # These are the base paths to Javadoc that will be used in the generated changes html files.
-# Use paths relative to the directory where those files will go (_releases/$release/api/diffs/changes).
-# _releases/$release/api/docs/
+# Use paths relative to the directory where those files will go (releases/$release/api/diffs/changes).
+# releases/$release/api/docs/
 releasejavadocpath="../../docs/"
-# _releases/$prevrelease/api/docs/
+# releases/$prevrelease/api/docs/
 prevjavadocpath="../../../../$prevrelease/api/docs/"
 
 echo -n "Generating JDiff report between Guava $prevrelease and $guavaversion..."
@@ -155,7 +155,7 @@ echo " Done."
 # Remove the useless user comments xml file
 rm $tempdir/diffs/user_comments_for_Guava_*
 
-# Change changes.html to index.html, making the url for a diff just _releases/<release>/api/diffs/
+# Change changes.html to index.html, making the url for a diff just releases/<release>/api/diffs/
 mv $tempdir/diffs/changes.html $tempdir/diffs/index.html
 # Change references to ../changes.html in the changes/ subdirectory  to reference the new URL (just ..)
 find $tempdir/diffs/changes -name *.html -exec sed -i'.bak' -e 's#\.\./changes.html#..#g' {} ";"
@@ -167,9 +167,9 @@ rm $tempdir/diffs/changes/*.bak
 mv $tempdir/Guava_$guavaversion.xml $tempdir/diffs/$release.xml
 
 # Move generated output to the appropriate final directories.
-docsdir=_releases/$release/api/docs
+docsdir=releases/$release/api/docs
 mkdir -p $docsdir && rm -fr $docsdir
-diffsdir=_releases/$release/api/diffs
+diffsdir=releases/$release/api/diffs
 mkdir -p $diffsdir && rm -fr $diffsdir
 
 echo -n "Moving generated Javadoc to $docsdir..."
