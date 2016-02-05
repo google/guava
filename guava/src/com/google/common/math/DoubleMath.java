@@ -36,6 +36,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Booleans;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -509,6 +510,7 @@ public final class DoubleMath {
   }
 
   @GwtIncompatible // com.google.common.math.DoubleUtils
+  @CanIgnoreReturnValue
   private static double checkFinite(double argument) {
     checkArgument(isFinite(argument));
     return argument;
