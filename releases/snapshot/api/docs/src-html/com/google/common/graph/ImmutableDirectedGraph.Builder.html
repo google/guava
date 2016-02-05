@@ -36,331 +36,332 @@
 <span class="sourceLineNo">028</span>import com.google.common.collect.Sets;<a name="line.28"></a>
 <span class="sourceLineNo">029</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.29"></a>
 <span class="sourceLineNo">030</span><a name="line.30"></a>
-<span class="sourceLineNo">031</span>import java.util.Collections;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>import java.util.Set;<a name="line.32"></a>
-<span class="sourceLineNo">033</span><a name="line.33"></a>
-<span class="sourceLineNo">034</span>import javax.annotation.Nullable;<a name="line.34"></a>
-<span class="sourceLineNo">035</span><a name="line.35"></a>
-<span class="sourceLineNo">036</span>/**<a name="line.36"></a>
-<span class="sourceLineNo">037</span> * Implementation of an immutable directed graph consisting of nodes<a name="line.37"></a>
-<span class="sourceLineNo">038</span> * of type N and edges of type E.<a name="line.38"></a>
-<span class="sourceLineNo">039</span> *<a name="line.39"></a>
-<span class="sourceLineNo">040</span> * &lt;p&gt;This class maintains the following data structures:<a name="line.40"></a>
-<span class="sourceLineNo">041</span> * &lt;ul&gt;<a name="line.41"></a>
-<span class="sourceLineNo">042</span> * &lt;li&gt;For each node: sets of incoming and outgoing edges.<a name="line.42"></a>
-<span class="sourceLineNo">043</span> * &lt;li&gt;For each edge: references to the source and target nodes.<a name="line.43"></a>
-<span class="sourceLineNo">044</span> * &lt;/ul&gt;<a name="line.44"></a>
-<span class="sourceLineNo">045</span> *<a name="line.45"></a>
-<span class="sourceLineNo">046</span> * &lt;p&gt;Some invariants/assumptions are maintained in this implementation:<a name="line.46"></a>
-<span class="sourceLineNo">047</span> * &lt;ul&gt;<a name="line.47"></a>
-<span class="sourceLineNo">048</span> * &lt;li&gt;An edge has exactly two end-points (source node and target node), which<a name="line.48"></a>
-<span class="sourceLineNo">049</span> *     may or may not be distinct.<a name="line.49"></a>
-<span class="sourceLineNo">050</span> * &lt;li&gt;By default, this is not a multigraph, that is, parallel edges (multiple<a name="line.50"></a>
-<span class="sourceLineNo">051</span> *     edges directed from node1 to node2) are not allowed.  If you want a multigraph,<a name="line.51"></a>
-<span class="sourceLineNo">052</span> *     build the graph with the 'multigraph' option:<a name="line.52"></a>
-<span class="sourceLineNo">053</span> *     &lt;pre&gt;ImmutableDirectedGraph.builder(Graphs.config().multigraph()).build();&lt;/pre&gt;<a name="line.53"></a>
-<span class="sourceLineNo">054</span> * &lt;li&gt;Anti-parallel edges (same incident nodes but in opposite direction,<a name="line.54"></a>
-<span class="sourceLineNo">055</span> *     e.g. (node1, node2) and (node2, node1)) are always allowed.<a name="line.55"></a>
-<span class="sourceLineNo">056</span> * &lt;li&gt;Edges are not adjacent to themselves by definition. In the case of a<a name="line.56"></a>
-<span class="sourceLineNo">057</span> *     self-loop, a node can be adjacent to itself, but an edge will never be.<a name="line.57"></a>
-<span class="sourceLineNo">058</span> * &lt;/ul&gt;<a name="line.58"></a>
-<span class="sourceLineNo">059</span> *<a name="line.59"></a>
-<span class="sourceLineNo">060</span> * &lt;p&gt;The time complexity of all {@code Set}-returning accessors is O(1), since we<a name="line.60"></a>
-<span class="sourceLineNo">061</span> * are returning views. An exception to this is {@code edgesConnecting(node1, node2)},<a name="line.61"></a>
-<span class="sourceLineNo">062</span> * which is O(min(outD_node1, inD_node2)).<a name="line.62"></a>
-<span class="sourceLineNo">063</span> *<a name="line.63"></a>
-<span class="sourceLineNo">064</span> * &lt;p&gt;All other accessors have a time complexity of O(1), except for {@code degree(node)},<a name="line.64"></a>
-<span class="sourceLineNo">065</span> * whose time complexity is O(outD_node).<a name="line.65"></a>
-<span class="sourceLineNo">066</span> *<a name="line.66"></a>
-<span class="sourceLineNo">067</span> * @author Joshua O'Madadhain<a name="line.67"></a>
-<span class="sourceLineNo">068</span> * @param &lt;N&gt; Node parameter type<a name="line.68"></a>
-<span class="sourceLineNo">069</span> * @param &lt;E&gt; Edge parameter type<a name="line.69"></a>
-<span class="sourceLineNo">070</span> * @see Graphs<a name="line.70"></a>
-<span class="sourceLineNo">071</span> * @since 20.0<a name="line.71"></a>
-<span class="sourceLineNo">072</span> */<a name="line.72"></a>
-<span class="sourceLineNo">073</span>// TODO(user): Add support for sorted nodes/edges and/or hypergraphs.<a name="line.73"></a>
-<span class="sourceLineNo">074</span>@Beta<a name="line.74"></a>
-<span class="sourceLineNo">075</span>public final class ImmutableDirectedGraph&lt;N, E&gt; extends AbstractImmutableGraph&lt;N, E&gt;<a name="line.75"></a>
-<span class="sourceLineNo">076</span>    implements DirectedGraph&lt;N, E&gt; {<a name="line.76"></a>
-<span class="sourceLineNo">077</span><a name="line.77"></a>
-<span class="sourceLineNo">078</span>  // All nodes in the graph exist in this map<a name="line.78"></a>
-<span class="sourceLineNo">079</span>  private final ImmutableMap&lt;N, NodeConnections&lt;N, E&gt;&gt; nodeConnections;<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  // All edges in the graph exist in this map<a name="line.80"></a>
-<span class="sourceLineNo">081</span>  private final ImmutableMap&lt;E, DirectedIncidentNodes&lt;N&gt;&gt; edgeToIncidentNodes;<a name="line.81"></a>
-<span class="sourceLineNo">082</span>  private final GraphConfig config;<a name="line.82"></a>
-<span class="sourceLineNo">083</span><a name="line.83"></a>
-<span class="sourceLineNo">084</span>  private ImmutableDirectedGraph(Builder&lt;N, E&gt; builder) {<a name="line.84"></a>
-<span class="sourceLineNo">085</span>    DirectedGraph&lt;N, E&gt; directedGraph = builder.directedGraph;<a name="line.85"></a>
-<span class="sourceLineNo">086</span>    ImmutableMap.Builder&lt;N, NodeConnections&lt;N, E&gt;&gt; nodeConnectionsBuilder =<a name="line.86"></a>
-<span class="sourceLineNo">087</span>        ImmutableMap.builder();<a name="line.87"></a>
-<span class="sourceLineNo">088</span>    for (N node : directedGraph.nodes()) {<a name="line.88"></a>
-<span class="sourceLineNo">089</span>      NodeConnections&lt;N, E&gt; connections = DirectedNodeConnections.ofImmutable(<a name="line.89"></a>
-<span class="sourceLineNo">090</span>          directedGraph.predecessors(node), directedGraph.successors(node),<a name="line.90"></a>
-<span class="sourceLineNo">091</span>          directedGraph.inEdges(node), directedGraph.outEdges(node));<a name="line.91"></a>
-<span class="sourceLineNo">092</span>      nodeConnectionsBuilder.put(node, connections);<a name="line.92"></a>
-<span class="sourceLineNo">093</span>    }<a name="line.93"></a>
-<span class="sourceLineNo">094</span>    this.nodeConnections = nodeConnectionsBuilder.build();<a name="line.94"></a>
-<span class="sourceLineNo">095</span>    ImmutableMap.Builder&lt;E, DirectedIncidentNodes&lt;N&gt;&gt; edgeToIncidentNodesBuilder =<a name="line.95"></a>
-<span class="sourceLineNo">096</span>        ImmutableMap.builder();<a name="line.96"></a>
-<span class="sourceLineNo">097</span>    for (E edge : directedGraph.edges()) {<a name="line.97"></a>
-<span class="sourceLineNo">098</span>      DirectedIncidentNodes&lt;N&gt; incidentNodes = DirectedIncidentNodes.of(<a name="line.98"></a>
-<span class="sourceLineNo">099</span>          directedGraph.source(edge), directedGraph.target(edge));<a name="line.99"></a>
-<span class="sourceLineNo">100</span>      edgeToIncidentNodesBuilder.put(edge, incidentNodes);<a name="line.100"></a>
-<span class="sourceLineNo">101</span>    }<a name="line.101"></a>
-<span class="sourceLineNo">102</span>    this.edgeToIncidentNodes = edgeToIncidentNodesBuilder.build();<a name="line.102"></a>
-<span class="sourceLineNo">103</span>    this.config = directedGraph.config();<a name="line.103"></a>
-<span class="sourceLineNo">104</span>  }<a name="line.104"></a>
-<span class="sourceLineNo">105</span><a name="line.105"></a>
-<span class="sourceLineNo">106</span>  @Override<a name="line.106"></a>
-<span class="sourceLineNo">107</span>  public Set&lt;N&gt; nodes() {<a name="line.107"></a>
-<span class="sourceLineNo">108</span>    return nodeConnections.keySet();<a name="line.108"></a>
-<span class="sourceLineNo">109</span>  }<a name="line.109"></a>
-<span class="sourceLineNo">110</span><a name="line.110"></a>
-<span class="sourceLineNo">111</span>  @Override<a name="line.111"></a>
-<span class="sourceLineNo">112</span>  public Set&lt;E&gt; edges() {<a name="line.112"></a>
-<span class="sourceLineNo">113</span>    return edgeToIncidentNodes.keySet();<a name="line.113"></a>
-<span class="sourceLineNo">114</span>  }<a name="line.114"></a>
-<span class="sourceLineNo">115</span><a name="line.115"></a>
-<span class="sourceLineNo">116</span>  @Override<a name="line.116"></a>
-<span class="sourceLineNo">117</span>  public GraphConfig config() {<a name="line.117"></a>
-<span class="sourceLineNo">118</span>    return config;<a name="line.118"></a>
-<span class="sourceLineNo">119</span>  }<a name="line.119"></a>
-<span class="sourceLineNo">120</span><a name="line.120"></a>
-<span class="sourceLineNo">121</span>  @Override<a name="line.121"></a>
-<span class="sourceLineNo">122</span>  public Set&lt;E&gt; incidentEdges(Object node) {<a name="line.122"></a>
-<span class="sourceLineNo">123</span>    return Sets.union(inEdges(node), outEdges(node));<a name="line.123"></a>
-<span class="sourceLineNo">124</span>  }<a name="line.124"></a>
-<span class="sourceLineNo">125</span><a name="line.125"></a>
-<span class="sourceLineNo">126</span>  @Override<a name="line.126"></a>
-<span class="sourceLineNo">127</span>  public Set&lt;N&gt; incidentNodes(Object edge) {<a name="line.127"></a>
-<span class="sourceLineNo">128</span>    return checkedEndpoints(edge).asImmutableSet();<a name="line.128"></a>
-<span class="sourceLineNo">129</span>  }<a name="line.129"></a>
-<span class="sourceLineNo">130</span><a name="line.130"></a>
-<span class="sourceLineNo">131</span>  @Override<a name="line.131"></a>
-<span class="sourceLineNo">132</span>  public Set&lt;N&gt; adjacentNodes(Object node) {<a name="line.132"></a>
-<span class="sourceLineNo">133</span>    return Sets.union(predecessors(node), successors(node));<a name="line.133"></a>
-<span class="sourceLineNo">134</span>  }<a name="line.134"></a>
-<span class="sourceLineNo">135</span><a name="line.135"></a>
-<span class="sourceLineNo">136</span>  @Override<a name="line.136"></a>
-<span class="sourceLineNo">137</span>  public Set&lt;E&gt; adjacentEdges(Object edge) {<a name="line.137"></a>
-<span class="sourceLineNo">138</span>    Set&lt;E&gt; adjacentEdges = Sets.newLinkedHashSet();<a name="line.138"></a>
-<span class="sourceLineNo">139</span>    for (N node : incidentNodes(edge)) {<a name="line.139"></a>
-<span class="sourceLineNo">140</span>      adjacentEdges.addAll(incidentEdges(node));<a name="line.140"></a>
-<span class="sourceLineNo">141</span>    }<a name="line.141"></a>
-<span class="sourceLineNo">142</span>    // Edges are not adjacent to themselves by definition.<a name="line.142"></a>
-<span class="sourceLineNo">143</span>    adjacentEdges.remove(edge);<a name="line.143"></a>
-<span class="sourceLineNo">144</span>    return Collections.unmodifiableSet(adjacentEdges);<a name="line.144"></a>
-<span class="sourceLineNo">145</span>  }<a name="line.145"></a>
-<span class="sourceLineNo">146</span><a name="line.146"></a>
-<span class="sourceLineNo">147</span>  /**<a name="line.147"></a>
-<span class="sourceLineNo">148</span>   * Returns the intersection of these two sets, using {@link Sets#intersection}:<a name="line.148"></a>
-<span class="sourceLineNo">149</span>   * &lt;ol&gt;<a name="line.149"></a>
-<span class="sourceLineNo">150</span>   * &lt;li&gt;Outgoing edges of {@code node1}.<a name="line.150"></a>
-<span class="sourceLineNo">151</span>   * &lt;li&gt;Incoming edges of {@code node2}.<a name="line.151"></a>
-<span class="sourceLineNo">152</span>   * &lt;/ol&gt;<a name="line.152"></a>
-<span class="sourceLineNo">153</span>   */<a name="line.153"></a>
-<span class="sourceLineNo">154</span>  @Override<a name="line.154"></a>
-<span class="sourceLineNo">155</span>  public Set&lt;E&gt; edgesConnecting(Object node1, Object node2) {<a name="line.155"></a>
-<span class="sourceLineNo">156</span>    Set&lt;E&gt; sourceOutEdges = outEdges(node1); // Verifies that node1 is in graph<a name="line.156"></a>
-<span class="sourceLineNo">157</span>    if (!config.isSelfLoopsAllowed() &amp;&amp; node1.equals(node2)) {<a name="line.157"></a>
-<span class="sourceLineNo">158</span>      return ImmutableSet.of();<a name="line.158"></a>
-<span class="sourceLineNo">159</span>    }<a name="line.159"></a>
-<span class="sourceLineNo">160</span>    Set&lt;E&gt; targetInEdges = inEdges(node2);<a name="line.160"></a>
-<span class="sourceLineNo">161</span>    return (sourceOutEdges.size() &lt;= targetInEdges.size())<a name="line.161"></a>
-<span class="sourceLineNo">162</span>        ? Sets.intersection(sourceOutEdges, targetInEdges).immutableCopy()<a name="line.162"></a>
-<span class="sourceLineNo">163</span>        : Sets.intersection(targetInEdges, sourceOutEdges).immutableCopy();<a name="line.163"></a>
-<span class="sourceLineNo">164</span>  }<a name="line.164"></a>
-<span class="sourceLineNo">165</span><a name="line.165"></a>
-<span class="sourceLineNo">166</span>  @Override<a name="line.166"></a>
-<span class="sourceLineNo">167</span>  public Set&lt;E&gt; inEdges(Object node) {<a name="line.167"></a>
-<span class="sourceLineNo">168</span>    return checkedConnections(node).inEdges();<a name="line.168"></a>
-<span class="sourceLineNo">169</span>  }<a name="line.169"></a>
-<span class="sourceLineNo">170</span><a name="line.170"></a>
-<span class="sourceLineNo">171</span>  @Override<a name="line.171"></a>
-<span class="sourceLineNo">172</span>  public Set&lt;E&gt; outEdges(Object node) {<a name="line.172"></a>
-<span class="sourceLineNo">173</span>    return checkedConnections(node).outEdges();<a name="line.173"></a>
-<span class="sourceLineNo">174</span>  }<a name="line.174"></a>
-<span class="sourceLineNo">175</span><a name="line.175"></a>
-<span class="sourceLineNo">176</span>  @Override<a name="line.176"></a>
-<span class="sourceLineNo">177</span>  public Set&lt;N&gt; predecessors(Object node) {<a name="line.177"></a>
-<span class="sourceLineNo">178</span>    return checkedConnections(node).predecessors();<a name="line.178"></a>
-<span class="sourceLineNo">179</span>  }<a name="line.179"></a>
-<span class="sourceLineNo">180</span><a name="line.180"></a>
-<span class="sourceLineNo">181</span>  @Override<a name="line.181"></a>
-<span class="sourceLineNo">182</span>  public Set&lt;N&gt; successors(Object node) {<a name="line.182"></a>
-<span class="sourceLineNo">183</span>    return checkedConnections(node).successors();<a name="line.183"></a>
-<span class="sourceLineNo">184</span>  }<a name="line.184"></a>
-<span class="sourceLineNo">185</span><a name="line.185"></a>
-<span class="sourceLineNo">186</span>  @Override<a name="line.186"></a>
-<span class="sourceLineNo">187</span>  public long degree(Object node) {<a name="line.187"></a>
-<span class="sourceLineNo">188</span>    return incidentEdges(node).size();<a name="line.188"></a>
-<span class="sourceLineNo">189</span>  }<a name="line.189"></a>
-<span class="sourceLineNo">190</span><a name="line.190"></a>
-<span class="sourceLineNo">191</span>  @Override<a name="line.191"></a>
-<span class="sourceLineNo">192</span>  public long inDegree(Object node) {<a name="line.192"></a>
-<span class="sourceLineNo">193</span>    return inEdges(node).size();<a name="line.193"></a>
-<span class="sourceLineNo">194</span>  }<a name="line.194"></a>
-<span class="sourceLineNo">195</span><a name="line.195"></a>
-<span class="sourceLineNo">196</span>  @Override<a name="line.196"></a>
-<span class="sourceLineNo">197</span>  public long outDegree(Object node) {<a name="line.197"></a>
-<span class="sourceLineNo">198</span>    return outEdges(node).size();<a name="line.198"></a>
-<span class="sourceLineNo">199</span>  }<a name="line.199"></a>
-<span class="sourceLineNo">200</span><a name="line.200"></a>
-<span class="sourceLineNo">201</span>  @Override<a name="line.201"></a>
-<span class="sourceLineNo">202</span>  public N source(Object edge) {<a name="line.202"></a>
-<span class="sourceLineNo">203</span>    return checkedEndpoints(edge).source();<a name="line.203"></a>
-<span class="sourceLineNo">204</span>  }<a name="line.204"></a>
-<span class="sourceLineNo">205</span><a name="line.205"></a>
-<span class="sourceLineNo">206</span>  @Override<a name="line.206"></a>
-<span class="sourceLineNo">207</span>  public N target(Object edge) {<a name="line.207"></a>
-<span class="sourceLineNo">208</span>    return checkedEndpoints(edge).target();<a name="line.208"></a>
-<span class="sourceLineNo">209</span>  }<a name="line.209"></a>
-<span class="sourceLineNo">210</span><a name="line.210"></a>
-<span class="sourceLineNo">211</span>  @Override<a name="line.211"></a>
-<span class="sourceLineNo">212</span>  public boolean equals(@Nullable Object object) {<a name="line.212"></a>
-<span class="sourceLineNo">213</span>    return (object instanceof DirectedGraph) &amp;&amp; Graphs.equal(this, (DirectedGraph&lt;?, ?&gt;) object);<a name="line.213"></a>
-<span class="sourceLineNo">214</span>  }<a name="line.214"></a>
-<span class="sourceLineNo">215</span><a name="line.215"></a>
-<span class="sourceLineNo">216</span>  @Override<a name="line.216"></a>
-<span class="sourceLineNo">217</span>  public int hashCode() {<a name="line.217"></a>
-<span class="sourceLineNo">218</span>    // The node set is included in the hash to differentiate between graphs with isolated nodes.<a name="line.218"></a>
-<span class="sourceLineNo">219</span>    return Objects.hashCode(nodes(), edgeToIncidentNodes);<a name="line.219"></a>
-<span class="sourceLineNo">220</span>  }<a name="line.220"></a>
-<span class="sourceLineNo">221</span><a name="line.221"></a>
-<span class="sourceLineNo">222</span>  @Override<a name="line.222"></a>
-<span class="sourceLineNo">223</span>  public String toString() {<a name="line.223"></a>
-<span class="sourceLineNo">224</span>    return String.format("config: %s, nodes: %s, edges: %s",<a name="line.224"></a>
-<span class="sourceLineNo">225</span>        config,<a name="line.225"></a>
-<span class="sourceLineNo">226</span>        nodes(),<a name="line.226"></a>
-<span class="sourceLineNo">227</span>        edgeToIncidentNodes);<a name="line.227"></a>
-<span class="sourceLineNo">228</span>  }<a name="line.228"></a>
-<span class="sourceLineNo">229</span><a name="line.229"></a>
-<span class="sourceLineNo">230</span>  private NodeConnections&lt;N, E&gt; checkedConnections(Object node) {<a name="line.230"></a>
-<span class="sourceLineNo">231</span>    checkNotNull(node, "node");<a name="line.231"></a>
-<span class="sourceLineNo">232</span>    NodeConnections&lt;N, E&gt; connections = nodeConnections.get(node);<a name="line.232"></a>
-<span class="sourceLineNo">233</span>    checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);<a name="line.233"></a>
-<span class="sourceLineNo">234</span>    return connections;<a name="line.234"></a>
-<span class="sourceLineNo">235</span>  }<a name="line.235"></a>
-<span class="sourceLineNo">236</span><a name="line.236"></a>
-<span class="sourceLineNo">237</span>  private DirectedIncidentNodes&lt;N&gt; checkedEndpoints(Object edge) {<a name="line.237"></a>
-<span class="sourceLineNo">238</span>    checkNotNull(edge, "edge");<a name="line.238"></a>
-<span class="sourceLineNo">239</span>    DirectedIncidentNodes&lt;N&gt; endpoints = edgeToIncidentNodes.get(edge);<a name="line.239"></a>
-<span class="sourceLineNo">240</span>    checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);<a name="line.240"></a>
-<span class="sourceLineNo">241</span>    return endpoints;<a name="line.241"></a>
-<span class="sourceLineNo">242</span>  }<a name="line.242"></a>
-<span class="sourceLineNo">243</span><a name="line.243"></a>
-<span class="sourceLineNo">244</span>  /**<a name="line.244"></a>
-<span class="sourceLineNo">245</span>   * Returns a new builder. The generated builder is equivalent to the builder<a name="line.245"></a>
-<span class="sourceLineNo">246</span>   * created by the {@code Builder} constructor.<a name="line.246"></a>
-<span class="sourceLineNo">247</span>   */<a name="line.247"></a>
-<span class="sourceLineNo">248</span>  public static &lt;N, E&gt; Builder&lt;N, E&gt; builder() {<a name="line.248"></a>
-<span class="sourceLineNo">249</span>    return new Builder&lt;N, E&gt;();<a name="line.249"></a>
-<span class="sourceLineNo">250</span>  }<a name="line.250"></a>
-<span class="sourceLineNo">251</span><a name="line.251"></a>
-<span class="sourceLineNo">252</span>  /**<a name="line.252"></a>
-<span class="sourceLineNo">253</span>   * Returns a new builder. The generated builder is equivalent to the builder<a name="line.253"></a>
-<span class="sourceLineNo">254</span>   * created by the {@code Builder} constructor.<a name="line.254"></a>
-<span class="sourceLineNo">255</span>   *<a name="line.255"></a>
-<span class="sourceLineNo">256</span>   * @param config an instance of {@code GraphConfig} with the intended<a name="line.256"></a>
-<span class="sourceLineNo">257</span>   *        graph configuration.<a name="line.257"></a>
-<span class="sourceLineNo">258</span>   */<a name="line.258"></a>
-<span class="sourceLineNo">259</span>  public static &lt;N, E&gt; Builder&lt;N, E&gt; builder(GraphConfig config) {<a name="line.259"></a>
-<span class="sourceLineNo">260</span>    return new Builder&lt;N, E&gt;(config);<a name="line.260"></a>
-<span class="sourceLineNo">261</span>  }<a name="line.261"></a>
-<span class="sourceLineNo">262</span><a name="line.262"></a>
-<span class="sourceLineNo">263</span>  /**<a name="line.263"></a>
-<span class="sourceLineNo">264</span>   * Returns an immutable copy of the input graph.<a name="line.264"></a>
-<span class="sourceLineNo">265</span>   */<a name="line.265"></a>
-<span class="sourceLineNo">266</span>  public static &lt;N, E&gt; ImmutableDirectedGraph&lt;N, E&gt; copyOf(DirectedGraph&lt;N, E&gt; graph) {<a name="line.266"></a>
-<span class="sourceLineNo">267</span>    return new Builder&lt;N, E&gt;(graph).build();<a name="line.267"></a>
-<span class="sourceLineNo">268</span>  }<a name="line.268"></a>
-<span class="sourceLineNo">269</span><a name="line.269"></a>
-<span class="sourceLineNo">270</span>  /**<a name="line.270"></a>
-<span class="sourceLineNo">271</span>   * A builder for creating immutable directed graph instances.<a name="line.271"></a>
-<span class="sourceLineNo">272</span>   *<a name="line.272"></a>
-<span class="sourceLineNo">273</span>   * @param &lt;N&gt; Node parameter type<a name="line.273"></a>
-<span class="sourceLineNo">274</span>   * @param &lt;E&gt; edge parameter type<a name="line.274"></a>
-<span class="sourceLineNo">275</span>   * @see GraphConfig<a name="line.275"></a>
-<span class="sourceLineNo">276</span>   */<a name="line.276"></a>
-<span class="sourceLineNo">277</span>  public static final class Builder&lt;N, E&gt; implements AbstractImmutableGraph.Builder&lt;N, E&gt; {<a name="line.277"></a>
-<span class="sourceLineNo">278</span><a name="line.278"></a>
-<span class="sourceLineNo">279</span>    private final DirectedGraph&lt;N, E&gt; directedGraph;<a name="line.279"></a>
-<span class="sourceLineNo">280</span><a name="line.280"></a>
-<span class="sourceLineNo">281</span>    /**<a name="line.281"></a>
-<span class="sourceLineNo">282</span>     * Creates a new builder with the default graph configuration.<a name="line.282"></a>
-<span class="sourceLineNo">283</span>     */<a name="line.283"></a>
-<span class="sourceLineNo">284</span>    public Builder() {<a name="line.284"></a>
-<span class="sourceLineNo">285</span>      this(Graphs.&lt;N, E&gt;createDirected());<a name="line.285"></a>
-<span class="sourceLineNo">286</span>    }<a name="line.286"></a>
-<span class="sourceLineNo">287</span><a name="line.287"></a>
-<span class="sourceLineNo">288</span>    /**<a name="line.288"></a>
-<span class="sourceLineNo">289</span>     * Creates a new builder with the specified graph configuration.<a name="line.289"></a>
-<span class="sourceLineNo">290</span>     */<a name="line.290"></a>
-<span class="sourceLineNo">291</span>    public Builder(GraphConfig config) {<a name="line.291"></a>
-<span class="sourceLineNo">292</span>      this(Graphs.&lt;N, E&gt;createDirected(config));<a name="line.292"></a>
-<span class="sourceLineNo">293</span>    }<a name="line.293"></a>
-<span class="sourceLineNo">294</span><a name="line.294"></a>
-<span class="sourceLineNo">295</span>    /**<a name="line.295"></a>
-<span class="sourceLineNo">296</span>     * Creates a new builder whose internal state is that of {@code graph}.<a name="line.296"></a>
-<span class="sourceLineNo">297</span>     *<a name="line.297"></a>
-<span class="sourceLineNo">298</span>     * &lt;p&gt;NOTE: This constructor should only be used in the case where it will be immediately<a name="line.298"></a>
-<span class="sourceLineNo">299</span>     * followed by a call to {@code build}, to ensure that the input graph will not be modified.<a name="line.299"></a>
-<span class="sourceLineNo">300</span>     * Currently the only such context is {@code Immutable*Graph.copyOf()}, which use these<a name="line.300"></a>
-<span class="sourceLineNo">301</span>     * constructors to avoid making an extra copy of the graph state.<a name="line.301"></a>
-<span class="sourceLineNo">302</span>     * @see ImmutableDirectedGraph#copyOf(DirectedGraph)<a name="line.302"></a>
-<span class="sourceLineNo">303</span>     */<a name="line.303"></a>
-<span class="sourceLineNo">304</span>    private Builder(DirectedGraph&lt;N, E&gt; graph) {<a name="line.304"></a>
-<span class="sourceLineNo">305</span>      this.directedGraph = checkNotNull(graph, "graph");<a name="line.305"></a>
-<span class="sourceLineNo">306</span>    }<a name="line.306"></a>
-<span class="sourceLineNo">307</span><a name="line.307"></a>
-<span class="sourceLineNo">308</span>    @Override<a name="line.308"></a>
-<span class="sourceLineNo">309</span>    @CanIgnoreReturnValue<a name="line.309"></a>
-<span class="sourceLineNo">310</span>    public Builder&lt;N, E&gt; addNode(N node) {<a name="line.310"></a>
-<span class="sourceLineNo">311</span>      directedGraph.addNode(node);<a name="line.311"></a>
-<span class="sourceLineNo">312</span>      return this;<a name="line.312"></a>
-<span class="sourceLineNo">313</span>    }<a name="line.313"></a>
-<span class="sourceLineNo">314</span><a name="line.314"></a>
-<span class="sourceLineNo">315</span>    @Override<a name="line.315"></a>
-<span class="sourceLineNo">316</span>    @CanIgnoreReturnValue<a name="line.316"></a>
-<span class="sourceLineNo">317</span>    public Builder&lt;N, E&gt; addEdge(E edge, N node1, N node2) {<a name="line.317"></a>
-<span class="sourceLineNo">318</span>      directedGraph.addEdge(edge, node1, node2);<a name="line.318"></a>
-<span class="sourceLineNo">319</span>      return this;<a name="line.319"></a>
-<span class="sourceLineNo">320</span>    }<a name="line.320"></a>
-<span class="sourceLineNo">321</span><a name="line.321"></a>
-<span class="sourceLineNo">322</span>    /**<a name="line.322"></a>
-<span class="sourceLineNo">323</span>     * Adds all elements of {@code graph} to the graph being built.<a name="line.323"></a>
-<span class="sourceLineNo">324</span>     *<a name="line.324"></a>
-<span class="sourceLineNo">325</span>     * @throws IllegalArgumentException under either of two conditions:<a name="line.325"></a>
-<span class="sourceLineNo">326</span>     *     (1) the {@code GraphConfig} objects held by the graph being built and by {@code graph}<a name="line.326"></a>
-<span class="sourceLineNo">327</span>     *     are not compatible<a name="line.327"></a>
-<span class="sourceLineNo">328</span>     *     (2) calling {@code Graph.addEdge(e, n1, n2)} on the graph being built throws IAE<a name="line.328"></a>
-<span class="sourceLineNo">329</span>     * @see Graph#addEdge(e, n1, n2)<a name="line.329"></a>
-<span class="sourceLineNo">330</span>     */<a name="line.330"></a>
-<span class="sourceLineNo">331</span>    @CanIgnoreReturnValue<a name="line.331"></a>
-<span class="sourceLineNo">332</span>    public Builder&lt;N, E&gt; addGraph(DirectedGraph&lt;N, E&gt; graph) {<a name="line.332"></a>
-<span class="sourceLineNo">333</span>      checkArgument(<a name="line.333"></a>
-<span class="sourceLineNo">334</span>          directedGraph.config().compatibleWith(graph.config()),<a name="line.334"></a>
-<span class="sourceLineNo">335</span>          "GraphConfigs for input and for graph being built are not compatible: input: %s, "<a name="line.335"></a>
-<span class="sourceLineNo">336</span>              + "this graph: %s",<a name="line.336"></a>
-<span class="sourceLineNo">337</span>          graph.config(),<a name="line.337"></a>
-<span class="sourceLineNo">338</span>          directedGraph.config());<a name="line.338"></a>
-<span class="sourceLineNo">339</span><a name="line.339"></a>
-<span class="sourceLineNo">340</span>      for (N node : graph.nodes()) {<a name="line.340"></a>
-<span class="sourceLineNo">341</span>        directedGraph.addNode(node);<a name="line.341"></a>
-<span class="sourceLineNo">342</span>      }<a name="line.342"></a>
-<span class="sourceLineNo">343</span>      for (E edge : graph.edges()) {<a name="line.343"></a>
-<span class="sourceLineNo">344</span>        directedGraph.addEdge(edge, graph.source(edge), graph.target(edge));<a name="line.344"></a>
-<span class="sourceLineNo">345</span>      }<a name="line.345"></a>
-<span class="sourceLineNo">346</span><a name="line.346"></a>
-<span class="sourceLineNo">347</span>      return this;<a name="line.347"></a>
-<span class="sourceLineNo">348</span>    }<a name="line.348"></a>
-<span class="sourceLineNo">349</span><a name="line.349"></a>
-<span class="sourceLineNo">350</span>    @Override<a name="line.350"></a>
-<span class="sourceLineNo">351</span>    public ImmutableDirectedGraph&lt;N, E&gt; build() {<a name="line.351"></a>
-<span class="sourceLineNo">352</span>      return new ImmutableDirectedGraph&lt;N, E&gt;(this);<a name="line.352"></a>
-<span class="sourceLineNo">353</span>    }<a name="line.353"></a>
-<span class="sourceLineNo">354</span>  }<a name="line.354"></a>
-<span class="sourceLineNo">355</span>}<a name="line.355"></a>
+<span class="sourceLineNo">031</span>import java.util.Set;<a name="line.31"></a>
+<span class="sourceLineNo">032</span><a name="line.32"></a>
+<span class="sourceLineNo">033</span>import javax.annotation.Nullable;<a name="line.33"></a>
+<span class="sourceLineNo">034</span><a name="line.34"></a>
+<span class="sourceLineNo">035</span>/**<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * Implementation of an immutable directed graph consisting of nodes<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * of type N and edges of type E.<a name="line.37"></a>
+<span class="sourceLineNo">038</span> *<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * &lt;p&gt;This class maintains the following data structures:<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * &lt;ul&gt;<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * &lt;li&gt;For each node: sets of incoming and outgoing edges.<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * &lt;li&gt;For each edge: references to the source and target nodes.<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * &lt;/ul&gt;<a name="line.43"></a>
+<span class="sourceLineNo">044</span> *<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * &lt;p&gt;Some invariants/assumptions are maintained in this implementation:<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * &lt;ul&gt;<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * &lt;li&gt;An edge has exactly two end-points (source node and target node), which<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *     may or may not be distinct.<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * &lt;li&gt;By default, this is not a multigraph, that is, parallel edges (multiple<a name="line.49"></a>
+<span class="sourceLineNo">050</span> *     edges directed from node1 to node2) are not allowed.  If you want a multigraph,<a name="line.50"></a>
+<span class="sourceLineNo">051</span> *     build the graph with the 'multigraph' option:<a name="line.51"></a>
+<span class="sourceLineNo">052</span> *     &lt;pre&gt;ImmutableDirectedGraph.builder(Graphs.config().multigraph()).build();&lt;/pre&gt;<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * &lt;li&gt;Anti-parallel edges (same incident nodes but in opposite direction,<a name="line.53"></a>
+<span class="sourceLineNo">054</span> *     e.g. (node1, node2) and (node2, node1)) are always allowed.<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * &lt;li&gt;Edges are not adjacent to themselves by definition. In the case of a<a name="line.55"></a>
+<span class="sourceLineNo">056</span> *     self-loop, a node can be adjacent to itself, but an edge will never be.<a name="line.56"></a>
+<span class="sourceLineNo">057</span> * &lt;/ul&gt;<a name="line.57"></a>
+<span class="sourceLineNo">058</span> *<a name="line.58"></a>
+<span class="sourceLineNo">059</span> * &lt;p&gt;The time complexity of all {@code Set}-returning accessors is O(1), since we<a name="line.59"></a>
+<span class="sourceLineNo">060</span> * are returning views. An exception to this is {@code edgesConnecting(node1, node2)},<a name="line.60"></a>
+<span class="sourceLineNo">061</span> * which is O(min(outD_node1, inD_node2)).<a name="line.61"></a>
+<span class="sourceLineNo">062</span> *<a name="line.62"></a>
+<span class="sourceLineNo">063</span> * &lt;p&gt;All other accessors have a time complexity of O(1), except for {@code degree(node)},<a name="line.63"></a>
+<span class="sourceLineNo">064</span> * whose time complexity is O(outD_node).<a name="line.64"></a>
+<span class="sourceLineNo">065</span> *<a name="line.65"></a>
+<span class="sourceLineNo">066</span> * @author Joshua O'Madadhain<a name="line.66"></a>
+<span class="sourceLineNo">067</span> * @param &lt;N&gt; Node parameter type<a name="line.67"></a>
+<span class="sourceLineNo">068</span> * @param &lt;E&gt; Edge parameter type<a name="line.68"></a>
+<span class="sourceLineNo">069</span> * @see Graphs<a name="line.69"></a>
+<span class="sourceLineNo">070</span> * @since 20.0<a name="line.70"></a>
+<span class="sourceLineNo">071</span> */<a name="line.71"></a>
+<span class="sourceLineNo">072</span>// TODO(user): Add support for sorted nodes/edges and/or hypergraphs.<a name="line.72"></a>
+<span class="sourceLineNo">073</span>@Beta<a name="line.73"></a>
+<span class="sourceLineNo">074</span>public final class ImmutableDirectedGraph&lt;N, E&gt; extends AbstractImmutableGraph&lt;N, E&gt;<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    implements DirectedGraph&lt;N, E&gt; {<a name="line.75"></a>
+<span class="sourceLineNo">076</span><a name="line.76"></a>
+<span class="sourceLineNo">077</span>  // All nodes in the graph exist in this map<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  private final ImmutableMap&lt;N, NodeConnections&lt;N, E&gt;&gt; nodeConnections;<a name="line.78"></a>
+<span class="sourceLineNo">079</span>  // All edges in the graph exist in this map<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  private final ImmutableMap&lt;E, DirectedIncidentNodes&lt;N&gt;&gt; edgeToIncidentNodes;<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  private final GraphConfig config;<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>  private ImmutableDirectedGraph(Builder&lt;N, E&gt; builder) {<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    DirectedGraph&lt;N, E&gt; directedGraph = builder.directedGraph;<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    ImmutableMap.Builder&lt;N, NodeConnections&lt;N, E&gt;&gt; nodeConnectionsBuilder =<a name="line.85"></a>
+<span class="sourceLineNo">086</span>        ImmutableMap.builder();<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    for (N node : directedGraph.nodes()) {<a name="line.87"></a>
+<span class="sourceLineNo">088</span>      NodeConnections&lt;N, E&gt; connections = DirectedNodeConnections.ofImmutable(<a name="line.88"></a>
+<span class="sourceLineNo">089</span>          directedGraph.predecessors(node), directedGraph.successors(node),<a name="line.89"></a>
+<span class="sourceLineNo">090</span>          directedGraph.inEdges(node), directedGraph.outEdges(node));<a name="line.90"></a>
+<span class="sourceLineNo">091</span>      nodeConnectionsBuilder.put(node, connections);<a name="line.91"></a>
+<span class="sourceLineNo">092</span>    }<a name="line.92"></a>
+<span class="sourceLineNo">093</span>    this.nodeConnections = nodeConnectionsBuilder.build();<a name="line.93"></a>
+<span class="sourceLineNo">094</span>    ImmutableMap.Builder&lt;E, DirectedIncidentNodes&lt;N&gt;&gt; edgeToIncidentNodesBuilder =<a name="line.94"></a>
+<span class="sourceLineNo">095</span>        ImmutableMap.builder();<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    for (E edge : directedGraph.edges()) {<a name="line.96"></a>
+<span class="sourceLineNo">097</span>      DirectedIncidentNodes&lt;N&gt; incidentNodes = DirectedIncidentNodes.of(<a name="line.97"></a>
+<span class="sourceLineNo">098</span>          directedGraph.source(edge), directedGraph.target(edge));<a name="line.98"></a>
+<span class="sourceLineNo">099</span>      edgeToIncidentNodesBuilder.put(edge, incidentNodes);<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    }<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    this.edgeToIncidentNodes = edgeToIncidentNodesBuilder.build();<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    this.config = directedGraph.config();<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  }<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>  @Override<a name="line.105"></a>
+<span class="sourceLineNo">106</span>  public Set&lt;N&gt; nodes() {<a name="line.106"></a>
+<span class="sourceLineNo">107</span>    return nodeConnections.keySet();<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  }<a name="line.108"></a>
+<span class="sourceLineNo">109</span><a name="line.109"></a>
+<span class="sourceLineNo">110</span>  @Override<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  public Set&lt;E&gt; edges() {<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    return edgeToIncidentNodes.keySet();<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  }<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>  @Override<a name="line.115"></a>
+<span class="sourceLineNo">116</span>  public GraphConfig config() {<a name="line.116"></a>
+<span class="sourceLineNo">117</span>    return config;<a name="line.117"></a>
+<span class="sourceLineNo">118</span>  }<a name="line.118"></a>
+<span class="sourceLineNo">119</span><a name="line.119"></a>
+<span class="sourceLineNo">120</span>  @Override<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  public Set&lt;E&gt; incidentEdges(Object node) {<a name="line.121"></a>
+<span class="sourceLineNo">122</span>    return Sets.union(inEdges(node), outEdges(node));<a name="line.122"></a>
+<span class="sourceLineNo">123</span>  }<a name="line.123"></a>
+<span class="sourceLineNo">124</span><a name="line.124"></a>
+<span class="sourceLineNo">125</span>  @Override<a name="line.125"></a>
+<span class="sourceLineNo">126</span>  public Set&lt;N&gt; incidentNodes(Object edge) {<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    return checkedEndpoints(edge).asImmutableSet();<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  }<a name="line.128"></a>
+<span class="sourceLineNo">129</span><a name="line.129"></a>
+<span class="sourceLineNo">130</span>  @Override<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  public Set&lt;N&gt; adjacentNodes(Object node) {<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    return Sets.union(predecessors(node), successors(node));<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  }<a name="line.133"></a>
+<span class="sourceLineNo">134</span><a name="line.134"></a>
+<span class="sourceLineNo">135</span>  @Override<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  public Set&lt;E&gt; adjacentEdges(Object edge) {<a name="line.136"></a>
+<span class="sourceLineNo">137</span>    ImmutableSet.Builder&lt;E&gt; adjacentEdges = ImmutableSet.builder();<a name="line.137"></a>
+<span class="sourceLineNo">138</span>    for (N endpoint : incidentNodes(edge)) {<a name="line.138"></a>
+<span class="sourceLineNo">139</span>      for (E adjacentEdge : incidentEdges(endpoint)) {<a name="line.139"></a>
+<span class="sourceLineNo">140</span>        if (!edge.equals(adjacentEdge)) { // Edges are not adjacent to themselves by definition.<a name="line.140"></a>
+<span class="sourceLineNo">141</span>          adjacentEdges.add(adjacentEdge);<a name="line.141"></a>
+<span class="sourceLineNo">142</span>        }<a name="line.142"></a>
+<span class="sourceLineNo">143</span>      }<a name="line.143"></a>
+<span class="sourceLineNo">144</span>    }<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    return adjacentEdges.build();<a name="line.145"></a>
+<span class="sourceLineNo">146</span>  }<a name="line.146"></a>
+<span class="sourceLineNo">147</span><a name="line.147"></a>
+<span class="sourceLineNo">148</span>  /**<a name="line.148"></a>
+<span class="sourceLineNo">149</span>   * Returns the intersection of these two sets, using {@link Sets#intersection}:<a name="line.149"></a>
+<span class="sourceLineNo">150</span>   * &lt;ol&gt;<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   * &lt;li&gt;Outgoing edges of {@code node1}.<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * &lt;li&gt;Incoming edges of {@code node2}.<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * &lt;/ol&gt;<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   */<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  @Override<a name="line.155"></a>
+<span class="sourceLineNo">156</span>  public Set&lt;E&gt; edgesConnecting(Object node1, Object node2) {<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    Set&lt;E&gt; sourceOutEdges = outEdges(node1); // Verifies that node1 is in graph<a name="line.157"></a>
+<span class="sourceLineNo">158</span>    if (!config.isSelfLoopsAllowed() &amp;&amp; node1.equals(node2)) {<a name="line.158"></a>
+<span class="sourceLineNo">159</span>      return ImmutableSet.of();<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    }<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    Set&lt;E&gt; targetInEdges = inEdges(node2);<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    return (sourceOutEdges.size() &lt;= targetInEdges.size())<a name="line.162"></a>
+<span class="sourceLineNo">163</span>        ? Sets.intersection(sourceOutEdges, targetInEdges).immutableCopy()<a name="line.163"></a>
+<span class="sourceLineNo">164</span>        : Sets.intersection(targetInEdges, sourceOutEdges).immutableCopy();<a name="line.164"></a>
+<span class="sourceLineNo">165</span>  }<a name="line.165"></a>
+<span class="sourceLineNo">166</span><a name="line.166"></a>
+<span class="sourceLineNo">167</span>  @Override<a name="line.167"></a>
+<span class="sourceLineNo">168</span>  public Set&lt;E&gt; inEdges(Object node) {<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    return checkedConnections(node).inEdges();<a name="line.169"></a>
+<span class="sourceLineNo">170</span>  }<a name="line.170"></a>
+<span class="sourceLineNo">171</span><a name="line.171"></a>
+<span class="sourceLineNo">172</span>  @Override<a name="line.172"></a>
+<span class="sourceLineNo">173</span>  public Set&lt;E&gt; outEdges(Object node) {<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    return checkedConnections(node).outEdges();<a name="line.174"></a>
+<span class="sourceLineNo">175</span>  }<a name="line.175"></a>
+<span class="sourceLineNo">176</span><a name="line.176"></a>
+<span class="sourceLineNo">177</span>  @Override<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  public Set&lt;N&gt; predecessors(Object node) {<a name="line.178"></a>
+<span class="sourceLineNo">179</span>    return checkedConnections(node).predecessors();<a name="line.179"></a>
+<span class="sourceLineNo">180</span>  }<a name="line.180"></a>
+<span class="sourceLineNo">181</span><a name="line.181"></a>
+<span class="sourceLineNo">182</span>  @Override<a name="line.182"></a>
+<span class="sourceLineNo">183</span>  public Set&lt;N&gt; successors(Object node) {<a name="line.183"></a>
+<span class="sourceLineNo">184</span>    return checkedConnections(node).successors();<a name="line.184"></a>
+<span class="sourceLineNo">185</span>  }<a name="line.185"></a>
+<span class="sourceLineNo">186</span><a name="line.186"></a>
+<span class="sourceLineNo">187</span>  @Override<a name="line.187"></a>
+<span class="sourceLineNo">188</span>  public long degree(Object node) {<a name="line.188"></a>
+<span class="sourceLineNo">189</span>    return incidentEdges(node).size();<a name="line.189"></a>
+<span class="sourceLineNo">190</span>  }<a name="line.190"></a>
+<span class="sourceLineNo">191</span><a name="line.191"></a>
+<span class="sourceLineNo">192</span>  @Override<a name="line.192"></a>
+<span class="sourceLineNo">193</span>  public long inDegree(Object node) {<a name="line.193"></a>
+<span class="sourceLineNo">194</span>    return inEdges(node).size();<a name="line.194"></a>
+<span class="sourceLineNo">195</span>  }<a name="line.195"></a>
+<span class="sourceLineNo">196</span><a name="line.196"></a>
+<span class="sourceLineNo">197</span>  @Override<a name="line.197"></a>
+<span class="sourceLineNo">198</span>  public long outDegree(Object node) {<a name="line.198"></a>
+<span class="sourceLineNo">199</span>    return outEdges(node).size();<a name="line.199"></a>
+<span class="sourceLineNo">200</span>  }<a name="line.200"></a>
+<span class="sourceLineNo">201</span><a name="line.201"></a>
+<span class="sourceLineNo">202</span>  @Override<a name="line.202"></a>
+<span class="sourceLineNo">203</span>  public N source(Object edge) {<a name="line.203"></a>
+<span class="sourceLineNo">204</span>    return checkedEndpoints(edge).source();<a name="line.204"></a>
+<span class="sourceLineNo">205</span>  }<a name="line.205"></a>
+<span class="sourceLineNo">206</span><a name="line.206"></a>
+<span class="sourceLineNo">207</span>  @Override<a name="line.207"></a>
+<span class="sourceLineNo">208</span>  public N target(Object edge) {<a name="line.208"></a>
+<span class="sourceLineNo">209</span>    return checkedEndpoints(edge).target();<a name="line.209"></a>
+<span class="sourceLineNo">210</span>  }<a name="line.210"></a>
+<span class="sourceLineNo">211</span><a name="line.211"></a>
+<span class="sourceLineNo">212</span>  @Override<a name="line.212"></a>
+<span class="sourceLineNo">213</span>  public boolean equals(@Nullable Object object) {<a name="line.213"></a>
+<span class="sourceLineNo">214</span>    return (object instanceof DirectedGraph) &amp;&amp; Graphs.equal(this, (DirectedGraph&lt;?, ?&gt;) object);<a name="line.214"></a>
+<span class="sourceLineNo">215</span>  }<a name="line.215"></a>
+<span class="sourceLineNo">216</span><a name="line.216"></a>
+<span class="sourceLineNo">217</span>  @Override<a name="line.217"></a>
+<span class="sourceLineNo">218</span>  public int hashCode() {<a name="line.218"></a>
+<span class="sourceLineNo">219</span>    // The node set is included in the hash to differentiate between graphs with isolated nodes.<a name="line.219"></a>
+<span class="sourceLineNo">220</span>    return Objects.hashCode(nodes(), edgeToIncidentNodes);<a name="line.220"></a>
+<span class="sourceLineNo">221</span>  }<a name="line.221"></a>
+<span class="sourceLineNo">222</span><a name="line.222"></a>
+<span class="sourceLineNo">223</span>  @Override<a name="line.223"></a>
+<span class="sourceLineNo">224</span>  public String toString() {<a name="line.224"></a>
+<span class="sourceLineNo">225</span>    return String.format("config: %s, nodes: %s, edges: %s",<a name="line.225"></a>
+<span class="sourceLineNo">226</span>        config,<a name="line.226"></a>
+<span class="sourceLineNo">227</span>        nodes(),<a name="line.227"></a>
+<span class="sourceLineNo">228</span>        edgeToIncidentNodes);<a name="line.228"></a>
+<span class="sourceLineNo">229</span>  }<a name="line.229"></a>
+<span class="sourceLineNo">230</span><a name="line.230"></a>
+<span class="sourceLineNo">231</span>  private NodeConnections&lt;N, E&gt; checkedConnections(Object node) {<a name="line.231"></a>
+<span class="sourceLineNo">232</span>    checkNotNull(node, "node");<a name="line.232"></a>
+<span class="sourceLineNo">233</span>    NodeConnections&lt;N, E&gt; connections = nodeConnections.get(node);<a name="line.233"></a>
+<span class="sourceLineNo">234</span>    checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);<a name="line.234"></a>
+<span class="sourceLineNo">235</span>    return connections;<a name="line.235"></a>
+<span class="sourceLineNo">236</span>  }<a name="line.236"></a>
+<span class="sourceLineNo">237</span><a name="line.237"></a>
+<span class="sourceLineNo">238</span>  private DirectedIncidentNodes&lt;N&gt; checkedEndpoints(Object edge) {<a name="line.238"></a>
+<span class="sourceLineNo">239</span>    checkNotNull(edge, "edge");<a name="line.239"></a>
+<span class="sourceLineNo">240</span>    DirectedIncidentNodes&lt;N&gt; endpoints = edgeToIncidentNodes.get(edge);<a name="line.240"></a>
+<span class="sourceLineNo">241</span>    checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);<a name="line.241"></a>
+<span class="sourceLineNo">242</span>    return endpoints;<a name="line.242"></a>
+<span class="sourceLineNo">243</span>  }<a name="line.243"></a>
+<span class="sourceLineNo">244</span><a name="line.244"></a>
+<span class="sourceLineNo">245</span>  /**<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   * Returns a new builder. The generated builder is equivalent to the builder<a name="line.246"></a>
+<span class="sourceLineNo">247</span>   * created by the {@code Builder} constructor.<a name="line.247"></a>
+<span class="sourceLineNo">248</span>   */<a name="line.248"></a>
+<span class="sourceLineNo">249</span>  public static &lt;N, E&gt; Builder&lt;N, E&gt; builder() {<a name="line.249"></a>
+<span class="sourceLineNo">250</span>    return new Builder&lt;N, E&gt;();<a name="line.250"></a>
+<span class="sourceLineNo">251</span>  }<a name="line.251"></a>
+<span class="sourceLineNo">252</span><a name="line.252"></a>
+<span class="sourceLineNo">253</span>  /**<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   * Returns a new builder. The generated builder is equivalent to the builder<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   * created by the {@code Builder} constructor.<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   *<a name="line.256"></a>
+<span class="sourceLineNo">257</span>   * @param config an instance of {@code GraphConfig} with the intended<a name="line.257"></a>
+<span class="sourceLineNo">258</span>   *        graph configuration.<a name="line.258"></a>
+<span class="sourceLineNo">259</span>   */<a name="line.259"></a>
+<span class="sourceLineNo">260</span>  public static &lt;N, E&gt; Builder&lt;N, E&gt; builder(GraphConfig config) {<a name="line.260"></a>
+<span class="sourceLineNo">261</span>    return new Builder&lt;N, E&gt;(config);<a name="line.261"></a>
+<span class="sourceLineNo">262</span>  }<a name="line.262"></a>
+<span class="sourceLineNo">263</span><a name="line.263"></a>
+<span class="sourceLineNo">264</span>  /**<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   * Returns an immutable copy of the input graph.<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   */<a name="line.266"></a>
+<span class="sourceLineNo">267</span>  public static &lt;N, E&gt; ImmutableDirectedGraph&lt;N, E&gt; copyOf(DirectedGraph&lt;N, E&gt; graph) {<a name="line.267"></a>
+<span class="sourceLineNo">268</span>    return new Builder&lt;N, E&gt;(graph).build();<a name="line.268"></a>
+<span class="sourceLineNo">269</span>  }<a name="line.269"></a>
+<span class="sourceLineNo">270</span><a name="line.270"></a>
+<span class="sourceLineNo">271</span>  /**<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   * A builder for creating immutable directed graph instances.<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   *<a name="line.273"></a>
+<span class="sourceLineNo">274</span>   * @param &lt;N&gt; Node parameter type<a name="line.274"></a>
+<span class="sourceLineNo">275</span>   * @param &lt;E&gt; edge parameter type<a name="line.275"></a>
+<span class="sourceLineNo">276</span>   * @see GraphConfig<a name="line.276"></a>
+<span class="sourceLineNo">277</span>   */<a name="line.277"></a>
+<span class="sourceLineNo">278</span>  public static final class Builder&lt;N, E&gt; implements AbstractImmutableGraph.Builder&lt;N, E&gt; {<a name="line.278"></a>
+<span class="sourceLineNo">279</span><a name="line.279"></a>
+<span class="sourceLineNo">280</span>    private final DirectedGraph&lt;N, E&gt; directedGraph;<a name="line.280"></a>
+<span class="sourceLineNo">281</span><a name="line.281"></a>
+<span class="sourceLineNo">282</span>    /**<a name="line.282"></a>
+<span class="sourceLineNo">283</span>     * Creates a new builder with the default graph configuration.<a name="line.283"></a>
+<span class="sourceLineNo">284</span>     */<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    public Builder() {<a name="line.285"></a>
+<span class="sourceLineNo">286</span>      this(Graphs.&lt;N, E&gt;createDirected());<a name="line.286"></a>
+<span class="sourceLineNo">287</span>    }<a name="line.287"></a>
+<span class="sourceLineNo">288</span><a name="line.288"></a>
+<span class="sourceLineNo">289</span>    /**<a name="line.289"></a>
+<span class="sourceLineNo">290</span>     * Creates a new builder with the specified graph configuration.<a name="line.290"></a>
+<span class="sourceLineNo">291</span>     */<a name="line.291"></a>
+<span class="sourceLineNo">292</span>    public Builder(GraphConfig config) {<a name="line.292"></a>
+<span class="sourceLineNo">293</span>      this(Graphs.&lt;N, E&gt;createDirected(config));<a name="line.293"></a>
+<span class="sourceLineNo">294</span>    }<a name="line.294"></a>
+<span class="sourceLineNo">295</span><a name="line.295"></a>
+<span class="sourceLineNo">296</span>    /**<a name="line.296"></a>
+<span class="sourceLineNo">297</span>     * Creates a new builder whose internal state is that of {@code graph}.<a name="line.297"></a>
+<span class="sourceLineNo">298</span>     *<a name="line.298"></a>
+<span class="sourceLineNo">299</span>     * &lt;p&gt;NOTE: This constructor should only be used in the case where it will be immediately<a name="line.299"></a>
+<span class="sourceLineNo">300</span>     * followed by a call to {@code build}, to ensure that the input graph will not be modified.<a name="line.300"></a>
+<span class="sourceLineNo">301</span>     * Currently the only such context is {@code Immutable*Graph.copyOf()}, which use these<a name="line.301"></a>
+<span class="sourceLineNo">302</span>     * constructors to avoid making an extra copy of the graph state.<a name="line.302"></a>
+<span class="sourceLineNo">303</span>     * @see ImmutableDirectedGraph#copyOf(DirectedGraph)<a name="line.303"></a>
+<span class="sourceLineNo">304</span>     */<a name="line.304"></a>
+<span class="sourceLineNo">305</span>    private Builder(DirectedGraph&lt;N, E&gt; graph) {<a name="line.305"></a>
+<span class="sourceLineNo">306</span>      this.directedGraph = checkNotNull(graph, "graph");<a name="line.306"></a>
+<span class="sourceLineNo">307</span>    }<a name="line.307"></a>
+<span class="sourceLineNo">308</span><a name="line.308"></a>
+<span class="sourceLineNo">309</span>    @Override<a name="line.309"></a>
+<span class="sourceLineNo">310</span>    @CanIgnoreReturnValue<a name="line.310"></a>
+<span class="sourceLineNo">311</span>    public Builder&lt;N, E&gt; addNode(N node) {<a name="line.311"></a>
+<span class="sourceLineNo">312</span>      directedGraph.addNode(node);<a name="line.312"></a>
+<span class="sourceLineNo">313</span>      return this;<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    }<a name="line.314"></a>
+<span class="sourceLineNo">315</span><a name="line.315"></a>
+<span class="sourceLineNo">316</span>    @Override<a name="line.316"></a>
+<span class="sourceLineNo">317</span>    @CanIgnoreReturnValue<a name="line.317"></a>
+<span class="sourceLineNo">318</span>    public Builder&lt;N, E&gt; addEdge(E edge, N node1, N node2) {<a name="line.318"></a>
+<span class="sourceLineNo">319</span>      directedGraph.addEdge(edge, node1, node2);<a name="line.319"></a>
+<span class="sourceLineNo">320</span>      return this;<a name="line.320"></a>
+<span class="sourceLineNo">321</span>    }<a name="line.321"></a>
+<span class="sourceLineNo">322</span><a name="line.322"></a>
+<span class="sourceLineNo">323</span>    /**<a name="line.323"></a>
+<span class="sourceLineNo">324</span>     * Adds all elements of {@code graph} to the graph being built.<a name="line.324"></a>
+<span class="sourceLineNo">325</span>     *<a name="line.325"></a>
+<span class="sourceLineNo">326</span>     * @throws IllegalArgumentException under either of two conditions:<a name="line.326"></a>
+<span class="sourceLineNo">327</span>     *     (1) the {@code GraphConfig} objects held by the graph being built and by {@code graph}<a name="line.327"></a>
+<span class="sourceLineNo">328</span>     *     are not compatible<a name="line.328"></a>
+<span class="sourceLineNo">329</span>     *     (2) calling {@code Graph.addEdge(e, n1, n2)} on the graph being built throws IAE<a name="line.329"></a>
+<span class="sourceLineNo">330</span>     * @see Graph#addEdge(e, n1, n2)<a name="line.330"></a>
+<span class="sourceLineNo">331</span>     */<a name="line.331"></a>
+<span class="sourceLineNo">332</span>    @CanIgnoreReturnValue<a name="line.332"></a>
+<span class="sourceLineNo">333</span>    public Builder&lt;N, E&gt; addGraph(DirectedGraph&lt;N, E&gt; graph) {<a name="line.333"></a>
+<span class="sourceLineNo">334</span>      checkArgument(<a name="line.334"></a>
+<span class="sourceLineNo">335</span>          directedGraph.config().compatibleWith(graph.config()),<a name="line.335"></a>
+<span class="sourceLineNo">336</span>          "GraphConfigs for input and for graph being built are not compatible: input: %s, "<a name="line.336"></a>
+<span class="sourceLineNo">337</span>              + "this graph: %s",<a name="line.337"></a>
+<span class="sourceLineNo">338</span>          graph.config(),<a name="line.338"></a>
+<span class="sourceLineNo">339</span>          directedGraph.config());<a name="line.339"></a>
+<span class="sourceLineNo">340</span><a name="line.340"></a>
+<span class="sourceLineNo">341</span>      for (N node : graph.nodes()) {<a name="line.341"></a>
+<span class="sourceLineNo">342</span>        directedGraph.addNode(node);<a name="line.342"></a>
+<span class="sourceLineNo">343</span>      }<a name="line.343"></a>
+<span class="sourceLineNo">344</span>      for (E edge : graph.edges()) {<a name="line.344"></a>
+<span class="sourceLineNo">345</span>        directedGraph.addEdge(edge, graph.source(edge), graph.target(edge));<a name="line.345"></a>
+<span class="sourceLineNo">346</span>      }<a name="line.346"></a>
+<span class="sourceLineNo">347</span><a name="line.347"></a>
+<span class="sourceLineNo">348</span>      return this;<a name="line.348"></a>
+<span class="sourceLineNo">349</span>    }<a name="line.349"></a>
+<span class="sourceLineNo">350</span><a name="line.350"></a>
+<span class="sourceLineNo">351</span>    @Override<a name="line.351"></a>
+<span class="sourceLineNo">352</span>    public ImmutableDirectedGraph&lt;N, E&gt; build() {<a name="line.352"></a>
+<span class="sourceLineNo">353</span>      return new ImmutableDirectedGraph&lt;N, E&gt;(this);<a name="line.353"></a>
+<span class="sourceLineNo">354</span>    }<a name="line.354"></a>
+<span class="sourceLineNo">355</span>  }<a name="line.355"></a>
+<span class="sourceLineNo">356</span>}<a name="line.356"></a>
 
 
 
