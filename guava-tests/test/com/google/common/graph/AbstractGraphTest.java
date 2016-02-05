@@ -165,8 +165,9 @@ public abstract class AbstractGraphTest {
       assertThat(graph.incidentEdges(node2)).contains(edge);
 
       for (Integer incidentNode : incidentNodes) {
+        assertThat(graph.nodes()).contains(incidentNode);
         for (String adjacentEdge : graph.incidentEdges(incidentNode)) {
-          assertTrue(adjacentEdge.equals(edge) || graph.adjacentEdges(edge).contains(adjacentEdge));
+          assertTrue(edge.equals(adjacentEdge) || graph.adjacentEdges(edge).contains(adjacentEdge));
         }
       }
     }
@@ -175,15 +176,18 @@ public abstract class AbstractGraphTest {
       for (String incidentEdge : graph.incidentEdges(node)) {
         assertTrue(graph.inEdges(node).contains(incidentEdge)
             || graph.outEdges(node).contains(incidentEdge));
+        assertThat(graph.edges()).contains(incidentEdge);
         assertThat(graph.incidentNodes(incidentEdge)).contains(node);
       }
 
       for (String inEdge : graph.inEdges(node)) {
         assertThat(graph.incidentEdges(node)).contains(inEdge);
+        assertThat(graph.outEdges(Graphs.oppositeNode(graph, inEdge, node))).contains(inEdge);
       }
 
       for (String outEdge : graph.outEdges(node)) {
         assertThat(graph.incidentEdges(node)).contains(outEdge);
+        assertThat(graph.inEdges(Graphs.oppositeNode(graph, outEdge, node))).contains(outEdge);
       }
 
       for (Integer adjacentNode : graph.adjacentNodes(node)) {

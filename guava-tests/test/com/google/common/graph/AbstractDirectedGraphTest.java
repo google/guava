@@ -28,8 +28,7 @@ import org.junit.After;
 import org.junit.Test;
 
 /**
- * Abstract base class for testing mutable implementations of
- * {@link DirectedGraph} interface.
+ * Abstract base class for testing implementations of {@link DirectedGraph} interface.
  *
  * <p>This class is responsible for testing that an implementation of the interface
  * {@code DirectedGraph} is correctly handling directed edges.
@@ -52,11 +51,15 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
   public void validateSourceAndTarget() {
     for (Integer node : graph.nodes()) {
       for (String inEdge : graph.inEdges(node)) {
+        Integer oppositeNode = Graphs.oppositeNode(directedGraph, inEdge, node);
+        assertThat(directedGraph.source(inEdge)).isEqualTo(oppositeNode);
         assertThat(directedGraph.target(inEdge)).isEqualTo(node);
       }
 
       for (String outEdge : graph.outEdges(node)) {
+        Integer oppositeNode = Graphs.oppositeNode(directedGraph, outEdge, node);
         assertThat(directedGraph.source(outEdge)).isEqualTo(node);
+        assertThat(directedGraph.target(outEdge)).isEqualTo(oppositeNode);
       }
     }
   }
