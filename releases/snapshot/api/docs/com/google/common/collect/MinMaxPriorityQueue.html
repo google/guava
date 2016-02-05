@@ -109,9 +109,10 @@
 </dl>
 <hr>
 <br>
-<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
+<a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.107">MinMaxPriorityQueue</a>&lt;E&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.111">MinMaxPriorityQueue</a>&lt;E&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueue.html?is-external=true" title="class or interface in java.util">AbstractQueue</a>&lt;E&gt;</pre>
 <div class="block">A double-ended priority queue, which provides constant-time access to both
  its least element and its greatest element, as determined by the queue's
@@ -374,7 +375,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.113">create</a>()</pre>
+<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.117">create</a>()</pre>
 <div class="block">Creates a new min-max priority queue with default settings: natural order,
  no maximum size, no initial contents, and an initial expected size of 11.</div>
 </li>
@@ -385,7 +386,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.121">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;initialContents)</pre>
+<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.125">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;initialContents)</pre>
 <div class="block">Creates a new min-max priority queue using natural order, no maximum size,
  and initially containing the given elements.</div>
 </li>
@@ -396,7 +397,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>orderedBy</h4>
-<pre>public static&nbsp;&lt;B&gt;&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.131">orderedBy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;B&gt;&nbsp;comparator)</pre>
+<pre>public static&nbsp;&lt;B&gt;&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.135">orderedBy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;B&gt;&nbsp;comparator)</pre>
 <div class="block">Creates and returns a new builder, configured to build <code>MinMaxPriorityQueue</code> instances that use <code>comparator</code> to determine the
  least and greatest elements.</div>
 </li>
@@ -407,7 +408,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>expectedSize</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.140">expectedSize</a>(int&nbsp;expectedSize)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.144">expectedSize</a>(int&nbsp;expectedSize)</pre>
 <div class="block">Creates and returns a new builder, configured to build <code>MinMaxPriorityQueue</code> instances sized appropriately to hold <code>expectedSize</code> elements.</div>
 </li>
 </ul>
@@ -417,7 +418,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>maximumSize</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.151">maximumSize</a>(int&nbsp;maximumSize)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.155">maximumSize</a>(int&nbsp;maximumSize)</pre>
 <div class="block">Creates and returns a new builder, configured to build <code>MinMaxPriorityQueue</code> instances that are limited to <code>maximumSize</code>
  elements. Each time a queue grows beyond this bound, it immediately
  removes its greatest element (according to its comparator), which might be
@@ -430,7 +431,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.254">size</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.260">size</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#size()" title="class or interface in java.util">size</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;</code></dd>
@@ -447,7 +448,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>add</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.267">add</a>(<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;element)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.274">add</a>(<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;element)</pre>
 <div class="block">Adds the given element to this queue. If this queue has a maximum size,
  after adding <code>element</code> the queue will automatically evict its
  greatest element (according to its comparator), which may be <code>element</code> itself.</div>
@@ -467,7 +468,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>addAll</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.273">addAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;&nbsp;newElements)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.281">addAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;&nbsp;newElements)</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#addAll(java.util.Collection)" title="class or interface in java.util">addAll</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;</code></dd>
@@ -484,7 +485,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>offer</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.289">offer</a>(<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;element)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.298">offer</a>(<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;element)</pre>
 <div class="block">Adds the given element to this queue. If this queue has a maximum size,
  after adding <code>element</code> the queue will automatically evict its
  greatest element (according to its comparator), which may be <code>element</code> itself.</div>
@@ -496,7 +497,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>poll</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.303">poll</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.313">poll</a>()</pre>
 </li>
 </ul>
 <a name="peek()">
@@ -505,7 +506,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>peek</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.313">peek</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.323">peek</a>()</pre>
 </li>
 </ul>
 <a name="pollFirst()">
@@ -514,7 +515,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>pollFirst</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.337">pollFirst</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.348">pollFirst</a>()</pre>
 <div class="block">Removes and returns the least element of this queue, or returns <code>null</code> if the queue is empty.</div>
 </li>
 </ul>
@@ -524,7 +525,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>removeFirst</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.346">removeFirst</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.358">removeFirst</a>()</pre>
 <div class="block">Removes and returns the least element of this queue.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util">NoSuchElementException</a></code> - if the queue is empty</dd></dl>
@@ -536,7 +537,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>peekFirst</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.354">peekFirst</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.366">peekFirst</a>()</pre>
 <div class="block">Retrieves, but does not remove, the least element of this queue, or returns
  <code>null</code> if the queue is empty.</div>
 </li>
@@ -547,7 +548,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>pollLast</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.362">pollLast</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.375">pollLast</a>()</pre>
 <div class="block">Removes and returns the greatest element of this queue, or returns <code>null</code> if the queue is empty.</div>
 </li>
 </ul>
@@ -557,7 +558,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>removeLast</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.371">removeLast</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.385">removeLast</a>()</pre>
 <div class="block">Removes and returns the greatest element of this queue.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util">NoSuchElementException</a></code> - if the queue is empty</dd></dl>
@@ -569,7 +570,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>peekLast</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.382">peekLast</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.396">peekLast</a>()</pre>
 <div class="block">Retrieves, but does not remove, the greatest element of this queue, or
  returns <code>null</code> if the queue is empty.</div>
 </li>
@@ -580,7 +581,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.883">iterator</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.899">iterator</a>()</pre>
 <div class="block">Returns an iterator over the elements contained in this collection,
  <i>in no particular order</i>.
 
@@ -615,7 +616,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.888">clear</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.904">clear</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#clear()" title="class or interface in java.util">clear</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;</code></dd>
@@ -630,7 +631,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.896">toArray</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.912">toArray</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#toArray()" title="class or interface in java.util">toArray</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;</code></dd>
@@ -645,7 +646,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractQueu
 <ul class="blockListLast">
 <li class="blockList">
 <h4>comparator</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.907">comparator</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="type parameter in MinMaxPriorityQueue">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.923">comparator</a>()</pre>
 <div class="block">Returns the comparator used to order the elements in this queue. Obeys the
  general contract of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html?is-external=true#comparator" title="class or interface in java.util"><code>PriorityQueue.comparator</code></a>, but returns <a href="../../../../com/google/common/collect/Ordering.html#natural()"><code>Ordering.natural()</code></a> instead of <code>null</code> to indicate natural ordering.</div>
 </li>

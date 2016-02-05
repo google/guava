@@ -103,7 +103,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static final class <a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.169">MinMaxPriorityQueue.Builder</a>&lt;B&gt;
+public static final class <a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.html#line.173">MinMaxPriorityQueue.Builder</a>&lt;B&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">The builder class used in creation of min-max priority queues. Instead of
  constructing one directly, use <a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html#orderedBy(java.util.Comparator)"><code>MinMaxPriorityQueue.orderedBy(Comparator)</code></a>, <a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html#expectedSize(int)"><code>MinMaxPriorityQueue.expectedSize(int)</code></a> or <a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html#maximumSize(int)"><code>MinMaxPriorityQueue.maximumSize(int)</code></a>.</div>
@@ -183,7 +183,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>expectedSize</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="type parameter in MinMaxPriorityQueue.Builder">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.Builder.html#line.188">expectedSize</a>(int&nbsp;expectedSize)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="type parameter in MinMaxPriorityQueue.Builder">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.Builder.html#line.193">expectedSize</a>(int&nbsp;expectedSize)</pre>
 <div class="block">Configures this builder to build min-max priority queues with an initial
  expected size of <code>expectedSize</code>.</div>
 </li>
@@ -194,7 +194,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>maximumSize</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="type parameter in MinMaxPriorityQueue.Builder">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.Builder.html#line.200">maximumSize</a>(int&nbsp;maximumSize)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="type parameter in MinMaxPriorityQueue.Builder">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.Builder.html#line.206">maximumSize</a>(int&nbsp;maximumSize)</pre>
 <div class="block">Configures this builder to build <code>MinMaxPriorityQueue</code> instances
  that are limited to <code>maximumSize</code> elements. Each time a queue grows
  beyond this bound, it immediately removes its greatest element (according
@@ -207,7 +207,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public&nbsp;&lt;T extends <a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="type parameter in MinMaxPriorityQueue.Builder">B</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.Builder.html#line.210">create</a>()</pre>
+<pre>public&nbsp;&lt;T extends <a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="type parameter in MinMaxPriorityQueue.Builder">B</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.Builder.html#line.216">create</a>()</pre>
 <div class="block">Builds a new min-max priority queue using the previously specified
  options, and having no initial contents.</div>
 </li>
@@ -218,7 +218,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>create</h4>
-<pre>public&nbsp;&lt;T extends <a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="type parameter in MinMaxPriorityQueue.Builder">B</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.Builder.html#line.218">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;initialContents)</pre>
+<pre>public&nbsp;&lt;T extends <a href="../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="type parameter in MinMaxPriorityQueue.Builder">B</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MinMaxPriorityQueue.Builder.html#line.224">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;initialContents)</pre>
 <div class="block">Builds a new min-max priority queue using the previously specified
  options, and having the given initial elements.</div>
 </li>
