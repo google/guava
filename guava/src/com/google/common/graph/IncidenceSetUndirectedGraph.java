@@ -332,10 +332,7 @@ final class IncidenceSetUndirectedGraph<N, E> implements UndirectedGraph<N, E> {
 
   @Override
   public String toString() {
-    return String.format("config: %s, nodes: %s, edges: %s",
-        config,
-        nodes(),
-        edgeToIncidentNodes);
+    return Graphs.toString(this);
   }
 
   private NodeConnections<N, E> checkedConnections(Object node) {

@@ -354,8 +354,8 @@ public interface Graph<N, E> {
    *
    * <p><b>Edges must be unique</b>, just as {@code Map} keys must be; they must also be non-null.
    *
-   * <p>If the graph is directed, {@code node1} is {@code edge}’s source,
-   * {@code node2} is {@code edge}’s target, and {@code edge} is an outgoing edge of
+   * <p>If the graph is directed, {@code node1} is {@code edge}'s source,
+   * {@code node2} is {@code edge}'s target, and {@code edge} is an outgoing edge of
    * {@code node1} and an incoming edge of {@code node2}.
    *
    * <p>If {@code edge} already connects {@code node1} to {@code node2} in this graph

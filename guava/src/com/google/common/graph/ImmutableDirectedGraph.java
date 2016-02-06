@@ -222,10 +222,7 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
 
   @Override
   public String toString() {
-    return String.format("config: %s, nodes: %s, edges: %s",
-        config,
-        nodes(),
-        edgeToIncidentNodes);
+    return Graphs.toString(this);
   }
 
   private NodeConnections<N, E> checkedConnections(Object node) {
