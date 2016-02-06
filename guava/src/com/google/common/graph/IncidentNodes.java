@@ -26,14 +26,14 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * An immutable set representing the nodes incident to an undirected edge.
+ * An immutable set representing the nodes incident to an origin edge in a graph.
  *
  * @author James Sexton
  * @param <N> Node parameter type
  */
-abstract class UndirectedIncidentNodes<N> extends AbstractSet<N> {
+abstract class IncidentNodes<N> extends AbstractSet<N> {
 
-  static <N> UndirectedIncidentNodes<N> of(N node1, N node2) {
+  static <N> IncidentNodes<N> of(N node1, N node2) {
     if (node1.equals(node2)) {
       return new OneNode<N>(node1);
     } else {
@@ -41,7 +41,7 @@ abstract class UndirectedIncidentNodes<N> extends AbstractSet<N> {
     }
   }
 
-  static <N> UndirectedIncidentNodes<N> of(Set<N> nodes) {
+  static <N> IncidentNodes<N> of(Set<N> nodes) {
     Iterator<N> nodesIterator = nodes.iterator();
     switch (nodes.size()) {
       case 1:
@@ -49,8 +49,8 @@ abstract class UndirectedIncidentNodes<N> extends AbstractSet<N> {
       case 2:
         return new TwoNodes<N>(nodesIterator.next(), nodesIterator.next());
       default:
-        throw new IllegalArgumentException("An edge in an undirected graph cannot be incident to "
-            + nodes.size() + " nodes: " + nodes);
+        throw new IllegalArgumentException("Hypergraphs are not currently supported. An edge in a"
+            + " non-hypergraph cannot be incident to " + nodes.size() + " nodes: " + nodes);
     }
   }
 
@@ -58,8 +58,19 @@ abstract class UndirectedIncidentNodes<N> extends AbstractSet<N> {
     return size() == 1;
   }
 
-  private static final class OneNode<N> extends UndirectedIncidentNodes<N> {
+  /**
+   * In the case of a directed graph, returns the source node of the origin edge. In the case of
+   * an undirected graph, returns an arbitrary (but consistent) endpoint of the origin edge.
+   */
+  abstract N node1();
 
+  /**
+   * Returns the node opposite to {@link #node1} along the origin edge. In the case of a directed
+   * graph, this will always be the target node of the origin edge.
+   */
+  abstract N node2();
+
+  private static final class OneNode<N> extends IncidentNodes<N> {
     private final N node;
 
     private OneNode(N node) {
@@ -75,10 +86,19 @@ abstract class UndirectedIncidentNodes<N> extends AbstractSet<N> {
     public int size() {
       return 1;
     }
+
+    @Override
+    N node1() {
+      return node;
+    }
+
+    @Override
+    N node2() {
+      return node;
+    }
   }
 
-  private static final class TwoNodes<N> extends UndirectedIncidentNodes<N> {
-
+  private static final class TwoNodes<N> extends IncidentNodes<N> {
     private final N node1;
     private final N node2;
 
@@ -96,6 +116,16 @@ abstract class UndirectedIncidentNodes<N> extends AbstractSet<N> {
     @Override
     public int size() {
       return 2;
+    }
+
+    @Override
+    N node1() {
+      return node1;
+    }
+
+    @Override
+    N node2() {
+      return node2;
     }
   }
 }

@@ -77,7 +77,7 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
   // All nodes in the graph exist in this map
   private final ImmutableMap<N, NodeConnections<N, E>> nodeConnections;
   // All edges in the graph exist in this map
-  private final ImmutableMap<E, DirectedIncidentNodes<N>> edgeToIncidentNodes;
+  private final ImmutableMap<E, IncidentNodes<N>> edgeToIncidentNodes;
   private final GraphConfig config;
 
   private ImmutableDirectedGraph(Builder<N, E> builder) {
@@ -91,10 +91,9 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
       nodeConnectionsBuilder.put(node, connections);
     }
     this.nodeConnections = nodeConnectionsBuilder.build();
-    ImmutableMap.Builder<E, DirectedIncidentNodes<N>> edgeToIncidentNodesBuilder =
-        ImmutableMap.builder();
+    ImmutableMap.Builder<E, IncidentNodes<N>> edgeToIncidentNodesBuilder = ImmutableMap.builder();
     for (E edge : directedGraph.edges()) {
-      DirectedIncidentNodes<N> incidentNodes = DirectedIncidentNodes.of(
+      IncidentNodes<N> incidentNodes = IncidentNodes.of(
           directedGraph.source(edge), directedGraph.target(edge));
       edgeToIncidentNodesBuilder.put(edge, incidentNodes);
     }
@@ -124,7 +123,7 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
 
   @Override
   public Set<N> incidentNodes(Object edge) {
-    return checkedEndpoints(edge).asImmutableSet();
+    return checkedIncidentNodes(edge);
   }
 
   @Override
@@ -201,12 +200,12 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
 
   @Override
   public N source(Object edge) {
-    return checkedEndpoints(edge).source();
+    return checkedIncidentNodes(edge).node1();
   }
 
   @Override
   public N target(Object edge) {
-    return checkedEndpoints(edge).target();
+    return checkedIncidentNodes(edge).node2();
   }
 
   @Override
@@ -232,11 +231,11 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
     return connections;
   }
 
-  private DirectedIncidentNodes<N> checkedEndpoints(Object edge) {
+  private IncidentNodes<N> checkedIncidentNodes(Object edge) {
     checkNotNull(edge, "edge");
-    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
-    checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
-    return endpoints;
+    IncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
+    checkArgument(incidentNodes != null, EDGE_NOT_IN_GRAPH, edge);
+    return incidentNodes;
   }
 
   /**
@@ -324,7 +323,7 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
      *     (1) the {@code GraphConfig} objects held by the graph being built and by {@code graph}
      *     are not compatible
      *     (2) calling {@code Graph.addEdge(e, n1, n2)} on the graph being built throws IAE
-     * @see Graph#addEdge(e, n1, n2)
+     * @see Graph#addEdge
      */
     @CanIgnoreReturnValue
     public Builder<N, E> addGraph(DirectedGraph<N, E> graph) {

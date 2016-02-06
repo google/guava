@@ -27,7 +27,6 @@ import static com.google.common.graph.GraphErrorMessageUtils.SELF_LOOPS_NOT_ALLO
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -87,8 +86,8 @@ import javax.annotation.Nullable;
  * <li>{@code addNode}: O(1).
  * <li>{@code addEdge(E edge, N node1, N node2)}: O(1).
  * <li>{@code removeNode(node)}: O(d_node).
- * <li>{@code removeEdge}: O(1), unless this graph is a multigraph (supports parallel edges),
- *     then this method is O(min(d_edgeNode1, d_edgeNode2)).
+ * <li>{@code removeEdge}: O(1), unless this graph is a multigraph (supports parallel edges);
+ *     in that case this method is O(min(d_edgeNode1, d_edgeNode2)).
  *
  * </ul>
  * where d_node is the degree of node.
@@ -105,7 +104,7 @@ final class IncidenceSetUndirectedGraph<N, E> implements UndirectedGraph<N, E> {
   // All nodes in the graph exist in this map
   private final Map<N, NodeConnections<N, E>> nodeConnections;
   // All edges in the graph exist in this map
-  private final Map<E, UndirectedIncidentNodes<N>> edgeToIncidentNodes;
+  private final Map<E, IncidentNodes<N>> edgeToIncidentNodes;
   private final GraphConfig config;
 
   IncidenceSetUndirectedGraph(GraphConfig config) {
@@ -139,10 +138,7 @@ final class IncidenceSetUndirectedGraph<N, E> implements UndirectedGraph<N, E> {
 
   @Override
   public Set<N> incidentNodes(Object edge) {
-    checkNotNull(edge, "edge");
-    UndirectedIncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
-    checkArgument(incidentNodes != null, EDGE_NOT_IN_GRAPH, edge);
-    return incidentNodes;
+    return checkedIncidentNodes(edge);
   }
 
   @Override
@@ -252,10 +248,10 @@ final class IncidenceSetUndirectedGraph<N, E> implements UndirectedGraph<N, E> {
     checkNotNull(edge, "edge");
     checkNotNull(node1, "node1");
     checkNotNull(node2, "node2");
-    UndirectedIncidentNodes<N> incidentNodes = UndirectedIncidentNodes.of(node1, node2);
+    IncidentNodes<N> incidentNodes = IncidentNodes.of(node1, node2);
     checkArgument(config.isSelfLoopsAllowed() || !incidentNodes.isSelfLoop(),
         SELF_LOOPS_NOT_ALLOWED, node1);
-    UndirectedIncidentNodes<N> previousIncidentNodes = edgeToIncidentNodes.get(edge);
+    IncidentNodes<N> previousIncidentNodes = edgeToIncidentNodes.get(edge);
     if (previousIncidentNodes != null) {
       checkArgument(previousIncidentNodes.equals(incidentNodes),
           REUSING_EDGE, edge, previousIncidentNodes, incidentNodes);
@@ -299,12 +295,12 @@ final class IncidenceSetUndirectedGraph<N, E> implements UndirectedGraph<N, E> {
   public boolean removeEdge(Object edge) {
     checkNotNull(edge, "edge");
     // Return false if the edge doesn't exist in the graph
-    UndirectedIncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
+    IncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
     if (incidentNodes == null) {
       return false;
     }
-    N node1 = Iterables.get(incidentNodes, 0);
-    N node2 = Iterables.get(incidentNodes, 1, node1);
+    N node1 = incidentNodes.node1();
+    N node2 = incidentNodes.node2();
     NodeConnections<N, E> node1Connections = nodeConnections.get(node1);
     NodeConnections<N, E> node2Connections = nodeConnections.get(node2);
     if (!config.isMultigraph() || edgesConnecting(node1, node2).size() <= 1) {
@@ -340,5 +336,12 @@ final class IncidenceSetUndirectedGraph<N, E> implements UndirectedGraph<N, E> {
     NodeConnections<N, E> connections = nodeConnections.get(node);
     checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);
     return connections;
+  }
+
+  private IncidentNodes<N> checkedIncidentNodes(Object edge) {
+    checkNotNull(edge, "edge");
+    IncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
+    checkArgument(incidentNodes != null, EDGE_NOT_IN_GRAPH, edge);
+    return incidentNodes;
   }
 }

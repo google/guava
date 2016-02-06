@@ -90,8 +90,8 @@ import javax.annotation.Nullable;
  * <li>{@code addNode}: O(1).
  * <li>{@code addEdge(E edge, N node1, N node2)}: O(1).
  * <li>{@code removeNode(node)}: O(d_node).
- * <li>{@code removeEdge}: O(1), unless this graph is a multigraph (supports parallel edges),
- *     then this method is O(min(outD_edgeSource, inD_edgeTarget)).
+ * <li>{@code removeEdge}: O(1), unless this graph is a multigraph (supports parallel edges);
+ *     in that case this method is O(min(outD_edgeSource, inD_edgeTarget)).
  *
  * </ul>
  * where d_node is the degree of node, inD_node is the in-degree of node, and outD_node is the
@@ -107,7 +107,7 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
   // TODO(b/24620028): Enable this class to support sorted nodes/edges.
 
   private final Map<N, NodeConnections<N, E>> nodeConnections;
-  private final Map<E, DirectedIncidentNodes<N>> edgeToIncidentNodes;
+  private final Map<E, IncidentNodes<N>> edgeToIncidentNodes;
   private final GraphConfig config;
 
   IncidenceSetDirectedGraph(GraphConfig config) {
@@ -141,8 +141,7 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
 
   @Override
   public Set<N> incidentNodes(Object edge) {
-    // Returning an immutable set here as the edge's endpoints will not change anyway.
-    return checkedEndpoints(edge).asImmutableSet();
+    return checkedIncidentNodes(edge);
   }
 
   @Override
@@ -217,12 +216,12 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
 
   @Override
   public N source(Object edge) {
-    return checkedEndpoints(edge).source();
+    return checkedIncidentNodes(edge).node1();
   }
 
   @Override
   public N target(Object edge) {
-    return checkedEndpoints(edge).target();
+    return checkedIncidentNodes(edge).node2();
   }
 
   // Element Mutation
@@ -257,25 +256,30 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
     checkNotNull(edge, "edge");
     checkNotNull(node1, "node1");
     checkNotNull(node2, "node2");
-    DirectedIncidentNodes<N> endpoints = DirectedIncidentNodes.of(node1, node2);
-    checkArgument(config.isSelfLoopsAllowed() || !endpoints.isSelfLoop(),
+    IncidentNodes<N> incidentNodes = IncidentNodes.of(node1, node2);
+    checkArgument(config.isSelfLoopsAllowed() || !incidentNodes.isSelfLoop(),
         SELF_LOOPS_NOT_ALLOWED, node1);
-    DirectedIncidentNodes<N> previousEndpoints = edgeToIncidentNodes.get(edge);
-    if (previousEndpoints != null) {
-      checkArgument(previousEndpoints.equals(endpoints),
-          REUSING_EDGE, edge, previousEndpoints, endpoints);
+    boolean containsN1 = nodes().contains(node1);
+    boolean containsN2 = nodes().contains(node2);
+    if (edges().contains(edge)) {
+      checkArgument(containsN1 && containsN2 && edgesConnecting(node1, node2).contains(edge),
+          REUSING_EDGE, edge, incidentNodes(edge), incidentNodes);
       return false;
     } else if (!config.isMultigraph()) {
-      checkArgument(!(nodes().contains(node1) && successors(node1).contains(node2)),
+      checkArgument(!(containsN1 && containsN2 && successors(node1).contains(node2)),
           ADDING_PARALLEL_EDGE, node1, node2);
     }
-    addNode(node1);
+    if (!containsN1) {
+      addNode(node1);
+    }
     NodeConnections<N, E> connectionsN1 = nodeConnections.get(node1);
     connectionsN1.addSuccessor(node2, edge);
-    addNode(node2);
+    if (!containsN2) {
+      addNode(node2);
+    }
     NodeConnections<N, E> connectionsN2 = nodeConnections.get(node2);
     connectionsN2.addPredecessor(node1, edge);
-    edgeToIncidentNodes.put(edge, endpoints);
+    edgeToIncidentNodes.put(edge, incidentNodes);
     return true;
   }
 
@@ -291,16 +295,14 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
     // Since views are returned, we need to copy the edges that will be removed.
     // Thus we avoid modifying the underlying view while iterating over it.
     for (E inEdge : ImmutableList.copyOf(inEdges(node))) {
-      DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(inEdge);
-      N predecessor = endpoints.source();
+      N predecessor = Graphs.oppositeNode(this, inEdge, node);
       NodeConnections<N, E> predecessorConnections = nodeConnections.get(predecessor);
       predecessorConnections.removeSuccessor(node);
       predecessorConnections.removeOutEdge(inEdge);
       edgeToIncidentNodes.remove(inEdge);
     }
     for (E outEdge : ImmutableList.copyOf(outEdges(node))) {
-      DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(outEdge);
-      N successor = endpoints.target();
+      N successor = Graphs.oppositeNode(this, outEdge, node);
       NodeConnections<N, E> successorConnections = nodeConnections.get(successor);
       successorConnections.removePredecessor(node);
       successorConnections.removeInEdge(outEdge);
@@ -315,21 +317,21 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
   public boolean removeEdge(Object edge) {
     checkNotNull(edge, "edge");
     // Return false if the edge doesn't exist in the graph
-    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
-    if (endpoints == null) {
+    IncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
+    if (incidentNodes == null) {
       return false;
     }
-    N source = endpoints.source();
-    N target = endpoints.target();
-    NodeConnections<N, E> sourceConnections = nodeConnections.get(source);
-    NodeConnections<N, E> targetConnections = nodeConnections.get(target);
-    if (!config.isMultigraph() || edgesConnecting(source, target).size() <= 1) {
-      // If this is the last connecting edge between source and target, they are no longer adjacent.
-      sourceConnections.removeSuccessor(target);
-      targetConnections.removePredecessor(source);
+    N node1 = incidentNodes.node1();
+    N node2 = incidentNodes.node2();
+    NodeConnections<N, E> connectionsN1 = nodeConnections.get(node1);
+    NodeConnections<N, E> connectionsN2 = nodeConnections.get(node2);
+    if (!config.isMultigraph() || edgesConnecting(node1, node2).size() <= 1) {
+      // If this is the last connecting edge between node1 and node2, they are no longer adjacent.
+      connectionsN1.removeSuccessor(node2);
+      connectionsN2.removePredecessor(node1);
     }
-    sourceConnections.removeOutEdge(edge);
-    targetConnections.removeInEdge(edge);
+    connectionsN1.removeOutEdge(edge);
+    connectionsN2.removeInEdge(edge);
     edgeToIncidentNodes.remove(edge);
     return true;
   }
@@ -357,10 +359,10 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
     return connections;
   }
 
-  private DirectedIncidentNodes<N> checkedEndpoints(Object edge) {
+  private IncidentNodes<N> checkedIncidentNodes(Object edge) {
     checkNotNull(edge, "edge");
-    DirectedIncidentNodes<N> endpoints = edgeToIncidentNodes.get(edge);
-    checkArgument(endpoints != null, EDGE_NOT_IN_GRAPH, edge);
-    return endpoints;
+    IncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
+    checkArgument(incidentNodes != null, EDGE_NOT_IN_GRAPH, edge);
+    return incidentNodes;
   }
 }

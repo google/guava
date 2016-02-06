@@ -73,21 +73,20 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
   // All nodes in the graph exist in this map
   private final ImmutableMap<N, NodeConnections<N, E>> nodeConnections;
   // All edges in the graph exist in this map
-  private final ImmutableMap<E, UndirectedIncidentNodes<N>> edgeToIncidentNodes;
+  private final ImmutableMap<E, IncidentNodes<N>> edgeToIncidentNodes;
   private final GraphConfig config;
 
   private ImmutableUndirectedGraph(Builder<N, E> builder) {
     UndirectedGraph<N, E> undirectedGraph = builder.undirectedGraph;
-    ImmutableMap.Builder<N, NodeConnections<N, E>> nodeConnectionsBuilder =
-        ImmutableMap.builder();
+    ImmutableMap.Builder<N, NodeConnections<N, E>> nodeConnectionsBuilder = ImmutableMap.builder();
     for (N node : undirectedGraph.nodes()) {
       nodeConnectionsBuilder.put(node, UndirectedNodeConnections.ofImmutable(
           undirectedGraph.adjacentNodes(node), undirectedGraph.incidentEdges(node)));
     }
     this.nodeConnections = nodeConnectionsBuilder.build();
-    ImmutableMap.Builder<E, UndirectedIncidentNodes<N>> edgeToNodesBuilder = ImmutableMap.builder();
+    ImmutableMap.Builder<E, IncidentNodes<N>> edgeToNodesBuilder = ImmutableMap.builder();
     for (E edge : undirectedGraph.edges()) {
-      edgeToNodesBuilder.put(edge, UndirectedIncidentNodes.of(undirectedGraph.incidentNodes(edge)));
+      edgeToNodesBuilder.put(edge, IncidentNodes.of(undirectedGraph.incidentNodes(edge)));
     }
     this.edgeToIncidentNodes = edgeToNodesBuilder.build();
     this.config = undirectedGraph.config();
@@ -115,10 +114,7 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
 
   @Override
   public Set<N> incidentNodes(Object edge) {
-    checkNotNull(edge, "edge");
-    UndirectedIncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
-    checkArgument(incidentNodes != null, EDGE_NOT_IN_GRAPH, edge);
-    return incidentNodes;
+    return checkedIncidentNodes(edge);
   }
 
   @Override
@@ -219,6 +215,13 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
     NodeConnections<N, E> connections = nodeConnections.get(node);
     checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);
     return connections;
+  }
+
+  private IncidentNodes<N> checkedIncidentNodes(Object edge) {
+    checkNotNull(edge, "edge");
+    IncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
+    checkArgument(incidentNodes != null, EDGE_NOT_IN_GRAPH, edge);
+    return incidentNodes;
   }
 
   /**
