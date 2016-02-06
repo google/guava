@@ -52,7 +52,6 @@ public final class Graphs {
    * @throws IllegalArgumentException if {@code edge} is not incident to {@code node}
    * @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}
    */
-  @SuppressWarnings("unchecked")
   public static <N> N oppositeNode(Graph<N, ?> graph, Object edge, Object node) {
     checkNotNull(graph, "graph");
     checkNotNull(edge, "edge");
@@ -83,24 +82,20 @@ public final class Graphs {
   @CanIgnoreReturnValue
   public static <N, E> boolean addEdge(Graph<N, E> graph, E edge, Iterable<N> nodes) {
     checkNotNull(graph, "graph");
-    checkNotNull(nodes, "nodes");
     checkNotNull(edge, "edge");
+    checkNotNull(nodes, "nodes");
     if (graph instanceof Hypergraph) {
       return ((Hypergraph<N, E>) graph).addEdge(edge, nodes);
     }
 
-    Iterator<N> it = nodes.iterator();
-    checkArgument(
-        it.hasNext(), "'graph' is not a Hypergraph, and 'nodes' has < 1 elements: %s", nodes);
-    N n1 = it.next();
-    if (it.hasNext()) {
-      N n2 = it.next();
-      checkArgument(
-          !it.hasNext(), "'graph' is not a Hypergraph, and 'nodes' has > 2 elements: %s", nodes);
-      return graph.addEdge(edge, n1, n2);
-    } else {
-      return graph.addEdge(edge, n1, n1);
-    }
+    Iterator<N> nodesIterator = nodes.iterator();
+    checkArgument(nodesIterator.hasNext(),
+        "'graph' is not a Hypergraph, and 'nodes' has < 1 elements: %s", nodes);
+    N node1 = nodesIterator.next();
+    N node2 = nodesIterator.hasNext() ? nodesIterator.next() : node1;
+    checkArgument(!nodesIterator.hasNext(),
+        "'graph' is not a Hypergraph, and 'nodes' has > 2 elements: %s", nodes);
+    return graph.addEdge(edge, node1, node2);
   }
 
   /**
