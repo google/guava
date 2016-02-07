@@ -226,6 +226,8 @@ public interface Graph<N, E> {
   /**
    * Returns the nodes which are the endpoints of {@code edge} in this graph.
    *
+   * <p>If {@code edge} is a self-loop, the returned set will only have a single node.
+   *
    * @throws IllegalArgumentException if {@code edge} is not an element of this graph
    */
   Set<N> incidentNodes(Object edge);
@@ -252,10 +254,6 @@ public interface Graph<N, E> {
   /**
    * Returns the edges that are {@linkplain #incidentEdges(Object) incident} in this graph
    * to both nodes {@code node1} and {@code node2}.
-   *
-   * <p>If the graph is directed, the {@linkplain DirectedGraph#source(Object) source} and
-   * {@linkplain DirectedGraph#target(Object) target} of the edges returned must be {@code node1}
-   * and {@code node2}, respectively.
    *
    * @throws IllegalArgumentException if {@code node1} or {@code node2} is not an element
    *     of this graph
@@ -353,10 +351,6 @@ public interface Graph<N, E> {
    * (optional operation).
    *
    * <p><b>Edges must be unique</b>, just as {@code Map} keys must be; they must also be non-null.
-   *
-   * <p>If the graph is directed, {@code node1} is {@code edge}'s source,
-   * {@code node2} is {@code edge}'s target, and {@code edge} is an outgoing edge of
-   * {@code node1} and an incoming edge of {@code node2}.
    *
    * <p>If {@code edge} already connects {@code node1} to {@code node2} in this graph
    * (in the specified order if order is significant, as for directed graphs, else in any order),

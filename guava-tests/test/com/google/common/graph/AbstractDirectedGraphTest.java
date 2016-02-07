@@ -64,6 +64,13 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
     }
   }
 
+  @Override
+  @Test
+  public void incidentNodes_oneEdge() {
+    addEdge(E12, N1, N2);
+    assertThat(graph.incidentNodes(E12)).containsExactly(N1, N2).inOrder();
+  }
+
   @Test
   public void edgesConnecting_oneEdge() {
     addEdge(E12, N1, N2);
