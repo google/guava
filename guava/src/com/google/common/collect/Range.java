@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -110,6 +111,7 @@ import javax.annotation.Nullable;
  * @author Gregory Kick
  * @since 10.0
  */
+@CheckReturnValue
 @GwtCompatible
 @SuppressWarnings("rawtypes")
 public final class Range<C extends Comparable> implements Predicate<C>, Serializable {
