@@ -387,8 +387,13 @@ public class UninterruptiblesTest extends TestCase {
     private static void assertAtLeastTimePassed(
         Stopwatch stopwatch, long expectedMillis) {
       long elapsedMillis = stopwatch.elapsed(MILLISECONDS);
+      /*
+       * The "+ 5" below is to permit, say, sleep(10) to sleep only 9 milliseconds. We see such
+       * behavior sometimes when running these tests publicly as part of Guava. "+ 5" is probably
+       * more generous than it needs to be.
+       */
       assertTrue("Expected elapsed millis to be >= " + expectedMillis
-          + " but was " + elapsedMillis, elapsedMillis >= expectedMillis);
+          + " but was " + elapsedMillis, elapsedMillis + 5 >= expectedMillis);
     }
   }
 
