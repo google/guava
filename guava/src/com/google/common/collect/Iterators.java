@@ -985,6 +985,7 @@ public final class Iterators {
    * Arrays#asList(Object[])}, {@link ImmutableList#copyOf(Object[])}},
    * or {@link ImmutableList#of}.
    */
+  @SafeVarargs
   public static <T> UnmodifiableIterator<T> forArray(final T... array) {
     return forArray(array, 0, array.length, 0);
   }
