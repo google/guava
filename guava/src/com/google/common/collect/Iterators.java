@@ -443,6 +443,7 @@ public final class Iterators {
    * infinite loop. You should use an explicit {@code break} or be certain that
    * you will eventually remove all the elements.
    */
+  @SafeVarargs
   public static <T> Iterator<T> cycle(T... elements) {
     return cycle(Lists.newArrayList(elements));
   }
