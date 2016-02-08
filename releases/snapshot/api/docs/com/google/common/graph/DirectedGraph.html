@@ -97,7 +97,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public interface <a href="../../../../src-html/com/google/common/graph/DirectedGraph.html#line.30">DirectedGraph</a>&lt;N,E&gt;
+public interface <a href="../../../../src-html/com/google/common/graph/DirectedGraph.html#line.33">DirectedGraph</a>&lt;N,E&gt;
 extends <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;</pre>
 <div class="block">A subinterface of <code>Graph</code> for graphs whose edges are all directed.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -123,12 +123,35 @@ extends <a href="../../../../com/google/common/graph/Graph.html" title="interfac
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/DirectedGraph.html#addEdge(E,%20N,%20N)">addEdge</a></strong>(<a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">E</a>&nbsp;edge,
+              <a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a>&nbsp;source,
+              <a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a>&nbsp;target)</code>
+<div class="block">Adds <code>edge</code> to this graph, connecting <code>node1</code> and <code>node2</code>
+ (optional operation).</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">E</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/DirectedGraph.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;source,
+                              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;target)</code>
+<div class="block">Returns the edges that are <a href="../../../../com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incident</a> in this graph
+ to both nodes <code>node1</code> and <code>node2</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/DirectedGraph.html#incidentNodes(java.lang.Object)">incidentNodes</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</code>
+<div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this graph.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/DirectedGraph.html#source(java.lang.Object)">source</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</code>
 <div class="block">Returns the node for which <code>edge</code> is an outgoing edge.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/DirectedGraph.html#target(java.lang.Object)">target</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</code>
 <div class="block">Returns the node for which <code>edge</code> is an incoming edge.</div>
@@ -140,7 +163,7 @@ extends <a href="../../../../com/google/common/graph/Graph.html" title="interfac
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;com.google.common.graph.<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></h3>
-<code><a href="../../../../com/google/common/graph/Graph.html#addEdge(E,%20N,%20N)">addEdge</a>, <a href="../../../../com/google/common/graph/Graph.html#addNode(N)">addNode</a>, <a href="../../../../com/google/common/graph/Graph.html#adjacentEdges(java.lang.Object)">adjacentEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#adjacentNodes(java.lang.Object)">adjacentNodes</a>, <a href="../../../../com/google/common/graph/Graph.html#config()">config</a>, <a href="../../../../com/google/common/graph/Graph.html#degree(java.lang.Object)">degree</a>, <a href="../../../../com/google/common/graph/Graph.html#edges()">edges</a>, <a href="../../../../com/google/common/graph/Graph.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting</a>, <a href="../../../../com/google/common/graph/Graph.html#equals(java.lang.Object)">equals</a>, <a href="../../../../com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incidentEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#incidentNodes(java.lang.Object)">incidentNodes</a>, <a href="../../../../com/google/common/graph/Graph.html#inDegree(java.lang.Object)">inDegree</a>, <a href="../../../../com/google/common/graph/Graph.html#inEdges(java.lang.Object)">inEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#nodes()">nodes</a>, <a href="../../../../com/google/common/graph/Graph.html#outDegree(java.lang.Object)">outDegree</a>, <a href="../../../../com/google/common/graph/Graph.html#outEdges(java.lang.Object)">outEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#predecessors(java.lang.Object)">predecessors</a>, <a href="../../../../com/google/common/graph/Graph.html#removeEdge(java.lang.Object)">removeEdge</a>, <a href="../../../../com/google/common/graph/Graph.html#removeNode(java.lang.Object)">removeNode</a>, <a href="../../../../com/google/common/graph/Graph.html#successors(java.lang.Object)">successors</a></code></li>
+<code><a href="../../../../com/google/common/graph/Graph.html#addNode(N)">addNode</a>, <a href="../../../../com/google/common/graph/Graph.html#adjacentEdges(java.lang.Object)">adjacentEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#adjacentNodes(java.lang.Object)">adjacentNodes</a>, <a href="../../../../com/google/common/graph/Graph.html#config()">config</a>, <a href="../../../../com/google/common/graph/Graph.html#degree(java.lang.Object)">degree</a>, <a href="../../../../com/google/common/graph/Graph.html#edges()">edges</a>, <a href="../../../../com/google/common/graph/Graph.html#equals(java.lang.Object)">equals</a>, <a href="../../../../com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incidentEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#inDegree(java.lang.Object)">inDegree</a>, <a href="../../../../com/google/common/graph/Graph.html#inEdges(java.lang.Object)">inEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#nodes()">nodes</a>, <a href="../../../../com/google/common/graph/Graph.html#outDegree(java.lang.Object)">outDegree</a>, <a href="../../../../com/google/common/graph/Graph.html#outEdges(java.lang.Object)">outEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#predecessors(java.lang.Object)">predecessors</a>, <a href="../../../../com/google/common/graph/Graph.html#removeEdge(java.lang.Object)">removeEdge</a>, <a href="../../../../com/google/common/graph/Graph.html#removeNode(java.lang.Object)">removeNode</a>, <a href="../../../../com/google/common/graph/Graph.html#successors(java.lang.Object)">successors</a></code></li>
 </ul>
 </li>
 </ul>
@@ -162,7 +185,7 @@ extends <a href="../../../../com/google/common/graph/Graph.html" title="interfac
 <ul class="blockList">
 <li class="blockList">
 <h4>source</h4>
-<pre><a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/DirectedGraph.html#line.36">source</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
+<pre><a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/DirectedGraph.html#line.39">source</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 <div class="block">Returns the node for which <code>edge</code> is an outgoing edge.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>edge</code> is not an element of this graph</dd></dl>
@@ -171,13 +194,82 @@ extends <a href="../../../../com/google/common/graph/Graph.html" title="interfac
 <a name="target(java.lang.Object)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>target</h4>
-<pre><a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/DirectedGraph.html#line.43">target</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
+<pre><a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/DirectedGraph.html#line.46">target</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 <div class="block">Returns the node for which <code>edge</code> is an incoming edge.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>edge</code> is not an element of this graph</dd></dl>
+</li>
+</ul>
+<a name="incidentNodes(java.lang.Object)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>incidentNodes</h4>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/DirectedGraph.html#line.56">incidentNodes</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
+<div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this graph.
+
+ <p>If <code>edge</code> is a self-loop, the returned set will only have a single node.
+
+ <p>If <code>edge</code> is not a self-loop, the iteration order will be
+ <code>[source(edge), target(edge)]</code>.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../com/google/common/graph/Graph.html#incidentNodes(java.lang.Object)">incidentNodes</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a>,<a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">E</a>&gt;</code></dd>
+</dl>
+</li>
+</ul>
+<a name="edgesConnecting(java.lang.Object, java.lang.Object)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>edgesConnecting</h4>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/DirectedGraph.html#line.66">edgesConnecting</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;source,
+                     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;target)</pre>
+<div class="block">Returns the edges that are <a href="../../../../com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incident</a> in this graph
+ to both nodes <code>node1</code> and <code>node2</code>.
+
+ <p>The <a href="../../../../com/google/common/graph/DirectedGraph.html#source(java.lang.Object)">source</a> and <a href="../../../../com/google/common/graph/DirectedGraph.html#target(java.lang.Object)">target</a>
+ of the edges returned must be <code>source</code> and <code>target</code>, respectively.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../com/google/common/graph/Graph.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a>,<a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">E</a>&gt;</code></dd>
+</dl>
+</li>
+</ul>
+<a name="addEdge(java.lang.Object,java.lang.Object,java.lang.Object)">
+<!--   -->
+</a><a name="addEdge(E, N, N)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>addEdge</h4>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/DirectedGraph.html#line.75">addEdge</a>(<a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">E</a>&nbsp;edge,
+              <a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a>&nbsp;source,
+              <a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a>&nbsp;target)</pre>
+<div class="block">Adds <code>edge</code> to this graph, connecting <code>node1</code> and <code>node2</code>
+ (optional operation).
+
+ <p><b>Edges must be unique</b>, just as <code>Map</code> keys must be; they must also be non-null.
+
+ <p>If <code>edge</code> already connects <code>node1</code> to <code>node2</code> in this graph
+ (in the specified order if order is significant, as for directed graphs, else in any order),
+ then this method will have no effect and will return <code>false</code>.
+
+ <p>Behavior if <code>node1</code> and <code>node2</code> are not already elements of the graph is
+ unspecified. Suggested behaviors include (a) silently adding <code>node1</code> and <code>node2</code>
+ to the graph or (b) throwing <code>IllegalArgumentException</code>.
+
+ <p><code>edge</code> is an outgoing edge of <code>source</code> and an incoming edge of <code>target</code>.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../com/google/common/graph/Graph.html#addEdge(E,%20N,%20N)">addEdge</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">N</a>,<a href="../../../../com/google/common/graph/DirectedGraph.html" title="type parameter in DirectedGraph">E</a>&gt;</code></dd>
+<dt><span class="strong">Returns:</span></dt><dd><code>true</code> iff the graph was modified as a result of this call</dd></dl>
 </li>
 </ul>
 </li>

@@ -25,31 +25,63 @@
 <span class="sourceLineNo">017</span>package com.google.common.graph;<a name="line.17"></a>
 <span class="sourceLineNo">018</span><a name="line.18"></a>
 <span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
-<span class="sourceLineNo">020</span><a name="line.20"></a>
-<span class="sourceLineNo">021</span>/**<a name="line.21"></a>
-<span class="sourceLineNo">022</span> * A subinterface of {@code Graph} for graphs whose edges are all directed.<a name="line.22"></a>
-<span class="sourceLineNo">023</span> *<a name="line.23"></a>
-<span class="sourceLineNo">024</span> * @author Joshua O'Madadhain<a name="line.24"></a>
-<span class="sourceLineNo">025</span> * @param &lt;N&gt; Node parameter type<a name="line.25"></a>
-<span class="sourceLineNo">026</span> * @param &lt;E&gt; Edge parameter type<a name="line.26"></a>
-<span class="sourceLineNo">027</span> * @since 20.0<a name="line.27"></a>
-<span class="sourceLineNo">028</span> */<a name="line.28"></a>
-<span class="sourceLineNo">029</span>@Beta<a name="line.29"></a>
-<span class="sourceLineNo">030</span>public interface DirectedGraph&lt;N, E&gt; extends Graph&lt;N, E&gt; {<a name="line.30"></a>
-<span class="sourceLineNo">031</span>  /**<a name="line.31"></a>
-<span class="sourceLineNo">032</span>   * Returns the node for which {@code edge} is an outgoing edge.<a name="line.32"></a>
-<span class="sourceLineNo">033</span>   *<a name="line.33"></a>
-<span class="sourceLineNo">034</span>   * @throws IllegalArgumentException if {@code edge} is not an element of this graph<a name="line.34"></a>
-<span class="sourceLineNo">035</span>   */<a name="line.35"></a>
-<span class="sourceLineNo">036</span>  N source(Object edge);<a name="line.36"></a>
-<span class="sourceLineNo">037</span><a name="line.37"></a>
-<span class="sourceLineNo">038</span>  /**<a name="line.38"></a>
-<span class="sourceLineNo">039</span>   * Returns the node for which {@code edge} is an incoming edge.<a name="line.39"></a>
-<span class="sourceLineNo">040</span>   *<a name="line.40"></a>
-<span class="sourceLineNo">041</span>   * @throws IllegalArgumentException if {@code edge} is not an element of this graph<a name="line.41"></a>
-<span class="sourceLineNo">042</span>   */<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  N target(Object edge);<a name="line.43"></a>
-<span class="sourceLineNo">044</span>}<a name="line.44"></a>
+<span class="sourceLineNo">020</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.util.Set;<a name="line.22"></a>
+<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">024</span>/**<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * A subinterface of {@code Graph} for graphs whose edges are all directed.<a name="line.25"></a>
+<span class="sourceLineNo">026</span> *<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * @author Joshua O'Madadhain<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * @param &lt;N&gt; Node parameter type<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * @param &lt;E&gt; Edge parameter type<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * @since 20.0<a name="line.30"></a>
+<span class="sourceLineNo">031</span> */<a name="line.31"></a>
+<span class="sourceLineNo">032</span>@Beta<a name="line.32"></a>
+<span class="sourceLineNo">033</span>public interface DirectedGraph&lt;N, E&gt; extends Graph&lt;N, E&gt; {<a name="line.33"></a>
+<span class="sourceLineNo">034</span>  /**<a name="line.34"></a>
+<span class="sourceLineNo">035</span>   * Returns the node for which {@code edge} is an outgoing edge.<a name="line.35"></a>
+<span class="sourceLineNo">036</span>   *<a name="line.36"></a>
+<span class="sourceLineNo">037</span>   * @throws IllegalArgumentException if {@code edge} is not an element of this graph<a name="line.37"></a>
+<span class="sourceLineNo">038</span>   */<a name="line.38"></a>
+<span class="sourceLineNo">039</span>  N source(Object edge);<a name="line.39"></a>
+<span class="sourceLineNo">040</span><a name="line.40"></a>
+<span class="sourceLineNo">041</span>  /**<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   * Returns the node for which {@code edge} is an incoming edge.<a name="line.42"></a>
+<span class="sourceLineNo">043</span>   *<a name="line.43"></a>
+<span class="sourceLineNo">044</span>   * @throws IllegalArgumentException if {@code edge} is not an element of this graph<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   */<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  N target(Object edge);<a name="line.46"></a>
+<span class="sourceLineNo">047</span><a name="line.47"></a>
+<span class="sourceLineNo">048</span>  /**<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   * {@inheritDoc}<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   *<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   * &lt;p&gt;If {@code edge} is not a self-loop, the iteration order will be<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   * {@code [source(edge), target(edge)]}.<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   *<a name="line.53"></a>
+<span class="sourceLineNo">054</span>   */<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  @Override<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  Set&lt;N&gt; incidentNodes(Object edge);<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>  /**<a name="line.58"></a>
+<span class="sourceLineNo">059</span>   * {@inheritDoc}<a name="line.59"></a>
+<span class="sourceLineNo">060</span>   *<a name="line.60"></a>
+<span class="sourceLineNo">061</span>   * &lt;p&gt;The {@linkplain #source(Object) source} and {@linkplain #target(Object) target}<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   * of the edges returned must be {@code source} and {@code target}, respectively.<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   *<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   */<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  @Override<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  Set&lt;E&gt; edgesConnecting(Object source, Object target);<a name="line.66"></a>
+<span class="sourceLineNo">067</span><a name="line.67"></a>
+<span class="sourceLineNo">068</span>  /**<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   * {@inheritDoc}<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   *<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * &lt;p&gt;{@code edge} is an outgoing edge of {@code source} and an incoming edge of {@code target}.<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   */<a name="line.72"></a>
+<span class="sourceLineNo">073</span>  @Override<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  @CanIgnoreReturnValue<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  boolean addEdge(E edge, N source, N target);<a name="line.75"></a>
+<span class="sourceLineNo">076</span>}<a name="line.76"></a>
 
 
 

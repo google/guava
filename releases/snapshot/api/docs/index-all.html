@@ -653,6 +653,11 @@
 <div class="block">Add a shutdown hook to wait for thread completion in the given
  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>service</code></a>.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/graph/DirectedGraph.html#addEdge(E,%20N,%20N)">addEdge(E, N, N)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a></dt>
+<dd>
+<div class="block">Adds <code>edge</code> to this graph, connecting <code>node1</code> and <code>node2</code>
+ (optional operation).</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graph.html#addEdge(E,%20N,%20N)">addEdge(E, N, N)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Adds <code>edge</code> to this graph, connecting <code>node1</code> and <code>node2</code>
@@ -4819,6 +4824,11 @@
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.html#edges()">edges()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/DirectedGraph.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting(Object, Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a></dt>
+<dd>
+<div class="block">Returns the edges that are <a href="./com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incident</a> in this graph
+ to both nodes <code>node1</code> and <code>node2</code>.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graph.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting(Object, Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns the edges that are <a href="./com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incident</a> in this graph
@@ -8293,6 +8303,10 @@
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.html#incidentEdges(java.lang.Object)">incidentEdges(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/DirectedGraph.html#incidentNodes(java.lang.Object)">incidentNodes(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a></dt>
+<dd>
+<div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this graph.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graph.html#incidentNodes(java.lang.Object)">incidentNodes(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this graph.</div>

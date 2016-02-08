@@ -432,7 +432,9 @@ implements <a href="../../../../com/google/common/graph/UndirectedGraph.html" ti
 <h4>incidentNodes</h4>
 <pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.html" title="type parameter in ImmutableUndirectedGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.html#line.116">incidentNodes</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#incidentNodes(java.lang.Object)">Graph</a></code></strong></div>
-<div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this graph.</div>
+<div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this graph.
+
+ <p>If <code>edge</code> is a self-loop, the returned set will only have a single node.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../com/google/common/graph/Graph.html#incidentNodes(java.lang.Object)">incidentNodes</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.html" title="type parameter in ImmutableUndirectedGraph">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.html" title="type parameter in ImmutableUndirectedGraph">E</a>&gt;</code></dd>
@@ -752,10 +754,6 @@ implements <a href="../../../../com/google/common/graph/UndirectedGraph.html" ti
  (optional operation).
 
  <p><b>Edges must be unique</b>, just as <code>Map</code> keys must be; they must also be non-null.
-
- <p>If the graph is directed, <code>node1</code> is <code>edge</code>'s source,
- <code>node2</code> is <code>edge</code>'s target, and <code>edge</code> is an outgoing edge of
- <code>node1</code> and an incoming edge of <code>node2</code>.
 
  <p>If <code>edge</code> already connects <code>node1</code> to <code>node2</code> in this graph
  (in the specified order if order is significant, as for directed graphs, else in any order),
