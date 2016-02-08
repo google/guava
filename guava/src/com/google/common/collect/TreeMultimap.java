@@ -157,18 +157,6 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
     return valueComparator;
   }
 
-  /*
-   * The following @GwtIncompatible methods override the methods in
-   * AbstractSortedKeySortedSetMultimap, so GWT will fall back to the ASKSSM implementations,
-   * which return SortedSets and SortedMaps.
-   */
-
-  @Override
-  @GwtIncompatible // NavigableMap
-  NavigableMap<K, Collection<V>> backingMap() {
-    return (NavigableMap<K, Collection<V>>) super.backingMap();
-  }
-
   /**
    * @since 14.0 (present with return type {@code SortedSet} since 2.0)
    */
@@ -176,12 +164,6 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
   @GwtIncompatible // NavigableSet
   public NavigableSet<V> get(@Nullable K key) {
     return (NavigableSet<V>) super.get(key);
-  }
-
-  @Override
-  @GwtIncompatible // NavigableSet
-  Collection<V> wrapCollection(K key, Collection<V> collection) {
-    return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
   }
 
   /**
@@ -194,15 +176,8 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
    * @since 14.0 (present with return type {@code SortedSet} since 2.0)
    */
   @Override
-  @GwtIncompatible // NavigableSet
   public NavigableSet<K> keySet() {
     return (NavigableSet<K>) super.keySet();
-  }
-
-  @Override
-  @GwtIncompatible // NavigableSet
-  NavigableSet<K> createKeySet() {
-    return new NavigableKeySet(backingMap());
   }
 
   /**
@@ -215,15 +190,8 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
    * @since 14.0 (present with return type {@code SortedMap} since 2.0)
    */
   @Override
-  @GwtIncompatible // NavigableMap
   public NavigableMap<K, Collection<V>> asMap() {
     return (NavigableMap<K, Collection<V>>) super.asMap();
-  }
-
-  @Override
-  @GwtIncompatible // NavigableMap
-  NavigableMap<K, Collection<V>> createAsMap() {
-    return new NavigableAsMap(backingMap());
   }
 
   /**

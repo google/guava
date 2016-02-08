@@ -21,9 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.Maps.EntrySet;
-import com.google.common.collect.Maps.KeySet;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
@@ -90,7 +87,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     implements Serializable {
   /*
@@ -317,9 +314,9 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
    * returned collection, and vice versa.
    */
   Collection<V> wrapCollection(@Nullable K key, Collection<V> collection) {
-    // We don't deal with NavigableSet here yet for GWT reasons -- instead,
-    // non-GWT TreeMultimap explicitly overrides this and uses NavigableSet.
-    if (collection instanceof SortedSet) {
+    if (collection instanceof NavigableSet) {
+      return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
+    } else if (collection instanceof SortedSet) {
       return new WrappedSortedSet(key, (SortedSet<V>) collection, null);
     } else if (collection instanceof Set) {
       return new WrappedSet(key, (Set<V>) collection);
@@ -703,7 +700,6 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  @GwtIncompatible // NavigableSet
   @WeakOuter
   class WrappedNavigableSet extends WrappedSortedSet implements NavigableSet<V> {
     WrappedNavigableSet(
@@ -933,11 +929,13 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
   @Override
   Set<K> createKeySet() {
-    // TreeMultimap uses NavigableKeySet explicitly, but we don't handle that here for GWT
-    // compatibility reasons
-    return (map instanceof SortedMap)
-        ? new SortedKeySet((SortedMap<K, Collection<V>>) map)
-        : new KeySet(map);
+    if (map instanceof NavigableMap) {
+      return new NavigableKeySet((NavigableMap<K, Collection<V>>) map);
+    } else if (map instanceof SortedMap) {
+      return new SortedKeySet((SortedMap<K, Collection<V>>) map);
+    } else {
+      return new KeySet(map);
+    }
   }
 
   @WeakOuter
@@ -1056,7 +1054,6 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  @GwtIncompatible // NavigableSet
   @WeakOuter
   class NavigableKeySet extends SortedKeySet implements NavigableSet<K> {
     NavigableKeySet(NavigableMap<K, Collection<V>> subMap) {
@@ -1284,11 +1281,13 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
   @Override
   Map<K, Collection<V>> createAsMap() {
-    // TreeMultimap uses NavigableAsMap explicitly, but we don't handle that here for GWT
-    // compatibility reasons
-    return (map instanceof SortedMap)
-        ? new SortedAsMap((SortedMap<K, Collection<V>>) map)
-        : new AsMap(map);
+    if (map instanceof NavigableMap) {
+      return new NavigableAsMap((NavigableMap<K, Collection<V>>) map);
+    } else if (map instanceof SortedMap) {
+      return new SortedAsMap((SortedMap<K, Collection<V>>) map);
+    } else {
+      return new AsMap(map);
+    }
   }
 
   @WeakOuter
@@ -1496,7 +1495,6 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  @GwtIncompatible // NavigableAsMap
   class NavigableAsMap extends SortedAsMap implements NavigableMap<K, Collection<V>> {
 
     NavigableAsMap(NavigableMap<K, Collection<V>> submap) {
