@@ -49,14 +49,14 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
 
   @After
   public void validateSourceAndTarget() {
-    for (Integer node : graph.nodes()) {
-      for (String inEdge : graph.inEdges(node)) {
+    for (Integer node : directedGraph.nodes()) {
+      for (String inEdge : directedGraph.inEdges(node)) {
         Integer oppositeNode = Graphs.oppositeNode(directedGraph, inEdge, node);
         assertThat(directedGraph.source(inEdge)).isEqualTo(oppositeNode);
         assertThat(directedGraph.target(inEdge)).isEqualTo(node);
       }
 
-      for (String outEdge : graph.outEdges(node)) {
+      for (String outEdge : directedGraph.outEdges(node)) {
         Integer oppositeNode = Graphs.oppositeNode(directedGraph, outEdge, node);
         assertThat(directedGraph.source(outEdge)).isEqualTo(node);
         assertThat(directedGraph.target(outEdge)).isEqualTo(oppositeNode);

@@ -23,7 +23,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.testing.EqualsTester;
 
+import org.junit.After;
 import org.junit.Test;
 
 /**
@@ -44,6 +46,25 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
   @Override
   public void init() {
     graph = undirectedGraph = createGraph();
+  }
+
+  @After
+  public void validateUndirectedEdges() {
+    for (Integer node : undirectedGraph.nodes()) {
+      new EqualsTester()
+          .addEqualityGroup(undirectedGraph.inEdges(node), undirectedGraph.outEdges(node),
+              undirectedGraph.incidentEdges(node))
+          .testEquals();
+      new EqualsTester()
+          .addEqualityGroup(undirectedGraph.predecessors(node), undirectedGraph.successors(node),
+              undirectedGraph.adjacentNodes(node))
+          .testEquals();
+
+      for (Integer adjacentNode : undirectedGraph.adjacentNodes(node)) {
+        assertThat(undirectedGraph.edgesConnecting(node, adjacentNode))
+            .containsExactlyElementsIn(undirectedGraph.edgesConnecting(adjacentNode, node));
+      }
+    }
   }
 
   @Test
