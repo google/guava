@@ -99,8 +99,9 @@
 </dl>
 <hr>
 <br>
-<pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/Range.html#line.115">Range</a>&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;
+<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
+<a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
+public final class <a href="../../../../src-html/com/google/common/collect/Range.html#line.117">Range</a>&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;C&gt;, <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
 <div class="block">A range (or "interval") defines the <i>boundaries</i> around a contiguous span of values of some
@@ -444,7 +445,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>open</h4>
-<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.157">open</a>(C&nbsp;lower,
+<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.159">open</a>(C&nbsp;lower,
                                       C&nbsp;upper)</pre>
 <div class="block">Returns a range that contains all values strictly greater than <code>lower</code> and strictly less than <code>upper</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -461,7 +462,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>closed</h4>
-<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.169">closed</a>(C&nbsp;lower,
+<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.171">closed</a>(C&nbsp;lower,
                                         C&nbsp;upper)</pre>
 <div class="block">Returns a range that contains all values greater than or equal to
  <code>lower</code> and less than or equal to <code>upper</code>.</div>
@@ -478,7 +479,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>closedOpen</h4>
-<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.181">closedOpen</a>(C&nbsp;lower,
+<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.183">closedOpen</a>(C&nbsp;lower,
                                             C&nbsp;upper)</pre>
 <div class="block">Returns a range that contains all values greater than or equal to
  <code>lower</code> and strictly less than <code>upper</code>.</div>
@@ -495,7 +496,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>openClosed</h4>
-<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.193">openClosed</a>(C&nbsp;lower,
+<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.195">openClosed</a>(C&nbsp;lower,
                                             C&nbsp;upper)</pre>
 <div class="block">Returns a range that contains all values strictly greater than <code>lower</code> and less than or equal to <code>upper</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -511,7 +512,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>range</h4>
-<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.206">range</a>(C&nbsp;lower,
+<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.208">range</a>(C&nbsp;lower,
                                        <a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerType,
                                        C&nbsp;upper,
                                        <a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;upperType)</pre>
@@ -530,7 +531,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>lessThan</h4>
-<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.224">lessThan</a>(C&nbsp;endpoint)</pre>
+<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.226">lessThan</a>(C&nbsp;endpoint)</pre>
 <div class="block">Returns a range that contains all values strictly less than <code>endpoint</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>14.0</dd></dl>
@@ -544,7 +545,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>atMost</h4>
-<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.234">atMost</a>(C&nbsp;endpoint)</pre>
+<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.236">atMost</a>(C&nbsp;endpoint)</pre>
 <div class="block">Returns a range that contains all values less than or equal to
  <code>endpoint</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -559,7 +560,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>upTo</h4>
-<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.244">upTo</a>(C&nbsp;endpoint,
+<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.246">upTo</a>(C&nbsp;endpoint,
                                       <a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block">Returns a range with no lower bound up to the given endpoint, which may be
  either inclusive (closed) or exclusive (open).</div>
@@ -575,7 +576,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>greaterThan</h4>
-<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.261">greaterThan</a>(C&nbsp;endpoint)</pre>
+<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.263">greaterThan</a>(C&nbsp;endpoint)</pre>
 <div class="block">Returns a range that contains all values strictly greater than <code>endpoint</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>14.0</dd></dl>
@@ -589,7 +590,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>atLeast</h4>
-<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.271">atLeast</a>(C&nbsp;endpoint)</pre>
+<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.273">atLeast</a>(C&nbsp;endpoint)</pre>
 <div class="block">Returns a range that contains all values greater than or equal to
  <code>endpoint</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -604,7 +605,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>downTo</h4>
-<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.281">downTo</a>(C&nbsp;endpoint,
+<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.283">downTo</a>(C&nbsp;endpoint,
                                         <a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block">Returns a range from the given endpoint, which may be either inclusive
  (closed) or exclusive (open), with no upper bound.</div>
@@ -618,7 +619,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>all</h4>
-<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.301">all</a>()</pre>
+<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.303">all</a>()</pre>
 <div class="block">Returns a range that contains every value of type <code>C</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>14.0</dd></dl>
@@ -632,7 +633,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>singleton</h4>
-<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.312">singleton</a>(C&nbsp;value)</pre>
+<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.314">singleton</a>(C&nbsp;value)</pre>
 <div class="block">Returns a range that <a href="../../../../com/google/common/collect/Range.html#contains(C)">contains</a> only
  the given value. The returned range is <a href="../../../../com/google/common/collect/BoundType.html#CLOSED">closed</a>
  on both ends.</div>
@@ -646,7 +647,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>encloseAll</h4>
-<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.327">encloseAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;C&gt;&nbsp;values)</pre>
+<pre>public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;&gt;&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.329">encloseAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;C&gt;&nbsp;values)</pre>
 <div class="block">Returns the minimal range that
  <a href="../../../../com/google/common/collect/Range.html#contains(C)">contains</a> all of the given values.
  The returned range is <a href="../../../../com/google/common/collect/BoundType.html#CLOSED">closed</a> on both ends.</div>
@@ -664,7 +665,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>hasLowerBound</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.359">hasLowerBound</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.361">hasLowerBound</a>()</pre>
 <div class="block">Returns <code>true</code> if this range has a lower endpoint.</div>
 </li>
 </ul>
@@ -674,7 +675,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>lowerEndpoint</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.369">lowerEndpoint</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.371">lowerEndpoint</a>()</pre>
 <div class="block">Returns the lower endpoint of this range.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if this range is unbounded below (that is, <a href="../../../../com/google/common/collect/Range.html#hasLowerBound()"><code>hasLowerBound()</code></a> returns <code>false</code>)</dd></dl>
@@ -686,7 +687,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>lowerBoundType</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.380">lowerBoundType</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.382">lowerBoundType</a>()</pre>
 <div class="block">Returns the type of this range's lower bound: <a href="../../../../com/google/common/collect/BoundType.html#CLOSED"><code>BoundType.CLOSED</code></a> if the range includes
  its lower endpoint, <a href="../../../../com/google/common/collect/BoundType.html#OPEN"><code>BoundType.OPEN</code></a> if it does not.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -699,7 +700,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>hasUpperBound</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.387">hasUpperBound</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.389">hasUpperBound</a>()</pre>
 <div class="block">Returns <code>true</code> if this range has an upper endpoint.</div>
 </li>
 </ul>
@@ -709,7 +710,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>upperEndpoint</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.397">upperEndpoint</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.399">upperEndpoint</a>()</pre>
 <div class="block">Returns the upper endpoint of this range.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if this range is unbounded above (that is, <a href="../../../../com/google/common/collect/Range.html#hasUpperBound()"><code>hasUpperBound()</code></a> returns <code>false</code>)</dd></dl>
@@ -721,7 +722,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>upperBoundType</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.408">upperBoundType</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.410">upperBoundType</a>()</pre>
 <div class="block">Returns the type of this range's upper bound: <a href="../../../../com/google/common/collect/BoundType.html#CLOSED"><code>BoundType.CLOSED</code></a> if the range includes
  its upper endpoint, <a href="../../../../com/google/common/collect/BoundType.html#OPEN"><code>BoundType.OPEN</code></a> if it does not.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -734,7 +735,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.421">isEmpty</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.423">isEmpty</a>()</pre>
 <div class="block">Returns <code>true</code> if this range is of the form <code>[v..v)</code> or <code>(v..v]</code>. (This does
  not encompass ranges of the form <code>(v..v)</code>, because such ranges are <i>invalid</i> and
  can't be constructed at all.)
@@ -752,7 +753,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.430">contains</a>(<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&nbsp;value)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.432">contains</a>(<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&nbsp;value)</pre>
 <div class="block">Returns <code>true</code> if <code>value</code> is within the bounds of this range. For example, on the
  range <code>[0..2)</code>, <code>contains(1)</code> returns <code>true</code>, while <code>contains(2)</code>
  returns <code>false</code>.</div>
@@ -767,7 +768,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <li class="blockList">
 <h4>apply</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.442">apply</a>(<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&nbsp;input)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.444">apply</a>(<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&nbsp;input)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Provided only to satisfy the <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> interface; use <a href="../../../../com/google/common/collect/Range.html#contains(C)"><code>contains(C)</code></a>
      instead.</i></div>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/base/Predicate.html#apply(T)">Predicate</a></code></strong></div>
@@ -792,7 +793,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>containsAll</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.450">containsAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;values)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.452">containsAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;values)</pre>
 <div class="block">Returns <code>true</code> if every element in <code>values</code> is <a href="../../../../com/google/common/collect/Range.html#contains(C)">contained</a> in
  this range.</div>
 </li>
@@ -803,7 +804,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>encloses</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.496">encloses</a>(<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;other)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.498">encloses</a>(<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns <code>true</code> if the bounds of <code>other</code> do not extend outside the bounds of this
  range. Examples:
 
@@ -834,7 +835,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>isConnected</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.525">isConnected</a>(<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;other)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.527">isConnected</a>(<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns <code>true</code> if there exists a (possibly empty) range which is <a href="../../../../com/google/common/collect/Range.html#encloses(com.google.common.collect.Range)">enclosed</a> by both this range and <code>other</code>.
 
  <p>For example,
@@ -862,7 +863,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>intersection</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.546">intersection</a>(<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;connectedRange)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.548">intersection</a>(<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;connectedRange)</pre>
 <div class="block">Returns the maximal range <a href="../../../../com/google/common/collect/Range.html#encloses(com.google.common.collect.Range)">enclosed</a> by both this range and <code>connectedRange</code>, if such a range exists.
 
  <p>For example, the intersection of <code>[1..5]</code> and <code>(3..7)</code> is <code>(3..5]</code>. The
@@ -883,7 +884,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>span</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.571">span</a>(<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;other)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.573">span</a>(<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;other)</pre>
 <div class="block">Returns the minimal range that <a href="../../../../com/google/common/collect/Range.html#encloses(com.google.common.collect.Range)">encloses</a> both this range and <code>other</code>. For example, the span of <code>[1..3]</code> and <code>(5..7)</code> is <code>[1..7)</code>.
 
  <p><i>If</i> the input ranges are <a href="../../../../com/google/common/collect/Range.html#isConnected(com.google.common.collect.Range)">connected</a>, the returned range can
@@ -900,7 +901,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>canonical</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.609">canonical</a>(<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;domain)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.611">canonical</a>(<a href="../../../../com/google/common/collect/DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;<a href="../../../../com/google/common/collect/Range.html" title="type parameter in Range">C</a>&gt;&nbsp;domain)</pre>
 <div class="block">Returns the canonical form of this range in the given domain. The canonical form has the
  following properties:
 
@@ -931,7 +932,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.624">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.626">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> if <code>object</code> is a range having the same endpoints and bound types as
  this range. Note that discrete ranges such as <code>(1..4)</code> and <code>[2..3]</code> are <b>not</b>
@@ -952,7 +953,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.634">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.636">hashCode</a>()</pre>
 <div class="block">Returns a hash code for this range.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -966,7 +967,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.643">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Range.html#line.645">toString</a>()</pre>
 <div class="block">Returns a string representation of this range, such as <code>"[3..5)"</code> (other examples are
  listed in the class documentation).</div>
 <dl>
