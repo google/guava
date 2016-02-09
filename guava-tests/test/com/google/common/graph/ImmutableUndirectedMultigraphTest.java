@@ -52,6 +52,7 @@ public class ImmutableUndirectedMultigraphTest extends ImmutableUndirectedGraphT
   }
 
   @Override
+  @Test
   public void addEdge_parallelEdge() {
     assertTrue(addEdge(E12, N1, N2));
     assertTrue(addEdge(E12_A, N1, N2));
@@ -60,6 +61,7 @@ public class ImmutableUndirectedMultigraphTest extends ImmutableUndirectedGraphT
   }
 
   @Override
+  @Test
   public void addEdge_parallelSelfLoopEdge() {
     assertTrue(addEdge(E11, N1, N1));
     assertTrue(addEdge(E11_A, N1, N1));

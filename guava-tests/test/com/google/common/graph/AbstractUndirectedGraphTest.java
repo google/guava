@@ -27,8 +27,7 @@ import com.google.common.collect.ImmutableSet;
 import org.junit.Test;
 
 /**
- * Abstract base class for testing mutable implementations of
- * {@link UndirectedGraph} interface.
+ * Abstract base class for testing implementations of {@link UndirectedGraph} interface.
  *
  * <p>This class is responsible for testing that an implementation of the interface
  * {@code UndirectedGraph} is correctly handling undirected edges.

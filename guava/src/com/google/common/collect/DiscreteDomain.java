@@ -18,10 +18,13 @@ package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.NoSuchElementException;
+
+import javax.annotation.CheckReturnValue;
 
 /**
  * A descriptor for a <i>discrete</i> {@code Comparable} domain such as all
@@ -41,6 +44,7 @@ import java.util.NoSuchElementException;
  * @author Kevin Bourrillion
  * @since 10.0
  */
+@CheckReturnValue
 @GwtCompatible
 @Beta
 public abstract class DiscreteDomain<C extends Comparable> {
@@ -254,6 +258,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
    * @throws NoSuchElementException if the type has no (practical) minimum
    *     value; for example, {@link java.math.BigInteger}
    */
+  @CanIgnoreReturnValue
   public C minValue() {
     throw new NoSuchElementException();
   }
@@ -269,6 +274,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
    * @throws NoSuchElementException if the type has no (practical) maximum
    *     value; for example, {@link java.math.BigInteger}
    */
+  @CanIgnoreReturnValue
   public C maxValue() {
     throw new NoSuchElementException();
   }

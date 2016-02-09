@@ -21,8 +21,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Iterator;
@@ -50,7 +52,6 @@ public final class Graphs {
    * @throws IllegalArgumentException if {@code edge} is not incident to {@code node}
    * @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}
    */
-  @SuppressWarnings("unchecked")
   public static <N> N oppositeNode(Graph<N, ?> graph, Object edge, Object node) {
     checkNotNull(graph, "graph");
     checkNotNull(edge, "edge");
@@ -81,24 +82,20 @@ public final class Graphs {
   @CanIgnoreReturnValue
   public static <N, E> boolean addEdge(Graph<N, E> graph, E edge, Iterable<N> nodes) {
     checkNotNull(graph, "graph");
-    checkNotNull(nodes, "nodes");
     checkNotNull(edge, "edge");
+    checkNotNull(nodes, "nodes");
     if (graph instanceof Hypergraph) {
       return ((Hypergraph<N, E>) graph).addEdge(edge, nodes);
     }
 
-    Iterator<N> it = nodes.iterator();
-    checkArgument(
-        it.hasNext(), "'graph' is not a Hypergraph, and 'nodes' has < 1 elements: %s", nodes);
-    N n1 = it.next();
-    if (it.hasNext()) {
-      N n2 = it.next();
-      checkArgument(
-          !it.hasNext(), "'graph' is not a Hypergraph, and 'nodes' has > 2 elements: %s", nodes);
-      return graph.addEdge(edge, n1, n2);
-    } else {
-      return graph.addEdge(edge, n1, n1);
-    }
+    Iterator<N> nodesIterator = nodes.iterator();
+    checkArgument(nodesIterator.hasNext(),
+        "'graph' is not a Hypergraph, and 'nodes' has < 1 elements: %s", nodes);
+    N node1 = nodesIterator.next();
+    N node2 = nodesIterator.hasNext() ? nodesIterator.next() : node1;
+    checkArgument(!nodesIterator.hasNext(),
+        "'graph' is not a Hypergraph, and 'nodes' has > 2 elements: %s", nodes);
+    return graph.addEdge(edge, node1, node2);
   }
 
   /**
@@ -365,27 +362,28 @@ public final class Graphs {
   }
 
   /**
-   * Returns true iff {@code g1} and {@code g2} have the same node and edge sets and each edge
-   * has the same source and target in both graphs.
+   * Returns true iff {@code graph1} and {@code graph2} have the same node and edge sets and
+   * each edge has the same source and target in both graphs.
    *
    * @see Graph#equals(Object)
    */
   public static <N, E> boolean equal(
-      @Nullable DirectedGraph<?, ?> g1, @Nullable DirectedGraph<?, ?> g2) {
-    if (g1 == g2) {
+      @Nullable DirectedGraph<?, ?> graph1, @Nullable DirectedGraph<?, ?> graph2) {
+    if (graph1 == graph2) {
       return true;
     }
 
-    if (g1 == null || g2 == null) {
+    if (graph1 == null || graph2 == null) {
       return false;
     }
 
-    if (!g1.nodes().equals(g2.nodes()) || !g1.edges().equals(g2.edges())) {
+    if (!graph1.nodes().equals(graph2.nodes()) || !graph1.edges().equals(graph2.edges())) {
       return false;
     }
 
-    for (Object e : g1.edges()) {
-      if (!g1.source(e).equals(g2.source(e)) || !g1.target(e).equals(g2.target(e))) {
+    for (Object edge : graph1.edges()) {
+      if (!graph1.source(edge).equals(graph2.source(edge))
+          || !graph1.target(edge).equals(graph2.target(edge))) {
         return false;
       }
     }
@@ -393,30 +391,62 @@ public final class Graphs {
   }
 
   /**
-   * Returns true iff {@code g1} and {@code g2} have the same node and edge sets and each edge
-   * has the same incident node set in both graphs.
+   * Returns true iff {@code graph1} and {@code graph2} have the same node and edge sets and
+   * each edge has the same incident node set in both graphs.
    *
    * @see Graph#equals(Object)
    */
-  public static boolean equal(@Nullable Graph<?, ?> g1, @Nullable Graph<?, ?> g2) {
-    if (g1 == g2) {
+  public static boolean equal(@Nullable Graph<?, ?> graph1, @Nullable Graph<?, ?> graph2) {
+    if (graph1 == graph2) {
       return true;
     }
 
-    if (g1 == null || g2 == null) {
+    if (graph1 == null || graph2 == null) {
       return false;
     }
 
-    if (!g1.nodes().equals(g2.nodes()) || !g1.edges().equals(g2.edges())) {
+    if (!graph1.nodes().equals(graph2.nodes()) || !graph1.edges().equals(graph2.edges())) {
       return false;
     }
 
-    for (Object e : g1.edges()) {
-      if (!g1.incidentNodes(e).equals(g2.incidentNodes(e))) {
+    for (Object edge : graph1.edges()) {
+      if (!graph1.incidentNodes(edge).equals(graph2.incidentNodes(edge))) {
         return false;
       }
     }
     return true;
+  }
+
+  /**
+   * Returns a string representation of {@code graph}, encoding the direction of each edge.
+   */
+  public static String toString(final DirectedGraph<?, ?> graph) {
+    Function<Object, String> edgeToEndpoints = new Function<Object, String>() {
+      @Override
+      public String apply(Object edge) {
+        return String.format("<%s -> %s>", graph.source(edge), graph.target(edge));
+      }
+    };
+    return String.format("config: %s, nodes: %s, edges: %s",
+        graph.config(),
+        graph.nodes(),
+        Maps.asMap(graph.edges(), edgeToEndpoints));
+  }
+
+  /**
+   * Returns a string representation of {@code graph}, without regard to direction of edges.
+   */
+  public static String toString(final Graph<?, ?> graph) {
+    Function<Object, String> edgeToIncidentNodes = new Function<Object, String>() {
+      @Override
+      public String apply(Object edge) {
+        return graph.incidentNodes(edge).toString();
+      }
+    };
+    return String.format("config: %s, nodes: %s, edges: %s",
+        graph.config(),
+        graph.nodes(),
+        Maps.asMap(graph.edges(), edgeToIncidentNodes));
   }
 
   /**

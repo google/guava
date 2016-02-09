@@ -17,6 +17,9 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
+import java.util.Set;
 
 /**
  * A subinterface of {@code Graph} for graphs whose edges are all directed.
@@ -41,4 +44,33 @@ public interface DirectedGraph<N, E> extends Graph<N, E> {
    * @throws IllegalArgumentException if {@code edge} is not an element of this graph
    */
   N target(Object edge);
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>If {@code edge} is not a self-loop, the iteration order will be
+   * {@code [source(edge), target(edge)]}.
+   *
+   */
+  @Override
+  Set<N> incidentNodes(Object edge);
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The {@linkplain #source(Object) source} and {@linkplain #target(Object) target}
+   * of the edges returned must be {@code source} and {@code target}, respectively.
+   *
+   */
+  @Override
+  Set<E> edgesConnecting(Object source, Object target);
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>{@code edge} is an outgoing edge of {@code source} and an incoming edge of {@code target}.
+   */
+  @Override
+  @CanIgnoreReturnValue
+  boolean addEdge(E edge, N source, N target);
 }

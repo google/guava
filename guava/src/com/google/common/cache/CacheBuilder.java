@@ -273,6 +273,8 @@ public final class CacheBuilder<K, V> {
 
   /**
    * Enables lenient parsing. Useful for tests and spec parsing.
+   *
+   * @return this {@code CacheBuilder} instance (for chaining)
    */
   @GwtIncompatible // To be supported
   CacheBuilder<K, V> lenientParsing() {
@@ -285,6 +287,8 @@ public final class CacheBuilder<K, V> {
    *
    * <p>By default, the cache uses {@link Equivalence#identity} to determine key equality when
    * {@link #weakKeys} is specified, and {@link Equivalence#equals()} otherwise.
+   *
+   * @return this {@code CacheBuilder} instance (for chaining)
    */
   @GwtIncompatible // To be supported
   CacheBuilder<K, V> keyEquivalence(Equivalence<Object> equivalence) {
@@ -303,6 +307,8 @@ public final class CacheBuilder<K, V> {
    * <p>By default, the cache uses {@link Equivalence#identity} to determine value equality when
    * {@link #weakValues} or {@link #softValues} is specified, and {@link Equivalence#equals()}
    * otherwise.
+   *
+   * @return this {@code CacheBuilder} instance (for chaining)
    */
   @GwtIncompatible // To be supported
   CacheBuilder<K, V> valueEquivalence(Equivalence<Object> equivalence) {
@@ -323,6 +329,7 @@ public final class CacheBuilder<K, V> {
    * avoids the need for expensive resizing operations later, but setting this value unnecessarily
    * high wastes memory.
    *
+   * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code initialCapacity} is negative
    * @throws IllegalStateException if an initial capacity was already set
    */
@@ -365,6 +372,7 @@ public final class CacheBuilder<K, V> {
    * <p>Note that future implementations may abandon segment locking in favor of more advanced
    * concurrency controls.
    *
+   * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code concurrencyLevel} is nonpositive
    * @throws IllegalStateException if a concurrency level was already set
    */
@@ -392,6 +400,7 @@ public final class CacheBuilder<K, V> {
    * <p>This feature cannot be used in conjunction with {@link #maximumWeight}.
    *
    * @param size the maximum size of the cache
+   * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size or weight was already set
    */
@@ -426,6 +435,7 @@ public final class CacheBuilder<K, V> {
    * <p>This feature cannot be used in conjunction with {@link #maximumSize}.
    *
    * @param weight the maximum total weight of entries the cache may contain
+   * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code weight} is negative
    * @throws IllegalStateException if a maximum weight or size was already set
    * @since 11.0
@@ -465,6 +475,7 @@ public final class CacheBuilder<K, V> {
    * a {@link ClassCastException} at some <i>undefined</i> point in the future.
    *
    * @param weigher the weigher to use in calculating the weight of cache entries
+   * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
    * @since 11.0
@@ -509,6 +520,7 @@ public final class CacheBuilder<K, V> {
    * but will never be visible to read or write operations; such entries are cleaned up as part of
    * the routine maintenance described in the class javadoc.
    *
+   * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalStateException if the key strength was already set
    */
   @GwtIncompatible // java.lang.ref.WeakReference
@@ -540,6 +552,7 @@ public final class CacheBuilder<K, V> {
    * but will never be visible to read or write operations; such entries are cleaned up as part of
    * the routine maintenance described in the class javadoc.
    *
+   * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalStateException if the value strength was already set
    */
   @GwtIncompatible // java.lang.ref.WeakReference
@@ -564,6 +577,7 @@ public final class CacheBuilder<K, V> {
    * but will never be visible to read or write operations; such entries are cleaned up as part of
    * the routine maintenance described in the class javadoc.
    *
+   * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalStateException if the value strength was already set
    */
   @GwtIncompatible // java.lang.ref.SoftReference
@@ -597,6 +611,7 @@ public final class CacheBuilder<K, V> {
    * @param duration the length of time after an entry is created that it should be automatically
    *     removed
    * @param unit the unit that {@code duration} is expressed in
+   * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to live or time to idle was already set
    */
@@ -631,6 +646,7 @@ public final class CacheBuilder<K, V> {
    * @param duration the length of time after an entry is last accessed that it should be
    *     automatically removed
    * @param unit the unit that {@code duration} is expressed in
+   * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to idle or time to live was already set
    */
@@ -668,6 +684,7 @@ public final class CacheBuilder<K, V> {
    * @param duration the length of time after an entry is created that it should be considered
    *     stale, and thus eligible for refresh
    * @param unit the unit that {@code duration} is expressed in
+   * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the refresh interval was already set
    * @since 11.0
@@ -692,6 +709,7 @@ public final class CacheBuilder<K, V> {
    * <p>The primary intent of this method is to facilitate testing of caches with a fake or mock
    * time source.
    *
+   * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalStateException if a ticker was already set
    */
   public CacheBuilder<K, V> ticker(Ticker ticker) {
@@ -726,6 +744,7 @@ public final class CacheBuilder<K, V> {
    *
    * @return the cache builder reference that should be used instead of {@code this} for any
    *     remaining configuration and cache building
+   * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalStateException if a removal listener was already set
    */
   @CheckReturnValue
@@ -753,6 +772,7 @@ public final class CacheBuilder<K, V> {
    * bookkeeping to be performed with each operation, and thus imposes a performance penalty on
    * cache operation.
    *
+   * @return this {@code CacheBuilder} instance (for chaining)
    * @since 12.0 (previously, stats collection was automatic)
    */
   public CacheBuilder<K, V> recordStats() {

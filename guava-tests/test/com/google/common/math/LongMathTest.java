@@ -119,7 +119,7 @@ public class LongMathTest extends TestCase {
   public void testConstantsBiggestSimpleBinomials() {
     for (int k = 0; k < LongMath.biggestSimpleBinomials.length; k++) {
       assertTrue(LongMath.biggestSimpleBinomials[k] <= LongMath.biggestBinomials[k]);
-      simpleBinomial(LongMath.biggestSimpleBinomials[k], k); // mustn't throw
+      long unused = simpleBinomial(LongMath.biggestSimpleBinomials[k], k); // mustn't throw
       if (LongMath.biggestSimpleBinomials[k] < Integer.MAX_VALUE) {
         // unless all n are fair game with this k
         try {
