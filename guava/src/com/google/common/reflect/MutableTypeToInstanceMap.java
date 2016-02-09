@@ -25,6 +25,7 @@ import com.google.common.collect.ForwardingMapEntry;
 import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -53,6 +54,7 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
 
   @Nullable
   @Override
+  @CanIgnoreReturnValue
   public <T extends B> T putInstance(Class<T> type, @Nullable T value) {
     return trustedPut(TypeToken.of(type), value);
   }
@@ -65,16 +67,30 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
 
   @Nullable
   @Override
+  @CanIgnoreReturnValue
   public <T extends B> T putInstance(TypeToken<T> type, @Nullable T value) {
     return trustedPut(type.rejectTypeVariables(), value);
   }
 
-  /** Not supported. Use {@link #putInstance} instead. */
+  /**
+   * Not supported. Use {@link #putInstance} instead.
+   *
+   * @deprecated unsupported operation
+   * @throws UnsupportedOperationException always
+   */
+  @CanIgnoreReturnValue
+  @Deprecated
   @Override public B put(TypeToken<? extends B> key, B value) {
     throw new UnsupportedOperationException("Please use putInstance() instead.");
   }
 
-  /** Not supported. Use {@link #putInstance} instead. */
+  /**
+   * Not supported. Use {@link #putInstance} instead.
+   *
+   * @deprecated unsupported operation
+   * @throws UnsupportedOperationException always
+   */
+  @Deprecated
   @Override public void putAll(Map<? extends TypeToken<? extends B>, ? extends B> map) {
     throw new UnsupportedOperationException("Please use putInstance() instead.");
   }

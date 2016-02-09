@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
@@ -97,6 +98,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
    */
   // All subclasses are owned by us and we'll make sure to get the R type right.
   @SuppressWarnings("unchecked")
+  @CanIgnoreReturnValue
   public final R invoke(@Nullable T receiver, Object... args)
       throws InvocationTargetException, IllegalAccessException {
     return (R) invokeInternal(receiver, checkNotNull(args));

@@ -32,6 +32,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Primitives;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -777,6 +778,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    * Ensures that this type token doesn't contain type variables, which can cause unchecked type
    * errors for callers like {@link TypeToInstanceMap}.
    */
+  @CanIgnoreReturnValue
   final TypeToken<T> rejectTypeVariables() {
     new TypeVisitor() {
       @Override void visitTypeVariable(TypeVariable<?> type) {
@@ -1140,6 +1142,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     }
 
     /** Collects all types to map, and returns the total depth from T up to Object. */
+    @CanIgnoreReturnValue
     private int collectTypes(K type, Map<? super K, Integer> map) {
       Integer existing = map.get(type);
       if (existing != null) {

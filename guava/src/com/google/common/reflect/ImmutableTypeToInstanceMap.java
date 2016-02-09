@@ -19,6 +19,7 @@ package com.google.common.reflect;
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Map;
 
@@ -70,6 +71,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
      * Associates {@code key} with {@code value} in the built map. Duplicate
      * keys are not allowed, and will cause {@link #build} to fail.
      */
+    @CanIgnoreReturnValue
     public <T extends B> Builder<B> put(Class<T> key, T value) {
       mapBuilder.put(TypeToken.of(key), value);
       return this;
@@ -79,6 +81,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
      * Associates {@code key} with {@code value} in the built map. Duplicate
      * keys are not allowed, and will cause {@link #build} to fail.
      */
+    @CanIgnoreReturnValue
     public <T extends B> Builder<B> put(TypeToken<T> key, T value) {
       mapBuilder.put(key.rejectTypeVariables(), value);
       return this;
@@ -108,8 +111,11 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   /**
    * Guaranteed to throw an exception and leave the map unmodified.
    *
+   * @deprecated unsupported operation
    * @throws UnsupportedOperationException always
    */
+  @CanIgnoreReturnValue
+  @Deprecated
   @Override public <T extends B> T putInstance(TypeToken<T> type, T value) {
     throw new UnsupportedOperationException();
   }
@@ -121,9 +127,35 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   /**
    * Guaranteed to throw an exception and leave the map unmodified.
    *
+   * @deprecated unsupported operation
    * @throws UnsupportedOperationException always
    */
+  @CanIgnoreReturnValue
+  @Deprecated
   @Override public <T extends B> T putInstance(Class<T> type, T value) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the map unmodified.
+   *
+   * @deprecated unsupported operation
+   * @throws UnsupportedOperationException always
+   */
+  @CanIgnoreReturnValue
+  @Deprecated
+  @Override public B put(TypeToken<? extends B> key, B value) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the map unmodified.
+   *
+   * @deprecated unsupported operation
+   * @throws UnsupportedOperationException always
+   */
+  @Deprecated
+  @Override public void putAll(Map<? extends TypeToken<? extends B>, ? extends B> map) {
     throw new UnsupportedOperationException();
   }
 

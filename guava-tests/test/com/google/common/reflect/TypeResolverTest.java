@@ -238,11 +238,12 @@ public class TypeResolverTest extends TestCase {
   public <T> void testWhere_mapFromBoundedWildcard() {
     Type subType = new TypeCapture<TypedKeyMap<T>>() {}.capture();
     // TODO(benyu): This should check equality to an expected value, see discussion in cl/98674873
-    new TypeResolver()
-        .where(
-            new TypeCapture<Map<Integer, T>>() {}.capture(),
-            new TypeCapture<Map<? extends Number, ? extends Number>>() {}.capture())
-        .resolveType(subType);
+    Type unused =
+        new TypeResolver()
+            .where(
+                new TypeCapture<Map<Integer, T>>() {}.capture(),
+                new TypeCapture<Map<? extends Number, ? extends Number>>() {}.capture())
+            .resolveType(subType);
   }
 
   interface TypedKeyMap<T> extends Map<Integer, T> {}

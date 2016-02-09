@@ -17,6 +17,7 @@
 package com.google.common.reflect;
 
 import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Map;
 
@@ -70,6 +71,7 @@ public interface TypeToInstanceMap<B> extends Map<TypeToken<? extends B>, B>  {
    *         or {@code null} if there was no previous entry.
    */
   @Nullable
+  @CanIgnoreReturnValue
   <T extends B> T putInstance(Class<T> type, @Nullable T value);
 
   /**
@@ -88,5 +90,6 @@ public interface TypeToInstanceMap<B> extends Map<TypeToken<? extends B>, B>  {
    *         or {@code null} if there was no previous entry.
    */
   @Nullable
+  @CanIgnoreReturnValue
   <T extends B> T putInstance(TypeToken<T> type, @Nullable T value);
 }
