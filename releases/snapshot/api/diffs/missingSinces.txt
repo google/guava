@@ -36,6 +36,8 @@ NO DOC BLOCK: com.google.common.collect.TreeRangeSet Method intersects(com.googl
 OK: com.google.common.collect.FluentIterable Method of(E, E[])
 OK: com.google.common.collect.FluentIterable Method of(E[])
 OK: com.google.common.collect.FluentIterable Method of()
+MISSING @SINCE TAG: com.google.common.reflect.ImmutableTypeToInstanceMap Method put(com.google.common.reflect.TypeToken<? extends B>, B)
+MISSING @SINCE TAG: com.google.common.reflect.ImmutableTypeToInstanceMap Method putAll(java.util.Map<? extends com.google.common.reflect.TypeToken<? extends B>, ? extends B>)
 OK: com.google.common.math.IntMath Method saturatedAdd(int, int)
 OK: com.google.common.math.LongMath Method saturatedAdd(long, long)
 OK: com.google.common.math.IntMath Method saturatedMultiply(int, int)

@@ -98,7 +98,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public interface <a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.48">TypeToInstanceMap</a>&lt;B&gt;
+public interface <a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.49">TypeToInstanceMap</a>&lt;B&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends B&gt;,B&gt;</pre>
 <div class="block">A map, each entry of which maps a <a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect"><code>TypeToken</code></a> to an instance of that type.
  In addition to implementing <code>Map</code>, the additional type-safe operations
@@ -208,7 +208,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-
 <li class="blockList">
 <h4>getInstance</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.60">getInstance</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type)</pre>
+&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.61">getInstance</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no
  entry for this class is present. This will only return a value that was
  bound to this specific class, not a value that may have been bound to a
@@ -227,7 +227,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-
 <li class="blockList">
 <h4>putInstance</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.73">putInstance</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type,
+&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.75">putInstance</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type,
                                    <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                    T&nbsp;value)</pre>
 <div class="block">Maps the specified class to the specified value. Does <i>not</i> associate
@@ -246,7 +246,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-
 <li class="blockList">
 <h4>getInstance</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.81">getInstance</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</pre>
+&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.83">getInstance</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Returns the value the specified type is mapped to, or <code>null</code> if no
  entry for this type is present. This will only return a value that was
  bound to this specific type, not a value that may have been bound to a subtype.</div>
@@ -261,7 +261,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-
 <li class="blockList">
 <h4>putInstance</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.91">putInstance</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
+&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.94">putInstance</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
                                    <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                    T&nbsp;value)</pre>
 <div class="block">Maps the specified type to the specified value. Does <i>not</i> associate
