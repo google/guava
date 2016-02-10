@@ -126,7 +126,7 @@
 <span class="sourceLineNo">118</span><a name="line.118"></a>
 <span class="sourceLineNo">119</span>  @Override<a name="line.119"></a>
 <span class="sourceLineNo">120</span>  public Set&lt;E&gt; incidentEdges(Object node) {<a name="line.120"></a>
-<span class="sourceLineNo">121</span>    return Sets.union(inEdges(node), outEdges(node));<a name="line.121"></a>
+<span class="sourceLineNo">121</span>    return checkedConnections(node).incidentEdges();<a name="line.121"></a>
 <span class="sourceLineNo">122</span>  }<a name="line.122"></a>
 <span class="sourceLineNo">123</span><a name="line.123"></a>
 <span class="sourceLineNo">124</span>  @Override<a name="line.124"></a>
@@ -136,7 +136,7 @@
 <span class="sourceLineNo">128</span><a name="line.128"></a>
 <span class="sourceLineNo">129</span>  @Override<a name="line.129"></a>
 <span class="sourceLineNo">130</span>  public Set&lt;N&gt; adjacentNodes(Object node) {<a name="line.130"></a>
-<span class="sourceLineNo">131</span>    return Sets.union(predecessors(node), successors(node));<a name="line.131"></a>
+<span class="sourceLineNo">131</span>    return checkedConnections(node).adjacentNodes();<a name="line.131"></a>
 <span class="sourceLineNo">132</span>  }<a name="line.132"></a>
 <span class="sourceLineNo">133</span><a name="line.133"></a>
 <span class="sourceLineNo">134</span>  @Override<a name="line.134"></a>
