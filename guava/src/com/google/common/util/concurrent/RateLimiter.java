@@ -28,6 +28,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.SmoothRateLimiter.SmoothBursty;
 import com.google.common.util.concurrent.SmoothRateLimiter.SmoothWarmingUp;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -261,6 +262,7 @@ public abstract class RateLimiter {
    * @return time spent sleeping to enforce rate, in seconds; 0.0 if not rate-limited
    * @since 16.0 (present in 13.0 with {@code void} return type})
    */
+  @CanIgnoreReturnValue
   public double acquire() {
     return acquire(1);
   }
@@ -274,6 +276,7 @@ public abstract class RateLimiter {
    * @throws IllegalArgumentException if the requested number of permits is negative or zero
    * @since 16.0 (present in 13.0 with {@code void} return type})
    */
+  @CanIgnoreReturnValue
   public double acquire(int permits) {
     long microsToWait = reserve(permits);
     stopwatch.sleepMicrosUninterruptibly(microsToWait);
@@ -435,8 +438,7 @@ public abstract class RateLimiter {
     }
   }
 
-  private static int checkPermits(int permits) {
+  private static void checkPermits(int permits) {
     checkArgument(permits > 0, "Requested permits (%s) must be positive", permits);
-    return permits;
   }
 }

@@ -354,27 +354,35 @@ public class AbstractScheduledServiceTest extends TestCase {
 
     public void testFixedRateSchedule() {
       Scheduler schedule = Scheduler.newFixedRateSchedule(initialDelay, delay, unit);
-      schedule.schedule(null, new ScheduledThreadPoolExecutor(1) {
-        @Override
-        public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay,
-            long period, TimeUnit unit) {
-          assertSingleCallWithCorrectParameters(command, initialDelay, delay, unit);
-          return null;
-        }
-      }, testRunnable);
+      Future<?> unused =
+          schedule.schedule(
+              null,
+              new ScheduledThreadPoolExecutor(1) {
+                @Override
+                public ScheduledFuture<?> scheduleAtFixedRate(
+                    Runnable command, long initialDelay, long period, TimeUnit unit) {
+                  assertSingleCallWithCorrectParameters(command, initialDelay, delay, unit);
+                  return null;
+                }
+              },
+              testRunnable);
       assertTrue(called);
     }
 
     public void testFixedDelaySchedule() {
       Scheduler schedule = newFixedDelaySchedule(initialDelay, delay, unit);
-      schedule.schedule(null, new ScheduledThreadPoolExecutor(10) {
-        @Override
-        public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay,
-            long delay, TimeUnit unit) {
-          assertSingleCallWithCorrectParameters(command, initialDelay, delay, unit);
-          return null;
-        }
-      }, testRunnable);
+      Future<?> unused =
+          schedule.schedule(
+              null,
+              new ScheduledThreadPoolExecutor(10) {
+                @Override
+                public ScheduledFuture<?> scheduleWithFixedDelay(
+                    Runnable command, long initialDelay, long delay, TimeUnit unit) {
+                  assertSingleCallWithCorrectParameters(command, initialDelay, delay, unit);
+                  return null;
+                }
+              },
+              testRunnable);
       assertTrue(called);
     }
 

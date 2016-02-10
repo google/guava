@@ -28,6 +28,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MapMaker;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
 
 import java.util.ArrayList;
@@ -164,6 +165,7 @@ import javax.annotation.concurrent.ThreadSafe;
  * @since 13.0
  */
 @Beta
+@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @ThreadSafe
 @GwtIncompatible
 public class CycleDetectingLockFactory {

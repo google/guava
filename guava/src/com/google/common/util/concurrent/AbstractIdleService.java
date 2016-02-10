@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.concurrent.Executor;
@@ -150,6 +151,7 @@ public abstract class AbstractIdleService implements Service {
   /**
    * @since 15.0
    */
+  @CanIgnoreReturnValue
   @Override
   public final Service startAsync() {
     delegate.startAsync();
@@ -159,6 +161,7 @@ public abstract class AbstractIdleService implements Service {
   /**
    * @since 15.0
    */
+  @CanIgnoreReturnValue
   @Override
   public final Service stopAsync() {
     delegate.stopAsync();

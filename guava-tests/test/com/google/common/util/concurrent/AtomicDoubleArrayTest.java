@@ -67,10 +67,10 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
    * constructor with null array throws NPE
    */
   public void testConstructor2NPE() {
+    double[] a = null;
     try {
-      double[] a = null;
-      AtomicDoubleArray aa = new AtomicDoubleArray(a);
-      shouldThrow();
+      new AtomicDoubleArray(a);
+      fail();
     } catch (NullPointerException success) {}
   }
 
@@ -93,7 +93,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     assertEquals(0, aa.length());
     try {
       aa.get(0);
-      shouldThrow();
+      fail();
     } catch (IndexOutOfBoundsException success) {}
   }
 
@@ -105,7 +105,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     assertEquals(0, aa.length());
     try {
       aa.get(0);
-      shouldThrow();
+      fail();
     } catch (IndexOutOfBoundsException success) {}
   }
 
@@ -117,31 +117,31 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     for (int index : new int[] { -1, SIZE }) {
       try {
         aa.get(index);
-        shouldThrow();
+        fail();
       } catch (IndexOutOfBoundsException success) {}
       try {
         aa.set(index, 1.0);
-        shouldThrow();
+        fail();
       } catch (IndexOutOfBoundsException success) {}
       try {
         aa.lazySet(index, 1.0);
-        shouldThrow();
+        fail();
       } catch (IndexOutOfBoundsException success) {}
       try {
         aa.compareAndSet(index, 1.0, 2.0);
-        shouldThrow();
+        fail();
       } catch (IndexOutOfBoundsException success) {}
       try {
         aa.weakCompareAndSet(index, 1.0, 2.0);
-        shouldThrow();
+        fail();
       } catch (IndexOutOfBoundsException success) {}
       try {
         aa.getAndAdd(index, 1.0);
-        shouldThrow();
+        fail();
       } catch (IndexOutOfBoundsException success) {}
       try {
         aa.addAndGet(index, 1.0);
-        shouldThrow();
+        fail();
       } catch (IndexOutOfBoundsException success) {}
     }
   }

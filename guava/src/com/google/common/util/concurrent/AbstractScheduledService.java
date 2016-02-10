@@ -21,6 +21,7 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.concurrent.Callable;
@@ -302,6 +303,7 @@ public abstract class AbstractScheduledService implements Service {
    * Returns the {@link Scheduler} object used to configure this service. This method will only be
    * called once.
    */
+  // TODO(cpovirk): @ForOverride
   protected abstract Scheduler scheduler();
 
   /**
@@ -393,6 +395,7 @@ public abstract class AbstractScheduledService implements Service {
   /**
    * @since 15.0
    */
+  @CanIgnoreReturnValue
   @Override
   public final Service startAsync() {
     delegate.startAsync();
@@ -402,6 +405,7 @@ public abstract class AbstractScheduledService implements Service {
   /**
    * @since 15.0
    */
+  @CanIgnoreReturnValue
   @Override
   public final Service stopAsync() {
     delegate.stopAsync();
@@ -603,6 +607,7 @@ public abstract class AbstractScheduledService implements Service {
      *
      * @return a schedule that defines the delay before the next execution.
      */
+    // TODO(cpovirk): @ForOverride
     protected abstract Schedule getNextSchedule() throws Exception;
   }
 }

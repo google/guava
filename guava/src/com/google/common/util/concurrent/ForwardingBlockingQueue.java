@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ForwardingQueue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.concurrent.BlockingQueue;
@@ -32,6 +33,7 @@ import java.util.concurrent.TimeUnit;
  * @param <E> the type of elements held in this collection
  * @since 4.0
  */
+@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtIncompatible
 public abstract class ForwardingBlockingQueue<E> extends ForwardingQueue<E>
     implements BlockingQueue<E> {

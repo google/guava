@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import javax.annotation.Nullable;
 
@@ -41,15 +42,20 @@ public final class SettableFuture<V> extends AbstractFuture.TrustedFuture<V> {
     return new SettableFuture<V>();
   }
 
-  @Override public boolean set(@Nullable V value) {
+  @CanIgnoreReturnValue
+  @Override
+  public boolean set(@Nullable V value) {
     return super.set(value);
   }
 
-  @Override public boolean setException(Throwable throwable) {
+  @CanIgnoreReturnValue
+  @Override
+  public boolean setException(Throwable throwable) {
     return super.setException(throwable);
   }
 
   @Beta
+  @CanIgnoreReturnValue
   @Override
   public boolean setFuture(ListenableFuture<? extends V> future) {
     return super.setFuture(future);

@@ -18,6 +18,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.util.AbstractQueue;
 import java.util.Collection;
 import java.util.Comparator;
@@ -84,6 +86,7 @@ import javax.annotation.Nullable;
  * @author Justin T. Sampson
  * @param <E> the type of elements held in this collection
  */
+@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
     implements BlockingQueue<E> {
 

@@ -20,12 +20,15 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
+
+import javax.annotation.CheckReturnValue;
 
 /**
  * A ThreadFactory builder, providing any combination of these features:
@@ -45,6 +48,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Kurt Alfred Kluever
  * @since 4.0
  */
+@CanIgnoreReturnValue
 @GwtIncompatible
 public final class ThreadFactoryBuilder {
   private String nameFormat = null;
@@ -145,6 +149,7 @@ public final class ThreadFactoryBuilder {
    *
    * @return the fully constructed {@link ThreadFactory}
    */
+  @CheckReturnValue
   public ThreadFactory build() {
     return build(this);
   }

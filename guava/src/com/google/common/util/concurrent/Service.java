@@ -18,6 +18,7 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -58,12 +59,13 @@ public interface Service {
   /**
    * If the service state is {@link State#NEW}, this initiates service startup and returns
    * immediately. A stopped service may not be restarted.
-   * 
+   *
    * @return this
    * @throws IllegalStateException if the service is not {@link State#NEW}
    *
    * @since 15.0
    */
+  @CanIgnoreReturnValue
   Service startAsync();
 
   /**
@@ -86,6 +88,7 @@ public interface Service {
    * @return this
    * @since 15.0
    */
+  @CanIgnoreReturnValue
   Service stopAsync();
 
   /**

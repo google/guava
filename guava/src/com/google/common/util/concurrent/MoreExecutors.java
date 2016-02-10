@@ -28,6 +28,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
@@ -952,6 +953,7 @@ public final class MoreExecutors {
    * @since 17.0
    */
   @Beta
+  @CanIgnoreReturnValue
   @GwtIncompatible // concurrency
   public static boolean shutdownAndAwaitTermination(
       ExecutorService service, long timeout, TimeUnit unit) {

@@ -22,6 +22,7 @@ import static com.google.common.util.concurrent.Uninterruptibles.getUninterrupti
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableCollection;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Set;
@@ -53,6 +54,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
   }
 
   // TODO(cpovirk): Use maybePropagateCancellation() if the performance is OK and the code is clean.
+  @CanIgnoreReturnValue
   @Override
   public final boolean cancel(boolean mayInterruptIfRunning) {
     // Must get a reference to the futures before we cancel, as they'll be cleared out.
@@ -198,7 +200,8 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     @Override
     final void addInitialException(Set<Throwable> seen) {
       if (!isCancelled()) {
-        addCausalChain(seen, trustedGetException());
+        // TODO(cpovirk): Think about whether we could/should use Verify to check this.
+        boolean unused = addCausalChain(seen, trustedGetException());
       }
     }
 

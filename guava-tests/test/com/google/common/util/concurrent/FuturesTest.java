@@ -44,6 +44,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.TestLogHandler;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -193,7 +194,7 @@ public class FuturesTest extends TestCase {
 
   @GwtIncompatible // used only in GwtIncompatible tests
   private static final class CallerClass2 {
-
+    @CanIgnoreReturnValue
     static <V> V get(ListenableFuture<V> future) throws ExecutionException, InterruptedException {
       return future.get();
     }
@@ -295,7 +296,7 @@ public class FuturesTest extends TestCase {
        * classes it is trying to load during its stack overflow.
        */
       SettableFuture<Object> root = SettableFuture.create();
-      Futures.transform(root, identity());
+      ListenableFuture<Object> unused = Futures.transform(root, identity());
       root.set("foo");
     }
 
@@ -536,7 +537,7 @@ public class FuturesTest extends TestCase {
        * classes it is trying to load during its stack overflow.
        */
       SettableFuture<Object> root = SettableFuture.create();
-      Futures.transformAsync(root, asyncIdentity());
+      ListenableFuture<Object> unused = Futures.transformAsync(root, asyncIdentity());
       root.set("foo");
     }
 
@@ -2624,6 +2625,7 @@ public class FuturesTest extends TestCase {
    * <p>We need this to test the behavior of no-arg get methods without hanging the main test thread
    * forever in the case of failure.
    */
+  @CanIgnoreReturnValue
   @GwtIncompatible // threads
   static <V> V pseudoTimedGetUninterruptibly(final Future<V> input, long timeout, TimeUnit unit)
       throws ExecutionException, TimeoutException {
@@ -3482,12 +3484,13 @@ public class FuturesTest extends TestCase {
    * A future that throws a runtime exception from get.
    */
   static class BuggyFuture extends AbstractFuture<String> {
-
+    @CanIgnoreReturnValue
     @Override
     public String get() {
       throw new RuntimeException();
     }
 
+    @CanIgnoreReturnValue
     @Override
     public boolean set(String v) {
       return super.set(v);

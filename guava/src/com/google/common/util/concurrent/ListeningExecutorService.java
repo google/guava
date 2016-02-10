@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,6 +33,7 @@ import java.util.concurrent.TimeUnit;
  * @author Chris Povirk
  * @since 10.0
  */
+@CanIgnoreReturnValue
 @GwtIncompatible
 public interface ListeningExecutorService extends ExecutorService {
   /**

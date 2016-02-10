@@ -22,6 +22,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CancellationException;
@@ -76,6 +77,7 @@ public final class Uninterruptibles {
    * {@code latch.}{@link CountDownLatch#await(long, TimeUnit)
    * await(timeout, unit)} uninterruptibly.
    */
+  @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
   @GwtIncompatible // concurrency
   public static boolean awaitUninterruptibly(CountDownLatch latch, long timeout, TimeUnit unit) {
     boolean interrupted = false;
@@ -133,8 +135,8 @@ public final class Uninterruptibles {
    * @throws ExecutionException if the computation threw an exception
    * @throws CancellationException if the computation was cancelled
    */
-  public static <V> V getUninterruptibly(Future<V> future)
-      throws ExecutionException {
+  @CanIgnoreReturnValue
+  public static <V> V getUninterruptibly(Future<V> future) throws ExecutionException {
     boolean interrupted = false;
     try {
       while (true) {
@@ -164,6 +166,7 @@ public final class Uninterruptibles {
    * @throws CancellationException if the computation was cancelled
    * @throws TimeoutException if the wait timed out
    */
+  @CanIgnoreReturnValue
   @GwtIncompatible // TODO
   public static <V> V getUninterruptibly(Future<V> future, long timeout, TimeUnit unit)
       throws ExecutionException, TimeoutException {

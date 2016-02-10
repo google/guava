@@ -52,6 +52,7 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.util.concurrent.ListenerCallQueue.Callback;
 import com.google.common.util.concurrent.Service.State;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.lang.ref.WeakReference;
@@ -269,6 +270,7 @@ public final class ServiceManager {
    * @throws IllegalStateException if any of the Services are not {@link State#NEW new} when the
    *     method is called.
    */
+  @CanIgnoreReturnValue
   public ServiceManager startAsync() {
     for (Service service : services) {
       State state = service.state();
@@ -322,6 +324,7 @@ public final class ServiceManager {
    *
    * @return this
    */
+  @CanIgnoreReturnValue
   public ServiceManager stopAsync() {
     for (Service service : services) {
       service.stopAsync();

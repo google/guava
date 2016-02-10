@@ -70,7 +70,7 @@ public final class Callables {
           return callable.call();
         } finally {
           if (restoreName) {
-            trySetName(oldName, currentThread);
+            boolean unused = trySetName(oldName, currentThread);
           }
         }
       }
@@ -100,7 +100,7 @@ public final class Callables {
           task.run();
         } finally {
           if (restoreName) {
-            trySetName(oldName, currentThread);
+            boolean unused = trySetName(oldName, currentThread);
           }
         }
       }

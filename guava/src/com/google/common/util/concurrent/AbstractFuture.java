@@ -21,6 +21,7 @@ import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Throwables;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -75,11 +76,13 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     // TODO(lukes): with maybePropagateCancellation this is no longer really true.  Track down the
     // final few cases and eliminate their overrides of cancel()
 
+    @CanIgnoreReturnValue
     @Override
     public final V get() throws InterruptedException, ExecutionException {
       return super.get();
     }
 
+    @CanIgnoreReturnValue
     @Override
     public final V get(long timeout, TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException {
@@ -354,6 +357,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    *     (optional but recommended).
    * @throws CancellationException {@inheritDoc}
    */
+  @CanIgnoreReturnValue
   @Override
   public V get(long timeout, TimeUnit unit)
       throws InterruptedException, TimeoutException, ExecutionException {
@@ -439,6 +443,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    *     (optional but recommended).
    * @throws CancellationException {@inheritDoc}
    */
+  @CanIgnoreReturnValue
   @Override
   public V get() throws InterruptedException, ExecutionException {
     if (Thread.interrupted()) {
@@ -516,6 +521,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * #setFuture set asynchronously}, then the cancellation will also be propagated to the delegate
    * {@code Future} that was supplied in the {@code setFuture} call.
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean cancel(boolean mayInterruptIfRunning) {
     Object localValue = value;
@@ -611,6 +617,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * @param value the value to be used as the result
    * @return true if the attempt was accepted, completing the {@code Future}
    */
+  @CanIgnoreReturnValue
   protected boolean set(@Nullable V value) {
     Object valueToSet = value == null ? NULL : value;
     if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
@@ -632,6 +639,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * @param throwable the exception to be used as the failed result
    * @return true if the attempt was accepted, completing the {@code Future}
    */
+  @CanIgnoreReturnValue
   protected boolean setException(Throwable throwable) {
     Object valueToSet = new Failure(checkNotNull(throwable));
     if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
@@ -663,6 +671,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * @since 19.0
    */
   @Beta
+  @CanIgnoreReturnValue
   protected boolean setFuture(ListenableFuture<? extends V> future) {
     checkNotNull(future);
     Object localValue = value;
@@ -687,7 +696,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
             failure = Failure.FALLBACK_INSTANCE;
           }
           // Note: The only way this CAS could fail is if cancel() has raced with us. That is ok.
-          ATOMIC_HELPER.casValue(this, valueToSet, failure);
+          boolean unused = ATOMIC_HELPER.casValue(this, valueToSet, failure);
         }
         return true;
       }
@@ -708,6 +717,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * @param future the done future to complete this future with.
    * @param expected the expected value of the {@link #value} field.
    */
+  @CanIgnoreReturnValue
   private boolean completeWithFuture(ListenableFuture<? extends V> future, Object expected) {
     Object valueToSet;
     if (future instanceof TrustedFuture) {

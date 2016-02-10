@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +33,7 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0
  */
 @Beta
+@CanIgnoreReturnValue
 @GwtIncompatible
 public final class FakeTimeLimiter implements TimeLimiter {
   @Override

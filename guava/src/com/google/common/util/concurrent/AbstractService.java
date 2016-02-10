@@ -29,6 +29,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.ListenerCallQueue.Callback;
 import com.google.common.util.concurrent.Monitor.Guard;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.ArrayList;
@@ -202,6 +203,7 @@ public abstract class AbstractService implements Service {
    */
   protected abstract void doStop();
 
+  @CanIgnoreReturnValue
   @Override
   public final Service startAsync() {
     if (monitor.enterIf(isStartable)) {
@@ -221,6 +223,7 @@ public abstract class AbstractService implements Service {
     return this;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public final Service stopAsync() {
     if (monitor.enterIf(isStoppable)) {
