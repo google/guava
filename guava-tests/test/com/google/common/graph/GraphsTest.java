@@ -38,6 +38,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Tests for {@link Graphs}. Tests assume that the implementation of the method
@@ -53,6 +54,7 @@ public class GraphsTest {
   private static final String E11_A = "1-1a";
   private static final String E12 = "1-2";
   private static final String E12_A = "1-2a";
+  private static final String E12_B = "1-2b";
   private static final String E21 = "2-1";
   private static final String E22 = "2-2";
   private static final String E13 = "1-3";
@@ -120,6 +122,62 @@ public class GraphsTest {
         fail("Should have rejected oppositeNode() called without a node incident to edge");
       } catch (IllegalArgumentException expected) {
       }
+    }
+  }
+
+  @Test
+  public void parallelEdges_directed() {
+    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected(MULTIGRAPH);
+    directedGraph.addEdge(E12, N1, N2);
+    directedGraph.addEdge(E12_A, N1, N2);
+    directedGraph.addEdge(E21, N2, N1);
+    assertThat(Graphs.parallelEdges(directedGraph, E12)).containsExactly(E12_A);
+    assertThat(Graphs.parallelEdges(directedGraph, E12_A)).containsExactly(E12);
+    assertThat(Graphs.parallelEdges(directedGraph, E21)).isEmpty();
+  }
+
+  @Test
+  public void parallelEdges_selfLoop_directed() {
+    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected(MULTIGRAPH);
+    directedGraph.addEdge(E11, N1, N1);
+    directedGraph.addEdge(E11_A, N1, N1);
+    assertThat(Graphs.parallelEdges(directedGraph, E11)).containsExactly(E11_A);
+    assertThat(Graphs.parallelEdges(directedGraph, E11_A)).containsExactly(E11);
+  }
+
+  @Test
+  public void parallelEdges_undirected() {
+    UndirectedGraph<Integer, String> undirectedGraph = Graphs.createUndirected(MULTIGRAPH);
+    undirectedGraph.addEdge(E12, N1, N2);
+    undirectedGraph.addEdge(E12_A, N1, N2);
+    undirectedGraph.addEdge(E21, N2, N1);
+    assertThat(Graphs.parallelEdges(undirectedGraph, E12)).containsExactly(E12_A, E21);
+    assertThat(Graphs.parallelEdges(undirectedGraph, E12_A)).containsExactly(E12, E21);
+    assertThat(Graphs.parallelEdges(undirectedGraph, E21)).containsExactly(E12, E12_A);
+  }
+
+  @Test
+  public void parallelEdges_selfLoop_undirected() {
+    UndirectedGraph<Integer, String> undirectedGraph = Graphs.createUndirected(MULTIGRAPH);
+    undirectedGraph.addEdge(E11, N1, N1);
+    undirectedGraph.addEdge(E11_A, N1, N1);
+    assertThat(Graphs.parallelEdges(undirectedGraph, E11)).containsExactly(E11_A);
+    assertThat(Graphs.parallelEdges(undirectedGraph, E11_A)).containsExactly(E11);
+  }
+
+  @Test
+  public void parallelEdges_unmodifiableView() {
+    UndirectedGraph<Integer, String> undirectedGraph = Graphs.createUndirected(MULTIGRAPH);
+    undirectedGraph.addEdge(E12, N1, N2);
+    undirectedGraph.addEdge(E12_A, N1, N2);
+    Set<String> parallelEdges = Graphs.parallelEdges(undirectedGraph, E12);
+    assertThat(parallelEdges).containsExactly(E12_A);
+    undirectedGraph.addEdge(E12_B, N1, N2);
+    assertThat(parallelEdges).containsExactly(E12_A, E12_B);
+    try {
+      parallelEdges.add(E21);
+      fail("Set returned by parallelEdges() should be unmodifiable");
+    } catch (UnsupportedOperationException expected) {
     }
   }
 

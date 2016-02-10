@@ -136,7 +136,7 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
 
   @Override
   public Set<E> incidentEdges(Object node) {
-    return Sets.union(inEdges(node), outEdges(node));
+    return checkedConnections(node).incidentEdges();
   }
 
   @Override
@@ -146,7 +146,7 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
 
   @Override
   public Set<N> adjacentNodes(Object node) {
-    return Sets.union(predecessors(node), successors(node));
+    return checkedConnections(node).adjacentNodes();
   }
 
   @Override
@@ -287,26 +287,15 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
   @CanIgnoreReturnValue
   public boolean removeNode(Object node) {
     checkNotNull(node, "node");
-    // Return false if the node doesn't exist in the graph
-    NodeConnections<N, E> connections = nodeConnections.get(node);
-    if (connections == null) {
+    if (!nodes().contains(node)) {
       return false;
     }
     // Since views are returned, we need to copy the edges that will be removed.
     // Thus we avoid modifying the underlying view while iterating over it.
-    for (E inEdge : ImmutableList.copyOf(inEdges(node))) {
-      N predecessor = Graphs.oppositeNode(this, inEdge, node);
-      NodeConnections<N, E> predecessorConnections = nodeConnections.get(predecessor);
-      predecessorConnections.removeSuccessor(node);
-      predecessorConnections.removeOutEdge(inEdge);
-      edgeToIncidentNodes.remove(inEdge);
-    }
-    for (E outEdge : ImmutableList.copyOf(outEdges(node))) {
-      N successor = Graphs.oppositeNode(this, outEdge, node);
-      NodeConnections<N, E> successorConnections = nodeConnections.get(successor);
-      successorConnections.removePredecessor(node);
-      successorConnections.removeInEdge(outEdge);
-      edgeToIncidentNodes.remove(outEdge);
+    for (E edge : ImmutableList.copyOf(incidentEdges(node))) {
+      // Simply calling removeEdge(edge) would result in O(degree^2) behavior. However, we know that
+      // after all incident edges are removed, the input node will be disconnected from all others.
+      removeEdgeAndUpdateConnections(edge, true);
     }
     nodeConnections.remove(node);
     return true;
@@ -316,24 +305,35 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
   @CanIgnoreReturnValue
   public boolean removeEdge(Object edge) {
     checkNotNull(edge, "edge");
-    // Return false if the edge doesn't exist in the graph
-    IncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
-    if (incidentNodes == null) {
+    if (!edges().contains(edge)) {
       return false;
     }
+    // If there are no parallel edges, the removal of this edge will disconnect the incident nodes.
+    removeEdgeAndUpdateConnections(edge, Graphs.parallelEdges(this, edge).isEmpty());
+    return true;
+  }
+
+  /**
+   * If {@code disconnectIncidentNodes} is true, disconnects the nodes formerly connected
+   * by {@code edge}. This should be set when all parallel edges are or will be removed.
+   *
+   * <p>Unlike {@link #removeEdge(Object)}, this method is guaranteed to run in O(1) time.
+   *
+   * @throws IllegalArgumentException if {@code edge} is not present in the graph.
+   */
+  private void removeEdgeAndUpdateConnections(Object edge, boolean disconnectIncidentNodes) {
+    IncidentNodes<N> incidentNodes = checkedIncidentNodes(edge);
     N node1 = incidentNodes.node1();
     N node2 = incidentNodes.node2();
     NodeConnections<N, E> connectionsN1 = nodeConnections.get(node1);
     NodeConnections<N, E> connectionsN2 = nodeConnections.get(node2);
-    if (!config.isMultigraph() || edgesConnecting(node1, node2).size() <= 1) {
-      // If this is the last connecting edge between node1 and node2, they are no longer adjacent.
+    if (disconnectIncidentNodes) {
       connectionsN1.removeSuccessor(node2);
       connectionsN2.removePredecessor(node1);
     }
     connectionsN1.removeOutEdge(edge);
     connectionsN2.removeInEdge(edge);
     edgeToIncidentNodes.remove(edge);
-    return true;
   }
 
   @Override

@@ -24,7 +24,9 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Iterator;
@@ -73,6 +75,28 @@ public final class Graphs {
     }
     checkArgument(node.equals(equalNode), "Edge %s is not incident to node %s", edge, node);
     return oppositeNode;
+  }
+
+  /**
+   * Returns an unmodifiable view of edges that are parallel to {@code edge}, i.e. the set of edges
+   * that connect the same nodes in the same direction (if any). An edge is not parallel to itself.
+   *
+   * @throws IllegalArgumentException if {@code edge} is not present in {@code graph}
+   * @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}
+   */
+  public static <N, E> Set<E> parallelEdges(final Graph<N, E> graph, final Object edge) {
+    Set<N> incidentNodes = graph.incidentNodes(edge); // Verifies that edge is in graph
+    if (graph instanceof Hypergraph) {
+      throw new UnsupportedOperationException();
+    }
+    if (!graph.config().isMultigraph()) {
+      return ImmutableSet.of();
+    }
+
+    Iterator<N> incidentNodesIterator = incidentNodes.iterator();
+    N node1 = incidentNodesIterator.next();
+    N node2 = incidentNodesIterator.hasNext() ? incidentNodesIterator.next() : node1;
+    return Sets.difference(graph.edgesConnecting(node1, node2), ImmutableSet.of(edge));
   }
 
   /**

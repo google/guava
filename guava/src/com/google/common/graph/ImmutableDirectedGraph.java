@@ -118,7 +118,7 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
 
   @Override
   public Set<E> incidentEdges(Object node) {
-    return Sets.union(inEdges(node), outEdges(node));
+    return checkedConnections(node).incidentEdges();
   }
 
   @Override
@@ -128,7 +128,7 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
 
   @Override
   public Set<N> adjacentNodes(Object node) {
-    return Sets.union(predecessors(node), successors(node));
+    return checkedConnections(node).adjacentNodes();
   }
 
   @Override
