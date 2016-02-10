@@ -738,7 +738,7 @@ public class SplitterTest extends TestCase {
 
   public void testMapSplitter_malformedEntry() {
     try {
-      Map<String, String> unused = COMMA_SPLITTER.withKeyValueSeparator("=").split("a=1,b,c=2");
+      COMMA_SPLITTER.withKeyValueSeparator("=").split("a=1,b,c=2");
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -765,7 +765,7 @@ public class SplitterTest extends TestCase {
 
   public void testMapSplitter_duplicateKeys() {
     try {
-      Map<String, String> unused = Splitter.on(',').withKeyValueSeparator(":").split("a:1,b:2,a:3");
+      Splitter.on(',').withKeyValueSeparator(":").split("a:1,b:2,a:3");
       fail();
     } catch (IllegalArgumentException expected) {
     }

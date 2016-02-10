@@ -803,17 +803,19 @@ public class MultimapsTest extends TestCase {
   public void testIndex_nullValue() {
     List<Integer> values = Arrays.asList(1, null);
     try {
-      Multimap<Object, Integer> unused = Multimaps.index(values, Functions.identity());
+      Multimaps.index(values, Functions.identity());
       fail();
-    } catch (NullPointerException e) {}
+    } catch (NullPointerException expected) {
+    }
   }
 
   public void testIndex_nullKey() {
     List<Integer> values = Arrays.asList(1, 2);
     try {
-      Multimap<Object, Integer> unused = Multimaps.index(values, Functions.constant(null));
+      Multimaps.index(values, Functions.constant(null));
       fail();
-    } catch (NullPointerException e) {}
+    } catch (NullPointerException expected) {
+    }
   }
 
   @GwtIncompatible(value = "untested")

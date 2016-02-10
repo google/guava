@@ -753,7 +753,7 @@ public class FluentIterableTest extends TestCase {
 
   public void testToMap_nullKey() {
     try {
-      ImmutableMap<Integer, String> unused = fluent(1, null, 2).toMap(Functions.constant("foo"));
+      fluent(1, null, 2).toMap(Functions.constant("foo"));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -761,7 +761,7 @@ public class FluentIterableTest extends TestCase {
 
   public void testToMap_nullValue() {
     try {
-      ImmutableMap<Integer, Object> unused = fluent(1, 2, 3).toMap(Functions.constant(null));
+      fluent(1, 2, 3).toMap(Functions.constant(null));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -835,7 +835,7 @@ public class FluentIterableTest extends TestCase {
 
   public void testUniqueIndex_nullKey() {
     try {
-      ImmutableMap<Object, Integer> unused = fluent(1, 2, 3).uniqueIndex(Functions.constant(null));
+      fluent(1, 2, 3).uniqueIndex(Functions.constant(null));
       fail();
     } catch (NullPointerException expected) {
     }

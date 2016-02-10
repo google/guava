@@ -312,7 +312,7 @@ public class MapsTest extends TestCase {
 
   public void testEnumMapNullClass() {
     try {
-      Map<SomeEnum, Long> unused = Maps.<SomeEnum, Long>newEnumMap((Class<MapsTest.SomeEnum>) null);
+      Maps.<SomeEnum, Long>newEnumMap((Class<MapsTest.SomeEnum>) null);
       fail("no exception thrown");
     } catch (NullPointerException expected) {
     }
@@ -342,7 +342,7 @@ public class MapsTest extends TestCase {
   public void testEnumMapWithInitialEmptyMap() {
     Map<SomeEnum, Integer> original = Maps.newHashMap();
     try {
-      Map<SomeEnum, Integer> unused = Maps.newEnumMap(original);
+      Maps.newEnumMap(original);
       fail("Empty map must result in an IllegalArgumentException");
     } catch (IllegalArgumentException expected) {}
   }
@@ -981,7 +981,7 @@ public class MapsTest extends TestCase {
   public void testToMapWithNullKeys() {
     Iterable<String> strings = Arrays.asList("one", null, "three");
     try {
-      Map<String, String> unused = Maps.toMap(strings, Functions.constant("foo"));
+      Maps.toMap(strings, Functions.constant("foo"));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -990,7 +990,7 @@ public class MapsTest extends TestCase {
   public void testToMapWithNullValues() {
     Iterable<String> strings = ImmutableList.of("one", "two", "three");
     try {
-      Map<String, Object> unused = Maps.toMap(strings, Functions.constant(null));
+      Maps.toMap(strings, Functions.constant(null));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -1044,7 +1044,7 @@ public class MapsTest extends TestCase {
   public void testUniqueIndexNullValue() {
     List<String> listWithNull = Lists.newArrayList((String) null);
     try {
-      Map<Integer, String> unused = Maps.uniqueIndex(listWithNull, Functions.constant(1));
+      Maps.uniqueIndex(listWithNull, Functions.constant(1));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -1054,7 +1054,7 @@ public class MapsTest extends TestCase {
   public void testUniqueIndexNullKey() {
     List<String> oneStringList = Lists.newArrayList("foo");
     try {
-      Map<Object, String> unused = Maps.uniqueIndex(oneStringList, Functions.constant(null));
+      Maps.uniqueIndex(oneStringList, Functions.constant(null));
       fail();
     } catch (NullPointerException expected) {
     }
@@ -1123,7 +1123,7 @@ public class MapsTest extends TestCase {
     properties.setProperty("second", "null");
 
     try {
-      Map<String, String> unused = Maps.fromProperties(properties);
+      Maps.fromProperties(properties);
       fail();
     } catch (NullPointerException expected) {}
   }
@@ -1139,7 +1139,7 @@ public class MapsTest extends TestCase {
     };
 
     try {
-      Map<String, String> unused = Maps.fromProperties(properties);
+      Maps.fromProperties(properties);
       fail();
     } catch (ClassCastException expected) {}
   }
@@ -2057,7 +2057,7 @@ public class MapsTest extends TestCase {
             .put(2, 0).put(4, 0).put(6, 0).put(8, 0).put(10, 0).build();
 
     try {
-      Map<Integer, Integer> unused = Maps.subMap(map, Range.closed(4, 8));
+      Maps.subMap(map, Range.closed(4, 8));
       fail("IllegalArgumentException expected");
     } catch (IllegalArgumentException expected) {
     }

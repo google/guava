@@ -90,7 +90,7 @@ public class ImmutableSimpleUndirectedGraphTest extends AbstractImmutableUndirec
   @Test
   public void copyOf_nullArgument() {
     try {
-      ImmutableUndirectedGraph<Object, Object> unused = ImmutableUndirectedGraph.copyOf(null);
+      ImmutableUndirectedGraph.copyOf(null);
       fail("Should have rejected a null graph");
     } catch (NullPointerException expected) {
     }

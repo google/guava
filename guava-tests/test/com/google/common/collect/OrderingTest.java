@@ -109,15 +109,15 @@ public class OrderingTest extends TestCase {
     Helpers.testComparator(comparator,
         Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE);
     try {
-      int unused = comparator.compare(1, null);
+      comparator.compare(1, null);
       fail();
     } catch (NullPointerException expected) {}
     try {
-      int unused = comparator.compare(null, 2);
+      comparator.compare(null, 2);
       fail();
     } catch (NullPointerException expected) {}
     try {
-      int unused = comparator.compare(null, null);
+      comparator.compare(null, null);
       fail();
     } catch (NullPointerException expected) {}
     assertSame(comparator, reserialize(comparator));
@@ -195,7 +195,7 @@ public class OrderingTest extends TestCase {
 
   public void testExplicit_withDuplicates() {
     try {
-      Ordering<Integer> unused = Ordering.explicit(1, 2, 3, 4, 2);
+      Ordering.explicit(1, 2, 3, 4, 2);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -476,7 +476,7 @@ public class OrderingTest extends TestCase {
 
     List<Integer> listWithNull = Arrays.asList(5, 3, null, 9);
     try {
-      List<Integer> unused = Ordering.natural().nullsFirst().immutableSortedCopy(listWithNull);
+      Ordering.natural().nullsFirst().immutableSortedCopy(listWithNull);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -535,7 +535,7 @@ public class OrderingTest extends TestCase {
 
   public void testLeastOfIterable_simple_negativeOne() {
     try {
-      List<Integer> unused = numberOrdering.leastOf(Arrays.asList(3, 4, 5, -1), -1);
+      numberOrdering.leastOf(Arrays.asList(3, 4, 5, -1), -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -543,7 +543,7 @@ public class OrderingTest extends TestCase {
 
   public void testLeastOfIterator_simple_negativeOne() {
     try {
-      List<Integer> unused = numberOrdering.leastOf(Iterators.forArray(3, 4, 5, -1), -1);
+      numberOrdering.leastOf(Iterators.forArray(3, 4, 5, -1), -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }

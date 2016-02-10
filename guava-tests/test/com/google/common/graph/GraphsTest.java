@@ -116,7 +116,7 @@ public class GraphsTest {
       graph.addEdge(E12, N1, N2);
       graph.addEdge(E13, N1, N3);
       try {
-        Integer unused = oppositeNode(graph, E12, N3);
+        oppositeNode(graph, E12, N3);
         fail("Should have rejected oppositeNode() called without a node incident to edge");
       } catch (IllegalArgumentException expected) {
       }
@@ -355,12 +355,12 @@ public class GraphsTest {
   @Test
   public void copyOf_nullArgument() {
     try {
-      DirectedGraph<Object, Object> unused = copyOf((DirectedGraph) null);
+      copyOf((DirectedGraph) null);
       fail("Should have rejected a null graph");
     } catch (NullPointerException expected) {
     }
     try {
-      UndirectedGraph<Object, Object> unused = copyOf((UndirectedGraph) null);
+      copyOf((UndirectedGraph) null);
       fail("Should have rejected a null graph");
     } catch (NullPointerException expected) {
     }

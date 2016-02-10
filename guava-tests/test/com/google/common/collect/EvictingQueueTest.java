@@ -37,7 +37,7 @@ public class EvictingQueueTest extends TestCase {
 
   public void testCreateWithNegativeSize() throws Exception {
     try {
-      EvictingQueue<Object> unused = EvictingQueue.create(-1);
+      EvictingQueue.create(-1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
