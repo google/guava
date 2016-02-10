@@ -16,7 +16,6 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Iterators;
@@ -25,8 +24,10 @@ import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 /**
- * An immutable set representing the nodes incident to an origin edge in a graph.
+ * An immutable set representing the nodes incident to an edge in a graph.
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -59,14 +60,14 @@ abstract class IncidentNodes<N> extends AbstractSet<N> {
   }
 
   /**
-   * In the case of a directed graph, returns the source node of the origin edge. In the case of
-   * an undirected graph, returns an arbitrary (but consistent) endpoint of the origin edge.
+   * In the case of a directed graph, returns the source node of the incident edge. In the case of
+   * an undirected graph, returns an arbitrary (but consistent) endpoint of the incident edge.
    */
   abstract N node1();
 
   /**
-   * Returns the node opposite to {@link #node1} along the origin edge. In the case of a directed
-   * graph, this will always be the target node of the origin edge.
+   * Returns the node opposite to {@link #node1} along the incident edge. In the case of a directed
+   * graph, this will always be the target node of the incident edge.
    */
   abstract N node2();
 
@@ -74,7 +75,7 @@ abstract class IncidentNodes<N> extends AbstractSet<N> {
     private final N node;
 
     private OneNode(N node) {
-      this.node = checkNotNull(node);
+      this.node = checkNotNull(node, "node");
     }
 
     @Override
@@ -85,6 +86,11 @@ abstract class IncidentNodes<N> extends AbstractSet<N> {
     @Override
     public int size() {
       return 1;
+    }
+
+    @Override
+    public boolean contains(@Nullable Object object) {
+      return node.equals(object);
     }
 
     @Override
@@ -102,10 +108,12 @@ abstract class IncidentNodes<N> extends AbstractSet<N> {
     private final N node1;
     private final N node2;
 
+    /**
+     * An immutable set with two non-equal nodes. Iterates as {@code node1}, {@code node2}.
+     */
     private TwoNodes(N node1, N node2) {
-      this.node1 = checkNotNull(node1);
-      this.node2 = checkNotNull(node2);
-      checkArgument(!node1.equals(node2));
+      this.node1 = checkNotNull(node1, "node1");
+      this.node2 = checkNotNull(node2, "node2");
     }
 
     @Override
@@ -116,6 +124,11 @@ abstract class IncidentNodes<N> extends AbstractSet<N> {
     @Override
     public int size() {
       return 2;
+    }
+
+    @Override
+    public boolean contains(@Nullable Object object) {
+      return node1.equals(object) || node2.equals(object);
     }
 
     @Override

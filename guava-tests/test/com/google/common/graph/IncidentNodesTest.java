@@ -27,6 +27,8 @@ import org.junit.runners.JUnit4;
 
 /**
  * Tests for {@link IncidentNodes}.
+ *
+ * TODO(b/24415223): Consider SetTestSuiteBuilder once this supports > 2 nodes (i.e. hypergraphs).
  */
 @RunWith(JUnit4.class)
 public final class IncidentNodesTest {
@@ -65,5 +67,21 @@ public final class IncidentNodesTest {
     IncidentNodes<String> incidentNodes = IncidentNodes.of(ImmutableSet.of("test"));
     assertThat(incidentNodes.node1()).isEqualTo("test");
     assertThat(incidentNodes.node2()).isEqualTo("test");
+  }
+
+  @Test
+  public void testSet_basic() {
+    IncidentNodes<String> incidentNodes = IncidentNodes.of("source", "target");
+    assertThat(incidentNodes).containsExactly("source", "target").inOrder();
+    new EqualsTester().addEqualityGroup(incidentNodes, ImmutableSet.of("source", "target"))
+        .testEquals();
+  }
+
+  @Test
+  public void testSet_selfLoop() {
+    // Allocate new strings to ensure that equals() equality is used instead of reference equality.
+    IncidentNodes<String> incidentNodes = IncidentNodes.of(new String("node"), new String("node"));
+    assertThat(incidentNodes).containsExactly("node").inOrder();
+    new EqualsTester().addEqualityGroup(incidentNodes, ImmutableSet.of("node")).testEquals();
   }
 }
