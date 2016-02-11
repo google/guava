@@ -94,13 +94,15 @@ public class EnumsTest extends TestCase {
     Class<TestEnum> shadowTestEnum =
         (Class<TestEnum>) Class.forName(TestEnum.class.getName(), false, shadowLoader);
     assertNotSame(shadowTestEnum, TestEnum.class);
-    Set<TestEnum> shadowConstants = new HashSet<TestEnum>();
+    // We can't write Set<TestEnum> because that is a Set of the TestEnum from the original
+    // ClassLoader.
+    Set<Object> shadowConstants = new HashSet<Object>();
     for (TestEnum constant : TestEnum.values()) {
       Optional<TestEnum> result = Enums.getIfPresent(shadowTestEnum, constant.name());
       assertThat(result).isPresent();
       shadowConstants.add(result.get());
     }
-    assertEquals(ImmutableSet.copyOf(shadowTestEnum.getEnumConstants()), shadowConstants);
+    assertEquals(ImmutableSet.<Object>copyOf(shadowTestEnum.getEnumConstants()), shadowConstants);
     Optional<TestEnum> result = Enums.getIfPresent(shadowTestEnum, "blibby");
     assertThat(result).isAbsent();
     return new WeakReference<ClassLoader>(shadowLoader);
