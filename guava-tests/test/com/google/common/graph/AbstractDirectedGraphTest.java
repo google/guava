@@ -27,6 +27,9 @@ import com.google.common.collect.ImmutableSet;
 import org.junit.After;
 import org.junit.Test;
 
+import java.util.Collections;
+import java.util.Set;
+
 /**
  * Abstract base class for testing implementations of {@link DirectedGraph} interface.
  *
@@ -60,6 +63,12 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
         Integer oppositeNode = Graphs.oppositeNode(directedGraph, outEdge, node);
         assertThat(directedGraph.source(outEdge)).isEqualTo(node);
         assertThat(directedGraph.target(outEdge)).isEqualTo(oppositeNode);
+      }
+
+      for (Integer adjacentNode : directedGraph.adjacentNodes(node)) {
+        Set<String> edges = directedGraph.edgesConnecting(node, adjacentNode);
+        Set<String> antiParallelEdges = directedGraph.edgesConnecting(adjacentNode, node);
+        assertTrue(node.equals(adjacentNode) || Collections.disjoint(edges, antiParallelEdges));
       }
     }
   }
