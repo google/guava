@@ -18,7 +18,6 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
@@ -51,48 +50,42 @@ public final class Graphs {
   /**
    * Returns the node at the other end of {@code edge} from {@code node}.
    *
-   * @throws IllegalArgumentException if {@code edge} is not incident to {@code node}
    * @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}
+   * @throws IllegalArgumentException if {@code edge} is not incident to {@code node}
    */
   public static <N> N oppositeNode(Graph<N, ?> graph, Object edge, Object node) {
-    checkNotNull(graph, "graph");
-    checkNotNull(edge, "edge");
-    checkNotNull(node, "node");
     if (graph instanceof Hypergraph) {
       throw new UnsupportedOperationException();
     }
 
+    checkNotNull(node, "node");
     Iterator<N> incidentNodesIterator = graph.incidentNodes(edge).iterator();
-    N oppositeNode = incidentNodesIterator.next();
-    N equalNode = oppositeNode;
-    if (incidentNodesIterator.hasNext()) {
-      if (node.equals(oppositeNode)) {
-        oppositeNode = incidentNodesIterator.next();
-      } else {
-        equalNode = incidentNodesIterator.next();
-      }
-      checkState(!incidentNodesIterator.hasNext());
+    N node1 = incidentNodesIterator.next();
+    N node2 = incidentNodesIterator.hasNext() ? incidentNodesIterator.next() : node1;
+    if (node.equals(node1)) {
+      return node2;
+    } else {
+      checkArgument(node.equals(node2), "Edge %s is not incident to node %s", edge, node);
+      return node1;
     }
-    checkArgument(node.equals(equalNode), "Edge %s is not incident to node %s", edge, node);
-    return oppositeNode;
   }
 
   /**
    * Returns an unmodifiable view of edges that are parallel to {@code edge}, i.e. the set of edges
    * that connect the same nodes in the same direction (if any). An edge is not parallel to itself.
    *
-   * @throws IllegalArgumentException if {@code edge} is not present in {@code graph}
    * @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}
+   * @throws IllegalArgumentException if {@code edge} is not present in {@code graph}
    */
-  public static <N, E> Set<E> parallelEdges(final Graph<N, E> graph, final Object edge) {
-    Set<N> incidentNodes = graph.incidentNodes(edge); // Verifies that edge is in graph
+  public static <N, E> Set<E> parallelEdges(Graph<N, E> graph, Object edge) {
     if (graph instanceof Hypergraph) {
       throw new UnsupportedOperationException();
     }
+
+    Set<N> incidentNodes = graph.incidentNodes(edge); // Verifies that edge is in graph
     if (!graph.config().isMultigraph()) {
       return ImmutableSet.of();
     }
-
     Iterator<N> incidentNodesIterator = incidentNodes.iterator();
     N node1 = incidentNodesIterator.next();
     N node2 = incidentNodesIterator.hasNext() ? incidentNodesIterator.next() : node1;
