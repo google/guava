@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
+
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestMapGenerator;
@@ -28,6 +30,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -43,31 +46,32 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableClassToInstanceMapTest.class);
 
-    suite.addTest(MapTestSuiteBuilder
-        .using(new TestClassToInstanceMapGenerator() {
-          // Other tests will verify what real, warning-free usage looks like
-          // but here we have to do some serious fudging
-          @Override
-          @SuppressWarnings("unchecked")
-          public Map<Class, Number> create(Object... elements) {
-            ImmutableClassToInstanceMap.Builder<Number> builder
-                = ImmutableClassToInstanceMap.builder();
-            for (Object object : elements) {
-              Entry<Class, Number> entry = (Entry<Class, Number>) object;
-              builder.put(entry.getKey(), entry.getValue());
-            }
-            return (Map) builder.build();
-          }
-        })
-        .named("ImmutableClassToInstanceMap")
-        .withFeatures(
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION,
-            MapFeature.RESTRICTS_KEYS,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionSize.ANY,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES,
-            CollectionFeature.SERIALIZABLE)
-        .createTestSuite());
+    suite.addTest(
+        MapTestSuiteBuilder.using(
+                new TestClassToInstanceMapGenerator() {
+                  // Other tests will verify what real, warning-free usage looks like
+                  // but here we have to do some serious fudging
+                  @Override
+                  @SuppressWarnings("unchecked")
+                  public Map<Class, Impl> create(Object... elements) {
+                    ImmutableClassToInstanceMap.Builder<Impl> builder =
+                        ImmutableClassToInstanceMap.builder();
+                    for (Object object : elements) {
+                      Entry<Class, Impl> entry = (Entry<Class, Impl>) object;
+                      builder.put(entry.getKey(), entry.getValue());
+                    }
+                    return (Map) builder.build();
+                  }
+                })
+            .named("ImmutableClassToInstanceMap")
+            .withFeatures(
+                MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+                MapFeature.RESTRICTS_KEYS,
+                CollectionFeature.KNOWN_ORDER,
+                CollectionSize.ANY,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES,
+                CollectionFeature.SERIALIZABLE)
+            .createTestSuite());
 
     return suite;
   }
@@ -160,8 +164,7 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
     assertEquals(1, (int) ictim.getInstance(int.class));
   }
 
-  abstract static class TestClassToInstanceMapGenerator
-      implements TestMapGenerator<Class, Number> {
+  abstract static class TestClassToInstanceMapGenerator implements TestMapGenerator<Class, Impl> {
 
     @Override
     public Class[] createKeyArray(int length) {
@@ -169,37 +172,62 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
     }
 
     @Override
-    public Number[] createValueArray(int length) {
-      return new Number[length];
+    public Impl[] createValueArray(int length) {
+      return new Impl[length];
     }
 
     @Override
-    public SampleElements<Entry<Class, Number>> samples() {
-      Entry<Class, Number> entry1 =
-          Maps.immutableEntry((Class) Integer.class, (Number) 0);
-      Entry<Class, Number> entry2 =
-          Maps.immutableEntry((Class) Number.class, (Number) 1);
-      Entry<Class, Number> entry3 =
-          Maps.immutableEntry((Class) Double.class, (Number) 2.0);
-      Entry<Class, Number> entry4 =
-          Maps.immutableEntry((Class) Byte.class, (Number) (byte) 0x03);
-      Entry<Class, Number> entry5 =
-          Maps.immutableEntry((Class) Long.class, (Number) 0x0FF1C1AL);
-      return new SampleElements<Entry<Class, Number>>(
-          entry1, entry2, entry3, entry4, entry5
-      );
+    public SampleElements<Entry<Class, Impl>> samples() {
+      return new SampleElements<Entry<Class, Impl>>(
+          immutableEntry((Class) One.class, new Impl(1)),
+          immutableEntry((Class) Two.class, new Impl(2)),
+          immutableEntry((Class) Three.class, new Impl(3)),
+          immutableEntry((Class) Four.class, new Impl(4)),
+          immutableEntry((Class) Five.class, new Impl(5)));
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public Entry<Class, Number>[] createArray(int length) {
+    public Entry<Class, Impl>[] createArray(int length) {
       return new Entry[length];
     }
 
     @Override
-    public Iterable<Entry<Class, Number>> order(
-        List<Entry<Class, Number>> insertionOrder) {
+    public Iterable<Entry<Class, Impl>> order(List<Entry<Class, Impl>> insertionOrder) {
       return insertionOrder;
+    }
+  }
+
+  private interface One {}
+
+  private interface Two {}
+
+  private interface Three {}
+
+  private interface Four {}
+
+  private interface Five {}
+
+  static final class Impl implements One, Two, Three, Four, Five, Serializable {
+    final int value;
+
+    Impl(int value) {
+      this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      return obj instanceof Impl && value == ((Impl) obj).value;
+    }
+
+    @Override
+    public int hashCode() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return Integer.toString(value);
     }
   }
 }
