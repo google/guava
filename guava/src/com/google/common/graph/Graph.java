@@ -226,7 +226,8 @@ public interface Graph<N, E> {
   /**
    * Returns the nodes which are the endpoints of {@code edge} in this graph.
    *
-   * <p>If {@code edge} is a self-loop, the returned set will only have a single node.
+   * <p>For non-hypergraphs, the returned set will always contain either one
+   * (if {@code edge} is a self-loop) or two nodes.
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this graph
    */

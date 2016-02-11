@@ -23,7 +23,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.common.testing.EqualsTester;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
@@ -31,7 +30,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Set;
+import java.util.Iterator;
 
 /**
  * Abstract base class for testing implementations of {@link Graph} interface. Graph
@@ -151,20 +150,23 @@ public abstract class AbstractGraphTest {
     new EqualsTester().addEqualityGroup(graph).testEquals();
 
     for (String edge : graph.edges()) {
-      Set<Integer> incidentNodes = graph.incidentNodes(edge);
-      Integer node1 = Iterables.get(incidentNodes, 0);
-      Integer node2 = Iterables.get(incidentNodes, 1, node1);
-      assertThat(graph.edgesConnecting(node1, node2)).contains(edge);
-      assertThat(graph.successors(node1)).contains(node2);
-      assertThat(graph.adjacentNodes(node1)).contains(node2);
-      assertThat(graph.outEdges(node1)).contains(edge);
-      assertThat(graph.incidentEdges(node1)).contains(edge);
-      assertThat(graph.predecessors(node2)).contains(node1);
-      assertThat(graph.adjacentNodes(node2)).contains(node1);
-      assertThat(graph.inEdges(node2)).contains(edge);
-      assertThat(graph.incidentEdges(node2)).contains(edge);
+      if (!(graph instanceof Hypergraph)) {
+        Iterator<Integer> incidentNodesIterator = graph.incidentNodes(edge).iterator();
+        Integer node1 = incidentNodesIterator.next();
+        Integer node2 = incidentNodesIterator.hasNext() ? incidentNodesIterator.next() : node1;
+        assertFalse(incidentNodesIterator.hasNext());
+        assertThat(graph.edgesConnecting(node1, node2)).contains(edge);
+        assertThat(graph.successors(node1)).contains(node2);
+        assertThat(graph.adjacentNodes(node1)).contains(node2);
+        assertThat(graph.outEdges(node1)).contains(edge);
+        assertThat(graph.incidentEdges(node1)).contains(edge);
+        assertThat(graph.predecessors(node2)).contains(node1);
+        assertThat(graph.adjacentNodes(node2)).contains(node1);
+        assertThat(graph.inEdges(node2)).contains(edge);
+        assertThat(graph.incidentEdges(node2)).contains(edge);
+      }
 
-      for (Integer incidentNode : incidentNodes) {
+      for (Integer incidentNode : graph.incidentNodes(edge)) {
         assertThat(graph.nodes()).contains(incidentNode);
         for (String adjacentEdge : graph.incidentEdges(incidentNode)) {
           assertTrue(edge.equals(adjacentEdge) || graph.adjacentEdges(edge).contains(adjacentEdge));
@@ -182,12 +184,16 @@ public abstract class AbstractGraphTest {
 
       for (String inEdge : graph.inEdges(node)) {
         assertThat(graph.incidentEdges(node)).contains(inEdge);
-        assertThat(graph.outEdges(Graphs.oppositeNode(graph, inEdge, node))).contains(inEdge);
+        if (!(graph instanceof Hypergraph)) {
+          assertThat(graph.outEdges(Graphs.oppositeNode(graph, inEdge, node))).contains(inEdge);
+        }
       }
 
       for (String outEdge : graph.outEdges(node)) {
         assertThat(graph.incidentEdges(node)).contains(outEdge);
-        assertThat(graph.inEdges(Graphs.oppositeNode(graph, outEdge, node))).contains(outEdge);
+        if (!(graph instanceof Hypergraph)) {
+          assertThat(graph.inEdges(Graphs.oppositeNode(graph, outEdge, node))).contains(outEdge);
+        }
       }
 
       for (Integer adjacentNode : graph.adjacentNodes(node)) {
