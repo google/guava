@@ -5727,21 +5727,23 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Iterables.html#filter(java.lang.Iterable,%20com.google.common.base.Predicate)">filter(Iterable&lt;T&gt;, Predicate&lt;? super T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Iterables.html" title="class in com.google.common.collect">Iterables</a></dt>
 <dd>
-<div class="block">Returns the elements of <code>unfiltered</code> that satisfy the input predicate
- <code>retainIfTrue</code>.</div>
+<div class="block">Returns a view of <code>unfiltered</code> containing all elements that satisfy
+ the input predicate <code>retainIfTrue</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Iterables.html#filter(java.lang.Iterable,%20java.lang.Class)">filter(Iterable&lt;?&gt;, Class&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Iterables.html" title="class in com.google.common.collect">Iterables</a></dt>
 <dd>
-<div class="block">Returns all elements in <code>unfiltered</code> that are of the type <code>desiredType</code>.</div>
+<div class="block">Returns a view of <code>unfiltered</code> containing all elements that are of
+ the type <code>desiredType</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Iterators.html#filter(java.util.Iterator,%20com.google.common.base.Predicate)">filter(Iterator&lt;T&gt;, Predicate&lt;? super T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Iterators.html" title="class in com.google.common.collect">Iterators</a></dt>
 <dd>
-<div class="block">Returns the elements of <code>unfiltered</code> that satisfy the input predicate
- <code>retainIfTrue</code>.</div>
+<div class="block">Returns a view of <code>unfiltered</code> containing all elements that satisfy
+ the input predicate <code>retainIfTrue</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Iterators.html#filter(java.util.Iterator,%20java.lang.Class)">filter(Iterator&lt;?&gt;, Class&lt;T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Iterators.html" title="class in com.google.common.collect">Iterators</a></dt>
 <dd>
-<div class="block">Returns all elements in <code>unfiltered</code> that are of the type <code>desiredType</code>.</div>
+<div class="block">Returns a view of <code>unfiltered</code> containing all elements that are of
+ the type <code>desiredType</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Multisets.html#filter(com.google.common.collect.Multiset,%20com.google.common.base.Predicate)">filter(Multiset&lt;E&gt;, Predicate&lt;? super E&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Multisets.html" title="class in com.google.common.collect">Multisets</a></dt>
 <dd>
@@ -9565,13 +9567,12 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Iterables.html#limit(java.lang.Iterable,%20int)">limit(Iterable&lt;T&gt;, int)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Iterables.html" title="class in com.google.common.collect">Iterables</a></dt>
 <dd>
-<div class="block">Creates an iterable with the first <code>limitSize</code> elements of the given
- iterable.</div>
+<div class="block">Returns a view of <code>iterable</code> containing its first <code>limitSize</code>
+ elements.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Iterators.html#limit(java.util.Iterator,%20int)">limit(Iterator&lt;T&gt;, int)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Iterators.html" title="class in com.google.common.collect">Iterators</a></dt>
 <dd>
-<div class="block">Creates an iterator returning the first <code>limitSize</code> elements of the
- given iterator.</div>
+<div class="block">Returns a view containing the first <code>limitSize</code> elements of <code>iterator</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/io/ByteStreams.html#limit(java.io.InputStream,%20long)">limit(InputStream, long)</a></span> - Static method in class com.google.common.io.<a href="./com/google/common/io/ByteStreams.html" title="class in com.google.common.io">ByteStreams</a></dt>
 <dd>
@@ -16060,11 +16061,13 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Iterables.html#transform(java.lang.Iterable,%20com.google.common.base.Function)">transform(Iterable&lt;F&gt;, Function&lt;? super F, ? extends T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Iterables.html" title="class in com.google.common.collect">Iterables</a></dt>
 <dd>
-<div class="block">Returns an iterable that applies <code>function</code> to each element of <code>fromIterable</code>.</div>
+<div class="block">Returns a view containing the result of applying <code>function</code> to each
+ element of <code>fromIterable</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Iterators.html#transform(java.util.Iterator,%20com.google.common.base.Function)">transform(Iterator&lt;F&gt;, Function&lt;? super F, ? extends T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Iterators.html" title="class in com.google.common.collect">Iterators</a></dt>
 <dd>
-<div class="block">Returns an iterator that applies <code>function</code> to each element of <code>fromIterator</code>.</div>
+<div class="block">Returns a view containing the result of applying <code>function</code> to each
+ element of <code>fromIterator</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Lists.html#transform(java.util.List,%20com.google.common.base.Function)">transform(List&lt;F&gt;, Function&lt;? super F, ? extends T&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Lists.html" title="class in com.google.common.collect">Lists</a></dt>
 <dd>

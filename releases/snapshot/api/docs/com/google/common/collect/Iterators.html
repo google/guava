@@ -251,15 +251,16 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Iterators.html#filter(java.util.Iterator,%20java.lang.Class)">filter</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;?&gt;&nbsp;unfiltered,
             <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;desiredType)</code>
-<div class="block">Returns all elements in <code>unfiltered</code> that are of the type <code>desiredType</code>.</div>
+<div class="block">Returns a view of <code>unfiltered</code> containing all elements that are of
+ the type <code>desiredType</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Iterators.html#filter(java.util.Iterator,%20com.google.common.base.Predicate)">filter</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;unfiltered,
             <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;retainIfTrue)</code>
-<div class="block">Returns the elements of <code>unfiltered</code> that satisfy the input predicate
- <code>retainIfTrue</code>.</div>
+<div class="block">Returns a view of <code>unfiltered</code> containing all elements that satisfy
+ the input predicate <code>retainIfTrue</code>.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -365,8 +366,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Iterators.html#limit(java.util.Iterator,%20int)">limit</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
           int&nbsp;limitSize)</code>
-<div class="block">Creates an iterator returning the first <code>limitSize</code> elements of the
- given iterator.</div>
+<div class="block">Returns a view containing the first <code>limitSize</code> elements of <code>iterator</code>.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -461,7 +461,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>static &lt;F,T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Iterators.html#transform(java.util.Iterator,%20com.google.common.base.Function)">transform</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;F&gt;&nbsp;fromIterator,
                   <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,? extends T&gt;&nbsp;function)</code>
-<div class="block">Returns an iterator that applies <code>function</code> to each element of <code>fromIterator</code>.</div>
+<div class="block">Returns a view containing the result of applying <code>function</code> to each
+ element of <code>fromIterator</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -906,8 +907,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
 public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.608">filter</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;unfiltered,
                                                   <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;retainIfTrue)</pre>
-<div class="block">Returns the elements of <code>unfiltered</code> that satisfy the input predicate
- <code>retainIfTrue</code>.</div>
+<div class="block">Returns a view of <code>unfiltered</code> containing all elements that satisfy
+ the input predicate <code>retainIfTrue</code>.</div>
 </li>
 </ul>
 <a name="filter(java.util.Iterator, java.lang.Class)">
@@ -918,12 +919,10 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <h4>filter</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.637">filter</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;?&gt;&nbsp;unfiltered,
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.633">filter</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;?&gt;&nbsp;unfiltered,
                                                                   <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;desiredType)</pre>
-<div class="block">Returns all elements in <code>unfiltered</code> that are of the type <code>desiredType</code>.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>unfiltered</code> - an iterator containing objects of any type, to be filtered on</dd><dd><code>desiredType</code> - the type of elements desired in the result iterator</dd>
-<dt><span class="strong">Returns:</span></dt><dd>an unmodifiable iterator containing all elements of the original
-     iterator that were of the requested type</dd></dl>
+<div class="block">Returns a view of <code>unfiltered</code> containing all elements that are of
+ the type <code>desiredType</code>.</div>
 </li>
 </ul>
 <a name="any(java.util.Iterator, com.google.common.base.Predicate)">
@@ -932,7 +931,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>any</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.645">any</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.641">any</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
               <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns <code>true</code> if one or more elements returned by <code>iterator</code>
  satisfy the given predicate.</div>
@@ -944,7 +943,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>all</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.654">all</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.650">all</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
               <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns <code>true</code> if every element returned by <code>iterator</code>
  satisfies the given predicate. If <code>iterator</code> is empty, <code>true</code>
@@ -957,7 +956,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>find</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.676">find</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.672">find</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
          <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the first element in <code>iterator</code> that satisfies the given
  predicate; use this method only when such an element is known to exist. If
@@ -977,7 +976,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>find</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.691">find</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&nbsp;iterator,
+public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.687">find</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&nbsp;iterator,
                   <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate,
                   <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   T&nbsp;defaultValue)</pre>
@@ -996,7 +995,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>tryFind</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.709">tryFind</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.705">tryFind</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
                       <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns an <a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in <code>iterator</code> that satisfies the given predicate, if such an element exists. If
  no such element is found, an empty <a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> will be returned from
@@ -1014,7 +1013,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.732">indexOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.728">indexOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
               <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</pre>
 <div class="block">Returns the index in <code>iterator</code> of the first element that satisfies
  the provided <code>predicate</code>, or <code>-1</code> if the Iterator has no such
@@ -1038,11 +1037,12 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre>public static&nbsp;&lt;F,T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.751">transform</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;F&gt;&nbsp;fromIterator,
+<pre>public static&nbsp;&lt;F,T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.747">transform</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;F&gt;&nbsp;fromIterator,
                           <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,? extends T&gt;&nbsp;function)</pre>
-<div class="block">Returns an iterator that applies <code>function</code> to each element of <code>fromIterator</code>.
+<div class="block">Returns a view containing the result of applying <code>function</code> to each
+ element of <code>fromIterator</code>.
 
- <p>The returned iterator supports <code>remove()</code> if the provided iterator
+ <p>The returned iterator supports <code>remove()</code> if <code>fromIterator</code>
  does. After a successful <code>remove()</code> call, <code>fromIterator</code> no
  longer contains the corresponding element.</div>
 </li>
@@ -1053,7 +1053,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.772">get</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.768">get</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
         int&nbsp;position)</pre>
 <div class="block">Advances <code>iterator</code> <code>position + 1</code> times, returning the
  element at the <code>position</code>th position.</div>
@@ -1074,7 +1074,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <li class="blockList">
 <h4>get</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.808">get</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&nbsp;iterator,
+public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.804">get</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&nbsp;iterator,
                  int&nbsp;position,
                  <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                  T&nbsp;defaultValue)</pre>
@@ -1101,7 +1101,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <li class="blockList">
 <h4>getNext</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.824">getNext</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&nbsp;iterator,
+public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.820">getNext</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&nbsp;iterator,
                      <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                      T&nbsp;defaultValue)</pre>
 <div class="block">Returns the next element in <code>iterator</code> or <code>defaultValue</code> if
@@ -1118,7 +1118,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>getLast</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.834">getLast</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.830">getLast</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator)</pre>
 <div class="block">Advances <code>iterator</code> to the end, returning the last element.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>the last element of <code>iterator</code></dd>
 <dt><span class="strong">Throws:</span></dt>
@@ -1134,7 +1134,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <li class="blockList">
 <h4>getLast</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.852">getLast</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&nbsp;iterator,
+public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.848">getLast</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&nbsp;iterator,
                      <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                      T&nbsp;defaultValue)</pre>
 <div class="block">Advances <code>iterator</code> to the end, returning the last element or
@@ -1150,7 +1150,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>advance</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.863">advance</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;?&gt;&nbsp;iterator,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.859">advance</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;?&gt;&nbsp;iterator,
           int&nbsp;numberToAdvance)</pre>
 <div class="block">Calls <code>next()</code> on <code>iterator</code>, either <code>numberToAdvance</code> times
  or until <code>hasNext()</code> returns <code>false</code>, whichever comes first.</div>
@@ -1164,13 +1164,11 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>limit</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.886">limit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.881">limit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator,
                     int&nbsp;limitSize)</pre>
-<div class="block">Creates an iterator returning the first <code>limitSize</code> elements of the
- given iterator. If the original iterator does not contain that many
- elements, the returned iterator will have the same behavior as the original
- iterator. The returned iterator supports <code>remove()</code> if the original
- iterator does.</div>
+<div class="block">Returns a view containing the first <code>limitSize</code> elements of <code>iterator</code>. If <code>iterator</code> contains fewer than <code>limitSize</code>
+ elements, the returned view contains all of its elements. The returned
+ iterator supports <code>remove()</code> if <code>iterator</code> does.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>iterator</code> - the iterator to limit</dd><dd><code>limitSize</code> - the maximum number of elements in the returned iterator</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>limitSize</code> is negative</dd><dt><span class="strong">Since:</span></dt>
@@ -1183,7 +1181,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>consumingIterator</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.926">consumingIterator</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.921">consumingIterator</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator)</pre>
 <div class="block">Returns a view of the supplied <code>iterator</code> that removes each element
  from the supplied <code>iterator</code> as it is returned.
 
@@ -1204,7 +1202,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <li class="blockList">
 <h4>forArray</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang">@SafeVarargs</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.990">forArray</a>(T...&nbsp;array)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.985">forArray</a>(T...&nbsp;array)</pre>
 <div class="block">Returns an iterator containing the elements of <code>array</code> in order. The
  returned iterator is a view of the array; subsequent changes to the array
  will be reflected in the iterator.
@@ -1225,7 +1223,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>singletonIterator</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1032">singletonIterator</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1027">singletonIterator</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                             T&nbsp;value)</pre>
 <div class="block">Returns an iterator containing only <code>value</code>.
 
@@ -1238,7 +1236,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>forEnumeration</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1060">forEnumeration</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Enumeration.html?is-external=true" title="class or interface in java.util">Enumeration</a>&lt;T&gt;&nbsp;enumeration)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1055">forEnumeration</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Enumeration.html?is-external=true" title="class or interface in java.util">Enumeration</a>&lt;T&gt;&nbsp;enumeration)</pre>
 <div class="block">Adapts an <code>Enumeration</code> to the <code>Iterator</code> interface.
 
  <p>This method has no equivalent in <a href="../../../../com/google/common/collect/Iterables.html" title="class in com.google.common.collect"><code>Iterables</code></a> because viewing an
@@ -1252,7 +1250,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>asEnumeration</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Enumeration.html?is-external=true" title="class or interface in java.util">Enumeration</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1082">asEnumeration</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Enumeration.html?is-external=true" title="class or interface in java.util">Enumeration</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1077">asEnumeration</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator)</pre>
 <div class="block">Adapts an <code>Iterator</code> to the <code>Enumeration</code> interface.
 
  <p>The <code>Iterable</code> equivalent of this method is either <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#enumeration(java.util.Collection)" title="class or interface in java.util"><code>Collections.enumeration(java.util.Collection&lt;T&gt;)</code></a> (if you have a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a>), or
@@ -1265,7 +1263,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>peekingIterator</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1180">peekingIterator</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&nbsp;iterator)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1175">peekingIterator</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&nbsp;iterator)</pre>
 <div class="block">Returns a <code>PeekingIterator</code> backed by the given iterator.
 
  <p>Calls to the <code>peek</code> method with no intervening calls to <code>next</code> do not affect the iteration, and hence return the same object each
@@ -1307,7 +1305,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>peekingIterator</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1198">peekingIterator</a>(<a href="../../../../com/google/common/collect/PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;iterator)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1193">peekingIterator</a>(<a href="../../../../com/google/common/collect/PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;iterator)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>no need to use this</i></div>
 <div class="block">Simply returns its argument.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -1321,7 +1319,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>mergeSorted</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1216">mergeSorted</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&gt;&nbsp;iterators,
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1211">mergeSorted</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&gt;&nbsp;iterators,
                                            <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns an iterator over the merged contents of all given
  <code>iterators</code>, traversing every element of the input iterators.
