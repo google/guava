@@ -105,7 +105,7 @@
 <hr>
 <br>
 <pre><a href="../../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.36">SettableFuture</a>&lt;V&gt;
+public final class <a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.37">SettableFuture</a>&lt;V&gt;
 extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V&gt;</pre>
 <div class="block">A <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> whose result can be set by a <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#set(V)"><code>set(Object)</code></a>, <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#setException(java.lang.Throwable)"><code>setException(Throwable)</code></a> or <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)"><code>setFuture(ListenableFuture)</code></a> call. It can also, like any
  other <code>Future</code>, be <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel(boolean)">cancelled</a>.
@@ -223,7 +223,7 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.40">create</a>()</pre>
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.41">create</a>()</pre>
 <div class="block">Creates a new <code>SettableFuture</code> that can be completed or cancelled by a later method call.</div>
 </li>
 </ul>
@@ -235,7 +235,7 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.44">set</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.47">set</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
           <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&nbsp;value)</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#set(V)">AbstractFuture</a></code></strong></div>
 <div class="block">Sets the result of this <code>Future</code> unless this <code>Future</code> has already been cancelled or
@@ -257,7 +257,7 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture
 <ul class="blockList">
 <li class="blockList">
 <h4>setException</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.48">setException</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.53">setException</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setException(java.lang.Throwable)">AbstractFuture</a></code></strong></div>
 <div class="block">Sets the failed result of this <code>Future</code> unless this <code>Future</code> has already been
  cancelled or set (including <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>). When a call to this
@@ -280,7 +280,7 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture
 <li class="blockList">
 <h4>setFuture</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.54">setFuture</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;&nbsp;future)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.60">setFuture</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;&nbsp;future)</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">AbstractFuture</a></code></strong></div>
 <div class="block">Sets the result of this <code>Future</code> to match the supplied input <code>Future</code> once the
  supplied <code>Future</code> is done, unless this <code>Future</code> has already been cancelled or set
@@ -309,7 +309,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.79">get</a>()
+<pre>public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.81">get</a>()
             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a>,
                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#get()">AbstractFuture</a></code></strong></div>
@@ -335,7 +335,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.84">get</a>(long&nbsp;timeout,
+<pre>public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.87">get</a>(long&nbsp;timeout,
     <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a>,
                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a>,
@@ -364,7 +364,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>isDone</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.90">isDone</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.93">isDone</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent">isDone</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</code></dd>
@@ -379,7 +379,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>isCancelled</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.95">isCancelled</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.98">isCancelled</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isCancelled()" title="class or interface in java.util.concurrent">isCancelled</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</code></dd>
@@ -394,7 +394,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockListLast">
 <li class="blockList">
 <h4>addListener</h4>
-<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.100">addListener</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
+<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.103">addListener</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
                <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#addListener(java.lang.Runnable,%20java.util.concurrent.Executor)">AbstractFuture</a></code></strong></div>
 <div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">run</a> on the given executor.

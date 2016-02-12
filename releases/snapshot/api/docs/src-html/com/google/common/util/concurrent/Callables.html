@@ -78,7 +78,7 @@
 <span class="sourceLineNo">070</span>          return callable.call();<a name="line.70"></a>
 <span class="sourceLineNo">071</span>        } finally {<a name="line.71"></a>
 <span class="sourceLineNo">072</span>          if (restoreName) {<a name="line.72"></a>
-<span class="sourceLineNo">073</span>            trySetName(oldName, currentThread);<a name="line.73"></a>
+<span class="sourceLineNo">073</span>            boolean unused = trySetName(oldName, currentThread);<a name="line.73"></a>
 <span class="sourceLineNo">074</span>          }<a name="line.74"></a>
 <span class="sourceLineNo">075</span>        }<a name="line.75"></a>
 <span class="sourceLineNo">076</span>      }<a name="line.76"></a>
@@ -108,7 +108,7 @@
 <span class="sourceLineNo">100</span>          task.run();<a name="line.100"></a>
 <span class="sourceLineNo">101</span>        } finally {<a name="line.101"></a>
 <span class="sourceLineNo">102</span>          if (restoreName) {<a name="line.102"></a>
-<span class="sourceLineNo">103</span>            trySetName(oldName, currentThread);<a name="line.103"></a>
+<span class="sourceLineNo">103</span>            boolean unused = trySetName(oldName, currentThread);<a name="line.103"></a>
 <span class="sourceLineNo">104</span>          }<a name="line.104"></a>
 <span class="sourceLineNo">105</span>        }<a name="line.105"></a>
 <span class="sourceLineNo">106</span>      }<a name="line.106"></a>

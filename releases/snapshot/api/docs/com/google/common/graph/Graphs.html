@@ -96,7 +96,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/graph/Graphs.html#line.45">Graphs</a>
+public final class <a href="../../../../src-html/com/google/common/graph/Graphs.html#line.44">Graphs</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Static utility methods for <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> instances.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -347,7 +347,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>MULTIGRAPH</h4>
-<pre>public static final&nbsp;<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a> <a href="../../../../src-html/com/google/common/graph/Graphs.html#line.47">MULTIGRAPH</a></pre>
+<pre>public static final&nbsp;<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a> <a href="../../../../src-html/com/google/common/graph/Graphs.html#line.46">MULTIGRAPH</a></pre>
 </li>
 </ul>
 </li>
@@ -364,13 +364,13 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>oppositeNode</h4>
-<pre>public static&nbsp;&lt;N&gt;&nbsp;N&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.57">oppositeNode</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,?&gt;&nbsp;graph,
+<pre>public static&nbsp;&lt;N&gt;&nbsp;N&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.56">oppositeNode</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,?&gt;&nbsp;graph,
                  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge,
                  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block">Returns the node at the other end of <code>edge</code> from <code>node</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>edge</code> is not incident to <code>node</code></dd>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - if <code>graph</code> is a <a href="../../../../com/google/common/graph/Hypergraph.html" title="interface in com.google.common.graph"><code>Hypergraph</code></a></dd></dl>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - if <code>graph</code> is a <a href="../../../../com/google/common/graph/Hypergraph.html" title="interface in com.google.common.graph"><code>Hypergraph</code></a></dd>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>edge</code> is not incident to <code>node</code></dd></dl>
 </li>
 </ul>
 <a name="parallelEdges(com.google.common.graph.Graph, java.lang.Object)">
@@ -379,13 +379,13 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>parallelEdges</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.87">parallelEdges</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;graph,
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.80">parallelEdges</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;graph,
                          <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 <div class="block">Returns an unmodifiable view of edges that are parallel to <code>edge</code>, i.e. the set of edges
  that connect the same nodes in the same direction (if any). An edge is not parallel to itself.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>edge</code> is not present in <code>graph</code></dd>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - if <code>graph</code> is a <a href="../../../../com/google/common/graph/Hypergraph.html" title="interface in com.google.common.graph"><code>Hypergraph</code></a></dd></dl>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - if <code>graph</code> is a <a href="../../../../com/google/common/graph/Hypergraph.html" title="interface in com.google.common.graph"><code>Hypergraph</code></a></dd>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>edge</code> is not present in <code>graph</code></dd></dl>
 </li>
 </ul>
 <a name="addEdge(com.google.common.graph.Graph,java.lang.Object,java.lang.Iterable)">
@@ -396,7 +396,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>addEdge</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.107">addEdge</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;graph,
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.100">addEdge</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;graph,
                     E&nbsp;edge,
                     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;N&gt;&nbsp;nodes)</pre>
 <div class="block">Adds <code>edge</code> to <code>graph</code> with the specified incident <code>nodes</code>, in the order
@@ -409,7 +409,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.128">copyOf</a>(<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.121">copyOf</a>(<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;graph)</pre>
 <div class="block">Creates a mutable copy of <code>graph</code>, using the same node and edge elements.</div>
 </li>
 </ul>
@@ -419,7 +419,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.142">copyOf</a>(<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;graph,
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.135">copyOf</a>(<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;graph,
                               <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super N&gt;&nbsp;nodePredicate,
                               <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;edgePredicate)</pre>
 <div class="block">Creates a mutable copy of <code>graph</code>, using all of its elements that satisfy
@@ -432,7 +432,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>mergeNodesFrom</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.175">mergeNodesFrom</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;original,
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.168">mergeNodesFrom</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;original,
                         <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;copy)</pre>
 <div class="block">Copies all nodes from <code>original</code> into <code>copy</code>.</div>
 </li>
@@ -443,7 +443,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>mergeNodesFrom</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.186">mergeNodesFrom</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;original,
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.179">mergeNodesFrom</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;original,
                         <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;copy,
                         <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super N&gt;&nbsp;nodePredicate)</pre>
 <div class="block">Copies all nodes from <code>original</code> into <code>copy</code> that satisfy <code>nodePredicate</code>.</div>
@@ -455,7 +455,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>mergeEdgesFrom</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.210">mergeEdgesFrom</a>(<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;original,
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.203">mergeEdgesFrom</a>(<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;original,
                         <a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;copy)</pre>
 <div class="block">Copies all edges from <code>original</code> into <code>copy</code>.  Also copies all nodes incident
  to these edges.</div>
@@ -467,7 +467,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>mergeEdgesFrom</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.222">mergeEdgesFrom</a>(<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;original,
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.215">mergeEdgesFrom</a>(<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;original,
                         <a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;copy,
                         <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;edgePredicate)</pre>
 <div class="block">Copies all edges from <code>original</code> into <code>copy</code> that satisfy <code>edgePredicate</code>.
@@ -480,7 +480,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph">UndirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.245">copyOf</a>(<a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph">UndirectedGraph</a>&lt;N,E&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph">UndirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.238">copyOf</a>(<a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph">UndirectedGraph</a>&lt;N,E&gt;&nbsp;graph)</pre>
 <div class="block">Creates a mutable copy of <code>graph</code>, using the same node and edge elements.</div>
 </li>
 </ul>
@@ -490,7 +490,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph">UndirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.259">copyOf</a>(<a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph">UndirectedGraph</a>&lt;N,E&gt;&nbsp;graph,
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph">UndirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.252">copyOf</a>(<a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph">UndirectedGraph</a>&lt;N,E&gt;&nbsp;graph,
                                 <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super N&gt;&nbsp;nodePredicate,
                                 <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;edgePredicate)</pre>
 <div class="block">Creates a mutable copy of <code>graph</code>, using all of its elements that satisfy
@@ -503,7 +503,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>mergeEdgesFrom</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.293">mergeEdgesFrom</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;original,
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.286">mergeEdgesFrom</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;original,
                         <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;copy)</pre>
 <div class="block">Copies all edges from <code>original</code> into <code>copy</code>.  Also copies all nodes incident
  to these edges.</div>
@@ -515,7 +515,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>mergeEdgesFrom</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.306">mergeEdgesFrom</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;original,
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.299">mergeEdgesFrom</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;original,
                         <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;copy,
                         <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;edgePredicate)</pre>
 <div class="block">Copies all edges from <code>original</code> into <code>copy</code> that satisfy <code>edgePredicate</code>.
@@ -528,7 +528,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>copyFrom</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.330">copyFrom</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;original,
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.323">copyFrom</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;original,
                   <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;copy,
                   <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super N&gt;&nbsp;nodePredicate,
                   <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;edgePredicate)</pre>
@@ -542,7 +542,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>config</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.348">config</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.341">config</a>()</pre>
 <div class="block">Returns a new default instance of <code>GraphConfig</code>.</div>
 <dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph"><code>GraphConfig</code></a></dd></dl>
 </li>
@@ -553,7 +553,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>createDirected</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.358">createDirected</a>()</pre>
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.351">createDirected</a>()</pre>
 <div class="block">Returns a new instance of <a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph"><code>DirectedGraph</code></a> with the default
  graph configuration.</div>
 <dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph"><code>GraphConfig</code></a></dd></dl>
@@ -565,7 +565,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>createDirected</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.366">createDirected</a>(<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;config)</pre>
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.359">createDirected</a>(<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;config)</pre>
 <div class="block">Returns a new instance of <a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph"><code>DirectedGraph</code></a> with the graph
  configuration specified by <code>config</code>.</div>
 </li>
@@ -576,7 +576,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>createUndirected</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph">UndirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.376">createUndirected</a>()</pre>
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph">UndirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.369">createUndirected</a>()</pre>
 <div class="block">Returns a new instance of <a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph"><code>UndirectedGraph</code></a> with the default
  graph configuration.</div>
 <dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph"><code>GraphConfig</code></a></dd></dl>
@@ -588,7 +588,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>createUndirected</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph">UndirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.384">createUndirected</a>(<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;config)</pre>
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph">UndirectedGraph</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.377">createUndirected</a>(<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;config)</pre>
 <div class="block">Returns a new instance of <a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph"><code>UndirectedGraph</code></a> with the graph
  configuration specified by <code>config</code>.</div>
 </li>
@@ -599,7 +599,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>equal</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.394">equal</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.387">equal</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   <a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;?,?&gt;&nbsp;graph1,
                   <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   <a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;?,?&gt;&nbsp;graph2)</pre>
@@ -614,7 +614,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>equal</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.423">equal</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.416">equal</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
             <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?,?&gt;&nbsp;graph1,
             <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
             <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?,?&gt;&nbsp;graph2)</pre>
@@ -629,7 +629,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.447">toString</a>(<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;?,?&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.440">toString</a>(<a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a>&lt;?,?&gt;&nbsp;graph)</pre>
 <div class="block">Returns a string representation of <code>graph</code>, encoding the direction of each edge.</div>
 </li>
 </ul>
@@ -639,7 +639,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.463">toString</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?,?&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.456">toString</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?,?&gt;&nbsp;graph)</pre>
 <div class="block">Returns a string representation of <code>graph</code>, without regard to direction of edges.</div>
 </li>
 </ul>
@@ -649,7 +649,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>selfLoopPredicate</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.482">selfLoopPredicate</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?,E&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graphs.html#line.475">selfLoopPredicate</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?,E&gt;&nbsp;graph)</pre>
 <div class="block">Returns a <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> that returns <code>true</code> if the input edge is a self-loop in
  <code>graph</code>. A self-loop is defined as an edge whose set of incident nodes has exactly one
  element. The predicate's <code>apply</code> method will throw an <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a> if

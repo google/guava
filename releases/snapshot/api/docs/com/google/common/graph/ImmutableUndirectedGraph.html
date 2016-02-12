@@ -434,7 +434,8 @@ implements <a href="../../../../com/google/common/graph/UndirectedGraph.html" ti
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#incidentNodes(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this graph.
 
- <p>If <code>edge</code> is a self-loop, the returned set will only have a single node.</div>
+ <p>For non-hypergraphs, the returned set will always contain either one
+ (if <code>edge</code> is a self-loop) or two nodes.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../com/google/common/graph/Graph.html#incidentNodes(java.lang.Object)">incidentNodes</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.html" title="type parameter in ImmutableUndirectedGraph">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.html" title="type parameter in ImmutableUndirectedGraph">E</a>&gt;</code></dd>
