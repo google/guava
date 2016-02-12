@@ -561,8 +561,9 @@ public final class Iterables {
   }
 
   /**
-   * Returns the elements of {@code unfiltered} that satisfy the input predicate
-   * {@code retainIfTrue}. The resulting iterable's iterator does not support {@code remove()}.
+   * Returns a view of {@code unfiltered} containing all elements that satisfy
+   * the input predicate {@code retainIfTrue}. The returned iterable's iterator
+   * does not support {@code remove()}.
    */
   @CheckReturnValue
   public static <T> Iterable<T> filter(
@@ -578,13 +579,9 @@ public final class Iterables {
   }
 
   /**
-   * Returns all elements in {@code unfiltered} that are of the type {@code desiredType}.
-   * The returned iterable's iterator does not support {@code remove()}.
-   *
-   * @param unfiltered an iterable containing objects of any type, to be filtered on
-   * @param desiredType the type of elements desired in the result iterable
-   * @return an unmodifiable iterable containing all elements of the original
-   *     iterable that were of the requested type
+   * Returns a view of {@code unfiltered} containing all elements that are of
+   * the type {@code desiredType}. The returned iterable's iterator does not
+   * support {@code remove()}.
    */
   @GwtIncompatible // Class.isInstance
   @CheckReturnValue
@@ -671,11 +668,11 @@ public final class Iterables {
   }
 
   /**
-   * Returns an iterable that applies {@code function} to each element of {@code
-   * fromIterable}.
+   * Returns a view containing the result of applying {@code function} to each
+   * element of {@code fromIterable}.
    *
-   * <p>The returned iterable's iterator supports {@code remove()} if the
-   * provided iterator does. After a successful {@code remove()} call,
+   * <p>The returned iterable's iterator supports {@code remove()} if {@code
+   * fromIterable}'s iterator does. After a successful {@code remove()} call,
    * {@code fromIterable} no longer contains the corresponding element.
    *
    * <p>If the input {@code Iterable} is known to be a {@code List} or other
@@ -874,10 +871,10 @@ public final class Iterables {
   }
 
   /**
-   * Creates an iterable with the first {@code limitSize} elements of the given
-   * iterable. If the original iterable does not contain that many elements, the
-   * returned iterable will have the same behavior as the original iterable. The
-   * returned iterable's iterator supports {@code remove()} if the original
+   * Returns a view of {@code iterable} containing its first {@code limitSize}
+   * elements. If {@code iterable} contains fewer than {@code limitSize}
+   * elements, the returned view contains all of its elements. The returned
+   * iterable's iterator supports {@code remove()} if {@code iterable}'s
    * iterator does.
    *
    * @param iterable the iterable to limit

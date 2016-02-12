@@ -601,8 +601,8 @@ public final class Iterators {
   }
 
   /**
-   * Returns the elements of {@code unfiltered} that satisfy the input predicate
-   * {@code retainIfTrue}.
+   * Returns a view of {@code unfiltered} containing all elements that satisfy
+   * the input predicate {@code retainIfTrue}.
    */
   @CheckReturnValue
   public static <T> UnmodifiableIterator<T> filter(
@@ -624,12 +624,8 @@ public final class Iterators {
   }
 
   /**
-   * Returns all elements in {@code unfiltered} that are of the type {@code desiredType}.
-   *
-   * @param unfiltered an iterator containing objects of any type, to be filtered on
-   * @param desiredType the type of elements desired in the result iterator
-   * @return an unmodifiable iterator containing all elements of the original
-   *     iterator that were of the requested type
+   * Returns a view of {@code unfiltered} containing all elements that are of
+   * the type {@code desiredType}.
    */
   @SuppressWarnings("unchecked") // can cast to <T> because non-Ts are removed
   @GwtIncompatible // Class.isInstance
@@ -741,10 +737,10 @@ public final class Iterators {
   }
 
   /**
-   * Returns an iterator that applies {@code function} to each element of {@code
-   * fromIterator}.
+   * Returns a view containing the result of applying {@code function} to each
+   * element of {@code fromIterator}.
    *
-   * <p>The returned iterator supports {@code remove()} if the provided iterator
+   * <p>The returned iterator supports {@code remove()} if {@code fromIterator}
    * does. After a successful {@code remove()} call, {@code fromIterator} no
    * longer contains the corresponding element.
    */
@@ -872,11 +868,10 @@ public final class Iterators {
   }
 
   /**
-   * Creates an iterator returning the first {@code limitSize} elements of the
-   * given iterator. If the original iterator does not contain that many
-   * elements, the returned iterator will have the same behavior as the original
-   * iterator. The returned iterator supports {@code remove()} if the original
-   * iterator does.
+   * Returns a view containing the first {@code limitSize} elements of {@code
+   * iterator}. If {@code iterator} contains fewer than {@code limitSize}
+   * elements, the returned view contains all of its elements. The returned
+   * iterator supports {@code remove()} if {@code iterator} does.
    *
    * @param iterator the iterator to limit
    * @param limitSize the maximum number of elements in the returned iterator
