@@ -80,7 +80,7 @@ public abstract class Escaper {
    * @return the escaped form of {@code string}
    * @throws NullPointerException if {@code string} is null
    * @throws IllegalArgumentException if {@code string} contains badly formed UTF-16 or cannot be
-   *         escaped for any other reason
+   *     escaped for any other reason
    */
   public abstract String escape(String string);
 

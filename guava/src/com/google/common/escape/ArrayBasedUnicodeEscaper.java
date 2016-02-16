@@ -69,7 +69,7 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    * @param safeMin the lowest character value in the safe range
    * @param safeMax the highest character value in the safe range
    * @param unsafeReplacement the default replacement for unsafe characters or null if no default
-   *        replacement is required
+   *     replacement is required
    */
   protected ArrayBasedUnicodeEscaper(
       Map<Character, String> replacementMap,
@@ -92,7 +92,7 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    * @param safeMin the lowest character value in the safe range
    * @param safeMax the highest character value in the safe range
    * @param unsafeReplacement the default replacement for unsafe characters or null if no default
-   *        replacement is required
+   *     replacement is required
    */
   protected ArrayBasedUnicodeEscaper(
       ArrayBasedEscaperMap escaperMap,

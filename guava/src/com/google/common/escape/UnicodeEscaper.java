@@ -100,7 +100,7 @@ public abstract class UnicodeEscaper extends Escaper {
    * @param start the index of the first character to be scanned
    * @param end the index immediately after the last character to be scanned
    * @throws IllegalArgumentException if the scanned sub-sequence of {@code csq} contains invalid
-   *         surrogate pairs
+   *     surrogate pairs
    */
   protected int nextEscapeIndex(CharSequence csq, int start, int end) {
     int index = start;
@@ -240,7 +240,7 @@ public abstract class UnicodeEscaper extends Escaper {
    * @param index the index of the first character to decode
    * @param end the index beyond the last valid character to decode
    * @return the Unicode code point for the given index or the negated value of the trailing high
-   *         surrogate character at the end of the sequence
+   *     surrogate character at the end of the sequence
    */
   protected static int codePointAt(CharSequence seq, int index, int end) {
     checkNotNull(seq);
