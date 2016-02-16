@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.escape;
@@ -24,23 +22,20 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
 
 /**
- * A {@link CharEscaper} that uses an array to quickly look up replacement
- * characters for a given {@code char} value. An additional safe range is
- * provided that determines whether {@code char} values without specific
- * replacements are to be considered safe and left unescaped or should be
+ * A {@link CharEscaper} that uses an array to quickly look up replacement characters for a given
+ * {@code char} value. An additional safe range is provided that determines whether {@code char}
+ * values without specific replacements are to be considered safe and left unescaped or should be
  * escaped in a general way.
  *
- * <p>A good example of usage of this class is for Java source code escaping
- * where the replacement array contains information about special ASCII
- * characters such as {@code \\t} and {@code \\n} while {@link #escapeUnsafe}
- * is overridden to handle general escaping of the form {@code \\uxxxx}.
+ * <p>A good example of usage of this class is for Java source code escaping where the replacement
+ * array contains information about special ASCII characters such as {@code \\t} and {@code \\n}
+ * while {@link #escapeUnsafe} is overridden to handle general escaping of the form {@code \\uxxxx}.
  *
- * <p>The size of the data structure used by {@link ArrayBasedCharEscaper} is
- * proportional to the highest valued character that requires escaping.
- * For example a replacement map containing the single character
- * '{@code \}{@code u1000}' will require approximately 16K of memory. If you
- * need to create multiple escaper instances that have the same character
- * replacement mapping consider using {@link ArrayBasedEscaperMap}.
+ * <p>The size of the data structure used by {@link ArrayBasedCharEscaper} is proportional to the
+ * highest valued character that requires escaping. For example a replacement map containing the
+ * single character '{@code \}{@code u1000}' will require approximately 16K of memory. If you need
+ * to create multiple escaper instances that have the same character replacement mapping consider
+ * using {@link ArrayBasedEscaperMap}.
  *
  * @author Sven Mawson
  * @author David Beaumont
@@ -59,43 +54,38 @@ public abstract class ArrayBasedCharEscaper extends CharEscaper {
   private final char safeMax;
 
   /**
-   * Creates a new ArrayBasedCharEscaper instance with the given replacement map
-   * and specified safe range. If {@code safeMax < safeMin} then no characters
-   * are considered safe.
+   * Creates a new ArrayBasedCharEscaper instance with the given replacement map and specified safe
+   * range. If {@code safeMax < safeMin} then no characters are considered safe.
    *
-   * <p>If a character has no mapped replacement then it is checked against the
-   * safe range. If it lies outside that, then {@link #escapeUnsafe} is
-   * called, otherwise no escaping is performed.
+   * <p>If a character has no mapped replacement then it is checked against the safe range. If it
+   * lies outside that, then {@link #escapeUnsafe} is called, otherwise no escaping is performed.
    *
    * @param replacementMap a map of characters to their escaped representations
    * @param safeMin the lowest character value in the safe range
    * @param safeMax the highest character value in the safe range
    */
-  protected ArrayBasedCharEscaper(Map<Character, String> replacementMap,
-      char safeMin, char safeMax) {
+  protected ArrayBasedCharEscaper(
+      Map<Character, String> replacementMap, char safeMin, char safeMax) {
 
     this(ArrayBasedEscaperMap.create(replacementMap), safeMin, safeMax);
   }
 
   /**
-   * Creates a new ArrayBasedCharEscaper instance with the given replacement map
-   * and specified safe range. If {@code safeMax < safeMin} then no characters
-   * are considered safe. This initializer is useful when explicit instances of
-   * ArrayBasedEscaperMap are used to allow the sharing of large replacement
-   * mappings.
+   * Creates a new ArrayBasedCharEscaper instance with the given replacement map and specified safe
+   * range. If {@code safeMax < safeMin} then no characters are considered safe. This initializer is
+   * useful when explicit instances of ArrayBasedEscaperMap are used to allow the sharing of large
+   * replacement mappings.
    *
-   * <p>If a character has no mapped replacement then it is checked against the
-   * safe range. If it lies outside that, then {@link #escapeUnsafe} is
-   * called, otherwise no escaping is performed.
+   * <p>If a character has no mapped replacement then it is checked against the safe range. If it
+   * lies outside that, then {@link #escapeUnsafe} is called, otherwise no escaping is performed.
    *
    * @param escaperMap the mapping of characters to be escaped
    * @param safeMin the lowest character value in the safe range
    * @param safeMax the highest character value in the safe range
    */
-  protected ArrayBasedCharEscaper(ArrayBasedEscaperMap escaperMap,
-      char safeMin, char safeMax) {
+  protected ArrayBasedCharEscaper(ArrayBasedEscaperMap escaperMap, char safeMin, char safeMax) {
 
-    checkNotNull(escaperMap);  // GWT specific check (do not optimize)
+    checkNotNull(escaperMap); // GWT specific check (do not optimize)
     this.replacements = escaperMap.getReplacementArray();
     this.replacementsLength = replacements.length;
     if (safeMax < safeMin) {
@@ -109,17 +99,15 @@ public abstract class ArrayBasedCharEscaper extends CharEscaper {
   }
 
   /*
-   * This is overridden to improve performance. Rough benchmarking shows that
-   * this almost doubles the speed when processing strings that do not require
-   * any escaping.
+   * This is overridden to improve performance. Rough benchmarking shows that this almost doubles
+   * the speed when processing strings that do not require any escaping.
    */
   @Override
   public final String escape(String s) {
-    checkNotNull(s);  // GWT specific check (do not optimize).
+    checkNotNull(s); // GWT specific check (do not optimize).
     for (int i = 0; i < s.length(); i++) {
       char c = s.charAt(i);
-      if ((c < replacementsLength && replacements[c] != null) ||
-          c > safeMax || c < safeMin) {
+      if ((c < replacementsLength && replacements[c] != null) || c > safeMax || c < safeMin) {
         return escapeSlow(s, i);
       }
     }
@@ -127,11 +115,12 @@ public abstract class ArrayBasedCharEscaper extends CharEscaper {
   }
 
   /**
-   * Escapes a single character using the replacement array and safe range
-   * values. If the given character does not have an explicit replacement and
-   * lies outside the safe range then {@link #escapeUnsafe} is called.
+   * Escapes a single character using the replacement array and safe range values. If the given
+   * character does not have an explicit replacement and lies outside the safe range then
+   * {@link #escapeUnsafe} is called.
    */
-  @Override protected final char[] escape(char c) {
+  @Override
+  protected final char[] escape(char c) {
     if (c < replacementsLength) {
       char[] chars = replacements[c];
       if (chars != null) {
@@ -145,17 +134,16 @@ public abstract class ArrayBasedCharEscaper extends CharEscaper {
   }
 
   /**
-   * Escapes a {@code char} value that has no direct explicit value in the
-   * replacement array and lies outside the stated safe range. Subclasses should
-   * override this method to provide generalized escaping for characters.
+   * Escapes a {@code char} value that has no direct explicit value in the replacement array and
+   * lies outside the stated safe range. Subclasses should override this method to provide
+   * generalized escaping for characters.
    *
-   * <p>Note that arrays returned by this method must not be modified once they
-   * have been returned. However it is acceptable to return the same array
-   * multiple times (even for different input characters).
+   * <p>Note that arrays returned by this method must not be modified once they have been returned.
+   * However it is acceptable to return the same array multiple times (even for different input
+   * characters).
    *
    * @param c the character to escape
-   * @return the replacement characters, or {@code null} if no escaping was
-   *         required
+   * @return the replacement characters, or {@code null} if no escaping was required
    */
   // TODO(user,cpovirk): Rename this something better once refactoring done
   protected abstract char[] escapeUnsafe(char c);
