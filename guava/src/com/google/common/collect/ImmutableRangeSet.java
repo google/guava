@@ -112,7 +112,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     this.complement = complement;
   }
 
-  private transient final ImmutableList<Range<C>> ranges;
+  private final transient ImmutableList<Range<C>> ranges;
 
   @Override
   public boolean intersects(Range<C> otherRange) {

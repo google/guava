@@ -34,8 +34,8 @@ import javax.annotation.Nullable;
 @GwtCompatible
 final class CartesianList<E> extends AbstractList<List<E>> implements RandomAccess {
 
-  private transient final ImmutableList<List<E>> axes;
-  private transient final int[] axesSizeProduct;
+  private final transient ImmutableList<List<E>> axes;
+  private final transient int[] axesSizeProduct;
 
   static <E> List<List<E>> create(List<? extends List<? extends E>> lists) {
     ImmutableList.Builder<List<E>> axesBuilder = new ImmutableList.Builder<List<E>>(lists.size());

@@ -1177,8 +1177,8 @@ public final class Sets {
 
   private static final class CartesianSet<E> extends ForwardingCollection<List<E>>
       implements Set<List<E>> {
-    private transient final ImmutableList<ImmutableSet<E>> axes;
-    private transient final CartesianList<E> delegate;
+    private final transient ImmutableList<ImmutableSet<E>> axes;
+    private final transient CartesianList<E> delegate;
 
     static <E> Set<List<E>> create(List<? extends Set<? extends E>> sets) {
       ImmutableList.Builder<ImmutableSet<E>> axesBuilder =

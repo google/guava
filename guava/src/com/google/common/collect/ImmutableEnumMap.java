@@ -46,7 +46,7 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
     }
   }
 
-  private transient final EnumMap<K, V> delegate;
+  private final transient EnumMap<K, V> delegate;
 
   private ImmutableEnumMap(EnumMap<K, V> delegate) {
     this.delegate = delegate;

@@ -48,7 +48,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   static final RegularImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
       new RegularImmutableSortedSet<Comparable>(ImmutableList.<Comparable>of(), Ordering.natural());
 
-  private transient final ImmutableList<E> elements;
+  private final transient ImmutableList<E> elements;
 
   RegularImmutableSortedSet(ImmutableList<E> elements, Comparator<? super E> comparator) {
     super(comparator);
