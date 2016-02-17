@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2006 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
@@ -39,9 +37,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * A TimeLimiter that runs method calls in the background using an
- * {@link ExecutorService}.  If the time limit expires for a given method call,
- * the thread running the call will be interrupted.
+ * A TimeLimiter that runs method calls in the background using an {@link ExecutorService}. If the
+ * time limit expires for a given method call, the thread running the call will be interrupted.
  *
  * @author Kevin Bourrillion
  * @since 1.0
@@ -53,48 +50,45 @@ public final class SimpleTimeLimiter implements TimeLimiter {
   private final ExecutorService executor;
 
   /**
-   * Constructs a TimeLimiter instance using the given executor service to
-   * execute proxied method calls.
-   * <p>
-   * <b>Warning:</b> using a bounded executor
-   * may be counterproductive!  If the thread pool fills up, any time callers
-   * spend waiting for a thread may count toward their time limit, and in
-   * this case the call may even time out before the target method is ever
-   * invoked.
+   * Constructs a TimeLimiter instance using the given executor service to execute proxied method
+   * calls.
    *
-   * @param executor the ExecutorService that will execute the method calls on
-   *     the target objects; for example, a {@link
-   *     Executors#newCachedThreadPool()}.
+   * <p><b>Warning:</b> using a bounded executor may be counterproductive! If the thread pool fills
+   * up, any time callers spend waiting for a thread may count toward their time limit, and in this
+   * case the call may even time out before the target method is ever invoked.
+   *
+   * @param executor the ExecutorService that will execute the method calls on the target objects;
+   *     for example, a {@link Executors#newCachedThreadPool()}.
    */
   public SimpleTimeLimiter(ExecutorService executor) {
     this.executor = checkNotNull(executor);
   }
 
   /**
-   * Constructs a TimeLimiter instance using a {@link
-   * Executors#newCachedThreadPool()} to execute proxied method calls.
+   * Constructs a TimeLimiter instance using a {@link Executors#newCachedThreadPool()} to execute
+   * proxied method calls.
    *
-   * <p><b>Warning:</b> using a bounded executor may be counterproductive! If
-   * the thread pool fills up, any time callers spend waiting for a thread may
-   * count toward their time limit, and in this case the call may even time out
-   * before the target method is ever invoked.
+   * <p><b>Warning:</b> using a bounded executor may be counterproductive! If the thread pool fills
+   * up, any time callers spend waiting for a thread may count toward their time limit, and in this
+   * case the call may even time out before the target method is ever invoked.
    */
   public SimpleTimeLimiter() {
     this(Executors.newCachedThreadPool());
   }
 
   @Override
-  public <T> T newProxy(final T target, Class<T> interfaceType,
-      final long timeoutDuration, final TimeUnit timeoutUnit) {
+  public <T> T newProxy(
+      final T target,
+      Class<T> interfaceType,
+      final long timeoutDuration,
+      final TimeUnit timeoutUnit) {
     checkNotNull(target);
     checkNotNull(interfaceType);
     checkNotNull(timeoutUnit);
     checkArgument(timeoutDuration > 0, "bad timeout: %s", timeoutDuration);
-    checkArgument(interfaceType.isInterface(),
-        "interfaceType must be an interface type");
+    checkArgument(interfaceType.isInterface(), "interfaceType must be an interface type");
 
-    final Set<Method> interruptibleMethods
-        = findInterruptibleMethods(interfaceType);
+    final Set<Method> interruptibleMethods = findInterruptibleMethods(interfaceType);
 
     InvocationHandler handler =
         new InvocationHandler() {
@@ -127,8 +121,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
       throws Exception {
     checkNotNull(callable);
     checkNotNull(timeoutUnit);
-    checkArgument(timeoutDuration > 0, "timeout must be positive: %s",
-        timeoutDuration);
+    checkArgument(timeoutDuration > 0, "timeout must be positive: %s", timeoutDuration);
     Future<T> future = executor.submit(callable);
     try {
       if (amInterruptible) {
@@ -139,8 +132,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
           throw e;
         }
       } else {
-        return Uninterruptibles.getUninterruptibly(future, 
-            timeoutDuration, timeoutUnit);
+        return Uninterruptibles.getUninterruptibly(future, timeoutDuration, timeoutUnit);
       }
     } catch (ExecutionException e) {
       throw throwCause(e, true);
@@ -150,15 +142,14 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     }
   }
 
-  private static Exception throwCause(Exception e, boolean combineStackTraces)
-      throws Exception {
+  private static Exception throwCause(Exception e, boolean combineStackTraces) throws Exception {
     Throwable cause = e.getCause();
     if (cause == null) {
       throw e;
     }
     if (combineStackTraces) {
-      StackTraceElement[] combined = ObjectArrays.concat(cause.getStackTrace(),
-          e.getStackTrace(), StackTraceElement.class);
+      StackTraceElement[] combined =
+          ObjectArrays.concat(cause.getStackTrace(), e.getStackTrace(), StackTraceElement.class);
       cause.setStackTrace(combined);
     }
     if (cause instanceof Exception) {
@@ -192,10 +183,10 @@ public final class SimpleTimeLimiter implements TimeLimiter {
   }
 
   // TODO: replace with version in common.reflect if and when it's open-sourced
-  private static <T> T newProxy(
-      Class<T> interfaceType, InvocationHandler handler) {
-    Object object = Proxy.newProxyInstance(interfaceType.getClassLoader(),
-        new Class<?>[] { interfaceType }, handler);
+  private static <T> T newProxy(Class<T> interfaceType, InvocationHandler handler) {
+    Object object =
+        Proxy.newProxyInstance(
+            interfaceType.getClassLoader(), new Class<?>[] {interfaceType}, handler);
     return interfaceType.cast(object);
   }
 }
