@@ -810,7 +810,8 @@ public final class ServiceManager {
       if (state != null) {
         // Log before the transition, so that if the process exits in response to server failure,
         // there is a higher likelihood that the cause will be in the logs.
-        if (!(service instanceof NoOpService) ) {
+        boolean log = !(service instanceof NoOpService);
+        if (log) {
           logger.log(
               Level.SEVERE,
               "Service " + service + " has failed in the " + from + " state.",
