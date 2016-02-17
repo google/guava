@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -32,8 +30,8 @@ import javax.annotation.Nullable;
  *
  * <p>All methods return serializable functions as long as they're given serializable parameters.
  *
- * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
+ * <p>See the Guava User Guide article on
+ * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
  * Function}</a>.
  *
  * @author Mike Bostock
@@ -106,9 +104,9 @@ public final class Functions {
   }
 
   /**
-   * Returns a function which performs a map lookup. The returned function throws an {@link
-   * IllegalArgumentException} if given a key that does not exist in the map. See also {@link
-   * #forMap(Map, Object)}, which returns a default value in this case.
+   * Returns a function which performs a map lookup. The returned function throws an
+   * {@link IllegalArgumentException} if given a key that does not exist in the map. See also
+   * {@link #forMap(Map, Object)}, which returns a default value in this case.
    *
    * <p>Note: if {@code map} is a {@link com.google.common.collect.BiMap BiMap} (or can be one), you
    * can use {@link com.google.common.collect.Maps#asConverter Maps.asConverter} instead to get a
@@ -259,8 +257,8 @@ public final class Functions {
   /**
    * Creates a function that returns the same boolean output as the given predicate for all inputs.
    *
-   * <p>The returned function is <i>consistent with equals</i> (as documented at {@link
-   * Function#apply}) if and only if {@code predicate} is itself consistent with equals.
+   * <p>The returned function is <i>consistent with equals</i> (as documented at
+   * {@link Function#apply}) if and only if {@code predicate} is itself consistent with equals.
    */
   public static <T> Function<T, Boolean> forPredicate(Predicate<T> predicate) {
     return new PredicateFunction<T>(predicate);
@@ -356,7 +354,7 @@ public final class Functions {
     return new SupplierFunction<T>(supplier);
   }
 
-  /** @see Functions#forSupplier*/
+  /** @see Functions#forSupplier */
   private static class SupplierFunction<T> implements Function<Object, T>, Serializable {
 
     private final Supplier<T> supplier;

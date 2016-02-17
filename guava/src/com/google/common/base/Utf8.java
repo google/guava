@@ -40,9 +40,9 @@ import com.google.common.annotations.GwtCompatible;
 @GwtCompatible
 public final class Utf8 {
   /**
-   * Returns the number of bytes in the UTF-8-encoded form of {@code sequence}. For a string,
-   * this method is equivalent to {@code string.getBytes(UTF_8).length}, but is more efficient in
-   * both time and space.
+   * Returns the number of bytes in the UTF-8-encoded form of {@code sequence}. For a string, this
+   * method is equivalent to {@code string.getBytes(UTF_8).length}, but is more efficient in both
+   * time and space.
    *
    * @throws IllegalArgumentException if {@code sequence} contains ill-formed UTF-16 (unpaired
    *     surrogates)

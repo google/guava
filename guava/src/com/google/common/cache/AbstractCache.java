@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.cache;
@@ -135,8 +133,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   /**
-   * Accumulates statistics during the operation of a {@link Cache} for presentation by {@link
-   * Cache#stats}. This is solely intended for consumption by {@code Cache} implementors.
+   * Accumulates statistics during the operation of a {@link Cache} for presentation by
+   * {@link Cache#stats}. This is solely intended for consumption by {@code Cache} implementors.
    *
    * @since 10.0
    */
@@ -150,12 +148,12 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     void recordHits(int count);
 
     /**
-     * Records cache misses. This should be called when a cache request returns a value that was
-     * not found in the cache. This method should be called by the loading thread, as well as by
-     * threads blocking on the load. Multiple concurrent calls to {@link Cache} lookup methods with
-     * the same key on an absent value should result in a single call to either
-     * {@code recordLoadSuccess} or {@code recordLoadException} and multiple calls to this method,
-     * despite all being served by the results of a single load operation.
+     * Records cache misses. This should be called when a cache request returns a value that was not
+     * found in the cache. This method should be called by the loading thread, as well as by threads
+     * blocking on the load. Multiple concurrent calls to {@link Cache} lookup methods with the same
+     * key on an absent value should result in a single call to either {@code recordLoadSuccess} or
+     * {@code recordLoadException} and multiple calls to this method, despite all being served by
+     * the results of a single load operation.
      *
      * @param count the number of misses to record
      * @since 11.0
@@ -163,8 +161,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     void recordMisses(int count);
 
     /**
-     * Records the successful load of a new entry. This should be called when a cache request
-     * causes an entry to be loaded, and the loading completes successfully. In contrast to
+     * Records the successful load of a new entry. This should be called when a cache request causes
+     * an entry to be loaded, and the loading completes successfully. In contrast to
      * {@link #recordMisses}, this method should only be called by the loading thread.
      *
      * @param loadTime the number of nanoseconds the cache spent computing or retrieving the new
@@ -173,8 +171,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     void recordLoadSuccess(long loadTime);
 
     /**
-     * Records the failed load of a new entry. This should be called when a cache request causes
-     * an entry to be loaded, but an exception is thrown while loading the entry. In contrast to
+     * Records the failed load of a new entry. This should be called when a cache request causes an
+     * entry to be loaded, but an exception is thrown while loading the entry. In contrast to
      * {@link #recordMisses}, this method should only be called by the loading thread.
      *
      * @param loadTime the number of nanoseconds the cache spent computing or retrieving the new
@@ -184,8 +182,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     /**
      * Records the eviction of an entry from the cache. This should only been called when an entry
-     * is evicted due to the cache's eviction strategy, and not as a result of manual {@linkplain
-     * Cache#invalidate invalidations}.
+     * is evicted due to the cache's eviction strategy, and not as a result of manual
+     * {@linkplain Cache#invalidate invalidations}.
      */
     void recordEviction();
 

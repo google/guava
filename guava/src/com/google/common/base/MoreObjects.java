@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2014 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -29,8 +27,8 @@ import javax.annotation.Nullable;
  * Helper functions that operate on any {@code Object}, and are not already provided in
  * {@link java.util.Objects}.
  *
- * <p>See the Guava User Guide on <a
- * href="https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained">writing
+ * <p>See the Guava User Guide on
+ * <a href="https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained">writing
  * {@code Object} methods with {@code MoreObjects}</a>.
  *
  * @author Laurence Gonsalves
@@ -63,8 +61,9 @@ public final class MoreObjects {
   /**
    * Creates an instance of {@link ToStringHelper}.
    *
-   * <p>This is helpful for implementing {@link Object#toString()}.
-   * Specification by example: <pre>   {@code
+   * <p>This is helpful for implementing {@link Object#toString()}. Specification by example:
+   *
+   * <pre>   {@code
    *   // Returns "ClassName{}"
    *   MoreObjects.toStringHelper(this)
    *       .toString();
@@ -104,8 +103,8 @@ public final class MoreObjects {
   }
 
   /**
-   * Creates an instance of {@link ToStringHelper} in the same manner as {@link
-   * #toStringHelper(Object)}, but using the simple name of {@code clazz} instead of using an
+   * Creates an instance of {@link ToStringHelper} in the same manner as
+   * {@link #toStringHelper(Object)}, but using the simple name of {@code clazz} instead of using an
    * instance's {@link Object#getClass()}.
    *
    * <p>Note that in GWT, class names are often obfuscated.
@@ -118,9 +117,9 @@ public final class MoreObjects {
   }
 
   /**
-   * Creates an instance of {@link ToStringHelper} in the same manner as {@link
-   * #toStringHelper(Object)}, but using {@code className} instead of using an instance's {@link
-   * Object#getClass()}.
+   * Creates an instance of {@link ToStringHelper} in the same manner as
+   * {@link #toStringHelper(Object)}, but using {@code className} instead of using an instance's
+   * {@link Object#getClass()}.
    *
    * @param className the name of the instance type
    * @since 18.0 (since 7.0 as {@code Objects.toStringHelper()}).
@@ -149,9 +148,9 @@ public final class MoreObjects {
     }
 
     /**
-     * Configures the {@link ToStringHelper} so {@link #toString()} will ignore
-     * properties with null value. The order of calling this method, relative
-     * to the {@code add()}/{@code addValue()} methods, is not significant.
+     * Configures the {@link ToStringHelper} so {@link #toString()} will ignore properties with null
+     * value. The order of calling this method, relative to the {@code add()}/{@code addValue()}
+     * methods, is not significant.
      *
      * @since 18.0 (since 12.0 as {@code Objects.ToStringHelper.omitNullValues()}).
      */
@@ -162,10 +161,9 @@ public final class MoreObjects {
     }
 
     /**
-     * Adds a name/value pair to the formatted output in {@code name=value}
-     * format. If {@code value} is {@code null}, the string {@code "null"}
-     * is used, unless {@link #omitNullValues()} is called, in which case this
-     * name/value pair will not be added.
+     * Adds a name/value pair to the formatted output in {@code name=value} format. If {@code value}
+     * is {@code null}, the string {@code "null"} is used, unless {@link #omitNullValues()} is
+     * called, in which case this name/value pair will not be added.
      */
     @CanIgnoreReturnValue
     public ToStringHelper add(String name, @Nullable Object value) {
@@ -173,8 +171,7 @@ public final class MoreObjects {
     }
 
     /**
-     * Adds a name/value pair to the formatted output in {@code name=value}
-     * format.
+     * Adds a name/value pair to the formatted output in {@code name=value} format.
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
@@ -184,8 +181,7 @@ public final class MoreObjects {
     }
 
     /**
-     * Adds a name/value pair to the formatted output in {@code name=value}
-     * format.
+     * Adds a name/value pair to the formatted output in {@code name=value} format.
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
@@ -195,8 +191,7 @@ public final class MoreObjects {
     }
 
     /**
-     * Adds a name/value pair to the formatted output in {@code name=value}
-     * format.
+     * Adds a name/value pair to the formatted output in {@code name=value} format.
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
@@ -206,8 +201,7 @@ public final class MoreObjects {
     }
 
     /**
-     * Adds a name/value pair to the formatted output in {@code name=value}
-     * format.
+     * Adds a name/value pair to the formatted output in {@code name=value} format.
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
@@ -217,8 +211,7 @@ public final class MoreObjects {
     }
 
     /**
-     * Adds a name/value pair to the formatted output in {@code name=value}
-     * format.
+     * Adds a name/value pair to the formatted output in {@code name=value} format.
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
@@ -228,8 +221,7 @@ public final class MoreObjects {
     }
 
     /**
-     * Adds a name/value pair to the formatted output in {@code name=value}
-     * format.
+     * Adds a name/value pair to the formatted output in {@code name=value} format.
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).
      */
@@ -241,8 +233,8 @@ public final class MoreObjects {
     /**
      * Adds an unnamed value to the formatted output.
      *
-     * <p>It is strongly encouraged to use {@link #add(String, Object)} instead
-     * and give value a readable name.
+     * <p>It is strongly encouraged to use {@link #add(String, Object)} instead and give value a
+     * readable name.
      */
     @CanIgnoreReturnValue
     public ToStringHelper addValue(@Nullable Object value) {
@@ -252,8 +244,8 @@ public final class MoreObjects {
     /**
      * Adds an unnamed value to the formatted output.
      *
-     * <p>It is strongly encouraged to use {@link #add(String, boolean)} instead
-     * and give value a readable name.
+     * <p>It is strongly encouraged to use {@link #add(String, boolean)} instead and give value a
+     * readable name.
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
@@ -265,8 +257,8 @@ public final class MoreObjects {
     /**
      * Adds an unnamed value to the formatted output.
      *
-     * <p>It is strongly encouraged to use {@link #add(String, char)} instead
-     * and give value a readable name.
+     * <p>It is strongly encouraged to use {@link #add(String, char)} instead and give value a
+     * readable name.
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
@@ -278,8 +270,8 @@ public final class MoreObjects {
     /**
      * Adds an unnamed value to the formatted output.
      *
-     * <p>It is strongly encouraged to use {@link #add(String, double)} instead
-     * and give value a readable name.
+     * <p>It is strongly encouraged to use {@link #add(String, double)} instead and give value a
+     * readable name.
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
@@ -291,8 +283,8 @@ public final class MoreObjects {
     /**
      * Adds an unnamed value to the formatted output.
      *
-     * <p>It is strongly encouraged to use {@link #add(String, float)} instead
-     * and give value a readable name.
+     * <p>It is strongly encouraged to use {@link #add(String, float)} instead and give value a
+     * readable name.
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
@@ -304,8 +296,8 @@ public final class MoreObjects {
     /**
      * Adds an unnamed value to the formatted output.
      *
-     * <p>It is strongly encouraged to use {@link #add(String, int)} instead
-     * and give value a readable name.
+     * <p>It is strongly encouraged to use {@link #add(String, int)} instead and give value a
+     * readable name.
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
@@ -317,8 +309,8 @@ public final class MoreObjects {
     /**
      * Adds an unnamed value to the formatted output.
      *
-     * <p>It is strongly encouraged to use {@link #add(String, long)} instead
-     * and give value a readable name.
+     * <p>It is strongly encouraged to use {@link #add(String, long)} instead and give value a
+     * readable name.
      *
      * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).
      */
@@ -328,14 +320,12 @@ public final class MoreObjects {
     }
 
     /**
-     * Returns a string in the format specified by
-     * {@link MoreObjects#toStringHelper(Object)}.
+     * Returns a string in the format specified by {@link MoreObjects#toStringHelper(Object)}.
      *
-     * <p>After calling this method, you can keep adding more properties to later
-     * call toString() again and get a more complete representation of the
-     * same object; but properties cannot be removed, so this only allows
-     * limited reuse of the helper instance. The helper allows duplication of
-     * properties (multiple name/value pairs with the same name can be added).
+     * <p>After calling this method, you can keep adding more properties to later call toString()
+     * again and get a more complete representation of the same object; but properties cannot be
+     * removed, so this only allows limited reuse of the helper instance. The helper allows
+     * duplication of properties (multiple name/value pairs with the same name can be added).
      */
     @Override
     public String toString() {

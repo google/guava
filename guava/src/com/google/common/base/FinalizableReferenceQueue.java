@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -41,11 +39,11 @@ import javax.annotation.Nullable;
  * finalized. If this object is garbage collected earlier, the backing thread will not invoke {@code
  * finalizeReferent()} on the remaining references.
  *
- * <p>As an example of how this is used, imagine you have a class {@code MyServer} that creates a
- * a {@link java.net.ServerSocket ServerSocket}, and you would like to ensure that the
+ * <p>As an example of how this is used, imagine you have a class {@code MyServer} that creates a a
+ * {@link java.net.ServerSocket ServerSocket}, and you would like to ensure that the
  * {@code ServerSocket} is closed even if the {@code MyServer} object is garbage-collected without
- * calling its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but
- * that has a number of well-known problems. Here is how you might use this class instead:
+ * calling its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but that
+ * has a number of well-known problems. Here is how you might use this class instead:
  *
  * <pre>
  * public class MyServer implements Closeable {
@@ -118,8 +116,8 @@ public class FinalizableReferenceQueue implements Closeable {
    * If the library is loaded in an application class loader, we try to break the cycle by loading
    * Finalizer in its own independent class loader:
    *
-   * System class loader -> Application class loader -> ReferenceMap -> FinalizableReferenceQueue
-   * -> etc. -> Decoupled class loader -> Finalizer
+   * System class loader -> Application class loader -> ReferenceMap -> FinalizableReferenceQueue ->
+   * etc. -> Decoupled class loader -> Finalizer
    *
    * Now, Finalizer no longer keeps an indirect strong reference to the static
    * FinalizableReferenceQueue field in ReferenceMap. The application class loader can be reclaimed
@@ -186,9 +184,9 @@ public class FinalizableReferenceQueue implements Closeable {
   }
 
   /**
-   * Repeatedly dequeues references from the queue and invokes {@link
-   * FinalizableReference#finalizeReferent()} on them until the queue is empty. This method is a
-   * no-op if the background thread was created successfully.
+   * Repeatedly dequeues references from the queue and invokes
+   * {@link FinalizableReference#finalizeReferent()} on them until the queue is empty. This method
+   * is a no-op if the background thread was created successfully.
    */
   void cleanUp() {
     if (threadStarted) {

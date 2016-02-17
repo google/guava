@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -35,14 +33,14 @@ import javax.annotation.Nullable;
  * <h3>Invertibility</h3>
  *
  * <p>The reverse operation <b>may</b> be a strict <i>inverse</i> (meaning that {@code
- * converter.reverse().convert(converter.convert(a)).equals(a)} is always true). However, it is
- * very common (perhaps <i>more</i> common) for round-trip conversion to be <i>lossy</i>. Consider
- * an example round-trip using {@link com.google.common.primitives.Doubles#stringConverter}:
+ * converter.reverse().convert(converter.convert(a)).equals(a)} is always true). However, it is very
+ * common (perhaps <i>more</i> common) for round-trip conversion to be <i>lossy</i>. Consider an
+ * example round-trip using {@link com.google.common.primitives.Doubles#stringConverter}:
  *
  * <ol>
  * <li>{@code stringConverter().convert("1.00")} returns the {@code Double} value {@code 1.0}
  * <li>{@code stringConverter().reverse().convert(1.0)} returns the string {@code "1.0"} --
- *     <i>not</i> the same string ({@code "1.00"}) we started with
+ * <i>not</i> the same string ({@code "1.00"}) we started with
  * </ol>
  *
  * <p>Note that it should still be the case that the round-tripped and original objects are
@@ -57,19 +55,19 @@ import javax.annotation.Nullable;
  * behavior for all converters; implementations of {@link #doForward} and {@link #doBackward} are
  * guaranteed to never be passed {@code null}, and must never return {@code null}.
  *
-
+ *
  * <h3>Common ways to use</h3>
  *
  * <p>Getting a converter:
  *
  * <ul>
- * <li>Use a provided converter implementation, such as {@link Enums#stringConverter}, {@link
- *     com.google.common.primitives.Ints#stringConverter Ints.stringConverter} or the {@linkplain
- *     #reverse reverse} views of these.
- * <li>Convert between specific preset values using {@link
- *     com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to create
- *     a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i> the
- *     {@code Converter} type using a mocking framework.
+ * <li>Use a provided converter implementation, such as {@link Enums#stringConverter},
+ *     {@link com.google.common.primitives.Ints#stringConverter Ints.stringConverter} or the
+ *     {@linkplain #reverse reverse} views of these.
+ * <li>Convert between specific preset values using
+ *     {@link com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to
+ *     create a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i>
+ *     the {@code Converter} type using a mocking framework.
  * <li>Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.
  * <li>If using Java 8, you may prefer to pass two lambda expressions or method references to the
  *     {@link #from from} factory method.

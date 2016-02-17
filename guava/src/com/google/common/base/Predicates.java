@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -34,12 +32,11 @@ import javax.annotation.Nullable;
 /**
  * Static utility methods pertaining to {@code Predicate} instances.
  *
- * <p>All methods returns serializable predicates as long as they're given
- * serializable parameters.
+ * <p>All methods returns serializable predicates as long as they're given serializable parameters.
  *
- * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/FunctionalExplained">the
- * use of {@code Predicate}</a>.
+ * <p>See the Guava User Guide article on
+ * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of
+ * {@code Predicate}</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0
@@ -68,8 +65,8 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if the object reference
-   * being tested is null.
+   * Returns a predicate that evaluates to {@code true} if the object reference being tested is
+   * null.
    */
   @GwtCompatible(serializable = true)
   public static <T> Predicate<T> isNull() {
@@ -77,8 +74,8 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if the object reference
-   * being tested is not null.
+   * Returns a predicate that evaluates to {@code true} if the object reference being tested is not
+   * null.
    */
   @GwtCompatible(serializable = true)
   public static <T> Predicate<T> notNull() {
@@ -86,18 +83,17 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if the given predicate
-   * evaluates to {@code false}.
+   * Returns a predicate that evaluates to {@code true} if the given predicate evaluates to
+   * {@code false}.
    */
   public static <T> Predicate<T> not(Predicate<T> predicate) {
     return new NotPredicate<T>(predicate);
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if each of its
-   * components evaluates to {@code true}. The components are evaluated in
-   * order, and evaluation will be "short-circuited" as soon as a false
-   * predicate is found. It defensively copies the iterable passed in, so future
+   * Returns a predicate that evaluates to {@code true} if each of its components evaluates to
+   * {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
+   * as soon as a false predicate is found. It defensively copies the iterable passed in, so future
    * changes to it won't alter the behavior of this predicate. If {@code
    * components} is empty, the returned predicate will always evaluate to {@code
    * true}.
@@ -107,10 +103,9 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if each of its
-   * components evaluates to {@code true}. The components are evaluated in
-   * order, and evaluation will be "short-circuited" as soon as a false
-   * predicate is found. It defensively copies the array passed in, so future
+   * Returns a predicate that evaluates to {@code true} if each of its components evaluates to
+   * {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
+   * as soon as a false predicate is found. It defensively copies the array passed in, so future
    * changes to it won't alter the behavior of this predicate. If {@code
    * components} is empty, the returned predicate will always evaluate to {@code
    * true}.
@@ -120,21 +115,19 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if both of its
-   * components evaluate to {@code true}. The components are evaluated in
-   * order, and evaluation will be "short-circuited" as soon as a false
-   * predicate is found.
+   * Returns a predicate that evaluates to {@code true} if both of its components evaluate to
+   * {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
+   * as soon as a false predicate is found.
    */
   public static <T> Predicate<T> and(Predicate<? super T> first, Predicate<? super T> second) {
     return new AndPredicate<T>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if any one of its
-   * components evaluates to {@code true}. The components are evaluated in
-   * order, and evaluation will be "short-circuited" as soon as a
-   * true predicate is found. It defensively copies the iterable passed in, so
-   * future changes to it won't alter the behavior of this predicate. If {@code
+   * Returns a predicate that evaluates to {@code true} if any one of its components evaluates to
+   * {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
+   * as soon as a true predicate is found. It defensively copies the iterable passed in, so future
+   * changes to it won't alter the behavior of this predicate. If {@code
    * components} is empty, the returned predicate will always evaluate to {@code
    * false}.
    */
@@ -143,11 +136,10 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if any one of its
-   * components evaluates to {@code true}. The components are evaluated in
-   * order, and evaluation will be "short-circuited" as soon as a
-   * true predicate is found. It defensively copies the array passed in, so
-   * future changes to it won't alter the behavior of this predicate. If {@code
+   * Returns a predicate that evaluates to {@code true} if any one of its components evaluates to
+   * {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
+   * as soon as a true predicate is found. It defensively copies the array passed in, so future
+   * changes to it won't alter the behavior of this predicate. If {@code
    * components} is empty, the returned predicate will always evaluate to {@code
    * false}.
    */
@@ -156,36 +148,33 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if either of its
-   * components evaluates to {@code true}. The components are evaluated in
-   * order, and evaluation will be "short-circuited" as soon as a
-   * true predicate is found.
+   * Returns a predicate that evaluates to {@code true} if either of its components evaluates to
+   * {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
+   * as soon as a true predicate is found.
    */
   public static <T> Predicate<T> or(Predicate<? super T> first, Predicate<? super T> second) {
     return new OrPredicate<T>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if the object being
-   * tested {@code equals()} the given target or both are null.
+   * Returns a predicate that evaluates to {@code true} if the object being tested {@code equals()}
+   * the given target or both are null.
    */
   public static <T> Predicate<T> equalTo(@Nullable T target) {
     return (target == null) ? Predicates.<T>isNull() : new IsEqualToPredicate<T>(target);
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if the object being
-   * tested is an instance of the given class. If the object being tested
-   * is {@code null} this predicate evaluates to {@code false}.
+   * Returns a predicate that evaluates to {@code true} if the object being tested is an instance of
+   * the given class. If the object being tested is {@code null} this predicate evaluates to
+   * {@code false}.
    *
-   * <p>If you want to filter an {@code Iterable} to narrow its type, consider
-   * using {@link com.google.common.collect.Iterables#filter(Iterable, Class)}
-   * in preference.
+   * <p>If you want to filter an {@code Iterable} to narrow its type, consider using
+   * {@link com.google.common.collect.Iterables#filter(Iterable, Class)} in preference.
    *
-   * <p><b>Warning:</b> contrary to the typical assumptions about predicates (as
-   * documented at {@link Predicate#apply}), the returned predicate may not be
-   * <i>consistent with equals</i>. For example, {@code
-   * instanceOf(ArrayList.class)} will yield different results for the two equal
+   * <p><b>Warning:</b> contrary to the typical assumptions about predicates (as documented at
+   * {@link Predicate#apply}), the returned predicate may not be <i>consistent with equals</i>. For
+   * example, {@code instanceOf(ArrayList.class)} will yield different results for the two equal
    * instances {@code Lists.newArrayList(1)} and {@code Arrays.asList(1)}.
    */
   @GwtIncompatible // Class.isInstance
@@ -194,9 +183,8 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if the class being
-   * tested is assignable from the given class.  The returned predicate
-   * does not allow null inputs.
+   * Returns a predicate that evaluates to {@code true} if the class being tested is assignable from
+   * the given class. The returned predicate does not allow null inputs.
    *
    * @since 10.0
    */
@@ -207,15 +195,13 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if the object reference
-   * being tested is a member of the given collection. It does not defensively
-   * copy the collection passed in, so future changes to it will alter the
-   * behavior of the predicate.
+   * Returns a predicate that evaluates to {@code true} if the object reference being tested is a
+   * member of the given collection. It does not defensively copy the collection passed in, so
+   * future changes to it will alter the behavior of the predicate.
    *
-   * <p>This method can technically accept any {@code Collection<?>}, but using
-   * a typed collection helps prevent bugs. This approach doesn't block any
-   * potential users since it is always possible to use {@code
-   * Predicates.<Object>in()}.
+   * <p>This method can technically accept any {@code Collection<?>}, but using a typed collection
+   * helps prevent bugs. This approach doesn't block any potential users since it is always possible
+   * to use {@code Predicates.<Object>in()}.
    *
    * @param target the collection that may contain the function input
    */
@@ -224,8 +210,8 @@ public final class Predicates {
   }
 
   /**
-   * Returns the composition of a function and a predicate. For every {@code x},
-   * the generated predicate returns {@code predicate(function(x))}.
+   * Returns the composition of a function and a predicate. For every {@code x}, the generated
+   * predicate returns {@code predicate(function(x))}.
    *
    * @return the composition of the provided function and predicate
    */
@@ -235,9 +221,8 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if the
-   * {@code CharSequence} being tested contains any match for the given
-   * regular expression pattern. The test used is equivalent to
+   * Returns a predicate that evaluates to {@code true} if the {@code CharSequence} being tested
+   * contains any match for the given regular expression pattern. The test used is equivalent to
    * {@code Pattern.compile(pattern).matcher(arg).find()}
    *
    * @throws java.util.regex.PatternSyntaxException if the pattern is invalid
@@ -249,9 +234,8 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if the
-   * {@code CharSequence} being tested contains any match for the given
-   * regular expression pattern. The test used is equivalent to
+   * Returns a predicate that evaluates to {@code true} if the {@code CharSequence} being tested
+   * contains any match for the given regular expression pattern. The test used is equivalent to
    * {@code pattern.matcher(arg).find()}
    *
    * @since 3.0
@@ -664,10 +648,11 @@ public final class Predicates {
 
     @Override
     public String toString() {
-      String patternString = MoreObjects.toStringHelper(pattern)
-          .add("pattern", pattern.pattern())
-          .add("pattern.flags", pattern.flags())
-          .toString();
+      String patternString =
+          MoreObjects.toStringHelper(pattern)
+              .add("pattern", pattern.pattern())
+              .add("pattern.flags", pattern.flags())
+              .toString();
       return "Predicates.contains(" + patternString + ")";
     }
 

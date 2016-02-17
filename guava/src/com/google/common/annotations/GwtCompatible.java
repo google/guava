@@ -21,10 +21,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The presence of this annotation on a type indicates that the type may be used with the <a
- * href="http://code.google.com/webtoolkit/">Google Web Toolkit</a> (GWT). When applied to a method,
- * the return type of the method is GWT compatible. It's useful to indicate that an instance created
- * by factory methods has a GWT serializable type. In the following example,
+ * The presence of this annotation on a type indicates that the type may be used with the
+ * <a href="http://code.google.com/webtoolkit/">Google Web Toolkit</a> (GWT). When applied to a
+ * method, the return type of the method is GWT compatible. It's useful to indicate that an instance
+ * created by factory methods has a GWT serializable type. In the following example,
  *
  * <pre style="code">
  * {@literal @}GwtCompatible
@@ -59,7 +59,7 @@ import java.lang.annotation.Target;
  * @author Hayward Chan
  */
 @Retention(RetentionPolicy.CLASS)
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 @GwtCompatible
 public @interface GwtCompatible {
@@ -68,7 +68,8 @@ public @interface GwtCompatible {
    * When {@code true}, the annotated type or the type of the method return value is GWT
    * serializable.
    *
-   * @see <a href="http://code.google.com/webtoolkit/doc/latest/DevGuideServerCommunication.html#DevGuideSerializableTypes">
+   * @see <a href=
+   *     "http://code.google.com/webtoolkit/doc/latest/DevGuideServerCommunication.html#DevGuideSerializableTypes">
    *     Documentation about GWT serialization</a>
    */
   boolean serializable() default false;
@@ -77,7 +78,8 @@ public @interface GwtCompatible {
    * When {@code true}, the annotated type is emulated in GWT. The emulated source (also known as
    * super-source) is different from the implementation used by the JVM.
    *
-   * @see <a href="http://code.google.com/webtoolkit/doc/latest/DevGuideOrganizingProjects.html#DevGuideModules">
+   * @see <a href=
+   *     "http://code.google.com/webtoolkit/doc/latest/DevGuideOrganizingProjects.html#DevGuideModules">
    *     Documentation about GWT emulated source</a>
    */
   boolean emulated() default false;

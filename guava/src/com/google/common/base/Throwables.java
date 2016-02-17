@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -39,8 +37,8 @@ import javax.annotation.Nullable;
 /**
  * Static utility methods pertaining to instances of {@link Throwable}.
  *
- * <p>See the Guava User Guide entry on <a href=
- * "https://github.com/google/guava/wiki/ThrowablesExplained">Throwables</a>.
+ * <p>See the Guava User Guide entry on
+ * <a href="https://github.com/google/guava/wiki/ThrowablesExplained">Throwables</a>.
  *
  * @author Kevin Bourrillion
  * @author Ben Yu
@@ -52,17 +50,18 @@ public final class Throwables {
 
   /**
    * Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@code
-   * declaredType}.  Example usage:
+   * declaredType}. Example usage:
+   *
    * <pre>
-   *   try {
-   *     someMethodThatCouldThrowAnything();
-   *   } catch (IKnowWhatToDoWithThisException e) {
-   *     handle(e);
-   *   } catch (Throwable t) {
-   *     Throwables.propagateIfInstanceOf(t, IOException.class);
-   *     Throwables.propagateIfInstanceOf(t, SQLException.class);
-   *     throw Throwables.propagate(t);
-   *   }
+   * try {
+   *   someMethodThatCouldThrowAnything();
+   * } catch (IKnowWhatToDoWithThisException e) {
+   *   handle(e);
+   * } catch (Throwable t) {
+   *   Throwables.propagateIfInstanceOf(t, IOException.class);
+   *   Throwables.propagateIfInstanceOf(t, SQLException.class);
+   *   throw Throwables.propagate(t);
+   * }
    * </pre>
    */
   public static <X extends Throwable> void propagateIfInstanceOf(
@@ -74,17 +73,18 @@ public final class Throwables {
   }
 
   /**
-   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
-   * RuntimeException} or {@link Error}.  Example usage:
+   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of
+   * {@link RuntimeException} or {@link Error}. Example usage:
+   *
    * <pre>
-   *   try {
-   *     someMethodThatCouldThrowAnything();
-   *   } catch (IKnowWhatToDoWithThisException e) {
-   *     handle(e);
-   *   } catch (Throwable t) {
-   *     Throwables.propagateIfPossible(t);
-   *     throw new RuntimeException("unexpected", t);
-   *   }
+   * try {
+   *   someMethodThatCouldThrowAnything();
+   * } catch (IKnowWhatToDoWithThisException e) {
+   *   handle(e);
+   * } catch (Throwable t) {
+   *   Throwables.propagateIfPossible(t);
+   *   throw new RuntimeException("unexpected", t);
+   * }
    * </pre>
    */
   public static void propagateIfPossible(@Nullable Throwable throwable) {
@@ -93,17 +93,18 @@ public final class Throwables {
   }
 
   /**
-   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
-   * RuntimeException}, {@link Error}, or {@code declaredType}. Example usage:
+   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of
+   * {@link RuntimeException}, {@link Error}, or {@code declaredType}. Example usage:
+   *
    * <pre>
-   *   try {
-   *     someMethodThatCouldThrowAnything();
-   *   } catch (IKnowWhatToDoWithThisException e) {
-   *     handle(e);
-   *   } catch (Throwable t) {
-   *     Throwables.propagateIfPossible(t, OtherException.class);
-   *     throw new RuntimeException("unexpected", t);
-   *   }
+   * try {
+   *   someMethodThatCouldThrowAnything();
+   * } catch (IKnowWhatToDoWithThisException e) {
+   *   handle(e);
+   * } catch (Throwable t) {
+   *   Throwables.propagateIfPossible(t, OtherException.class);
+   *   throw new RuntimeException("unexpected", t);
+   * }
    * </pre>
    *
    * @param throwable the Throwable to possibly propagate
@@ -116,11 +117,11 @@ public final class Throwables {
   }
 
   /**
-   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
-   * RuntimeException}, {@link Error}, {@code declaredType1}, or {@code declaredType2}. In the
-   * unlikely case that you have three or more declared checked exception types, you can handle them
-   * all by invoking these methods repeatedly. See usage example in {@link
-   * #propagateIfPossible(Throwable, Class)}.
+   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of
+   * {@link RuntimeException}, {@link Error}, {@code declaredType1}, or {@code declaredType2}. In
+   * the unlikely case that you have three or more declared checked exception types, you can handle
+   * them all by invoking these methods repeatedly. See usage example in
+   * {@link #propagateIfPossible(Throwable, Class)}.
    *
    * @param throwable the Throwable to possibly propagate
    * @param declaredType1 any checked exception type declared by the calling method
@@ -135,22 +136,24 @@ public final class Throwables {
   }
 
   /**
-   * Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or {@link
-   * Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then propagates.
-   * <p>
-   * This method always throws an exception. The {@code RuntimeException} return type
-   * allows client code to signal to the compiler that statements after the call are
-   * unreachable. Example usage:
+   * Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or
+   * {@link Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then
+   * propagates.
+   *
+   * <p>This method always throws an exception. The {@code RuntimeException} return type allows
+   * client code to signal to the compiler that statements after the call are unreachable. Example
+   * usage:
+   *
    * <pre>
-   *   T doSomething() {
-   *     try {
-   *       return someMethodThatCouldThrowAnything();
-   *     } catch (IKnowWhatToDoWithThisException e) {
-   *       return handle(e);
-   *     } catch (Throwable t) {
-   *       throw Throwables.propagate(t);
-   *     }
+   * T doSomething() {
+   *   try {
+   *     return someMethodThatCouldThrowAnything();
+   *   } catch (IKnowWhatToDoWithThisException e) {
+   *     return handle(e);
+   *   } catch (Throwable t) {
+   *     throw Throwables.propagate(t);
    *   }
+   * }
    * </pre>
    *
    * @param throwable the Throwable to propagate
@@ -164,11 +167,11 @@ public final class Throwables {
   }
 
   /**
-   * Returns the innermost cause of {@code throwable}. The first throwable in a
-   * chain provides context from when the error or exception was initially
-   * detected. Example usage:
+   * Returns the innermost cause of {@code throwable}. The first throwable in a chain provides
+   * context from when the error or exception was initially detected. Example usage:
+   *
    * <pre>
-   *   assertEquals("Unable to assign a customer id", Throwables.getRootCause(e).getMessage());
+   * assertEquals("Unable to assign a customer id", Throwables.getRootCause(e).getMessage());
    * </pre>
    */
   public static Throwable getRootCause(Throwable throwable) {
@@ -180,9 +183,9 @@ public final class Throwables {
   }
 
   /**
-   * Gets a {@code Throwable} cause chain as a list.  The first entry in the list will be {@code
-   * throwable} followed by its cause hierarchy.  Note that this is a snapshot of the cause chain
-   * and will not reflect any subsequent changes to the cause chain.
+   * Gets a {@code Throwable} cause chain as a list. The first entry in the list will be {@code
+   * throwable} followed by its cause hierarchy. Note that this is a snapshot of the cause chain and
+   * will not reflect any subsequent changes to the cause chain.
    *
    * <p>Here's an example of how it can be used to find specific types of exceptions in the cause
    * chain:
