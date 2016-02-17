@@ -202,21 +202,21 @@ public abstract class AbstractGraphTest {
         assertTrue(!graph.edgesConnecting(node, adjacentNode).isEmpty()
             || !graph.edgesConnecting(adjacentNode, node).isEmpty());
         assertThat(graph.incidentEdges(node)).isNotEmpty();
-        assertThat(graph.incidentEdges(node)).hasSize((int) graph.degree(node));
+        assertThat(graph.incidentEdges(node)).hasSize(graph.degree(node));
       }
 
       for (Integer predecessor : graph.predecessors(node)) {
         assertThat(graph.successors(predecessor)).contains(node);
         assertThat(graph.edgesConnecting(predecessor, node)).isNotEmpty();
         assertThat(graph.inEdges(node)).isNotEmpty();
-        assertThat(graph.inEdges(node)).hasSize((int) graph.inDegree(node));
+        assertThat(graph.inEdges(node)).hasSize(graph.inDegree(node));
       }
 
       for (Integer successor : graph.successors(node)) {
         assertThat(graph.predecessors(successor)).contains(node);
         assertThat(graph.edgesConnecting(node, successor)).isNotEmpty();
         assertThat(graph.outEdges(node)).isNotEmpty();
-        assertThat(graph.outEdges(node)).hasSize((int) graph.outDegree(node));
+        assertThat(graph.outEdges(node)).hasSize(graph.outDegree(node));
       }
     }
   }

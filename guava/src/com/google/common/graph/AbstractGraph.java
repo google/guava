@@ -45,17 +45,17 @@ public abstract class AbstractGraph<N, E> implements Graph<N, E> {
   }
 
   @Override
-  public long degree(Object node) {
+  public int degree(Object node) {
     return incidentEdges(node).size();
   }
 
   @Override
-  public long inDegree(Object node) {
+  public int inDegree(Object node) {
     return inEdges(node).size();
   }
 
   @Override
-  public long outDegree(Object node) {
+  public int outDegree(Object node) {
     return outEdges(node).size();
   }
 

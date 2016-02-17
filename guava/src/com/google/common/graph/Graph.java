@@ -306,33 +306,36 @@ public interface Graph<N, E> {
 
   /**
    * Returns the number of edges {@linkplain #incidentEdges(Object) incident} in this graph
-   * to {@code node}.
+   * to {@code node}.  If this node has more than {@code Integer.MAX_VALUE} incident edges
+   * in this graph, returns {@code Integer.MAX_VALUE}.
    *
    * <p>Equivalent to {@code incidentEdges(node).size()}.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  long degree(Object node);
+  int degree(Object node);
 
   /**
    * Returns the number of {@linkplain #inEdges(Object) incoming edges} in this graph
-   * of {@code node}.
+   * of {@code node}.  If this node has more than {@code Integer.MAX_VALUE} incoming edges
+   * in this graph, returns {@code Integer.MAX_VALUE}.
    *
    * <p>Equivalent to {@code inEdges(node).size()}.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  long inDegree(Object node);
+  int inDegree(Object node);
 
   /**
    * Returns the number of {@linkplain #outEdges(Object) outgoing edges} in this graph
-   * of {@code node}.
+   * of {@code node}.  If this node has more than {@code Integer.MAX_VALUE} outgoing edges
+   * in this graph, returns {@code Integer.MAX_VALUE}.
    *
    * <p>Equivalent to {@code outEdges(node).size()}.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  long outDegree(Object node);
+  int outDegree(Object node);
 
   //
   // Element mutations
