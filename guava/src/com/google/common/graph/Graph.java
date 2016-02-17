@@ -156,6 +156,8 @@ import javax.annotation.Nullable;
  *     </ol>
  *     Note that (1) and (2) are generally preferred. (5) is generally a hazardous design choice
  *     and should be avoided, because keeping the internal data structures consistent can be tricky.
+ * <li>Prefer extending {@link AbstractGraph} over implementing {@link Graph} directly. This will
+ *     ensure consistent {@link #equals(Object)} and {@link #hashCode()} across implementations.
  * <li>{@code Multimap}s are not sufficient internal data structures for Graph implementations
  *     that support isolated nodes (nodes that have no incident edges), due to their restriction
  *     that a key either maps to at least one value, or is not present in the {@code Multimap}.
@@ -393,19 +395,16 @@ public interface Graph<N, E> {
   boolean removeEdge(Object edge);
 
   /**
-   * Returns {@code true} iff {@code object} is the same type of graph (directed, undirected,
-   * hypergraph) as this graph, and the same node/edge relationships exist in both graphs.
+   * Returns {@code true} iff {@code object} is a graph that has the same node/edge relationships
+   * as those in this graph.
    *
    * <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
    * <ul>
-   * <li>A and B are of the same type ({@code DirectedGraph, UndirectedGraph, Hypergraph})
    * <li>A and B have the same node set
    * <li>A and B have the same edge set
    * <li>A and B have the same incidence relationships, e.g., for each node/edge in A and in B
    *     its incident edge/node set in A is the same as its incident edge/node set in B.
-   *     <br>Thus, even if a {@code node} has the same sets of <i>adjacent</i> nodes
-   *         (neighbors) in both A and B, if the sets of edges by which {@code node} is connected to
-   *         its adjacent nodes are not the same in both A and B, then A and B are not equal.
+   *     <br>Thus, every edge in A and B connect the same nodes in the same direction (if any).
    * </ul>
    *
    * <p>Properties that are <b>not</b> respected by this method:
@@ -416,7 +415,21 @@ public interface Graph<N, E> {
    * <li>Edge/node ordering.  The order in which edges or nodes are added to the graph, and the
    * order in which they are iterated over, are irrelevant.
    * </ul>
+   *
+   * <p>A reference implementation of this is provided by {@link Graphs#equal(Graph, Graph)}.
    */
   @Override
   boolean equals(@Nullable Object object);
+
+  /**
+   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code
+   * of a map from each of the graph's nodes to their incident edges.
+   *
+   * <p>A reference implementation of this is provided by {@link Graphs#hashCode(Graph)}.
+   *
+   * <p>Note that by this definition, two graphs that are equal in every aspect except edge
+   * direction will have the same hash code (but can still be differentiated by {@link #equals}.
+   */
+  @Override
+  int hashCode();
 }

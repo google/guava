@@ -25,7 +25,11 @@ package com.google.common.graph;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-abstract class AbstractImmutableGraph<N, E> implements Graph<N, E> {
+abstract class AbstractImmutableGraph<N, E> extends AbstractGraph<N, E> {
+
+  AbstractImmutableGraph(GraphConfig config) {
+    super(config);
+  }
 
   @Override
   public boolean addNode(N n) {

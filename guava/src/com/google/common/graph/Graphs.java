@@ -29,6 +29,7 @@ import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -379,37 +380,7 @@ public final class Graphs {
   }
 
   /**
-   * Returns true iff {@code graph1} and {@code graph2} have the same node and edge sets and
-   * each edge has the same source and target in both graphs.
-   *
-   * @see Graph#equals(Object)
-   */
-  public static <N, E> boolean equal(
-      @Nullable DirectedGraph<?, ?> graph1, @Nullable DirectedGraph<?, ?> graph2) {
-    if (graph1 == graph2) {
-      return true;
-    }
-
-    if (graph1 == null || graph2 == null) {
-      return false;
-    }
-
-    if (!graph1.nodes().equals(graph2.nodes()) || !graph1.edges().equals(graph2.edges())) {
-      return false;
-    }
-
-    for (Object edge : graph1.edges()) {
-      if (!graph1.source(edge).equals(graph2.source(edge))
-          || !graph1.target(edge).equals(graph2.target(edge))) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
-   * Returns true iff {@code graph1} and {@code graph2} have the same node and edge sets and
-   * each edge has the same incident node set in both graphs.
+   * Returns true iff {@code graph1} and {@code graph2} have the same node/edge relationships.
    *
    * @see Graph#equals(Object)
    */
@@ -422,48 +393,45 @@ public final class Graphs {
       return false;
     }
 
-    if (!graph1.nodes().equals(graph2.nodes()) || !graph1.edges().equals(graph2.edges())) {
+    if (graph1.edges().size() != graph2.edges().size()) {
       return false;
     }
 
-    for (Object edge : graph1.edges()) {
-      if (!graph1.incidentNodes(edge).equals(graph2.incidentNodes(edge))) {
+    if (!graph1.nodes().equals(graph2.nodes())) {
+      return false;
+    }
+
+    for (Object node : graph1.nodes()) {
+      if (!graph1.inEdges(node).equals(graph2.inEdges(node))) {
+        return false;
+      }
+      // TODO(b/27195992): Consider an optimization for the case where both graphs are undirected.
+      if (!graph1.outEdges(node).equals(graph2.outEdges(node))) {
         return false;
       }
     }
+
     return true;
   }
 
   /**
-   * Returns a string representation of {@code graph}, encoding the direction of each edge.
+   * Returns the hash code of {@code graph}.
+   *
+   * @see Graph#hashCode()
    */
-  public static String toString(final DirectedGraph<?, ?> graph) {
-    Function<Object, String> edgeToEndpoints = new Function<Object, String>() {
-      @Override
-      public String apply(Object edge) {
-        return String.format("<%s -> %s>", graph.source(edge), graph.target(edge));
-      }
-    };
-    return String.format("config: %s, nodes: %s, edges: %s",
-        graph.config(),
-        graph.nodes(),
-        Maps.asMap(graph.edges(), edgeToEndpoints));
+  public static int hashCode(Graph<?, ?> graph) {
+    return nodeToIncidentEdges(graph).hashCode();
   }
 
   /**
-   * Returns a string representation of {@code graph}, without regard to direction of edges.
+   * Returns a string representation of {@code graph}. Encodes edge direction if {@code graph}
+   * is a {@link DirectedGraph}.
    */
-  public static String toString(final Graph<?, ?> graph) {
-    Function<Object, String> edgeToIncidentNodes = new Function<Object, String>() {
-      @Override
-      public String apply(Object edge) {
-        return graph.incidentNodes(edge).toString();
-      }
-    };
+  public static String toString(Graph<?, ?> graph) {
     return String.format("config: %s, nodes: %s, edges: %s",
         graph.config(),
         graph.nodes(),
-        Maps.asMap(graph.edges(), edgeToIncidentNodes));
+        Maps.asMap(graph.edges(), edgeToIncidentNodesString(graph)));
   }
 
   /**
@@ -478,6 +446,45 @@ public final class Graphs {
       @Override
       public boolean apply(E edge) {
         return (graph.incidentNodes(edge).size() == 1);
+      }
+    };
+  }
+
+  /**
+   * Returns a map that is a live view of {@code graph}, with nodes as keys
+   * and the set of incident edges as values.
+   */
+  private static <N, E> Map<N, Set<E>> nodeToIncidentEdges(final Graph<N, E> graph) {
+    checkNotNull(graph, "graph");
+    return Maps.asMap(graph.nodes(), new Function<N, Set<E>>() {
+      @Override
+      public Set<E> apply(N node) {
+        return graph.incidentEdges(node);
+      }
+    });
+  }
+
+  /**
+   * Returns a function that transforms an edge into a string representation of its incident nodes
+   * in {@code graph}. The function's {@code apply} method will throw an
+   * {@link IllegalArgumentException} if {@code graph} does not contain {@code edge}.
+   */
+  private static Function<Object, String> edgeToIncidentNodesString(final Graph<?, ?> graph) {
+    if (graph instanceof DirectedGraph) {
+      @SuppressWarnings("unchecked")
+      final DirectedGraph<?, ?> directedGraph = (DirectedGraph<?, ?>) graph;
+      return new Function<Object, String>() {
+        @Override
+        public String apply(Object edge) {
+          return String.format("<%s -> %s>",
+              directedGraph.source(edge), directedGraph.target(edge));
+          }
+        };
+    }
+    return new Function<Object, String>() {
+      @Override
+      public String apply(Object edge) {
+        return graph.incidentNodes(edge).toString();
       }
     };
   }

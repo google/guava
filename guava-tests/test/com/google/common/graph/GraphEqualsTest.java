@@ -36,6 +36,7 @@ public final class GraphEqualsTest {
   private static final Integer N2 = 2;
   private static final Integer N3 = 3;
 
+  private static final String E11 = "1-1";
   private static final String E12 = "1-2";
   private static final String E12_A = "1-2a";
   private static final String E13 = "1-3";
@@ -96,12 +97,11 @@ public final class GraphEqualsTest {
     new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
   }
 
-  // Node/edge sets are the same, but types differ.
+  // Node/edge sets are the same, but node/edge connections differ due to graph type.
   @Test
-  public void equals_typesDiffer() {
+  public void equals_directedVsUndirected() {
     graph.addEdge(E12, N1, N2);
 
-    // Whatever graphType specifies, pick another type.
     Graph<Integer, String> g2;
     switch (graphType) {
       case UNDIRECTED:
@@ -119,7 +119,30 @@ public final class GraphEqualsTest {
     new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
   }
 
-  // Node/edge sets and graph type are the same, but node/edge connections differ.
+  // Node/edge sets and node/edge connections are the same, but types differ.
+  // (In this case the graphs are considered equal; the type differences are irrelevant.)
+  @Test
+  public void equals_selfLoop_directedVsUndirected() {
+    graph.addEdge(E11, N1, N1);
+
+    Graph<Integer, String> g2;
+    switch (graphType) {
+      case UNDIRECTED:
+        g2 = Graphs.createDirected();
+        break;
+      case DIRECTED:
+        g2 = Graphs.createUndirected();
+        break;
+      default:
+        throw new IllegalStateException("Unexpected graph type: " + graphType);
+    }
+
+    g2.addEdge(E11, N1, N1);
+
+    new EqualsTester().addEqualityGroup(graph, g2).testEquals();
+  }
+
+  // Node/edge sets are the same, but node/edge connections differ.
   @Test
   public void equals_connectionsDiffer() {
     graph.addEdge(E12, N1, N2);
@@ -133,7 +156,7 @@ public final class GraphEqualsTest {
     new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
   }
 
-  // Node/edge sets, graph type, and node/edge connections are the same, but GraphConfigs differ.
+  // Node/edge sets and node/edge connections are the same, but GraphConfigs differ.
   // (In this case the graphs are considered equal; the config differences are irrelevant.)
   @Test
   public void equals_configsDiffer() {
@@ -145,7 +168,7 @@ public final class GraphEqualsTest {
     new EqualsTester().addEqualityGroup(graph, g2).testEquals();
   }
 
-  // Node/edge sets, graph type, and node/edge connections are the same, but edge order differs.
+  // Node/edge sets and node/edge connections are the same, but edge order differs.
   // (In this case the graphs are considered equal; the edge add orderings are irrelevant.)
   @Test
   public void equals_edgeAddOrdersDiffer() {

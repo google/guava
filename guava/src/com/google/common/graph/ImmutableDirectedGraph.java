@@ -22,15 +22,12 @@ import static com.google.common.graph.GraphErrorMessageUtils.EDGE_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphErrorMessageUtils.NODE_NOT_IN_GRAPH;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Set;
-
-import javax.annotation.Nullable;
 
 /**
  * Implementation of an immutable directed graph consisting of nodes
@@ -78,9 +75,9 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
   private final ImmutableMap<N, NodeConnections<N, E>> nodeConnections;
   // All edges in the graph exist in this map
   private final ImmutableMap<E, IncidentNodes<N>> edgeToIncidentNodes;
-  private final GraphConfig config;
 
   private ImmutableDirectedGraph(Builder<N, E> builder) {
+    super(builder.directedGraph.config());
     DirectedGraph<N, E> directedGraph = builder.directedGraph;
     ImmutableMap.Builder<N, NodeConnections<N, E>> nodeConnectionsBuilder =
         ImmutableMap.builder();
@@ -98,7 +95,6 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
       edgeToIncidentNodesBuilder.put(edge, incidentNodes);
     }
     this.edgeToIncidentNodes = edgeToIncidentNodesBuilder.build();
-    this.config = directedGraph.config();
   }
 
   @Override
@@ -109,11 +105,6 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
   @Override
   public Set<E> edges() {
     return edgeToIncidentNodes.keySet();
-  }
-
-  @Override
-  public GraphConfig config() {
-    return config;
   }
 
   @Override
@@ -184,21 +175,6 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
   }
 
   @Override
-  public long degree(Object node) {
-    return incidentEdges(node).size();
-  }
-
-  @Override
-  public long inDegree(Object node) {
-    return inEdges(node).size();
-  }
-
-  @Override
-  public long outDegree(Object node) {
-    return outEdges(node).size();
-  }
-
-  @Override
   public N source(Object edge) {
     return checkedIncidentNodes(edge).node1();
   }
@@ -206,22 +182,6 @@ public final class ImmutableDirectedGraph<N, E> extends AbstractImmutableGraph<N
   @Override
   public N target(Object edge) {
     return checkedIncidentNodes(edge).node2();
-  }
-
-  @Override
-  public boolean equals(@Nullable Object object) {
-    return (object instanceof DirectedGraph) && Graphs.equal(this, (DirectedGraph<?, ?>) object);
-  }
-
-  @Override
-  public int hashCode() {
-    // The node set is included in the hash to differentiate between graphs with isolated nodes.
-    return Objects.hashCode(nodes(), edgeToIncidentNodes);
-  }
-
-  @Override
-  public String toString() {
-    return Graphs.toString(this);
   }
 
   private NodeConnections<N, E> checkedConnections(Object node) {

@@ -22,7 +22,6 @@ import static com.google.common.graph.GraphErrorMessageUtils.EDGE_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphErrorMessageUtils.NODE_NOT_IN_GRAPH;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -30,8 +29,6 @@ import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Set;
-
-import javax.annotation.Nullable;
 
 /**
  * Implementation of an immutable undirected graph consisting of nodes of type N
@@ -70,13 +67,14 @@ import javax.annotation.Nullable;
 @Beta
 public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph<N, E>
     implements UndirectedGraph<N, E> {
+
   // All nodes in the graph exist in this map
   private final ImmutableMap<N, NodeConnections<N, E>> nodeConnections;
   // All edges in the graph exist in this map
   private final ImmutableMap<E, IncidentNodes<N>> edgeToIncidentNodes;
-  private final GraphConfig config;
 
   private ImmutableUndirectedGraph(Builder<N, E> builder) {
+    super(builder.undirectedGraph.config());
     UndirectedGraph<N, E> undirectedGraph = builder.undirectedGraph;
     ImmutableMap.Builder<N, NodeConnections<N, E>> nodeConnectionsBuilder = ImmutableMap.builder();
     for (N node : undirectedGraph.nodes()) {
@@ -89,7 +87,6 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
       edgeToNodesBuilder.put(edge, IncidentNodes.of(undirectedGraph.incidentNodes(edge)));
     }
     this.edgeToIncidentNodes = edgeToNodesBuilder.build();
-    this.config = undirectedGraph.config();
   }
 
   @Override
@@ -100,11 +97,6 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
   @Override
   public Set<E> edges() {
     return edgeToIncidentNodes.keySet();
-  }
-
-  @Override
-  public GraphConfig config() {
-    return config;
   }
 
   @Override
@@ -176,38 +168,6 @@ public final class ImmutableUndirectedGraph<N, E> extends AbstractImmutableGraph
   @Override
   public Set<N> successors(Object node) {
     return adjacentNodes(node);
-  }
-
-  @Override
-  public long degree(Object node) {
-    return incidentEdges(node).size();
-  }
-
-  @Override
-  public long inDegree(Object node) {
-    return degree(node);
-  }
-
-  @Override
-  public long outDegree(Object node) {
-    return degree(node);
-  }
-
-  @Override
-  public boolean equals(@Nullable Object object) {
-    return (object instanceof UndirectedGraph)
-        && Graphs.equal(this, (UndirectedGraph<?, ?>) object);
-  }
-
-  @Override
-  public int hashCode() {
-    // The node set is included in the hash to differentiate between graphs with isolated nodes.
-    return Objects.hashCode(nodes(), edgeToIncidentNodes);
-  }
-
-  @Override
-  public String toString() {
-    return Graphs.toString(this);
   }
 
   private NodeConnections<N, E> checkedConnections(Object node) {

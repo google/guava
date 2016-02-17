@@ -24,7 +24,6 @@ import static com.google.common.graph.GraphErrorMessageUtils.NODE_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphErrorMessageUtils.REUSING_EDGE;
 import static com.google.common.graph.GraphErrorMessageUtils.SELF_LOOPS_NOT_ALLOWED;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
@@ -35,8 +34,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import javax.annotation.Nullable;
 
 /**
  * Adjacency-set-based implementation of a directed graph consisting of nodes
@@ -103,20 +100,20 @@ import javax.annotation.Nullable;
  * @see IncidenceSetUndirectedGraph
  * @see Graphs
  */
-final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
+final class IncidenceSetDirectedGraph<N, E> extends AbstractGraph<N, E>
+    implements DirectedGraph<N, E> {
   // TODO(b/24620028): Enable this class to support sorted nodes/edges.
 
   private final Map<N, NodeConnections<N, E>> nodeConnections;
   private final Map<E, IncidentNodes<N>> edgeToIncidentNodes;
-  private final GraphConfig config;
 
   IncidenceSetDirectedGraph(GraphConfig config) {
+    super(config);
     // The default of 11 is rather arbitrary, but roughly matches the sizing of just new HashMap()
     this.nodeConnections =
         Maps.newLinkedHashMapWithExpectedSize(config.getExpectedNodeCount().or(11));
     this.edgeToIncidentNodes =
         Maps.newLinkedHashMapWithExpectedSize(config.getExpectedEdgeCount().or(11));
-    this.config = config;
   }
 
   @Override
@@ -127,11 +124,6 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
   @Override
   public Set<E> edges() {
     return Collections.unmodifiableSet(edgeToIncidentNodes.keySet());
-  }
-
-  @Override
-  public GraphConfig config() {
-    return config;
   }
 
   @Override
@@ -197,21 +189,6 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
   @Override
   public Set<N> successors(Object node) {
     return checkedConnections(node).successors();
-  }
-
-  @Override
-  public long degree(Object node) {
-    return incidentEdges(node).size();
-  }
-
-  @Override
-  public long inDegree(Object node) {
-    return inEdges(node).size();
-  }
-
-  @Override
-  public long outDegree(Object node) {
-    return outEdges(node).size();
   }
 
   @Override
@@ -334,22 +311,6 @@ final class IncidenceSetDirectedGraph<N, E> implements DirectedGraph<N, E> {
     connectionsN1.removeOutEdge(edge);
     connectionsN2.removeInEdge(edge);
     edgeToIncidentNodes.remove(edge);
-  }
-
-  @Override
-  public boolean equals(@Nullable Object other) {
-    return (other instanceof DirectedGraph) && Graphs.equal(this, (DirectedGraph<?, ?>) other);
-  }
-
-  @Override
-  public int hashCode() {
-    // The node set is included in the hash to differentiate between graphs with isolated nodes.
-    return Objects.hashCode(nodes(), edgeToIncidentNodes);
-  }
-
-  @Override
-  public String toString() {
-    return Graphs.toString(this);
   }
 
   private NodeConnections<N, E> checkedConnections(Object node) {
