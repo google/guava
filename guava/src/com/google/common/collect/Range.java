@@ -649,7 +649,7 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
   private static String toString(Cut<?> lowerBound, Cut<?> upperBound) {
     StringBuilder sb = new StringBuilder(16);
     lowerBound.describeAsLowerBound(sb);
-    sb.append('\u2025');
+    sb.append("..");
     upperBound.describeAsUpperBound(sb);
     return sb.toString();
   }
