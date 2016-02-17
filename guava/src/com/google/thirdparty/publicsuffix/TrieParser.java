@@ -27,7 +27,7 @@ import java.util.List;
  * Parser for a map of reversed domain names stored as a serialized radix tree.
  */
 @GwtCompatible
-class TrieParser {
+final class TrieParser {
 
   private static final Joiner PREFIX_JOINER = Joiner.on("");
 
@@ -103,33 +103,7 @@ class TrieParser {
     return idx;
   }
 
-  /**
-   * Reverses a character sequence. This is borrowed from
-   * https://code.google.com/p/google-web-toolkit/source/detail?r=11591#
-   * and can be replaced with a simple {@code StringBuffer#reverse} once GWT 2.6 is available.
-   */
   private static CharSequence reverse(CharSequence s) {
-    int length = s.length();
-    if (length <= 1) {
-      return s;
-    }
-
-    char[] buffer = new char[length];
-    buffer[0] = s.charAt(length - 1);
-
-    for (int i = 1; i < length; i++) {
-      buffer[i] = s.charAt(length - 1 - i);
-      if (Character.isSurrogatePair(buffer[i], buffer[i - 1])) {
-        swap(buffer, i - 1, i);
-      }
-    }
-
-    return new String(buffer);
-  }
-
-  private static void swap(char[] buffer, int f, int s) {
-    char tmp = buffer[f];
-    buffer[f] = buffer[s];
-    buffer[s] = tmp;
+    return new StringBuilder(s).reverse();
   }
 }
