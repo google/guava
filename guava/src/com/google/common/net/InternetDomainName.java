@@ -442,8 +442,8 @@ public final class InternetDomainName {
 
   /**
    * Indicates whether the argument is a syntactically valid domain name using lenient validation.
-   * Specifically, validation against <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a> (
-   * "Internationalizing Domain Names in Applications") is skipped.
+   * Specifically, validation against <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
+   * ("Internationalizing Domain Names in Applications") is skipped.
    *
    * <p>The following two code snippets are equivalent:
    *

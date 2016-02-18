@@ -173,8 +173,8 @@ public abstract class Optional<T> implements Serializable {
    *   Number value = first.or(0.5); // fine}</pre>
    *
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method is similar to Java 8's
-   * {@code Optional.orElse}, but will not accept {@code null} as a {@code defaultValue} (
-   * {@link #orNull} must be used instead). As a result, the value returned by this method is
+   * {@code Optional.orElse}, but will not accept {@code null} as a {@code defaultValue}
+   * ({@link #orNull} must be used instead). As a result, the value returned by this method is
    * guaranteed non-null, which is not the case for the {@code java.util} equivalent.
    */
   public abstract T or(T defaultValue);
