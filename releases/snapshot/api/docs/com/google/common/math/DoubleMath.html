@@ -96,7 +96,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.52">DoubleMath</a>
+public final class <a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.50">DoubleMath</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A class for arithmetic on doubles that is not covered by <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Math.html?is-external=true" title="class or interface in java.lang"><code>Math</code></a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -124,9 +124,9 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <tr class="altColor">
 <td class="colFirst"><code>static double</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/math/DoubleMath.html#factorial(int)">factorial</a></strong>(int&nbsp;n)</code>
-<div class="block">Returns <code>n!</code>, that is, the product of the first <code>n</code> positive
- integers, <code>1</code> if <code>n == 0</code>, or <code>n!</code>, or
- <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a> if <code>n! &gt; Double.MAX_VALUE</code>.</div>
+<div class="block">Returns <code>n!</code>, that is, the product of the first <code>n</code> positive integers, <code>1</code> if
+ <code>n == 0</code>, or <code>n!</code>, or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a> if
+ <code>n! &gt; Double.MAX_VALUE</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -276,13 +276,13 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
  mode, if possible.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang">ArithmeticException</a></code> - if
-         <ul>
-         <li><code>x</code> is infinite or NaN
-         <li><code>x</code>, after being rounded to a mathematical integer using the specified
-         rounding mode, is either less than <code>Integer.MIN_VALUE</code> or greater than <code>Integer.MAX_VALUE</code>
-         <li><code>x</code> is not a mathematical integer and <code>mode</code> is
+     <ul>
+     <li><code>x</code> is infinite or NaN
+     <li><code>x</code>, after being rounded to a mathematical integer using the specified rounding
+         mode, is either less than <code>Integer.MIN_VALUE</code> or greater than <code>Integer.MAX_VALUE</code>
+     <li><code>x</code> is not a mathematical integer and <code>mode</code> is
          <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true#UNNECESSARY" title="class or interface in java.math"><code>RoundingMode.UNNECESSARY</code></a>
-         </ul></dd></dl>
+     </ul></dd></dl>
 </li>
 </ul>
 <a name="roundToLong(double, java.math.RoundingMode)">
@@ -298,13 +298,13 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
  mode, if possible.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang">ArithmeticException</a></code> - if
-         <ul>
-         <li><code>x</code> is infinite or NaN
-         <li><code>x</code>, after being rounded to a mathematical integer using the specified
-         rounding mode, is either less than <code>Long.MIN_VALUE</code> or greater than <code>Long.MAX_VALUE</code>
-         <li><code>x</code> is not a mathematical integer and <code>mode</code> is
+     <ul>
+     <li><code>x</code> is infinite or NaN
+     <li><code>x</code>, after being rounded to a mathematical integer using the specified rounding
+         mode, is either less than <code>Long.MIN_VALUE</code> or greater than <code>Long.MAX_VALUE</code>
+     <li><code>x</code> is not a mathematical integer and <code>mode</code> is
          <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true#UNNECESSARY" title="class or interface in java.math"><code>RoundingMode.UNNECESSARY</code></a>
-         </ul></dd></dl>
+     </ul></dd></dl>
 </li>
 </ul>
 <a name="roundToBigInteger(double, java.math.RoundingMode)">
@@ -313,18 +313,18 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>roundToBigInteger</h4>
-<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>(<a href="../../../../com/google/common/annotations/GwtIncompatible.html#value()">value</a>="#roundIntermediate, java.lang.Math.getExponent, com.google.common.math.DoubleUtils")
+<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math">BigInteger</a>&nbsp;<a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.182">roundToBigInteger</a>(double&nbsp;x,
-                                                <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math">RoundingMode</a>&nbsp;mode)</pre>
+                                           <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the <code>BigInteger</code> value that is equal to <code>x</code> rounded with the specified
  rounding mode, if possible.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang">ArithmeticException</a></code> - if
-         <ul>
-         <li><code>x</code> is infinite or NaN
-         <li><code>x</code> is not a mathematical integer and <code>mode</code> is
+     <ul>
+     <li><code>x</code> is infinite or NaN
+     <li><code>x</code> is not a mathematical integer and <code>mode</code> is
          <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true#UNNECESSARY" title="class or interface in java.math"><code>RoundingMode.UNNECESSARY</code></a>
-         </ul></dd></dl>
+     </ul></dd></dl>
 </li>
 </ul>
 <a name="isPowerOfTwo(double)">
@@ -376,7 +376,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
  <p>Regardless of the rounding mode, this is faster than <code>(int) log2(x)</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>x &lt;= 0.0</code>, <code>x</code> is NaN, or <code>x</code> is
-         infinite</dd></dl>
+     infinite</dd></dl>
 </li>
 </ul>
 <a name="isMathematicalInteger(double)">
@@ -399,9 +399,9 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>factorial</h4>
 <pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.295">factorial</a>(int&nbsp;n)</pre>
-<div class="block">Returns <code>n!</code>, that is, the product of the first <code>n</code> positive
- integers, <code>1</code> if <code>n == 0</code>, or <code>n!</code>, or
- <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a> if <code>n! &gt; Double.MAX_VALUE</code>.
+<div class="block">Returns <code>n!</code>, that is, the product of the first <code>n</code> positive integers, <code>1</code> if
+ <code>n == 0</code>, or <code>n!</code>, or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a> if
+ <code>n! &gt; Double.MAX_VALUE</code>.
 
  <p>The result is within 1 ulp of the true value.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -414,7 +414,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>fuzzyEquals</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.352">fuzzyEquals</a>(double&nbsp;a,
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.351">fuzzyEquals</a>(double&nbsp;a,
                   double&nbsp;b,
                   double&nbsp;tolerance)</pre>
 <div class="block">Returns <code>true</code> if <code>a</code> and <code>b</code> are within <code>tolerance</code> of each other.
@@ -427,11 +427,10 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
  <li>All NaNs are fuzzily equal.
  <li>If <code>a == b</code>, then <code>a</code> and <code>b</code> are always fuzzily equal.
  <li>Positive and negative zero are always fuzzily equal.
- <li>If <code>tolerance</code> is zero, and neither <code>a</code> nor <code>b</code> is NaN, then
- <code>a</code> and <code>b</code> are fuzzily equal if and only if <code>a == b</code>.
+ <li>If <code>tolerance</code> is zero, and neither <code>a</code> nor <code>b</code> is NaN, then <code>a</code>
+     and <code>b</code> are fuzzily equal if and only if <code>a == b</code>.
  <li>With <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a> tolerance, all non-NaN values are fuzzily equal.
- <li>With finite tolerance, <code>Double.POSITIVE_INFINITY</code> and <code>Double.NEGATIVE_INFINITY</code> are fuzzily equal only to themselves.
- </li>
+ <li>With finite tolerance, <code>Double.POSITIVE_INFINITY</code> and <code>Double.NEGATIVE_INFINITY</code> are fuzzily equal only to themselves.</li>
 
  <p>This is reflexive and symmetric, but <em>not</em> transitive, so it is <em>not</em> an
  equivalence relation and <em>not</em> suitable for use in <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>
@@ -447,7 +446,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <ul class="blockList">
 <li class="blockList">
 <h4>fuzzyCompare</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.375">fuzzyCompare</a>(double&nbsp;a,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.373">fuzzyCompare</a>(double&nbsp;a,
                double&nbsp;b,
                double&nbsp;tolerance)</pre>
 <div class="block">Compares <code>a</code> and <code>b</code> "fuzzily," with a tolerance for nearly-equal values.
@@ -458,7 +457,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
  other values (including <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a>).
 
  <p>This is <em>not</em> a total ordering and is <em>not</em> suitable for use in
- <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true#compareTo(T)" title="class or interface in java.lang"><code>Comparable.compareTo(T)</code></a> implementations.  In particular, it is not transitive.</div>
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true#compareTo(T)" title="class or interface in java.lang"><code>Comparable.compareTo(T)</code></a> implementations. In particular, it is not transitive.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>tolerance</code> is <code>&lt; 0</code> or NaN</dd><dt><span class="strong">Since:</span></dt>
   <dd>13.0</dd></dl>
@@ -472,7 +471,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
 <h4>mean</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
 <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.401">mean</a>(double...&nbsp;values)</pre>
+public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.400">mean</a>(double...&nbsp;values)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Use <a href="../../../../com/google/common/math/Stats.html#meanOf(java.lang.Iterable)"><code>Stats.meanOf(java.lang.Iterable&lt;? extends java.lang.Number&gt;)</code></a> instead, noting the less strict handling of non-finite
      values. This method will be removed in February 2018.</i></div>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
@@ -492,7 +491,7 @@ public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/m
 <li class="blockList">
 <h4>mean</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.427">mean</a>(int...&nbsp;values)</pre>
+public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.426">mean</a>(int...&nbsp;values)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Use <a href="../../../../com/google/common/math/Stats.html#meanOf(java.lang.Iterable)"><code>Stats.meanOf(java.lang.Iterable&lt;? extends java.lang.Number&gt;)</code></a> instead, noting the less strict handling of non-finite
      values. This method will be removed in February 2018.</i></div>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
@@ -512,7 +511,7 @@ public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/m
 <li class="blockList">
 <h4>mean</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.453">mean</a>(long...&nbsp;values)</pre>
+public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.452">mean</a>(long...&nbsp;values)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Use <a href="../../../../com/google/common/math/Stats.html#meanOf(java.lang.Iterable)"><code>Stats.meanOf(java.lang.Iterable&lt;? extends java.lang.Number&gt;)</code></a> instead, noting the less strict handling of non-finite
      values. This method will be removed in February 2018.</i></div>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of
@@ -556,7 +555,7 @@ public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/m
 <h4>mean</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
 <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.499">mean</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;values)</pre>
+public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/DoubleMath.html#line.500">mean</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;values)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Use <a href="../../../../com/google/common/math/Stats.html#meanOf(java.lang.Iterable)"><code>Stats.meanOf(java.lang.Iterable&lt;? extends java.lang.Number&gt;)</code></a> instead, noting the less strict handling of non-finite
      values. This method will be removed in February 2018.</i></div>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of

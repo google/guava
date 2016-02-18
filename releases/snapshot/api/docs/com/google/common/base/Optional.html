@@ -401,8 +401,8 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
    Number value = first.or(0.5); // fine</code></pre>
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method is similar to Java 8's
- <code>Optional.orElse</code>, but will not accept <code>null</code> as a <code>defaultValue</code> (
- <a href="../../../../com/google/common/base/Optional.html#orNull()"><code>orNull()</code></a> must be used instead). As a result, the value returned by this method is
+ <code>Optional.orElse</code>, but will not accept <code>null</code> as a <code>defaultValue</code>
+ (<a href="../../../../com/google/common/base/Optional.html#orNull()"><code>orNull()</code></a> must be used instead). As a result, the value returned by this method is
  guaranteed non-null, which is not the case for the <code>java.util</code> equivalent.</div>
 </li>
 </ul>

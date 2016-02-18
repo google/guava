@@ -102,12 +102,13 @@
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/concurrent/Immutable.html?is-external=true" title="class or interface in javax.annotation.concurrent">@Immutable</a>
 <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.67">HostAndPort</a>
+public final class <a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.66">HostAndPort</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
 <div class="block">An immutable representation of a host and port.
 
  <p>Example usage:
+
  <pre>
  HostAndPort hp = HostAndPort.fromString("[2001:db8::1]")
      .withDefaultPort(80)
@@ -119,18 +120,18 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 
  <p>Here are some examples of recognized formats:
  <ul>
-   <li>example.com
-   <li>example.com:80
-   <li>192.0.2.1
-   <li>192.0.2.1:80
-   <li>[2001:db8::1]     - <a href="../../../../com/google/common/net/HostAndPort.html#getHostText()"><code>getHostText()</code></a> omits brackets
-   <li>[2001:db8::1]:80  - <a href="../../../../com/google/common/net/HostAndPort.html#getHostText()"><code>getHostText()</code></a> omits brackets
-   <li>2001:db8::1       - Use <a href="../../../../com/google/common/net/HostAndPort.html#requireBracketsForIPv6()"><code>requireBracketsForIPv6()</code></a> to prohibit this
+ <li>example.com
+ <li>example.com:80
+ <li>192.0.2.1
+ <li>192.0.2.1:80
+ <li>[2001:db8::1] - <a href="../../../../com/google/common/net/HostAndPort.html#getHostText()"><code>getHostText()</code></a> omits brackets
+ <li>[2001:db8::1]:80 - <a href="../../../../com/google/common/net/HostAndPort.html#getHostText()"><code>getHostText()</code></a> omits brackets
+ <li>2001:db8::1 - Use <a href="../../../../com/google/common/net/HostAndPort.html#requireBracketsForIPv6()"><code>requireBracketsForIPv6()</code></a> to prohibit this
  </ul>
 
- <p>Note that this is not an exhaustive list, because these methods are only
- concerned with brackets, colons, and port numbers.  Full validation of the
- host field (if desired) is the caller's responsibility.</div>
+ <p>Note that this is not an exhaustive list, because these methods are only concerned with
+ brackets, colons, and port numbers. Full validation of the host field (if desired) is the
+ caller's responsibility.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>10.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -180,8 +181,8 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/net/HostAndPort.html#getHostText()">getHostText</a></strong>()</code>
-<div class="block">Returns the portion of this <code>HostAndPort</code> instance that should
- represent the hostname or IPv4/IPv6 literal.</div>
+<div class="block">Returns the portion of this <code>HostAndPort</code> instance that should represent the hostname or
+ IPv4/IPv6 literal.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -252,12 +253,12 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>getHostText</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.93">getHostText</a>()</pre>
-<div class="block">Returns the portion of this <code>HostAndPort</code> instance that should
- represent the hostname or IPv4/IPv6 literal.
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.92">getHostText</a>()</pre>
+<div class="block">Returns the portion of this <code>HostAndPort</code> instance that should represent the hostname or
+ IPv4/IPv6 literal.
 
- <p>A successful parse does not imply any degree of sanity in this field.
- For additional validation, see the <a href="../../../../com/google/common/net/HostSpecifier.html" title="class in com.google.common.net"><code>HostSpecifier</code></a> class.</div>
+ <p>A successful parse does not imply any degree of sanity in this field. For additional
+ validation, see the <a href="../../../../com/google/common/net/HostSpecifier.html" title="class in com.google.common.net"><code>HostSpecifier</code></a> class.</div>
 </li>
 </ul>
 <a name="hasPort()">
@@ -266,7 +267,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>hasPort</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.98">hasPort</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.97">hasPort</a>()</pre>
 <div class="block">Return true if this instance has a defined port.</div>
 </li>
 </ul>
@@ -276,12 +277,12 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>getPort</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.109">getPort</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.108">getPort</a>()</pre>
 <div class="block">Get the current port number, failing if no port is defined.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>a validated port number, in the range [0..65535]</dd>
 <dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if no port is defined.  You can use
-         <a href="../../../../com/google/common/net/HostAndPort.html#withDefaultPort(int)"><code>withDefaultPort(int)</code></a> to prevent this from occurring.</dd></dl>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if no port is defined. You can use <a href="../../../../com/google/common/net/HostAndPort.html#withDefaultPort(int)"><code>withDefaultPort(int)</code></a>
+     to prevent this from occurring.</dd></dl>
 </li>
 </ul>
 <a name="getPortOrDefault(int)">
@@ -290,7 +291,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>getPortOrDefault</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.117">getPortOrDefault</a>(int&nbsp;defaultPort)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.116">getPortOrDefault</a>(int&nbsp;defaultPort)</pre>
 <div class="block">Returns the current port number, with a default if no port is defined.</div>
 </li>
 </ul>
@@ -300,17 +301,17 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>fromParts</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/net/HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.133">fromParts</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;host,
+<pre>public static&nbsp;<a href="../../../../com/google/common/net/HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.132">fromParts</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;host,
                     int&nbsp;port)</pre>
 <div class="block">Build a HostAndPort instance from separate host and port values.
 
- <p>Note: Non-bracketed IPv6 literals are allowed.
- Use <a href="../../../../com/google/common/net/HostAndPort.html#requireBracketsForIPv6()"><code>requireBracketsForIPv6()</code></a> to prohibit these.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>host</code> - the host string to parse.  Must not contain a port number.</dd><dd><code>port</code> - a port number from [0..65535]</dd>
+ <p>Note: Non-bracketed IPv6 literals are allowed. Use <a href="../../../../com/google/common/net/HostAndPort.html#requireBracketsForIPv6()"><code>requireBracketsForIPv6()</code></a> to
+ prohibit these.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>host</code> - the host string to parse. Must not contain a port number.</dd><dd><code>port</code> - a port number from [0..65535]</dd>
 <dt><span class="strong">Returns:</span></dt><dd>if parsing was successful, a populated HostAndPort object.</dd>
 <dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>host</code> contains a port number,
-     or <code>port</code> is out of range.</dd></dl>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>host</code> contains a port number, or <code>port</code> is out
+     of range.</dd></dl>
 </li>
 </ul>
 <a name="fromHost(java.lang.String)">
@@ -319,12 +320,12 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>fromHost</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/net/HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.151">fromHost</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;host)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/net/HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.150">fromHost</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;host)</pre>
 <div class="block">Build a HostAndPort instance from a host only.
 
- <p>Note: Non-bracketed IPv6 literals are allowed.
- Use <a href="../../../../com/google/common/net/HostAndPort.html#requireBracketsForIPv6()"><code>requireBracketsForIPv6()</code></a> to prohibit these.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>host</code> - the host-only string to parse.  Must not contain a port number.</dd>
+ <p>Note: Non-bracketed IPv6 literals are allowed. Use <a href="../../../../com/google/common/net/HostAndPort.html#requireBracketsForIPv6()"><code>requireBracketsForIPv6()</code></a> to
+ prohibit these.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>host</code> - the host-only string to parse. Must not contain a port number.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>if parsing was successful, a populated HostAndPort object.</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>host</code> contains a port number.</dd><dt><span class="strong">Since:</span></dt>
@@ -337,11 +338,11 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>fromString</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/net/HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.167">fromString</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;hostPortString)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/net/HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.166">fromString</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;hostPortString)</pre>
 <div class="block">Split a freeform string into a host and port, without strict validation.
 
- Note that the host-only formats will leave the port field undefined.  You
- can use <a href="../../../../com/google/common/net/HostAndPort.html#withDefaultPort(int)"><code>withDefaultPort(int)</code></a> to patch in a default value.</div>
+ Note that the host-only formats will leave the port field undefined. You can use
+ <a href="../../../../com/google/common/net/HostAndPort.html#withDefaultPort(int)"><code>withDefaultPort(int)</code></a> to patch in a default value.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>hostPortString</code> - the input string to parse.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>if parsing was successful, a populated HostAndPort object.</dd>
 <dt><span class="strong">Throws:</span></dt>
@@ -354,12 +355,11 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>withDefaultPort</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/net/HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.247">withDefaultPort</a>(int&nbsp;defaultPort)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/net/HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.253">withDefaultPort</a>(int&nbsp;defaultPort)</pre>
 <div class="block">Provide a default port if the parsed string contained only a host.
 
- You can chain this after <a href="../../../../com/google/common/net/HostAndPort.html#fromString(java.lang.String)"><code>fromString(String)</code></a> to include a port in
- case the port was omitted from the input string.  If a port was already
- provided, then this method is a no-op.</div>
+ You can chain this after <a href="../../../../com/google/common/net/HostAndPort.html#fromString(java.lang.String)"><code>fromString(String)</code></a> to include a port in case the port was
+ omitted from the input string. If a port was already provided, then this method is a no-op.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>defaultPort</code> - a port number, from [0..65535]</dd>
 <dt><span class="strong">Returns:</span></dt><dd>a HostAndPort instance, guaranteed to have a defined port.</dd></dl>
 </li>
@@ -370,17 +370,16 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>requireBracketsForIPv6</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/net/HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.270">requireBracketsForIPv6</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/net/HostAndPort.html" title="class in com.google.common.net">HostAndPort</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.275">requireBracketsForIPv6</a>()</pre>
 <div class="block">Generate an error if the host might be a non-bracketed IPv6 literal.
 
- <p>URI formatting requires that IPv6 literals be surrounded by brackets,
- like "[2001:db8::1]".  Chain this call after <a href="../../../../com/google/common/net/HostAndPort.html#fromString(java.lang.String)"><code>fromString(String)</code></a>
- to increase the strictness of the parser, and disallow IPv6 literals
- that don't contain these brackets.
+ <p>URI formatting requires that IPv6 literals be surrounded by brackets, like "[2001:db8::1]".
+ Chain this call after <a href="../../../../com/google/common/net/HostAndPort.html#fromString(java.lang.String)"><code>fromString(String)</code></a> to increase the strictness of the parser, and
+ disallow IPv6 literals that don't contain these brackets.
 
- <p>Note that this parser identifies IPv6 literals solely based on the
- presence of a colon.  To perform actual validation of IP addresses, see
- the <a href="../../../../com/google/common/net/InetAddresses.html#forString(java.lang.String)"><code>InetAddresses.forString(String)</code></a> method.</div>
+ <p>Note that this parser identifies IPv6 literals solely based on the presence of a colon. To
+ perform actual validation of IP addresses, see the <a href="../../../../com/google/common/net/InetAddresses.html#forString(java.lang.String)"><code>InetAddresses.forString(String)</code></a>
+ method.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd><code>this</code>, to enable chaining of calls.</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if bracketless IPv6 is detected.</dd></dl>
@@ -392,7 +391,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.276">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.281">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;other)</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -406,7 +405,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.290">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.295">hashCode</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -419,7 +418,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.296">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/HostAndPort.html#line.301">toString</a>()</pre>
 <div class="block">Rebuild the host:port string, including brackets if necessary.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>

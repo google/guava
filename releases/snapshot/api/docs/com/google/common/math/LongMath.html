@@ -96,7 +96,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/math/LongMath.html#line.53">LongMath</a>
+public final class <a href="../../../../src-html/com/google/common/math/LongMath.html#line.51">LongMath</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A class for arithmetic on values of type <code>long</code>. Where possible, methods are defined and
  named analogously to their <code>BigInteger</code> counterparts.
@@ -105,7 +105,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  Jr.'s <i>Hacker's Delight</i>, (Addison Wesley, 2002).
 
  <p>Similar functionality for <code>int</code> and for <a href="http://docs.oracle.com/javase/7/docs/api/java/math/BigInteger.html?is-external=true" title="class or interface in java.math"><code>BigInteger</code></a> can be found in
- <a href="../../../../com/google/common/math/IntMath.html" title="class in com.google.common.math"><code>IntMath</code></a> and <a href="../../../../com/google/common/math/BigIntegerMath.html" title="class in com.google.common.math"><code>BigIntegerMath</code></a> respectively.  For other common operations on
+ <a href="../../../../com/google/common/math/IntMath.html" title="class in com.google.common.math"><code>IntMath</code></a> and <a href="../../../../com/google/common/math/BigIntegerMath.html" title="class in com.google.common.math"><code>BigIntegerMath</code></a> respectively. For other common operations on
  <code>long</code> values, see <a href="../../../../com/google/common/primitives/Longs.html" title="class in com.google.common.primitives"><code>Longs</code></a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>11.0</dd>
@@ -177,9 +177,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <tr class="altColor">
 <td class="colFirst"><code>static long</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/math/LongMath.html#factorial(int)">factorial</a></strong>(int&nbsp;n)</code>
-<div class="block">Returns <code>n!</code>, that is, the product of the first <code>n</code> positive
- integers, <code>1</code> if <code>n == 0</code>, or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Long.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Long.MAX_VALUE</code></a> if the
- result does not fit in a <code>long</code>.</div>
+<div class="block">Returns <code>n!</code>, that is, the product of the first <code>n</code> positive integers, <code>1</code> if
+ <code>n == 0</code>, or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Long.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Long.MAX_VALUE</code></a> if the result does not fit in a <code>long</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -213,8 +212,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>static long</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/math/LongMath.html#mean(long,%20long)">mean</a></strong>(long&nbsp;x,
         long&nbsp;y)</code>
-<div class="block">Returns the arithmetic mean of <code>x</code> and <code>y</code>, rounded toward
- negative infinity.</div>
+<div class="block">Returns the arithmetic mean of <code>x</code> and <code>y</code>, rounded toward negative infinity.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -250,16 +248,16 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>static long</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/math/LongMath.html#saturatedMultiply(long,%20long)">saturatedMultiply</a></strong>(long&nbsp;a,
                                   long&nbsp;b)</code>
-<div class="block">Returns the product of <code>a</code> and <code>b</code> unless it would overflow or underflow in
- which case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
+<div class="block">Returns the product of <code>a</code> and <code>b</code> unless it would overflow or underflow in which
+ case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static long</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/math/LongMath.html#saturatedPow(long,%20int)">saturatedPow</a></strong>(long&nbsp;b,
                         int&nbsp;k)</code>
-<div class="block">Returns the <code>b</code> to the <code>k</code>th power, unless it would overflow or underflow in
- which case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
+<div class="block">Returns the <code>b</code> to the <code>k</code>th power, unless it would overflow or underflow in which
+ case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -305,7 +303,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>isPowerOfTwo</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.62">isPowerOfTwo</a>(long&nbsp;x)</pre>
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.60">isPowerOfTwo</a>(long&nbsp;x)</pre>
 <div class="block">Returns <code>true</code> if <code>x</code> represents a power of two.
 
  <p>This differs from <code>Long.bitCount(x) == 1</code>, because
@@ -318,13 +316,13 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>log2</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.86">log2</a>(long&nbsp;x,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.84">log2</a>(long&nbsp;x,
        <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the base-2 logarithm of <code>x</code>, rounded according to the specified rounding mode.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>x &lt;= 0</code></dd>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang">ArithmeticException</a></code> - if <code>mode</code> is <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true#UNNECESSARY" title="class or interface in java.math"><code>RoundingMode.UNNECESSARY</code></a> and <code>x</code>
-         is not a power of two</dd></dl>
+     is not a power of two</dd></dl>
 </li>
 </ul>
 <a name="log10(long, java.math.RoundingMode)">
@@ -334,13 +332,13 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>log10</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.128">log10</a>(long&nbsp;x,
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.126">log10</a>(long&nbsp;x,
                         <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the base-10 logarithm of <code>x</code>, rounded according to the specified rounding mode.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>x &lt;= 0</code></dd>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang">ArithmeticException</a></code> - if <code>mode</code> is <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true#UNNECESSARY" title="class or interface in java.math"><code>RoundingMode.UNNECESSARY</code></a> and <code>x</code>
-         is not a power of ten</dd></dl>
+     is not a power of ten</dd></dl>
 </li>
 </ul>
 <a name="pow(long, int)">
@@ -372,7 +370,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>x &lt; 0</code></dd>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang">ArithmeticException</a></code> - if <code>mode</code> is <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true#UNNECESSARY" title="class or interface in java.math"><code>RoundingMode.UNNECESSARY</code></a> and
-         <code>sqrt(x)</code> is not an integer</dd></dl>
+     <code>sqrt(x)</code> is not an integer</dd></dl>
 </li>
 </ul>
 <a name="divide(long, long, java.math.RoundingMode)">
@@ -389,7 +387,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
  <code>RoundingMode</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang">ArithmeticException</a></code> - if <code>q == 0</code>, or if <code>mode == UNNECESSARY</code> and <code>a</code>
-         is not an integer multiple of <code>b</code></dd></dl>
+     is not an integer multiple of <code>b</code></dd></dl>
 </li>
 </ul>
 <a name="mod(long, int)">
@@ -401,8 +399,8 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.420">mod</a>(long&nbsp;x,
                       int&nbsp;m)</pre>
-<div class="block">Returns <code>x mod m</code>, a non-negative value less than <code>m</code>.
- This differs from <code>x % m</code>, which might be negative.
+<div class="block">Returns <code>x mod m</code>, a non-negative value less than <code>m</code>. This differs from
+ <code>x % m</code>, which might be negative.
 
  <p>For example:
 
@@ -413,7 +411,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
  mod(8, 4) == 0</code></pre></div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang">ArithmeticException</a></code> - if <code>m &lt;= 0</code></dd><dt><span class="strong">See Also:</span></dt><dd><a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
-      Remainder Operator</a></dd></dl>
+     Remainder Operator</a></dd></dl>
 </li>
 </ul>
 <a name="mod(long, long)">
@@ -425,8 +423,8 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.444">mod</a>(long&nbsp;x,
                        long&nbsp;m)</pre>
-<div class="block">Returns <code>x mod m</code>, a non-negative value less than <code>m</code>.
- This differs from <code>x % m</code>, which might be negative.
+<div class="block">Returns <code>x mod m</code>, a non-negative value less than <code>m</code>. This differs from
+ <code>x % m</code>, which might be negative.
 
  <p>For example:
 
@@ -437,7 +435,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
  mod(8, 4) == 0</code></pre></div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang">ArithmeticException</a></code> - if <code>m &lt;= 0</code></dd><dt><span class="strong">See Also:</span></dt><dd><a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
-      Remainder Operator</a></dd></dl>
+     Remainder Operator</a></dd></dl>
 </li>
 </ul>
 <a name="gcd(long, long)">
@@ -503,12 +501,12 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <li class="blockList">
 <h4>checkedPow</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.564">checkedPow</a>(long&nbsp;b,
+public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.567">checkedPow</a>(long&nbsp;b,
                               int&nbsp;k)</pre>
 <div class="block">Returns the <code>b</code> to the <code>k</code>th power, provided it does not overflow.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ArithmeticException.html?is-external=true" title="class or interface in java.lang">ArithmeticException</a></code> - if <code>b</code> to the <code>k</code>th power overflows in signed
-         <code>long</code> arithmetic</dd></dl>
+     <code>long</code> arithmetic</dd></dl>
 </li>
 </ul>
 <a name="saturatedAdd(long, long)">
@@ -517,7 +515,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedAdd</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.610">saturatedAdd</a>(long&nbsp;a,
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.613">saturatedAdd</a>(long&nbsp;a,
                 long&nbsp;b)</pre>
 <div class="block">Returns the sum of <code>a</code> and <code>b</code> unless it would overflow or underflow in which case
  <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
@@ -531,7 +529,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedSubtract</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.627">saturatedSubtract</a>(long&nbsp;a,
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.630">saturatedSubtract</a>(long&nbsp;a,
                      long&nbsp;b)</pre>
 <div class="block">Returns the difference of <code>a</code> and <code>b</code> unless it would overflow or underflow in
  which case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
@@ -545,10 +543,10 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedMultiply</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.644">saturatedMultiply</a>(long&nbsp;a,
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.647">saturatedMultiply</a>(long&nbsp;a,
                      long&nbsp;b)</pre>
-<div class="block">Returns the product of <code>a</code> and <code>b</code> unless it would overflow or underflow in
- which case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
+<div class="block">Returns the product of <code>a</code> and <code>b</code> unless it would overflow or underflow in which
+ case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>20.0</dd></dl>
 </li>
@@ -559,10 +557,10 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedPow</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.673">saturatedPow</a>(long&nbsp;b,
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.676">saturatedPow</a>(long&nbsp;b,
                 int&nbsp;k)</pre>
-<div class="block">Returns the <code>b</code> to the <code>k</code>th power, unless it would overflow or underflow in
- which case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
+<div class="block">Returns the <code>b</code> to the <code>k</code>th power, unless it would overflow or underflow in which
+ case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>20.0</dd></dl>
 </li>
@@ -574,10 +572,9 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <li class="blockList">
 <h4>factorial</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.731">factorial</a>(int&nbsp;n)</pre>
-<div class="block">Returns <code>n!</code>, that is, the product of the first <code>n</code> positive
- integers, <code>1</code> if <code>n == 0</code>, or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Long.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Long.MAX_VALUE</code></a> if the
- result does not fit in a <code>long</code>.</div>
+public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.733">factorial</a>(int&nbsp;n)</pre>
+<div class="block">Returns <code>n!</code>, that is, the product of the first <code>n</code> positive integers, <code>1</code> if
+ <code>n == 0</code>, or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Long.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Long.MAX_VALUE</code></a> if the result does not fit in a <code>long</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>n &lt; 0</code></dd></dl>
 </li>
@@ -588,7 +585,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockList">
 <li class="blockList">
 <h4>binomial</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.766">binomial</a>(int&nbsp;n,
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.768">binomial</a>(int&nbsp;n,
             int&nbsp;k)</pre>
 <div class="block">Returns <code>n</code> choose <code>k</code>, also known as the binomial coefficient of <code>n</code> and
  <code>k</code>, or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Long.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Long.MAX_VALUE</code></a> if the result does not fit in a <code>long</code>.</div>
@@ -602,10 +599,10 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/mat
 <ul class="blockListLast">
 <li class="blockList">
 <h4>mean</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.871">mean</a>(long&nbsp;x,
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/LongMath.html#line.934">mean</a>(long&nbsp;x,
         long&nbsp;y)</pre>
-<div class="block">Returns the arithmetic mean of <code>x</code> and <code>y</code>, rounded toward
- negative infinity. This method is resilient to overflow.</div>
+<div class="block">Returns the arithmetic mean of <code>x</code> and <code>y</code>, rounded toward negative infinity. This
+ method is resilient to overflow.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>14.0</dd></dl>
 </li>

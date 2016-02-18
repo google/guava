@@ -100,20 +100,17 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static final class <a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.625">InetAddresses.TeredoInfo</a>
+public static final class <a href="../../../../src-html/com/google/common/net/InetAddresses.html#line.589">InetAddresses.TeredoInfo</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block">A simple immutable data class to encapsulate the information to be found in a
- Teredo address.
+<div class="block">A simple immutable data class to encapsulate the information to be found in a Teredo address.
 
- <p>All of the fields in this class are encoded in various portions
- of the IPv6 address as part of the protocol.  More protocols details
- can be found at:
- <a target="_parent" href="http://en.wikipedia.org/wiki/Teredo_tunneling"
-    >http://en.wikipedia.org/wiki/Teredo_tunneling</a>.
+ <p>All of the fields in this class are encoded in various portions of the IPv6 address as part
+ of the protocol. More protocols details can be found at:
+ <a target="_parent" href="http://en.wikipedia.org/wiki/Teredo_tunneling">http://en.wikipedia.
+ org/wiki/Teredo_tunneling</a>.
 
  <p>The RFC can be found here:
- <a target="_parent" href="http://tools.ietf.org/html/rfc4380"
-    >http://tools.ietf.org/html/rfc4380</a>.</div>
+ <a target="_parent" href="http://tools.ietf.org/html/rfc4380">RFC 4380</a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>5.0</dd></dl>
 </li>
@@ -200,7 +197,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>InetAddresses.TeredoInfo</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.TeredoInfo.html#line.641">InetAddresses.TeredoInfo</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.TeredoInfo.html#line.605">InetAddresses.TeredoInfo</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                         <a href="http://docs.oracle.com/javase/7/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</a>&nbsp;server,
                         <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                         <a href="http://docs.oracle.com/javase/7/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</a>&nbsp;client,
@@ -208,11 +205,11 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
                         int&nbsp;flags)</pre>
 <div class="block">Constructs a TeredoInfo instance.
 
- <p>Both server and client can be <code>null</code>, in which case the
- value <code>"0.0.0.0"</code> will be assumed.</div>
+ <p>Both server and client can be <code>null</code>, in which case the value <code>"0.0.0.0"</code> will
+ be assumed.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if either of the <code>port</code> or the <code>flags</code>
-     arguments are out of range of an unsigned short</dd></dl>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if either of the <code>port</code> or the <code>flags</code> arguments
+     are out of range of an unsigned short</dd></dl>
 </li>
 </ul>
 </li>
@@ -229,7 +226,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>getServer</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.TeredoInfo.html#line.654">getServer</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.TeredoInfo.html#line.620">getServer</a>()</pre>
 </li>
 </ul>
 <a name="getClient()">
@@ -238,7 +235,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>getClient</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.TeredoInfo.html#line.658">getClient</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/net/Inet4Address.html?is-external=true" title="class or interface in java.net">Inet4Address</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.TeredoInfo.html#line.624">getClient</a>()</pre>
 </li>
 </ul>
 <a name="getPort()">
@@ -247,7 +244,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>getPort</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.TeredoInfo.html#line.662">getPort</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.TeredoInfo.html#line.628">getPort</a>()</pre>
 </li>
 </ul>
 <a name="getFlags()">
@@ -256,7 +253,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getFlags</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.TeredoInfo.html#line.666">getFlags</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/InetAddresses.TeredoInfo.html#line.632">getFlags</a>()</pre>
 </li>
 </ul>
 </li>

@@ -97,40 +97,38 @@
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.77">InternetDomainName</a>
+public final class <a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.72">InternetDomainName</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block">An immutable well-formed internet domain name, such as <code>com</code> or <code>foo.co.uk</code>. Only syntactic analysis is performed; no DNS lookups or other
- network interactions take place. Thus there is no guarantee that the domain
- actually exists on the internet.
+<div class="block">An immutable well-formed internet domain name, such as <code>com</code> or <code>foo.co.uk</code>. Only syntactic analysis is performed; no DNS lookups or other network interactions
+ take place. Thus there is no guarantee that the domain actually exists on the internet.
 
- <p>One common use of this class is to determine whether a given string is
- likely to represent an addressable domain on the web -- that is, for a
- candidate string <code>"xxx"</code>, might browsing to <code>"http://xxx/"</code>
- result in a webpage being displayed? In the past, this test was frequently
- done by determining whether the domain ended with a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a> but was not itself a public suffix. However,
- this test is no longer accurate. There are many domains which are both public
- suffixes and addressable as hosts; <code>"uk.com"</code> is one example. As a
- result, the only useful test to determine if a domain is a plausible web host
- is <a href="../../../../com/google/common/net/InternetDomainName.html#hasPublicSuffix()"><code>hasPublicSuffix()</code></a>. This will return <code>true</code> for many domains
- which (currently) are not hosts, such as <code>"com"</code>, but given that any
- public suffix may become a host without warning, it is better to err on the
- side of permissiveness and thus avoid spurious rejection of valid sites.
+ <p>One common use of this class is to determine whether a given string is likely to represent an
+ addressable domain on the web -- that is, for a candidate string <code>"xxx"</code>, might browsing to
+ <code>"http://xxx/"</code> result in a webpage being displayed? In the past, this test was frequently
+ done by determining whether the domain ended with a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>
+ but was not itself a public suffix. However, this test is no longer accurate. There are many
+ domains which are both public suffixes and addressable as hosts; <code>"uk.com"</code> is one example.
+ As a result, the only useful test to determine if a domain is a plausible web host is
+ <a href="../../../../com/google/common/net/InternetDomainName.html#hasPublicSuffix()"><code>hasPublicSuffix()</code></a>. This will return <code>true</code> for many domains which (currently) are
+ not hosts, such as <code>"com"</code>, but given that any public suffix may become a host without
+ warning, it is better to err on the side of permissiveness and thus avoid spurious rejection of
+ valid sites.
 
  <p>During construction, names are normalized in two ways:
+
  <ol>
  <li>ASCII uppercase characters are converted to lowercase.
- <li>Unicode dot separators other than the ASCII period (<code>'.'</code>) are
- converted to the ASCII period.
+ <li>Unicode dot separators other than the ASCII period (<code>'.'</code>) are converted to the ASCII
+     period.
  </ol>
- <p>The normalized values will be returned from <a href="../../../../com/google/common/net/InternetDomainName.html#toString()"><code>toString()</code></a> and
- <a href="../../../../com/google/common/net/InternetDomainName.html#parts()"><code>parts()</code></a>, and will be reflected in the result of
- <a href="../../../../com/google/common/net/InternetDomainName.html#equals(java.lang.Object)"><code>equals(Object)</code></a>.
 
- <p><a href="http://en.wikipedia.org/wiki/Internationalized_domain_name">
- Internationalized domain names</a> such as <code>网络.cn</code> are supported, as
- are the equivalent <a
- href="http://en.wikipedia.org/wiki/Internationalized_domain_name">IDNA
- Punycode-encoded</a> versions.</div>
+ <p>The normalized values will be returned from <a href="../../../../com/google/common/net/InternetDomainName.html#toString()"><code>toString()</code></a> and <a href="../../../../com/google/common/net/InternetDomainName.html#parts()"><code>parts()</code></a>, and will
+ be reflected in the result of <a href="../../../../com/google/common/net/InternetDomainName.html#equals(java.lang.Object)"><code>equals(Object)</code></a>.
+
+ <p><a href="http://en.wikipedia.org/wiki/Internationalized_domain_name">Internationalized domain
+ names</a> such as <code>网络.cn</code> are supported, as are the equivalent
+ <a href="http://en.wikipedia.org/wiki/Internationalized_domain_name">IDNA Punycode-encoded</a>
+ versions.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>5.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -156,22 +154,21 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/net/InternetDomainName.html#child(java.lang.String)">child</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;leftParts)</code>
-<div class="block">Creates and returns a new <code>InternetDomainName</code> by prepending the
- argument and a dot to the current name.</div>
+<div class="block">Creates and returns a new <code>InternetDomainName</code> by prepending the argument and a dot to
+ the current name.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/net/InternetDomainName.html#equals(java.lang.Object)">equals</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
-<div class="block">Equality testing is based on the text supplied by the caller,
- after normalization as described in the class documentation.</div>
+<div class="block">Equality testing is based on the text supplied by the caller, after normalization as described
+ in the class documentation.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/net/InternetDomainName.html#from(java.lang.String)">from</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;domain)</code>
-<div class="block">Returns an instance of <a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net"><code>InternetDomainName</code></a> after lenient
- validation.</div>
+<div class="block">Returns an instance of <a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net"><code>InternetDomainName</code></a> after lenient validation.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -187,63 +184,61 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/net/InternetDomainName.html#hasPublicSuffix()">hasPublicSuffix</a></strong>()</code>
-<div class="block">Indicates whether this domain name ends in a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>, including if it is a public suffix itself.</div>
+<div class="block">Indicates whether this domain name ends in a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>,
+ including if it is a public suffix itself.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">isPublicSuffix</a></strong>()</code>
-<div class="block">Indicates whether this domain name represents a <i>public suffix</i>, as
- defined by the Mozilla Foundation's
- <a href="http://publicsuffix.org/">Public Suffix List</a> (PSL).</div>
+<div class="block">Indicates whether this domain name represents a <i>public suffix</i>, as defined by the Mozilla
+ Foundation's <a href="http://publicsuffix.org/">Public Suffix List</a> (PSL).</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/net/InternetDomainName.html#isTopPrivateDomain()">isTopPrivateDomain</a></strong>()</code>
-<div class="block">Indicates whether this domain name is composed of exactly one subdomain
- component followed by a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>.</div>
+<div class="block">Indicates whether this domain name is composed of exactly one subdomain component followed by a
+ <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/net/InternetDomainName.html#isUnderPublicSuffix()">isUnderPublicSuffix</a></strong>()</code>
-<div class="block">Indicates whether this domain name ends in a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>, while not being a public suffix itself.</div>
+<div class="block">Indicates whether this domain name ends in a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>,
+ while not being a public suffix itself.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/net/InternetDomainName.html#isValid(java.lang.String)">isValid</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name)</code>
-<div class="block">Indicates whether the argument is a syntactically valid domain name using
- lenient validation.</div>
+<div class="block">Indicates whether the argument is a syntactically valid domain name using lenient validation.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/net/InternetDomainName.html#parent()">parent</a></strong>()</code>
-<div class="block">Returns an <code>InternetDomainName</code> that is the immediate ancestor of
- this one; that is, the current domain with the leftmost part removed.</div>
+<div class="block">Returns an <code>InternetDomainName</code> that is the immediate ancestor of this one; that is, the
+ current domain with the leftmost part removed.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/net/InternetDomainName.html#parts()">parts</a></strong>()</code>
-<div class="block">Returns the individual components of this domain name, normalized to all
- lower case.</div>
+<div class="block">Returns the individual components of this domain name, normalized to all lower case.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/net/InternetDomainName.html#publicSuffix()">publicSuffix</a></strong>()</code>
-<div class="block">Returns the <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a> portion of the
- domain name, or <code>null</code> if no public suffix is present.</div>
+<div class="block">Returns the <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a> portion of the domain name, or
+ <code>null</code> if no public suffix is present.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/net/InternetDomainName.html#topPrivateDomain()">topPrivateDomain</a></strong>()</code>
-<div class="block">Returns the portion of this domain name that is one level beneath the
- public suffix.</div>
+<div class="block">Returns the portion of this domain name that is one level beneath the public suffix.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -280,25 +275,21 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.214">from</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;domain)</pre>
-<div class="block">Returns an instance of <a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net"><code>InternetDomainName</code></a> after lenient
- validation.  Specifically, validation against <a
- href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
- ("Internationalizing Domain Names in Applications") is skipped, while
- validation against <a
- href="http://www.ietf.org/rfc/rfc1035.txt">RFC 1035</a> is relaxed in
- the following ways:
+<pre>public static&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.197">from</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;domain)</pre>
+<div class="block">Returns an instance of <a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net"><code>InternetDomainName</code></a> after lenient validation. Specifically,
+ validation against <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
+ ("Internationalizing Domain Names in Applications") is skipped, while validation against
+ <a href="http://www.ietf.org/rfc/rfc1035.txt">RFC 1035</a> is relaxed in the following ways:
  <ul>
  <li>Any part containing non-ASCII characters is considered valid.
  <li>Underscores ('_') are permitted wherever dashes ('-') are permitted.
- <li>Parts other than the final part may start with a digit, as mandated
-     by <a href="https://tools.ietf.org/html/rfc1123#section-2">RFC
-     1123</a>.
+ <li>Parts other than the final part may start with a digit, as mandated by
+ <a href="https://tools.ietf.org/html/rfc1123#section-2">RFC 1123</a>.
  </ul></div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>domain</code> - A domain name (not IP address)</dd>
 <dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>name</code> is not syntactically valid
-     according to <a href="../../../../com/google/common/net/InternetDomainName.html#isValid(java.lang.String)"><code>isValid(java.lang.String)</code></a></dd><dt><span class="strong">Since:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>name</code> is not syntactically valid according to
+     <a href="../../../../com/google/common/net/InternetDomainName.html#isValid(java.lang.String)"><code>isValid(java.lang.String)</code></a></dd><dt><span class="strong">Since:</span></dt>
   <dd>10.0 (previously named <code>fromLenient</code>)</dd></dl>
 </li>
 </ul>
@@ -308,10 +299,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>parts</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.308">parts</a>()</pre>
-<div class="block">Returns the individual components of this domain name, normalized to all
- lower case. For example, for the domain name <code>mail.google.com</code>, this
- method returns the list <code>["mail", "google", "com"]</code>.</div>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.290">parts</a>()</pre>
+<div class="block">Returns the individual components of this domain name, normalized to all lower case. For
+ example, for the domain name <code>mail.google.com</code>, this method returns the list
+ <code>["mail", "google", "com"]</code>.</div>
 </li>
 </ul>
 <a name="isPublicSuffix()">
@@ -320,15 +311,13 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>isPublicSuffix</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.325">isPublicSuffix</a>()</pre>
-<div class="block">Indicates whether this domain name represents a <i>public suffix</i>, as
- defined by the Mozilla Foundation's
- <a href="http://publicsuffix.org/">Public Suffix List</a> (PSL). A public
- suffix is one under which Internet users can directly register names, such
- as <code>com</code>, <code>co.uk</code> or <code>pvt.k12.wy.us</code>. Examples of domain
- names that are <i>not</i> public suffixes include <code>google</code>, <code>google.com</code> and <code>foo.co.uk</code>.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> if this domain name appears exactly on the public
-     suffix list</dd><dt><span class="strong">Since:</span></dt>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.304">isPublicSuffix</a>()</pre>
+<div class="block">Indicates whether this domain name represents a <i>public suffix</i>, as defined by the Mozilla
+ Foundation's <a href="http://publicsuffix.org/">Public Suffix List</a> (PSL). A public suffix
+ is one under which Internet users can directly register names, such as <code>com</code>,
+ <code>co.uk</code> or <code>pvt.k12.wy.us</code>. Examples of domain names that are <i>not</i> public
+ suffixes include <code>google</code>, <code>google.com</code> and <code>foo.co.uk</code>.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> if this domain name appears exactly on the public suffix list</dd><dt><span class="strong">Since:</span></dt>
   <dd>6.0</dd></dl>
 </li>
 </ul>
@@ -338,12 +327,12 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>hasPublicSuffix</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.339">hasPublicSuffix</a>()</pre>
-<div class="block">Indicates whether this domain name ends in a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>, including if it is a public suffix itself. For example,
- returns <code>true</code> for <code>www.google.com</code>, <code>foo.co.uk</code> and
- <code>com</code>, but not for <code>google</code> or <code>google.foo</code>. This is
- the recommended method for determining whether a domain is potentially an
- addressable host.</div>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.317">hasPublicSuffix</a>()</pre>
+<div class="block">Indicates whether this domain name ends in a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>,
+ including if it is a public suffix itself. For example, returns <code>true</code> for
+ <code>www.google.com</code>, <code>foo.co.uk</code> and <code>com</code>, but not for <code>google</code> or
+ <code>google.foo</code>. This is the recommended method for determining whether a domain is
+ potentially an addressable host.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>6.0</dd></dl>
 </li>
@@ -354,9 +343,9 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>publicSuffix</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.349">publicSuffix</a>()</pre>
-<div class="block">Returns the <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a> portion of the
- domain name, or <code>null</code> if no public suffix is present.</div>
+<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.327">publicSuffix</a>()</pre>
+<div class="block">Returns the <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a> portion of the domain name, or
+ <code>null</code> if no public suffix is present.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>6.0</dd></dl>
 </li>
@@ -367,20 +356,19 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>isUnderPublicSuffix</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.372">isUnderPublicSuffix</a>()</pre>
-<div class="block">Indicates whether this domain name ends in a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>, while not being a public suffix itself. For example,
- returns <code>true</code> for <code>www.google.com</code>, <code>foo.co.uk</code> and
- <code>bar.ca.us</code>, but not for <code>google</code>, <code>com</code>, or <code>google.foo</code>.
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.348">isUnderPublicSuffix</a>()</pre>
+<div class="block">Indicates whether this domain name ends in a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>,
+ while not being a public suffix itself. For example, returns <code>true</code> for
+ <code>www.google.com</code>, <code>foo.co.uk</code> and <code>bar.ca.us</code>, but not for <code>google</code>,
+ <code>com</code>, or <code>google.foo</code>.
 
- <p><b>Warning:</b> a <code>false</code> result from this method does not imply
- that the domain does not represent an addressable host, as many public
- suffixes are also addressable hosts. Use <a href="../../../../com/google/common/net/InternetDomainName.html#hasPublicSuffix()"><code>hasPublicSuffix()</code></a> for
- that test.
+ <p><b>Warning:</b> a <code>false</code> result from this method does not imply that the domain does
+ not represent an addressable host, as many public suffixes are also addressable hosts. Use
+ <a href="../../../../com/google/common/net/InternetDomainName.html#hasPublicSuffix()"><code>hasPublicSuffix()</code></a> for that test.
 
- <p>This method can be used to determine whether it will probably be
- possible to set cookies on the domain, though even that depends on
- individual browsers' implementations of cookie controls. See
- <a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a> for details.</div>
+ <p>This method can be used to determine whether it will probably be possible to set cookies on
+ the domain, though even that depends on individual browsers' implementations of cookie
+ controls. See <a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a> for details.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>6.0</dd></dl>
 </li>
@@ -391,23 +379,19 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>isTopPrivateDomain</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.396">isTopPrivateDomain</a>()</pre>
-<div class="block">Indicates whether this domain name is composed of exactly one subdomain
- component followed by a <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>. For
- example, returns <code>true</code> for <code>google.com</code> and <code>foo.co.uk</code>,
- but not for <code>www.google.com</code> or <code>co.uk</code>.
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.368">isTopPrivateDomain</a>()</pre>
+<div class="block">Indicates whether this domain name is composed of exactly one subdomain component followed by a
+ <a href="../../../../com/google/common/net/InternetDomainName.html#isPublicSuffix()">public suffix</a>. For example, returns <code>true</code> for
+ <code>google.com</code> and <code>foo.co.uk</code>, but not for <code>www.google.com</code> or <code>co.uk</code>.
 
- <p><b>Warning:</b> A <code>true</code> result from this method does not imply
- that the domain is at the highest level which is addressable as a host, as
- many public suffixes are also addressable hosts. For example, the domain
- <code>bar.uk.com</code> has a public suffix of <code>uk.com</code>, so it would
- return <code>true</code> from this method. But <code>uk.com</code> is itself an
- addressable host.
+ <p><b>Warning:</b> A <code>true</code> result from this method does not imply that the domain is at
+ the highest level which is addressable as a host, as many public suffixes are also addressable
+ hosts. For example, the domain <code>bar.uk.com</code> has a public suffix of <code>uk.com</code>, so it
+ would return <code>true</code> from this method. But <code>uk.com</code> is itself an addressable host.
 
- <p>This method can be used to determine whether a domain is probably the
- highest level for which cookies may be set, though even that depends on
- individual browsers' implementations of cookie controls. See
- <a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a> for details.</div>
+ <p>This method can be used to determine whether a domain is probably the highest level for
+ which cookies may be set, though even that depends on individual browsers' implementations of
+ cookie controls. See <a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a> for details.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>6.0</dd></dl>
 </li>
@@ -418,26 +402,23 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>topPrivateDomain</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.422">topPrivateDomain</a>()</pre>
-<div class="block">Returns the portion of this domain name that is one level beneath the
- public suffix. For example, for <code>x.adwords.google.co.uk</code> it returns
- <code>google.co.uk</code>, since <code>co.uk</code> is a public suffix.
+<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.391">topPrivateDomain</a>()</pre>
+<div class="block">Returns the portion of this domain name that is one level beneath the public suffix. For
+ example, for <code>x.adwords.google.co.uk</code> it returns <code>google.co.uk</code>, since
+ <code>co.uk</code> is a public suffix.
 
- <p>If <a href="../../../../com/google/common/net/InternetDomainName.html#isTopPrivateDomain()"><code>isTopPrivateDomain()</code></a> is true, the current domain name
- instance is returned.
+ <p>If <a href="../../../../com/google/common/net/InternetDomainName.html#isTopPrivateDomain()"><code>isTopPrivateDomain()</code></a> is true, the current domain name instance is returned.
 
- <p>This method should not be used to determine the topmost parent domain
- which is addressable as a host, as many public suffixes are also
- addressable hosts. For example, the domain <code>foo.bar.uk.com</code> has
- a public suffix of <code>uk.com</code>, so it would return <code>bar.uk.com</code>
- from this method. But <code>uk.com</code> is itself an addressable host.
+ <p>This method should not be used to determine the topmost parent domain which is addressable
+ as a host, as many public suffixes are also addressable hosts. For example, the domain
+ <code>foo.bar.uk.com</code> has a public suffix of <code>uk.com</code>, so it would return
+ <code>bar.uk.com</code> from this method. But <code>uk.com</code> is itself an addressable host.
 
- <p>This method can be used to determine the probable highest level parent
- domain for which cookies may be set, though even that depends on individual
- browsers' implementations of cookie controls.</div>
+ <p>This method can be used to determine the probable highest level parent domain for which
+ cookies may be set, though even that depends on individual browsers' implementations of cookie
+ controls.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if this domain does not end with a
-     public suffix</dd><dt><span class="strong">Since:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if this domain does not end with a public suffix</dd><dt><span class="strong">Since:</span></dt>
   <dd>6.0</dd></dl>
 </li>
 </ul>
@@ -447,7 +428,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>hasParent</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.433">hasParent</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.402">hasParent</a>()</pre>
 <div class="block">Indicates whether this domain is composed of two or more parts.</div>
 </li>
 </ul>
@@ -457,13 +438,12 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>parent</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.445">parent</a>()</pre>
-<div class="block">Returns an <code>InternetDomainName</code> that is the immediate ancestor of
- this one; that is, the current domain with the leftmost part removed. For
- example, the parent of <code>www.google.com</code> is <code>google.com</code>.</div>
+<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.413">parent</a>()</pre>
+<div class="block">Returns an <code>InternetDomainName</code> that is the immediate ancestor of this one; that is, the
+ current domain with the leftmost part removed. For example, the parent of
+ <code>www.google.com</code> is <code>google.com</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if the domain has no parent, as determined
-     by <a href="../../../../com/google/common/net/InternetDomainName.html#hasParent()"><code>hasParent()</code></a></dd></dl>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if the domain has no parent, as determined by <a href="../../../../com/google/common/net/InternetDomainName.html#hasParent()"><code>hasParent()</code></a></dd></dl>
 </li>
 </ul>
 <a name="child(java.lang.String)">
@@ -472,11 +452,11 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>child</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.472">child</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;leftParts)</pre>
-<div class="block">Creates and returns a new <code>InternetDomainName</code> by prepending the
- argument and a dot to the current name. For example, <code>InternetDomainName.from("foo.com").child("www.bar")</code> returns a new
- <code>InternetDomainName</code> with the value <code>www.bar.foo.com</code>. Only
- lenient validation is performed, as described <a href="../../../../com/google/common/net/InternetDomainName.html#from(java.lang.String)"><code>here</code></a>.</div>
+<pre>public&nbsp;<a href="../../../../com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.439">child</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;leftParts)</pre>
+<div class="block">Creates and returns a new <code>InternetDomainName</code> by prepending the argument and a dot to
+ the current name. For example, <code>InternetDomainName.from("foo.com").child("www.bar")</code> returns a new <code>InternetDomainName</code>
+ with the value <code>www.bar.foo.com</code>. Only lenient validation is performed, as described
+ <a href="../../../../com/google/common/net/InternetDomainName.html#from(java.lang.String)"><code>here</code></a>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if leftParts is null</dd>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if the resulting name is not valid</dd></dl>
@@ -488,10 +468,9 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>isValid</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.498">isValid</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name)</pre>
-<div class="block">Indicates whether the argument is a syntactically valid domain name using
- lenient validation. Specifically, validation against <a
- href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.464">isValid</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name)</pre>
+<div class="block">Indicates whether the argument is a syntactically valid domain name using lenient validation.
+ Specifically, validation against <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
  ("Internationalizing Domain Names in Applications") is skipped.
 
  <p>The following two code snippets are equivalent:
@@ -515,7 +494,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.520">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.485">toString</a>()</pre>
 <div class="block">Returns the domain name, normalized to all lower case.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -529,12 +508,11 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.532">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.496">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
-<div class="block">Equality testing is based on the text supplied by the caller,
- after normalization as described in the class documentation. For
- example, a non-ASCII Unicode domain name and the Punycode version
- of the same domain name would not be considered equal.</div>
+<div class="block">Equality testing is based on the text supplied by the caller, after normalization as described
+ in the class documentation. For example, a non-ASCII Unicode domain name and the Punycode
+ version of the same domain name would not be considered equal.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -547,7 +525,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.546">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line.510">hashCode</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>

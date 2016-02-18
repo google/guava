@@ -97,25 +97,22 @@
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public class <a href="../../../../src-html/com/google/common/xml/XmlEscapers.html#line.49">XmlEscapers</a>
+public class <a href="../../../../src-html/com/google/common/xml/XmlEscapers.html#line.44">XmlEscapers</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block"><code>Escaper</code> instances suitable for strings to be included in XML
- attribute values and elements' text contents. When possible, avoid manual
- escaping by using templating systems and high-level APIs that provide
- autoescaping. For example, consider <a href="http://www.xom.nu/">XOM</a> or
- <a href="http://www.jdom.org/">JDOM</a>.
+<div class="block"><code>Escaper</code> instances suitable for strings to be included in XML attribute values and
+ elements' text contents. When possible, avoid manual escaping by using templating systems and
+ high-level APIs that provide autoescaping. For example, consider
+ <a href="http://www.xom.nu/">XOM</a> or <a href="http://www.jdom.org/">JDOM</a>.
 
- <p><b>Note:</b> Currently the escapers provided by this class do not escape
- any characters outside the ASCII character range. Unlike HTML escaping the
- XML escapers will not escape non-ASCII characters to their numeric entity
- replacements. These XML escapers provide the minimal level of escaping to
- ensure that the output can be safely included in a Unicode XML document.
+ <p><b>Note:</b> Currently the escapers provided by this class do not escape any characters
+ outside the ASCII character range. Unlike HTML escaping the XML escapers will not escape
+ non-ASCII characters to their numeric entity replacements. These XML escapers provide the minimal
+ level of escaping to ensure that the output can be safely included in a Unicode XML document.
 
 
  <p>For details on the behavior of the escapers in this class, see sections
  <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> and
- <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the
- XML specification.</div>
+ <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the XML specification.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>15.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -141,15 +138,15 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape">Escaper</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/xml/XmlEscapers.html#xmlAttributeEscaper()">xmlAttributeEscaper</a></strong>()</code>
-<div class="block">Returns an <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes special characters in a
- string so it can safely be included in XML document as an attribute value.</div>
+<div class="block">Returns an <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes special characters in a string so it can
+ safely be included in XML document as an attribute value.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape">Escaper</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/xml/XmlEscapers.html#xmlContentEscaper()">xmlContentEscaper</a></strong>()</code>
-<div class="block">Returns an <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes special characters in a
- string so it can safely be included in an XML document as element content.</div>
+<div class="block">Returns an <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes special characters in a string so it can
+ safely be included in an XML document as element content.</div>
 </td>
 </tr>
 </table>
@@ -180,32 +177,27 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>xmlContentEscaper</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape">Escaper</a>&nbsp;<a href="../../../../src-html/com/google/common/xml/XmlEscapers.html#line.85">xmlContentEscaper</a>()</pre>
-<div class="block">Returns an <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes special characters in a
- string so it can safely be included in an XML document as element content.
- See section
- <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the
- XML specification.
+<pre>public static&nbsp;<a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape">Escaper</a>&nbsp;<a href="../../../../src-html/com/google/common/xml/XmlEscapers.html#line.75">xmlContentEscaper</a>()</pre>
+<div class="block">Returns an <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes special characters in a string so it can
+ safely be included in an XML document as element content. See section
+ <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the XML specification.
 
- <p><b>Note:</b> Double and single quotes are not escaped, so it is <b>not
- safe</b> to use this escaper to escape attribute values. Use
- <a href="../../../../com/google/common/xml/XmlEscapers.html#xmlContentEscaper()"><code>xmlContentEscaper()</code></a> if the output can appear in element content or
- <a href="../../../../com/google/common/xml/XmlEscapers.html#xmlAttributeEscaper()"><code>xmlAttributeEscaper()</code></a> in attribute values.
+ <p><b>Note:</b> Double and single quotes are not escaped, so it is <b>not safe</b> to use this
+ escaper to escape attribute values. Use <a href="../../../../com/google/common/xml/XmlEscapers.html#xmlContentEscaper()"><code>xmlContentEscaper()</code></a> if the output can appear in
+ element content or <a href="../../../../com/google/common/xml/XmlEscapers.html#xmlAttributeEscaper()"><code>xmlAttributeEscaper()</code></a> in attribute values.
 
- <p>This escaper substitutes <code>0xFFFD</code> for non-whitespace control
- characters and the character values <code>0xFFFE</code> and <code>0xFFFF</code> which
- are not permitted in XML. For more detail see section <a
- href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of the
- XML specification.
+ <p>This escaper substitutes <code>0xFFFD</code> for non-whitespace control characters and the
+ character values <code>0xFFFE</code> and <code>0xFFFF</code> which are not permitted in XML. For more
+ detail see section <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of
+ the XML specification.
 
- <p>This escaper does not escape non-ASCII characters to their numeric
- character references (NCR). Any non-ASCII characters appearing in the input
- will be preserved in the output. Specifically "\r" (carriage return) is
- preserved in the output, which may result in it being silently converted to
- "\n" when the XML is parsed.
+ <p>This escaper does not escape non-ASCII characters to their numeric character references
+ (NCR). Any non-ASCII characters appearing in the input will be preserved in the output.
+ Specifically "\r" (carriage return) is preserved in the output, which may result in it being
+ silently converted to "\n" when the XML is parsed.
 
- <p>This escaper does not treat surrogate pairs specially and does not
- perform Unicode validation on its input.</div>
+ <p>This escaper does not treat surrogate pairs specially and does not perform Unicode
+ validation on its input.</div>
 </li>
 </ul>
 <a name="xmlAttributeEscaper()">
@@ -214,28 +206,25 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>xmlAttributeEscaper</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape">Escaper</a>&nbsp;<a href="../../../../src-html/com/google/common/xml/XmlEscapers.html#line.112">xmlAttributeEscaper</a>()</pre>
-<div class="block">Returns an <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes special characters in a
- string so it can safely be included in XML document as an attribute value.
- See section
- <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#AVNormalize">3.3.3</a>
- of the XML specification.
+<pre>public static&nbsp;<a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape">Escaper</a>&nbsp;<a href="../../../../src-html/com/google/common/xml/XmlEscapers.html#line.99">xmlAttributeEscaper</a>()</pre>
+<div class="block">Returns an <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes special characters in a string so it can
+ safely be included in XML document as an attribute value. See section
+ <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#AVNormalize">3.3.3</a> of the XML
+ specification.
 
- <p>This escaper substitutes <code>0xFFFD</code> for non-whitespace control
- characters and the character values <code>0xFFFE</code> and <code>0xFFFF</code> which
- are not permitted in XML. For more detail see section <a
- href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of the
- XML specification.
+ <p>This escaper substitutes <code>0xFFFD</code> for non-whitespace control characters and the
+ character values <code>0xFFFE</code> and <code>0xFFFF</code> which are not permitted in XML. For more
+ detail see section <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of
+ the XML specification.
 
- <p>This escaper does not escape non-ASCII characters to their numeric
- character references (NCR). However, horizontal tab <code>'\t'</code>, line feed
- <code>'\n'</code> and carriage return <code>'\r'</code> are escaped to a
- corresponding NCR <code>"&amp;#x9;"</code>, <code>"&amp;#xA;"</code>, and <code>"&amp;#xD;"</code>
- respectively. Any other non-ASCII characters appearing in the input will
- be preserved in the output.
+ <p>This escaper does not escape non-ASCII characters to their numeric character references
+ (NCR). However, horizontal tab <code>'\t'</code>, line feed <code>'\n'</code> and carriage return
+ <code>'\r'</code> are escaped to a corresponding NCR <code>"&amp;#x9;"</code>, <code>"&amp;#xA;"</code>, and
+ <code>"&amp;#xD;"</code> respectively. Any other non-ASCII characters appearing in the input will be
+ preserved in the output.
 
- <p>This escaper does not treat surrogate pairs specially and does not
- perform Unicode validation on its input.</div>
+ <p>This escaper does not treat surrogate pairs specially and does not perform Unicode
+ validation on its input.</div>
 </li>
 </ul>
 </li>

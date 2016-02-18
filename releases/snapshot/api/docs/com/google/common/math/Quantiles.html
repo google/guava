@@ -97,7 +97,7 @@
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/math/Quantiles.html#line.130">Quantiles</a>
+public final class <a href="../../../../src-html/com/google/common/math/Quantiles.html#line.129">Quantiles</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Provides a fluent API for calculating
  <a href="http://en.wikipedia.org/wiki/Quantile">quantiles</a>.
@@ -138,12 +138,13 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  definition in
  <a href="http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html">R</a>, and it is
  described by
- <a href="http://en.wikipedia.org/wiki/Quantile#Estimating_the_quantiles_of_a_population">wikipedia</a>
- as providing "Linear interpolation of the modes for the order statistics for the uniform
- distribution on [0,1]."
+ <a href="http://en.wikipedia.org/wiki/Quantile#Estimating_the_quantiles_of_a_population">
+ wikipedia</a> as providing "Linear interpolation of the modes for the order statistics for the
+ uniform distribution on [0,1]."
 
  <h3>Handling of non-finite values</h3>
- If any values in the input are <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>NaN</code></a> then all values returned are
+
+ <p>If any values in the input are <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>NaN</code></a> then all values returned are
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>NaN</code></a>. (This is the one occasion when the behaviour is not the same as you'd get
  from sorting with <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html?is-external=true#sort(double[])" title="class or interface in java.util"><code>Arrays.sort(double[])</code></a> or
  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#sort(java.util.List)" title="class or interface in java.util"><code>Collections.sort(List&lt;Double&gt;)</code></a> and
@@ -157,9 +158,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 
  <p>If required to do a weighted average between an infinity and a finite value, or between an
  infinite value and itself, the infinite value is returned. If required to do a weighted average
- between <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>NEGATIVE_INFINITY</code></a> and
- <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>POSITIVE_INFINITY</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>NaN</code></a> is returned (note that
- this will only happen if the dataset contains no finite values).
+ between <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#NEGATIVE_INFINITY" title="class or interface in java.lang"><code>NEGATIVE_INFINITY</code></a> and <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>POSITIVE_INFINITY</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#NaN" title="class or interface in java.lang"><code>NaN</code></a> is returned (note that this will only happen if the
+ dataset contains no finite values).
 
  <h3>Performance</h3>
 
@@ -169,15 +169,14 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  passing in unsanitized user data then a malicious user could force it. A light shuffle of the
  data using an unpredictable seed should normally be enough to thwart this attack.
 
- <p>The time taken to compute multiple quantiles on the same dataset using
- <a href="../../../../com/google/common/math/Quantiles.Scale.html#indexes(int...)"><code>indexes</code></a> is generally less than the total time taken to compute each of them
- separately, and sometimes much less. For example, on a large enough dataset, computing the 90th
- and 99th percentiles together takes about 55% as long as computing them separately.
+ <p>The time taken to compute multiple quantiles on the same dataset using <a href="../../../../com/google/common/math/Quantiles.Scale.html#indexes(int...)"><code>indexes</code></a> is generally less than the total time taken to compute each of them separately, and
+ sometimes much less. For example, on a large enough dataset, computing the 90th and 99th
+ percentiles together takes about 55% as long as computing them separately.
 
- <p>When calling <a href="../../../../com/google/common/math/Quantiles.ScaleAndIndex.html#compute(java.util.Collection)"><code>Quantiles.ScaleAndIndex.compute(java.util.Collection&lt;? extends java.lang.Number&gt;)</code></a> (in
- <a href="../../../../com/google/common/math/Quantiles.ScaleAndIndexes.html#compute(java.util.Collection)">either form</a>), the memory requirement is 8*N bytes for the
- copy of the dataset plus an overhead which is independent of N (but depends on the quantiles
- being computed). When calling <a href="../../../../com/google/common/math/Quantiles.ScaleAndIndex.html#computeInPlace(double...)"><code>computeInPlace</code></a> (in
+ <p>When calling <a href="../../../../com/google/common/math/Quantiles.ScaleAndIndex.html#compute(java.util.Collection)"><code>Quantiles.ScaleAndIndex.compute(java.util.Collection&lt;? extends java.lang.Number&gt;)</code></a> (in <a href="../../../../com/google/common/math/Quantiles.ScaleAndIndexes.html#compute(java.util.Collection)">either
+ form</a>), the memory requirement is 8*N bytes for the copy of the dataset plus an overhead which is
+ independent of N (but depends on the quantiles being computed). When calling
+ <a href="../../../../com/google/common/math/Quantiles.ScaleAndIndex.html#computeInPlace(double...)"><code>computeInPlace</code></a> (in
  <a href="../../../../com/google/common/math/Quantiles.ScaleAndIndexes.html#computeInPlace(double...)">either form</a>), only the overhead is required. The
  number of object allocations is independent of N in both cases.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -304,7 +303,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Quantiles</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.html#line.130">Quantiles</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.html#line.129">Quantiles</a>()</pre>
 </li>
 </ul>
 </li>
@@ -321,7 +320,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>median</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/Quantiles.ScaleAndIndex.html" title="class in com.google.common.math">Quantiles.ScaleAndIndex</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.html#line.135">median</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/Quantiles.ScaleAndIndex.html" title="class in com.google.common.math">Quantiles.ScaleAndIndex</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.html#line.134">median</a>()</pre>
 <div class="block">Specifies the computation of a median (i.e. the 1st 2-quantile).</div>
 </li>
 </ul>
@@ -331,7 +330,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>quartiles</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/Quantiles.Scale.html" title="class in com.google.common.math">Quantiles.Scale</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.html#line.142">quartiles</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/Quantiles.Scale.html" title="class in com.google.common.math">Quantiles.Scale</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.html#line.141">quartiles</a>()</pre>
 <div class="block">Specifies the computation of quartiles (i.e. 4-quantiles).</div>
 </li>
 </ul>
@@ -341,7 +340,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>percentiles</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/Quantiles.Scale.html" title="class in com.google.common.math">Quantiles.Scale</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.html#line.149">percentiles</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/Quantiles.Scale.html" title="class in com.google.common.math">Quantiles.Scale</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.html#line.148">percentiles</a>()</pre>
 <div class="block">Specifies the computation of percentiles (i.e. 100-quantiles).</div>
 </li>
 </ul>
@@ -351,7 +350,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>scale</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/Quantiles.Scale.html" title="class in com.google.common.math">Quantiles.Scale</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.html#line.159">scale</a>(int&nbsp;scale)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/Quantiles.Scale.html" title="class in com.google.common.math">Quantiles.Scale</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.html#line.158">scale</a>(int&nbsp;scale)</pre>
 <div class="block">Specifies the computation of q-quantiles.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>scale</code> - the scale for the quantiles to be calculated, i.e. the q of the q-quantiles, which
      must be positive</dd></dl>
