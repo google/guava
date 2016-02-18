@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.math;
@@ -90,9 +88,9 @@ public final class PairedStats implements Serializable {
   /**
    * Returns the population covariance of the values. The count must be non-zero.
    *
-   * <p>This is guaranteed to return zero if the dataset contains a single pair of finite values.
-   * It is not guaranteed to return zero when the dataset consists of the same pair of values
-   * multiple times, due to numerical errors.
+   * <p>This is guaranteed to return zero if the dataset contains a single pair of finite values. It
+   * is not guaranteed to return zero when the dataset consists of the same pair of values multiple
+   * times, due to numerical errors.
    *
    * <h3>Non-finite values</h3>
    *
@@ -233,8 +231,8 @@ public final class PairedStats implements Serializable {
   /**
    * {@inheritDoc}
    *
-   * <p><b>Note:</b> This hash code is consistent with exact equality of the calculated
-   * statistics, including the floating point values. See the note on {@link #equals} for details.
+   * <p><b>Note:</b> This hash code is consistent with exact equality of the calculated statistics,
+   * including the floating point values. See the note on {@link #equals} for details.
    */
   @Override
   public int hashCode() {
@@ -302,8 +300,11 @@ public final class PairedStats implements Serializable {
    */
   public static PairedStats fromByteArray(byte[] byteArray) {
     checkNotNull(byteArray);
-    checkArgument(byteArray.length == BYTES,
-        "Expected PairedStats.BYTES = %s, got %s", BYTES, byteArray.length);
+    checkArgument(
+        byteArray.length == BYTES,
+        "Expected PairedStats.BYTES = %s, got %s",
+        BYTES,
+        byteArray.length);
     ByteBuffer buffer = ByteBuffer.wrap(byteArray).order(ByteOrder.LITTLE_ENDIAN);
     Stats xStats = Stats.readFrom(buffer);
     Stats yStats = Stats.readFrom(buffer);

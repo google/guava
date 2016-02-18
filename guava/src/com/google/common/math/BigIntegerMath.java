@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.math;
@@ -41,8 +39,8 @@ import java.util.List;
  * <p>The implementations of many methods in this class are based on material from Henry S. Warren,
  * Jr.'s <i>Hacker's Delight</i>, (Addison Wesley, 2002).
  *
- * <p>Similar functionality for {@code int} and for {@code long} can be found in
- * {@link IntMath} and {@link LongMath} respectively.
+ * <p>Similar functionality for {@code int} and for {@code long} can be found in {@link IntMath} and
+ * {@link LongMath} respectively.
  *
  * @author Louis Wasserman
  * @since 11.0
@@ -62,7 +60,7 @@ public final class BigIntegerMath {
    *
    * @throws IllegalArgumentException if {@code x <= 0}
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
-   *         is not a power of two
+   *     is not a power of two
    */
   @SuppressWarnings("fallthrough")
   // TODO(kevinb): remove after this warning is disabled globally
@@ -84,20 +82,18 @@ public final class BigIntegerMath {
       case HALF_UP:
       case HALF_EVEN:
         if (logFloor < SQRT2_PRECOMPUTE_THRESHOLD) {
-          BigInteger halfPower = SQRT2_PRECOMPUTED_BITS.shiftRight(
-              SQRT2_PRECOMPUTE_THRESHOLD - logFloor);
+          BigInteger halfPower =
+              SQRT2_PRECOMPUTED_BITS.shiftRight(SQRT2_PRECOMPUTE_THRESHOLD - logFloor);
           if (x.compareTo(halfPower) <= 0) {
             return logFloor;
           } else {
             return logFloor + 1;
           }
         }
-        /*
-         * Since sqrt(2) is irrational, log2(x) - logFloor cannot be exactly 0.5
-         *
-         * To determine which side of logFloor.5 the logarithm is, we compare x^2 to 2^(2 *
-         * logFloor + 1).
-         */
+        // Since sqrt(2) is irrational, log2(x) - logFloor cannot be exactly 0.5
+        //
+        // To determine which side of logFloor.5 the logarithm is,
+        // we compare x^2 to 2^(2 * logFloor + 1).
         BigInteger x2 = x.pow(2);
         int logX2Floor = x2.bitLength() - 1;
         return (logX2Floor < 2 * logFloor + 1) ? logFloor : logFloor + 1;
@@ -114,7 +110,8 @@ public final class BigIntegerMath {
    */
   @VisibleForTesting static final int SQRT2_PRECOMPUTE_THRESHOLD = 256;
 
-  @VisibleForTesting static final BigInteger SQRT2_PRECOMPUTED_BITS =
+  @VisibleForTesting
+  static final BigInteger SQRT2_PRECOMPUTED_BITS =
       new BigInteger("16a09e667f3bcc908b2fb1366ea957d3e3adec17512775099da2f590b0667322a", 16);
 
   /**
@@ -122,7 +119,7 @@ public final class BigIntegerMath {
    *
    * @throws IllegalArgumentException if {@code x <= 0}
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
-   *         is not a power of ten
+   *     is not a power of ten
    */
   @GwtIncompatible // TODO
   @SuppressWarnings("fallthrough")
@@ -144,8 +141,8 @@ public final class BigIntegerMath {
     if (approxCmp > 0) {
       /*
        * The code is written so that even completely incorrect approximations will still yield the
-       * correct answer eventually, but in practice this branch should almost never be entered,
-       * and even then the loop should not run more than once.
+       * correct answer eventually, but in practice this branch should almost never be entered, and
+       * even then the loop should not run more than once.
        */
       do {
         approxLog10--;
@@ -200,7 +197,7 @@ public final class BigIntegerMath {
    *
    * @throws IllegalArgumentException if {@code x < 0}
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and
-   *         {@code sqrt(x)} is not an integer
+   *     {@code sqrt(x)} is not an integer
    */
   @GwtIncompatible // TODO
   @SuppressWarnings("fallthrough")
@@ -221,15 +218,15 @@ public final class BigIntegerMath {
         int sqrtFloorInt = sqrtFloor.intValue();
         boolean sqrtFloorIsExact =
             (sqrtFloorInt * sqrtFloorInt == x.intValue()) // fast check mod 2^32
-            && sqrtFloor.pow(2).equals(x); // slow exact check
+                && sqrtFloor.pow(2).equals(x); // slow exact check
         return sqrtFloorIsExact ? sqrtFloor : sqrtFloor.add(BigInteger.ONE);
       case HALF_DOWN:
       case HALF_UP:
       case HALF_EVEN:
         BigInteger halfSquare = sqrtFloor.pow(2).add(sqrtFloor);
         /*
-         * We wish to test whether or not x <= (sqrtFloor + 0.5)^2 = halfSquare + 0.25. Since both
-         * x and halfSquare are integers, this is equivalent to testing whether or not x <=
+         * We wish to test whether or not x <= (sqrtFloor + 0.5)^2 = halfSquare + 0.25. Since both x
+         * and halfSquare are integers, this is equivalent to testing whether or not x <=
          * halfSquare.
          */
         return (halfSquare.compareTo(x) >= 0) ? sqrtFloor : sqrtFloor.add(BigInteger.ONE);
@@ -292,7 +289,7 @@ public final class BigIntegerMath {
    * {@code RoundingMode}.
    *
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
-   *         is not an integer multiple of {@code b}
+   *     is not an integer multiple of {@code b}
    */
   @GwtIncompatible // TODO
   public static BigInteger divide(BigInteger p, BigInteger q, RoundingMode mode) {
@@ -302,14 +299,14 @@ public final class BigIntegerMath {
   }
 
   /**
-   * Returns {@code n!}, that is, the product of the first {@code n} positive
-   * integers, or {@code 1} if {@code n == 0}.
+   * Returns {@code n!}, that is, the product of the first {@code n} positive integers, or {@code 1}
+   * if {@code n == 0}.
    *
    * <p><b>Warning:</b> the result takes <i>O(n log n)</i> space, so use cautiously.
    *
-   * <p>This uses an efficient binary recursive algorithm to compute the factorial
-   * with balanced multiplies.  It also removes all the 2s from the intermediate
-   * products (shifting them back in at the end).
+   * <p>This uses an efficient binary recursive algorithm to compute the factorial with balanced
+   * multiplies. It also removes all the 2s from the intermediate products (shifting them back in at
+   * the end).
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */
@@ -389,7 +386,7 @@ public final class BigIntegerMath {
     }
   }
 
- /**
+  /**
    * Returns {@code n} choose {@code k}, also known as the binomial coefficient of {@code n} and
    * {@code k}, that is, {@code n! / (k! (n - k)!)}.
    *
@@ -426,9 +423,10 @@ public final class BigIntegerMath {
       if (numeratorBits + bits >= Long.SIZE - 1) {
         // The numerator is as big as it can get without risking overflow.
         // Multiply numeratorAccum / denominatorAccum into accum.
-        accum = accum
-            .multiply(BigInteger.valueOf(numeratorAccum))
-            .divide(BigInteger.valueOf(denominatorAccum));
+        accum =
+            accum
+                .multiply(BigInteger.valueOf(numeratorAccum))
+                .divide(BigInteger.valueOf(denominatorAccum));
         numeratorAccum = p;
         denominatorAccum = q;
         numeratorBits = bits;

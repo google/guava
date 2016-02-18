@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.math;
@@ -43,7 +41,7 @@ import java.math.RoundingMode;
  * Jr.'s <i>Hacker's Delight</i>, (Addison Wesley, 2002).
  *
  * <p>Similar functionality for {@code int} and for {@link BigInteger} can be found in
- * {@link IntMath} and {@link BigIntegerMath} respectively.  For other common operations on
+ * {@link IntMath} and {@link BigIntegerMath} respectively. For other common operations on
  * {@code long} values, see {@link com.google.common.primitives.Longs}.
  *
  * @author Louis Wasserman
@@ -64,9 +62,9 @@ public final class LongMath {
   }
 
   /**
-   * Returns 1 if {@code x < y} as unsigned longs, and 0 otherwise.  Assumes that x - y fits into a
-   * signed long.  The implementation is branch-free, and benchmarks suggest it is measurably
-   * faster than the straightforward ternary expression.
+   * Returns 1 if {@code x < y} as unsigned longs, and 0 otherwise. Assumes that x - y fits into a
+   * signed long. The implementation is branch-free, and benchmarks suggest it is measurably faster
+   * than the straightforward ternary expression.
    */
   @VisibleForTesting
   static int lessThanBranchFree(long x, long y) {
@@ -79,7 +77,7 @@ public final class LongMath {
    *
    * @throws IllegalArgumentException if {@code x <= 0}
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
-   *         is not a power of two
+   *     is not a power of two
    */
   @SuppressWarnings("fallthrough")
   // TODO(kevinb): remove after this warning is disabled globally
@@ -120,7 +118,7 @@ public final class LongMath {
    *
    * @throws IllegalArgumentException if {@code x <= 0}
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
-   *         is not a power of ten
+   *     is not a power of ten
    */
   @GwtIncompatible // TODO
   @SuppressWarnings("fallthrough")
@@ -154,9 +152,9 @@ public final class LongMath {
     /*
      * Based on Hacker's Delight Fig. 11-5, the two-table-lookup, branch-free implementation.
      *
-     * The key idea is that based on the number of leading zeros (equivalently, floor(log2(x))),
-     * we can narrow the possible floor(log10(x)) values to two.  For example, if floor(log2(x))
-     * is 6, then 64 <= x < 128, so floor(log10(x)) is either 1 or 2.
+     * The key idea is that based on the number of leading zeros (equivalently, floor(log2(x))), we
+     * can narrow the possible floor(log10(x)) values to two. For example, if floor(log2(x)) is 6,
+     * then 64 <= x < 128, so floor(log10(x)) is either 1 or 2.
      */
     int y = maxLog10ForLeadingZeros[Long.numberOfLeadingZeros(x)];
     /*
@@ -167,10 +165,12 @@ public final class LongMath {
   }
 
   // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))
-  @VisibleForTesting static final byte[] maxLog10ForLeadingZeros = {
-      19, 18, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 15, 15, 14, 14, 14, 13, 13, 13, 12, 12,
-      12, 12, 11, 11, 11, 10, 10, 10, 9, 9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4,
-      3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0 };
+  @VisibleForTesting
+  static final byte[] maxLog10ForLeadingZeros = {
+    19, 18, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 15, 15, 14, 14, 14, 13, 13, 13, 12, 12, 12,
+    12, 11, 11, 11, 10, 10, 10, 9, 9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3,
+    3, 2, 2, 2, 1, 1, 1, 0, 0, 0
+  };
 
   @GwtIncompatible // TODO
   @VisibleForTesting
@@ -251,7 +251,7 @@ public final class LongMath {
           throw new AssertionError();
       }
     }
-    for (long accum = 1;; k >>= 1) {
+    for (long accum = 1; ; k >>= 1) {
       switch (k) {
         case 0:
           return accum;
@@ -269,7 +269,7 @@ public final class LongMath {
    *
    * @throws IllegalArgumentException if {@code x < 0}
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and
-   *         {@code sqrt(x)} is not an integer
+   *     {@code sqrt(x)} is not an integer
    */
   @GwtIncompatible // TODO
   @SuppressWarnings("fallthrough")
@@ -320,8 +320,8 @@ public final class LongMath {
         long sqrtFloor = guess - ((x < guessSquared) ? 1 : 0);
         long halfSquare = sqrtFloor * sqrtFloor + sqrtFloor;
         /*
-         * We wish to test whether or not x <= (sqrtFloor + 0.5)^2 = halfSquare + 0.25. Since both
-         * x and halfSquare are integers, this is equivalent to testing whether or not x <=
+         * We wish to test whether or not x <= (sqrtFloor + 0.5)^2 = halfSquare + 0.25. Since both x
+         * and halfSquare are integers, this is equivalent to testing whether or not x <=
          * halfSquare. (We have to deal with overflow, though.)
          *
          * If we treat halfSquare as an unsigned long, we know that
@@ -341,7 +341,7 @@ public final class LongMath {
    * {@code RoundingMode}.
    *
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
-   *         is not an integer multiple of {@code b}
+   *     is not an integer multiple of {@code b}
    */
   @GwtIncompatible // TODO
   @SuppressWarnings("fallthrough")
@@ -399,8 +399,8 @@ public final class LongMath {
   }
 
   /**
-   * Returns {@code x mod m}, a non-negative value less than {@code m}.
-   * This differs from {@code x % m}, which might be negative.
+   * Returns {@code x mod m}, a non-negative value less than {@code m}. This differs from
+   * {@code x % m}, which might be negative.
    *
    * <p>For example:
    *
@@ -414,7 +414,7 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code m <= 0}
    * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
-   *      Remainder Operator</a>
+   *     Remainder Operator</a>
    */
   @GwtIncompatible // TODO
   public static int mod(long x, int m) {
@@ -423,8 +423,8 @@ public final class LongMath {
   }
 
   /**
-   * Returns {@code x mod m}, a non-negative value less than {@code m}.
-   * This differs from {@code x % m}, which might be negative.
+   * Returns {@code x mod m}, a non-negative value less than {@code m}. This differs from
+   * {@code x % m}, which might be negative.
    *
    * <p>For example:
    *
@@ -438,7 +438,7 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code m <= 0}
    * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
-   *      Remainder Operator</a>
+   *     Remainder Operator</a>
    */
   @GwtIncompatible // TODO
   public static long mod(long x, long m) {
@@ -458,8 +458,8 @@ public final class LongMath {
   public static long gcd(long a, long b) {
     /*
      * The reason we require both arguments to be >= 0 is because otherwise, what do you return on
-     * gcd(0, Long.MIN_VALUE)? BigInteger.gcd would return positive 2^63, but positive 2^63 isn't
-     * an int.
+     * gcd(0, Long.MIN_VALUE)? BigInteger.gcd would return positive 2^63, but positive 2^63 isn't an
+     * int.
      */
     checkNonNegative("a", a);
     checkNonNegative("b", b);
@@ -471,8 +471,8 @@ public final class LongMath {
       return a; // similar logic
     }
     /*
-     * Uses the binary GCD algorithm; see http://en.wikipedia.org/wiki/Binary_GCD_algorithm.
-     * This is >60% faster than the Euclidean algorithm in benchmarks.
+     * Uses the binary GCD algorithm; see http://en.wikipedia.org/wiki/Binary_GCD_algorithm. This is
+     * >60% faster than the Euclidean algorithm in benchmarks.
      */
     int aTwos = Long.numberOfTrailingZeros(a);
     a >>= aTwos; // divide out all 2s
@@ -480,7 +480,7 @@ public final class LongMath {
     b >>= bTwos; // divide out all 2s
     while (a != b) { // both a, b are odd
       // The key to the binary GCD algorithm is as follows:
-      // Both a and b are odd.  Assume a > b; then gcd(a - b, b) = gcd(a, b).
+      // Both a and b are odd. Assume a > b; then gcd(a - b, b) = gcd(a, b).
       // But in gcd(a - b, b), a - b is even and b is odd, so we can divide out powers of two.
 
       // We bend over backwards to avoid branching, adapting a technique from
@@ -532,8 +532,11 @@ public final class LongMath {
   @GwtIncompatible // TODO
   public static long checkedMultiply(long a, long b) {
     // Hacker's Delight, Section 2-12
-    int leadingZeros = Long.numberOfLeadingZeros(a) + Long.numberOfLeadingZeros(~a)
-        + Long.numberOfLeadingZeros(b) + Long.numberOfLeadingZeros(~b);
+    int leadingZeros =
+        Long.numberOfLeadingZeros(a)
+            + Long.numberOfLeadingZeros(~a)
+            + Long.numberOfLeadingZeros(b)
+            + Long.numberOfLeadingZeros(~b);
     /*
      * If leadingZeros > Long.SIZE + 1 it's definitely fine, if it's < Long.SIZE it's definitely
      * bad. We do the leadingZeros check to avoid the division below if at all possible.
@@ -558,7 +561,7 @@ public final class LongMath {
    * Returns the {@code b} to the {@code k}th power, provided it does not overflow.
    *
    * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed
-   *         {@code long} arithmetic
+   *     {@code long} arithmetic
    */
   @GwtIncompatible // TODO
   public static long checkedPow(long b, int k) {
@@ -636,8 +639,8 @@ public final class LongMath {
   }
 
   /**
-   * Returns the product of {@code a} and {@code b} unless it would overflow or underflow in
-   * which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is returned, respectively.
+   * Returns the product of {@code a} and {@code b} unless it would overflow or underflow in which
+   * case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is returned, respectively.
    *
    * @since 20.0
    */
@@ -665,8 +668,8 @@ public final class LongMath {
   }
 
   /**
-   * Returns the {@code b} to the {@code k}th power, unless it would overflow or underflow in
-   * which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is returned, respectively.
+   * Returns the {@code b} to the {@code k}th power, unless it would overflow or underflow in which
+   * case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is returned, respectively.
    *
    * @since 20.0
    */
@@ -721,9 +724,8 @@ public final class LongMath {
   @VisibleForTesting static final long FLOOR_SQRT_MAX_LONG = 3037000499L;
 
   /**
-   * Returns {@code n!}, that is, the product of the first {@code n} positive
-   * integers, {@code 1} if {@code n == 0}, or {@link Long#MAX_VALUE} if the
-   * result does not fit in a {@code long}.
+   * Returns {@code n!}, that is, the product of the first {@code n} positive integers, {@code 1} if
+   * {@code n == 0}, or {@link Long#MAX_VALUE} if the result does not fit in a {@code long}.
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */
@@ -734,27 +736,27 @@ public final class LongMath {
   }
 
   static final long[] factorials = {
-      1L,
-      1L,
-      1L * 2,
-      1L * 2 * 3,
-      1L * 2 * 3 * 4,
-      1L * 2 * 3 * 4 * 5,
-      1L * 2 * 3 * 4 * 5 * 6,
-      1L * 2 * 3 * 4 * 5 * 6 * 7,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17 * 18,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17 * 18 * 19,
-      1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17 * 18 * 19 * 20
+    1L,
+    1L,
+    1L * 2,
+    1L * 2 * 3,
+    1L * 2 * 3 * 4,
+    1L * 2 * 3 * 4 * 5,
+    1L * 2 * 3 * 4 * 5 * 6,
+    1L * 2 * 3 * 4 * 5 * 6 * 7,
+    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8,
+    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9,
+    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10,
+    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11,
+    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12,
+    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13,
+    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14,
+    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15,
+    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16,
+    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17,
+    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17 * 18,
+    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17 * 18 * 19,
+    1L * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 * 14 * 15 * 16 * 17 * 18 * 19 * 20
   };
 
   /**
@@ -839,22 +841,83 @@ public final class LongMath {
   }
 
   /*
-   * binomial(biggestBinomials[k], k) fits in a long, but not
-   * binomial(biggestBinomials[k] + 1, k).
+   * binomial(biggestBinomials[k], k) fits in a long, but not binomial(biggestBinomials[k] + 1, k).
    */
-  static final int[] biggestBinomials =
-      {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 3810779, 121977, 16175, 4337, 1733,
-          887, 534, 361, 265, 206, 169, 143, 125, 111, 101, 94, 88, 83, 79, 76, 74, 72, 70, 69, 68,
-          67, 67, 66, 66, 66, 66};
+  static final int[] biggestBinomials = {
+    Integer.MAX_VALUE,
+    Integer.MAX_VALUE,
+    Integer.MAX_VALUE,
+    3810779,
+    121977,
+    16175,
+    4337,
+    1733,
+    887,
+    534,
+    361,
+    265,
+    206,
+    169,
+    143,
+    125,
+    111,
+    101,
+    94,
+    88,
+    83,
+    79,
+    76,
+    74,
+    72,
+    70,
+    69,
+    68,
+    67,
+    67,
+    66,
+    66,
+    66,
+    66
+  };
 
   /*
-   * binomial(biggestSimpleBinomials[k], k) doesn't need to use the slower GCD-based impl,
-   * but binomial(biggestSimpleBinomials[k] + 1, k) does.
+   * binomial(biggestSimpleBinomials[k], k) doesn't need to use the slower GCD-based impl, but
+   * binomial(biggestSimpleBinomials[k] + 1, k) does.
    */
-  @VisibleForTesting static final int[] biggestSimpleBinomials =
-      {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 2642246, 86251, 11724, 3218, 1313,
-          684, 419, 287, 214, 169, 139, 119, 105, 95, 87, 81, 76, 73, 70, 68, 66, 64, 63, 62, 62,
-          61, 61, 61};
+  @VisibleForTesting
+  static final int[] biggestSimpleBinomials = {
+    Integer.MAX_VALUE,
+    Integer.MAX_VALUE,
+    Integer.MAX_VALUE,
+    2642246,
+    86251,
+    11724,
+    3218,
+    1313,
+    684,
+    419,
+    287,
+    214,
+    169,
+    139,
+    119,
+    105,
+    95,
+    87,
+    81,
+    76,
+    73,
+    70,
+    68,
+    66,
+    64,
+    63,
+    62,
+    62,
+    61,
+    61,
+    61
+  };
   // These values were generated by using checkedMultiply to see when the simple multiply/divide
   // algorithm would lead to an overflow.
 
@@ -863,8 +926,8 @@ public final class LongMath {
   }
 
   /**
-   * Returns the arithmetic mean of {@code x} and {@code y}, rounded toward
-   * negative infinity. This method is resilient to overflow.
+   * Returns the arithmetic mean of {@code x} and {@code y}, rounded toward negative infinity. This
+   * method is resilient to overflow.
    *
    * @since 14.0
    */
@@ -876,8 +939,8 @@ public final class LongMath {
   }
 
   /*
-   * If n <= millerRabinBases[i][0], then testing n against bases millerRabinBases[i][1..]
-   * suffices to prove its primality.  Values from miller-rabin.appspot.com.
+   * If n <= millerRabinBases[i][0], then testing n against bases millerRabinBases[i][1..] suffices
+   * to prove its primality. Values from miller-rabin.appspot.com.
    *
    * NOTE: We could get slightly better bases that would be treated as unsigned, but benchmarks
    * showed negligible performance improvements.
@@ -887,13 +950,24 @@ public final class LongMath {
     {885594168, 725270293939359937L, 3569819667048198375L},
     {273919523040L, 15, 7363882082L, 992620450144556L},
     {47636622961200L, 2, 2570940, 211991001, 3749873356L},
-    {7999252175582850L,
-      2, 4130806001517L, 149795463772692060L, 186635894390467037L, 3967304179347715805L},
-    {585226005592931976L,
-      2, 123635709730000L, 9233062284813009L, 43835965440333360L, 761179012939631437L,
-      1263739024124850375L},
-    {Long.MAX_VALUE,
-        2, 325, 9375, 28178, 450775, 9780504, 1795265022}
+    {
+      7999252175582850L,
+      2,
+      4130806001517L,
+      149795463772692060L,
+      186635894390467037L,
+      3967304179347715805L
+    },
+    {
+      585226005592931976L,
+      2,
+      123635709730000L,
+      9233062284813009L,
+      43835965440333360L,
+      761179012939631437L,
+      1263739024124850375L
+    },
+    {Long.MAX_VALUE, 2, 325, 9375, 28178, 450775, 9780504, 1795265022}
   };
 
   private enum MillerRabinTester {
@@ -905,9 +979,9 @@ public final class LongMath {
       long mulMod(long a, long b, long m) {
         /*
          * NOTE(lowasser, 2015-Feb-12): Benchmarks suggest that changing this to
-         * UnsignedLongs.remainder and increasing the threshold to 2^32 doesn't pay for itself,
-         * and adding another enum constant hurts performance further -- I suspect because
-         * bimorphic implementation is a sweet spot for the JVM.
+         * UnsignedLongs.remainder and increasing the threshold to 2^32 doesn't pay for itself, and
+         * adding another enum constant hurts performance further -- I suspect because bimorphic
+         * implementation is a sweet spot for the JVM.
          */
         return (a * b) % m;
       }
@@ -922,14 +996,14 @@ public final class LongMath {
      */
     LARGE {
       /**
-       * Returns (a + b) mod m.  Precondition: 0 <= a, b < m < 2^63.
+       * Returns (a + b) mod m. Precondition: 0 <= a, b < m < 2^63.
        */
       private long plusMod(long a, long b, long m) {
         return (a >= m - b) ? (a + b - m) : (a + b);
       }
 
       /**
-       * Returns (a * 2^32) mod m.  a may be any unsigned long.
+       * Returns (a * 2^32) mod m. a may be any unsigned long.
        */
       private long times2ToThe32Mod(long a, long m) {
         int remainingPowersOf2 = 32;
@@ -954,8 +1028,8 @@ public final class LongMath {
          * a * b == aHi * bHi * 2^64 + (aHi * bLo + aLo * bHi) * 2^32 + aLo * bLo.
          *       == (aHi * bHi * 2^32 + aHi * bLo + aLo * bHi) * 2^32 + aLo * bLo
          *
-         * We carry out this computation in modular arithmetic.  Since times2ToThe32Mod accepts
-         * any unsigned long, we don't have to do a mod on every operation, only when intermediate
+         * We carry out this computation in modular arithmetic. Since times2ToThe32Mod accepts any
+         * unsigned long, we don't have to do a mod on every operation, only when intermediate
          * results can exceed 2^63.
          */
         long result = times2ToThe32Mod(aHi * bHi /* < 2^62 */, m); // < m < 2^63
@@ -980,8 +1054,8 @@ public final class LongMath {
         /*
          * a^2 == aHi^2 * 2^64 + aHi * aLo * 2^33 + aLo^2
          *     == (aHi^2 * 2^32 + aHi * aLo * 2) * 2^32 + aLo^2
-         * We carry out this computation in modular arithmetic.  Since times2ToThe32Mod accepts
-         * any unsigned long, we don't have to do a mod on every operation, only when intermediate
+         * We carry out this computation in modular arithmetic.  Since times2ToThe32Mod accepts any
+         * unsigned long, we don't have to do a mod on every operation, only when intermediate
          * results can exceed 2^63.
          */
         long result = times2ToThe32Mod(aHi * aHi /* < 2^62 */, m); // < m < 2^63

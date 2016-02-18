@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.math;
@@ -25,8 +23,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 
 /**
- * A mutable object which accumulates paired double values (e.g. points on a plane) and tracks
- * some basic statistics over all the values added so far. This class is not thread safe.
+ * A mutable object which accumulates paired double values (e.g. points on a plane) and tracks some
+ * basic statistics over all the values added so far. This class is not thread safe.
  *
  * @author Pete Gillin
  * @since 20.0
@@ -86,8 +84,8 @@ public final class PairedStatsAccumulator {
       sumOfProductsOfDeltas +=
           values.sumOfProductsOfDeltas()
               + (values.xStats().mean() - xStats.mean())
-              * (values.yStats().mean() - yStats.mean())
-              * values.count();
+                  * (values.yStats().mean() - yStats.mean())
+                  * values.count();
     }
     yStats.addAll(values.yStats());
   }
@@ -123,9 +121,9 @@ public final class PairedStatsAccumulator {
   /**
    * Returns the population covariance of the values. The count must be non-zero.
    *
-   * <p>This is guaranteed to return zero if the dataset contains a single pair of finite values.
-   * It is not guaranteed to return zero when the dataset consists of the same pair of values
-   * multiple times, due to numerical errors.
+   * <p>This is guaranteed to return zero if the dataset contains a single pair of finite values. It
+   * is not guaranteed to return zero when the dataset consists of the same pair of values multiple
+   * times, due to numerical errors.
    *
    * <h3>Non-finite values</h3>
    *

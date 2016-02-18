@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.math;
@@ -70,8 +68,7 @@ public final class Stats implements Serializable {
    * {@link Double#NaN}.
    * </ul>
    */
-  Stats(long count, double mean, double sumOfSquaresOfDeltas,
-      double min, double max) {
+  Stats(long count, double mean, double sumOfSquaresOfDeltas, double min, double max) {
     this.count = count;
     this.mean = mean;
     this.sumOfSquaresOfDeltas = sumOfSquaresOfDeltas;
@@ -207,7 +204,7 @@ public final class Stats implements Serializable {
       return NaN;
     }
     if (count == 1) {
-        return 0.0;
+      return 0.0;
     }
     return ensureNonNegative(sumOfSquaresOfDeltas) / count();
   }
@@ -342,8 +339,8 @@ public final class Stats implements Serializable {
   /**
    * {@inheritDoc}
    *
-   * <p><b>Note:</b> This hash code is consistent with exact equality of the calculated
-   * statistics, including the floating point values. See the note on {@link #equals} for details.
+   * <p><b>Note:</b> This hash code is consistent with exact equality of the calculated statistics,
+   * including the floating point values. See the note on {@link #equals} for details.
    */
   @Override
   public int hashCode() {
@@ -510,9 +507,13 @@ public final class Stats implements Serializable {
    */
   void writeTo(ByteBuffer buffer) {
     checkNotNull(buffer);
-    checkArgument(buffer.remaining() >= BYTES,
-        "Expected at least Stats.BYTES = %s remaining , got %s", BYTES, buffer.remaining());
-    buffer.putLong(count)
+    checkArgument(
+        buffer.remaining() >= BYTES,
+        "Expected at least Stats.BYTES = %s remaining , got %s",
+        BYTES,
+        buffer.remaining());
+    buffer
+        .putLong(count)
         .putDouble(mean)
         .putDouble(sumOfSquaresOfDeltas)
         .putDouble(min)
@@ -528,8 +529,11 @@ public final class Stats implements Serializable {
    */
   public static Stats fromByteArray(byte[] byteArray) {
     checkNotNull(byteArray);
-    checkArgument(byteArray.length == BYTES,
-        "Expected Stats.BYTES = %s remaining , got %s", BYTES, byteArray.length);
+    checkArgument(
+        byteArray.length == BYTES,
+        "Expected Stats.BYTES = %s remaining , got %s",
+        BYTES,
+        byteArray.length);
     return readFrom(ByteBuffer.wrap(byteArray).order(ByteOrder.LITTLE_ENDIAN));
   }
 
@@ -545,8 +549,11 @@ public final class Stats implements Serializable {
    */
   static Stats readFrom(ByteBuffer buffer) {
     checkNotNull(buffer);
-    checkArgument(buffer.remaining() >= BYTES,
-        "Expected at least Stats.BYTES = %s remaining , got %s", BYTES, buffer.remaining());
+    checkArgument(
+        buffer.remaining() >= BYTES,
+        "Expected at least Stats.BYTES = %s remaining , got %s",
+        BYTES,
+        buffer.remaining());
     return new Stats(
         buffer.getLong(),
         buffer.getDouble(),
