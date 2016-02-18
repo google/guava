@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -85,6 +86,7 @@ public final class CharEscaperBuilder {
   /**
    * Add a new mapping from an index to an object to the escaping.
    */
+  @CanIgnoreReturnValue
   public CharEscaperBuilder addEscape(char c, String r) {
     map.put(c, checkNotNull(r));
     if (c > max) {
@@ -96,6 +98,7 @@ public final class CharEscaperBuilder {
   /**
    * Add multiple mappings at once for a particular index.
    */
+  @CanIgnoreReturnValue
   public CharEscaperBuilder addEscapes(char[] cs, String r) {
     checkNotNull(r);
     for (char c : cs) {

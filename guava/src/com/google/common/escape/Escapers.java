@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -108,6 +109,7 @@ public final class Escapers {
      * @param safeMax the highest 'safe' character
      * @return the builder instance
      */
+    @CanIgnoreReturnValue
     public Builder setSafeRange(char safeMin, char safeMax) {
       this.safeMin = safeMin;
       this.safeMax = safeMax;
@@ -122,6 +124,7 @@ public final class Escapers {
      * @param unsafeReplacement the string to replace unsafe chracters
      * @return the builder instance
      */
+    @CanIgnoreReturnValue
     public Builder setUnsafeReplacement(@Nullable String unsafeReplacement) {
       this.unsafeReplacement = unsafeReplacement;
       return this;
@@ -137,6 +140,7 @@ public final class Escapers {
      * @return the builder instance
      * @throws NullPointerException if {@code replacement} is null
      */
+    @CanIgnoreReturnValue
     public Builder addEscape(char c, String replacement) {
       checkNotNull(replacement);
       // This can replace an existing character (the builder is re-usable).

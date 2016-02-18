@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 The Guava Authors
+ * Copyright (C) 2016 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,12 @@
  */
 
 /**
- * Escapers
- * for
- * XML.
+ * Testing utilities for use in tests of {@code com.google.common.escape}.
  *
  * <p>This package is a part of the open-source
  * <a href="http://github.com/google/guava">Guava</a> library.
  */
 @CheckReturnValue
-@ParametersAreNonnullByDefault
-package com.google.common.xml;
+package com.google.common.escape.testing;
 
 import javax.annotation.CheckReturnValue;
-import javax.annotation.ParametersAreNonnullByDefault;
