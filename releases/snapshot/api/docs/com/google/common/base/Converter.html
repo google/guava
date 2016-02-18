@@ -101,7 +101,7 @@
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/base/Converter.html#line.117">Converter</a>&lt;A,B&gt;
+public abstract class <a href="../../../../src-html/com/google/common/base/Converter.html#line.115">Converter</a>&lt;A,B&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;A,B&gt;</pre>
 <div class="block">A function from <code>A</code> to <code>B</code> with an associated <i>reverse</i> function from <code>B</code>
@@ -110,14 +110,14 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
 
  <h3>Invertibility</h3>
 
- <p>The reverse operation <b>may</b> be a strict <i>inverse</i> (meaning that <code>converter.reverse().convert(converter.convert(a)).equals(a)</code> is always true). However, it is
- very common (perhaps <i>more</i> common) for round-trip conversion to be <i>lossy</i>. Consider
- an example round-trip using <a href="../../../../com/google/common/primitives/Doubles.html#stringConverter()"><code>Doubles.stringConverter()</code></a>:
+ <p>The reverse operation <b>may</b> be a strict <i>inverse</i> (meaning that <code>converter.reverse().convert(converter.convert(a)).equals(a)</code> is always true). However, it is very
+ common (perhaps <i>more</i> common) for round-trip conversion to be <i>lossy</i>. Consider an
+ example round-trip using <a href="../../../../com/google/common/primitives/Doubles.html#stringConverter()"><code>Doubles.stringConverter()</code></a>:
 
  <ol>
  <li><code>stringConverter().convert("1.00")</code> returns the <code>Double</code> value <code>1.0</code>
  <li><code>stringConverter().reverse().convert(1.0)</code> returns the string <code>"1.0"</code> --
-     <i>not</i> the same string (<code>"1.00"</code>) we started with
+ <i>not</i> the same string (<code>"1.00"</code>) we started with
  </ol>
 
  <p>Note that it should still be the case that the round-tripped and original objects are
@@ -138,10 +138,13 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
  <p>Getting a converter:
 
  <ul>
- <li>Use a provided converter implementation, such as <a href="../../../../com/google/common/base/Enums.html#stringConverter(java.lang.Class)"><code>Enums.stringConverter(java.lang.Class&lt;T&gt;)</code></a>, <a href="../../../../com/google/common/primitives/Ints.html#stringConverter()"><code>Ints.stringConverter</code></a> or the <a href="../../../../com/google/common/base/Converter.html#reverse">reverse</a> views of these.
- <li>Convert between specific preset values using <a href="../../../../com/google/common/collect/Maps.html#asConverter(com.google.common.collect.BiMap)"><code>Maps.asConverter</code></a>. For example, use this to create
-     a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i> the
-     <code>Converter</code> type using a mocking framework.
+ <li>Use a provided converter implementation, such as <a href="../../../../com/google/common/base/Enums.html#stringConverter(java.lang.Class)"><code>Enums.stringConverter(java.lang.Class&lt;T&gt;)</code></a>,
+     <a href="../../../../com/google/common/primitives/Ints.html#stringConverter()"><code>Ints.stringConverter</code></a> or the
+     <a href="../../../../com/google/common/base/Converter.html#reverse">reverse</a> views of these.
+ <li>Convert between specific preset values using
+     <a href="../../../../com/google/common/collect/Maps.html#asConverter(com.google.common.collect.BiMap)"><code>Maps.asConverter</code></a>. For example, use this to
+     create a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i>
+     the <code>Converter</code> type using a mocking framework.
  <li>Extend this class and implement its <a href="../../../../com/google/common/base/Converter.html#doForward(A)"><code>doForward(A)</code></a> and <a href="../../../../com/google/common/base/Converter.html#doBackward(B)"><code>doBackward(B)</code></a> methods.
  <li>If using Java 8, you may prefer to pass two lambda expressions or method references to the
      <a href="../../../../com/google/common/base/Converter.html#from(com.google.common.base.Function,%20com.google.common.base.Function)"><code>from</code></a> factory method.
@@ -312,7 +315,7 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Converter</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.124">Converter</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.122">Converter</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -332,7 +335,7 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>doForward</h4>
-<pre>protected abstract&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.144">doForward</a>(<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&nbsp;a)</pre>
+<pre>protected abstract&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.142">doForward</a>(<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&nbsp;a)</pre>
 <div class="block">Returns a representation of <code>a</code> as an instance of type <code>B</code>. If <code>a</code> cannot be
  converted, an unchecked exception (such as <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>) should be thrown.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - the instance to convert; will never be null</dd>
@@ -347,7 +350,7 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>doBackward</h4>
-<pre>protected abstract&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.158">doBackward</a>(<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&nbsp;b)</pre>
+<pre>protected abstract&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.156">doBackward</a>(<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&nbsp;b)</pre>
 <div class="block">Returns a representation of <code>b</code> as an instance of type <code>A</code>. If <code>b</code> cannot be
  converted, an unchecked exception (such as <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>) should be thrown.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>b</code> - the instance to convert; will never be null</dd>
@@ -368,7 +371,7 @@ implements <a href="../../../../com/google/common/base/Function.html" title="int
 <li class="blockList">
 <h4>convert</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.169">convert</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.167">convert</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                  <a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&nbsp;a)</pre>
 <div class="block">Returns a representation of <code>a</code> as an instance of type <code>B</code>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>the converted value; is null <i>if and only if</i> <code>a</code> is null</dd></dl>
@@ -380,7 +383,7 @@ public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>convertAll</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.202">convertAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&gt;&nbsp;fromIterable)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.200">convertAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&gt;&nbsp;fromIterable)</pre>
 <div class="block">Returns an iterable that applies <code>convert</code> to each element of <code>fromIterable</code>. The
  conversion is done lazily.
 
@@ -395,7 +398,7 @@ public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>reverse</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>,<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.237">reverse</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>,<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.235">reverse</a>()</pre>
 <div class="block">Returns the reversed view of this converter, which converts <code>this.convert(a)</code> back to a
  value roughly equivalent to <code>a</code>.
 
@@ -408,7 +411,7 @@ public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>andThen</h4>
-<pre>public final&nbsp;&lt;C&gt;&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>,C&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.313">andThen</a>(<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>,C&gt;&nbsp;secondConverter)</pre>
+<pre>public final&nbsp;&lt;C&gt;&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>,C&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.311">andThen</a>(<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>,C&gt;&nbsp;secondConverter)</pre>
 <div class="block">Returns a converter whose <code>convert</code> method applies <code>secondConverter</code> to the result
  of this converter. Its <code>reverse</code> method applies the converters in reverse order.
 
@@ -426,7 +429,7 @@ public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" ti
 <h4>apply</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
 <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.392">apply</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">B</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.390">apply</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="../../../../com/google/common/base/Converter.html" title="type parameter in Converter">A</a>&nbsp;a)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Provided to satisfy the <code>Function</code> interface; use <a href="../../../../com/google/common/base/Converter.html#convert(A)"><code>convert(A)</code></a> instead.</i></div>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/base/Function.html#apply(F)">Function</a></code></strong></div>
@@ -450,7 +453,7 @@ public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.408">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.406">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Indicates whether another object is equal to this converter.
 
@@ -475,7 +478,7 @@ public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre>public static&nbsp;&lt;A,B&gt;&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;A,B&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.428">from</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super A,? extends B&gt;&nbsp;forwardFunction,
+<pre>public static&nbsp;&lt;A,B&gt;&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;A,B&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.426">from</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super A,? extends B&gt;&nbsp;forwardFunction,
                         <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super B,? extends A&gt;&nbsp;backwardFunction)</pre>
 <div class="block">Returns a converter based on <i>existing</i> forward and backward functions. Note that it is
  unnecessary to create <i>new</i> classes implementing <code>Function</code> just to pass them in
@@ -497,7 +500,7 @@ public final&nbsp;<a href="../../../../com/google/common/base/Converter.html" ti
 <ul class="blockListLast">
 <li class="blockList">
 <h4>identity</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;T,T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.481">identity</a>()</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;T,T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Converter.html#line.479">identity</a>()</pre>
 <div class="block">Returns a serializable converter that always converts or reverses an object to itself.</div>
 </li>
 </ul>

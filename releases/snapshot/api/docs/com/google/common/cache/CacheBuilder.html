@@ -97,7 +97,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.152">CacheBuilder</a>&lt;K,V&gt;
+public final class <a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.148">CacheBuilder</a>&lt;K,V&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block"><p>A builder of <a href="../../../../com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache"><code>LoadingCache</code></a> and <a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> instances having any combination of the
  following features:
@@ -107,8 +107,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  <li>least-recently-used eviction when a maximum size is exceeded
  <li>time-based expiration of entries, measured since last access or last write
  <li>keys automatically wrapped in <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref">weak</a> references
- <li>values automatically wrapped in <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref">weak</a> or
-     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/SoftReference.html?is-external=true" title="class or interface in java.lang.ref">soft</a> references
+ <li>values automatically wrapped in <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref">weak</a> or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/SoftReference.html?is-external=true" title="class or interface in java.lang.ref">soft</a> references
  <li>notification of evicted (or otherwise removed) entries
  <li>accumulation of cache access statistics
  </ul>
@@ -145,29 +144,23 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  <a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> interfaces. The <code>asMap</code> view (and its collection views) have <i>weakly
  consistent iterators</i>. This means that they are safe for concurrent use, but if other threads
  modify the cache after the iterator is created, it is undefined which of these changes, if any,
- are reflected in that iterator. These iterators never throw <a href="http://docs.oracle.com/javase/7/docs/api/java/util/ConcurrentModificationException.html?is-external=true" title="class or interface in java.util"><code>ConcurrentModificationException</code></a>.
+ are reflected in that iterator. These iterators never throw
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/util/ConcurrentModificationException.html?is-external=true" title="class or interface in java.util"><code>ConcurrentModificationException</code></a>.
 
  <p><b>Note:</b> by default, the returned cache uses equality comparisons (the
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>equals</code></a> method) to determine equality for keys or values. However, if
- <a href="../../../../com/google/common/cache/CacheBuilder.html#weakKeys()"><code>weakKeys()</code></a> was specified, the cache uses identity (<code>==</code>)
- comparisons instead for keys. Likewise, if <a href="../../../../com/google/common/cache/CacheBuilder.html#weakValues()"><code>weakValues()</code></a> or <a href="../../../../com/google/common/cache/CacheBuilder.html#softValues()"><code>softValues()</code></a> was
- specified, the cache uses identity comparisons for values.
+ <a href="../../../../com/google/common/cache/CacheBuilder.html#weakKeys()"><code>weakKeys()</code></a> was specified, the cache uses identity (<code>==</code>) comparisons instead for
+ keys. Likewise, if <a href="../../../../com/google/common/cache/CacheBuilder.html#weakValues()"><code>weakValues()</code></a> or <a href="../../../../com/google/common/cache/CacheBuilder.html#softValues()"><code>softValues()</code></a> was specified, the cache uses
+ identity comparisons for values.
 
- <p>Entries are automatically evicted from the cache when any of
- <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumSize(long)">maximumSize</a>, <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumWeight(long)">maximumWeight</a>,
- <a href="../../../../com/google/common/cache/CacheBuilder.html#expireAfterWrite(long,%20java.util.concurrent.TimeUnit)">expireAfterWrite</a>,
- <a href="../../../../com/google/common/cache/CacheBuilder.html#expireAfterAccess(long,%20java.util.concurrent.TimeUnit)">expireAfterAccess</a>, <a href="../../../../com/google/common/cache/CacheBuilder.html#weakKeys()">weakKeys</a>,
- <a href="../../../../com/google/common/cache/CacheBuilder.html#weakValues()">weakValues</a>, or <a href="../../../../com/google/common/cache/CacheBuilder.html#softValues()">softValues</a> are requested.
+ <p>Entries are automatically evicted from the cache when any of <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumSize(long)">maximumSize</a>, <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumWeight(long)">maximumWeight</a>, <a href="../../../../com/google/common/cache/CacheBuilder.html#expireAfterWrite(long,%20java.util.concurrent.TimeUnit)">expireAfterWrite</a>, <a href="../../../../com/google/common/cache/CacheBuilder.html#expireAfterAccess(long,%20java.util.concurrent.TimeUnit)">expireAfterAccess</a>, <a href="../../../../com/google/common/cache/CacheBuilder.html#weakKeys()">weakKeys</a>, <a href="../../../../com/google/common/cache/CacheBuilder.html#weakValues()">weakValues</a>, or <a href="../../../../com/google/common/cache/CacheBuilder.html#softValues()">softValues</a> are
+ requested.
 
- <p>If <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumSize(long)">maximumSize</a> or
- <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumWeight(long)">maximumWeight</a> is requested entries may be evicted on each cache
- modification.
+ <p>If <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumSize(long)">maximumSize</a> or <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumWeight(long)">maximumWeight</a> is requested entries may be evicted on each cache modification.
 
- <p>If <a href="../../../../com/google/common/cache/CacheBuilder.html#expireAfterWrite(long,%20java.util.concurrent.TimeUnit)">expireAfterWrite</a> or
- <a href="../../../../com/google/common/cache/CacheBuilder.html#expireAfterAccess(long,%20java.util.concurrent.TimeUnit)">expireAfterAccess</a> is requested entries may be evicted on each
- cache modification, on occasional cache accesses, or on calls to <a href="../../../../com/google/common/cache/Cache.html#cleanUp()"><code>Cache.cleanUp()</code></a>. Expired
- entries may be counted by <a href="../../../../com/google/common/cache/Cache.html#size()"><code>Cache.size()</code></a>, but will never be visible to read or write
- operations.
+ <p>If <a href="../../../../com/google/common/cache/CacheBuilder.html#expireAfterWrite(long,%20java.util.concurrent.TimeUnit)">expireAfterWrite</a> or <a href="../../../../com/google/common/cache/CacheBuilder.html#expireAfterAccess(long,%20java.util.concurrent.TimeUnit)">expireAfterAccess</a> is requested entries may be evicted on each cache modification, on occasional
+ cache accesses, or on calls to <a href="../../../../com/google/common/cache/Cache.html#cleanUp()"><code>Cache.cleanUp()</code></a>. Expired entries may be counted by
+ <a href="../../../../com/google/common/cache/Cache.html#size()"><code>Cache.size()</code></a>, but will never be visible to read or write operations.
 
  <p>If <a href="../../../../com/google/common/cache/CacheBuilder.html#weakKeys()">weakKeys</a>, <a href="../../../../com/google/common/cache/CacheBuilder.html#weakValues()">weakValues</a>, or
  <a href="../../../../com/google/common/cache/CacheBuilder.html#softValues()">softValues</a> are requested, it is possible for a key or value present in
@@ -189,8 +182,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  retain all the configuration properties of the original cache. Note that the serialized form does
  <i>not</i> include cache contents, but only configuration.
 
- <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/CachesExplained">caching</a> for a higher-level
+ <p>See the Guava User Guide article on
+ <a href="https://github.com/google/guava/wiki/CachesExplained">caching</a> for a higher-level
  explanation.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>10.0</dd>
@@ -330,7 +323,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/cache/CacheBuilder.html#weakKeys()">weakKeys</a></strong>()</code>
-<div class="block">Specifies that each key (not value) stored in the cache should be wrapped in a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref"><code>WeakReference</code></a> (by default, strong references are used).</div>
+<div class="block">Specifies that each key (not value) stored in the cache should be wrapped in a
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref"><code>WeakReference</code></a> (by default, strong references are used).</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -374,7 +368,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>newBuilder</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.247">newBuilder</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.245">newBuilder</a>()</pre>
 <div class="block">Constructs a new <code>CacheBuilder</code> instance with default settings, including strong keys,
  strong values, and no automatic eviction of any kind.</div>
 </li>
@@ -386,7 +380,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>from</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.257">from</a>(<a href="../../../../com/google/common/cache/CacheBuilderSpec.html" title="class in com.google.common.cache">CacheBuilderSpec</a>&nbsp;spec)</pre>
+public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.255">from</a>(<a href="../../../../com/google/common/cache/CacheBuilderSpec.html" title="class in com.google.common.cache">CacheBuilderSpec</a>&nbsp;spec)</pre>
 <div class="block">Constructs a new <code>CacheBuilder</code> instance with the settings specified in <code>spec</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>12.0</dd></dl>
@@ -399,7 +393,7 @@ public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.htm
 <li class="blockList">
 <h4>from</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.270">from</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;spec)</pre>
+public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.267">from</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;spec)</pre>
 <div class="block">Constructs a new <code>CacheBuilder</code> instance with the settings specified in <code>spec</code>.
  This is especially useful for command-line configuration of a <code>CacheBuilder</code>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>spec</code> - a String in the format specified by <a href="../../../../com/google/common/cache/CacheBuilderSpec.html" title="class in com.google.common.cache"><code>CacheBuilderSpec</code></a></dd><dt><span class="strong">Since:</span></dt>
@@ -412,7 +406,7 @@ public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>initialCapacity</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.336">initialCapacity</a>(int&nbsp;initialCapacity)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.333">initialCapacity</a>(int&nbsp;initialCapacity)</pre>
 <div class="block">Sets the minimum total size for the internal hash tables. For example, if the initial capacity
  is <code>60</code>, and the concurrency level is <code>8</code>, then eight segments are created, each
  having a hash table of size eight. Providing a large enough estimate at construction time
@@ -430,7 +424,7 @@ public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>concurrencyLevel</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.379">concurrencyLevel</a>(int&nbsp;concurrencyLevel)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.378">concurrencyLevel</a>(int&nbsp;concurrencyLevel)</pre>
 <div class="block">Guides the allowed concurrency among update operations. Used as a hint for internal sizing. The
  table is internally partitioned to try to permit the indicated number of concurrent updates
  without contention. Because assignment of entries to these partitions is not necessarily
@@ -442,13 +436,13 @@ public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.htm
  at a time, but since read operations and cache loading computations can proceed concurrently,
  this still yields higher concurrency than full synchronization.
 
- <p> Defaults to 4. <b>Note:</b>The default may change in the future. If you care about this
+ <p>Defaults to 4. <b>Note:</b>The default may change in the future. If you care about this
  value, you should always choose it explicitly.
 
  <p>The current implementation uses the concurrency level to create a fixed number of hashtable
  segments, each governed by its own write lock. The segment lock is taken once for each explicit
- write, and twice for each cache loading computation (once prior to loading the new value,
- and once after loading completes). Much internal cache management is performed at the segment
+ write, and twice for each cache loading computation (once prior to loading the new value, and
+ once after loading completes). Much internal cache management is performed at the segment
  granularity. For example, access queues and write queues are kept per segment when they are
  required by the selected eviction algorithm. As such, when writing unit tests it is not
  uncommon to specify <code>concurrencyLevel(1)</code> in order to achieve more deterministic eviction
@@ -468,7 +462,7 @@ public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>maximumSize</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.407">maximumSize</a>(long&nbsp;size)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.408">maximumSize</a>(long&nbsp;size)</pre>
 <div class="block">Specifies the maximum number of entries the cache may contain. Note that the cache <b>may evict
  an entry before this limit is exceeded</b>. As the cache size grows close to the maximum, the
  cache evicts entries that are less likely to be used again. For example, the cache may evict an
@@ -492,7 +486,7 @@ public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.htm
 <li class="blockList">
 <h4>maximumWeight</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.444">maximumWeight</a>(long&nbsp;weight)</pre>
+public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.446">maximumWeight</a>(long&nbsp;weight)</pre>
 <div class="block">Specifies the maximum weight of entries the cache may contain. Weight is determined using the
  <a href="../../../../com/google/common/cache/Weigher.html" title="interface in com.google.common.cache"><code>Weigher</code></a> specified with <a href="../../../../com/google/common/cache/CacheBuilder.html#weigher"><code>weigher</code></a>, and use of this method requires a
  corresponding call to <a href="../../../../com/google/common/cache/CacheBuilder.html#weigher"><code>weigher</code></a> prior to calling <a href="../../../../com/google/common/cache/CacheBuilder.html#build(com.google.common.cache.CacheLoader)"><code>build(com.google.common.cache.CacheLoader&lt;? super K1, V1&gt;)</code></a>.
@@ -503,8 +497,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" titl
  often.
 
  <p>When <code>weight</code> is zero, elements will be evicted immediately after being loaded into
- cache. This can be useful in testing, or to disable caching temporarily without a code
- change.
+ cache. This can be useful in testing, or to disable caching temporarily without a code change.
 
  <p>Note that weight is only used to determine whether the cache is over capacity; it has no
  effect on selecting which entry should be evicted next.
@@ -525,12 +518,12 @@ public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" titl
 <li class="blockList">
 <h4>weigher</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;&lt;K1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,V1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;K1,V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.484">weigher</a>(<a href="../../../../com/google/common/cache/Weigher.html" title="interface in com.google.common.cache">Weigher</a>&lt;? super K1,? super V1&gt;&nbsp;weigher)</pre>
-<div class="block">Specifies the weigher to use in determining the weight of entries. Entry weight is taken
- into consideration by <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumWeight(long)"><code>maximumWeight(long)</code></a> when determining which entries to evict, and
- use of this method requires a corresponding call to <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumWeight(long)"><code>maximumWeight(long)</code></a> prior to
- calling <a href="../../../../com/google/common/cache/CacheBuilder.html#build(com.google.common.cache.CacheLoader)"><code>build(com.google.common.cache.CacheLoader&lt;? super K1, V1&gt;)</code></a>. Weights are measured and recorded when entries are inserted into the
- cache, and are thus effectively static during the lifetime of a cache entry.
+public&nbsp;&lt;K1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,V1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;K1,V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.488">weigher</a>(<a href="../../../../com/google/common/cache/Weigher.html" title="interface in com.google.common.cache">Weigher</a>&lt;? super K1,? super V1&gt;&nbsp;weigher)</pre>
+<div class="block">Specifies the weigher to use in determining the weight of entries. Entry weight is taken into
+ consideration by <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumWeight(long)"><code>maximumWeight(long)</code></a> when determining which entries to evict, and use
+ of this method requires a corresponding call to <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumWeight(long)"><code>maximumWeight(long)</code></a> prior to calling
+ <a href="../../../../com/google/common/cache/CacheBuilder.html#build(com.google.common.cache.CacheLoader)"><code>build(com.google.common.cache.CacheLoader&lt;? super K1, V1&gt;)</code></a>. Weights are measured and recorded when entries are inserted into the cache, and
+ are thus effectively static during the lifetime of a cache entry.
 
  <p>When the weight of an entry is zero it will not be considered for size-based eviction
  (though it still may be evicted by other means).
@@ -544,9 +537,9 @@ public&nbsp;&lt;K1 extends <a href="../../../../com/google/common/cache/CacheBui
  simply use the standard method-chaining idiom, as illustrated in the documentation at top,
  configuring a <code>CacheBuilder</code> and building your <a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> all in a single statement.
 
- <p><b>Warning:</b> if you ignore the above advice, and use this <code>CacheBuilder</code> to build
- a cache whose key or value type is incompatible with the weigher, you will likely experience
- a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang"><code>ClassCastException</code></a> at some <i>undefined</i> point in the future.</div>
+ <p><b>Warning:</b> if you ignore the above advice, and use this <code>CacheBuilder</code> to build a
+ cache whose key or value type is incompatible with the weigher, you will likely experience a
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang"><code>ClassCastException</code></a> at some <i>undefined</i> point in the future.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>weigher</code> - the weigher to use in calculating the weight of cache entries</dd>
 <dt><span class="strong">Returns:</span></dt><dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="strong">Throws:</span></dt>
@@ -562,15 +555,16 @@ public&nbsp;&lt;K1 extends <a href="../../../../com/google/common/cache/CacheBui
 <li class="blockList">
 <h4>weakKeys</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.527">weakKeys</a>()</pre>
-<div class="block">Specifies that each key (not value) stored in the cache should be wrapped in a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref"><code>WeakReference</code></a> (by default, strong references are used).
+public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.533">weakKeys</a>()</pre>
+<div class="block">Specifies that each key (not value) stored in the cache should be wrapped in a
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref"><code>WeakReference</code></a> (by default, strong references are used).
 
  <p><b>Warning:</b> when this method is used, the resulting cache will use identity (<code>==</code>)
  comparison to determine equality of keys.
 
- <p>Entries with keys that have been garbage collected may be counted in <a href="../../../../com/google/common/cache/Cache.html#size()"><code>Cache.size()</code></a>,
- but will never be visible to read or write operations; such entries are cleaned up as part of
- the routine maintenance described in the class javadoc.</div>
+ <p>Entries with keys that have been garbage collected may be counted in <a href="../../../../com/google/common/cache/Cache.html#size()"><code>Cache.size()</code></a>, but
+ will never be visible to read or write operations; such entries are cleaned up as part of the
+ routine maintenance described in the class javadoc.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>this <code>CacheBuilder</code> instance (for chaining)</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if the key strength was already set</dd></dl>
@@ -583,7 +577,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" titl
 <li class="blockList">
 <h4>weakValues</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.559">weakValues</a>()</pre>
+public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.565">weakValues</a>()</pre>
 <div class="block">Specifies that each value (not key) stored in the cache should be wrapped in a
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref"><code>WeakReference</code></a> (by default, strong references are used).
 
@@ -608,14 +602,15 @@ public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" titl
 <li class="blockList">
 <h4>softValues</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.584">softValues</a>()</pre>
+public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.590">softValues</a>()</pre>
 <div class="block">Specifies that each value (not key) stored in the cache should be wrapped in a
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/SoftReference.html?is-external=true" title="class or interface in java.lang.ref"><code>SoftReference</code></a> (by default, strong references are used). Softly-referenced objects will
  be garbage-collected in a <i>globally</i> least-recently-used manner, in response to memory
  demand.
 
- <p><b>Warning:</b> in most circumstances it is better to set a per-cache <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumSize(long)">maximum size</a> instead of using soft references. You should only use this
- method if you are well familiar with the practical consequences of soft references.
+ <p><b>Warning:</b> in most circumstances it is better to set a per-cache
+ <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumSize(long)">maximum size</a> instead of using soft references. You should only
+ use this method if you are well familiar with the practical consequences of soft references.
 
  <p><b>Note:</b> when this method is used, the resulting cache will use identity (<code>==</code>)
  comparison to determine equality of values.
@@ -634,15 +629,13 @@ public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>expireAfterWrite</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.618">expireAfterWrite</a>(long&nbsp;duration,
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.623">expireAfterWrite</a>(long&nbsp;duration,
                                  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, or the most recent replacement of its value.
 
- <p>When <code>duration</code> is zero, this method hands off to
- <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumSize(long)"><code>maximumSize</code></a><code>(0)</code>, ignoring any otherwise-specificed maximum
- size or weight. This can be useful in testing, or to disable caching temporarily without a code
- change.
+ <p>When <code>duration</code> is zero, this method hands off to <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumSize(long)"><code>maximumSize</code></a><code>(0)</code>, ignoring any otherwise-specificed maximum size or weight. This can be
+ useful in testing, or to disable caching temporarily without a code change.
 
  <p>Expired entries may be counted in <a href="../../../../com/google/common/cache/Cache.html#size()"><code>Cache.size()</code></a>, but will never be visible to read or
  write operations. Expired entries are cleaned up as part of the routine maintenance described
@@ -661,7 +654,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>expireAfterAccess</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.653">expireAfterAccess</a>(long&nbsp;duration,
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.659">expireAfterAccess</a>(long&nbsp;duration,
                                   <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, the most recent replacement of its value, or its last
@@ -669,10 +662,8 @@ public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" titl
  <code>Cache.asMap().get(Object)</code> and <code>Cache.asMap().put(K, V)</code>), but not by operations
  on the collection-views of <a href="../../../../com/google/common/cache/Cache.html#asMap()"><code>Cache.asMap()</code></a>.
 
- <p>When <code>duration</code> is zero, this method hands off to
- <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumSize(long)"><code>maximumSize</code></a><code>(0)</code>, ignoring any otherwise-specificed maximum
- size or weight. This can be useful in testing, or to disable caching temporarily without a code
- change.
+ <p>When <code>duration</code> is zero, this method hands off to <a href="../../../../com/google/common/cache/CacheBuilder.html#maximumSize(long)"><code>maximumSize</code></a><code>(0)</code>, ignoring any otherwise-specificed maximum size or weight. This can be
+ useful in testing, or to disable caching temporarily without a code change.
 
  <p>Expired entries may be counted in <a href="../../../../com/google/common/cache/Cache.html#size()"><code>Cache.size()</code></a>, but will never be visible to read or
  write operations. Expired entries are cleaned up as part of the routine maintenance described
@@ -692,7 +683,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" titl
 <li class="blockList">
 <h4>refreshAfterWrite</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.693">refreshAfterWrite</a>(long&nbsp;duration,
+public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.702">refreshAfterWrite</a>(long&nbsp;duration,
                                                   <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Specifies that active entries are eligible for automatic refresh once a fixed duration has
  elapsed after the entry's creation, or the most recent replacement of its value. The semantics
@@ -725,7 +716,7 @@ public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>ticker</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.715">ticker</a>(<a href="../../../../com/google/common/base/Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;ticker)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.724">ticker</a>(<a href="../../../../com/google/common/base/Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;ticker)</pre>
 <div class="block">Specifies a nanosecond-precision time source for this cache. By default,
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/System.html?is-external=true#nanoTime()" title="class or interface in java.lang"><code>System.nanoTime()</code></a> is used.
 
@@ -743,18 +734,18 @@ public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" titl
 <li class="blockList">
 <h4>removalListener</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public&nbsp;&lt;K1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,V1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;K1,V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.751">removalListener</a>(<a href="../../../../com/google/common/cache/RemovalListener.html" title="interface in com.google.common.cache">RemovalListener</a>&lt;? super K1,? super V1&gt;&nbsp;listener)</pre>
+public&nbsp;&lt;K1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,V1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;K1,V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.759">removalListener</a>(<a href="../../../../com/google/common/cache/RemovalListener.html" title="interface in com.google.common.cache">RemovalListener</a>&lt;? super K1,? super V1&gt;&nbsp;listener)</pre>
 <div class="block">Specifies a listener instance that caches should notify each time an entry is removed for any
  <a href="../../../../com/google/common/cache/RemovalCause.html" title="enum in com.google.common.cache">reason</a>. Each cache created by this builder will invoke this listener
  as part of the routine maintenance described in the class documentation above.
 
- <p><b>Warning:</b> after invoking this method, do not continue to use <i>this</i> cache
- builder reference; instead use the reference this method <i>returns</i>. At runtime, these
- point to the same instance, but only the returned reference has the correct generic type
- information so as to ensure type safety. For best results, use the standard method-chaining
- idiom illustrated in the class documentation above, configuring a builder and building your
- cache in a single statement. Failure to heed this advice can result in a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang"><code>ClassCastException</code></a> being thrown by a cache operation at some <i>undefined</i> point in the
- future.
+ <p><b>Warning:</b> after invoking this method, do not continue to use <i>this</i> cache builder
+ reference; instead use the reference this method <i>returns</i>. At runtime, these point to the
+ same instance, but only the returned reference has the correct generic type information so as
+ to ensure type safety. For best results, use the standard method-chaining idiom illustrated in
+ the class documentation above, configuring a builder and building your cache in a single
+ statement. Failure to heed this advice can result in a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang"><code>ClassCastException</code></a> being thrown
+ by a cache operation at some <i>undefined</i> point in the future.
 
  <p><b>Warning:</b> any exception thrown by <code>listener</code> will <i>not</i> be propagated to
  the <code>Cache</code> user, only logged via a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/logging/Logger.html?is-external=true" title="class or interface in java.util.logging"><code>Logger</code></a>.</div>
@@ -770,7 +761,7 @@ public&nbsp;&lt;K1 extends <a href="../../../../com/google/common/cache/CacheBui
 <ul class="blockList">
 <li class="blockList">
 <h4>recordStats</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.778">recordStats</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,<a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.786">recordStats</a>()</pre>
 <div class="block">Enable the accumulation of <a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache"><code>CacheStats</code></a> during the operation of the cache. Without this
  <a href="../../../../com/google/common/cache/Cache.html#stats()"><code>Cache.stats()</code></a> will return zero for all statistics. Note that recording stats requires
  bookkeeping to be performed with each operation, and thus imposes a performance penalty on
@@ -785,11 +776,11 @@ public&nbsp;&lt;K1 extends <a href="../../../../com/google/common/cache/CacheBui
 <ul class="blockList">
 <li class="blockList">
 <h4>build</h4>
-<pre>public&nbsp;&lt;K1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,V1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;K1,V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.803">build</a>(<a href="../../../../com/google/common/cache/CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;? super K1,V1&gt;&nbsp;loader)</pre>
+<pre>public&nbsp;&lt;K1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,V1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../com/google/common/cache/LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;K1,V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.811">build</a>(<a href="../../../../com/google/common/cache/CacheLoader.html" title="class in com.google.common.cache">CacheLoader</a>&lt;? super K1,V1&gt;&nbsp;loader)</pre>
 <div class="block">Builds a cache, which either returns an already-loaded value for a given key or atomically
  computes or retrieves it using the supplied <code>CacheLoader</code>. If another thread is currently
- loading the value for this key, simply waits for that thread to finish and returns its
- loaded value. Note that multiple threads can concurrently load values for distinct keys.
+ loading the value for this key, simply waits for that thread to finish and returns its loaded
+ value. Note that multiple threads can concurrently load values for distinct keys.
 
  <p>This method does not alter the state of this <code>CacheBuilder</code> instance, so it can be
  invoked again to create multiple independent caches.</div>
@@ -803,7 +794,7 @@ public&nbsp;&lt;K1 extends <a href="../../../../com/google/common/cache/CacheBui
 <ul class="blockList">
 <li class="blockList">
 <h4>build</h4>
-<pre>public&nbsp;&lt;K1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,V1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache">Cache</a>&lt;K1,V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.821">build</a>()</pre>
+<pre>public&nbsp;&lt;K1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">K</a>,V1 extends <a href="../../../../com/google/common/cache/CacheBuilder.html" title="type parameter in CacheBuilder">V</a>&gt;&nbsp;<a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache">Cache</a>&lt;K1,V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.829">build</a>()</pre>
 <div class="block">Builds a cache which does not automatically load values when keys are requested.
 
  <p>Consider <a href="../../../../com/google/common/cache/CacheBuilder.html#build(com.google.common.cache.CacheLoader)"><code>build(CacheLoader)</code></a> instead, if it is feasible to implement a
@@ -821,7 +812,7 @@ public&nbsp;&lt;K1 extends <a href="../../../../com/google/common/cache/CacheBui
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.850">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilder.html#line.858">toString</a>()</pre>
 <div class="block">Returns a string representation for this CacheBuilder instance. The exact form of the returned
  string is not specified.</div>
 <dl>

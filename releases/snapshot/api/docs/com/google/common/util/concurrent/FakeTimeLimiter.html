@@ -162,9 +162,8 @@ implements <a href="../../../../../com/google/common/util/concurrent/TimeLimiter
                 <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;interfaceType,
                 long&nbsp;timeoutDuration,
                 <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeoutUnit)</code>
-<div class="block">Returns an instance of <code>interfaceType</code> that delegates all method
- calls to the <code>target</code> object, enforcing the specified time limit on
- each call.</div>
+<div class="block">Returns an instance of <code>interfaceType</code> that delegates all method calls to the
+ <code>target</code> object, enforcing the specified time limit on each call.</div>
 </td>
 </tr>
 </table>
@@ -219,31 +218,27 @@ implements <a href="../../../../../com/google/common/util/concurrent/TimeLimiter
              long&nbsp;timeoutDuration,
              <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeoutUnit)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/TimeLimiter.html#newProxy(T,%20java.lang.Class,%20long,%20java.util.concurrent.TimeUnit)">TimeLimiter</a></code></strong></div>
-<div class="block">Returns an instance of <code>interfaceType</code> that delegates all method
- calls to the <code>target</code> object, enforcing the specified time limit on
- each call.  This time-limited delegation is also performed for calls to
- <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang"><code>Object.hashCode()</code></a>, and
+<div class="block">Returns an instance of <code>interfaceType</code> that delegates all method calls to the
+ <code>target</code> object, enforcing the specified time limit on each call. This time-limited
+ delegation is also performed for calls to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang"><code>Object.hashCode()</code></a>, and
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang"><code>Object.toString()</code></a>.
- <p>
- If the target method call finishes before the limit is reached, the return
- value or exception is propagated to the caller exactly as-is. If, on the
- other hand, the time limit is reached, the proxy will attempt to abort the
- call to the target, and will throw an <a href="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent"><code>UncheckedTimeoutException</code></a> to
- the caller.
- <p>
- It is important to note that the primary purpose of the proxy object is to
- return control to the caller when the timeout elapses; aborting the target
- method call is of secondary concern.  The particular nature and strength
- of the guarantees made by the proxy is implementation-dependent.  However,
- it is important that each of the methods on the target object behaves
- appropriately when its thread is interrupted.</div>
+
+ <p>If the target method call finishes before the limit is reached, the return value or
+ exception is propagated to the caller exactly as-is. If, on the other hand, the time limit is
+ reached, the proxy will attempt to abort the call to the target, and will throw an
+ <a href="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent"><code>UncheckedTimeoutException</code></a> to the caller.
+
+ <p>It is important to note that the primary purpose of the proxy object is to return control to
+ the caller when the timeout elapses; aborting the target method call is of secondary concern.
+ The particular nature and strength of the guarantees made by the proxy is
+ implementation-dependent. However, it is important that each of the methods on the target
+ object behaves appropriately when its thread is interrupted.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/TimeLimiter.html#newProxy(T,%20java.lang.Class,%20long,%20java.util.concurrent.TimeUnit)">newProxy</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></code></dd>
-<dt><span class="strong">Parameters:</span></dt><dd><code>target</code> - the object to proxy</dd><dd><code>interfaceType</code> - the interface you wish the returned proxy to
-     implement</dd><dd><code>timeoutDuration</code> - with timeoutUnit, the maximum length of time that
-     callers are willing to wait on each method call to the proxy</dd><dd><code>timeoutUnit</code> - with timeoutDuration, the maximum length of time that
-     callers are willing to wait on each method call to the proxy</dd>
+<dt><span class="strong">Parameters:</span></dt><dd><code>target</code> - the object to proxy</dd><dd><code>interfaceType</code> - the interface you wish the returned proxy to implement</dd><dd><code>timeoutDuration</code> - with timeoutUnit, the maximum length of time that callers are willing to
+     wait on each method call to the proxy</dd><dd><code>timeoutUnit</code> - with timeoutDuration, the maximum length of time that callers are willing to
+     wait on each method call to the proxy</dd>
 <dt><span class="strong">Returns:</span></dt><dd>a time-limiting proxy</dd></dl>
 </li>
 </ul>
@@ -259,25 +254,22 @@ implements <a href="../../../../../com/google/common/util/concurrent/TimeLimiter
                     boolean&nbsp;amInterruptible)
                   throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/TimeLimiter.html#callWithTimeout(java.util.concurrent.Callable,%20long,%20java.util.concurrent.TimeUnit,%20boolean)">TimeLimiter</a></code></strong></div>
-<div class="block">Invokes a specified Callable, timing out after the specified time limit.
- If the target method call finished before the limit is reached, the return
- value or exception is propagated to the caller exactly as-is.  If, on the
- other hand, the time limit is reached, we attempt to abort the call to the
- target, and throw an <a href="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent"><code>UncheckedTimeoutException</code></a> to the caller.
- <p>
- <b>Warning:</b> The future of this method is in doubt.  It may be nuked, or
- changed significantly.</div>
+<div class="block">Invokes a specified Callable, timing out after the specified time limit. If the target method
+ call finished before the limit is reached, the return value or exception is propagated to the
+ caller exactly as-is. If, on the other hand, the time limit is reached, we attempt to abort the
+ call to the target, and throw an <a href="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent"><code>UncheckedTimeoutException</code></a> to the caller. <p>
+ <b>Warning:</b> The future of this method is in doubt. It may be nuked, or changed
+ significantly.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/TimeLimiter.html#callWithTimeout(java.util.concurrent.Callable,%20long,%20java.util.concurrent.TimeUnit,%20boolean)">callWithTimeout</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></code></dd>
-<dt><span class="strong">Parameters:</span></dt><dd><code>callable</code> - the Callable to execute</dd><dd><code>timeoutDuration</code> - with timeoutUnit, the maximum length of time to wait</dd><dd><code>timeoutUnit</code> - with timeoutDuration, the maximum length of time to wait</dd><dd><code>amInterruptible</code> - whether to respond to thread interruption by aborting
-     the operation and throwing InterruptedException; if false, the
-     operation is allowed to complete or time out, and the current thread's
-     interrupt status is re-asserted.</dd>
+<dt><span class="strong">Parameters:</span></dt><dd><code>callable</code> - the Callable to execute</dd><dd><code>timeoutDuration</code> - with timeoutUnit, the maximum length of time to wait</dd><dd><code>timeoutUnit</code> - with timeoutDuration, the maximum length of time to wait</dd><dd><code>amInterruptible</code> - whether to respond to thread interruption by aborting the operation and
+     throwing InterruptedException; if false, the operation is allowed to complete or time out,
+     and the current thread's interrupt status is re-asserted.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>the result returned by the Callable</dd>
 <dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - if <code>interruptible</code> is true and our
-     thread is interrupted during execution</dd>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - if <code>interruptible</code> is true and our thread is interrupted
+     during execution</dd>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent">UncheckedTimeoutException</a></code> - if the time limit is reached</dd>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></code></dd></dl>
 </li>

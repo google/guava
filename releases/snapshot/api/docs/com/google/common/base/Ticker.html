@@ -97,7 +97,7 @@
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/base/Ticker.html#line.37">Ticker</a>
+public abstract class <a href="../../../../src-html/com/google/common/base/Ticker.html#line.34">Ticker</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A time source; returns a time value representing the number of nanoseconds elapsed since some
  fixed but arbitrary point in time. Note that most users should use <a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base"><code>Stopwatch</code></a> instead of
@@ -105,9 +105,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 
  <p><b>Warning:</b> this interface can only be used to measure elapsed time, not wall time.</div>
 <dl><dt><span class="strong">Since:</span></dt>
-  <dd>10.0
-     (<a href="https://github.com/google/guava/wiki/Compatibility"
-     >mostly source-compatible</a> since 9.0)</dd>
+  <dd>10.0 (<a href="https://github.com/google/guava/wiki/Compatibility">mostly
+     source-compatible</a> since 9.0)</dd>
 <dt><span class="strong">Author:</span></dt>
   <dd>Kevin Bourrillion</dd></dl>
 </li>
@@ -152,8 +151,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <tr class="altColor">
 <td class="colFirst"><code>abstract long</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/Ticker.html#read()">read</a></strong>()</code>
-<div class="block">Returns the number of nanoseconds elapsed since this ticker's fixed
- point of reference.</div>
+<div class="block">Returns the number of nanoseconds elapsed since this ticker's fixed point of reference.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -190,7 +188,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Ticker</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/base/Ticker.html#line.41">Ticker</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/base/Ticker.html#line.38">Ticker</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -208,9 +206,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>read</h4>
-<pre>public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/base/Ticker.html#line.48">read</a>()</pre>
-<div class="block">Returns the number of nanoseconds elapsed since this ticker's fixed
- point of reference.</div>
+<pre>public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/base/Ticker.html#line.44">read</a>()</pre>
+<div class="block">Returns the number of nanoseconds elapsed since this ticker's fixed point of reference.</div>
 </li>
 </ul>
 <a name="systemTicker()">
@@ -219,7 +216,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>systemTicker</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Ticker.html#line.55">systemTicker</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Ticker.html#line.51">systemTicker</a>()</pre>
 <div class="block">A ticker that reads the current time using <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/System.html?is-external=true#nanoTime()" title="class or interface in java.lang"><code>System.nanoTime()</code></a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>10.0</dd></dl>

@@ -195,8 +195,8 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
 <td class="colLast"><code><strong><a href="../../../../com/google/common/net/PercentEscaper.html#nextEscapeIndex(java.lang.CharSequence,%20int,%20int)">nextEscapeIndex</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;csq,
                               int&nbsp;index,
                               int&nbsp;end)</code>
-<div class="block">Scans a sub-sequence of characters from a given <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang"><code>CharSequence</code></a>,
- returning the index of the next character that requires escaping.</div>
+<div class="block">Scans a sub-sequence of characters from a given <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang"><code>CharSequence</code></a>, returning the index of
+ the next character that requires escaping.</div>
 </td>
 </tr>
 </table>
@@ -275,20 +275,18 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
                   int&nbsp;index,
                   int&nbsp;end)</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../com/google/common/escape/UnicodeEscaper.html#nextEscapeIndex(java.lang.CharSequence,%20int,%20int)">UnicodeEscaper</a></code></strong></div>
-<div class="block">Scans a sub-sequence of characters from a given <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang"><code>CharSequence</code></a>,
- returning the index of the next character that requires escaping.
+<div class="block">Scans a sub-sequence of characters from a given <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang"><code>CharSequence</code></a>, returning the index of
+ the next character that requires escaping.
 
- <p><b>Note:</b> When implementing an escaper, it is a good idea to override
- this method for efficiency. The base class implementation determines
- successive Unicode code points and invokes <a href="../../../../com/google/common/escape/UnicodeEscaper.html#escape(int)"><code>UnicodeEscaper.escape(int)</code></a> for each of
- them. If the semantics of your escaper are such that code points in the
- supplementary range are either all escaped or all unescaped, this method
- can be implemented more efficiently using <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true#charAt(int)" title="class or interface in java.lang"><code>CharSequence.charAt(int)</code></a>.
+ <p><b>Note:</b> When implementing an escaper, it is a good idea to override this method for
+ efficiency. The base class implementation determines successive Unicode code points and invokes
+ <a href="../../../../com/google/common/escape/UnicodeEscaper.html#escape(int)"><code>UnicodeEscaper.escape(int)</code></a> for each of them. If the semantics of your escaper are such that code
+ points in the supplementary range are either all escaped or all unescaped, this method can be
+ implemented more efficiently using <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true#charAt(int)" title="class or interface in java.lang"><code>CharSequence.charAt(int)</code></a>.
 
- <p>Note however that if your escaper does not escape characters in the
- supplementary range, you should either continue to validate the correctness
- of any surrogate characters encountered or provide a clear warning to users
- that your escaper does not validate its input.
+ <p>Note however that if your escaper does not escape characters in the supplementary range, you
+ should either continue to validate the correctness of any surrogate characters encountered or
+ provide a clear warning to users that your escaper does not validate its input.
 
  <p>See <a href="../../../../com/google/common/net/PercentEscaper.html" title="class in com.google.common.net"><code>PercentEscaper</code></a> for an example.</div>
 <dl>
@@ -307,17 +305,14 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../com/google/common/escape/UnicodeEscaper.html#escape(java.lang.String)">UnicodeEscaper</a></code></strong></div>
 <div class="block">Returns the escaped form of a given literal string.
 
- <p>If you are escaping input in arbitrary successive chunks, then it is not
- generally safe to use this method. If an input string ends with an
- unmatched high surrogate character, then this method will throw
- <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>. You should ensure your input is valid <a
- href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a> before calling this
- method.
+ <p>If you are escaping input in arbitrary successive chunks, then it is not generally safe to
+ use this method. If an input string ends with an unmatched high surrogate character, then this
+ method will throw <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>. You should ensure your input is valid
+ <a href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a> before calling this method.
 
- <p><b>Note:</b> When implementing an escaper it is a good idea to override
- this method for efficiency by inlining the implementation of
- <a href="../../../../com/google/common/escape/UnicodeEscaper.html#nextEscapeIndex(java.lang.CharSequence,%20int,%20int)"><code>UnicodeEscaper.nextEscapeIndex(CharSequence, int, int)</code></a> directly. Doing this for
- <a href="../../../../com/google/common/net/PercentEscaper.html" title="class in com.google.common.net"><code>PercentEscaper</code></a> more than doubled the
+ <p><b>Note:</b> When implementing an escaper it is a good idea to override this method for
+ efficiency by inlining the implementation of <a href="../../../../com/google/common/escape/UnicodeEscaper.html#nextEscapeIndex(java.lang.CharSequence,%20int,%20int)"><code>UnicodeEscaper.nextEscapeIndex(CharSequence, int, int)</code></a>
+ directly. Doing this for <a href="../../../../com/google/common/net/PercentEscaper.html" title="class in com.google.common.net"><code>PercentEscaper</code></a> more than doubled the
  performance for unescaped strings (as measured by <code>CharEscapersBenchmark</code>).</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -338,8 +333,7 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../com/google/common/escape/UnicodeEscaper.html#escape(int)">escape</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/escape/UnicodeEscaper.html" title="class in com.google.common.escape">UnicodeEscaper</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>cp</code> - the Unicode code point to escape if necessary</dd>
-<dt><span class="strong">Returns:</span></dt><dd>the replacement characters, or <code>null</code> if no escaping was
-     needed</dd></dl>
+<dt><span class="strong">Returns:</span></dt><dd>the replacement characters, or <code>null</code> if no escaping was needed</dd></dl>
 </li>
 </ul>
 </li>

@@ -70,23 +70,23 @@
 <span class="sourceLineNo">062</span> * &lt;h3&gt;Other types of preconditions&lt;/h3&gt;<a name="line.62"></a>
 <span class="sourceLineNo">063</span> *<a name="line.63"></a>
 <span class="sourceLineNo">064</span> * &lt;p&gt;Not every type of precondition failure is supported by these methods. Continue to throw<a name="line.64"></a>
-<span class="sourceLineNo">065</span> * standard JDK exceptions such as {@link java.util.NoSuchElementException} or {@link<a name="line.65"></a>
-<span class="sourceLineNo">066</span> * UnsupportedOperationException} in the situations they are intended for.<a name="line.66"></a>
+<span class="sourceLineNo">065</span> * standard JDK exceptions such as {@link java.util.NoSuchElementException} or<a name="line.65"></a>
+<span class="sourceLineNo">066</span> * {@link UnsupportedOperationException} in the situations they are intended for.<a name="line.66"></a>
 <span class="sourceLineNo">067</span> *<a name="line.67"></a>
 <span class="sourceLineNo">068</span> * &lt;h3&gt;Non-preconditions&lt;/h3&gt;<a name="line.68"></a>
 <span class="sourceLineNo">069</span> *<a name="line.69"></a>
 <span class="sourceLineNo">070</span> * &lt;p&gt;It is of course possible to use the methods of this class to check for invalid conditions<a name="line.70"></a>
 <span class="sourceLineNo">071</span> * which are &lt;i&gt;not the caller's fault&lt;/i&gt;. Doing so is &lt;b&gt;not recommended&lt;/b&gt; because it is<a name="line.71"></a>
 <span class="sourceLineNo">072</span> * misleading to future readers of the code and of stack traces. See<a name="line.72"></a>
-<span class="sourceLineNo">073</span> * &lt;a href="https://github.com/google/guava/wiki/ConditionalFailuresExplained"&gt;Conditional<a name="line.73"></a>
-<span class="sourceLineNo">074</span> * failures explained&lt;/a&gt; in the Guava User Guide for more advice.<a name="line.74"></a>
+<span class="sourceLineNo">073</span> * &lt;a href="https://github.com/google/guava/wiki/ConditionalFailuresExplained"&gt;Conditional failures<a name="line.73"></a>
+<span class="sourceLineNo">074</span> * explained&lt;/a&gt; in the Guava User Guide for more advice.<a name="line.74"></a>
 <span class="sourceLineNo">075</span> *<a name="line.75"></a>
 <span class="sourceLineNo">076</span> * &lt;h3&gt;{@code java.util.Objects.requireNonNull()}&lt;/h3&gt;<a name="line.76"></a>
 <span class="sourceLineNo">077</span> *<a name="line.77"></a>
-<span class="sourceLineNo">078</span> * &lt;p&gt;Projects which use {@code com.google.common} should generally avoid the use of {@link<a name="line.78"></a>
-<span class="sourceLineNo">079</span> * java.util.Objects#requireNonNull(Object)}. Instead, use whichever of {@link<a name="line.79"></a>
-<span class="sourceLineNo">080</span> * #checkNotNull(Object)} or {@link Verify#verifyNotNull(Object)} is appropriate to the situation.<a name="line.80"></a>
-<span class="sourceLineNo">081</span> * (The same goes for the message-accepting overloads.)<a name="line.81"></a>
+<span class="sourceLineNo">078</span> * &lt;p&gt;Projects which use {@code com.google.common} should generally avoid the use of<a name="line.78"></a>
+<span class="sourceLineNo">079</span> * {@link java.util.Objects#requireNonNull(Object)}. Instead, use whichever of<a name="line.79"></a>
+<span class="sourceLineNo">080</span> * {@link #checkNotNull(Object)} or {@link Verify#verifyNotNull(Object)} is appropriate to the<a name="line.80"></a>
+<span class="sourceLineNo">081</span> * situation. (The same goes for the message-accepting overloads.)<a name="line.81"></a>
 <span class="sourceLineNo">082</span> *<a name="line.82"></a>
 <span class="sourceLineNo">083</span> * &lt;h3&gt;Only {@code %s} is supported&lt;/h3&gt;<a name="line.83"></a>
 <span class="sourceLineNo">084</span> *<a name="line.84"></a>
@@ -139,8 +139,8 @@
 <span class="sourceLineNo">131</span>   * @param errorMessageTemplate a template for the exception message should the check fail. The<a name="line.131"></a>
 <span class="sourceLineNo">132</span>   *     message is formed by replacing each {@code %s} placeholder in the template with an<a name="line.132"></a>
 <span class="sourceLineNo">133</span>   *     argument. These are matched by position - the first {@code %s} gets {@code<a name="line.133"></a>
-<span class="sourceLineNo">134</span>   *     errorMessageArgs[0]}, etc.  Unmatched arguments will be appended to the formatted message<a name="line.134"></a>
-<span class="sourceLineNo">135</span>   *     in square braces. Unmatched placeholders will be left as-is.<a name="line.135"></a>
+<span class="sourceLineNo">134</span>   *     errorMessageArgs[0]}, etc. Unmatched arguments will be appended to the formatted message in<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   *     square braces. Unmatched placeholders will be left as-is.<a name="line.135"></a>
 <span class="sourceLineNo">136</span>   * @param errorMessageArgs the arguments to be substituted into the message template. Arguments<a name="line.136"></a>
 <span class="sourceLineNo">137</span>   *     are converted to strings using {@link String#valueOf(Object)}.<a name="line.137"></a>
 <span class="sourceLineNo">138</span>   * @throws IllegalArgumentException if {@code expression} is false<a name="line.138"></a>
@@ -192,8 +192,8 @@
 <span class="sourceLineNo">184</span>   * @param errorMessageTemplate a template for the exception message should the check fail. The<a name="line.184"></a>
 <span class="sourceLineNo">185</span>   *     message is formed by replacing each {@code %s} placeholder in the template with an<a name="line.185"></a>
 <span class="sourceLineNo">186</span>   *     argument. These are matched by position - the first {@code %s} gets {@code<a name="line.186"></a>
-<span class="sourceLineNo">187</span>   *     errorMessageArgs[0]}, etc.  Unmatched arguments will be appended to the formatted message<a name="line.187"></a>
-<span class="sourceLineNo">188</span>   *     in square braces. Unmatched placeholders will be left as-is.<a name="line.188"></a>
+<span class="sourceLineNo">187</span>   *     errorMessageArgs[0]}, etc. Unmatched arguments will be appended to the formatted message in<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   *     square braces. Unmatched placeholders will be left as-is.<a name="line.188"></a>
 <span class="sourceLineNo">189</span>   * @param errorMessageArgs the arguments to be substituted into the message template. Arguments<a name="line.189"></a>
 <span class="sourceLineNo">190</span>   *     are converted to strings using {@link String#valueOf(Object)}.<a name="line.190"></a>
 <span class="sourceLineNo">191</span>   * @throws IllegalStateException if {@code expression} is false<a name="line.191"></a>
@@ -248,8 +248,8 @@
 <span class="sourceLineNo">240</span>   * @param errorMessageTemplate a template for the exception message should the check fail. The<a name="line.240"></a>
 <span class="sourceLineNo">241</span>   *     message is formed by replacing each {@code %s} placeholder in the template with an<a name="line.241"></a>
 <span class="sourceLineNo">242</span>   *     argument. These are matched by position - the first {@code %s} gets {@code<a name="line.242"></a>
-<span class="sourceLineNo">243</span>   *     errorMessageArgs[0]}, etc.  Unmatched arguments will be appended to the formatted message<a name="line.243"></a>
-<span class="sourceLineNo">244</span>   *     in square braces. Unmatched placeholders will be left as-is.<a name="line.244"></a>
+<span class="sourceLineNo">243</span>   *     errorMessageArgs[0]}, etc. Unmatched arguments will be appended to the formatted message in<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   *     square braces. Unmatched placeholders will be left as-is.<a name="line.244"></a>
 <span class="sourceLineNo">245</span>   * @param errorMessageArgs the arguments to be substituted into the message template. Arguments<a name="line.245"></a>
 <span class="sourceLineNo">246</span>   *     are converted to strings using {@link String#valueOf(Object)}.<a name="line.246"></a>
 <span class="sourceLineNo">247</span>   * @return the non-null reference that was validated<a name="line.247"></a>
@@ -279,15 +279,15 @@
 <span class="sourceLineNo">271</span>   * }<a name="line.271"></a>
 <span class="sourceLineNo">272</span>   *<a name="line.272"></a>
 <span class="sourceLineNo">273</span>   * The alternative natural refactorings into void or Exception-returning methods are much slower.<a name="line.273"></a>
-<span class="sourceLineNo">274</span>   * This is a big deal - we're talking factors of 2-8 in microbenchmarks, not just 10-20%.  (This<a name="line.274"></a>
-<span class="sourceLineNo">275</span>   * is a hotspot optimizer bug, which should be fixed, but that's a separate, big project).<a name="line.275"></a>
+<span class="sourceLineNo">274</span>   * This is a big deal - we're talking factors of 2-8 in microbenchmarks, not just 10-20%. (This is<a name="line.274"></a>
+<span class="sourceLineNo">275</span>   * a hotspot optimizer bug, which should be fixed, but that's a separate, big project).<a name="line.275"></a>
 <span class="sourceLineNo">276</span>   *<a name="line.276"></a>
-<span class="sourceLineNo">277</span>   * The coding pattern above is heavily used in java.util, e.g. in ArrayList.  There is a<a name="line.277"></a>
+<span class="sourceLineNo">277</span>   * The coding pattern above is heavily used in java.util, e.g. in ArrayList. There is a<a name="line.277"></a>
 <span class="sourceLineNo">278</span>   * RangeCheckMicroBenchmark in the JDK that was used to test this.<a name="line.278"></a>
 <span class="sourceLineNo">279</span>   *<a name="line.279"></a>
 <span class="sourceLineNo">280</span>   * But the methods in this class want to throw different exceptions, depending on the args, so it<a name="line.280"></a>
-<span class="sourceLineNo">281</span>   * appears that this pattern is not directly applicable.  But we can use the ridiculous, devious<a name="line.281"></a>
-<span class="sourceLineNo">282</span>   * trick of throwing an exception in the middle of the construction of another exception.  Hotspot<a name="line.282"></a>
+<span class="sourceLineNo">281</span>   * appears that this pattern is not directly applicable. But we can use the ridiculous, devious<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   * trick of throwing an exception in the middle of the construction of another exception. Hotspot<a name="line.282"></a>
 <span class="sourceLineNo">283</span>   * is fine with that.<a name="line.283"></a>
 <span class="sourceLineNo">284</span>   */<a name="line.284"></a>
 <span class="sourceLineNo">285</span><a name="line.285"></a>
@@ -413,7 +413,7 @@
 <span class="sourceLineNo">405</span><a name="line.405"></a>
 <span class="sourceLineNo">406</span>  /**<a name="line.406"></a>
 <span class="sourceLineNo">407</span>   * Substitutes each {@code %s} in {@code template} with an argument. These are matched by<a name="line.407"></a>
-<span class="sourceLineNo">408</span>   * position: the first {@code %s} gets {@code args[0]}, etc.  If there are more arguments than<a name="line.408"></a>
+<span class="sourceLineNo">408</span>   * position: the first {@code %s} gets {@code args[0]}, etc. If there are more arguments than<a name="line.408"></a>
 <span class="sourceLineNo">409</span>   * placeholders, the unmatched arguments will be appended to the end of the formatted message in<a name="line.409"></a>
 <span class="sourceLineNo">410</span>   * square braces.<a name="line.410"></a>
 <span class="sourceLineNo">411</span>   *<a name="line.411"></a>

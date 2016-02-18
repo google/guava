@@ -100,11 +100,10 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static final class <a href="../../../../src-html/com/google/common/base/Splitter.html#line.481">Splitter.MapSplitter</a>
+public static final class <a href="../../../../src-html/com/google/common/base/Splitter.html#line.462">Splitter.MapSplitter</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block">An object that splits strings into maps as <code>Splitter</code> splits
- iterables and lists. Like <code>Splitter</code>, it is thread-safe and
- immutable.</div>
+<div class="block">An object that splits strings into maps as <code>Splitter</code> splits iterables and lists. Like
+ <code>Splitter</code>, it is thread-safe and immutable.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>10.0</dd></dl>
 </li>
@@ -128,8 +127,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/Splitter.MapSplitter.html#split(java.lang.CharSequence)">split</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
-<div class="block">Splits <code>sequence</code> into substrings, splits each substring into
- an entry, and returns an unmodifiable map with each of the entries.</div>
+<div class="block">Splits <code>sequence</code> into substrings, splits each substring into an entry, and returns an
+ unmodifiable map with each of the entries.</div>
 </td>
 </tr>
 </table>
@@ -160,20 +159,17 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>split</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.MapSplitter.html#line.506">split</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
-<div class="block">Splits <code>sequence</code> into substrings, splits each substring into
- an entry, and returns an unmodifiable map with each of the entries. For
- example, <code>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.MapSplitter.html#line.484">split</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<div class="block">Splits <code>sequence</code> into substrings, splits each substring into an entry, and returns an
+ unmodifiable map with each of the entries. For example, <code>
  Splitter.on(';').trimResults().withKeyValueSeparator("=>")
  .split("a=>b ; c=>b")
- </code> will return a mapping from <code>"a"</code> to <code>"b"</code> and
- <code>"c"</code> to <code>b</code>.
+ </code> will return a mapping from <code>"a"</code> to <code>"b"</code> and <code>"c"</code> to <code>b</code>.
 
- <p>The returned map preserves the order of the entries from
- <code>sequence</code>.</div>
+ <p>The returned map preserves the order of the entries from <code>sequence</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if the specified sequence does not split
-         into valid map entries, or if there are duplicate keys</dd></dl>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if the specified sequence does not split into valid map
+     entries, or if there are duplicate keys</dd></dl>
 </li>
 </ul>
 </li>

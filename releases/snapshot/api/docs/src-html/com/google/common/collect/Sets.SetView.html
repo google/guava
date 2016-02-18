@@ -1185,8 +1185,8 @@
 <span class="sourceLineNo">1177</span><a name="line.1177"></a>
 <span class="sourceLineNo">1178</span>  private static final class CartesianSet&lt;E&gt; extends ForwardingCollection&lt;List&lt;E&gt;&gt;<a name="line.1178"></a>
 <span class="sourceLineNo">1179</span>      implements Set&lt;List&lt;E&gt;&gt; {<a name="line.1179"></a>
-<span class="sourceLineNo">1180</span>    private transient final ImmutableList&lt;ImmutableSet&lt;E&gt;&gt; axes;<a name="line.1180"></a>
-<span class="sourceLineNo">1181</span>    private transient final CartesianList&lt;E&gt; delegate;<a name="line.1181"></a>
+<span class="sourceLineNo">1180</span>    private final transient ImmutableList&lt;ImmutableSet&lt;E&gt;&gt; axes;<a name="line.1180"></a>
+<span class="sourceLineNo">1181</span>    private final transient CartesianList&lt;E&gt; delegate;<a name="line.1181"></a>
 <span class="sourceLineNo">1182</span><a name="line.1182"></a>
 <span class="sourceLineNo">1183</span>    static &lt;E&gt; Set&lt;List&lt;E&gt;&gt; create(List&lt;? extends Set&lt;? extends E&gt;&gt; sets) {<a name="line.1183"></a>
 <span class="sourceLineNo">1184</span>      ImmutableList.Builder&lt;ImmutableSet&lt;E&gt;&gt; axesBuilder =<a name="line.1184"></a>

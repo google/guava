@@ -232,7 +232,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#addListener(com.google.common.util.concurrent.Service.Listener,%20java.util.concurrent.Executor)">addListener</a></strong>(<a href="../../../../../com/google/common/util/concurrent/Service.Listener.html" title="class in com.google.common.util.concurrent">Service.Listener</a>&nbsp;listener,
                       <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
-<div class="block">Registers a <a href="../../../../../com/google/common/util/concurrent/Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">executed</a> on the given 
+<div class="block">Registers a <a href="../../../../../com/google/common/util/concurrent/Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">executed</a> on the given
  executor.</div>
 </td>
 </tr>
@@ -246,8 +246,8 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#awaitRunning(long,%20java.util.concurrent.TimeUnit)">awaitRunning</a></strong>(long&nbsp;timeout,
                         <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
-<div class="block">Waits for the <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="../../../../../com/google/common/util/concurrent/Service.State.html#RUNNING">running state</a> for no 
- more than the given time.</div>
+<div class="block">Waits for the <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="../../../../../com/google/common/util/concurrent/Service.State.html#RUNNING">running state</a> for no more
+ than the given time.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -260,9 +260,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#awaitTerminated(long,%20java.util.concurrent.TimeUnit)">awaitTerminated</a></strong>(long&nbsp;timeout,
                               <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
-<div class="block">Waits for the <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach a terminal state (either 
- <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED"><code>terminated</code></a> or <a href="../../../../../com/google/common/util/concurrent/Service.State.html#FAILED"><code>failed</code></a>) for no 
- more than the given time.</div>
+<div class="block">Waits for the <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach a terminal state (either <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED"><code>terminated</code></a> or <a href="../../../../../com/google/common/util/concurrent/Service.State.html#FAILED"><code>failed</code></a>) for no more than the given time.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -518,9 +516,9 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
 <pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractScheduledService.html#line.383">addListener</a>(<a href="../../../../../com/google/common/util/concurrent/Service.Listener.html" title="class in com.google.common.util.concurrent">Service.Listener</a>&nbsp;listener,
                <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/Service.html#addListener(com.google.common.util.concurrent.Service.Listener,%20java.util.concurrent.Executor)">Service</a></code></strong></div>
-<div class="block">Registers a <a href="../../../../../com/google/common/util/concurrent/Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">executed</a> on the given 
- executor.  The listener will have the corresponding transition method called whenever the 
- service changes state. The listener will not have previous state changes replayed, so it is 
+<div class="block">Registers a <a href="../../../../../com/google/common/util/concurrent/Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a> to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">executed</a> on the given
+ executor. The listener will have the corresponding transition method called whenever the
+ service changes state. The listener will not have previous state changes replayed, so it is
  suggested that listeners are added before the service starts.
 
  <p><code>addListener</code> guarantees execution ordering across calls to a given listener but not
@@ -530,14 +528,14 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
  may execute concurrently, and listeners may execute in an order different from the one in which
  they were registered.
 
- <p>RuntimeExceptions thrown by a listener will be caught and logged. Any exception thrown 
+ <p>RuntimeExceptions thrown by a listener will be caught and logged. Any exception thrown
  during <code>Executor.execute</code> (e.g., a <code>RejectedExecutionException</code>) will be caught and
  logged.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/Service.html#addListener(com.google.common.util.concurrent.Service.Listener,%20java.util.concurrent.Executor)">addListener</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>listener</code> - the listener to run when the service changes state is complete</dd><dd><code>executor</code> - the executor in which the listeners callback methods will be run. For fast,
-     lightweight listeners that would be safe to execute in any thread, consider 
+     lightweight listeners that would be safe to execute in any thread, consider
      <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor()"><code>MoreExecutors.directExecutor()</code></a>.</dd><dt><span class="strong">Since:</span></dt>
   <dd>13.0</dd></dl>
 </li>
@@ -621,8 +619,8 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
                 <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                         throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/Service.html#awaitRunning(long,%20java.util.concurrent.TimeUnit)">Service</a></code></strong></div>
-<div class="block">Waits for the <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="../../../../../com/google/common/util/concurrent/Service.State.html#RUNNING">running state</a> for no 
- more than the given time.</div>
+<div class="block">Waits for the <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach the <a href="../../../../../com/google/common/util/concurrent/Service.State.html#RUNNING">running state</a> for no more
+ than the given time.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/Service.html#awaitRunning(long,%20java.util.concurrent.TimeUnit)">awaitRunning</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a></code></dd>
@@ -658,9 +656,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                            throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/Service.html#awaitTerminated(long,%20java.util.concurrent.TimeUnit)">Service</a></code></strong></div>
-<div class="block">Waits for the <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach a terminal state (either 
- <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED"><code>terminated</code></a> or <a href="../../../../../com/google/common/util/concurrent/Service.State.html#FAILED"><code>failed</code></a>) for no 
- more than the given time.</div>
+<div class="block">Waits for the <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> to reach a terminal state (either <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED"><code>terminated</code></a> or <a href="../../../../../com/google/common/util/concurrent/Service.State.html#FAILED"><code>failed</code></a>) for no more than the given time.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/Service.html#awaitTerminated(long,%20java.util.concurrent.TimeUnit)">awaitTerminated</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a></code></dd>

@@ -96,15 +96,15 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/cache/CacheBuilderSpec.html#line.84">CacheBuilderSpec</a>
+public final class <a href="../../../../src-html/com/google/common/cache/CacheBuilderSpec.html#line.80">CacheBuilderSpec</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A specification of a <a href="../../../../com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache"><code>CacheBuilder</code></a> configuration.
 
- <p><code>CacheBuilderSpec</code> supports parsing configuration off of a string, which
- makes it especially useful for command-line configuration of a <code>CacheBuilder</code>.
+ <p><code>CacheBuilderSpec</code> supports parsing configuration off of a string, which makes it
+ especially useful for command-line configuration of a <code>CacheBuilder</code>.
 
- <p>The string syntax is a series of comma-separated keys or key-value pairs,
- each corresponding to a <code>CacheBuilder</code> method.
+ <p>The string syntax is a series of comma-separated keys or key-value pairs, each corresponding
+ to a <code>CacheBuilder</code> method.
  <ul>
  <li><code>concurrencyLevel=[integer]</code>: sets <a href="../../../../com/google/common/cache/CacheBuilder.html#concurrencyLevel"><code>CacheBuilder.concurrencyLevel</code></a>.
  <li><code>initialCapacity=[integer]</code>: sets <a href="../../../../com/google/common/cache/CacheBuilder.html#initialCapacity"><code>CacheBuilder.initialCapacity</code></a>.
@@ -119,24 +119,22 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  <li><code>recordStats</code>: sets <a href="../../../../com/google/common/cache/CacheBuilder.html#recordStats()"><code>CacheBuilder.recordStats()</code></a>.
  </ul>
 
- <p>The set of supported keys will grow as <code>CacheBuilder</code> evolves, but existing keys
- will never be removed.
+ <p>The set of supported keys will grow as <code>CacheBuilder</code> evolves, but existing keys will
+ never be removed.
 
- <p>Durations are represented by an integer, followed by one of "d", "h", "m",
- or "s", representing days, hours, minutes, or seconds respectively.  (There
- is currently no syntax to request expiration in milliseconds, microseconds,
- or nanoseconds.)
+ <p>Durations are represented by an integer, followed by one of "d", "h", "m", or "s",
+ representing days, hours, minutes, or seconds respectively. (There is currently no syntax to
+ request expiration in milliseconds, microseconds, or nanoseconds.)
 
- <p>Whitespace before and after commas and equal signs is ignored.  Keys may
- not be repeated;  it is also illegal to use the following pairs of keys in
- a single value:
+ <p>Whitespace before and after commas and equal signs is ignored. Keys may not be repeated; it is
+ also illegal to use the following pairs of keys in a single value:
  <ul>
  <li><code>maximumSize</code> and <code>maximumWeight</code>
  <li><code>softValues</code> and <code>weakValues</code>
  </ul>
 
- <p><code>CacheBuilderSpec</code> does not support configuring <code>CacheBuilder</code> methods
- with non-value parameters.  These must be configured in code.
+ <p><code>CacheBuilderSpec</code> does not support configuring <code>CacheBuilder</code> methods with
+ non-value parameters. These must be configured in code.
 
  <p>A new <code>CacheBuilder</code> can be instantiated from a <code>CacheBuilderSpec</code> using
  <a href="../../../../com/google/common/cache/CacheBuilder.html#from(com.google.common.cache.CacheBuilderSpec)"><code>CacheBuilder.from(CacheBuilderSpec)</code></a> or <a href="../../../../com/google/common/cache/CacheBuilder.html#from(java.lang.String)"><code>CacheBuilder.from(String)</code></a>.</div>
@@ -185,8 +183,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/cache/CacheBuilderSpec.html#toParsableString()">toParsableString</a></strong>()</code>
-<div class="block">Returns a string that can be used to parse an equivalent
- <code>CacheBuilderSpec</code>.</div>
+<div class="block">Returns a string that can be used to parse an equivalent <code>CacheBuilderSpec</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -223,7 +220,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>parse</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilderSpec.html" title="class in com.google.common.cache">CacheBuilderSpec</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilderSpec.html#line.138">parse</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;cacheBuilderSpecification)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilderSpec.html" title="class in com.google.common.cache">CacheBuilderSpec</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilderSpec.html#line.134">parse</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;cacheBuilderSpecification)</pre>
 <div class="block">Creates a CacheBuilderSpec from a string.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>cacheBuilderSpecification</code> - the string form</dd></dl>
 </li>
@@ -234,7 +231,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>disableCaching</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilderSpec.html" title="class in com.google.common.cache">CacheBuilderSpec</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilderSpec.html#line.163">disableCaching</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/cache/CacheBuilderSpec.html" title="class in com.google.common.cache">CacheBuilderSpec</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilderSpec.html#line.161">disableCaching</a>()</pre>
 <div class="block">Returns a CacheBuilderSpec that will prevent caching.</div>
 </li>
 </ul>
@@ -244,11 +241,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>toParsableString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilderSpec.html#line.228">toParsableString</a>()</pre>
-<div class="block">Returns a string that can be used to parse an equivalent
- <code>CacheBuilderSpec</code>.  The order and form of this representation is
- not guaranteed, except that reparsing its output will produce
- a <code>CacheBuilderSpec</code> equal to this instance.</div>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilderSpec.html#line.225">toParsableString</a>()</pre>
+<div class="block">Returns a string that can be used to parse an equivalent <code>CacheBuilderSpec</code>. The order
+ and form of this representation is not guaranteed, except that reparsing its output will
+ produce a <code>CacheBuilderSpec</code> equal to this instance.</div>
 </li>
 </ul>
 <a name="toString()">
@@ -257,9 +253,9 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilderSpec.html#line.237">toString</a>()</pre>
-<div class="block">Returns a string representation for this CacheBuilderSpec instance.
- The form of this representation is not guaranteed.</div>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilderSpec.html#line.234">toString</a>()</pre>
+<div class="block">Returns a string representation for this CacheBuilderSpec instance. The form of this
+ representation is not guaranteed.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -272,7 +268,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilderSpec.html#line.242">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilderSpec.html#line.239">hashCode</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -285,7 +281,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilderSpec.html#line.257">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/cache/CacheBuilderSpec.html#line.254">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>

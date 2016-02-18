@@ -96,10 +96,9 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/base/Strings.html#line.37">Strings</a>
+public final class <a href="../../../../src-html/com/google/common/base/Strings.html#line.34">Strings</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block">Static utility methods pertaining to <code>String</code> or <code>CharSequence</code>
- instances.</div>
+<div class="block">Static utility methods pertaining to <code>String</code> or <code>CharSequence</code> instances.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>3.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -127,8 +126,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/Strings.html#commonPrefix(java.lang.CharSequence,%20java.lang.CharSequence)">commonPrefix</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;a,
                         <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;b)</code>
 <div class="block">Returns the longest string <code>prefix</code> such that
- <code>a.toString().startsWith(prefix) &amp;&amp; b.toString().startsWith(prefix)</code>,
- taking care not to split surrogate pairs.</div>
+ <code>a.toString().startsWith(prefix) &amp;&amp; b.toString().startsWith(prefix)</code>, taking care not to
+ split surrogate pairs.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -136,8 +135,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/Strings.html#commonSuffix(java.lang.CharSequence,%20java.lang.CharSequence)">commonSuffix</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;a,
                         <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;b)</code>
 <div class="block">Returns the longest string <code>suffix</code> such that
- <code>a.toString().endsWith(suffix) &amp;&amp; b.toString().endsWith(suffix)</code>,
- taking care not to split surrogate pairs.</div>
+ <code>a.toString().endsWith(suffix) &amp;&amp; b.toString().endsWith(suffix)</code>, taking care not to
+ split surrogate pairs.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -163,9 +162,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/Strings.html#padEnd(java.lang.String,%20int,%20char)">padEnd</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
             int&nbsp;minLength,
             char&nbsp;padChar)</code>
-<div class="block">Returns a string, of length at least <code>minLength</code>, consisting of
- <code>string</code> appended with as many copies of <code>padChar</code> as are
- necessary to reach that length.</div>
+<div class="block">Returns a string, of length at least <code>minLength</code>, consisting of <code>string</code> appended
+ with as many copies of <code>padChar</code> as are necessary to reach that length.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -173,17 +171,15 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/Strings.html#padStart(java.lang.String,%20int,%20char)">padStart</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
                 int&nbsp;minLength,
                 char&nbsp;padChar)</code>
-<div class="block">Returns a string, of length at least <code>minLength</code>, consisting of
- <code>string</code> prepended with as many copies of <code>padChar</code> as are
- necessary to reach that length.</div>
+<div class="block">Returns a string, of length at least <code>minLength</code>, consisting of <code>string</code> prepended
+ with as many copies of <code>padChar</code> as are necessary to reach that length.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/Strings.html#repeat(java.lang.String,%20int)">repeat</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
             int&nbsp;count)</code>
-<div class="block">Returns a string consisting of a specific number of concatenated copies of
- an input string.</div>
+<div class="block">Returns a string consisting of a specific number of concatenated copies of an input string.</div>
 </td>
 </tr>
 </table>
@@ -214,7 +210,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>nullToEmpty</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.46">nullToEmpty</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.43">nullToEmpty</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
 <div class="block">Returns the given string if it is non-null; the empty string otherwise.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>string</code> - the string to test and possibly return</dd>
@@ -228,12 +224,11 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>emptyToNull</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.58">emptyToNull</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.54">emptyToNull</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
 <div class="block">Returns the given string if it is nonempty; <code>null</code> otherwise.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>string</code> - the string to test and possibly return</dd>
-<dt><span class="strong">Returns:</span></dt><dd><code>string</code> itself if it is nonempty; <code>null</code> if it is
-     empty or null</dd></dl>
+<dt><span class="strong">Returns:</span></dt><dd><code>string</code> itself if it is nonempty; <code>null</code> if it is empty or null</dd></dl>
 </li>
 </ul>
 <a name="isNullOrEmpty(java.lang.String)">
@@ -242,13 +237,13 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/S
 <ul class="blockList">
 <li class="blockList">
 <h4>isNullOrEmpty</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.75">isNullOrEmpty</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.69">isNullOrEmpty</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
 <div class="block">Returns <code>true</code> if the given string is null or is the empty string.
 
- <p>Consider normalizing your string references with <a href="../../../../com/google/common/base/Strings.html#nullToEmpty(java.lang.String)"><code>nullToEmpty(java.lang.String)</code></a>.
- If you do, you can use <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true#isEmpty()" title="class or interface in java.lang"><code>String.isEmpty()</code></a> instead of this
- method, and you won't need special null-safe forms of methods like <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true#toUpperCase(java.util.Locale)" title="class or interface in java.lang"><code>String.toUpperCase(java.util.Locale)</code></a> either. Or, if you'd like to normalize "in the other
+ <p>Consider normalizing your string references with <a href="../../../../com/google/common/base/Strings.html#nullToEmpty(java.lang.String)"><code>nullToEmpty(java.lang.String)</code></a>. If you do, you can
+ use <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true#isEmpty()" title="class or interface in java.lang"><code>String.isEmpty()</code></a> instead of this method, and you won't need special null-safe forms
+ of methods like <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true#toUpperCase(java.util.Locale)" title="class or interface in java.lang"><code>String.toUpperCase(java.util.Locale)</code></a> either. Or, if you'd like to normalize "in the other
  direction," converting empty strings to <code>null</code>, you can use <a href="../../../../com/google/common/base/Strings.html#emptyToNull(java.lang.String)"><code>emptyToNull(java.lang.String)</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>string</code> - a string reference to check</dd>
 <dt><span class="strong">Returns:</span></dt><dd><code>true</code> if the string is null or is the empty string</dd></dl>
@@ -260,12 +255,11 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/S
 <ul class="blockList">
 <li class="blockList">
 <h4>padStart</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.98">padStart</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.91">padStart</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
               int&nbsp;minLength,
               char&nbsp;padChar)</pre>
-<div class="block">Returns a string, of length at least <code>minLength</code>, consisting of
- <code>string</code> prepended with as many copies of <code>padChar</code> as are
- necessary to reach that length. For example,
+<div class="block">Returns a string, of length at least <code>minLength</code>, consisting of <code>string</code> prepended
+ with as many copies of <code>padChar</code> as are necessary to reach that length. For example,
 
  <ul>
  <li><code>padStart("7", 3, '0')</code> returns <code>"007"</code>
@@ -273,9 +267,9 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/S
  </ul>
 
  <p>See <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html?is-external=true" title="class or interface in java.util"><code>Formatter</code></a> for a richer set of formatting capabilities.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>string</code> - the string which should appear at the end of the result</dd><dd><code>minLength</code> - the minimum length the resulting string must have. Can be
-     zero or negative, in which case the input string is always returned.</dd><dd><code>padChar</code> - the character to insert at the beginning of the result until
-     the minimum length is reached</dd>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>string</code> - the string which should appear at the end of the result</dd><dd><code>minLength</code> - the minimum length the resulting string must have. Can be zero or negative, in
+     which case the input string is always returned.</dd><dd><code>padChar</code> - the character to insert at the beginning of the result until the minimum length
+     is reached</dd>
 <dt><span class="strong">Returns:</span></dt><dd>the padded string</dd></dl>
 </li>
 </ul>
@@ -285,12 +279,11 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/S
 <ul class="blockList">
 <li class="blockList">
 <h4>padEnd</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.130">padEnd</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.122">padEnd</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
             int&nbsp;minLength,
             char&nbsp;padChar)</pre>
-<div class="block">Returns a string, of length at least <code>minLength</code>, consisting of
- <code>string</code> appended with as many copies of <code>padChar</code> as are
- necessary to reach that length. For example,
+<div class="block">Returns a string, of length at least <code>minLength</code>, consisting of <code>string</code> appended
+ with as many copies of <code>padChar</code> as are necessary to reach that length. For example,
 
  <ul>
  <li><code>padEnd("4.", 5, '0')</code> returns <code>"4.000"</code>
@@ -298,9 +291,9 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/S
  </ul>
 
  <p>See <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html?is-external=true" title="class or interface in java.util"><code>Formatter</code></a> for a richer set of formatting capabilities.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>string</code> - the string which should appear at the beginning of the result</dd><dd><code>minLength</code> - the minimum length the resulting string must have. Can be
-     zero or negative, in which case the input string is always returned.</dd><dd><code>padChar</code> - the character to append to the end of the result until the
-     minimum length is reached</dd>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>string</code> - the string which should appear at the beginning of the result</dd><dd><code>minLength</code> - the minimum length the resulting string must have. Can be zero or negative, in
+     which case the input string is always returned.</dd><dd><code>padChar</code> - the character to append to the end of the result until the minimum length is
+     reached</dd>
 <dt><span class="strong">Returns:</span></dt><dd>the padded string</dd></dl>
 </li>
 </ul>
@@ -310,14 +303,13 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/S
 <ul class="blockList">
 <li class="blockList">
 <h4>repeat</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.154">repeat</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.145">repeat</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
             int&nbsp;count)</pre>
-<div class="block">Returns a string consisting of a specific number of concatenated copies of
- an input string. For example, <code>repeat("hey", 3)</code> returns the string
- <code>"heyheyhey"</code>.</div>
+<div class="block">Returns a string consisting of a specific number of concatenated copies of an input string. For
+ example, <code>repeat("hey", 3)</code> returns the string <code>"heyheyhey"</code>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>string</code> - any non-null string</dd><dd><code>count</code> - the number of times to repeat it; a nonnegative integer</dd>
-<dt><span class="strong">Returns:</span></dt><dd>a string containing <code>string</code> repeated <code>count</code> times
-     (the empty string if <code>count</code> is zero)</dd>
+<dt><span class="strong">Returns:</span></dt><dd>a string containing <code>string</code> repeated <code>count</code> times (the empty string if
+     <code>count</code> is zero)</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>count</code> is negative</dd></dl>
 </li>
@@ -328,12 +320,12 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/S
 <ul class="blockList">
 <li class="blockList">
 <h4>commonPrefix</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.188">commonPrefix</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;a,
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.179">commonPrefix</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;a,
                   <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;b)</pre>
 <div class="block">Returns the longest string <code>prefix</code> such that
- <code>a.toString().startsWith(prefix) &amp;&amp; b.toString().startsWith(prefix)</code>,
- taking care not to split surrogate pairs. If <code>a</code> and <code>b</code> have
- no common prefix, returns the empty string.</div>
+ <code>a.toString().startsWith(prefix) &amp;&amp; b.toString().startsWith(prefix)</code>, taking care not to
+ split surrogate pairs. If <code>a</code> and <code>b</code> have no common prefix, returns the empty
+ string.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>11.0</dd></dl>
 </li>
@@ -344,12 +336,12 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/S
 <ul class="blockListLast">
 <li class="blockList">
 <h4>commonSuffix</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.211">commonSuffix</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;a,
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.202">commonSuffix</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;a,
                   <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;b)</pre>
 <div class="block">Returns the longest string <code>suffix</code> such that
- <code>a.toString().endsWith(suffix) &amp;&amp; b.toString().endsWith(suffix)</code>,
- taking care not to split surrogate pairs. If <code>a</code> and <code>b</code> have
- no common suffix, returns the empty string.</div>
+ <code>a.toString().endsWith(suffix) &amp;&amp; b.toString().endsWith(suffix)</code>, taking care not to
+ split surrogate pairs. If <code>a</code> and <code>b</code> have no common suffix, returns the empty
+ string.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>11.0</dd></dl>
 </li>

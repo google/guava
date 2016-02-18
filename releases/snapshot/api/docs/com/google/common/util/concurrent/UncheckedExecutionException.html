@@ -115,18 +115,18 @@
 <hr>
 <br>
 <pre><a href="../../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public class <a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.41">UncheckedExecutionException</a>
+public class <a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.38">UncheckedExecutionException</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a></pre>
 <div class="block">Unchecked variant of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a>. As with
- <code>ExecutionException</code>, the exception's <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true#getCause()" title="class or interface in java.lang">cause</a>
- comes from a failed task, possibly run in another thread.
+ <code>ExecutionException</code>, the exception's <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true#getCause()" title="class or interface in java.lang">cause</a> comes from a failed
+ task, possibly run in another thread.
 
  <p><code>UncheckedExecutionException</code> is intended as an alternative to
- <code>ExecutionException</code> when the exception thrown by a task is an
- unchecked exception. However, it may also wrap a checked exception in some
- cases.
+ <code>ExecutionException</code> when the exception thrown by a task is an unchecked exception.
+ However, it may also wrap a checked exception in some cases.
 
- <p>When wrapping an <code>Error</code> from another thread, prefer <a href="../../../../../com/google/common/util/concurrent/ExecutionError.html" title="class in com.google.common.util.concurrent"><code>ExecutionError</code></a>. When wrapping a checked exception, prefer <code>ExecutionException</code>.</div>
+ <p>When wrapping an <code>Error</code> from another thread, prefer <a href="../../../../../com/google/common/util/concurrent/ExecutionError.html" title="class in com.google.common.util.concurrent"><code>ExecutionError</code></a>. When
+ wrapping a checked exception, prefer <code>ExecutionException</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>10.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -218,7 +218,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeExcep
 <ul class="blockList">
 <li class="blockList">
 <h4>UncheckedExecutionException</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.45">UncheckedExecutionException</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.42">UncheckedExecutionException</a>()</pre>
 <div class="block">Creates a new instance with <code>null</code> as its detail message.</div>
 </li>
 </ul>
@@ -228,7 +228,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeExcep
 <ul class="blockList">
 <li class="blockList">
 <h4>UncheckedExecutionException</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.50">UncheckedExecutionException</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.47">UncheckedExecutionException</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                            <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;message)</pre>
 <div class="block">Creates a new instance with the given detail message.</div>
 </li>
@@ -239,7 +239,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeExcep
 <ul class="blockList">
 <li class="blockList">
 <h4>UncheckedExecutionException</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.57">UncheckedExecutionException</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.54">UncheckedExecutionException</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                            <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;message,
                            <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                            <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;cause)</pre>
@@ -252,7 +252,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeExcep
 <ul class="blockListLast">
 <li class="blockList">
 <h4>UncheckedExecutionException</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.64">UncheckedExecutionException</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/UncheckedExecutionException.html#line.61">UncheckedExecutionException</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                            <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;cause)</pre>
 <div class="block">Creates a new instance with the given cause.</div>
 </li>

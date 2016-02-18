@@ -171,10 +171,10 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
   <A NAME="TimeLimiter"></A>
   <nobr><A HREF="com.google.common.util.concurrent.TimeLimiter.html"><I>TimeLimiter</I></A></nobr>
   </TD>
-  <TD VALIGN="TOP">Produces proxies that impose a time limit on method
- calls to the proxied object.  For example, to return the value of
- {@code target.someMethod()}, but substitute {@code DEFAULT_VALUE} if this
+  <TD VALIGN="TOP">Produces proxies that impose a time limit on method calls to the proxied object. For example, to
+ return the value of {@code target.someMethod()}, but substitute {@code DEFAULT_VALUE} if this
  method call takes over 50 ms, you can use this code:
+
  <pre>
    TimeLimiter limiter = . . .;
    TargetType proxy = limiter.newProxy(
@@ -185,6 +185,7 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
      return DEFAULT_VALUE;
    }
  </pre>
+
  </TD>
 </TR>
 </TABLE>

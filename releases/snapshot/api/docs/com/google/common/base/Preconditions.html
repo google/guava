@@ -135,20 +135,23 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  <h3>Other types of preconditions</h3>
 
  <p>Not every type of precondition failure is supported by these methods. Continue to throw
- standard JDK exceptions such as <a href="http://docs.oracle.com/javase/7/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util"><code>NoSuchElementException</code></a> or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a> in the situations they are intended for.
+ standard JDK exceptions such as <a href="http://docs.oracle.com/javase/7/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util"><code>NoSuchElementException</code></a> or
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a> in the situations they are intended for.
 
  <h3>Non-preconditions</h3>
 
  <p>It is of course possible to use the methods of this class to check for invalid conditions
  which are <i>not the caller's fault</i>. Doing so is <b>not recommended</b> because it is
  misleading to future readers of the code and of stack traces. See
- <a href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional
- failures explained</a> in the Guava User Guide for more advice.
+ <a href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional failures
+ explained</a> in the Guava User Guide for more advice.
 
  <h3><code>java.util.Objects.requireNonNull()</code></h3>
 
- <p>Projects which use <code>com.google.common</code> should generally avoid the use of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Objects.html?is-external=true#requireNonNull(T)" title="class or interface in java.util"><code>Objects.requireNonNull(Object)</code></a>. Instead, use whichever of <a href="../../../../com/google/common/base/Preconditions.html#checkNotNull(T)"><code>checkNotNull(Object)</code></a> or <a href="../../../../com/google/common/base/Verify.html#verifyNotNull(T)"><code>Verify.verifyNotNull(Object)</code></a> is appropriate to the situation.
- (The same goes for the message-accepting overloads.)
+ <p>Projects which use <code>com.google.common</code> should generally avoid the use of
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Objects.html?is-external=true#requireNonNull(T)" title="class or interface in java.util"><code>Objects.requireNonNull(Object)</code></a>. Instead, use whichever of
+ <a href="../../../../com/google/common/base/Preconditions.html#checkNotNull(T)"><code>checkNotNull(Object)</code></a> or <a href="../../../../com/google/common/base/Verify.html#verifyNotNull(T)"><code>Verify.verifyNotNull(Object)</code></a> is appropriate to the
+ situation. (The same goes for the message-accepting overloads.)
 
  <h3>Only <code>%s</code> is supported</h3>
 
@@ -355,8 +358,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <div class="block">Ensures the truth of an expression involving one or more parameters to the calling method.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>expression</code> - a boolean expression</dd><dd><code>errorMessageTemplate</code> - a template for the exception message should the check fail. The
      message is formed by replacing each <code>%s</code> placeholder in the template with an
-     argument. These are matched by position - the first <code>%s</code> gets <code>errorMessageArgs[0]</code>, etc.  Unmatched arguments will be appended to the formatted message
-     in square braces. Unmatched placeholders will be left as-is.</dd><dd><code>errorMessageArgs</code> - the arguments to be substituted into the message template. Arguments
+     argument. These are matched by position - the first <code>%s</code> gets <code>errorMessageArgs[0]</code>, etc. Unmatched arguments will be appended to the formatted message in
+     square braces. Unmatched placeholders will be left as-is.</dd><dd><code>errorMessageArgs</code> - the arguments to be substituted into the message template. Arguments
      are converted to strings using <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true#valueOf(java.lang.Object)" title="class or interface in java.lang"><code>String.valueOf(Object)</code></a>.</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>expression</code> is false</dd>
@@ -410,8 +413,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  involving any parameters to the calling method.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>expression</code> - a boolean expression</dd><dd><code>errorMessageTemplate</code> - a template for the exception message should the check fail. The
      message is formed by replacing each <code>%s</code> placeholder in the template with an
-     argument. These are matched by position - the first <code>%s</code> gets <code>errorMessageArgs[0]</code>, etc.  Unmatched arguments will be appended to the formatted message
-     in square braces. Unmatched placeholders will be left as-is.</dd><dd><code>errorMessageArgs</code> - the arguments to be substituted into the message template. Arguments
+     argument. These are matched by position - the first <code>%s</code> gets <code>errorMessageArgs[0]</code>, etc. Unmatched arguments will be appended to the formatted message in
+     square braces. Unmatched placeholders will be left as-is.</dd><dd><code>errorMessageArgs</code> - the arguments to be substituted into the message template. Arguments
      are converted to strings using <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true#valueOf(java.lang.Object)" title="class or interface in java.lang"><code>String.valueOf(Object)</code></a>.</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if <code>expression</code> is false</dd>
@@ -470,8 +473,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <div class="block">Ensures that an object reference passed as a parameter to the calling method is not null.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>reference</code> - an object reference</dd><dd><code>errorMessageTemplate</code> - a template for the exception message should the check fail. The
      message is formed by replacing each <code>%s</code> placeholder in the template with an
-     argument. These are matched by position - the first <code>%s</code> gets <code>errorMessageArgs[0]</code>, etc.  Unmatched arguments will be appended to the formatted message
-     in square braces. Unmatched placeholders will be left as-is.</dd><dd><code>errorMessageArgs</code> - the arguments to be substituted into the message template. Arguments
+     argument. These are matched by position - the first <code>%s</code> gets <code>errorMessageArgs[0]</code>, etc. Unmatched arguments will be appended to the formatted message in
+     square braces. Unmatched placeholders will be left as-is.</dd><dd><code>errorMessageArgs</code> - the arguments to be substituted into the message template. Arguments
      are converted to strings using <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true#valueOf(java.lang.Object)" title="class or interface in java.lang"><code>String.valueOf(Object)</code></a>.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>the non-null reference that was validated</dd>
 <dt><span class="strong">Throws:</span></dt>

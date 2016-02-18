@@ -101,7 +101,7 @@
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.57">CharMatcher</a>
+public abstract class <a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.55">CharMatcher</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;</pre>
 <div class="block">Determines a true or false value for any Java <code>char</code> value, just as <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> does
@@ -120,9 +120,9 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
    String trimmed = <a href="../../../../com/google/common/base/CharMatcher.html#whitespace()"><code>whitespace()</code></a>.<a href="../../../../com/google/common/base/CharMatcher.html#trimFrom(java.lang.CharSequence)"><code>trimFrom</code></a>(userInput);
    if (<a href="../../../../com/google/common/base/CharMatcher.html#ascii()"><code>ascii()</code></a>.<a href="../../../../com/google/common/base/CharMatcher.html#matchesAllOf(java.lang.CharSequence)"><code>matchesAllOf</code></a>(s)) { ... }</pre>
 
- <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/StringsExplained#charmatcher">
- <code>CharMatcher</code></a>.</div>
+ <p>See the Guava User Guide article on
+ <a href="https://github.com/google/guava/wiki/StringsExplained#charmatcher"><code>CharMatcher</code>
+ </a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>1.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -188,7 +188,8 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#JAVA_ISO_CONTROL">JAVA_ISO_CONTROL</a></strong></code>
-<div class="block">Determines whether a character is an ISO control character as specified by <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isISOControl(char)" title="class or interface in java.lang"><code>Character.isISOControl(char)</code></a>.</div>
+<div class="block">Determines whether a character is an ISO control character as specified by
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isISOControl(char)" title="class or interface in java.lang"><code>Character.isISOControl(char)</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -200,19 +201,22 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#JAVA_LETTER_OR_DIGIT">JAVA_LETTER_OR_DIGIT</a></strong></code>
-<div class="block">Determines whether a character is a letter or digit according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLetterOrDigit(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+<div class="block">Determines whether a character is a letter or digit according to
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLetterOrDigit(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#JAVA_LOWER_CASE">JAVA_LOWER_CASE</a></strong></code>
-<div class="block">Determines whether a character is lower case according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLowerCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+<div class="block">Determines whether a character is lower case according to
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLowerCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#JAVA_UPPER_CASE">JAVA_UPPER_CASE</a></strong></code>
-<div class="block">Determines whether a character is upper case according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isUpperCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+<div class="block">Determines whether a character is upper case according to
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isUpperCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -231,7 +235,8 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#WHITESPACE">WHITESPACE</a></strong></code>
 <div class="block">Determines whether a character is whitespace according to the latest Unicode standard, as
- illustrated <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.</div>
+ illustrated
+ <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.</div>
 </td>
 </tr>
 </table>
@@ -391,7 +396,8 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#javaIsoControl()">javaIsoControl</a></strong>()</code>
-<div class="block">Determines whether a character is an ISO control character as specified by <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isISOControl(char)" title="class or interface in java.lang"><code>Character.isISOControl(char)</code></a>.</div>
+<div class="block">Determines whether a character is an ISO control character as specified by
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isISOControl(char)" title="class or interface in java.lang"><code>Character.isISOControl(char)</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -403,19 +409,22 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#javaLetterOrDigit()">javaLetterOrDigit</a></strong>()</code>
-<div class="block">Determines whether a character is a letter or digit according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLetterOrDigit(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+<div class="block">Determines whether a character is a letter or digit according to
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLetterOrDigit(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#javaLowerCase()">javaLowerCase</a></strong>()</code>
-<div class="block">Determines whether a character is lower case according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLowerCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+<div class="block">Determines whether a character is lower case according to
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLowerCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#javaUpperCase()">javaUpperCase</a></strong>()</code>
-<div class="block">Determines whether a character is upper case according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isUpperCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+<div class="block">Determines whether a character is upper case according to
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isUpperCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -556,7 +565,8 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#whitespace()">whitespace</a></strong>()</code>
 <div class="block">Determines whether a character is whitespace according to the latest Unicode standard, as
- illustrated <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.</div>
+ illustrated
+ <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.</div>
 </td>
 </tr>
 </table>
@@ -596,9 +606,10 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <h4>WHITESPACE</h4>
 <pre>public static final&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a> <a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.226">WHITESPACE</a></pre>
 <div class="block">Determines whether a character is whitespace according to the latest Unicode standard, as
- illustrated <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
- This is not the same definition used by other Java APIs. (See a <a
- href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison of several
+ illustrated
+ <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
+ This is not the same definition used by other Java APIs. (See a
+ <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison of several
  definitions of "whitespace"</a>.)
 
  <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant to keep it up
@@ -637,8 +648,8 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <h4>DIGIT</h4>
 <pre>public static final&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a> <a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.247">DIGIT</a></pre>
 <div class="block">Determines whether a character is a digit according to
- <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>.
- If you only care to match ASCII digits, you can use <code>inRange('0', '9')</code>.</div>
+ <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>. If
+ you only care to match ASCII digits, you can use <code>inRange('0', '9')</code>.</div>
 </li>
 </ul>
 <a name="JAVA_DIGIT">
@@ -668,7 +679,8 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <li class="blockList">
 <h4>JAVA_LETTER_OR_DIGIT</h4>
 <pre>public static final&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a> <a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.267">JAVA_LETTER_OR_DIGIT</a></pre>
-<div class="block">Determines whether a character is a letter or digit according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLetterOrDigit(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+<div class="block">Determines whether a character is a letter or digit according to
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLetterOrDigit(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </li>
 </ul>
 <a name="JAVA_UPPER_CASE">
@@ -678,7 +690,8 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <li class="blockList">
 <h4>JAVA_UPPER_CASE</h4>
 <pre>public static final&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a> <a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.273">JAVA_UPPER_CASE</a></pre>
-<div class="block">Determines whether a character is upper case according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isUpperCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+<div class="block">Determines whether a character is upper case according to
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isUpperCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </li>
 </ul>
 <a name="JAVA_LOWER_CASE">
@@ -688,7 +701,8 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <li class="blockList">
 <h4>JAVA_LOWER_CASE</h4>
 <pre>public static final&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a> <a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.279">JAVA_LOWER_CASE</a></pre>
-<div class="block">Determines whether a character is lower case according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLowerCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+<div class="block">Determines whether a character is lower case according to
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLowerCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </li>
 </ul>
 <a name="JAVA_ISO_CONTROL">
@@ -698,7 +712,8 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <li class="blockList">
 <h4>JAVA_ISO_CONTROL</h4>
 <pre>public static final&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a> <a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.285">JAVA_ISO_CONTROL</a></pre>
-<div class="block">Determines whether a character is an ISO control character as specified by <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isISOControl(char)" title="class or interface in java.lang"><code>Character.isISOControl(char)</code></a>.</div>
+<div class="block">Determines whether a character is an ISO control character as specified by
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isISOControl(char)" title="class or interface in java.lang"><code>Character.isISOControl(char)</code></a>.</div>
 </li>
 </ul>
 <a name="INVISIBLE">
@@ -781,7 +796,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>any</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.66">any</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.64">any</a>()</pre>
 <div class="block">Matches any character.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>19.0 (since 1.0 as constant <code>ANY</code>)</dd></dl>
@@ -793,7 +808,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>none</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.75">none</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.73">none</a>()</pre>
 <div class="block">Matches no characters.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>19.0 (since 1.0 as constant <code>NONE</code>)</dd></dl>
@@ -805,15 +820,16 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>whitespace</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.91">whitespace</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.90">whitespace</a>()</pre>
 <div class="block">Determines whether a character is whitespace according to the latest Unicode standard, as
- illustrated <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
- This is not the same definition used by other Java APIs. (See a <a
- href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison of several
+ illustrated
+ <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
+ This is not the same definition used by other Java APIs. (See a
+ <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison of several
  definitions of "whitespace"</a>.)
 
- <p><b>Note:</b> as the Unicode definition evolves, we will modify this matcher to keep it up
- to date.</div>
+ <p><b>Note:</b> as the Unicode definition evolves, we will modify this matcher to keep it up to
+ date.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>19.0 (since 1.0 as constant <code>WHITESPACE</code>)</dd></dl>
 </li>
@@ -824,7 +840,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>breakingWhitespace</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.102">breakingWhitespace</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.101">breakingWhitespace</a>()</pre>
 <div class="block">Determines whether a character is a breaking whitespace (that is, a whitespace which can be
  interpreted as a break between words for formatting purposes). See <a href="../../../../com/google/common/base/CharMatcher.html#whitespace()"><code>whitespace()</code></a> for a
  discussion of that term.</div>
@@ -838,7 +854,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>ascii</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.111">ascii</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.110">ascii</a>()</pre>
 <div class="block">Determines whether a character is ASCII, meaning that its code point is less than 128.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>19.0 (since 1.0 as constant <code>ASCII</code>)</dd></dl>
@@ -850,10 +866,10 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>digit</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.122">digit</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.121">digit</a>()</pre>
 <div class="block">Determines whether a character is a digit according to
- <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>.
- If you only care to match ASCII digits, you can use <code>inRange('0', '9')</code>.</div>
+ <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>. If
+ you only care to match ASCII digits, you can use <code>inRange('0', '9')</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>19.0 (since 1.0 as constant <code>DIGIT</code>)</dd></dl>
 </li>
@@ -864,7 +880,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>javaDigit</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.133">javaDigit</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.132">javaDigit</a>()</pre>
 <div class="block">Determines whether a character is a digit according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isDigit(char)" title="class or interface in java.lang">Java's definition</a>. If you only care to match ASCII digits, you can use <code>inRange('0',
  '9')</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -877,7 +893,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>javaLetter</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.144">javaLetter</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.143">javaLetter</a>()</pre>
 <div class="block">Determines whether a character is a letter according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLetter(char)" title="class or interface in java.lang">Java's definition</a>. If you only care to match letters of the Latin alphabet, you can use <code>inRange('a', 'z').or(inRange('A', 'Z'))</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>19.0 (since 1.0 as constant <code>JAVA_LETTER</code>)</dd></dl>
@@ -889,8 +905,9 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>javaLetterOrDigit</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.154">javaLetterOrDigit</a>()</pre>
-<div class="block">Determines whether a character is a letter or digit according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLetterOrDigit(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.153">javaLetterOrDigit</a>()</pre>
+<div class="block">Determines whether a character is a letter or digit according to
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLetterOrDigit(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>19.0 (since 1.0 as constant <code>JAVA_LETTER_OR_DIGIT</code>).</dd></dl>
 </li>
@@ -901,8 +918,9 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>javaUpperCase</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.164">javaUpperCase</a>()</pre>
-<div class="block">Determines whether a character is upper case according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isUpperCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.163">javaUpperCase</a>()</pre>
+<div class="block">Determines whether a character is upper case according to
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isUpperCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>19.0 (since 1.0 as constant <code>JAVA_UPPER_CASE</code>)</dd></dl>
 </li>
@@ -913,8 +931,9 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>javaLowerCase</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.174">javaLowerCase</a>()</pre>
-<div class="block">Determines whether a character is lower case according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLowerCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.173">javaLowerCase</a>()</pre>
+<div class="block">Determines whether a character is lower case according to
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLowerCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>19.0 (since 1.0 as constant <code>JAVA_LOWER_CASE</code>)</dd></dl>
 </li>
@@ -925,8 +944,9 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>javaIsoControl</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.184">javaIsoControl</a>()</pre>
-<div class="block">Determines whether a character is an ISO control character as specified by <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isISOControl(char)" title="class or interface in java.lang"><code>Character.isISOControl(char)</code></a>.</div>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.183">javaIsoControl</a>()</pre>
+<div class="block">Determines whether a character is an ISO control character as specified by
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isISOControl(char)" title="class or interface in java.lang"><code>Character.isISOControl(char)</code></a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>19.0 (since 1.0 as constant <code>JAVA_ISO_CONTROL</code>)</dd></dl>
 </li>
@@ -937,7 +957,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>invisible</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.195">invisible</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.194">invisible</a>()</pre>
 <div class="block">Determines whether a character is invisible; that is, if its Unicode category is any of
  SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT, SURROGATE, and
  PRIVATE_USE according to ICU4J.</div>
@@ -951,7 +971,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>singleWidth</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.209">singleWidth</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.208">singleWidth</a>()</pre>
 <div class="block">Determines whether a character is single-width (not double-width). When in doubt, this matcher
  errs on the side of returning <code>false</code> (that is, it tends to assume a character is
  double-width).
@@ -1117,7 +1137,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
  character, until this returns <code>false</code> or the end is reached.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>sequence</code> - the character sequence to examine, possibly empty</dd>
 <dt><span class="strong">Returns:</span></dt><dd><code>true</code> if this matcher matches every character in the sequence, including when
-         the sequence is empty</dd></dl>
+     the sequence is empty</dd></dl>
 </li>
 </ul>
 <a name="matchesNoneOf(java.lang.CharSequence)">
@@ -1134,7 +1154,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
  character, until this returns <code>false</code> or the end is reached.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>sequence</code> - the character sequence to examine, possibly empty</dd>
 <dt><span class="strong">Returns:</span></dt><dd><code>true</code> if this matcher matches every character in the sequence, including when
-         the sequence is empty</dd></dl>
+     the sequence is empty</dd></dl>
 </li>
 </ul>
 <a name="indexIn(java.lang.CharSequence)">
@@ -1147,7 +1167,8 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <div class="block">Returns the index of the first matching character in a character sequence, or <code>-1</code> if no
  matching character is present.
 
- <p>The default implementation iterates over the sequence in forward order calling <a href="../../../../com/google/common/base/CharMatcher.html#matches(char)"><code>matches(char)</code></a> for each character.</div>
+ <p>The default implementation iterates over the sequence in forward order calling
+ <a href="../../../../com/google/common/base/CharMatcher.html#matches(char)"><code>matches(char)</code></a> for each character.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>sequence</code> - the character sequence to examine from the beginning</dd>
 <dt><span class="strong">Returns:</span></dt><dd>an index, or <code>-1</code> if no character matches</dd></dl>
 </li>
@@ -1166,7 +1187,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
  <p>The default implementation iterates over the sequence in forward order, beginning at <code>start</code>, calling <a href="../../../../com/google/common/base/CharMatcher.html#matches(char)"><code>matches(char)</code></a> for each character.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>sequence</code> - the character sequence to examine</dd><dd><code>start</code> - the first index to examine; must be nonnegative and no greater than <code>sequence.length()</code></dd>
 <dt><span class="strong">Returns:</span></dt><dd>the index of the first matching character, guaranteed to be no less than <code>start</code>,
-         or <code>-1</code> if no character matches</dd>
+     or <code>-1</code> if no character matches</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IndexOutOfBoundsException.html?is-external=true" title="class or interface in java.lang">IndexOutOfBoundsException</a></code> - if start is negative or greater than <code>sequence.length()</code></dd></dl>
 </li>
@@ -1181,7 +1202,8 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <div class="block">Returns the index of the last matching character in a character sequence, or <code>-1</code> if no
  matching character is present.
 
- <p>The default implementation iterates over the sequence in reverse order calling <a href="../../../../com/google/common/base/CharMatcher.html#matches(char)"><code>matches(char)</code></a> for each character.</div>
+ <p>The default implementation iterates over the sequence in reverse order calling
+ <a href="../../../../com/google/common/base/CharMatcher.html#matches(char)"><code>matches(char)</code></a> for each character.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>sequence</code> - the character sequence to examine from the end</dd>
 <dt><span class="strong">Returns:</span></dt><dd>an index, or <code>-1</code> if no character matches</dd></dl>
 </li>
@@ -1239,7 +1261,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
  character, then iterates the remainder of the sequence calling <a href="../../../../com/google/common/base/CharMatcher.html#matches(char)"><code>matches(char)</code></a> for each
  character.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>sequence</code> - the character sequence to replace matching characters in</dd><dd><code>replacement</code> - the character to append to the result string in place of each matching
-        character in <code>sequence</code></dd>
+     character in <code>sequence</code></dd>
 <dt><span class="strong">Returns:</span></dt><dd>the new string</dd></dl>
 </li>
 </ul>
@@ -1259,7 +1281,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
  <p><b>Note:</b> If the replacement is a fixed string with only one character, you are better
  off calling <a href="../../../../com/google/common/base/CharMatcher.html#replaceFrom(java.lang.CharSequence,%20char)"><code>replaceFrom(CharSequence, char)</code></a> directly.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>sequence</code> - the character sequence to replace matching characters in</dd><dd><code>replacement</code> - the characters to append to the result string in place of each matching
-        character in <code>sequence</code></dd>
+     character in <code>sequence</code></dd>
 <dt><span class="strong">Returns:</span></dt><dd>the new string</dd></dl>
 </li>
 </ul>
@@ -1324,7 +1346,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
  character, then iterates the remainder of the sequence calling <a href="../../../../com/google/common/base/CharMatcher.html#matches(char)"><code>matches(char)</code></a> for each
  character.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>sequence</code> - the character sequence to replace matching groups of characters in</dd><dd><code>replacement</code> - the character to append to the result string in place of each group of
-        matching characters in <code>sequence</code></dd>
+     matching characters in <code>sequence</code></dd>
 <dt><span class="strong">Returns:</span></dt><dd>the new string</dd></dl>
 </li>
 </ul>

@@ -85,17 +85,16 @@
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
-<dl><dt><span class="strong">Type Parameters:</span></dt><dd><code>K</code> - the most general type of keys this listener can listen for; for
-     example <code>Object</code> if any key is acceptable</dd><dd><code>V</code> - the most general type of values this listener can listen for; for
-     example <code>Object</code> if any key is acceptable</dd></dl>
+<dl><dt><span class="strong">Type Parameters:</span></dt><dd><code>K</code> - the most general type of keys this listener can listen for; for example <code>Object</code>
+     if any key is acceptable</dd><dd><code>V</code> - the most general type of values this listener can listen for; for example
+     <code>Object</code> if any key is acceptable</dd></dl>
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/cache/RemovalListener.html#line.39">RemovalListener</a>&lt;K,V&gt;</pre>
+public interface <a href="../../../../src-html/com/google/common/cache/RemovalListener.html#line.36">RemovalListener</a>&lt;K,V&gt;</pre>
 <div class="block">An object that can receive a notification when an entry is removed from a cache. The removal
  resulting in notification could have occured to an entry being manually removed or replaced, or
- due to eviction resulting from timed expiration, exceeding a maximum size, or garbage
- collection.
+ due to eviction resulting from timed expiration, exceeding a maximum size, or garbage collection.
 
  <p>An instance may be called concurrently by multiple threads to process different entries.
  Implementations of this interface should avoid performing blocking calls or synchronizing on
@@ -149,11 +148,11 @@ public interface <a href="../../../../src-html/com/google/common/cache/RemovalLi
 <ul class="blockListLast">
 <li class="blockList">
 <h4>onRemoval</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalListener.html#line.48">onRemoval</a>(<a href="../../../../com/google/common/cache/RemovalNotification.html" title="class in com.google.common.cache">RemovalNotification</a>&lt;<a href="../../../../com/google/common/cache/RemovalListener.html" title="type parameter in RemovalListener">K</a>,<a href="../../../../com/google/common/cache/RemovalListener.html" title="type parameter in RemovalListener">V</a>&gt;&nbsp;notification)</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalListener.html#line.45">onRemoval</a>(<a href="../../../../com/google/common/cache/RemovalNotification.html" title="class in com.google.common.cache">RemovalNotification</a>&lt;<a href="../../../../com/google/common/cache/RemovalListener.html" title="type parameter in RemovalListener">K</a>,<a href="../../../../com/google/common/cache/RemovalListener.html" title="type parameter in RemovalListener">V</a>&gt;&nbsp;notification)</pre>
 <div class="block">Notifies the listener that a removal occurred at some point in the past.
 
- <p>This does not always signify that the key is now absent from the cache,
- as it may have already been re-added.</div>
+ <p>This does not always signify that the key is now absent from the cache, as it may have
+ already been re-added.</div>
 </li>
 </ul>
 </li>

@@ -105,7 +105,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.39">RemovalNotification</a>&lt;K,V&gt;
+public final class <a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.37">RemovalNotification</a>&lt;K,V&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractMap.SimpleImmutableEntry.html?is-external=true" title="class or interface in java.util">AbstractMap.SimpleImmutableEntry</a>&lt;K,V&gt;</pre>
 <div class="block">A notification of the removal of a single entry. The key and/or value may be null if they were
  already garbage collected.
@@ -195,7 +195,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractMap.
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/cache/RemovalNotification.html" title="class in com.google.common.cache">RemovalNotification</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.49">create</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/cache/RemovalNotification.html" title="class in com.google.common.cache">RemovalNotification</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.47">create</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                     K&nbsp;key,
                                     <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                     V&nbsp;value,
@@ -213,7 +213,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractMap.
 <ul class="blockList">
 <li class="blockList">
 <h4>getCause</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/RemovalCause.html" title="enum in com.google.common.cache">RemovalCause</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.62">getCause</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/RemovalCause.html" title="enum in com.google.common.cache">RemovalCause</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.60">getCause</a>()</pre>
 <div class="block">Returns the cause for which the entry was removed.</div>
 </li>
 </ul>
@@ -223,7 +223,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractMap.
 <ul class="blockListLast">
 <li class="blockList">
 <h4>wasEvicted</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.70">wasEvicted</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/cache/RemovalNotification.html#line.68">wasEvicted</a>()</pre>
 <div class="block">Returns <code>true</code> if there was an automatic removal due to eviction (the cause is neither
  <a href="../../../../com/google/common/cache/RemovalCause.html#EXPLICIT"><code>RemovalCause.EXPLICIT</code></a> nor <a href="../../../../com/google/common/cache/RemovalCause.html#REPLACED"><code>RemovalCause.REPLACED</code></a>).</div>
 </li>

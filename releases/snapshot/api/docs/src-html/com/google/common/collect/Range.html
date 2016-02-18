@@ -657,7 +657,7 @@
 <span class="sourceLineNo">649</span>  private static String toString(Cut&lt;?&gt; lowerBound, Cut&lt;?&gt; upperBound) {<a name="line.649"></a>
 <span class="sourceLineNo">650</span>    StringBuilder sb = new StringBuilder(16);<a name="line.650"></a>
 <span class="sourceLineNo">651</span>    lowerBound.describeAsLowerBound(sb);<a name="line.651"></a>
-<span class="sourceLineNo">652</span>    sb.append('\u2025');<a name="line.652"></a>
+<span class="sourceLineNo">652</span>    sb.append("..");<a name="line.652"></a>
 <span class="sourceLineNo">653</span>    upperBound.describeAsUpperBound(sb);<a name="line.653"></a>
 <span class="sourceLineNo">654</span>    return sb.toString();<a name="line.654"></a>
 <span class="sourceLineNo">655</span>  }<a name="line.655"></a>

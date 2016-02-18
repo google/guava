@@ -87,18 +87,16 @@
 <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Target.html?is-external=true" title="class or interface in java.lang.annotation">@Target</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Target.html?is-external=true#value()" title="class or interface in java.lang.annotation">value</a>={<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/ElementType.html?is-external=true#ANNOTATION_TYPE" title="class or interface in java.lang.annotation">ANNOTATION_TYPE</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/ElementType.html?is-external=true#CONSTRUCTOR" title="class or interface in java.lang.annotation">CONSTRUCTOR</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/ElementType.html?is-external=true#FIELD" title="class or interface in java.lang.annotation">FIELD</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/ElementType.html?is-external=true#METHOD" title="class or interface in java.lang.annotation">METHOD</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/ElementType.html?is-external=true#TYPE" title="class or interface in java.lang.annotation">TYPE</a>})
 <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Documented.html?is-external=true" title="class or interface in java.lang.annotation">@Documented</a>
 <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public @interface <a href="../../../../src-html/com/google/common/annotations/Beta.html#line.50">Beta</a></pre>
-<div class="block">Signifies that a public API (public class, method or field) is subject to
- incompatible changes, or even removal, in a future release. An API bearing
- this annotation is exempt from any compatibility guarantees made by its
- containing library. Note that the presence of this annotation implies nothing
- about the quality or performance of the API in question, only the fact that
- it is not "API-frozen."
+public @interface <a href="../../../../src-html/com/google/common/annotations/Beta.html#line.47">Beta</a></pre>
+<div class="block">Signifies that a public API (public class, method or field) is subject to incompatible changes,
+ or even removal, in a future release. An API bearing this annotation is exempt from any
+ compatibility guarantees made by its containing library. Note that the presence of this
+ annotation implies nothing about the quality or performance of the API in question, only the fact
+ that it is not "API-frozen."
 
- <p>It is generally safe for <i>applications</i> to depend on beta APIs, at
- the cost of some extra work during upgrades. However it is generally
- inadvisable for <i>libraries</i> (which get included on users' CLASSPATHs,
- outside the library developers' control) to do so.</div>
+ <p>It is generally safe for <i>applications</i> to depend on beta APIs, at the cost of some extra
+ work during upgrades. However it is generally inadvisable for <i>libraries</i> (which get
+ included on users' CLASSPATHs, outside the library developers' control) to do so.</div>
 <dl><dt><span class="strong">Author:</span></dt>
   <dd>Kevin Bourrillion</dd></dl>
 </li>

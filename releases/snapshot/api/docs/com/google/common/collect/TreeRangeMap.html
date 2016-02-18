@@ -432,7 +432,7 @@ public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entr
 <div class="block">Returns a view of the part of this range map that intersects with <code>range</code>.
 
  <p>For example, if <code>rangeMap</code> had the entries
- <code>[1, 5] =&gt; "foo", (6, 8) =&gt; "bar", (10, ‥) =&gt; "baz"</code>
+ <code>[1, 5] =&gt; "foo", (6, 8) =&gt; "bar", (10, ∞) =&gt; "baz"</code>
  then <code>rangeMap.subRangeMap(Range.open(3, 12))</code> would return a range map
  with the entries <code>(3, 5) =&gt; "foo", (6, 8) =&gt; "bar", (10, 12) =&gt; "baz"</code>.
 
