@@ -75,13 +75,13 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     state = State.PENDING;
     listeners = new ArrayList<Listener>();
   }
-  
+
   @Override
   public boolean cancel(boolean mayInterruptIfRunning) {
     if (!state.permitsPublicUserToTransitionTo(State.CANCELLED)) {
       return false;
     }
-    
+
     this.mayInterruptIfRunning = mayInterruptIfRunning;
     state = State.CANCELLED;
     notifyAndClearListeners();
@@ -92,6 +92,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
     return true;
   }
+
+  protected void interruptTask() {}
 
   @Override
   public boolean isCancelled() {
@@ -131,7 +133,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     if (!state.permitsPublicUserToTransitionTo(State.FAILURE)) {
       return false;
     }
-    
+
     forceSetException(throwable);
     return true;
   }
@@ -208,12 +210,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       boolean isDone() {
         return false;
       }
-      
+
       @Override
       void maybeThrowOnGet(Throwable cause) throws ExecutionException {
         throw new IllegalStateException("Cannot get() on a pending future.");
       }
-      
+
       @Override
       boolean permitsPublicUserToTransitionTo(State state) {
         return !state.equals(PENDING);
@@ -253,17 +255,17 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
         throw new CancellationException();
       }
     };
-    
+
     boolean isDone() {
       return true;
     }
-    
+
     boolean isCancelled() {
       return false;
     }
 
     void maybeThrowOnGet(Throwable cause) throws ExecutionException {}
-    
+
     boolean permitsPublicUserToTransitionTo(State state) {
       return false;
     }
@@ -272,12 +274,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   private static final class Listener {
     final Runnable command;
     final Executor executor;
-    
+
     Listener(Runnable command, Executor executor) {
       this.command = checkNotNull(command);
       this.executor = checkNotNull(executor);
     }
-    
+
     void execute() {
       try {
         executor.execute(command);
