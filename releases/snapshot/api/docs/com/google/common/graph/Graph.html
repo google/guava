@@ -329,7 +329,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>long</code></td>
+<td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/Graph.html#degree(java.lang.Object)">degree</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
 <div class="block">Returns the number of edges <a href="../../../../com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incident</a> in this graph
  to <code>node</code>.</div>
@@ -375,7 +375,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>long</code></td>
+<td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/Graph.html#inDegree(java.lang.Object)">inDegree</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
 <div class="block">Returns the number of <a href="../../../../com/google/common/graph/Graph.html#inEdges(java.lang.Object)">incoming edges</a> in this graph
  of <code>node</code>.</div>
@@ -395,7 +395,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>long</code></td>
+<td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/Graph.html#outDegree(java.lang.Object)">outDegree</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
 <div class="block">Returns the number of <a href="../../../../com/google/common/graph/Graph.html#outEdges(java.lang.Object)">outgoing edges</a> in this graph
  of <code>node</code>.</div>
@@ -615,9 +615,10 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>degree</h4>
-<pre>long&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.315">degree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.316">degree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block">Returns the number of edges <a href="../../../../com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incident</a> in this graph
- to <code>node</code>.
+ to <code>node</code>.  If this node has more than <code>Integer.MAX_VALUE</code> incident edges
+ in this graph, returns <code>Integer.MAX_VALUE</code>.
 
  <p>Equivalent to <code>incidentEdges(node).size()</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -630,9 +631,10 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>inDegree</h4>
-<pre>long&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.325">inDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.327">inDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block">Returns the number of <a href="../../../../com/google/common/graph/Graph.html#inEdges(java.lang.Object)">incoming edges</a> in this graph
- of <code>node</code>.
+ of <code>node</code>.  If this node has more than <code>Integer.MAX_VALUE</code> incoming edges
+ in this graph, returns <code>Integer.MAX_VALUE</code>.
 
  <p>Equivalent to <code>inEdges(node).size()</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -645,9 +647,10 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>outDegree</h4>
-<pre>long&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.335">outDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.338">outDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block">Returns the number of <a href="../../../../com/google/common/graph/Graph.html#outEdges(java.lang.Object)">outgoing edges</a> in this graph
- of <code>node</code>.
+ of <code>node</code>.  If this node has more than <code>Integer.MAX_VALUE</code> outgoing edges
+ in this graph, returns <code>Integer.MAX_VALUE</code>.
 
  <p>Equivalent to <code>outEdges(node).size()</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -662,7 +665,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>addNode</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.350">addNode</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.353">addNode</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Adds <code>node</code> to this graph (optional operation).
 
  <p><b>Nodes must be unique</b>, just as <code>Map</code> keys must be; they must also be non-null.</div>
@@ -679,7 +682,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>addEdge</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.373">addEdge</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">E</a>&nbsp;edge,
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.376">addEdge</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">E</a>&nbsp;edge,
               <a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node1,
               <a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node2)</pre>
 <div class="block">Adds <code>edge</code> to this graph, connecting <code>node1</code> and <code>node2</code>
@@ -708,7 +711,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>removeNode</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.384">removeNode</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.387">removeNode</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block">Removes <code>node</code> from this graph, if it is present (optional operation).
  In general, all edges incident to <code>node</code> in this graph will also be removed.
  (This is not true for hyperedges.)</div>
@@ -723,7 +726,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>removeEdge</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.395">removeEdge</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.398">removeEdge</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 <div class="block">Removes <code>edge</code> from this graph, if it is present (optional operation).
  In general, nodes incident to <code>edge</code> are unaffected (although implementations may choose
  to disallow certain configurations, e.g., isolated nodes).</div>
@@ -738,7 +741,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.422">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.425">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same node/edge relationships
  as those in this graph.
@@ -774,7 +777,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.434">hashCode</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.437">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this graph. The hash code of a graph is defined as the hash code
  of a map from each of the graph's nodes to their incident edges.
 
