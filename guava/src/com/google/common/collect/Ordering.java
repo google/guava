@@ -309,7 +309,7 @@ public abstract class Ordering<T> implements Comparator<T> {
   static class ArbitraryOrdering extends Ordering<Object> {
 
     @SuppressWarnings("deprecation") // TODO(kevinb): ?
-    private Map<Object, Integer> uids =
+    private final Map<Object, Integer> uids =
         Platform.tryWeakKeys(new MapMaker())
             .makeComputingMap(
                 new Function<Object, Integer>() {

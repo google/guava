@@ -2741,8 +2741,8 @@ public final class Maps {
   }
 
   private static final class FilteredMapValues<K, V> extends Maps.Values<K, V> {
-    Map<K, V> unfiltered;
-    Predicate<? super Entry<K, V>> predicate;
+    final Map<K, V> unfiltered;
+    final Predicate<? super Entry<K, V>> predicate;
 
     FilteredMapValues(
         Map<K, V> filteredMap, Map<K, V> unfiltered, Predicate<? super Entry<K, V>> predicate) {
@@ -2788,7 +2788,7 @@ public final class Maps {
   }
 
   private static class FilteredKeyMap<K, V> extends AbstractFilteredMap<K, V> {
-    Predicate<? super K> keyPredicate;
+    final Predicate<? super K> keyPredicate;
 
     FilteredKeyMap(
         Map<K, V> unfiltered,

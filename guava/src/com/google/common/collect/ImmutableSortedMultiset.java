@@ -509,9 +509,9 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   private static final class SerializedForm<E> implements Serializable {
-    Comparator<? super E> comparator;
-    E[] elements;
-    int[] counts;
+    final Comparator<? super E> comparator;
+    final E[] elements;
+    final int[] counts;
 
     @SuppressWarnings("unchecked")
     SerializedForm(SortedMultiset<E> multiset) {

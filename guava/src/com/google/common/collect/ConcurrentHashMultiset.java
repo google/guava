@@ -510,7 +510,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     // remove(), we create an AbstractIterator, and then use ForwardingIterator to delegate to it.
     final Iterator<Entry<E>> readOnlyIterator =
         new AbstractIterator<Entry<E>>() {
-          private Iterator<Map.Entry<E, AtomicInteger>> mapEntries = countMap.entrySet().iterator();
+          private final Iterator<Map.Entry<E, AtomicInteger>> mapEntries =
+              countMap.entrySet().iterator();
 
           @Override
           protected Entry<E> computeNext() {
