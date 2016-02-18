@@ -136,7 +136,7 @@ public final class MoreObjects {
    */
   public static final class ToStringHelper {
     private final String className;
-    private ValueHolder holderHead = new ValueHolder();
+    private final ValueHolder holderHead = new ValueHolder();
     private ValueHolder holderTail = holderHead;
     private boolean omitNullValues = false;
 
