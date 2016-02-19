@@ -11,18 +11,16 @@ exclude:
 - "README.md"
 - "*.sh"
 
-# GitHub-flavored Markdown support
-markdown: kramdown
-kramdown:
-  input: GFM
-
 # Set by default by GitHub pages (can't be changed)
 safe: true
 lsi: false
+markdown: kramdown
+kramdown:
+  input: GFM
+highlighter: rouge
 # source: <top level directory>
 
 # Set by default by GitHub pages (can be changed)
-# highlighter: pygments
 # github: <repository metadata> (https://help.github.com/articles/repository-metadata-on-github-pages/)
 
 # Collections
