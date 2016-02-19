@@ -100,6 +100,7 @@ import java.util.logging.Logger;
  */
 @Beta
 // TODO: Switch to JUnit 4 and use @Parameterized and @BeforeClass
+// Note: @Test annotations are deliberate, as some subclasses specify @RunWith(JUnit4).
 @GwtIncompatible
 @J2ObjCIncompatible // com.google.common.reflect.ClassPath
 public abstract class AbstractPackageSanityTests extends TestCase {
