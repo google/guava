@@ -104,28 +104,6 @@ public class ImmutableSimpleUndirectedGraphTest extends AbstractImmutableUndirec
   }
 
   @Test
-  public void addGraph_incompatibleMultigraphConfig() {
-    try {
-      UndirectedGraph multigraph = Graphs.createUndirected(Graphs.MULTIGRAPH);
-      ImmutableUndirectedGraph.Builder immutableGraphBuilder = ImmutableUndirectedGraph.builder();
-      immutableGraphBuilder.addGraph(multigraph);
-      fail("Should have rejected a graph with an incompatible multigraph configuration");
-    } catch (IllegalArgumentException expected) {
-    }
-  }
-
-  @Test
-  public void addGraph_incompatibleSelfLoopConfig() {
-    try {
-      UndirectedGraph graph = Graphs.createUndirected(Graphs.config().noSelfLoops());
-      ImmutableUndirectedGraph.Builder immutableGraphBuilder = ImmutableUndirectedGraph.builder();
-      immutableGraphBuilder.addGraph(graph);
-      fail("Should have rejected a graph with an incompatible self-loop configuration");
-    } catch (IllegalArgumentException expected) {
-    }
-  }
-
-  @Test
   public void addGraph() {
     UndirectedGraph<Integer, String> graph = Graphs.createUndirected(undirectedGraph.config());
     populateInputGraph(graph);

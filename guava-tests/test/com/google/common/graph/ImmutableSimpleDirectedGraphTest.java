@@ -94,28 +94,6 @@ public class ImmutableSimpleDirectedGraphTest extends AbstractImmutableDirectedG
   }
 
   @Test
-  public void addGraph_incompatibleMultigraphConfig() {
-    try {
-      DirectedGraph multigraph = Graphs.createDirected(Graphs.MULTIGRAPH);
-      ImmutableDirectedGraph.Builder immutableGraphBuilder = ImmutableDirectedGraph.builder();
-      immutableGraphBuilder.addGraph(multigraph);
-      fail("Should have rejected a graph with an incompatible multigraph configuration");
-    } catch (IllegalArgumentException expected) {
-    }
-  }
-
-  @Test
-  public void addGraph_incompatibleSelfLoopConfig() {
-    try {
-      DirectedGraph graph = Graphs.createDirected(Graphs.config().noSelfLoops());
-      ImmutableDirectedGraph.Builder immutableGraphBuilder = ImmutableDirectedGraph.builder();
-      immutableGraphBuilder.addGraph(graph);
-      fail("Should have rejected a graph with an incompatible self-loop configuration");
-    } catch (IllegalArgumentException expected) {
-    }
-  }
-
-  @Test
   public void addGraph() {
     DirectedGraph<Integer, String> graph = Graphs.createDirected(directedGraph.config());
     populateInputGraph(graph);

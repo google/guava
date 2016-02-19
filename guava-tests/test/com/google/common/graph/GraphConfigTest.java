@@ -63,4 +63,39 @@ public final class GraphConfigTest {
     assertThat(Graphs.config().noSelfLoops().multigraph().toString())
         .isEqualTo("multigraph,self-loops disallowed");
   }
+
+  @Test
+  public void compatibleWith_default() {
+    assertThat(Graphs.config().compatibleWith(Graphs.config())).isTrue();
+  }
+
+  @Test
+  public void compatibleWith_multigraph_compatible() {
+    assertThat(Graphs.config().multigraph().compatibleWith(
+        Graphs.config().multigraph())).isTrue();
+
+    assertThat(Graphs.config().multigraph().compatibleWith(
+      Graphs.config())).isTrue();
+  }
+
+  @Test
+  public void compatibleWith_multigraph_incompatible() {
+    assertThat(Graphs.config().compatibleWith(
+        Graphs.config().multigraph())).isFalse();
+  }
+
+  @Test
+  public void compatibleWith_selfLoops_compatible() {
+    assertThat(Graphs.config().noSelfLoops().compatibleWith(
+        Graphs.config().noSelfLoops())).isTrue();
+
+    assertThat(Graphs.config().compatibleWith(
+        Graphs.config().noSelfLoops())).isTrue();
+  }
+
+  @Test
+  public void compatibleWith_selfLoops_incompatible() {
+    assertThat(Graphs.config().noSelfLoops().compatibleWith(
+        Graphs.config())).isFalse();
+  }
 }

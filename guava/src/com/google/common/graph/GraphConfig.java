@@ -162,13 +162,22 @@ public final class GraphConfig {
    * <li>self-loops
    * </ul>
    *
+   * By "compatible with", we mean that this instance must be at least as permissive as the input
+   * config ({@code that}).  Thus, for example, if the input permits parallel edges, this instance
+   * must also permit parallel edges in order for the configurations to be compatible.
+   *
    * <p>It does not compare expected values for numbers of edges or nodes,
    * and it is not equivalent to {@code Object.equals}.
    */
   public boolean compatibleWith(GraphConfig that) {
     checkNotNull(that, "that");
-    return this.multigraph == that.multigraph
-        && this.selfLoopsAllowed == that.selfLoopsAllowed;
+    if (that.multigraph && !this.multigraph) {
+      return false;
+    }
+    if (that.selfLoopsAllowed && !this.selfLoopsAllowed) {
+      return false;
+    }
+    return true;
   }
 
   @Override
