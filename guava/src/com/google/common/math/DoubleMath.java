@@ -339,7 +339,7 @@ public final class DoubleMath {
    *     and {@code b} are fuzzily equal if and only if {@code a == b}.
    * <li>With {@link Double#POSITIVE_INFINITY} tolerance, all non-NaN values are fuzzily equal.
    * <li>With finite tolerance, {@code Double.POSITIVE_INFINITY} and {@code
-   *     Double.NEGATIVE_INFINITY} are fuzzily equal only to themselves.</li>
+   *     Double.NEGATIVE_INFINITY} are fuzzily equal only to themselves.
    *
    * <p>This is reflexive and symmetric, but <em>not</em> transitive, so it is <em>not</em> an
    * equivalence relation and <em>not</em> suitable for use in {@link Object#equals}

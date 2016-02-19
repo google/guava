@@ -531,13 +531,13 @@ public final class Ascii {
    * consider the following:
    *
    * <ul>
-   * <li>it may split surrogate pairs</li>
-   * <li>it may split characters and combining characters</li>
-   * <li>it does not consider word boundaries</li>
+   * <li>it may split surrogate pairs
+   * <li>it may split characters and combining characters
+   * <li>it does not consider word boundaries
    * <li>if truncating for display to users, there are other considerations that must be taken into
-   * account</li>
-   * <li>the appropriate truncation indicator may be locale-dependent</li>
-   * <li>it is safe to use non-ASCII characters in the truncation indicator</li>
+   *     account
+   * <li>the appropriate truncation indicator may be locale-dependent
+   * <li>it is safe to use non-ASCII characters in the truncation indicator
    * </ul>
    *
    *
