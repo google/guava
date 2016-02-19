@@ -33,14 +33,15 @@ import javax.annotation.Nullable;
  *
  * <p>This interface is now a legacy type. Use {@code java.util.function.Predicate} (or the
  * appropriate primitive specialization such as {@code IntPredicate}) instead whenever possible.
- * Otherwise, reducing <i>explicit</i> dependencies on this type by using lambda expressions or
- * method references instead of classes will leave your code easier to migrate in the future.
+ * Otherwise, at least reduce <i>explicit</i> dependencies on this type by using lambda expressions
+ * or method references instead of classes, leaving your code easier to migrate in the future.
  *
- * <p>If you need to use a reference of this type (say, named {@code guavaPredicate}) in a context
- * where {@code java.util.function.Predicate} is expected, use {@code guavaPredicate::apply}. For
- * the other direction, use {@code javaUtilPredicate::test}. A future version of this interface will
- * be made to <i>extend</i> {@code java.util.function.Predicate}, so that conversion will be
- * necessary in only one direction. At that time, this interface will be officially discouraged.
+ * <p>To use a reference of this type (say, named {@code guavaPredicate}) in a context where {@code
+ * java.util.function.Predicate} is expected, use the method reference {@code
+ * guavaPredicate::apply}. For the other direction, use {@code javaUtilPredicate::test}. A future
+ * version of this interface will be made to <i>extend</i> {@code java.util.function.Predicate}, so
+ * that conversion will be necessary in only one direction. At that time, this interface will be
+ * officially discouraged.
  *
  * @author Kevin Bourrillion
  * @since 2.0

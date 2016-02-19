@@ -33,14 +33,14 @@ import javax.annotation.Nullable;
  *
  * <p>This interface is now a legacy type. Use {@code java.util.function.Function} (or the
  * appropriate primitive specialization such as {@code ToIntFunction}) instead whenever possible.
- * Otherwise, reducing <i>explicit</i> dependencies on this type by using lambda expressions or
- * method references instead of classes will leave your code easier to migrate in the future.
+ * Otherwise, at least reduce <i>explicit</i> dependencies on this type by using lambda expressions
+ * or method references instead of classes, leaving your code easier to migrate in the future.
  *
  * <p>To use an existing function (say, named {@code function}) in a context where the <i>other
- * type</i> of function is expected, use {@code function::apply}. A future version of
- * {@code com.google.common.base.Function} will be made to <i>extend</i>
- * {@code java.util.function.Function}, making conversion code necessary only in one direction. At
- * that time, we plan to also deprecate this interface.
+ * type</i> of function is expected, use the method reference {@code function::apply}. A future
+ * version of {@code com.google.common.base.Function} will be made to <i>extend</i> {@code
+ * java.util.function.Function}, making conversion code necessary only in one direction. At that
+ * time, this interface will be officially discouraged.
  *
  * @author Kevin Bourrillion
  * @since 2.0
