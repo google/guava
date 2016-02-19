@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2015 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.hash;
@@ -34,8 +32,8 @@ final class LittleEndianByteArray {
   private static final LittleEndianBytes byteArray;
 
   /**
-   * Load 8 bytes into long in a little endian manner, from the substring between position
-   * and position + 8.  The array must have at least 8 bytes from offset (inclusive).
+   * Load 8 bytes into long in a little endian manner, from the substring between position and
+   * position + 8. The array must have at least 8 bytes from offset (inclusive).
    *
    * @param input the input bytes
    * @param offset the offset into the array at which to start
@@ -49,7 +47,7 @@ final class LittleEndianByteArray {
   }
 
   /**
-   * Similar to load64, but allows offset + 8 > input.length, padding the result with zeroes.  This
+   * Similar to load64, but allows offset + 8 > input.length, padding the result with zeroes. This
    * has to explicitly reverse the order of the bytes as it packs them into the result which makes
    * it slower than the native version.
    *
@@ -103,7 +101,7 @@ final class LittleEndianByteArray {
 
   /**
    * Indicates that the loading of Unsafe was successful and the load and store operations will be
-   * very efficient.  May be useful for calling code to fall back on an alternative implementation
+   * very efficient. May be useful for calling code to fall back on an alternative implementation
    * that is slower than Unsafe.get/store but faster than the pure-Java mask-and-shift.
    */
   static boolean usingUnsafe() {
@@ -123,9 +121,9 @@ final class LittleEndianByteArray {
   }
 
   /**
-   * The only reference to Unsafe is in this nested class. We set things up so that
-   * if Unsafe.theUnsafe is inaccessible, the attempt to load the nested class fails,
-   * and the outer class's static initializer can fall back on a non-Unsafe version.
+   * The only reference to Unsafe is in this nested class. We set things up so that if
+   * Unsafe.theUnsafe is inaccessible, the attempt to load the nested class fails, and the outer
+   * class's static initializer can fall back on a non-Unsafe version.
    */
   private enum UnsafeByteArray implements LittleEndianBytes {
     // Do *not* change the order of these constants!
@@ -163,9 +161,8 @@ final class LittleEndianByteArray {
     private static final int BYTE_ARRAY_BASE_OFFSET;
 
     /**
-     * Returns a sun.misc.Unsafe.  Suitable for use in a 3rd party package.
-     * Replace with a simple call to Unsafe.getUnsafe when integrating
-     * into a jdk.
+     * Returns a sun.misc.Unsafe. Suitable for use in a 3rd party package. Replace with a simple
+     * call to Unsafe.getUnsafe when integrating into a jdk.
      *
      * @return a sun.misc.Unsafe instance if successful
      */
@@ -238,9 +235,10 @@ final class LittleEndianByteArray {
   static {
     LittleEndianBytes theGetter;
     try {
-      theGetter = ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)
-          ? UnsafeByteArray.UNSAFE_LITTLE_ENDIAN
-          : UnsafeByteArray.UNSAFE_BIG_ENDIAN;
+      theGetter =
+          ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)
+              ? UnsafeByteArray.UNSAFE_LITTLE_ENDIAN
+              : UnsafeByteArray.UNSAFE_BIG_ENDIAN;
     } catch (Throwable t) { // ensure we really catch *everything*
       theGetter = JavaLittleEndianBytes.INSTANCE;
     }

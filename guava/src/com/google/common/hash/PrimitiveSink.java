@@ -53,7 +53,7 @@ public interface PrimitiveSink {
    * @param len the number of bytes to write
    * @return this instance
    * @throws IndexOutOfBoundsException if {@code off < 0} or {@code off + len > bytes.length} or
-   *   {@code len < 0}
+   *     {@code len < 0}
    */
   PrimitiveSink putBytes(byte[] bytes, int off, int len);
 

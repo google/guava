@@ -34,8 +34,8 @@ import java.nio.ByteOrder;
 import javax.annotation.Nullable;
 
 /**
- * See http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp
- * MurmurHash3_x64_128
+ * See MurmurHash3_x64_128 in <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">the
+ * C++ implementation</a>.
  *
  * @author Austin Appleby
  * @author Dimitris Andreou

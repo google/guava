@@ -15,8 +15,8 @@
 package com.google.common.hash;
 
 /**
- * This class generates a CRC32C checksum, defined by RFC 3720, Section 12.1.
- * The generator polynomial for this checksum is {@code 0x11EDC6F41}.
+ * This class generates a CRC32C checksum, defined by RFC 3720, Section 12.1. The generator
+ * polynomial for this checksum is {@code 0x11EDC6F41}.
  *
  * @author Kurt Alfred Kluever
  */

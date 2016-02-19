@@ -92,9 +92,8 @@ public final class Hashing {
 
   /**
    * Returns a hash function implementing the
-   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
-   * 32-bit murmur3 algorithm, x86 variant</a> (little-endian variant),
-   * using the given seed value.
+   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">32-bit murmur3 algorithm,
+   * x86 variant</a> (little-endian variant), using the given seed value.
    *
    * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
    */
@@ -104,9 +103,8 @@ public final class Hashing {
 
   /**
    * Returns a hash function implementing the
-   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
-   * 32-bit murmur3 algorithm, x86 variant</a> (little-endian variant),
-   * using a seed value of zero.
+   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">32-bit murmur3 algorithm,
+   * x86 variant</a> (little-endian variant), using a seed value of zero.
    *
    * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
    */
@@ -123,9 +121,8 @@ public final class Hashing {
 
   /**
    * Returns a hash function implementing the
-   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
-   * 128-bit murmur3 algorithm, x64 variant</a> (little-endian variant),
-   * using the given seed value.
+   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">128-bit murmur3 algorithm,
+   * x64 variant</a> (little-endian variant), using the given seed value.
    *
    * <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
    */
@@ -135,9 +132,8 @@ public final class Hashing {
 
   /**
    * Returns a hash function implementing the
-   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
-   * 128-bit murmur3 algorithm, x64 variant</a> (little-endian variant),
-   * using a seed value of zero.
+   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">128-bit murmur3 algorithm,
+   * x64 variant</a> (little-endian variant), using a seed value of zero.
    *
    * <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
    */
@@ -153,9 +149,8 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the
-   * <a href="https://131002.net/siphash/">64-bit SipHash-2-4 algorithm</a>
-   * using a seed value of {@code k = 00 01 02 ...}.
+   * Returns a hash function implementing the <a href="https://131002.net/siphash/">64-bit
+   * SipHash-2-4 algorithm</a> using a seed value of {@code k = 00 01 02 ...}.
    *
    * @since 15.0
    */
@@ -169,9 +164,8 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the
-   * <a href="https://131002.net/siphash/">64-bit SipHash-2-4 algorithm</a>
-   * using the given seed.
+   * Returns a hash function implementing the <a href="https://131002.net/siphash/">64-bit
+   * SipHash-2-4 algorithm</a> using the given seed.
    *
    * @since 15.0
    */
@@ -184,7 +178,7 @@ public final class Hashing {
    * the MD5 {@link MessageDigest}.
    *
    * <p><b>Warning:</b> MD5 is not cryptographically secure or collision-resistant and is not
-   * recommended for use in new code.  It should be used for legacy compatibility reasons only.
+   * recommended for use in new code. It should be used for legacy compatibility reasons only.
    * Please consider using a hash function in the SHA-2 family of functions (e.g., SHA-256).
    */
   public static HashFunction md5() {
@@ -212,8 +206,8 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the SHA-256 algorithm (256 hash bits) by delegating to
-   * the SHA-256 {@link MessageDigest}.
+   * Returns a hash function implementing the SHA-256 algorithm (256 hash bits) by delegating to the
+   * SHA-256 {@link MessageDigest}.
    */
   public static HashFunction sha256() {
     return Sha256Holder.SHA_256;
@@ -225,8 +219,8 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the SHA-384 algorithm (384 hash bits) by delegating to
-   * the SHA-384 {@link MessageDigest}.
+   * Returns a hash function implementing the SHA-384 algorithm (384 hash bits) by delegating to the
+   * SHA-384 {@link MessageDigest}.
    *
    * @since 19.0
    */
@@ -253,8 +247,8 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
-   * the MD5 (128 hash bits) hash function and the given secret key.
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+   * MD5 (128 hash bits) hash function and the given secret key.
    *
    *
    * @param key the secret key
@@ -266,9 +260,9 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
-   * the MD5 (128 hash bits) hash function and a {@link SecretSpecKey} created from the given
-   * byte array and the MD5 algorithm.
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+   * MD5 (128 hash bits) hash function and a {@link SecretSpecKey} created from the given byte array
+   * and the MD5 algorithm.
    *
    *
    * @param key the key material of the secret key
@@ -279,8 +273,8 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
-   * the SHA-1 (160 hash bits) hash function and the given secret key.
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+   * SHA-1 (160 hash bits) hash function and the given secret key.
    *
    *
    * @param key the secret key
@@ -292,9 +286,9 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
-   * the SHA-1 (160 hash bits) hash function and a {@link SecretSpecKey} created from the given
-   * byte array and the SHA-1 algorithm.
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+   * SHA-1 (160 hash bits) hash function and a {@link SecretSpecKey} created from the given byte
+   * array and the SHA-1 algorithm.
    *
    *
    * @param key the key material of the secret key
@@ -305,8 +299,8 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
-   * the SHA-256 (256 hash bits) hash function and the given secret key.
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+   * SHA-256 (256 hash bits) hash function and the given secret key.
    *
    *
    * @param key the secret key
@@ -318,9 +312,9 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
-   * the SHA-256 (256 hash bits) hash function and a {@link SecretSpecKey} created from the given
-   * byte array and the SHA-256 algorithm.
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+   * SHA-256 (256 hash bits) hash function and a {@link SecretSpecKey} created from the given byte
+   * array and the SHA-256 algorithm.
    *
    *
    * @param key the key material of the secret key
@@ -331,8 +325,8 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
-   * the SHA-512 (512 hash bits) hash function and the given secret key.
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+   * SHA-512 (512 hash bits) hash function and the given secret key.
    *
    *
    * @param key the secret key
@@ -344,9 +338,9 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
-   * the SHA-512 (512 hash bits) hash function and a {@link SecretSpecKey} created from the given
-   * byte array and the SHA-512 algorithm.
+   * Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+   * SHA-512 (512 hash bits) hash function and a {@link SecretSpecKey} created from the given byte
+   * array and the SHA-512 algorithm.
    *
    *
    * @param key the key material of the secret key
@@ -443,13 +437,13 @@ public final class Hashing {
 
   /**
    * Returns a hash function implementing FarmHash's Fingerprint64, an open-source algorithm.
-   * <p>
-   * This is designed for generating persistent fingerprints of strings.  It isn't cryptographically
-   * secure, but it produces a high-quality hash with fewer collisions than some alternatives we've
-   * used in the past.  FarmHashFingerprints generated using this are byte-wise identical to those
-   * created using the C++ version, but note that this uses unsigned integers (see
-   * {@link com.google.common.primitives.UnsignedInts}).  Comparisons between the two should take
-   * this into account.
+   *
+   * <p>This is designed for generating persistent fingerprints of strings. It isn't
+   * cryptographically secure, but it produces a high-quality hash with fewer collisions than some
+   * alternatives we've used in the past. FarmHashFingerprints generated using this are byte-wise
+   * identical to those created using the C++ version, but note that this uses unsigned integers
+   * (see {@link com.google.common.primitives.UnsignedInts}). Comparisons between the two should
+   * take this into account.
    *
    * @since 20.0
    */
@@ -545,14 +539,13 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash code, having the same bit length as each of the input hash codes,
-   * that combines the information of these hash codes in an ordered fashion. That
-   * is, whenever two equal hash codes are produced by two calls to this method, it
-   * is <i>as likely as possible</i> that each was computed from the <i>same</i>
-   * input hash codes in the <i>same</i> order.
+   * Returns a hash code, having the same bit length as each of the input hash codes, that combines
+   * the information of these hash codes in an ordered fashion. That is, whenever two equal hash
+   * codes are produced by two calls to this method, it is <i>as likely as possible</i> that each
+   * was computed from the <i>same</i> input hash codes in the <i>same</i> order.
    *
-   * @throws IllegalArgumentException if {@code hashCodes} is empty, or the hash codes
-   *     do not all have the same bit length
+   * @throws IllegalArgumentException if {@code hashCodes} is empty, or the hash codes do not all
+   *     have the same bit length
    */
   public static HashCode combineOrdered(Iterable<HashCode> hashCodes) {
     Iterator<HashCode> iterator = hashCodes.iterator();
@@ -571,14 +564,13 @@ public final class Hashing {
   }
 
   /**
-   * Returns a hash code, having the same bit length as each of the input hash codes,
-   * that combines the information of these hash codes in an unordered fashion. That
-   * is, whenever two equal hash codes are produced by two calls to this method, it
-   * is <i>as likely as possible</i> that each was computed from the <i>same</i>
-   * input hash codes in <i>some</i> order.
+   * Returns a hash code, having the same bit length as each of the input hash codes, that combines
+   * the information of these hash codes in an unordered fashion. That is, whenever two equal hash
+   * codes are produced by two calls to this method, it is <i>as likely as possible</i> that each
+   * was computed from the <i>same</i> input hash codes in <i>some</i> order.
    *
-   * @throws IllegalArgumentException if {@code hashCodes} is empty, or the hash codes
-   *     do not all have the same bit length
+   * @throws IllegalArgumentException if {@code hashCodes} is empty, or the hash codes do not all
+   *     have the same bit length
    */
   public static HashCode combineUnordered(Iterable<HashCode> hashCodes) {
     Iterator<HashCode> iterator = hashCodes.iterator();
@@ -605,11 +597,11 @@ public final class Hashing {
 
   /**
    * Returns a hash function which computes its hash code by concatenating the hash codes of the
-   * underlying hash functions together. This can be useful if you need to generate hash codes
-   * of a specific length.
+   * underlying hash functions together. This can be useful if you need to generate hash codes of a
+   * specific length.
    *
-   * <p>For example, if you need 1024-bit hash codes, you could join two {@link Hashing#sha512}
-   * hash functions together: {@code Hashing.concatenating(Hashing.sha512(), Hashing.sha512())}.
+   * <p>For example, if you need 1024-bit hash codes, you could join two {@link Hashing#sha512} hash
+   * functions together: {@code Hashing.concatenating(Hashing.sha512(), Hashing.sha512())}.
    *
    * @since 19.0
    */
@@ -627,11 +619,11 @@ public final class Hashing {
 
   /**
    * Returns a hash function which computes its hash code by concatenating the hash codes of the
-   * underlying hash functions together. This can be useful if you need to generate hash codes
-   * of a specific length.
+   * underlying hash functions together. This can be useful if you need to generate hash codes of a
+   * specific length.
    *
-   * <p>For example, if you need 1024-bit hash codes, you could join two {@link Hashing#sha512}
-   * hash functions together: {@code Hashing.concatenating(Hashing.sha512(), Hashing.sha512())}.
+   * <p>For example, if you need 1024-bit hash codes, you could join two {@link Hashing#sha512} hash
+   * functions together: {@code Hashing.concatenating(Hashing.sha512(), Hashing.sha512())}.
    *
    * @since 19.0
    */
@@ -695,8 +687,8 @@ public final class Hashing {
   }
 
   /**
-   * Linear CongruentialGenerator to use for consistent hashing.
-   * See http://en.wikipedia.org/wiki/Linear_congruential_generator
+   * Linear CongruentialGenerator to use for consistent hashing. See
+   * http://en.wikipedia.org/wiki/Linear_congruential_generator
    */
   private static final class LinearCongruentialGenerator {
     private long state;
