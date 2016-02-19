@@ -17,7 +17,10 @@ lsi: false
 markdown: kramdown
 kramdown:
   input: GFM
+  hard_wrap: false
 highlighter: rouge
+gist:
+  noscript: false
 # source: <top level directory>
 
 # Set by default by GitHub pages (can be changed)
