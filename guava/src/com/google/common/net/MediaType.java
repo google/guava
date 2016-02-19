@@ -193,8 +193,9 @@ public final class MediaType {
    * Adobe Photoshop Document Format</a> and
    * <a href="http://en.wikipedia.org/wiki/Adobe_Photoshop#File_format">Wikipedia</a>; this is the
    * regular output/input of Photoshop (which can also export to various image formats; note that
-   * files with extension "PSB" are in a distinct but related format). <p>This is a more recent
-   * replacement for the older, experimental type {@code x-photoshop}:
+   * files with extension "PSB" are in a distinct but related format).
+   *
+   * <p>This is a more recent replacement for the older, experimental type {@code x-photoshop}:
    * <a href="http://tools.ietf.org/html/rfc2046#section-6">RFC-2046.6</a>.
    *
    * @since 15.0

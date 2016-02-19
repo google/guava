@@ -44,8 +44,10 @@ public final class Ascii {
   /* The ASCII control characters, per RFC 20. */
   /**
    * Null ('\0'): The all-zeros character which may serve to accomplish time fill and media fill.
-   * Normally used as a C string terminator. <p>Although RFC 20 names this as "Null", note that it
-   * is distinct from the C/C++ "NULL" pointer.
+   * Normally used as a C string terminator.
+   *
+   * <p>Although RFC 20 names this as "Null", note that it is distinct from the C/C++ "NULL"
+   * pointer.
    *
    * @since 8.0
    */
