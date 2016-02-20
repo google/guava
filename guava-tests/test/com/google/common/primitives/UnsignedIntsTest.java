@@ -169,6 +169,16 @@ public class UnsignedIntsTest extends TestCase {
     } catch (NumberFormatException expected) {}
   }
 
+  public void testTryParseInt() {
+    for (long a : UNSIGNED_INTS) {
+      assertTrue(UnsignedInts.tryParseUnsignedInt(Long.toString(a)));
+    }
+  }
+
+  public void testParseIntFalse() {
+    assertFalse(UnsignedInts.tryParseUnsignedInt(Long.toString(1L << 32)));
+  }
+
   public void testParseIntWithRadix() {
     for (long a : UNSIGNED_INTS) {
       for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
@@ -212,6 +222,38 @@ public class UnsignedIntsTest extends TestCase {
       UnsignedInts.parseUnsignedInt("0", -1);
       fail();
     } catch (NumberFormatException expected) {}
+  }
+
+  public void testTryParseIntWithRadix() {
+    for (long a : UNSIGNED_INTS) {
+      for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
+        assertTrue(UnsignedInts.tryParseUnsignedInt(Long.toString(a, radix), radix));
+      }
+    }
+  }
+
+  public void testTryParseIntWithRadixLimits() {
+    // loops through all legal radix values.
+    for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
+      // tests can successfully parse a number string with this radix.
+      String maxAsString = Long.toString((1L << 32) - 1, radix);
+      assertTrue(UnsignedInts.tryParseUnsignedInt(maxAsString, radix));
+
+      // tests that we get exception whre an overflow would occur.
+      long overflow = 1L << 32;
+      String overflowAsString = Long.toString(overflow, radix);
+      assertFalse(UnsignedInts.tryParseUnsignedInt(overflowAsString, radix));
+    }
+  }
+
+  public void testTryParseIntFalseForInvalidRadix() {
+    // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX,
+    // inclusive.
+    assertFalse(UnsignedInts.tryParseUnsignedInt("0", Character.MIN_RADIX - 1));
+    assertFalse(UnsignedInts.tryParseUnsignedInt("0", Character.MAX_RADIX + 1));
+
+    // The radix is used as an array index, so try a negative value.
+    assertFalse(UnsignedInts.tryParseUnsignedInt("0", -1));
   }
 
   public void testDecodeInt() {
