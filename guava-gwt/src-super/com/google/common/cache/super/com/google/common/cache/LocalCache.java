@@ -94,7 +94,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   
   @Override
   public V get(Object key) {
-    key = checkNotNull(key);
+    checkNotNull(key);
     Timestamped<V> value = cachingHashMap.get(key);
 
     if (value == null) {
@@ -115,8 +115,8 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
 
   @Override
   public V put(K key, V value) {
-    key = checkNotNull(key);
-    value = checkNotNull(value);
+    checkNotNull(key);
+    checkNotNull(value);
     Timestamped<V> oldValue = cachingHashMap.put(key, new Timestamped<V>(value, ticker));
     if (oldValue == null) {
       return null;
@@ -278,7 +278,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   }
   
   private V getIfPresent(Object key) {
-    key = checkNotNull(key);
+    checkNotNull(key);
     Timestamped<V> value = cachingHashMap.get(key);
 
     if (value == null) {
@@ -388,7 +388,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
 
     @Override
     public void invalidate(Object key) {
-      key = checkNotNull(key);
+      checkNotNull(key);
       localCache.remove(key);
     }
 
