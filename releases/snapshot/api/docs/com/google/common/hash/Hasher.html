@@ -95,8 +95,8 @@
 public interface <a href="../../../../src-html/com/google/common/hash/Hasher.html#line.57">Hasher</a>
 extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a></pre>
 <div class="block">A <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="interface in com.google.common.hash"><code>PrimitiveSink</code></a> that can compute a hash code after reading the input. Each hasher should
- translate all multibyte values (<a href="../../../../com/google/common/hash/Hasher.html#putInt(int)"><code>putInt(int)</code></a>, <a href="../../../../com/google/common/hash/Hasher.html#putLong(long)"><code>putLong(long)</code></a>, etc) to bytes
- in little-endian order.
+ translate all multibyte values (<a href="../../../../com/google/common/hash/Hasher.html#putInt(int)"><code>putInt(int)</code></a>, <a href="../../../../com/google/common/hash/Hasher.html#putLong(long)"><code>putLong(long)</code></a>, etc) to bytes in
+ little-endian order.
 
  <p><b>Warning:</b> The result of calling any methods after calling <a href="../../../../com/google/common/hash/Hasher.html#hash()"><code>hash()</code></a> is undefined.
 
@@ -106,10 +106,10 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
  must be identical across languages. Also beware that <a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset"><code>Charset</code></a> definitions may occasionally
  change between Java releases.
 
- <p><b>Warning:</b> Chunks of data that are put into the <a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash"><code>Hasher</code></a> are not delimited.
- The resulting <a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash"><code>HashCode</code></a> is dependent only on the bytes inserted, and the order in which
- they were inserted, not how those bytes were chunked into discrete put() operations. For example,
- the following three expressions all generate colliding hash codes: <pre>   <code>newHasher().putByte(b1).putByte(b2).putByte(b3).hash()
+ <p><b>Warning:</b> Chunks of data that are put into the <a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash"><code>Hasher</code></a> are not delimited. The
+ resulting <a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash"><code>HashCode</code></a> is dependent only on the bytes inserted, and the order in which they
+ were inserted, not how those bytes were chunked into discrete put() operations. For example, the
+ following three expressions all generate colliding hash codes: <pre>   <code>newHasher().putByte(b1).putByte(b2).putByte(b3).hash()
    newHasher().putByte(b1).putBytes(new byte[] { b2, b3 }).hash()
    newHasher().putBytes(new byte[] { b1, b2, b3 }).hash()</code></pre>
 
@@ -412,8 +412,8 @@ extends <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="i
 <li class="blockList">
 <h4>putUnencodedChars</h4>
 <pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Hasher.html#line.104">putUnencodedChars</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;charSequence)</pre>
-<div class="block">Equivalent to processing each <code>char</code> value in the <code>CharSequence</code>, in order.
- The input must not be updated while this method is in progress.</div>
+<div class="block">Equivalent to processing each <code>char</code> value in the <code>CharSequence</code>, in order. The
+ input must not be updated while this method is in progress.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../com/google/common/hash/PrimitiveSink.html#putUnencodedChars(java.lang.CharSequence)">putUnencodedChars</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/hash/PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a></code></dd>

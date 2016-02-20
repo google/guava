@@ -99,7 +99,7 @@
 <ul class="blockList">
 <li class="blockList">
 <dl><dt><span class="strong">Type Parameters:</span></dt><dd><code>T</code> - the type that owns this method or constructor.</dd><dd><code>R</code> - the return type of (or supertype thereof) the method or the declaring type of the
-            constructor.</dd></dl>
+     constructor.</dd></dl>
 <dl>
 <dt>All Implemented Interfaces:</dt>
 <dd><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true" title="class or interface in java.lang.reflect">AnnotatedElement</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/GenericDeclaration.html?is-external=true" title="class or interface in java.lang.reflect">GenericDeclaration</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Member.html?is-external=true" title="class or interface in java.lang.reflect">Member</a></dd>
@@ -107,15 +107,16 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public abstract class <a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.61">Invokable</a>&lt;T,R&gt;
+public abstract class <a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.59">Invokable</a>&lt;T,R&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/AccessibleObject.html?is-external=true" title="class or interface in java.lang.reflect">AccessibleObject</a>
 implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/GenericDeclaration.html?is-external=true" title="class or interface in java.lang.reflect">GenericDeclaration</a></pre>
-<div class="block">Wrapper around either a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect"><code>Method</code></a> or a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect"><code>Constructor</code></a>.
- Convenience API is provided to make common reflective operation easier to deal with,
- such as <a href="../../../../com/google/common/reflect/Invokable.html#isPublic()"><code>isPublic()</code></a>, <a href="../../../../com/google/common/reflect/Invokable.html#getParameters()"><code>getParameters()</code></a> etc.
+<div class="block">Wrapper around either a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect"><code>Method</code></a> or a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect"><code>Constructor</code></a>. Convenience API is provided to
+ make common reflective operation easier to deal with, such as <a href="../../../../com/google/common/reflect/Invokable.html#isPublic()"><code>isPublic()</code></a>,
+ <a href="../../../../com/google/common/reflect/Invokable.html#getParameters()"><code>getParameters()</code></a> etc.
 
- <p>In addition to convenience methods, <a href="../../../../com/google/common/reflect/TypeToken.html#method(java.lang.reflect.Method)"><code>TypeToken.method(java.lang.reflect.Method)</code></a> and <a href="../../../../com/google/common/reflect/TypeToken.html#constructor(java.lang.reflect.Constructor)"><code>TypeToken.constructor(java.lang.reflect.Constructor&lt;?&gt;)</code></a> will resolve the type parameters of the method or constructor in the
- context of the owner type, which may be a subtype of the declaring class. For example:
+ <p>In addition to convenience methods, <a href="../../../../com/google/common/reflect/TypeToken.html#method(java.lang.reflect.Method)"><code>TypeToken.method(java.lang.reflect.Method)</code></a> and <a href="../../../../com/google/common/reflect/TypeToken.html#constructor(java.lang.reflect.Constructor)"><code>TypeToken.constructor(java.lang.reflect.Constructor&lt;?&gt;)</code></a>
+ will resolve the type parameters of the method or constructor in the context of the owner type,
+ which may be a subtype of the declaring class. For example:
 
  <pre>   <code>Method getMethod = List.class.getMethod("get", int.class);
    Invokable&lt;List&lt;String&gt;, ?&gt; invokable = new TypeToken&lt;List&lt;String&gt;&gt;() {}.method(getMethod);
@@ -230,9 +231,9 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <td class="colFirst"><code><a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">R</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/reflect/Invokable.html#invoke(T,%20java.lang.Object...)">invoke</a></strong>(<a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">T</a>&nbsp;receiver,
             <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>...&nbsp;args)</code>
-<div class="block">Invokes with <code>receiver</code> as 'this' and <code>args</code> passed to the underlying method
- and returns the return value; or calls the underlying constructor with <code>args</code> and returns
- the constructed instance.</div>
+<div class="block">Invokes with <code>receiver</code> as 'this' and <code>args</code> passed to the underlying method and
+ returns the return value; or calls the underlying constructor with <code>args</code> and returns the
+ constructed instance.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -375,7 +376,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.68">from</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect">Method</a>&nbsp;method)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.66">from</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect">Method</a>&nbsp;method)</pre>
 <div class="block">Returns <a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> of <code>method</code>.</div>
 </li>
 </ul>
@@ -385,7 +386,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;T,T&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.73">from</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect">Constructor</a>&lt;T&gt;&nbsp;constructor)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;T,T&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.71">from</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect">Constructor</a>&lt;T&gt;&nbsp;constructor)</pre>
 <div class="block">Returns <a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> of <code>constructor</code>.</div>
 </li>
 </ul>
@@ -395,7 +396,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>isOverridable</h4>
-<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.81">isOverridable</a>()</pre>
+<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.79">isOverridable</a>()</pre>
 <div class="block">Returns <code>true</code> if this is an overridable method. Constructors, private, static or final
  methods, or methods declared by final classes are not overridable.</div>
 </li>
@@ -406,7 +407,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>isVarArgs</h4>
-<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.84">isVarArgs</a>()</pre>
+<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.82">isVarArgs</a>()</pre>
 <div class="block">Returns <code>true</code> if this was declared to take a variable number of arguments.</div>
 </li>
 </ul>
@@ -418,21 +419,21 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>invoke</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">R</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.102">invoke</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public final&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">R</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.100">invoke</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
        <a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">T</a>&nbsp;receiver,
        <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>...&nbsp;args)
                throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/InvocationTargetException.html?is-external=true" title="class or interface in java.lang.reflect">InvocationTargetException</a>,
                       <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalAccessException.html?is-external=true" title="class or interface in java.lang">IllegalAccessException</a></pre>
-<div class="block">Invokes with <code>receiver</code> as 'this' and <code>args</code> passed to the underlying method
- and returns the return value; or calls the underlying constructor with <code>args</code> and returns
- the constructed instance.</div>
+<div class="block">Invokes with <code>receiver</code> as 'this' and <code>args</code> passed to the underlying method and
+ returns the return value; or calls the underlying constructor with <code>args</code> and returns the
+ constructed instance.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalAccessException.html?is-external=true" title="class or interface in java.lang">IllegalAccessException</a></code> - if this <code>Constructor</code> object enforces Java language
-         access control and the underlying method or constructor is inaccessible.</dd>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if the number of actual and formal parameters differ;
-         if an unwrapping conversion for primitive arguments fails; or if, after possible
-         unwrapping, a parameter value cannot be converted to the corresponding formal
-         parameter type by a method invocation conversion.</dd>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalAccessException.html?is-external=true" title="class or interface in java.lang">IllegalAccessException</a></code> - if this <code>Constructor</code> object enforces Java language access
+     control and the underlying method or constructor is inaccessible.</dd>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if the number of actual and formal parameters differ; if an
+     unwrapping conversion for primitive arguments fails; or if, after possible unwrapping, a
+     parameter value cannot be converted to the corresponding formal parameter type by a method
+     invocation conversion.</dd>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/InvocationTargetException.html?is-external=true" title="class or interface in java.lang.reflect">InvocationTargetException</a></code> - if the underlying method or constructor throws an exception.</dd></dl>
 </li>
 </ul>
@@ -442,7 +443,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>getReturnType</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.110">getReturnType</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.108">getReturnType</a>()</pre>
 <div class="block">Returns the return type of this <code>Invokable</code>.</div>
 </li>
 </ul>
@@ -452,7 +453,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>getParameters</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/reflect/Parameter.html" title="class in com.google.common.reflect">Parameter</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.119">getParameters</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/reflect/Parameter.html" title="class in com.google.common.reflect">Parameter</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.117">getParameters</a>()</pre>
 <div class="block">Returns all declared parameters of this <code>Invokable</code>. Note that if this is a constructor
  of a non-static inner class, unlike <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Constructor.html?is-external=true#getParameterTypes()" title="class or interface in java.lang.reflect"><code>Constructor.getParameterTypes()</code></a>, the hidden
  <code>this</code> parameter of the enclosing class is excluded from the returned parameters.</div>
@@ -464,7 +465,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>getExceptionTypes</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.131">getExceptionTypes</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.128">getExceptionTypes</a>()</pre>
 <div class="block">Returns all declared exception types of this <code>Invokable</code>.</div>
 </li>
 </ul>
@@ -474,7 +475,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>returning</h4>
-<pre>public final&nbsp;&lt;R1 extends <a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">T</a>,R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.149">returning</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;R1&gt;&nbsp;returnType)</pre>
+<pre>public final&nbsp;&lt;R1 extends <a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">T</a>,R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.146">returning</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;R1&gt;&nbsp;returnType)</pre>
 <div class="block">Explicitly specifies the return type of this <code>Invokable</code>. For example:
  <pre>   <code>Method factoryMethod = Person.class.getMethod("create");
    Invokable&lt;?, Person&gt; factory = Invokable.of(getNameMethod).returning(Person.class);</code></pre></div>
@@ -486,7 +487,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>returning</h4>
-<pre>public final&nbsp;&lt;R1 extends <a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">T</a>,R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.154">returning</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;R1&gt;&nbsp;returnType)</pre>
+<pre>public final&nbsp;&lt;R1 extends <a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">R</a>&gt;&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">T</a>,R1&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.151">returning</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;R1&gt;&nbsp;returnType)</pre>
 <div class="block">Explicitly specifies the return type of this <code>Invokable</code>.</div>
 </li>
 </ul>
@@ -496,7 +497,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaringClass</h4>
-<pre>public final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;? super <a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.165">getDeclaringClass</a>()</pre>
+<pre>public final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;? super <a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.163">getDeclaringClass</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Member.html?is-external=true#getDeclaringClass()" title="class or interface in java.lang.reflect">getDeclaringClass</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Member.html?is-external=true" title="class or interface in java.lang.reflect">Member</a></code></dd>
@@ -509,7 +510,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>getOwnerType</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.172">getOwnerType</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="../../../../com/google/common/reflect/Invokable.html" title="type parameter in Invokable">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Invokable.html#line.171">getOwnerType</a>()</pre>
 <div class="block">Returns the type of <code>T</code>.</div>
 </li>
 </ul>
@@ -519,7 +520,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>isAnnotationPresent</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.52">isAnnotationPresent</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;&nbsp;annotationClass)</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.51">isAnnotationPresent</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;&nbsp;annotationClass)</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#isAnnotationPresent(java.lang.Class)" title="class or interface in java.lang.reflect">isAnnotationPresent</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true" title="class or interface in java.lang.reflect">AnnotatedElement</a></code></dd>
@@ -549,7 +550,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>getAnnotations</h4>
-<pre>public final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.60">getAnnotations</a>()</pre>
+<pre>public final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.61">getAnnotations</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getAnnotations()" title="class or interface in java.lang.reflect">getAnnotations</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true" title="class or interface in java.lang.reflect">AnnotatedElement</a></code></dd>
@@ -564,7 +565,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaredAnnotations</h4>
-<pre>public final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.64">getDeclaredAnnotations</a>()</pre>
+<pre>public final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.66">getDeclaredAnnotations</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getDeclaredAnnotations()" title="class or interface in java.lang.reflect">getDeclaredAnnotations</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true" title="class or interface in java.lang.reflect">AnnotatedElement</a></code></dd>
@@ -579,7 +580,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>setAccessible</h4>
-<pre>public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.68">setAccessible</a>(boolean&nbsp;flag)
+<pre>public final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.71">setAccessible</a>(boolean&nbsp;flag)
                          throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/SecurityException.html?is-external=true" title="class or interface in java.lang">SecurityException</a></pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -594,7 +595,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>isAccessible</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.72">isAccessible</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.76">isAccessible</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/AccessibleObject.html?is-external=true#isAccessible()" title="class or interface in java.lang.reflect">isAccessible</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/AccessibleObject.html?is-external=true" title="class or interface in java.lang.reflect">AccessibleObject</a></code></dd>
@@ -607,7 +608,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>getName</h4>
-<pre>public final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.80">getName</a>()</pre>
+<pre>public final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.86">getName</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Member.html?is-external=true#getName()" title="class or interface in java.lang.reflect">getName</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Member.html?is-external=true" title="class or interface in java.lang.reflect">Member</a></code></dd>
@@ -620,7 +621,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>getModifiers</h4>
-<pre>public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.84">getModifiers</a>()</pre>
+<pre>public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.91">getModifiers</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Member.html?is-external=true#getModifiers()" title="class or interface in java.lang.reflect">getModifiers</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Member.html?is-external=true" title="class or interface in java.lang.reflect">Member</a></code></dd>
@@ -633,7 +634,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>isSynthetic</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.88">isSynthetic</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.96">isSynthetic</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Member.html?is-external=true#isSynthetic()" title="class or interface in java.lang.reflect">isSynthetic</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Member.html?is-external=true" title="class or interface in java.lang.reflect">Member</a></code></dd>
@@ -646,7 +647,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>isPublic</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.93">isPublic</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.101">isPublic</a>()</pre>
 <div class="block">Returns true if the element is public.</div>
 </li>
 </ul>
@@ -656,7 +657,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>isProtected</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.98">isProtected</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.106">isProtected</a>()</pre>
 <div class="block">Returns true if the element is protected.</div>
 </li>
 </ul>
@@ -666,7 +667,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>isPackagePrivate</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.103">isPackagePrivate</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.111">isPackagePrivate</a>()</pre>
 <div class="block">Returns true if the element is package-private.</div>
 </li>
 </ul>
@@ -676,7 +677,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>isPrivate</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.108">isPrivate</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.116">isPrivate</a>()</pre>
 <div class="block">Returns true if the element is private.</div>
 </li>
 </ul>
@@ -686,7 +687,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>isStatic</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.113">isStatic</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.121">isStatic</a>()</pre>
 <div class="block">Returns true if the element is static.</div>
 </li>
 </ul>
@@ -696,9 +697,9 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>isFinal</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.124">isFinal</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.132">isFinal</a>()</pre>
 <div class="block">Returns <code>true</code> if this method is final, per <code>Modifier.isFinal(getModifiers())</code>.
- 
+
  <p>Note that a method may still be effectively "final", or non-overridable when it has no
  <code>final</code> keyword. For example, it could be private, or it could be declared by a final
  class. To tell whether a method is overridable, use <a href="../../../../com/google/common/reflect/Invokable.html#isOverridable()"><code>isOverridable()</code></a>.</div>
@@ -710,7 +711,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>isAbstract</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.129">isAbstract</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.137">isAbstract</a>()</pre>
 <div class="block">Returns true if the method is abstract.</div>
 </li>
 </ul>
@@ -720,7 +721,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>isNative</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.134">isNative</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.142">isNative</a>()</pre>
 <div class="block">Returns true if the element is native.</div>
 </li>
 </ul>
@@ -730,7 +731,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>isSynchronized</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.139">isSynchronized</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.147">isSynchronized</a>()</pre>
 <div class="block">Returns true if the method is synchronized.</div>
 </li>
 </ul>
@@ -740,7 +741,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.153">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.162">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -754,7 +755,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.161">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.171">hashCode</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -767,7 +768,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/G
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.165">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Element.html#line.176">toString</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>

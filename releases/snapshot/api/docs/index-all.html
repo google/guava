@@ -689,14 +689,10 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingDeque.html#addFirst(E)">addFirst(E)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingDeque.html" title="class in com.google.common.collect">ForwardingDeque</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableDirectedGraph.Builder.html#addGraph(com.google.common.graph.DirectedGraph)">addGraph(DirectedGraph&lt;N, E&gt;)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableDirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableDirectedGraph.Builder</a></dt>
-<dd>
-<div class="block">Adds all elements of <code>graph</code> to the graph being built.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.Builder.html#addGraph(com.google.common.graph.UndirectedGraph)">addGraph(UndirectedGraph&lt;N, E&gt;)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableUndirectedGraph.Builder</a></dt>
-<dd>
-<div class="block">Adds all elements of <code>graph</code> to the graph being built.</div>
-</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ImmutableDirectedGraph.Builder.html#addGraph(com.google.common.graph.Graph)">addGraph(Graph&lt;N, E&gt;)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableDirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableDirectedGraph.Builder</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.Builder.html#addGraph(com.google.common.graph.Graph)">addGraph(Graph&lt;N, E&gt;)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableUndirectedGraph.Builder</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingDeque.html#addLast(E)">addLast(E)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingDeque.html" title="class in com.google.common.collect">ForwardingDeque</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/AbstractExecutionThreadService.html#addListener(com.google.common.util.concurrent.Service.Listener,%20java.util.concurrent.Executor)">addListener(Service.Listener, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/AbstractExecutionThreadService.html" title="class in com.google.common.util.concurrent">AbstractExecutionThreadService</a></dt>
@@ -809,19 +805,11 @@
 <div class="block">Returns the edges which have an <a href="./com/google/common/graph/Graph.html#incidentNodes(java.lang.Object)">incident node</a>
  in common with <code>edge</code> in this graph.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableDirectedGraph.html#adjacentEdges(java.lang.Object)">adjacentEdges(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.html#adjacentEdges(java.lang.Object)">adjacentEdges(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graph.html#adjacentNodes(java.lang.Object)">adjacentNodes(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns the nodes which have an <a href="./com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incident edge</a>
  in common with <code>node</code> in this graph.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableDirectedGraph.html#adjacentNodes(java.lang.Object)">adjacentNodes(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.html#adjacentNodes(java.lang.Object)">adjacentNodes(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#adler32()">adler32()</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
 <div class="block">Returns a hash function implementing the Adler-32 checksum algorithm (32 hash bits) by
@@ -1293,8 +1281,8 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/HashCode.html#asInt()">asInt()</a></span> - Method in class com.google.common.hash.<a href="./com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></dt>
 <dd>
-<div class="block">Returns the first four bytes of <a href="./com/google/common/hash/HashCode.html#asBytes()">this hashcode's bytes</a>, converted to
- an <code>int</code> value in little-endian order.</div>
+<div class="block">Returns the first four bytes of <a href="./com/google/common/hash/HashCode.html#asBytes()">this hashcode's bytes</a>, converted to an
+ <code>int</code> value in little-endian order.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableCollection.html#asList()">asList()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a></dt>
 <dd>
@@ -1349,8 +1337,8 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/HashCode.html#asLong()">asLong()</a></span> - Method in class com.google.common.hash.<a href="./com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></dt>
 <dd>
-<div class="block">Returns the first eight bytes of <a href="./com/google/common/hash/HashCode.html#asBytes()">this hashcode's bytes</a>, converted to
- a <code>long</code> value in little-endian order.</div>
+<div class="block">Returns the first eight bytes of <a href="./com/google/common/hash/HashCode.html#asBytes()">this hashcode's bytes</a>, converted to a
+ <code>long</code> value in little-endian order.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/cache/AbstractCache.html#asMap()">asMap()</a></span> - Method in class com.google.common.cache.<a href="./com/google/common/cache/AbstractCache.html" title="class in com.google.common.cache">AbstractCache</a></dt>
 <dd>&nbsp;</dd>
@@ -1449,9 +1437,8 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Funnels.html#asOutputStream(com.google.common.hash.PrimitiveSink)">asOutputStream(PrimitiveSink)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Funnels.html" title="class in com.google.common.hash">Funnels</a></dt>
 <dd>
-<div class="block">Wraps a <code>PrimitiveSink</code> as an <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io"><code>OutputStream</code></a>, so it is easy to
- <a href="./com/google/common/hash/Funnel.html#funnel(T,%20com.google.common.hash.PrimitiveSink)"><code>funnel</code></a> an object to a <code>PrimitiveSink</code>
- if there is already a way to write the contents of the object to an <code>OutputStream</code>.</div>
+<div class="block">Wraps a <code>PrimitiveSink</code> as an <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io"><code>OutputStream</code></a>, so it is easy to <a href="./com/google/common/hash/Funnel.html#funnel(T,%20com.google.common.hash.PrimitiveSink)"><code>funnel</code></a> an object to a <code>PrimitiveSink</code> if there is already a way to write the contents of
+ the object to an <code>OutputStream</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeSet.html#asRanges()">asRanges()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a></dt>
 <dd>&nbsp;</dd>
@@ -1765,8 +1752,8 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/HashFunction.html#bits()">bits()</a></span> - Method in interface com.google.common.hash.<a href="./com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></dt>
 <dd>
-<div class="block">Returns the number of bits (a multiple of 32) that each hash code produced by this
- hash function has.</div>
+<div class="block">Returns the number of bits (a multiple of 32) that each hash code produced by this hash
+ function has.</div>
 </dd>
 <dt><a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><span class="strong">BloomFilter</span></a>&lt;<a href="./com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a>&gt; - Class in <a href="./com/google/common/hash/package-summary.html">com.google.common.hash</a></dt>
 <dd>
@@ -1915,8 +1902,7 @@
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/ImmutableTypeToInstanceMap.Builder.html#build()">build()</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/ImmutableTypeToInstanceMap.Builder.html" title="class in com.google.common.reflect">ImmutableTypeToInstanceMap.Builder</a></dt>
 <dd>
-<div class="block">Returns a new immutable type-to-instance map containing the entries
- provided to this builder.</div>
+<div class="block">Returns a new immutable type-to-instance map containing the entries provided to this builder.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/ThreadFactoryBuilder.html#build()">build()</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></dt>
 <dd>
@@ -2804,13 +2790,13 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#combineOrdered(java.lang.Iterable)">combineOrdered(Iterable&lt;HashCode&gt;)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
-<div class="block">Returns a hash code, having the same bit length as each of the input hash codes,
- that combines the information of these hash codes in an ordered fashion.</div>
+<div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
+ the information of these hash codes in an ordered fashion.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#combineUnordered(java.lang.Iterable)">combineUnordered(Iterable&lt;HashCode&gt;)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
-<div class="block">Returns a hash code, having the same bit length as each of the input hash codes,
- that combines the information of these hash codes in an unordered fashion.</div>
+<div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
+ the information of these hash codes in an unordered fashion.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Strings.html#commonPrefix(java.lang.CharSequence,%20java.lang.CharSequence)">commonPrefix(CharSequence, CharSequence)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Strings.html" title="class in com.google.common.base">Strings</a></dt>
 <dd>
@@ -4232,23 +4218,23 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/BloomFilter.html#create(com.google.common.hash.Funnel,%20int,%20double)">create(Funnel&lt;? super T&gt;, int, double)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
 <dd>
-<div class="block">Creates a <a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter<T></code></a> with the expected number of
- insertions and expected false positive probability.</div>
+<div class="block">Creates a <a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter<T></code></a> with the expected number of insertions and
+ expected false positive probability.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/BloomFilter.html#create(com.google.common.hash.Funnel,%20long,%20double)">create(Funnel&lt;? super T&gt;, long, double)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
 <dd>
-<div class="block">Creates a <a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter<T></code></a> with the expected number of
- insertions and expected false positive probability.</div>
+<div class="block">Creates a <a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter<T></code></a> with the expected number of insertions and
+ expected false positive probability.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/BloomFilter.html#create(com.google.common.hash.Funnel,%20int)">create(Funnel&lt;? super T&gt;, int)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
 <dd>
-<div class="block">Creates a <a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter<T></code></a> with the expected number of
- insertions and a default expected false positive probability of 3%.</div>
+<div class="block">Creates a <a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter<T></code></a> with the expected number of insertions and a
+ default expected false positive probability of 3%.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/BloomFilter.html#create(com.google.common.hash.Funnel,%20long)">create(Funnel&lt;? super T&gt;, long)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
 <dd>
-<div class="block">Creates a <a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter<T></code></a> with the expected number of
- insertions and a default expected false positive probability of 3%.</div>
+<div class="block">Creates a <a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter<T></code></a> with the expected number of insertions and a
+ default expected false positive probability of 3%.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/io/Closer.html#create()">create()</a></span> - Static method in class com.google.common.io.<a href="./com/google/common/io/Closer.html" title="class in com.google.common.io">Closer</a></dt>
 <dd>
@@ -4791,10 +4777,6 @@
 <dd>
 <div class="block">Returns all edges in this graph.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableDirectedGraph.html#edges()">edges()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.html#edges()">edges()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/DirectedGraph.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting(Object, Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a></dt>
 <dd>
 <div class="block">Returns the edges that are <a href="./com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incident</a> in this graph
@@ -4804,16 +4786,6 @@
 <dd>
 <div class="block">Returns the edges that are <a href="./com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incident</a> in this graph
  to both nodes <code>node1</code> and <code>node2</code>.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableDirectedGraph.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting(Object, Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a></dt>
-<dd>
-<div class="block">Returns the intersection of these two sets, using <a href="./com/google/common/collect/Sets.html#intersection(java.util.Set,%20java.util.Set)"><code>Sets.intersection(java.util.Set&lt;E&gt;, java.util.Set&lt;?&gt;)</code></a>:
- 
- Outgoing edges of <code>node1</code>.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting(Object, Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dt>
-<dd>
-<div class="block">If <code>node1</code> is equal to <code>node2</code>, the set of self-loop edges is returned.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Stopwatch.html#elapsed(java.util.concurrent.TimeUnit)">elapsed(TimeUnit)</a></span> - Method in class com.google.common.base.<a href="./com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></dt>
 <dd>
@@ -7074,13 +7046,13 @@
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/TypeToInstanceMap.html#getInstance(java.lang.Class)">getInstance(Class&lt;T&gt;)</a></span> - Method in interface com.google.common.reflect.<a href="./com/google/common/reflect/TypeToInstanceMap.html" title="interface in com.google.common.reflect">TypeToInstanceMap</a></dt>
 <dd>
-<div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no
- entry for this class is present.</div>
+<div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no entry for this class
+ is present.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/TypeToInstanceMap.html#getInstance(com.google.common.reflect.TypeToken)">getInstance(TypeToken&lt;T&gt;)</a></span> - Method in interface com.google.common.reflect.<a href="./com/google/common/reflect/TypeToInstanceMap.html" title="interface in com.google.common.reflect">TypeToInstanceMap</a></dt>
 <dd>
-<div class="block">Returns the value the specified type is mapped to, or <code>null</code> if no
- entry for this type is present.</div>
+<div class="block">Returns the value the specified type is mapped to, or <code>null</code> if no entry for this type is
+ present.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/InetAddresses.html#getIsatapIPv4Address(java.net.Inet6Address)">getIsatapIPv4Address(Inet6Address)</a></span> - Static method in class com.google.common.net.<a href="./com/google/common/net/InetAddresses.html" title="class in com.google.common.net">InetAddresses</a></dt>
 <dd>
@@ -7544,8 +7516,8 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/HashCode.html#hashCode()">hashCode()</a></span> - Method in class com.google.common.hash.<a href="./com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></dt>
 <dd>
-<div class="block">Returns a "Java hash code" for this <code>HashCode</code> instance; this is well-defined
- (so, for example, you can safely put <code>HashCode</code> instances into a <code>HashSet</code>) but is otherwise probably not what you want to use.</div>
+<div class="block">Returns a "Java hash code" for this <code>HashCode</code> instance; this is well-defined (so, for
+ example, you can safely put <code>HashCode</code> instances into a <code>HashSet</code>) but is otherwise probably not what you want to use.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hasher.html#hashCode()">hashCode()</a></span> - Method in interface com.google.common.hash.<a href="./com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a></dt>
 <dd>
@@ -7626,8 +7598,8 @@
 </dd>
 <dt><a href="./com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash"><span class="strong">HashFunction</span></a> - Interface in <a href="./com/google/common/hash/package-summary.html">com.google.common.hash</a></dt>
 <dd>
-<div class="block">A hash function is a collision-averse pure function that maps an arbitrary block of
- data to a number called a <i>hash code</i>.</div>
+<div class="block">A hash function is a collision-averse pure function that maps an arbitrary block of data to a
+ number called a <i>hash code</i>.</div>
 </dd>
 <dt><a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash"><span class="strong">Hashing</span></a> - Class in <a href="./com/google/common/hash/package-summary.html">com.google.common.hash</a></dt>
 <dd>
@@ -7668,8 +7640,8 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/HashFunction.html#hashLong(long)">hashLong(long)</a></span> - Method in interface com.google.common.hash.<a href="./com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></dt>
 <dd>
-<div class="block">Shortcut for <code>newHasher().putLong(input).hash()</code>; returns the hash code for the
- given <code>long</code> value, interpreted in little-endian byte order.</div>
+<div class="block">Shortcut for <code>newHasher().putLong(input).hash()</code>; returns the hash code for the given
+ <code>long</code> value, interpreted in little-endian byte order.</div>
 </dd>
 <dt><a href="./com/google/common/collect/HashMultimap.html" title="class in com.google.common.collect"><span class="strong">HashMultimap</span></a>&lt;<a href="./com/google/common/collect/HashMultimap.html" title="type parameter in HashMultimap">K</a>,<a href="./com/google/common/collect/HashMultimap.html" title="type parameter in HashMultimap">V</a>&gt; - Class in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
@@ -7807,47 +7779,47 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#hmacMd5(java.security.Key)">hmacMd5(Key)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
-<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
- the MD5 (128 hash bits) hash function and the given secret key.</div>
+<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+ MD5 (128 hash bits) hash function and the given secret key.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#hmacMd5(byte[])">hmacMd5(byte[])</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
-<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
- the MD5 (128 hash bits) hash function and a <code>SecretSpecKey</code> created from the given
- byte array and the MD5 algorithm.</div>
+<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+ MD5 (128 hash bits) hash function and a <code>SecretSpecKey</code> created from the given byte array
+ and the MD5 algorithm.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#hmacSha1(java.security.Key)">hmacSha1(Key)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
-<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
- the SHA-1 (160 hash bits) hash function and the given secret key.</div>
+<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+ SHA-1 (160 hash bits) hash function and the given secret key.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#hmacSha1(byte[])">hmacSha1(byte[])</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
-<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
- the SHA-1 (160 hash bits) hash function and a <code>SecretSpecKey</code> created from the given
- byte array and the SHA-1 algorithm.</div>
+<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+ SHA-1 (160 hash bits) hash function and a <code>SecretSpecKey</code> created from the given byte
+ array and the SHA-1 algorithm.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#hmacSha256(java.security.Key)">hmacSha256(Key)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
-<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
- the SHA-256 (256 hash bits) hash function and the given secret key.</div>
+<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+ SHA-256 (256 hash bits) hash function and the given secret key.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#hmacSha256(byte[])">hmacSha256(byte[])</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
-<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
- the SHA-256 (256 hash bits) hash function and a <code>SecretSpecKey</code> created from the given
- byte array and the SHA-256 algorithm.</div>
+<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+ SHA-256 (256 hash bits) hash function and a <code>SecretSpecKey</code> created from the given byte
+ array and the SHA-256 algorithm.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#hmacSha512(java.security.Key)">hmacSha512(Key)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
-<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
- the SHA-512 (512 hash bits) hash function and the given secret key.</div>
+<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+ SHA-512 (512 hash bits) hash function and the given secret key.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#hmacSha512(byte[])">hmacSha512(byte[])</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
-<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using
- the SHA-512 (512 hash bits) hash function and a <code>SecretSpecKey</code> created from the given
- byte array and the SHA-512 algorithm.</div>
+<div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
+ SHA-512 (512 hash bits) hash function and a <code>SecretSpecKey</code> created from the given byte
+ array and the SHA-512 algorithm.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/math/LinearTransformation.html#horizontal(double)">horizontal(double)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></dt>
 <dd>
@@ -8004,8 +7976,8 @@
 </dd>
 <dt><a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph"><span class="strong">ImmutableDirectedGraph</span></a>&lt;<a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">N</a>,<a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="type parameter in ImmutableDirectedGraph">E</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
-<div class="block">Implementation of an immutable directed graph consisting of nodes
- of type N and edges of type E.</div>
+<div class="block">Implementation of an immutable directed graph consisting of nodes of type N
+ and edges of type E.</div>
 </dd>
 <dt><a href="./com/google/common/graph/ImmutableDirectedGraph.Builder.html" title="class in com.google.common.graph"><span class="strong">ImmutableDirectedGraph.Builder</span></a>&lt;<a href="./com/google/common/graph/ImmutableDirectedGraph.Builder.html" title="type parameter in ImmutableDirectedGraph.Builder">N</a>,<a href="./com/google/common/graph/ImmutableDirectedGraph.Builder.html" title="type parameter in ImmutableDirectedGraph.Builder">E</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
@@ -8250,10 +8222,6 @@
 <dd>
 <div class="block">Returns the edges whose endpoints in this graph include <code>node</code>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableDirectedGraph.html#incidentEdges(java.lang.Object)">incidentEdges(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.html#incidentEdges(java.lang.Object)">incidentEdges(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/DirectedGraph.html#incidentNodes(java.lang.Object)">incidentNodes(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph">DirectedGraph</a></dt>
 <dd>
 <div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this graph.</div>
@@ -8262,10 +8230,6 @@
 <dd>
 <div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this graph.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableDirectedGraph.html#incidentNodes(java.lang.Object)">incidentNodes(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.html#incidentNodes(java.lang.Object)">incidentNodes(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#inCompletionOrder(java.lang.Iterable)">inCompletionOrder(Iterable&lt;? extends ListenableFuture&lt;? extends T&gt;&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
 <div class="block">Returns a list of delegate futures that correspond to the futures received in the order
@@ -8424,10 +8388,6 @@
 <div class="block">Returns all edges in this graph which can be traversed in the direction (if any) of the edge
  to end at <code>node</code>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableDirectedGraph.html#inEdges(java.lang.Object)">inEdges(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.html#inEdges(java.lang.Object)">inEdges(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="./com/google/common/net/InetAddresses.html" title="class in com.google.common.net"><span class="strong">InetAddresses</span></a> - Class in <a href="./com/google/common/net/package-summary.html">com.google.common.net</a></dt>
 <dd>
 <div class="block">Static utility methods pertaining to <a href="http://docs.oracle.com/javase/7/docs/api/java/net/InetAddress.html?is-external=true" title="class or interface in java.net"><code>InetAddress</code></a> instances.</div>
@@ -8617,11 +8577,25 @@
 <div class="block">Wrapper around either a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect"><code>Method</code></a> or a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/Constructor.html?is-external=true" title="class or interface in java.lang.reflect"><code>Constructor</code></a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/AbstractInvocationHandler.html#invoke(java.lang.Object,%20java.lang.reflect.Method,%20java.lang.Object[])">invoke(Object, Method, Object[])</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/AbstractInvocationHandler.html" title="class in com.google.common.reflect">AbstractInvocationHandler</a></dt>
+<dd>
+<div class="block">
+
+ 
+ <code>proxy.hashCode()</code> delegates to <a href="./com/google/common/reflect/AbstractInvocationHandler.html#hashCode()"><code>AbstractInvocationHandler.hashCode()</code></a>
+ <code>proxy.toString()</code> delegates to <a href="./com/google/common/reflect/AbstractInvocationHandler.html#toString()"><code>AbstractInvocationHandler.toString()</code></a>
+ <code>proxy.equals(argument)</code> returns true if:
+   
+   <code>proxy</code> and <code>argument</code> are of the same type
+   and <a href="./com/google/common/reflect/AbstractInvocationHandler.html#equals(java.lang.Object)"><code>AbstractInvocationHandler.equals(java.lang.Object)</code></a> returns true for the
+       <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/reflect/InvocationHandler.html?is-external=true" title="class or interface in java.lang.reflect"><code>InvocationHandler</code></a> of <code>argument</code>
+   
+ other method calls are dispatched to <a href="./com/google/common/reflect/AbstractInvocationHandler.html#handleInvocation(java.lang.Object,%20java.lang.reflect.Method,%20java.lang.Object[])"><code>AbstractInvocationHandler.handleInvocation(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])</code></a>.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/Invokable.html#invoke(T,%20java.lang.Object...)">invoke(T, Object...)</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a></dt>
 <dd>
-<div class="block">Invokes with <code>receiver</code> as 'this' and <code>args</code> passed to the underlying method
- and returns the return value; or calls the underlying constructor with <code>args</code> and returns
- the constructed instance.</div>
+<div class="block">Invokes with <code>receiver</code> as 'this' and <code>args</code> passed to the underlying method and
+ returns the return value; or calls the underlying constructor with <code>args</code> and returns the
+ constructed instance.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingExecutorService.html#invokeAll(java.util.Collection)">invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt;)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingExecutorService</a></dt>
 <dd>&nbsp;</dd>
@@ -10427,30 +10401,26 @@
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#murmur3_128(int)">murmur3_128(int)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
 <div class="block">Returns a hash function implementing the
- <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
- 128-bit murmur3 algorithm, x64 variant</a> (little-endian variant),
- using the given seed value.</div>
+ <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">128-bit murmur3 algorithm,
+ x64 variant</a> (little-endian variant), using the given seed value.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#murmur3_128()">murmur3_128()</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
 <div class="block">Returns a hash function implementing the
- <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
- 128-bit murmur3 algorithm, x64 variant</a> (little-endian variant),
- using a seed value of zero.</div>
+ <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">128-bit murmur3 algorithm,
+ x64 variant</a> (little-endian variant), using a seed value of zero.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#murmur3_32(int)">murmur3_32(int)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
 <div class="block">Returns a hash function implementing the
- <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
- 32-bit murmur3 algorithm, x86 variant</a> (little-endian variant),
- using the given seed value.</div>
+ <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">32-bit murmur3 algorithm,
+ x86 variant</a> (little-endian variant), using the given seed value.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#murmur3_32()">murmur3_32()</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
 <div class="block">Returns a hash function implementing the
- <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
- 32-bit murmur3 algorithm, x86 variant</a> (little-endian variant),
- using a seed value of zero.</div>
+ <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">32-bit murmur3 algorithm,
+ x86 variant</a> (little-endian variant), using a seed value of zero.</div>
 </dd>
 <dt><a href="./com/google/common/collect/MutableClassToInstanceMap.html" title="class in com.google.common.collect"><span class="strong">MutableClassToInstanceMap</span></a>&lt;<a href="./com/google/common/collect/MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt; - Class in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
@@ -10666,8 +10636,8 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/HashFunction.html#newHasher(int)">newHasher(int)</a></span> - Method in interface com.google.common.hash.<a href="./com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></dt>
 <dd>
-<div class="block">Begins a new hash code computation as <a href="./com/google/common/hash/HashFunction.html#newHasher()"><code>HashFunction.newHasher()</code></a>, but provides a hint of the
- expected size of the input (in bytes).</div>
+<div class="block">Begins a new hash code computation as <a href="./com/google/common/hash/HashFunction.html#newHasher()"><code>HashFunction.newHasher()</code></a>, but provides a hint of the expected
+ size of the input (in bytes).</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Maps.html#newHashMap()">newHashMap()</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Maps.html" title="class in com.google.common.collect">Maps</a></dt>
 <dd>
@@ -10817,8 +10787,8 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/Reflection.html#newProxy(java.lang.Class,%20java.lang.reflect.InvocationHandler)">newProxy(Class&lt;T&gt;, InvocationHandler)</a></span> - Static method in class com.google.common.reflect.<a href="./com/google/common/reflect/Reflection.html" title="class in com.google.common.reflect">Reflection</a></dt>
 <dd>
-<div class="block">Returns a proxy instance that implements <code>interfaceType</code> by
- dispatching method invocations to <code>handler</code>.</div>
+<div class="block">Returns a proxy instance that implements <code>interfaceType</code> by dispatching method
+ invocations to <code>handler</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/FakeTimeLimiter.html#newProxy(T,%20java.lang.Class,%20long,%20java.util.concurrent.TimeUnit)">newProxy(T, Class&lt;T&gt;, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/FakeTimeLimiter.html" title="class in com.google.common.util.concurrent">FakeTimeLimiter</a></dt>
 <dd>&nbsp;</dd>
@@ -10983,10 +10953,6 @@
 <dd>
 <div class="block">Returns all nodes in this graph.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableDirectedGraph.html#nodes()">nodes()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.html#nodes()">nodes()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#nonCancellationPropagating(com.google.common.util.concurrent.ListenableFuture)">nonCancellationPropagating(ListenableFuture&lt;V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
 <div class="block">Creates a new <code>ListenableFuture</code> whose result is set from the supplied future when it
@@ -11820,10 +11786,6 @@
 <div class="block">Returns all edges in this graph which can be traversed in the direction (if any) of the edge
  starting from <code>node</code>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableDirectedGraph.html#outEdges(java.lang.Object)">outEdges(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.html#outEdges(java.lang.Object)">outEdges(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dt>
-<dd>&nbsp;</dd>
 </dl>
 <a name="_P_">
 <!--   -->
@@ -12215,10 +12177,6 @@
  <code>node</code>'s <a href="./com/google/common/graph/Graph.html#inEdges(java.lang.Object)">incoming edges</a> <i>against</i> the direction
  (if any) of the edge.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableDirectedGraph.html#predecessors(java.lang.Object)">predecessors(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.html#predecessors(java.lang.Object)">predecessors(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="./com/google/common/base/Predicate.html" title="interface in com.google.common.base"><span class="strong">Predicate</span></a>&lt;<a href="./com/google/common/base/Predicate.html" title="type parameter in Predicate">T</a>&gt; - Interface in <a href="./com/google/common/base/package-summary.html">com.google.common.base</a></dt>
 <dd>
 <div class="block">Determines a true or false value for a given input; a pre-Java-8 version of <code>java.util.function.Predicate</code>.</div>
@@ -12885,8 +12843,8 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/HashingInputStream.html#read()">read()</a></span> - Method in class com.google.common.hash.<a href="./com/google/common/hash/HashingInputStream.html" title="class in com.google.common.hash">HashingInputStream</a></dt>
 <dd>
-<div class="block">Reads the next byte of data from the underlying input stream and updates the hasher with
- the byte read.</div>
+<div class="block">Reads the next byte of data from the underlying input stream and updates the hasher with the
+ byte read.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/HashingInputStream.html#read(byte[],%20int,%20int)">read(byte[], int, int)</a></span> - Method in class com.google.common.hash.<a href="./com/google/common/hash/HashingInputStream.html" title="class in com.google.common.hash">HashingInputStream</a></dt>
 <dd>
@@ -12963,8 +12921,8 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/BloomFilter.html#readFrom(java.io.InputStream,%20com.google.common.hash.Funnel)">readFrom(InputStream, Funnel&lt;T&gt;)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
 <dd>
-<div class="block">Reads a byte stream, which was written by <a href="./com/google/common/hash/BloomFilter.html#writeTo(java.io.OutputStream)">BloomFilter.writeTo(OutputStream)</a>, into
- a <code>BloomFilter&lt;T&gt;</code>.</div>
+<div class="block">Reads a byte stream, which was written by <a href="./com/google/common/hash/BloomFilter.html#writeTo(java.io.OutputStream)">BloomFilter.writeTo(OutputStream)</a>, into a
+ <code>BloomFilter&lt;T&gt;</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/io/ByteArrayDataInput.html#readFully(byte[])">readFully(byte[])</a></span> - Method in interface com.google.common.io.<a href="./com/google/common/io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a></dt>
 <dd>&nbsp;</dd>
@@ -13545,8 +13503,8 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/TypeResolver.html#resolveType(java.lang.reflect.Type)">resolveType(Type)</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/TypeResolver.html" title="class in com.google.common.reflect">TypeResolver</a></dt>
 <dd>
-<div class="block">Resolves all type variables in <code>type</code> and all downstream types and
- returns a corresponding type with type variables resolved.</div>
+<div class="block">Resolves all type variables in <code>type</code> and all downstream types and returns a
+ corresponding type with type variables resolved.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/TypeToken.html#resolveType(java.lang.reflect.Type)">resolveType(Type)</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a></dt>
 <dd>
@@ -14140,13 +14098,13 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#sha256()">sha256()</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
-<div class="block">Returns a hash function implementing the SHA-256 algorithm (256 hash bits) by delegating to
- the SHA-256 <a href="http://docs.oracle.com/javase/7/docs/api/java/security/MessageDigest.html?is-external=true" title="class or interface in java.security"><code>MessageDigest</code></a>.</div>
+<div class="block">Returns a hash function implementing the SHA-256 algorithm (256 hash bits) by delegating to the
+ SHA-256 <a href="http://docs.oracle.com/javase/7/docs/api/java/security/MessageDigest.html?is-external=true" title="class or interface in java.security"><code>MessageDigest</code></a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#sha384()">sha384()</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
-<div class="block">Returns a hash function implementing the SHA-384 algorithm (384 hash bits) by delegating to
- the SHA-384 <a href="http://docs.oracle.com/javase/7/docs/api/java/security/MessageDigest.html?is-external=true" title="class or interface in java.security"><code>MessageDigest</code></a>.</div>
+<div class="block">Returns a hash function implementing the SHA-384 algorithm (384 hash bits) by delegating to the
+ SHA-384 <a href="http://docs.oracle.com/javase/7/docs/api/java/security/MessageDigest.html?is-external=true" title="class or interface in java.security"><code>MessageDigest</code></a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#sha512()">sha512()</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
@@ -14229,15 +14187,13 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#sipHash24()">sipHash24()</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
-<div class="block">Returns a hash function implementing the
- <a href="https://131002.net/siphash/">64-bit SipHash-2-4 algorithm</a>
- using a seed value of <code>k = 00 01 02 ...</code>.</div>
+<div class="block">Returns a hash function implementing the <a href="https://131002.net/siphash/">64-bit
+ SipHash-2-4 algorithm</a> using a seed value of <code>k = 00 01 02 ...</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hashing.html#sipHash24(long,%20long)">sipHash24(long, long)</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Hashing.html" title="class in com.google.common.hash">Hashing</a></dt>
 <dd>
-<div class="block">Returns a hash function implementing the
- <a href="https://131002.net/siphash/">64-bit SipHash-2-4 algorithm</a>
- using the given seed.</div>
+<div class="block">Returns a hash function implementing the <a href="https://131002.net/siphash/">64-bit
+ SipHash-2-4 algorithm</a> using the given seed.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/cache/AbstractCache.html#size()">size()</a></span> - Method in class com.google.common.cache.<a href="./com/google/common/cache/AbstractCache.html" title="class in com.google.common.cache">AbstractCache</a></dt>
 <dd>&nbsp;</dd>
@@ -15204,10 +15160,6 @@
  <code>node</code>'s <a href="./com/google/common/graph/Graph.html#outEdges(java.lang.Object)">outgoing edges</a> in the direction (if any) of the
  edge.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableDirectedGraph.html#successors(java.lang.Object)">successors(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableUndirectedGraph.html#successors(java.lang.Object)">successors(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Multisets.html#sum(com.google.common.collect.Multiset,%20com.google.common.collect.Multiset)">sum(Multiset&lt;? extends E&gt;, Multiset&lt;? extends E&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Multisets.html" title="class in com.google.common.collect">Multisets</a></dt>
 <dd>
 <div class="block">Returns an unmodifiable view of the sum of two multisets.</div>
@@ -15226,7 +15178,7 @@
 </dd>
 <dt><a href="./com/google/common/base/Supplier.html" title="interface in com.google.common.base"><span class="strong">Supplier</span></a>&lt;<a href="./com/google/common/base/Supplier.html" title="type parameter in Supplier">T</a>&gt; - Interface in <a href="./com/google/common/base/package-summary.html">com.google.common.base</a></dt>
 <dd>
-<div class="block">A class that can supply objects of a single type.</div>
+<div class="block">A class that can supply objects of a single type; a pre-Java-8 version of <code>java.util.function.Supplier</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Suppliers.html#supplierFunction()">supplierFunction()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Suppliers.html" title="class in com.google.common.base">Suppliers</a></dt>
 <dd>
@@ -16995,13 +16947,13 @@ the order they are declared.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/TypeToken.html#where(com.google.common.reflect.TypeParameter,%20com.google.common.reflect.TypeToken)">where(TypeParameter&lt;X&gt;, TypeToken&lt;X&gt;)</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a></dt>
 <dd>
-<div class="block">Returns a new <code>TypeToken</code> where type variables represented by <code>typeParam</code>
- are substituted by <code>typeArg</code>.</div>
+<div class="block">Returns a new <code>TypeToken</code> where type variables represented by <code>typeParam</code> are
+ substituted by <code>typeArg</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/TypeToken.html#where(com.google.common.reflect.TypeParameter,%20java.lang.Class)">where(TypeParameter&lt;X&gt;, Class&lt;X&gt;)</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a></dt>
 <dd>
-<div class="block">Returns a new <code>TypeToken</code> where type variables represented by <code>typeParam</code>
- are substituted by <code>typeArg</code>.</div>
+<div class="block">Returns a new <code>TypeToken</code> where type variables represented by <code>typeParam</code> are
+ substituted by <code>typeArg</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#WHITESPACE">WHITESPACE</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>

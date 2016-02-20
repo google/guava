@@ -53,8 +53,8 @@
 <span class="sourceLineNo">045</span>  }<a name="line.45"></a>
 <span class="sourceLineNo">046</span><a name="line.46"></a>
 <span class="sourceLineNo">047</span>  /**<a name="line.47"></a>
-<span class="sourceLineNo">048</span>   * Reads the next byte of data from the underlying input stream and updates the hasher with<a name="line.48"></a>
-<span class="sourceLineNo">049</span>   * the byte read.<a name="line.49"></a>
+<span class="sourceLineNo">048</span>   * Reads the next byte of data from the underlying input stream and updates the hasher with the<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   * byte read.<a name="line.49"></a>
 <span class="sourceLineNo">050</span>   */<a name="line.50"></a>
 <span class="sourceLineNo">051</span>  @Override<a name="line.51"></a>
 <span class="sourceLineNo">052</span>  @CanIgnoreReturnValue<a name="line.52"></a>
@@ -82,36 +82,38 @@
 <span class="sourceLineNo">074</span><a name="line.74"></a>
 <span class="sourceLineNo">075</span>  /**<a name="line.75"></a>
 <span class="sourceLineNo">076</span>   * mark() is not supported for HashingInputStream<a name="line.76"></a>
-<span class="sourceLineNo">077</span>   * @return {@code false} always<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   */<a name="line.78"></a>
-<span class="sourceLineNo">079</span>  @Override<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  public boolean markSupported() {<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    return false;<a name="line.81"></a>
-<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
-<span class="sourceLineNo">083</span><a name="line.83"></a>
-<span class="sourceLineNo">084</span>  /**<a name="line.84"></a>
-<span class="sourceLineNo">085</span>   * mark() is not supported for HashingInputStream<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   */<a name="line.86"></a>
-<span class="sourceLineNo">087</span>  @Override<a name="line.87"></a>
-<span class="sourceLineNo">088</span>  public void mark(int readlimit) {}<a name="line.88"></a>
-<span class="sourceLineNo">089</span><a name="line.89"></a>
-<span class="sourceLineNo">090</span>  /**<a name="line.90"></a>
-<span class="sourceLineNo">091</span>   * reset() is not supported for HashingInputStream.<a name="line.91"></a>
-<span class="sourceLineNo">092</span>   * @throws IOException this operation is not supported<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   */<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  @Override<a name="line.94"></a>
-<span class="sourceLineNo">095</span>  public void reset() throws IOException {<a name="line.95"></a>
-<span class="sourceLineNo">096</span>    throw new IOException("reset not supported");<a name="line.96"></a>
-<span class="sourceLineNo">097</span>  }<a name="line.97"></a>
-<span class="sourceLineNo">098</span><a name="line.98"></a>
-<span class="sourceLineNo">099</span>  /**<a name="line.99"></a>
-<span class="sourceLineNo">100</span>   * Returns the {@link HashCode} based on the data read from this stream. The result is<a name="line.100"></a>
-<span class="sourceLineNo">101</span>   * unspecified if this method is called more than once on the same instance.<a name="line.101"></a>
-<span class="sourceLineNo">102</span>   */<a name="line.102"></a>
-<span class="sourceLineNo">103</span>  public HashCode hash() {<a name="line.103"></a>
-<span class="sourceLineNo">104</span>    return hasher.hash();<a name="line.104"></a>
-<span class="sourceLineNo">105</span>  }<a name="line.105"></a>
-<span class="sourceLineNo">106</span>}<a name="line.106"></a>
+<span class="sourceLineNo">077</span>   *<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * @return {@code false} always<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   */<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  @Override<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  public boolean markSupported() {<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    return false;<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  }<a name="line.83"></a>
+<span class="sourceLineNo">084</span><a name="line.84"></a>
+<span class="sourceLineNo">085</span>  /**<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * mark() is not supported for HashingInputStream<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   */<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  @Override<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  public void mark(int readlimit) {}<a name="line.89"></a>
+<span class="sourceLineNo">090</span><a name="line.90"></a>
+<span class="sourceLineNo">091</span>  /**<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   * reset() is not supported for HashingInputStream.<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   *<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   * @throws IOException this operation is not supported<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   */<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  @Override<a name="line.96"></a>
+<span class="sourceLineNo">097</span>  public void reset() throws IOException {<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    throw new IOException("reset not supported");<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  }<a name="line.99"></a>
+<span class="sourceLineNo">100</span><a name="line.100"></a>
+<span class="sourceLineNo">101</span>  /**<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * Returns the {@link HashCode} based on the data read from this stream. The result is unspecified<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * if this method is called more than once on the same instance.<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   */<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  public HashCode hash() {<a name="line.105"></a>
+<span class="sourceLineNo">106</span>    return hasher.hash();<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  }<a name="line.107"></a>
+<span class="sourceLineNo">108</span>}<a name="line.108"></a>
 
 
 

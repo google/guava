@@ -517,9 +517,9 @@
 <span class="sourceLineNo">509</span>  }<a name="line.509"></a>
 <span class="sourceLineNo">510</span><a name="line.510"></a>
 <span class="sourceLineNo">511</span>  private static final class SerializedForm&lt;E&gt; implements Serializable {<a name="line.511"></a>
-<span class="sourceLineNo">512</span>    Comparator&lt;? super E&gt; comparator;<a name="line.512"></a>
-<span class="sourceLineNo">513</span>    E[] elements;<a name="line.513"></a>
-<span class="sourceLineNo">514</span>    int[] counts;<a name="line.514"></a>
+<span class="sourceLineNo">512</span>    final Comparator&lt;? super E&gt; comparator;<a name="line.512"></a>
+<span class="sourceLineNo">513</span>    final E[] elements;<a name="line.513"></a>
+<span class="sourceLineNo">514</span>    final int[] counts;<a name="line.514"></a>
 <span class="sourceLineNo">515</span><a name="line.515"></a>
 <span class="sourceLineNo">516</span>    @SuppressWarnings("unchecked")<a name="line.516"></a>
 <span class="sourceLineNo">517</span>    SerializedForm(SortedMultiset&lt;E&gt; multiset) {<a name="line.517"></a>

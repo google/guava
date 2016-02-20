@@ -2749,8 +2749,8 @@
 <span class="sourceLineNo">2741</span>  }<a name="line.2741"></a>
 <span class="sourceLineNo">2742</span><a name="line.2742"></a>
 <span class="sourceLineNo">2743</span>  private static final class FilteredMapValues&lt;K, V&gt; extends Maps.Values&lt;K, V&gt; {<a name="line.2743"></a>
-<span class="sourceLineNo">2744</span>    Map&lt;K, V&gt; unfiltered;<a name="line.2744"></a>
-<span class="sourceLineNo">2745</span>    Predicate&lt;? super Entry&lt;K, V&gt;&gt; predicate;<a name="line.2745"></a>
+<span class="sourceLineNo">2744</span>    final Map&lt;K, V&gt; unfiltered;<a name="line.2744"></a>
+<span class="sourceLineNo">2745</span>    final Predicate&lt;? super Entry&lt;K, V&gt;&gt; predicate;<a name="line.2745"></a>
 <span class="sourceLineNo">2746</span><a name="line.2746"></a>
 <span class="sourceLineNo">2747</span>    FilteredMapValues(<a name="line.2747"></a>
 <span class="sourceLineNo">2748</span>        Map&lt;K, V&gt; filteredMap, Map&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; predicate) {<a name="line.2748"></a>
@@ -2796,7 +2796,7 @@
 <span class="sourceLineNo">2788</span>  }<a name="line.2788"></a>
 <span class="sourceLineNo">2789</span><a name="line.2789"></a>
 <span class="sourceLineNo">2790</span>  private static class FilteredKeyMap&lt;K, V&gt; extends AbstractFilteredMap&lt;K, V&gt; {<a name="line.2790"></a>
-<span class="sourceLineNo">2791</span>    Predicate&lt;? super K&gt; keyPredicate;<a name="line.2791"></a>
+<span class="sourceLineNo">2791</span>    final Predicate&lt;? super K&gt; keyPredicate;<a name="line.2791"></a>
 <span class="sourceLineNo">2792</span><a name="line.2792"></a>
 <span class="sourceLineNo">2793</span>    FilteredKeyMap(<a name="line.2793"></a>
 <span class="sourceLineNo">2794</span>        Map&lt;K, V&gt; unfiltered,<a name="line.2794"></a>

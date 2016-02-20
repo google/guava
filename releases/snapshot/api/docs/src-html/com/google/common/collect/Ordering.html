@@ -317,7 +317,7 @@
 <span class="sourceLineNo">309</span>  static class ArbitraryOrdering extends Ordering&lt;Object&gt; {<a name="line.309"></a>
 <span class="sourceLineNo">310</span><a name="line.310"></a>
 <span class="sourceLineNo">311</span>    @SuppressWarnings("deprecation") // TODO(kevinb): ?<a name="line.311"></a>
-<span class="sourceLineNo">312</span>    private Map&lt;Object, Integer&gt; uids =<a name="line.312"></a>
+<span class="sourceLineNo">312</span>    private final Map&lt;Object, Integer&gt; uids =<a name="line.312"></a>
 <span class="sourceLineNo">313</span>        Platform.tryWeakKeys(new MapMaker())<a name="line.313"></a>
 <span class="sourceLineNo">314</span>            .makeComputingMap(<a name="line.314"></a>
 <span class="sourceLineNo">315</span>                new Function&lt;Object, Integer&gt;() {<a name="line.315"></a>

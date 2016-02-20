@@ -31,8 +31,8 @@
 <span class="sourceLineNo">023</span><a name="line.23"></a>
 <span class="sourceLineNo">024</span>/**<a name="line.24"></a>
 <span class="sourceLineNo">025</span> * A {@link PrimitiveSink} that can compute a hash code after reading the input. Each hasher should<a name="line.25"></a>
-<span class="sourceLineNo">026</span> * translate all multibyte values ({@link #putInt(int)}, {@link #putLong(long)}, etc) to bytes<a name="line.26"></a>
-<span class="sourceLineNo">027</span> * in little-endian order.<a name="line.27"></a>
+<span class="sourceLineNo">026</span> * translate all multibyte values ({@link #putInt(int)}, {@link #putLong(long)}, etc) to bytes in<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * little-endian order.<a name="line.27"></a>
 <span class="sourceLineNo">028</span> *<a name="line.28"></a>
 <span class="sourceLineNo">029</span> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; The result of calling any methods after calling {@link #hash} is undefined.<a name="line.29"></a>
 <span class="sourceLineNo">030</span> *<a name="line.30"></a>
@@ -42,10 +42,10 @@
 <span class="sourceLineNo">034</span> * must be identical across languages. Also beware that {@link Charset} definitions may occasionally<a name="line.34"></a>
 <span class="sourceLineNo">035</span> * change between Java releases.<a name="line.35"></a>
 <span class="sourceLineNo">036</span> *<a name="line.36"></a>
-<span class="sourceLineNo">037</span> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; Chunks of data that are put into the {@link Hasher} are not delimited.<a name="line.37"></a>
-<span class="sourceLineNo">038</span> * The resulting {@link HashCode} is dependent only on the bytes inserted, and the order in which<a name="line.38"></a>
-<span class="sourceLineNo">039</span> * they were inserted, not how those bytes were chunked into discrete put() operations. For example,<a name="line.39"></a>
-<span class="sourceLineNo">040</span> * the following three expressions all generate colliding hash codes: &lt;pre&gt;   {@code<a name="line.40"></a>
+<span class="sourceLineNo">037</span> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; Chunks of data that are put into the {@link Hasher} are not delimited. The<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * resulting {@link HashCode} is dependent only on the bytes inserted, and the order in which they<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * were inserted, not how those bytes were chunked into discrete put() operations. For example, the<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * following three expressions all generate colliding hash codes: &lt;pre&gt;   {@code<a name="line.40"></a>
 <span class="sourceLineNo">041</span> *<a name="line.41"></a>
 <span class="sourceLineNo">042</span> *   newHasher().putByte(b1).putByte(b2).putByte(b3).hash()<a name="line.42"></a>
 <span class="sourceLineNo">043</span> *   newHasher().putByte(b1).putBytes(new byte[] { b2, b3 }).hash()<a name="line.43"></a>
@@ -103,8 +103,8 @@
 <span class="sourceLineNo">095</span>  Hasher putChar(char c);<a name="line.95"></a>
 <span class="sourceLineNo">096</span><a name="line.96"></a>
 <span class="sourceLineNo">097</span>  /**<a name="line.97"></a>
-<span class="sourceLineNo">098</span>   * Equivalent to processing each {@code char} value in the {@code CharSequence}, in order.<a name="line.98"></a>
-<span class="sourceLineNo">099</span>   * The input must not be updated while this method is in progress.<a name="line.99"></a>
+<span class="sourceLineNo">098</span>   * Equivalent to processing each {@code char} value in the {@code CharSequence}, in order. The<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * input must not be updated while this method is in progress.<a name="line.99"></a>
 <span class="sourceLineNo">100</span>   *<a name="line.100"></a>
 <span class="sourceLineNo">101</span>   * @since 15.0 (since 11.0 as putString(CharSequence)).<a name="line.101"></a>
 <span class="sourceLineNo">102</span>   */<a name="line.102"></a>

@@ -430,7 +430,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/
  <li>If <code>tolerance</code> is zero, and neither <code>a</code> nor <code>b</code> is NaN, then <code>a</code>
      and <code>b</code> are fuzzily equal if and only if <code>a == b</code>.
  <li>With <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Double.html?is-external=true#POSITIVE_INFINITY" title="class or interface in java.lang"><code>Double.POSITIVE_INFINITY</code></a> tolerance, all non-NaN values are fuzzily equal.
- <li>With finite tolerance, <code>Double.POSITIVE_INFINITY</code> and <code>Double.NEGATIVE_INFINITY</code> are fuzzily equal only to themselves.</li>
+ <li>With finite tolerance, <code>Double.POSITIVE_INFINITY</code> and <code>Double.NEGATIVE_INFINITY</code> are fuzzily equal only to themselves.
 
  <p>This is reflexive and symmetric, but <em>not</em> transitive, so it is <em>not</em> an
  equivalence relation and <em>not</em> suitable for use in <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>

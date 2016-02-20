@@ -100,7 +100,7 @@
 </dl>
 <hr>
 <br>
-<pre>public static final class <a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.html#line.220">ImmutableUndirectedGraph.Builder</a>&lt;N,E&gt;
+<pre>public static final class <a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.html#line.87">ImmutableUndirectedGraph.Builder</a>&lt;N,E&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A builder for creating immutable undirected graph instances.</div>
 <dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph"><code>GraphConfig</code></a></dd></dl>
@@ -151,20 +151,20 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html#addEdge(E,%20N,%20N)">addEdge</a></strong>(<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&nbsp;edge,
               <a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>&nbsp;node1,
               <a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>&nbsp;node2)</code>
-<div class="block">Adds <code>e</code> to the graph being built, connecting <code>n1</code> and <code>n2</code>;
- adds <code>n1</code> and <code>n2</code> if not already present.</div>
+<div class="block">Adds <code>edge</code> to the graph being built, connecting <code>node1</code> and <code>node2</code>;
+ adds <code>node1</code> and <code>node2</code> if not already present.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableUndirectedGraph.Builder</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html#addGraph(com.google.common.graph.UndirectedGraph)">addGraph</a></strong>(<a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph">UndirectedGraph</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&gt;&nbsp;graph)</code>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html#addGraph(com.google.common.graph.Graph)">addGraph</a></strong>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&gt;&nbsp;graphToAdd)</code>
 <div class="block">Adds all elements of <code>graph</code> to the graph being built.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableUndirectedGraph.Builder</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html#addNode(N)">addNode</a></strong>(<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>&nbsp;node)</code>
-<div class="block">Adds <code>n</code> to the graph being built.</div>
+<div class="block">Adds <code>node</code> to the graph being built.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -202,7 +202,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>ImmutableUndirectedGraph.Builder</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.Builder.html#line.227">ImmutableUndirectedGraph.Builder</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.Builder.html#line.92">ImmutableUndirectedGraph.Builder</a>()</pre>
 <div class="block">Creates a new builder with the default graph configuration.</div>
 </li>
 </ul>
@@ -212,7 +212,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ImmutableUndirectedGraph.Builder</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.Builder.html#line.234">ImmutableUndirectedGraph.Builder</a>(<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;config)</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.Builder.html#line.99">ImmutableUndirectedGraph.Builder</a>(<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;config)</pre>
 <div class="block">Creates a new builder with the specified configuration.</div>
 </li>
 </ul>
@@ -224,6 +224,17 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="build()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>build</h4>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.Builder.html#line.123">build</a>()</pre>
+<div class="block">Creates and returns a new instance of <code>AbstractImmutableGraph</code>
+ based on the contents of the <code>Builder</code>.</div>
+</li>
+</ul>
 <a name="addNode(java.lang.Object)">
 <!--   -->
 </a><a name="addNode(N)">
@@ -232,8 +243,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>addNode</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableUndirectedGraph.Builder</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.Builder.html#line.253">addNode</a>(<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>&nbsp;node)</pre>
-<div class="block">Adds <code>n</code> to the graph being built.</div>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableUndirectedGraph.Builder</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.Builder.html#line.129">addNode</a>(<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>&nbsp;node)</pre>
+<div class="block">Adds <code>node</code> to the graph being built.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>this <code>Builder</code> instance</dd></dl>
 </li>
 </ul>
@@ -245,38 +256,23 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>addEdge</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableUndirectedGraph.Builder</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.Builder.html#line.260">addEdge</a>(<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&nbsp;edge,
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableUndirectedGraph.Builder</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.Builder.html#line.135">addEdge</a>(<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&nbsp;edge,
                                             <a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>&nbsp;node1,
                                             <a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>&nbsp;node2)</pre>
-<div class="block">Adds <code>e</code> to the graph being built, connecting <code>n1</code> and <code>n2</code>;
- adds <code>n1</code> and <code>n2</code> if not already present.</div>
+<div class="block">Adds <code>edge</code> to the graph being built, connecting <code>node1</code> and <code>node2</code>;
+ adds <code>node1</code> and <code>node2</code> if not already present.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>this <code>Builder</code> instance</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../com/google/common/graph/Graph.html#addEdge(E,%20N,%20N)"><code>Graph.addEdge(E, N, N)</code></a></dd></dl>
 </li>
 </ul>
-<a name="addGraph(com.google.common.graph.UndirectedGraph)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>addGraph</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableUndirectedGraph.Builder</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.Builder.html#line.275">addGraph</a>(<a href="../../../../com/google/common/graph/UndirectedGraph.html" title="interface in com.google.common.graph">UndirectedGraph</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&gt;&nbsp;graph)</pre>
-<div class="block">Adds all elements of <code>graph</code> to the graph being built.</div>
-<dl><dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - under either of two conditions:
-     (1) the <code>GraphConfig</code> objects held by the graph being built and by <code>graph</code>
-     are not compatible
-     (2) calling <code>Graph.addEdge(e, n1, n2)</code> on the graph being built throws IAE</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../com/google/common/graph/Graph.html#addEdge(E,%20N,%20N)"><code>Graph.addEdge(E, N, N)</code></a></dd></dl>
-</li>
-</ul>
-<a name="build()">
+<a name="addGraph(com.google.common.graph.Graph)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>build</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.Builder.html#line.294">build</a>()</pre>
-<div class="block">Creates and returns a new instance of <code>AbstractImmutableGraph</code>
- based on the contents of the <code>Builder</code>.</div>
+<h4>addGraph</h4>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="class in com.google.common.graph">ImmutableUndirectedGraph.Builder</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableUndirectedGraph.Builder.html#line.141">addGraph</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">N</a>,<a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.Builder.html" title="type parameter in ImmutableUndirectedGraph.Builder">E</a>&gt;&nbsp;graphToAdd)</pre>
+<div class="block">Adds all elements of <code>graph</code> to the graph being built.</div>
+<dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../com/google/common/graph/Graph.html#addEdge(E,%20N,%20N)"><code>Graph.addEdge(E, N, N)</code></a></dd></dl>
 </li>
 </ul>
 </li>

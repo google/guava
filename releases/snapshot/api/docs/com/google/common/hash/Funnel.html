@@ -99,8 +99,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.h
 
  <p>Note that serialization of <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">bloom filters</a> requires the proper
  serialization of funnels. When possible, it is recommended that funnels be implemented as a
- single-element enum to maintain serialization guarantees. See Effective Java (2nd Edition),
- Item 3: "Enforce the singleton property with a private constructor or an enum type". For example:
+ single-element enum to maintain serialization guarantees. See Effective Java (2nd Edition), Item
+ 3: "Enforce the singleton property with a private constructor or an enum type". For example:
  <pre>   <code>public enum PersonFunnel implements Funnel&lt;Person&gt; {
      INSTANCE;
      public void funnel(Person person, PrimitiveSink into) {
@@ -161,11 +161,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>funnel</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnel.html#line.52">funnel</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="type parameter in Funnel">T</a>&nbsp;from,
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnel.html#line.51">funnel</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="type parameter in Funnel">T</a>&nbsp;from,
           <a href="../../../../com/google/common/hash/PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a>&nbsp;into)</pre>
-<div class="block">Sends a stream of data from the <code>from</code> object into the sink <code>into</code>. There
- is no requirement that this data be complete enough to fully reconstitute the object
- later.</div>
+<div class="block">Sends a stream of data from the <code>from</code> object into the sink <code>into</code>. There is no
+ requirement that this data be complete enough to fully reconstitute the object later.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>12.0 (in Guava 11.0, <code>PrimitiveSink</code> was named <code>Sink</code>)</dd></dl>
 </li>
