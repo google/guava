@@ -158,13 +158,24 @@ echo " Done."
 # Remove the useless user comments xml file
 rm $tempdir/diffs/user_comments_for_Guava_*
 
+# Get the sed to use
+sedbinary=sed
+if [[ -n $(which gsed) ]]; then
+  # default sed on OS X isn't GNU sed and behaves differently
+  # use gsed if it's available
+  sedbinary=gsed
+fi
+
 # Change changes.html to index.html, making the url for a diff just releases/<release>/api/diffs/
 mv $tempdir/diffs/changes.html $tempdir/diffs/index.html
 # Change references to ../changes.html in the changes/ subdirectory  to reference the new URL (just ..)
-find $tempdir/diffs/changes -name *.html -exec sed -i'.bak' -e 's#\.\./changes.html#..#g' {} ";"
-# Just create backup files and then delete them... doesn't seem to be any good way to avoid this if
-# you want this to work with either GNU or BSD sed.
-rm $tempdir/diffs/changes/*.bak
+find $tempdir/diffs/changes -name *.html -exec $sedbinary -i -re 's#\.\./changes.html#..#g' {} ";"
+
+# Remove comments that cause unnecessary diffs: date the file was generated and command line args.
+$sedbinary -i -r \
+    -e '/^<!-- on .+ -->$/d' \
+    -e '/^<!--\s+Command line arguments .+ -->$/d' \
+    $tempdir/Guava_$guavaversion.xml $tempdir/diffs/index.html
 
 # Put the generated JDiff XML file in the correct place in the diffs dir.
 mv $tempdir/Guava_$guavaversion.xml $tempdir/diffs/$release.xml
@@ -197,13 +208,6 @@ else
   fieldtoupdate="latest_release"
   # The release being updated currently may not be the latest release.
   version=$(latest_release)
-fi
-
-sedbinary=sed
-if [[ -n $(which gsed) ]]; then
-  # default sed on OS X isn't GNU sed and behaves differently
-  # use gsed if it's available
-  sedbinary=gsed
 fi
 
 $sedbinary -i'' -re "s/$fieldtoupdate:[ ]+.+/$fieldtoupdate: $version/g" _config.yml
