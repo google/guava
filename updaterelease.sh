@@ -195,10 +195,14 @@ mv $tempdir/diffs $diffsdir
 echo " Done."
 
 # Commit
-echo -n "Committing changes..."
-git add .
-git commit -q -m "Generate Javadoc and JDiff for Guava $guavaversion"
-echo " Done."
+if ! git diff --quiet ; then
+  echo -n "Committing changes..."
+  git add .
+  git commit -q -m "Generate Javadoc and JDiff for Guava $guavaversion"
+  echo " Done."
+else
+  echo "No changes to commit."
+fi
 
 # Update version info in _config.yml
 if [[ $release == "snapshot" ]]; then
