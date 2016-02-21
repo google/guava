@@ -18,13 +18,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
 
-import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UncheckedIOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.AbstractList;
@@ -33,6 +30,11 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
+
+import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * Static utility methods pertaining to instances of {@link Throwable}.
@@ -163,6 +165,11 @@ public final class Throwables {
   @CanIgnoreReturnValue
   public static RuntimeException propagate(Throwable throwable) {
     propagateIfPossible(checkNotNull(throwable));
+
+    if (throwable instanceof IOException) {
+      throw new UncheckedIOException((IOException) throwable);
+    }
+
     throw new RuntimeException(throwable);
   }
 
