@@ -23,7 +23,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableCollection;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -89,7 +88,6 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     runningState.init();
   }
 
-  @WeakOuter
   abstract class RunningState extends AggregateFutureState implements Runnable {
     private ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures;
     private final boolean allMustSucceed;

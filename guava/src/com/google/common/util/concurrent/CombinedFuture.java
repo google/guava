@@ -56,7 +56,6 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
             futures, allMustSucceed, new CallableInterruptibleTask(callable, listenerExecutor)));
   }
 
-  @WeakOuter
   private final class CombinedFutureRunningState extends RunningState {
     private CombinedFutureInterruptibleTask task;
 
