@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.primitives;
@@ -30,15 +28,13 @@ import java.nio.ByteOrder;
 import java.util.Comparator;
 
 /**
- * Static utility methods pertaining to {@code byte} primitives that interpret
- * values as <i>unsigned</i> (that is, any negative value {@code b} is treated
- * as the positive value {@code 256 + b}). The corresponding methods that treat
- * the values as signed are found in {@link SignedBytes}, and the methods for
- * which signedness is not an issue are in {@link Bytes}.
+ * Static utility methods pertaining to {@code byte} primitives that interpret values as
+ * <i>unsigned</i> (that is, any negative value {@code b} is treated as the positive value
+ * {@code 256 + b}). The corresponding methods that treat the values as signed are found in
+ * {@link SignedBytes}, and the methods for which signedness is not an issue are in {@link Bytes}.
  *
- * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/PrimitivesExplained">
- * primitive utilities</a>.
+ * <p>See the Guava User Guide article on
+ * <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @author Martin Buchholz
@@ -68,9 +64,8 @@ public final class UnsignedBytes {
   private static final int UNSIGNED_MASK = 0xFF;
 
   /**
-   * Returns the value of the given byte as an integer, when treated as
-   * unsigned. That is, returns {@code value + 256} if {@code value} is
-   * negative; {@code value} itself otherwise.
+   * Returns the value of the given byte as an integer, when treated as unsigned. That is, returns
+   * {@code value + 256} if {@code value} is negative; {@code value} itself otherwise.
    *
    * @since 6.0
    */
@@ -79,14 +74,12 @@ public final class UnsignedBytes {
   }
 
   /**
-   * Returns the {@code byte} value that, when treated as unsigned, is equal to
-   * {@code value}, if possible.
+   * Returns the {@code byte} value that, when treated as unsigned, is equal to {@code value}, if
+   * possible.
    *
    * @param value a value between 0 and 255 inclusive
-   * @return the {@code byte} value that, when treated as unsigned, equals
-   *     {@code value}
-   * @throws IllegalArgumentException if {@code value} is negative or greater
-   *     than 255
+   * @return the {@code byte} value that, when treated as unsigned, equals {@code value}
+   * @throws IllegalArgumentException if {@code value} is negative or greater than 255
    */
   @CanIgnoreReturnValue
   public static byte checkedCast(long value) {
@@ -98,12 +91,12 @@ public final class UnsignedBytes {
   }
 
   /**
-   * Returns the {@code byte} value that, when treated as unsigned, is nearest
-   * in value to {@code value}.
+   * Returns the {@code byte} value that, when treated as unsigned, is nearest in value to
+   * {@code value}.
    *
    * @param value any {@code long} value
-   * @return {@code (byte) 255} if {@code value >= 255}, {@code (byte) 0} if
-   *     {@code value <= 0}, and {@code value} cast to {@code byte} otherwise
+   * @return {@code (byte) 255} if {@code value >= 255}, {@code (byte) 0} if {@code value <= 0}, and
+   *     {@code value} cast to {@code byte} otherwise
    */
   public static byte saturatedCast(long value) {
     if (value > toInt(MAX_VALUE)) {
@@ -116,15 +109,14 @@ public final class UnsignedBytes {
   }
 
   /**
-   * Compares the two specified {@code byte} values, treating them as unsigned
-   * values between 0 and 255 inclusive. For example, {@code (byte) -127} is
-   * considered greater than {@code (byte) 127} because it is seen as having
-   * the value of positive {@code 129}.
+   * Compares the two specified {@code byte} values, treating them as unsigned values between 0 and
+   * 255 inclusive. For example, {@code (byte) -127} is considered greater than {@code (byte) 127}
+   * because it is seen as having the value of positive {@code 129}.
    *
    * @param a the first {@code byte} to compare
    * @param b the second {@code byte} to compare
-   * @return a negative value if {@code a} is less than {@code b}; a positive
-   *     value if {@code a} is greater than {@code b}; or zero if they are equal
+   * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
+   *     greater than {@code b}; or zero if they are equal
    */
   public static int compare(byte a, byte b) {
     return toInt(a) - toInt(b);
@@ -134,8 +126,8 @@ public final class UnsignedBytes {
    * Returns the least value present in {@code array}.
    *
    * @param array a <i>nonempty</i> array of {@code byte} values
-   * @return the value present in {@code array} that is less than or equal to
-   *     every other value in the array
+   * @return the value present in {@code array} that is less than or equal to every other value in
+   *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
   public static byte min(byte... array) {
@@ -154,8 +146,8 @@ public final class UnsignedBytes {
    * Returns the greatest value present in {@code array}.
    *
    * @param array a <i>nonempty</i> array of {@code byte} values
-   * @return the value present in {@code array} that is greater than or equal
-   *     to every other value in the array
+   * @return the value present in {@code array} that is greater than or equal to every other value
+   *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
   public static byte max(byte... array) {
@@ -181,13 +173,13 @@ public final class UnsignedBytes {
   }
 
   /**
-   * Returns a string representation of {@code x} for the given radix, where {@code x} is treated
-   * as unsigned.
+   * Returns a string representation of {@code x} for the given radix, where {@code x} is treated as
+   * unsigned.
    *
    * @param x the value to convert to a string.
    * @param radix the radix to use while working with {@code x}
    * @throws IllegalArgumentException if {@code radix} is not between {@link Character#MIN_RADIX}
-   *         and {@link Character#MAX_RADIX}.
+   *     and {@link Character#MAX_RADIX}.
    * @since 13.0
    */
   @Beta
@@ -204,9 +196,9 @@ public final class UnsignedBytes {
    * Returns the unsigned {@code byte} value represented by the given decimal string.
    *
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code byte}
-   *         value
-   * @throws NullPointerException if {@code string} is null
-   *         (in contrast to {@link Byte#parseByte(String)})
+   *     value
+   * @throws NullPointerException if {@code string} is null (in contrast to
+   *     {@link Byte#parseByte(String)})
    * @since 13.0
    */
   @Beta
@@ -220,11 +212,11 @@ public final class UnsignedBytes {
    *
    * @param string the string containing the unsigned {@code byte} representation to be parsed.
    * @param radix the radix to use while parsing {@code string}
-   * @throws NumberFormatException if the string does not contain a valid unsigned {@code byte}
-   *         with the given radix, or if {@code radix} is not between {@link Character#MIN_RADIX}
-   *         and {@link Character#MAX_RADIX}.
-   * @throws NullPointerException if {@code string} is null
-   *         (in contrast to {@link Byte#parseByte(String)})
+   * @throws NumberFormatException if the string does not contain a valid unsigned {@code byte} with
+   *     the given radix, or if {@code radix} is not between {@link Character#MIN_RADIX} and
+   *     {@link Character#MAX_RADIX}.
+   * @throws NullPointerException if {@code string} is null (in contrast to
+   *     {@link Byte#parseByte(String)})
    * @since 13.0
    */
   @Beta
@@ -240,12 +232,12 @@ public final class UnsignedBytes {
   }
 
   /**
-   * Returns a string containing the supplied {@code byte} values separated by
-   * {@code separator}. For example, {@code join(":", (byte) 1, (byte) 2,
+   * Returns a string containing the supplied {@code byte} values separated by {@code separator}.
+   * For example, {@code join(":", (byte) 1, (byte) 2,
    * (byte) 255)} returns the string {@code "1:2:255"}.
    *
-   * @param separator the text that should appear between consecutive values in
-   *     the resulting string (but not at the start or end)
+   * @param separator the text that should appear between consecutive values in the resulting string
+   *     (but not at the start or end)
    * @param array an array of {@code byte} values, possibly empty
    */
   public static String join(String separator, byte... array) {
@@ -264,19 +256,17 @@ public final class UnsignedBytes {
   }
 
   /**
-   * Returns a comparator that compares two {@code byte} arrays
-   * lexicographically. That is, it compares, using {@link
-   * #compare(byte, byte)}), the first pair of values that follow any common
-   * prefix, or when one array is a prefix of the other, treats the shorter
-   * array as the lesser. For example, {@code [] < [0x01] < [0x01, 0x7F] <
-   * [0x01, 0x80] < [0x02]}. Values are treated as unsigned.
+   * Returns a comparator that compares two {@code byte} arrays <a
+   * href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>. That is, it
+   * compares, using {@link #compare(byte, byte)}), the first pair of values that follow any common
+   * prefix, or when one array is a prefix of the other, treats the shorter array as the lesser. For
+   * example, {@code [] < [0x01] < [0x01, 0x7F] < [0x01, 0x80] < [0x02]}. Values are treated as
+   * unsigned.
    *
-   * <p>The returned comparator is inconsistent with {@link
-   * Object#equals(Object)} (since arrays support only identity equality), but
-   * it is consistent with {@link java.util.Arrays#equals(byte[], byte[])}.
+   * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
+   * support only identity equality), but it is consistent with
+   * {@link java.util.Arrays#equals(byte[], byte[])}.
    *
-   * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
-   *     Lexicographical order article at Wikipedia</a>
    * @since 2.0
    */
   public static Comparator<byte[]> lexicographicalComparator() {
@@ -289,11 +279,11 @@ public final class UnsignedBytes {
   }
 
   /**
-   * Provides a lexicographical comparator implementation; either a Java
-   * implementation or a faster implementation based on {@link Unsafe}.
+   * Provides a lexicographical comparator implementation; either a Java implementation or a faster
+   * implementation based on {@link Unsafe}.
    *
-   * <p>Uses reflection to gracefully fall back to the Java implementation if
-   * {@code Unsafe} isn't available.
+   * <p>Uses reflection to gracefully fall back to the Java implementation if {@code Unsafe} isn't
+   * available.
    */
   @VisibleForTesting
   static class LexicographicalComparatorHolder {
@@ -311,20 +301,17 @@ public final class UnsignedBytes {
       /*
        * The following static final fields exist for performance reasons.
        *
-       * In UnsignedBytesBenchmark, accessing the following objects via static
-       * final fields is the fastest (more than twice as fast as the Java
-       * implementation, vs ~1.5x with non-final static fields, on x86_32)
-       * under the Hotspot server compiler. The reason is obviously that the
+       * In UnsignedBytesBenchmark, accessing the following objects via static final fields is the
+       * fastest (more than twice as fast as the Java implementation, vs ~1.5x with non-final static
+       * fields, on x86_32) under the Hotspot server compiler. The reason is obviously that the
        * non-final fields need to be reloaded inside the loop.
        *
-       * And, no, defining (final or not) local variables out of the loop still
-       * isn't as good because the null check on the theUnsafe object remains
-       * inside the loop and BYTE_ARRAY_BASE_OFFSET doesn't get
-       * constant-folded.
+       * And, no, defining (final or not) local variables out of the loop still isn't as good
+       * because the null check on the theUnsafe object remains inside the loop and
+       * BYTE_ARRAY_BASE_OFFSET doesn't get constant-folded.
        *
-       * The compiler can treat static final fields as compile-time constants
-       * and can constant-fold them while (final or not) local variables are
-       * run time values.
+       * The compiler can treat static final fields as compile-time constants and can constant-fold
+       * them while (final or not) local variables are run time values.
        */
 
       static final Unsafe theUnsafe;
@@ -344,9 +331,8 @@ public final class UnsignedBytes {
       }
 
       /**
-       * Returns a sun.misc.Unsafe.  Suitable for use in a 3rd party package.
-       * Replace with a simple call to Unsafe.getUnsafe when integrating
-       * into a jdk.
+       * Returns a sun.misc.Unsafe. Suitable for use in a 3rd party package. Replace with a simple
+       * call to Unsafe.getUnsafe when integrating into a jdk.
        *
        * @return a sun.misc.Unsafe
        */
@@ -359,6 +345,7 @@ public final class UnsignedBytes {
         try {
           return java.security.AccessController.doPrivileged(
               new java.security.PrivilegedExceptionAction<sun.misc.Unsafe>() {
+                @Override
                 public sun.misc.Unsafe run() throws Exception {
                   Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
                   for (java.lang.reflect.Field f : k.getDeclaredFields()) {
@@ -382,9 +369,9 @@ public final class UnsignedBytes {
         int minWords = minLength / Longs.BYTES;
 
         /*
-         * Compare 8 bytes at a time. Benchmarking shows comparing 8 bytes at a
-         * time is no slower than comparing 4 bytes at a time even on 32-bit.
-         * On the other hand, it is substantially faster on 64-bit.
+         * Compare 8 bytes at a time. Benchmarking shows comparing 8 bytes at a time is no slower
+         * than comparing 4 bytes at a time even on 32-bit. On the other hand, it is substantially
+         * faster on 64-bit.
          */
         for (int i = 0; i < minWords * Longs.BYTES; i += Longs.BYTES) {
           long lw = theUnsafe.getLong(left, BYTE_ARRAY_BASE_OFFSET + (long) i);
@@ -395,11 +382,11 @@ public final class UnsignedBytes {
             }
 
             /*
-             * We want to compare only the first index where left[index] != right[index].
-             * This corresponds to the least significant nonzero byte in lw ^ rw, since lw
-             * and rw are little-endian.  Long.numberOfTrailingZeros(diff) tells us the least
-             * significant nonzero bit, and zeroing out the first three bits of L.nTZ gives us the
-             * shift to get that least significant nonzero byte.
+             * We want to compare only the first index where left[index] != right[index]. This
+             * corresponds to the least significant nonzero byte in lw ^ rw, since lw and rw are
+             * little-endian. Long.numberOfTrailingZeros(diff) tells us the least significant
+             * nonzero bit, and zeroing out the first three bits of L.nTZ gives us the shift to get
+             * that least significant nonzero byte.
              */
             int n = Long.numberOfTrailingZeros(lw ^ rw) & ~0x7;
             return ((int) ((lw >>> n) & UNSIGNED_MASK)) - ((int) ((rw >>> n) & UNSIGNED_MASK));
@@ -444,8 +431,8 @@ public final class UnsignedBytes {
     }
 
     /**
-     * Returns the Unsafe-using Comparator, or falls back to the pure-Java
-     * implementation if unable to do so.
+     * Returns the Unsafe-using Comparator, or falls back to the pure-Java implementation if unable
+     * to do so.
      */
     static Comparator<byte[]> getBestComparator() {
       try {

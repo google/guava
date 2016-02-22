@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2008 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.primitives;
@@ -38,12 +36,11 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 /**
- * Static utility methods pertaining to {@code long} primitives, that are not
- * already found in either {@link Long} or {@link Arrays}.
+ * Static utility methods pertaining to {@code long} primitives, that are not already found in
+ * either {@link Long} or {@link Arrays}.
  *
- * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/PrimitivesExplained">
- * primitive utilities</a>.
+ * <p>See the Guava User Guide article on
+ * <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0
@@ -53,8 +50,7 @@ public final class Longs {
   private Longs() {}
 
   /**
-   * The number of bytes required to represent a primitive {@code long}
-   * value.
+   * The number of bytes required to represent a primitive {@code long} value.
    */
   public static final int BYTES = Long.SIZE / Byte.SIZE;
 
@@ -69,10 +65,9 @@ public final class Longs {
    * Returns a hash code for {@code value}; equal to the result of invoking
    * {@code ((Long) value).hashCode()}.
    *
-   * <p>This method always return the value specified by {@link
-   * Long#hashCode()} in java, which might be different from
-   * {@code ((Long) value).hashCode()} in GWT because {@link Long#hashCode()}
-   * in GWT does not obey the JRE contract.
+   * <p>This method always return the value specified by {@link Long#hashCode()} in java, which
+   * might be different from {@code ((Long) value).hashCode()} in GWT because
+   * {@link Long#hashCode()} in GWT does not obey the JRE contract.
    *
    * @param value a primitive {@code long} value
    * @return a hash code for the value
@@ -82,24 +77,23 @@ public final class Longs {
   }
 
   /**
-   * Compares the two specified {@code long} values. The sign of the value
-   * returned is the same as that of {@code ((Long) a).compareTo(b)}.
+   * Compares the two specified {@code long} values. The sign of the value returned is the same as
+   * that of {@code ((Long) a).compareTo(b)}.
    *
-   * <p><b>Note for Java 7 and later:</b> this method should be treated as
-   * deprecated; use the equivalent {@link Long#compare} method instead.
+   * <p><b>Note for Java 7 and later:</b> this method should be treated as deprecated; use the
+   * equivalent {@link Long#compare} method instead.
    *
    * @param a the first {@code long} to compare
    * @param b the second {@code long} to compare
-   * @return a negative value if {@code a} is less than {@code b}; a positive
-   *     value if {@code a} is greater than {@code b}; or zero if they are equal
+   * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
+   *     greater than {@code b}; or zero if they are equal
    */
   public static int compare(long a, long b) {
     return (a < b) ? -1 : ((a > b) ? 1 : 0);
   }
 
   /**
-   * Returns {@code true} if {@code target} is present as an element anywhere in
-   * {@code array}.
+   * Returns {@code true} if {@code target} is present as an element anywhere in {@code array}.
    *
    * @param array an array of {@code long} values, possibly empty
    * @param target a primitive {@code long} value
@@ -116,13 +110,12 @@ public final class Longs {
   }
 
   /**
-   * Returns the index of the first appearance of the value {@code target} in
-   * {@code array}.
+   * Returns the index of the first appearance of the value {@code target} in {@code array}.
    *
    * @param array an array of {@code long} values, possibly empty
    * @param target a primitive {@code long} value
-   * @return the least index {@code i} for which {@code array[i] == target}, or
-   *     {@code -1} if no such index exists.
+   * @return the least index {@code i} for which {@code array[i] == target}, or {@code -1} if no
+   *     such index exists.
    */
   public static int indexOf(long[] array, long target) {
     return indexOf(array, target, 0, array.length);
@@ -142,9 +135,9 @@ public final class Longs {
    * Returns the start position of the first occurrence of the specified {@code
    * target} within {@code array}, or {@code -1} if there is no such occurrence.
    *
-   * <p>More formally, returns the lowest index {@code i} such that {@code
-   * java.util.Arrays.copyOfRange(array, i, i + target.length)} contains exactly
-   * the same elements as {@code target}.
+   * <p>More formally, returns the lowest index {@code i} such that
+   * {@code Arrays.copyOfRange(array, i, i + target.length)} contains exactly the same elements as
+   * {@code target}.
    *
    * @param array the array to search for the sequence {@code target}
    * @param target the array to search for as a sub-sequence of {@code array}
@@ -169,13 +162,12 @@ public final class Longs {
   }
 
   /**
-   * Returns the index of the last appearance of the value {@code target} in
-   * {@code array}.
+   * Returns the index of the last appearance of the value {@code target} in {@code array}.
    *
    * @param array an array of {@code long} values, possibly empty
    * @param target a primitive {@code long} value
-   * @return the greatest index {@code i} for which {@code array[i] == target},
-   *     or {@code -1} if no such index exists.
+   * @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no
+   *     such index exists.
    */
   public static int lastIndexOf(long[] array, long target) {
     return lastIndexOf(array, target, 0, array.length);
@@ -195,8 +187,8 @@ public final class Longs {
    * Returns the least value present in {@code array}.
    *
    * @param array a <i>nonempty</i> array of {@code long} values
-   * @return the value present in {@code array} that is less than or equal to
-   *     every other value in the array
+   * @return the value present in {@code array} that is less than or equal to every other value in
+   *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
   public static long min(long... array) {
@@ -214,8 +206,8 @@ public final class Longs {
    * Returns the greatest value present in {@code array}.
    *
    * @param array a <i>nonempty</i> array of {@code long} values
-   * @return the value present in {@code array} that is greater than or equal to
-   *     every other value in the array
+   * @return the value present in {@code array} that is greater than or equal to every other value
+   *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
   public static long max(long... array) {
@@ -230,13 +222,12 @@ public final class Longs {
   }
 
   /**
-   * Returns the values from each provided array combined into a single array.
-   * For example, {@code concat(new long[] {a, b}, new long[] {}, new
-   * long[] {c}} returns the array {@code {a, b, c}}.
+   * Returns the values from each provided array combined into a single array. For example,
+   * {@code concat(new long[] {a, b}, new long[] {}, new long[] {c}} returns the array
+   * {@code {a, b, c}}.
    *
    * @param arrays zero or more {@code long} arrays
-   * @return a single array containing all the values from the source arrays, in
-   *     order
+   * @return a single array containing all the values from the source arrays, in order
    */
   public static long[] concat(long[]... arrays) {
     int length = 0;
@@ -253,15 +244,14 @@ public final class Longs {
   }
 
   /**
-   * Returns a big-endian representation of {@code value} in an 8-element byte
-   * array; equivalent to {@code ByteBuffer.allocate(8).putLong(value).array()}.
-   * For example, the input value {@code 0x1213141516171819L} would yield the
-   * byte array {@code {0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19}}.
+   * Returns a big-endian representation of {@code value} in an 8-element byte array; equivalent to
+   * {@code ByteBuffer.allocate(8).putLong(value).array()}. For example, the input value
+   * {@code 0x1213141516171819L} would yield the byte array {@code {0x12, 0x13, 0x14, 0x15, 0x16,
+   * 0x17, 0x18, 0x19}}.
    *
-   * <p>If you need to convert and concatenate several values (possibly even of
-   * different types), use a shared {@link java.nio.ByteBuffer} instance, or use
-   * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable
-   * buffer.
+   * <p>If you need to convert and concatenate several values (possibly even of different types),
+   * use a shared {@link java.nio.ByteBuffer} instance, or use
+   * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable buffer.
    */
   public static byte[] toByteArray(long value) {
     // Note that this code needs to stay compatible with GWT, which has known
@@ -275,17 +265,15 @@ public final class Longs {
   }
 
   /**
-   * Returns the {@code long} value whose big-endian representation is
-   * stored in the first 8 bytes of {@code bytes}; equivalent to {@code
-   * ByteBuffer.wrap(bytes).getLong()}. For example, the input byte array
-   * {@code {0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19}} would yield the
+   * Returns the {@code long} value whose big-endian representation is stored in the first 8 bytes
+   * of {@code bytes}; equivalent to {@code ByteBuffer.wrap(bytes).getLong()}. For example, the
+   * input byte array {@code {0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19}} would yield the
    * {@code long} value {@code 0x1213141516171819L}.
    *
-   * <p>Arguably, it's preferable to use {@link java.nio.ByteBuffer}; that
-   * library exposes much more flexibility at little cost in readability.
+   * <p>Arguably, it's preferable to use {@link java.nio.ByteBuffer}; that library exposes much more
+   * flexibility at little cost in readability.
    *
-   * @throws IllegalArgumentException if {@code bytes} has fewer than 8
-   *     elements
+   * @throws IllegalArgumentException if {@code bytes} has fewer than 8 elements
    */
   public static long fromByteArray(byte[] bytes) {
     checkArgument(bytes.length >= BYTES, "array too small: %s < %s", bytes.length, BYTES);
@@ -294,9 +282,8 @@ public final class Longs {
   }
 
   /**
-   * Returns the {@code long} value whose byte representation is the given 8
-   * bytes, in big-endian order; equivalent to {@code Longs.fromByteArray(new
-   * byte[] {b1, b2, b3, b4, b5, b6, b7, b8})}.
+   * Returns the {@code long} value whose byte representation is the given 8 bytes, in big-endian
+   * order; equivalent to {@code Longs.fromByteArray(new byte[] {b1, b2, b3, b4, b5, b6, b7, b8})}.
    *
    * @since 7.0
    */
@@ -332,23 +319,19 @@ public final class Longs {
   }
 
   /**
-   * Parses the specified string as a signed decimal long value. The ASCII
-   * character {@code '-'} (<code>'&#92;u002D'</code>) is recognized as the
-   * minus sign.
+   * Parses the specified string as a signed decimal long value. The ASCII character {@code '-'}
+   * (<code>'&#92;u002D'</code>) is recognized as the minus sign.
    *
-   * <p>Unlike {@link Long#parseLong(String)}, this method returns
-   * {@code null} instead of throwing an exception if parsing fails.
-   * Additionally, this method only accepts ASCII digits, and returns
+   * <p>Unlike {@link Long#parseLong(String)}, this method returns {@code null} instead of throwing
+   * an exception if parsing fails. Additionally, this method only accepts ASCII digits, and returns
    * {@code null} if non-ASCII digits are present in the string.
    *
-   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even
-   * under JDK 7, despite the change to {@link Long#parseLong(String)} for
-   * that version.
+   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite
+   * the change to {@link Long#parseLong(String)} for that version.
    *
    * @param string the string representation of a long value
-   * @return the long value represented by {@code string}, or {@code null} if
-   *     {@code string} has a length of zero or cannot be parsed as a long
-   *     value
+   * @return the long value represented by {@code string}, or {@code null} if {@code string} has a
+   *     length of zero or cannot be parsed as a long value
    * @since 14.0
    */
   @Beta
@@ -359,24 +342,20 @@ public final class Longs {
   }
 
   /**
-   * Parses the specified string as a signed long value using the specified
-   * radix. The ASCII character {@code '-'} (<code>'&#92;u002D'</code>) is
-   * recognized as the minus sign.
+   * Parses the specified string as a signed long value using the specified radix. The ASCII
+   * character {@code '-'} (<code>'&#92;u002D'</code>) is recognized as the minus sign.
    *
-   * <p>Unlike {@link Long#parseLong(String, int)}, this method returns
-   * {@code null} instead of throwing an exception if parsing fails.
-   * Additionally, this method only accepts ASCII digits, and returns
-   * {@code null} if non-ASCII digits are present in the string.
+   * <p>Unlike {@link Long#parseLong(String, int)}, this method returns {@code null} instead of
+   * throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,
+   * and returns {@code null} if non-ASCII digits are present in the string.
    *
-   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even
-   * under JDK 7, despite the change to {@link Long#parseLong(String, int)}
-   * for that version.
+   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even under JDK 7, despite
+   * the change to {@link Long#parseLong(String, int)} for that version.
    *
    * @param string the string representation of an long value
    * @param radix the radix to use when parsing
-   * @return the long value represented by {@code string} using
-   *     {@code radix}, or {@code null} if {@code string} has a length of zero
-   *     or cannot be parsed as a long value
+   * @return the long value represented by {@code string} using {@code radix}, or {@code null} if
+   *     {@code string} has a length of zero or cannot be parsed as a long value
    * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or
    *     {@code radix > Character.MAX_RADIX}
    * @since 19.0
@@ -452,9 +431,9 @@ public final class Longs {
   }
 
   /**
-   * Returns a serializable converter object that converts between strings and longs using {@link
-   * Long#decode} and {@link Long#toString()}. The returned converter throws {@link
-   * NumberFormatException} if the input string is invalid.
+   * Returns a serializable converter object that converts between strings and longs using
+   * {@link Long#decode} and {@link Long#toString()}. The returned converter throws
+   * {@link NumberFormatException} if the input string is invalid.
    *
    * <p><b>Warning:</b> please see {@link Long#decode} to understand exactly how strings are parsed.
    * For example, the string {@code "0123"} is treated as <i>octal</i> and converted to the value
@@ -468,20 +447,17 @@ public final class Longs {
   }
 
   /**
-   * Returns an array containing the same values as {@code array}, but
-   * guaranteed to be of a specified minimum length. If {@code array} already
-   * has a length of at least {@code minLength}, it is returned directly.
-   * Otherwise, a new array of size {@code minLength + padding} is returned,
-   * containing the values of {@code array}, and zeroes in the remaining places.
+   * Returns an array containing the same values as {@code array}, but guaranteed to be of a
+   * specified minimum length. If {@code array} already has a length of at least {@code minLength},
+   * it is returned directly. Otherwise, a new array of size {@code minLength + padding} is
+   * returned, containing the values of {@code array}, and zeroes in the remaining places.
    *
    * @param array the source array
    * @param minLength the minimum length the returned array must guarantee
-   * @param padding an extra amount to "grow" the array by if growth is
-   *     necessary
-   * @throws IllegalArgumentException if {@code minLength} or {@code padding} is
-   *     negative
-   * @return an array containing the values of {@code array}, with guaranteed
-   *     minimum length {@code minLength}
+   * @param padding an extra amount to "grow" the array by if growth is necessary
+   * @throws IllegalArgumentException if {@code minLength} or {@code padding} is negative
+   * @return an array containing the values of {@code array}, with guaranteed minimum length
+   *     {@code minLength}
    */
   public static long[] ensureCapacity(long[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
@@ -490,12 +466,11 @@ public final class Longs {
   }
 
   /**
-   * Returns a string containing the supplied {@code long} values separated
-   * by {@code separator}. For example, {@code join("-", 1L, 2L, 3L)} returns
-   * the string {@code "1-2-3"}.
+   * Returns a string containing the supplied {@code long} values separated by {@code separator}.
+   * For example, {@code join("-", 1L, 2L, 3L)} returns the string {@code "1-2-3"}.
    *
-   * @param separator the text that should appear between consecutive values in
-   *     the resulting string (but not at the start or end)
+   * @param separator the text that should appear between consecutive values in the resulting string
+   *     (but not at the start or end)
    * @param array an array of {@code long} values, possibly empty
    */
   public static String join(String separator, long... array) {
@@ -514,19 +489,16 @@ public final class Longs {
   }
 
   /**
-   * Returns a comparator that compares two {@code long} arrays
-   * lexicographically. That is, it compares, using {@link
-   * #compare(long, long)}), the first pair of values that follow any
-   * common prefix, or when one array is a prefix of the other, treats the
-   * shorter array as the lesser. For example,
-   * {@code [] < [1L] < [1L, 2L] < [2L]}.
+   * Returns a comparator that compares two {@code long} arrays <a
+   * href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>. That is, it
+   * compares, using {@link #compare(long, long)}), the first pair of values that follow any common
+   * prefix, or when one array is a prefix of the other, treats the shorter array as the lesser. For
+   * example, {@code [] < [1L] < [1L, 2L] < [2L]}.
    *
-   * <p>The returned comparator is inconsistent with {@link
-   * Object#equals(Object)} (since arrays support only identity equality), but
-   * it is consistent with {@link Arrays#equals(long[], long[])}.
+   * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
+   * support only identity equality), but it is consistent with
+   * {@link Arrays#equals(long[], long[])}.
    *
-   * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
-   *     Lexicographical order article at Wikipedia</a>
    * @since 2.0
    */
   public static Comparator<long[]> lexicographicalComparator() {
@@ -555,18 +527,16 @@ public final class Longs {
   }
 
   /**
-   * Returns an array containing each value of {@code collection}, converted to
-   * a {@code long} value in the manner of {@link Number#longValue}.
+   * Returns an array containing each value of {@code collection}, converted to a {@code long} value
+   * in the manner of {@link Number#longValue}.
    *
    * <p>Elements are copied from the argument collection as if by {@code
-   * collection.toArray()}.  Calling this method is as thread-safe as calling
-   * that method.
+   * collection.toArray()}. Calling this method is as thread-safe as calling that method.
    *
    * @param collection a collection of {@code Number} instances
-   * @return an array containing the same values as {@code collection}, in the
-   *     same order, converted to primitives
-   * @throws NullPointerException if {@code collection} or any of its elements
-   *     is null
+   * @return an array containing the same values as {@code collection}, in the same order, converted
+   *     to primitives
+   * @throws NullPointerException if {@code collection} or any of its elements is null
    * @since 1.0 (parameter was {@code Collection<Long>} before 12.0)
    */
   public static long[] toArray(Collection<? extends Number> collection) {
@@ -585,15 +555,13 @@ public final class Longs {
   }
 
   /**
-   * Returns a fixed-size list backed by the specified array, similar to {@link
-   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)},
-   * but any attempt to set a value to {@code null} will result in a {@link
-   * NullPointerException}.
+   * Returns a fixed-size list backed by the specified array, similar to
+   * {@link Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any
+   * attempt to set a value to {@code null} will result in a {@link NullPointerException}.
    *
-   * <p>The returned list maintains the values, but not the identities, of
-   * {@code Long} objects written to or read from it.  For example, whether
-   * {@code list.get(0) == list.get(0)} is true for the returned list is
-   * unspecified.
+   * <p>The returned list maintains the values, but not the identities, of {@code Long} objects
+   * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
+   * the returned list is unspecified.
    *
    * @param backingArray the array to back the list
    * @return a list view of the array

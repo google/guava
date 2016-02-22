@@ -6,10 +6,10 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.primitives;
@@ -33,9 +33,9 @@ import javax.annotation.Nullable;
  * <p>In some cases, when speed is more important than code readability, it may be faster simply to
  * treat primitive {@code int} values as unsigned, using the methods from {@link UnsignedInts}.
  *
- * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support">
- * unsigned primitive utilities</a>.
+ * <p>See the Guava User Guide article on
+ * <a href="https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support">unsigned
+ * primitive utilities</a>.
  *
  * @author Louis Wasserman
  * @since 11.0
@@ -54,9 +54,9 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   /**
-   * Returns an {@code UnsignedInteger} corresponding to a given bit representation.
-   * The argument is interpreted as an unsigned 32-bit value. Specifically, the sign bit
-   * of {@code bits} is interpreted as a normal bit, and all other bits are treated as usual.
+   * Returns an {@code UnsignedInteger} corresponding to a given bit representation. The argument is
+   * interpreted as an unsigned 32-bit value. Specifically, the sign bit of {@code bits} is
+   * interpreted as a normal bit, and all other bits are treated as usual.
    *
    * <p>If the argument is nonnegative, the returned result will be equal to {@code bits},
    * otherwise, the result will be equal to {@code 2^32 + bits}.
@@ -70,8 +70,8 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   /**
-   * Returns an {@code UnsignedInteger} that is equal to {@code value},
-   * if possible.  The inverse operation of {@link #longValue()}.
+   * Returns an {@code UnsignedInteger} that is equal to {@code value}, if possible. The inverse
+   * operation of {@link #longValue()}.
    */
   public static UnsignedInteger valueOf(long value) {
     checkArgument(
@@ -97,22 +97,22 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   /**
-   * Returns an {@code UnsignedInteger} holding the value of the specified {@code String}, parsed
-   * as an unsigned {@code int} value.
+   * Returns an {@code UnsignedInteger} holding the value of the specified {@code String}, parsed as
+   * an unsigned {@code int} value.
    *
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code int}
-   *         value
+   *     value
    */
   public static UnsignedInteger valueOf(String string) {
     return valueOf(string, 10);
   }
 
   /**
-   * Returns an {@code UnsignedInteger} holding the value of the specified {@code String}, parsed
-   * as an unsigned {@code int} value in the specified radix.
+   * Returns an {@code UnsignedInteger} holding the value of the specified {@code String}, parsed as
+   * an unsigned {@code int} value in the specified radix.
    *
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code int}
-   *         value
+   *     value
    */
   public static UnsignedInteger valueOf(String string, int radix) {
     return fromIntBits(UnsignedInts.parseUnsignedInt(string, radix));
@@ -216,9 +216,9 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   /**
-   * Compares this unsigned integer to another unsigned integer.
-   * Returns {@code 0} if they are equal, a negative number if {@code this < other},
-   * and a positive number if {@code this > other}.
+   * Compares this unsigned integer to another unsigned integer. Returns {@code 0} if they are
+   * equal, a negative number if {@code this < other}, and a positive number if
+   * {@code this > other}.
    */
   @Override
   public int compareTo(UnsignedInteger other) {
@@ -249,8 +249,8 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   /**
-   * Returns a string representation of the {@code UnsignedInteger} value, in base {@code radix}.
-   * If {@code radix < Character.MIN_RADIX} or {@code radix > Character.MAX_RADIX}, the radix
+   * Returns a string representation of the {@code UnsignedInteger} value, in base {@code radix}. If
+   * {@code radix < Character.MIN_RADIX} or {@code radix > Character.MAX_RADIX}, the radix
    * {@code 10} is used.
    */
   public String toString(int radix) {

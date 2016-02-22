@@ -6,10 +6,10 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.primitives;
@@ -31,9 +31,9 @@ import javax.annotation.Nullable;
  * <p>In some cases, when speed is more important than code readability, it may be faster simply to
  * treat primitive {@code long} values as unsigned, using the methods from {@link UnsignedLongs}.
  *
- * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support">
- * unsigned primitive utilities</a>.
+ * <p>See the Guava User Guide article on
+ * <a href="https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support">unsigned
+ * primitive utilities</a>.
  *
  * @author Louis Wasserman
  * @author Colin Evans
@@ -55,9 +55,9 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
   }
 
   /**
-   * Returns an {@code UnsignedLong} corresponding to a given bit representation.
-   * The argument is interpreted as an unsigned 64-bit value. Specifically, the sign bit
-   * of {@code bits} is interpreted as a normal bit, and all other bits are treated as usual.
+   * Returns an {@code UnsignedLong} corresponding to a given bit representation. The argument is
+   * interpreted as an unsigned 64-bit value. Specifically, the sign bit of {@code bits} is
+   * interpreted as a normal bit, and all other bits are treated as usual.
    *
    * <p>If the argument is nonnegative, the returned result will be equal to {@code bits},
    * otherwise, the result will be equal to {@code 2^64 + bits}.
@@ -85,8 +85,8 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
   }
 
   /**
-   * Returns a {@code UnsignedLong} representing the same value as the specified
-   * {@code BigInteger}. This is the inverse operation of {@link #bigIntegerValue()}.
+   * Returns a {@code UnsignedLong} representing the same value as the specified {@code BigInteger}.
+   * This is the inverse operation of {@link #bigIntegerValue()}.
    *
    * @throws IllegalArgumentException if {@code value} is negative or {@code value >= 2^64}
    */
@@ -101,8 +101,8 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
   }
 
   /**
-   * Returns an {@code UnsignedLong} holding the value of the specified {@code String}, parsed as
-   * an unsigned {@code long} value.
+   * Returns an {@code UnsignedLong} holding the value of the specified {@code String}, parsed as an
+   * unsigned {@code long} value.
    *
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code long}
    *     value
@@ -113,8 +113,8 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
   }
 
   /**
-   * Returns an {@code UnsignedLong} holding the value of the specified {@code String}, parsed as
-   * an unsigned {@code long} value in the specified radix.
+   * Returns an {@code UnsignedLong} holding the value of the specified {@code String}, parsed as an
+   * unsigned {@code long} value in the specified radix.
    *
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code long}
    *     value, or {@code radix} is not between {@link Character#MIN_RADIX} and
