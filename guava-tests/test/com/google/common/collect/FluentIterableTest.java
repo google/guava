@@ -919,7 +919,9 @@ public class FluentIterableTest extends TestCase {
   }
 
   private static void assertCanIterateAgain(Iterable<?> iterable) {
-    Iterables.getLast(iterable);
+    for (Object unused : iterable) {
+      // do nothing
+    }
   }
 
   private static FluentIterable<Integer> fluent(Integer... elements) {

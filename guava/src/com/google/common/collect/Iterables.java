@@ -26,6 +26,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -57,6 +58,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class Iterables {
   private Iterables() {}
@@ -132,6 +134,7 @@ public final class Iterables {
    * @param elementsToRemove the elements to remove
    * @return {@code true} if any element was removed from {@code iterable}
    */
+  @CanIgnoreReturnValue
   public static boolean removeAll(Iterable<?> removeFrom, Collection<?> elementsToRemove) {
     return (removeFrom instanceof Collection)
         ? ((Collection<?>) removeFrom).removeAll(checkNotNull(elementsToRemove))
@@ -149,6 +152,7 @@ public final class Iterables {
    * @param elementsToRetain the elements to retain
    * @return {@code true} if any element was removed from {@code iterable}
    */
+  @CanIgnoreReturnValue
   public static boolean retainAll(Iterable<?> removeFrom, Collection<?> elementsToRetain) {
     return (removeFrom instanceof Collection)
         ? ((Collection<?>) removeFrom).retainAll(checkNotNull(elementsToRetain))
@@ -172,6 +176,7 @@ public final class Iterables {
    *     {@code remove()}.
    * @since 2.0
    */
+  @CanIgnoreReturnValue
   public static <T> boolean removeIf(Iterable<T> removeFrom, Predicate<? super T> predicate) {
     if (removeFrom instanceof RandomAccess && removeFrom instanceof List) {
       return removeIfFromRandomAccessList((List<T>) removeFrom, checkNotNull(predicate));
@@ -351,6 +356,7 @@ public final class Iterables {
    * @return {@code true} if {@code collection} was modified as a result of this
    *     operation.
    */
+  @CanIgnoreReturnValue
   public static <T> boolean addAll(Collection<T> addTo, Iterable<? extends T> elementsToAdd) {
     if (elementsToAdd instanceof Collection) {
       Collection<? extends T> c = Collections2.cast(elementsToAdd);
