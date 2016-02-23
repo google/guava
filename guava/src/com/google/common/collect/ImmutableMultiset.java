@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Multiset.Entry;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
@@ -29,6 +30,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -47,6 +49,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 // TODO(lowasser): write an efficient asList() implementation
@@ -236,6 +239,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final int add(E element, int occurrences) {
@@ -248,6 +252,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final int remove(Object element, int occurrences) {
@@ -260,6 +265,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final int setCount(E element, int count) {
@@ -272,6 +278,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final boolean setCount(E element, int oldCount, int newCount) {
@@ -455,6 +462,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code element} is null
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E element) {
       contents.add(checkNotNull(element));
@@ -474,6 +482,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      *     if this operation would result in more than {@link Integer#MAX_VALUE}
      *     occurrences of the element
      */
+    @CanIgnoreReturnValue
     public Builder<E> addCopies(E element, int occurrences) {
       contents.add(checkNotNull(element), occurrences);
       return this;
@@ -489,6 +498,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @throws NullPointerException if {@code element} is null
      * @throws IllegalArgumentException if {@code count} is negative
      */
+    @CanIgnoreReturnValue
     public Builder<E> setCount(E element, int count) {
       contents.setCount(checkNotNull(element), count);
       return this;
@@ -502,6 +512,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E... elements) {
       super.add(elements);
@@ -517,6 +528,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Multiset) {
@@ -538,6 +550,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);
