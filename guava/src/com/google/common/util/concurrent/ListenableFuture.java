@@ -23,13 +23,14 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.RejectedExecutionException;
 
 /**
- * A {@link Future} that accepts completion listeners.  Each listener has an associated executor,
- * and it is invoked using this executor once the future's computation is {@linkplain
- * Future#isDone() complete}.  If the computation has already completed when the listener is added,
- * the listener will execute immediately.
+ * A {@link Future} that accepts completion listeners. Each listener has an associated executor, and
+ * it is invoked using this executor once the future's computation is {@linkplain Future#isDone()
+ * complete}. If the computation has already completed when the listener is added, the listener will
+ * execute immediately.
  *
- * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ListenableFutureExplained"> {@code ListenableFuture}</a>.
+ * <p>See the Guava User Guide article on
+ * <a href="https://github.com/google/guava/wiki/ListenableFutureExplained">
+ * {@code ListenableFuture}</a>.
  *
  * <h3>Purpose</h3>
  *
@@ -58,12 +59,16 @@ import java.util.concurrent.RejectedExecutionException;
  * <p>Developers are encouraged to return {@code ListenableFuture} from their methods so that users
  * can take advantages of the {@linkplain Futures utilities built atop the class}. The way that they
  * will create {@code ListenableFuture} instances depends on how they currently create {@code
- * Future} instances: <ul> <li>If they are returned from an {@code ExecutorService}, convert that
- * service to a {@link ListeningExecutorService}, usually by calling {@link
- * MoreExecutors#listeningDecorator(ExecutorService) MoreExecutors.listeningDecorator}. (Custom
- * executors may find it more convenient to use {@link ListenableFutureTask} directly.) <li>If they
- * are manually filled in by a call to {@link FutureTask#set} or a similar method, create a {@link
- * SettableFuture} instead. (Users with more complex needs may prefer {@link AbstractFuture}.) </ul>
+ * Future} instances:
+ * <ul>
+ * <li>If they are returned from an {@code ExecutorService}, convert that service to a
+ *     {@link ListeningExecutorService}, usually by calling
+ *     {@link MoreExecutors#listeningDecorator(ExecutorService) MoreExecutors.listeningDecorator}.
+ *     (Custom executors may find it more convenient to use {@link ListenableFutureTask} directly.)
+ * <li>If they are manually filled in by a call to {@link FutureTask#set} or a similar method,
+ *     create a {@link SettableFuture} instead. (Users with more complex needs may prefer
+ *     {@link AbstractFuture}.)
+ * </ul>
  *
  * <p>Occasionally, an API will return a plain {@code Future} and it will be impossible to change
  * the return type. For this case, we provide a more expensive workaround in {@code

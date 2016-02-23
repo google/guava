@@ -49,9 +49,8 @@ import javax.annotation.Nullable;
 /**
  * Static utility methods pertaining to the {@link Future} interface.
  *
- * <p>Many of these methods use the {@link ListenableFuture} API; consult the
- * Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ListenableFutureExplained">
+ * <p>Many of these methods use the {@link ListenableFuture} API; consult the Guava User Guide
+ * article on <a href="https://github.com/google/guava/wiki/ListenableFutureExplained">
  * {@code ListenableFuture}</a>.
  *
  * @author Kevin Bourrillion
@@ -76,18 +75,18 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   // simplest instance, though very similar descriptions apply to many other classes in this file.
   //
   // In the constructor of AbstractCatchingFuture, the delegate future is assigned to a field
-  // 'inputFuture'. That field is non-final and non-volatile.  There are 2 places where the
+  // 'inputFuture'. That field is non-final and non-volatile. There are 2 places where the
   // 'inputFuture' field is read and where we will have to consider visibility of the write
   // operation in the constructor.
   //
-  // 1. In the listener that performs the callback.  In this case it is fine since inputFuture is
+  // 1. In the listener that performs the callback. In this case it is fine since inputFuture is
   //    assigned prior to calling addListener, and addListener happens-before any invocation of the
   //    listener. Notably, this means that 'volatile' is unnecessary to make 'inputFuture' visible
   //    to the listener.
   //
-  // 2. In done() where we may propagate cancellation to the input.  In this case it is _not_ fine.
+  // 2. In done() where we may propagate cancellation to the input. In this case it is _not_ fine.
   //    There is currently nothing that enforces that the write to inputFuture in the constructor is
-  //    visible to done().  This is because there is no happens before edge between the write and a
+  //    visible to done(). This is because there is no happens before edge between the write and a
   //    (hypothetical) unsafe read by our caller. Note: adding 'volatile' does not fix this issue,
   //    it would just add an edge such that if done() observed non-null, then it would also
   //    definitely observe all earlier writes, but we still have no guarantee that done() would see
@@ -97,15 +96,15 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   // For a (long) discussion about this specific issue and the general futility of life.
   //
   // For the time being we are OK with the problem discussed above since it requires a caller to
-  // introduce a very specific kind of data-race.  And given the other operations performed by these
-  // methods that involve volatile read/write operations, in practice there is no issue.  Also, the
+  // introduce a very specific kind of data-race. And given the other operations performed by these
+  // methods that involve volatile read/write operations, in practice there is no issue. Also, the
   // way in such a visibility issue would surface is most likely as a failure of cancel() to
-  // propagate to the input.  Cancellation propagation is fundamentally racy so this is fine.
+  // propagate to the input. Cancellation propagation is fundamentally racy so this is fine.
   //
   // Future versions of the JMM may revise safe construction semantics in such a way that we can
   // safely publish these objects and we won't need this whole discussion.
   // TODO(user,lukes): consider adding volatile to all these fields since in current known JVMs
-  // that should resolve the issue.  This comes at the cost of adding more write barriers to the
+  // that should resolve the issue. This comes at the cost of adding more write barriers to the
   // implementations.
 
   private Futures() {}
@@ -921,7 +920,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
 
   /**
    * Creates a new {@code ListenableFuture} whose result is set from the supplied future when it
-   * completes.  Cancelling the supplied future will also cancel the returned future, but cancelling
+   * completes. Cancelling the supplied future will also cancel the returned future, but cancelling
    * the returned future will have no effect on the supplied future.
    *
    * @since 15.0
@@ -991,15 +990,14 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /**
-   * Returns a list of delegate futures that correspond to the futures received in the order
-   * that they complete. Delegate futures return the same value or throw the same exception
-   * as the corresponding input future returns/throws.
+   * Returns a list of delegate futures that correspond to the futures received in the order that
+   * they complete. Delegate futures return the same value or throw the same exception as the
+   * corresponding input future returns/throws.
    *
    * <p>Cancelling a delegate future has no effect on any input future, since the delegate future
-   * does not correspond to a specific input future until the appropriate number of input
-   * futures have completed. At that point, it is too late to cancel the input future.
-   * The input future's result, which cannot be stored into the cancelled delegate future,
-   * is ignored.
+   * does not correspond to a specific input future until the appropriate number of input futures
+   * have completed. At that point, it is too late to cancel the input future. The input future's
+   * result, which cannot be stored into the cancelled delegate future, is ignored.
    *
    * @since 17.0
    */
@@ -1007,7 +1005,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @GwtIncompatible // TODO
   public static <T> ImmutableList<ListenableFuture<T>> inCompletionOrder(
       Iterable<? extends ListenableFuture<? extends T>> futures) {
-    // A CLQ may be overkill here.  We could save some pointers/memory by synchronizing on an
+    // A CLQ may be overkill here. We could save some pointers/memory by synchronizing on an
     // ArrayDeque
     final ConcurrentLinkedQueue<SettableFuture<T>> delegates = Queues.newConcurrentLinkedQueue();
     ImmutableList.Builder<ListenableFuture<T>> listBuilder = ImmutableList.builder();
@@ -1016,7 +1014,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     // N.B. there are some cases where the use of this executor could have possibly surprising
     // effects when input futures finish at approximately the same time _and_ the output futures
     // have directExecutor listeners. In this situation, the listeners may end up running on a
-    // different thread than if they were attached to the corresponding input future.  We believe
+    // different thread than if they were attached to the corresponding input future. We believe
     // this to be a negligible cost since:
     // 1. Using the directExecutor implies that your callback is safe to run on any thread.
     // 2. This would likely only be noticeable if you were doing something expensive or blocking on

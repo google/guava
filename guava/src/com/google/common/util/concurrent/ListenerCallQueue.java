@@ -75,7 +75,7 @@ final class ListenerCallQueue<L> implements Runnable {
     waitQueue.add(callback);
   }
 
-  /** Executes all listeners {@linkplain #add added} prior to this call, serially and in order.*/
+  /** Executes all listeners {@linkplain #add added} prior to this call, serially and in order. */
   void execute() {
     boolean scheduleTaskRunner = false;
     synchronized (this) {

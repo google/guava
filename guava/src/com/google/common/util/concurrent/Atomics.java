@@ -22,8 +22,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import javax.annotation.Nullable;
 
 /**
- * Static utility methods pertaining to classes in the
- * {@code java.util.concurrent.atomic} package.
+ * Static utility methods pertaining to classes in the {@code java.util.concurrent.atomic} package.
  *
  * @author Kurt Alfred Kluever
  * @since 10.0

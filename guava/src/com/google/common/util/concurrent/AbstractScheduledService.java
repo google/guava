@@ -40,7 +40,7 @@ import javax.annotation.concurrent.GuardedBy;
 
 /**
  * Base class for services that can implement {@link #startUp} and {@link #shutDown} but while in
- * the "running" state need to perform a periodic task.  Subclasses can implement {@link #startUp},
+ * the "running" state need to perform a periodic task. Subclasses can implement {@link #startUp},
  * {@link #shutDown} and also a {@link #runOneIteration} method that will be executed periodically.
  *
  * <p>This class uses the {@link ScheduledExecutorService} returned from {@link #executor} to run
@@ -52,9 +52,9 @@ import javax.annotation.concurrent.GuardedBy;
  * <p>Subclasses are guaranteed that the life cycle methods ({@link #runOneIteration}, {@link
  * #startUp} and {@link #shutDown}) will never run concurrently. Notably, if any execution of {@link
  * #runOneIteration} takes longer than its schedule defines, then subsequent executions may start
- * late.  Also, all life cycle methods are executed with a lock held, so subclasses can safely
- * modify shared state without additional synchronization necessary for visibility to later
- * executions of the life cycle methods.
+ * late. Also, all life cycle methods are executed with a lock held, so subclasses can safely modify
+ * shared state without additional synchronization necessary for visibility to later executions of
+ * the life cycle methods.
  *
  * <h3>Usage Example</h3>
  *
@@ -153,7 +153,7 @@ public abstract class AbstractScheduledService implements Service {
       };
     }
 
-    /** Schedules the task to run on the provided executor on behalf of the service.  */
+    /** Schedules the task to run on the provided executor on behalf of the service. */
     abstract Future<?> schedule(
         AbstractService service, ScheduledExecutorService executor, Runnable runnable);
 
@@ -173,7 +173,7 @@ public abstract class AbstractScheduledService implements Service {
 
     // This lock protects the task so we can ensure that none of the template methods (startUp,
     // shutDown or runOneIteration) run concurrently with one another.
-    // TODO(lukes):  why don't we use ListenableFuture to sequence things?  Then we could drop the
+    // TODO(lukes): why don't we use ListenableFuture to sequence things? Then we could drop the
     // lock.
     private final ReentrantLock lock = new ReentrantLock();
 
@@ -251,7 +251,7 @@ public abstract class AbstractScheduledService implements Service {
                 lock.lock();
                 try {
                   if (state() != State.STOPPING) {
-                    // This means that the state has changed since we were scheduled.  This implies
+                    // This means that the state has changed since we were scheduled. This implies
                     // that an execution of runOneIteration has thrown an exception and we have
                     // transitioned to a failed state, also this means that shutDown has already
                     // been called, so we do not want to call it again.
@@ -330,7 +330,7 @@ public abstract class AbstractScheduledService implements Service {
     }
     final ScheduledExecutorService executor =
         Executors.newSingleThreadScheduledExecutor(new ThreadFactoryImpl());
-    // Add a listener to shutdown the executor after the service is stopped.  This ensures that the
+    // Add a listener to shutdown the executor after the service is stopped. This ensures that the
     // JVM shutdown will not be prevented from exiting after this service has stopped or failed.
     // Technically this listener is added after start() was called so it is a little gross, but it
     // is called within doStart() so we know that the service cannot terminate or fail concurrently
@@ -479,7 +479,7 @@ public abstract class AbstractScheduledService implements Service {
        */
       private final ReentrantLock lock = new ReentrantLock();
 
-      /** The future that represents the next execution of this task.*/
+      /** The future that represents the next execution of this task. */
       @GuardedBy("lock")
       private Future<Void> currentFuture;
 
@@ -521,12 +521,12 @@ public abstract class AbstractScheduledService implements Service {
           }
         } catch (Throwable e) {
           // If an exception is thrown by the subclass then we need to make sure that the service
-          // notices and transitions to the FAILED state.  We do it by calling notifyFailed directly
+          // notices and transitions to the FAILED state. We do it by calling notifyFailed directly
           // because the service does not monitor the state of the future so if the exception is not
           // caught and forwarded to the service the task would stop executing but the service would
           // have no idea.
           // TODO(lukes): consider building everything in terms of ListenableScheduledFuture then
-          // the AbstractService could monitor the future directly.  Rescheduling is still hard...
+          // the AbstractService could monitor the future directly. Rescheduling is still hard...
           // but it would help with some of these lock ordering issues.
           scheduleFailure = e;
         } finally {
