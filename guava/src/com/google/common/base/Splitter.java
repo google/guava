@@ -471,10 +471,9 @@ public final class Splitter {
 
     /**
      * Splits {@code sequence} into substrings, splits each substring into an entry, and returns an
-     * unmodifiable map with each of the entries. For example, <code>
-     * Splitter.on(';').trimResults().withKeyValueSeparator("=>")
-     * .split("a=>b ; c=>b")
-     * </code> will return a mapping from {@code "a"} to {@code "b"} and {@code "c"} to {@code b}.
+     * unmodifiable map with each of the entries. For example,
+     * {@code Splitter.on(';').trimResults().withKeyValueSeparator("=>").split("a=>b ; c=>b")} will
+     * return a mapping from {@code "a"} to {@code "b"} and {@code "c"} to {@code "b"}.
      *
      * <p>The returned map preserves the order of the entries from {@code sequence}.
      *

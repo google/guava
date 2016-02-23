@@ -384,9 +384,6 @@ public class Helpers {
             0 : k.hashCode()) ^ ((v == null) ? 0 : v.hashCode());
       }
 
-      /**
-       * Returns a string representation of the form <code>{key}={value}</code>.
-       */
       @Override public String toString() {
         return getKey() + "=" + getValue();
       }

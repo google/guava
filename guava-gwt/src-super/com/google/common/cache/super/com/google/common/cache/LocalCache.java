@@ -708,9 +708,6 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
       throw new UnsupportedOperationException();
     }
 
-    /**
-     * Returns a string representation of the form <code>{key}={value}</code>.
-     */
     @Override 
     public String toString() {
       return getKey() + "=" + getValue();
