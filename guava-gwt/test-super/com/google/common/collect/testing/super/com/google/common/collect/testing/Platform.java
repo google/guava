@@ -26,16 +26,6 @@ import java.util.Arrays;
  * @author Hayward Chan
  */
 final class Platform {
-
-  static boolean checkIsInstance(Class<?> clazz, Object obj) {
-    /*
-     * In GWT, we can't tell whether obj is an instance of clazz because GWT
-     * doesn't support reflections.  For testing purposes, we give up this
-     * particular assertion (so that we can keep the rest).
-     */
-    return true;
-  }
-
   // Class.cast is not supported in GWT.
   static void checkCast(Class<?> clazz, Object obj) {
   }

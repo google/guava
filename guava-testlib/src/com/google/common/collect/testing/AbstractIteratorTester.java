@@ -54,50 +54,50 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
   private final KnownOrder knownOrder;
 
   /**
-   * Meta-exception thrown by
-   * {@link AbstractIteratorTester.MultiExceptionListIterator} instead of
+   * Meta-exception thrown by {@link AbstractIteratorTester.MultiExceptionListIterator} instead of
    * throwing any particular exception type.
    */
-  // This class is accessible but not supported in GWT.
-  private static final class PermittedMetaException extends RuntimeException {
+  private abstract static class PermittedMetaException extends RuntimeException {
     static final PermittedMetaException UOE_OR_ISE =
-        new PermittedMetaException(
-            Arrays.asList(UnsupportedOperationException.class, IllegalStateException.class));
+        new PermittedMetaException("UnsupportedOperationException or IllegalStateException") {
+          @Override
+          boolean isPermitted(RuntimeException exception) {
+            return exception instanceof UnsupportedOperationException
+                || exception instanceof IllegalStateException;
+          }
+        };
     static final PermittedMetaException UOE =
-        new PermittedMetaException(UnsupportedOperationException.class);
+        new PermittedMetaException("UnsupportedOperationException") {
+          @Override
+          boolean isPermitted(RuntimeException exception) {
+            return exception instanceof UnsupportedOperationException;
+          }
+        };
     static final PermittedMetaException ISE =
-        new PermittedMetaException(IllegalStateException.class);
+        new PermittedMetaException("IllegalStateException") {
+          @Override
+          boolean isPermitted(RuntimeException exception) {
+            return exception instanceof IllegalStateException;
+          }
+        };
     static final PermittedMetaException NSEE =
-        new PermittedMetaException(NoSuchElementException.class);
+        new PermittedMetaException("NoSuchElementException") {
+          @Override
+          boolean isPermitted(RuntimeException exception) {
+            return exception instanceof NoSuchElementException;
+          }
+        };
 
-    final Collection<? extends Class<? extends RuntimeException>> exceptionClasses;
-
-    private PermittedMetaException(
-        Collection<? extends Class<? extends RuntimeException>> exceptionClasses) {
-      super("one of " + exceptionClasses);
-      this.exceptionClasses = exceptionClasses;
+    private PermittedMetaException(String message) {
+      super(message);
     }
 
-    private PermittedMetaException(Class<? extends RuntimeException> exceptionClass) {
-      this(Collections.singleton(exceptionClass));
-    }
+    abstract boolean isPermitted(RuntimeException exception);
 
-    // It's not supported In GWT, it always returns true.
-    boolean isPermitted(RuntimeException exception) {
-      for (Class<? extends RuntimeException> clazz : exceptionClasses) {
-        if (Platform.checkIsInstance(clazz, exception)) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    // It's not supported in GWT, it always passes.
     void assertPermitted(RuntimeException exception) {
       if (!isPermitted(exception)) {
         // TODO: use simple class names
-        String message = "Exception " + exception.getClass()
-            + " was thrown; expected " + this;
+        String message = "Exception " + exception.getClass() + " was thrown; expected " + this;
         Helpers.fail(exception, message);
       }
     }

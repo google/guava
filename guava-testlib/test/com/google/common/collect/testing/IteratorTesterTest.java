@@ -299,9 +299,10 @@ public class IteratorTesterTest extends TestCase {
   private static void assertFailure(IteratorTester<?> tester) {
     try {
       tester.test();
-      fail();
     } catch (AssertionFailedError expected) {
+      return;
     }
+    fail();
   }
 
   private static final class ThrowingIterator<E> implements Iterator<E> {
