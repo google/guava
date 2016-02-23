@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -35,12 +33,12 @@ import java.nio.charset.Charset;
  *
  * <p>{@code ByteSink} provides two kinds of methods:
  * <ul>
- *   <li><b>Methods that return a stream:</b> These methods should return a <i>new</i>, independent
- *   instance each time they are called. The caller is responsible for ensuring that the returned
- *   stream is closed.
- *   <li><b>Convenience methods:</b> These are implementations of common operations that are
- *   typically implemented by opening a stream using one of the methods in the first category, doing
- *   something and finally closing the stream or channel that was opened.
+ * <li><b>Methods that return a stream:</b> These methods should return a <i>new</i>, independent
+ *     instance each time they are called. The caller is responsible for ensuring that the returned
+ *     stream is closed.
+ * <li><b>Convenience methods:</b> These are implementations of common operations that are typically
+ *     implemented by opening a stream using one of the methods in the first category, doing
+ *     something and finally closing the stream or channel that was opened.
  * </ul>
  *
  * @since 14.0
@@ -55,8 +53,8 @@ public abstract class ByteSink {
   protected ByteSink() {}
 
   /**
-   * Returns a {@link CharSink} view of this {@code ByteSink} that writes characters to this sink
-   * as bytes encoded with the given {@link Charset charset}.
+   * Returns a {@link CharSink} view of this {@code ByteSink} that writes characters to this sink as
+   * bytes encoded with the given {@link Charset charset}.
    */
   public CharSink asCharSink(Charset charset) {
     return new AsCharSink(charset);
@@ -73,11 +71,11 @@ public abstract class ByteSink {
   public abstract OutputStream openStream() throws IOException;
 
   /**
-   * Opens a new buffered {@link OutputStream} for writing to this sink. The returned stream is
-   * not required to be a {@link BufferedOutputStream} in order to allow implementations to simply
-   * delegate to {@link #openStream()} when the stream returned by that method does not benefit
-   * from additional buffering (for example, a {@code ByteArrayOutputStream}). This method should
-   * return a new, independent stream each time it is called.
+   * Opens a new buffered {@link OutputStream} for writing to this sink. The returned stream is not
+   * required to be a {@link BufferedOutputStream} in order to allow implementations to simply
+   * delegate to {@link #openStream()} when the stream returned by that method does not benefit from
+   * additional buffering (for example, a {@code ByteArrayOutputStream}). This method should return
+   * a new, independent stream each time it is called.
    *
    * <p>The caller is responsible for ensuring that the returned stream is closed.
    *

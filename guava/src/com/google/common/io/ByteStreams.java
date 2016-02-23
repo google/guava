@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -63,26 +61,26 @@ public final class ByteStreams {
   static final byte[] skipBuffer = new byte[BUF_SIZE];
 
   /**
-   * There are three methods to implement {@link FileChannel#transferTo(long, long,
-   *  WritableByteChannel)}:
+   * There are three methods to implement
+   * {@link FileChannel#transferTo(long, long, WritableByteChannel)}:
    *
    * <ol>
-   * <li> Use sendfile(2) or equivalent. Requires that both the input channel and the output channel
-   *    have their own file descriptors. Generally this only happens when both channels are files or
-   *    sockets. This performs zero copies - the bytes never enter userspace.</li>
-   * <li> Use mmap(2) or equivalent. Requires that either the input channel or the output channel
-   *    have file descriptors. Bytes are copied from the file into a kernel buffer, then directly
-   *    into the other buffer (userspace). Note that if the file is very large, a naive
-   *    implementation will effectively put the whole file in memory. On many systems with paging
-   *    and virtual memory, this is not a problem - because it is mapped read-only, the kernel can
-   *    always page it to disk "for free". However, on systems where killing processes happens all
-   *    the time in normal conditions (i.e., android) the OS must make a tradeoff between paging
-   *    memory and killing other processes - so allocating a gigantic buffer and then sequentially
-   *    accessing it could result in other processes dying. This is solvable via madvise(2), but
-   *    that obviously doesn't exist in java.</li>
-   * <li> Ordinary copy. Kernel copies bytes into a kernel buffer, from a kernel buffer into a
-   *    userspace buffer (byte[] or ByteBuffer), then copies them from that buffer into the
-   *    destination channel.</li>
+   * <li>Use sendfile(2) or equivalent. Requires that both the input channel and the output channel
+   *     have their own file descriptors. Generally this only happens when both channels are files
+   *     or sockets. This performs zero copies - the bytes never enter userspace.
+   * <li>Use mmap(2) or equivalent. Requires that either the input channel or the output channel
+   *     have file descriptors. Bytes are copied from the file into a kernel buffer, then directly
+   *     into the other buffer (userspace). Note that if the file is very large, a naive
+   *     implementation will effectively put the whole file in memory. On many systems with paging
+   *     and virtual memory, this is not a problem - because it is mapped read-only, the kernel can
+   *     always page it to disk "for free". However, on systems where killing processes happens all
+   *     the time in normal conditions (i.e., android) the OS must make a tradeoff between paging
+   *     memory and killing other processes - so allocating a gigantic buffer and then sequentially
+   *     accessing it could result in other processes dying. This is solvable via madvise(2), but
+   *     that obviously doesn't exist in java.
+   * <li>Ordinary copy. Kernel copies bytes into a kernel buffer, from a kernel buffer into a
+   *     userspace buffer (byte[] or ByteBuffer), then copies them from that buffer into the
+   *     destination channel.
    * </ol>
    *
    * This value is intended to be large enough to make the overhead of system calls negligible,
@@ -94,16 +92,15 @@ public final class ByteStreams {
   private ByteStreams() {}
 
   /**
-   * Copies all bytes from the input stream to the output stream.
-   * Does not close or flush either stream.
+   * Copies all bytes from the input stream to the output stream. Does not close or flush either
+   * stream.
    *
    * @param from the input stream to read from
    * @param to the output stream to write to
    * @return the number of bytes copied
    * @throws IOException if an I/O error occurs
    */
-  public static long copy(InputStream from, OutputStream to)
-      throws IOException {
+  public static long copy(InputStream from, OutputStream to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
     byte[] buf = new byte[BUF_SIZE];
@@ -120,16 +117,15 @@ public final class ByteStreams {
   }
 
   /**
-   * Copies all bytes from the readable channel to the writable channel.
-   * Does not close or flush either channel.
+   * Copies all bytes from the readable channel to the writable channel. Does not close or flush
+   * either channel.
    *
    * @param from the readable channel to read from
    * @param to the writable channel to write to
    * @return the number of bytes copied
    * @throws IOException if an I/O error occurs
    */
-  public static long copy(ReadableByteChannel from,
-      WritableByteChannel to) throws IOException {
+  public static long copy(ReadableByteChannel from, WritableByteChannel to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
     if (from instanceof FileChannel) {
@@ -158,15 +154,14 @@ public final class ByteStreams {
   }
 
   /**
-   * Reads all bytes from an input stream into a byte array.
-   * Does not close the stream.
+   * Reads all bytes from an input stream into a byte array. Does not close the stream.
    *
    * @param in the input stream to read from
    * @return a byte array containing all the bytes from the stream
    * @throws IOException if an I/O error occurs
    */
   public static byte[] toByteArray(InputStream in) throws IOException {
-    // Presize the ByteArrayOutputStream since we know how large it will need 
+    // Presize the ByteArrayOutputStream since we know how large it will need
     // to be, unless that value is less than the default ByteArrayOutputStream
     // size (32).
     ByteArrayOutputStream out = new ByteArrayOutputStream(Math.max(32, in.available()));
@@ -175,13 +170,11 @@ public final class ByteStreams {
   }
 
   /**
-   * Reads all bytes from an input stream into a byte array. The given
-   * expected size is used to create an initial byte array, but if the actual
-   * number of bytes read from the stream differs, the correct result will be
-   * returned anyway.
+   * Reads all bytes from an input stream into a byte array. The given expected size is used to
+   * create an initial byte array, but if the actual number of bytes read from the stream differs,
+   * the correct result will be returned anyway.
    */
-  static byte[] toByteArray(
-      InputStream in, int expectedSize) throws IOException {
+  static byte[] toByteArray(InputStream in, int expectedSize) throws IOException {
     byte[] bytes = new byte[expectedSize];
     int remaining = expectedSize;
 
@@ -216,11 +209,10 @@ public final class ByteStreams {
   /**
    * BAOS that provides limited access to its internal byte array.
    */
-  private static final class FastByteArrayOutputStream
-      extends ByteArrayOutputStream {
+  private static final class FastByteArrayOutputStream extends ByteArrayOutputStream {
     /**
-     * Writes the contents of the internal buffer to the given array starting
-     * at the given offset. Assumes the array has space to hold count bytes.
+     * Writes the contents of the internal buffer to the given array starting at the given offset.
+     * Assumes the array has space to hold count bytes.
      */
     void writeTo(byte[] b, int off) {
       System.arraycopy(buf, 0, b, off, count);
@@ -228,35 +220,33 @@ public final class ByteStreams {
   }
 
   /**
-   * Returns a new {@link ByteArrayDataInput} instance to read from the {@code
-   * bytes} array from the beginning.
+   * Returns a new {@link ByteArrayDataInput} instance to read from the {@code bytes} array from the
+   * beginning.
    */
   public static ByteArrayDataInput newDataInput(byte[] bytes) {
     return newDataInput(new ByteArrayInputStream(bytes));
   }
 
   /**
-   * Returns a new {@link ByteArrayDataInput} instance to read from the {@code
-   * bytes} array, starting at the given position.
+   * Returns a new {@link ByteArrayDataInput} instance to read from the {@code bytes} array,
+   * starting at the given position.
    *
-   * @throws IndexOutOfBoundsException if {@code start} is negative or greater
-   *     than the length of the array
+   * @throws IndexOutOfBoundsException if {@code start} is negative or greater than the length of
+   *     the array
    */
   public static ByteArrayDataInput newDataInput(byte[] bytes, int start) {
     checkPositionIndex(start, bytes.length);
-    return newDataInput(
-        new ByteArrayInputStream(bytes, start, bytes.length - start));
+    return newDataInput(new ByteArrayInputStream(bytes, start, bytes.length - start));
   }
 
   /**
    * Returns a new {@link ByteArrayDataInput} instance to read from the given
-   * {@code ByteArrayInputStream}. The given input stream is not reset before
-   * being read from by the returned {@code ByteArrayDataInput}.
+   * {@code ByteArrayInputStream}. The given input stream is not reset before being read from by the
+   * returned {@code ByteArrayDataInput}.
    *
    * @since 17.0
    */
-  public static ByteArrayDataInput newDataInput(
-      ByteArrayInputStream byteArrayInputStream) {
+  public static ByteArrayDataInput newDataInput(ByteArrayInputStream byteArrayInputStream) {
     return new ByteArrayDataInputStream(checkNotNull(byteArrayInputStream));
   }
 
@@ -267,7 +257,8 @@ public final class ByteStreams {
       this.input = new DataInputStream(byteArrayInputStream);
     }
 
-    @Override public void readFully(byte b[]) {
+    @Override
+    public void readFully(byte b[]) {
       try {
         input.readFully(b);
       } catch (IOException e) {
@@ -275,7 +266,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public void readFully(byte b[], int off, int len) {
+    @Override
+    public void readFully(byte b[], int off, int len) {
       try {
         input.readFully(b, off, len);
       } catch (IOException e) {
@@ -283,7 +275,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public int skipBytes(int n) {
+    @Override
+    public int skipBytes(int n) {
       try {
         return input.skipBytes(n);
       } catch (IOException e) {
@@ -291,7 +284,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public boolean readBoolean() {
+    @Override
+    public boolean readBoolean() {
       try {
         return input.readBoolean();
       } catch (IOException e) {
@@ -299,7 +293,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public byte readByte() {
+    @Override
+    public byte readByte() {
       try {
         return input.readByte();
       } catch (EOFException e) {
@@ -309,7 +304,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public int readUnsignedByte() {
+    @Override
+    public int readUnsignedByte() {
       try {
         return input.readUnsignedByte();
       } catch (IOException e) {
@@ -317,7 +313,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public short readShort() {
+    @Override
+    public short readShort() {
       try {
         return input.readShort();
       } catch (IOException e) {
@@ -325,7 +322,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public int readUnsignedShort() {
+    @Override
+    public int readUnsignedShort() {
       try {
         return input.readUnsignedShort();
       } catch (IOException e) {
@@ -333,7 +331,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public char readChar() {
+    @Override
+    public char readChar() {
       try {
         return input.readChar();
       } catch (IOException e) {
@@ -341,7 +340,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public int readInt() {
+    @Override
+    public int readInt() {
       try {
         return input.readInt();
       } catch (IOException e) {
@@ -349,7 +349,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public long readLong() {
+    @Override
+    public long readLong() {
       try {
         return input.readLong();
       } catch (IOException e) {
@@ -357,7 +358,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public float readFloat() {
+    @Override
+    public float readFloat() {
       try {
         return input.readFloat();
       } catch (IOException e) {
@@ -365,7 +367,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public double readDouble() {
+    @Override
+    public double readDouble() {
       try {
         return input.readDouble();
       } catch (IOException e) {
@@ -373,7 +376,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public String readLine() {
+    @Override
+    public String readLine() {
       try {
         return input.readLine();
       } catch (IOException e) {
@@ -381,7 +385,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public String readUTF() {
+    @Override
+    public String readUTF() {
       try {
         return input.readUTF();
       } catch (IOException e) {
@@ -398,8 +403,8 @@ public final class ByteStreams {
   }
 
   /**
-   * Returns a new {@link ByteArrayDataOutput} instance sized to hold
-   * {@code size} bytes before resizing.
+   * Returns a new {@link ByteArrayDataOutput} instance sized to hold {@code size} bytes before
+   * resizing.
    *
    * @throws IllegalArgumentException if {@code size} is negative
    */
@@ -413,27 +418,23 @@ public final class ByteStreams {
   }
 
   /**
-   * Returns a new {@link ByteArrayDataOutput} instance which writes to the
-   * given {@code ByteArrayOutputStream}. The given output stream is not reset
-   * before being written to by the returned {@code ByteArrayDataOutput} and
-   * new data will be appended to any existing content.
+   * Returns a new {@link ByteArrayDataOutput} instance which writes to the given
+   * {@code ByteArrayOutputStream}. The given output stream is not reset before being written to by
+   * the returned {@code ByteArrayDataOutput} and new data will be appended to any existing content.
    *
-   * <p>Note that if the given output stream was not empty or is modified after
-   * the {@code ByteArrayDataOutput} is created, the contract for
-   * {@link ByteArrayDataOutput#toByteArray} will not be honored (the bytes
-   * returned in the byte array may not be exactly what was written via calls to
-   * {@code ByteArrayDataOutput}).
+   * <p>Note that if the given output stream was not empty or is modified after the
+   * {@code ByteArrayDataOutput} is created, the contract for
+   * {@link ByteArrayDataOutput#toByteArray} will not be honored (the bytes returned in the byte
+   * array may not be exactly what was written via calls to {@code ByteArrayDataOutput}).
    *
    * @since 17.0
    */
-  public static ByteArrayDataOutput newDataOutput(
-      ByteArrayOutputStream byteArrayOutputSteam) {
+  public static ByteArrayDataOutput newDataOutput(ByteArrayOutputStream byteArrayOutputSteam) {
     return new ByteArrayDataOutputStream(checkNotNull(byteArrayOutputSteam));
   }
 
   @SuppressWarnings("deprecation") // for writeBytes
-  private static class ByteArrayDataOutputStream
-      implements ByteArrayDataOutput {
+  private static class ByteArrayDataOutputStream implements ByteArrayDataOutput {
 
     final DataOutput output;
     final ByteArrayOutputStream byteArrayOutputSteam;
@@ -443,7 +444,8 @@ public final class ByteStreams {
       output = new DataOutputStream(byteArrayOutputSteam);
     }
 
-    @Override public void write(int b) {
+    @Override
+    public void write(int b) {
       try {
         output.write(b);
       } catch (IOException impossible) {
@@ -451,7 +453,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public void write(byte[] b) {
+    @Override
+    public void write(byte[] b) {
       try {
         output.write(b);
       } catch (IOException impossible) {
@@ -459,7 +462,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public void write(byte[] b, int off, int len) {
+    @Override
+    public void write(byte[] b, int off, int len) {
       try {
         output.write(b, off, len);
       } catch (IOException impossible) {
@@ -467,7 +471,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public void writeBoolean(boolean v) {
+    @Override
+    public void writeBoolean(boolean v) {
       try {
         output.writeBoolean(v);
       } catch (IOException impossible) {
@@ -475,7 +480,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public void writeByte(int v) {
+    @Override
+    public void writeByte(int v) {
       try {
         output.writeByte(v);
       } catch (IOException impossible) {
@@ -483,7 +489,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public void writeBytes(String s) {
+    @Override
+    public void writeBytes(String s) {
       try {
         output.writeBytes(s);
       } catch (IOException impossible) {
@@ -491,7 +498,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public void writeChar(int v) {
+    @Override
+    public void writeChar(int v) {
       try {
         output.writeChar(v);
       } catch (IOException impossible) {
@@ -499,7 +507,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public void writeChars(String s) {
+    @Override
+    public void writeChars(String s) {
       try {
         output.writeChars(s);
       } catch (IOException impossible) {
@@ -507,7 +516,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public void writeDouble(double v) {
+    @Override
+    public void writeDouble(double v) {
       try {
         output.writeDouble(v);
       } catch (IOException impossible) {
@@ -515,7 +525,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public void writeFloat(float v) {
+    @Override
+    public void writeFloat(float v) {
       try {
         output.writeFloat(v);
       } catch (IOException impossible) {
@@ -523,7 +534,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public void writeInt(int v) {
+    @Override
+    public void writeInt(int v) {
       try {
         output.writeInt(v);
       } catch (IOException impossible) {
@@ -531,7 +543,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public void writeLong(long v) {
+    @Override
+    public void writeLong(long v) {
       try {
         output.writeLong(v);
       } catch (IOException impossible) {
@@ -539,7 +552,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public void writeShort(int v) {
+    @Override
+    public void writeShort(int v) {
       try {
         output.writeShort(v);
       } catch (IOException impossible) {
@@ -547,7 +561,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public void writeUTF(String s) {
+    @Override
+    public void writeUTF(String s) {
       try {
         output.writeUTF(s);
       } catch (IOException impossible) {
@@ -555,7 +570,8 @@ public final class ByteStreams {
       }
     }
 
-    @Override public byte[] toByteArray() {
+    @Override
+    public byte[] toByteArray() {
       return byteArrayOutputSteam.toByteArray();
     }
   }
@@ -563,14 +579,18 @@ public final class ByteStreams {
   private static final OutputStream NULL_OUTPUT_STREAM =
       new OutputStream() {
         /** Discards the specified byte. */
-        @Override public void write(int b) {
-        }
+        @Override
+        public void write(int b) {}
+
         /** Discards the specified byte array. */
-        @Override public void write(byte[] b) {
+        @Override
+        public void write(byte[] b) {
           checkNotNull(b);
         }
+
         /** Discards the specified byte array. */
-        @Override public void write(byte[] b, int off, int len) {
+        @Override
+        public void write(byte[] b, int off, int len) {
           checkNotNull(b);
         }
 
@@ -590,8 +610,7 @@ public final class ByteStreams {
   }
 
   /**
-   * Wraps a {@link InputStream}, limiting the number of bytes which can be
-   * read.
+   * Wraps a {@link InputStream}, limiting the number of bytes which can be read.
    *
    * @param in the input stream to be wrapped
    * @param limit the maximum number of bytes to be read
@@ -614,17 +633,20 @@ public final class ByteStreams {
       left = limit;
     }
 
-    @Override public int available() throws IOException {
+    @Override
+    public int available() throws IOException {
       return (int) Math.min(in.available(), left);
     }
 
     // it's okay to mark even if mark isn't supported, as reset won't work
-    @Override public synchronized void mark(int readLimit) {
+    @Override
+    public synchronized void mark(int readLimit) {
       in.mark(readLimit);
       mark = left;
     }
 
-    @Override public int read() throws IOException {
+    @Override
+    public int read() throws IOException {
       if (left == 0) {
         return -1;
       }
@@ -636,7 +658,8 @@ public final class ByteStreams {
       return result;
     }
 
-    @Override public int read(byte[] b, int off, int len) throws IOException {
+    @Override
+    public int read(byte[] b, int off, int len) throws IOException {
       if (left == 0) {
         return -1;
       }
@@ -649,7 +672,8 @@ public final class ByteStreams {
       return result;
     }
 
-    @Override public synchronized void reset() throws IOException {
+    @Override
+    public synchronized void reset() throws IOException {
       if (!in.markSupported()) {
         throw new IOException("Mark not supported");
       }
@@ -661,7 +685,8 @@ public final class ByteStreams {
       left = mark;
     }
 
-    @Override public long skip(long n) throws IOException {
+    @Override
+    public long skip(long n) throws IOException {
       n = Math.min(n, left);
       long skipped = in.skip(n);
       left -= skipped;
@@ -670,14 +695,12 @@ public final class ByteStreams {
   }
 
   /**
-   * Attempts to read enough bytes from the stream to fill the given byte array,
-   * with the same behavior as {@link DataInput#readFully(byte[])}.
-   * Does not close the stream.
+   * Attempts to read enough bytes from the stream to fill the given byte array, with the same
+   * behavior as {@link DataInput#readFully(byte[])}. Does not close the stream.
    *
    * @param in the input stream to read from.
    * @param b the buffer into which the data is read.
-   * @throws EOFException if this stream reaches the end before reading all
-   *     the bytes.
+   * @throws EOFException if this stream reaches the end before reading all the bytes.
    * @throws IOException if an I/O error occurs.
    */
   public static void readFully(InputStream in, byte[] b) throws IOException {
@@ -685,53 +708,46 @@ public final class ByteStreams {
   }
 
   /**
-   * Attempts to read {@code len} bytes from the stream into the given array
-   * starting at {@code off}, with the same behavior as
-   * {@link DataInput#readFully(byte[], int, int)}. Does not close the
-   * stream.
+   * Attempts to read {@code len} bytes from the stream into the given array starting at
+   * {@code off}, with the same behavior as {@link DataInput#readFully(byte[], int, int)}. Does not
+   * close the stream.
    *
    * @param in the input stream to read from.
    * @param b the buffer into which the data is read.
    * @param off an int specifying the offset into the data.
    * @param len an int specifying the number of bytes to read.
-   * @throws EOFException if this stream reaches the end before reading all
-   *     the bytes.
+   * @throws EOFException if this stream reaches the end before reading all the bytes.
    * @throws IOException if an I/O error occurs.
    */
-  public static void readFully(
-      InputStream in, byte[] b, int off, int len) throws IOException {
+  public static void readFully(InputStream in, byte[] b, int off, int len) throws IOException {
     int read = read(in, b, off, len);
     if (read != len) {
-      throw new EOFException("reached end of stream after reading "
-          + read + " bytes; " + len + " bytes expected");
+      throw new EOFException(
+          "reached end of stream after reading " + read + " bytes; " + len + " bytes expected");
     }
   }
 
   /**
-   * Discards {@code n} bytes of data from the input stream. This method
-   * will block until the full amount has been skipped. Does not close the
-   * stream.
+   * Discards {@code n} bytes of data from the input stream. This method will block until the full
+   * amount has been skipped. Does not close the stream.
    *
    * @param in the input stream to read from
    * @param n the number of bytes to skip
-   * @throws EOFException if this stream reaches the end before skipping all
-   *     the bytes
-   * @throws IOException if an I/O error occurs, or the stream does not
-   *     support skipping
+   * @throws EOFException if this stream reaches the end before skipping all the bytes
+   * @throws IOException if an I/O error occurs, or the stream does not support skipping
    */
   public static void skipFully(InputStream in, long n) throws IOException {
     long skipped = skipUpTo(in, n);
     if (skipped < n) {
-      throw new EOFException("reached end of stream after skipping "
-          + skipped + " bytes; " + n + " bytes expected");
+      throw new EOFException(
+          "reached end of stream after skipping " + skipped + " bytes; " + n + " bytes expected");
     }
   }
 
   /**
-   * Discards up to {@code n} bytes of data from the input stream. This method
-   * will block until either the full amount has been skipped or until the end
-   * of the stream is reached, whichever happens first. Returns the total number
-   * of bytes skipped.
+   * Discards up to {@code n} bytes of data from the input stream. This method will block until
+   * either the full amount has been skipped or until the end of the stream is reached, whichever
+   * happens first. Returns the total number of bytes skipped.
    */
   static long skipUpTo(InputStream in, final long n) throws IOException {
     long totalSkipped = 0;
@@ -760,9 +776,9 @@ public final class ByteStreams {
   /**
    * Attempts to skip up to {@code n} bytes from the given input stream, but not more than
    * {@code in.available()} bytes. This prevents {@code FileInputStream} from skipping more bytes
-   * than actually remain in the file, something that it
-   * {@linkplain FileInputStream#skip(long) specifies} it can do in its Javadoc despite the fact
-   * that it is violating the contract of {@code InputStream.skip()}.
+   * than actually remain in the file, something that it {@linkplain FileInputStream#skip(long)
+   * specifies} it can do in its Javadoc despite the fact that it is violating the contract of
+   * {@code InputStream.skip()}.
    */
   private static long skipSafely(InputStream in, long n) throws IOException {
     int available = in.available();
@@ -778,8 +794,7 @@ public final class ByteStreams {
    * @throws IOException if an I/O error occurs
    * @since 14.0
    */
-  public static <T> T readBytes(
-      InputStream input, ByteProcessor<T> processor) throws IOException {
+  public static <T> T readBytes(InputStream input, ByteProcessor<T> processor) throws IOException {
     checkNotNull(input);
     checkNotNull(processor);
 
@@ -792,21 +807,20 @@ public final class ByteStreams {
   }
 
   /**
-   * Reads some bytes from an input stream and stores them into the buffer array
-   * {@code b}. This method blocks until {@code len} bytes of input data have
-   * been read into the array, or end of file is detected. The number of bytes
-   * read is returned, possibly zero. Does not close the stream.
+   * Reads some bytes from an input stream and stores them into the buffer array {@code b}. This
+   * method blocks until {@code len} bytes of input data have been read into the array, or end of
+   * file is detected. The number of bytes read is returned, possibly zero. Does not close the
+   * stream.
    *
-   * <p>A caller can detect EOF if the number of bytes read is less than
-   * {@code len}. All subsequent calls on the same stream will return zero.
+   * <p>A caller can detect EOF if the number of bytes read is less than {@code len}. All subsequent
+   * calls on the same stream will return zero.
    *
-   * <p>If {@code b} is null, a {@code NullPointerException} is thrown. If
-   * {@code off} is negative, or {@code len} is negative, or {@code off+len} is
-   * greater than the length of the array {@code b}, then an
-   * {@code IndexOutOfBoundsException} is thrown. If {@code len} is zero, then
-   * no bytes are read. Otherwise, the first byte read is stored into element
-   * {@code b[off]}, the next one into {@code b[off+1]}, and so on. The number
-   * of bytes read is, at most, equal to {@code len}.
+   * <p>If {@code b} is null, a {@code NullPointerException} is thrown. If {@code off} is negative,
+   * or {@code len} is negative, or {@code off+len} is greater than the length of the array
+   * {@code b}, then an {@code IndexOutOfBoundsException} is thrown. If {@code len} is zero, then no
+   * bytes are read. Otherwise, the first byte read is stored into element {@code b[off]}, the next
+   * one into {@code b[off+1]}, and so on. The number of bytes read is, at most, equal to
+   * {@code len}.
    *
    * @param in the input stream to read from
    * @param b the buffer into which the data is read
@@ -815,8 +829,7 @@ public final class ByteStreams {
    * @return the number of bytes read
    * @throws IOException if an I/O error occurs
    */
-  public static int read(InputStream in, byte[] b, int off, int len)
-      throws IOException {
+  public static int read(InputStream in, byte[] b, int off, int len) throws IOException {
     checkNotNull(in);
     checkNotNull(b);
     if (len < 0) {

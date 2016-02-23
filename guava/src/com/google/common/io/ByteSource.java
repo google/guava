@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -43,18 +41,18 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 /**
- * A readable source of bytes, such as a file. Unlike an {@link InputStream}, a
- * {@code ByteSource} is not an open, stateful stream for input that can be read and closed.
- * Instead, it is an immutable <i>supplier</i> of {@code InputStream} instances.
+ * A readable source of bytes, such as a file. Unlike an {@link InputStream}, a {@code ByteSource}
+ * is not an open, stateful stream for input that can be read and closed. Instead, it is an
+ * immutable <i>supplier</i> of {@code InputStream} instances.
  *
  * <p>{@code ByteSource} provides two kinds of methods:
  * <ul>
- *   <li><b>Methods that return a stream:</b> These methods should return a <i>new</i>, independent
- *   instance each time they are called. The caller is responsible for ensuring that the returned
- *   stream is closed.
- *   <li><b>Convenience methods:</b> These are implementations of common operations that are
- *   typically implemented by opening a stream using one of the methods in the first category, doing
- *   something and finally closing the stream that was opened.
+ * <li><b>Methods that return a stream:</b> These methods should return a <i>new</i>, independent
+ *     instance each time they are called. The caller is responsible for ensuring that the returned
+ *     stream is closed.
+ * <li><b>Convenience methods:</b> These are implementations of common operations that are typically
+ *     implemented by opening a stream using one of the methods in the first category, doing
+ *     something and finally closing the stream that was opened.
  * </ul>
  *
  * @since 14.0
@@ -94,9 +92,9 @@ public abstract class ByteSource {
   /**
    * Opens a new buffered {@link InputStream} for reading from this source. The returned stream is
    * not required to be a {@link BufferedInputStream} in order to allow implementations to simply
-   * delegate to {@link #openStream()} when the stream returned by that method does not benefit
-   * from additional buffering (for example, a {@code ByteArrayInputStream}). This method should
-   * return a new, independent stream each time it is called.
+   * delegate to {@link #openStream()} when the stream returned by that method does not benefit from
+   * additional buffering (for example, a {@code ByteArrayInputStream}). This method should return a
+   * new, independent stream each time it is called.
    *
    * <p>The caller is responsible for ensuring that the returned stream is closed.
    *
@@ -125,8 +123,8 @@ public abstract class ByteSource {
 
   /**
    * Returns whether the source has zero bytes. The default implementation returns true if
-   * {@link #sizeIfKnown} returns zero, falling back to opening a stream and checking for
-   * EOF if the size is not known.
+   * {@link #sizeIfKnown} returns zero, falling back to opening a stream and checking for EOF if the
+   * size is not known.
    *
    * <p>Note that, in cases where {@code sizeIfKnown} returns zero, it is <i>possible</i> that bytes
    * are actually available for reading. (For example, some special files may return a size of 0
@@ -153,8 +151,8 @@ public abstract class ByteSource {
   }
 
   /**
-   * Returns the size of this source in bytes, if the size can be easily determined without
-   * actually opening the data stream.
+   * Returns the size of this source in bytes, if the size can be easily determined without actually
+   * opening the data stream.
    *
    * <p>The default implementation returns {@link Optional#absent}. Some sources, such as a file,
    * may return a non-absent value. Note that in such cases, it is <i>possible</i> that this method
@@ -172,11 +170,11 @@ public abstract class ByteSource {
   }
 
   /**
-   * Returns the size of this source in bytes, even if doing so requires opening and traversing
-   * an entire stream. To avoid a potentially expensive operation, see {@link #sizeIfKnown}.
+   * Returns the size of this source in bytes, even if doing so requires opening and traversing an
+   * entire stream. To avoid a potentially expensive operation, see {@link #sizeIfKnown}.
    *
-   * <p>The default implementation calls {@link #sizeIfKnown} and returns the value if present.
-   * If absent, it will fall back to a heavyweight operation that will open a stream, read (or
+   * <p>The default implementation calls {@link #sizeIfKnown} and returns the value if present. If
+   * absent, it will fall back to a heavyweight operation that will open a stream, read (or
    * {@link InputStream#skip(long) skip}, if possible) to the end of the stream and return the total
    * number of bytes that were read.
    *
@@ -388,11 +386,11 @@ public abstract class ByteSource {
    * <p>Only one underlying stream will be open at a time. Closing the concatenated stream will
    * close the open underlying stream.
    *
-   * <p>Note: The input {@code Iterator} will be copied to an {@code ImmutableList} when this
-   * method is called. This will fail if the iterator is infinite and may cause problems if the
-   * iterator eagerly fetches data for each source when iterated (rather than producing sources
-   * that only load data through their streams). Prefer using the {@link #concat(Iterable)}
-   * overload if possible.
+   * <p>Note: The input {@code Iterator} will be copied to an {@code ImmutableList} when this method
+   * is called. This will fail if the iterator is infinite and may cause problems if the iterator
+   * eagerly fetches data for each source when iterated (rather than producing sources that only
+   * load data through their streams). Prefer using the {@link #concat(Iterable)} overload if
+   * possible.
    *
    * @param sources the sources to concatenate
    * @return a {@code ByteSource} containing the concatenated data
@@ -439,8 +437,7 @@ public abstract class ByteSource {
   }
 
   /**
-   * A char source that reads bytes from this source and decodes them as characters using a
-   * charset.
+   * A char source that reads bytes from this source and decodes them as characters using a charset.
    */
   private final class AsCharSource extends CharSource {
 

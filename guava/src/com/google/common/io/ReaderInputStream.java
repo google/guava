@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2015 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.io;
@@ -82,8 +80,10 @@ final class ReaderInputStream extends InputStream {
    * @throws IllegalArgumentException if bufferSize is non-positive
    */
   ReaderInputStream(Reader reader, Charset charset, int bufferSize) {
-    this(reader,
-        charset.newEncoder()
+    this(
+        reader,
+        charset
+            .newEncoder()
             .onMalformedInput(CodingErrorAction.REPLACE)
             .onUnmappableCharacter(CodingErrorAction.REPLACE),
         bufferSize);
@@ -110,17 +110,20 @@ final class ReaderInputStream extends InputStream {
     byteBuffer = ByteBuffer.allocate(bufferSize);
   }
 
-  @Override public void close() throws IOException {
+  @Override
+  public void close() throws IOException {
     reader.close();
   }
 
-  @Override public int read() throws IOException {
+  @Override
+  public int read() throws IOException {
     return (read(singleByte) == 1) ? UnsignedBytes.toInt(singleByte[0]) : -1;
   }
 
   // TODO(chrisn): Consider trying to encode/flush directly to the argument byte
   // buffer when possible.
-  @Override public int read(byte[] b, int off, int len) throws IOException {
+  @Override
+  public int read(byte[] b, int off, int len) throws IOException {
     // Obey InputStream contract.
     checkPositionIndexes(off, off + len, b.length);
     if (len == 0) {
@@ -131,8 +134,9 @@ final class ReaderInputStream extends InputStream {
     int totalBytesRead = 0;
     boolean doneEncoding = endOfInput;
 
-    DRAINING: while (true) {
-      // We stay in draining mode until there are no bytes left in the output buffer.  Then we go
+    DRAINING:
+    while (true) {
+      // We stay in draining mode until there are no bytes left in the output buffer. Then we go
       // back to encoding/flushing.
       if (draining) {
         totalBytesRead += drain(b, off + totalBytesRead, len - totalBytesRead);
@@ -227,7 +231,7 @@ final class ReaderInputStream extends InputStream {
   }
 
   /**
-   * Flips the buffer output buffer so we can start reading bytes from it.  If we are starting to
+   * Flips the buffer output buffer so we can start reading bytes from it. If we are starting to
    * drain because there was overflow, and there aren't actually any characters to drain, then the
    * overflow must be due to a small output buffer.
    */
