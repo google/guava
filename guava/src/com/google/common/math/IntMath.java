@@ -60,6 +60,7 @@ public final class IntMath {
    * @throws IllegalArgumentException if {@code x <= 0}
    * @throws ArithmeticException of the next-higher power of two is not representable as an
    *         {@code int}, i.e. when {@code x > 2^30}
+   * @since 20.0
    */
   public static int ceilingPowerOfTwo(int x) {
     checkPositive("x", x);
@@ -74,6 +75,7 @@ public final class IntMath {
    * {@code checkedPow(2, log2(x, FLOOR))}.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
+   * @since 20.0
    */
   public static int floorPowerOfTwo(int x) {
     checkPositive("x", x);

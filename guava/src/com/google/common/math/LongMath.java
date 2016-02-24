@@ -60,6 +60,7 @@ public final class LongMath {
    * @throws IllegalArgumentException if {@code x <= 0}
    * @throws ArithmeticException of the next-higher power of two is not representable as a
    *         {@code long}, i.e. when {@code x > 2^62}
+   * @since 20.0
    */
   public static long ceilingPowerOfTwo(long x) {
     checkPositive("x", x);
@@ -74,6 +75,7 @@ public final class LongMath {
    * {@code checkedPow(2, log2(x, FLOOR))}.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
+   * @since 20.0
    */
   public static long floorPowerOfTwo(long x) {
     checkPositive("x", x);

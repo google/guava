@@ -52,6 +52,7 @@ public final class BigIntegerMath {
    * {@code BigInteger.valueOf(2).pow(log2(x, CEILING))}.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
+   * @since 20.0
    */
   public static BigInteger ceilingPowerOfTwo(BigInteger x) {
     return BigInteger.ZERO.setBit(log2(x, RoundingMode.CEILING));
@@ -62,6 +63,7 @@ public final class BigIntegerMath {
    * {@code BigInteger.valueOf(2).pow(log2(x, FLOOR))}.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
+   * @since 20.0
    */
   public static BigInteger floorPowerOfTwo(BigInteger x) {
     return BigInteger.ZERO.setBit(log2(x, RoundingMode.FLOOR));
