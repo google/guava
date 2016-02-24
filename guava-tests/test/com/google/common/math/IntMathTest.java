@@ -45,6 +45,72 @@ import java.math.RoundingMode;
  */
 @GwtCompatible(emulated = true)
 public class IntMathTest extends TestCase {
+  public void testMaxSignedPowerOfTwo() {
+    assertTrue(IntMath.isPowerOfTwo(IntMath.MAX_SIGNED_POWER_OF_TWO));
+
+    // Extra work required to make GWT happy.
+    long value = IntMath.MAX_SIGNED_POWER_OF_TWO * 2L;
+    assertFalse(IntMath.isPowerOfTwo((int) value));
+  }
+
+  public void testCeilingPowerOfTwo() {
+    for (int x : POSITIVE_INTEGER_CANDIDATES) {
+      BigInteger expectedResult = BigIntegerMath.ceilingPowerOfTwo(BigInteger.valueOf(x));
+      if (fitsInInt(expectedResult)) {
+        assertEquals(expectedResult.intValue(), IntMath.ceilingPowerOfTwo(x));
+      } else {
+        try {
+          IntMath.ceilingPowerOfTwo(x);
+          fail("Expected ArithmeticException");
+        } catch (ArithmeticException expected) {
+        }
+      }
+    }
+  }
+
+  public void testFloorPowerOfTwo() {
+    for (int x : POSITIVE_INTEGER_CANDIDATES) {
+      BigInteger expectedResult = BigIntegerMath.floorPowerOfTwo(BigInteger.valueOf(x));
+      assertEquals(expectedResult.intValue(), IntMath.floorPowerOfTwo(x));
+    }
+  }
+
+  public void testCeilingPowerOfTwoNegative() {
+    for (int x : NEGATIVE_INTEGER_CANDIDATES) {
+      try {
+        IntMath.ceilingPowerOfTwo(x);
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+      }
+    }
+  }
+
+  public void testFloorPowerOfTwoNegative() {
+    for (int x : NEGATIVE_INTEGER_CANDIDATES) {
+      try {
+        IntMath.floorPowerOfTwo(x);
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+      }
+    }
+  }
+
+  public void testCeilingPowerOfTwoZero() {
+    try {
+      IntMath.ceilingPowerOfTwo(0);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testFloorPowerOfTwoZero() {
+    try {
+      IntMath.floorPowerOfTwo(0);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testConstantMaxPowerOfSqrt2Unsigned() {
     assertEquals(

@@ -48,6 +48,26 @@ import java.util.List;
 @GwtCompatible(emulated = true)
 public final class BigIntegerMath {
   /**
+   * Returns the smallest power of two greater than or equal to {@code x}.  This is equivalent to
+   * {@code BigInteger.valueOf(2).pow(log2(x, CEILING))}.
+   *
+   * @throws IllegalArgumentException if {@code x <= 0}
+   */
+  public static BigInteger ceilingPowerOfTwo(BigInteger x) {
+    return BigInteger.ZERO.setBit(log2(x, RoundingMode.CEILING));
+  }
+
+  /**
+   * Returns the largest power of two less than or equal to {@code x}.  This is equivalent to
+   * {@code BigInteger.valueOf(2).pow(log2(x, FLOOR))}.
+   *
+   * @throws IllegalArgumentException if {@code x <= 0}
+   */
+  public static BigInteger floorPowerOfTwo(BigInteger x) {
+    return BigInteger.ZERO.setBit(log2(x, RoundingMode.FLOOR));
+  }
+
+  /**
    * Returns {@code true} if {@code x} represents a power of two.
    */
   public static boolean isPowerOfTwo(BigInteger x) {

@@ -51,6 +51,38 @@ import java.math.RoundingMode;
 public final class LongMath {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
+  @VisibleForTesting static final long MAX_SIGNED_POWER_OF_TWO = 1L << (Long.SIZE - 2);
+
+  /**
+   * Returns the smallest power of two greater than or equal to {@code x}.  This is equivalent to
+   * {@code checkedPow(2, log2(x, CEILING))}.
+   *
+   * @throws IllegalArgumentException if {@code x <= 0}
+   * @throws ArithmeticException of the next-higher power of two is not representable as a
+   *         {@code long}, i.e. when {@code x > 2^62}
+   */
+  public static long ceilingPowerOfTwo(long x) {
+    checkPositive("x", x);
+    if (x > (1L << (Long.SIZE - 2))) {
+      throw new ArithmeticException("ceilingPowerOfTwo(" + x + ") is not representable as a long");
+    }
+    return 1L << -Long.numberOfLeadingZeros(x - 1);
+  }
+
+  /**
+   * Returns the largest power of two less than or equal to {@code x}.  This is equivalent to
+   * {@code checkedPow(2, log2(x, FLOOR))}.
+   *
+   * @throws IllegalArgumentException if {@code x <= 0}
+   */
+  public static long floorPowerOfTwo(long x) {
+    checkPositive("x", x);
+
+    // Long.highestOneBit was buggy on GWT.  We've fixed it, but I'm not certain when the fix will
+    // be released.
+    return 1L << ((Long.SIZE - 1) - Long.numberOfLeadingZeros(x));
+  }
+
   /**
    * Returns {@code true} if {@code x} represents a power of two.
    *

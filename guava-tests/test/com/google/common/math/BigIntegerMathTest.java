@@ -19,6 +19,7 @@ package com.google.common.math;
 import static com.google.common.math.MathTesting.ALL_BIGINTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.ALL_ROUNDING_MODES;
 import static com.google.common.math.MathTesting.ALL_SAFE_ROUNDING_MODES;
+import static com.google.common.math.MathTesting.NEGATIVE_BIGINTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.NONZERO_BIGINTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_BIGINTEGER_CANDIDATES;
 import static java.math.BigInteger.ONE;
@@ -51,6 +52,60 @@ import java.math.RoundingMode;
  */
 @GwtCompatible(emulated = true)
 public class BigIntegerMathTest extends TestCase {
+  public void testCeilingPowerOfTwo() {
+    for (BigInteger x : POSITIVE_BIGINTEGER_CANDIDATES) {
+      BigInteger result = BigIntegerMath.ceilingPowerOfTwo(x);
+      assertTrue(BigIntegerMath.isPowerOfTwo(result));
+      assertTrue(result.compareTo(x) >= 0);
+      assertTrue(result.compareTo(x.add(x)) < 0);
+    }
+  }
+
+  public void testFloorPowerOfTwo() {
+    for (BigInteger x : POSITIVE_BIGINTEGER_CANDIDATES) {
+      BigInteger result = BigIntegerMath.floorPowerOfTwo(x);
+      assertTrue(BigIntegerMath.isPowerOfTwo(result));
+      assertTrue(result.compareTo(x) <= 0);
+      assertTrue(result.add(result).compareTo(x) > 0);
+    }
+  }
+
+  public void testCeilingPowerOfTwoNegative() {
+    for (BigInteger x : NEGATIVE_BIGINTEGER_CANDIDATES) {
+      try {
+        BigIntegerMath.ceilingPowerOfTwo(x);
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+      }
+    }
+  }
+
+  public void testFloorPowerOfTwoNegative() {
+    for (BigInteger x : NEGATIVE_BIGINTEGER_CANDIDATES) {
+      try {
+        BigIntegerMath.floorPowerOfTwo(x);
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+      }
+    }
+  }
+
+  public void testCeilingPowerOfTwoZero() {
+    try {
+      BigIntegerMath.ceilingPowerOfTwo(BigInteger.ZERO);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testFloorPowerOfTwoZero() {
+    try {
+      BigIntegerMath.floorPowerOfTwo(BigInteger.ZERO);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+  
   @GwtIncompatible // TODO
   public void testConstantSqrt2PrecomputedBits() {
     assertEquals(BigIntegerMath.sqrt(

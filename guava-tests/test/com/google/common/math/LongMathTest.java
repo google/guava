@@ -46,6 +46,69 @@ import java.math.RoundingMode;
  */
 @GwtCompatible(emulated = true)
 public class LongMathTest extends TestCase {
+  public void testMaxSignedPowerOfTwo() {
+    assertTrue(LongMath.isPowerOfTwo(LongMath.MAX_SIGNED_POWER_OF_TWO));
+    assertFalse(LongMath.isPowerOfTwo(LongMath.MAX_SIGNED_POWER_OF_TWO * 2));
+  }
+
+  public void testCeilingPowerOfTwo() {
+    for (long x : POSITIVE_LONG_CANDIDATES) {
+      BigInteger expectedResult = BigIntegerMath.ceilingPowerOfTwo(BigInteger.valueOf(x));
+      if (fitsInLong(expectedResult)) {
+        assertEquals(expectedResult.longValue(), LongMath.ceilingPowerOfTwo(x));
+      } else {
+        try {
+          LongMath.ceilingPowerOfTwo(x);
+          fail("Expected ArithmeticException");
+        } catch (ArithmeticException expected) {
+        }
+      }
+    }
+  }
+
+  public void testFloorPowerOfTwo() {
+    for (long x : POSITIVE_LONG_CANDIDATES) {
+      BigInteger expectedResult = BigIntegerMath.floorPowerOfTwo(BigInteger.valueOf(x));
+      assertEquals(expectedResult.longValue(), LongMath.floorPowerOfTwo(x));
+    }
+  }
+
+  public void testCeilingPowerOfTwoNegative() {
+    for (long x : NEGATIVE_LONG_CANDIDATES) {
+      try {
+        LongMath.ceilingPowerOfTwo(x);
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+      }
+    }
+  }
+
+  public void testFloorPowerOfTwoNegative() {
+    for (long x : NEGATIVE_LONG_CANDIDATES) {
+      try {
+        LongMath.floorPowerOfTwo(x);
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+      }
+    }
+  }
+
+  public void testCeilingPowerOfTwoZero() {
+    try {
+      LongMath.ceilingPowerOfTwo(0L);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testFloorPowerOfTwoZero() {
+    try {
+      LongMath.floorPowerOfTwo(0L);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   @GwtIncompatible // TODO
   public void testConstantMaxPowerOfSqrt2Unsigned() {
     assertEquals(BigIntegerMath.sqrt(BigInteger.ZERO.setBit(2 * Long.SIZE - 1), FLOOR).longValue(),

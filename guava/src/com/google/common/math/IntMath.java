@@ -51,6 +51,35 @@ import java.math.RoundingMode;
 public final class IntMath {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
+  @VisibleForTesting static final int MAX_SIGNED_POWER_OF_TWO = 1 << (Integer.SIZE - 2);
+
+  /**
+   * Returns the smallest power of two greater than or equal to {@code x}.  This is equivalent to
+   * {@code checkedPow(2, log2(x, CEILING))}.
+   *
+   * @throws IllegalArgumentException if {@code x <= 0}
+   * @throws ArithmeticException of the next-higher power of two is not representable as an
+   *         {@code int}, i.e. when {@code x > 2^30}
+   */
+  public static int ceilingPowerOfTwo(int x) {
+    checkPositive("x", x);
+    if (x > MAX_SIGNED_POWER_OF_TWO) {
+      throw new ArithmeticException("ceilingPowerOfTwo(" + x + ") not representable as an int");
+    }
+    return 1 << -Integer.numberOfLeadingZeros(x - 1);
+  }
+
+  /**
+   * Returns the largest power of two less than or equal to {@code x}.  This is equivalent to
+   * {@code checkedPow(2, log2(x, FLOOR))}.
+   *
+   * @throws IllegalArgumentException if {@code x <= 0}
+   */
+  public static int floorPowerOfTwo(int x) {
+    checkPositive("x", x);
+    return Integer.highestOneBit(x);
+  }
+
   /**
    * Returns {@code true} if {@code x} represents a power of two.
    *
