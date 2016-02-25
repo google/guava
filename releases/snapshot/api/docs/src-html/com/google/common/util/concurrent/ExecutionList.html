@@ -77,12 +77,12 @@
 <span class="sourceLineNo">069</span>   * documentation.<a name="line.69"></a>
 <span class="sourceLineNo">070</span>   */<a name="line.70"></a>
 <span class="sourceLineNo">071</span>  public void add(Runnable runnable, Executor executor) {<a name="line.71"></a>
-<span class="sourceLineNo">072</span>    // Fail fast on a null.  We throw NPE here because the contract of Executor states that it<a name="line.72"></a>
-<span class="sourceLineNo">073</span>    // throws NPE on null listener, so we propagate that contract up into the add method as well.<a name="line.73"></a>
+<span class="sourceLineNo">072</span>    // Fail fast on a null. We throw NPE here because the contract of Executor states that it throws<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    // NPE on null listener, so we propagate that contract up into the add method as well.<a name="line.73"></a>
 <span class="sourceLineNo">074</span>    checkNotNull(runnable, "Runnable was null.");<a name="line.74"></a>
 <span class="sourceLineNo">075</span>    checkNotNull(executor, "Executor was null.");<a name="line.75"></a>
 <span class="sourceLineNo">076</span><a name="line.76"></a>
-<span class="sourceLineNo">077</span>    // Lock while we check state.  We must maintain the lock while adding the new pair so that<a name="line.77"></a>
+<span class="sourceLineNo">077</span>    // Lock while we check state. We must maintain the lock while adding the new pair so that<a name="line.77"></a>
 <span class="sourceLineNo">078</span>    // another thread can't run the list out from under us. We only add to the list if we have not<a name="line.78"></a>
 <span class="sourceLineNo">079</span>    // yet started execution.<a name="line.79"></a>
 <span class="sourceLineNo">080</span>    synchronized (this) {<a name="line.80"></a>
@@ -92,7 +92,7 @@
 <span class="sourceLineNo">084</span>      }<a name="line.84"></a>
 <span class="sourceLineNo">085</span>    }<a name="line.85"></a>
 <span class="sourceLineNo">086</span>    // Execute the runnable immediately. Because of scheduling this may end up getting called before<a name="line.86"></a>
-<span class="sourceLineNo">087</span>    // some of the previously added runnables, but we're OK with that.  If we want to change the<a name="line.87"></a>
+<span class="sourceLineNo">087</span>    // some of the previously added runnables, but we're OK with that. If we want to change the<a name="line.87"></a>
 <span class="sourceLineNo">088</span>    // contract to guarantee ordering among runnables we'd have to modify the logic here to allow<a name="line.88"></a>
 <span class="sourceLineNo">089</span>    // it.<a name="line.89"></a>
 <span class="sourceLineNo">090</span>    executeListener(runnable, executor);<a name="line.90"></a>
@@ -121,12 +121,12 @@
 <span class="sourceLineNo">113</span>      list = runnables;<a name="line.113"></a>
 <span class="sourceLineNo">114</span>      runnables = null; // allow GC to free listeners even if this stays around for a while.<a name="line.114"></a>
 <span class="sourceLineNo">115</span>    }<a name="line.115"></a>
-<span class="sourceLineNo">116</span>    // If we succeeded then list holds all the runnables we to execute.  The pairs in the stack are<a name="line.116"></a>
+<span class="sourceLineNo">116</span>    // If we succeeded then list holds all the runnables we to execute. The pairs in the stack are<a name="line.116"></a>
 <span class="sourceLineNo">117</span>    // in the opposite order from how they were added so we need to reverse the list to fulfill our<a name="line.117"></a>
 <span class="sourceLineNo">118</span>    // contract.<a name="line.118"></a>
-<span class="sourceLineNo">119</span>    // This is somewhat annoying, but turns out to be very fast in practice.  Alternatively, we<a name="line.119"></a>
-<span class="sourceLineNo">120</span>    // could drop the contract on the method that enforces this queue like behavior since depending<a name="line.120"></a>
-<span class="sourceLineNo">121</span>    // on it is likely to be a bug anyway.<a name="line.121"></a>
+<span class="sourceLineNo">119</span>    // This is somewhat annoying, but turns out to be very fast in practice. Alternatively, we could<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    // drop the contract on the method that enforces this queue like behavior since depending on it<a name="line.120"></a>
+<span class="sourceLineNo">121</span>    // is likely to be a bug anyway.<a name="line.121"></a>
 <span class="sourceLineNo">122</span><a name="line.122"></a>
 <span class="sourceLineNo">123</span>    // N.B. All writes to the list and the next pointers must have happened before the above<a name="line.123"></a>
 <span class="sourceLineNo">124</span>    // synchronized block, so we can iterate the list without the lock held here.<a name="line.124"></a>
@@ -151,8 +151,8 @@
 <span class="sourceLineNo">143</span>    try {<a name="line.143"></a>
 <span class="sourceLineNo">144</span>      executor.execute(runnable);<a name="line.144"></a>
 <span class="sourceLineNo">145</span>    } catch (RuntimeException e) {<a name="line.145"></a>
-<span class="sourceLineNo">146</span>      // Log it and keep going, bad runnable and/or executor.  Don't punish the other runnables if<a name="line.146"></a>
-<span class="sourceLineNo">147</span>      // we're given a bad one.  We only catch RuntimeException because we want Errors to propagate<a name="line.147"></a>
+<span class="sourceLineNo">146</span>      // Log it and keep going -- bad runnable and/or executor. Don't punish the other runnables if<a name="line.146"></a>
+<span class="sourceLineNo">147</span>      // we're given a bad one. We only catch RuntimeException because we want Errors to propagate<a name="line.147"></a>
 <span class="sourceLineNo">148</span>      // up.<a name="line.148"></a>
 <span class="sourceLineNo">149</span>      log.log(<a name="line.149"></a>
 <span class="sourceLineNo">150</span>          Level.SEVERE,<a name="line.150"></a>

@@ -105,7 +105,7 @@ public abstract class <a href="../../../../../src-html/com/google/common/util/co
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a></pre>
 <div class="block">Base class for services that can implement <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#startUp()"><code>startUp()</code></a> and <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#shutDown()"><code>shutDown()</code></a> but while in
- the "running" state need to perform a periodic task.  Subclasses can implement <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#startUp()"><code>startUp()</code></a>,
+ the "running" state need to perform a periodic task. Subclasses can implement <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#startUp()"><code>startUp()</code></a>,
  <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#shutDown()"><code>shutDown()</code></a> and also a <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#runOneIteration()"><code>runOneIteration()</code></a> method that will be executed periodically.
 
  <p>This class uses the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> returned from <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#executor()"><code>executor()</code></a> to run
@@ -114,9 +114,9 @@ implements <a href="../../../../../com/google/common/util/concurrent/Service.htm
  task (but not interrupt it) and wait for it to stop before running the <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#shutDown()"><code>shutDown()</code></a> method.
 
  <p>Subclasses are guaranteed that the life cycle methods (<a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#runOneIteration()"><code>runOneIteration()</code></a>, <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#startUp()"><code>startUp()</code></a> and <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#shutDown()"><code>shutDown()</code></a>) will never run concurrently. Notably, if any execution of <a href="../../../../../com/google/common/util/concurrent/AbstractScheduledService.html#runOneIteration()"><code>runOneIteration()</code></a> takes longer than its schedule defines, then subsequent executions may start
- late.  Also, all life cycle methods are executed with a lock held, so subclasses can safely
- modify shared state without additional synchronization necessary for visibility to later
- executions of the life cycle methods.
+ late. Also, all life cycle methods are executed with a lock held, so subclasses can safely modify
+ shared state without additional synchronization necessary for visibility to later executions of
+ the life cycle methods.
 
  <h3>Usage Example</h3>
 

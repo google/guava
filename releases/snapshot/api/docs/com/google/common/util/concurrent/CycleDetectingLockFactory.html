@@ -102,119 +102,116 @@
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/concurrent/ThreadSafe.html?is-external=true" title="class or interface in javax.annotation.concurrent">@ThreadSafe</a>
 <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public class <a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.171">CycleDetectingLockFactory</a>
+public class <a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.166">CycleDetectingLockFactory</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">The <code>CycleDetectingLockFactory</code> creates <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks"><code>ReentrantLock</code></a> instances and
- <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks"><code>ReentrantReadWriteLock</code></a> instances that detect potential deadlock by checking
- for cycles in lock acquisition order.
- <p>
- Potential deadlocks detected when calling the <code>lock()</code>,
- <code>lockInterruptibly()</code>, or <code>tryLock()</code> methods will result in the
- execution of the <a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.Policy.html" title="interface in com.google.common.util.concurrent"><code>CycleDetectingLockFactory.Policy</code></a> specified when creating the factory. The
- currently available policies are:
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks"><code>ReentrantReadWriteLock</code></a> instances that detect potential deadlock by checking for cycles in
+ lock acquisition order.
+
+ <p>Potential deadlocks detected when calling the <code>lock()</code>, <code>lockInterruptibly()</code>, or
+ <code>tryLock()</code> methods will result in the execution of the <a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.Policy.html" title="interface in com.google.common.util.concurrent"><code>CycleDetectingLockFactory.Policy</code></a> specified when
+ creating the factory. The currently available policies are:
  <ul>
  <li>DISABLED
  <li>WARN
  <li>THROW
  </ul>
- <p>The locks created by a factory instance will detect lock acquisition cycles
- with locks created by other <code>CycleDetectingLockFactory</code> instances
- (except those with <code>Policy.DISABLED</code>). A lock's behavior when a cycle
- is detected, however, is defined by the <code>Policy</code> of the factory that
- created it. This allows detection of cycles across components while
- delegating control over lock behavior to individual components.
- <p>
- Applications are encouraged to use a <code>CycleDetectingLockFactory</code> to
- create any locks for which external/unmanaged code is executed while the lock
- is held. (See caveats under <strong>Performance</strong>).
- <p>
- <strong>Cycle Detection</strong>
- <p>
- Deadlocks can arise when locks are acquired in an order that forms a cycle.
- In a simple example involving two locks and two threads, deadlock occurs
- when one thread acquires Lock A, and then Lock B, while another thread
- acquires Lock B, and then Lock A:
+
+ <p>The locks created by a factory instance will detect lock acquisition cycles with locks created
+ by other <code>CycleDetectingLockFactory</code> instances (except those with <code>Policy.DISABLED</code>).
+ A lock's behavior when a cycle is detected, however, is defined by the <code>Policy</code> of the
+ factory that created it. This allows detection of cycles across components while delegating
+ control over lock behavior to individual components.
+
+ <p>Applications are encouraged to use a <code>CycleDetectingLockFactory</code> to create any locks for
+ which external/unmanaged code is executed while the lock is held. (See caveats under
+ <strong>Performance</strong>).
+
+ <p><strong>Cycle Detection</strong>
+
+ <p>Deadlocks can arise when locks are acquired in an order that forms a cycle. In a simple
+ example involving two locks and two threads, deadlock occurs when one thread acquires Lock A, and
+ then Lock B, while another thread acquires Lock B, and then Lock A:
+
  <pre>
  Thread1: acquire(LockA) --X acquire(LockB)
  Thread2: acquire(LockB) --X acquire(LockA)
  </pre>
- <p>Neither thread will progress because each is waiting for the other. In more
- complex applications, cycles can arise from interactions among more than 2
- locks:
+
+ <p>Neither thread will progress because each is waiting for the other. In more complex
+ applications, cycles can arise from interactions among more than 2 locks:
+
  <pre>
  Thread1: acquire(LockA) --X acquire(LockB)
  Thread2: acquire(LockB) --X acquire(LockC)
  ...
  ThreadN: acquire(LockN) --X acquire(LockA)
  </pre>
- <p>The implementation detects cycles by constructing a directed graph in which
- each lock represents a node and each edge represents an acquisition ordering
- between two locks.
+
+ <p>The implementation detects cycles by constructing a directed graph in which each lock
+ represents a node and each edge represents an acquisition ordering between two locks.
  <ul>
- <li>Each lock adds (and removes) itself to/from a ThreadLocal Set of acquired
-   locks when the Thread acquires its first hold (and releases its last
-   remaining hold).
- <li>Before the lock is acquired, the lock is checked against the current set
-   of acquired locks---to each of the acquired locks, an edge from the
-   soon-to-be-acquired lock is either verified or created.
- <li>If a new edge needs to be created, the outgoing edges of the acquired
-   locks are traversed to check for a cycle that reaches the lock to be
-   acquired. If no cycle is detected, a new "safe" edge is created.
- <li>If a cycle is detected, an "unsafe" (cyclic) edge is created to represent
-   a potential deadlock situation, and the appropriate Policy is executed.
+ <li>Each lock adds (and removes) itself to/from a ThreadLocal Set of acquired locks when the
+     Thread acquires its first hold (and releases its last remaining hold).
+ <li>Before the lock is acquired, the lock is checked against the current set of acquired
+     locks---to each of the acquired locks, an edge from the soon-to-be-acquired lock is either
+     verified or created.
+ <li>If a new edge needs to be created, the outgoing edges of the acquired locks are traversed to
+     check for a cycle that reaches the lock to be acquired. If no cycle is detected, a new "safe"
+     edge is created.
+ <li>If a cycle is detected, an "unsafe" (cyclic) edge is created to represent a potential
+     deadlock situation, and the appropriate Policy is executed.
  </ul>
- <p>Note that detection of potential deadlock does not necessarily indicate that
- deadlock will happen, as it is possible that higher level application logic
- prevents the cyclic lock acquisition from occurring. One example of a false
- positive is:
+
+ <p>Note that detection of potential deadlock does not necessarily indicate that deadlock will
+ happen, as it is possible that higher level application logic prevents the cyclic lock
+ acquisition from occurring. One example of a false positive is:
+
  <pre>
  LockA -&gt; LockB -&gt; LockC
  LockA -&gt; LockC -&gt; LockB
  </pre>
 
- <strong>ReadWriteLocks</strong>
- <p>
- While <code>ReadWriteLock</code> instances have different properties and can form cycles
- without potential deadlock, this class treats <code>ReadWriteLock</code> instances as
- equivalent to traditional exclusive locks. Although this increases the false
- positives that the locks detect (i.e. cycles that will not actually result in
- deadlock), it simplifies the algorithm and implementation considerably. The
- assumption is that a user of this factory wishes to eliminate any cyclic
- acquisition ordering.
- <p>
- <strong>Explicit Lock Acquisition Ordering</strong>
- <p>
- The <a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.WithExplicitOrdering.html" title="class in com.google.common.util.concurrent"><code>CycleDetectingLockFactory.WithExplicitOrdering</code></a> class can be used
- to enforce an application-specific ordering in addition to performing general
- cycle detection.
- <p>
- <strong>Garbage Collection</strong>
- <p>
- In order to allow proper garbage collection of unused locks, the edges of
- the lock graph are weak references.
- <p>
- <strong>Performance</strong>
- <p>
- The extra bookkeeping done by cycle detecting locks comes at some cost to
- performance. Benchmarks (as of December 2011) show that:
+ <p><strong>ReadWriteLocks</strong>
+
+ <p>While <code>ReadWriteLock</code> instances have different properties and can form cycles without
+ potential deadlock, this class treats <code>ReadWriteLock</code> instances as equivalent to
+ traditional exclusive locks. Although this increases the false positives that the locks detect
+ (i.e. cycles that will not actually result in deadlock), it simplifies the algorithm and
+ implementation considerably. The assumption is that a user of this factory wishes to eliminate
+ any cyclic acquisition ordering.
+
+ <p><strong>Explicit Lock Acquisition Ordering</strong>
+
+ <p>The <a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.WithExplicitOrdering.html" title="class in com.google.common.util.concurrent"><code>CycleDetectingLockFactory.WithExplicitOrdering</code></a> class can be used to enforce an
+ application-specific ordering in addition to performing general cycle detection.
+
+ <p><strong>Garbage Collection</strong>
+
+ <p>In order to allow proper garbage collection of unused locks, the edges of the lock graph are
+ weak references.
+
+ <p><strong>Performance</strong>
+
+ <p>The extra bookkeeping done by cycle detecting locks comes at some cost to performance.
+ Benchmarks (as of December 2011) show that:
 
  <ul>
- <li>for an unnested <code>lock()</code> and <code>unlock()</code>, a cycle detecting
-   lock takes 38ns as opposed to the 24ns taken by a plain lock.
+ <li>for an unnested <code>lock()</code> and <code>unlock()</code>, a cycle detecting lock takes 38ns as
+     opposed to the 24ns taken by a plain lock.
  <li>for nested locking, the cost increases with the depth of the nesting:
-   <ul>
-   <li> 2 levels: average of 64ns per lock()/unlock()
-   <li> 3 levels: average of 77ns per lock()/unlock()
-   <li> 4 levels: average of 99ns per lock()/unlock()
-   <li> 5 levels: average of 103ns per lock()/unlock()
-   <li>10 levels: average of 184ns per lock()/unlock()
-   <li>20 levels: average of 393ns per lock()/unlock()
-   </ul>
+     <ul>
+     <li>2 levels: average of 64ns per lock()/unlock()
+     <li>3 levels: average of 77ns per lock()/unlock()
+     <li>4 levels: average of 99ns per lock()/unlock()
+     <li>5 levels: average of 103ns per lock()/unlock()
+     <li>10 levels: average of 184ns per lock()/unlock()
+     <li>20 levels: average of 393ns per lock()/unlock()
+     </ul>
  </ul>
 
- <p>As such, the CycleDetectingLockFactory may not be suitable for
- performance-critical applications which involve tightly-looped or
- deeply-nested locking algorithms.</div>
+ <p>As such, the CycleDetectingLockFactory may not be suitable for performance-critical
+ applications which involve tightly-looped or deeply-nested locking algorithms.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>13.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -246,8 +243,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <tr class="rowColor">
 <td class="colFirst"><code>static interface&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.Policy.html" title="interface in com.google.common.util.concurrent">CycleDetectingLockFactory.Policy</a></strong></code>
-<div class="block">Encapsulates the action to be taken when a potential deadlock is
- encountered.</div>
+<div class="block">Encapsulates the action to be taken when a potential deadlock is encountered.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -259,9 +255,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <tr class="rowColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.WithExplicitOrdering.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory.WithExplicitOrdering</a>&lt;<a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.WithExplicitOrdering.html" title="type parameter in CycleDetectingLockFactory.WithExplicitOrdering">E</a> extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;<a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.WithExplicitOrdering.html" title="type parameter in CycleDetectingLockFactory.WithExplicitOrdering">E</a>&gt;&gt;</strong></code>
-<div class="block">A <code>CycleDetectingLockFactory.WithExplicitOrdering</code> provides the
- additional enforcement of an application-specified ordering of lock
- acquisitions.</div>
+<div class="block">A <code>CycleDetectingLockFactory.WithExplicitOrdering</code> provides the additional enforcement
+ of an application-specified ordering of lock acquisitions.</div>
 </td>
 </tr>
 </table>
@@ -346,7 +341,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>newInstance</h4>
-<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.249">newInstance</a>(<a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.Policy.html" title="interface in com.google.common.util.concurrent">CycleDetectingLockFactory.Policy</a>&nbsp;policy)</pre>
+<pre>public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.239">newInstance</a>(<a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.Policy.html" title="interface in com.google.common.util.concurrent">CycleDetectingLockFactory.Policy</a>&nbsp;policy)</pre>
 <div class="block">Creates a new factory with the specified policy.</div>
 </li>
 </ul>
@@ -356,7 +351,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>newReentrantLock</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks">ReentrantLock</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.256">newReentrantLock</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;lockName)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks">ReentrantLock</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.246">newReentrantLock</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;lockName)</pre>
 <div class="block">Equivalent to <code>newReentrantLock(lockName, false)</code>.</div>
 </li>
 </ul>
@@ -366,11 +361,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>newReentrantLock</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks">ReentrantLock</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.265">newReentrantLock</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;lockName,
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks">ReentrantLock</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.254">newReentrantLock</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;lockName,
                              boolean&nbsp;fair)</pre>
-<div class="block">Creates a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks"><code>ReentrantLock</code></a> with the given fairness policy. The
- <code>lockName</code> is used in the warning or exception output to help
- identify the locks involved in the detected deadlock.</div>
+<div class="block">Creates a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantLock.html?is-external=true" title="class or interface in java.util.concurrent.locks"><code>ReentrantLock</code></a> with the given fairness policy. The <code>lockName</code> is used in
+ the warning or exception output to help identify the locks involved in the detected deadlock.</div>
 </li>
 </ul>
 <a name="newReentrantReadWriteLock(java.lang.String)">
@@ -379,7 +373,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>newReentrantReadWriteLock</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks">ReentrantReadWriteLock</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.274">newReentrantReadWriteLock</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;lockName)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks">ReentrantReadWriteLock</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.263">newReentrantReadWriteLock</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;lockName)</pre>
 <div class="block">Equivalent to <code>newReentrantReadWriteLock(lockName, false)</code>.</div>
 </li>
 </ul>
@@ -389,11 +383,11 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>newReentrantReadWriteLock</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks">ReentrantReadWriteLock</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.283">newReentrantReadWriteLock</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;lockName,
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks">ReentrantReadWriteLock</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.272">newReentrantReadWriteLock</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;lockName,
                                                boolean&nbsp;fair)</pre>
-<div class="block">Creates a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks"><code>ReentrantReadWriteLock</code></a> with the given fairness policy.
- The <code>lockName</code> is used in the warning or exception output to help
- identify the locks involved in the detected deadlock.</div>
+<div class="block">Creates a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html?is-external=true" title="class or interface in java.util.concurrent.locks"><code>ReentrantReadWriteLock</code></a> with the given fairness policy. The <code>lockName</code>
+ is used in the warning or exception output to help identify the locks involved in the detected
+ deadlock.</div>
 </li>
 </ul>
 <a name="newInstanceWithExplicitOrdering(java.lang.Class, com.google.common.util.concurrent.CycleDetectingLockFactory.Policy)">
@@ -402,7 +396,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>newInstanceWithExplicitOrdering</h4>
-<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.WithExplicitOrdering.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory.WithExplicitOrdering</a>&lt;E&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.296">newInstanceWithExplicitOrdering</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;E&gt;&nbsp;enumClass,
+<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;E&gt;&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.WithExplicitOrdering.html" title="class in com.google.common.util.concurrent">CycleDetectingLockFactory.WithExplicitOrdering</a>&lt;E&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.285">newInstanceWithExplicitOrdering</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;E&gt;&nbsp;enumClass,
                                                                                                     <a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.Policy.html" title="interface in com.google.common.util.concurrent">CycleDetectingLockFactory.Policy</a>&nbsp;policy)</pre>
 <div class="block">Creates a <code>CycleDetectingLockFactory.WithExplicitOrdering&lt;E&gt;</code>.</div>
 </li>

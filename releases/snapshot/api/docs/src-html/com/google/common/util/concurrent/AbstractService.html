@@ -290,7 +290,7 @@
 <span class="sourceLineNo">282</span>    } else {<a name="line.282"></a>
 <span class="sourceLineNo">283</span>      // It is possible due to races the we are currently in the expected state even though we<a name="line.283"></a>
 <span class="sourceLineNo">284</span>      // timed out. e.g. if we weren't event able to grab the lock within the timeout we would never<a name="line.284"></a>
-<span class="sourceLineNo">285</span>      // even check the guard.  I don't think we care too much about this use case but it could lead<a name="line.285"></a>
+<span class="sourceLineNo">285</span>      // even check the guard. I don't think we care too much about this use case but it could lead<a name="line.285"></a>
 <span class="sourceLineNo">286</span>      // to a confusing error message.<a name="line.286"></a>
 <span class="sourceLineNo">287</span>      throw new TimeoutException("Timed out waiting for " + this + " to reach the RUNNING state.");<a name="line.287"></a>
 <span class="sourceLineNo">288</span>    }<a name="line.288"></a>
@@ -317,7 +317,7 @@
 <span class="sourceLineNo">309</span>    } else {<a name="line.309"></a>
 <span class="sourceLineNo">310</span>      // It is possible due to races the we are currently in the expected state even though we<a name="line.310"></a>
 <span class="sourceLineNo">311</span>      // timed out. e.g. if we weren't event able to grab the lock within the timeout we would never<a name="line.311"></a>
-<span class="sourceLineNo">312</span>      // even check the guard.  I don't think we care too much about this use case but it could lead<a name="line.312"></a>
+<span class="sourceLineNo">312</span>      // even check the guard. I don't think we care too much about this use case but it could lead<a name="line.312"></a>
 <span class="sourceLineNo">313</span>      // to a confusing error message.<a name="line.313"></a>
 <span class="sourceLineNo">314</span>      throw new TimeoutException(<a name="line.314"></a>
 <span class="sourceLineNo">315</span>          "Timed out waiting for "<a name="line.315"></a>
@@ -551,63 +551,61 @@
 <span class="sourceLineNo">543</span>  @Immutable<a name="line.543"></a>
 <span class="sourceLineNo">544</span>  private static final class StateSnapshot {<a name="line.544"></a>
 <span class="sourceLineNo">545</span>    /**<a name="line.545"></a>
-<span class="sourceLineNo">546</span>     * The internal state, which equals external state unless<a name="line.546"></a>
-<span class="sourceLineNo">547</span>     * shutdownWhenStartupFinishes is true.<a name="line.547"></a>
-<span class="sourceLineNo">548</span>     */<a name="line.548"></a>
-<span class="sourceLineNo">549</span>    final State state;<a name="line.549"></a>
-<span class="sourceLineNo">550</span><a name="line.550"></a>
-<span class="sourceLineNo">551</span>    /**<a name="line.551"></a>
-<span class="sourceLineNo">552</span>     * If true, the user requested a shutdown while the service was still starting<a name="line.552"></a>
-<span class="sourceLineNo">553</span>     * up.<a name="line.553"></a>
-<span class="sourceLineNo">554</span>     */<a name="line.554"></a>
-<span class="sourceLineNo">555</span>    final boolean shutdownWhenStartupFinishes;<a name="line.555"></a>
-<span class="sourceLineNo">556</span><a name="line.556"></a>
-<span class="sourceLineNo">557</span>    /**<a name="line.557"></a>
-<span class="sourceLineNo">558</span>     * The exception that caused this service to fail.  This will be {@code null}<a name="line.558"></a>
-<span class="sourceLineNo">559</span>     * unless the service has failed.<a name="line.559"></a>
-<span class="sourceLineNo">560</span>     */<a name="line.560"></a>
-<span class="sourceLineNo">561</span>    @Nullable final Throwable failure;<a name="line.561"></a>
-<span class="sourceLineNo">562</span><a name="line.562"></a>
-<span class="sourceLineNo">563</span>    StateSnapshot(State internalState) {<a name="line.563"></a>
-<span class="sourceLineNo">564</span>      this(internalState, false, null);<a name="line.564"></a>
-<span class="sourceLineNo">565</span>    }<a name="line.565"></a>
-<span class="sourceLineNo">566</span><a name="line.566"></a>
-<span class="sourceLineNo">567</span>    StateSnapshot(<a name="line.567"></a>
-<span class="sourceLineNo">568</span>        State internalState, boolean shutdownWhenStartupFinishes, @Nullable Throwable failure) {<a name="line.568"></a>
-<span class="sourceLineNo">569</span>      checkArgument(<a name="line.569"></a>
-<span class="sourceLineNo">570</span>          !shutdownWhenStartupFinishes || internalState == STARTING,<a name="line.570"></a>
-<span class="sourceLineNo">571</span>          "shudownWhenStartupFinishes can only be set if state is STARTING. Got %s instead.",<a name="line.571"></a>
-<span class="sourceLineNo">572</span>          internalState);<a name="line.572"></a>
-<span class="sourceLineNo">573</span>      checkArgument(<a name="line.573"></a>
-<span class="sourceLineNo">574</span>          !(failure != null ^ internalState == FAILED),<a name="line.574"></a>
-<span class="sourceLineNo">575</span>          "A failure cause should be set if and only if the state is failed.  Got %s and %s "<a name="line.575"></a>
-<span class="sourceLineNo">576</span>              + "instead.",<a name="line.576"></a>
-<span class="sourceLineNo">577</span>          internalState,<a name="line.577"></a>
-<span class="sourceLineNo">578</span>          failure);<a name="line.578"></a>
-<span class="sourceLineNo">579</span>      this.state = internalState;<a name="line.579"></a>
-<span class="sourceLineNo">580</span>      this.shutdownWhenStartupFinishes = shutdownWhenStartupFinishes;<a name="line.580"></a>
-<span class="sourceLineNo">581</span>      this.failure = failure;<a name="line.581"></a>
-<span class="sourceLineNo">582</span>    }<a name="line.582"></a>
-<span class="sourceLineNo">583</span><a name="line.583"></a>
-<span class="sourceLineNo">584</span>    /** @see Service#state() */<a name="line.584"></a>
-<span class="sourceLineNo">585</span>    State externalState() {<a name="line.585"></a>
-<span class="sourceLineNo">586</span>      if (shutdownWhenStartupFinishes &amp;&amp; state == STARTING) {<a name="line.586"></a>
-<span class="sourceLineNo">587</span>        return STOPPING;<a name="line.587"></a>
-<span class="sourceLineNo">588</span>      } else {<a name="line.588"></a>
-<span class="sourceLineNo">589</span>        return state;<a name="line.589"></a>
-<span class="sourceLineNo">590</span>      }<a name="line.590"></a>
-<span class="sourceLineNo">591</span>    }<a name="line.591"></a>
-<span class="sourceLineNo">592</span><a name="line.592"></a>
-<span class="sourceLineNo">593</span>    /** @see Service#failureCause() */<a name="line.593"></a>
-<span class="sourceLineNo">594</span>    Throwable failureCause() {<a name="line.594"></a>
-<span class="sourceLineNo">595</span>      checkState(<a name="line.595"></a>
-<span class="sourceLineNo">596</span>          state == FAILED,<a name="line.596"></a>
-<span class="sourceLineNo">597</span>          "failureCause() is only valid if the service has failed, service is %s",<a name="line.597"></a>
-<span class="sourceLineNo">598</span>          state);<a name="line.598"></a>
-<span class="sourceLineNo">599</span>      return failure;<a name="line.599"></a>
-<span class="sourceLineNo">600</span>    }<a name="line.600"></a>
-<span class="sourceLineNo">601</span>  }<a name="line.601"></a>
-<span class="sourceLineNo">602</span>}<a name="line.602"></a>
+<span class="sourceLineNo">546</span>     * The internal state, which equals external state unless shutdownWhenStartupFinishes is true.<a name="line.546"></a>
+<span class="sourceLineNo">547</span>     */<a name="line.547"></a>
+<span class="sourceLineNo">548</span>    final State state;<a name="line.548"></a>
+<span class="sourceLineNo">549</span><a name="line.549"></a>
+<span class="sourceLineNo">550</span>    /**<a name="line.550"></a>
+<span class="sourceLineNo">551</span>     * If true, the user requested a shutdown while the service was still starting up.<a name="line.551"></a>
+<span class="sourceLineNo">552</span>     */<a name="line.552"></a>
+<span class="sourceLineNo">553</span>    final boolean shutdownWhenStartupFinishes;<a name="line.553"></a>
+<span class="sourceLineNo">554</span><a name="line.554"></a>
+<span class="sourceLineNo">555</span>    /**<a name="line.555"></a>
+<span class="sourceLineNo">556</span>     * The exception that caused this service to fail. This will be {@code null} unless the service<a name="line.556"></a>
+<span class="sourceLineNo">557</span>     * has failed.<a name="line.557"></a>
+<span class="sourceLineNo">558</span>     */<a name="line.558"></a>
+<span class="sourceLineNo">559</span>    @Nullable final Throwable failure;<a name="line.559"></a>
+<span class="sourceLineNo">560</span><a name="line.560"></a>
+<span class="sourceLineNo">561</span>    StateSnapshot(State internalState) {<a name="line.561"></a>
+<span class="sourceLineNo">562</span>      this(internalState, false, null);<a name="line.562"></a>
+<span class="sourceLineNo">563</span>    }<a name="line.563"></a>
+<span class="sourceLineNo">564</span><a name="line.564"></a>
+<span class="sourceLineNo">565</span>    StateSnapshot(<a name="line.565"></a>
+<span class="sourceLineNo">566</span>        State internalState, boolean shutdownWhenStartupFinishes, @Nullable Throwable failure) {<a name="line.566"></a>
+<span class="sourceLineNo">567</span>      checkArgument(<a name="line.567"></a>
+<span class="sourceLineNo">568</span>          !shutdownWhenStartupFinishes || internalState == STARTING,<a name="line.568"></a>
+<span class="sourceLineNo">569</span>          "shudownWhenStartupFinishes can only be set if state is STARTING. Got %s instead.",<a name="line.569"></a>
+<span class="sourceLineNo">570</span>          internalState);<a name="line.570"></a>
+<span class="sourceLineNo">571</span>      checkArgument(<a name="line.571"></a>
+<span class="sourceLineNo">572</span>          !(failure != null ^ internalState == FAILED),<a name="line.572"></a>
+<span class="sourceLineNo">573</span>          "A failure cause should be set if and only if the state is failed.  Got %s and %s "<a name="line.573"></a>
+<span class="sourceLineNo">574</span>              + "instead.",<a name="line.574"></a>
+<span class="sourceLineNo">575</span>          internalState,<a name="line.575"></a>
+<span class="sourceLineNo">576</span>          failure);<a name="line.576"></a>
+<span class="sourceLineNo">577</span>      this.state = internalState;<a name="line.577"></a>
+<span class="sourceLineNo">578</span>      this.shutdownWhenStartupFinishes = shutdownWhenStartupFinishes;<a name="line.578"></a>
+<span class="sourceLineNo">579</span>      this.failure = failure;<a name="line.579"></a>
+<span class="sourceLineNo">580</span>    }<a name="line.580"></a>
+<span class="sourceLineNo">581</span><a name="line.581"></a>
+<span class="sourceLineNo">582</span>    /** @see Service#state() */<a name="line.582"></a>
+<span class="sourceLineNo">583</span>    State externalState() {<a name="line.583"></a>
+<span class="sourceLineNo">584</span>      if (shutdownWhenStartupFinishes &amp;&amp; state == STARTING) {<a name="line.584"></a>
+<span class="sourceLineNo">585</span>        return STOPPING;<a name="line.585"></a>
+<span class="sourceLineNo">586</span>      } else {<a name="line.586"></a>
+<span class="sourceLineNo">587</span>        return state;<a name="line.587"></a>
+<span class="sourceLineNo">588</span>      }<a name="line.588"></a>
+<span class="sourceLineNo">589</span>    }<a name="line.589"></a>
+<span class="sourceLineNo">590</span><a name="line.590"></a>
+<span class="sourceLineNo">591</span>    /** @see Service#failureCause() */<a name="line.591"></a>
+<span class="sourceLineNo">592</span>    Throwable failureCause() {<a name="line.592"></a>
+<span class="sourceLineNo">593</span>      checkState(<a name="line.593"></a>
+<span class="sourceLineNo">594</span>          state == FAILED,<a name="line.594"></a>
+<span class="sourceLineNo">595</span>          "failureCause() is only valid if the service has failed, service is %s",<a name="line.595"></a>
+<span class="sourceLineNo">596</span>          state);<a name="line.596"></a>
+<span class="sourceLineNo">597</span>      return failure;<a name="line.597"></a>
+<span class="sourceLineNo">598</span>    }<a name="line.598"></a>
+<span class="sourceLineNo">599</span>  }<a name="line.599"></a>
+<span class="sourceLineNo">600</span>}<a name="line.600"></a>
 
 
 

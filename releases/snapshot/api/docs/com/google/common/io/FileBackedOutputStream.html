@@ -106,10 +106,10 @@
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.43">FileBackedOutputStream</a>
+public final class <a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.41">FileBackedOutputStream</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a></pre>
-<div class="block">An <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io"><code>OutputStream</code></a> that starts buffering to a byte array, but
- switches to file buffering once the data reaches a configurable size.
+<div class="block">An <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io"><code>OutputStream</code></a> that starts buffering to a byte array, but switches to file buffering
+ once the data reaches a configurable size.
 
  <p>This class is thread-safe.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -135,17 +135,15 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.h
 </tr>
 <tr class="altColor">
 <td class="colOne"><code><strong><a href="../../../../com/google/common/io/FileBackedOutputStream.html#FileBackedOutputStream(int)">FileBackedOutputStream</a></strong>(int&nbsp;fileThreshold)</code>
-<div class="block">Creates a new instance that uses the given file threshold, and does
- not reset the data when the <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by
- <a href="../../../../com/google/common/io/FileBackedOutputStream.html#asByteSource()"><code>asByteSource()</code></a> is finalized.</div>
+<div class="block">Creates a new instance that uses the given file threshold, and does not reset the data when the
+ <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="../../../../com/google/common/io/FileBackedOutputStream.html#asByteSource()"><code>asByteSource()</code></a> is finalized.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colOne"><code><strong><a href="../../../../com/google/common/io/FileBackedOutputStream.html#FileBackedOutputStream(int,%20boolean)">FileBackedOutputStream</a></strong>(int&nbsp;fileThreshold,
                                             boolean&nbsp;resetOnFinalize)</code>
-<div class="block">Creates a new instance that uses the given file threshold, and
- optionally resets the data when the <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned
- by <a href="../../../../com/google/common/io/FileBackedOutputStream.html#asByteSource()"><code>asByteSource()</code></a> is finalized.</div>
+<div class="block">Creates a new instance that uses the given file threshold, and optionally resets the data when
+ the <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="../../../../com/google/common/io/FileBackedOutputStream.html#asByteSource()"><code>asByteSource()</code></a> is finalized.</div>
 </td>
 </tr>
 </table>
@@ -166,8 +164,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.h
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/io/FileBackedOutputStream.html#asByteSource()">asByteSource</a></strong>()</code>
-<div class="block">Returns a readable <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> view of the data that has been
- written to this stream.</div>
+<div class="block">Returns a readable <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> view of the data that has been written to this stream.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -181,8 +178,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.h
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/io/FileBackedOutputStream.html#reset()">reset</a></strong>()</code>
-<div class="block">Calls <a href="../../../../com/google/common/io/FileBackedOutputStream.html#close()"><code>close()</code></a> if not already closed, and then resets this
- object back to its initial state, for reuse.</div>
+<div class="block">Calls <a href="../../../../com/google/common/io/FileBackedOutputStream.html#close()"><code>close()</code></a> if not already closed, and then resets this object back to its initial
+ state, for reuse.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -227,12 +224,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.h
 <ul class="blockList">
 <li class="blockList">
 <h4>FileBackedOutputStream</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.77">FileBackedOutputStream</a>(int&nbsp;fileThreshold)</pre>
-<div class="block">Creates a new instance that uses the given file threshold, and does
- not reset the data when the <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by
- <a href="../../../../com/google/common/io/FileBackedOutputStream.html#asByteSource()"><code>asByteSource()</code></a> is finalized.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>fileThreshold</code> - the number of bytes before the stream should
-     switch to buffering to a file</dd></dl>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.74">FileBackedOutputStream</a>(int&nbsp;fileThreshold)</pre>
+<div class="block">Creates a new instance that uses the given file threshold, and does not reset the data when the
+ <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="../../../../com/google/common/io/FileBackedOutputStream.html#asByteSource()"><code>asByteSource()</code></a> is finalized.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>fileThreshold</code> - the number of bytes before the stream should switch to buffering to a file</dd></dl>
 </li>
 </ul>
 <a name="FileBackedOutputStream(int, boolean)">
@@ -241,14 +236,12 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>FileBackedOutputStream</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.92">FileBackedOutputStream</a>(int&nbsp;fileThreshold,
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.86">FileBackedOutputStream</a>(int&nbsp;fileThreshold,
                       boolean&nbsp;resetOnFinalize)</pre>
-<div class="block">Creates a new instance that uses the given file threshold, and
- optionally resets the data when the <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned
- by <a href="../../../../com/google/common/io/FileBackedOutputStream.html#asByteSource()"><code>asByteSource()</code></a> is finalized.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>fileThreshold</code> - the number of bytes before the stream should
-     switch to buffering to a file</dd><dd><code>resetOnFinalize</code> - if true, the <a href="../../../../com/google/common/io/FileBackedOutputStream.html#reset()"><code>reset()</code></a> method will
-     be called when the <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="../../../../com/google/common/io/FileBackedOutputStream.html#asByteSource()"><code>asByteSource()</code></a> is finalized</dd></dl>
+<div class="block">Creates a new instance that uses the given file threshold, and optionally resets the data when
+ the <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="../../../../com/google/common/io/FileBackedOutputStream.html#asByteSource()"><code>asByteSource()</code></a> is finalized.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>fileThreshold</code> - the number of bytes before the stream should switch to buffering to a file</dd><dd><code>resetOnFinalize</code> - if true, the <a href="../../../../com/google/common/io/FileBackedOutputStream.html#reset()"><code>reset()</code></a> method will be called when the
+     <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="../../../../com/google/common/io/FileBackedOutputStream.html#asByteSource()"><code>asByteSource()</code></a> is finalized</dd></dl>
 </li>
 </ul>
 </li>
@@ -265,9 +258,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.h
 <ul class="blockList">
 <li class="blockList">
 <h4>asByteSource</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.129">asByteSource</a>()</pre>
-<div class="block">Returns a readable <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> view of the data that has been
- written to this stream.</div>
+<pre>public&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.125">asByteSource</a>()</pre>
+<div class="block">Returns a readable <a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> view of the data that has been written to this stream.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>15.0</dd></dl>
 </li>
@@ -278,11 +270,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.h
 <ul class="blockList">
 <li class="blockList">
 <h4>reset</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.149">reset</a>()
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.143">reset</a>()
            throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
-<div class="block">Calls <a href="../../../../com/google/common/io/FileBackedOutputStream.html#close()"><code>close()</code></a> if not already closed, and then resets this
- object back to its initial state, for reuse. If data was buffered
- to a file, it will be deleted.</div>
+<div class="block">Calls <a href="../../../../com/google/common/io/FileBackedOutputStream.html#close()"><code>close()</code></a> if not already closed, and then resets this object back to its initial
+ state, for reuse. If data was buffered to a file, it will be deleted.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurred while deleting the file buffer</dd></dl>
 </li>
@@ -293,7 +284,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.h
 <ul class="blockList">
 <li class="blockList">
 <h4>write</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.169">write</a>(int&nbsp;b)
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.164">write</a>(int&nbsp;b)
            throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -308,7 +299,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.h
 <ul class="blockList">
 <li class="blockList">
 <h4>write</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.174">write</a>(byte[]&nbsp;b)
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.170">write</a>(byte[]&nbsp;b)
            throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -323,7 +314,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.h
 <ul class="blockList">
 <li class="blockList">
 <h4>write</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.178">write</a>(byte[]&nbsp;b,
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.175">write</a>(byte[]&nbsp;b,
          int&nbsp;off,
          int&nbsp;len)
            throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
@@ -340,7 +331,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.h
 <ul class="blockList">
 <li class="blockList">
 <h4>close</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.184">close</a>()
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.181">close</a>()
            throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -359,7 +350,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>flush</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.188">flush</a>()
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/FileBackedOutputStream.html#line.186">flush</a>()
            throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>

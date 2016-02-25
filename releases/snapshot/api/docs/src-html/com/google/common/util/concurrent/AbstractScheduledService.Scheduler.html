@@ -48,7 +48,7 @@
 <span class="sourceLineNo">040</span><a name="line.40"></a>
 <span class="sourceLineNo">041</span>/**<a name="line.41"></a>
 <span class="sourceLineNo">042</span> * Base class for services that can implement {@link #startUp} and {@link #shutDown} but while in<a name="line.42"></a>
-<span class="sourceLineNo">043</span> * the "running" state need to perform a periodic task.  Subclasses can implement {@link #startUp},<a name="line.43"></a>
+<span class="sourceLineNo">043</span> * the "running" state need to perform a periodic task. Subclasses can implement {@link #startUp},<a name="line.43"></a>
 <span class="sourceLineNo">044</span> * {@link #shutDown} and also a {@link #runOneIteration} method that will be executed periodically.<a name="line.44"></a>
 <span class="sourceLineNo">045</span> *<a name="line.45"></a>
 <span class="sourceLineNo">046</span> * &lt;p&gt;This class uses the {@link ScheduledExecutorService} returned from {@link #executor} to run<a name="line.46"></a>
@@ -60,9 +60,9 @@
 <span class="sourceLineNo">052</span> * &lt;p&gt;Subclasses are guaranteed that the life cycle methods ({@link #runOneIteration}, {@link<a name="line.52"></a>
 <span class="sourceLineNo">053</span> * #startUp} and {@link #shutDown}) will never run concurrently. Notably, if any execution of {@link<a name="line.53"></a>
 <span class="sourceLineNo">054</span> * #runOneIteration} takes longer than its schedule defines, then subsequent executions may start<a name="line.54"></a>
-<span class="sourceLineNo">055</span> * late.  Also, all life cycle methods are executed with a lock held, so subclasses can safely<a name="line.55"></a>
-<span class="sourceLineNo">056</span> * modify shared state without additional synchronization necessary for visibility to later<a name="line.56"></a>
-<span class="sourceLineNo">057</span> * executions of the life cycle methods.<a name="line.57"></a>
+<span class="sourceLineNo">055</span> * late. Also, all life cycle methods are executed with a lock held, so subclasses can safely modify<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * shared state without additional synchronization necessary for visibility to later executions of<a name="line.56"></a>
+<span class="sourceLineNo">057</span> * the life cycle methods.<a name="line.57"></a>
 <span class="sourceLineNo">058</span> *<a name="line.58"></a>
 <span class="sourceLineNo">059</span> * &lt;h3&gt;Usage Example&lt;/h3&gt;<a name="line.59"></a>
 <span class="sourceLineNo">060</span> *<a name="line.60"></a>
@@ -161,7 +161,7 @@
 <span class="sourceLineNo">153</span>      };<a name="line.153"></a>
 <span class="sourceLineNo">154</span>    }<a name="line.154"></a>
 <span class="sourceLineNo">155</span><a name="line.155"></a>
-<span class="sourceLineNo">156</span>    /** Schedules the task to run on the provided executor on behalf of the service.  */<a name="line.156"></a>
+<span class="sourceLineNo">156</span>    /** Schedules the task to run on the provided executor on behalf of the service. */<a name="line.156"></a>
 <span class="sourceLineNo">157</span>    abstract Future&lt;?&gt; schedule(<a name="line.157"></a>
 <span class="sourceLineNo">158</span>        AbstractService service, ScheduledExecutorService executor, Runnable runnable);<a name="line.158"></a>
 <span class="sourceLineNo">159</span><a name="line.159"></a>
@@ -181,7 +181,7 @@
 <span class="sourceLineNo">173</span><a name="line.173"></a>
 <span class="sourceLineNo">174</span>    // This lock protects the task so we can ensure that none of the template methods (startUp,<a name="line.174"></a>
 <span class="sourceLineNo">175</span>    // shutDown or runOneIteration) run concurrently with one another.<a name="line.175"></a>
-<span class="sourceLineNo">176</span>    // TODO(lukes):  why don't we use ListenableFuture to sequence things?  Then we could drop the<a name="line.176"></a>
+<span class="sourceLineNo">176</span>    // TODO(lukes): why don't we use ListenableFuture to sequence things? Then we could drop the<a name="line.176"></a>
 <span class="sourceLineNo">177</span>    // lock.<a name="line.177"></a>
 <span class="sourceLineNo">178</span>    private final ReentrantLock lock = new ReentrantLock();<a name="line.178"></a>
 <span class="sourceLineNo">179</span><a name="line.179"></a>
@@ -259,7 +259,7 @@
 <span class="sourceLineNo">251</span>                lock.lock();<a name="line.251"></a>
 <span class="sourceLineNo">252</span>                try {<a name="line.252"></a>
 <span class="sourceLineNo">253</span>                  if (state() != State.STOPPING) {<a name="line.253"></a>
-<span class="sourceLineNo">254</span>                    // This means that the state has changed since we were scheduled.  This implies<a name="line.254"></a>
+<span class="sourceLineNo">254</span>                    // This means that the state has changed since we were scheduled. This implies<a name="line.254"></a>
 <span class="sourceLineNo">255</span>                    // that an execution of runOneIteration has thrown an exception and we have<a name="line.255"></a>
 <span class="sourceLineNo">256</span>                    // transitioned to a failed state, also this means that shutDown has already<a name="line.256"></a>
 <span class="sourceLineNo">257</span>                    // been called, so we do not want to call it again.<a name="line.257"></a>
@@ -338,7 +338,7 @@
 <span class="sourceLineNo">330</span>    }<a name="line.330"></a>
 <span class="sourceLineNo">331</span>    final ScheduledExecutorService executor =<a name="line.331"></a>
 <span class="sourceLineNo">332</span>        Executors.newSingleThreadScheduledExecutor(new ThreadFactoryImpl());<a name="line.332"></a>
-<span class="sourceLineNo">333</span>    // Add a listener to shutdown the executor after the service is stopped.  This ensures that the<a name="line.333"></a>
+<span class="sourceLineNo">333</span>    // Add a listener to shutdown the executor after the service is stopped. This ensures that the<a name="line.333"></a>
 <span class="sourceLineNo">334</span>    // JVM shutdown will not be prevented from exiting after this service has stopped or failed.<a name="line.334"></a>
 <span class="sourceLineNo">335</span>    // Technically this listener is added after start() was called so it is a little gross, but it<a name="line.335"></a>
 <span class="sourceLineNo">336</span>    // is called within doStart() so we know that the service cannot terminate or fail concurrently<a name="line.336"></a>
@@ -487,7 +487,7 @@
 <span class="sourceLineNo">479</span>       */<a name="line.479"></a>
 <span class="sourceLineNo">480</span>      private final ReentrantLock lock = new ReentrantLock();<a name="line.480"></a>
 <span class="sourceLineNo">481</span><a name="line.481"></a>
-<span class="sourceLineNo">482</span>      /** The future that represents the next execution of this task.*/<a name="line.482"></a>
+<span class="sourceLineNo">482</span>      /** The future that represents the next execution of this task. */<a name="line.482"></a>
 <span class="sourceLineNo">483</span>      @GuardedBy("lock")<a name="line.483"></a>
 <span class="sourceLineNo">484</span>      private Future&lt;Void&gt; currentFuture;<a name="line.484"></a>
 <span class="sourceLineNo">485</span><a name="line.485"></a>
@@ -529,12 +529,12 @@
 <span class="sourceLineNo">521</span>          }<a name="line.521"></a>
 <span class="sourceLineNo">522</span>        } catch (Throwable e) {<a name="line.522"></a>
 <span class="sourceLineNo">523</span>          // If an exception is thrown by the subclass then we need to make sure that the service<a name="line.523"></a>
-<span class="sourceLineNo">524</span>          // notices and transitions to the FAILED state.  We do it by calling notifyFailed directly<a name="line.524"></a>
+<span class="sourceLineNo">524</span>          // notices and transitions to the FAILED state. We do it by calling notifyFailed directly<a name="line.524"></a>
 <span class="sourceLineNo">525</span>          // because the service does not monitor the state of the future so if the exception is not<a name="line.525"></a>
 <span class="sourceLineNo">526</span>          // caught and forwarded to the service the task would stop executing but the service would<a name="line.526"></a>
 <span class="sourceLineNo">527</span>          // have no idea.<a name="line.527"></a>
 <span class="sourceLineNo">528</span>          // TODO(lukes): consider building everything in terms of ListenableScheduledFuture then<a name="line.528"></a>
-<span class="sourceLineNo">529</span>          // the AbstractService could monitor the future directly.  Rescheduling is still hard...<a name="line.529"></a>
+<span class="sourceLineNo">529</span>          // the AbstractService could monitor the future directly. Rescheduling is still hard...<a name="line.529"></a>
 <span class="sourceLineNo">530</span>          // but it would help with some of these lock ordering issues.<a name="line.530"></a>
 <span class="sourceLineNo">531</span>          scheduleFailure = e;<a name="line.531"></a>
 <span class="sourceLineNo">532</span>        } finally {<a name="line.532"></a>

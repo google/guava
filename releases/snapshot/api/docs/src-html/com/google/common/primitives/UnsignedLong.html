@@ -14,10 +14,10 @@
 <span class="sourceLineNo">006</span> *<a name="line.6"></a>
 <span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
 <span class="sourceLineNo">008</span> *<a name="line.8"></a>
-<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * express or implied. See the License for the specific language governing permissions and<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * limitations under the License.<a name="line.12"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
 <span class="sourceLineNo">013</span> */<a name="line.13"></a>
 <span class="sourceLineNo">014</span><a name="line.14"></a>
 <span class="sourceLineNo">015</span>package com.google.common.primitives;<a name="line.15"></a>
@@ -39,9 +39,9 @@
 <span class="sourceLineNo">031</span> * &lt;p&gt;In some cases, when speed is more important than code readability, it may be faster simply to<a name="line.31"></a>
 <span class="sourceLineNo">032</span> * treat primitive {@code long} values as unsigned, using the methods from {@link UnsignedLongs}.<a name="line.32"></a>
 <span class="sourceLineNo">033</span> *<a name="line.33"></a>
-<span class="sourceLineNo">034</span> * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.34"></a>
-<span class="sourceLineNo">035</span> * "https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support"&gt;<a name="line.35"></a>
-<span class="sourceLineNo">036</span> * unsigned primitive utilities&lt;/a&gt;.<a name="line.36"></a>
+<span class="sourceLineNo">034</span> * &lt;p&gt;See the Guava User Guide article on<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * &lt;a href="https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support"&gt;unsigned<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * primitive utilities&lt;/a&gt;.<a name="line.36"></a>
 <span class="sourceLineNo">037</span> *<a name="line.37"></a>
 <span class="sourceLineNo">038</span> * @author Louis Wasserman<a name="line.38"></a>
 <span class="sourceLineNo">039</span> * @author Colin Evans<a name="line.39"></a>
@@ -63,9 +63,9 @@
 <span class="sourceLineNo">055</span>  }<a name="line.55"></a>
 <span class="sourceLineNo">056</span><a name="line.56"></a>
 <span class="sourceLineNo">057</span>  /**<a name="line.57"></a>
-<span class="sourceLineNo">058</span>   * Returns an {@code UnsignedLong} corresponding to a given bit representation.<a name="line.58"></a>
-<span class="sourceLineNo">059</span>   * The argument is interpreted as an unsigned 64-bit value. Specifically, the sign bit<a name="line.59"></a>
-<span class="sourceLineNo">060</span>   * of {@code bits} is interpreted as a normal bit, and all other bits are treated as usual.<a name="line.60"></a>
+<span class="sourceLineNo">058</span>   * Returns an {@code UnsignedLong} corresponding to a given bit representation. The argument is<a name="line.58"></a>
+<span class="sourceLineNo">059</span>   * interpreted as an unsigned 64-bit value. Specifically, the sign bit of {@code bits} is<a name="line.59"></a>
+<span class="sourceLineNo">060</span>   * interpreted as a normal bit, and all other bits are treated as usual.<a name="line.60"></a>
 <span class="sourceLineNo">061</span>   *<a name="line.61"></a>
 <span class="sourceLineNo">062</span>   * &lt;p&gt;If the argument is nonnegative, the returned result will be equal to {@code bits},<a name="line.62"></a>
 <span class="sourceLineNo">063</span>   * otherwise, the result will be equal to {@code 2^64 + bits}.<a name="line.63"></a>
@@ -93,8 +93,8 @@
 <span class="sourceLineNo">085</span>  }<a name="line.85"></a>
 <span class="sourceLineNo">086</span><a name="line.86"></a>
 <span class="sourceLineNo">087</span>  /**<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   * Returns a {@code UnsignedLong} representing the same value as the specified<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   * {@code BigInteger}. This is the inverse operation of {@link #bigIntegerValue()}.<a name="line.89"></a>
+<span class="sourceLineNo">088</span>   * Returns a {@code UnsignedLong} representing the same value as the specified {@code BigInteger}.<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * This is the inverse operation of {@link #bigIntegerValue()}.<a name="line.89"></a>
 <span class="sourceLineNo">090</span>   *<a name="line.90"></a>
 <span class="sourceLineNo">091</span>   * @throws IllegalArgumentException if {@code value} is negative or {@code value &gt;= 2^64}<a name="line.91"></a>
 <span class="sourceLineNo">092</span>   */<a name="line.92"></a>
@@ -109,8 +109,8 @@
 <span class="sourceLineNo">101</span>  }<a name="line.101"></a>
 <span class="sourceLineNo">102</span><a name="line.102"></a>
 <span class="sourceLineNo">103</span>  /**<a name="line.103"></a>
-<span class="sourceLineNo">104</span>   * Returns an {@code UnsignedLong} holding the value of the specified {@code String}, parsed as<a name="line.104"></a>
-<span class="sourceLineNo">105</span>   * an unsigned {@code long} value.<a name="line.105"></a>
+<span class="sourceLineNo">104</span>   * Returns an {@code UnsignedLong} holding the value of the specified {@code String}, parsed as an<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * unsigned {@code long} value.<a name="line.105"></a>
 <span class="sourceLineNo">106</span>   *<a name="line.106"></a>
 <span class="sourceLineNo">107</span>   * @throws NumberFormatException if the string does not contain a parsable unsigned {@code long}<a name="line.107"></a>
 <span class="sourceLineNo">108</span>   *     value<a name="line.108"></a>
@@ -121,8 +121,8 @@
 <span class="sourceLineNo">113</span>  }<a name="line.113"></a>
 <span class="sourceLineNo">114</span><a name="line.114"></a>
 <span class="sourceLineNo">115</span>  /**<a name="line.115"></a>
-<span class="sourceLineNo">116</span>   * Returns an {@code UnsignedLong} holding the value of the specified {@code String}, parsed as<a name="line.116"></a>
-<span class="sourceLineNo">117</span>   * an unsigned {@code long} value in the specified radix.<a name="line.117"></a>
+<span class="sourceLineNo">116</span>   * Returns an {@code UnsignedLong} holding the value of the specified {@code String}, parsed as an<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * unsigned {@code long} value in the specified radix.<a name="line.117"></a>
 <span class="sourceLineNo">118</span>   *<a name="line.118"></a>
 <span class="sourceLineNo">119</span>   * @throws NumberFormatException if the string does not contain a parsable unsigned {@code long}<a name="line.119"></a>
 <span class="sourceLineNo">120</span>   *     value, or {@code radix} is not between {@link Character#MIN_RADIX} and<a name="line.120"></a>

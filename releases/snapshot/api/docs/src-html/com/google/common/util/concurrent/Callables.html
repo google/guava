@@ -118,8 +118,8 @@
 <span class="sourceLineNo">110</span>  /** Tries to set name of the given {@link Thread}, returns true if successful. */<a name="line.110"></a>
 <span class="sourceLineNo">111</span>  @GwtIncompatible // threads<a name="line.111"></a>
 <span class="sourceLineNo">112</span>  private static boolean trySetName(final String threadName, Thread currentThread) {<a name="line.112"></a>
-<span class="sourceLineNo">113</span>    // In AppEngine this will always fail, should we test for that explicitly using<a name="line.113"></a>
-<span class="sourceLineNo">114</span>    // MoreExecutors.isAppEngine.  More generally, is there a way to see if we have the modifyThread<a name="line.114"></a>
+<span class="sourceLineNo">113</span>    // In AppEngine, this will always fail. Should we test for that explicitly using<a name="line.113"></a>
+<span class="sourceLineNo">114</span>    // MoreExecutors.isAppEngine? More generally, is there a way to see if we have the modifyThread<a name="line.114"></a>
 <span class="sourceLineNo">115</span>    // permission without catching an exception?<a name="line.115"></a>
 <span class="sourceLineNo">116</span>    try {<a name="line.116"></a>
 <span class="sourceLineNo">117</span>      currentThread.setName(threadName);<a name="line.117"></a>

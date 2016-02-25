@@ -97,11 +97,11 @@
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public abstract class <a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.125">BaseEncoding</a>
+public abstract class <a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.124">BaseEncoding</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A binary encoding scheme for reversibly translating between byte sequences and printable ASCII
- strings. This class includes several constants for encoding schemes specified by <a
- href="http://tools.ietf.org/html/rfc4648">RFC 4648</a>. For example, the expression:
+ strings. This class includes several constants for encoding schemes specified by
+ <a href="http://tools.ietf.org/html/rfc4648">RFC 4648</a>. For example, the expression:
 
  <pre>   <code>BaseEncoding.base32().encode("foo".getBytes(Charsets.US_ASCII))</code></pre>
 
@@ -109,14 +109,14 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 
  <p>...returns the ASCII bytes of the string <code>"foo"</code>.
 
- <p>By default, <code>BaseEncoding</code>'s behavior is relatively strict and in accordance with
- RFC 4648.  Decoding rejects characters in the wrong case, though padding is optional.
- To modify encoding and decoding behavior, use configuration methods to obtain a new encoding
- with modified behavior:
+ <p>By default, <code>BaseEncoding</code>'s behavior is relatively strict and in accordance with RFC
+ 4648. Decoding rejects characters in the wrong case, though padding is optional. To modify
+ encoding and decoding behavior, use configuration methods to obtain a new encoding with modified
+ behavior:
 
  <pre>   <code>BaseEncoding.base16().lowerCase().decode("deadbeef");</code></pre>
 
- <p>Warning: BaseEncoding instances are immutable.  Invoking a configuration method has no effect
+ <p>Warning: BaseEncoding instances are immutable. Invoking a configuration method has no effect
  on the receiving instance; you must store and use the new encoding instance it returns, instead.
 
  <pre>   <code>// Do NOT do this
@@ -140,19 +140,19 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  <td>0-9 A-F
  <td>2.00
  <td>N/A
- <td>Traditional hexadecimal.  Defaults to upper case.
+ <td>Traditional hexadecimal. Defaults to upper case.
  <tr>
  <td><a href="../../../../com/google/common/io/BaseEncoding.html#base32()"><code>base32()</code></a>
  <td>A-Z 2-7
  <td>1.60
  <td>=
- <td>Human-readable; no possibility of mixing up 0/O or 1/I.  Defaults to upper case.
+ <td>Human-readable; no possibility of mixing up 0/O or 1/I. Defaults to upper case.
  <tr>
  <td><a href="../../../../com/google/common/io/BaseEncoding.html#base32Hex()"><code>base32Hex()</code></a>
  <td>0-9 A-V
  <td>1.60
  <td>=
- <td>"Numerical" base 32; extended from the traditional hex alphabet.  Defaults to upper case.
+ <td>"Numerical" base 32; extended from the traditional hex alphabet. Defaults to upper case.
  <tr>
  <td><a href="../../../../com/google/common/io/BaseEncoding.html#base64()"><code>base64()</code></a>
  <td>A-Z a-z 0-9 + /
@@ -167,8 +167,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  <td>Safe to use as filenames, or to pass in URLs without escaping
  </table>
 
- <p>
- All instances of this class are immutable, so they may be stored safely as static constants.</div>
+ <p>All instances of this class are immutable, so they may be stored safely as static constants.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>14.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -215,40 +214,41 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/io/BaseEncoding.html#base16()">base16</a></strong>()</code>
-<div class="block">The "base16" encoding specified by <a
- href="http://tools.ietf.org/html/rfc4648#section-8">RFC 4648 section 8</a>, Base 16 Encoding.</div>
+<div class="block">The "base16" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-8">RFC
+ 4648 section 8</a>, Base 16 Encoding.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/io/BaseEncoding.html#base32()">base32</a></strong>()</code>
-<div class="block">The "base32" encoding specified by <a
- href="http://tools.ietf.org/html/rfc4648#section-6">RFC 4648 section 6</a>, Base 32 Encoding.</div>
+<div class="block">The "base32" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-6">RFC
+ 4648 section 6</a>, Base 32 Encoding.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/io/BaseEncoding.html#base32Hex()">base32Hex</a></strong>()</code>
-<div class="block">The "base32hex" encoding specified by <a
- href="http://tools.ietf.org/html/rfc4648#section-7">RFC 4648 section 7</a>, Base 32 Encoding
+<div class="block">The "base32hex" encoding specified by
+ <a href="http://tools.ietf.org/html/rfc4648#section-7">RFC 4648 section 7</a>, Base 32 Encoding
  with Extended Hex Alphabet.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/io/BaseEncoding.html#base64()">base64</a></strong>()</code>
-<div class="block">The "base64" base encoding specified by <a
- href="http://tools.ietf.org/html/rfc4648#section-4">RFC 4648 section 4</a>, Base 64 Encoding.</div>
+<div class="block">The "base64" base encoding specified by
+ <a href="http://tools.ietf.org/html/rfc4648#section-4">RFC 4648 section 4</a>, Base 64
+ Encoding.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/io/BaseEncoding.html#base64Url()">base64Url</a></strong>()</code>
-<div class="block">The "base64url" encoding specified by <a
- href="http://tools.ietf.org/html/rfc4648#section-5">RFC 4648 section 5</a>, Base 64 Encoding
- with URL and Filename Safe Alphabet, also sometimes referred to as the "web safe Base64."
- (This is the same as the base 64 encoding with URL and filename safe alphabet from <a
- href="http://tools.ietf.org/html/rfc3548#section-4">RFC 3548</a>.)</div>
+<div class="block">The "base64url" encoding specified by
+ <a href="http://tools.ietf.org/html/rfc4648#section-5">RFC 4648 section 5</a>, Base 64 Encoding
+ with URL and Filename Safe Alphabet, also sometimes referred to as the "web safe Base64." (This
+ is the same as the base 64 encoding with URL and filename safe alphabet from
+ <a href="http://tools.ietf.org/html/rfc3548#section-4">RFC 3548</a>.)</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -372,7 +372,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>encode</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.150">encode</a>(byte[]&nbsp;bytes)</pre>
+public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.149">encode</a>(byte[]&nbsp;bytes)</pre>
 <div class="block">Encodes the specified byte array, and returns the encoded <code>String</code>.</div>
 </li>
 </ul>
@@ -383,7 +383,7 @@ public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.h
 <li class="blockList">
 <h4>encode</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.159">encode</a>(byte[]&nbsp;bytes,
+public final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.158">encode</a>(byte[]&nbsp;bytes,
                              int&nbsp;off,
                              int&nbsp;len)</pre>
 <div class="block">Encodes the specified range of the specified byte array, and returns the encoded
@@ -398,9 +398,9 @@ public final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/St
 <h4>encodingStream</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.177">encodingStream</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io">Writer</a>&nbsp;writer)</pre>
+public abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.176">encodingStream</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Writer.html?is-external=true" title="class or interface in java.io">Writer</a>&nbsp;writer)</pre>
 <div class="block">Returns an <code>OutputStream</code> that encodes bytes using this encoding into the specified
- <code>Writer</code>.  When the returned <code>OutputStream</code> is closed, so is the backing
+ <code>Writer</code>. When the returned <code>OutputStream</code> is closed, so is the backing
  <code>Writer</code>.</div>
 </li>
 </ul>
@@ -412,7 +412,7 @@ public abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/O
 <h4>encodingSink</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public final&nbsp;<a href="../../../../com/google/common/io/ByteSink.html" title="class in com.google.common.io">ByteSink</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.184">encodingSink</a>(<a href="../../../../com/google/common/io/CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;encodedSink)</pre>
+public final&nbsp;<a href="../../../../com/google/common/io/ByteSink.html" title="class in com.google.common.io">ByteSink</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.183">encodingSink</a>(<a href="../../../../com/google/common/io/CharSink.html" title="class in com.google.common.io">CharSink</a>&nbsp;encodedSink)</pre>
 <div class="block">Returns a <code>ByteSink</code> that writes base-encoded bytes to the specified <code>CharSink</code>.</div>
 </li>
 </ul>
@@ -423,7 +423,7 @@ public final&nbsp;<a href="../../../../com/google/common/io/ByteSink.html" title
 <li class="blockList">
 <h4>canDecode</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.211">canDecode</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;chars)</pre>
+public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.210">canDecode</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;chars)</pre>
 <div class="block">Determines whether the specified character sequence is a valid encoded string according to this
  encoding.</div>
 </li>
@@ -435,12 +435,12 @@ public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/commo
 <li class="blockList">
 <h4>decode</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public final&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.221">decode</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;chars)</pre>
-<div class="block">Decodes the specified character sequence, and returns the resulting <code>byte[]</code>.
- This is the inverse operation to <a href="../../../../com/google/common/io/BaseEncoding.html#encode(byte[])"><code>encode(byte[])</code></a>.</div>
+public final&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.220">decode</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;chars)</pre>
+<div class="block">Decodes the specified character sequence, and returns the resulting <code>byte[]</code>. This is the
+ inverse operation to <a href="../../../../com/google/common/io/BaseEncoding.html#encode(byte[])"><code>encode(byte[])</code></a>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if the input is not a valid encoded string according to this
-         encoding.</dd></dl>
+     encoding.</dd></dl>
 </li>
 </ul>
 <a name="decodingStream(java.io.Reader)">
@@ -451,9 +451,9 @@ public final&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io
 <h4>decodingStream</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.251">decodingStream</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io">Reader</a>&nbsp;reader)</pre>
+public abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.250">decodingStream</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io">Reader</a>&nbsp;reader)</pre>
 <div class="block">Returns an <code>InputStream</code> that decodes base-encoded input from the specified
- <code>Reader</code>.  The returned stream throws a <a href="../../../../com/google/common/io/BaseEncoding.DecodingException.html" title="class in com.google.common.io"><code>BaseEncoding.DecodingException</code></a> upon decoding-specific
+ <code>Reader</code>. The returned stream throws a <a href="../../../../com/google/common/io/BaseEncoding.DecodingException.html" title="class in com.google.common.io"><code>BaseEncoding.DecodingException</code></a> upon decoding-specific
  errors.</div>
 </li>
 </ul>
@@ -465,7 +465,7 @@ public abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/I
 <h4>decodingSource</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public final&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.259">decodingSource</a>(<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;encodedSource)</pre>
+public final&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.258">decodingSource</a>(<a href="../../../../com/google/common/io/CharSource.html" title="class in com.google.common.io">CharSource</a>&nbsp;encodedSource)</pre>
 <div class="block">Returns a <code>ByteSource</code> that reads base-encoded bytes from the specified
  <code>CharSource</code>.</div>
 </li>
@@ -477,7 +477,7 @@ public final&nbsp;<a href="../../../../com/google/common/io/ByteSource.html" tit
 <li class="blockList">
 <h4>omitPadding</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.289">omitPadding</a>()</pre>
+public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.288">omitPadding</a>()</pre>
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but omits any padding
  characters as specified by <a href="http://tools.ietf.org/html/rfc4648#section-3.2">RFC 4648
  section 3.2</a>, Padding of Encoded Data.</div>
@@ -490,12 +490,12 @@ public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html
 <li class="blockList">
 <h4>withPadChar</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.299">withPadChar</a>(char&nbsp;padChar)</pre>
+public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.298">withPadChar</a>(char&nbsp;padChar)</pre>
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but uses an alternate character
  for padding.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if this padding character is already used in the alphabet or a
-         separator</dd></dl>
+     separator</dd></dl>
 </li>
 </ul>
 <a name="withSeparator(java.lang.String, int)">
@@ -505,14 +505,14 @@ public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html
 <li class="blockList">
 <h4>withSeparator</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.311">withSeparator</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
+public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.310">withSeparator</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
                                           int&nbsp;n)</pre>
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but adds a separator string
  after every <code>n</code> characters. Any occurrences of any characters that occur in the separator
  are skipped over in decoding.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if any alphabet or padding characters appear in the separator
-         string, or if <code>n &lt;= 0</code></dd>
+     string, or if <code>n &lt;= 0</code></dd>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - if this encoding already uses a separator</dd></dl>
 </li>
 </ul>
@@ -523,12 +523,12 @@ public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html
 <li class="blockList">
 <h4>upperCase</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.321">upperCase</a>()</pre>
+public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.320">upperCase</a>()</pre>
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but encodes and decodes with
  uppercase letters. Padding and separator characters remain in their original case.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if the alphabet used by this encoding contains mixed upper- and
-         lower-case characters</dd></dl>
+     lower-case characters</dd></dl>
 </li>
 </ul>
 <a name="lowerCase()">
@@ -538,12 +538,12 @@ public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html
 <li class="blockList">
 <h4>lowerCase</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.331">lowerCase</a>()</pre>
+public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.330">lowerCase</a>()</pre>
 <div class="block">Returns an encoding that behaves equivalently to this encoding, but encodes and decodes with
  lowercase letters. Padding and separator characters remain in their original case.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></code> - if the alphabet used by this encoding contains mixed upper- and
-         lower-case characters</dd></dl>
+     lower-case characters</dd></dl>
 </li>
 </ul>
 <a name="base64()">
@@ -554,16 +554,16 @@ public abstract&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html
 <h4>base64</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
 public static&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.350">base64</a>()</pre>
-<div class="block">The "base64" base encoding specified by <a
- href="http://tools.ietf.org/html/rfc4648#section-4">RFC 4648 section 4</a>, Base 64 Encoding.
- (This is the same as the base 64 encoding from <a
- href="http://tools.ietf.org/html/rfc3548#section-3">RFC 3548</a>.)
+<div class="block">The "base64" base encoding specified by
+ <a href="http://tools.ietf.org/html/rfc4648#section-4">RFC 4648 section 4</a>, Base 64
+ Encoding. (This is the same as the base 64 encoding from
+ <a href="http://tools.ietf.org/html/rfc3548#section-3">RFC 3548</a>.)
 
  <p>The character <code>'='</code> is used for padding, but can be <a href="../../../../com/google/common/io/BaseEncoding.html#omitPadding()">omitted</a> or <a href="../../../../com/google/common/io/BaseEncoding.html#withPadChar(char)">replaced</a>.
 
- <p>No line feeds are added by default, as per <a
- href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
- Encoded Data. Line feeds may be added using <a href="../../../../com/google/common/io/BaseEncoding.html#withSeparator(java.lang.String,%20int)"><code>withSeparator(String, int)</code></a>.</div>
+ <p>No line feeds are added by default, as per
+ <a href="http://tools.ietf.org/html/rfc4648#section-3.1">RFC 4648 section 3.1</a>, Line Feeds
+ in Encoded Data. Line feeds may be added using <a href="../../../../com/google/common/io/BaseEncoding.html#withSeparator(java.lang.String,%20int)"><code>withSeparator(String, int)</code></a>.</div>
 </li>
 </ul>
 <a name="base64Url()">
@@ -573,18 +573,18 @@ public static&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" 
 <li class="blockList">
 <h4>base64Url</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.372">base64Url</a>()</pre>
-<div class="block">The "base64url" encoding specified by <a
- href="http://tools.ietf.org/html/rfc4648#section-5">RFC 4648 section 5</a>, Base 64 Encoding
- with URL and Filename Safe Alphabet, also sometimes referred to as the "web safe Base64."
- (This is the same as the base 64 encoding with URL and filename safe alphabet from <a
- href="http://tools.ietf.org/html/rfc3548#section-4">RFC 3548</a>.)
+public static&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.373">base64Url</a>()</pre>
+<div class="block">The "base64url" encoding specified by
+ <a href="http://tools.ietf.org/html/rfc4648#section-5">RFC 4648 section 5</a>, Base 64 Encoding
+ with URL and Filename Safe Alphabet, also sometimes referred to as the "web safe Base64." (This
+ is the same as the base 64 encoding with URL and filename safe alphabet from
+ <a href="http://tools.ietf.org/html/rfc3548#section-4">RFC 3548</a>.)
 
  <p>The character <code>'='</code> is used for padding, but can be <a href="../../../../com/google/common/io/BaseEncoding.html#omitPadding()">omitted</a> or <a href="../../../../com/google/common/io/BaseEncoding.html#withPadChar(char)">replaced</a>.
 
- <p>No line feeds are added by default, as per <a
- href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
- Encoded Data. Line feeds may be added using <a href="../../../../com/google/common/io/BaseEncoding.html#withSeparator(java.lang.String,%20int)"><code>withSeparator(String, int)</code></a>.</div>
+ <p>No line feeds are added by default, as per
+ <a href="http://tools.ietf.org/html/rfc4648#section-3.1">RFC 4648 section 3.1</a>, Line Feeds
+ in Encoded Data. Line feeds may be added using <a href="../../../../com/google/common/io/BaseEncoding.html#withSeparator(java.lang.String,%20int)"><code>withSeparator(String, int)</code></a>.</div>
 </li>
 </ul>
 <a name="base32()">
@@ -595,16 +595,15 @@ public static&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" 
 <h4>base32</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
 public static&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.393">base32</a>()</pre>
-<div class="block">The "base32" encoding specified by <a
- href="http://tools.ietf.org/html/rfc4648#section-6">RFC 4648 section 6</a>, Base 32 Encoding.
- (This is the same as the base 32 encoding from <a
- href="http://tools.ietf.org/html/rfc3548#section-5">RFC 3548</a>.)
+<div class="block">The "base32" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-6">RFC
+ 4648 section 6</a>, Base 32 Encoding. (This is the same as the base 32 encoding from
+ <a href="http://tools.ietf.org/html/rfc3548#section-5">RFC 3548</a>.)
 
  <p>The character <code>'='</code> is used for padding, but can be <a href="../../../../com/google/common/io/BaseEncoding.html#omitPadding()">omitted</a> or <a href="../../../../com/google/common/io/BaseEncoding.html#withPadChar(char)">replaced</a>.
 
- <p>No line feeds are added by default, as per <a
- href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
- Encoded Data. Line feeds may be added using <a href="../../../../com/google/common/io/BaseEncoding.html#withSeparator(java.lang.String,%20int)"><code>withSeparator(String, int)</code></a>.</div>
+ <p>No line feeds are added by default, as per
+ <a href="http://tools.ietf.org/html/rfc4648#section-3.1">RFC 4648 section 3.1</a>, Line Feeds
+ in Encoded Data. Line feeds may be added using <a href="../../../../com/google/common/io/BaseEncoding.html#withSeparator(java.lang.String,%20int)"><code>withSeparator(String, int)</code></a>.</div>
 </li>
 </ul>
 <a name="base32Hex()">
@@ -615,15 +614,15 @@ public static&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" 
 <h4>base32Hex</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
 public static&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.413">base32Hex</a>()</pre>
-<div class="block">The "base32hex" encoding specified by <a
- href="http://tools.ietf.org/html/rfc4648#section-7">RFC 4648 section 7</a>, Base 32 Encoding
- with Extended Hex Alphabet.  There is no corresponding encoding in RFC 3548.
+<div class="block">The "base32hex" encoding specified by
+ <a href="http://tools.ietf.org/html/rfc4648#section-7">RFC 4648 section 7</a>, Base 32 Encoding
+ with Extended Hex Alphabet. There is no corresponding encoding in RFC 3548.
 
  <p>The character <code>'='</code> is used for padding, but can be <a href="../../../../com/google/common/io/BaseEncoding.html#omitPadding()">omitted</a> or <a href="../../../../com/google/common/io/BaseEncoding.html#withPadChar(char)">replaced</a>.
 
- <p>No line feeds are added by default, as per <a
- href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
- Encoded Data. Line feeds may be added using <a href="../../../../com/google/common/io/BaseEncoding.html#withSeparator(java.lang.String,%20int)"><code>withSeparator(String, int)</code></a>.</div>
+ <p>No line feeds are added by default, as per
+ <a href="http://tools.ietf.org/html/rfc4648#section-3.1">RFC 4648 section 3.1</a>, Line Feeds
+ in Encoded Data. Line feeds may be added using <a href="../../../../com/google/common/io/BaseEncoding.html#withSeparator(java.lang.String,%20int)"><code>withSeparator(String, int)</code></a>.</div>
 </li>
 </ul>
 <a name="base16()">
@@ -633,19 +632,18 @@ public static&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" 
 <li class="blockList">
 <h4>base16</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
-public static&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.434">base16</a>()</pre>
-<div class="block">The "base16" encoding specified by <a
- href="http://tools.ietf.org/html/rfc4648#section-8">RFC 4648 section 8</a>, Base 16 Encoding.
- (This is the same as the base 16 encoding from <a
- href="http://tools.ietf.org/html/rfc3548#section-6">RFC 3548</a>.) This is commonly known as
+public static&nbsp;<a href="../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a>&nbsp;<a href="../../../../src-html/com/google/common/io/BaseEncoding.html#line.433">base16</a>()</pre>
+<div class="block">The "base16" encoding specified by <a href="http://tools.ietf.org/html/rfc4648#section-8">RFC
+ 4648 section 8</a>, Base 16 Encoding. (This is the same as the base 16 encoding from
+ <a href="http://tools.ietf.org/html/rfc3548#section-6">RFC 3548</a>.) This is commonly known as
  "hexadecimal" format.
 
- <p>No padding is necessary in base 16, so <a href="../../../../com/google/common/io/BaseEncoding.html#withPadChar(char)"><code>withPadChar(char)</code></a> and
- <a href="../../../../com/google/common/io/BaseEncoding.html#omitPadding()"><code>omitPadding()</code></a> have no effect.
+ <p>No padding is necessary in base 16, so <a href="../../../../com/google/common/io/BaseEncoding.html#withPadChar(char)"><code>withPadChar(char)</code></a> and <a href="../../../../com/google/common/io/BaseEncoding.html#omitPadding()"><code>omitPadding()</code></a>
+ have no effect.
 
- <p>No line feeds are added by default, as per <a
- href="http://tools.ietf.org/html/rfc4648#section-3.1"> RFC 4648 section 3.1</a>, Line Feeds in
- Encoded Data. Line feeds may be added using <a href="../../../../com/google/common/io/BaseEncoding.html#withSeparator(java.lang.String,%20int)"><code>withSeparator(String, int)</code></a>.</div>
+ <p>No line feeds are added by default, as per
+ <a href="http://tools.ietf.org/html/rfc4648#section-3.1">RFC 4648 section 3.1</a>, Line Feeds
+ in Encoded Data. Line feeds may be added using <a href="../../../../com/google/common/io/BaseEncoding.html#withSeparator(java.lang.String,%20int)"><code>withSeparator(String, int)</code></a>.</div>
 </li>
 </ul>
 </li>

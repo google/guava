@@ -190,7 +190,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  <p><b>Warning:</b> If the input future does not already implement <code>ListenableFuture</code>, the
  returned future will emulate <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener(java.lang.Runnable,%20java.util.concurrent.Executor)"><code>ListenableFuture.addListener(java.lang.Runnable, java.util.concurrent.Executor)</code></a> by submitting a task to the
  given executor at the first call to <code>addListener</code>. The task must be started by the
- executor promptly, or else the returned <code>ListenableFuture</code> may fail to work.  The task's
+ executor promptly, or else the returned <code>ListenableFuture</code> may fail to work. The task's
  execution consists of blocking until the input future is <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent">done</a>, so
  each call to this method may claim and hold a thread for an arbitrary length of time. Use of
  bounded executors or other executors that may fail to execute a task promptly may result in

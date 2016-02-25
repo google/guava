@@ -92,16 +92,15 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public interface <a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.38">ByteArrayDataInput</a>
+public interface <a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.35">ByteArrayDataInput</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></pre>
-<div class="block">An extension of <code>DataInput</code> for reading from in-memory byte arrays; its
- methods offer identical functionality but do not throw <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io"><code>IOException</code></a>.
+<div class="block">An extension of <code>DataInput</code> for reading from in-memory byte arrays; its methods offer
+ identical functionality but do not throw <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io"><code>IOException</code></a>.
 
- <p><b>Warning:</b> The caller is responsible for not attempting to read past
- the end of the array. If any method encounters the end of the array
- prematurely, it throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang"><code>IllegalStateException</code></a> to signify <i>programmer
- error</i>. This behavior is a technical violation of the supertype's
- contract, which specifies a checked exception.</div>
+ <p><b>Warning:</b> The caller is responsible for not attempting to read past the end of the
+ array. If any method encounters the end of the array prematurely, it throws
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang"><code>IllegalStateException</code></a> to signify <i>programmer error</i>. This behavior is a technical
+ violation of the supertype's contract, which specifies a checked exception.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>1.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -207,7 +206,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readFully</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.39">readFully</a>(byte[]&nbsp;b)</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.37">readFully</a>(byte[]&nbsp;b)</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true#readFully(byte[])" title="class or interface in java.io">readFully</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></code></dd>
@@ -220,7 +219,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readFully</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.41">readFully</a>(byte[]&nbsp;b,
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.40">readFully</a>(byte[]&nbsp;b,
              int&nbsp;off,
              int&nbsp;len)</pre>
 <dl>
@@ -248,7 +247,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readBoolean</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.45">readBoolean</a>()</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.46">readBoolean</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true#readBoolean()" title="class or interface in java.io">readBoolean</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></code></dd>
@@ -261,7 +260,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readByte</h4>
-<pre>byte&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.47">readByte</a>()</pre>
+<pre>byte&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.49">readByte</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true#readByte()" title="class or interface in java.io">readByte</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></code></dd>
@@ -274,7 +273,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readUnsignedByte</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.49">readUnsignedByte</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.52">readUnsignedByte</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true#readUnsignedByte()" title="class or interface in java.io">readUnsignedByte</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></code></dd>
@@ -287,7 +286,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readShort</h4>
-<pre>short&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.51">readShort</a>()</pre>
+<pre>short&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.55">readShort</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true#readShort()" title="class or interface in java.io">readShort</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></code></dd>
@@ -300,7 +299,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readUnsignedShort</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.53">readUnsignedShort</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.58">readUnsignedShort</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true#readUnsignedShort()" title="class or interface in java.io">readUnsignedShort</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></code></dd>
@@ -313,7 +312,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readChar</h4>
-<pre>char&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.55">readChar</a>()</pre>
+<pre>char&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.61">readChar</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true#readChar()" title="class or interface in java.io">readChar</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></code></dd>
@@ -326,7 +325,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readInt</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.57">readInt</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.64">readInt</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true#readInt()" title="class or interface in java.io">readInt</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></code></dd>
@@ -339,7 +338,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readLong</h4>
-<pre>long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.59">readLong</a>()</pre>
+<pre>long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.67">readLong</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true#readLong()" title="class or interface in java.io">readLong</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></code></dd>
@@ -352,7 +351,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readFloat</h4>
-<pre>float&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.61">readFloat</a>()</pre>
+<pre>float&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.70">readFloat</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true#readFloat()" title="class or interface in java.io">readFloat</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></code></dd>
@@ -365,7 +364,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readDouble</h4>
-<pre>double&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.63">readDouble</a>()</pre>
+<pre>double&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.73">readDouble</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true#readDouble()" title="class or interface in java.io">readDouble</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></code></dd>
@@ -378,7 +377,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html
 <ul class="blockList">
 <li class="blockList">
 <h4>readLine</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.65">readLine</a>()</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.76">readLine</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true#readLine()" title="class or interface in java.io">readLine</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></code></dd>
@@ -391,7 +390,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>readUTF</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.67">readUTF</a>()</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteArrayDataInput.html#line.79">readUTF</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true#readUTF()" title="class or interface in java.io">readUTF</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io">DataInput</a></code></dd>

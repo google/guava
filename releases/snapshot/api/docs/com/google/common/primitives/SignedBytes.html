@@ -96,16 +96,14 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.42">SignedBytes</a>
+public final class <a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.38">SignedBytes</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block">Static utility methods pertaining to <code>byte</code> primitives that
- interpret values as signed. The corresponding methods that treat the values
- as unsigned are found in <a href="../../../../com/google/common/primitives/UnsignedBytes.html" title="class in com.google.common.primitives"><code>UnsignedBytes</code></a>, and the methods for which
- signedness is not an issue are in <a href="../../../../com/google/common/primitives/Bytes.html" title="class in com.google.common.primitives"><code>Bytes</code></a>.
+<div class="block">Static utility methods pertaining to <code>byte</code> primitives that interpret values as signed. The
+ corresponding methods that treat the values as unsigned are found in <a href="../../../../com/google/common/primitives/UnsignedBytes.html" title="class in com.google.common.primitives"><code>UnsignedBytes</code></a>, and
+ the methods for which signedness is not an issue are in <a href="../../../../com/google/common/primitives/Bytes.html" title="class in com.google.common.primitives"><code>Bytes</code></a>.
 
- <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/PrimitivesExplained">
- primitive utilities</a>.</div>
+ <p>See the Guava User Guide article on
+ <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>1.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -166,15 +164,14 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/primitives/SignedBytes.html#join(java.lang.String,%20byte...)">join</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
         byte...&nbsp;array)</code>
-<div class="block">Returns a string containing the supplied <code>byte</code> values separated
- by <code>separator</code>.</div>
+<div class="block">Returns a string containing the supplied <code>byte</code> values separated by <code>separator</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;byte[]&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/primitives/SignedBytes.html#lexicographicalComparator()">lexicographicalComparator</a></strong>()</code>
-<div class="block">Returns a comparator that compares two <code>byte</code> arrays
- lexicographically.</div>
+<div class="block">Returns a comparator that compares two <code>byte</code> arrays <a
+ href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -223,7 +220,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>MAX_POWER_OF_TWO</h4>
-<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.50">MAX_POWER_OF_TWO</a></pre>
+<pre>public static final&nbsp;byte <a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.46">MAX_POWER_OF_TWO</a></pre>
 <div class="block">The largest power of two that can be represented as a signed <code>byte</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>10.0</dd>
@@ -244,12 +241,13 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedCast</h4>
-<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.60">checkedCast</a>(long&nbsp;value)</pre>
+<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.56">checkedCast</a>(long&nbsp;value)</pre>
 <div class="block">Returns the <code>byte</code> value that is equal to <code>value</code>, if possible.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - any value in the range of the <code>byte</code> type</dd>
 <dt><span class="strong">Returns:</span></dt><dd>the <code>byte</code> value that equals <code>value</code></dd>
 <dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>value</code> is greater than <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Byte.MAX_VALUE</code></a> or less than <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html?is-external=true#MIN_VALUE" title="class or interface in java.lang"><code>Byte.MIN_VALUE</code></a></dd></dl>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>value</code> is greater than <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Byte.MAX_VALUE</code></a> or
+     less than <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html?is-external=true#MIN_VALUE" title="class or interface in java.lang"><code>Byte.MIN_VALUE</code></a></dd></dl>
 </li>
 </ul>
 <a name="saturatedCast(long)">
@@ -258,12 +256,11 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>saturatedCast</h4>
-<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.77">saturatedCast</a>(long&nbsp;value)</pre>
+<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.72">saturatedCast</a>(long&nbsp;value)</pre>
 <div class="block">Returns the <code>byte</code> nearest in value to <code>value</code>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>value</code> - any <code>long</code> value</dd>
-<dt><span class="strong">Returns:</span></dt><dd>the same value cast to <code>byte</code> if it is in the range of the
-     <code>byte</code> type, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Byte.MAX_VALUE</code></a> if it is too large,
-     or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html?is-external=true#MIN_VALUE" title="class or interface in java.lang"><code>Byte.MIN_VALUE</code></a> if it is too small</dd></dl>
+<dt><span class="strong">Returns:</span></dt><dd>the same value cast to <code>byte</code> if it is in the range of the <code>byte</code> type,
+     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Byte.MAX_VALUE</code></a> if it is too large, or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html?is-external=true#MIN_VALUE" title="class or interface in java.lang"><code>Byte.MIN_VALUE</code></a> if it is too small</dd></dl>
 </li>
 </ul>
 <a name="compare(byte, byte)">
@@ -272,15 +269,15 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.101">compare</a>(byte&nbsp;a,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.95">compare</a>(byte&nbsp;a,
           byte&nbsp;b)</pre>
-<div class="block">Compares the two specified <code>byte</code> values. The sign of the value
- returned is the same as that of <code>((Byte) a).compareTo(b)</code>.
+<div class="block">Compares the two specified <code>byte</code> values. The sign of the value returned is the same as
+ that of <code>((Byte) a).compareTo(b)</code>.
 
  <p><b>Note:</b> this method behaves identically to the JDK 7 method <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html?is-external=true#compare(byte,%20byte)" title="class or interface in java.lang"><code>Byte.compare(byte, byte)</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - the first <code>byte</code> to compare</dd><dd><code>b</code> - the second <code>byte</code> to compare</dd>
-<dt><span class="strong">Returns:</span></dt><dd>a negative value if <code>a</code> is less than <code>b</code>; a positive
-     value if <code>a</code> is greater than <code>b</code>; or zero if they are equal</dd></dl>
+<dt><span class="strong">Returns:</span></dt><dd>a negative value if <code>a</code> is less than <code>b</code>; a positive value if <code>a</code> is
+     greater than <code>b</code>; or zero if they are equal</dd></dl>
 </li>
 </ul>
 <a name="min(byte...)">
@@ -289,11 +286,11 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.113">min</a>(byte...&nbsp;array)</pre>
+<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.107">min</a>(byte...&nbsp;array)</pre>
 <div class="block">Returns the least value present in <code>array</code>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - a <i>nonempty</i> array of <code>byte</code> values</dd>
-<dt><span class="strong">Returns:</span></dt><dd>the value present in <code>array</code> that is less than or equal to
-     every other value in the array</dd>
+<dt><span class="strong">Returns:</span></dt><dd>the value present in <code>array</code> that is less than or equal to every other value in
+     the array</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>array</code> is empty</dd></dl>
 </li>
@@ -304,11 +301,11 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.132">max</a>(byte...&nbsp;array)</pre>
+<pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.126">max</a>(byte...&nbsp;array)</pre>
 <div class="block">Returns the greatest value present in <code>array</code>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - a <i>nonempty</i> array of <code>byte</code> values</dd>
-<dt><span class="strong">Returns:</span></dt><dd>the value present in <code>array</code> that is greater than or equal to
-     every other value in the array</dd>
+<dt><span class="strong">Returns:</span></dt><dd>the value present in <code>array</code> that is greater than or equal to every other value
+     in the array</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>array</code> is empty</dd></dl>
 </li>
@@ -319,13 +316,12 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.152">join</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.145">join</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
           byte...&nbsp;array)</pre>
-<div class="block">Returns a string containing the supplied <code>byte</code> values separated
- by <code>separator</code>. For example, <code>join(":", 0x01, 0x02, -0x01)</code>
- returns the string <code>"1:2:-1"</code>.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>separator</code> - the text that should appear between consecutive values in
-     the resulting string (but not at the start or end)</dd><dd><code>array</code> - an array of <code>byte</code> values, possibly empty</dd></dl>
+<div class="block">Returns a string containing the supplied <code>byte</code> values separated by <code>separator</code>.
+ For example, <code>join(":", 0x01, 0x02, -0x01)</code> returns the string <code>"1:2:-1"</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>separator</code> - the text that should appear between consecutive values in the resulting string
+     (but not at the start or end)</dd><dd><code>array</code> - an array of <code>byte</code> values, possibly empty</dd></dl>
 </li>
 </ul>
 <a name="lexicographicalComparator()">
@@ -334,19 +330,19 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>lexicographicalComparator</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;byte[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.183">lexicographicalComparator</a>()</pre>
-<div class="block">Returns a comparator that compares two <code>byte</code> arrays
- lexicographically. That is, it compares, using <a href="../../../../com/google/common/primitives/SignedBytes.html#compare(byte,%20byte)"><code>compare(byte, byte)</code></a>), the first pair of values that follow any common
- prefix, or when one array is a prefix of the other, treats the shorter
- array as the lesser. For example, <code>[] &lt; [0x01] &lt; [0x01, 0x80] &lt;
- [0x01, 0x7F] &lt; [0x02]</code>. Values are treated as signed.
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;byte[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/SignedBytes.html#line.174">lexicographicalComparator</a>()</pre>
+<div class="block">Returns a comparator that compares two <code>byte</code> arrays <a
+ href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>. That is, it
+ compares, using <a href="../../../../com/google/common/primitives/SignedBytes.html#compare(byte,%20byte)"><code>compare(byte, byte)</code></a>), the first pair of values that follow any common
+ prefix, or when one array is a prefix of the other, treats the shorter array as the lesser. For
+ example, <code>[] &lt; [0x01] &lt; [0x01, 0x80] &lt; [0x01, 0x7F] &lt; [0x02]</code>. Values are treated as
+ signed.
 
- <p>The returned comparator is inconsistent with <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(Object)</code></a> (since arrays support only identity equality), but
- it is consistent with <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html?is-external=true#equals(byte[],%20byte[])" title="class or interface in java.util"><code>Arrays.equals(byte[], byte[])</code></a>.</div>
+ <p>The returned comparator is inconsistent with <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(Object)</code></a> (since arrays
+ support only identity equality), but it is consistent with
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html?is-external=true#equals(byte[],%20byte[])" title="class or interface in java.util"><code>Arrays.equals(byte[], byte[])</code></a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
-  <dd>2.0</dd>
-<dt><span class="strong">See Also:</span></dt><dd><a href="http://en.wikipedia.org/wiki/Lexicographical_order">
-     Lexicographical order article at Wikipedia</a></dd></dl>
+  <dd>2.0</dd></dl>
 </li>
 </ul>
 </li>

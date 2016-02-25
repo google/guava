@@ -124,11 +124,10 @@
 <hr>
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static final class <a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.562">CycleDetectingLockFactory.PotentialDeadlockException</a>
+public static final class <a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.html#line.540">CycleDetectingLockFactory.PotentialDeadlockException</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html?is-external=true" title="class or interface in java.lang">IllegalStateException</a></pre>
-<div class="block">Represents a detected cycle in lock acquisition ordering. The exception
- includes a causal chain of <code>ExampleStackTrace</code> instances to illustrate the
- cycle, e.g.
+<div class="block">Represents a detected cycle in lock acquisition ordering. The exception includes a causal chain
+ of <code>ExampleStackTrace</code> instances to illustrate the cycle, e.g.
 
  <pre>
  com....PotentialDeadlockException: Potential Deadlock from LockC -&gt; ReadWriteA
@@ -142,8 +141,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalState
    at ...
  </pre>
 
- <p>Instances are logged for the <code>Policies.WARN</code>, and thrown for
- <code>Policies.THROW</code>.</div>
+ <p>Instances are logged for the <code>Policies.WARN</code>, and thrown for <code>Policies.THROW</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>13.0</dd>
 <dt><span class="strong">See Also:</span></dt><dd><a href="../../../../../serialized-form.html#com.google.common.util.concurrent.CycleDetectingLockFactory.PotentialDeadlockException">Serialized Form</a></dd></dl>
@@ -172,8 +170,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalState
 <tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/CycleDetectingLockFactory.PotentialDeadlockException.html#getMessage()">getMessage</a></strong>()</code>
-<div class="block">Appends the chain of messages from the <code>conflictingStackTrace</code> to
- the original <code>message</code>.</div>
+<div class="block">Appends the chain of messages from the <code>conflictingStackTrace</code> to the original
+ <code>message</code>.</div>
 </td>
 </tr>
 </table>
@@ -211,7 +209,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalState
 <ul class="blockList">
 <li class="blockList">
 <h4>getConflictingStackTrace</h4>
-<pre>public&nbsp;com.google.common.util.concurrent.CycleDetectingLockFactory.ExampleStackTrace&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.PotentialDeadlockException.html#line.573">getConflictingStackTrace</a>()</pre>
+<pre>public&nbsp;com.google.common.util.concurrent.CycleDetectingLockFactory.ExampleStackTrace&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.PotentialDeadlockException.html#line.551">getConflictingStackTrace</a>()</pre>
 </li>
 </ul>
 <a name="getMessage()">
@@ -220,9 +218,9 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalState
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getMessage</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.PotentialDeadlockException.html#line.582">getMessage</a>()</pre>
-<div class="block">Appends the chain of messages from the <code>conflictingStackTrace</code> to
- the original <code>message</code>.</div>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/CycleDetectingLockFactory.PotentialDeadlockException.html#line.560">getMessage</a>()</pre>
+<div class="block">Appends the chain of messages from the <code>conflictingStackTrace</code> to the original
+ <code>message</code>.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true#getMessage()" title="class or interface in java.lang">getMessage</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a></code></dd>

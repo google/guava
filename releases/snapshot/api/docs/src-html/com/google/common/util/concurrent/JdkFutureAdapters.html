@@ -72,7 +72,7 @@
 <span class="sourceLineNo">064</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; If the input future does not already implement {@code ListenableFuture}, the<a name="line.64"></a>
 <span class="sourceLineNo">065</span>   * returned future will emulate {@link ListenableFuture#addListener} by submitting a task to the<a name="line.65"></a>
 <span class="sourceLineNo">066</span>   * given executor at the first call to {@code addListener}. The task must be started by the<a name="line.66"></a>
-<span class="sourceLineNo">067</span>   * executor promptly, or else the returned {@code ListenableFuture} may fail to work.  The task's<a name="line.67"></a>
+<span class="sourceLineNo">067</span>   * executor promptly, or else the returned {@code ListenableFuture} may fail to work. The task's<a name="line.67"></a>
 <span class="sourceLineNo">068</span>   * execution consists of blocking until the input future is {@linkplain Future#isDone() done}, so<a name="line.68"></a>
 <span class="sourceLineNo">069</span>   * each call to this method may claim and hold a thread for an arbitrary length of time. Use of<a name="line.69"></a>
 <span class="sourceLineNo">070</span>   * bounded executors or other executors that may fail to execute a task promptly may result in<a name="line.70"></a>
@@ -94,8 +94,8 @@
 <span class="sourceLineNo">086</span>  }<a name="line.86"></a>
 <span class="sourceLineNo">087</span><a name="line.87"></a>
 <span class="sourceLineNo">088</span>  /**<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   * An adapter to turn a {@link Future} into a {@link ListenableFuture}.  This will wait on the<a name="line.89"></a>
-<span class="sourceLineNo">090</span>   * future to finish, and when it completes, run the listeners.  This implementation will wait on<a name="line.90"></a>
+<span class="sourceLineNo">089</span>   * An adapter to turn a {@link Future} into a {@link ListenableFuture}. This will wait on the<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   * future to finish, and when it completes, run the listeners. This implementation will wait on<a name="line.90"></a>
 <span class="sourceLineNo">091</span>   * the source future indefinitely, so if the source future never completes, the adapter will never<a name="line.91"></a>
 <span class="sourceLineNo">092</span>   * complete either.<a name="line.92"></a>
 <span class="sourceLineNo">093</span>   *<a name="line.93"></a>

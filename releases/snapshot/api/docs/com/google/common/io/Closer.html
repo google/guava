@@ -101,13 +101,13 @@
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/io/Closer.html#line.93">Closer</a>
+public final class <a href="../../../../src-html/com/google/common/io/Closer.html#line.91">Closer</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</a></pre>
 <div class="block">A <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io"><code>Closeable</code></a> that collects <code>Closeable</code> resources and closes them all when it is
  <a href="../../../../com/google/common/io/Closer.html#close()">closed</a>. This is intended to approximately emulate the behavior of Java 7's
- <a href="http://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html">
- try-with-resources</a> statement in JDK6-compatible code. Running on Java 7, code using this
+ <a href="http://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html"
+ >try-with-resources</a> statement in JDK6-compatible code. Running on Java 7, code using this
  should be approximately equivalent in behavior to the same code written with try-with-resources.
  Running on Java 6, exceptions that cannot be thrown must be logged rather than being added to the
  thrown exception as a suppressed exception.
@@ -135,23 +135,23 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.h
  <p>This pattern ensures the following:
 
  <ul>
-   <li>Each <code>Closeable</code> resource that is successfully registered will be closed later.</li>
-   <li>If a <code>Throwable</code> is thrown in the try block, no exceptions that occur when attempting
-   to close resources will be thrown from the finally block. The throwable from the try block will
-   be thrown.</li>
-   <li>If no exceptions or errors were thrown in the try block, the <i>first</i> exception thrown
-   by an attempt to close a resource will be thrown.</li>
-   <li>Any exception caught when attempting to close a resource that is <i>not</i> thrown
-   (because another exception is already being thrown) is <i>suppressed</i>.</li>
+ <li>Each <code>Closeable</code> resource that is successfully registered will be closed later.
+ <li>If a <code>Throwable</code> is thrown in the try block, no exceptions that occur when attempting
+     to close resources will be thrown from the finally block. The throwable from the try block
+     will be thrown.
+ <li>If no exceptions or errors were thrown in the try block, the <i>first</i> exception thrown by
+     an attempt to close a resource will be thrown.
+ <li>Any exception caught when attempting to close a resource that is <i>not</i> thrown (because
+     another exception is already being thrown) is <i>suppressed</i>.
  </ul>
 
  <p>An exception that is suppressed is not thrown. The method of suppression used depends on the
  version of Java the code is running on:
 
  <ul>
-   <li><b>Java 7+:</b> Exceptions are suppressed by adding them to the exception that <i>will</i>
-   be thrown using <code>Throwable.addSuppressed(Throwable)</code>.</li>
-   <li><b>Java 6:</b> Exceptions are suppressed by logging them instead.</li>
+ <li><b>Java 7+:</b> Exceptions are suppressed by adding them to the exception that <i>will</i> be
+     thrown using <code>Throwable.addSuppressed(Throwable)</code>.
+ <li><b>Java 6:</b> Exceptions are suppressed by logging them instead.
  </ul></div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>14.0</dd>
@@ -243,7 +243,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.h
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/Closer.html" title="class in com.google.common.io">Closer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.105">create</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/Closer.html" title="class in com.google.common.io">Closer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.104">create</a>()</pre>
 <div class="block">Creates a new <a href="../../../../com/google/common/io/Closer.html" title="class in com.google.common.io"><code>Closer</code></a>.</div>
 </li>
 </ul>
@@ -276,8 +276,8 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.h
  exception types your try block can throw when calling an overload of this method so as to avoid
  losing the original exception type.
 
- <p>This method always throws, and as such should be called as
- <code>throw closer.rethrow(e);</code> to ensure the compiler knows that it will throw.</div>
+ <p>This method always throws, and as such should be called as <code>throw closer.rethrow(e);</code>
+ to ensure the compiler knows that it will throw.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>this method does not return; it always throws</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - when the given throwable is an IOException</dd></dl>
