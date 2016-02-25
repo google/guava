@@ -24,6 +24,7 @@ import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 import static com.google.common.collect.RegularImmutableList.EMPTY;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -34,6 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -49,6 +51,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
@@ -422,6 +425,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final boolean addAll(int index, Collection<? extends E> newElements) {
@@ -434,6 +438,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final E set(int index, E element) {
@@ -458,6 +463,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final E remove(int index) {
@@ -646,6 +652,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code element} is null
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E element) {
       super.add(element);
@@ -660,6 +667,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
       super.addAll(elements);
@@ -674,6 +682,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E... elements) {
       super.add(elements);
@@ -688,6 +697,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);

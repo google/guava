@@ -22,6 +22,7 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 
@@ -36,6 +37,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -64,6 +66,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     implements Serializable {
@@ -163,6 +166,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     /**
      * Adds a key-value mapping to the built multimap.
      */
+    @CanIgnoreReturnValue
     public Builder<K, V> put(K key, V value) {
       checkEntryNotNull(key, value);
       builderMultimap.put(key, value);
@@ -174,6 +178,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
      *
      * @since 11.0
      */
+    @CanIgnoreReturnValue
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
       return put(entry.getKey(), entry.getValue());
     }
@@ -183,6 +188,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
      *
      * @since 19.0
      */
+    @CanIgnoreReturnValue
     @Beta
     public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
       for (Entry<? extends K, ? extends V> entry : entries) {
@@ -198,6 +204,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
      *     element in {@code values} is null. The builder is left in an invalid
      *     state.
      */
+    @CanIgnoreReturnValue
     public Builder<K, V> putAll(K key, Iterable<? extends V> values) {
       if (key == null) {
         throw new NullPointerException("null key in entry: null=" + Iterables.toString(values));
@@ -216,6 +223,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
      * @throws NullPointerException if the key or any value is null. The builder
      *     is left in an invalid state.
      */
+    @CanIgnoreReturnValue
     public Builder<K, V> putAll(K key, V... values) {
       return putAll(key, Arrays.asList(values));
     }
@@ -229,6 +237,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
      * @throws NullPointerException if any key or value in {@code multimap} is
      *     null. The builder is left in an invalid state.
      */
+    @CanIgnoreReturnValue
     public Builder<K, V> putAll(Multimap<? extends K, ? extends V> multimap) {
       for (Entry<? extends K, ? extends Collection<? extends V>> entry :
           multimap.asMap().entrySet()) {
@@ -242,6 +251,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
      *
      * @since 8.0
      */
+    @CanIgnoreReturnValue
     public Builder<K, V> orderKeysBy(Comparator<? super K> keyComparator) {
       this.keyComparator = checkNotNull(keyComparator);
       return this;
@@ -252,6 +262,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
      *
      * @since 8.0
      */
+    @CanIgnoreReturnValue
     public Builder<K, V> orderValuesBy(Comparator<? super V> valueComparator) {
       this.valueComparator = checkNotNull(valueComparator);
       return this;
@@ -350,6 +361,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public ImmutableCollection<V> removeAll(Object key) {
@@ -362,6 +374,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public ImmutableCollection<V> replaceValues(K key, Iterable<? extends V> values) {
@@ -404,6 +417,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public boolean put(K key, V value) {
@@ -416,6 +430,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public boolean putAll(K key, Iterable<? extends V> values) {
@@ -428,6 +443,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
@@ -440,6 +456,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public boolean remove(Object key, Object value) {

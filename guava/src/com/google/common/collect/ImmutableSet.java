@@ -22,6 +22,7 @@ import static com.google.common.collect.ObjectArrays.checkElementNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -31,6 +32,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -39,6 +41,7 @@ import javax.annotation.Nullable;
  *
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
@@ -436,6 +439,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code element} is null
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E element) {
       super.add(element);
@@ -451,6 +455,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E... elements) {
       super.add(elements);
@@ -466,6 +471,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
       super.addAll(elements);
@@ -481,6 +487,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);

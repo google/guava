@@ -22,6 +22,7 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
@@ -33,6 +34,7 @@ import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -47,6 +49,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
@@ -192,6 +195,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      * Associates {@code key} with {@code value} in the built map. Duplicate
      * keys are not allowed, and will cause {@link #build} to fail.
      */
+    @CanIgnoreReturnValue
     public Builder<K, V> put(K key, V value) {
       ensureCapacity(size + 1);
       ImmutableMapEntry<K, V> entry = entryOf(key, value);
@@ -207,6 +211,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      *
      * @since 11.0
      */
+    @CanIgnoreReturnValue
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
       return put(entry.getKey(), entry.getValue());
     }
@@ -217,6 +222,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      *
      * @throws NullPointerException if any key or value in {@code map} is null
      */
+    @CanIgnoreReturnValue
     public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
       return putAll(map.entrySet());
     }
@@ -228,6 +234,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      * @throws NullPointerException if any key, value, or entry is null
      * @since 19.0
      */
+    @CanIgnoreReturnValue
     @Beta
     public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
       if (entries instanceof Collection) {
@@ -250,6 +257,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      * @throws IllegalStateException if this method was already called
      * @since 19.0
      */
+    @CanIgnoreReturnValue
     @Beta
     public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
       checkState(this.valueComparator == null, "valueComparator was already set");
@@ -395,6 +403,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final V put(K k, V v) {
@@ -407,6 +416,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final V remove(Object o) {

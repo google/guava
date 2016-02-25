@@ -21,6 +21,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
@@ -30,6 +31,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -148,6 +150,7 @@ import javax.annotation.Nullable;
  *
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 // TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,
@@ -173,6 +176,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     return result;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public final <T> T[] toArray(T[] other) {
     checkNotNull(other);
@@ -195,6 +199,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final boolean add(E e) {
@@ -207,6 +212,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final boolean remove(Object object) {
@@ -219,6 +225,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final boolean addAll(Collection<? extends E> newElements) {
@@ -231,6 +238,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final boolean removeAll(Collection<?> oldElements) {
@@ -243,6 +251,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final boolean retainAll(Collection<?> elementsToKeep) {
@@ -305,6 +314,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * Copies the contents of this immutable collection into the specified array at the specified
    * offset.  Returns {@code offset + size()}.
    */
+  @CanIgnoreReturnValue
   int copyIntoArray(Object[] dst, int offset) {
     for (E e : this) {
       dst[offset++] = e;
@@ -353,6 +363,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      * @return this {@code Builder} instance
      * @throws NullPointerException if {@code element} is null
      */
+    @CanIgnoreReturnValue
     public abstract Builder<E> add(E element);
 
     /**
@@ -367,6 +378,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     public Builder<E> add(E... elements) {
       for (E element : elements) {
         add(element);
@@ -386,6 +398,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     public Builder<E> addAll(Iterable<? extends E> elements) {
       for (E element : elements) {
         add(element);
@@ -405,6 +418,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     public Builder<E> addAll(Iterator<? extends E> elements) {
       while (elements.hasNext()) {
         add(elements.next());
@@ -444,6 +458,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       }
     }
 
+    @CanIgnoreReturnValue
     @Override
     public ArrayBasedBuilder<E> add(E element) {
       checkNotNull(element);
@@ -452,6 +467,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E... elements) {
       checkElementsNotNull(elements);
@@ -461,6 +477,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Collection) {

@@ -1724,10 +1724,11 @@ public class TypeTokenTest extends TestCase {
 
   // For Guava bug http://code.google.com/p/guava-libraries/issues/detail?id=1025
   public void testDespiteGenericSignatureFormatError() {
-    ImmutableSet.copyOf(
-        TypeToken.of(ToReproduceGenericSignatureFormatError.SubOuter.SubInner.class)
-            .getTypes()
-            .rawTypes());
+    ImmutableSet<?> unused =
+        ImmutableSet.copyOf(
+            TypeToken.of(ToReproduceGenericSignatureFormatError.SubOuter.SubInner.class)
+                .getTypes()
+                .rawTypes());
   }
 
   private abstract static class Entry<K, V> {

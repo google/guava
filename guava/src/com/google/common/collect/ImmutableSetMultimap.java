@@ -22,6 +22,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.MoreObjects;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
 
 import java.io.IOException;
@@ -35,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -48,6 +50,7 @@ import javax.annotation.Nullable;
  * @author Mike Ward
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(serializable = true, emulated = true)
 public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     implements SetMultimap<K, V> {
@@ -164,6 +167,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
      * Adds a key-value mapping to the built multimap if it is not already
      * present.
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(K key, V value) {
       builderMultimap.put(checkNotNull(key), checkNotNull(value));
@@ -175,6 +179,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
      *
      * @since 11.0
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
       builderMultimap.put(checkNotNull(entry.getKey()), checkNotNull(entry.getValue()));
@@ -186,6 +191,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
      *
      * @since 19.0
      */
+    @CanIgnoreReturnValue
     @Beta
     @Override
     public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
@@ -193,6 +199,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(K key, Iterable<? extends V> values) {
       Collection<V> collection = builderMultimap.get(checkNotNull(key));
@@ -202,11 +209,13 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(K key, V... values) {
       return putAll(key, Arrays.asList(values));
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(Multimap<? extends K, ? extends V> multimap) {
       for (Entry<? extends K, ? extends Collection<? extends V>> entry :
@@ -221,6 +230,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
      *
      * @since 8.0
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> orderKeysBy(Comparator<? super K> keyComparator) {
       this.keyComparator = checkNotNull(keyComparator);
@@ -239,6 +249,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
      * @since 8.0
      */
     // TODO: Make serialization behavior consistent.
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> orderValuesBy(Comparator<? super V> valueComparator) {
       super.orderValuesBy(valueComparator);
@@ -396,6 +407,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public ImmutableSet<V> removeAll(Object key) {
@@ -408,6 +420,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public ImmutableSet<V> replaceValues(K key, Iterable<? extends V> values) {

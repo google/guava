@@ -22,6 +22,7 @@ import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -33,6 +34,7 @@ import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -54,6 +56,7 @@ import javax.annotation.Nullable;
  * @since 2.0 (implements {@code NavigableSet} since 12.0)
  */
 // TODO(benyu): benchmark and optimize all creation paths, which are a mess now
+@CheckReturnValue
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxverideShim<E>
@@ -449,6 +452,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code element} is null
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E element) {
       super.add(element);
@@ -463,6 +467,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code elements} contains a null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E... elements) {
       super.add(elements);
@@ -477,6 +482,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code elements} contains a null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
       super.addAll(elements);
@@ -491,6 +497,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code elements} contains a null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);
@@ -690,6 +697,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @GwtIncompatible // NavigableSet
   @Override
@@ -704,6 +712,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @GwtIncompatible // NavigableSet
   @Override

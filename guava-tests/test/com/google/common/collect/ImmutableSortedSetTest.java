@@ -338,8 +338,8 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     Interface a = new Impl();
     Interface b = new Impl();
     ImmutableSortedSet<Interface> set = ImmutableSortedSet.of(a, b);
-    set.toArray();
-    set.toArray(new Object[2]);
+    Object[] unused1 = set.toArray();
+    Object[] unused2 = set.toArray(new Object[2]);
   }
 
   interface Interface extends Comparable<Interface> {

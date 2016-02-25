@@ -238,7 +238,7 @@ public class ImmutableListTest extends TestCase {
     public void testCreation_generic() {
       List<String> a = ImmutableList.of("a");
       // only verify that there is no compile warning
-      ImmutableList.of(a, a);
+      ImmutableList<List<String>> unused = ImmutableList.of(a, a);
     }
 
     public void testCreation_arrayOfArray() {
@@ -375,7 +375,7 @@ public class ImmutableListTest extends TestCase {
 
     public void testCopyOf_plainIterable_iteratesOnce() {
       CountingIterable iterable = new CountingIterable();
-      ImmutableList.copyOf(iterable);
+      ImmutableList<String> unused = ImmutableList.copyOf(iterable);
       assertEquals(1, iterable.count);
     }
 

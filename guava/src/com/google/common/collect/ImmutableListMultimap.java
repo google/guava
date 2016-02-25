@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -28,6 +29,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map.Entry;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -41,6 +43,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(serializable = true, emulated = true)
 public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     implements ListMultimap<K, V> {
@@ -144,6 +147,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
      */
     public Builder() {}
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(K key, V value) {
       super.put(key, value);
@@ -155,6 +159,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
      *
      * @since 11.0
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
       super.put(entry);
@@ -166,6 +171,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
      *
      * @since 19.0
      */
+    @CanIgnoreReturnValue
     @Beta
     @Override
     public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
@@ -173,18 +179,21 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(K key, Iterable<? extends V> values) {
       super.putAll(key, values);
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(K key, V... values) {
       super.putAll(key, values);
       return this;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(Multimap<? extends K, ? extends V> multimap) {
       super.putAll(multimap);
@@ -196,6 +205,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
      *
      * @since 8.0
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> orderKeysBy(Comparator<? super K> keyComparator) {
       super.orderKeysBy(keyComparator);
@@ -207,6 +217,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
      *
      * @since 8.0
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> orderValuesBy(Comparator<? super V> valueComparator) {
       super.orderValuesBy(valueComparator);
@@ -333,6 +344,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public ImmutableList<V> removeAll(Object key) {
@@ -345,6 +357,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public ImmutableList<V> replaceValues(K key, Iterable<? extends V> values) {
