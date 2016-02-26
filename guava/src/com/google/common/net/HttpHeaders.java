@@ -108,7 +108,10 @@ public final class HttpHeaders {
   public static final String RANGE = "Range";
   /** The HTTP {@code Referer} header field name. */
   public static final String REFERER = "Referer";
-  /** The HTTP {@code Service-Worker} header field name. */
+  /**
+   * The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">
+   * {@code Service-Worker}</a> header field name.
+   */
   public static final String SERVICE_WORKER = "Service-Worker";
   /** The HTTP {@code TE} header field name. */
   public static final String TE = "TE";
@@ -184,6 +187,13 @@ public final class HttpHeaders {
   public static final String RETRY_AFTER = "Retry-After";
   /** The HTTP {@code Server} header field name. */
   public static final String SERVER = "Server";
+  /**
+   * The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">
+   * {@code Service-Worker-Allowed}</a> header field name.
+   *
+   * @since 20.0
+   */
+  public static final String SERVICE_WORKER_ALLOWED = "Service-Worker-Allowed";
   /** The HTTP {@code Set-Cookie} header field name. */
   public static final String SET_COOKIE = "Set-Cookie";
   /** The HTTP {@code Set-Cookie2} header field name. */
