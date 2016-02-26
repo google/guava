@@ -162,10 +162,13 @@ public final class Iterators {
   }
 
   /** Returns an unmodifiable view of {@code iterator}. */
-  public static <T> UnmodifiableIterator<T> unmodifiableIterator(final Iterator<T> iterator) {
+  public static <T> UnmodifiableIterator<T> unmodifiableIterator(
+      final Iterator<? extends T> iterator) {
     checkNotNull(iterator);
     if (iterator instanceof UnmodifiableIterator) {
-      return (UnmodifiableIterator<T>) iterator;
+      @SuppressWarnings("unchecked") // Since it's unmodifiable, the covariant cast is safe
+      UnmodifiableIterator<T> result = (UnmodifiableIterator<T>) iterator;
+      return result;
     }
     return new UnmodifiableIterator<T>() {
       @Override

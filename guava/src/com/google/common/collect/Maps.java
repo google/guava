@@ -496,7 +496,7 @@ public final class Maps {
     }
   }
 
-  private static <K, V> Map<K, V> unmodifiableMap(Map<K, V> map) {
+  private static <K, V> Map<K, V> unmodifiableMap(Map<K, ? extends V> map) {
     if (map instanceof SortedMap) {
       return Collections.unmodifiableSortedMap((SortedMap<K, ? extends V>) map);
     } else {

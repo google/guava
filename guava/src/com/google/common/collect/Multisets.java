@@ -75,8 +75,7 @@ public final class Multisets {
    */
   public static <E> Multiset<E> unmodifiableMultiset(Multiset<? extends E> multiset) {
     if (multiset instanceof UnmodifiableMultiset || multiset instanceof ImmutableMultiset) {
-      // Since it's unmodifiable, the covariant cast is safe
-      @SuppressWarnings("unchecked")
+      @SuppressWarnings("unchecked") // Since it's unmodifiable, the covariant cast is safe
       Multiset<E> result = (Multiset<E>) multiset;
       return result;
     }
@@ -133,11 +132,9 @@ public final class Multisets {
           : es;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Iterator<E> iterator() {
-      // Safe because the returned Iterator is made unmodifiable
-      return (Iterator<E>) Iterators.unmodifiableIterator(delegate.iterator());
+      return Iterators.<E>unmodifiableIterator(delegate.iterator());
     }
 
     @Override

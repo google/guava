@@ -64,10 +64,12 @@ public final class Iterables {
   private Iterables() {}
 
   /** Returns an unmodifiable view of {@code iterable}. */
-  public static <T> Iterable<T> unmodifiableIterable(final Iterable<T> iterable) {
+  public static <T> Iterable<T> unmodifiableIterable(final Iterable<? extends T> iterable) {
     checkNotNull(iterable);
     if (iterable instanceof UnmodifiableIterable || iterable instanceof ImmutableCollection) {
-      return iterable;
+      @SuppressWarnings("unchecked") // Since it's unmodifiable, the covariant cast is safe
+      Iterable<T> result = (Iterable<T>) iterable;
+      return result;
     }
     return new UnmodifiableIterable<T>(iterable);
   }
@@ -84,9 +86,9 @@ public final class Iterables {
   }
 
   private static final class UnmodifiableIterable<T> extends FluentIterable<T> {
-    private final Iterable<T> iterable;
+    private final Iterable<? extends T> iterable;
 
-    private UnmodifiableIterable(Iterable<T> iterable) {
+    private UnmodifiableIterable(Iterable<? extends T> iterable) {
       this.iterable = iterable;
     }
 
