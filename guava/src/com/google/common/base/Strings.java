@@ -20,8 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 
-import java.util.Formatter;
-
 import javax.annotation.Nullable;
 
 /**
@@ -79,7 +77,7 @@ public final class Strings {
    * <li>{@code padStart("2010", 3, '0')} returns {@code "2010"}
    * </ul>
    *
-   * <p>See {@link Formatter} for a richer set of formatting capabilities.
+   * <p>See {@link java.util.Formatter} for a richer set of formatting capabilities.
    *
    * @param string the string which should appear at the end of the result
    * @param minLength the minimum length the resulting string must have. Can be zero or negative, in
@@ -110,7 +108,7 @@ public final class Strings {
    * <li>{@code padEnd("2010", 3, '!')} returns {@code "2010"}
    * </ul>
    *
-   * <p>See {@link Formatter} for a richer set of formatting capabilities.
+   * <p>See {@link java.util.Formatter} for a richer set of formatting capabilities.
    *
    * @param string the string which should appear at the beginning of the result
    * @param minLength the minimum length the resulting string must have. Can be zero or negative, in
