@@ -504,7 +504,7 @@
 <span class="sourceLineNo">496</span>    }<a name="line.496"></a>
 <span class="sourceLineNo">497</span>  }<a name="line.497"></a>
 <span class="sourceLineNo">498</span><a name="line.498"></a>
-<span class="sourceLineNo">499</span>  private static &lt;K, V&gt; Map&lt;K, V&gt; unmodifiableMap(Map&lt;K, V&gt; map) {<a name="line.499"></a>
+<span class="sourceLineNo">499</span>  private static &lt;K, V&gt; Map&lt;K, V&gt; unmodifiableMap(Map&lt;K, ? extends V&gt; map) {<a name="line.499"></a>
 <span class="sourceLineNo">500</span>    if (map instanceof SortedMap) {<a name="line.500"></a>
 <span class="sourceLineNo">501</span>      return Collections.unmodifiableSortedMap((SortedMap&lt;K, ? extends V&gt;) map);<a name="line.501"></a>
 <span class="sourceLineNo">502</span>    } else {<a name="line.502"></a>

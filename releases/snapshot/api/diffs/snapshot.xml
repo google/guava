@@ -5272,7 +5272,7 @@
  <li>{@code padStart("2010", 3, '0')} returns {@code "2010"}
  </ul>
 
- <p>See {@link Formatter} for a richer set of formatting capabilities.
+ <p>See {@link java.util.Formatter} for a richer set of formatting capabilities.
 
  @param string the string which should appear at the end of the result
  @param minLength the minimum length the resulting string must have. Can be zero or negative, in
@@ -5298,7 +5298,7 @@
  <li>{@code padEnd("2010", 3, '!')} returns {@code "2010"}
  </ul>
 
- <p>See {@link Formatter} for a richer set of formatting capabilities.
+ <p>See {@link java.util.Formatter} for a richer set of formatting capabilities.
 
  @param string the string which should appear at the beginning of the result
  @param minLength the minimum length the resulting string must have. Can be zero or negative, in
@@ -20852,7 +20852,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="iterable" type="java.lang.Iterable&lt;T&gt;"/>
+      <param name="iterable" type="java.lang.Iterable&lt;? extends T&gt;"/>
       <doc>
       <![CDATA[Returns an unmodifiable view of {@code iterable}.]]>
       </doc>
@@ -21591,7 +21591,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="iterator" type="java.util.Iterator&lt;T&gt;"/>
+      <param name="iterator" type="java.util.Iterator&lt;? extends T&gt;"/>
       <doc>
       <![CDATA[Returns an unmodifiable view of {@code iterator}.]]>
       </doc>
@@ -44383,7 +44383,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP {@code Service-Worker} header field name.]]>
+      <![CDATA[The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">
+ {@code Service-Worker}</a> header field name.]]>
       </doc>
     </field>
     <field name="TE" type="java.lang.String"
@@ -44630,6 +44631,17 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[The HTTP {@code Server} header field name.]]>
+      </doc>
+    </field>
+    <field name="SERVICE_WORKER_ALLOWED" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">
+ {@code Service-Worker-Allowed}</a> header field name.
+
+ @since 20.0]]>
       </doc>
     </field>
     <field name="SET_COOKIE" type="java.lang.String"

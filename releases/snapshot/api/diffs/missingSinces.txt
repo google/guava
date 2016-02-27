@@ -63,6 +63,7 @@ OK: com.google.common.net.MediaType Field BASIC_AUDIO
 OK: com.google.common.net.MediaType Field FLV_VIDEO
 OK: com.google.common.net.MediaType Field L24_AUDIO
 MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field SERVICE_WORKER
+OK: com.google.common.net.HttpHeaders Field SERVICE_WORKER_ALLOWED
 OK: com.google.common.net.MediaType Field SOAP_XML_UTF_8
 OK: com.google.common.net.MediaType Field THREE_GPP2_VIDEO
 OK: com.google.common.net.MediaType Field THREE_GPP_VIDEO
