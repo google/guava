@@ -326,7 +326,67 @@ public final class Uninterruptibles {
     }
   }
 
-  // TODO(user): Add support for waitUninterruptibly.
+  /**
+   * Invokes {@code object.}{@link Object#wait() wait()} uninterruptibly.
+   *
+   * @param object to wait upon.
+   *
+   * @throws IllegalMonitorStateException if the current thread is not
+   *               the owner of the object's monitor.
+   */
+  @GwtIncompatible // concurrency
+  public static void waitUninterruptibly(Object object) {
+    Preconditions.checkNotNull(object);
+    boolean interrupted = false;
+    try {
+      while (true) {
+        try {
+          object.wait();
+          return;
+        } catch (InterruptedException e) {
+          interrupted = true;
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
+  /**
+   * Invokes {@code object.}{@link Object#wait(long, int) wait(millis, nanos)} uninterruptibly.
+   *
+   * @param object to wait upon.
+   *
+   * @throws IllegalMonitorStateException if the current thread is not the owner of the object's
+   *          monitor.
+   */
+  @GwtIncompatible // concurrency
+  public static void waitUninterruptibly(Object object, long timeout, TimeUnit unit) {
+    Preconditions.checkNotNull(object);
+    Preconditions.checkNotNull(unit);
+    boolean interrupted = false;
+    try {
+      long remainingNanos = unit.toNanos(timeout);
+      long end = System.nanoTime() + remainingNanos;
+
+      while (true) {
+        try {
+          // timedWait treats negative timeouts just like zero.
+          NANOSECONDS.timedWait(object, remainingNanos);
+          return;
+        } catch (InterruptedException e) {
+          interrupted = true;
+          remainingNanos = end - System.nanoTime();
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
 
   private Uninterruptibles() {}
 }

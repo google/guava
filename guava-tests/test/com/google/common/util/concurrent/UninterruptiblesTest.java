@@ -19,6 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.util.concurrent.InterruptionUtil.repeatedlyInterruptTestThread;
 import static com.google.common.util.concurrent.Uninterruptibles.joinUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.putUninterruptibly;
+import static com.google.common.util.concurrent.Uninterruptibles.waitUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.takeUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.tryAcquireUninterruptibly;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -350,6 +351,112 @@ public class UninterruptiblesTest extends TestCase {
     assertInterrupted();
   }
 
+  public void testWaitNoMonitorThrowsException() throws IllegalMonitorStateException {
+    Object waitOn = new Object();
+    try {
+      waitUninterruptibly(waitOn);
+      fail("IllegalMonitorException not thrown");
+    } catch (IllegalMonitorStateException e) {
+    }
+  }
+
+  public void testWaitTimeoutNoMonitorThrowsException() throws IllegalMonitorStateException {
+    Object waitOn = new Object();
+    try {
+      waitUninterruptibly(waitOn,100, MILLISECONDS);
+      fail("IllegalMonitorException not thrown");
+    } catch (IllegalMonitorStateException e) {
+    }
+  }
+
+  public void testWaitNoTimeoutNoInterrupt(){
+    Object waitOn = new Object();
+    TimedNotifyThread notifyThread = TimedNotifyThread.createWithDelay(waitOn, 10);
+    synchronized (waitOn) {
+      notifyThread.waitSuccessfully();
+    }
+    assertNotInterrupted();
+  }
+
+  public void testWaitSuccessfullyTimeoutNoInterrupt(){
+    Object waitOn = new Object();
+    TimedNotifyThread notifyThread = TimedNotifyThread.createWithDelay(waitOn, 10);
+    synchronized (waitOn) {
+      notifyThread.waitSuccessfully(100);
+    }
+    assertNotInterrupted();
+  }
+
+  public void testWaitUnsuccessfullyTimeoutNoInterrupt(){
+    Object waitOn = new Object();
+    TimedNotifyThread notifyThread = TimedNotifyThread.createWithDelay(waitOn, LONG_DELAY_MS);
+    synchronized (waitOn) {
+      notifyThread.waitUnsuccessfully(10);
+    }
+    assertNotInterrupted();
+  }
+
+  public void testWaitNoTimeoutSingleInterrupt(){
+    Object waitOn = new Object();
+    TimedNotifyThread notifyThread = TimedNotifyThread.createWithDelay(waitOn, 50);
+    requestInterruptIn(10);
+    synchronized (waitOn) {
+      notifyThread.waitSuccessfully();
+    }
+    assertInterrupted();
+  }
+
+  public void testWaitSuccessfullyTimeoutSingleInterrupt(){
+    Object waitOn = new Object();
+    TimedNotifyThread notifyThread = TimedNotifyThread.createWithDelay(waitOn, 50);
+    requestInterruptIn(10);
+    synchronized (waitOn) {
+      notifyThread.waitUnsuccessfully(30);
+    }
+    assertInterrupted();
+  }
+
+  public void testWaitUnsuccessfullyTimeoutSingleInterrupt(){
+    Object waitOn = new Object();
+    TimedNotifyThread notifyThread = TimedNotifyThread.createWithDelay(waitOn, LONG_DELAY_MS);
+    requestInterruptIn(10);
+    synchronized (waitOn) {
+      notifyThread.waitUnsuccessfully(30);
+    }
+    assertInterrupted();
+  }
+
+  public void testWaitNoTimeoutMultiInterrupt(){
+    Object waitOn = new Object();
+    TimedNotifyThread notifyThread = TimedNotifyThread.createWithDelay(waitOn, 50);
+    repeatedlyInterruptTestThread(10, tearDownStack);
+    synchronized (waitOn) {
+      notifyThread.waitSuccessfully();
+    }
+    assertInterrupted();
+  }
+
+  public void testWaitSuccessfullyTimeoutMultiInterrupt(){
+    Object waitOn = new Object();
+    TimedNotifyThread notifyThread = TimedNotifyThread.createWithDelay(waitOn, 50);
+    repeatedlyInterruptTestThread(10, tearDownStack);
+    synchronized (waitOn) {
+      notifyThread.waitSuccessfully(LONG_DELAY_MS);
+    }
+    assertInterrupted();
+  }
+
+  public void testWaitUnsuccessfullyTimeoutMultiInterrupt(){
+    Object waitOn = new Object();
+    TimedNotifyThread notifyThread = TimedNotifyThread.createWithDelay(waitOn, LONG_DELAY_MS);
+    repeatedlyInterruptTestThread(10, tearDownStack);
+    synchronized (waitOn) {
+      notifyThread.waitUnsuccessfully(50);
+    }
+    assertInterrupted();
+  }
+
+
   /**
    * Wrapper around {@link Stopwatch} which also contains an
    * "expected completion time." Creating a {@code Completion} starts the
@@ -634,6 +741,51 @@ public class UninterruptiblesTest extends TestCase {
       Uninterruptibles.joinUninterruptibly(thread, timeoutMillis, MILLISECONDS);
       completed.assertCompletionNotExpected(timeoutMillis);
       assertFalse(Thread.State.TERMINATED.equals(thread.getState()));
+    }
+  }
+
+  private static final class TimedNotifyThread {
+    private final Object waitOn;
+    private final Thread notifyThread;
+    private final Completion completed;
+    boolean notified;
+
+    static TimedNotifyThread createWithDelay(Object waitOn, long countdownInMillis) {
+      return new TimedNotifyThread(waitOn, countdownInMillis);
+    }
+
+    private TimedNotifyThread(final Object waitOn, long expectedCompletionWaitMillis) {
+      this.waitOn = waitOn;
+      completed = new Completion(expectedCompletionWaitMillis);
+      notifyThread = new Thread(new DelayedActionRunnable(expectedCompletionWaitMillis) {
+
+        @Override
+        protected void doAction() {
+          synchronized (waitOn) {
+            notified = true;
+            waitOn.notify();
+          }
+        }
+      });
+      notifyThread.start();
+    }
+
+    void waitSuccessfully() {
+      waitUninterruptibly(waitOn);
+      assertTrue("Object was not notified",notified);
+      completed.assertCompletionExpected();
+    }
+
+    void waitSuccessfully(long timeoutMillis) {
+      waitUninterruptibly(waitOn, timeoutMillis, MILLISECONDS);
+      assertTrue("Object was not notified", notified);
+      completed.assertCompletionExpected();
+    }
+
+    void waitUnsuccessfully(long timeoutMillis) {
+      waitUninterruptibly(waitOn, timeoutMillis, MILLISECONDS);
+      assertFalse("Object was notified", notified);
+      completed.assertCompletionNotExpected(timeoutMillis);
     }
   }
 
