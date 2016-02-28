@@ -17,10 +17,13 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+
+import javax.annotation.CheckReturnValue;
 
 /**
  * A table which forwards all its method calls to another table. Subclasses
@@ -31,6 +34,7 @@ import java.util.Set;
  * @author Gregory Kick
  * @since 7.0
  */
+@CheckReturnValue
 @GwtCompatible
 public abstract class ForwardingTable<R, C, V> extends ForwardingObject implements Table<R, C, V> {
   /** Constructor for use by subclasses. */
@@ -94,6 +98,7 @@ public abstract class ForwardingTable<R, C, V> extends ForwardingObject implemen
     return delegate().isEmpty();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V put(R rowKey, C columnKey, V value) {
     return delegate().put(rowKey, columnKey, value);
@@ -104,6 +109,7 @@ public abstract class ForwardingTable<R, C, V> extends ForwardingObject implemen
     delegate().putAll(table);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V remove(Object rowKey, Object columnKey) {
     return delegate().remove(rowKey, columnKey);

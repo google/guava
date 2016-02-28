@@ -18,11 +18,13 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -54,6 +56,7 @@ import javax.annotation.Nullable;
  * @param <V> the type of the mapped values
  * @since 7.0
  */
+@CheckReturnValue
 @GwtCompatible
 public interface Table<R, C, V> {
   // TODO(jlevy): Consider adding methods similar to ConcurrentMap methods.
@@ -140,6 +143,7 @@ public interface Table<R, C, V> {
    * @return the value previously associated with the keys, or {@code null} if
    *     no mapping existed for the keys
    */
+  @CanIgnoreReturnValue
   @Nullable
   V put(R rowKey, C columnKey, V value);
 
@@ -160,6 +164,7 @@ public interface Table<R, C, V> {
    * @return the value previously associated with the keys, or {@code null} if
    *     no such value existed
    */
+  @CanIgnoreReturnValue
   @Nullable
   V remove(@Nullable Object rowKey, @Nullable Object columnKey);
 
