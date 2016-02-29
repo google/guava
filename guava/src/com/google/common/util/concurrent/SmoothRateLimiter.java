@@ -345,7 +345,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
   }
 
   @Override
-  final long reserveEarliestAvailable(int requiredPermits, long nowMicros) {
+  final long reserveEarliestAvailable(double requiredPermits, long nowMicros) {
     resync(nowMicros);
     long returnValue = nextFreeTicketMicros;
     double storedPermitsToSpend = min(requiredPermits, this.storedPermits);

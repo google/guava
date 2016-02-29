@@ -97,7 +97,17 @@ public class RateLimiterTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
     try {
+      limiter.acquire(0.);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
       limiter.acquire(-1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      limiter.acquire(-1.);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -107,7 +117,17 @@ public class RateLimiterTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
     try {
+      limiter.tryAcquire(0.);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
       limiter.tryAcquire(-1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      limiter.tryAcquire(-1.);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -117,7 +137,17 @@ public class RateLimiterTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
     try {
+      limiter.tryAcquire(0., 1, SECONDS);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
       limiter.tryAcquire(-1, 1, SECONDS);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      limiter.tryAcquire(-1., 1, SECONDS);
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -371,6 +401,28 @@ public class RateLimiterTest extends TestCase {
     rateLimiter.acquire(4); // R2.00, to repay previous
     rateLimiter.acquire(8); // R4.00, to repay previous
     rateLimiter.acquire(1); // R8.00, to repay previous
+    assertEvents("R0.00", "R1.00", "R1.00", "R2.00", "R4.00", "R8.00");
+  }
+
+  public void testIntegerDoublePermits() {
+    RateLimiter rateLimiter = RateLimiter.create(stopwatch, 1.0);
+    rateLimiter.acquire(1.0); // no wait
+    rateLimiter.acquire(1.0); // R1.00, to repay previous
+    rateLimiter.acquire(2.0); // R1.00, to repay previous
+    rateLimiter.acquire(4.0); // R2.00, to repay previous
+    rateLimiter.acquire(8.0); // R4.00, to repay previous
+    rateLimiter.acquire(1.0); // R8.00, to repay previous
+    assertEvents("R0.00", "R1.00", "R1.00", "R2.00", "R4.00", "R8.00");
+  }
+
+  public void testDoublePermits() {
+    RateLimiter rateLimiter = RateLimiter.create(stopwatch, 0.1);
+    rateLimiter.acquire(0.1); // no wait
+    rateLimiter.acquire(0.1); // R1.00, to repay previous
+    rateLimiter.acquire(0.2); // R1.00, to repay previous
+    rateLimiter.acquire(0.4); // R2.00, to repay previous
+    rateLimiter.acquire(0.8); // R4.00, to repay previous
+    rateLimiter.acquire(0.1); // R8.00, to repay previous
     assertEvents("R0.00", "R1.00", "R1.00", "R2.00", "R4.00", "R8.00");
   }
 
