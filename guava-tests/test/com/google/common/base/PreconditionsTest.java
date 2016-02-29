@@ -16,14 +16,25 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+import com.google.common.testing.ArbitraryInstances;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Unit test for {@link Preconditions}.
@@ -333,6 +344,162 @@ public class PreconditionsTest extends TestCase {
     assertEquals("null [null, null]",
         Preconditions.format("%s", null, null, null));
     assertEquals("null [5, 6]", Preconditions.format(null, 5, 6));
+  }
+
+    @GwtIncompatible("Reflection")
+  public void testAllOverloads_checkArgument() throws Exception {
+    for (ImmutableList<Class<?>> sig : allSignatures(boolean.class)) {
+      Method checkArgumentMethod =
+          Preconditions.class.getMethod("checkArgument", sig.toArray(new Class<?>[] {}));
+      checkArgumentMethod.invoke(null /* static method */, getParametersForSignature(true, sig));
+
+      Object[] failingParams = getParametersForSignature(false, sig);
+      try {
+        checkArgumentMethod.invoke(null /* static method */, failingParams);
+        fail();
+      } catch (InvocationTargetException ite) {
+        assertFailureCause(ite.getCause(), IllegalArgumentException.class, failingParams);
+      }
+    }
+  }
+
+  @GwtIncompatible("Reflection")
+  public void testAllOverloads_checkState() throws Exception {
+    for (ImmutableList<Class<?>> sig : allSignatures(boolean.class)) {
+      Method checkArgumentMethod =
+          Preconditions.class.getMethod("checkState", sig.toArray(new Class<?>[] {}));
+      checkArgumentMethod.invoke(null /* static method */, getParametersForSignature(true, sig));
+
+      Object[] failingParams = getParametersForSignature(false, sig);
+      try {
+        checkArgumentMethod.invoke(null /* static method */, failingParams);
+        fail();
+      } catch (InvocationTargetException ite) {
+        assertFailureCause(ite.getCause(), IllegalStateException.class, failingParams);
+      }
+    }
+  }
+
+  @GwtIncompatible("Reflection")
+  public void testAllOverloads_checkNotNull() throws Exception {
+    for (ImmutableList<Class<?>> sig : allSignatures(Object.class)) {
+      Method checkArgumentMethod =
+          Preconditions.class.getMethod("checkNotNull", sig.toArray(new Class<?>[] {}));
+      checkArgumentMethod.invoke(
+          null /* static method */, getParametersForSignature(new Object(), sig));
+
+      Object[] failingParams = getParametersForSignature(null, sig);
+      try {
+        checkArgumentMethod.invoke(null /* static method */, failingParams);
+        fail();
+      } catch (InvocationTargetException ite) {
+        assertFailureCause(ite.getCause(), NullPointerException.class, failingParams);
+      }
+    }
+  }
+
+  /**
+   * Asserts that the given throwable has the given class and then asserts on the message as using
+   * the full set of method parameters.
+   */
+  private void assertFailureCause(
+      Throwable throwable, Class<? extends Throwable> clazz, Object[] params) {
+    assertThat(throwable).isInstanceOf(clazz);
+    if (params.length == 1) {
+      assertThat(throwable).hasMessage(null);
+    } else if (params.length == 2) {
+      assertThat(throwable).hasMessage("");
+    } else {
+      assertThat(throwable)
+          .hasMessage(Preconditions.format("", Arrays.copyOfRange(params, 2, params.length)));
+    }
+  }
+
+  /**
+   * Returns an array containing parameters for invoking a checkArgument, checkNotNull or checkState
+   * method reflectively
+   *
+   * @param firstParam The first parameter
+   * @param sig The method signature
+   */
+  @GwtIncompatible("ArbitraryInstances")
+  private Object[] getParametersForSignature(Object firstParam, ImmutableList<Class<?>> sig) {
+    Object[] params = new Object[sig.size()];
+    params[0] = firstParam;
+    if (params.length > 1) {
+      params[1] = "";
+      if (params.length > 2) {
+        // fill in the rest of the array with arbitrary instances
+        for (int i = 2; i < params.length; i++) {
+          params[i] = ArbitraryInstances.get(sig.get(i));
+        }
+      }
+    }
+    return params;
+  }
+
+  private static final ImmutableList<Class<?>> possibleParamTypes =
+      ImmutableList.of(
+          char.class,
+          int.class,
+          long.class,
+          Object.class);
+
+  /**
+   * Returns a list of parameters for invoking an overload of checkState, checkArgument or
+   * checkNotNull
+   *
+   * @param predicateType The first parameter to the method (boolean or Object)
+   */
+  private static ImmutableList<ImmutableList<Class<?>>> allSignatures(Class<?> predicateType) {
+    ImmutableSet.Builder<ImmutableList<Class<?>>> allOverloads = ImmutableSet.builder();
+    // The first two are for the overloads that don't take formatting args, e.g.
+    // checkArgument(boolean) and checkArgument(boolean, Object)
+    allOverloads.add(ImmutableList.<Class<?>>of(predicateType));
+    allOverloads.add(ImmutableList.<Class<?>>of(predicateType, Object.class));
+
+    List<List<Class<?>>> typesLists = new ArrayList<List<Class<?>>>();
+    for (int i = 0; i < 2; i++) {
+      typesLists.add(possibleParamTypes);
+      for (List<Class<?>> curr : Lists.cartesianProduct(typesLists)) {
+        allOverloads.add(
+            ImmutableList.<Class<?>>builder()
+                .add(predicateType)
+                .add(String.class)  // the format string
+                .addAll(curr)
+                .build());
+      }
+    }
+    return allOverloads.build().asList();
+  }
+
+  // 'test' to demonstrate some potentially ambiguous overloads.  This 'test' is kind of strange,
+  // but essentially each line will be a call to a Preconditions method that, but for a documented
+  // change would be a compiler error.
+  // See http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.12.2 for the spec on
+  // how javac selects overloads
+  @SuppressWarnings("null")
+  public void overloadSelection() {
+    Boolean boxedBoolean = null;
+    boolean aBoolean = true;
+    Long boxedLong = null;
+    int anInt = 1;
+    // With a boxed predicate, no overloads can be selected in phase 1
+    // ambiguous without the call to .booleanValue to unbox the Boolean
+    checkState(boxedBoolean.booleanValue(), "",  1);
+    // ambiguous without the cast to Object because the boxed predicate prevents any overload from
+    // being selected in phase 1
+    checkState(boxedBoolean, "", (Object) boxedLong);
+
+    // ternaries introduce their own problems. because of the ternary (which requires a boxing
+    // operation) no overload can be selected in phase 1.  and in phase 2 it is ambiguous since it
+    // matches with the second parameter being boxed and without it being boxed.  The cast to Object
+    // avoids this.
+    checkState(aBoolean, "", aBoolean ? "" : anInt, (Object) anInt);
+
+    // ambiguous without the .booleanValue() call since the boxing forces us into phase 2 resolution
+    short s = 2;
+    checkState(boxedBoolean.booleanValue(), "", s);
   }
 
   @GwtIncompatible // NullPointerTester
