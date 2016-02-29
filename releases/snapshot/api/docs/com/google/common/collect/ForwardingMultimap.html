@@ -108,8 +108,9 @@
 </dl>
 <hr>
 <br>
-<pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.38">ForwardingMultimap</a>&lt;K,V&gt;
+<pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/CheckReturnValue.html?is-external=true" title="class or interface in javax.annotation">@CheckReturnValue</a>
+<a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.41">ForwardingMultimap</a>&lt;K,V&gt;
 extends <a href="../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a>
 implements <a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;</pre>
 <div class="block">A multimap which forwards all its method calls to another multimap.
@@ -338,7 +339,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingMultimap</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.41">ForwardingMultimap</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.44">ForwardingMultimap</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -356,7 +357,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre>protected abstract&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.44">delegate</a>()</pre>
+<pre>protected abstract&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.47">delegate</a>()</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></strong></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to.
  Abstract subclasses generally override this method with an abstract method
@@ -374,7 +375,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.47">asMap</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.50">asMap</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#asMap()">Multimap</a></code></strong></div>
 <div class="block">Returns a view of this multimap as a <code>Map</code> from each distinct key
  to the nonempty collection of that key's associated values. Note that
@@ -396,7 +397,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.52">clear</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.55">clear</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#clear()">Multimap</a></code></strong></div>
 <div class="block">Removes all key-value pairs from the multimap, leaving it <a href="../../../../com/google/common/collect/Multimap.html#isEmpty()">empty</a>.</div>
 <dl>
@@ -411,7 +412,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>containsEntry</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.57">containsEntry</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.60">containsEntry</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
                     <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
@@ -430,7 +431,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>containsKey</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.62">containsKey</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.65">containsKey</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#containsKey(java.lang.Object)">Multimap</a></code></strong></div>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair
@@ -447,7 +448,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>containsValue</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.67">containsValue</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.70">containsValue</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#containsValue(java.lang.Object)">Multimap</a></code></strong></div>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair
@@ -464,7 +465,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>entries</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.72">entries</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.75">entries</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#entries()">Multimap</a></code></strong></div>
 <div class="block">Returns a view collection of all key-value pairs contained in this
  multimap, as <code>Map.Entry</code> instances.
@@ -486,7 +487,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.77">get</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.80">get</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                 <a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#get(K)">Multimap</a></code></strong></div>
 <div class="block">Returns a view collection of the values associated with <code>key</code> in this
@@ -507,7 +508,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.82">isEmpty</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.85">isEmpty</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#isEmpty()">Multimap</a></code></strong></div>
 <div class="block">Returns <code>true</code> if this multimap contains no key-value pairs.
  Equivalent to <code>size() == 0</code>, but can in some cases be more efficient.</div>
@@ -523,7 +524,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>keys</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.87">keys</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.90">keys</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#keys()">Multimap</a></code></strong></div>
 <div class="block">Returns a view collection containing the key from each key-value pair in
  this multimap, <i>without</i> collapsing duplicates. This collection has
@@ -545,7 +546,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>keySet</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.92">keySet</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.95">keySet</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#keySet()">Multimap</a></code></strong></div>
 <div class="block">Returns a view collection of all <i>distinct</i> keys contained in this
  multimap. Note that the key set contains a key if and only if this multimap
@@ -567,7 +568,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.97">put</a>(<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.101">put</a>(<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key,
           <a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&nbsp;value)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#put(K,%20V)">Multimap</a></code></strong></div>
 <div class="block">Stores a key-value pair in this multimap.
@@ -592,7 +593,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.102">putAll</a>(<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.107">putAll</a>(<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key,
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#putAll(K,%20java.lang.Iterable)">Multimap</a></code></strong></div>
 <div class="block">Stores a key-value pair in this multimap for each of <code>values</code>, all
@@ -614,7 +615,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.107">putAll</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,? extends <a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;multimap)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.113">putAll</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>,? extends <a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;multimap)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#putAll(com.google.common.collect.Multimap)">Multimap</a></code></strong></div>
 <div class="block">Stores all key-value pairs of <code>multimap</code> in this multimap, in the
  order returned by <code>multimap.entries()</code>.</div>
@@ -630,7 +631,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.112">remove</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.119">remove</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
              <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
@@ -651,7 +652,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>removeAll</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.117">removeAll</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.125">removeAll</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                       <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#removeAll(java.lang.Object)">Multimap</a></code></strong></div>
 <div class="block">Removes all values associated with the key <code>key</code>.
@@ -675,7 +676,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>replaceValues</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.122">replaceValues</a>(<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key,
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.131">replaceValues</a>(<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">K</a>&nbsp;key,
                           <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#replaceValues(K,%20java.lang.Iterable)">Multimap</a></code></strong></div>
 <div class="block">Stores a collection of values with the same key, replacing any existing
@@ -698,7 +699,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.127">size</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.136">size</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#size()">Multimap</a></code></strong></div>
 <div class="block">Returns the number of key-value pairs in this multimap.
 
@@ -718,7 +719,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.132">values</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMultimap.html" title="type parameter in ForwardingMultimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.141">values</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#values()">Multimap</a></code></strong></div>
 <div class="block">Returns a view collection containing the <i>value</i> from each key-value
  pair contained in this multimap, without collapsing duplicates (so <code>values().size() == size()</code>).
@@ -738,7 +739,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.137">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.146">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#equals(java.lang.Object)">Multimap</a></code></strong></div>
 <div class="block">Compares the specified object with this multimap for equality. Two
@@ -769,7 +770,7 @@ implements <a href="../../../../com/google/common/collect/Multimap.html" title="
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.142">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMultimap.html#line.151">hashCode</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multimap.html#hashCode()">Multimap</a></code></strong></div>
 <div class="block">Returns the hash code for this multimap.
 

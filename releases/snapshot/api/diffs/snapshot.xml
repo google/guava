@@ -4085,6 +4085,313 @@
      {@code errorMessageArgs} is null (don't let this happen)]]>
       </doc>
     </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkArgument"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
+      <param name="p4" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
+
+ <p>See {@link #checkArgument(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
     <method name="checkState"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -4138,6 +4445,335 @@
      {@code errorMessageArgs} is null (don't let this happen)]]>
       </doc>
     </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkState"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="b" type="boolean"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
+      <param name="p4" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
+ involving any parameters to the calling method.
+
+ <p>See {@link #checkState(boolean, String, Object...)} for details.]]>
+      </doc>
+    </method>
     <method name="checkNotNull" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -4187,6 +4823,313 @@
      are converted to strings using {@link String#valueOf(Object)}.
  @return the non-null reference that was validated
  @throws NullPointerException if {@code reference} is null]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="char"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="int"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="long"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="char"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="int"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="long"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
+      </doc>
+    </method>
+    <method name="checkNotNull" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="T"/>
+      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="p1" type="java.lang.Object"/>
+      <param name="p2" type="java.lang.Object"/>
+      <param name="p3" type="java.lang.Object"/>
+      <param name="p4" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
+
+ <p>See {@link #checkNotNull(Object, String, Object...)} for details.]]>
       </doc>
     </method>
     <method name="checkElementIndex" return="int"
