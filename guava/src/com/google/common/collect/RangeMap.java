@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 
 import java.util.Map;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -33,6 +34,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 14.0
  */
+@CheckReturnValue
 @Beta
 @GwtIncompatible
 public interface RangeMap<K extends Comparable, V> {
