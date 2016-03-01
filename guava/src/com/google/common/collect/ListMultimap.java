@@ -17,11 +17,13 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -40,6 +42,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible
 public interface ListMultimap<K, V> extends Multimap<K, V> {
   /**
@@ -59,6 +62,7 @@ public interface ListMultimap<K, V> extends Multimap<K, V> {
    * insertion ordering, this method returns a {@link List}, instead of the
    * {@link java.util.Collection} specified in the {@link Multimap} interface.
    */
+  @CanIgnoreReturnValue
   @Override
   List<V> removeAll(@Nullable Object key);
 
@@ -69,6 +73,7 @@ public interface ListMultimap<K, V> extends Multimap<K, V> {
    * insertion ordering, this method returns a {@link List}, instead of the
    * {@link java.util.Collection} specified in the {@link Multimap} interface.
    */
+  @CanIgnoreReturnValue
   @Override
   List<V> replaceValues(K key, Iterable<? extends V> values);
 
