@@ -294,7 +294,7 @@ public class FilesSimplifyPathTest extends TestCase {
   }
 
   private void doExtensiveTest(String resourceName) throws IOException {
-    Splitter splitter = Splitter.on(CharMatcher.WHITESPACE);
+    Splitter splitter = Splitter.on(CharMatcher.whitespace());
     URL url = getClass().getResource(resourceName);
     for (String line : Resources.readLines(url, UTF_8)) {
       Iterator<String> iterator = splitter.split(line).iterator();

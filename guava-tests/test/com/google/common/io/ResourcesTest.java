@@ -16,7 +16,7 @@
 
 package com.google.common.io;
 
-import static com.google.common.base.CharMatcher.WHITESPACE;
+import static com.google.common.base.CharMatcher.whitespace;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Charsets;
@@ -81,7 +81,7 @@ public class ResourcesTest extends IoTestCase {
           List<String> collector = new ArrayList<String>();
           @Override
           public boolean processLine(String line) {
-            collector.add(WHITESPACE.trimFrom(line));
+            collector.add(whitespace().trimFrom(line));
             return true;
           }
 

@@ -472,7 +472,7 @@ public abstract class BaseEncoding {
       Arrays.fill(decodabet, (byte) -1);
       for (int i = 0; i < chars.length; i++) {
         char c = chars[i];
-        checkArgument(CharMatcher.ASCII.matches(c), "Non-ASCII character: %s", c);
+        checkArgument(CharMatcher.ascii().matches(c), "Non-ASCII character: %s", c);
         checkArgument(decodabet[c] == -1, "Duplicate character: %s", c);
         decodabet[c] = (byte) i;
       }
@@ -501,7 +501,7 @@ public abstract class BaseEncoding {
       if (ch > Ascii.MAX || decodabet[ch] == -1) {
         throw new DecodingException(
             "Unrecognized character: "
-                + (CharMatcher.INVISIBLE.matches(ch) ? "0x" + Integer.toHexString(ch) : ch));
+                + (CharMatcher.invisible().matches(ch) ? "0x" + Integer.toHexString(ch) : ch));
       }
       return decodabet[ch];
     }
@@ -552,7 +552,7 @@ public abstract class BaseEncoding {
 
     @Override
     public boolean matches(char c) {
-      return CharMatcher.ASCII.matches(c) && decodabet[c] != -1;
+      return CharMatcher.ascii().matches(c) && decodabet[c] != -1;
     }
 
     @Override
@@ -596,7 +596,7 @@ public abstract class BaseEncoding {
 
     @Override
     CharMatcher padding() {
-      return (paddingChar == null) ? CharMatcher.NONE : CharMatcher.is(paddingChar.charValue());
+      return (paddingChar == null) ? CharMatcher.none() : CharMatcher.is(paddingChar.charValue());
     }
 
     @Override
