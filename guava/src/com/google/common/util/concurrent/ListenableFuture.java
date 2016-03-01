@@ -34,14 +34,22 @@ import java.util.concurrent.RejectedExecutionException;
  *
  * <h3>Purpose</h3>
  *
- * <p>Most commonly, {@code ListenableFuture} is used as an input to another derived {@code Future},
- * as in {@link Futures#allAsList(Iterable) Futures.allAsList}. Many such methods are impossible to
- * implement efficiently without listener support.
+ * <p>The main purpose of {@code ListenableFuture} is to help you chain together a graph of
+ * asynchronous operations. You can chain them together manually with calls to methods like
+ * {@link Futures#transform(ListenableFuture, Function, Executor) Futures.transform}, but you will
+ * often find it easier to use a framework. Frameworks automate the process, often adding features
+ * like monitoring, debugging, and cancellation. Examples of frameworks include:
  *
- * <p>It is possible to call {@link #addListener addListener} directly, but this is uncommon because
- * the {@code Runnable} interface does not provide direct access to the {@code Future} result.
- * (Users who want such access may prefer {@link Futures#addCallback Futures.addCallback}.) Still,
- * direct {@code addListener} calls are occasionally useful:<pre>   {@code
+ * <ul>
+ * <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ * </ul>
+ *
+ * <p>The main purpose of {@link #addListener addListener} is to support this chaining. You will
+ * rarely use it directly, in part because it does not provide direct access to the {@code Future}
+ * result. (If you want such access, you may prefer {@link Futures#addCallback
+ * Futures.addCallback}.) Still, direct {@code addListener} calls are occasionally useful:
+ *
+ * <pre>   {@code
  *   final String name = ...;
  *   inFlight.add(name);
  *   ListenableFuture<Result> future = service.query(name);
@@ -56,17 +64,16 @@ import java.util.concurrent.RejectedExecutionException;
  *
  * <h3>How to get an instance</h3>
  *
- * <p>Developers are encouraged to return {@code ListenableFuture} from their methods so that users
- * can take advantages of the {@linkplain Futures utilities built atop the class}. The way that they
- * will create {@code ListenableFuture} instances depends on how they currently create {@code
- * Future} instances:
+ * <p>We encourage you to return {@code ListenableFuture} from your methods so that your users can
+ * take advantage of the {@linkplain Futures utilities built atop the class}. The way that you will
+ * create {@code ListenableFuture} instances depends on how you currently create {@code Future}
+ * instances:
  * <ul>
- * <li>If they are returned from an {@code ExecutorService}, convert that service to a
+ * <li>If you receive them from an {@code ExecutorService}, convert that service to a
  *     {@link ListeningExecutorService}, usually by calling
  *     {@link MoreExecutors#listeningDecorator(ExecutorService) MoreExecutors.listeningDecorator}.
- *     (Custom executors may find it more convenient to use {@link ListenableFutureTask} directly.)
- * <li>If they are manually filled in by a call to {@link FutureTask#set} or a similar method,
- *     create a {@link SettableFuture} instead. (Users with more complex needs may prefer
+ * <li>If you manually call {@link FutureTask#set} or a similar method, create a
+ *     {@link SettableFuture} instead. (If your needs are more complex, you may prefer
  *     {@link AbstractFuture}.)
  * </ul>
  *
