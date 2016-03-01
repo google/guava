@@ -34,6 +34,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -67,6 +68,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
+@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class Iterators {
   private Iterators() {}
@@ -224,6 +226,7 @@ public final class Iterators {
    * @param elementsToRemove the elements to remove
    * @return {@code true} if any element was removed from {@code iterator}
    */
+  @CanIgnoreReturnValue
   public static boolean removeAll(Iterator<?> removeFrom, Collection<?> elementsToRemove) {
     return removeIf(removeFrom, in(elementsToRemove));
   }
@@ -239,6 +242,7 @@ public final class Iterators {
    * @return {@code true} if any elements were removed from the iterator
    * @since 2.0
    */
+  @CanIgnoreReturnValue
   public static <T> boolean removeIf(Iterator<T> removeFrom, Predicate<? super T> predicate) {
     checkNotNull(predicate);
     boolean modified = false;
@@ -260,6 +264,7 @@ public final class Iterators {
    * @param elementsToRetain the elements to retain
    * @return {@code true} if any element was removed from {@code iterator}
    */
+  @CanIgnoreReturnValue
   public static boolean retainAll(Iterator<?> removeFrom, Collection<?> elementsToRetain) {
     return removeIf(removeFrom, not(in(elementsToRetain)));
   }
@@ -307,6 +312,7 @@ public final class Iterators {
    * @throws IllegalArgumentException if the iterator contains multiple
    *     elements.  The state of the iterator is unspecified.
    */
+  @CanIgnoreReturnValue // TODO(kak): Consider removing this?
   public static <T> T getOnlyElement(Iterator<T> iterator) {
     T first = iterator.next();
     if (!iterator.hasNext()) {
@@ -333,6 +339,7 @@ public final class Iterators {
    * @throws IllegalArgumentException if the iterator contains multiple
    *     elements.  The state of the iterator is unspecified.
    */
+  @CanIgnoreReturnValue // TODO(kak): Consider removing this?
   @Nullable
   public static <T> T getOnlyElement(Iterator<? extends T> iterator, @Nullable T defaultValue) {
     return iterator.hasNext() ? getOnlyElement(iterator) : defaultValue;
@@ -361,6 +368,7 @@ public final class Iterators {
    * @return {@code true} if {@code collection} was modified as a result of this
    *         operation
    */
+  @CanIgnoreReturnValue
   public static <T> boolean addAll(Collection<T> addTo, Iterator<? extends T> iterator) {
     checkNotNull(addTo);
     checkNotNull(iterator);
@@ -607,7 +615,6 @@ public final class Iterators {
    * Returns a view of {@code unfiltered} containing all elements that satisfy
    * the input predicate {@code retainIfTrue}.
    */
-  @CheckReturnValue
   public static <T> UnmodifiableIterator<T> filter(
       final Iterator<T> unfiltered, final Predicate<? super T> retainIfTrue) {
     checkNotNull(unfiltered);
@@ -632,7 +639,6 @@ public final class Iterators {
    */
   @SuppressWarnings("unchecked") // can cast to <T> because non-Ts are removed
   @GwtIncompatible // Class.isInstance
-  @CheckReturnValue
   public static <T> UnmodifiableIterator<T> filter(Iterator<?> unfiltered, Class<T> desiredType) {
     return (UnmodifiableIterator<T>) filter(unfiltered, instanceOf(desiredType));
   }
@@ -859,6 +865,7 @@ public final class Iterators {
    * @return the number of elements the iterator was advanced
    * @since 13.0 (since 3.0 as {@code Iterators.skip})
    */
+  @CanIgnoreReturnValue
   public static int advance(Iterator<?> iterator, int numberToAdvance) {
     checkNotNull(iterator);
     checkArgument(numberToAdvance >= 0, "numberToAdvance must be nonnegative");
