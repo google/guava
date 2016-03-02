@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 
 import java.security.Permission;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Unit tests for {@link Callables}.
@@ -42,6 +43,45 @@ public class CallablesTest extends TestCase {
     assertSame(value, callable.call());
     // Expect the same value on subsequent calls
     assertSame(value, callable.call());
+  }
+
+  @GwtIncompatible
+  public void testAsAsyncCallable() throws Exception {
+    final String expected = "MyCallableString";
+    Callable<String> callable = new Callable<String>() {
+      @Override
+      public String call() throws Exception {
+        return expected;
+      }
+    };
+
+    AsyncCallable<String> asyncCallable =
+        Callables.asAsyncCallable(callable, MoreExecutors.newDirectExecutorService());
+
+    ListenableFuture<String> future = asyncCallable.call();
+    assertSame(expected, future.get());
+  }
+
+  @GwtIncompatible
+  public void testAsAsyncCallable_exception() throws Exception {
+    final Exception expected = new IllegalArgumentException();
+    Callable<String> callable = new Callable<String>() {
+      @Override
+      public String call() throws Exception {
+        throw expected;
+      }
+    };
+
+    AsyncCallable<String> asyncCallable =
+        Callables.asAsyncCallable(callable, MoreExecutors.newDirectExecutorService());
+
+    ListenableFuture<String> future = asyncCallable.call();
+    try {
+      future.get();
+      fail("Expected exception to be thrown");
+    } catch (ExecutionException e) {
+      assertSame(expected, e.getCause());
+    }
   }
 
   @GwtIncompatible // threads

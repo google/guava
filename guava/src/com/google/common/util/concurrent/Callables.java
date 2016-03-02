@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
@@ -42,6 +43,29 @@ public final class Callables {
       @Override
       public T call() {
         return value;
+      }
+    };
+  }
+
+  /**
+   * Creates an {@link AsyncCallable} from a {@link Callable}.
+   *
+   * <p>The {@link AsyncCallable} returns the {@link ListenableFuture} resulting from
+   * {@link ListeningExecutorService#submit(Callable)}.
+   *
+   * @since 20.0
+   */
+  @Beta
+  @GwtIncompatible
+  public static <T> AsyncCallable<T> asAsyncCallable(
+      final Callable<T> callable,
+      final ListeningExecutorService listeningExecutorService) {
+    checkNotNull(callable);
+    checkNotNull(listeningExecutorService);
+    return new AsyncCallable<T>() {
+      @Override
+      public ListenableFuture<T> call() throws Exception {
+        return listeningExecutorService.submit(callable);
       }
     };
   }
