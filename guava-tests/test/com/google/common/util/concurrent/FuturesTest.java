@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Functions.constant;
 import static com.google.common.base.Functions.identity;
 import static com.google.common.base.Throwables.propagateIfInstanceOf;
 import static com.google.common.collect.Iterables.getOnlyElement;
@@ -655,8 +656,22 @@ public class FuturesTest extends TestCase {
   public void testTransform_rejectionPropagatesToOutput()
       throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
-    ListenableFuture<String> transformed =
-        Futures.transform(input, Functions.toStringFunction(), REJECTING_EXECUTOR);
+    Function<Foo, Foo> identity = identity();
+    ListenableFuture<Foo> transformed = Futures.transform(input, identity, REJECTING_EXECUTOR);
+    input.set(new Foo());
+    try {
+      transformed.get(5, TimeUnit.SECONDS);
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(RejectedExecutionException.class);
+    }
+  }
+
+  public void testTransformAsync_rejectionPropagatesToOutput() throws Exception {
+    SettableFuture<Foo> input = SettableFuture.create();
+    AsyncFunction<Foo, Foo> asyncIdentity = asyncIdentity();
+    ListenableFuture<Foo> transformed =
+        Futures.transformAsync(input, asyncIdentity, REJECTING_EXECUTOR);
     input.set(new Foo());
     try {
       transformed.get(5, TimeUnit.SECONDS);
@@ -1549,10 +1564,27 @@ public class FuturesTest extends TestCase {
     }
   }
 
+  public void testCatching_rejectionPropagatesToOutput() throws Exception {
+    SettableFuture<String> input = SettableFuture.create();
+    ListenableFuture<String> transformed =
+        Futures.catching(input, Throwable.class, constant("foo"), REJECTING_EXECUTOR);
+    input.setException(new Exception());
+    try {
+      transformed.get(5, TimeUnit.SECONDS);
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected.getCause()).isInstanceOf(RejectedExecutionException.class);
+    }
+  }
+
   public void testCatchingAsync_rejectionPropagatesToOutput() throws Exception {
     SettableFuture<String> input = SettableFuture.create();
     ListenableFuture<String> transformed =
-        Futures.catching(input, Throwable.class, Functions.toStringFunction(), REJECTING_EXECUTOR);
+        Futures.catchingAsync(
+            input,
+            Throwable.class,
+            constantAsyncFunction(immediateFuture("foo")),
+            REJECTING_EXECUTOR);
     input.setException(new Exception());
     try {
       transformed.get(5, TimeUnit.SECONDS);
