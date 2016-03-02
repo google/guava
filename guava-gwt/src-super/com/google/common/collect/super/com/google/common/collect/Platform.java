@@ -16,10 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Maps.EntryTransformer;
-
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -27,9 +23,6 @@ import jsinterop.annotations.JsType;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.SortedSet;
 
 /**
  * Minimal GWT emulation of {@code com.google.common.collect.Platform}.
@@ -59,27 +52,6 @@ final class Platform {
 
   static MapMaker tryWeakKeys(MapMaker mapMaker) {
     return mapMaker;
-  }
-
-  static <K, V1, V2> SortedMap<K, V2> mapsTransformEntriesSortedMap(
-      SortedMap<K, V1> fromMap,
-      EntryTransformer<? super K, ? super V1, V2> transformer) {
-    return Maps.transformEntriesIgnoreNavigable(fromMap, transformer);
-  }
-
-  static <K, V> SortedMap<K, V> mapsAsMapSortedSet(
-      SortedSet<K> set, Function<? super K, V> function) {
-    return Maps.asMapSortedIgnoreNavigable(set, function);
-  }
-
-  static <E> SortedSet<E> setsFilterSortedSet(
-      SortedSet<E> unfiltered, Predicate<? super E> predicate) {
-    return Sets.filterSortedIgnoreNavigable(unfiltered, predicate);
-  }
-
-  static <K, V> SortedMap<K, V> mapsFilterSortedMap(
-      SortedMap<K, V> unfiltered, Predicate<? super Map.Entry<K, V>> predicate) {
-    return Maps.filterSortedIgnoreNavigable(unfiltered, predicate);
   }
 
   static <E> Deque<E> newFastestDeque(int ignored) {

@@ -876,11 +876,6 @@ public final class Sets {
    * @since 11.0
    */
   public static <E> SortedSet<E> filter(SortedSet<E> unfiltered, Predicate<? super E> predicate) {
-    return Platform.setsFilterSortedSet(unfiltered, predicate);
-  }
-
-  static <E> SortedSet<E> filterSortedIgnoreNavigable(
-      SortedSet<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredSet) {
       // Support clear(), removeAll(), and retainAll() when filtering a filtered
       // collection.

@@ -696,11 +696,6 @@ public class MapsTest extends TestCase {
     }
   }
 
-  public void testAsMapReturnsSortedMapForSortedSetInput() {
-    Set<String> set = new NonNavigableSortedSet();
-    assertTrue(Maps.asMap(set, Functions.identity()) instanceof SortedMap);
-  }
-
   public void testAsMapSorted() {
     SortedSet<String> strings = new NonNavigableSortedSet();
     Collections.addAll(strings, "one", "two", "three");
@@ -788,12 +783,6 @@ public class MapsTest extends TestCase {
     assertThat(map.entrySet()).isEmpty();
     assertTrue(map.isEmpty());
     assertNull(map.get("five"));
-  }
-
-  @GwtIncompatible // NavigableMap
-  public void testAsMapReturnsNavigableMapForNavigableSetInput() {
-    Set<String> set = Sets.newTreeSet();
-    assertTrue(Maps.asMap(set, Functions.identity()) instanceof NavigableMap);
   }
 
   @GwtIncompatible // NavigableMap
@@ -1552,24 +1541,6 @@ public class MapsTest extends TestCase {
       return Maps.newTreeMap();
     }
 
-    public void testFilterKeysIdentifiesSortedMap() {
-      SortedMap<String, Integer> map = createUnfiltered();
-      assertTrue(Maps.filterKeys((Map<String, Integer>) map, NOT_LENGTH_3)
-          instanceof SortedMap);
-    }
-
-    public void testFilterValuesIdentifiesSortedMap() {
-      SortedMap<String, Integer> map = createUnfiltered();
-      assertTrue(Maps.filterValues((Map<String, Integer>) map, EVEN)
-          instanceof SortedMap);
-    }
-
-    public void testFilterEntriesIdentifiesSortedMap() {
-      SortedMap<String, Integer> map = createUnfiltered();
-      assertTrue(Maps.filterEntries((Map<String, Integer>) map, CORRECT_LENGTH)
-          instanceof SortedMap);
-    }
-
     public void testFirstAndLastKeyFilteredMap() {
       SortedMap<String, Integer> unfiltered = createUnfiltered();
       unfiltered.put("apple", 2);
@@ -1607,24 +1578,6 @@ public class MapsTest extends TestCase {
     BiMap<String, Integer> createUnfiltered() {
       return HashBiMap.create();
     }
-
-    public void testFilterKeysIdentifiesBiMap() {
-      BiMap<String, Integer> map = createUnfiltered();
-      assertTrue(Maps.filterKeys((Map<String, Integer>) map, NOT_LENGTH_3)
-          instanceof BiMap);
-    }
-
-    public void testFilterValuesIdentifiesBiMap() {
-      BiMap<String, Integer> map = createUnfiltered();
-      assertTrue(Maps.filterValues((Map<String, Integer>) map, EVEN)
-          instanceof BiMap);
-    }
-
-    public void testFilterEntriesIdentifiesBiMap() {
-      BiMap<String, Integer> map = createUnfiltered();
-      assertTrue(Maps.filterEntries((Map<String, Integer>) map, CORRECT_LENGTH)
-          instanceof BiMap);
-    }
   }
 
   public void testTransformValues() {
@@ -1632,30 +1585,6 @@ public class MapsTest extends TestCase {
     Map<String, Double> transformed = transformValues(map, SQRT_FUNCTION);
 
     assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
-  }
-
-  public void testTransformValuesSecretlySorted() {
-    Map<String, Integer> map =
-        sortedNotNavigable(ImmutableSortedMap.of("a", 4, "b", 9));
-    Map<String, Double> transformed = transformValues(map, SQRT_FUNCTION);
-
-    assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
-    assertTrue(transformed instanceof SortedMap);
-  }
-
-  @GwtIncompatible // NavigableMap
-  public void testTransformValuesSecretlyNavigable() {
-    Map<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
-    Map<String, Double> transformed;
-
-    transformed = transformValues(map, SQRT_FUNCTION);
-    assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
-    assertTrue(transformed instanceof NavigableMap);
-
-    transformed =
-        transformValues((SortedMap<String, Integer>) map, SQRT_FUNCTION);
-    assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
-    assertTrue(transformed instanceof NavigableMap);
   }
 
   public void testTransformEntries() {
@@ -1670,42 +1599,6 @@ public class MapsTest extends TestCase {
     Map<String, String> transformed = transformEntries(map, concat);
 
     assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
-  }
-
-  public void testTransformEntriesSecretlySorted() {
-    Map<String, String> map = ImmutableSortedMap.of("a", "4", "b", "9");
-    EntryTransformer<String, String, String> concat =
-        new EntryTransformer<String, String, String>() {
-          @Override
-          public String transformEntry(String key, String value) {
-            return key + value;
-          }
-        };
-    Map<String, String> transformed = transformEntries(map, concat);
-
-    assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
-    assertTrue(transformed instanceof SortedMap);
-  }
-
-  @GwtIncompatible // NavigableMap
-  public void testTransformEntriesSecretlyNavigable() {
-    Map<String, String> map = ImmutableSortedMap.of("a", "4", "b", "9");
-    EntryTransformer<String, String, String> concat =
-        new EntryTransformer<String, String, String>() {
-          @Override
-          public String transformEntry(String key, String value) {
-            return key + value;
-          }
-        };
-    Map<String, String> transformed;
-
-    transformed = transformEntries(map, concat);
-    assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
-    assertTrue(transformed instanceof NavigableMap);
-
-    transformed = transformEntries((SortedMap<String, String>) map, concat);
-    assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
-    assertTrue(transformed instanceof NavigableMap);
   }
 
   @SuppressWarnings("unused")
