@@ -96,14 +96,13 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
 
     void assertPermitted(RuntimeException exception) {
       if (!isPermitted(exception)) {
-        // TODO: use simple class names
-        String message = "Exception " + exception.getClass() + " was thrown; expected " + this;
+        String message =
+            "Exception "
+                + exception.getClass().getSimpleName()
+                + " was thrown; expected "
+                + getMessage();
         Helpers.fail(exception, message);
       }
-    }
-
-    @Override public String toString() {
-      return getMessage();
     }
 
     private static final long serialVersionUID = 0;
