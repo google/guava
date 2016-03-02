@@ -480,7 +480,7 @@
 <span class="sourceLineNo">472</span>      Arrays.fill(decodabet, (byte) -1);<a name="line.472"></a>
 <span class="sourceLineNo">473</span>      for (int i = 0; i &lt; chars.length; i++) {<a name="line.473"></a>
 <span class="sourceLineNo">474</span>        char c = chars[i];<a name="line.474"></a>
-<span class="sourceLineNo">475</span>        checkArgument(CharMatcher.ASCII.matches(c), "Non-ASCII character: %s", c);<a name="line.475"></a>
+<span class="sourceLineNo">475</span>        checkArgument(CharMatcher.ascii().matches(c), "Non-ASCII character: %s", c);<a name="line.475"></a>
 <span class="sourceLineNo">476</span>        checkArgument(decodabet[c] == -1, "Duplicate character: %s", c);<a name="line.476"></a>
 <span class="sourceLineNo">477</span>        decodabet[c] = (byte) i;<a name="line.477"></a>
 <span class="sourceLineNo">478</span>      }<a name="line.478"></a>
@@ -509,7 +509,7 @@
 <span class="sourceLineNo">501</span>      if (ch &gt; Ascii.MAX || decodabet[ch] == -1) {<a name="line.501"></a>
 <span class="sourceLineNo">502</span>        throw new DecodingException(<a name="line.502"></a>
 <span class="sourceLineNo">503</span>            "Unrecognized character: "<a name="line.503"></a>
-<span class="sourceLineNo">504</span>                + (CharMatcher.INVISIBLE.matches(ch) ? "0x" + Integer.toHexString(ch) : ch));<a name="line.504"></a>
+<span class="sourceLineNo">504</span>                + (CharMatcher.invisible().matches(ch) ? "0x" + Integer.toHexString(ch) : ch));<a name="line.504"></a>
 <span class="sourceLineNo">505</span>      }<a name="line.505"></a>
 <span class="sourceLineNo">506</span>      return decodabet[ch];<a name="line.506"></a>
 <span class="sourceLineNo">507</span>    }<a name="line.507"></a>
@@ -560,7 +560,7 @@
 <span class="sourceLineNo">552</span><a name="line.552"></a>
 <span class="sourceLineNo">553</span>    @Override<a name="line.553"></a>
 <span class="sourceLineNo">554</span>    public boolean matches(char c) {<a name="line.554"></a>
-<span class="sourceLineNo">555</span>      return CharMatcher.ASCII.matches(c) &amp;&amp; decodabet[c] != -1;<a name="line.555"></a>
+<span class="sourceLineNo">555</span>      return CharMatcher.ascii().matches(c) &amp;&amp; decodabet[c] != -1;<a name="line.555"></a>
 <span class="sourceLineNo">556</span>    }<a name="line.556"></a>
 <span class="sourceLineNo">557</span><a name="line.557"></a>
 <span class="sourceLineNo">558</span>    @Override<a name="line.558"></a>
@@ -604,7 +604,7 @@
 <span class="sourceLineNo">596</span><a name="line.596"></a>
 <span class="sourceLineNo">597</span>    @Override<a name="line.597"></a>
 <span class="sourceLineNo">598</span>    CharMatcher padding() {<a name="line.598"></a>
-<span class="sourceLineNo">599</span>      return (paddingChar == null) ? CharMatcher.NONE : CharMatcher.is(paddingChar.charValue());<a name="line.599"></a>
+<span class="sourceLineNo">599</span>      return (paddingChar == null) ? CharMatcher.none() : CharMatcher.is(paddingChar.charValue());<a name="line.599"></a>
 <span class="sourceLineNo">600</span>    }<a name="line.600"></a>
 <span class="sourceLineNo">601</span><a name="line.601"></a>
 <span class="sourceLineNo">602</span>    @Override<a name="line.602"></a>

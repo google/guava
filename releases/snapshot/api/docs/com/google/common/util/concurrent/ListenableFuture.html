@@ -100,7 +100,7 @@
 <hr>
 <br>
 <pre><a href="../../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.83">ListenableFuture</a>&lt;V&gt;
+public interface <a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.90">ListenableFuture</a>&lt;V&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</pre>
 <div class="block">A <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent"><code>Future</code></a> that accepts completion listeners. Each listener has an associated executor, and
  it is invoked using this executor once the future's computation is <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent">complete</a>. If the computation has already completed when the listener is added, the listener will
@@ -112,14 +112,21 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/F
 
  <h3>Purpose</h3>
 
- <p>Most commonly, <code>ListenableFuture</code> is used as an input to another derived <code>Future</code>,
- as in <a href="../../../../../com/google/common/util/concurrent/Futures.html#allAsList(java.lang.Iterable)"><code>Futures.allAsList</code></a>. Many such methods are impossible to
- implement efficiently without listener support.
+ <p>The main purpose of <code>ListenableFuture</code> is to help you chain together a graph of
+ asynchronous operations. You can chain them together manually with calls to methods like
+ <a href="../../../../../com/google/common/util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.base.Function,%20java.util.concurrent.Executor)"><code>Futures.transform</code></a>, but you will
+ often find it easier to use a framework. Frameworks automate the process, often adding features
+ like monitoring, debugging, and cancellation. Examples of frameworks include:
 
- <p>It is possible to call <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener(java.lang.Runnable,%20java.util.concurrent.Executor)"><code>addListener</code></a> directly, but this is uncommon because
- the <code>Runnable</code> interface does not provide direct access to the <code>Future</code> result.
- (Users who want such access may prefer <a href="../../../../../com/google/common/util/concurrent/Futures.html#addCallback(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.FutureCallback)"><code>Futures.addCallback</code></a>.) Still,
- direct <code>addListener</code> calls are occasionally useful:<pre>   <code>final String name = ...;
+ <ul>
+ <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ </ul>
+
+ <p>The main purpose of <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener(java.lang.Runnable,%20java.util.concurrent.Executor)"><code>addListener</code></a> is to support this chaining. You will
+ rarely use it directly, in part because it does not provide direct access to the <code>Future</code>
+ result. (If you want such access, you may prefer <a href="../../../../../com/google/common/util/concurrent/Futures.html#addCallback(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.util.concurrent.FutureCallback)"><code>Futures.addCallback</code></a>.) Still, direct <code>addListener</code> calls are occasionally useful:
+
+ <pre>   <code>final String name = ...;
    inFlight.add(name);
    ListenableFuture&lt;Result&gt; future = service.query(name);
    future.addListener(new Runnable() {
@@ -133,16 +140,16 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/F
 
  <h3>How to get an instance</h3>
 
- <p>Developers are encouraged to return <code>ListenableFuture</code> from their methods so that users
- can take advantages of the <a href="../../../../../com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">utilities built atop the class</a>. The way that they
- will create <code>ListenableFuture</code> instances depends on how they currently create <code>Future</code> instances:
+ <p>We encourage you to return <code>ListenableFuture</code> from your methods so that your users can
+ take advantage of the <a href="../../../../../com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">utilities built atop the class</a>. The way that you will
+ create <code>ListenableFuture</code> instances depends on how you currently create <code>Future</code>
+ instances:
  <ul>
- <li>If they are returned from an <code>ExecutorService</code>, convert that service to a
+ <li>If you receive them from an <code>ExecutorService</code>, convert that service to a
      <a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent"><code>ListeningExecutorService</code></a>, usually by calling
      <a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#listeningDecorator(java.util.concurrent.ExecutorService)"><code>MoreExecutors.listeningDecorator</code></a>.
-     (Custom executors may find it more convenient to use <a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> directly.)
- <li>If they are manually filled in by a call to <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/FutureTask.html?is-external=true#set(V)" title="class or interface in java.util.concurrent"><code>FutureTask.set(V)</code></a> or a similar method,
-     create a <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="class in com.google.common.util.concurrent"><code>SettableFuture</code></a> instead. (Users with more complex needs may prefer
+ <li>If you manually call <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/FutureTask.html?is-external=true#set(V)" title="class or interface in java.util.concurrent"><code>FutureTask.set(V)</code></a> or a similar method, create a
+     <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="class in com.google.common.util.concurrent"><code>SettableFuture</code></a> instead. (If your needs are more complex, you may prefer
      <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a>.)
  </ul>
 
@@ -205,7 +212,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/F
 <ul class="blockListLast">
 <li class="blockList">
 <h4>addListener</h4>
-<pre>void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.125">addListener</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
+<pre>void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListenableFuture.html#line.132">addListener</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
                <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">run</a> on the given executor.
  The listener will run when the <code>Future</code>'s computation is <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent">complete</a> or, if the computation is already complete, immediately.

@@ -923,7 +923,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.772">asMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;K&gt;&nbsp;set,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.768">asMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;K&gt;&nbsp;set,
                          <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super K,V&gt;&nbsp;function)</pre>
 <div class="block">Returns a view of the sorted set as a map, mapping keys from the set
  according to the specified function.
@@ -957,7 +957,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/colle
 <li class="blockList">
 <h4>asMap</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.808">asMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;&nbsp;set,
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.799">asMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;&nbsp;set,
                                             <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super K,V&gt;&nbsp;function)</pre>
 <div class="block">Returns a view of the navigable set as a map, mapping keys from the set
  according to the specified function.
@@ -990,7 +990,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>toMap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1157">toMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;K&gt;&nbsp;keys,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1148">toMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;K&gt;&nbsp;keys,
                             <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super K,V&gt;&nbsp;valueFunction)</pre>
 <div class="block">Returns an immutable map whose keys are the distinct elements of <code>keys</code> and whose value for each key was computed by <code>valueFunction</code>.
  The map's iteration order is the order of the first appearance of each key
@@ -1016,7 +1016,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>toMap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1178">toMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;K&gt;&nbsp;keys,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1169">toMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;K&gt;&nbsp;keys,
                             <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super K,V&gt;&nbsp;valueFunction)</pre>
 <div class="block">Returns an immutable map whose keys are the distinct elements of <code>keys</code> and whose value for each key was computed by <code>valueFunction</code>.
  The map's iteration order is the order of the first appearance of each key
@@ -1039,7 +1039,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>uniqueIndex</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1218">uniqueIndex</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;V&gt;&nbsp;values,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1209">uniqueIndex</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;V&gt;&nbsp;values,
                                   <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V,K&gt;&nbsp;keyFunction)</pre>
 <div class="block">Returns a map with the given <code>values</code>, indexed by keys derived from
  those values. In other words, each input value produces an entry in the map
@@ -1069,7 +1069,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>uniqueIndex</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1253">uniqueIndex</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;V&gt;&nbsp;values,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1244">uniqueIndex</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;V&gt;&nbsp;values,
                                   <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V,K&gt;&nbsp;keyFunction)</pre>
 <div class="block">Returns a map with the given <code>values</code>, indexed by keys derived from
  those values. In other words, each input value produces an entry in the map
@@ -1101,7 +1101,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <li class="blockList">
 <h4>fromProperties</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1284">fromProperties</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;properties)</pre>
+public static&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1275">fromProperties</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;properties)</pre>
 <div class="block">Creates an <code>ImmutableMap&lt;String, String&gt;</code> from a <code>Properties</code>
  instance. Properties normally derive from <code>Map&lt;Object, Object&gt;</code>, but
  they typically contain strings, which is awkward. This method lets you get
@@ -1123,7 +1123,7 @@ public static&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.h
 <li class="blockList">
 <h4>immutableEntry</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1305">immutableEntry</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1296">immutableEntry</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                                             K&nbsp;key,
                                                             <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                                             V&nbsp;value)</pre>
@@ -1140,7 +1140,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <li class="blockList">
 <h4>asConverter</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;A,B&gt;&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;A,B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1423">asConverter</a>(<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;A,B&gt;&nbsp;bimap)</pre>
+public static&nbsp;&lt;A,B&gt;&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;A,B&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1414">asConverter</a>(<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;A,B&gt;&nbsp;bimap)</pre>
 <div class="block">Returns a <a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base"><code>Converter</code></a> that converts values using <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true#get(java.lang.Object)" title="class or interface in java.util"><code>bimap.get()</code></a>,
  and whose inverse view converts values using
  <a href="../../../../com/google/common/collect/BiMap.html#inverse()"><code>bimap.inverse()</code></a><code>.get()</code>.
@@ -1158,7 +1158,7 @@ public static&nbsp;&lt;A,B&gt;&nbsp;<a href="../../../../com/google/common/base/
 <ul class="blockList">
 <li class="blockList">
 <h4>synchronizedBiMap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1501">synchronizedBiMap</a>(<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;bimap)</pre>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1492">synchronizedBiMap</a>(<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;bimap)</pre>
 <div class="block">Returns a synchronized (thread-safe) bimap backed by the specified bimap.
  In order to guarantee serial access, it is critical that <b>all</b> access
  to the backing bimap is accomplished through the returned bimap.
@@ -1190,7 +1190,7 @@ public static&nbsp;&lt;A,B&gt;&nbsp;<a href="../../../../com/google/common/base/
 <ul class="blockList">
 <li class="blockList">
 <h4>unmodifiableBiMap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1518">unmodifiableBiMap</a>(<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;? extends K,? extends V&gt;&nbsp;bimap)</pre>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1509">unmodifiableBiMap</a>(<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;? extends K,? extends V&gt;&nbsp;bimap)</pre>
 <div class="block">Returns an unmodifiable view of the specified bimap. This method allows
  modules to provide users with "read-only" access to internal bimaps. Query
  operations on the returned bimap "read through" to the specified bimap, and
@@ -1209,7 +1209,7 @@ public static&nbsp;&lt;A,B&gt;&nbsp;<a href="../../../../com/google/common/base/
 <ul class="blockList">
 <li class="blockList">
 <h4>transformValues</h4>
-<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1601">transformValues</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V1&gt;&nbsp;fromMap,
+<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1592">transformValues</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V1&gt;&nbsp;fromMap,
                                   <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V1,V2&gt;&nbsp;function)</pre>
 <div class="block">Returns a view of a map where each value is transformed by a function. All
  other properties of the map, such as iteration order, are left intact. For
@@ -1251,7 +1251,7 @@ public static&nbsp;&lt;A,B&gt;&nbsp;<a href="../../../../com/google/common/base/
 <ul class="blockList">
 <li class="blockList">
 <h4>transformValues</h4>
-<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1645">transformValues</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V1&gt;&nbsp;fromMap,
+<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1636">transformValues</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V1&gt;&nbsp;fromMap,
                                         <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V1,V2&gt;&nbsp;function)</pre>
 <div class="block">Returns a view of a sorted map where each value is transformed by a
  function. All other properties of the map, such as iteration order, are
@@ -1297,7 +1297,7 @@ public static&nbsp;&lt;A,B&gt;&nbsp;<a href="../../../../com/google/common/base/
 <li class="blockList">
 <h4>transformValues</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1692">transformValues</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V1&gt;&nbsp;fromMap,
+public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1683">transformValues</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V1&gt;&nbsp;fromMap,
                                                            <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V1,V2&gt;&nbsp;function)</pre>
 <div class="block">Returns a view of a navigable map where each value is transformed by a
  function. All other properties of the map, such as iteration order, are
@@ -1344,7 +1344,7 @@ public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7
 <ul class="blockList">
 <li class="blockList">
 <h4>transformEntries</h4>
-<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1748">transformEntries</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V1&gt;&nbsp;fromMap,
+<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1739">transformEntries</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V1&gt;&nbsp;fromMap,
                                    <a href="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect">Maps.EntryTransformer</a>&lt;? super K,? super V1,V2&gt;&nbsp;transformer)</pre>
 <div class="block">Returns a view of a map whose values are derived from the original map's
  entries. In contrast to <a href="../../../../com/google/common/collect/Maps.html#transformValues(java.util.Map,%20com.google.common.base.Function)"><code>transformValues(java.util.Map&lt;K, V1&gt;, com.google.common.base.Function&lt;? super V1, V2&gt;)</code></a>, this method's
@@ -1398,7 +1398,7 @@ public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7
 <ul class="blockList">
 <li class="blockList">
 <h4>transformEntries</h4>
-<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1808">transformEntries</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V1&gt;&nbsp;fromMap,
+<pre>public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1796">transformEntries</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V1&gt;&nbsp;fromMap,
                                          <a href="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect">Maps.EntryTransformer</a>&lt;? super K,? super V1,V2&gt;&nbsp;transformer)</pre>
 <div class="block">Returns a view of a sorted map whose values are derived from the original
  sorted map's entries. In contrast to <a href="../../../../com/google/common/collect/Maps.html#transformValues(java.util.Map,%20com.google.common.base.Function)"><code>transformValues(java.util.Map&lt;K, V1&gt;, com.google.common.base.Function&lt;? super V1, V2&gt;)</code></a>, this
@@ -1454,7 +1454,7 @@ public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7
 <li class="blockList">
 <h4>transformEntries</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1867">transformEntries</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V1&gt;&nbsp;fromMap,
+public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V2&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.1855">transformEntries</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V1&gt;&nbsp;fromMap,
                                                             <a href="../../../../com/google/common/collect/Maps.EntryTransformer.html" title="interface in com.google.common.collect">Maps.EntryTransformer</a>&lt;? super K,? super V1,V2&gt;&nbsp;transformer)</pre>
 <div class="block">Returns a view of a navigable map whose values are derived from the
  original navigable map's entries. In contrast to <a href="../../../../com/google/common/collect/Maps.html#transformValues(java.util.Map,%20com.google.common.base.Function)"><code>transformValues(java.util.Map&lt;K, V1&gt;, com.google.common.base.Function&lt;? super V1, V2&gt;)</code></a>, this method's entry-transformation logic may
@@ -1509,7 +1509,7 @@ public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7
 <ul class="blockList">
 <li class="blockList">
 <h4>filterKeys</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2248">filterKeys</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2231">filterKeys</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;unfiltered,
                         <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</pre>
 <div class="block">Returns a map containing the mappings in <code>unfiltered</code> whose keys
  satisfy a predicate. The returned map is a live view of <code>unfiltered</code>;
@@ -1543,7 +1543,7 @@ public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7
 <ul class="blockList">
 <li class="blockList">
 <h4>filterKeys</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2292">filterKeys</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2270">filterKeys</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                               <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</pre>
 <div class="block">Returns a sorted map containing the mappings in <code>unfiltered</code> whose
  keys satisfy a predicate. The returned map is a live view of <code>unfiltered</code>; changes to one affect the other.
@@ -1579,7 +1579,7 @@ public static&nbsp;&lt;K,V1,V2&gt;&nbsp;<a href="http://docs.oracle.com/javase/7
 <li class="blockList">
 <h4>filterKeys</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2330">filterKeys</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;unfiltered,
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2308">filterKeys</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                  <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</pre>
 <div class="block">Returns a navigable map containing the mappings in <code>unfiltered</code> whose
  keys satisfy a predicate. The returned map is a live view of <code>unfiltered</code>; changes to one affect the other.
@@ -1614,7 +1614,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>filterKeys</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2362">filterKeys</a>(<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2340">filterKeys</a>(<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                           <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</pre>
 <div class="block">Returns a bimap containing the mappings in <code>unfiltered</code> whose keys satisfy a predicate.
  The returned bimap is a live view of <code>unfiltered</code>; changes to one affect the other.
@@ -1645,7 +1645,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>filterValues</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2397">filterValues</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2375">filterValues</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;unfiltered,
                           <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super V&gt;&nbsp;valuePredicate)</pre>
 <div class="block">Returns a map containing the mappings in <code>unfiltered</code> whose values
  satisfy a predicate. The returned map is a live view of <code>unfiltered</code>;
@@ -1678,7 +1678,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>filterValues</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2438">filterValues</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2411">filterValues</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                 <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super V&gt;&nbsp;valuePredicate)</pre>
 <div class="block">Returns a sorted map containing the mappings in <code>unfiltered</code> whose
  values satisfy a predicate. The returned map is a live view of <code>unfiltered</code>; changes to one affect the other.
@@ -1713,7 +1713,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <li class="blockList">
 <h4>filterValues</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2475">filterValues</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;unfiltered,
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2448">filterValues</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                    <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super V&gt;&nbsp;valuePredicate)</pre>
 <div class="block">Returns a navigable map containing the mappings in <code>unfiltered</code> whose
  values satisfy a predicate. The returned map is a live view of <code>unfiltered</code>; changes to one affect the other.
@@ -1747,7 +1747,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>filterValues</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2508">filterValues</a>(<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2481">filterValues</a>(<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                             <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super V&gt;&nbsp;valuePredicate)</pre>
 <div class="block">Returns a bimap containing the mappings in <code>unfiltered</code> whose values satisfy a
  predicate. The returned bimap is a live view of <code>unfiltered</code>; changes to one affect the
@@ -1782,7 +1782,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>filterEntries</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2542">filterEntries</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2515">filterEntries</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;unfiltered,
                            <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;&nbsp;entryPredicate)</pre>
 <div class="block">Returns a map containing the mappings in <code>unfiltered</code> that satisfy a
  predicate. The returned map is a live view of <code>unfiltered</code>; changes
@@ -1817,7 +1817,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>filterEntries</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2586">filterEntries</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2554">filterEntries</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                  <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;&nbsp;entryPredicate)</pre>
 <div class="block">Returns a sorted map containing the mappings in <code>unfiltered</code> that
  satisfy a predicate. The returned map is a live view of <code>unfiltered</code>;
@@ -1855,7 +1855,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <li class="blockList">
 <h4>filterEntries</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2631">filterEntries</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;unfiltered,
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2594">filterEntries</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                                                     <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;&nbsp;entryPredicate)</pre>
 <div class="block">Returns a sorted map containing the mappings in <code>unfiltered</code> that
  satisfy a predicate. The returned map is a live view of <code>unfiltered</code>;
@@ -1892,7 +1892,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>filterEntries</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2666">filterEntries</a>(<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;unfiltered,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.2629">filterEntries</a>(<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                              <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;&nbsp;entryPredicate)</pre>
 <div class="block">Returns a bimap containing the mappings in <code>unfiltered</code> that satisfy a predicate. The
  returned bimap is a live view of <code>unfiltered</code>; changes to one affect the other.
@@ -1928,7 +1928,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <li class="blockList">
 <h4>unmodifiableNavigableMap</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.3239">unmodifiableNavigableMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;map)</pre>
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.3202">unmodifiableNavigableMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;map)</pre>
 <div class="block">Returns an unmodifiable view of the specified navigable map. Query operations on the returned
  map read through to the specified map, and attempts to modify the returned map, whether direct
  or via its views, result in an <code>UnsupportedOperationException</code>.
@@ -1947,7 +1947,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <li class="blockList">
 <h4>synchronizedNavigableMap</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.3440">synchronizedNavigableMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;navigableMap)</pre>
+public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.3403">synchronizedNavigableMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;navigableMap)</pre>
 <div class="block">Returns a synchronized (thread-safe) navigable map backed by the specified
  navigable map.  In order to guarantee serial access, it is critical that
  <b>all</b> access to the backing navigable map is accomplished
@@ -1999,7 +1999,7 @@ public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/doc
 <h4>subMap</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super K&gt;,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.4202">subMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;map,
+public static&nbsp;&lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super K&gt;,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.4165">subMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;map,
                                                                                 <a href="../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range)</pre>
 <div class="block">Returns a view of the portion of <code>map</code> whose keys are contained by <code>range</code>.
 
