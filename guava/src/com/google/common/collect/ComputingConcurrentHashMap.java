@@ -177,15 +177,12 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
         ReferenceEntry<K, V> e,
         ComputingValueReference<K, V> computingValueReference) throws ExecutionException {
       V value = null;
-      long start = System.nanoTime();
-      long end = 0;
       try {
         // Synchronizes on the entry to allow failing fast when a recursive computation is
         // detected. This is not fool-proof since the entry may be copied when the segment
         // is written to.
         synchronized (e) {
           value = computingValueReference.compute(key, hash);
-          end = System.nanoTime();
         }
         if (value != null) {
           // putIfAbsent
@@ -197,9 +194,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
         }
         return value;
       } finally {
-        if (end == 0) {
-          end = System.nanoTime();
-        }
         if (value == null) {
           clearValue(key, hash, computingValueReference);
         }
