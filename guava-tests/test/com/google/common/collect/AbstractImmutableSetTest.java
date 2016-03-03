@@ -226,7 +226,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   public void testCopyOf_plainIterable_iteratesOnce() {
     CountingIterable iterable = new CountingIterable();
-    copyOf(iterable);
+    Set<String> unused = copyOf(iterable);
     assertEquals(1, iterable.count);
   }
 

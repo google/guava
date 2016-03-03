@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -64,6 +65,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
     return delegate().size();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean removeAll(Collection<?> collection) {
     return delegate().removeAll(collection);
@@ -79,11 +81,13 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
     return delegate().contains(object);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean add(E element) {
     return delegate().add(element);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean remove(Object object) {
     return delegate().remove(object);
@@ -94,11 +98,13 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
     return delegate().containsAll(collection);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean addAll(Collection<? extends E> collection) {
     return delegate().addAll(collection);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean retainAll(Collection<?> collection) {
     return delegate().retainAll(collection);
@@ -114,6 +120,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
     return delegate().toArray();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public <T> T[] toArray(T[] array) {
     return delegate().toArray(array);

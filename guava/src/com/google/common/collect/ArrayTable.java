@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
@@ -333,6 +334,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    *     or {@code columnIndex} is greater then or equal to the number of
    *     allowed column keys
    */
+  @CanIgnoreReturnValue
   public V set(int rowIndex, int columnIndex, @Nullable V value) {
     // In GWT array access never throws IndexOutOfBoundsException.
     checkElementIndex(rowIndex, rowList.size());
@@ -446,6 +448,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    * @throws IllegalArgumentException if {@code rowKey} is not in {@link
    *     #rowKeySet()} or {@code columnKey} is not in {@link #columnKeySet()}.
    */
+  @CanIgnoreReturnValue
   @Override
   public V put(R rowKey, C columnKey, @Nullable V value) {
     checkNotNull(rowKey);
@@ -484,6 +487,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link #erase}
    */
+  @CanIgnoreReturnValue
   @Override
   @Deprecated
   public V remove(Object rowKey, Object columnKey) {
@@ -503,6 +507,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    * @return the value previously associated with the keys, or {@code null} if
    *     no mapping existed for the keys
    */
+  @CanIgnoreReturnValue
   public V erase(@Nullable Object rowKey, @Nullable Object columnKey) {
     Integer rowIndex = rowKeyToIndex.get(rowKey);
     Integer columnIndex = columnKeyToIndex.get(columnKey);

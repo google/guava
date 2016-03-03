@@ -23,6 +23,7 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
@@ -72,6 +73,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
   /**
    * Returns its input, or throws an exception if this is not a valid key.
    */
+  @CanIgnoreReturnValue
   K checkKey(@Nullable K key) {
     return key;
   }
@@ -79,6 +81,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
   /**
    * Returns its input, or throws an exception if this is not a valid value.
    */
+  @CanIgnoreReturnValue
   V checkValue(@Nullable V value) {
     return value;
   }
@@ -110,11 +113,13 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   // Modification Operations
 
+  @CanIgnoreReturnValue
   @Override
   public V put(@Nullable K key, @Nullable V value) {
     return putInBothMaps(key, value, false);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V forcePut(@Nullable K key, @Nullable V value) {
     return putInBothMaps(key, value, true);
@@ -144,11 +149,13 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     inverse.delegate.put(newValue, key);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V remove(@Nullable Object key) {
     return containsKey(key) ? removeFromBothMaps(key) : null;
   }
 
+  @CanIgnoreReturnValue
   private V removeFromBothMaps(Object key) {
     V oldValue = delegate.remove(key);
     removeFromInverseMap(oldValue);

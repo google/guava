@@ -26,6 +26,7 @@ import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMaker.RemovalListener;
 import com.google.common.collect.MapMaker.RemovalNotification;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 
@@ -72,6 +73,7 @@ import javax.annotation.concurrent.GuardedBy;
  * @author Charles Fry
  * @author Doug Lea ({@code ConcurrentHashMap})
  */
+// TODO(kak/cpovirk): Consider removing @CanIgnoreReturnValue from this class.
 @GwtIncompatible
 class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     implements ConcurrentMap<K, V>, Serializable {
@@ -2741,6 +2743,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       }
     }
 
+    @CanIgnoreReturnValue
     V remove(Object key, int hash) {
       lock();
       try {
@@ -2902,6 +2905,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     /**
      * Removes an entry whose key has been garbage collected.
      */
+    @CanIgnoreReturnValue
     boolean reclaimKey(ReferenceEntry<K, V> entry, int hash) {
       lock();
       try {
@@ -2933,6 +2937,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     /**
      * Removes an entry whose value has been garbage collected.
      */
+    @CanIgnoreReturnValue
     boolean reclaimValue(K key, int hash, ValueReference<K, V> valueReference) {
       lock();
       try {
@@ -2972,6 +2977,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     /**
      * Clears a value that has not yet been set, and thus does not require count to be modified.
      */
+    @CanIgnoreReturnValue
     boolean clearValue(K key, int hash, ValueReference<K, V> valueReference) {
       lock();
       try {
@@ -3001,6 +3007,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       }
     }
 
+    @CanIgnoreReturnValue
     @GuardedBy("this")
     boolean removeEntry(ReferenceEntry<K, V> entry, int hash, RemovalCause cause) {
       int newCount = this.count - 1;
@@ -3183,6 +3190,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       return next;
     }
 
+    @CanIgnoreReturnValue
     @Override
     @SuppressWarnings("unchecked")
     public boolean remove(Object o) {
@@ -3320,6 +3328,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       return next;
     }
 
+    @CanIgnoreReturnValue
     @Override
     @SuppressWarnings("unchecked")
     public boolean remove(Object o) {
@@ -3510,6 +3519,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     return false;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V put(K key, V value) {
     checkNotNull(key);
@@ -3518,6 +3528,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     return segmentFor(hash).put(key, hash, value, false);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V putIfAbsent(K key, V value) {
     checkNotNull(key);
@@ -3533,6 +3544,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     }
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V remove(@Nullable Object key) {
     if (key == null) {
@@ -3542,6 +3554,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     return segmentFor(hash).remove(key, hash);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean remove(@Nullable Object key, @Nullable Object value) {
     if (key == null || value == null) {
@@ -3551,6 +3564,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     return segmentFor(hash).remove(key, hash, value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean replace(K key, @Nullable V oldValue, V newValue) {
     checkNotNull(key);
@@ -3562,6 +3576,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     return segmentFor(hash).replace(key, hash, oldValue, newValue);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V replace(K key, V value) {
     checkNotNull(key);

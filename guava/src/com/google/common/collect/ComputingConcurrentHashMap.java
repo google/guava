@@ -22,6 +22,7 @@ import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMaker.RemovalListener;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -63,6 +64,7 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
     return (ComputingSegment<K, V>) super.segmentFor(hash);
   }
 
+  @CanIgnoreReturnValue
   V getOrCompute(K key) throws ExecutionException {
     int hash = hash(checkNotNull(key));
     return segmentFor(hash).getOrCompute(key, hash, computingFunction);

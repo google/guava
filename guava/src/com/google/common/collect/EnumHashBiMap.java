@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -86,11 +87,13 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
     return checkNotNull(key);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V put(K key, @Nullable V value) {
     return super.put(key, value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V forcePut(K key, @Nullable V value) {
     return super.forcePut(key, value);

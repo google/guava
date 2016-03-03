@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
@@ -253,11 +254,13 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     return Maps.valueOrNull(seekByKey(key, smearedHash(key)));
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V put(@Nullable K key, @Nullable V value) {
     return put(key, value, false);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V forcePut(@Nullable K key, @Nullable V value) {
     return put(key, value, true);
@@ -356,6 +359,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     return new BiEntry[length];
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V remove(@Nullable Object key) {
     BiEntry<K, V> entry = seekByKey(key, smearedHash(key));

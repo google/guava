@@ -23,6 +23,7 @@ import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
@@ -216,6 +217,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    * nextSibling} is null. Note: if {@code nextSibling} is specified, it MUST be
    * for an node for the same {@code key}!
    */
+  @CanIgnoreReturnValue
   private Node<K, V> addNode(@Nullable K key, @Nullable V value, @Nullable Node<K, V> nextSibling) {
     Node<K, V> node = new Node<K, V>(key, value);
     if (head == null) { // empty list
@@ -350,6 +352,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
       return next != null;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Node<K, V> next() {
       checkForConcurrentModification();
@@ -381,6 +384,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
       return previous != null;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public Node<K, V> previous() {
       checkForConcurrentModification();
@@ -507,6 +511,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
       return next != null;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public V next() {
       checkElement(next);
@@ -521,6 +526,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
       return previous != null;
     }
 
+    @CanIgnoreReturnValue
     @Override
     public V previous() {
       checkElement(previous);
@@ -599,6 +605,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    * @param value value to store in the multimap
    * @return {@code true} always
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean put(@Nullable K key, @Nullable V value) {
     addNode(key, value, null);
@@ -617,6 +624,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    * <p>The returned list is immutable and implements
    * {@link java.util.RandomAccess}.
    */
+  @CanIgnoreReturnValue
   @Override
   public List<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
     List<V> oldValues = getCopy(key);
@@ -653,6 +661,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    * <p>The returned list is immutable and implements
    * {@link java.util.RandomAccess}.
    */
+  @CanIgnoreReturnValue
   @Override
   public List<V> removeAll(@Nullable Object key) {
     List<V> oldValues = getCopy(key);

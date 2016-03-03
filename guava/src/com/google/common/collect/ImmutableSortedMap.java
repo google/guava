@@ -24,6 +24,7 @@ import static com.google.common.collect.Maps.keyOrNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap.Builder;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Arrays;
@@ -422,6 +423,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
      * keys, according to the comparator (which might be the keys' natural
      * order), are not allowed, and will cause {@link #build} to fail.
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(K key, V value) {
       super.put(key, value);
@@ -436,6 +438,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
      *
      * @since 11.0
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
       super.put(entry);
@@ -449,6 +452,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
      *
      * @throws NullPointerException if any key or value in {@code map} is null
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
       super.putAll(map);
@@ -463,6 +467,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
      * @throws NullPointerException if any key, value, or entry is null
      * @since 19.0
      */
+    @CanIgnoreReturnValue
     @Beta
     @Override
     public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
@@ -476,6 +481,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
      * @since 19.0
      * @deprecated Unsupported by ImmutableSortedMap.Builder.
      */
+    @CanIgnoreReturnValue
     @Beta
     @Override
     @Deprecated
@@ -792,6 +798,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final Entry<K, V> pollFirstEntry() {
@@ -804,6 +811,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final Entry<K, V> pollLastEntry() {

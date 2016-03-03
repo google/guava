@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.Collection;
@@ -158,6 +159,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
       throw new IllegalArgumentException("Key does not satisfy predicate: " + key);
     }
 
+    @CanIgnoreReturnValue
     @Override
     public boolean addAll(int index, Collection<? extends V> elements) {
       checkNotNull(elements);

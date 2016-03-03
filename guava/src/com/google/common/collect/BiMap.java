@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Map;
 import java.util.Set;
@@ -47,6 +48,7 @@ public interface BiMap<K, V> extends Map<K, V> {
    *     different key in this bimap. The bimap will remain unmodified in this
    *     event. To avoid this exception, call {@link #forcePut} instead.
    */
+  @CanIgnoreReturnValue
   @Override
   @Nullable
   V put(@Nullable K key, @Nullable V value);
@@ -68,6 +70,7 @@ public interface BiMap<K, V> extends Map<K, V> {
    * @return the value which was previously associated with the key, which may
    *     be {@code null}, or {@code null} if there was no previous entry
    */
+  @CanIgnoreReturnValue
   @Nullable
   V forcePut(@Nullable K key, @Nullable V value);
 

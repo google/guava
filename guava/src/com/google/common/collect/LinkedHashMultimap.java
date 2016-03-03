@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
@@ -269,6 +270,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
    * However, the provided values always come last in the {@link #entries()} and
    * {@link #values()} iteration orderings.
    */
+  @CanIgnoreReturnValue
   @Override
   public Set<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
     return super.replaceValues(key, values);
@@ -457,6 +459,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
       }
     }
 
+    @CanIgnoreReturnValue
     @Override
     public boolean remove(@Nullable Object o) {
       int smearedHash = Hashing.smearedHash(o);

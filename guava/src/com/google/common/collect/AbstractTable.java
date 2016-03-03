@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.AbstractCollection;
@@ -86,12 +87,14 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     Iterators.clear(cellSet().iterator());
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
     Map<C, V> row = Maps.safeGet(rowMap(), rowKey);
     return (row == null) ? null : Maps.safeRemove(row, columnKey);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V put(R rowKey, C columnKey, V value) {
     return row(rowKey).put(columnKey, value);

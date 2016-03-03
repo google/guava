@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.SortedLists.KeyAbsentBehavior;
 import com.google.common.collect.SortedLists.KeyPresentBehavior;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -626,6 +627,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
      * @throws IllegalArgumentException if {@code range} is empty or has nonempty intersection with
      *         any ranges already added to the builder
      */
+    @CanIgnoreReturnValue
     public Builder<C> add(Range<C> range) {
       if (range.isEmpty()) {
         throw new IllegalArgumentException("range must not be empty, but was " + range);
@@ -647,6 +649,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
      * Add all ranges from the specified range set to this builder. Duplicate or connected ranges
      * are permitted, and will be merged in the resulting immutable range set.
      */
+    @CanIgnoreReturnValue
     public Builder<C> addAll(RangeSet<C> ranges) {
       for (Range<C> range : ranges.asRanges()) {
         add(range);

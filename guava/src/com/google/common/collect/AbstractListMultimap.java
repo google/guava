@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.List;
@@ -75,6 +76,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    * insertion ordering, this method returns a {@link List}, instead of the
    * {@link Collection} specified in the {@link Multimap} interface.
    */
+  @CanIgnoreReturnValue
   @Override
   public List<V> removeAll(@Nullable Object key) {
     return (List<V>) super.removeAll(key);
@@ -87,6 +89,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    * insertion ordering, this method returns a {@link List}, instead of the
    * {@link Collection} specified in the {@link Multimap} interface.
    */
+  @CanIgnoreReturnValue
   @Override
   public List<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
     return (List<V>) super.replaceValues(key, values);
@@ -99,6 +102,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    * @param value value to store in the multimap
    * @return {@code true} always
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean put(@Nullable K key, @Nullable V value) {
     return super.put(key, value);

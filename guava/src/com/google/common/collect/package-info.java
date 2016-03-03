@@ -222,5 +222,9 @@
  * <li>{@link com.google.common.collect.ForwardingTable}
  * </ul>
  */
-@javax.annotation.ParametersAreNonnullByDefault
+@CheckReturnValue
+@ParametersAreNonnullByDefault
 package com.google.common.collect;
+
+import javax.annotation.CheckReturnValue;
+import javax.annotation.ParametersAreNonnullByDefault;

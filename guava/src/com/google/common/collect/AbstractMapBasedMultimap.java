@@ -1129,19 +1129,16 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * Removes all values for the provided key. Unlike {@link #removeAll}, it
-   * returns the number of removed mappings.
+   * Removes all values for the provided key.
    */
-  private int removeValuesForKey(Object key) {
+  private void removeValuesForKey(Object key) {
     Collection<V> collection = Maps.safeRemove(map, key);
 
-    int count = 0;
     if (collection != null) {
-      count = collection.size();
+      int count = collection.size();
       collection.clear();
       totalSize -= count;
     }
-    return count;
   }
 
   private abstract class Itr<T> implements Iterator<T> {
