@@ -152,8 +152,13 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // immediateCancelledFuture
-  public void testImmediateCancelledFuture() throws Exception {
+  public void testImmediateCancelledFutureBasic() throws Exception {
+    ListenableFuture<String> future = CallerClass1.immediateCancelledFuture();
+    assertTrue(future.isCancelled());
+  }
+
+  @GwtIncompatible
+  public void testImmediateCancelledFutureStack() throws Exception {
     ListenableFuture<String> future = CallerClass1.immediateCancelledFuture();
     assertTrue(future.isCancelled());
 
@@ -185,15 +190,12 @@ public class FuturesTest extends TestCase {
     };
   }
 
-  @GwtIncompatible // used only in GwtIncompatible tests
   private static final class CallerClass1 {
-
     static ListenableFuture<String> immediateCancelledFuture() {
       return Futures.immediateCancelledFuture();
     }
   }
 
-  @GwtIncompatible // used only in GwtIncompatible tests
   private static final class CallerClass2 {
     @CanIgnoreReturnValue
     static <V> V get(ListenableFuture<V> future) throws ExecutionException, InterruptedException {
@@ -202,7 +204,6 @@ public class FuturesTest extends TestCase {
   }
 
   private static class MyException extends Exception {
-
   }
 
   @GwtIncompatible // immediateCheckedFuture

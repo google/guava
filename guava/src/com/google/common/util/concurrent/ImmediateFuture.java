@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Futures.cancellationExceptionWithCause;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -134,7 +135,6 @@ abstract class ImmediateFuture<V> implements ListenableFuture<V> {
     }
   }
 
-  @GwtIncompatible // TODO
   static class ImmediateCancelledFuture<V> extends ImmediateFuture<V> {
     private final CancellationException thrown;
 
@@ -149,7 +149,7 @@ abstract class ImmediateFuture<V> implements ListenableFuture<V> {
 
     @Override
     public V get() {
-      throw AbstractFuture.cancellationExceptionWithCause("Task was cancelled.", thrown);
+      throw cancellationExceptionWithCause("Task was cancelled.", thrown);
     }
   }
 

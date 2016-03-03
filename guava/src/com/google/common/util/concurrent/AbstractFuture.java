@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Futures.cancellationExceptionWithCause;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
@@ -845,13 +846,6 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
           "RuntimeException while executing runnable " + runnable + " with executor " + executor,
           e);
     }
-  }
-
-  static final CancellationException cancellationExceptionWithCause(
-      @Nullable String message, @Nullable Throwable cause) {
-    CancellationException exception = new CancellationException(message);
-    exception.initCause(cause);
-    return exception;
   }
 
   private abstract static class AtomicHelper {
