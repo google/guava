@@ -56922,6 +56922,31 @@
  @since 10.0]]>
       </doc>
     </method>
+    <method name="getDone" return="V"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="future" type="java.util.concurrent.Future&lt;V&gt;"/>
+      <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
+      <doc>
+      <![CDATA[Returns the result of the input {@code Future}, which must have already completed.
+
+ <p>The benefits of this method are twofold. First, the name "getDone" suggests to readers that
+ the {@code Future} is already done. Second, if buggy code calls {@code getDone} on a {@code
+ Future} that is still pending, the program will throw instead of block. This can be important
+ for APIs like {@link whenAllComplete whenAllComplete(...)}{@code .}{@link
+ FutureCombiner#call(Callable) call(...)}, where it is easy to use a new input from the {@code
+ call} implementation but forget to add it to the arguments of {@code whenAllComplete}.
+
+ <p>If you are looking for a method to determine whether a given {@code Future} is done, use the
+ instance method {@link Future#isDone()}.
+
+ @throws ExecutionException if the {@code Future} failed with an exception
+ @throws CancellationException if the {@code Future} was cancelled
+ @throws IllegalStateException if the {@code Future} is not done
+ @since 20.0]]>
+      </doc>
+    </method>
     <method name="getChecked" return="V"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"

@@ -95,6 +95,7 @@ OK: com.google.common.math.BigIntegerMath Method floorPowerOfTwo(java.math.BigIn
 OK: com.google.common.math.IntMath Method floorPowerOfTwo(int)
 OK: com.google.common.math.LongMath Method floorPowerOfTwo(long)
 OK: com.google.common.collect.FluentIterable Method from(E[])
+OK: com.google.common.util.concurrent.Futures Method getDone(java.util.concurrent.Future<V>)
 OK: com.google.common.hash.Hashing Method hmacMd5(byte[])
 OK: com.google.common.hash.Hashing Method hmacMd5(java.security.Key)
 OK: com.google.common.hash.Hashing Method hmacSha1(byte[])

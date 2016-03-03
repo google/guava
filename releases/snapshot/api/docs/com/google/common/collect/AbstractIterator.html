@@ -105,7 +105,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.64">AbstractIterator</a>&lt;T&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.65">AbstractIterator</a>&lt;T&gt;
 extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;</pre>
 <div class="block">This class provides a skeletal implementation of the <code>Iterator</code>
  interface, to make this interface easier to implement for certain types of
@@ -240,7 +240,7 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractIterator</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.68">AbstractIterator</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.69">AbstractIterator</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -258,7 +258,7 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <ul class="blockList">
 <li class="blockList">
 <h4>computeNext</h4>
-<pre>protected abstract&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.114">computeNext</a>()</pre>
+<pre>protected abstract&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.115">computeNext</a>()</pre>
 <div class="block">Returns the next element. <b>Note:</b> the implementation must call <a href="../../../../com/google/common/collect/AbstractIterator.html#endOfData()"><code>endOfData()</code></a> when there are no elements left in the iteration. Failure to
  do so could result in an infinite loop.
 
@@ -290,7 +290,7 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <ul class="blockList">
 <li class="blockList">
 <h4>endOfData</h4>
-<pre>protected final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.123">endOfData</a>()</pre>
+<pre>protected final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.125">endOfData</a>()</pre>
 <div class="block">Implementations of <a href="../../../../com/google/common/collect/AbstractIterator.html#computeNext()"><code>computeNext()</code></a> <b>must</b> invoke this method when
  there are no elements left in the iteration.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd><code>null</code>; a convenience so your <code>computeNext</code>
@@ -303,7 +303,7 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hasNext</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.129">hasNext</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.132">hasNext</a>()</pre>
 </li>
 </ul>
 <a name="next()">
@@ -312,7 +312,7 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <ul class="blockList">
 <li class="blockList">
 <h4>next</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.152">next</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.156">next</a>()</pre>
 </li>
 </ul>
 <a name="peek()">
@@ -321,7 +321,7 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>peek</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.169">peek</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/AbstractIterator.html" title="type parameter in AbstractIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line.173">peek</a>()</pre>
 <div class="block">Returns the next element in the iteration without advancing the iteration,
  according to the contract of <a href="../../../../com/google/common/collect/PeekingIterator.html#peek()"><code>PeekingIterator.peek()</code></a>.
 
