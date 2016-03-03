@@ -23,6 +23,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUE_QUERIES;
+import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -106,6 +107,18 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
     assertTrue(getMap()
         .entrySet().contains(Helpers.mapEntry(getKeyForNullValue(), null)));
   }
+
+  @MapFeature.Require(SUPPORTS_PUT)
+  @CollectionSize.Require(absent = ZERO)
+  public void testSetValue() {
+    for (Entry<K, V> entry : getMap().entrySet()) {
+      if (entry.getKey().equals(k0())) {
+        assertEquals("entry.setValue() should return the old value", v0(), entry.setValue(v3()));
+        break;
+      }
+    }
+    expectReplacement(entry(k0(), v3()));
+  }
   
   @GwtIncompatible // reflection
   public static Method getContainsEntryWithIncomparableKeyMethod() {
@@ -115,5 +128,10 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
   @GwtIncompatible // reflection
   public static Method getContainsEntryWithIncomparableValueMethod() {
     return Helpers.getMethod(MapEntrySetTester.class, "testContainsEntryWithIncomparableValue");
+  }
+  
+  @GwtIncompatible // reflection
+  public static Method getSetValueMethod() {
+    return Helpers.getMethod(MapEntrySetTester.class, "testSetValue");
   }
 }

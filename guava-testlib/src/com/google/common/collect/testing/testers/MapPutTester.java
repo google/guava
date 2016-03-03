@@ -60,6 +60,13 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   @MapFeature.Require(SUPPORTS_PUT)
+  @CollectionSize.Require(absent = ZERO)
+  public void testPut_supportedPresent() {
+    assertEquals("put(present, value) should return the old value", v0(), getMap().put(k0(), v3()));
+    expectReplacement(entry(k0(), v3()));
+  }
+
+  @MapFeature.Require(SUPPORTS_PUT)
   public void testPut_supportedNotPresent() {
     assertNull("put(notPresent, value) should return null", put(e3()));
     expectAdded(e3());

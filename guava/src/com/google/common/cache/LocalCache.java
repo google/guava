@@ -4531,7 +4531,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     @Override
     public V setValue(V newValue) {
-      throw new UnsupportedOperationException();
+      V oldValue = put(key, newValue);
+      value = newValue; // only if put succeeds
+      return oldValue;
     }
 
     @Override

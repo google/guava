@@ -24,6 +24,7 @@ import com.google.common.collect.testing.TestStringSortedMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.testers.MapEntrySetTester;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -235,20 +236,36 @@ public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
     TestSuite suite = new TestSuite();
 
     suite.addTestSuite(ForwardingNavigableMapTest.class);
-    suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-      @Override protected SortedMap<String, String> create(
-          Entry<String, String>[] entries) {
-        NavigableMap<String, String> map = new SafeTreeMap<String, String>();
-        for (Entry<String, String> entry : entries) {
-          map.put(entry.getKey(), entry.getValue());
-        }
-        return new StandardImplForwardingNavigableMap<String, String>(map);
-      }
-    }).named("ForwardingNavigableMap[SafeTreeMap] with no comparator and standard "
-        + "implementations").withFeatures(CollectionSize.ANY,
-        CollectionFeature.KNOWN_ORDER, MapFeature.ALLOWS_NULL_VALUES,
-        CollectionFeature.SUPPORTS_ITERATOR_REMOVE, MapFeature.GENERAL_PURPOSE)
-        .createTestSuite());
+    suite.addTest(
+        NavigableMapTestSuiteBuilder.using(
+                new TestStringSortedMapGenerator() {
+                  @Override
+                  protected SortedMap<String, String> create(Entry<String, String>[] entries) {
+                    NavigableMap<String, String> map = new SafeTreeMap<String, String>();
+                    for (Entry<String, String> entry : entries) {
+                      map.put(entry.getKey(), entry.getValue());
+                    }
+                    return new StandardImplForwardingNavigableMap<String, String>(map);
+                  }
+                })
+            .named(
+                "ForwardingNavigableMap[SafeTreeMap] with no comparator and standard "
+                    + "implementations")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.KNOWN_ORDER,
+                MapFeature.ALLOWS_NULL_VALUES,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                MapFeature.GENERAL_PURPOSE)
+            /*
+             * StandardDescendingMap uses lowerEntry(), and TreeMap.lowerEntry() deliberately
+             * produces immutable entries.
+             *
+             * TODO(cpovirk): Consider making StandardDescendingMap return a ForwardingEntry that
+             * supports setValue().
+             */
+            .suppressing(MapEntrySetTester.getSetValueMethod())
+            .createTestSuite());
     // TODO(lowasser): add forwarding-to-ImmutableSortedMap test
     return suite;
   }

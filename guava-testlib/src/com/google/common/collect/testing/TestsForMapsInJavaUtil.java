@@ -16,10 +16,13 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Arrays.asList;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.testers.MapEntrySetTester;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -93,7 +96,7 @@ public class TestsForMapsInJavaUtil {
     return Collections.emptySet();
   }
   protected Collection<Method> suppressForConcurrentSkipListMap() {
-    return Collections.emptySet();
+    return asList(MapEntrySetTester.getSetValueMethod());
   }
 
   public Test testsForEmptyMap() {
