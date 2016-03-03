@@ -23,8 +23,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * Skeleton implementation of {@link HashFunction}. Provides default implementations which invokes
  * the appropriate method on {@link #newHasher()}, then return the result of {@link Hasher#hash}.
@@ -243,7 +241,6 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
     }
 
     @Override
-    @CheckReturnValue
     public final HashCode hash() {
       munch();
       buffer.flip();

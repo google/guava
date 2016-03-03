@@ -19,8 +19,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.nio.charset.Charset;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * A {@link PrimitiveSink} that can compute a hash code after reading the input. Each hasher should
  * translate all multibyte values ({@link #putInt(int)}, {@link #putLong(long)}, etc) to bytes in
@@ -118,7 +116,6 @@ public interface Hasher extends PrimitiveSink {
    * Computes a hash code based on the data that have been provided to this hasher. The result is
    * unspecified if this method is called more than once on the same instance.
    */
-  @CheckReturnValue
   HashCode hash();
 
   /**
@@ -129,6 +126,5 @@ public interface Hasher extends PrimitiveSink {
    */
   @Override
   @Deprecated
-  @CheckReturnValue
   int hashCode();
 }
