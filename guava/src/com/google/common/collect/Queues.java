@@ -33,8 +33,6 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * Static utility methods pertaining to {@link Queue} and {@link Deque} instances.
  * Also see this class's counterparts {@link Lists}, {@link Sets}, and {@link Maps}.
@@ -42,7 +40,6 @@ import javax.annotation.CheckReturnValue;
  * @author Kurt Alfred Kluever
  * @since 11.0
  */
-@CheckReturnValue
 @GwtIncompatible
 public final class Queues {
   private Queues() {}

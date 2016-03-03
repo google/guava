@@ -24,7 +24,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -56,7 +55,6 @@ import javax.annotation.Nullable;
  * @param <V> the type of the mapped values
  * @since 7.0
  */
-@CheckReturnValue
 @GwtCompatible
 public interface Table<R, C, V> {
   // TODO(jlevy): Consider adding methods similar to ConcurrentMap methods.

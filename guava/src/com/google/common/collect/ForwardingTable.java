@@ -23,8 +23,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * A table which forwards all its method calls to another table. Subclasses
  * should override one or more methods to modify the behavior of the backing
@@ -34,7 +32,6 @@ import javax.annotation.CheckReturnValue;
  * @author Gregory Kick
  * @since 7.0
  */
-@CheckReturnValue
 @GwtCompatible
 public abstract class ForwardingTable<R, C, V> extends ForwardingObject implements Table<R, C, V> {
   /** Constructor for use by subclasses. */

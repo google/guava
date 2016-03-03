@@ -25,7 +25,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Array;
 import java.util.Collection;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -34,7 +33,6 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0
  */
-@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class ObjectArrays {
   static final Object[] EMPTY_ARRAY = new Object[0];

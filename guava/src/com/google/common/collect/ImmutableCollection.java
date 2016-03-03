@@ -31,7 +31,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -150,7 +149,6 @@ import javax.annotation.Nullable;
  *
  * @since 2.0
  */
-@CheckReturnValue
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 // TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,

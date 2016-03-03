@@ -29,7 +29,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map.Entry;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -43,7 +42,6 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
-@CheckReturnValue
 @GwtCompatible(serializable = true, emulated = true)
 public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     implements ListMultimap<K, V> {

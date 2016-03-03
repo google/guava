@@ -39,7 +39,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -56,7 +55,6 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@CheckReturnValue
 public final class Multisets {
   private Multisets() {}
 

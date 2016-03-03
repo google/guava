@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -36,7 +35,6 @@ import javax.annotation.Nullable;
  * @author Robert Konigsberg
  * @since 2.0
  */
-@CheckReturnValue
 @GwtCompatible
 public abstract class ForwardingMultimap<K, V> extends ForwardingObject implements Multimap<K, V> {
 

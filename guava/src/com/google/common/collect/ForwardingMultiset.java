@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -50,7 +49,6 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
-@CheckReturnValue
 @GwtCompatible
 public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> implements Multiset<E> {
 

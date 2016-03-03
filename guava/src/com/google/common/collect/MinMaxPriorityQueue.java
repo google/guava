@@ -43,8 +43,6 @@ import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * A double-ended priority queue, which provides constant-time access to both
  * its least element and its greatest element, as determined by the queue's
@@ -105,7 +103,6 @@ import javax.annotation.CheckReturnValue;
  * @since 8.0
  */
 // TODO(kevinb): GWT compatibility
-@CheckReturnValue
 @Beta
 @GwtIncompatible
 public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {

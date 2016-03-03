@@ -38,7 +38,6 @@ import java.util.Queue;
 import java.util.RandomAccess;
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -58,7 +57,6 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
-@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class Iterables {
   private Iterables() {}
@@ -265,7 +263,6 @@ public final class Iterables {
    * of {@code iterable1} is equal to the corresponding element of
    * {@code iterable2}.
    */
-  @CheckReturnValue
   public static boolean elementsEqual(Iterable<?> iterable1, Iterable<?> iterable2) {
     if (iterable1 instanceof Collection && iterable2 instanceof Collection) {
       Collection<?> collection1 = (Collection<?>) iterable1;
@@ -573,7 +570,6 @@ public final class Iterables {
    * the input predicate {@code retainIfTrue}. The returned iterable's iterator
    * does not support {@code remove()}.
    */
-  @CheckReturnValue
   public static <T> Iterable<T> filter(
       final Iterable<T> unfiltered, final Predicate<? super T> retainIfTrue) {
     checkNotNull(unfiltered);
@@ -592,7 +588,6 @@ public final class Iterables {
    * support {@code remove()}.
    */
   @GwtIncompatible // Class.isInstance
-  @CheckReturnValue
   public static <T> Iterable<T> filter(final Iterable<?> unfiltered, final Class<T> desiredType) {
     checkNotNull(unfiltered);
     checkNotNull(desiredType);
@@ -687,7 +682,6 @@ public final class Iterables {
    * {@code Collection}, consider {@link Lists#transform} and {@link
    * Collections2#transform}.
    */
-  @CheckReturnValue
   public static <F, T> Iterable<T> transform(
       final Iterable<F> fromIterable, final Function<? super F, ? extends T> function) {
     checkNotNull(fromIterable);

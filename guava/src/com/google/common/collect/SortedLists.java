@@ -25,7 +25,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -38,7 +37,6 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
-@CheckReturnValue
 @GwtCompatible
 @Beta final class SortedLists {
   private SortedLists() {}

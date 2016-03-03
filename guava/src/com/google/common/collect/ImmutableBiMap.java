@@ -24,8 +24,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * A {@link BiMap} whose contents will never change, with many other important properties detailed
  * at {@link ImmutableCollection}.
@@ -33,7 +31,6 @@ import javax.annotation.CheckReturnValue;
  * @author Jared Levy
  * @since 2.0
  */
-@CheckReturnValue
 @GwtCompatible(serializable = true, emulated = true)
 public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements BiMap<K, V> {
 

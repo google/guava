@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -162,7 +161,6 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
-@CheckReturnValue
 @GwtCompatible
 public interface Multimap<K, V> {
   // Query Operations

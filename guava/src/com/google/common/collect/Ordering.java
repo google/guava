@@ -39,7 +39,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -131,7 +130,6 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@CheckReturnValue
 public abstract class Ordering<T> implements Comparator<T> {
   // Natural order
 

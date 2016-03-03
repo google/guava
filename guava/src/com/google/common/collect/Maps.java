@@ -64,7 +64,6 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -82,7 +81,6 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
-@CheckReturnValue
 @GwtCompatible(emulated = true)
 public final class Maps {
   private Maps() {}

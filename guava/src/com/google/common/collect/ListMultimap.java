@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -42,7 +41,6 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
-@CheckReturnValue
 @GwtCompatible
 public interface ListMultimap<K, V> extends Multimap<K, V> {
   /**

@@ -28,8 +28,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Queue;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * A non-blocking queue which automatically evicts elements from the head of the queue when
  * attempting to add new elements onto the queue and it is full. This data structure is logically
@@ -46,7 +44,6 @@ import javax.annotation.CheckReturnValue;
  */
 @Beta
 @GwtCompatible
-@CheckReturnValue
 public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serializable {
 
   private final Queue<E> delegate;
