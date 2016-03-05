@@ -247,9 +247,9 @@ public abstract class CharMatcher implements Predicate<Character> {
   public static final CharMatcher DIGIT = digit();
 
   /**
-   * Determines whether a character is a digit according to {@linkplain Character#isDigit(char)
-   * Java's definition}. If you only care to match ASCII digits, you can use {@code
-   * inRange('0', '9')}.
+   * Determines whether a character is a digit according to
+   * {@linkplain Character#isDigit(char) Java's definition}. If you only care to match
+   * ASCII digits, you can use {@code inRange('0', '9')}.
    */
   public static final CharMatcher JAVA_DIGIT = javaDigit();
 
@@ -292,12 +292,12 @@ public abstract class CharMatcher implements Predicate<Character> {
   public static final CharMatcher INVISIBLE = invisible();
 
   /**
-   * Determines whether a character is single-width (not double-width). When in doubt, this matcher
-   * errs on the side of returning {@code false} (that is, it tends to assume a character is
-   * double-width).
+   * Determines whether a character is single-width (not double-width). When in doubt,
+   * this matcher errs on the side of returning {@code false} (that is, it tends to
+   * assume a character is double-width).
    *
-   * <p><b>Note:</b> as the reference file evolves, we will modify this constant to keep it up to
-   * date.
+   * <p><b>Note:</b> as the reference file evolves, we will modify this constant to
+   * keep it up to date.
    */
   public static final CharMatcher SINGLE_WIDTH = singleWidth();
 
