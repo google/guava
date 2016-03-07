@@ -77,6 +77,16 @@ import java.util.concurrent.RejectedExecutionException;
  *     {@link AbstractFuture}.)
  * </ul>
  *
+ * <p><b>Test doubles</b>: If you need a {@code ListenableFuture} for your test, try a {@link
+ * SettableFuture} or one of the methods in the {@link Futures#immediateFuture Futures.immediate*}
+ * family. <b>Avoid</b> creating a mock or stub {@code Future}. Mock and stub implementations are
+ * fragile because they assume that only certain methods will be called and because they often
+ * implement subtleties of the API improperly.
+ *
+ * <p><b>Custom implementation</b>: Avoid implementing {@code ListenableFuture} from scratch. If you
+ * can't get by with the standard implementations, prefer to derive a new {@code Future} instance
+ * with the methods in {@link Futures} or, if necessary, to extend {@link AbstractFuture}.
+ *
  * <p>Occasionally, an API will return a plain {@code Future} and it will be impossible to change
  * the return type. For this case, we provide a more expensive workaround in {@code
  * JdkFutureAdapters}. However, when possible, it is more efficient and reliable to create a {@code
