@@ -16,9 +16,11 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap.IteratorBasedImmutableMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 import java.util.EnumMap;
@@ -30,10 +32,11 @@ import javax.annotation.Nullable;
  * java.util.EnumMap}.
  *
  * @author Louis Wasserman
+ * @author Lovro Pandzic
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutableMap<K, V> {
+public final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutableMap<K, V> {
   static <K extends Enum<K>, V> ImmutableMap<K, V> asImmutable(EnumMap<K, V> map) {
     switch (map.size()) {
       case 0:
@@ -44,6 +47,63 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
       default:
         return new ImmutableEnumMap<K, V>(map);
     }
+  }
+
+  public static <K extends Enum<K>, V> ImmutableEnumMap<K, V> forAllKeys(K k1, V v1) {
+
+    return builder(k1, v1).requireAllEnumKeys();
+  }
+
+  public static <K extends Enum<K>, V> ImmutableEnumMap<K, V> forAllKeys(K k1, V v1, K k2, V v2) {
+
+    return builder(k1, v1).put(k2, v2).requireAllEnumKeys();
+  }
+
+  public static <K extends Enum<K>, V> ImmutableEnumMap<K, V> forAllKeys(K k1, V v1, K k2, V v2, K k3, V v3) {
+
+    return builder(k1, v1).put(k2, v2).put(k3, v3).requireAllEnumKeys();
+  }
+
+  public static <K extends Enum<K>, V> ImmutableEnumMap<K, V> forAllKeys(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
+
+    return builder(k1, v1).put(k2, v2).put(k3, v3).put(k4, v4).requireAllEnumKeys();
+  }
+
+  public static <K extends Enum<K>, V> ImmutableEnumMap<K, V> forAllKeys(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
+
+    return builder(k1, v1).put(k2, v2).put(k3, v3).put(k4, v4).put(k5, v5).requireAllEnumKeys();
+  }
+
+  public static <K extends Enum<K>, V> ImmutableEnumMap<K, V> of(K k1, V v1) {
+
+    return builder(k1, v1).build();
+  }
+
+  public static <K extends Enum<K>, V> ImmutableEnumMap<K, V> of(K k1, V v1, K k2, V v2) {
+
+    return builder(k1, v1).put(k2, v2).build();
+  }
+
+  public static <K extends Enum<K>, V> ImmutableEnumMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
+
+    return builder(k1, v1).put(k2, v2).put(k3, v3).build();
+  }
+
+  public static <K extends Enum<K>, V> ImmutableEnumMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
+
+    return builder(k1, v1).put(k2, v2).put(k3, v3).put(k4, v4).build();
+  }
+
+  public static <K extends Enum<K>, V> ImmutableEnumMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
+
+    return builder(k1, v1).put(k2, v2).put(k3, v3).put(k4, v4).put(k5, v5).build();
+  }
+
+  public static <K extends Enum<K>, V> Builder<K, V> builder(K k1, V v1) {
+    return new Builder<K, V>(k1, v1);
   }
 
   private final transient EnumMap<K, V> delegate;
@@ -115,5 +175,61 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
     }
 
     private static final long serialVersionUID = 0;
+  }
+
+  public static final class Builder<K extends Enum<K>, V> {
+
+    private final EnumMap<K, V> enumMap;
+    private final Class<K> keyType;
+
+    /**
+     * Creates a new builder.
+     *
+     * @see ImmutableEnumMap#builder
+     */
+    Builder(K key, V value) {
+      CollectPreconditions.checkEntryNotNull(key, value);
+      keyType = key.getDeclaringClass();
+      enumMap = new EnumMap<K, V>(key.getDeclaringClass());
+      enumMap.put(key, value);
+    }
+
+    /**
+     * Associates {@code key} with {@code value} in the built map.
+     *
+     * @param key   the key with which the specified value is to be associated
+     * @param value the value to be associated with the specified key
+     * @throws IllegalArgumentException if key or value is null or key is a duplicate
+     */
+    @CanIgnoreReturnValue
+    public Builder<K, V> put(K key, V value) {
+      CollectPreconditions.checkEntryNotNull(key, value);
+      checkArgument(!enumMap.containsKey(key), key + " is already present in " + enumMap);
+      enumMap.put(key, value);
+      return this;
+    }
+
+    /**
+     * Creates a new {@link ImmutableEnumMap}.
+     *
+     * @throws IllegalArgumentException if there are missing enum keys.
+     */
+    public ImmutableEnumMap<K, V> requireAllEnumKeys() {
+
+      K[] requiredEnumKeys = keyType.getEnumConstants();
+
+      for (K requiredEnumKey : requiredEnumKeys) {
+        checkState(enumMap.containsKey(requiredEnumKey), enumMap + " does not contain entry for " + requiredEnumKey);
+      }
+
+      return build();
+    }
+
+    /**
+     * Creates a new {@link ImmutableEnumMap}.
+     */
+    public ImmutableEnumMap<K, V> build() {
+      return new ImmutableEnumMap<K, V>(enumMap);
+    }
   }
 }
