@@ -148,10 +148,10 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * comparator, call {@link #copyOfSorted} instead. This method iterates over {@code elements} at
    * most once.
    *
-   * <p>Note that if {@code s} is a {@code multiset<String>}, then {@code
+   * <p>Note that if {@code s} is a {@code Multiset<String>}, then {@code
    * ImmutableSortedMultiset.copyOf(s)} returns an {@code ImmutableSortedMultiset<String>}
    * containing each of the strings in {@code s}, while {@code ImmutableSortedMultiset.of(s)}
-   * returns an {@code ImmutableSortedMultiset<multiset<String>>} containing one element (the given
+   * returns an {@code ImmutableSortedMultiset<Multiset<String>>} containing one element (the given
    * multiset itself).
    *
    * <p>Despite the method name, this method attempts to avoid actually copying the data when it is

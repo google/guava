@@ -27,8 +27,6 @@ import javax.annotation.Nullable;
  * {@code FutureTask}, {@code ListenableFutureTask} does not provide an overrideable {@link
  * FutureTask#done() done()} method. For similar functionality, call {@link #addListener}.
  *
- * <p>
- *
  * @author Sven Mawson
  * @since 1.0
  */

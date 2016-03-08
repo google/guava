@@ -73,7 +73,6 @@ import javax.annotation.Nullable;
  * <p>It is guaranteed that {@code encoding.decode(encoding.encode(x))} is always equal to
  * {@code x}, but the reverse does not necessarily hold.
  *
- * <p>
  * <table>
  * <tr>
  * <th>Encoding
