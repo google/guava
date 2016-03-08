@@ -15,9 +15,9 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor;
-import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
@@ -100,7 +100,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
 
     I sourceResult;
     try {
-      sourceResult = getUninterruptibly(localInputFuture);
+      sourceResult = getDone(localInputFuture);
     } catch (CancellationException e) {
       // Cancel this future and return.
       // At this point, inputFuture is cancelled and outputFuture doesn't exist, so the value of

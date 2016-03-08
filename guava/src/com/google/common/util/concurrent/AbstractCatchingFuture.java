@@ -15,10 +15,10 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor;
 import static com.google.common.util.concurrent.Platform.isInstanceOfThrowableClass;
-import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
@@ -105,7 +105,7 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
     V sourceResult = null;
     Throwable throwable = null;
     try {
-      sourceResult = getUninterruptibly(localInputFuture);
+      sourceResult = getDone(localInputFuture);
     } catch (ExecutionException e) {
       throwable = checkNotNull(e.getCause());
     } catch (Throwable e) { // this includes cancellation exception

@@ -1118,7 +1118,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
           public void run() {
             final V value;
             try {
-              value = getUninterruptibly(future);
+              value = getDone(future);
             } catch (ExecutionException e) {
               callback.onFailure(e.getCause());
               return;
@@ -1167,7 +1167,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      * Why do we deviate here? The answer: We want for fluentFuture.getDone() to throw the same
      * exception as Futures.getDone(fluentFuture).
      */
-    checkState(future.isDone());
+    checkState(future.isDone(), "Future was expected to be done: %s", future);
     return getUninterruptibly(future);
   }
 

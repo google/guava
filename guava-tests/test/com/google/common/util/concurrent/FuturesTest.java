@@ -290,6 +290,11 @@ public class FuturesTest extends TestCase {
     assertSame(barChild, bar);
   }
 
+  /*
+   * Android does not handle this stack overflow gracefully... though somehow some other
+   * stack-overflow tests work. It must depend on the exact place the error occurs.
+   */
+  @AndroidIncompatible
   @GwtIncompatible // StackOverflowError
   public void testTransform_StackOverflow() throws Exception {
     {
@@ -527,7 +532,7 @@ public class FuturesTest extends TestCase {
   }
 
   /*
-   * Android does not handle this stack overflow gracefully... though somehow the other two
+   * Android does not handle this stack overflow gracefully... though somehow some other
    * stack-overflow tests work. It must depend on the exact place the error occurs.
    */
   @AndroidIncompatible

@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Futures.cancellationExceptionWithCause;
+import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
@@ -730,7 +731,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     } else {
       // Otherwise calculate valueToSet by calling .get()
       try {
-        V v = Uninterruptibles.getUninterruptibly(future);
+        V v = getDone(future);
         valueToSet = v == null ? NULL : v;
       } catch (ExecutionException exception) {
         valueToSet = new Failure(exception.getCause());

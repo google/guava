@@ -119,11 +119,17 @@ public final class Uninterruptibles {
   }
 
   /**
-   * Invokes {@code future.}{@link Future#get() get()} uninterruptibly. To get uninterruptibility
-   * and remove checked exceptions, see {@link Futures#getUnchecked}.
+   * Invokes {@code future.}{@link Future#get() get()} uninterruptibly.
    *
-   * <p>If instead, you wish to treat {@link InterruptedException} uniformly with other exceptions,
-   * see {@link Futures#getChecked(Future, Class) Futures.getChecked}.
+   * <p>Similar methods:
+   *
+   * <ul>
+   * <li>To retrieve a result from a {@code Future} that is already done, use
+   *     {@link Futures#getDone Futures.getDone}.
+   * <li>To treat {@link InterruptedException} uniformly with other exceptions, use
+   *     {@link Futures#getChecked(Future, Class) Futures.getChecked}.
+   * <li>To get uninterruptibility and remove checked exceptions, use {@link Futures#getUnchecked}.
+   * </ul>
    *
    * @throws ExecutionException if the computation threw an exception
    * @throws CancellationException if the computation was cancelled
@@ -149,8 +155,15 @@ public final class Uninterruptibles {
   /**
    * Invokes {@code future.}{@link Future#get(long, TimeUnit) get(timeout, unit)} uninterruptibly.
    *
-   * <p>If instead, you wish to treat {@link InterruptedException} uniformly with other exceptions,
-   * see {@link Futures#getChecked(Future, Class) Futures.getChecked}.
+   * <p>Similar methods:
+   *
+   * <ul>
+   * <li>To retrieve a result from a {@code Future} that is already done, use
+   *     {@link Futures#getDone Futures.getDone}.
+   * <li>To treat {@link InterruptedException} uniformly with other exceptions, use
+   *     {@link Futures#getChecked(Future, Class, long, TimeUnit) Futures.getChecked}.
+   * <li>To get uninterruptibility and remove checked exceptions, use {@link Futures#getUnchecked}.
+   * </ul>
    *
    * @throws ExecutionException if the computation threw an exception
    * @throws CancellationException if the computation was cancelled

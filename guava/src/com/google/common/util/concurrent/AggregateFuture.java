@@ -16,8 +16,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
-import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -223,13 +223,13 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
             AggregateFuture.super.cancel(false);
           } else {
             // We always get the result so that we can have fail-fast, even if we don't collect
-            InputT result = getUninterruptibly(future);
+            InputT result = getDone(future);
             if (collectsValues) {
               collectOneValue(allMustSucceed, index, result);
             }
           }
         } else if (collectsValues && !future.isCancelled()) {
-          collectOneValue(allMustSucceed, index, getUninterruptibly(future));
+          collectOneValue(allMustSucceed, index, getDone(future));
         }
       } catch (ExecutionException e) {
         handleException(e.getCause());
