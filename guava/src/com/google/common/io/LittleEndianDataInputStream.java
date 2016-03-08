@@ -19,6 +19,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.DataInput;
 import java.io.DataInputStream;
@@ -54,6 +55,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
   /**
    * This method will throw an {@link UnsupportedOperationException}.
    */
+  @CanIgnoreReturnValue // to skip a line
   @Override
   public String readLine() {
     throw new UnsupportedOperationException("readLine is not supported");
@@ -74,6 +76,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
     return (int) in.skip(n);
   }
 
+  @CanIgnoreReturnValue // to skip a byte
   @Override
   public int readUnsignedByte() throws IOException {
     int b1 = in.read();
@@ -92,6 +95,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
    *     little-endian byte order
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   public int readUnsignedShort() throws IOException {
     byte b1 = readAndCheckByte();
@@ -108,6 +112,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
    *     byte order
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   public int readInt() throws IOException {
     byte b1 = readAndCheckByte();
@@ -126,6 +131,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
    *     little-endian byte order
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   public long readLong() throws IOException {
     byte b1 = readAndCheckByte();
@@ -148,6 +154,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
    *     little-endian byte order
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   public float readFloat() throws IOException {
     return Float.intBitsToFloat(readInt());
@@ -161,11 +168,13 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
    *     little-endian byte order
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   public double readDouble() throws IOException {
     return Double.longBitsToDouble(readLong());
   }
 
+  @CanIgnoreReturnValue // to skip a field
   @Override
   public String readUTF() throws IOException {
     return new DataInputStream(in).readUTF();
@@ -179,6 +188,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
    *     byte order.
    * @throws IOException if an I/O error occurs.
    */
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   public short readShort() throws IOException {
     return (short) readUnsignedShort();
@@ -192,16 +202,19 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
    *     byte order
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   public char readChar() throws IOException {
     return (char) readUnsignedShort();
   }
 
+  @CanIgnoreReturnValue // to skip a byte
   @Override
   public byte readByte() throws IOException {
     return (byte) readUnsignedByte();
   }
 
+  @CanIgnoreReturnValue // to skip a byte
   @Override
   public boolean readBoolean() throws IOException {
     return readUnsignedByte() != 0;

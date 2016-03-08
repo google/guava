@@ -16,6 +16,7 @@ package com.google.common.io;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.IOException;
 
@@ -38,6 +39,7 @@ public interface LineProcessor<T> {
    * @param line the line read from the input, without delimiter
    * @return true to continue processing, false to stop
    */
+  @CanIgnoreReturnValue // some uses know that their processor never returns false
   boolean processLine(String line) throws IOException;
 
   /** Return the result of processing all the lines. */

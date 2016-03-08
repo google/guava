@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Closeable;
 import java.io.EOFException;
@@ -59,6 +60,7 @@ public final class CharStreams {
    * @return the number of characters copied
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue
   public static long copy(Readable from, Appendable to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
@@ -129,6 +131,7 @@ public final class CharStreams {
    * @throws IOException if an I/O error occurs
    * @since 14.0
    */
+  @CanIgnoreReturnValue // some processors won't return a useful result
   public static <T> T readLines(Readable readable, LineProcessor<T> processor) throws IOException {
     checkNotNull(readable);
     checkNotNull(processor);

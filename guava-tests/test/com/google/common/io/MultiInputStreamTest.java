@@ -92,6 +92,7 @@ public class MultiInputStreamTest extends IoTestCase {
     assertEquals(20, total);
   }
 
+  @SuppressWarnings("CheckReturnValue") // these calls to skip always return 0
   public void testSkip() throws Exception {
     MultiInputStream multi = new MultiInputStream(
         Collections.singleton(new ByteSource() {
@@ -104,9 +105,9 @@ public class MultiInputStreamTest extends IoTestCase {
             };
           }
         }).iterator());
-    multi.skip(-1);
-    multi.skip(-1);
-    multi.skip(0);
+    assertEquals(0, multi.skip(-1));
+    assertEquals(0, multi.skip(-1));
+    assertEquals(0, multi.skip(0));
     ByteStreams.skipFully(multi, 20);
     assertEquals(20, multi.read());
   }

@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -100,6 +101,7 @@ public final class ByteStreams {
    * @return the number of bytes copied
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue
   public static long copy(InputStream from, OutputStream to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
@@ -125,6 +127,7 @@ public final class ByteStreams {
    * @return the number of bytes copied
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue
   public static long copy(ReadableByteChannel from, WritableByteChannel to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
@@ -794,6 +797,7 @@ public final class ByteStreams {
    * @throws IOException if an I/O error occurs
    * @since 14.0
    */
+  @CanIgnoreReturnValue // some processors won't return a useful result
   public static <T> T readBytes(InputStream input, ByteProcessor<T> processor) throws IOException {
     checkNotNull(input);
     checkNotNull(processor);
@@ -829,6 +833,9 @@ public final class ByteStreams {
    * @return the number of bytes read
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue
+  // Sometimes you don't care how many bytes you actually read, I guess.
+  // (You know that it's either going to read len bytes or stop at EOF.)
   public static int read(InputStream in, byte[] b, int off, int len) throws IOException {
     checkNotNull(in);
     checkNotNull(b);

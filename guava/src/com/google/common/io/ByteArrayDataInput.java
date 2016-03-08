@@ -15,6 +15,7 @@
 package com.google.common.io;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -39,42 +40,56 @@ public interface ByteArrayDataInput extends DataInput {
   @Override
   void readFully(byte b[], int off, int len);
 
+  // not guaranteed to skip n bytes so result should NOT be ignored
+  // use ByteStreams.skipFully or one of the read methods instead
   @Override
   int skipBytes(int n);
 
+  @CanIgnoreReturnValue // to skip a byte
   @Override
   boolean readBoolean();
 
+  @CanIgnoreReturnValue // to skip a byte
   @Override
   byte readByte();
 
+  @CanIgnoreReturnValue // to skip a byte
   @Override
   int readUnsignedByte();
 
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   short readShort();
 
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   int readUnsignedShort();
 
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   char readChar();
 
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   int readInt();
 
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   long readLong();
 
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   float readFloat();
 
+  @CanIgnoreReturnValue // to skip some bytes
   @Override
   double readDouble();
 
+  @CanIgnoreReturnValue // to skip a line
   @Override
   String readLine();
 
+  @CanIgnoreReturnValue // to skip a field
   @Override
   String readUTF();
 }

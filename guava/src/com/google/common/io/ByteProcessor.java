@@ -16,6 +16,7 @@ package com.google.common.io;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.IOException;
 
@@ -40,6 +41,7 @@ public interface ByteProcessor<T> {
    * @param len the length of data to be processed
    * @return true to continue processing, false to stop
    */
+  @CanIgnoreReturnValue // some uses know that their processor never returns false
   boolean processBytes(byte[] buf, int off, int len) throws IOException;
 
   /** Return the result of processing all the bytes. */

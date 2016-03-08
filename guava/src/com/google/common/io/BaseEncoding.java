@@ -38,7 +38,6 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.Arrays;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -145,7 +144,6 @@ public abstract class BaseEncoding {
   /**
    * Encodes the specified byte array, and returns the encoded {@code String}.
    */
-  @CheckReturnValue
   public String encode(byte[] bytes) {
     return encode(bytes, 0, bytes.length);
   }
@@ -154,7 +152,6 @@ public abstract class BaseEncoding {
    * Encodes the specified range of the specified byte array, and returns the encoded
    * {@code String}.
    */
-  @CheckReturnValue
   public final String encode(byte[] bytes, int off, int len) {
     checkPositionIndexes(off, off + len, bytes.length);
     StringBuilder result = new StringBuilder(maxEncodedSize(len));
@@ -172,14 +169,12 @@ public abstract class BaseEncoding {
    * {@code Writer}.
    */
   @GwtIncompatible // Writer,OutputStream
-  @CheckReturnValue
   public abstract OutputStream encodingStream(Writer writer);
 
   /**
    * Returns a {@code ByteSink} that writes base-encoded bytes to the specified {@code CharSink}.
    */
   @GwtIncompatible // ByteSink,CharSink
-  @CheckReturnValue
   public final ByteSink encodingSink(final CharSink encodedSink) {
     checkNotNull(encodedSink);
     return new ByteSink() {
@@ -206,7 +201,6 @@ public abstract class BaseEncoding {
    * Determines whether the specified character sequence is a valid encoded string according to this
    * encoding.
    */
-  @CheckReturnValue
   public abstract boolean canDecode(CharSequence chars);
 
   /**
@@ -216,7 +210,6 @@ public abstract class BaseEncoding {
    * @throws IllegalArgumentException if the input is not a valid encoded string according to this
    *     encoding.
    */
-  @CheckReturnValue
   public final byte[] decode(CharSequence chars) {
     try {
       return decodeChecked(chars);
@@ -231,8 +224,7 @@ public abstract class BaseEncoding {
    *
    * @throws DecodingException if the input is not a valid encoded string according to this
    *     encoding.
-   */
-  @CheckReturnValue final byte[] decodeChecked(CharSequence chars)
+   */ final byte[] decodeChecked(CharSequence chars)
       throws DecodingException {
     chars = padding().trimTrailingFrom(chars);
     byte[] tmp = new byte[maxDecodedSize(chars.length())];
@@ -246,7 +238,6 @@ public abstract class BaseEncoding {
    * errors.
    */
   @GwtIncompatible // Reader,InputStream
-  @CheckReturnValue
   public abstract InputStream decodingStream(Reader reader);
 
   /**
@@ -254,7 +245,6 @@ public abstract class BaseEncoding {
    * {@code CharSource}.
    */
   @GwtIncompatible // ByteSource,CharSource
-  @CheckReturnValue
   public final ByteSource decodingSource(final CharSource encodedSource) {
     checkNotNull(encodedSource);
     return new ByteSource() {
@@ -284,7 +274,6 @@ public abstract class BaseEncoding {
    * characters as specified by <a href="http://tools.ietf.org/html/rfc4648#section-3.2">RFC 4648
    * section 3.2</a>, Padding of Encoded Data.
    */
-  @CheckReturnValue
   public abstract BaseEncoding omitPadding();
 
   /**
@@ -294,7 +283,6 @@ public abstract class BaseEncoding {
    * @throws IllegalArgumentException if this padding character is already used in the alphabet or a
    *     separator
    */
-  @CheckReturnValue
   public abstract BaseEncoding withPadChar(char padChar);
 
   /**
@@ -306,7 +294,6 @@ public abstract class BaseEncoding {
    *     string, or if {@code n <= 0}
    * @throws UnsupportedOperationException if this encoding already uses a separator
    */
-  @CheckReturnValue
   public abstract BaseEncoding withSeparator(String separator, int n);
 
   /**
@@ -316,7 +303,6 @@ public abstract class BaseEncoding {
    * @throws IllegalStateException if the alphabet used by this encoding contains mixed upper- and
    *     lower-case characters
    */
-  @CheckReturnValue
   public abstract BaseEncoding upperCase();
 
   /**
@@ -326,7 +312,6 @@ public abstract class BaseEncoding {
    * @throws IllegalStateException if the alphabet used by this encoding contains mixed upper- and
    *     lower-case characters
    */
-  @CheckReturnValue
   public abstract BaseEncoding lowerCase();
 
   private static final BaseEncoding BASE64 =
@@ -346,7 +331,6 @@ public abstract class BaseEncoding {
    * <a href="http://tools.ietf.org/html/rfc4648#section-3.1">RFC 4648 section 3.1</a>, Line Feeds
    * in Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
-  @CheckReturnValue
   public static BaseEncoding base64() {
     return BASE64;
   }
@@ -369,7 +353,6 @@ public abstract class BaseEncoding {
    * <a href="http://tools.ietf.org/html/rfc4648#section-3.1">RFC 4648 section 3.1</a>, Line Feeds
    * in Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
-  @CheckReturnValue
   public static BaseEncoding base64Url() {
     return BASE64_URL;
   }
@@ -389,7 +372,6 @@ public abstract class BaseEncoding {
    * <a href="http://tools.ietf.org/html/rfc4648#section-3.1">RFC 4648 section 3.1</a>, Line Feeds
    * in Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
-  @CheckReturnValue
   public static BaseEncoding base32() {
     return BASE32;
   }
@@ -409,7 +391,6 @@ public abstract class BaseEncoding {
    * <a href="http://tools.ietf.org/html/rfc4648#section-3.1">RFC 4648 section 3.1</a>, Line Feeds
    * in Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
-  @CheckReturnValue
   public static BaseEncoding base32Hex() {
     return BASE32_HEX;
   }
@@ -429,7 +410,6 @@ public abstract class BaseEncoding {
    * <a href="http://tools.ietf.org/html/rfc4648#section-3.1">RFC 4648 section 3.1</a>, Line Feeds
    * in Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
    */
-  @CheckReturnValue
   public static BaseEncoding base16() {
     return BASE16;
   }

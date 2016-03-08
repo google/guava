@@ -24,6 +24,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -180,9 +181,11 @@ public abstract class CharSource {
    * Appends the contents of this source to the given {@link Appendable} (such as a {@link Writer}).
    * Does not close {@code appendable} if it is {@code Closeable}.
    *
+   * @return the number of characters copied
    * @throws IOException if an I/O error occurs in the process of reading from this source or
    *     writing to {@code appendable}
    */
+  @CanIgnoreReturnValue
   public long copyTo(Appendable appendable) throws IOException {
     checkNotNull(appendable);
 
@@ -200,9 +203,11 @@ public abstract class CharSource {
   /**
    * Copies the contents of this source to the given sink.
    *
+   * @return the number of characters copied
    * @throws IOException if an I/O error occurs in the process of reading from this source or
    *     writing to {@code sink}
    */
+  @CanIgnoreReturnValue
   public long copyTo(CharSink sink) throws IOException {
     checkNotNull(sink);
 
@@ -299,6 +304,7 @@ public abstract class CharSource {
    * @since 16.0
    */
   @Beta
+  @CanIgnoreReturnValue // some processors won't return a useful result
   public <T> T readLines(LineProcessor<T> processor) throws IOException {
     checkNotNull(processor);
 

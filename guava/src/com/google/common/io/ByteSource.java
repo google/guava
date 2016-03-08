@@ -28,6 +28,7 @@ import com.google.common.hash.Funnels;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hasher;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -241,9 +242,11 @@ public abstract class ByteSource {
    * Copies the contents of this byte source to the given {@code OutputStream}. Does not close
    * {@code output}.
    *
+   * @return the number of bytes copied
    * @throws IOException if an I/O error occurs in the process of reading from this source or
    *     writing to {@code output}
    */
+  @CanIgnoreReturnValue
   public long copyTo(OutputStream output) throws IOException {
     checkNotNull(output);
 
@@ -261,9 +264,11 @@ public abstract class ByteSource {
   /**
    * Copies the contents of this byte source to the given {@code ByteSink}.
    *
+   * @return the number of bytes copied
    * @throws IOException if an I/O error occurs in the process of reading from this source or
    *     writing to {@code sink}
    */
+  @CanIgnoreReturnValue
   public long copyTo(ByteSink sink) throws IOException {
     checkNotNull(sink);
 
@@ -306,6 +311,7 @@ public abstract class ByteSource {
    * @since 16.0
    */
   @Beta
+  @CanIgnoreReturnValue // some processors won't return a useful result
   public <T> T read(ByteProcessor<T> processor) throws IOException {
     checkNotNull(processor);
 
@@ -598,6 +604,7 @@ public abstract class ByteSource {
       return length;
     }
 
+    @SuppressWarnings("CheckReturnValue") // it doesn't matter what processBytes returns here
     @Override
     public <T> T read(ByteProcessor<T> processor) throws IOException {
       processor.processBytes(bytes, offset, length);

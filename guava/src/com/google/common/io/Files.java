@@ -29,6 +29,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.TreeTraverser;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -543,6 +544,7 @@ public final class Files {
    * @return the output of processing the lines
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue // some processors won't return a useful result
   public static <T> T readLines(File file, Charset charset, LineProcessor<T> callback)
       throws IOException {
     return asCharSource(file, charset).readLines(callback);
@@ -558,6 +560,7 @@ public final class Files {
    * @return the result of the byte processor
    * @throws IOException if an I/O error occurs
    */
+  @CanIgnoreReturnValue // some processors won't return a useful result
   public static <T> T readBytes(File file, ByteProcessor<T> processor) throws IOException {
     return asByteSource(file).read(processor);
   }

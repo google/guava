@@ -17,6 +17,7 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -142,9 +143,11 @@ public abstract class CharSink {
    * Writes all the text from the given {@link Readable} (such as a {@link Reader}) to this sink.
    * Does not close {@code readable} if it is {@code Closeable}.
    *
+   * @return the number of characters written
    * @throws IOException if an I/O error occurs in the process of reading from {@code readable} or
    *     writing to this sink
    */
+  @CanIgnoreReturnValue
   public long writeFrom(Readable readable) throws IOException {
     checkNotNull(readable);
 

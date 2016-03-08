@@ -17,6 +17,7 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -113,9 +114,11 @@ public abstract class ByteSink {
    * Writes all the bytes from the given {@code InputStream} to this sink. Does not close
    * {@code input}.
    *
+   * @return the number of bytes written
    * @throws IOException if an I/O occurs in the process of reading from {@code input} or writing to
    *     this sink
    */
+  @CanIgnoreReturnValue
   public long writeFrom(InputStream input) throws IOException {
     checkNotNull(input);
 

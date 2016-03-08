@@ -427,6 +427,7 @@ public class SourceSinkFactories {
 
   private static class UrlByteSourceFactory extends FileByteSourceFactory {
 
+    @SuppressWarnings("CheckReturnValue") // only using super.createSource to create a file
     @Override
     public ByteSource createSource(byte[] bytes) throws IOException {
       super.createSource(bytes);
@@ -436,6 +437,7 @@ public class SourceSinkFactories {
 
   private static class UrlCharSourceFactory extends FileCharSourceFactory {
 
+    @SuppressWarnings("CheckReturnValue") // only using super.createSource to create a file
     @Override
     public CharSource createSource(String string) throws IOException {
       super.createSource(string); // just ignore returned CharSource

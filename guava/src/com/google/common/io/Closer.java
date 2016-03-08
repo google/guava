@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -123,6 +124,7 @@ public final class Closer implements Closeable {
    * @return the given {@code closeable}
    */
   // close. this word no longer has any meaning to me.
+  @CanIgnoreReturnValue
   public <C extends Closeable> C register(@Nullable C closeable) {
     if (closeable != null) {
       stack.addFirst(closeable);
