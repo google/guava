@@ -18,6 +18,7 @@ import static com.google.common.util.concurrent.Futures.getUnchecked;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.CHECKED_EXCEPTION;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.ERROR;
+import static com.google.common.util.concurrent.FuturesGetCheckedInputs.ERROR_FUTURE;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.FAILED_FUTURE_CHECKED_EXCEPTION;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.FAILED_FUTURE_ERROR;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.FAILED_FUTURE_OTHER_THROWABLE;
@@ -103,5 +104,15 @@ public class FuturesGetUncheckedTest extends TestCase {
     } catch (RuntimeException expected) {
       assertEquals(RUNTIME_EXCEPTION, expected);
     }
+  }
+
+  public void testGetUnchecked_Error() {
+    try {
+      getUnchecked(ERROR_FUTURE);
+    } catch (Error expected) {
+      assertEquals(ERROR, expected);
+      return;
+    }
+    fail();
   }
 }
