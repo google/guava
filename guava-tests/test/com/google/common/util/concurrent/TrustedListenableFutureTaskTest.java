@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.Callables.returning;
+import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.TestPlatform.verifyThreadWasNotInterrupted;
 
 import com.google.common.annotations.GwtCompatible;
@@ -46,7 +47,7 @@ public class TrustedListenableFutureTaskTest extends TestCase {
     task.run();
     assertTrue(task.isDone());
     assertFalse(task.isCancelled());
-    assertEquals(2, task.get().intValue());
+    assertEquals(2, getDone(task).intValue());
   }
 
   public void testCancelled() throws Exception {
@@ -57,7 +58,7 @@ public class TrustedListenableFutureTaskTest extends TestCase {
     assertTrue(task.isCancelled());
     assertFalse(task.wasInterrupted());
     try {
-      task.get();
+      getDone(task);
       fail();
     } catch (CancellationException expected) {
     }
@@ -76,7 +77,7 @@ public class TrustedListenableFutureTaskTest extends TestCase {
     assertTrue(task.isDone());
     assertFalse(task.isCancelled());
     try {
-      task.get();
+      getDone(task);
       fail();
     } catch (ExecutionException executionException) {
       assertEquals(e, executionException.getCause());

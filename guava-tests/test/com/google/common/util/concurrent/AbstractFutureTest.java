@@ -656,10 +656,10 @@ public class AbstractFutureTest extends TestCase {
     return null;
   }
 
-  private final class WaiterThread extends Thread {
-    private final AbstractFuture<String> future;
+  private static final class WaiterThread extends Thread {
+    private final AbstractFuture<?> future;
 
-    private WaiterThread(AbstractFuture<String> future) {
+    private WaiterThread(AbstractFuture<?> future) {
       this.future = future;
     }
 
@@ -681,11 +681,40 @@ public class AbstractFutureTest extends TestCase {
     }
   }
 
+  static final class TimedWaiterThread extends Thread {
+    private final AbstractFuture<?> future;
+    private final long timeout;
+    private final TimeUnit unit;
+
+    TimedWaiterThread(AbstractFuture<?> future, long timeout, TimeUnit unit) {
+      this.future = future;
+      this.timeout = timeout;
+      this.unit = unit;
+    }
+
+    @Override public void run() {
+      try {
+        future.get(timeout, unit);
+      } catch (Exception e) {
+        // nothing
+      }
+    }
+
+    void awaitWaiting() {
+      while (LockSupport.getBlocker(this) != future) {
+        if (getState() == State.TERMINATED) {
+          throw new RuntimeException("Thread exited");
+        }
+        Thread.yield();
+      }
+    }
+  }
+
   private final class PollingThread extends Thread {
-    private final AbstractFuture<String> future;
+    private final AbstractFuture<?> future;
     private final CountDownLatch completedIteration = new CountDownLatch(10);
 
-    private PollingThread(AbstractFuture<String> future) {
+    private PollingThread(AbstractFuture<?> future) {
       this.future = future;
     }
 

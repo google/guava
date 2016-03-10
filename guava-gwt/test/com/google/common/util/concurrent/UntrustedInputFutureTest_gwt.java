@@ -114,6 +114,12 @@ public void testMisbehavingListenerLaterDone() throws Exception {
   testCase.testMisbehavingListenerLaterDone();
 }
 
+public void testNegativeTimeout() throws Exception {
+  com.google.common.util.concurrent.UntrustedInputFutureTest testCase = new com.google.common.util.concurrent.UntrustedInputFutureTest();
+  testCase.setUp();
+  testCase.testNegativeTimeout();
+}
+
 public void testNullExecutor() throws Exception {
   com.google.common.util.concurrent.UntrustedInputFutureTest testCase = new com.google.common.util.concurrent.UntrustedInputFutureTest();
   testCase.setUp();
