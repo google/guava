@@ -30,7 +30,7 @@ import java.io.InputStream;
 
 /**
  * An implementation of {@link DataInput} that uses little-endian byte ordering for reading
- * {@code short}, {@code int}, {@code float}, {@code double}, and {@code long} values. 
+ * {@code short}, {@code int}, {@code float}, {@code double}, and {@code long} values.
  *
  * <p><b>Note:</b> This class intentionally violates the specification of its supertype
  * {@code DataInput}, which explicitly requires big-endian byte order.
@@ -228,7 +228,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
    * @throws IOException if an error is encountered while reading
    * @throws EOFException if the end of file (EOF) is encountered.
    */
-  private byte readAndCheckByte() throws IOException, EOFException {
+  public byte readAndCheckByte() throws IOException, EOFException {
     int b1 = in.read();
 
     if (-1 == b1) {
