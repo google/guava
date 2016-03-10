@@ -338,7 +338,7 @@ public final class Splitter {
 
   /**
    * Returns a splitter that behaves equivalently to {@code this} splitter, but automatically
-   * removes leading and trailing {@linkplain CharMatcher#WHITESPACE whitespace} from each returned
+   * removes leading and trailing {@linkplain CharMatcher#whitespace whitespace} from each returned
    * substring; equivalent to {@code trimResults(CharMatcher.whitespace())}. For example, {@code
    * Splitter.on(',').trimResults().split(" a, b ,c ")} returns an iterable containing
    * {@code ["a", "b", "c"]}.

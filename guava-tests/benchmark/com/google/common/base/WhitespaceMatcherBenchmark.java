@@ -25,7 +25,7 @@ import java.util.BitSet;
 import java.util.Random;
 
 /**
- * Benchmark for the {@link CharMatcher#WHITESPACE} implementation.
+ * Benchmark for the {@link CharMatcher#whitespace} implementation.
  */
 public class WhitespaceMatcherBenchmark {
   private static final int STRING_LENGTH = 10000;
