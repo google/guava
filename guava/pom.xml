@@ -67,7 +67,7 @@
               javax.crypto.*;resolution:=optional,
               sun.misc.*;resolution:=optional
             </Import-Package>
-            <Bundle-DocURL>https://guava-libraries.googlecode.com/</Bundle-DocURL>
+            <Bundle-DocURL>https://github.com/google/guava/</Bundle-DocURL>
           </instructions>
         </configuration>
       </plugin>
