@@ -540,10 +540,13 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
    *
    * <p>The intersection operation is commutative, associative and idempotent, and its identity
    * element is {@link Range#all}).
+   * 
+   * <p>If the flag {@code allowEmptyRanges} is true, method will return an empty range instead of throwing an 
+   * {@link IllegalArgumentException} when the ranges are not connected.
    *
-   * @throws IllegalArgumentException if {@code isConnected(connectedRange)} is {@code false}
+   * @throws IllegalArgumentException if {@code allowEmptyRanges} and {@code isConnected(connectedRange)} is {@code false}
    */
-  public Range<C> intersection(Range<C> connectedRange) {
+  public Range<C> intersection(Range<C> connectedRange, boolean allowEmptyRanges) {
     int lowerCmp = lowerBound.compareTo(connectedRange.lowerBound);
     int upperCmp = upperBound.compareTo(connectedRange.upperBound);
     if (lowerCmp >= 0 && upperCmp <= 0) {
@@ -553,8 +556,31 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
     } else {
       Cut<C> newLower = (lowerCmp >= 0) ? lowerBound : connectedRange.lowerBound;
       Cut<C> newUpper = (upperCmp <= 0) ? upperBound : connectedRange.upperBound;
-      return create(newLower, newUpper);
+      if (allowEmptyRanges && newLower.compareTo(newUpper) > 0)
+        return create(newLower, newLower);
+      else
+        return create(newLower, newUpper);
     }
+  }
+
+  /**
+   * Returns the maximal range {@linkplain #encloses enclosed} by both this range and {@code
+   * connectedRange}, if such a range exists.
+   *
+   * <p>For example, the intersection of {@code [1..5]} and {@code (3..7)} is {@code (3..5]}. The
+   * resulting range may be empty; for example, {@code [1..5)} intersected with {@code [5..7)}
+   * yields the empty range {@code [5..5)}.
+   *
+   * <p>The intersection exists if and only if the two ranges are {@linkplain #isConnected
+   * connected}.
+   *
+   * <p>The intersection operation is commutative, associative and idempotent, and its identity
+   * element is {@link Range#all}).
+   *
+   * @throws IllegalArgumentException if {@code isConnected(connectedRange)} is {@code false}
+   */
+  public Range<C> intersection(Range<C> connectedRange) {
+    return intersection(connectedRange, false);
   }
 
   /**

@@ -461,6 +461,36 @@ public class RangeTest extends TestCase {
     }
   }
 
+  public void testOverlapping() {
+    assertEquals(Range.openClosed(2, 2), Range.open(0, 1).intersection(Range.open(2, 3), true));
+    assertEquals(Range.closedOpen(2, 2), Range.open(0, 1).intersection(Range.closed(2, 3), true));
+    assertEquals(Range.openClosed(1, 1), Range.open(0, 1).intersection(Range.open(1, 2), true));
+    assertEquals(Range.openClosed(1, 1), Range.openClosed(0, 1).intersection(Range.open(1, 2), true));
+    assertEquals(Range.openClosed(1, 1), Range.openClosed(0, 1).intersection(Range.openClosed(1, 2), true));
+    assertEquals(Range.closedOpen(1, 1), Range.closedOpen(0, 1).intersection(Range.closedOpen(1, 2), true));
+    assertEquals(Range.openClosed(1, 1), Range.open(0, 1).intersection(Range.openClosed(1, 2), true));
+    assertEquals(Range.closedOpen(1, 1), Range.open(0, 1).intersection(Range.closedOpen(1, 2), true));
+    assertEquals(Range.openClosed(1, 1), Range.closedOpen(0, 1).intersection(Range.open(1, 2), true));
+    assertEquals(Range.openClosed(1,1), Range.closedOpen(0, 1).intersection(Range.openClosed(1, 2), true));
+    assertEquals(Range.closed(1,1), Range.openClosed(0, 1).intersection(Range.closedOpen(1, 2), true));
+
+    assertEquals(Range.closedOpen(0, 0), Range.closedOpen(0, 0).intersection(Range.closed(0, 0), true));
+    assertEquals(Range.openClosed(0, 0), Range.closedOpen(0, 0).intersection(Range.open(0, 1), true));
+    assertEquals(Range.closedOpen(0, 0), Range.closedOpen(0, 0).intersection(Range.closed(0, 1), true));
+    assertEquals(Range.closed(0,0), Range.closed(0, 0).intersection(Range.closed(0, 1), true));
+    assertEquals(Range.openClosed(0,0), Range.closed(0, 0).intersection(Range.open(0, 1), true));
+
+    assertEquals(Range.closedOpen(1, 1), Range.closedOpen(0, 1).intersection(Range.closedOpen(1, 1), true));
+    assertEquals(Range.closedOpen(1, 1), Range.closed(0, 1).intersection(Range.closedOpen(1, 1), true));
+    assertEquals(Range.openClosed(1,1), Range.closed(0, 1).intersection(Range.openClosed(1, 1), true));
+    assertEquals(Range.closed(1,1), Range.closed(0, 1).intersection(Range.closed(1, 1), true));
+    assertEquals(Range.closedOpen(1, 1), Range.open(0, 1).intersection(Range.closed(1, 1), true));
+
+    assertEquals(Range.openClosed(3, 3), Range.open(3, 4).intersection(Range.atMost(3), true));
+    assertEquals(Range.openClosed(3, 4), Range.openClosed(3, 4).intersection(Range.<Integer>all(), true));
+    assertEquals(Range.<Integer>all(), Range.<Integer>all().intersection(Range.<Integer>all(), true));
+  }
+
   public void testSpan_general() {
     Range<Integer> range = Range.closed(4, 8);
 
