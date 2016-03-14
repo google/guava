@@ -226,7 +226,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * <p><b>Performance note:</b> This method will sometimes recognize that the actual copy operation
    * is unnecessary; for example, {@code copyOf(copyOf(anArrayList))} will copy the data only once.
    * This reduces the expense of habitually making defensive copies at API boundaries. However, the
-   * the precise conditions for skipping the copy operation are undefined.
+   * precise conditions for skipping the copy operation are undefined.
    *
    * @throws NullPointerException if any of {@code elements} is null
    * @since 7.0 (source-compatible since 2.0)
