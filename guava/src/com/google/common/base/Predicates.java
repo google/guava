@@ -641,7 +641,7 @@ public final class Predicates {
         // Pattern uses Object (identity) equality, so we have to reach
         // inside to compare individual fields.
         return Objects.equal(pattern.pattern(), that.pattern.pattern())
-            && Objects.equal(pattern.flags(), that.pattern.flags());
+            && pattern.flags() == that.pattern.flags();
       }
       return false;
     }

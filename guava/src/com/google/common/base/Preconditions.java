@@ -1288,11 +1288,11 @@ public final class Preconditions {
       if (placeholderStart == -1) {
         break;
       }
-      builder.append(template.substring(templateStart, placeholderStart));
+      builder.append(template, templateStart, placeholderStart);
       builder.append(args[i++]);
       templateStart = placeholderStart + 2;
     }
-    builder.append(template.substring(templateStart));
+    builder.append(template, templateStart, template.length());
 
     // if we run out of placeholders, append the extra args in square braces
     if (i < args.length) {

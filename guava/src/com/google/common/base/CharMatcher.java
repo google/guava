@@ -848,8 +848,7 @@ public abstract class CharMatcher implements Predicate<Character> {
           // a no-op replacement
           i++;
         } else {
-          StringBuilder builder =
-              new StringBuilder(len).append(sequence.subSequence(0, i)).append(replacement);
+          StringBuilder builder = new StringBuilder(len).append(sequence, 0, i).append(replacement);
           return finishCollapseFrom(sequence, i + 1, len, replacement, builder, true);
         }
       }
