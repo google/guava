@@ -1357,11 +1357,4 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       return mapper.apply(e);
     }
   }
-
-  static final CancellationException cancellationExceptionWithCause(
-      @Nullable String message, @Nullable Throwable cause) {
-    CancellationException exception = new CancellationException(message);
-    exception.initCause(cause);
-    return exception;
-  }
 }

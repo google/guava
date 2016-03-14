@@ -15,7 +15,6 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.util.concurrent.Futures.cancellationExceptionWithCause;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
@@ -530,8 +529,6 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     if (localValue == null | localValue instanceof AbstractFuture.SetFuture) {
       // Try to delay allocating the exception. At this point we may still lose the CAS, but it is
       // certainly less likely.
-      // TODO(lukes): this exception actually makes cancellation significantly more expensive :(
-      // I wonder if we should consider removing it or providing a mechanism to not do it.
       Throwable cause =
           GENERATE_CANCELLATION_CAUSES
               ? new CancellationException("Future.cancel() was called.")
@@ -539,7 +536,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       Object valueToSet = new Cancellation(mayInterruptIfRunning, cause);
       do {
         if (ATOMIC_HELPER.casValue(this, localValue, valueToSet)) {
-          // We call interuptTask before calling complete(), first which is consistent with
+          // We call interuptTask before calling complete(), which is consistent with
           // FutureTask
           if (mayInterruptIfRunning) {
             interruptTask();
@@ -1044,5 +1041,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
         return false;
       }
     }
+  }
+
+  private static CancellationException cancellationExceptionWithCause(
+      @Nullable String message, @Nullable Throwable cause) {
+    CancellationException exception = new CancellationException(message);
+    exception.initCause(cause);
+    return exception;
   }
 }

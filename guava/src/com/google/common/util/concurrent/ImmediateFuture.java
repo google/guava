@@ -15,12 +15,11 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.util.concurrent.Futures.cancellationExceptionWithCause;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
 
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -122,34 +121,15 @@ abstract class ImmediateFuture<V> implements ListenableFuture<V> {
     }
   }
 
-  static class ImmediateFailedFuture<V> extends ImmediateFuture<V> {
-    private final Throwable thrown;
-
+  static final class ImmediateFailedFuture<V> extends TrustedFuture<V> {
     ImmediateFailedFuture(Throwable thrown) {
-      this.thrown = thrown;
-    }
-
-    @Override
-    public V get() throws ExecutionException {
-      throw new ExecutionException(thrown);
+      setException(thrown);
     }
   }
 
-  static class ImmediateCancelledFuture<V> extends ImmediateFuture<V> {
-    private final CancellationException thrown;
-
+  static final class ImmediateCancelledFuture<V> extends TrustedFuture<V> {
     ImmediateCancelledFuture() {
-      this.thrown = new CancellationException("Immediate cancelled future.");
-    }
-
-    @Override
-    public boolean isCancelled() {
-      return true;
-    }
-
-    @Override
-    public V get() {
-      throw cancellationExceptionWithCause("Task was cancelled.", thrown);
+      cancel(false);
     }
   }
 

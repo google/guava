@@ -196,10 +196,8 @@ public class FuturesTest extends TestCase {
       assertFalse(Iterables.any(stackTrace, hasClassName(CallerClass1.class)));
       assertTrue(Iterables.any(stackTrace, hasClassName(CallerClass2.class)));
 
-      assertThat(expected.getCause()).isInstanceOf(CancellationException.class);
-      stackTrace = ImmutableList.copyOf(expected.getCause().getStackTrace());
-      assertTrue(Iterables.any(stackTrace, hasClassName(CallerClass1.class)));
-      assertFalse(Iterables.any(stackTrace, hasClassName(CallerClass2.class)));
+      // See AbstractFutureCancellationCauseTest for how to set causes.
+      assertThat(expected.getCause()).isNull();
     }
   }
 
