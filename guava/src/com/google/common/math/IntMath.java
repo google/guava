@@ -699,6 +699,17 @@ public final class IntMath {
     // The alternative (x + y) >>> 1 fails for negative values.
     return (x & y) + ((x ^ y) >> 1);
   }
+  public static int digitsOfNFactorial(int n) {
+  //This method calculates digits number of number n's factorial without calculating 'n!'
+  //For example:for n=5--> 5!=120 --> returns 3
+		return (n == 0 || n == 1) ? 1 : (int) Math.floor(((n + 0.5)* Math.log(n) - n + 0.5 * Math.log(2 * Math.PI))	/ Math.log(10)) + 1;
+	}
+	public static int getNumbersOfDigit(int n) {
+	  //This method calculates digits number of n
+	  //For example:for n=4129--> returns 4
+		return (n == 0 || n == 1) ? 1 : (int) (Math.floor(Math.log10(n))) + 1;
+	}
 
   private IntMath() {}
+  
 }
