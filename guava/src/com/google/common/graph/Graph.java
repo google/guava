@@ -311,6 +311,9 @@ public interface Graph<N, E> {
    *
    * <p>Equivalent to {@code incidentEdges(node).size()}.
    *
+   * <p>Note that self-loops only count once towards a node's degree.
+   * This is consistent with the definition of {@link #incidentEdges(Object)}.
+   *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   int degree(Object node);
