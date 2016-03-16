@@ -709,6 +709,19 @@ public final class IntMath {
   //For example:for n=4129--> returns 4
 		return (n == 0 || n == 1) ? 1 : (int) (Math.floor(Math.log10(n))) + 1;
 }
+public static boolean isPrime(int p) {
+  //Check given number is prime number or not
+  //If number is prime return true, else return false.
+		if (p == 2)
+			return true;
+		if (p % 2 == 0)
+			return false;
+		for (int i = 3; i * i <= p; i = i + 2)
+			if (p % i == 0)
+				return false;
+		return true;
+	
+}
 
   private IntMath() {}
   
