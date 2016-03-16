@@ -226,37 +226,40 @@ public abstract class CharMatcher implements Predicate<Character> {
   public static final CharMatcher WHITESPACE = whitespace();
 
   /**
-   * Determines whether a character is a breaking whitespace (that is, a whitespace which can be
-   * interpreted as a break between words for formatting purposes). See {@link #WHITESPACE} for a
-   * discussion of that term.
+   * Determines whether a character is a breaking whitespace (that is, a whitespace
+   * which can be interpreted as a break between words for formatting purposes). See
+   * {@link #whitespace} for a discussion of that term.
    *
    * @since 2.0
    */
   public static final CharMatcher BREAKING_WHITESPACE = breakingWhitespace();
 
   /**
-   * Determines whether a character is ASCII, meaning that its code point is less than 128.
+   * Determines whether a character is ASCII, meaning that its code point is less than
+   * 128.
    */
   public static final CharMatcher ASCII = ascii();
 
   /**
    * Determines whether a character is a digit according to
-   * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>. If
-   * you only care to match ASCII digits, you can use {@code inRange('0', '9')}.
+   * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">
+   * Unicode</a>. If you only care to match ASCII digits, you can use
+   * {@code inRange('0', '9')}.
    */
   public static final CharMatcher DIGIT = digit();
 
   /**
-   * Determines whether a character is a digit according to {@linkplain Character#isDigit(char)
-   * Java's definition}. If you only care to match ASCII digits, you can use {@code
-   * inRange('0', '9')}.
+   * Determines whether a character is a digit according to
+   * {@linkplain Character#isDigit(char) Java's definition}. If you only care to match
+   * ASCII digits, you can use {@code inRange('0', '9')}.
    */
   public static final CharMatcher JAVA_DIGIT = javaDigit();
 
   /**
-   * Determines whether a character is a letter according to {@linkplain Character#isLetter(char)
-   * Java's definition}. If you only care to match letters of the Latin alphabet, you can use {@code
-   * inRange('a', 'z').or(inRange('A', 'Z'))}.
+   * Determines whether a character is a letter according to
+   * {@linkplain Character#isLetter(char) Java's definition}. If you only care to
+   * match letters of the Latin alphabet, you can use
+   * {@code inRange('a', 'z').or(inRange('A', 'Z'))}.
    */
   public static final CharMatcher JAVA_LETTER = javaLetter();
 
@@ -285,19 +288,19 @@ public abstract class CharMatcher implements Predicate<Character> {
   public static final CharMatcher JAVA_ISO_CONTROL = javaIsoControl();
 
   /**
-   * Determines whether a character is invisible; that is, if its Unicode category is any of
-   * SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT, SURROGATE, and
-   * PRIVATE_USE according to ICU4J.
+   * Determines whether a character is invisible; that is, if its Unicode category is
+   * any of SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT,
+   * SURROGATE, and PRIVATE_USE according to ICU4J.
    */
   public static final CharMatcher INVISIBLE = invisible();
 
   /**
-   * Determines whether a character is single-width (not double-width). When in doubt, this matcher
-   * errs on the side of returning {@code false} (that is, it tends to assume a character is
-   * double-width).
+   * Determines whether a character is single-width (not double-width). When in doubt,
+   * this matcher errs on the side of returning {@code false} (that is, it tends to
+   * assume a character is double-width).
    *
-   * <p><b>Note:</b> as the reference file evolves, we will modify this constant to keep it up to
-   * date.
+   * <p><b>Note:</b> as the reference file evolves, we will modify this constant to
+   * keep it up to date.
    */
   public static final CharMatcher SINGLE_WIDTH = singleWidth();
 
