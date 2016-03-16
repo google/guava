@@ -172,6 +172,25 @@ public final class Bytes {
     }
     return result;
   }
+  
+  /**
+   * Take paremeters of byte values, concat all of them and returns a single array. For example,
+   * {@code concatBytesToArray((byte)a,(byte)b,(byte)c,(byte)d) returns the array {@code {a, b,c,d}}.
+   *
+   */
+  public static byte[] concatBytesToArray(byte... arrays) {
+        int length = 0;
+        for (byte array : arrays) {
+            length++;
+        }
+        byte[] result = new byte[length];
+        int pos = 0;
+        for (byte array : arrays) {
+            result[pos] =array; 
+            pos++;
+        } 
+        return result;
+    }
 
   /**
    * Returns an array containing the same values as {@code array}, but guaranteed to be of a
