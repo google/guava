@@ -483,14 +483,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * a {@link ClassCastException} at some <i>undefined</i> point in the future.
    *
    * @throws IllegalStateException if a removal listener was already set
-   * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #removalListener} being replaced
-   *     by {@link com.google.common.cache.CacheBuilder#removalListener}. Note that
-   *     {@code CacheBuilder} is simply an enhanced API for an implementation which was branched
-   *     from {@code MapMaker}.
    */
   @CanIgnoreReturnValue
-  @Deprecated
   @GwtIncompatible // To be supported
   <K, V> GenericMapMaker<K, V> removalListener(RemovalListener<K, V> listener) {
     checkState(this.removalListener == null);
