@@ -391,7 +391,7 @@ public final class IntMath {
     int result = x % m;
     return (result >= 0) ? result : result + m;
   }
-    public int lcm(int a, int b){
+    public static int lcm(int a, int b){
     /*
     Returns least common multiple of two numbers. Uses gcd method of this library.
     */
