@@ -710,8 +710,7 @@ public final class IntMath {
 		return (n == 0 || n == 1) ? 1 : (int) (Math.floor(Math.log10(n))) + 1;
 }
 public static boolean isPrime(int p) {
-  //Check given number is prime number or not
-  //If number is prime return true, else return false.
+  //Check given number is prime number or not. If number is prime return true, else return false.
 		if (p == 2)
 			return true;
 		if (p % 2 == 0)
