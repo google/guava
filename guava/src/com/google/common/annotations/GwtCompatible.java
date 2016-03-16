@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
  * method, the return type of the method is GWT compatible. It's useful to indicate that an instance
  * created by factory methods has a GWT serializable type. In the following example,
  *
- * <pre style="code">
+ * <pre>
  * {@literal @}GwtCompatible
  * class Lists {
  *   ...
@@ -40,7 +40,7 @@ import java.lang.annotation.Target;
  * <p>The return value of {@code Lists.newArrayList(E[])} has GWT serializable type. It is also
  * useful in specifying contracts of interface methods. In the following example,
  *
- * <pre style="code">
+ * <pre>
  * {@literal @}GwtCompatible
  * interface ListFactory {
  *   ...
