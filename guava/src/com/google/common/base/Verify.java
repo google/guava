@@ -86,7 +86,6 @@ import javax.annotation.Nullable;
  *
  * @since 17.0
  */
-@Beta
 @GwtCompatible
 public final class Verify {
   /**
