@@ -16,10 +16,12 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
+import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
@@ -27,11 +29,13 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -64,6 +68,23 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
   }
 
   // TODO: switch to DerivedIteratorTestSuiteBuilder
+
+  @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
+  @CollectionSize.Require(absent = ZERO)
+  public void testIterator_removeAffectsBackingCollection() {
+    int originalSize = collection.size();
+    Iterator<E> iterator = collection.iterator();
+    Object element = iterator.next();
+    // If it's an Entry, it may become invalid once it's removed from the Map. Copy it.
+    if (element instanceof Entry) {
+      Entry<?, ?> entry = (Entry<?, ?>) element;
+      element = mapEntry(entry.getKey(), entry.getValue());
+    }
+    assertTrue(collection.contains(element)); // sanity check
+    iterator.remove();
+    assertFalse(collection.contains(element));
+    assertEquals(originalSize - 1, collection.size());
+  }
 
   @CollectionFeature.Require({KNOWN_ORDER, SUPPORTS_ITERATOR_REMOVE})
   public void testIterator_knownOrderRemoveSupported() {

@@ -16,6 +16,11 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.testers.ListListIteratorTester.getListIteratorFullyModifiableMethod;
+import static com.google.common.collect.testing.testers.ListSubListTester.getSubListOriginalListSetAffectsSubListLargeListMethod;
+import static com.google.common.collect.testing.testers.ListSubListTester.getSubListOriginalListSetAffectsSubListMethod;
+import static com.google.common.collect.testing.testers.ListSubListTester.getSubListSubListRemoveAffectsOriginalLargeListMethod;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -80,7 +85,11 @@ public class TestsForListsInJavaUtil {
     return Collections.emptySet();
   }
   protected Collection<Method> suppressForCopyOnWriteArrayList() {
-    return Collections.emptySet();
+    return Arrays.asList(
+        getSubListOriginalListSetAffectsSubListMethod(),
+        getSubListOriginalListSetAffectsSubListLargeListMethod(),
+        getSubListSubListRemoveAffectsOriginalLargeListMethod(),
+        getListIteratorFullyModifiableMethod());
   }
   protected Collection<Method> suppressForUnmodifiableList() {
     return Collections.emptySet();
