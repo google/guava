@@ -213,15 +213,15 @@ public abstract class CharMatcher implements Predicate<Character> {
   // TODO(cgdecker): Deprecate these so they can be removed eventually
 
   /**
-   * Determines whether a character is whitespace according to the latest Unicode standard, as
-   * illustrated
+   * Determines whether a character is whitespace according to the latest Unicode
+   * standard, as illustrated
    * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
    * This is not the same definition used by other Java APIs. (See a
-   * <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison of several
-   * definitions of "whitespace"</a>.)
+   * <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">
+   * comparison of several definitions of "whitespace"</a>.)
    *
-   * <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant to keep it up
-   * to date.
+   * <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant
+   * to keep it up to date.
    */
   public static final CharMatcher WHITESPACE = whitespace();
 
