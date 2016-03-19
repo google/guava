@@ -18,7 +18,6 @@ package com.google.common.graph;
 
 import static com.google.common.graph.GraphProperties.isCyclic;
 import static com.google.common.graph.GraphProperties.roots;
-import static com.google.common.graph.Graphs.config;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
@@ -45,13 +44,13 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_emptyGraph() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     assertThat(isCyclic(directedGraph)).isFalse();
   }
 
   @Test
   public void isCyclic_isolatedNodes() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     directedGraph.addNode(N1);
     assertThat(isCyclic(directedGraph)).isFalse();
     directedGraph.addNode(N2);
@@ -60,21 +59,22 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_oneEdge() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     assertThat(isCyclic(directedGraph)).isFalse();
   }
 
   @Test
   public void isCyclic_selfLoopEdge() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     directedGraph.addEdge(E11, N1, N1);
     assertThat(isCyclic(directedGraph)).isTrue();
   }
 
   @Test
   public void isCyclic_twoParallelEdges() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected(config().multigraph());
+    Graph<Integer, String> directedGraph =
+        GraphBuilder.directed().allowsParallelEdges(true).build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E12_A, N1, N2);
     assertThat(isCyclic(directedGraph)).isFalse();
@@ -82,7 +82,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_twoAcyclicEdges() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E13, N1, N3);
     assertThat(isCyclic(directedGraph)).isFalse();
@@ -90,7 +90,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_twoCyclicEdges() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E21, N2, N1);
     assertThat(isCyclic(directedGraph)).isTrue();
@@ -98,7 +98,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_threeAcyclicEdges() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E23, N2, N3);
     directedGraph.addEdge(E13, N1, N3);
@@ -107,7 +107,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_threeCyclicEdges() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E23, N2, N3);
     directedGraph.addEdge(E31, N3, N1);
@@ -116,7 +116,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_disconnectedCyclicGraph() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E21, N2, N1);
     directedGraph.addNode(N3);
@@ -125,7 +125,8 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_cyclicMultigraph() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected(config().multigraph());
+    Graph<Integer, String> directedGraph =
+        GraphBuilder.directed().allowsParallelEdges(true).build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E12_A, N1, N2);
     directedGraph.addEdge(E23, N2, N3);
@@ -135,7 +136,8 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_multipleCycles() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected(config().multigraph());
+    Graph<Integer, String> directedGraph =
+        GraphBuilder.directed().allowsParallelEdges(true).build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E21, N2, N1);
     directedGraph.addEdge(E23, N2, N3);
@@ -145,20 +147,20 @@ public class GraphPropertiesTest {
 
   @Test
   public void roots_emptyGraph() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     assertThat(roots(directedGraph)).isEmpty();
   }
 
   @Test
   public void roots_trivialGraph() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     directedGraph.addNode(N1);
     assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1));
   }
 
   @Test
   public void roots_nodeWithSelfLoop() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     directedGraph.addNode(N1);
     directedGraph.addEdge(E11, N1, N1);
     assertThat(roots(directedGraph)).isEmpty();
@@ -166,7 +168,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void roots_nodeWithChildren() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E13, N1, N3);
     assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1));
@@ -174,7 +176,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void roots_cycle() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E21, N2, N1);
     assertThat(roots(directedGraph)).isEmpty();
@@ -182,7 +184,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void roots_multipleRoots() {
-    DirectedGraph<Integer, String> directedGraph = Graphs.createDirected();
+    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
     directedGraph.addNode(N1);
     directedGraph.addNode(N2);
     assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1, N2));

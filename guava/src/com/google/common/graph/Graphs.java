@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -38,13 +39,10 @@ import javax.annotation.Nullable;
  * Static utility methods for {@link Graph} instances.
  *
  * @author Joshua O'Madadhain
- * @see Graph
  * @since 20.0
  */
 @Beta
 public final class Graphs {
-
-  public static final GraphConfig MULTIGRAPH = config().multigraph();
 
   private Graphs() {}
 
@@ -84,7 +82,7 @@ public final class Graphs {
     }
 
     Set<N> incidentNodes = graph.incidentNodes(edge); // Verifies that edge is in graph
-    if (!graph.config().isMultigraph()) {
+    if (!graph.allowsParallelEdges()) {
       return ImmutableSet.of();
     }
     Iterator<N> incidentNodesIterator = incidentNodes.iterator();
@@ -119,43 +117,32 @@ public final class Graphs {
   /**
    * Creates a mutable copy of {@code graph}, using the same node and edge elements.
    */
-  public static <N, E> DirectedGraph<N, E> copyOf(DirectedGraph<N, E> graph) {
-    checkNotNull(graph, "graph");
-    DirectedGraph<N, E> copy = createDirected(graph.config()
-            .expectedNodeCount(graph.nodes().size())
-            .expectedEdgeCount(graph.edges().size()));
-    mergeNodesFrom(graph, copy);
-    mergeEdgesFrom(graph, copy);
-    return copy;
+  public static <N, E> Graph<N, E> copyOf(Graph<N, E> graph) {
+    return copyOf(graph, Predicates.alwaysTrue(), Predicates.alwaysTrue());
   }
 
   /**
    * Creates a mutable copy of {@code graph}, using all of its elements that satisfy
    * {@code nodePredicate} and {@code edgePredicate}.
    */
-  public static <N, E> DirectedGraph<N, E> copyOf(
-      DirectedGraph<N, E> graph,
+  public static <N, E> Graph<N, E> copyOf(
+      Graph<N, E> graph,
       Predicate<? super N> nodePredicate,
       Predicate<? super E> edgePredicate) {
     checkNotNull(graph, "graph");
     checkNotNull(nodePredicate, "nodePredicate");
     checkNotNull(edgePredicate, "edgePredicate");
-    DirectedGraph<N, E> copy = createDirected(graph.config()
-            .expectedNodeCount(graph.nodes().size())
-            .expectedEdgeCount(graph.edges().size()));
+    Graph<N, E> copy = GraphBuilder.from(graph)
+        .expectedNodeCount(graph.nodes().size()).expectedEdgeCount(graph.edges().size()).build();
     mergeNodesFrom(graph, copy, nodePredicate);
-    // We can't just call mergeEdgesFrom(graph, copy, edgePredicate) because addEdge() can add
-    // the edge's incident nodes if they are not present; we need to run them past nodePredicate.
-    if (edgePredicate.equals(Predicates.<E>alwaysFalse())) {
-      return copy; // no edges to add
-    }
 
+    // We can't just call mergeEdgesFrom(graph, copy, edgePredicate) because addEdge() can add
+    // the edge's incident nodes if they are not present.
     for (E edge : graph.edges()) {
       if (edgePredicate.apply(edge)) {
-        N source = graph.source(edge);
-        N target = graph.target(edge);
-        if (nodePredicate.apply(source) && nodePredicate.apply(target)) {
-          copy.addEdge(edge, source, target);
+        Set<N> incidentNodes = graph.incidentNodes(edge);
+        if (copy.nodes().containsAll(incidentNodes)) {
+          addEdge(copy, edge, incidentNodes);
         }
       }
     }
@@ -167,11 +154,7 @@ public final class Graphs {
    * Copies all nodes from {@code original} into {@code copy}.
    */
   public static <N, E> void mergeNodesFrom(Graph<N, E> original, Graph<N, E> copy) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
-    for (N node : original.nodes()) {
-      copy.addNode(node);
-    }
+    mergeNodesFrom(original, copy, Predicates.alwaysTrue());
   }
 
   /**
@@ -182,31 +165,17 @@ public final class Graphs {
     checkNotNull(original, "original");
     checkNotNull(copy, "copy");
     checkNotNull(nodePredicate, "nodePredicate");
-    if (nodePredicate.equals(Predicates.<N>alwaysFalse())) {
-      return; // nothing to do
-    }
-
-    if (nodePredicate.equals(Predicates.<N>alwaysTrue())) {
-      mergeNodesFrom(original, copy); // optimization
-    } else {
-      for (N node : original.nodes()) {
-        if (nodePredicate.apply(node)) {
-          copy.addNode(node);
-        }
-      }
+    for (N node : Sets.filter(original.nodes(), nodePredicate)) {
+      copy.addNode(node);
     }
   }
 
   /**
-   * Copies all edges from {@code original} into {@code copy}.  Also copies all nodes incident
+   * Copies all edges from {@code original} into {@code copy}. Also copies all nodes incident
    * to these edges.
    */
-  public static <N, E> void mergeEdgesFrom(DirectedGraph<N, E> original, DirectedGraph<N, E> copy) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
-    for (E edge : original.edges()) {
-      copy.addEdge(edge, original.source(edge), original.target(edge));
-    }
+  public static <N, E> void mergeEdgesFrom(Graph<N, E> original, Graph<N, E> copy) {
+    mergeEdgesFrom(original, copy, Predicates.alwaysTrue());
   }
 
   /**
@@ -214,169 +183,13 @@ public final class Graphs {
    * Also copies all nodes incident to these edges.
    */
   public static <N, E> void mergeEdgesFrom(
-      DirectedGraph<N, E> original, DirectedGraph<N, E> copy, Predicate<? super E> edgePredicate) {
+      Graph<N, E> original, Graph<N, E> copy, Predicate<? super E> edgePredicate) {
     checkNotNull(original, "original");
     checkNotNull(copy, "copy");
     checkNotNull(edgePredicate, "edgePredicate");
-    if (edgePredicate.equals(Predicates.<E>alwaysFalse())) {
-      return; // nothing to do
-    }
-
-    if (edgePredicate.equals(Predicates.<E>alwaysTrue())) {
-      mergeEdgesFrom(original, copy); // optimization
-    } else {
-      for (E edge : original.edges()) {
-        if (edgePredicate.apply(edge)) {
-          copy.addEdge(edge, original.source(edge), original.target(edge));
-        }
-      }
-    }
-  }
-
-  /**
-   * Creates a mutable copy of {@code graph}, using the same node and edge elements.
-   */
-  public static <N, E> UndirectedGraph<N, E> copyOf(UndirectedGraph<N, E> graph) {
-    checkNotNull(graph, "graph");
-    UndirectedGraph<N, E> copy = createUndirected(graph.config()
-            .expectedNodeCount(graph.nodes().size())
-            .expectedEdgeCount(graph.edges().size()));
-    mergeNodesFrom(graph, copy);
-    mergeEdgesFrom(graph, copy);
-    return copy;
-  }
-
-  /**
-   * Creates a mutable copy of {@code graph}, using all of its elements that satisfy
-   * {@code nodePredicate} and {@code edgePredicate}.
-   */
-  public static <N, E> UndirectedGraph<N, E> copyOf(
-      UndirectedGraph<N, E> graph,
-      Predicate<? super N> nodePredicate,
-      Predicate<? super E> edgePredicate) {
-    checkNotNull(graph, "graph");
-    checkNotNull(nodePredicate, "nodePredicate");
-    checkNotNull(edgePredicate, "edgePredicate");
-    UndirectedGraph<N, E> copy = createUndirected(graph.config()
-            .expectedNodeCount(graph.nodes().size())
-            .expectedEdgeCount(graph.edges().size()));
-    mergeNodesFrom(graph, copy, nodePredicate);
-
-    // We can't just call mergeEdgesFrom(graph, copy, edgePredicate) because addEdge() can add
-    // the edge's incident nodes if they are not present; we need to run them past nodePredicate.
-    for (E edge : graph.edges()) {
-      if (edgePredicate.apply(edge)) {
-        boolean nodesOk = true;
-        Set<N> incidentNodes = graph.incidentNodes(edge);
-        for (N node : incidentNodes) {
-          nodesOk &= nodePredicate.apply(node);
-        }
-        if (nodesOk) {
-          addEdge(copy, edge, incidentNodes);
-        }
-      }
-    }
-
-    return copy;
-  }
-
-  /**
-   * Copies all edges from {@code original} into {@code copy}.  Also copies all nodes incident
-   * to these edges.
-   */
-  public static <N, E> void mergeEdgesFrom(Graph<N, E> original, Graph<N, E> copy) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
-    for (E edge : original.edges()) {
+    for (E edge : Sets.filter(original.edges(), edgePredicate)) {
       addEdge(copy, edge, original.incidentNodes(edge));
     }
-  }
-
-  /**
-   * Copies all edges from {@code original} into {@code copy} that satisfy {@code edgePredicate}.
-   * Also copies all nodes incident to these edges.
-   */
-  // NOTE: this is identical to mergeEdgesFrom(DirectedGraph) except for the call to addEdge
-  public static <N, E> void mergeEdgesFrom(Graph<N, E> original, Graph<N, E> copy,
-      Predicate<? super E> edgePredicate) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
-    checkNotNull(edgePredicate, "edgePredicate");
-    if (edgePredicate.equals(Predicates.<E>alwaysFalse())) {
-      return; // nothing to do
-    }
-
-    if (edgePredicate.equals(Predicates.<E>alwaysTrue())) {
-      mergeEdgesFrom(original, copy); // optimization
-    } else {
-      for (E edge : original.edges()) {
-        if (edgePredicate.apply(edge)) {
-          addEdge(copy, edge, original.incidentNodes(edge));
-        }
-      }
-    }
-  }
-
-  /**
-   * Copies all nodes and edges from {@code original} to {@code copy} that satisfy
-   * {@code nodePredicate} and {@code edgePredicate}.
-   */
-  public static <N, E> void copyFrom(
-      Graph<N, E> original,
-      Graph<N, E> copy,
-      Predicate<? super N> nodePredicate,
-      Predicate<? super E> edgePredicate) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
-    checkNotNull(nodePredicate, "nodePredicate");
-    checkNotNull(edgePredicate, "edgePredicate");
-    mergeNodesFrom(original, copy, nodePredicate);
-    mergeEdgesFrom(original, copy, edgePredicate);
-  }
-
-  /**
-   * Returns a new default instance of {@code GraphConfig}.
-   *
-   * @see GraphConfig
-   */
-  public static GraphConfig config() {
-    return new GraphConfig();
-  }
-
-  /**
-   * Returns a new instance of {@link DirectedGraph} with the default
-   * graph configuration.
-   *
-   * @see GraphConfig
-   */
-  public static <N, E> DirectedGraph<N, E> createDirected() {
-    return new IncidenceSetDirectedGraph<N, E>(config());
-  }
-
-  /**
-   * Returns a new instance of {@link DirectedGraph} with the graph
-   * configuration specified by {@code config}.
-   */
-  public static <N, E> DirectedGraph<N, E> createDirected(GraphConfig config) {
-    return new IncidenceSetDirectedGraph<N, E>(config);
-  }
-
-  /**
-   * Returns a new instance of {@link UndirectedGraph} with the default
-   * graph configuration.
-   *
-   * @see GraphConfig
-   */
-  public static <N, E> UndirectedGraph<N, E> createUndirected() {
-    return new IncidenceSetUndirectedGraph<N, E>(config());
-  }
-
-  /**
-   * Returns a new instance of {@link UndirectedGraph} with the graph
-   * configuration specified by {@code config}.
-   */
-  public static <N, E> UndirectedGraph<N, E> createUndirected(GraphConfig config) {
-    return new IncidenceSetUndirectedGraph<N, E>(config);
   }
 
   /**
@@ -405,8 +218,8 @@ public final class Graphs {
       if (!graph1.inEdges(node).equals(graph2.inEdges(node))) {
         return false;
       }
-      // TODO(b/27195992): Consider an optimization for the case where both graphs are undirected.
-      if (!graph1.outEdges(node).equals(graph2.outEdges(node))) {
+      boolean bothUndirected = !graph1.isDirected() && !graph2.isDirected();
+      if (!bothUndirected && !graph1.outEdges(node).equals(graph2.outEdges(node))) {
         return false;
       }
     }
@@ -425,11 +238,11 @@ public final class Graphs {
 
   /**
    * Returns a string representation of {@code graph}. Encodes edge direction if {@code graph}
-   * is a {@link DirectedGraph}.
+   * is directed.
    */
   public static String toString(Graph<?, ?> graph) {
-    return String.format("config: %s, nodes: %s, edges: %s",
-        graph.config(),
+    return String.format("%s, nodes: %s, edges: %s",
+        getPropertiesString(graph),
         graph.nodes(),
         Maps.asMap(graph.edges(), edgeToIncidentNodesString(graph)));
   }
@@ -470,14 +283,12 @@ public final class Graphs {
    * {@link IllegalArgumentException} if {@code graph} does not contain {@code edge}.
    */
   private static Function<Object, String> edgeToIncidentNodesString(final Graph<?, ?> graph) {
-    if (graph instanceof DirectedGraph) {
-      @SuppressWarnings("unchecked")
-      final DirectedGraph<?, ?> directedGraph = (DirectedGraph<?, ?>) graph;
+    if (graph.isDirected()) {
       return new Function<Object, String>() {
         @Override
         public String apply(Object edge) {
           return String.format("<%s -> %s>",
-              directedGraph.source(edge), directedGraph.target(edge));
+              graph.source(edge), graph.target(edge));
           }
         };
     }
@@ -487,5 +298,14 @@ public final class Graphs {
         return graph.incidentNodes(edge).toString();
       }
     };
+  }
+
+  /**
+   * Returns a string representation of the properties of {@code graph}.
+   */
+  @VisibleForTesting
+  static String getPropertiesString(Graph<?, ?> graph) {
+    return String.format("isDirected: %s , allowsParallelEdges: %s, allowsSelfLoops: %s",
+        graph.isDirected(), graph.allowsParallelEdges(), graph.allowsSelfLoops());
   }
 }

@@ -211,8 +211,34 @@ public interface Graph<N, E> {
   /** Returns all edges in this graph. */
   Set<E> edges();
 
-  /** Returns the {@link GraphConfig} that defines this instance's configuration. */
-  GraphConfig config();
+  //
+  // Graph properties
+  //
+
+  /**
+   * Returns true if the edges in this graph have a direction associated with them.
+   *
+   * <p>A directed edge is an {@linkplain #outEdges(Object) outgoing edge} of its
+   * {@linkplain #source(Object) source}, and an {@linkplain #inEdges(Object) incoming edge} of its
+   * {@linkplain #target(Object) target}. An undirected edge connects its
+   * {@linkplain #incidentNodes(Object) incident nodes} to each other, and is both an
+   * {@linkplain #outEdges(Object) outgoing edge} and {@linkplain #inEdges(Object) incoming edge}
+   * of each incident node.
+   */
+  boolean isDirected();
+
+  /**
+   * Returns true if this graph allows parallel edges. Attempting to add a parallel edge to a graph
+   * that does not allow them will throw an {@link UnsupportedOperationException}.
+   */
+  boolean allowsParallelEdges();
+
+  /**
+   * Returns true if this graph allows self-loops (edges that connect a node to itself).
+   * Attempting to add a self-loop to a graph that does not allow them will throw an
+   * {@link UnsupportedOperationException}.
+   */
+  boolean allowsSelfLoops();
 
   //
   // Element-level accessors
@@ -228,8 +254,9 @@ public interface Graph<N, E> {
   /**
    * Returns the nodes which are the endpoints of {@code edge} in this graph.
    *
-   * <p>For non-hypergraphs, the returned set will always contain either one
-   * (if {@code edge} is a self-loop) or two nodes.
+   * <p>For self-loop edges, the returned set's size will be 1. If the graph is
+   * {@linkplain #isDirected() directed} and {@code edge} is not a self-loop, the
+   * iteration order will be {@code [source(edge), target(edge)]}.
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this graph
    */
@@ -255,8 +282,10 @@ public interface Graph<N, E> {
   Set<E> adjacentEdges(Object edge);
 
   /**
-   * Returns the edges that are {@linkplain #incidentEdges(Object) incident} in this graph
-   * to both nodes {@code node1} and {@code node2}.
+   * Returns the set of edges that connect {@code node1} to {@code node2}.
+   *
+   * <p>This set is the intersection of {@code outEdges(node1)} and {@code inEdges(node2)}. If
+   * {@code node1} is equal to {@code node2}, then it is the set of self-loop edges for that node.
    *
    * @throws IllegalArgumentException if {@code node1} or {@code node2} is not an element
    *     of this graph
@@ -303,6 +332,18 @@ public interface Graph<N, E> {
   //
   // Element-level queries
   //
+
+  /**
+   * For a directed graph, returns the node for which {@code edge} is an outgoing edge.
+   * For an undirected graph, throws an {@link UnsupportedOperationException}.
+   */
+  N source(Object edge);
+
+  /**
+   * For a directed graph, returns the node for which {@code edge} is an incoming edge.
+   * For an undirected graph, throws an {@link UnsupportedOperationException}.
+   */
+  N target(Object edge);
 
   /**
    * Returns the number of edges {@linkplain #incidentEdges(Object) incident} in this graph
@@ -356,7 +397,7 @@ public interface Graph<N, E> {
   boolean addNode(N node);
 
   /**
-   * Adds {@code edge} to this graph, connecting {@code node1} and {@code node2}
+   * Adds {@code edge} to this graph, connecting {@code node1} to {@code node2}
    * (optional operation).
    *
    * <p><b>Edges must be unique</b>, just as {@code Map} keys must be; they must also be non-null.
@@ -413,14 +454,10 @@ public interface Graph<N, E> {
    *     <br>Thus, every edge in A and B connect the same nodes in the same direction (if any).
    * </ul>
    *
-   * <p>Properties that are <b>not</b> respected by this method:
-   * <ul>
-   * <li>{@code GraphConfig} configurations.  If two graphs are equal by the above criteria but have
-   * different configurations, they are still equal.  (For example: two graphs may be considered
-   * equal even if one allows parallel edges and the other doesn't.)
-   * <li>Edge/node ordering.  The order in which edges or nodes are added to the graph, and the
-   * order in which they are iterated over, are irrelevant.
-   * </ul>
+   * <p>Graph properties are <b>not</b> respected by this method. For example, two graphs may be
+   * considered equal even if one allows parallel edges and the other doesn't. Additionally, the
+   * order in which edges or nodes are added to the graph, and the order in which they are iterated
+   * over, are irrelevant.
    *
    * <p>A reference implementation of this is provided by {@link Graphs#equal(Graph, Graph)}.
    */

@@ -39,6 +39,26 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 @Beta
 public interface Hypergraph<N, E> extends Graph<N, E> {
   /**
+   * Source is not applicable to hypergraphs.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation. Call {@link #incidentNodes(Object)} instead.
+   */
+  @Deprecated
+  @Override
+  N source(Object edge);
+
+  /**
+   * Target is not applicable to hypergraphs.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation. Call {@link #incidentNodes(Object)} instead.
+   */
+  @Deprecated
+  @Override
+  N target(Object edge);
+
+  /**
    * Adds {@code edge} to this graph, connecting {@code nodes}.
    *
    * @return {@code true} iff the graph was modified as a result of this call

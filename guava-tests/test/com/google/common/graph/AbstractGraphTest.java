@@ -147,7 +147,7 @@ public abstract class AbstractGraphTest {
 
   @After
   public void validateGraphState() {
-    new EqualsTester().addEqualityGroup(graph).testEquals();
+    new EqualsTester().addEqualityGroup(graph, ImmutableGraph.copyOf(graph)).testEquals();
 
     for (String edge : graph.edges()) {
       if (!(graph instanceof Hypergraph)) {

@@ -16,27 +16,29 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.Graphs.getPropertiesString;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.testing.EqualsTester;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for {@link ImmutableUndirectedGraph} with default graph configuration.
- *
- * @see GraphConfig
+ * Tests for an undirected {@link ConfigurableGraph} with default graph properties.
  */
 @RunWith(JUnit4.class)
-public class ImmutableUndirectedGraphTest extends ImmutableSimpleUndirectedGraphTest {
+public class ConfigurableUndirectedGraphTest extends ConfigurableSimpleUndirectedGraphTest {
 
   @Override
-  public ImmutableUndirectedGraph<Integer, String> createGraph() {
-    builder = ImmutableUndirectedGraph.builder();
-    return builder.build();
+  public Graph<Integer, String> createGraph() {
+    return GraphBuilder.undirected().build();
   }
 
   @Test
@@ -76,42 +78,43 @@ public class ImmutableUndirectedGraphTest extends ImmutableSimpleUndirectedGraph
   @Test
   public void edgesConnecting_selfLoop() {
     addEdge(E11, N1, N1);
-    assertThat(undirectedGraph.edgesConnecting(N1, N1)).containsExactly(E11);
+    assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11);
     addEdge(E12, N1, N2);
-    assertThat(undirectedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
-    assertThat(undirectedGraph.edgesConnecting(N2, N1)).containsExactly(E12);
+    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertThat(graph.edgesConnecting(N2, N1)).containsExactly(E12);
+    assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11);
   }
 
   @Test
   public void inEdges_selfLoop() {
     addEdge(E11, N1, N1);
-    assertThat(undirectedGraph.inEdges(N1)).containsExactly(E11);
+    assertThat(graph.inEdges(N1)).containsExactly(E11);
     addEdge(E12, N1, N2);
-    assertThat(undirectedGraph.inEdges(N1)).containsExactly(E11, E12);
+    assertThat(graph.inEdges(N1)).containsExactly(E11, E12);
   }
 
   @Test
   public void outEdges_selfLoop() {
     addEdge(E11, N1, N1);
-    assertThat(undirectedGraph.outEdges(N1)).containsExactly(E11);
+    assertThat(graph.outEdges(N1)).containsExactly(E11);
     addEdge(E12, N2, N1);
-    assertThat(undirectedGraph.outEdges(N1)).containsExactly(E11, E12);
+    assertThat(graph.outEdges(N1)).containsExactly(E11, E12);
   }
 
   @Test
   public void predecessors_selfLoop() {
     addEdge(E11, N1, N1);
-    assertThat(undirectedGraph.predecessors(N1)).containsExactly(N1);
+    assertThat(graph.predecessors(N1)).containsExactly(N1);
     addEdge(E12, N1, N2);
-    assertThat(undirectedGraph.predecessors(N1)).containsExactly(N1, N2);
+    assertThat(graph.predecessors(N1)).containsExactly(N1, N2);
   }
 
   @Test
   public void successors_selfLoop() {
     addEdge(E11, N1, N1);
-    assertThat(undirectedGraph.successors(N1)).containsExactly(N1);
+    assertThat(graph.successors(N1)).containsExactly(N1);
     addEdge(E12, N2, N1);
-    assertThat(undirectedGraph.successors(N1)).containsExactly(N1, N2);
+    assertThat(graph.successors(N1)).containsExactly(N1, N2);
   }
 
   @Test
@@ -125,20 +128,18 @@ public class ImmutableUndirectedGraphTest extends ImmutableSimpleUndirectedGraph
   @Test
   public void inDegree_selfLoop() {
     addEdge(E11, N1, N1);
-    assertEquals(1, undirectedGraph.inDegree(N1));
+    assertEquals(1, graph.inDegree(N1));
     addEdge(E12, N1, N2);
-    assertEquals(2, undirectedGraph.inDegree(N1));
+    assertEquals(2, graph.inDegree(N1));
   }
 
   @Test
   public void outDegree_selfLoop() {
     addEdge(E11, N1, N1);
-    assertEquals(1, undirectedGraph.outDegree(N1));
+    assertEquals(1, graph.outDegree(N1));
     addEdge(E12, N2, N1);
-    assertEquals(2, undirectedGraph.outDegree(N1));
+    assertEquals(2, graph.outDegree(N1));
   }
-
-  // Builder mutation methods
 
   @Override
   @Test
@@ -146,6 +147,14 @@ public class ImmutableUndirectedGraphTest extends ImmutableSimpleUndirectedGraph
     assertTrue(addEdge(E11, N1, N1));
     assertThat(graph.edges()).contains(E11);
     assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11);
+  }
+
+  @Test
+  public void addEdge_existingSelfLoopEdgeBetweenSameNodes() {
+    addEdge(E11, N1, N1);
+    ImmutableSet<String> edges = ImmutableSet.copyOf(graph.edges());
+    assertFalse(addEdge(E11, N1, N1));
+    assertThat(graph.edges()).containsExactlyElementsIn(edges);
   }
 
   @Test
@@ -184,17 +193,41 @@ public class ImmutableUndirectedGraphTest extends ImmutableSimpleUndirectedGraph
   }
 
   @Test
+  public void removeNode_existingNodeWithSelfLoopEdge() {
+    addNode(N1);
+    addEdge(E11, N1, N1);
+    assertTrue(graph.removeNode(N1));
+    assertThat(graph.nodes()).isEmpty();
+    assertThat(graph.edges()).doesNotContain(E11);
+  }
+
+  @Test
+  public void removeEdge_existingSelfLoopEdge() {
+    addEdge(E11, N1, N1);
+    assertTrue(graph.removeEdge(E11));
+    assertThat(graph.edges()).doesNotContain(E11);
+    assertThat(graph.edgesConnecting(N1, N1)).isEmpty();
+  }
+
+  // TODO(kak): Can't we ditch this and just use PackageSanityTests?
+  @Test
+  public void testEquals() {
+    Graph<Integer, String> graphA = createGraph();
+    graphA.addNode(N1);
+    Graph<Integer, String> graphB = createGraph();
+    graphA.addNode(N2);
+
+    new EqualsTester()
+        .addEqualityGroup(graphA)
+        .addEqualityGroup(graphB)
+        .testEquals();
+  }
+
+  @Test
   public void toString_selfLoop() {
     addEdge(E11, N1, N1);
     assertThat(graph.toString()).isEqualTo(String.format(
-        "config: %s, nodes: %s, edges: {%s=[%s]}",
-        graph.config(), graph.nodes(), E11, N1));
-  }
-
-  @Override
-  protected void populateInputGraph(UndirectedGraph<Integer, String> graph) {
-    super.populateInputGraph(graph);
-    // add a self-loop
-    graph.addEdge(E11, N1, N1);
+        "%s, nodes: %s, edges: {%s=[%s]}",
+        getPropertiesString(graph), graph.nodes(), E11, N1));
   }
 }

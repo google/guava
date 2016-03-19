@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.Graphs.getPropertiesString;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -29,40 +30,28 @@ import org.junit.After;
 import org.junit.Test;
 
 /**
- * Abstract base class for testing implementations of {@link UndirectedGraph} interface.
+ * Abstract base class for testing undirected implementations of the {@link Graph} interface.
  *
- * <p>This class is responsible for testing that an implementation of the interface
- * {@code UndirectedGraph} is correctly handling undirected edges.
- * Implementation-dependent test cases are left to subclasses. Test cases that
- * do not require the graph to be undirected are found in superclasses.
- *
+ * <p>This class is responsible for testing that an undirected implementation of {@link Graph}
+ * is correctly handling undirected edges.  Implementation-dependent test cases are left to
+ * subclasses. Test cases that do not require the graph to be undirected are found in superclasses.
  */
 public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
-  UndirectedGraph<Integer, String> undirectedGraph;
-
-  @Override
-  public abstract UndirectedGraph<Integer, String> createGraph();
-
-  @Override
-  public void init() {
-    graph = undirectedGraph = createGraph();
-  }
 
   @After
   public void validateUndirectedEdges() {
-    for (Integer node : undirectedGraph.nodes()) {
+    for (Integer node : graph.nodes()) {
       new EqualsTester()
-          .addEqualityGroup(undirectedGraph.inEdges(node), undirectedGraph.outEdges(node),
-              undirectedGraph.incidentEdges(node))
+          .addEqualityGroup(graph.inEdges(node), graph.outEdges(node), graph.incidentEdges(node))
           .testEquals();
       new EqualsTester()
-          .addEqualityGroup(undirectedGraph.predecessors(node), undirectedGraph.successors(node),
-              undirectedGraph.adjacentNodes(node))
+          .addEqualityGroup(graph.predecessors(node), graph.successors(node),
+              graph.adjacentNodes(node))
           .testEquals();
 
-      for (Integer adjacentNode : undirectedGraph.adjacentNodes(node)) {
-        assertThat(undirectedGraph.edgesConnecting(node, adjacentNode))
-            .containsExactlyElementsIn(undirectedGraph.edgesConnecting(adjacentNode, node));
+      for (Integer adjacentNode : graph.adjacentNodes(node)) {
+        assertThat(graph.edgesConnecting(node, adjacentNode))
+            .containsExactlyElementsIn(graph.edgesConnecting(adjacentNode, node));
       }
     }
   }
@@ -70,50 +59,50 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
   @Test
   public void edgesConnecting_oneEdge() {
     addEdge(E12, N1, N2);
-    assertThat(undirectedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
-    assertThat(undirectedGraph.edgesConnecting(N2, N1)).containsExactly(E12);
+    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertThat(graph.edgesConnecting(N2, N1)).containsExactly(E12);
   }
 
   @Test
   public void inEdges_oneEdge() {
     addEdge(E12, N1, N2);
-    assertThat(undirectedGraph.inEdges(N2)).containsExactly(E12);
-    assertThat(undirectedGraph.inEdges(N1)).containsExactly(E12);
+    assertThat(graph.inEdges(N2)).containsExactly(E12);
+    assertThat(graph.inEdges(N1)).containsExactly(E12);
   }
 
   @Test
   public void outEdges_oneEdge() {
     addEdge(E12, N1, N2);
-    assertThat(undirectedGraph.outEdges(N2)).containsExactly(E12);
-    assertThat(undirectedGraph.outEdges(N1)).containsExactly(E12);
+    assertThat(graph.outEdges(N2)).containsExactly(E12);
+    assertThat(graph.outEdges(N1)).containsExactly(E12);
   }
 
   @Test
   public void predecessors_oneEdge() {
     addEdge(E12, N1, N2);
-    assertThat(undirectedGraph.predecessors(N2)).containsExactly(N1);
-    assertThat(undirectedGraph.predecessors(N1)).containsExactly(N2);
+    assertThat(graph.predecessors(N2)).containsExactly(N1);
+    assertThat(graph.predecessors(N1)).containsExactly(N2);
   }
 
   @Test
   public void successors_oneEdge() {
     addEdge(E12, N1, N2);
-    assertThat(undirectedGraph.successors(N1)).containsExactly(N2);
-    assertThat(undirectedGraph.successors(N2)).containsExactly(N1);
+    assertThat(graph.successors(N1)).containsExactly(N2);
+    assertThat(graph.successors(N2)).containsExactly(N1);
   }
 
   @Test
   public void inDegree_oneEdge() {
     addEdge(E12, N1, N2);
-    assertEquals(1, undirectedGraph.inDegree(N2));
-    assertEquals(1, undirectedGraph.inDegree(N1));
+    assertEquals(1, graph.inDegree(N2));
+    assertEquals(1, graph.inDegree(N1));
   }
 
   @Test
   public void outDegree_oneEdge() {
     addEdge(E12, N1, N2);
-    assertEquals(1, undirectedGraph.outDegree(N1));
-    assertEquals(1, undirectedGraph.outDegree(N2));
+    assertEquals(1, graph.outDegree(N1));
+    assertEquals(1, graph.outDegree(N2));
   }
 
   // Element Mutation
@@ -125,19 +114,19 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
     addNode(N1);
     addNode(N2);
     assertTrue(addEdge(E12, N1, N2));
-    assertThat(undirectedGraph.edges()).contains(E12);
-    assertThat(undirectedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
-    assertThat(undirectedGraph.edgesConnecting(N2, N1)).containsExactly(E12);
+    assertThat(graph.edges()).contains(E12);
+    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertThat(graph.edgesConnecting(N2, N1)).containsExactly(E12);
   }
 
   @Test
   public void addEdge_existingEdgeBetweenSameNodes() {
     addEdge(E12, N1, N2);
-    ImmutableSet<String> edges = ImmutableSet.copyOf(undirectedGraph.edges());
+    ImmutableSet<String> edges = ImmutableSet.copyOf(graph.edges());
     assertFalse(addEdge(E12, N1, N2));
-    assertThat(undirectedGraph.edges()).containsExactlyElementsIn(edges);
+    assertThat(graph.edges()).containsExactlyElementsIn(edges);
     assertFalse(addEdge(E12, N2, N1));
-    assertThat(undirectedGraph.edges()).containsExactlyElementsIn(edges);
+    assertThat(graph.edges()).containsExactlyElementsIn(edges);
   }
 
   @Test
@@ -172,31 +161,31 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
   @Test
   public void removeEdge_existingEdge() {
     addEdge(E12, N1, N2);
-    assertTrue(undirectedGraph.removeEdge(E12));
-    assertThat(undirectedGraph.edges()).doesNotContain(E12);
-    assertThat(undirectedGraph.edgesConnecting(N1, N2)).isEmpty();
-    assertThat(undirectedGraph.edgesConnecting(N2, N1)).isEmpty();
+    assertTrue(graph.removeEdge(E12));
+    assertThat(graph.edges()).doesNotContain(E12);
+    assertThat(graph.edgesConnecting(N1, N2)).isEmpty();
+    assertThat(graph.edgesConnecting(N2, N1)).isEmpty();
   }
 
   @Test
   public void toString_emptyGraph() {
-    assertThat(graph.toString()).isEqualTo(String.format("config: %s, nodes: %s, edges: {}",
-        graph.config(), graph.nodes()));
+    assertThat(graph.toString()).isEqualTo(String.format("%s, nodes: %s, edges: {}",
+        getPropertiesString(graph), graph.nodes()));
   }
 
   @Test
   public void toString_noEdges() {
     addNode(N1);
-    assertThat(graph.toString()).isEqualTo(String.format("config: %s, nodes: %s, edges: {}",
-        graph.config(), graph.nodes()));
+    assertThat(graph.toString()).isEqualTo(String.format("%s, nodes: %s, edges: {}",
+        getPropertiesString(graph), graph.nodes()));
   }
 
   @Test
   public void toString_singleEdge() {
     addEdge(E12, N1, N2);
     assertThat(graph.toString()).isEqualTo(String.format(
-        "config: %s, nodes: %s, edges: {%s=[%s, %s]}",
-        graph.config(), graph.nodes(), E12, N1, N2));
+        "%s, nodes: %s, edges: {%s=[%s, %s]}",
+        getPropertiesString(graph), graph.nodes(), E12, N1, N2));
   }
 
   @Test
@@ -204,8 +193,8 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
     addEdge(E12, N1, N2);
     addEdge(E13, N1, N3);
     assertThat(graph.toString()).isEqualTo(String.format(
-        "config: %s, nodes: %s, edges: {%s=[%s, %s], %s=[%s, %s]}",
-        graph.config(),
+        "%s, nodes: %s, edges: {%s=[%s, %s], %s=[%s, %s]}",
+        getPropertiesString(graph),
         graph.nodes(),
         E12, N1, N2,
         E13, N1, N3));

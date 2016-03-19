@@ -27,40 +27,40 @@ import org.junit.runners.JUnit4;
 import java.util.Set;
 
 /**
- * Tests for {@link IncidenceSetUndirectedGraph}, creating a simple undirected graph (parallel and
- * self-loop edges are not allowed).
+ * Tests for an undirected {@link ConfigurableGraph}, creating a simple undirected graph (parallel
+ * and self-loop edges are not allowed).
  */
 @RunWith(JUnit4.class)
-public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGraphTest {
+public class ConfigurableSimpleUndirectedGraphTest extends AbstractUndirectedGraphTest {
 
   @Override
-  public UndirectedGraph<Integer, String> createGraph() {
-    return Graphs.createUndirected(Graphs.config().noSelfLoops());
+  public Graph<Integer, String> createGraph() {
+    return GraphBuilder.undirected().allowsSelfLoops(false).build();
   }
 
   @Override
   @Test
   public void nodes_checkReturnedSetMutability() {
-    Set<Integer> nodes = undirectedGraph.nodes();
+    Set<Integer> nodes = graph.nodes();
     try {
       nodes.add(N2);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
       addNode(N1);
-      assertThat(undirectedGraph.nodes()).containsExactlyElementsIn(nodes);
+      assertThat(graph.nodes()).containsExactlyElementsIn(nodes);
     }
   }
 
   @Override
   @Test
   public void edges_checkReturnedSetMutability() {
-    Set<String> edges = undirectedGraph.edges();
+    Set<String> edges = graph.edges();
     try {
       edges.add(E12);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
-      assertThat(undirectedGraph.edges()).containsExactlyElementsIn(edges);
+      assertThat(graph.edges()).containsExactlyElementsIn(edges);
     }
   }
 
@@ -68,13 +68,13 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   @Test
   public void incidentEdges_checkReturnedSetMutability() {
     addNode(N1);
-    Set<String> incidentEdges = undirectedGraph.incidentEdges(N1);
+    Set<String> incidentEdges = graph.incidentEdges(N1);
     try {
       incidentEdges.add(E12);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
-      assertThat(undirectedGraph.incidentEdges(N1)).containsExactlyElementsIn(incidentEdges);
+      assertThat(graph.incidentEdges(N1)).containsExactlyElementsIn(incidentEdges);
     }
   }
 
@@ -82,7 +82,7 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   @Test
   public void incidentNodes_checkReturnedSetMutability() {
     addEdge(E12, N1, N2);
-    Set<Integer> incidentNodes = undirectedGraph.incidentNodes(E12);
+    Set<Integer> incidentNodes = graph.incidentNodes(E12);
     try {
       incidentNodes.add(N3);
       fail(ERROR_MODIFIABLE_SET);
@@ -94,13 +94,13 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   @Test
   public void adjacentNodes_checkReturnedSetMutability() {
     addNode(N1);
-    Set<Integer> adjacentNodes = undirectedGraph.adjacentNodes(N1);
+    Set<Integer> adjacentNodes = graph.adjacentNodes(N1);
     try {
       adjacentNodes.add(N2);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
-      assertThat(undirectedGraph.adjacentNodes(N1)).containsExactlyElementsIn(adjacentNodes);
+      assertThat(graph.adjacentNodes(N1)).containsExactlyElementsIn(adjacentNodes);
     }
   }
 
@@ -108,13 +108,13 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   @Test
   public void adjacentEdges_checkReturnedSetMutability() {
     addEdge(E12, N1, N2);
-    Set<String> adjacentEdges = undirectedGraph.adjacentEdges(E12);
+    Set<String> adjacentEdges = graph.adjacentEdges(E12);
     try {
       adjacentEdges.add(E23);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
       addEdge(E23, N2, N3);
-      assertThat(undirectedGraph.adjacentEdges(E12)).containsExactlyElementsIn(adjacentEdges);
+      assertThat(graph.adjacentEdges(E12)).containsExactlyElementsIn(adjacentEdges);
     }
   }
 
@@ -123,13 +123,13 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   public void edgesConnecting_checkReturnedSetMutability() {
     addNode(N1);
     addNode(N2);
-    Set<String> edgesConnecting = undirectedGraph.edgesConnecting(N1, N2);
+    Set<String> edgesConnecting = graph.edgesConnecting(N1, N2);
     try {
       edgesConnecting.add(E23);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
-      assertThat(undirectedGraph.edgesConnecting(N1, N2))
+      assertThat(graph.edgesConnecting(N1, N2))
           .containsExactlyElementsIn(edgesConnecting);
     }
   }
@@ -138,13 +138,13 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   @Test
   public void inEdges_checkReturnedSetMutability() {
     addNode(N2);
-    Set<String> inEdges = undirectedGraph.inEdges(N2);
+    Set<String> inEdges = graph.inEdges(N2);
     try {
       inEdges.add(E12);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
-      assertThat(undirectedGraph.inEdges(N2)).containsExactlyElementsIn(inEdges);
+      assertThat(graph.inEdges(N2)).containsExactlyElementsIn(inEdges);
     }
   }
 
@@ -152,13 +152,13 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   @Test
   public void outEdges_checkReturnedSetMutability() {
     addNode(N1);
-    Set<String> outEdges = undirectedGraph.outEdges(N1);
+    Set<String> outEdges = graph.outEdges(N1);
     try {
       outEdges.add(E12);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
-      assertThat(undirectedGraph.outEdges(N1)).containsExactlyElementsIn(outEdges);
+      assertThat(graph.outEdges(N1)).containsExactlyElementsIn(outEdges);
     }
   }
 
@@ -166,13 +166,13 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   @Test
   public void predecessors_checkReturnedSetMutability() {
     addNode(N2);
-    Set<Integer> predecessors = undirectedGraph.predecessors(N2);
+    Set<Integer> predecessors = graph.predecessors(N2);
     try {
       predecessors.add(N1);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
-      assertThat(undirectedGraph.predecessors(N2)).containsExactlyElementsIn(predecessors);
+      assertThat(graph.predecessors(N2)).containsExactlyElementsIn(predecessors);
     }
   }
 
@@ -180,13 +180,13 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
   @Test
   public void successors_checkReturnedSetMutability() {
     addNode(N1);
-    Set<Integer> successors = undirectedGraph.successors(N1);
+    Set<Integer> successors = graph.successors(N1);
     try {
       successors.add(N2);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
-      assertThat(undirectedGraph.successors(N1)).containsExactlyElementsIn(successors);
+      assertThat(graph.successors(N1)).containsExactlyElementsIn(successors);
     }
   }
 
@@ -211,15 +211,15 @@ public class IncidenceSetSimpleUndirectedGraphTest extends AbstractUndirectedGra
    */
   @Test
   public void addEdge_nodesNotInGraph() {
-    undirectedGraph.addNode(N1);
-    assertTrue(undirectedGraph.addEdge(E15, N1, N5));
-    assertTrue(undirectedGraph.addEdge(E41, N4, N1));
-    assertTrue(undirectedGraph.addEdge(E23, N2, N3));
-    assertThat(undirectedGraph.nodes()).containsExactly(N1, N5, N4, N2, N3).inOrder();
-    assertThat(undirectedGraph.edges()).containsExactly(E15, E41, E23).inOrder();
-    assertThat(undirectedGraph.edgesConnecting(N1, N5)).containsExactly(E15);
-    assertThat(undirectedGraph.edgesConnecting(N4, N1)).containsExactly(E41);
-    assertThat(undirectedGraph.edgesConnecting(N2, N3)).containsExactly(E23);
-    assertThat(undirectedGraph.edgesConnecting(N3, N2)).containsExactly(E23);
+    graph.addNode(N1);
+    assertTrue(graph.addEdge(E15, N1, N5));
+    assertTrue(graph.addEdge(E41, N4, N1));
+    assertTrue(graph.addEdge(E23, N2, N3));
+    assertThat(graph.nodes()).containsExactly(N1, N5, N4, N2, N3).inOrder();
+    assertThat(graph.edges()).containsExactly(E15, E41, E23).inOrder();
+    assertThat(graph.edgesConnecting(N1, N5)).containsExactly(E15);
+    assertThat(graph.edgesConnecting(N4, N1)).containsExactly(E41);
+    assertThat(graph.edgesConnecting(N2, N3)).containsExactly(E23);
+    assertThat(graph.edgesConnecting(N3, N2)).containsExactly(E23);
   }
 }

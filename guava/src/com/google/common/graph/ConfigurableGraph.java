@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphErrorMessageUtils.ADDING_PARALLEL_EDGE;
 import static com.google.common.graph.GraphErrorMessageUtils.EDGE_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphErrorMessageUtils.NODE_NOT_IN_GRAPH;
+import static com.google.common.graph.GraphErrorMessageUtils.NOT_AVAILABLE_ON_UNDIRECTED;
 import static com.google.common.graph.GraphErrorMessageUtils.REUSING_EDGE;
 import static com.google.common.graph.GraphErrorMessageUtils.SELF_LOOPS_NOT_ALLOWED;
 
@@ -37,6 +38,7 @@ import java.util.Set;
 
 /**
  * Configurable implementation of {@link Graph} that supports both directed and undirected graphs.
+ * Instances of this class should be constructed with {@link GraphBuilder}.
  *
  * <p>This class maintains a map of {@link NodeConnections} for every node
  * and {@link IncidentNodes} for every edge.
@@ -52,47 +54,62 @@ import java.util.Set;
  *     At this point, the contents of {@code adjacentNodes} are undefined.
  * </ul>
  *
- * <p>The time complexity of all {@code Set}-returning accessors is O(1), since we
- * are returning views.
+ * <p>The time complexity of all {@code Set}-returning accessors is O(1), since views are returned.
+ *
+ * <p>Time complexities for mutation methods:
+ * <ul>
+ * <li>{@code addNode(N node)}: O(1).
+ * <li>{@code addEdge(E edge, N node1, N node2)}: O(1).
+ * <li>{@code removeNode(N node)}: O(d_node).
+ * <li>{@code removeEdge(E edge)}: O(1), unless this graph allows parallel edges;
+ *     in that case this method is O(min(outD_edgeSource, inD_edgeTarget)).
+ * </ul>
+ * where d_node is the degree of node, inD_node is the in-degree of node, and outD_node is the
+ * out-degree of node.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
  * @author Omar Darwish
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
- * @see Graph
  */
 // TODO(b/24620028): Enable this class to support sorted nodes/edges.
-abstract class AbstractConfigurableGraph<N, E> extends AbstractGraph<N, E> {
+class ConfigurableGraph<N, E> extends AbstractGraph<N, E> {
   // The default of 11 is rather arbitrary, but roughly matches the sizing of just new HashMap()
   private static final int DEFAULT_MAP_SIZE = 11;
+
+  private final boolean isDirected;
+  private final boolean allowsParallelEdges;
+  private final boolean allowsSelfLoops;
 
   private final Map<N, NodeConnections<N, E>> nodeConnections;
   private final Map<E, IncidentNodes<N>> edgeToIncidentNodes;
 
   /**
-   * Constructs a mutable graph with the specified configuration.
+   * Constructs a mutable graph with the properties specified in {@code builder}.
    */
-  AbstractConfigurableGraph(GraphConfig config) {
-    super(config);
-    this.nodeConnections =
-        Maps.newLinkedHashMapWithExpectedSize(config.getExpectedNodeCount().or(DEFAULT_MAP_SIZE));
-    this.edgeToIncidentNodes =
-        Maps.newLinkedHashMapWithExpectedSize(config.getExpectedEdgeCount().or(DEFAULT_MAP_SIZE));
+  ConfigurableGraph(GraphBuilder<? super N, ? super E> builder) {
+    this(
+        builder,
+        Maps.<N, NodeConnections<N, E>>newLinkedHashMapWithExpectedSize(
+            builder.expectedNodeCount.or(DEFAULT_MAP_SIZE)),
+        Maps.<E, IncidentNodes<N>>newLinkedHashMapWithExpectedSize(
+            builder.expectedEdgeCount.or(DEFAULT_MAP_SIZE)));
   }
 
   /**
-   * Constructs a graph with the specified configuration and node/edge relationships.
-   * May be used for immutable graphs.
+   * Constructs a graph with the properties specified in {@code builder}, initialized with
+   * the given node and edge maps. May be used for either mutable or immutable graphs.
    */
-  AbstractConfigurableGraph(GraphConfig config, Map<N, NodeConnections<N, E>> nodeConnections,
+  ConfigurableGraph(GraphBuilder<? super N, ? super E> builder,
+      Map<N, NodeConnections<N, E>> nodeConnections,
       Map<E, IncidentNodes<N>> edgeToIncidentNodes) {
-    super(config);
-    this.nodeConnections = nodeConnections;
-    this.edgeToIncidentNodes = edgeToIncidentNodes;
+    this.isDirected = builder.directed;
+    this.allowsParallelEdges = builder.allowsParallelEdges;
+    this.allowsSelfLoops = builder.allowsSelfLoops;
+    this.nodeConnections = checkNotNull(nodeConnections);
+    this.edgeToIncidentNodes = checkNotNull(edgeToIncidentNodes);
   }
-
-  abstract NodeConnections<N, E> newNodeConnections();
 
   @Override
   public Set<N> nodes() {
@@ -102,6 +119,21 @@ abstract class AbstractConfigurableGraph<N, E> extends AbstractGraph<N, E> {
   @Override
   public Set<E> edges() {
     return Collections.unmodifiableSet(edgeToIncidentNodes.keySet());
+  }
+
+  @Override
+  public boolean isDirected() {
+    return isDirected;
+  }
+
+  @Override
+  public boolean allowsParallelEdges() {
+    return allowsParallelEdges;
+  }
+
+  @Override
+  public boolean allowsSelfLoops() {
+    return allowsSelfLoops;
   }
 
   @Override
@@ -142,7 +174,7 @@ abstract class AbstractConfigurableGraph<N, E> extends AbstractGraph<N, E> {
   public Set<E> edgesConnecting(Object node1, Object node2) {
     Set<E> outEdgesN1 = outEdges(node1); // Verifies that node1 is in graph
     if (node1.equals(node2)) {
-      if (!config.isSelfLoopsAllowed()) {
+      if (!allowsSelfLoops) {
         return ImmutableSet.of();
       }
       Set<E> selfLoopEdges = Sets.filter(outEdgesN1, Graphs.selfLoopPredicate(this));
@@ -174,6 +206,22 @@ abstract class AbstractConfigurableGraph<N, E> extends AbstractGraph<N, E> {
     return checkedConnections(node).successors();
   }
 
+  @Override
+  public N source(Object edge) {
+    if (!isDirected) {
+      throw new UnsupportedOperationException(NOT_AVAILABLE_ON_UNDIRECTED);
+    }
+    return checkedIncidentNodes(edge).node1();
+  }
+
+  @Override
+  public N target(Object edge) {
+    if (!isDirected) {
+      throw new UnsupportedOperationException(NOT_AVAILABLE_ON_UNDIRECTED);
+    }
+    return checkedIncidentNodes(edge).node2();
+  }
+
   // Element Mutation
 
   @Override
@@ -203,15 +251,14 @@ abstract class AbstractConfigurableGraph<N, E> extends AbstractGraph<N, E> {
     checkNotNull(node1, "node1");
     checkNotNull(node2, "node2");
     IncidentNodes<N> incidentNodes = IncidentNodes.of(node1, node2);
-    checkArgument(config.isSelfLoopsAllowed() || !incidentNodes.isSelfLoop(),
-        SELF_LOOPS_NOT_ALLOWED, node1);
+    checkArgument(allowsSelfLoops || !incidentNodes.isSelfLoop(), SELF_LOOPS_NOT_ALLOWED, node1);
     boolean containsN1 = nodes().contains(node1);
     boolean containsN2 = nodes().contains(node2);
     if (edges().contains(edge)) {
       checkArgument(containsN1 && containsN2 && edgesConnecting(node1, node2).contains(edge),
           REUSING_EDGE, edge, incidentNodes(edge), incidentNodes);
       return false;
-    } else if (!config.isMultigraph()) {
+    } else if (!allowsParallelEdges) {
       checkArgument(!(containsN1 && containsN2 && successors(node1).contains(node2)),
           ADDING_PARALLEL_EDGE, node1, node2);
     }
@@ -282,14 +329,20 @@ abstract class AbstractConfigurableGraph<N, E> extends AbstractGraph<N, E> {
     edgeToIncidentNodes.remove(edge);
   }
 
-  NodeConnections<N, E> checkedConnections(Object node) {
+  private NodeConnections<N, E> newNodeConnections() {
+    return isDirected
+        ? DirectedNodeConnections.<N, E>of()
+        : UndirectedNodeConnections.<N, E>of();
+  }
+
+  private NodeConnections<N, E> checkedConnections(Object node) {
     checkNotNull(node, "node");
     NodeConnections<N, E> connections = nodeConnections.get(node);
     checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);
     return connections;
   }
 
-  IncidentNodes<N> checkedIncidentNodes(Object edge) {
+  private IncidentNodes<N> checkedIncidentNodes(Object edge) {
     checkNotNull(edge, "edge");
     IncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
     checkArgument(incidentNodes != null, EDGE_NOT_IN_GRAPH, edge);

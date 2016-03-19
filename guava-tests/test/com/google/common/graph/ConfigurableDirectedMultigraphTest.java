@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.Graphs.getPropertiesString;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -24,29 +25,30 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for {@link IncidenceSetUndirectedGraph} allowing parallel edges.
+ * Tests for a directed {@link ConfigurableGraph} allowing parallel edges.
  */
 @RunWith(JUnit4.class)
-public class IncidenceSetUndirectedMultigraphTest extends IncidenceSetUndirectedGraphTest {
+public class ConfigurableDirectedMultigraphTest extends ConfigurableDirectedGraphTest {
   @Override
-  public UndirectedGraph<Integer, String> createGraph() {
-    return Graphs.createUndirected(Graphs.MULTIGRAPH);
+  public Graph<Integer, String> createGraph() {
+    return GraphBuilder.directed().allowsParallelEdges(true).build();
   }
 
   @Test
   public void edgesConnecting_parallelEdges() {
     assertTrue(addEdge(E12, N1, N2));
     assertTrue(addEdge(E12_A, N1, N2));
-    assertTrue(addEdge(E21, N2, N1));
-    assertThat(undirectedGraph.edgesConnecting(N1, N2)).containsExactly(E12, E12_A, E21);
-    assertThat(undirectedGraph.edgesConnecting(N2, N1)).containsExactly(E12, E12_A, E21);
+    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12, E12_A);
+    // Passed nodes should be in the correct edge direction, first is the
+    // source node and the second is the target node
+    assertThat(graph.edgesConnecting(N2, N1)).isEmpty();
   }
 
   @Test
   public void edgesConnecting_parallelSelfLoopEdges() {
     assertTrue(addEdge(E11, N1, N1));
     assertTrue(addEdge(E11_A, N1, N1));
-    assertThat(undirectedGraph.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
+    assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
   }
 
   @Override
@@ -54,8 +56,7 @@ public class IncidenceSetUndirectedMultigraphTest extends IncidenceSetUndirected
   public void addEdge_parallelEdge() {
     assertTrue(addEdge(E12, N1, N2));
     assertTrue(addEdge(E12_A, N1, N2));
-    assertTrue(addEdge(E21, N2, N1));
-    assertThat(undirectedGraph.edgesConnecting(N1, N2)).containsExactly(E12, E12_A, E21);
+    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12, E12_A);
   }
 
   @Override
@@ -63,16 +64,15 @@ public class IncidenceSetUndirectedMultigraphTest extends IncidenceSetUndirected
   public void addEdge_parallelSelfLoopEdge() {
     assertTrue(addEdge(E11, N1, N1));
     assertTrue(addEdge(E11_A, N1, N1));
-    assertThat(undirectedGraph.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
+    assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
   }
 
   @Test
   public void removeEdge_parallelEdge() {
     addEdge(E12, N1, N2);
     addEdge(E12_A, N1, N2);
-    addEdge(E21, N2, N1);
     assertTrue(graph.removeEdge(E12_A));
-    assertThat(undirectedGraph.edgesConnecting(N1, N2)).containsExactly(E12, E21);
+    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
   }
 
   @Test
@@ -80,12 +80,12 @@ public class IncidenceSetUndirectedMultigraphTest extends IncidenceSetUndirected
     addEdge(E11, N1, N1);
     addEdge(E11_A, N1, N1);
     addEdge(E12, N1, N2);
-    assertTrue(undirectedGraph.removeEdge(E11_A));
-    assertThat(undirectedGraph.edgesConnecting(N1, N1)).containsExactly(E11);
-    assertThat(undirectedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
-    assertTrue(undirectedGraph.removeEdge(E11));
-    assertThat(undirectedGraph.edgesConnecting(N1, N1)).isEmpty();
-    assertThat(undirectedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertTrue(graph.removeEdge(E11_A));
+    assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11);
+    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertTrue(graph.removeEdge(E11));
+    assertThat(graph.edgesConnecting(N1, N1)).isEmpty();
+    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
   }
 
   @Test
@@ -95,13 +95,13 @@ public class IncidenceSetUndirectedMultigraphTest extends IncidenceSetUndirected
     addEdge(E11, N1, N1);
     addEdge(E11_A, N1, N1);
     assertThat(graph.toString()).isEqualTo(String.format(
-        "config: %s, nodes: %s, edges: {%s=[%s, %s], %s=[%s, %s], %s=[%s], %s=[%s]}",
-        graph.config(),
+        "%s, nodes: %s, edges: {%s=<%s -> %s>, %s=<%s -> %s>, %s=<%s -> %s>, %s=<%s -> %s>}",
+        getPropertiesString(graph),
         graph.nodes(),
         E12, N1, N2,
         E12_A, N1, N2,
-        E11, N1,
-        E11_A, N1
+        E11, N1, N1,
+        E11_A, N1, N1
     ));
   }
 }

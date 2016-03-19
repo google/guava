@@ -29,21 +29,6 @@ import javax.annotation.Nullable;
  */
 public abstract class AbstractGraph<N, E> implements Graph<N, E> {
 
-  protected final GraphConfig config;
-
-  /**
-   * Not all subclasses necessarily need to expose a constructor that takes a {@link GraphConfig},
-   * but they do need to provide the {@code config} here that will be returned by {@link #config()}.
-   */
-  protected AbstractGraph(GraphConfig config) {
-    this.config = config;
-  }
-
-  @Override
-  public GraphConfig config() {
-    return config;
-  }
-
   @Override
   public int degree(Object node) {
     return incidentEdges(node).size();

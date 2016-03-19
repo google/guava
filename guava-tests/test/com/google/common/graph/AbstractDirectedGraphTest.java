@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.Graphs.getPropertiesString;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -31,43 +32,33 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * Abstract base class for testing implementations of {@link DirectedGraph} interface.
+ * Abstract base class for testing implementations of {@link Graph} interface.
  *
- * <p>This class is responsible for testing that an implementation of the interface
- * {@code DirectedGraph} is correctly handling directed edges.
- * Implementation-dependent test cases are left to subclasses. Test cases that
- * do not require the graph to be directed are found in superclasses.
+ * <p>This class is responsible for testing that a directed implementation of {@link Graph}
+ * is correctly handling directed edges. Implementation-dependent test cases are left to
+ * subclasses. Test cases that do not require the graph to be directed are found in superclasses.
  *
  */
 public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
-  DirectedGraph<Integer, String> directedGraph;
-
-  @Override
-  public abstract DirectedGraph<Integer, String> createGraph();
-
-  @Override
-  public void init() {
-    graph = directedGraph = createGraph();
-  }
 
   @After
   public void validateSourceAndTarget() {
-    for (Integer node : directedGraph.nodes()) {
-      for (String inEdge : directedGraph.inEdges(node)) {
-        Integer oppositeNode = Graphs.oppositeNode(directedGraph, inEdge, node);
-        assertThat(directedGraph.source(inEdge)).isEqualTo(oppositeNode);
-        assertThat(directedGraph.target(inEdge)).isEqualTo(node);
+    for (Integer node : graph.nodes()) {
+      for (String inEdge : graph.inEdges(node)) {
+        Integer oppositeNode = Graphs.oppositeNode(graph, inEdge, node);
+        assertThat(graph.source(inEdge)).isEqualTo(oppositeNode);
+        assertThat(graph.target(inEdge)).isEqualTo(node);
       }
 
-      for (String outEdge : directedGraph.outEdges(node)) {
-        Integer oppositeNode = Graphs.oppositeNode(directedGraph, outEdge, node);
-        assertThat(directedGraph.source(outEdge)).isEqualTo(node);
-        assertThat(directedGraph.target(outEdge)).isEqualTo(oppositeNode);
+      for (String outEdge : graph.outEdges(node)) {
+        Integer oppositeNode = Graphs.oppositeNode(graph, outEdge, node);
+        assertThat(graph.source(outEdge)).isEqualTo(node);
+        assertThat(graph.target(outEdge)).isEqualTo(oppositeNode);
       }
 
-      for (Integer adjacentNode : directedGraph.adjacentNodes(node)) {
-        Set<String> edges = directedGraph.edgesConnecting(node, adjacentNode);
-        Set<String> antiParallelEdges = directedGraph.edgesConnecting(adjacentNode, node);
+      for (Integer adjacentNode : graph.adjacentNodes(node)) {
+        Set<String> edges = graph.edgesConnecting(node, adjacentNode);
+        Set<String> antiParallelEdges = graph.edgesConnecting(adjacentNode, node);
         assertTrue(node.equals(adjacentNode) || Collections.disjoint(edges, antiParallelEdges));
       }
     }
@@ -83,70 +74,70 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
   @Test
   public void edgesConnecting_oneEdge() {
     addEdge(E12, N1, N2);
-    assertThat(directedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
     // Passed nodes should be in the correct edge direction, first is the
     // source node and the second is the target node
-    assertThat(directedGraph.edgesConnecting(N2, N1)).isEmpty();
+    assertThat(graph.edgesConnecting(N2, N1)).isEmpty();
   }
 
   @Test
   public void inEdges_oneEdge() {
     addEdge(E12, N1, N2);
-    assertThat(directedGraph.inEdges(N2)).containsExactly(E12);
+    assertThat(graph.inEdges(N2)).containsExactly(E12);
     // Edge direction handled correctly
-    assertThat(directedGraph.inEdges(N1)).isEmpty();
+    assertThat(graph.inEdges(N1)).isEmpty();
   }
 
   @Test
   public void outEdges_oneEdge() {
     addEdge(E12, N1, N2);
-    assertThat(directedGraph.outEdges(N1)).containsExactly(E12);
+    assertThat(graph.outEdges(N1)).containsExactly(E12);
     // Edge direction handled correctly
-    assertThat(directedGraph.outEdges(N2)).isEmpty();
+    assertThat(graph.outEdges(N2)).isEmpty();
   }
 
   @Test
   public void predecessors_oneEdge() {
     addEdge(E12, N1, N2);
-    assertThat(directedGraph.predecessors(N2)).containsExactly(N1);
+    assertThat(graph.predecessors(N2)).containsExactly(N1);
     // Edge direction handled correctly
-    assertThat(directedGraph.predecessors(N1)).isEmpty();
+    assertThat(graph.predecessors(N1)).isEmpty();
   }
 
   @Test
   public void successors_oneEdge() {
     addEdge(E12, N1, N2);
-    assertThat(directedGraph.successors(N1)).containsExactly(N2);
+    assertThat(graph.successors(N1)).containsExactly(N2);
     // Edge direction handled correctly
-    assertThat(directedGraph.successors(N2)).isEmpty();
+    assertThat(graph.successors(N2)).isEmpty();
   }
 
   @Test
   public void inDegree_oneEdge() {
     addEdge(E12, N1, N2);
-    assertEquals(1, directedGraph.inDegree(N2));
+    assertEquals(1, graph.inDegree(N2));
     // Edge direction handled correctly
-    assertEquals(0, directedGraph.inDegree(N1));
+    assertEquals(0, graph.inDegree(N1));
   }
 
   @Test
   public void outDegree_oneEdge() {
     addEdge(E12, N1, N2);
-    assertEquals(1, directedGraph.outDegree(N1));
+    assertEquals(1, graph.outDegree(N1));
     // Edge direction handled correctly
-    assertEquals(0, directedGraph.outDegree(N2));
+    assertEquals(0, graph.outDegree(N2));
   }
 
   @Test
   public void source_oneEdge() {
     addEdge(E12, N1, N2);
-    assertEquals(N1, directedGraph.source(E12));
+    assertEquals(N1, graph.source(E12));
   }
 
   @Test
   public void source_edgeNotInGraph() {
     try {
-      directedGraph.source(EDGE_NOT_IN_GRAPH);
+      graph.source(EDGE_NOT_IN_GRAPH);
       fail(ERROR_EDGE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);
@@ -156,13 +147,13 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
   @Test
   public void target_oneEdge() {
     addEdge(E12, N1, N2);
-    assertEquals(N2, directedGraph.target(E12));
+    assertEquals(N2, graph.target(E12));
   }
 
   @Test
   public void target_edgeNotInGraph() {
     try {
-      directedGraph.target(EDGE_NOT_IN_GRAPH);
+      graph.target(EDGE_NOT_IN_GRAPH);
       fail(ERROR_EDGE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);
@@ -178,18 +169,18 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
     addNode(N1);
     addNode(N2);
     assertTrue(addEdge(E12, N1, N2));
-    assertThat(directedGraph.edges()).contains(E12);
-    assertThat(directedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertThat(graph.edges()).contains(E12);
+    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
     // Direction of the added edge is correctly handled
-    assertThat(directedGraph.edgesConnecting(N2, N1)).isEmpty();
+    assertThat(graph.edgesConnecting(N2, N1)).isEmpty();
   }
 
   @Test
   public void addEdge_existingEdgeBetweenSameNodes() {
     addEdge(E12, N1, N2);
-    ImmutableSet<String> edges = ImmutableSet.copyOf(directedGraph.edges());
+    ImmutableSet<String> edges = ImmutableSet.copyOf(graph.edges());
     assertFalse(addEdge(E12, N1, N2));
-    assertThat(directedGraph.edges()).containsExactlyElementsIn(edges);
+    assertThat(graph.edges()).containsExactlyElementsIn(edges);
   }
 
   @Test
@@ -225,30 +216,30 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
   @Test
   public void removeEdge_existingEdge() {
     addEdge(E12, N1, N2);
-    assertTrue(directedGraph.removeEdge(E12));
-    assertThat(directedGraph.edges()).doesNotContain(E12);
-    assertThat(directedGraph.edgesConnecting(N1, N2)).isEmpty();
+    assertTrue(graph.removeEdge(E12));
+    assertThat(graph.edges()).doesNotContain(E12);
+    assertThat(graph.edgesConnecting(N1, N2)).isEmpty();
   }
 
   @Test
   public void toString_emptyGraph() {
-    assertThat(graph.toString()).isEqualTo(String.format("config: %s, nodes: %s, edges: {}",
-        graph.config(), graph.nodes()));
+    assertThat(graph.toString()).isEqualTo(String.format("%s, nodes: %s, edges: {}",
+        getPropertiesString(graph), graph.nodes()));
   }
 
   @Test
   public void toString_noEdges() {
     addNode(N1);
-    assertThat(graph.toString()).isEqualTo(String.format("config: %s, nodes: %s, edges: {}",
-        graph.config(), graph.nodes()));
+    assertThat(graph.toString()).isEqualTo(String.format("%s, nodes: %s, edges: {}",
+        getPropertiesString(graph), graph.nodes()));
   }
 
   @Test
   public void toString_singleEdge() {
     addEdge(E12, N1, N2);
     assertThat(graph.toString()).isEqualTo(String.format(
-        "config: %s, nodes: %s, edges: {%s=<%s -> %s>}",
-        graph.config(), graph.nodes(), E12, N1, N2));
+        "%s, nodes: %s, edges: {%s=<%s -> %s>}",
+        getPropertiesString(graph), graph.nodes(), E12, N1, N2));
   }
 
   @Test
@@ -256,8 +247,8 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
     addEdge(E12, N1, N2);
     addEdge(E13, N1, N3);
     assertThat(graph.toString()).isEqualTo(String.format(
-        "config: %s, nodes: %s, edges: {%s=<%s -> %s>, %s=<%s -> %s>}",
-        graph.config(),
+        "%s, nodes: %s, edges: {%s=<%s -> %s>, %s=<%s -> %s>}",
+        getPropertiesString(graph),
         graph.nodes(),
         E12, N1, N2,
         E13, N1, N3));

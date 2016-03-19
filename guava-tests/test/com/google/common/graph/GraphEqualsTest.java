@@ -16,8 +16,6 @@
 
 package com.google.common.graph;
 
-import static com.google.common.graph.Graphs.MULTIGRAPH;
-
 import com.google.common.testing.EqualsTester;
 
 import org.junit.Test;
@@ -58,19 +56,26 @@ public final class GraphEqualsTest {
 
   public GraphEqualsTest(GraphType graphType) {
     this.graphType = graphType;
-    this.graph = createGraph();
+    this.graph = createGraph(graphType);
   }
 
-  private Graph<Integer, String> createGraph() {
-    return createGraph(Graphs.config());
-  }
-
-  private Graph<Integer, String> createGraph(GraphConfig config) {
+  private static Graph<Integer, String> createGraph(GraphType graphType) {
     switch (graphType) {
       case UNDIRECTED:
-        return Graphs.createUndirected(config);
+        return GraphBuilder.undirected().build();
       case DIRECTED:
-        return Graphs.createDirected(config);
+        return GraphBuilder.directed().build();
+      default:
+        throw new IllegalStateException("Unexpected graph type: " + graphType);
+    }
+  }
+
+  private static GraphType oppositeType(GraphType graphType) {
+    switch (graphType) {
+      case UNDIRECTED:
+        return GraphType.DIRECTED;
+      case DIRECTED:
+        return GraphType.UNDIRECTED;
       default:
         throw new IllegalStateException("Unexpected graph type: " + graphType);
     }
@@ -80,7 +85,7 @@ public final class GraphEqualsTest {
   public void equals_nodeSetsDiffer() {
     graph.addNode(N1);
 
-    Graph<Integer, String> g2 = createGraph();
+    Graph<Integer, String> g2 = createGraph(graphType);
     g2.addNode(N2);
 
     new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
@@ -91,7 +96,7 @@ public final class GraphEqualsTest {
   public void equals_edgeSetsDiffer() {
     graph.addEdge(E12, N1, N2);
 
-    Graph<Integer, String> g2 = createGraph();
+    Graph<Integer, String> g2 = createGraph(graphType);
     g2.addEdge(E13, N1, N2);
 
     new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
@@ -102,18 +107,7 @@ public final class GraphEqualsTest {
   public void equals_directedVsUndirected() {
     graph.addEdge(E12, N1, N2);
 
-    Graph<Integer, String> g2;
-    switch (graphType) {
-      case UNDIRECTED:
-        g2 = Graphs.createDirected();
-        break;
-      case DIRECTED:
-        g2 = Graphs.createUndirected();
-        break;
-      default:
-        throw new IllegalStateException("Unexpected graph type: " + graphType);
-    }
-
+    Graph<Integer, String> g2 = createGraph(oppositeType(graphType));
     g2.addEdge(E12, N1, N2);
 
     new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
@@ -125,18 +119,7 @@ public final class GraphEqualsTest {
   public void equals_selfLoop_directedVsUndirected() {
     graph.addEdge(E11, N1, N1);
 
-    Graph<Integer, String> g2;
-    switch (graphType) {
-      case UNDIRECTED:
-        g2 = Graphs.createDirected();
-        break;
-      case DIRECTED:
-        g2 = Graphs.createUndirected();
-        break;
-      default:
-        throw new IllegalStateException("Unexpected graph type: " + graphType);
-    }
-
+    Graph<Integer, String> g2 = createGraph(oppositeType(graphType));
     g2.addEdge(E11, N1, N1);
 
     new EqualsTester().addEqualityGroup(graph, g2).testEquals();
@@ -148,7 +131,7 @@ public final class GraphEqualsTest {
     graph.addEdge(E12, N1, N2);
     graph.addEdge(E13, N1, N3);
 
-    Graph<Integer, String> g2 = createGraph();
+    Graph<Integer, String> g2 = createGraph(graphType);
     // connect E13 to N1 and N2, and E12 to N1 and N3 => not equal
     g2.addEdge(E13, N1, N2);
     g2.addEdge(E12, N1, N3);
@@ -156,13 +139,16 @@ public final class GraphEqualsTest {
     new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
   }
 
-  // Node/edge sets and node/edge connections are the same, but GraphConfigs differ.
-  // (In this case the graphs are considered equal; the config differences are irrelevant.)
+  // Node/edge sets and node/edge connections are the same, but graph properties differ.
+  // (In this case the graphs are considered equal; the property differences are irrelevant.)
   @Test
-  public void equals_configsDiffer() {
+  public void equals_propertiesDiffer() {
     graph.addEdge(E12, N1, N2);
 
-    Graph<Integer, String> g2 = createGraph(MULTIGRAPH.noSelfLoops());
+    Graph<Integer, String> g2 = GraphBuilder.from(graph)
+        .allowsParallelEdges(!graph.allowsParallelEdges())
+        .allowsSelfLoops(!graph.allowsSelfLoops())
+        .build();
     g2.addEdge(E12, N1, N2);
 
     new EqualsTester().addEqualityGroup(graph, g2).testEquals();
@@ -172,8 +158,9 @@ public final class GraphEqualsTest {
   // (In this case the graphs are considered equal; the edge add orderings are irrelevant.)
   @Test
   public void equals_edgeAddOrdersDiffer() {
-    Graph<Integer, String> g1 = createGraph(MULTIGRAPH);
-    Graph<Integer, String> g2 = createGraph(MULTIGRAPH);
+    GraphBuilder<Integer, String> builder = GraphBuilder.from(graph).allowsParallelEdges(true);
+    Graph<Integer, String> g1 = builder.build();
+    Graph<Integer, String> g2 = builder.build();
 
     // for ug1, add e12 first, then e12_a
     g1.addEdge(E12, N1, N2);
@@ -190,7 +177,7 @@ public final class GraphEqualsTest {
   public void equals_edgeDirectionsDiffer() {
     graph.addEdge(E12, N1, N2);
 
-    Graph<Integer, String> g2 = createGraph();
+    Graph<Integer, String> g2 = createGraph(graphType);
     g2.addEdge(E12, N2, N1);
 
     switch (graphType) {

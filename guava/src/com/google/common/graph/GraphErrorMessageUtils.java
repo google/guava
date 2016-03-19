@@ -32,4 +32,8 @@ final class GraphErrorMessageUtils {
       "Nodes %s and %s are already connected by a different edge.";
   static final String SELF_LOOPS_NOT_ALLOWED =
       "Can't add self-loop edge on node %s, as self-loops are not allowed.";
+  static final String NOT_AVAILABLE_ON_UNDIRECTED =
+      "Cannot call source()/target() on an undirected graph. "
+          + "Consider using incidentNodes() (if you don't know either incident node) "
+          + "or Graphs.oppositeNode() (if you know one of the incident nodes).";
 }

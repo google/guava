@@ -16,7 +16,7 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableSet;
@@ -30,6 +30,8 @@ import java.util.Map;
  * @author Joshua O'Madadhain
  * @since 20.0
  */
+// TODO(b/27628622): Move these methods to {@link Graphs}? Or at least rename this class to
+// something besides "GraphProperties", and consider putting in graph/algorithms/.
 @Beta
 public final class GraphProperties {
 
@@ -38,13 +40,13 @@ public final class GraphProperties {
   /**
    * Returns true iff {@code graph} has at least one cycle.
    */
-  // TODO(user): Implement a similar method for undirected graphs, taking into
-  // consideration the difference in implementation, due to the notion of undirected
-  // edges. For instance, we should keep track of the edge used to reach a node to avoid
-  // reusing it (making a cycle by getting back to that node). Also, parallel edges will
-  // need to be carefully handled for undirected graphs.
-  public static boolean isCyclic(DirectedGraph<?, ?> graph) {
-    checkNotNull(graph, "Directed graph passed can't be null.");
+  public static boolean isCyclic(Graph<?, ?> graph) {
+    // TODO(user): Implement an algorithm that also works on undirected graphs.
+    // For instance, we should keep track of the edge used to reach a node to avoid
+    // reusing it (making a cycle by getting back to that node). Also, parallel edges
+    // will need to be carefully handled for undirected graphs.
+    checkArgument(graph.isDirected(), "isCyclic() currently only works on directed graphs");
+
     Map<Object, NodeVisitState> nodeToVisitState = Maps.newHashMap();
     for (Object node : graph.nodes()) {
       if (nodeToVisitState.get(node) == null) {
@@ -61,7 +63,7 @@ public final class GraphProperties {
    * {@code node}.
    */
   private static boolean isSubgraphCyclic(
-      DirectedGraph<?, ?> graph, Map<Object, NodeVisitState> nodeToVisitState, Object node) {
+      Graph<?, ?> graph, Map<Object, NodeVisitState> nodeToVisitState, Object node) {
     nodeToVisitState.put(node, NodeVisitState.PENDING);
     for (Object successor : graph.successors(node)) {
       NodeVisitState nodeVisitState = nodeToVisitState.get(successor);
@@ -89,12 +91,14 @@ public final class GraphProperties {
   }
 
   /**
-   * Returns the set of all nodes in {@code directedGraph} that have no predecessors.
+   * Returns the set of all nodes in {@code graph} that have no predecessors.
+   *
+   * <p>Note that in an undirected graph, this is equivalent to all isolated nodes.
    */
-  public static <N> ImmutableSet<N> roots(DirectedGraph<N, ?> directedGraph) {
+  public static <N> ImmutableSet<N> roots(Graph<N, ?> graph) {
     ImmutableSet.Builder<N> builder = ImmutableSet.builder();
-    for (N node : directedGraph.nodes()) {
-      if (directedGraph.predecessors(node).isEmpty()) {
+    for (N node : graph.nodes()) {
+      if (graph.predecessors(node).isEmpty()) {
         builder.add(node);
       }
     }
