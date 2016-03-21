@@ -27,6 +27,11 @@ import javax.annotation.Nullable;
  * {@code FutureTask}, {@code ListenableFutureTask} does not provide an overrideable {@link
  * FutureTask#done() done()} method. For similar functionality, call {@link #addListener}.
  *
+ * <p>Few users should use this class. It is intended primarily for those who are implementing an
+ * {@code ExecutorService}. Most users should call {@link ListeningExecutorService#submit(Callable)
+ * ListeningExecutorService.submit} on a service obtained from {@link
+ * MoreExecutors#listeningDecorator}.
+ *
  * @author Sven Mawson
  * @since 1.0
  */
