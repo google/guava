@@ -33,11 +33,6 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 abstract class ImmediateFuture<V> implements ListenableFuture<V> {
-  /*
-   * TODO(lukes): Use AbstractFuture.TrustedFuture instead of special classes so that get() throws
-   * InterruptedException when appropriate, and, more importantly for failed/cancelled Futures, we
-   * can take advantage of the TrustedFuture optimizations.
-   */
   private static final Logger log = Logger.getLogger(ImmediateFuture.class.getName());
 
   @Override
@@ -89,6 +84,7 @@ abstract class ImmediateFuture<V> implements ListenableFuture<V> {
       this.value = value;
     }
 
+    // TODO(lukes): Consider throwing InterruptedException when appropriate.
     @Override
     public V get() {
       return value;

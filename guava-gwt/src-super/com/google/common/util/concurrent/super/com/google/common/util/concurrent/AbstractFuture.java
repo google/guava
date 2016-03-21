@@ -18,8 +18,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
-import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,26 +40,10 @@ import javax.annotation.Nullable;
 public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
   abstract static class TrustedFuture<V> extends AbstractFuture<V> {
-    @Override public final V get() throws InterruptedException, ExecutionException {
-      return super.get();
-    }
-
-    @Override public final V get(long timeout, TimeUnit unit)
-        throws InterruptedException, ExecutionException, TimeoutException {
-      return super.get(timeout, unit);
-    }
-
-    @Override public final boolean isDone() {
-      return super.isDone();
-    }
-
-    @Override public final boolean isCancelled() {
-      return super.isCancelled();
-    }
-
-    @Override public final void addListener(Runnable listener, Executor executor) {
-      super.addListener(listener, executor);
-    }
+    /*
+     * We don't need to override any of methods that we override in the prod version (and in fact we
+     * can't) because they are already final.
+     */
   }
 
   private static final Logger log = Logger.getLogger(AbstractFuture.class.getName());
@@ -76,6 +60,10 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     listeners = new ArrayList<Listener>();
   }
 
+  /*
+   * TODO(cpovirk): Consider making cancel() final (under GWT only, since we can't change the
+   * server) by migrating our overrides to use afterDone().
+   */
   @Override
   public boolean cancel(boolean mayInterruptIfRunning) {
     if (!state.permitsPublicUserToTransitionTo(State.CANCELLED)) {
@@ -96,30 +84,34 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   protected void interruptTask() {}
 
   @Override
-  public boolean isCancelled() {
+  public final boolean isCancelled() {
     return state.isCancelled();
   }
 
   @Override
-  public boolean isDone() {
+  public final boolean isDone() {
     return state.isDone();
   }
 
+  /*
+   * We let people override {@code get()} in the server version (though perhaps we shouldn't). Here,
+   * we don't want that, and anyway, users can't, thanks to the package-private parameter.
+   */
   @Override
-  public V get() throws InterruptedException, ExecutionException {
+  public final V get() throws InterruptedException, ExecutionException {
     state.maybeThrowOnGet(throwable);
     return value;
   }
 
   @Override
-  public V get(long timeout, TimeUnit unit)
+  public final V get(long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     checkNotNull(unit);
     return get();
   }
 
   @Override
-  public void addListener(Runnable runnable, Executor executor) {
+  public final void addListener(Runnable runnable, Executor executor) {
     Listener listener = new Listener(runnable, executor);
     if (isDone()) {
       listener.execute();
@@ -303,7 +295,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
         return;
       }
 
-      if (delegate instanceof TrustedFuture) {
+      if (delegate instanceof AbstractFuture) {
         AbstractFuture<? extends V> other = (AbstractFuture<? extends V>) delegate;
         value = other.value;
         throwable = other.throwable;
@@ -314,8 +306,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
         return;
       }
 
+      /*
+       * Almost everything in GWT is an AbstractFuture (which is as good as TrustedFuture under
+       * GWT). But ImmediateFuture and UncheckedThrowingFuture aren't, so we still need this case.
+       */
       try {
-        forceSet(getUninterruptibly(delegate));
+        forceSet(getDone(delegate));
       } catch (ExecutionException exception) {
         forceSetException(exception.getCause());
       } catch (CancellationException cancellation) {

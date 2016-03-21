@@ -123,6 +123,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     assertCancelled(future, false);
   }
 
+  @GwtIncompatible // All GWT Futures behaves like TrustedFuture.
   public void testSetFutureDelegateAlreadyInterrupted() throws Exception {
     delegate.cancel(true /** mayInterruptIfRunning */);
     assertThat(future.setFuture(delegate)).isTrue();
@@ -134,6 +135,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     assertCancelled(future, delegate instanceof TrustedFuture);
   }
 
+  @GwtIncompatible // All GWT Futures behaves like TrustedFuture.
   public void testSetFutureDelegateLaterInterrupted() throws Exception {
     assertThat(future.setFuture(delegate)).isTrue();
     delegate.cancel(true /** mayInterruptIfRunning */);
