@@ -116,7 +116,7 @@ abstract class GenericMapMaker<K0, V0> {
   /**
    * See {@link MapMaker#expireAfterAccess}.
    */
-  @GwtIncompatible // To be supported
+  @GwtIncompatible
   abstract GenericMapMaker<K0, V0> expireAfterAccess(long duration, TimeUnit unit);
 
   /*

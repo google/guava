@@ -190,8 +190,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>When {@code size} is zero, elements can be successfully added to the map, but are evicted
    * immediately. This has the same effect as invoking {@link #expireAfterWrite expireAfterWrite}
-   * {@code (0, unit)} or {@link #expireAfterAccess expireAfterAccess}{@code (0, unit)}. It can be
-   * useful in testing, or to disable caching temporarily without a code change.
+   * {@code (0, unit)}. It can be useful in testing, or to disable caching temporarily without
+   * a code change.
    *
    * <p>Caching functionality in {@code MapMaker} has been moved to
    * {@link com.google.common.cache.CacheBuilder}.
@@ -429,15 +429,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to idle or time to live was already set
-   * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterAccess} being
-   *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterAccess}. Note that
-   *     {@code CacheBuilder} is simply an enhanced API for an implementation which was branched
-   *     from {@code MapMaker}.
    */
   @CanIgnoreReturnValue
-  @Deprecated
-  @GwtIncompatible // To be supported
+  @GwtIncompatible
   @Override
   MapMaker expireAfterAccess(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
