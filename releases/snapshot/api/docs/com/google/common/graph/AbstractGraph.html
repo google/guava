@@ -36,7 +36,7 @@
 <div class="subNav">
 <ul class="navList">
 <li>Prev Class</li>
-<li><a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?com/google/common/graph/AbstractGraph.html" target="_top">Frames</a></li>
@@ -61,13 +61,13 @@
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field_summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method_summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field_detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method_detail">Method</a></li>
 </ul>
@@ -100,7 +100,7 @@
 </dl>
 <dl>
 <dt>Direct Known Subclasses:</dt>
-<dd><a href="../../../../com/google/common/graph/ImmutableDirectedGraph.html" title="class in com.google.common.graph">ImmutableDirectedGraph</a>, <a href="../../../../com/google/common/graph/ImmutableUndirectedGraph.html" title="class in com.google.common.graph">ImmutableUndirectedGraph</a></dd>
+<dd><a href="../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dd>
 </dl>
 <hr>
 <br>
@@ -118,25 +118,6 @@ implements <a href="../../../../com/google/common/graph/Graph.html" title="inter
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
-<!-- =========== FIELD SUMMARY =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field_summary">
-<!--   -->
-</a>
-<h3>Field Summary</h3>
-<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
-<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Field and Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>protected <a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/AbstractGraph.html#config">config</a></strong></code>&nbsp;</td>
-</tr>
-</table>
-</li>
-</ul>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor_summary">
@@ -146,15 +127,10 @@ implements <a href="../../../../com/google/common/graph/Graph.html" title="inter
 <table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Constructor Summary table, listing constructors, and an explanation">
 <caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
-<th class="colFirst" scope="col">Modifier</th>
-<th class="colLast" scope="col">Constructor and Description</th>
+<th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected </code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/AbstractGraph.html#AbstractGraph(com.google.common.graph.GraphConfig)">AbstractGraph</a></strong>(<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;config)</code>
-<div class="block">Not all subclasses necessarily need to expose a constructor that takes a <a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph"><code>GraphConfig</code></a>,
- but they do need to provide the <code>config</code> here that will be returned by <a href="../../../../com/google/common/graph/AbstractGraph.html#config()"><code>config()</code></a>.</div>
-</td>
+<td class="colOne"><code><strong><a href="../../../../com/google/common/graph/AbstractGraph.html#AbstractGraph()">AbstractGraph</a></strong>()</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -172,46 +148,40 @@ implements <a href="../../../../com/google/common/graph/Graph.html" title="inter
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/AbstractGraph.html#config()">config</a></strong>()</code>
-<div class="block">Returns the <a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph"><code>GraphConfig</code></a> that defines this instance's configuration.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/AbstractGraph.html#degree(java.lang.Object)">degree</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
 <div class="block">Returns the number of edges <a href="../../../../com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incident</a> in this graph
  to <code>node</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/AbstractGraph.html#equals(java.lang.Object)">equals</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same node/edge relationships
  as those in this graph.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/AbstractGraph.html#hashCode()">hashCode</a></strong>()</code>
 <div class="block">Returns the hash code for this graph.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/AbstractGraph.html#inDegree(java.lang.Object)">inDegree</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
 <div class="block">Returns the number of <a href="../../../../com/google/common/graph/Graph.html#inEdges(java.lang.Object)">incoming edges</a> in this graph
  of <code>node</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/AbstractGraph.html#outDegree(java.lang.Object)">outDegree</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
 <div class="block">Returns the number of <a href="../../../../com/google/common/graph/Graph.html#outEdges(java.lang.Object)">outgoing edges</a> in this graph
  of <code>node</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/AbstractGraph.html#toString()">toString</a></strong>()</code>&nbsp;</td>
 </tr>
@@ -228,7 +198,7 @@ implements <a href="../../../../com/google/common/graph/Graph.html" title="inter
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;com.google.common.graph.<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></h3>
-<code><a href="../../../../com/google/common/graph/Graph.html#addEdge(E,%20N,%20N)">addEdge</a>, <a href="../../../../com/google/common/graph/Graph.html#addNode(N)">addNode</a>, <a href="../../../../com/google/common/graph/Graph.html#adjacentEdges(java.lang.Object)">adjacentEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#adjacentNodes(java.lang.Object)">adjacentNodes</a>, <a href="../../../../com/google/common/graph/Graph.html#edges()">edges</a>, <a href="../../../../com/google/common/graph/Graph.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting</a>, <a href="../../../../com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incidentEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#incidentNodes(java.lang.Object)">incidentNodes</a>, <a href="../../../../com/google/common/graph/Graph.html#inEdges(java.lang.Object)">inEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#nodes()">nodes</a>, <a href="../../../../com/google/common/graph/Graph.html#outEdges(java.lang.Object)">outEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#predecessors(java.lang.Object)">predecessors</a>, <a href="../../../../com/google/common/graph/Graph.html#removeEdge(java.lang.Object)">removeEdge</a>, <a href="../../../../com/google/common/graph/Graph.html#removeNode(java.lang.Object)">removeNode</a>, <a href="../../../../com/google/common/graph/Graph.html#successors(java.lang.Object)">successors</a></code></li>
+<code><a href="../../../../com/google/common/graph/Graph.html#addEdge(E,%20N,%20N)">addEdge</a>, <a href="../../../../com/google/common/graph/Graph.html#addNode(N)">addNode</a>, <a href="../../../../com/google/common/graph/Graph.html#adjacentEdges(java.lang.Object)">adjacentEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#adjacentNodes(java.lang.Object)">adjacentNodes</a>, <a href="../../../../com/google/common/graph/Graph.html#allowsParallelEdges()">allowsParallelEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#allowsSelfLoops()">allowsSelfLoops</a>, <a href="../../../../com/google/common/graph/Graph.html#edges()">edges</a>, <a href="../../../../com/google/common/graph/Graph.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting</a>, <a href="../../../../com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incidentEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#incidentNodes(java.lang.Object)">incidentNodes</a>, <a href="../../../../com/google/common/graph/Graph.html#inEdges(java.lang.Object)">inEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#isDirected()">isDirected</a>, <a href="../../../../com/google/common/graph/Graph.html#nodes()">nodes</a>, <a href="../../../../com/google/common/graph/Graph.html#outEdges(java.lang.Object)">outEdges</a>, <a href="../../../../com/google/common/graph/Graph.html#predecessors(java.lang.Object)">predecessors</a>, <a href="../../../../com/google/common/graph/Graph.html#removeEdge(java.lang.Object)">removeEdge</a>, <a href="../../../../com/google/common/graph/Graph.html#removeNode(java.lang.Object)">removeNode</a>, <a href="../../../../com/google/common/graph/Graph.html#source(java.lang.Object)">source</a>, <a href="../../../../com/google/common/graph/Graph.html#successors(java.lang.Object)">successors</a>, <a href="../../../../com/google/common/graph/Graph.html#target(java.lang.Object)">target</a></code></li>
 </ul>
 </li>
 </ul>
@@ -238,38 +208,19 @@ implements <a href="../../../../com/google/common/graph/Graph.html" title="inter
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ============ FIELD DETAIL =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field_detail">
-<!--   -->
-</a>
-<h3>Field Detail</h3>
-<a name="config">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>config</h4>
-<pre>protected final&nbsp;<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a> <a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.32">config</a></pre>
-</li>
-</ul>
-</li>
-</ul>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor_detail">
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="AbstractGraph(com.google.common.graph.GraphConfig)">
+<a name="AbstractGraph()">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractGraph</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.38">AbstractGraph</a>(<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;config)</pre>
-<div class="block">Not all subclasses necessarily need to expose a constructor that takes a <a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph"><code>GraphConfig</code></a>,
- but they do need to provide the <code>config</code> here that will be returned by <a href="../../../../com/google/common/graph/AbstractGraph.html#config()"><code>config()</code></a>.</div>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.30">AbstractGraph</a>()</pre>
 </li>
 </ul>
 </li>
@@ -280,34 +231,22 @@ implements <a href="../../../../com/google/common/graph/Graph.html" title="inter
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="config()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>config</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph">GraphConfig</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.43">config</a>()</pre>
-<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#config()">Graph</a></code></strong></div>
-<div class="block">Returns the <a href="../../../../com/google/common/graph/GraphConfig.html" title="class in com.google.common.graph"><code>GraphConfig</code></a> that defines this instance's configuration.</div>
-<dl>
-<dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../com/google/common/graph/Graph.html#config()">config</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../com/google/common/graph/AbstractGraph.html" title="type parameter in AbstractGraph">N</a>,<a href="../../../../com/google/common/graph/AbstractGraph.html" title="type parameter in AbstractGraph">E</a>&gt;</code></dd>
-</dl>
-</li>
-</ul>
 <a name="degree(java.lang.Object)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>degree</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.48">degree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.33">degree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#degree(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns the number of edges <a href="../../../../com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)">incident</a> in this graph
  to <code>node</code>.  If this node has more than <code>Integer.MAX_VALUE</code> incident edges
  in this graph, returns <code>Integer.MAX_VALUE</code>.
 
- <p>Equivalent to <code>incidentEdges(node).size()</code>.</div>
+ <p>Equivalent to <code>incidentEdges(node).size()</code>.
+
+ <p>Note that self-loops only count once towards a node's degree.
+ This is consistent with the definition of <a href="../../../../com/google/common/graph/Graph.html#incidentEdges(java.lang.Object)"><code>Graph.incidentEdges(Object)</code></a>.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../com/google/common/graph/Graph.html#degree(java.lang.Object)">degree</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../com/google/common/graph/AbstractGraph.html" title="type parameter in AbstractGraph">N</a>,<a href="../../../../com/google/common/graph/AbstractGraph.html" title="type parameter in AbstractGraph">E</a>&gt;</code></dd>
@@ -320,7 +259,7 @@ implements <a href="../../../../com/google/common/graph/Graph.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>inDegree</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.53">inDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.38">inDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#inDegree(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns the number of <a href="../../../../com/google/common/graph/Graph.html#inEdges(java.lang.Object)">incoming edges</a> in this graph
  of <code>node</code>.  If this node has more than <code>Integer.MAX_VALUE</code> incoming edges
@@ -339,7 +278,7 @@ implements <a href="../../../../com/google/common/graph/Graph.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>outDegree</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.58">outDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.43">outDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#outDegree(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns the number of <a href="../../../../com/google/common/graph/Graph.html#outEdges(java.lang.Object)">outgoing edges</a> in this graph
  of <code>node</code>.  If this node has more than <code>Integer.MAX_VALUE</code> outgoing edges
@@ -358,7 +297,7 @@ implements <a href="../../../../com/google/common/graph/Graph.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.63">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.48">equals</a>(<a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#equals(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same node/edge relationships
@@ -373,14 +312,10 @@ implements <a href="../../../../com/google/common/graph/Graph.html" title="inter
      <br>Thus, every edge in A and B connect the same nodes in the same direction (if any).
  </ul>
 
- <p>Properties that are <b>not</b> respected by this method:
- <ul>
- <li><code>GraphConfig</code> configurations.  If two graphs are equal by the above criteria but have
- different configurations, they are still equal.  (For example: two graphs may be considered
- equal even if one allows parallel edges and the other doesn't.)
- <li>Edge/node ordering.  The order in which edges or nodes are added to the graph, and the
- order in which they are iterated over, are irrelevant.
- </ul>
+ <p>Graph properties are <b>not</b> respected by this method. For example, two graphs may be
+ considered equal even if one allows parallel edges and the other doesn't. Additionally, the
+ order in which edges or nodes are added to the graph, and the order in which they are iterated
+ over, are irrelevant.
 
  <p>A reference implementation of this is provided by <a href="../../../../com/google/common/graph/Graphs.html#equal(com.google.common.graph.Graph,%20com.google.common.graph.Graph)"><code>Graphs.equal(Graph, Graph)</code></a>.</div>
 <dl>
@@ -397,7 +332,7 @@ implements <a href="../../../../com/google/common/graph/Graph.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.71">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.56">hashCode</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#hashCode()">Graph</a></code></strong></div>
 <div class="block">Returns the hash code for this graph. The hash code of a graph is defined as the hash code
  of a map from each of the graph's nodes to their incident edges.
@@ -420,7 +355,7 @@ implements <a href="../../../../com/google/common/graph/Graph.html" title="inter
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.76">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractGraph.html#line.61">toString</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -454,7 +389,7 @@ implements <a href="../../../../com/google/common/graph/Graph.html" title="inter
 <div class="subNav">
 <ul class="navList">
 <li>Prev Class</li>
-<li><a href="../../../../com/google/common/graph/DirectedGraph.html" title="interface in com.google.common.graph"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?com/google/common/graph/AbstractGraph.html" target="_top">Frames</a></li>
@@ -479,13 +414,13 @@ implements <a href="../../../../com/google/common/graph/Graph.html" title="inter
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field_summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method_summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field_detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method_detail">Method</a></li>
 </ul>

@@ -649,7 +649,7 @@
 <span class="sourceLineNo">641</span>        // Pattern uses Object (identity) equality, so we have to reach<a name="line.641"></a>
 <span class="sourceLineNo">642</span>        // inside to compare individual fields.<a name="line.642"></a>
 <span class="sourceLineNo">643</span>        return Objects.equal(pattern.pattern(), that.pattern.pattern())<a name="line.643"></a>
-<span class="sourceLineNo">644</span>            &amp;&amp; Objects.equal(pattern.flags(), that.pattern.flags());<a name="line.644"></a>
+<span class="sourceLineNo">644</span>            &amp;&amp; pattern.flags() == that.pattern.flags();<a name="line.644"></a>
 <span class="sourceLineNo">645</span>      }<a name="line.645"></a>
 <span class="sourceLineNo">646</span>      return false;<a name="line.646"></a>
 <span class="sourceLineNo">647</span>    }<a name="line.647"></a>

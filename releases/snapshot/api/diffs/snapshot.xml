@@ -41,7 +41,7 @@
  method, the return type of the method is GWT compatible. It's useful to indicate that an instance
  created by factory methods has a GWT serializable type. In the following example,
 
- <pre style="code">
+ <pre>
  {@literal @}GwtCompatible
  class Lists {
    ...
@@ -55,7 +55,7 @@
  <p>The return value of {@code Lists.newArrayList(E[])} has GWT serializable type. It is also
  useful in specifying contracts of interface methods. In the following example,
 
- <pre style="code">
+ <pre>
  {@literal @}GwtCompatible
  interface ListFactory {
    ...
@@ -750,7 +750,7 @@
  <ul>
  <!-- TODO(kevinb): how can we make this not produce a warning when building gwt javadoc? -->
  <li>{@link Charsets#US_ASCII} specifies the {@code Charset} of ASCII characters.
- <li>{@link CharMatcher#ASCII} matches ASCII characters and provides text processing methods which
+ <li>{@link CharMatcher#ascii} matches ASCII characters and provides text processing methods which
  operate only on the ASCII characters of a string.
  </ul>
 
@@ -1145,10 +1145,10 @@
  {@code !matchesAnyOf(sequence)}.
 
  <p>The default implementation iterates over the sequence, invoking {@link #matches} for each
- character, until this returns {@code false} or the end is reached.
+ character, until this returns {@code true} or the end is reached.
 
  @param sequence the character sequence to examine, possibly empty
- @return {@code true} if this matcher matches every character in the sequence, including when
+ @return {@code true} if this matcher matches no characters in the sequence, including when
      the sequence is empty]]>
       </doc>
     </method>
@@ -1398,142 +1398,200 @@
     <field name="WHITESPACE" type="com.google.common.base.CharMatcher"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #whitespace()} instead. This constant is scheduled to be
+     removed in June 2018.">
       <doc>
-      <![CDATA[Determines whether a character is whitespace according to the latest Unicode standard, as
- illustrated
+      <![CDATA[Determines whether a character is whitespace according to the latest Unicode
+ standard, as illustrated
  <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
  This is not the same definition used by other Java APIs. (See a
- <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison of several
- definitions of "whitespace"</a>.)
+ <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">
+ comparison of several definitions of "whitespace"</a>.)
 
- <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant to keep it up
- to date.]]>
+ <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant
+ to keep it up to date.
+
+ @deprecated Use {@link #whitespace()} instead. This constant is scheduled to be
+     removed in June 2018.]]>
       </doc>
     </field>
     <field name="BREAKING_WHITESPACE" type="com.google.common.base.CharMatcher"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #breakingWhitespace()} instead. This constant is scheduled
+     to be removed in June 2018.">
       <doc>
-      <![CDATA[Determines whether a character is a breaking whitespace (that is, a whitespace which can be
- interpreted as a break between words for formatting purposes). See {@link #WHITESPACE} for a
- discussion of that term.
+      <![CDATA[Determines whether a character is a breaking whitespace (that is, a whitespace
+ which can be interpreted as a break between words for formatting purposes). See
+ {@link #whitespace} for a discussion of that term.
 
- @since 2.0]]>
+ @since 2.0
+ @deprecated Use {@link #breakingWhitespace()} instead. This constant is scheduled
+     to be removed in June 2018.]]>
       </doc>
     </field>
     <field name="ASCII" type="com.google.common.base.CharMatcher"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #ascii()} instead. This constant is scheduled to be
+     removed in June 2018.">
       <doc>
-      <![CDATA[Determines whether a character is ASCII, meaning that its code point is less than 128.]]>
+      <![CDATA[Determines whether a character is ASCII, meaning that its code point is less than
+ 128.
+
+ @deprecated Use {@link #ascii()} instead. This constant is scheduled to be
+     removed in June 2018.]]>
       </doc>
     </field>
     <field name="DIGIT" type="com.google.common.base.CharMatcher"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #digit()} instead. This constant is scheduled to be
+     removed in June 2018.">
       <doc>
       <![CDATA[Determines whether a character is a digit according to
- <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>. If
- you only care to match ASCII digits, you can use {@code inRange('0', '9')}.]]>
+ <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">
+ Unicode</a>. If you only care to match ASCII digits, you can use
+ {@code inRange('0', '9')}.
+
+ @deprecated Use {@link #digit()} instead. This constant is scheduled to be
+     removed in June 2018.]]>
       </doc>
     </field>
     <field name="JAVA_DIGIT" type="com.google.common.base.CharMatcher"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #javaDigit()} instead. This constant is scheduled to be
+     removed in June 2018.">
       <doc>
-      <![CDATA[Determines whether a character is a digit according to {@linkplain Character#isDigit(char)
- Java's definition}. If you only care to match ASCII digits, you can use {@code
- inRange('0', '9')}.]]>
+      <![CDATA[Determines whether a character is a digit according to
+ {@linkplain Character#isDigit(char) Java's definition}. If you only care to match
+ ASCII digits, you can use {@code inRange('0', '9')}.
+
+ @deprecated Use {@link #javaDigit()} instead. This constant is scheduled to be
+     removed in June 2018.]]>
       </doc>
     </field>
     <field name="JAVA_LETTER" type="com.google.common.base.CharMatcher"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #javaLetter()} instead. This constant is scheduled to be
+     removed in June 2018.">
       <doc>
-      <![CDATA[Determines whether a character is a letter according to {@linkplain Character#isLetter(char)
- Java's definition}. If you only care to match letters of the Latin alphabet, you can use {@code
- inRange('a', 'z').or(inRange('A', 'Z'))}.]]>
+      <![CDATA[Determines whether a character is a letter according to
+ {@linkplain Character#isLetter(char) Java's definition}. If you only care to
+ match letters of the Latin alphabet, you can use
+ {@code inRange('a', 'z').or(inRange('A', 'Z'))}.
+
+ @deprecated Use {@link #javaLetter()} instead. This constant is scheduled to be
+     removed in June 2018.]]>
       </doc>
     </field>
     <field name="JAVA_LETTER_OR_DIGIT" type="com.google.common.base.CharMatcher"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #javaLetterOrDigit()} instead. This constant is scheduled
+     to be removed in June 2018.">
       <doc>
       <![CDATA[Determines whether a character is a letter or digit according to
- {@linkplain Character#isLetterOrDigit(char) Java's definition}.]]>
+ {@linkplain Character#isLetterOrDigit(char) Java's definition}.
+
+ @deprecated Use {@link #javaLetterOrDigit()} instead. This constant is scheduled
+     to be removed in June 2018.]]>
       </doc>
     </field>
     <field name="JAVA_UPPER_CASE" type="com.google.common.base.CharMatcher"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #javaUpperCase()} instead. This constant is scheduled to
+     be removed in June 2018.">
       <doc>
       <![CDATA[Determines whether a character is upper case according to
- {@linkplain Character#isUpperCase(char) Java's definition}.]]>
+ {@linkplain Character#isUpperCase(char) Java's definition}.
+
+ @deprecated Use {@link #javaUpperCase()} instead. This constant is scheduled to
+     be removed in June 2018.]]>
       </doc>
     </field>
     <field name="JAVA_LOWER_CASE" type="com.google.common.base.CharMatcher"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #javaLowerCase()} instead. This constant is scheduled to
+     be removed in June 2018.">
       <doc>
       <![CDATA[Determines whether a character is lower case according to
- {@linkplain Character#isLowerCase(char) Java's definition}.]]>
+ {@linkplain Character#isLowerCase(char) Java's definition}.
+
+ @deprecated Use {@link #javaLowerCase()} instead. This constant is scheduled to
+     be removed in June 2018.]]>
       </doc>
     </field>
     <field name="JAVA_ISO_CONTROL" type="com.google.common.base.CharMatcher"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #javaIsoControl()} instead. This constant is scheduled to
+     be removed in June 2018.">
       <doc>
       <![CDATA[Determines whether a character is an ISO control character as specified by
- {@link Character#isISOControl(char)}.]]>
+ {@link Character#isISOControl(char)}.
+
+ @deprecated Use {@link #javaIsoControl()} instead. This constant is scheduled to
+     be removed in June 2018.]]>
       </doc>
     </field>
     <field name="INVISIBLE" type="com.google.common.base.CharMatcher"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #invisible()} instead. This constant is scheduled to be
+     removed in June 2018.">
       <doc>
-      <![CDATA[Determines whether a character is invisible; that is, if its Unicode category is any of
- SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT, SURROGATE, and
- PRIVATE_USE according to ICU4J.]]>
+      <![CDATA[Determines whether a character is invisible; that is, if its Unicode category is
+ any of SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT,
+ SURROGATE, and PRIVATE_USE according to ICU4J.
+
+ @deprecated Use {@link #invisible()} instead. This constant is scheduled to be
+     removed in June 2018.]]>
       </doc>
     </field>
     <field name="SINGLE_WIDTH" type="com.google.common.base.CharMatcher"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #singleWidth()} instead. This constant is scheduled to be
+     removed in June 2018.">
       <doc>
-      <![CDATA[Determines whether a character is single-width (not double-width). When in doubt, this matcher
- errs on the side of returning {@code false} (that is, it tends to assume a character is
- double-width).
+      <![CDATA[Determines whether a character is single-width (not double-width). When in doubt,
+ this matcher errs on the side of returning {@code false} (that is, it tends to
+ assume a character is double-width).
 
- <p><b>Note:</b> as the reference file evolves, we will modify this constant to keep it up to
- date.]]>
+ <p><b>Note:</b> as the reference file evolves, we will modify this constant to
+ keep it up to date.
+
+ @deprecated Use {@link #singleWidth()} instead. This constant is scheduled to be
+     removed in June 2018.]]>
       </doc>
     </field>
     <field name="ANY" type="com.google.common.base.CharMatcher"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #any()} instead. This constant is scheduled to be
+     removed in June 2018.">
       <doc>
-      <![CDATA[Matches any character.]]>
+      <![CDATA[Matches any character.
+
+ @deprecated Use {@link #any()} instead. This constant is scheduled to be
+     removed in June 2018.]]>
       </doc>
     </field>
     <field name="NONE" type="com.google.common.base.CharMatcher"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #none()} instead. This constant is scheduled to be
+     removed in June 2018.">
       <doc>
-      <![CDATA[Matches no characters.]]>
+      <![CDATA[Matches no characters.
+
+ @deprecated Use {@link #none()} instead. This constant is scheduled to be
+     removed in June 2018.]]>
       </doc>
     </field>
     <doc>
@@ -5771,7 +5829,7 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns a splitter that behaves equivalently to {@code this} splitter, but automatically
- removes leading and trailing {@linkplain CharMatcher#WHITESPACE whitespace} from each returned
+ removes leading and trailing {@linkplain CharMatcher#whitespace whitespace} from each returned
  substring; equivalent to {@code trimResults(CharMatcher.whitespace())}. For example, {@code
  Splitter.on(',').trimResults().split(" a, b ,c ")} returns an iterable containing
  {@code ["a", "b", "c"]}.
@@ -19180,7 +19238,7 @@
  <p><b>Performance note:</b> This method will sometimes recognize that the actual copy operation
  is unnecessary; for example, {@code copyOf(copyOf(anArrayList))} will copy the data only once.
  This reduces the expense of habitually making defensive copies at API boundaries. However, the
- the precise conditions for skipping the copy operation are undefined.
+ precise conditions for skipping the copy operation are undefined.
 
  @throws NullPointerException if any of {@code elements} is null
  @since 7.0 (source-compatible since 2.0)]]>
@@ -20439,10 +20497,10 @@
  comparator, call {@link #copyOfSorted} instead. This method iterates over {@code elements} at
  most once.
 
- <p>Note that if {@code s} is a {@code multiset<String>}, then {@code
+ <p>Note that if {@code s} is a {@code Multiset<String>}, then {@code
  ImmutableSortedMultiset.copyOf(s)} returns an {@code ImmutableSortedMultiset<String>}
  containing each of the strings in {@code s}, while {@code ImmutableSortedMultiset.of(s)}
- returns an {@code ImmutableSortedMultiset<multiset<String>>} containing one element (the given
+ returns an {@code ImmutableSortedMultiset<Multiset<String>>} containing one element (the given
  multiset itself).
 
  <p>Despite the method name, this method attempts to avoid actually copying the data when it is
@@ -35411,19 +35469,10 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.graph.Graph&lt;N, E&gt;"/>
-    <constructor name="AbstractGraph" type="com.google.common.graph.GraphConfig"
-      static="false" final="false" visibility="protected"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Not all subclasses necessarily need to expose a constructor that takes a {@link GraphConfig},
- but they do need to provide the {@code config} here that will be returned by {@link #config()}.]]>
-      </doc>
-    </constructor>
-    <method name="config" return="com.google.common.graph.GraphConfig"
-      abstract="false" native="false" synchronized="false"
+    <constructor name="AbstractGraph"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-    </method>
+    </constructor>
     <method name="degree" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -35458,11 +35507,6 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <field name="config" type="com.google.common.graph.GraphConfig"
-      transient="false" volatile="false"
-      static="false" final="true" visibility="protected"
-      deprecated="not deprecated">
-    </field>
     <doc>
     <![CDATA[This class provides a skeletal implementation of {@link Graph}. It is recommended to extend this
  class rather than implement {@link Graph} directly, to ensure consistent {@link #equals(Object)}
@@ -35474,81 +35518,6 @@
     </doc>
   </class>
   <!-- end class com.google.common.graph.AbstractGraph -->
-  <!-- start interface com.google.common.graph.DirectedGraph -->
-  <interface name="DirectedGraph"    abstract="true"
-    static="false" final="false" visibility="public"
-    deprecated="not deprecated">
-    <implements name="com.google.common.graph.Graph&lt;N, E&gt;"/>
-    <method name="source" return="N"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Returns the node for which {@code edge} is an outgoing edge.
-
- @throws IllegalArgumentException if {@code edge} is not an element of this graph]]>
-      </doc>
-    </method>
-    <method name="target" return="N"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Returns the node for which {@code edge} is an incoming edge.
-
- @throws IllegalArgumentException if {@code edge} is not an element of this graph]]>
-      </doc>
-    </method>
-    <method name="incidentNodes" return="java.util.Set&lt;N&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[{@inheritDoc}
-
- <p>If {@code edge} is not a self-loop, the iteration order will be
- {@code [source(edge), target(edge)]}.]]>
-      </doc>
-    </method>
-    <method name="edgesConnecting" return="java.util.Set&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="source" type="java.lang.Object"/>
-      <param name="target" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[{@inheritDoc}
-
- <p>The {@linkplain #source(Object) source} and {@linkplain #target(Object) target}
- of the edges returned must be {@code source} and {@code target}, respectively.]]>
-      </doc>
-    </method>
-    <method name="addEdge" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="E"/>
-      <param name="source" type="N"/>
-      <param name="target" type="N"/>
-      <doc>
-      <![CDATA[{@inheritDoc}
-
- <p>{@code edge} is an outgoing edge of {@code source} and an incoming edge of {@code target}.]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[A subinterface of {@code Graph} for graphs whose edges are all directed.
-
- @author Joshua O'Madadhain
- @param <N> Node parameter type
- @param <E> Edge parameter type
- @since 20.0]]>
-    </doc>
-  </interface>
-  <!-- end interface com.google.common.graph.DirectedGraph -->
   <!-- start interface com.google.common.graph.Graph -->
   <interface name="Graph"    abstract="true"
     static="false" final="false" visibility="public"
@@ -35569,12 +35538,38 @@
       <![CDATA[Returns all edges in this graph.]]>
       </doc>
     </method>
-    <method name="config" return="com.google.common.graph.GraphConfig"
+    <method name="isDirected" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the {@link GraphConfig} that defines this instance's configuration.]]>
+      <![CDATA[Returns true if the edges in this graph have a direction associated with them.
+
+ <p>A directed edge is an {@linkplain #outEdges(Object) outgoing edge} of its
+ {@linkplain #source(Object) source}, and an {@linkplain #inEdges(Object) incoming edge} of its
+ {@linkplain #target(Object) target}. An undirected edge connects its
+ {@linkplain #incidentNodes(Object) incident nodes} to each other, and is both an
+ {@linkplain #outEdges(Object) outgoing edge} and {@linkplain #inEdges(Object) incoming edge}
+ of each incident node.]]>
+      </doc>
+    </method>
+    <method name="allowsParallelEdges" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns true if this graph allows parallel edges. Attempting to add a parallel edge to a graph
+ that does not allow them will throw an {@link UnsupportedOperationException}.]]>
+      </doc>
+    </method>
+    <method name="allowsSelfLoops" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns true if this graph allows self-loops (edges that connect a node to itself).
+ Attempting to add a self-loop to a graph that does not allow them will throw an
+ {@link UnsupportedOperationException}.]]>
       </doc>
     </method>
     <method name="incidentEdges" return="java.util.Set&lt;E&gt;"
@@ -35596,8 +35591,9 @@
       <doc>
       <![CDATA[Returns the nodes which are the endpoints of {@code edge} in this graph.
 
- <p>For non-hypergraphs, the returned set will always contain either one
- (if {@code edge} is a self-loop) or two nodes.
+ <p>For self-loop edges, the returned set's size will be 1. If the graph is
+ {@linkplain #isDirected() directed} and {@code edge} is not a self-loop, the
+ iteration order will be {@code [source(edge), target(edge)]}.
 
  @throws IllegalArgumentException if {@code edge} is not an element of this graph]]>
       </doc>
@@ -35636,8 +35632,10 @@
       <param name="node1" type="java.lang.Object"/>
       <param name="node2" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns the edges that are {@linkplain #incidentEdges(Object) incident} in this graph
- to both nodes {@code node1} and {@code node2}.
+      <![CDATA[Returns the set of edges that connect {@code node1} to {@code node2}.
+
+ <p>This set is the intersection of {@code outEdges(node1)} and {@code inEdges(node2)}. If
+ {@code node1} is equal to {@code node2}, then it is the set of self-loop edges for that node.
 
  @throws IllegalArgumentException if {@code node1} or {@code node2} is not an element
      of this graph]]>
@@ -35696,6 +35694,26 @@
  @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
+    <method name="source" return="N"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="edge" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[For a directed graph, returns the node for which {@code edge} is an outgoing edge.
+ For an undirected graph, throws an {@link UnsupportedOperationException}.]]>
+      </doc>
+    </method>
+    <method name="target" return="N"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="edge" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[For a directed graph, returns the node for which {@code edge} is an incoming edge.
+ For an undirected graph, throws an {@link UnsupportedOperationException}.]]>
+      </doc>
+    </method>
     <method name="degree" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -35707,6 +35725,9 @@
  in this graph, returns {@code Integer.MAX_VALUE}.
 
  <p>Equivalent to {@code incidentEdges(node).size()}.
+
+ <p>Note that self-loops only count once towards a node's degree.
+ This is consistent with the definition of {@link #incidentEdges(Object)}.
 
  @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
@@ -35763,7 +35784,7 @@
       <param name="node1" type="N"/>
       <param name="node2" type="N"/>
       <doc>
-      <![CDATA[Adds {@code edge} to this graph, connecting {@code node1} and {@code node2}
+      <![CDATA[Adds {@code edge} to this graph, connecting {@code node1} to {@code node2}
  (optional operation).
 
  <p><b>Edges must be unique</b>, just as {@code Map} keys must be; they must also be non-null.
@@ -35829,14 +35850,10 @@
      <br>Thus, every edge in A and B connect the same nodes in the same direction (if any).
  </ul>
 
- <p>Properties that are <b>not</b> respected by this method:
- <ul>
- <li>{@code GraphConfig} configurations.  If two graphs are equal by the above criteria but have
- different configurations, they are still equal.  (For example: two graphs may be considered
- equal even if one allows parallel edges and the other doesn't.)
- <li>Edge/node ordering.  The order in which edges or nodes are added to the graph, and the
- order in which they are iterated over, are irrelevant.
- </ul>
+ <p>Graph properties are <b>not</b> respected by this method. For example, two graphs may be
+ considered equal even if one allows parallel edges and the other doesn't. Additionally, the
+ order in which edges or nodes are added to the graph, and the order in which they are iterated
+ over, are irrelevant.
 
  <p>A reference implementation of this is provided by {@link Graphs#equal(Graph, Graph)}.]]>
       </doc>
@@ -36037,150 +36054,106 @@
     </doc>
   </interface>
   <!-- end interface com.google.common.graph.Graph -->
-  <!-- start class com.google.common.graph.GraphConfig -->
-  <class name="GraphConfig" extends="java.lang.Object"
+  <!-- start class com.google.common.graph.GraphBuilder -->
+  <class name="GraphBuilder" extends="java.lang.Object"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
-    <method name="isMultigraph" return="boolean"
+    <method name="directed" return="com.google.common.graph.GraphBuilder&lt;java.lang.Object, java.lang.Object&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@link GraphBuilder} for building directed graphs.]]>
+      </doc>
+    </method>
+    <method name="undirected" return="com.google.common.graph.GraphBuilder&lt;java.lang.Object, java.lang.Object&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@link GraphBuilder} for building undirected graphs.]]>
+      </doc>
+    </method>
+    <method name="from" return="com.google.common.graph.GraphBuilder&lt;N, E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link GraphBuilder} initialized with all properties queryable from {@code graph}.
+
+ <p>The "queryable" properties are those that are exposed through the {@link Graph} interface,
+ such as {@link Graph#isDirected()}. Other properties, such as {@link #expectedNodeCount(int)},
+ are not set in the new builder.]]>
+      </doc>
+    </method>
+    <method name="allowsParallelEdges" return="com.google.common.graph.GraphBuilder&lt;N, E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <param name="allowsParallelEdges" type="boolean"/>
+      <doc>
+      <![CDATA[Specifies whether the graph will allow parallel edges. Attempting to add a parallel edge to
+ a graph that does not allow them will throw an {@link UnsupportedOperationException}.]]>
+      </doc>
     </method>
-    <method name="isSelfLoopsAllowed" return="boolean"
+    <method name="allowsSelfLoops" return="com.google.common.graph.GraphBuilder&lt;N, E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <param name="allowsSelfLoops" type="boolean"/>
+      <doc>
+      <![CDATA[Specifies whether the graph will allow self-loops (edges that connect a node to itself).
+ Attempting to add a self-loop to a graph that does not allow them will throw an
+ {@link UnsupportedOperationException}.]]>
+      </doc>
     </method>
-    <method name="getExpectedNodeCount" return="com.google.common.base.Optional&lt;java.lang.Integer&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
-    <method name="getExpectedEdgeCount" return="com.google.common.base.Optional&lt;java.lang.Integer&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
-    <method name="expectedNodeCount" return="com.google.common.graph.GraphConfig"
+    <method name="expectedNodeCount" return="com.google.common.graph.GraphBuilder&lt;N, E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expectedNodeCount" type="int"/>
       <doc>
-      <![CDATA[Specifies the expected number of nodes in the graph configuration.
+      <![CDATA[Specifies the expected number of nodes in the graph.
 
- @return a new {@code GraphConfig} instance that augments the existing configuration
-         by specifying the expected number of nodes.
  @throws IllegalArgumentException if {@code expectedNodeCount} is negative]]>
       </doc>
     </method>
-    <method name="expectedEdgeCount" return="com.google.common.graph.GraphConfig"
+    <method name="expectedEdgeCount" return="com.google.common.graph.GraphBuilder&lt;N, E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expectedEdgeCount" type="int"/>
       <doc>
-      <![CDATA[Specifies the expected number of edges in the graph configuration.
+      <![CDATA[Specifies the expected number of edges in the graph.
 
- @return a new {@code GraphConfig} instance that augments the existing configuration
-         by specifying the expected number of edges.
  @throws IllegalArgumentException if {@code expectedEdgeCount} is negative]]>
       </doc>
     </method>
-    <method name="multigraph" return="com.google.common.graph.GraphConfig"
+    <method name="build" return="com.google.common.graph.Graph&lt;N1, E1&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Specifies that this graph is a multigraph (allows parallel edges).
-
- @return a new {@code GraphConfig} instance that augments the existing configuration
-         by allowing parallel edges (multigraph).]]>
+      <![CDATA[Returns an empty mutable {@link Graph} with the properties of this {@link GraphBuilder}.]]>
       </doc>
-    </method>
-    <method name="noSelfLoops" return="com.google.common.graph.GraphConfig"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Specifies that this graph does not allow self-loop edges.
-
- @return a new {@code GraphConfig} instance that augments the existing configuration
-         by disallowing self-loop edges.]]>
-      </doc>
-    </method>
-    <method name="compatibleWith" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="that" type="com.google.common.graph.GraphConfig"/>
-      <doc>
-      <![CDATA[Returns true iff the configuration defined by this object is <i>compatible with</i> the
- configuration defined by {@code that}.  Intuitively, this checks for structural properties
- and ignores non-structural properties.  Specifically, this method checks whether the
- configurations have compatible support for:
- <ul>
- <li>parallel edges
- <li>self-loops
- </ul>
-
- By "compatible with", we mean that this instance must be at least as permissive as the input
- config ({@code that}).  Thus, for example, if the input permits parallel edges, this instance
- must also permit parallel edges in order for the configurations to be compatible.
-
- <p>It does not compare expected values for numbers of edges or nodes,
- and it is not equivalent to {@code Object.equals}.]]>
-      </doc>
-    </method>
-    <method name="equals" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
-    </method>
-    <method name="hashCode" return="int"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
-    <method name="toString" return="java.lang.String"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
     </method>
     <doc>
-    <![CDATA[A class for configuring different types of graphs.
+    <![CDATA[A builder for constructing instances of {@link Graph} with user-defined properties.
 
- <p>{@code Graphs.config()} should be used to get an instance of this class.
-
- <p>Currently, this class supports the following graph configurations (all combinations
- of these properties are valid unless stated otherwise):
+ <p>A graph built by this class will have the following properties by default:
  <ul>
- <li>Multigraphs.
- <li>Expected number of nodes/edges.
- <li>Self-loop edges.
+ <li>does not allow parallel edges
+ <li>allows self-loops
  </ul>
 
- <p>Default graph configuration:
- <ul>
- <li>Self-loop edges are allowed.
- <li>It is not a multigraph: parallel edges (multiple edges directed from n1
-     to n2, or between them in case of undirected graphs) are not allowed.
- <li>In case of directed graphs, anti-parallel edges (same incident nodes but
-     in opposite direction, e.g. (n1, n2) and (n2, n1)) are allowed.
- <li>Nodes and edges are not sorted.
- </ul>
-
- <p>{@code GraphConfig} instances are thread-safe immutable, and are therefore safe to
- store as {@code static final} constants.
-
+ @author James Sexton
  @author Joshua O'Madadhain
- @see Graphs
  @since 20.0]]>
     </doc>
   </class>
-  <!-- end class com.google.common.graph.GraphConfig -->
+  <!-- end class com.google.common.graph.GraphBuilder -->
   <!-- start class com.google.common.graph.GraphProperties -->
   <class name="GraphProperties" extends="java.lang.Object"
     abstract="false"
@@ -36190,7 +36163,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.DirectedGraph&lt;?, ?&gt;"/>
+      <param name="graph" type="com.google.common.graph.Graph&lt;?, ?&gt;"/>
       <doc>
       <![CDATA[Returns true iff {@code graph} has at least one cycle.]]>
       </doc>
@@ -36199,9 +36172,11 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="directedGraph" type="com.google.common.graph.DirectedGraph&lt;N, ?&gt;"/>
+      <param name="graph" type="com.google.common.graph.Graph&lt;N, ?&gt;"/>
       <doc>
-      <![CDATA[Returns the set of all nodes in {@code directedGraph} that have no predecessors.]]>
+      <![CDATA[Returns the set of all nodes in {@code graph} that have no predecessors.
+
+ <p>Note that in an undirected graph, this is equivalent to all isolated nodes.]]>
       </doc>
     </method>
     <doc>
@@ -36257,20 +36232,20 @@
  returned by {@code nodes}' iterator.]]>
       </doc>
     </method>
-    <method name="copyOf" return="com.google.common.graph.DirectedGraph&lt;N, E&gt;"
+    <method name="copyOf" return="com.google.common.graph.Graph&lt;N, E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.DirectedGraph&lt;N, E&gt;"/>
+      <param name="graph" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
       <doc>
       <![CDATA[Creates a mutable copy of {@code graph}, using the same node and edge elements.]]>
       </doc>
     </method>
-    <method name="copyOf" return="com.google.common.graph.DirectedGraph&lt;N, E&gt;"
+    <method name="copyOf" return="com.google.common.graph.Graph&lt;N, E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.DirectedGraph&lt;N, E&gt;"/>
+      <param name="graph" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
       <param name="nodePredicate" type="com.google.common.base.Predicate&lt;? super N&gt;"/>
       <param name="edgePredicate" type="com.google.common.base.Predicate&lt;? super E&gt;"/>
       <doc>
@@ -36303,54 +36278,10 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="original" type="com.google.common.graph.DirectedGraph&lt;N, E&gt;"/>
-      <param name="copy" type="com.google.common.graph.DirectedGraph&lt;N, E&gt;"/>
-      <doc>
-      <![CDATA[Copies all edges from {@code original} into {@code copy}.  Also copies all nodes incident
- to these edges.]]>
-      </doc>
-    </method>
-    <method name="mergeEdgesFrom"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="original" type="com.google.common.graph.DirectedGraph&lt;N, E&gt;"/>
-      <param name="copy" type="com.google.common.graph.DirectedGraph&lt;N, E&gt;"/>
-      <param name="edgePredicate" type="com.google.common.base.Predicate&lt;? super E&gt;"/>
-      <doc>
-      <![CDATA[Copies all edges from {@code original} into {@code copy} that satisfy {@code edgePredicate}.
- Also copies all nodes incident to these edges.]]>
-      </doc>
-    </method>
-    <method name="copyOf" return="com.google.common.graph.UndirectedGraph&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.UndirectedGraph&lt;N, E&gt;"/>
-      <doc>
-      <![CDATA[Creates a mutable copy of {@code graph}, using the same node and edge elements.]]>
-      </doc>
-    </method>
-    <method name="copyOf" return="com.google.common.graph.UndirectedGraph&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.UndirectedGraph&lt;N, E&gt;"/>
-      <param name="nodePredicate" type="com.google.common.base.Predicate&lt;? super N&gt;"/>
-      <param name="edgePredicate" type="com.google.common.base.Predicate&lt;? super E&gt;"/>
-      <doc>
-      <![CDATA[Creates a mutable copy of {@code graph}, using all of its elements that satisfy
- {@code nodePredicate} and {@code edgePredicate}.]]>
-      </doc>
-    </method>
-    <method name="mergeEdgesFrom"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
       <param name="original" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
       <param name="copy" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
       <doc>
-      <![CDATA[Copies all edges from {@code original} into {@code copy}.  Also copies all nodes incident
+      <![CDATA[Copies all edges from {@code original} into {@code copy}. Also copies all nodes incident
  to these edges.]]>
       </doc>
     </method>
@@ -36364,71 +36295,6 @@
       <doc>
       <![CDATA[Copies all edges from {@code original} into {@code copy} that satisfy {@code edgePredicate}.
  Also copies all nodes incident to these edges.]]>
-      </doc>
-    </method>
-    <method name="copyFrom"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="original" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <param name="copy" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <param name="nodePredicate" type="com.google.common.base.Predicate&lt;? super N&gt;"/>
-      <param name="edgePredicate" type="com.google.common.base.Predicate&lt;? super E&gt;"/>
-      <doc>
-      <![CDATA[Copies all nodes and edges from {@code original} to {@code copy} that satisfy
- {@code nodePredicate} and {@code edgePredicate}.]]>
-      </doc>
-    </method>
-    <method name="config" return="com.google.common.graph.GraphConfig"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a new default instance of {@code GraphConfig}.
-
- @see GraphConfig]]>
-      </doc>
-    </method>
-    <method name="createDirected" return="com.google.common.graph.DirectedGraph&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a new instance of {@link DirectedGraph} with the default
- graph configuration.
-
- @see GraphConfig]]>
-      </doc>
-    </method>
-    <method name="createDirected" return="com.google.common.graph.DirectedGraph&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="config" type="com.google.common.graph.GraphConfig"/>
-      <doc>
-      <![CDATA[Returns a new instance of {@link DirectedGraph} with the graph
- configuration specified by {@code config}.]]>
-      </doc>
-    </method>
-    <method name="createUndirected" return="com.google.common.graph.UndirectedGraph&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a new instance of {@link UndirectedGraph} with the default
- graph configuration.
-
- @see GraphConfig]]>
-      </doc>
-    </method>
-    <method name="createUndirected" return="com.google.common.graph.UndirectedGraph&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="config" type="com.google.common.graph.GraphConfig"/>
-      <doc>
-      <![CDATA[Returns a new instance of {@link UndirectedGraph} with the graph
- configuration specified by {@code config}.]]>
       </doc>
     </method>
     <method name="equal" return="boolean"
@@ -36461,7 +36327,7 @@
       <param name="graph" type="com.google.common.graph.Graph&lt;?, ?&gt;"/>
       <doc>
       <![CDATA[Returns a string representation of {@code graph}. Encodes edge direction if {@code graph}
- is a {@link DirectedGraph}.]]>
+ is directed.]]>
       </doc>
     </method>
     <method name="selfLoopPredicate" return="com.google.common.base.Predicate&lt;E&gt;"
@@ -36476,16 +36342,10 @@
  {@code graph} does not contain {@code edge}.]]>
       </doc>
     </method>
-    <field name="MULTIGRAPH" type="com.google.common.graph.GraphConfig"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="not deprecated">
-    </field>
     <doc>
     <![CDATA[Static utility methods for {@link Graph} instances.
 
  @author Joshua O'Madadhain
- @see Graph
  @since 20.0]]>
     </doc>
   </class>
@@ -36495,6 +36355,30 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.graph.Graph&lt;N, E&gt;"/>
+    <method name="source" return="N"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="Unsupported operation. Call {@link #incidentNodes(Object)} instead.">
+      <param name="edge" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Source is not applicable to hypergraphs.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation. Call {@link #incidentNodes(Object)} instead.]]>
+      </doc>
+    </method>
+    <method name="target" return="N"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="Unsupported operation. Call {@link #incidentNodes(Object)} instead.">
+      <param name="edge" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Target is not applicable to hypergraphs.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation. Call {@link #incidentNodes(Object)} instead.]]>
+      </doc>
+    </method>
     <method name="addEdge" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -36540,268 +36424,102 @@
     </doc>
   </interface>
   <!-- end interface com.google.common.graph.Hypergraph -->
-  <!-- start class com.google.common.graph.ImmutableDirectedGraph -->
-  <class name="ImmutableDirectedGraph" extends="com.google.common.graph.AbstractImmutableGraph&lt;N, E&gt;"
+  <!-- start class com.google.common.graph.ImmutableGraph -->
+  <class name="ImmutableGraph" extends="com.google.common.graph.ConfigurableGraph&lt;N, E&gt;"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
-    <implements name="com.google.common.graph.DirectedGraph&lt;N, E&gt;"/>
-    <method name="source" return="N"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="java.lang.Object"/>
-    </method>
-    <method name="target" return="N"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="java.lang.Object"/>
-    </method>
-    <method name="builder" return="com.google.common.graph.ImmutableDirectedGraph.Builder&lt;N, E&gt;"
+    <method name="copyOf" return="com.google.common.graph.ImmutableGraph&lt;N, E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
       <doc>
-      <![CDATA[Returns a new builder. The generated builder is equivalent to the builder
- created by the {@code Builder} constructor.]]>
+      <![CDATA[Returns an immutable copy of {@code graph}.]]>
       </doc>
     </method>
-    <method name="builder" return="com.google.common.graph.ImmutableDirectedGraph.Builder&lt;N, E&gt;"
+    <method name="copyOf" return="com.google.common.graph.ImmutableGraph&lt;N, E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="config" type="com.google.common.graph.GraphConfig"/>
+      deprecated="no need to use this">
+      <param name="graph" type="com.google.common.graph.ImmutableGraph&lt;N, E&gt;"/>
       <doc>
-      <![CDATA[Returns a new builder. The generated builder is equivalent to the builder
- created by the {@code Builder} constructor.
+      <![CDATA[Simply returns its argument.
 
- @param config an instance of {@code GraphConfig} with the intended
-        graph configuration.]]>
+ @deprecated no need to use this]]>
       </doc>
     </method>
-    <method name="copyOf" return="com.google.common.graph.ImmutableDirectedGraph&lt;N, E&gt;"
+    <method name="addNode" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.DirectedGraph&lt;N, E&gt;"/>
+      static="false" final="true" visibility="public"
+      deprecated="Unsupported operation.">
+      <param name="node" type="N"/>
       <doc>
-      <![CDATA[Returns an immutable copy of the input graph.]]>
+      <![CDATA[Guaranteed to throw an exception and leave the graph unmodified.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation.]]>
       </doc>
+    </method>
+    <method name="addEdge" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="Unsupported operation.">
+      <param name="edge" type="E"/>
+      <param name="node1" type="N"/>
+      <param name="node2" type="N"/>
+      <doc>
+      <![CDATA[Guaranteed to throw an exception and leave the graph unmodified.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation.]]>
+      </doc>
+    </method>
+    <method name="removeNode" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="Unsupported operation.">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Guaranteed to throw an exception and leave the graph unmodified.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation.]]>
+      </doc>
+    </method>
+    <method name="removeEdge" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="Unsupported operation.">
+      <param name="edge" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Guaranteed to throw an exception and leave the graph unmodified.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation.]]>
+      </doc>
+    </method>
+    <method name="edgesConnecting" return="java.util.Set&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node1" type="java.lang.Object"/>
+      <param name="node2" type="java.lang.Object"/>
     </method>
     <doc>
-    <![CDATA[Implementation of an immutable directed graph consisting of nodes of type N
- and edges of type E.
+    <![CDATA[A {@link Graph} whose contents will never change. Instances of this class should be obtained
+ with {@link #copyOf(Graph)}.
 
- <p>Some invariants/assumptions are maintained in this implementation:
- <ul>
- <li>An edge has exactly two end-points (source node and target node), which
-     may or may not be distinct.
- <li>By default, this is not a multigraph, that is, parallel edges (multiple
-     edges directed from node1 to node2) are not allowed.  If you want a multigraph,
-     build the graph with the 'multigraph' option:
-     <pre>ImmutableDirectedGraph.builder(Graphs.config().multigraph()).build();</pre>
- <li>Anti-parallel edges (same incident nodes but in opposite direction,
-     e.g. (node1, node2) and (node2, node1)) are always allowed.
- <li>Edges are not adjacent to themselves by definition. In the case of a
-     self-loop, a node can be adjacent to itself, but an edge will never be.
- </ul>
+ <p>The time complexity of {@code edgesConnecting(node1, node2)} is O(min(outD_node1, inD_node2)).
 
  @author James Sexton
  @author Joshua O'Madadhain
  @author Omar Darwish
  @param <N> Node parameter type
- @param <E> Edge parameter type
- @see AbstractConfigurableGraph
- @see AbstractImmutableGraph
- @since 20.0]]>
+ @param <E> Edge parameter type]]>
     </doc>
   </class>
-  <!-- end class com.google.common.graph.ImmutableDirectedGraph -->
-  <!-- start class com.google.common.graph.ImmutableDirectedGraph.Builder -->
-  <class name="ImmutableDirectedGraph.Builder" extends="com.google.common.graph.AbstractImmutableGraph.Builder&lt;N, E&gt;"
-    abstract="false"
-    static="true" final="true" visibility="public"
-    deprecated="not deprecated">
-    <constructor name="ImmutableDirectedGraph.Builder"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Creates a new builder with the default graph configuration.]]>
-      </doc>
-    </constructor>
-    <constructor name="ImmutableDirectedGraph.Builder" type="com.google.common.graph.GraphConfig"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Creates a new builder with the specified graph configuration.]]>
-      </doc>
-    </constructor>
-    <method name="build" return="com.google.common.graph.ImmutableDirectedGraph&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
-    <method name="addNode" return="com.google.common.graph.ImmutableDirectedGraph.Builder&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="N"/>
-    </method>
-    <method name="addEdge" return="com.google.common.graph.ImmutableDirectedGraph.Builder&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="E"/>
-      <param name="node1" type="N"/>
-      <param name="node2" type="N"/>
-    </method>
-    <method name="addGraph" return="com.google.common.graph.ImmutableDirectedGraph.Builder&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graphToAdd" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-    </method>
-    <doc>
-    <![CDATA[A builder for creating immutable directed graph instances.
-
- @param <N> Node parameter type
- @param <E> edge parameter type
- @see GraphConfig]]>
-    </doc>
-  </class>
-  <!-- end class com.google.common.graph.ImmutableDirectedGraph.Builder -->
-  <!-- start class com.google.common.graph.ImmutableUndirectedGraph -->
-  <class name="ImmutableUndirectedGraph" extends="com.google.common.graph.AbstractImmutableGraph&lt;N, E&gt;"
-    abstract="false"
-    static="false" final="true" visibility="public"
-    deprecated="not deprecated">
-    <implements name="com.google.common.graph.UndirectedGraph&lt;N, E&gt;"/>
-    <method name="builder" return="com.google.common.graph.ImmutableUndirectedGraph.Builder&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a new builder. The generated builder is equivalent to the builder
- created by the {@code Builder} constructor.]]>
-      </doc>
-    </method>
-    <method name="builder" return="com.google.common.graph.ImmutableUndirectedGraph.Builder&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="config" type="com.google.common.graph.GraphConfig"/>
-      <doc>
-      <![CDATA[Returns a new builder. The generated builder is equivalent to the builder
- created by the {@code Builder} constructor.
-
- @param config an instance of {@code GraphConfig} with the intended
-        graph configuration.]]>
-      </doc>
-    </method>
-    <method name="copyOf" return="com.google.common.graph.ImmutableUndirectedGraph&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.UndirectedGraph&lt;N, E&gt;"/>
-      <doc>
-      <![CDATA[Returns an immutable copy of the input graph.]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[Implementation of an immutable undirected graph consisting of nodes of type N
- and edges of type E.
-
- <p>Some invariants/assumptions are maintained in this implementation:
- <ul>
- <li>An edge has exactly two end-points, which may or may not be distinct.
- <li>By default, this is not a multigraph, that is, parallel edges (multiple
-     edges between n1 and n2) are not allowed.  If you want a multigraph,
-     build the graph with the 'multigraph' option:
-     <pre>ImmutableUndirectedGraph.builder(Graphs.config().multigraph()).build();</pre>
- <li>Edges are not adjacent to themselves by definition. In the case of a
-     self-loop, a node can be adjacent to itself, but an edge will never be adjacent to itself.
- </ul>
-
- @author James Sexton
- @author Joshua O'Madadhain
- @author Omar Darwish
- @param <N> Node parameter type
- @param <E> Edge parameter type
- @see AbstractConfigurableGraph
- @see AbstractImmutableGraph
- @since 20.0]]>
-    </doc>
-  </class>
-  <!-- end class com.google.common.graph.ImmutableUndirectedGraph -->
-  <!-- start class com.google.common.graph.ImmutableUndirectedGraph.Builder -->
-  <class name="ImmutableUndirectedGraph.Builder" extends="com.google.common.graph.AbstractImmutableGraph.Builder&lt;N, E&gt;"
-    abstract="false"
-    static="true" final="true" visibility="public"
-    deprecated="not deprecated">
-    <constructor name="ImmutableUndirectedGraph.Builder"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Creates a new builder with the default graph configuration.]]>
-      </doc>
-    </constructor>
-    <constructor name="ImmutableUndirectedGraph.Builder" type="com.google.common.graph.GraphConfig"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Creates a new builder with the specified configuration.]]>
-      </doc>
-    </constructor>
-    <method name="build" return="com.google.common.graph.ImmutableUndirectedGraph&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
-    <method name="addNode" return="com.google.common.graph.ImmutableUndirectedGraph.Builder&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="N"/>
-    </method>
-    <method name="addEdge" return="com.google.common.graph.ImmutableUndirectedGraph.Builder&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="E"/>
-      <param name="node1" type="N"/>
-      <param name="node2" type="N"/>
-    </method>
-    <method name="addGraph" return="com.google.common.graph.ImmutableUndirectedGraph.Builder&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graphToAdd" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-    </method>
-    <doc>
-    <![CDATA[A builder for creating immutable undirected graph instances.
-
- @param <N> Node parameter type
- @param <E> edge parameter type
- @see GraphConfig]]>
-    </doc>
-  </class>
-  <!-- end class com.google.common.graph.ImmutableUndirectedGraph.Builder -->
-  <!-- start interface com.google.common.graph.UndirectedGraph -->
-  <interface name="UndirectedGraph"    abstract="true"
-    static="false" final="false" visibility="public"
-    deprecated="not deprecated">
-    <implements name="com.google.common.graph.Graph&lt;N, E&gt;"/>
-    <doc>
-    <![CDATA[A tagging/marker subinterface of {@code Graph} for graphs whose edges are all undirected.
-
- @author Joshua O'Madadhain
- @param <N> Node parameter type
- @param <E> Edge parameter type
- @since 20.0]]>
-    </doc>
-  </interface>
-  <!-- end interface com.google.common.graph.UndirectedGraph -->
+  <!-- end class com.google.common.graph.ImmutableGraph -->
 </package>
 <package name="com.google.common.hash">
   <!-- start class com.google.common.hash.BloomFilter -->
@@ -38877,7 +38595,6 @@
  <p>It is guaranteed that {@code encoding.decode(encoding.encode(x))} is always equal to
  {@code x}, but the reverse does not necessarily hold.
 
- <p>
  <table>
  <tr>
  <th>Encoding
@@ -39266,6 +38983,7 @@
       <![CDATA[Writes all the bytes from the given {@code InputStream} to this sink. Does not close
  {@code input}.
 
+ @return the number of bytes written
  @throws IOException if an I/O occurs in the process of reading from {@code input} or writing to
      this sink]]>
       </doc>
@@ -39438,6 +39156,7 @@
       <![CDATA[Copies the contents of this byte source to the given {@code OutputStream}. Does not close
  {@code output}.
 
+ @return the number of bytes copied
  @throws IOException if an I/O error occurs in the process of reading from this source or
      writing to {@code output}]]>
       </doc>
@@ -39451,6 +39170,7 @@
       <doc>
       <![CDATA[Copies the contents of this byte source to the given {@code ByteSink}.
 
+ @return the number of bytes copied
  @throws IOException if an I/O error occurs in the process of reading from this source or
      writing to {@code sink}]]>
       </doc>
@@ -39970,6 +39690,7 @@
       <![CDATA[Writes all the text from the given {@link Readable} (such as a {@link Reader}) to this sink.
  Does not close {@code readable} if it is {@code Closeable}.
 
+ @return the number of characters written
  @throws IOException if an I/O error occurs in the process of reading from {@code readable} or
      writing to this sink]]>
       </doc>
@@ -40109,6 +39830,7 @@
       <![CDATA[Appends the contents of this source to the given {@link Appendable} (such as a {@link Writer}).
  Does not close {@code appendable} if it is {@code Closeable}.
 
+ @return the number of characters copied
  @throws IOException if an I/O error occurs in the process of reading from this source or
      writing to {@code appendable}]]>
       </doc>
@@ -40122,6 +39844,7 @@
       <doc>
       <![CDATA[Copies the contents of this source to the given sink.
 
+ @return the number of characters copied
  @throws IOException if an I/O error occurs in the process of reading from this source or
      writing to {@code sink}]]>
       </doc>
@@ -41824,7 +41547,7 @@
   <!-- start class com.google.common.io.LittleEndianDataOutputStream -->
   <class name="LittleEndianDataOutputStream" extends="java.io.FilterOutputStream"
     abstract="false"
-    static="false" final="false" visibility="public"
+    static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <implements name="java.io.DataOutput"/>
     <constructor name="LittleEndianDataOutputStream" type="java.io.OutputStream"
@@ -44501,9 +44224,24 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[An immutable value object capturing some basic statistics about a collection of double values.
- Build instances with {@link #of} or {@link StatsAccumulator#snapshot}. If you only want to
- calculate the mean of a dataset, use {@link #meanOf} instead.
+    <![CDATA[A bundle of statistical summary values -- sum, count, mean/average, min and max, and several
+ forms of variance -- that were computed from a single set of zero or more floating-point values.
+
+ <p>There are two ways to obtain a {@code Stats} instance:
+
+ <ul>
+ <li>If all the values you want to summarize are already known, use the appropriate {@code
+     Stats.of} factory method below. Primitive arrays, iterables and iterators of any kind of
+     {@code Number}, and primitive varargs are supported.
+ <li>Or, to avoid storing up all the data first, create a {@link StatsAccumulator} instance, feed
+     values to it as you get them, then call {@link StatsAccumulator#snapshot}.
+ </ul>
+
+ <p>Static convenience methods called {@code meanOf} are also provided for users who wish to
+ calculate <i>only</i> the mean.
+
+ <p><b>Java 8 users:</b> If you are not using any of the variance statistics, you may wish to use
+ built-in JDK libraries instead of this class.
 
  @author Pete Gillin
  @author Kevin Bourrillion
@@ -45696,6 +45434,26 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[The HTTP {@code X-Forwarded-Proto} header field name.]]>
+      </doc>
+    </field>
+    <field name="X_FORWARDED_HOST" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="http://goo.gl/lQirAH">{@code X-Forwarded-Host}</a> header field name.
+
+ @since 20.0]]>
+      </doc>
+    </field>
+    <field name="X_FORWARDED_PORT" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="http://goo.gl/YtV2at">{@code X-Forwarded-Port}</a> header field name.
+
+ @since 20.0]]>
       </doc>
     </field>
     <field name="X_FRAME_OPTIONS" type="java.lang.String"
@@ -46901,7 +46659,7 @@
       <doc>
       <![CDATA[The media type for the <a href="http://en.wikipedia.org/wiki/Camera_Image_File_Format">Canon
  Image File Format</a> ({@code crw} files), a widely-used "raw image" format for cameras. It is
- found in {@code /etc/mime.types}, e.g. in <href=
+ found in {@code /etc/mime.types}, e.g. in <a href=
  "http://anonscm.debian.org/gitweb/?p=collab-maint/mime-support.git;a=blob;f=mime.types;hb=HEAD"
  >Debian 3.48-1</a>.
 
@@ -46938,7 +46696,7 @@
  found in {@code /etc/mime.types}, e.g.
  <a href="http://svn.apache.org/repos/asf/httpd/httpd/branches/1.3.x/conf/mime.types"></a> of
  the Apache <a href="http://httpd.apache.org/">HTTPD project</a>; for the specification, see
- <href="http://www.adobe.com/devnet-apps/photoshop/fileformatashtml/PhotoshopFileFormats.htm">
+ <a href="http://www.adobe.com/devnet-apps/photoshop/fileformatashtml/PhotoshopFileFormats.htm">
  Adobe Photoshop Document Format</a> and
  <a href="http://en.wikipedia.org/wiki/Adobe_Photoshop#File_format">Wikipedia</a>; this is the
  regular output/input of Photoshop (which can also export to various image formats; note that
@@ -56673,7 +56431,11 @@
    SettableFuture<ListenableFuture<String>> nested = SettableFuture.create();
    ListenableFuture<String> dereferenced = dereference(nested);}</pre>
 
- <p>This call has the same cancellation and execution semantics as {@link
+ <p>Most users will not need this method. To create a {@code Future} that completes with the
+ result of another {@code Future}, create a {@link SettableFuture}, and call {@link
+ SettableFuture#setFuture setFuture(otherFuture)} on it.
+
+ <p>{@code dereference} has the same cancellation and execution semantics as {@link
  #transform(ListenableFuture, AsyncFunction)}, in that the returned {@code Future} attempts to
  keep its cancellation state in sync with both the input {@code Future} and the nested {@code
  Future}.  The transformation is very lightweight and therefore takes place in the same thread
@@ -57365,6 +57127,16 @@
      {@link AbstractFuture}.)
  </ul>
 
+ <p><b>Test doubles</b>: If you need a {@code ListenableFuture} for your test, try a {@link
+ SettableFuture} or one of the methods in the {@link Futures#immediateFuture Futures.immediate*}
+ family. <b>Avoid</b> creating a mock or stub {@code Future}. Mock and stub implementations are
+ fragile because they assume that only certain methods will be called and because they often
+ implement subtleties of the API improperly.
+
+ <p><b>Custom implementation</b>: Avoid implementing {@code ListenableFuture} from scratch. If you
+ can't get by with the standard implementations, prefer to derive a new {@code Future} instance
+ with the methods in {@link Futures} or, if necessary, to extend {@link AbstractFuture}.
+
  <p>Occasionally, an API will return a plain {@code Future} and it will be impossible to change
  the return type. For this case, we provide a more expensive workaround in {@code
  JdkFutureAdapters}. However, when possible, it is more efficient and reliable to create a {@code
@@ -57432,7 +57204,10 @@
  {@code FutureTask}, {@code ListenableFutureTask} does not provide an overrideable {@link
  FutureTask#done() done()} method. For similar functionality, call {@link #addListener}.
 
- <p>
+ <p>Few users should use this class. It is intended primarily for those who are implementing an
+ {@code ExecutorService}. Most users should call {@link ListeningExecutorService#submit(Callable)
+ ListeningExecutorService.submit} on a service obtained from {@link
+ MoreExecutors#listeningDecorator}.
 
  @author Sven Mawson
  @since 1.0]]>
@@ -59986,11 +59761,17 @@
       <param name="future" type="java.util.concurrent.Future&lt;V&gt;"/>
       <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
       <doc>
-      <![CDATA[Invokes {@code future.}{@link Future#get() get()} uninterruptibly. To get uninterruptibility
- and remove checked exceptions, see {@link Futures#getUnchecked}.
+      <![CDATA[Invokes {@code future.}{@link Future#get() get()} uninterruptibly.
 
- <p>If instead, you wish to treat {@link InterruptedException} uniformly with other exceptions,
- see {@link Futures#getChecked(Future, Class) Futures.getChecked}.
+ <p>Similar methods:
+
+ <ul>
+ <li>To retrieve a result from a {@code Future} that is already done, use
+     {@link Futures#getDone Futures.getDone}.
+ <li>To treat {@link InterruptedException} uniformly with other exceptions, use
+     {@link Futures#getChecked(Future, Class) Futures.getChecked}.
+ <li>To get uninterruptibility and remove checked exceptions, use {@link Futures#getUnchecked}.
+ </ul>
 
  @throws ExecutionException if the computation threw an exception
  @throws CancellationException if the computation was cancelled]]>
@@ -60008,8 +59789,15 @@
       <doc>
       <![CDATA[Invokes {@code future.}{@link Future#get(long, TimeUnit) get(timeout, unit)} uninterruptibly.
 
- <p>If instead, you wish to treat {@link InterruptedException} uniformly with other exceptions,
- see {@link Futures#getChecked(Future, Class) Futures.getChecked}.
+ <p>Similar methods:
+
+ <ul>
+ <li>To retrieve a result from a {@code Future} that is already done, use
+     {@link Futures#getDone Futures.getDone}.
+ <li>To treat {@link InterruptedException} uniformly with other exceptions, use
+     {@link Futures#getChecked(Future, Class, long, TimeUnit) Futures.getChecked}.
+ <li>To get uninterruptibility and remove checked exceptions, use {@link Futures#getUnchecked}.
+ </ul>
 
  @throws ExecutionException if the computation threw an exception
  @throws CancellationException if the computation was cancelled

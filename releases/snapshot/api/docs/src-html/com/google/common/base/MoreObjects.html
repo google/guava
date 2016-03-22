@@ -355,7 +355,7 @@
 <span class="sourceLineNo">347</span>          if (value != null &amp;&amp; value.getClass().isArray()) {<a name="line.347"></a>
 <span class="sourceLineNo">348</span>            Object[] objectArray = {value};<a name="line.348"></a>
 <span class="sourceLineNo">349</span>            String arrayString = Arrays.deepToString(objectArray);<a name="line.349"></a>
-<span class="sourceLineNo">350</span>            builder.append(arrayString.substring(1, arrayString.length() - 1));<a name="line.350"></a>
+<span class="sourceLineNo">350</span>            builder.append(arrayString, 1, arrayString.length() - 1);<a name="line.350"></a>
 <span class="sourceLineNo">351</span>          } else {<a name="line.351"></a>
 <span class="sourceLineNo">352</span>            builder.append(value);<a name="line.352"></a>
 <span class="sourceLineNo">353</span>          }<a name="line.353"></a>

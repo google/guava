@@ -18,7 +18,7 @@ com.google.common.base.CharMatcher
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/CharMatcher.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/CharMatcher.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.base.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -31,14 +31,14 @@ com.google.common.base.CharMatcher
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<B>PREV CLASS</B>&nbsp;
-&nbsp;<A HREF="com.google.common.base.Throwables.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.base.FinalizableReference.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.base.CharMatcher.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
 CONSTRUCTORS&nbsp;|&nbsp;
-<a href="#methods">METHODS</a>&nbsp;|&nbsp;
-FIELDS
+METHODS&nbsp;|&nbsp;
+<a href="#fields">FIELDS</a>
   </FONT></TD>
 </TR>
 </TABLE>
@@ -49,120 +49,141 @@ Class com.google.common.base.<A HREF="../../docs/com/google/common/base/CharMatc
 </H2>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
+<a NAME="fields"></a>
 <p>
-<a NAME="Added"></a>
-<TABLE summary="Added Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<a NAME="Changed"></a>
+<TABLE summary="Changed Fields" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Methods</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Fields</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.CharMatcher.any_added()"></A>
-  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#any()" target="_top"><tt>any</tt></A>()</nobr>
+  <A NAME="com.google.common.base.CharMatcher.ANY"></A>
+  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#ANY" target="_top"><tt>ANY</tt></A></nobr>  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Matches any character.</TD>
+  <TD VALIGN="TOP">Use {@link #any()} instead.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.CharMatcher.ascii_added()"></A>
-  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#ascii()" target="_top"><tt>ascii</tt></A>()</nobr>
+  <A NAME="com.google.common.base.CharMatcher.ASCII"></A>
+  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#ASCII" target="_top"><tt>ASCII</tt></A></nobr>  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Determines whether a character is ASCII, meaning that its code point is less than 128.</TD>
+  <TD VALIGN="TOP">Use {@link #ascii()} instead.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.CharMatcher.breakingWhitespace_added()"></A>
-  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#breakingWhitespace()" target="_top"><tt>breakingWhitespace</tt></A>()</nobr>
+  <A NAME="com.google.common.base.CharMatcher.BREAKING_WHITESPACE"></A>
+  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#BREAKING_WHITESPACE" target="_top"><tt>BREAKING_WHITESPACE</tt></A></nobr>  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Determines whether a character is a breaking whitespace (that is, a whitespace which can be
- interpreted as a break between words for formatting purposes).</TD>
+  <TD VALIGN="TOP">Use {@link #breakingWhitespace()} instead.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.CharMatcher.digit_added()"></A>
-  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#digit()" target="_top"><tt>digit</tt></A>()</nobr>
+  <A NAME="com.google.common.base.CharMatcher.DIGIT"></A>
+  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#DIGIT" target="_top"><tt>DIGIT</tt></A></nobr>  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Determines whether a character is a digit according to
- <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>.</TD>
+  <TD VALIGN="TOP">Use {@link #digit()} instead.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.CharMatcher.invisible_added()"></A>
-  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#invisible()" target="_top"><tt>invisible</tt></A>()</nobr>
+  <A NAME="com.google.common.base.CharMatcher.INVISIBLE"></A>
+  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#INVISIBLE" target="_top"><tt>INVISIBLE</tt></A></nobr>  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Determines whether a character is invisible; that is, if its Unicode category is any of
- SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT, SURROGATE, and
- PRIVATE_USE according to ICU4J.</TD>
+  <TD VALIGN="TOP">Use {@link #invisible()} instead.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.CharMatcher.javaDigit_added()"></A>
-  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#javaDigit()" target="_top"><tt>javaDigit</tt></A>()</nobr>
+  <A NAME="com.google.common.base.CharMatcher.JAVA_DIGIT"></A>
+  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#JAVA_DIGIT" target="_top"><tt>JAVA_DIGIT</tt></A></nobr>  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Determines whether a character is a digit according to <A HREF="../../docs/lain.html"><TT>Character#isDigit(char)
- Java's definition</TT></A>.</TD>
+  <TD VALIGN="TOP">Use {@link #javaDigit()} instead.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.CharMatcher.javaIsoControl_added()"></A>
-  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#javaIsoControl()" target="_top"><tt>javaIsoControl</tt></A>()</nobr>
+  <A NAME="com.google.common.base.CharMatcher.JAVA_ISO_CONTROL"></A>
+  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#JAVA_ISO_CONTROL" target="_top"><tt>JAVA_ISO_CONTROL</tt></A></nobr>  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Determines whether a character is an ISO control character as specified by <A HREF="../../docs/Character.html#isISOControl(char)"><TT>Character.isISOControl(char)</TT></A>.</TD>
+  <TD VALIGN="TOP">Use {@link #javaIsoControl()} instead.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.CharMatcher.javaLetter_added()"></A>
-  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#javaLetter()" target="_top"><tt>javaLetter</tt></A>()</nobr>
+  <A NAME="com.google.common.base.CharMatcher.JAVA_LETTER"></A>
+  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#JAVA_LETTER" target="_top"><tt>JAVA_LETTER</tt></A></nobr>  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Determines whether a character is a letter according to <A HREF="../../docs/lain.html"><TT>Character#isLetter(char)
- Java's definition</TT></A>.</TD>
+  <TD VALIGN="TOP">Use {@link #javaLetter()} instead.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.CharMatcher.javaLetterOrDigit_added()"></A>
-  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#javaLetterOrDigit()" target="_top"><tt>javaLetterOrDigit</tt></A>()</nobr>
+  <A NAME="com.google.common.base.CharMatcher.JAVA_LETTER_OR_DIGIT"></A>
+  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#JAVA_LETTER_OR_DIGIT" target="_top"><tt>JAVA_LETTER_OR_DIGIT</tt></A></nobr>  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Determines whether a character is a letter or digit according to <A HREF="../../docs/lain.html"><TT> Character#isLetterOrDigit(char) Java's definition</TT></A>.</TD>
+  <TD VALIGN="TOP">Use {@link #javaLetterOrDigit()} instead.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.CharMatcher.javaLowerCase_added()"></A>
-  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#javaLowerCase()" target="_top"><tt>javaLowerCase</tt></A>()</nobr>
+  <A NAME="com.google.common.base.CharMatcher.JAVA_LOWER_CASE"></A>
+  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#JAVA_LOWER_CASE" target="_top"><tt>JAVA_LOWER_CASE</tt></A></nobr>  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Determines whether a character is lower case according to <A HREF="../../docs/lain.html"><TT> Character#isLowerCase(char) Java's definition</TT></A>.</TD>
+  <TD VALIGN="TOP">Use {@link #javaLowerCase()} instead.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.CharMatcher.javaUpperCase_added()"></A>
-  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#javaUpperCase()" target="_top"><tt>javaUpperCase</tt></A>()</nobr>
+  <A NAME="com.google.common.base.CharMatcher.JAVA_UPPER_CASE"></A>
+  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#JAVA_UPPER_CASE" target="_top"><tt>JAVA_UPPER_CASE</tt></A></nobr>  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Determines whether a character is upper case according to <A HREF="../../docs/lain.html"><TT> Character#isUpperCase(char) Java's definition</TT></A>.</TD>
+  <TD VALIGN="TOP">Use {@link #javaUpperCase()} instead.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.CharMatcher.none_added()"></A>
-  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#none()" target="_top"><tt>none</tt></A>()</nobr>
+  <A NAME="com.google.common.base.CharMatcher.NONE"></A>
+  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#NONE" target="_top"><tt>NONE</tt></A></nobr>  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Matches no characters.</TD>
+  <TD VALIGN="TOP">Use {@link #none()} instead.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.CharMatcher.singleWidth_added()"></A>
-  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#singleWidth()" target="_top"><tt>singleWidth</tt></A>()</nobr>
+  <A NAME="com.google.common.base.CharMatcher.SINGLE_WIDTH"></A>
+  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#SINGLE_WIDTH" target="_top"><tt>SINGLE_WIDTH</tt></A></nobr>  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Determines whether a character is single-width (not double-width).</TD>
+  <TD VALIGN="TOP">Use {@link #singleWidth()} instead.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.base.CharMatcher.whitespace_added()"></A>
-  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#whitespace()" target="_top"><tt>whitespace</tt></A>()</nobr>
+  <A NAME="com.google.common.base.CharMatcher.WHITESPACE"></A>
+  <nobr><code>CharMatcher</code>&nbsp;<A HREF="../../docs/com/google/common/base/CharMatcher.html#WHITESPACE" target="_top"><tt>WHITESPACE</tt></A></nobr>  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
   </TD>
-  <TD VALIGN="TOP">Determines whether a character is whitespace according to the latest Unicode standard, as
- illustrated <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.</TD>
+  <TD VALIGN="TOP">Use {@link #whitespace()} instead.</TD>
 </TR>
 </TABLE>
 &nbsp;
-<a NAME="fields"></a>
 <HR>
 <!-- Start of nav bar -->
 <TABLE summary="Navigation bar" BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0">
@@ -170,7 +191,7 @@ Class com.google.common.base.<A HREF="../../docs/com/google/common/base/CharMatc
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/CharMatcher.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 19.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/CharMatcher.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.base.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -183,7 +204,7 @@ Class com.google.common.base.<A HREF="../../docs/com/google/common/base/CharMatc
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<B>PREV CLASS</B>&nbsp;
-&nbsp;<A HREF="com.google.common.base.Throwables.html"><B>NEXT CLASS</B></A>
+&nbsp;<A HREF="com.google.common.base.FinalizableReference.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.base.CharMatcher.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

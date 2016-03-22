@@ -140,3 +140,5 @@ OK: com.google.common.net.MediaType Field VND_WAVE_AUDIO
 OK: com.google.common.net.MediaType Field VORBIS_AUDIO
 OK: com.google.common.net.MediaType Field WAX_AUDIO
 OK: com.google.common.net.MediaType Field WMA_AUDIO
+OK: com.google.common.net.HttpHeaders Field X_FORWARDED_HOST
+OK: com.google.common.net.HttpHeaders Field X_FORWARDED_PORT

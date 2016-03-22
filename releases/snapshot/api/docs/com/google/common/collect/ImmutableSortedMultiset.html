@@ -580,9 +580,9 @@ implements <a href="../../../../com/google/common/collect/SortedMultiset.html" t
  comparator, call <a href="../../../../com/google/common/collect/ImmutableSortedMultiset.html#copyOfSorted(com.google.common.collect.SortedMultiset)"><code>copyOfSorted(com.google.common.collect.SortedMultiset&lt;E&gt;)</code></a> instead. This method iterates over <code>elements</code> at
  most once.
 
- <p>Note that if <code>s</code> is a <code>multiset&lt;String&gt;</code>, then <code>ImmutableSortedMultiset.copyOf(s)</code> returns an <code>ImmutableSortedMultiset&lt;String&gt;</code>
+ <p>Note that if <code>s</code> is a <code>Multiset&lt;String&gt;</code>, then <code>ImmutableSortedMultiset.copyOf(s)</code> returns an <code>ImmutableSortedMultiset&lt;String&gt;</code>
  containing each of the strings in <code>s</code>, while <code>ImmutableSortedMultiset.of(s)</code>
- returns an <code>ImmutableSortedMultiset&lt;multiset&lt;String&gt;&gt;</code> containing one element (the given
+ returns an <code>ImmutableSortedMultiset&lt;Multiset&lt;String&gt;&gt;</code> containing one element (the given
  multiset itself).
 
  <p>Despite the method name, this method attempts to avoid actually copying the data when it is

@@ -1296,11 +1296,11 @@
 <span class="sourceLineNo">1288</span>      if (placeholderStart == -1) {<a name="line.1288"></a>
 <span class="sourceLineNo">1289</span>        break;<a name="line.1289"></a>
 <span class="sourceLineNo">1290</span>      }<a name="line.1290"></a>
-<span class="sourceLineNo">1291</span>      builder.append(template.substring(templateStart, placeholderStart));<a name="line.1291"></a>
+<span class="sourceLineNo">1291</span>      builder.append(template, templateStart, placeholderStart);<a name="line.1291"></a>
 <span class="sourceLineNo">1292</span>      builder.append(args[i++]);<a name="line.1292"></a>
 <span class="sourceLineNo">1293</span>      templateStart = placeholderStart + 2;<a name="line.1293"></a>
 <span class="sourceLineNo">1294</span>    }<a name="line.1294"></a>
-<span class="sourceLineNo">1295</span>    builder.append(template.substring(templateStart));<a name="line.1295"></a>
+<span class="sourceLineNo">1295</span>    builder.append(template, templateStart, template.length());<a name="line.1295"></a>
 <span class="sourceLineNo">1296</span><a name="line.1296"></a>
 <span class="sourceLineNo">1297</span>    // if we run out of placeholders, append the extra args in square braces<a name="line.1297"></a>
 <span class="sourceLineNo">1298</span>    if (i &lt; args.length) {<a name="line.1298"></a>

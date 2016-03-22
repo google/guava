@@ -97,7 +97,7 @@
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.50">ByteStreams</a>
+public final class <a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.51">ByteStreams</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Provides utility methods for working with byte arrays and I/O streams.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -266,7 +266,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>copy</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.103">copy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;from,
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.105">copy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;from,
         <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;to)
                  throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Copies all bytes from the input stream to the output stream. Does not close or flush either
@@ -283,7 +283,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>copy</h4>
-<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.128">copy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/nio/channels/ReadableByteChannel.html?is-external=true" title="class or interface in java.nio.channels">ReadableByteChannel</a>&nbsp;from,
+<pre>public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.131">copy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/nio/channels/ReadableByteChannel.html?is-external=true" title="class or interface in java.nio.channels">ReadableByteChannel</a>&nbsp;from,
         <a href="http://docs.oracle.com/javase/7/docs/api/java/nio/channels/WritableByteChannel.html?is-external=true" title="class or interface in java.nio.channels">WritableByteChannel</a>&nbsp;to)
                  throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Copies all bytes from the readable channel to the writable channel. Does not close or flush
@@ -300,7 +300,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>toByteArray</h4>
-<pre>public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.163">toByteArray</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in)
+<pre>public static&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.166">toByteArray</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in)
                           throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads all bytes from an input stream into a byte array. Does not close the stream.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - the input stream to read from</dd>
@@ -315,7 +315,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>newDataInput</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.226">newDataInput</a>(byte[]&nbsp;bytes)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.229">newDataInput</a>(byte[]&nbsp;bytes)</pre>
 <div class="block">Returns a new <a href="../../../../com/google/common/io/ByteArrayDataInput.html" title="interface in com.google.common.io"><code>ByteArrayDataInput</code></a> instance to read from the <code>bytes</code> array from the
  beginning.</div>
 </li>
@@ -326,7 +326,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>newDataInput</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.237">newDataInput</a>(byte[]&nbsp;bytes,
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.240">newDataInput</a>(byte[]&nbsp;bytes,
                               int&nbsp;start)</pre>
 <div class="block">Returns a new <a href="../../../../com/google/common/io/ByteArrayDataInput.html" title="interface in com.google.common.io"><code>ByteArrayDataInput</code></a> instance to read from the <code>bytes</code> array,
  starting at the given position.</div>
@@ -341,7 +341,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>newDataInput</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.249">newDataInput</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/ByteArrayInputStream.html?is-external=true" title="class or interface in java.io">ByteArrayInputStream</a>&nbsp;byteArrayInputStream)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.252">newDataInput</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/ByteArrayInputStream.html?is-external=true" title="class or interface in java.io">ByteArrayInputStream</a>&nbsp;byteArrayInputStream)</pre>
 <div class="block">Returns a new <a href="../../../../com/google/common/io/ByteArrayDataInput.html" title="interface in com.google.common.io"><code>ByteArrayDataInput</code></a> instance to read from the given
  <code>ByteArrayInputStream</code>. The given input stream is not reset before being read from by the
  returned <code>ByteArrayDataInput</code>.</div>
@@ -355,7 +355,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>newDataOutput</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.401">newDataOutput</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.404">newDataOutput</a>()</pre>
 <div class="block">Returns a new <a href="../../../../com/google/common/io/ByteArrayDataOutput.html" title="interface in com.google.common.io"><code>ByteArrayDataOutput</code></a> instance with a default size.</div>
 </li>
 </ul>
@@ -365,7 +365,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>newDataOutput</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.411">newDataOutput</a>(int&nbsp;size)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.414">newDataOutput</a>(int&nbsp;size)</pre>
 <div class="block">Returns a new <a href="../../../../com/google/common/io/ByteArrayDataOutput.html" title="interface in com.google.common.io"><code>ByteArrayDataOutput</code></a> instance sized to hold <code>size</code> bytes before
  resizing.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -378,7 +378,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>newDataOutput</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.432">newDataOutput</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/ByteArrayOutputStream.html?is-external=true" title="class or interface in java.io">ByteArrayOutputStream</a>&nbsp;byteArrayOutputSteam)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/ByteArrayDataOutput.html" title="interface in com.google.common.io">ByteArrayDataOutput</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.435">newDataOutput</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/ByteArrayOutputStream.html?is-external=true" title="class or interface in java.io">ByteArrayOutputStream</a>&nbsp;byteArrayOutputSteam)</pre>
 <div class="block">Returns a new <a href="../../../../com/google/common/io/ByteArrayDataOutput.html" title="interface in com.google.common.io"><code>ByteArrayDataOutput</code></a> instance which writes to the given
  <code>ByteArrayOutputStream</code>. The given output stream is not reset before being written to by
  the returned <code>ByteArrayDataOutput</code> and new data will be appended to any existing content.
@@ -397,7 +397,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>nullOutputStream</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.608">nullOutputStream</a>()</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.611">nullOutputStream</a>()</pre>
 <div class="block">Returns an <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io"><code>OutputStream</code></a> that simply discards written bytes.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>14.0 (since 1.0 as com.google.common.io.NullOutputStream)</dd></dl>
@@ -409,7 +409,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>limit</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.620">limit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.623">limit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
                 long&nbsp;limit)</pre>
 <div class="block">Wraps a <a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io"><code>InputStream</code></a>, limiting the number of bytes which can be read.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - the input stream to be wrapped</dd><dd><code>limit</code> - the maximum number of bytes to be read</dd>
@@ -423,7 +423,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>readFully</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.706">readFully</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.709">readFully</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
              byte[]&nbsp;b)
                       throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Attempts to read enough bytes from the stream to fill the given byte array, with the same
@@ -440,7 +440,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>readFully</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.722">readFully</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.725">readFully</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
              byte[]&nbsp;b,
              int&nbsp;off,
              int&nbsp;len)
@@ -460,7 +460,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>skipFully</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.739">skipFully</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.742">skipFully</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
              long&nbsp;n)
                       throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Discards <code>n</code> bytes of data from the input stream. This method will block until the full
@@ -477,7 +477,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>readBytes</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.797">readBytes</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;input,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.801">readBytes</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;input,
               <a href="../../../../com/google/common/io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)
                    throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Process the bytes of the given input stream using the given processor.</div>
@@ -494,7 +494,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>read</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.832">read</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/io/ByteStreams.html#line.839">read</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
        byte[]&nbsp;b,
        int&nbsp;off,
        int&nbsp;len)

@@ -254,7 +254,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colFirst"><code><a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/Splitter.html#trimResults()">trimResults</a></strong>()</code>
 <div class="block">Returns a splitter that behaves equivalently to <code>this</code> splitter, but automatically
- removes leading and trailing <a href="../../../../com/google/common/base/CharMatcher.html#WHITESPACE">whitespace</a> from each returned
+ removes leading and trailing <a href="../../../../com/google/common/base/CharMatcher.html#whitespace()">whitespace</a> from each returned
  substring; equivalent to <code>trimResults(CharMatcher.whitespace())</code>.</div>
 </td>
 </tr>
@@ -461,7 +461,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" ti
 <h4>trimResults</h4>
 <pre>public&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.348">trimResults</a>()</pre>
 <div class="block">Returns a splitter that behaves equivalently to <code>this</code> splitter, but automatically
- removes leading and trailing <a href="../../../../com/google/common/base/CharMatcher.html#WHITESPACE">whitespace</a> from each returned
+ removes leading and trailing <a href="../../../../com/google/common/base/CharMatcher.html#whitespace()">whitespace</a> from each returned
  substring; equivalent to <code>trimResults(CharMatcher.whitespace())</code>. For example, <code>Splitter.on(',').trimResults().split(" a, b ,c ")</code> returns an iterable containing
  <code>["a", "b", "c"]</code>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>a splitter with the desired configuration</dd></dl>

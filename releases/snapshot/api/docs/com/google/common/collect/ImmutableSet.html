@@ -442,7 +442,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
  <p><b>Performance note:</b> This method will sometimes recognize that the actual copy operation
  is unnecessary; for example, <code>copyOf(copyOf(anArrayList))</code> will copy the data only once.
  This reduces the expense of habitually making defensive copies at API boundaries. However, the
- the precise conditions for skipping the copy operation are undefined.</div>
+ precise conditions for skipping the copy operation are undefined.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any of <code>elements</code> is null</dd><dt><span class="strong">Since:</span></dt>
   <dd>7.0 (source-compatible since 2.0)</dd></dl>

@@ -242,46 +242,58 @@
 <span class="sourceLineNo">234</span>  public static final String X_FORWARDED_FOR = "X-Forwarded-For";<a name="line.234"></a>
 <span class="sourceLineNo">235</span>  /** The HTTP {@code X-Forwarded-Proto} header field name. */<a name="line.235"></a>
 <span class="sourceLineNo">236</span>  public static final String X_FORWARDED_PROTO = "X-Forwarded-Proto";<a name="line.236"></a>
-<span class="sourceLineNo">237</span>  /** The HTTP {@code X-Frame-Options} header field name. */<a name="line.237"></a>
-<span class="sourceLineNo">238</span>  public static final String X_FRAME_OPTIONS = "X-Frame-Options";<a name="line.238"></a>
-<span class="sourceLineNo">239</span>  /** The HTTP {@code X-Powered-By} header field name. */<a name="line.239"></a>
-<span class="sourceLineNo">240</span>  public static final String X_POWERED_BY = "X-Powered-By";<a name="line.240"></a>
-<span class="sourceLineNo">241</span>  /**<a name="line.241"></a>
-<span class="sourceLineNo">242</span>   * The HTTP<a name="line.242"></a>
-<span class="sourceLineNo">243</span>   * &lt;a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning"&gt;{@code Public-Key-Pins}&lt;/a&gt;<a name="line.243"></a>
-<span class="sourceLineNo">244</span>   * header field name.<a name="line.244"></a>
+<span class="sourceLineNo">237</span>  /**<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   * The HTTP &lt;a href="http://goo.gl/lQirAH"&gt;{@code X-Forwarded-Host}&lt;/a&gt; header field name.<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   *<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   * @since 20.0<a name="line.240"></a>
+<span class="sourceLineNo">241</span>   */<a name="line.241"></a>
+<span class="sourceLineNo">242</span>  public static final String X_FORWARDED_HOST = "X-Forwarded-Host";<a name="line.242"></a>
+<span class="sourceLineNo">243</span>  /**<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   * The HTTP &lt;a href="http://goo.gl/YtV2at"&gt;{@code X-Forwarded-Port}&lt;/a&gt; header field name.<a name="line.244"></a>
 <span class="sourceLineNo">245</span>   *<a name="line.245"></a>
-<span class="sourceLineNo">246</span>   * @since 15.0<a name="line.246"></a>
+<span class="sourceLineNo">246</span>   * @since 20.0<a name="line.246"></a>
 <span class="sourceLineNo">247</span>   */<a name="line.247"></a>
-<span class="sourceLineNo">248</span>  @Beta public static final String PUBLIC_KEY_PINS = "Public-Key-Pins";<a name="line.248"></a>
-<span class="sourceLineNo">249</span>  /**<a name="line.249"></a>
-<span class="sourceLineNo">250</span>   * The HTTP &lt;a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning"&gt;<a name="line.250"></a>
-<span class="sourceLineNo">251</span>   * {@code Public-Key-Pins-Report-Only}&lt;/a&gt; header field name.<a name="line.251"></a>
-<span class="sourceLineNo">252</span>   *<a name="line.252"></a>
-<span class="sourceLineNo">253</span>   * @since 15.0<a name="line.253"></a>
-<span class="sourceLineNo">254</span>   */<a name="line.254"></a>
-<span class="sourceLineNo">255</span>  @Beta public static final String PUBLIC_KEY_PINS_REPORT_ONLY = "Public-Key-Pins-Report-Only";<a name="line.255"></a>
-<span class="sourceLineNo">256</span>  /** The HTTP {@code X-Requested-With} header field name. */<a name="line.256"></a>
-<span class="sourceLineNo">257</span>  public static final String X_REQUESTED_WITH = "X-Requested-With";<a name="line.257"></a>
-<span class="sourceLineNo">258</span>  /** The HTTP {@code X-User-IP} header field name. */<a name="line.258"></a>
-<span class="sourceLineNo">259</span>  public static final String X_USER_IP = "X-User-IP";<a name="line.259"></a>
-<span class="sourceLineNo">260</span>  /** The HTTP {@code X-XSS-Protection} header field name. */<a name="line.260"></a>
-<span class="sourceLineNo">261</span>  public static final String X_XSS_PROTECTION = "X-XSS-Protection";<a name="line.261"></a>
-<span class="sourceLineNo">262</span>  /**<a name="line.262"></a>
-<span class="sourceLineNo">263</span>   * The HTTP &lt;a href="http://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing"&gt;<a name="line.263"></a>
-<span class="sourceLineNo">264</span>   * {@code Ping-From}&lt;/a&gt; header field name.<a name="line.264"></a>
-<span class="sourceLineNo">265</span>   *<a name="line.265"></a>
-<span class="sourceLineNo">266</span>   * @since 19.0<a name="line.266"></a>
-<span class="sourceLineNo">267</span>   */<a name="line.267"></a>
-<span class="sourceLineNo">268</span>  public static final String PING_FROM = "Ping-From";<a name="line.268"></a>
-<span class="sourceLineNo">269</span>  /**<a name="line.269"></a>
-<span class="sourceLineNo">270</span>   * The HTTP &lt;a href="http://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing"&gt;<a name="line.270"></a>
-<span class="sourceLineNo">271</span>   * {@code Ping-To}&lt;/a&gt; header field name.<a name="line.271"></a>
-<span class="sourceLineNo">272</span>   *<a name="line.272"></a>
-<span class="sourceLineNo">273</span>   * @since 19.0<a name="line.273"></a>
-<span class="sourceLineNo">274</span>   */<a name="line.274"></a>
-<span class="sourceLineNo">275</span>  public static final String PING_TO = "Ping-To";<a name="line.275"></a>
-<span class="sourceLineNo">276</span>}<a name="line.276"></a>
+<span class="sourceLineNo">248</span>  public static final String X_FORWARDED_PORT = "X-Forwarded-Port";<a name="line.248"></a>
+<span class="sourceLineNo">249</span>  /** The HTTP {@code X-Frame-Options} header field name. */<a name="line.249"></a>
+<span class="sourceLineNo">250</span>  public static final String X_FRAME_OPTIONS = "X-Frame-Options";<a name="line.250"></a>
+<span class="sourceLineNo">251</span>  /** The HTTP {@code X-Powered-By} header field name. */<a name="line.251"></a>
+<span class="sourceLineNo">252</span>  public static final String X_POWERED_BY = "X-Powered-By";<a name="line.252"></a>
+<span class="sourceLineNo">253</span>  /**<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   * The HTTP<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   * &lt;a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning"&gt;{@code Public-Key-Pins}&lt;/a&gt;<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   * header field name.<a name="line.256"></a>
+<span class="sourceLineNo">257</span>   *<a name="line.257"></a>
+<span class="sourceLineNo">258</span>   * @since 15.0<a name="line.258"></a>
+<span class="sourceLineNo">259</span>   */<a name="line.259"></a>
+<span class="sourceLineNo">260</span>  @Beta public static final String PUBLIC_KEY_PINS = "Public-Key-Pins";<a name="line.260"></a>
+<span class="sourceLineNo">261</span>  /**<a name="line.261"></a>
+<span class="sourceLineNo">262</span>   * The HTTP &lt;a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning"&gt;<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   * {@code Public-Key-Pins-Report-Only}&lt;/a&gt; header field name.<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   *<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   * @since 15.0<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   */<a name="line.266"></a>
+<span class="sourceLineNo">267</span>  @Beta public static final String PUBLIC_KEY_PINS_REPORT_ONLY = "Public-Key-Pins-Report-Only";<a name="line.267"></a>
+<span class="sourceLineNo">268</span>  /** The HTTP {@code X-Requested-With} header field name. */<a name="line.268"></a>
+<span class="sourceLineNo">269</span>  public static final String X_REQUESTED_WITH = "X-Requested-With";<a name="line.269"></a>
+<span class="sourceLineNo">270</span>  /** The HTTP {@code X-User-IP} header field name. */<a name="line.270"></a>
+<span class="sourceLineNo">271</span>  public static final String X_USER_IP = "X-User-IP";<a name="line.271"></a>
+<span class="sourceLineNo">272</span>  /** The HTTP {@code X-XSS-Protection} header field name. */<a name="line.272"></a>
+<span class="sourceLineNo">273</span>  public static final String X_XSS_PROTECTION = "X-XSS-Protection";<a name="line.273"></a>
+<span class="sourceLineNo">274</span>  /**<a name="line.274"></a>
+<span class="sourceLineNo">275</span>   * The HTTP &lt;a href="http://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing"&gt;<a name="line.275"></a>
+<span class="sourceLineNo">276</span>   * {@code Ping-From}&lt;/a&gt; header field name.<a name="line.276"></a>
+<span class="sourceLineNo">277</span>   *<a name="line.277"></a>
+<span class="sourceLineNo">278</span>   * @since 19.0<a name="line.278"></a>
+<span class="sourceLineNo">279</span>   */<a name="line.279"></a>
+<span class="sourceLineNo">280</span>  public static final String PING_FROM = "Ping-From";<a name="line.280"></a>
+<span class="sourceLineNo">281</span>  /**<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   * The HTTP &lt;a href="http://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing"&gt;<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   * {@code Ping-To}&lt;/a&gt; header field name.<a name="line.283"></a>
+<span class="sourceLineNo">284</span>   *<a name="line.284"></a>
+<span class="sourceLineNo">285</span>   * @since 19.0<a name="line.285"></a>
+<span class="sourceLineNo">286</span>   */<a name="line.286"></a>
+<span class="sourceLineNo">287</span>  public static final String PING_TO = "Ping-To";<a name="line.287"></a>
+<span class="sourceLineNo">288</span>}<a name="line.288"></a>
 
 
 
