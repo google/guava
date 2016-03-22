@@ -234,6 +234,18 @@ public final class HttpHeaders {
   public static final String X_FORWARDED_FOR = "X-Forwarded-For";
   /** The HTTP {@code X-Forwarded-Proto} header field name. */
   public static final String X_FORWARDED_PROTO = "X-Forwarded-Proto";
+  /**
+   * The HTTP <a href="http://goo.gl/lQirAH">{@code X-Forwarded-Host}</a> header field name.
+   *
+   * @since 20.0
+   */
+  public static final String X_FORWARDED_HOST = "X-Forwarded-Host";
+  /**
+   * The HTTP <a href="http://goo.gl/YtV2at">{@code X-Forwarded-Port}</a> header field name.
+   *
+   * @since 20.0
+   */
+  public static final String X_FORWARDED_PORT = "X-Forwarded-Port";
   /** The HTTP {@code X-Frame-Options} header field name. */
   public static final String X_FRAME_OPTIONS = "X-Frame-Options";
   /** The HTTP {@code X-Powered-By} header field name. */
