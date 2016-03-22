@@ -210,7 +210,6 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   // Legacy constants
-  // TODO(cgdecker): Deprecate these so they can be removed eventually
 
   /**
    * Determines whether a character is whitespace according to the latest Unicode
@@ -222,7 +221,11 @@ public abstract class CharMatcher implements Predicate<Character> {
    *
    * <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant
    * to keep it up to date.
+   *
+   * @deprecated Use {@link #whitespace()} instead. This constant is scheduled to be
+   *     removed in June 2018.
    */
+  @Deprecated
   public static final CharMatcher WHITESPACE = whitespace();
 
   /**
@@ -231,13 +234,20 @@ public abstract class CharMatcher implements Predicate<Character> {
    * {@link #whitespace} for a discussion of that term.
    *
    * @since 2.0
+   * @deprecated Use {@link #breakingWhitespace()} instead. This constant is scheduled
+   *     to be removed in June 2018.
    */
+  @Deprecated
   public static final CharMatcher BREAKING_WHITESPACE = breakingWhitespace();
 
   /**
    * Determines whether a character is ASCII, meaning that its code point is less than
    * 128.
+   *
+   * @deprecated Use {@link #ascii()} instead. This constant is scheduled to be
+   *     removed in June 2018.
    */
+  @Deprecated
   public static final CharMatcher ASCII = ascii();
 
   /**
@@ -245,14 +255,22 @@ public abstract class CharMatcher implements Predicate<Character> {
    * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">
    * Unicode</a>. If you only care to match ASCII digits, you can use
    * {@code inRange('0', '9')}.
+   *
+   * @deprecated Use {@link #digit()} instead. This constant is scheduled to be
+   *     removed in June 2018.
    */
+  @Deprecated
   public static final CharMatcher DIGIT = digit();
 
   /**
    * Determines whether a character is a digit according to
    * {@linkplain Character#isDigit(char) Java's definition}. If you only care to match
    * ASCII digits, you can use {@code inRange('0', '9')}.
+   *
+   * @deprecated Use {@link #javaDigit()} instead. This constant is scheduled to be
+   *     removed in June 2018.
    */
+  @Deprecated
   public static final CharMatcher JAVA_DIGIT = javaDigit();
 
   /**
@@ -260,38 +278,62 @@ public abstract class CharMatcher implements Predicate<Character> {
    * {@linkplain Character#isLetter(char) Java's definition}. If you only care to
    * match letters of the Latin alphabet, you can use
    * {@code inRange('a', 'z').or(inRange('A', 'Z'))}.
+   *
+   * @deprecated Use {@link #javaLetter()} instead. This constant is scheduled to be
+   *     removed in June 2018.
    */
+  @Deprecated
   public static final CharMatcher JAVA_LETTER = javaLetter();
 
   /**
    * Determines whether a character is a letter or digit according to
    * {@linkplain Character#isLetterOrDigit(char) Java's definition}.
+   *
+   * @deprecated Use {@link #javaLetterOrDigit()} instead. This constant is scheduled
+   *     to be removed in June 2018.
    */
+  @Deprecated
   public static final CharMatcher JAVA_LETTER_OR_DIGIT = javaLetterOrDigit();
 
   /**
    * Determines whether a character is upper case according to
    * {@linkplain Character#isUpperCase(char) Java's definition}.
+   *
+   * @deprecated Use {@link #javaUpperCase()} instead. This constant is scheduled to
+   *     be removed in June 2018.
    */
+  @Deprecated
   public static final CharMatcher JAVA_UPPER_CASE = javaUpperCase();
 
   /**
    * Determines whether a character is lower case according to
    * {@linkplain Character#isLowerCase(char) Java's definition}.
+   *
+   * @deprecated Use {@link #javaLowerCase()} instead. This constant is scheduled to
+   *     be removed in June 2018.
    */
+  @Deprecated
   public static final CharMatcher JAVA_LOWER_CASE = javaLowerCase();
 
   /**
    * Determines whether a character is an ISO control character as specified by
    * {@link Character#isISOControl(char)}.
+   *
+   * @deprecated Use {@link #javaIsoControl()} instead. This constant is scheduled to
+   *     be removed in June 2018.
    */
+  @Deprecated
   public static final CharMatcher JAVA_ISO_CONTROL = javaIsoControl();
 
   /**
    * Determines whether a character is invisible; that is, if its Unicode category is
    * any of SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT,
    * SURROGATE, and PRIVATE_USE according to ICU4J.
+   *
+   * @deprecated Use {@link #invisible()} instead. This constant is scheduled to be
+   *     removed in June 2018.
    */
+  @Deprecated
   public static final CharMatcher INVISIBLE = invisible();
 
   /**
@@ -301,13 +343,29 @@ public abstract class CharMatcher implements Predicate<Character> {
    *
    * <p><b>Note:</b> as the reference file evolves, we will modify this constant to
    * keep it up to date.
+   *
+   * @deprecated Use {@link #singleWidth()} instead. This constant is scheduled to be
+   *     removed in June 2018.
    */
+  @Deprecated
   public static final CharMatcher SINGLE_WIDTH = singleWidth();
 
-  /** Matches any character. */
+  /**
+   * Matches any character.
+   *
+   * @deprecated Use {@link #any()} instead. This constant is scheduled to be
+   *     removed in June 2018.
+   */
+  @Deprecated
   public static final CharMatcher ANY = any();
 
-  /** Matches no characters. */
+  /**
+   * Matches no characters.
+   *
+   * @deprecated Use {@link #none()} instead. This constant is scheduled to be
+   *     removed in June 2018.
+   */
+  @Deprecated
   public static final CharMatcher NONE = none();
 
   // Static factories
