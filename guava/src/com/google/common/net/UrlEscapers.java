@@ -68,11 +68,8 @@ public final class UrlEscapers {
    * as a parameter delimiter. Nevertheless, we recommend using the ampersand unless you must
    * interoperate with systems that require semicolons.
    *
-   * <p><b>Note:</b> Unlike other escapers, URL escapers produce uppercase hexadecimal sequences.
-   * From <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:
-   *
-   * <blockquote><p>"URI producers and normalizers should use uppercase hexadecimal digits for all
-   * percent-encodings."</blockquote>
+   * <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
+   * href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.
    *
    */
   public static Escaper urlFormParameterEscaper() {
@@ -107,11 +104,8 @@ public final class UrlEscapers {
    *     uppercase, hexadecimal representation of the byte value.
    * </ul>
    *
-   * <p><b>Note:</b> Unlike other escapers, URL escapers produce uppercase hexadecimal sequences.
-   * From <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:
-   *
-   * <blockquote><p>"URI producers and normalizers should use uppercase hexadecimal digits for all
-   * percent-encodings."</blockquote>
+   * <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
+   * href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.
    */
   public static Escaper urlPathSegmentEscaper() {
     return URL_PATH_SEGMENT_ESCAPER;
@@ -142,11 +136,8 @@ public final class UrlEscapers {
    *     uppercase, hexadecimal representation of the byte value.
    * </ul>
    *
-   * <p><b>Note:</b> Unlike other escapers, URL escapers produce uppercase hexadecimal sequences.
-   * From <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:
-   *
-   * <blockquote><p>"URI producers and normalizers should use uppercase hexadecimal digits for all
-   * percent-encodings."</blockquote>
+   * <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
+   * href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.
    */
   public static Escaper urlFragmentEscaper() {
     return URL_FRAGMENT_ESCAPER;
