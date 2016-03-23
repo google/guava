@@ -16,7 +16,6 @@
 
 package com.google.common.graph;
 
-import static com.google.common.graph.Graphs.getPropertiesString;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -86,22 +85,5 @@ public class ConfigurableDirectedMultigraphTest extends ConfigurableDirectedGrap
     assertTrue(graph.removeEdge(E11));
     assertThat(graph.edgesConnecting(N1, N1)).isEmpty();
     assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
-  }
-
-  @Test
-  public void toString_parallelEdges() {
-    addEdge(E12, N1, N2);
-    addEdge(E12_A, N1, N2);
-    addEdge(E11, N1, N1);
-    addEdge(E11_A, N1, N1);
-    assertThat(graph.toString()).isEqualTo(String.format(
-        "%s, nodes: %s, edges: {%s=<%s -> %s>, %s=<%s -> %s>, %s=<%s -> %s>, %s=<%s -> %s>}",
-        getPropertiesString(graph),
-        graph.nodes(),
-        E12, N1, N2,
-        E12_A, N1, N2,
-        E11, N1, N1,
-        E11_A, N1, N1
-    ));
   }
 }

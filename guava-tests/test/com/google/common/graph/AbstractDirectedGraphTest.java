@@ -16,7 +16,6 @@
 
 package com.google.common.graph;
 
-import static com.google.common.graph.Graphs.getPropertiesString;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -219,38 +218,5 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
     assertTrue(graph.removeEdge(E12));
     assertThat(graph.edges()).doesNotContain(E12);
     assertThat(graph.edgesConnecting(N1, N2)).isEmpty();
-  }
-
-  @Test
-  public void toString_emptyGraph() {
-    assertThat(graph.toString()).isEqualTo(String.format("%s, nodes: %s, edges: {}",
-        getPropertiesString(graph), graph.nodes()));
-  }
-
-  @Test
-  public void toString_noEdges() {
-    addNode(N1);
-    assertThat(graph.toString()).isEqualTo(String.format("%s, nodes: %s, edges: {}",
-        getPropertiesString(graph), graph.nodes()));
-  }
-
-  @Test
-  public void toString_singleEdge() {
-    addEdge(E12, N1, N2);
-    assertThat(graph.toString()).isEqualTo(String.format(
-        "%s, nodes: %s, edges: {%s=<%s -> %s>}",
-        getPropertiesString(graph), graph.nodes(), E12, N1, N2));
-  }
-
-  @Test
-  public void toString_multipleNodesAndEdges() {
-    addEdge(E12, N1, N2);
-    addEdge(E13, N1, N3);
-    assertThat(graph.toString()).isEqualTo(String.format(
-        "%s, nodes: %s, edges: {%s=<%s -> %s>, %s=<%s -> %s>}",
-        getPropertiesString(graph),
-        graph.nodes(),
-        E12, N1, N2,
-        E13, N1, N3));
   }
 }

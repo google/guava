@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -303,9 +302,8 @@ public final class Graphs {
   /**
    * Returns a string representation of the properties of {@code graph}.
    */
-  @VisibleForTesting
-  static String getPropertiesString(Graph<?, ?> graph) {
-    return String.format("isDirected: %s , allowsParallelEdges: %s, allowsSelfLoops: %s",
+  private static String getPropertiesString(Graph<?, ?> graph) {
+    return String.format("isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",
         graph.isDirected(), graph.allowsParallelEdges(), graph.allowsSelfLoops());
   }
 }

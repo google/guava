@@ -16,7 +16,6 @@
 
 package com.google.common.graph;
 
-import static com.google.common.graph.Graphs.getPropertiesString;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -232,13 +231,5 @@ public class ConfigurableDirectedGraphTest extends ConfigurableSimpleDirectedGra
         .addEqualityGroup(graphA)
         .addEqualityGroup(graphB)
         .testEquals();
-  }
-
-  @Test
-  public void toString_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertThat(graph.toString()).isEqualTo(String.format(
-        "%s, nodes: %s, edges: {%s=<%s -> %s>}",
-        getPropertiesString(graph), graph.nodes(), E11, N1, N1));
   }
 }

@@ -149,7 +149,20 @@ public abstract class AbstractGraphTest {
   public void validateGraphState() {
     new EqualsTester().addEqualityGroup(graph, ImmutableGraph.copyOf(graph)).testEquals();
 
+    String graphString = graph.toString();
+    assertThat(graphString).contains("isDirected: " + graph.isDirected());
+    assertThat(graphString).contains("allowsParallelEdges: " + graph.allowsParallelEdges());
+    assertThat(graphString).contains("allowsSelfLoops: " + graph.allowsSelfLoops());
+
+    int nodeStart = graphString.indexOf("nodes:");
+    int edgeStart = graphString.indexOf("edges:");
+    String nodeString = graphString.substring(nodeStart, edgeStart);
+    String edgeString = graphString.substring(edgeStart);
+
     for (String edge : graph.edges()) {
+      // TODO(b/27817069): Consider verifying the edge's incident nodes in the string.
+      assertThat(edgeString).contains(edge);
+
       if (!(graph instanceof Hypergraph)) {
         Iterator<Integer> incidentNodesIterator = graph.incidentNodes(edge).iterator();
         Integer node1 = incidentNodesIterator.next();
@@ -175,6 +188,8 @@ public abstract class AbstractGraphTest {
     }
 
     for (Integer node : graph.nodes()) {
+      assertThat(nodeString).contains(node.toString());
+
       for (String incidentEdge : graph.incidentEdges(node)) {
         assertTrue(graph.inEdges(node).contains(incidentEdge)
             || graph.outEdges(node).contains(incidentEdge));
