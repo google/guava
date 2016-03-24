@@ -15,7 +15,6 @@
 package com.google.common.math;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.math.DoubleUtils.isFinite;
 import static java.lang.Double.NaN;
 
@@ -98,6 +97,7 @@ public abstract class LinearTransformation {
 
   /**
    * Builds an instance representing a vertical transformation with a constant value of {@code x}.
+   * (The inverse of this will be a horizontal transformation.)
    */
   public static LinearTransformation vertical(double x) {
     checkArgument(isFinite(x));
@@ -106,6 +106,7 @@ public abstract class LinearTransformation {
 
   /**
    * Builds an instance representing a horizontal transformation with a constant value of {@code y}.
+   * (The inverse of this will be a vertical transformation.)
    */
   public static LinearTransformation horizontal(double y) {
     checkArgument(isFinite(y));
@@ -115,8 +116,9 @@ public abstract class LinearTransformation {
 
   /**
    * Builds an instance for datasets which contains {@link Double#NaN}. The {@link #isHorizontal}
-   * and {@link #isVertical} methods return {@code false} and the {@link #slope},
-   * {@link #transformX}, and {@link #transformY} methods all return {@link Double#NaN}.
+   * and {@link #isVertical} methods return {@code false} and the {@link #slope}, and
+   * {@link #transform} methods all return {@link Double#NaN}. The {@link #inverse} method returns
+   * the same instance.
    */
   public static LinearTransformation forNaN() {
     return NaNLinearTransformation.INSTANCE;
@@ -143,22 +145,36 @@ public abstract class LinearTransformation {
    * Returns the {@code y} corresponding to the given {@code x}. This must not be called on a
    * vertical transformation (i.e. when {@link #isVertical()} is true).
    */
-  public abstract double transformX(double x);
+  public abstract double transform(double x);
 
   /**
-   * Returns the {@code x} corresponding to the given {@code y}. This must not be called on a
-   * horizontal transformation (i.e. when {@link #isHorizontal()} is true).
+   * Returns the inverse linear transformation. The inverse of a horizontal transformation is a
+   * vertical transformation, and vice versa. The inverse of the {@link #forNaN} transformation is
+   * itself. In all other cases, the inverse is a transformation such that applying both the
+   * original transformation and its inverse to a value gives you the original value give-or-take
+   * numerical errors. Calling this method multiple times on the same instance will always return
+   * the same instance. Calling this method on the result of calling this method on an instance will
+   * always return that original instance.
    */
-  public abstract double transformY(double y);
+  public abstract LinearTransformation inverse();
 
   private static final class RegularLinearTransformation extends LinearTransformation {
 
     final double slope;
     final double yIntercept;
 
+    LinearTransformation inverse;
+
     RegularLinearTransformation(double slope, double yIntercept) {
       this.slope = slope;
       this.yIntercept = yIntercept;
+      this.inverse = null; // to be lazily initialized
+    }
+
+    RegularLinearTransformation(double slope, double yIntercept, LinearTransformation inverse) {
+      this.slope = slope;
+      this.yIntercept = yIntercept;
+      this.inverse = inverse;
     }
 
     @Override
@@ -177,19 +193,27 @@ public abstract class LinearTransformation {
     }
 
     @Override
-    public double transformX(double x) {
+    public double transform(double x) {
       return x * slope + yIntercept;
     }
 
     @Override
-    public double transformY(double y) {
-      checkState(slope != 0.0);
-      return (y - yIntercept) / slope;
+    public LinearTransformation inverse() {
+      LinearTransformation result = inverse;
+      return (result == null) ? inverse = createInverse() : result;
     }
 
     @Override
     public String toString() {
       return String.format("y = %g * x + %g", slope, yIntercept);
+    }
+
+    private LinearTransformation createInverse() {
+      if (slope != 0.0) {
+        return new RegularLinearTransformation(1.0 / slope, -1.0 * yIntercept / slope, this);
+      } else {
+        return new VerticalLinearTransformation(yIntercept, this);
+      }
     }
   }
 
@@ -197,8 +221,16 @@ public abstract class LinearTransformation {
 
     final double x;
 
+    LinearTransformation inverse;
+
     VerticalLinearTransformation(double x) {
       this.x = x;
+      this.inverse = null; // to be lazily initialized
+    }
+
+    VerticalLinearTransformation(double x, LinearTransformation inverse) {
+      this.x = x;
+      this.inverse = inverse;
     }
 
     @Override
@@ -217,18 +249,23 @@ public abstract class LinearTransformation {
     }
 
     @Override
-    public double transformX(double x) {
+    public double transform(double x) {
       throw new IllegalStateException();
     }
 
     @Override
-    public double transformY(double y) {
-      return x;
+    public LinearTransformation inverse() {
+      LinearTransformation result = inverse;
+      return (result == null) ? inverse = createInverse() : result;
     }
 
     @Override
     public String toString() {
       return String.format("x = %g", x);
+    }
+
+    private LinearTransformation createInverse() {
+      return new RegularLinearTransformation(0.0, x, this);
     }
   }
 
@@ -252,13 +289,13 @@ public abstract class LinearTransformation {
     }
 
     @Override
-    public double transformX(double x) {
+    public double transform(double x) {
       return NaN;
     }
 
     @Override
-    public double transformY(double y) {
-      return NaN;
+    public LinearTransformation inverse() {
+      return this;
     }
 
     @Override
