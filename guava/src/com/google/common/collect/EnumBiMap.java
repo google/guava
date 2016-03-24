@@ -89,11 +89,7 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
       return ((EnumHashBiMap<K, ?>) map).keyType();
     }
     checkArgument(!map.isEmpty());
-    return map
-        .keySet()
-        .iterator()
-        .next()
-        .getDeclaringClass();
+    return map.keySet().iterator().next().getDeclaringClass();
   }
 
   private static <V extends Enum<V>> Class<V> inferValueType(Map<?, V> map) {
@@ -101,11 +97,7 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
       return ((EnumBiMap<?, V>) map).valueType;
     }
     checkArgument(!map.isEmpty());
-    return map
-        .values()
-        .iterator()
-        .next()
-        .getDeclaringClass();
+    return map.values().iterator().next().getDeclaringClass();
   }
 
   /** Returns the associated key type. */

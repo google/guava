@@ -141,9 +141,10 @@ final class SortedMultisets {
     public NavigableSet<E> subSet(
         E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
       return new NavigableElementSet<E>(
-          multiset().subMultiset(
-              fromElement, BoundType.forBoolean(fromInclusive),
-              toElement, BoundType.forBoolean(toInclusive)));
+          multiset()
+              .subMultiset(
+                  fromElement, BoundType.forBoolean(fromInclusive),
+                  toElement, BoundType.forBoolean(toInclusive)));
     }
 
     @Override

@@ -279,8 +279,9 @@ import javax.annotation.Nullable;
       } else if (c > 0) {
         lower = middle + 1;
       } else {
-        return lower + presentBehavior.resultIndex(
-            comparator, key, list.subList(lower, upper + 1), middle - lower);
+        return lower
+            + presentBehavior.resultIndex(
+                comparator, key, list.subList(lower, upper + 1), middle - lower);
       }
     }
     return absentBehavior.resultIndex(lower);

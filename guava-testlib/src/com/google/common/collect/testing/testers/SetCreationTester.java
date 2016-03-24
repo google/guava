@@ -37,16 +37,14 @@ import java.util.List;
  */
 @GwtCompatible
 public class SetCreationTester<E> extends AbstractSetTester<E> {
-  @CollectionFeature.Require(value = ALLOWS_NULL_VALUES,
-      absent = REJECTS_DUPLICATES_AT_CREATION)
+  @CollectionFeature.Require(value = ALLOWS_NULL_VALUES, absent = REJECTS_DUPLICATES_AT_CREATION)
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testCreateWithDuplicates_nullDuplicatesNotRejected() {
     E[] array = createArrayWithNullElement();
     array[0] = null;
     collection = getSubjectGenerator().create(array);
 
-    List<E> expectedWithDuplicateRemoved =
-        Arrays.asList(array).subList(1, getNumElements());
+    List<E> expectedWithDuplicateRemoved = Arrays.asList(array).subList(1, getNumElements());
     expectContents(expectedWithDuplicateRemoved);
   }
 
@@ -57,13 +55,11 @@ public class SetCreationTester<E> extends AbstractSetTester<E> {
     array[1] = e0();
     collection = getSubjectGenerator().create(array);
 
-    List<E> expectedWithDuplicateRemoved =
-        Arrays.asList(array).subList(1, getNumElements());
+    List<E> expectedWithDuplicateRemoved = Arrays.asList(array).subList(1, getNumElements());
     expectContents(expectedWithDuplicateRemoved);
   }
 
-  @CollectionFeature.Require(
-      {ALLOWS_NULL_VALUES, REJECTS_DUPLICATES_AT_CREATION})
+  @CollectionFeature.Require({ALLOWS_NULL_VALUES, REJECTS_DUPLICATES_AT_CREATION})
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testCreateWithDuplicates_nullDuplicatesRejected() {
     E[] array = createArrayWithNullElement();

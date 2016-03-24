@@ -435,9 +435,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   @Override
   public ImmutableSet<Entry<K, V>> entries() {
     ImmutableSet<Entry<K, V>> result = entries;
-    return result == null
-        ? (entries = new EntrySet<K, V>(this))
-        : result;
+    return result == null ? (entries = new EntrySet<K, V>(this)) : result;
   }
 
   private static final class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {

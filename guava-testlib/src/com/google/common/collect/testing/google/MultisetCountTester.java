@@ -41,27 +41,23 @@ import java.util.List;
 public class MultisetCountTester<E> extends AbstractMultisetTester<E> {
 
   public void testCount_0() {
-    assertEquals("multiset.count(missing) didn't return 0",
-        0, getMultiset().count(e3()));
+    assertEquals("multiset.count(missing) didn't return 0", 0, getMultiset().count(e3()));
   }
 
   @CollectionSize.Require(absent = ZERO)
   public void testCount_1() {
-    assertEquals("multiset.count(present) didn't return 1",
-        1, getMultiset().count(e0()));
+    assertEquals("multiset.count(present) didn't return 1", 1, getMultiset().count(e0()));
   }
 
   @CollectionSize.Require(SEVERAL)
   public void testCount_3() {
     initThreeCopies();
-    assertEquals("multiset.count(thriceContained) didn't return 3",
-        3, getMultiset().count(e0()));
+    assertEquals("multiset.count(thriceContained) didn't return 3", 3, getMultiset().count(e0()));
   }
 
   @CollectionFeature.Require(ALLOWS_NULL_QUERIES)
   public void testCount_nullAbsent() {
-    assertEquals("multiset.count(null) didn't return 0",
-        0, getMultiset().count(null));
+    assertEquals("multiset.count(null) didn't return 0", 0, getMultiset().count(null));
   }
 
   @CollectionFeature.Require(absent = ALLOWS_NULL_QUERIES)
@@ -69,9 +65,10 @@ public class MultisetCountTester<E> extends AbstractMultisetTester<E> {
     try {
       getMultiset().count(null);
       fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {}
+    } catch (NullPointerException expected) {
+    }
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(ALLOWS_NULL_VALUES)
   public void testCount_nullPresent() {
@@ -80,8 +77,8 @@ public class MultisetCountTester<E> extends AbstractMultisetTester<E> {
   }
 
   public void testCount_wrongType() {
-    assertEquals("multiset.count(wrongType) didn't return 0",
-        0, getMultiset().count(WrongType.VALUE));
+    assertEquals(
+        "multiset.count(wrongType) didn't return 0", 0, getMultiset().count(WrongType.VALUE));
   }
 
   /**
@@ -91,7 +88,6 @@ public class MultisetCountTester<E> extends AbstractMultisetTester<E> {
    */
   @GwtIncompatible // reflection
   public static List<Method> getCountDuplicateInitializingMethods() {
-    return Arrays.asList(
-        Helpers.getMethod(MultisetCountTester.class, "testCount_3"));
+    return Arrays.asList(Helpers.getMethod(MultisetCountTester.class, "testCount_3"));
   }
 }

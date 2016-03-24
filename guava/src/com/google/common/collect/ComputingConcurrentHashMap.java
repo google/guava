@@ -177,7 +177,8 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
         K key,
         int hash,
         ReferenceEntry<K, V> e,
-        ComputingValueReference<K, V> computingValueReference) throws ExecutionException {
+        ComputingValueReference<K, V> computingValueReference)
+        throws ExecutionException {
       V value = null;
       try {
         // Synchronizes on the entry to allow failing fast when a recursive computation is

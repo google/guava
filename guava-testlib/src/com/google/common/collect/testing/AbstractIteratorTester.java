@@ -110,8 +110,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
 
   private static final class UnknownElementException extends RuntimeException {
     private UnknownElementException(Collection<?> expected, Object actual) {
-      super("Returned value '"
-          + actual + "' not found. Remaining elements: " + expected);
+      super("Returned value '" + actual + "' not found. Remaining elements: " + expected);
     }
 
     private static final long serialVersionUID = 0;
@@ -273,12 +272,19 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     }
   }
 
-  public enum KnownOrder { KNOWN_ORDER, UNKNOWN_ORDER }
+  public enum KnownOrder {
+    KNOWN_ORDER,
+    UNKNOWN_ORDER
+  }
 
   @SuppressWarnings("unchecked") // creating array of generic class Stimulus
-  AbstractIteratorTester(int steps, Iterable<E> elementsToInsertIterable,
+  AbstractIteratorTester(
+      int steps,
+      Iterable<E> elementsToInsertIterable,
       Iterable<? extends IteratorFeature> features,
-      Iterable<E> expectedElements, KnownOrder knownOrder, int startIndex) {
+      Iterable<E> expectedElements,
+      KnownOrder knownOrder,
+      int startIndex) {
     // periodically we should manually try (steps * 3 / 2) here; all tests but
     // one should still pass (testVerifyGetsCalled()).
     stimuli = new Stimulus[steps];
@@ -296,8 +302,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
    * I'd like to make this a parameter to the constructor, but I can't because
    * the stimulus instances refer to {@code this}.
    */
-  protected abstract Iterable<? extends Stimulus<E, ? super I>>
-      getStimulusValues();
+  protected abstract Iterable<? extends Stimulus<E, ? super I>> getStimulusValues();
 
   /**
    * Returns a new target iterator each time it's called. This is the iterator
@@ -353,17 +358,15 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
       // traces, so we test them a bit less aggressively
       return;
     }
-    
-    MultiExceptionListIterator reference =
-        new MultiExceptionListIterator(expectedElements);
+
+    MultiExceptionListIterator reference = new MultiExceptionListIterator(expectedElements);
     I target = newTargetIterator();
     for (int i = 0; i < stimuli.length; i++) {
       try {
         stimuli[i].executeAndCompare(reference, target);
         verify(reference.getElements());
       } catch (AssertionFailedError cause) {
-        Helpers.fail(cause,
-            "failed with stimuli " + subListCopy(stimuli, i + 1));
+        Helpers.fail(cause, "failed with stimuli " + subListCopy(stimuli, i + 1));
       }
     }
   }
@@ -398,7 +401,8 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
     }
 
     try {
-      if (method == NEXT_METHOD && targetException == null
+      if (method == NEXT_METHOD
+          && targetException == null
           && knownOrder == KnownOrder.UNKNOWN_ORDER) {
         /*
          * We already know the iterator is an Iterator<E>, and now we know that
@@ -435,8 +439,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
 
     if (referenceException == null) {
       if (targetException != null) {
-        Helpers.fail(targetException,
-            "Target threw exception when reference did not");
+        Helpers.fail(targetException, "Target threw exception when reference did not");
       }
 
       /*
@@ -523,7 +526,8 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
      */
     abstract void executeAndCompare(ListIterator<E> reference, T target);
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return toString;
     }
   }
@@ -600,7 +604,6 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
 
   @SuppressWarnings("unchecked")
   List<Stimulus<E, ListIterator<E>>> listIteratorStimuli() {
-    return Arrays.asList(
-        hasPrevious, nextIndex, previousIndex, previous, add, set);
+    return Arrays.asList(hasPrevious, nextIndex, previousIndex, previous, add, set);
   }
 }

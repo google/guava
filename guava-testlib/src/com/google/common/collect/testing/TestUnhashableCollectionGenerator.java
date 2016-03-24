@@ -28,8 +28,7 @@ import java.util.List;
  * @author Regina O'Dell
  */
 @GwtCompatible
-public abstract class
-    TestUnhashableCollectionGenerator<T extends Collection<UnhashableObject>>
+public abstract class TestUnhashableCollectionGenerator<T extends Collection<UnhashableObject>>
     implements TestCollectionGenerator<UnhashableObject> {
   @Override
   public SampleElements<UnhashableObject> samples() {
@@ -58,8 +57,7 @@ public abstract class
   }
 
   @Override
-  public Iterable<UnhashableObject> order(
-      List<UnhashableObject> insertionOrder) {
+  public Iterable<UnhashableObject> order(List<UnhashableObject> insertionOrder) {
     return insertionOrder;
   }
 }

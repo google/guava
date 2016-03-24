@@ -81,13 +81,14 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   }
 
   public void testSubList_empty() {
-    assertEquals("subList(0, 0) should be empty",
-        emptyList(), getList().subList(0, 0));
+    assertEquals("subList(0, 0) should be empty", emptyList(), getList().subList(0, 0));
   }
 
   public void testSubList_entireList() {
-    assertEquals("subList(0, size) should be equal to the original list",
-        getList(), getList().subList(0, getNumElements()));
+    assertEquals(
+        "subList(0, size) should be equal to the original list",
+        getList(),
+        getList().subList(0, getNumElements()));
   }
 
   @ListFeature.Require(SUPPORTS_REMOVE_WITH_INDEX)
@@ -95,8 +96,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   public void testSubList_subListRemoveAffectsOriginal() {
     List<E> subList = getList().subList(0, 1);
     subList.remove(0);
-    List<E> expected =
-        Arrays.asList(createSamplesArray()).subList(1, getNumElements());
+    List<E> expected = Arrays.asList(createSamplesArray()).subList(1, getNumElements());
     expectContents(expected);
   }
 
@@ -105,8 +105,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   public void testSubList_subListClearAffectsOriginal() {
     List<E> subList = getList().subList(0, 1);
     subList.clear();
-    List<E> expected =
-        Arrays.asList(createSamplesArray()).subList(1, getNumElements());
+    List<E> expected = Arrays.asList(createSamplesArray()).subList(1, getNumElements());
     expectContents(expected);
   }
 
@@ -132,9 +131,11 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   public void testSubList_originalListSetAffectsSubList() {
     List<E> subList = getList().subList(0, 1);
     getList().set(0, e3());
-    assertEquals("A set() call to a list after a sublist has been created "
-        + "should be reflected in the sublist",
-        Collections.singletonList(e3()), subList);
+    assertEquals(
+        "A set() call to a list after a sublist has been created "
+            + "should be reflected in the sublist",
+        Collections.singletonList(e3()),
+        subList);
   }
 
   @ListFeature.Require(SUPPORTS_REMOVE_WITH_INDEX)
@@ -170,51 +171,50 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   public void testSubList_originalListSetAffectsSubListLargeList() {
     List<E> subList = getList().subList(1, 3);
     getList().set(1, e3());
-    assertEquals("A set() call to a list after a sublist has been created "
-        + "should be reflected in the sublist",
-        Arrays.asList(e3(), e2()), subList);
+    assertEquals(
+        "A set() call to a list after a sublist has been created "
+            + "should be reflected in the sublist",
+        Arrays.asList(e3(), e2()),
+        subList);
   }
 
   public void testSubList_ofSubListEmpty() {
     List<E> subList = getList().subList(0, 0).subList(0, 0);
-    assertEquals("subList(0, 0).subList(0, 0) should be an empty list",
-        emptyList(), subList);
+    assertEquals("subList(0, 0).subList(0, 0) should be an empty list", emptyList(), subList);
   }
 
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testSubList_ofSubListNonEmpty() {
     List<E> subList = getList().subList(0, 2).subList(1, 2);
-    assertEquals("subList(0, 2).subList(1, 2) "
-        + "should be a single-element list of the element at index 1",
-        Collections.singletonList(getOrderedElements().get(1)), subList);
+    assertEquals(
+        "subList(0, 2).subList(1, 2) "
+            + "should be a single-element list of the element at index 1",
+        Collections.singletonList(getOrderedElements().get(1)),
+        subList);
   }
 
   @CollectionSize.Require(absent = {ZERO})
   public void testSubList_size() {
     List<E> list = getList();
     int size = getNumElements();
-    assertEquals(list.subList(0, size).size(),
-                 size);
-    assertEquals(list.subList(0, size - 1).size(),
-                 size - 1);
-    assertEquals(list.subList(1, size).size(),
-                 size - 1);
-    assertEquals(list.subList(size, size).size(),
-                 0);
-    assertEquals(list.subList(0, 0).size(),
-                 0);
+    assertEquals(list.subList(0, size).size(), size);
+    assertEquals(list.subList(0, size - 1).size(), size - 1);
+    assertEquals(list.subList(1, size).size(), size - 1);
+    assertEquals(list.subList(size, size).size(), 0);
+    assertEquals(list.subList(0, 0).size(), 0);
   }
 
   @CollectionSize.Require(absent = {ZERO})
   public void testSubList_isEmpty() {
     List<E> list = getList();
     int size = getNumElements();
-    for (List<E> subList : Arrays.asList(
-        list.subList(0, size),
-        list.subList(0, size - 1),
-        list.subList(1, size),
-        list.subList(0, 0),
-        list.subList(size, size))) {
+    for (List<E> subList :
+        Arrays.asList(
+            list.subList(0, size),
+            list.subList(0, size - 1),
+            list.subList(1, size),
+            list.subList(0, 0),
+            list.subList(size, size))) {
       assertEquals(subList.isEmpty(), subList.size() == 0);
     }
   }
@@ -268,23 +268,15 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
     List<E> copy = list.subList(0, size);
     List<E> head = list.subList(0, size - 1);
     List<E> tail = list.subList(1, size);
-    assertEquals(copy.indexOf(list.get(0)),
-                 0);
-    assertEquals(head.indexOf(list.get(0)),
-                 0);
-    assertEquals(tail.indexOf(list.get(1)),
-                 0);
+    assertEquals(copy.indexOf(list.get(0)), 0);
+    assertEquals(head.indexOf(list.get(0)), 0);
+    assertEquals(tail.indexOf(list.get(1)), 0);
     // The following assumes all elements are distinct.
-    assertEquals(copy.indexOf(list.get(size - 1)),
-                 size - 1);
-    assertEquals(head.indexOf(list.get(size - 2)),
-                 size - 2);
-    assertEquals(tail.indexOf(list.get(size - 1)),
-                 size - 2);
-    assertEquals(head.indexOf(list.get(size - 1)),
-                 -1);
-    assertEquals(tail.indexOf(list.get(0)),
-                 -1);
+    assertEquals(copy.indexOf(list.get(size - 1)), size - 1);
+    assertEquals(head.indexOf(list.get(size - 2)), size - 2);
+    assertEquals(tail.indexOf(list.get(size - 1)), size - 2);
+    assertEquals(head.indexOf(list.get(size - 1)), -1);
+    assertEquals(tail.indexOf(list.get(0)), -1);
   }
 
   @CollectionSize.Require(absent = {ZERO, ONE})
@@ -294,23 +286,15 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
     List<E> copy = list.subList(0, size);
     List<E> head = list.subList(0, size - 1);
     List<E> tail = list.subList(1, size);
-    assertEquals(copy.lastIndexOf(list.get(size - 1)),
-                 size - 1);
-    assertEquals(head.lastIndexOf(list.get(size - 2)),
-                 size - 2);
-    assertEquals(tail.lastIndexOf(list.get(size - 1)),
-                 size - 2);
+    assertEquals(copy.lastIndexOf(list.get(size - 1)), size - 1);
+    assertEquals(head.lastIndexOf(list.get(size - 2)), size - 2);
+    assertEquals(tail.lastIndexOf(list.get(size - 1)), size - 2);
     // The following assumes all elements are distinct.
-    assertEquals(copy.lastIndexOf(list.get(0)),
-                 0);
-    assertEquals(head.lastIndexOf(list.get(0)),
-                 0);
-    assertEquals(tail.lastIndexOf(list.get(1)),
-                 0);
-    assertEquals(head.lastIndexOf(list.get(size - 1)),
-                 -1);
-    assertEquals(tail.lastIndexOf(list.get(0)),
-                 -1);
+    assertEquals(copy.lastIndexOf(list.get(0)), 0);
+    assertEquals(head.lastIndexOf(list.get(0)), 0);
+    assertEquals(tail.lastIndexOf(list.get(1)), 0);
+    assertEquals(head.lastIndexOf(list.get(size - 1)), -1);
+    assertEquals(tail.lastIndexOf(list.get(0)), -1);
   }
 
   @CollectionFeature.Require(SERIALIZABLE_INCLUDING_VIEWS)

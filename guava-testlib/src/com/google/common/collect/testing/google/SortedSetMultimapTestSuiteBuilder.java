@@ -51,7 +51,8 @@ public class SortedSetMultimapTestSuiteBuilder<K, V>
     return result;
   }
 
-  @Override protected List<Class<? extends AbstractTester>> getTesters() {
+  @Override
+  protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
     testers.add(SetMultimapAsMapTester.class);
     testers.add(SetMultimapEqualsTester.class);
@@ -65,11 +66,12 @@ public class SortedSetMultimapTestSuiteBuilder<K, V>
 
   @Override
   TestSuite computeMultimapGetTestSuite(
-      FeatureSpecificTestSuiteBuilder<?, ? extends
-      OneSizeTestContainerGenerator<SetMultimap<K, V>, Entry<K, V>>> parentBuilder) {
+      FeatureSpecificTestSuiteBuilder<
+              ?, ? extends OneSizeTestContainerGenerator<SetMultimap<K, V>, Entry<K, V>>>
+          parentBuilder) {
     return SortedSetTestSuiteBuilder.using(
-        new SetMultimapTestSuiteBuilder.MultimapGetGenerator<K, V>(
-            parentBuilder.getSubjectGenerator()))
+            new SetMultimapTestSuiteBuilder.MultimapGetGenerator<K, V>(
+                parentBuilder.getSubjectGenerator()))
         .withFeatures(computeMultimapGetFeatures(parentBuilder.getFeatures()))
         .named(parentBuilder.getName() + ".get[key]")
         .suppressing(parentBuilder.getSuppressedTests())
@@ -78,15 +80,16 @@ public class SortedSetMultimapTestSuiteBuilder<K, V>
 
   @Override
   TestSuite computeMultimapAsMapGetTestSuite(
-      FeatureSpecificTestSuiteBuilder<?, ? extends
-      OneSizeTestContainerGenerator<SetMultimap<K, V>, Entry<K, V>>> parentBuilder) {
+      FeatureSpecificTestSuiteBuilder<
+              ?, ? extends OneSizeTestContainerGenerator<SetMultimap<K, V>, Entry<K, V>>>
+          parentBuilder) {
     Set<Feature<?>> features = computeMultimapAsMapGetFeatures(parentBuilder.getFeatures());
     if (Collections.disjoint(features, EnumSet.allOf(CollectionSize.class))) {
       return new TestSuite();
     } else {
       return SortedSetTestSuiteBuilder.using(
-          new SetMultimapTestSuiteBuilder.MultimapAsMapGetGenerator<K, V>(
-              parentBuilder.getSubjectGenerator()))
+              new SetMultimapTestSuiteBuilder.MultimapAsMapGetGenerator<K, V>(
+                  parentBuilder.getSubjectGenerator()))
           .withFeatures(features)
           .named(parentBuilder.getName() + ".asMap[].get[key]")
           .suppressing(parentBuilder.getSuppressedTests())

@@ -183,11 +183,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
     @Override
     public long distance(BigInteger start, BigInteger end) {
-      return end
-          .subtract(start)
-          .max(MIN_LONG)
-          .min(MAX_LONG)
-          .longValue();
+      return end.subtract(start).max(MIN_LONG).min(MAX_LONG).longValue();
     }
 
     private Object readResolve() {

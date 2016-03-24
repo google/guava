@@ -54,7 +54,8 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
   private List<Entry<K, V>> containsNullKey;
   private List<Entry<K, V>> containsNullValue;
 
-  @Override public void setUp() throws Exception {
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     containsNullKey = singletonList(entry(null, v3()));
     containsNullValue = singletonList(entry(k3(), null));
@@ -99,8 +100,7 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
     expectAdded(e3());
   }
 
-  @MapFeature.Require({ FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-      SUPPORTS_PUT })
+  @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION, SUPPORTS_PUT})
   @CollectionSize.Require(absent = ZERO)
   public void testPutAllSomePresentConcurrentWithEntrySetIteration() {
     try {
@@ -134,15 +134,13 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
     expectUnchanged();
   }
 
-  @MapFeature.Require({SUPPORTS_PUT,
-      ALLOWS_NULL_KEYS})
+  @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_KEYS})
   public void testPutAll_nullKeySupported() {
     putAll(containsNullKey);
     expectAdded(containsNullKey.get(0));
   }
 
-  @MapFeature.Require(value = SUPPORTS_PUT,
-      absent = ALLOWS_NULL_KEYS)
+  @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_KEYS)
   public void testPutAll_nullKeyUnsupported() {
     try {
       putAll(containsNullKey);
@@ -151,19 +149,16 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
     }
     expectUnchanged();
     expectNullKeyMissingWhenNullKeysUnsupported(
-        "Should not contain null key after unsupported " +
-        "putAll(containsNullKey)");
+        "Should not contain null key after unsupported putAll(containsNullKey)");
   }
 
-  @MapFeature.Require({SUPPORTS_PUT,
-      ALLOWS_NULL_VALUES})
+  @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
   public void testPutAll_nullValueSupported() {
     putAll(containsNullValue);
     expectAdded(containsNullValue.get(0));
   }
 
-  @MapFeature.Require(value = SUPPORTS_PUT,
-      absent = ALLOWS_NULL_VALUES)
+  @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
   public void testPutAll_nullValueUnsupported() {
     try {
       putAll(containsNullValue);
@@ -172,8 +167,7 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
     }
     expectUnchanged();
     expectNullValueMissingWhenNullValuesUnsupported(
-        "Should not contain null value after unsupported " +
-        "putAll(containsNullValue)");
+        "Should not contain null value after unsupported putAll(containsNullValue)");
   }
 
   @MapFeature.Require(SUPPORTS_PUT)

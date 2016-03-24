@@ -46,8 +46,7 @@ import java.util.Iterator;
 public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAdd_supportedNotPresent() {
-    assertTrue("add(notPresent) should return true",
-        collection.add(e3()));
+    assertTrue("add(notPresent) should return true", collection.add(e3()));
     expectAdded(e3());
   }
 
@@ -66,23 +65,22 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testAdd_unsupportedPresent() {
     try {
-      assertFalse("add(present) should return false or throw",
-          collection.add(e0()));
+      assertFalse("add(present) should return false or throw", collection.add(e0()));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();
   }
 
   @CollectionFeature.Require(
-      value = {SUPPORTS_ADD, ALLOWS_NULL_VALUES},
-      absent = RESTRICTS_ELEMENTS)
+    value = {SUPPORTS_ADD, ALLOWS_NULL_VALUES},
+    absent = RESTRICTS_ELEMENTS
+  )
   public void testAdd_nullSupported() {
     assertTrue("add(null) should return true", collection.add(null));
     expectAdded((E) null);
   }
 
-  @CollectionFeature.Require(value = SUPPORTS_ADD,
-      absent = ALLOWS_NULL_VALUES)
+  @CollectionFeature.Require(value = SUPPORTS_ADD, absent = ALLOWS_NULL_VALUES)
   public void testAdd_nullUnsupported() {
     try {
       collection.add(null);
@@ -90,12 +88,10 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
     } catch (NullPointerException expected) {
     }
     expectUnchanged();
-    expectNullMissingWhenNullUnsupported(
-        "Should not contain null after unsupported add(null)");
+    expectNullMissingWhenNullUnsupported("Should not contain null after unsupported add(null)");
   }
 
-  @CollectionFeature.Require({SUPPORTS_ADD,
-      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  @CollectionFeature.Require({SUPPORTS_ADD, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   @CollectionSize.Require(absent = ZERO)
   public void testAddConcurrentWithIteration() {
     try {

@@ -282,8 +282,9 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     }
     int position;
     try {
-      position = SortedLists.binarySearch(
-          elements, target, unsafeComparator(), ANY_PRESENT, INVERTED_INSERTION_INDEX);
+      position =
+          SortedLists.binarySearch(
+              elements, target, unsafeComparator(), ANY_PRESENT, INVERTED_INSERTION_INDEX);
     } catch (ClassCastException e) {
       return -1;
     }

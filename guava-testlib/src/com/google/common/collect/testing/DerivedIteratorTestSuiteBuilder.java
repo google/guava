@@ -38,16 +38,17 @@ public class DerivedIteratorTestSuiteBuilder<E>
    *
    * @return never.
    */
-  @Override protected List<Class<? extends AbstractTester>> getTesters() {
+  @Override
+  protected List<Class<? extends AbstractTester>> getTesters() {
     throw new UnsupportedOperationException();
   }
 
-  @Override public TestSuite createTestSuite() {
+  @Override
+  public TestSuite createTestSuite() {
     checkCanCreate();
     return new IteratorTestSuiteBuilder<E>()
         .named(getName() + " iterator")
-        .usingGenerator(new DerivedTestIteratorGenerator<E>(
-            getSubjectGenerator()))
+        .usingGenerator(new DerivedTestIteratorGenerator<E>(getSubjectGenerator()))
         .withFeatures(getFeatures())
         .createTestSuite();
   }

@@ -43,7 +43,7 @@ public interface TestContainerGenerator<T, E> {
    * to figure out how to use E... or E[] as a parameter type, but this doesn't
    * seem to work because Java creates an array of the erased type.
    */
-  T create(Object ... elements);
+  T create(Object... elements);
 
   /**
    * Helper method to create an array of the appropriate type used by this

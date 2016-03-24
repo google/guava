@@ -289,9 +289,7 @@ public final class Lists {
     // We copy elements to an ArrayList first, rather than incurring the
     // quadratic cost of adding them to the COWAL directly.
     Collection<? extends E> elementsCollection =
-        (elements instanceof Collection)
-            ? Collections2.cast(elements)
-            : newArrayList(elements);
+        (elements instanceof Collection) ? Collections2.cast(elements) : newArrayList(elements);
     return new CopyOnWriteArrayList<E>(elementsCollection);
   }
 
@@ -1116,23 +1114,25 @@ public final class Lists {
   static <E> List<E> subListImpl(final List<E> list, int fromIndex, int toIndex) {
     List<E> wrapper;
     if (list instanceof RandomAccess) {
-      wrapper = new RandomAccessListWrapper<E>(list) {
-        @Override
-        public ListIterator<E> listIterator(int index) {
-          return backingList.listIterator(index);
-        }
+      wrapper =
+          new RandomAccessListWrapper<E>(list) {
+            @Override
+            public ListIterator<E> listIterator(int index) {
+              return backingList.listIterator(index);
+            }
 
-        private static final long serialVersionUID = 0;
-      };
+            private static final long serialVersionUID = 0;
+          };
     } else {
-      wrapper = new AbstractListWrapper<E>(list) {
-        @Override
-        public ListIterator<E> listIterator(int index) {
-          return backingList.listIterator(index);
-        }
+      wrapper =
+          new AbstractListWrapper<E>(list) {
+            @Override
+            public ListIterator<E> listIterator(int index) {
+              return backingList.listIterator(index);
+            }
 
-        private static final long serialVersionUID = 0;
-      };
+            private static final long serialVersionUID = 0;
+          };
     }
     return wrapper.subList(fromIndex, toIndex);
   }

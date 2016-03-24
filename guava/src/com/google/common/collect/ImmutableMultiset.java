@@ -127,15 +127,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
-    return new Builder<E>()
-        .add(e1)
-        .add(e2)
-        .add(e3)
-        .add(e4)
-        .add(e5)
-        .add(e6)
-        .add(others)
-        .build();
+    return new Builder<E>().add(e1).add(e2).add(e3).add(e4).add(e5).add(e6).add(others).build();
   }
 
   /**

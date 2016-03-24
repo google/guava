@@ -46,13 +46,15 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
     return result;
   }
 
-  @Override protected List<Class<? extends AbstractTester>> getTesters() {
+  @Override
+  protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
     testers.add(SortedMapNavigationTester.class);
     return testers;
   }
 
-  @Override public TestSuite createTestSuite() {
+  @Override
+  public TestSuite createTestSuite() {
     if (!getFeatures().contains(KNOWN_ORDER)) {
       List<Feature<?>> features = Helpers.copyToList(getFeatures());
       features.add(KNOWN_ORDER);
@@ -62,8 +64,10 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
   }
 
   @Override
-  protected List<TestSuite> createDerivedSuites(FeatureSpecificTestSuiteBuilder<?,
-      ? extends OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>>> parentBuilder) {
+  protected List<TestSuite> createDerivedSuites(
+      FeatureSpecificTestSuiteBuilder<
+              ?, ? extends OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>>>
+          parentBuilder) {
     List<TestSuite> derivedSuites = super.createDerivedSuites(parentBuilder);
 
     if (!parentBuilder.getFeatures().contains(NoRecurse.SUBMAP)) {
@@ -75,8 +79,8 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
     return derivedSuites;
   }
 
-  @Override protected SetTestSuiteBuilder<K> createDerivedKeySetSuite(
-      TestSetGenerator<K> keySetGenerator) {
+  @Override
+  protected SetTestSuiteBuilder<K> createDerivedKeySetSuite(TestSetGenerator<K> keySetGenerator) {
     return keySetGenerator instanceof TestSortedSetGenerator
         ? SortedSetTestSuiteBuilder.using((TestSortedSetGenerator<K>) keySetGenerator)
         : SetTestSuiteBuilder.using(keySetGenerator);
@@ -103,11 +107,14 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
    * the relative order of these extreme values rather than relying on their
    * regular sort ordering.
    */
-  final TestSuite createSubmapSuite(final FeatureSpecificTestSuiteBuilder<?,
-          ? extends OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>>>
-          parentBuilder, final Bound from, final Bound to) {
-    final TestSortedMapGenerator<K, V> delegate
-        = (TestSortedMapGenerator<K, V>) parentBuilder.getSubjectGenerator().getInnerGenerator();
+  final TestSuite createSubmapSuite(
+      final FeatureSpecificTestSuiteBuilder<
+              ?, ? extends OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>>>
+          parentBuilder,
+      final Bound from,
+      final Bound to) {
+    final TestSortedMapGenerator<K, V> delegate =
+        (TestSortedMapGenerator<K, V>) parentBuilder.getSubjectGenerator().getInnerGenerator();
 
     List<Feature<?>> features = new ArrayList<Feature<?>>();
     features.add(NoRecurse.SUBMAP);

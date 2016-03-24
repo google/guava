@@ -387,8 +387,9 @@ public final class MapConstraints {
     @Override
     public BiMap<V, K> inverse() {
       if (inverse == null) {
-        inverse = new ConstrainedBiMap<V, K>(
-            delegate().inverse(), this, new InverseConstraint<V, K>(constraint));
+        inverse =
+            new ConstrainedBiMap<V, K>(
+                delegate().inverse(), this, new InverseConstraint<V, K>(constraint));
       }
       return inverse;
     }

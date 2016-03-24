@@ -42,8 +42,7 @@ public class MultimapToStringTester<K, V> extends AbstractMultimapTester<K, V, M
   @CollectionSize.Require(ONE)
   @CollectionFeature.Require(absent = NON_STANDARD_TOSTRING)
   public void testToStringSingleton() {
-    assertEquals(
-        "{" + k0() + "=[" + v0() + "]}", multimap().toString());
+    assertEquals("{" + k0() + "=[" + v0() + "]}", multimap().toString());
   }
 
   @CollectionSize.Require(absent = ZERO)

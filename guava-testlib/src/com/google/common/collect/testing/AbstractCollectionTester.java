@@ -34,12 +34,14 @@ public abstract class AbstractCollectionTester<E>
   // TODO: replace this with an accessor.
   protected Collection<E> collection;
 
-  @Override protected Collection<E> actualContents() {
+  @Override
+  protected Collection<E> actualContents() {
     return collection;
   }
 
   // TODO: dispose of this once collection is encapsulated.
-  @Override protected Collection<E> resetContainer(Collection<E> newContents) {
+  @Override
+  protected Collection<E> resetContainer(Collection<E> newContents) {
     collection = super.resetContainer(newContents);
     return collection;
   }

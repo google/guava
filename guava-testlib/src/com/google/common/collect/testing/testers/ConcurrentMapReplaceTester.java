@@ -33,7 +33,7 @@ import java.util.concurrent.ConcurrentMap;
  * A generic JUnit test which tests {@code replace(K, V)} operations on a concurrent map. Can't be
  * invoked directly; please see
  * {@link com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
@@ -62,17 +62,18 @@ public class ConcurrentMapReplaceTester<K, V> extends AbstractMapTester<K, V> {
     assertNull(getMap().replace(k3(), v3()));
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
   @CollectionSize.Require(absent = ZERO)
   public void testReplace_presentNullValueUnsupported() {
     try {
       getMap().replace(k0(), null);
       fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {}
+    } catch (NullPointerException expected) {
+    }
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUE_QUERIES)
   public void testReplace_absentNullValueUnsupported() {
     try {
@@ -82,7 +83,7 @@ public class ConcurrentMapReplaceTester<K, V> extends AbstractMapTester<K, V> {
     }
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_KEY_QUERIES)
   public void testReplace_absentNullKeyUnsupported() {
     try {
@@ -92,14 +93,15 @@ public class ConcurrentMapReplaceTester<K, V> extends AbstractMapTester<K, V> {
     }
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(absent = SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testReplace_unsupportedPresent() {
     try {
       getMap().replace(k0(), v3());
       fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
     expectUnchanged();
   }
 }

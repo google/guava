@@ -53,8 +53,8 @@ public class ListEqualsTester<E> extends AbstractListTester<E> {
   public void testEquals_otherListContainingNull() {
     List<E> other = new ArrayList<E>(getSampleElements());
     other.set(other.size() / 2, null);
-    assertFalse("Two Lists should not be equal if exactly one of them has "
-        + "null at a given index.",
+    assertFalse(
+        "Two Lists should not be equal if exactly one of them has null at a given index.",
         getList().equals(other));
   }
 
@@ -65,26 +65,27 @@ public class ListEqualsTester<E> extends AbstractListTester<E> {
     elements.set(elements.size() / 2, null);
     collection = getSubjectGenerator().create(elements.toArray());
     List<E> other = new ArrayList<E>(getSampleElements());
-    assertFalse("Two Lists should not be equal if exactly one of them has "
-        + "null at a given index.",
+    assertFalse(
+        "Two Lists should not be equal if exactly one of them has null at a given index.",
         getList().equals(other));
   }
 
   @CollectionSize.Require(absent = CollectionSize.ZERO)
   public void testEquals_shorterList() {
     Collection<E> fewerElements = getSampleElements(getNumElements() - 1);
-    assertFalse("Lists of different sizes should not be equal.",
+    assertFalse(
+        "Lists of different sizes should not be equal.",
         getList().equals(new ArrayList<E>(fewerElements)));
   }
 
   public void testEquals_longerList() {
     Collection<E> moreElements = getSampleElements(getNumElements() + 1);
-    assertFalse("Lists of different sizes should not be equal.",
+    assertFalse(
+        "Lists of different sizes should not be equal.",
         getList().equals(new ArrayList<E>(moreElements)));
   }
 
   public void testEquals_set() {
-    assertFalse("A List should never equal a Set.",
-        getList().equals(MinimalSet.from(getList())));
+    assertFalse("A List should never equal a Set.", getList().equals(MinimalSet.from(getList())));
   }
 }

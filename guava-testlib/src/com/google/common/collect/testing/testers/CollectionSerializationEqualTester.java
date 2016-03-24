@@ -33,8 +33,6 @@ import com.google.common.testing.SerializableTester;
 public class CollectionSerializationEqualTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SERIALIZABLE)
   public void testReserialize() {
-    assertEquals(
-        actualContents(),
-        SerializableTester.reserialize(actualContents()));
+    assertEquals(actualContents(), SerializableTester.reserialize(actualContents()));
   }
 }

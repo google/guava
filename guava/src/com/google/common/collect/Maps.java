@@ -1543,9 +1543,7 @@ public final class Maps {
     @Override
     public Set<V> values() {
       Set<V> result = values;
-      return (result == null)
-          ? values = Collections.unmodifiableSet(delegate.values())
-          : result;
+      return (result == null) ? values = Collections.unmodifiableSet(delegate.values()) : result;
     }
 
     private static final long serialVersionUID = 0;
@@ -4162,22 +4160,24 @@ public final class Maps {
   @GwtIncompatible // NavigableMap
   public static <K extends Comparable<? super K>, V> NavigableMap<K, V> subMap(
       NavigableMap<K, V> map, Range<K> range) {
-    if (map.comparator() != null && map.comparator() != Ordering.natural()
-        && range.hasLowerBound() && range.hasUpperBound()) {
-      checkArgument(map.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) <= 0,
+    if (map.comparator() != null
+        && map.comparator() != Ordering.natural()
+        && range.hasLowerBound()
+        && range.hasUpperBound()) {
+      checkArgument(
+          map.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) <= 0,
           "map is using a custom comparator which is inconsistent with the natural ordering.");
     }
     if (range.hasLowerBound() && range.hasUpperBound()) {
-      return map.subMap(range.lowerEndpoint(),
-                        range.lowerBoundType() == BoundType.CLOSED,
-                        range.upperEndpoint(),
-                        range.upperBoundType() == BoundType.CLOSED);
+      return map.subMap(
+          range.lowerEndpoint(),
+          range.lowerBoundType() == BoundType.CLOSED,
+          range.upperEndpoint(),
+          range.upperBoundType() == BoundType.CLOSED);
     } else if (range.hasLowerBound()) {
-      return map.tailMap(range.lowerEndpoint(),
-                         range.lowerBoundType() == BoundType.CLOSED);
+      return map.tailMap(range.lowerEndpoint(), range.lowerBoundType() == BoundType.CLOSED);
     } else if (range.hasUpperBound()) {
-      return map.headMap(range.upperEndpoint(),
-                         range.upperBoundType() == BoundType.CLOSED);
+      return map.headMap(range.upperEndpoint(), range.upperBoundType() == BoundType.CLOSED);
     }
     return checkNotNull(map);
   }

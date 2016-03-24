@@ -509,16 +509,17 @@ public final class Multimaps {
     public Map<K, Collection<V>> asMap() {
       Map<K, Collection<V>> result = map;
       if (result == null) {
-        result = map =
-            Collections.unmodifiableMap(
-                Maps.transformValues(
-                    delegate.asMap(),
-                    new Function<Collection<V>, Collection<V>>() {
-                      @Override
-                      public Collection<V> apply(Collection<V> collection) {
-                        return unmodifiableValueCollection(collection);
-                      }
-                    }));
+        result =
+            map =
+                Collections.unmodifiableMap(
+                    Maps.transformValues(
+                        delegate.asMap(),
+                        new Function<Collection<V>, Collection<V>>() {
+                          @Override
+                          public Collection<V> apply(Collection<V> collection) {
+                            return unmodifiableValueCollection(collection);
+                          }
+                        }));
       }
       return result;
     }

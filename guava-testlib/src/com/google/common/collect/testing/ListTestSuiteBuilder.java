@@ -61,14 +61,13 @@ import java.util.Set;
 @GwtIncompatible
 public final class ListTestSuiteBuilder<E>
     extends AbstractCollectionTestSuiteBuilder<ListTestSuiteBuilder<E>, E> {
-  public static <E> ListTestSuiteBuilder<E> using(
-      TestListGenerator<E> generator) {
+  public static <E> ListTestSuiteBuilder<E> using(TestListGenerator<E> generator) {
     return new ListTestSuiteBuilder<E>().usingGenerator(generator);
   }
 
-  @Override protected List<Class<? extends AbstractTester>> getTesters() {
-    List<Class<? extends AbstractTester>> testers
-        = Helpers.copyToList(super.getTesters());
+  @Override
+  protected List<Class<? extends AbstractTester>> getTesters() {
+    List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
 
     testers.add(CollectionSerializationEqualTester.class);
     testers.add(ListAddAllAtIndexTester.class);
@@ -96,32 +95,32 @@ public final class ListTestSuiteBuilder<E>
    * Specifies {@link CollectionFeature#KNOWN_ORDER} for all list tests, since
    * lists have an iteration ordering corresponding to the insertion order.
    */
-  @Override public TestSuite createTestSuite() {
+  @Override
+  public TestSuite createTestSuite() {
     withFeatures(KNOWN_ORDER);
     return super.createTestSuite();
   }
 
   @Override
-  protected
-      List<TestSuite>
-      createDerivedSuites(
-          FeatureSpecificTestSuiteBuilder<
-              ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
-    List<TestSuite> derivedSuites = new ArrayList<TestSuite>(
-        super.createDerivedSuites(parentBuilder));
+  protected List<TestSuite> createDerivedSuites(
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
+          parentBuilder) {
+    List<TestSuite> derivedSuites =
+        new ArrayList<TestSuite>(super.createDerivedSuites(parentBuilder));
 
     if (parentBuilder.getFeatures().contains(SERIALIZABLE)) {
-      derivedSuites.add(ListTestSuiteBuilder
-          .using(new ReserializedListGenerator<E>(parentBuilder.getSubjectGenerator()))
-          .named(getName() + " reserialized")
-          .withFeatures(computeReserializedCollectionFeatures(parentBuilder.getFeatures()))
-          .suppressing(parentBuilder.getSuppressedTests())
-          .createTestSuite());
+      derivedSuites.add(
+          ListTestSuiteBuilder.using(
+                  new ReserializedListGenerator<E>(parentBuilder.getSubjectGenerator()))
+              .named(getName() + " reserialized")
+              .withFeatures(computeReserializedCollectionFeatures(parentBuilder.getFeatures()))
+              .suppressing(parentBuilder.getSuppressedTests())
+              .createTestSuite());
     }
     return derivedSuites;
   }
 
-  static class ReserializedListGenerator<E> implements TestListGenerator<E>{
+  static class ReserializedListGenerator<E> implements TestListGenerator<E> {
     final OneSizeTestContainerGenerator<Collection<E>, E> gen;
 
     private ReserializedListGenerator(OneSizeTestContainerGenerator<Collection<E>, E> gen) {
@@ -149,8 +148,7 @@ public final class ListTestSuiteBuilder<E>
     }
   }
 
-  private static Set<Feature<?>> computeReserializedCollectionFeatures(
-      Set<Feature<?>> features) {
+  private static Set<Feature<?>> computeReserializedCollectionFeatures(Set<Feature<?>> features) {
     Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
     derivedFeatures.addAll(features);
     derivedFeatures.remove(SERIALIZABLE);

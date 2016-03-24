@@ -35,22 +35,21 @@ import java.util.List;
  */
 @GwtIncompatible
 public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
-  public static <E> SortedSetTestSuiteBuilder<E> using(
-      TestSortedSetGenerator<E> generator) {
-    SortedSetTestSuiteBuilder<E> builder =
-        new SortedSetTestSuiteBuilder<E>();
+  public static <E> SortedSetTestSuiteBuilder<E> using(TestSortedSetGenerator<E> generator) {
+    SortedSetTestSuiteBuilder<E> builder = new SortedSetTestSuiteBuilder<E>();
     builder.usingGenerator(generator);
     return builder;
   }
 
-  @Override protected List<Class<? extends AbstractTester>> getTesters() {
-    List<Class<? extends AbstractTester>> testers =
-        Helpers.copyToList(super.getTesters());
+  @Override
+  protected List<Class<? extends AbstractTester>> getTesters() {
+    List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
     testers.add(SortedSetNavigationTester.class);
     return testers;
   }
 
-  @Override public TestSuite createTestSuite() {
+  @Override
+  public TestSuite createTestSuite() {
     if (!getFeatures().contains(CollectionFeature.KNOWN_ORDER)) {
       List<Feature<?>> features = Helpers.copyToList(getFeatures());
       features.add(CollectionFeature.KNOWN_ORDER);
@@ -60,8 +59,9 @@ public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
   }
 
   @Override
-  protected List<TestSuite> createDerivedSuites(FeatureSpecificTestSuiteBuilder<
-      ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
+  protected List<TestSuite> createDerivedSuites(
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
+          parentBuilder) {
     List<TestSuite> derivedSuites = super.createDerivedSuites(parentBuilder);
 
     if (!parentBuilder.getFeatures().contains(CollectionFeature.SUBSET_VIEW)) {
@@ -80,11 +80,14 @@ public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
    * the relative order of these extreme values rather than relying on their
    * regular sort ordering.
    */
-  final TestSuite createSubsetSuite(final FeatureSpecificTestSuiteBuilder<?,
-          ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
-          parentBuilder, final Bound from, final Bound to) {
-    final TestSortedSetGenerator<E> delegate
-        = (TestSortedSetGenerator<E>) parentBuilder.getSubjectGenerator().getInnerGenerator();
+  final TestSuite createSubsetSuite(
+      final FeatureSpecificTestSuiteBuilder<
+              ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
+          parentBuilder,
+      final Bound from,
+      final Bound to) {
+    final TestSortedSetGenerator<E> delegate =
+        (TestSortedSetGenerator<E>) parentBuilder.getSubjectGenerator().getInnerGenerator();
 
     List<Feature<?>> features = new ArrayList<Feature<?>>();
     features.addAll(parentBuilder.getFeatures());

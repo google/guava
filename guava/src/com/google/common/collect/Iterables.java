@@ -985,8 +985,7 @@ public final class Iterables {
           @Override
           public Iterator<T> iterator() {
             return Iterators.mergeSorted(
-                Iterables.transform(iterables, Iterables.<T>toIterator()),
-                comparator);
+                Iterables.transform(iterables, Iterables.<T>toIterator()), comparator);
           }
         };
     return new UnmodifiableIterable<T>(iterable);

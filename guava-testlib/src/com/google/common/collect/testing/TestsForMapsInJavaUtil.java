@@ -74,56 +74,61 @@ public class TestsForMapsInJavaUtil {
   protected Collection<Method> suppressForEmptyMap() {
     return Collections.emptySet();
   }
+
   protected Collection<Method> suppressForSingletonMap() {
     return Collections.emptySet();
   }
+
   protected Collection<Method> suppressForHashMap() {
     return Collections.emptySet();
   }
+
   protected Collection<Method> suppressForLinkedHashMap() {
     return Collections.emptySet();
   }
+
   protected Collection<Method> suppressForTreeMapNatural() {
     return Collections.emptySet();
   }
+
   protected Collection<Method> suppressForTreeMapWithComparator() {
     return Collections.emptySet();
   }
+
   protected Collection<Method> suppressForEnumMap() {
     return Collections.emptySet();
   }
+
   protected Collection<Method> suppressForConcurrentHashMap() {
     return Collections.emptySet();
   }
+
   protected Collection<Method> suppressForConcurrentSkipListMap() {
     return asList(MapEntrySetTester.getSetValueMethod());
   }
 
   public Test testsForEmptyMap() {
-    return MapTestSuiteBuilder
-        .using(new TestStringMapGenerator() {
-            @Override protected Map<String, String> create(
-                Entry<String, String>[] entries) {
-              return Collections.emptyMap();
-            }
-          })
+    return MapTestSuiteBuilder.using(
+            new TestStringMapGenerator() {
+              @Override
+              protected Map<String, String> create(Entry<String, String>[] entries) {
+                return Collections.emptyMap();
+              }
+            })
         .named("emptyMap")
-        .withFeatures(
-            CollectionFeature.SERIALIZABLE,
-            CollectionSize.ZERO)
+        .withFeatures(CollectionFeature.SERIALIZABLE, CollectionSize.ZERO)
         .suppressing(suppressForEmptyMap())
         .createTestSuite();
   }
 
   public Test testsForSingletonMap() {
-    return MapTestSuiteBuilder
-        .using(new TestStringMapGenerator() {
-            @Override protected Map<String, String> create(
-                Entry<String, String>[] entries) {
-              return Collections.singletonMap(
-                  entries[0].getKey(), entries[0].getValue());
-            }
-          })
+    return MapTestSuiteBuilder.using(
+            new TestStringMapGenerator() {
+              @Override
+              protected Map<String, String> create(Entry<String, String>[] entries) {
+                return Collections.singletonMap(entries[0].getKey(), entries[0].getValue());
+              }
+            })
         .named("singletonMap")
         .withFeatures(
             MapFeature.ALLOWS_NULL_KEYS,
@@ -136,13 +141,13 @@ public class TestsForMapsInJavaUtil {
   }
 
   public Test testsForHashMap() {
-    return MapTestSuiteBuilder
-        .using(new TestStringMapGenerator() {
-            @Override protected Map<String, String> create(
-                Entry<String, String>[] entries) {
-              return toHashMap(entries);
-            }
-          })
+    return MapTestSuiteBuilder.using(
+            new TestStringMapGenerator() {
+              @Override
+              protected Map<String, String> create(Entry<String, String>[] entries) {
+                return toHashMap(entries);
+              }
+            })
         .named("HashMap")
         .withFeatures(
             MapFeature.GENERAL_PURPOSE,
@@ -158,13 +163,13 @@ public class TestsForMapsInJavaUtil {
   }
 
   public Test testsForLinkedHashMap() {
-    return MapTestSuiteBuilder
-        .using(new TestStringMapGenerator() {
-            @Override protected Map<String, String> create(
-                Entry<String, String>[] entries) {
-              return populate(new LinkedHashMap<String, String>(), entries);
-            }
-          })
+    return MapTestSuiteBuilder.using(
+            new TestStringMapGenerator() {
+              @Override
+              protected Map<String, String> create(Entry<String, String>[] entries) {
+                return populate(new LinkedHashMap<String, String>(), entries);
+              }
+            })
         .named("LinkedHashMap")
         .withFeatures(
             MapFeature.GENERAL_PURPOSE,
@@ -181,17 +186,17 @@ public class TestsForMapsInJavaUtil {
   }
 
   public Test testsForTreeMapNatural() {
-    return NavigableMapTestSuiteBuilder
-        .using(new TestStringSortedMapGenerator() {
-            @Override protected SortedMap<String, String> create(
-                Entry<String, String>[] entries) {
-              /*
-               * TODO(cpovirk): it would be nice to create an input Map and use
-               * the copy constructor here and in the other tests
-               */
-              return populate(new TreeMap<String, String>(), entries);
-            }
-          })
+    return NavigableMapTestSuiteBuilder.using(
+            new TestStringSortedMapGenerator() {
+              @Override
+              protected SortedMap<String, String> create(Entry<String, String>[] entries) {
+                /*
+                 * TODO(cpovirk): it would be nice to create an input Map and use
+                 * the copy constructor here and in the other tests
+                 */
+                return populate(new TreeMap<String, String>(), entries);
+              }
+            })
         .named("TreeMap, natural")
         .withFeatures(
             MapFeature.GENERAL_PURPOSE,
@@ -206,14 +211,14 @@ public class TestsForMapsInJavaUtil {
   }
 
   public Test testsForTreeMapWithComparator() {
-    return NavigableMapTestSuiteBuilder
-        .using(new TestStringSortedMapGenerator() {
-            @Override protected SortedMap<String, String> create(
-                Entry<String, String>[] entries) {
-              return populate(new TreeMap<String, String>(
-                  arbitraryNullFriendlyComparator()), entries);
-            }
-          })
+    return NavigableMapTestSuiteBuilder.using(
+            new TestStringSortedMapGenerator() {
+              @Override
+              protected SortedMap<String, String> create(Entry<String, String>[] entries) {
+                return populate(
+                    new TreeMap<String, String>(arbitraryNullFriendlyComparator()), entries);
+              }
+            })
         .named("TreeMap, with comparator")
         .withFeatures(
             MapFeature.GENERAL_PURPOSE,
@@ -230,14 +235,13 @@ public class TestsForMapsInJavaUtil {
   }
 
   public Test testsForEnumMap() {
-    return MapTestSuiteBuilder
-        .using(new TestEnumMapGenerator() {
-            @Override protected Map<AnEnum, String> create(
-                Entry<AnEnum, String>[] entries) {
-              return populate(
-                  new EnumMap<AnEnum, String>(AnEnum.class), entries);
-            }
-          })
+    return MapTestSuiteBuilder.using(
+            new TestEnumMapGenerator() {
+              @Override
+              protected Map<AnEnum, String> create(Entry<AnEnum, String>[] entries) {
+                return populate(new EnumMap<AnEnum, String>(AnEnum.class), entries);
+              }
+            })
         .named("EnumMap")
         .withFeatures(
             MapFeature.GENERAL_PURPOSE,
@@ -252,12 +256,13 @@ public class TestsForMapsInJavaUtil {
   }
 
   public Test testsForConcurrentHashMap() {
-    return ConcurrentMapTestSuiteBuilder
-        .using(new TestStringMapGenerator() {
-          @Override protected Map<String, String> create(Entry<String, String>[] entries) {
-            return populate(new ConcurrentHashMap<String, String>(), entries);
-          }
-        })
+    return ConcurrentMapTestSuiteBuilder.using(
+            new TestStringMapGenerator() {
+              @Override
+              protected Map<String, String> create(Entry<String, String>[] entries) {
+                return populate(new ConcurrentHashMap<String, String>(), entries);
+              }
+            })
         .named("ConcurrentHashMap")
         .withFeatures(
             MapFeature.GENERAL_PURPOSE,
@@ -269,13 +274,13 @@ public class TestsForMapsInJavaUtil {
   }
 
   public Test testsForConcurrentSkipListMapNatural() {
-    return ConcurrentNavigableMapTestSuiteBuilder
-        .using(new TestStringSortedMapGenerator() {
-          @Override protected SortedMap<String, String> create(
-              Entry<String, String>[] entries) {
-            return populate(new ConcurrentSkipListMap<String, String>(), entries);
-          }
-        })
+    return ConcurrentNavigableMapTestSuiteBuilder.using(
+            new TestStringSortedMapGenerator() {
+              @Override
+              protected SortedMap<String, String> create(Entry<String, String>[] entries) {
+                return populate(new ConcurrentSkipListMap<String, String>(), entries);
+              }
+            })
         .named("ConcurrentSkipListMap, natural")
         .withFeatures(
             MapFeature.GENERAL_PURPOSE,
@@ -288,14 +293,15 @@ public class TestsForMapsInJavaUtil {
   }
 
   public Test testsForConcurrentSkipListMapWithComparator() {
-    return ConcurrentNavigableMapTestSuiteBuilder
-        .using(new TestStringSortedMapGenerator() {
-          @Override protected SortedMap<String, String> create(
-              Entry<String, String>[] entries) {
-            return populate(new ConcurrentSkipListMap<String, String>(
-                arbitraryNullFriendlyComparator()), entries);
-          }
-        })
+    return ConcurrentNavigableMapTestSuiteBuilder.using(
+            new TestStringSortedMapGenerator() {
+              @Override
+              protected SortedMap<String, String> create(Entry<String, String>[] entries) {
+                return populate(
+                    new ConcurrentSkipListMap<String, String>(arbitraryNullFriendlyComparator()),
+                    entries);
+              }
+            })
         .named("ConcurrentSkipListMap, with comparator")
         .withFeatures(
             MapFeature.GENERAL_PURPOSE,
@@ -309,15 +315,13 @@ public class TestsForMapsInJavaUtil {
 
   // TODO: IdentityHashMap, AbstractMap
 
-  private static Map<String, String> toHashMap(
-      Entry<String, String>[] entries) {
+  private static Map<String, String> toHashMap(Entry<String, String>[] entries) {
     return populate(new HashMap<String, String>(), entries);
   }
 
   // TODO: call conversion constructors or factory methods instead of using
   // populate() on an empty map
-  private static <T, M extends Map<T, String>> M populate(
-      M map, Entry<T, String>[] entries) {
+  private static <T, M extends Map<T, String>> M populate(M map, Entry<T, String>[] entries) {
     for (Entry<T, String> entry : entries) {
       map.put(entry.getKey(), entry.getValue());
     }

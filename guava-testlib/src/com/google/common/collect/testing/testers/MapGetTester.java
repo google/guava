@@ -38,8 +38,7 @@ import com.google.common.collect.testing.features.MapFeature;
 public class MapGetTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testGet_yes() {
-    assertEquals("get(present) should return the associated value",
-        v0(), get(k0()));
+    assertEquals("get(present) should return the associated value", v0(), get(k0()));
   }
 
   public void testGet_no() {
@@ -70,14 +69,12 @@ public class MapGetTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testGet_nullContained() {
     initMapWithNullKey();
-    assertEquals("get(null) should return the associated value",
-        getValueForNullKey(), get(null));
+    assertEquals("get(null) should return the associated value", getValueForNullKey(), get(null));
   }
 
   public void testGet_wrongType() {
     try {
-      assertNull("get(wrongType) should return null or throw",
-          getMap().get(WrongType.VALUE));
+      assertNull("get(wrongType) should return null or throw", getMap().get(WrongType.VALUE));
     } catch (ClassCastException tolerated) {
     }
   }

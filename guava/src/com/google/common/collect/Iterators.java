@@ -711,9 +711,7 @@ public final class Iterators {
    */
   public static <T> Optional<T> tryFind(Iterator<T> iterator, Predicate<? super T> predicate) {
     UnmodifiableIterator<T> filteredIterator = filter(iterator, predicate);
-    return filteredIterator.hasNext()
-        ? Optional.of(filteredIterator.next())
-        : Optional.<T>absent();
+    return filteredIterator.hasNext() ? Optional.of(filteredIterator.next()) : Optional.<T>absent();
   }
 
   /**
@@ -1275,7 +1273,7 @@ public final class Iterators {
   }
 
   private static class ConcatenatedIterator<T>
-      extends MultitransformedIterator<Iterator<? extends T>, T>  {
+      extends MultitransformedIterator<Iterator<? extends T>, T> {
 
     public ConcatenatedIterator(Iterator<? extends Iterator<? extends T>> iterators) {
       super(getComponentIterators(iterators));

@@ -272,8 +272,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
   public ImmutableMap<R, V> column(C columnKey) {
     checkNotNull(columnKey);
     return MoreObjects.firstNonNull(
-        (ImmutableMap<R, V>) columnMap().get(columnKey),
-        ImmutableMap.<R, V>of());
+        (ImmutableMap<R, V>) columnMap().get(columnKey), ImmutableMap.<R, V>of());
   }
 
   @Override
@@ -299,8 +298,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
   public ImmutableMap<C, V> row(R rowKey) {
     checkNotNull(rowKey);
     return MoreObjects.firstNonNull(
-        (ImmutableMap<C, V>) rowMap().get(rowKey),
-        ImmutableMap.<C, V>of());
+        (ImmutableMap<C, V>) rowMap().get(rowKey), ImmutableMap.<C, V>of());
   }
 
   @Override

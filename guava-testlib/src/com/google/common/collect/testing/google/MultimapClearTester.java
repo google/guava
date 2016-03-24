@@ -43,7 +43,8 @@ public class MultimapClearTester<K, V> extends AbstractMultimapTester<K, V, Mult
     try {
       multimap().clear();
       fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   private void assertCleared() {

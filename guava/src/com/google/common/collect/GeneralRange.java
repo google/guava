@@ -258,14 +258,15 @@ final class GeneralRange<T> implements Serializable {
   GeneralRange<T> reverse() {
     GeneralRange<T> result = reverse;
     if (result == null) {
-      result = new GeneralRange<T>(
-          Ordering.from(comparator).reverse(),
-          hasUpperBound,
-          getUpperEndpoint(),
-          getUpperBoundType(),
-          hasLowerBound,
-          getLowerEndpoint(),
-          getLowerBoundType());
+      result =
+          new GeneralRange<T>(
+              Ordering.from(comparator).reverse(),
+              hasUpperBound,
+              getUpperEndpoint(),
+              getUpperBoundType(),
+              hasLowerBound,
+              getLowerEndpoint(),
+              getLowerBoundType());
       result.reverse = this;
       return this.reverse = result;
     }

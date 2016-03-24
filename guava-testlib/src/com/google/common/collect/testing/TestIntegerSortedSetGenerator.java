@@ -30,12 +30,13 @@ import java.util.SortedSet;
  * @author Jared Levy
  */
 @GwtCompatible
-public abstract class TestIntegerSortedSetGenerator
-    extends TestIntegerSetGenerator {
-  @Override protected abstract SortedSet<Integer> create(Integer[] elements);
+public abstract class TestIntegerSortedSetGenerator extends TestIntegerSetGenerator {
+  @Override
+  protected abstract SortedSet<Integer> create(Integer[] elements);
 
   /** Sorts the elements by their natural ordering. */
-  @Override public List<Integer> order(List<Integer> insertionOrder) {
+  @Override
+  public List<Integer> order(List<Integer> insertionOrder) {
     Collections.sort(insertionOrder);
     return insertionOrder;
   }

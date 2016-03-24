@@ -30,7 +30,7 @@ import java.util.NoSuchElementException;
  * @author James Sexton
  */
 @GwtCompatible
-abstract class MultitransformedIterator<F, T>  implements Iterator<T> {
+abstract class MultitransformedIterator<F, T> implements Iterator<T> {
   final Iterator<? extends F> backingIterator;
 
   private Iterator<? extends T> current = Iterators.emptyIterator();

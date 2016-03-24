@@ -178,9 +178,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return construct(uniques, elements);
     } else {
       Object[] uniqueElements =
-          (uniques < elements.length)
-              ? ObjectArrays.arraysCopyOf(elements, uniques)
-              : elements;
+          (uniques < elements.length) ? ObjectArrays.arraysCopyOf(elements, uniques) : elements;
       return new RegularImmutableSet<E>(uniqueElements, hashCode, table, mask);
     }
   }
@@ -282,10 +280,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     if (!elements.hasNext()) {
       return of(first);
     } else {
-      return new ImmutableSet.Builder<E>()
-          .add(first)
-          .addAll(elements)
-          .build();
+      return new ImmutableSet.Builder<E>().add(first).addAll(elements).build();
     }
   }
 

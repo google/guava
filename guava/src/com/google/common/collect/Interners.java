@@ -68,10 +68,7 @@ public final class Interners {
   private static class WeakInterner<E> implements Interner<E> {
     // MapMaker is our friend, we know about this type
     private final MapMakerInternalMap<E, Dummy> map =
-        new MapMaker()
-            .weakKeys()
-            .keyEquivalence(Equivalence.equals())
-            .makeCustomMap();
+        new MapMaker().weakKeys().keyEquivalence(Equivalence.equals()).makeCustomMap();
 
     @Override
     public E intern(E sample) {

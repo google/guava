@@ -117,13 +117,14 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
   @Override
   public boolean intersects(Range<C> otherRange) {
-    int ceilingIndex = SortedLists.binarySearch(
-        ranges,
-        Range.<C>lowerBoundFn(),
-        otherRange.lowerBound,
-        Ordering.natural(),
-        ANY_PRESENT,
-        NEXT_HIGHER);
+    int ceilingIndex =
+        SortedLists.binarySearch(
+            ranges,
+            Range.<C>lowerBoundFn(),
+            otherRange.lowerBound,
+            Ordering.natural(),
+            ANY_PRESENT,
+            NEXT_HIGHER);
     if (ceilingIndex < ranges.size()
         && ranges.get(ceilingIndex).isConnected(otherRange)
         && !ranges.get(ceilingIndex).intersection(otherRange).isEmpty()) {

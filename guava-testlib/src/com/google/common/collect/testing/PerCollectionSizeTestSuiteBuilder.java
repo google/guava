@@ -53,13 +53,14 @@ public abstract class PerCollectionSizeTestSuiteBuilder<
         B extends PerCollectionSizeTestSuiteBuilder<B, G, T, E>,
         G extends TestContainerGenerator<T, E>, T, E>
     extends FeatureSpecificTestSuiteBuilder<B, G> {
-  private static final Logger logger = Logger.getLogger(
-      PerCollectionSizeTestSuiteBuilder.class.getName());
+  private static final Logger logger =
+      Logger.getLogger(PerCollectionSizeTestSuiteBuilder.class.getName());
 
   /**
    * Creates a runnable JUnit test suite based on the criteria already given.
    */
-  @Override public TestSuite createTestSuite() {
+  @Override
+  public TestSuite createTestSuite() {
     checkCanCreate();
 
     String name = getName();
@@ -70,29 +71,30 @@ public abstract class PerCollectionSizeTestSuiteBuilder<
     logger.fine(" Testing: " + name);
 
     // Split out all the specified sizes.
-    Set<Feature<?>> sizesToTest =
-        Helpers.<Feature<?>>copyToSet(CollectionSize.values());
+    Set<Feature<?>> sizesToTest = Helpers.<Feature<?>>copyToSet(CollectionSize.values());
     sizesToTest.retainAll(features);
     features.removeAll(sizesToTest);
 
     FeatureUtil.addImpliedFeatures(sizesToTest);
-    sizesToTest.retainAll(Arrays.asList(
-        CollectionSize.ZERO, CollectionSize.ONE, CollectionSize.SEVERAL));
+    sizesToTest.retainAll(
+        Arrays.asList(CollectionSize.ZERO, CollectionSize.ONE, CollectionSize.SEVERAL));
 
     logger.fine("   Sizes: " + formatFeatureSet(sizesToTest));
 
     if (sizesToTest.isEmpty()) {
-      throw new IllegalStateException(name
-          + ": no CollectionSizes specified (check the argument to "
-          + "FeatureSpecificTestSuiteBuilder.withFeatures().)");
+      throw new IllegalStateException(
+          name
+              + ": no CollectionSizes specified (check the argument to "
+              + "FeatureSpecificTestSuiteBuilder.withFeatures().)");
     }
 
     TestSuite suite = new TestSuite(name);
     for (Feature<?> collectionSize : sizesToTest) {
-      String oneSizeName = Platform.format("%s [collection size: %s]",
-          name, collectionSize.toString().toLowerCase());
-      OneSizeGenerator<T, E> oneSizeGenerator = new OneSizeGenerator<T, E>(
-          getSubjectGenerator(), (CollectionSize) collectionSize);
+      String oneSizeName =
+          Platform.format(
+              "%s [collection size: %s]", name, collectionSize.toString().toLowerCase());
+      OneSizeGenerator<T, E> oneSizeGenerator =
+          new OneSizeGenerator<T, E>(getSubjectGenerator(), (CollectionSize) collectionSize);
       Set<Feature<?>> oneSizeFeatures = Helpers.copyToSet(features);
       oneSizeFeatures.add(collectionSize);
       Set<Method> oneSizeSuppressedTests = getSuppressedTests();
@@ -115,23 +117,24 @@ public abstract class PerCollectionSizeTestSuiteBuilder<
     return suite;
   }
 
-  protected List<TestSuite> createDerivedSuites(FeatureSpecificTestSuiteBuilder<
-      ?, ? extends OneSizeTestContainerGenerator<T, E>> parentBuilder) {
+  protected List<TestSuite> createDerivedSuites(
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<T, E>>
+          parentBuilder) {
     return new ArrayList<TestSuite>();
   }
 
   /** Builds a test suite for one particular {@link CollectionSize}. */
-  private static final class OneSizeTestSuiteBuilder<T, E> extends
-      FeatureSpecificTestSuiteBuilder<
+  private static final class OneSizeTestSuiteBuilder<T, E>
+      extends FeatureSpecificTestSuiteBuilder<
           OneSizeTestSuiteBuilder<T, E>, OneSizeGenerator<T, E>> {
     private final List<Class<? extends AbstractTester>> testers;
 
-    public OneSizeTestSuiteBuilder(
-        List<Class<? extends AbstractTester>> testers) {
+    public OneSizeTestSuiteBuilder(List<Class<? extends AbstractTester>> testers) {
       this.testers = testers;
     }
 
-    @Override protected List<Class<? extends AbstractTester>> getTesters() {
+    @Override
+    protected List<Class<? extends AbstractTester>> getTesters() {
       return testers;
     }
   }

@@ -30,25 +30,25 @@ import java.util.SortedMap;
 public interface TestSortedMapGenerator<K, V> extends TestMapGenerator<K, V> {
   @Override
   SortedMap<K, V> create(Object... elements);
-  
+
   /**
    * Returns an entry with a key less than the keys of the {@link #samples()}
    * and less than the key of {@link #belowSamplesGreater()}.
    */
   Map.Entry<K, V> belowSamplesLesser();
-  
+
   /**
    * Returns an entry with a key less than the keys of the {@link #samples()}
    * but greater than the key of {@link #belowSamplesLesser()}.
    */
   Map.Entry<K, V> belowSamplesGreater();
-  
+
   /**
    * Returns an entry with a key greater than the keys of the {@link #samples()}
    * but less than the key of {@link #aboveSamplesGreater()}.
    */
   Map.Entry<K, V> aboveSamplesLesser();
-  
+
   /**
    * Returns an entry with a key greater than the keys of the {@link #samples()}
    * and greater than the key of {@link #aboveSamplesLesser()}.
