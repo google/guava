@@ -17,6 +17,7 @@
 package com.google.common.base;
 
 import java.util.concurrent.TimeUnit;
+import com.google.gwt.i18n.client.NumberFormat;
 
 /**
  * @author Jesse Wilson
@@ -42,6 +43,12 @@ final class Platform {
     } catch (IllegalArgumentException iae) {
       return Optional.absent();
     }
+  }
+  
+  static String stopwatchToString(double value){
+  // String.format() is not availabel in GWT, so we use
+  // NumberFormat.getFormat() from google.gwt.i18n
+	  return NumberFormat.getFormat("0.000").format(value).substring(0,5);
   }
 
   private Platform() {}
