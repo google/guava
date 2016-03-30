@@ -230,12 +230,16 @@ public abstract class ByteSource {
   }
 
   private long countByReading(InputStream in) throws IOException {
-    long count = 0;
-    long read;
-    while ((read = in.read(ByteStreams.skipBuffer)) != -1) {
-      count += read;
+    try {
+      long count = 0;
+      long read;
+      while ((read = in.read(ByteStreams.skipBuffer)) != -1) {
+        count += read;
+      }
+      return count;
+    } finally {
+      Arrays.fill(ByteStreams.skipBuffer, (byte) 0);
     }
-    return count;
   }
 
   /**

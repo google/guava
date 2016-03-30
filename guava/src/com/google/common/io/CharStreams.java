@@ -28,6 +28,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -47,7 +48,10 @@ import java.util.List;
 @Beta
 @GwtIncompatible
 public final class CharStreams {
+
   private static final int BUF_SIZE = 0x800; // 2K chars (4K bytes)
+
+  private static final char[] skipBuffer = new char[BUF_SIZE];
 
   private CharStreams() {}
 
@@ -144,6 +148,51 @@ public final class CharStreams {
       }
     }
     return processor.getResult();
+  }
+
+  /**
+   * Reads and discards data from the given {@code Readable} until the end of the stream is
+   * reached. Returns the total number of chars read. Does not close the stream.
+   *
+   * @since 20.0
+   */
+  @CanIgnoreReturnValue
+  public static long exhaust(Readable readable) throws IOException {
+    if (readable instanceof Reader) {
+      return exhaust((Reader) readable);
+    }
+
+    try {
+      CharBuffer buf = CharBuffer.wrap(skipBuffer);
+      long total = 0;
+      while (true) {
+        int read = readable.read(buf);
+        if (read == -1) {
+          break;
+        }
+        total += read;
+        buf.clear();
+      }
+      return total;
+    } finally {
+      Arrays.fill(skipBuffer, '\0');
+    }
+  }
+
+  private static long exhaust(Reader reader) throws IOException {
+    try {
+      long total = 0;
+      while (true) {
+        int read = reader.read(skipBuffer);
+        if (read == -1) {
+          break;
+        }
+        total += read;
+      }
+      return total;
+    } finally {
+      Arrays.fill(skipBuffer, '\0');
+    }
   }
 
   /**

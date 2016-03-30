@@ -457,6 +457,17 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(100, b.length);
   }
 
+  public void testExhaust() throws IOException {
+    InputStream in = newTestStream(100);
+    assertEquals(100, ByteStreams.exhaust(in));
+    assertEquals(-1, in.read());
+    assertEquals(0, ByteStreams.exhaust(in));
+
+    InputStream empty = newTestStream(0);
+    assertEquals(0, ByteStreams.exhaust(empty));
+    assertEquals(-1, empty.read());
+  }
+
   private static InputStream newTestStream(int n) {
     return new ByteArrayInputStream(newPreFilledByteArray(n));
   }

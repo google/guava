@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Throwables;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.ByteArrayInputStream;
@@ -219,6 +220,29 @@ public final class ByteStreams {
      */
     void writeTo(byte[] b, int off) {
       System.arraycopy(buf, 0, b, off, count);
+    }
+  }
+
+  /**
+   * Reads and discards data from the given {@code InputStream} until the end of the stream is
+   * reached. Returns the total number of bytes read. Does not close the stream.
+   *
+   * @since 20.0
+   */
+  @CanIgnoreReturnValue
+  public static long exhaust(InputStream in) throws IOException {
+    try {
+      long total = 0;
+      while (true) {
+        int read = in.read(skipBuffer);
+        if (read == -1) {
+          break;
+        }
+        total += read;
+      }
+      return total;
+    } finally {
+      Arrays.fill(skipBuffer, (byte) 0);
     }
   }
 
@@ -753,27 +777,40 @@ public final class ByteStreams {
    * happens first. Returns the total number of bytes skipped.
    */
   static long skipUpTo(InputStream in, final long n) throws IOException {
-    long totalSkipped = 0;
+    try {
+      long totalSkipped = 0;
 
-    while (totalSkipped < n) {
-      long remaining = n - totalSkipped;
+      while (totalSkipped < n) {
+        long remaining = n - totalSkipped;
 
-      long skipped = skipSafely(in, remaining);
+        long skipped = skipSafely(in, remaining);
 
-      if (skipped == 0) {
-        // Do a buffered read since skipSafely could return 0 repeatedly, for example if
-        // in.available() always returns 0 (the default).
-        int skip = (int) Math.min(remaining, skipBuffer.length);
-        if ((skipped = in.read(skipBuffer, 0, skip)) == -1) {
-          // Reached EOF
-          break;
+        if (skipped == 0) {
+          // Do a buffered read since skipSafely could return 0 repeatedly, for example if
+          // in.available() always returns 0 (the default).
+          int skip = (int) Math.min(remaining, skipBuffer.length);
+          if ((skipped = in.read(skipBuffer, 0, skip)) == -1) {
+            // Reached EOF
+            break;
+          } else {
+            // Since skipped is likely considerably smaller than skipBuffer's length and this should
+            // likely only rarely occur, this is probably better than filling the whole buffer in a
+            // finally block even though it could theoretically happen multiple times in some cases.
+            Arrays.fill(skipBuffer, 0, (int) skipped, (byte) 0);
+          }
         }
+
+        totalSkipped += skipped;
       }
 
-      totalSkipped += skipped;
+      return totalSkipped;
+    } catch (Throwable e) {
+      // If an exception occurs, skipBuffer could have been partially written to and not zeroed,
+      // so zero the whole thing.
+      Arrays.fill(skipBuffer, (byte) 0);
+      Throwables.propagateIfPossible(e, IOException.class);
+      throw new AssertionError(e); // should never happen
     }
-
-    return totalSkipped;
   }
 
   /**
