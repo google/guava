@@ -28,7 +28,6 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -49,9 +48,12 @@ import java.util.List;
 @GwtIncompatible
 public final class CharStreams {
 
-  private static final int BUF_SIZE = 0x800; // 2K chars (4K bytes)
-
-  private static final char[] skipBuffer = new char[BUF_SIZE];
+  /**
+   * Creates a new {@code CharBuffer} for buffering reads or writes.
+   */
+  static CharBuffer createBuffer() {
+    return CharBuffer.allocate(0x800); // 2K chars (4K bytes)
+  }
 
   private CharStreams() {}
 
@@ -68,7 +70,7 @@ public final class CharStreams {
   public static long copy(Readable from, Appendable to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    CharBuffer buf = CharBuffer.allocate(BUF_SIZE);
+    CharBuffer buf = createBuffer();
     long total = 0;
     while (from.read(buf) != -1) {
       buf.flip();
@@ -158,41 +160,14 @@ public final class CharStreams {
    */
   @CanIgnoreReturnValue
   public static long exhaust(Readable readable) throws IOException {
-    if (readable instanceof Reader) {
-      return exhaust((Reader) readable);
+    long total = 0;
+    long read;
+    CharBuffer buf = createBuffer();
+    while ((read = readable.read(buf)) != -1) {
+      total += read;
+      buf.clear();
     }
-
-    try {
-      CharBuffer buf = CharBuffer.wrap(skipBuffer);
-      long total = 0;
-      while (true) {
-        int read = readable.read(buf);
-        if (read == -1) {
-          break;
-        }
-        total += read;
-        buf.clear();
-      }
-      return total;
-    } finally {
-      Arrays.fill(skipBuffer, '\0');
-    }
-  }
-
-  private static long exhaust(Reader reader) throws IOException {
-    try {
-      long total = 0;
-      while (true) {
-        int read = reader.read(skipBuffer);
-        if (read == -1) {
-          break;
-        }
-        total += read;
-      }
-      return total;
-    } finally {
-      Arrays.fill(skipBuffer, '\0');
-    }
+    return total;
   }
 
   /**

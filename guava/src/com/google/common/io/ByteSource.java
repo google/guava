@@ -16,7 +16,7 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.io.ByteStreams.BUF_SIZE;
+import static com.google.common.io.ByteStreams.createBuffer;
 import static com.google.common.io.ByteStreams.skipUpTo;
 
 import com.google.common.annotations.Beta;
@@ -208,7 +208,7 @@ public abstract class ByteSource {
     closer = Closer.create();
     try {
       InputStream in = closer.register(openStream());
-      return countByReading(in);
+      return ByteStreams.exhaust(in);
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {
@@ -227,19 +227,6 @@ public abstract class ByteSource {
       count += skipped;
     }
     return count;
-  }
-
-  private long countByReading(InputStream in) throws IOException {
-    try {
-      long count = 0;
-      long read;
-      while ((read = in.read(ByteStreams.skipBuffer)) != -1) {
-        count += read;
-      }
-      return count;
-    } finally {
-      Arrays.fill(ByteStreams.skipBuffer, (byte) 0);
-    }
   }
 
   /**
@@ -351,19 +338,19 @@ public abstract class ByteSource {
   public boolean contentEquals(ByteSource other) throws IOException {
     checkNotNull(other);
 
-    byte[] buf1 = new byte[BUF_SIZE];
-    byte[] buf2 = new byte[BUF_SIZE];
+    byte[] buf1 = createBuffer();
+    byte[] buf2 = createBuffer();
 
     Closer closer = Closer.create();
     try {
       InputStream in1 = closer.register(openStream());
       InputStream in2 = closer.register(other.openStream());
       while (true) {
-        int read1 = ByteStreams.read(in1, buf1, 0, BUF_SIZE);
-        int read2 = ByteStreams.read(in2, buf2, 0, BUF_SIZE);
+        int read1 = ByteStreams.read(in1, buf1, 0, buf1.length);
+        int read2 = ByteStreams.read(in2, buf2, 0, buf2.length);
         if (read1 != read2 || !Arrays.equals(buf1, buf2)) {
           return false;
-        } else if (read1 != BUF_SIZE) {
+        } else if (read1 != buf1.length) {
           return true;
         }
       }

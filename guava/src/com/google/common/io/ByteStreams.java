@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Throwables;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.ByteArrayInputStream;
@@ -52,15 +51,11 @@ import java.util.Arrays;
 public final class ByteStreams {
 
   /**
-   * Default size of buffers allocated for copies.
+   * Creates a new byte array for buffering reads or writes.
    */
-  static final int BUF_SIZE = 8192;
-
-  /**
-   * A buffer for skipping bytes in an input stream. Only written to and never read, so actual
-   * contents don't matter.
-   */
-  static final byte[] skipBuffer = new byte[BUF_SIZE];
+  static byte[] createBuffer() {
+    return new byte[8192];
+  }
 
   /**
    * There are three methods to implement
@@ -106,7 +101,7 @@ public final class ByteStreams {
   public static long copy(InputStream from, OutputStream to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    byte[] buf = new byte[BUF_SIZE];
+    byte[] buf = createBuffer();
     long total = 0;
     while (true) {
       int r = from.read(buf);
@@ -145,7 +140,7 @@ public final class ByteStreams {
       return position - oldPosition;
     }
 
-    ByteBuffer buf = ByteBuffer.allocate(BUF_SIZE);
+    ByteBuffer buf = ByteBuffer.wrap(createBuffer());
     long total = 0;
     while (from.read(buf) != -1) {
       buf.flip();
@@ -231,19 +226,13 @@ public final class ByteStreams {
    */
   @CanIgnoreReturnValue
   public static long exhaust(InputStream in) throws IOException {
-    try {
-      long total = 0;
-      while (true) {
-        int read = in.read(skipBuffer);
-        if (read == -1) {
-          break;
-        }
-        total += read;
-      }
-      return total;
-    } finally {
-      Arrays.fill(skipBuffer, (byte) 0);
+    long total = 0;
+    long read;
+    byte[] buf = createBuffer();
+    while ((read = in.read(buf)) != -1) {
+      total += read;
     }
+    return total;
   }
 
   /**
@@ -777,40 +766,27 @@ public final class ByteStreams {
    * happens first. Returns the total number of bytes skipped.
    */
   static long skipUpTo(InputStream in, final long n) throws IOException {
-    try {
-      long totalSkipped = 0;
+    long totalSkipped = 0;
+    byte[] buf = createBuffer();
 
-      while (totalSkipped < n) {
-        long remaining = n - totalSkipped;
+    while (totalSkipped < n) {
+      long remaining = n - totalSkipped;
+      long skipped = skipSafely(in, remaining);
 
-        long skipped = skipSafely(in, remaining);
-
-        if (skipped == 0) {
-          // Do a buffered read since skipSafely could return 0 repeatedly, for example if
-          // in.available() always returns 0 (the default).
-          int skip = (int) Math.min(remaining, skipBuffer.length);
-          if ((skipped = in.read(skipBuffer, 0, skip)) == -1) {
-            // Reached EOF
-            break;
-          } else {
-            // Since skipped is likely considerably smaller than skipBuffer's length and this should
-            // likely only rarely occur, this is probably better than filling the whole buffer in a
-            // finally block even though it could theoretically happen multiple times in some cases.
-            Arrays.fill(skipBuffer, 0, (int) skipped, (byte) 0);
-          }
+      if (skipped == 0) {
+        // Do a buffered read since skipSafely could return 0 repeatedly, for example if
+        // in.available() always returns 0 (the default).
+        int skip = (int) Math.min(remaining, buf.length);
+        if ((skipped = in.read(buf, 0, skip)) == -1) {
+          // Reached EOF
+          break;
         }
-
-        totalSkipped += skipped;
       }
 
-      return totalSkipped;
-    } catch (Throwable e) {
-      // If an exception occurs, skipBuffer could have been partially written to and not zeroed,
-      // so zero the whole thing.
-      Arrays.fill(skipBuffer, (byte) 0);
-      Throwables.propagateIfPossible(e, IOException.class);
-      throw new AssertionError(e); // should never happen
+      totalSkipped += skipped;
     }
+
+    return totalSkipped;
   }
 
   /**
@@ -839,7 +815,7 @@ public final class ByteStreams {
     checkNotNull(input);
     checkNotNull(processor);
 
-    byte[] buf = new byte[BUF_SIZE];
+    byte[] buf = createBuffer();
     int read;
     do {
       read = input.read(buf);
