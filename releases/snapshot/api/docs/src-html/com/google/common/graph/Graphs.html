@@ -28,295 +28,293 @@
 <span class="sourceLineNo">020</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.20"></a>
 <span class="sourceLineNo">021</span><a name="line.21"></a>
 <span class="sourceLineNo">022</span>import com.google.common.annotations.Beta;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>import com.google.common.annotations.VisibleForTesting;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import com.google.common.base.Function;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import com.google.common.base.Predicate;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import com.google.common.base.Predicates;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>import com.google.common.collect.ImmutableSet;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>import com.google.common.collect.Maps;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>import com.google.common.collect.Sets;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.30"></a>
-<span class="sourceLineNo">031</span><a name="line.31"></a>
-<span class="sourceLineNo">032</span>import java.util.Iterator;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import java.util.Map;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import java.util.Set;<a name="line.34"></a>
-<span class="sourceLineNo">035</span><a name="line.35"></a>
-<span class="sourceLineNo">036</span>import javax.annotation.Nullable;<a name="line.36"></a>
-<span class="sourceLineNo">037</span><a name="line.37"></a>
-<span class="sourceLineNo">038</span>/**<a name="line.38"></a>
-<span class="sourceLineNo">039</span> * Static utility methods for {@link Graph} instances.<a name="line.39"></a>
-<span class="sourceLineNo">040</span> *<a name="line.40"></a>
-<span class="sourceLineNo">041</span> * @author Joshua O'Madadhain<a name="line.41"></a>
-<span class="sourceLineNo">042</span> * @since 20.0<a name="line.42"></a>
-<span class="sourceLineNo">043</span> */<a name="line.43"></a>
-<span class="sourceLineNo">044</span>@Beta<a name="line.44"></a>
-<span class="sourceLineNo">045</span>public final class Graphs {<a name="line.45"></a>
-<span class="sourceLineNo">046</span><a name="line.46"></a>
-<span class="sourceLineNo">047</span>  private Graphs() {}<a name="line.47"></a>
-<span class="sourceLineNo">048</span><a name="line.48"></a>
-<span class="sourceLineNo">049</span>  /**<a name="line.49"></a>
-<span class="sourceLineNo">050</span>   * Returns the node at the other end of {@code edge} from {@code node}.<a name="line.50"></a>
-<span class="sourceLineNo">051</span>   *<a name="line.51"></a>
-<span class="sourceLineNo">052</span>   * @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}<a name="line.52"></a>
-<span class="sourceLineNo">053</span>   * @throws IllegalArgumentException if {@code edge} is not incident to {@code node}<a name="line.53"></a>
-<span class="sourceLineNo">054</span>   */<a name="line.54"></a>
-<span class="sourceLineNo">055</span>  public static &lt;N&gt; N oppositeNode(Graph&lt;N, ?&gt; graph, Object edge, Object node) {<a name="line.55"></a>
-<span class="sourceLineNo">056</span>    if (graph instanceof Hypergraph) {<a name="line.56"></a>
-<span class="sourceLineNo">057</span>      throw new UnsupportedOperationException();<a name="line.57"></a>
-<span class="sourceLineNo">058</span>    }<a name="line.58"></a>
-<span class="sourceLineNo">059</span><a name="line.59"></a>
-<span class="sourceLineNo">060</span>    checkNotNull(node, "node");<a name="line.60"></a>
-<span class="sourceLineNo">061</span>    Iterator&lt;N&gt; incidentNodesIterator = graph.incidentNodes(edge).iterator();<a name="line.61"></a>
-<span class="sourceLineNo">062</span>    N node1 = incidentNodesIterator.next();<a name="line.62"></a>
-<span class="sourceLineNo">063</span>    N node2 = incidentNodesIterator.hasNext() ? incidentNodesIterator.next() : node1;<a name="line.63"></a>
-<span class="sourceLineNo">064</span>    if (node.equals(node1)) {<a name="line.64"></a>
-<span class="sourceLineNo">065</span>      return node2;<a name="line.65"></a>
-<span class="sourceLineNo">066</span>    } else {<a name="line.66"></a>
-<span class="sourceLineNo">067</span>      checkArgument(node.equals(node2), "Edge %s is not incident to node %s", edge, node);<a name="line.67"></a>
-<span class="sourceLineNo">068</span>      return node1;<a name="line.68"></a>
-<span class="sourceLineNo">069</span>    }<a name="line.69"></a>
-<span class="sourceLineNo">070</span>  }<a name="line.70"></a>
-<span class="sourceLineNo">071</span><a name="line.71"></a>
-<span class="sourceLineNo">072</span>  /**<a name="line.72"></a>
-<span class="sourceLineNo">073</span>   * Returns an unmodifiable view of edges that are parallel to {@code edge}, i.e. the set of edges<a name="line.73"></a>
-<span class="sourceLineNo">074</span>   * that connect the same nodes in the same direction (if any). An edge is not parallel to itself.<a name="line.74"></a>
-<span class="sourceLineNo">075</span>   *<a name="line.75"></a>
-<span class="sourceLineNo">076</span>   * @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}<a name="line.76"></a>
-<span class="sourceLineNo">077</span>   * @throws IllegalArgumentException if {@code edge} is not present in {@code graph}<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   */<a name="line.78"></a>
-<span class="sourceLineNo">079</span>  public static &lt;N, E&gt; Set&lt;E&gt; parallelEdges(Graph&lt;N, E&gt; graph, Object edge) {<a name="line.79"></a>
-<span class="sourceLineNo">080</span>    if (graph instanceof Hypergraph) {<a name="line.80"></a>
-<span class="sourceLineNo">081</span>      throw new UnsupportedOperationException();<a name="line.81"></a>
-<span class="sourceLineNo">082</span>    }<a name="line.82"></a>
-<span class="sourceLineNo">083</span><a name="line.83"></a>
-<span class="sourceLineNo">084</span>    Set&lt;N&gt; incidentNodes = graph.incidentNodes(edge); // Verifies that edge is in graph<a name="line.84"></a>
-<span class="sourceLineNo">085</span>    if (!graph.allowsParallelEdges()) {<a name="line.85"></a>
-<span class="sourceLineNo">086</span>      return ImmutableSet.of();<a name="line.86"></a>
-<span class="sourceLineNo">087</span>    }<a name="line.87"></a>
-<span class="sourceLineNo">088</span>    Iterator&lt;N&gt; incidentNodesIterator = incidentNodes.iterator();<a name="line.88"></a>
-<span class="sourceLineNo">089</span>    N node1 = incidentNodesIterator.next();<a name="line.89"></a>
-<span class="sourceLineNo">090</span>    N node2 = incidentNodesIterator.hasNext() ? incidentNodesIterator.next() : node1;<a name="line.90"></a>
-<span class="sourceLineNo">091</span>    return Sets.difference(graph.edgesConnecting(node1, node2), ImmutableSet.of(edge));<a name="line.91"></a>
-<span class="sourceLineNo">092</span>  }<a name="line.92"></a>
-<span class="sourceLineNo">093</span><a name="line.93"></a>
-<span class="sourceLineNo">094</span>  /**<a name="line.94"></a>
-<span class="sourceLineNo">095</span>   * Adds {@code edge} to {@code graph} with the specified incident {@code nodes}, in the order<a name="line.95"></a>
-<span class="sourceLineNo">096</span>   * returned by {@code nodes}' iterator.<a name="line.96"></a>
-<span class="sourceLineNo">097</span>   */<a name="line.97"></a>
-<span class="sourceLineNo">098</span>  @CanIgnoreReturnValue<a name="line.98"></a>
-<span class="sourceLineNo">099</span>  public static &lt;N, E&gt; boolean addEdge(Graph&lt;N, E&gt; graph, E edge, Iterable&lt;N&gt; nodes) {<a name="line.99"></a>
-<span class="sourceLineNo">100</span>    checkNotNull(graph, "graph");<a name="line.100"></a>
-<span class="sourceLineNo">101</span>    checkNotNull(edge, "edge");<a name="line.101"></a>
-<span class="sourceLineNo">102</span>    checkNotNull(nodes, "nodes");<a name="line.102"></a>
-<span class="sourceLineNo">103</span>    if (graph instanceof Hypergraph) {<a name="line.103"></a>
-<span class="sourceLineNo">104</span>      return ((Hypergraph&lt;N, E&gt;) graph).addEdge(edge, nodes);<a name="line.104"></a>
-<span class="sourceLineNo">105</span>    }<a name="line.105"></a>
-<span class="sourceLineNo">106</span><a name="line.106"></a>
-<span class="sourceLineNo">107</span>    Iterator&lt;N&gt; nodesIterator = nodes.iterator();<a name="line.107"></a>
-<span class="sourceLineNo">108</span>    checkArgument(nodesIterator.hasNext(),<a name="line.108"></a>
-<span class="sourceLineNo">109</span>        "'graph' is not a Hypergraph, and 'nodes' has &lt; 1 elements: %s", nodes);<a name="line.109"></a>
-<span class="sourceLineNo">110</span>    N node1 = nodesIterator.next();<a name="line.110"></a>
-<span class="sourceLineNo">111</span>    N node2 = nodesIterator.hasNext() ? nodesIterator.next() : node1;<a name="line.111"></a>
-<span class="sourceLineNo">112</span>    checkArgument(!nodesIterator.hasNext(),<a name="line.112"></a>
-<span class="sourceLineNo">113</span>        "'graph' is not a Hypergraph, and 'nodes' has &gt; 2 elements: %s", nodes);<a name="line.113"></a>
-<span class="sourceLineNo">114</span>    return graph.addEdge(edge, node1, node2);<a name="line.114"></a>
-<span class="sourceLineNo">115</span>  }<a name="line.115"></a>
-<span class="sourceLineNo">116</span><a name="line.116"></a>
-<span class="sourceLineNo">117</span>  /**<a name="line.117"></a>
-<span class="sourceLineNo">118</span>   * Creates a mutable copy of {@code graph}, using the same node and edge elements.<a name="line.118"></a>
-<span class="sourceLineNo">119</span>   */<a name="line.119"></a>
-<span class="sourceLineNo">120</span>  public static &lt;N, E&gt; Graph&lt;N, E&gt; copyOf(Graph&lt;N, E&gt; graph) {<a name="line.120"></a>
-<span class="sourceLineNo">121</span>    return copyOf(graph, Predicates.alwaysTrue(), Predicates.alwaysTrue());<a name="line.121"></a>
-<span class="sourceLineNo">122</span>  }<a name="line.122"></a>
-<span class="sourceLineNo">123</span><a name="line.123"></a>
-<span class="sourceLineNo">124</span>  /**<a name="line.124"></a>
-<span class="sourceLineNo">125</span>   * Creates a mutable copy of {@code graph}, using all of its elements that satisfy<a name="line.125"></a>
-<span class="sourceLineNo">126</span>   * {@code nodePredicate} and {@code edgePredicate}.<a name="line.126"></a>
-<span class="sourceLineNo">127</span>   */<a name="line.127"></a>
-<span class="sourceLineNo">128</span>  public static &lt;N, E&gt; Graph&lt;N, E&gt; copyOf(<a name="line.128"></a>
-<span class="sourceLineNo">129</span>      Graph&lt;N, E&gt; graph,<a name="line.129"></a>
-<span class="sourceLineNo">130</span>      Predicate&lt;? super N&gt; nodePredicate,<a name="line.130"></a>
-<span class="sourceLineNo">131</span>      Predicate&lt;? super E&gt; edgePredicate) {<a name="line.131"></a>
-<span class="sourceLineNo">132</span>    checkNotNull(graph, "graph");<a name="line.132"></a>
-<span class="sourceLineNo">133</span>    checkNotNull(nodePredicate, "nodePredicate");<a name="line.133"></a>
-<span class="sourceLineNo">134</span>    checkNotNull(edgePredicate, "edgePredicate");<a name="line.134"></a>
-<span class="sourceLineNo">135</span>    Graph&lt;N, E&gt; copy = GraphBuilder.from(graph)<a name="line.135"></a>
-<span class="sourceLineNo">136</span>        .expectedNodeCount(graph.nodes().size()).expectedEdgeCount(graph.edges().size()).build();<a name="line.136"></a>
-<span class="sourceLineNo">137</span>    mergeNodesFrom(graph, copy, nodePredicate);<a name="line.137"></a>
-<span class="sourceLineNo">138</span><a name="line.138"></a>
-<span class="sourceLineNo">139</span>    // We can't just call mergeEdgesFrom(graph, copy, edgePredicate) because addEdge() can add<a name="line.139"></a>
-<span class="sourceLineNo">140</span>    // the edge's incident nodes if they are not present.<a name="line.140"></a>
-<span class="sourceLineNo">141</span>    for (E edge : graph.edges()) {<a name="line.141"></a>
-<span class="sourceLineNo">142</span>      if (edgePredicate.apply(edge)) {<a name="line.142"></a>
-<span class="sourceLineNo">143</span>        Set&lt;N&gt; incidentNodes = graph.incidentNodes(edge);<a name="line.143"></a>
-<span class="sourceLineNo">144</span>        if (copy.nodes().containsAll(incidentNodes)) {<a name="line.144"></a>
-<span class="sourceLineNo">145</span>          addEdge(copy, edge, incidentNodes);<a name="line.145"></a>
-<span class="sourceLineNo">146</span>        }<a name="line.146"></a>
-<span class="sourceLineNo">147</span>      }<a name="line.147"></a>
-<span class="sourceLineNo">148</span>    }<a name="line.148"></a>
-<span class="sourceLineNo">149</span><a name="line.149"></a>
-<span class="sourceLineNo">150</span>    return copy;<a name="line.150"></a>
-<span class="sourceLineNo">151</span>  }<a name="line.151"></a>
-<span class="sourceLineNo">152</span><a name="line.152"></a>
-<span class="sourceLineNo">153</span>  /**<a name="line.153"></a>
-<span class="sourceLineNo">154</span>   * Copies all nodes from {@code original} into {@code copy}.<a name="line.154"></a>
-<span class="sourceLineNo">155</span>   */<a name="line.155"></a>
-<span class="sourceLineNo">156</span>  public static &lt;N, E&gt; void mergeNodesFrom(Graph&lt;N, E&gt; original, Graph&lt;N, E&gt; copy) {<a name="line.156"></a>
-<span class="sourceLineNo">157</span>    mergeNodesFrom(original, copy, Predicates.alwaysTrue());<a name="line.157"></a>
-<span class="sourceLineNo">158</span>  }<a name="line.158"></a>
-<span class="sourceLineNo">159</span><a name="line.159"></a>
-<span class="sourceLineNo">160</span>  /**<a name="line.160"></a>
-<span class="sourceLineNo">161</span>   * Copies all nodes from {@code original} into {@code copy} that satisfy {@code nodePredicate}.<a name="line.161"></a>
-<span class="sourceLineNo">162</span>   */<a name="line.162"></a>
-<span class="sourceLineNo">163</span>  public static &lt;N, E&gt; void mergeNodesFrom(<a name="line.163"></a>
-<span class="sourceLineNo">164</span>      Graph&lt;N, E&gt; original, Graph&lt;N, E&gt; copy, Predicate&lt;? super N&gt; nodePredicate) {<a name="line.164"></a>
-<span class="sourceLineNo">165</span>    checkNotNull(original, "original");<a name="line.165"></a>
-<span class="sourceLineNo">166</span>    checkNotNull(copy, "copy");<a name="line.166"></a>
-<span class="sourceLineNo">167</span>    checkNotNull(nodePredicate, "nodePredicate");<a name="line.167"></a>
-<span class="sourceLineNo">168</span>    for (N node : Sets.filter(original.nodes(), nodePredicate)) {<a name="line.168"></a>
-<span class="sourceLineNo">169</span>      copy.addNode(node);<a name="line.169"></a>
-<span class="sourceLineNo">170</span>    }<a name="line.170"></a>
-<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
-<span class="sourceLineNo">172</span><a name="line.172"></a>
-<span class="sourceLineNo">173</span>  /**<a name="line.173"></a>
-<span class="sourceLineNo">174</span>   * Copies all edges from {@code original} into {@code copy}. Also copies all nodes incident<a name="line.174"></a>
-<span class="sourceLineNo">175</span>   * to these edges.<a name="line.175"></a>
-<span class="sourceLineNo">176</span>   */<a name="line.176"></a>
-<span class="sourceLineNo">177</span>  public static &lt;N, E&gt; void mergeEdgesFrom(Graph&lt;N, E&gt; original, Graph&lt;N, E&gt; copy) {<a name="line.177"></a>
-<span class="sourceLineNo">178</span>    mergeEdgesFrom(original, copy, Predicates.alwaysTrue());<a name="line.178"></a>
-<span class="sourceLineNo">179</span>  }<a name="line.179"></a>
-<span class="sourceLineNo">180</span><a name="line.180"></a>
-<span class="sourceLineNo">181</span>  /**<a name="line.181"></a>
-<span class="sourceLineNo">182</span>   * Copies all edges from {@code original} into {@code copy} that satisfy {@code edgePredicate}.<a name="line.182"></a>
-<span class="sourceLineNo">183</span>   * Also copies all nodes incident to these edges.<a name="line.183"></a>
-<span class="sourceLineNo">184</span>   */<a name="line.184"></a>
-<span class="sourceLineNo">185</span>  public static &lt;N, E&gt; void mergeEdgesFrom(<a name="line.185"></a>
-<span class="sourceLineNo">186</span>      Graph&lt;N, E&gt; original, Graph&lt;N, E&gt; copy, Predicate&lt;? super E&gt; edgePredicate) {<a name="line.186"></a>
-<span class="sourceLineNo">187</span>    checkNotNull(original, "original");<a name="line.187"></a>
-<span class="sourceLineNo">188</span>    checkNotNull(copy, "copy");<a name="line.188"></a>
-<span class="sourceLineNo">189</span>    checkNotNull(edgePredicate, "edgePredicate");<a name="line.189"></a>
-<span class="sourceLineNo">190</span>    for (E edge : Sets.filter(original.edges(), edgePredicate)) {<a name="line.190"></a>
-<span class="sourceLineNo">191</span>      addEdge(copy, edge, original.incidentNodes(edge));<a name="line.191"></a>
-<span class="sourceLineNo">192</span>    }<a name="line.192"></a>
-<span class="sourceLineNo">193</span>  }<a name="line.193"></a>
-<span class="sourceLineNo">194</span><a name="line.194"></a>
-<span class="sourceLineNo">195</span>  /**<a name="line.195"></a>
-<span class="sourceLineNo">196</span>   * Returns true iff {@code graph1} and {@code graph2} have the same node/edge relationships.<a name="line.196"></a>
-<span class="sourceLineNo">197</span>   *<a name="line.197"></a>
-<span class="sourceLineNo">198</span>   * @see Graph#equals(Object)<a name="line.198"></a>
-<span class="sourceLineNo">199</span>   */<a name="line.199"></a>
-<span class="sourceLineNo">200</span>  public static boolean equal(@Nullable Graph&lt;?, ?&gt; graph1, @Nullable Graph&lt;?, ?&gt; graph2) {<a name="line.200"></a>
-<span class="sourceLineNo">201</span>    if (graph1 == graph2) {<a name="line.201"></a>
-<span class="sourceLineNo">202</span>      return true;<a name="line.202"></a>
-<span class="sourceLineNo">203</span>    }<a name="line.203"></a>
-<span class="sourceLineNo">204</span><a name="line.204"></a>
-<span class="sourceLineNo">205</span>    if (graph1 == null || graph2 == null) {<a name="line.205"></a>
-<span class="sourceLineNo">206</span>      return false;<a name="line.206"></a>
-<span class="sourceLineNo">207</span>    }<a name="line.207"></a>
-<span class="sourceLineNo">208</span><a name="line.208"></a>
-<span class="sourceLineNo">209</span>    if (graph1.edges().size() != graph2.edges().size()) {<a name="line.209"></a>
-<span class="sourceLineNo">210</span>      return false;<a name="line.210"></a>
-<span class="sourceLineNo">211</span>    }<a name="line.211"></a>
-<span class="sourceLineNo">212</span><a name="line.212"></a>
-<span class="sourceLineNo">213</span>    if (!graph1.nodes().equals(graph2.nodes())) {<a name="line.213"></a>
-<span class="sourceLineNo">214</span>      return false;<a name="line.214"></a>
-<span class="sourceLineNo">215</span>    }<a name="line.215"></a>
-<span class="sourceLineNo">216</span><a name="line.216"></a>
-<span class="sourceLineNo">217</span>    for (Object node : graph1.nodes()) {<a name="line.217"></a>
-<span class="sourceLineNo">218</span>      if (!graph1.inEdges(node).equals(graph2.inEdges(node))) {<a name="line.218"></a>
-<span class="sourceLineNo">219</span>        return false;<a name="line.219"></a>
-<span class="sourceLineNo">220</span>      }<a name="line.220"></a>
-<span class="sourceLineNo">221</span>      boolean bothUndirected = !graph1.isDirected() &amp;&amp; !graph2.isDirected();<a name="line.221"></a>
-<span class="sourceLineNo">222</span>      if (!bothUndirected &amp;&amp; !graph1.outEdges(node).equals(graph2.outEdges(node))) {<a name="line.222"></a>
-<span class="sourceLineNo">223</span>        return false;<a name="line.223"></a>
-<span class="sourceLineNo">224</span>      }<a name="line.224"></a>
-<span class="sourceLineNo">225</span>    }<a name="line.225"></a>
-<span class="sourceLineNo">226</span><a name="line.226"></a>
-<span class="sourceLineNo">227</span>    return true;<a name="line.227"></a>
-<span class="sourceLineNo">228</span>  }<a name="line.228"></a>
-<span class="sourceLineNo">229</span><a name="line.229"></a>
-<span class="sourceLineNo">230</span>  /**<a name="line.230"></a>
-<span class="sourceLineNo">231</span>   * Returns the hash code of {@code graph}.<a name="line.231"></a>
-<span class="sourceLineNo">232</span>   *<a name="line.232"></a>
-<span class="sourceLineNo">233</span>   * @see Graph#hashCode()<a name="line.233"></a>
-<span class="sourceLineNo">234</span>   */<a name="line.234"></a>
-<span class="sourceLineNo">235</span>  public static int hashCode(Graph&lt;?, ?&gt; graph) {<a name="line.235"></a>
-<span class="sourceLineNo">236</span>    return nodeToIncidentEdges(graph).hashCode();<a name="line.236"></a>
-<span class="sourceLineNo">237</span>  }<a name="line.237"></a>
-<span class="sourceLineNo">238</span><a name="line.238"></a>
-<span class="sourceLineNo">239</span>  /**<a name="line.239"></a>
-<span class="sourceLineNo">240</span>   * Returns a string representation of {@code graph}. Encodes edge direction if {@code graph}<a name="line.240"></a>
-<span class="sourceLineNo">241</span>   * is directed.<a name="line.241"></a>
-<span class="sourceLineNo">242</span>   */<a name="line.242"></a>
-<span class="sourceLineNo">243</span>  public static String toString(Graph&lt;?, ?&gt; graph) {<a name="line.243"></a>
-<span class="sourceLineNo">244</span>    return String.format("%s, nodes: %s, edges: %s",<a name="line.244"></a>
-<span class="sourceLineNo">245</span>        getPropertiesString(graph),<a name="line.245"></a>
-<span class="sourceLineNo">246</span>        graph.nodes(),<a name="line.246"></a>
-<span class="sourceLineNo">247</span>        Maps.asMap(graph.edges(), edgeToIncidentNodesString(graph)));<a name="line.247"></a>
-<span class="sourceLineNo">248</span>  }<a name="line.248"></a>
-<span class="sourceLineNo">249</span><a name="line.249"></a>
-<span class="sourceLineNo">250</span>  /**<a name="line.250"></a>
-<span class="sourceLineNo">251</span>   * Returns a {@link Predicate} that returns {@code true} if the input edge is a self-loop in<a name="line.251"></a>
-<span class="sourceLineNo">252</span>   * {@code graph}. A self-loop is defined as an edge whose set of incident nodes has exactly one<a name="line.252"></a>
-<span class="sourceLineNo">253</span>   * element. The predicate's {@code apply} method will throw an {@link IllegalArgumentException} if<a name="line.253"></a>
-<span class="sourceLineNo">254</span>   * {@code graph} does not contain {@code edge}.<a name="line.254"></a>
-<span class="sourceLineNo">255</span>   */<a name="line.255"></a>
-<span class="sourceLineNo">256</span>  public static &lt;E&gt; Predicate&lt;E&gt; selfLoopPredicate(final Graph&lt;?, E&gt; graph) {<a name="line.256"></a>
-<span class="sourceLineNo">257</span>    checkNotNull(graph, "graph");<a name="line.257"></a>
-<span class="sourceLineNo">258</span>    return new Predicate&lt;E&gt;() {<a name="line.258"></a>
-<span class="sourceLineNo">259</span>      @Override<a name="line.259"></a>
-<span class="sourceLineNo">260</span>      public boolean apply(E edge) {<a name="line.260"></a>
-<span class="sourceLineNo">261</span>        return (graph.incidentNodes(edge).size() == 1);<a name="line.261"></a>
-<span class="sourceLineNo">262</span>      }<a name="line.262"></a>
-<span class="sourceLineNo">263</span>    };<a name="line.263"></a>
-<span class="sourceLineNo">264</span>  }<a name="line.264"></a>
-<span class="sourceLineNo">265</span><a name="line.265"></a>
-<span class="sourceLineNo">266</span>  /**<a name="line.266"></a>
-<span class="sourceLineNo">267</span>   * Returns a map that is a live view of {@code graph}, with nodes as keys<a name="line.267"></a>
-<span class="sourceLineNo">268</span>   * and the set of incident edges as values.<a name="line.268"></a>
-<span class="sourceLineNo">269</span>   */<a name="line.269"></a>
-<span class="sourceLineNo">270</span>  private static &lt;N, E&gt; Map&lt;N, Set&lt;E&gt;&gt; nodeToIncidentEdges(final Graph&lt;N, E&gt; graph) {<a name="line.270"></a>
-<span class="sourceLineNo">271</span>    checkNotNull(graph, "graph");<a name="line.271"></a>
-<span class="sourceLineNo">272</span>    return Maps.asMap(graph.nodes(), new Function&lt;N, Set&lt;E&gt;&gt;() {<a name="line.272"></a>
-<span class="sourceLineNo">273</span>      @Override<a name="line.273"></a>
-<span class="sourceLineNo">274</span>      public Set&lt;E&gt; apply(N node) {<a name="line.274"></a>
-<span class="sourceLineNo">275</span>        return graph.incidentEdges(node);<a name="line.275"></a>
-<span class="sourceLineNo">276</span>      }<a name="line.276"></a>
-<span class="sourceLineNo">277</span>    });<a name="line.277"></a>
-<span class="sourceLineNo">278</span>  }<a name="line.278"></a>
-<span class="sourceLineNo">279</span><a name="line.279"></a>
-<span class="sourceLineNo">280</span>  /**<a name="line.280"></a>
-<span class="sourceLineNo">281</span>   * Returns a function that transforms an edge into a string representation of its incident nodes<a name="line.281"></a>
-<span class="sourceLineNo">282</span>   * in {@code graph}. The function's {@code apply} method will throw an<a name="line.282"></a>
-<span class="sourceLineNo">283</span>   * {@link IllegalArgumentException} if {@code graph} does not contain {@code edge}.<a name="line.283"></a>
-<span class="sourceLineNo">284</span>   */<a name="line.284"></a>
-<span class="sourceLineNo">285</span>  private static Function&lt;Object, String&gt; edgeToIncidentNodesString(final Graph&lt;?, ?&gt; graph) {<a name="line.285"></a>
-<span class="sourceLineNo">286</span>    if (graph.isDirected()) {<a name="line.286"></a>
-<span class="sourceLineNo">287</span>      return new Function&lt;Object, String&gt;() {<a name="line.287"></a>
-<span class="sourceLineNo">288</span>        @Override<a name="line.288"></a>
-<span class="sourceLineNo">289</span>        public String apply(Object edge) {<a name="line.289"></a>
-<span class="sourceLineNo">290</span>          return String.format("&lt;%s -&gt; %s&gt;",<a name="line.290"></a>
-<span class="sourceLineNo">291</span>              graph.source(edge), graph.target(edge));<a name="line.291"></a>
-<span class="sourceLineNo">292</span>          }<a name="line.292"></a>
-<span class="sourceLineNo">293</span>        };<a name="line.293"></a>
-<span class="sourceLineNo">294</span>    }<a name="line.294"></a>
-<span class="sourceLineNo">295</span>    return new Function&lt;Object, String&gt;() {<a name="line.295"></a>
-<span class="sourceLineNo">296</span>      @Override<a name="line.296"></a>
-<span class="sourceLineNo">297</span>      public String apply(Object edge) {<a name="line.297"></a>
-<span class="sourceLineNo">298</span>        return graph.incidentNodes(edge).toString();<a name="line.298"></a>
-<span class="sourceLineNo">299</span>      }<a name="line.299"></a>
-<span class="sourceLineNo">300</span>    };<a name="line.300"></a>
-<span class="sourceLineNo">301</span>  }<a name="line.301"></a>
-<span class="sourceLineNo">302</span><a name="line.302"></a>
-<span class="sourceLineNo">303</span>  /**<a name="line.303"></a>
-<span class="sourceLineNo">304</span>   * Returns a string representation of the properties of {@code graph}.<a name="line.304"></a>
-<span class="sourceLineNo">305</span>   */<a name="line.305"></a>
-<span class="sourceLineNo">306</span>  @VisibleForTesting<a name="line.306"></a>
-<span class="sourceLineNo">307</span>  static String getPropertiesString(Graph&lt;?, ?&gt; graph) {<a name="line.307"></a>
-<span class="sourceLineNo">308</span>    return String.format("isDirected: %s , allowsParallelEdges: %s, allowsSelfLoops: %s",<a name="line.308"></a>
-<span class="sourceLineNo">309</span>        graph.isDirected(), graph.allowsParallelEdges(), graph.allowsSelfLoops());<a name="line.309"></a>
-<span class="sourceLineNo">310</span>  }<a name="line.310"></a>
-<span class="sourceLineNo">311</span>}<a name="line.311"></a>
+<span class="sourceLineNo">023</span>import com.google.common.base.Function;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.common.base.Predicate;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import com.google.common.base.Predicates;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import com.google.common.collect.ImmutableSet;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import com.google.common.collect.Maps;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import com.google.common.collect.Sets;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.29"></a>
+<span class="sourceLineNo">030</span><a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.util.Iterator;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.util.Map;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import java.util.Set;<a name="line.33"></a>
+<span class="sourceLineNo">034</span><a name="line.34"></a>
+<span class="sourceLineNo">035</span>import javax.annotation.Nullable;<a name="line.35"></a>
+<span class="sourceLineNo">036</span><a name="line.36"></a>
+<span class="sourceLineNo">037</span>/**<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * Static utility methods for {@link Graph} instances.<a name="line.38"></a>
+<span class="sourceLineNo">039</span> *<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * @author Joshua O'Madadhain<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * @since 20.0<a name="line.41"></a>
+<span class="sourceLineNo">042</span> */<a name="line.42"></a>
+<span class="sourceLineNo">043</span>@Beta<a name="line.43"></a>
+<span class="sourceLineNo">044</span>public final class Graphs {<a name="line.44"></a>
+<span class="sourceLineNo">045</span><a name="line.45"></a>
+<span class="sourceLineNo">046</span>  private Graphs() {}<a name="line.46"></a>
+<span class="sourceLineNo">047</span><a name="line.47"></a>
+<span class="sourceLineNo">048</span>  /**<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   * Returns the node at the other end of {@code edge} from {@code node}.<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   *<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   * @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   * @throws IllegalArgumentException if {@code edge} is not incident to {@code node}<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  public static &lt;N&gt; N oppositeNode(Graph&lt;N, ?&gt; graph, Object edge, Object node) {<a name="line.54"></a>
+<span class="sourceLineNo">055</span>    if (graph instanceof Hypergraph) {<a name="line.55"></a>
+<span class="sourceLineNo">056</span>      throw new UnsupportedOperationException();<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    }<a name="line.57"></a>
+<span class="sourceLineNo">058</span><a name="line.58"></a>
+<span class="sourceLineNo">059</span>    checkNotNull(node, "node");<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    Iterator&lt;N&gt; incidentNodesIterator = graph.incidentNodes(edge).iterator();<a name="line.60"></a>
+<span class="sourceLineNo">061</span>    N node1 = incidentNodesIterator.next();<a name="line.61"></a>
+<span class="sourceLineNo">062</span>    N node2 = incidentNodesIterator.hasNext() ? incidentNodesIterator.next() : node1;<a name="line.62"></a>
+<span class="sourceLineNo">063</span>    if (node.equals(node1)) {<a name="line.63"></a>
+<span class="sourceLineNo">064</span>      return node2;<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    } else {<a name="line.65"></a>
+<span class="sourceLineNo">066</span>      checkArgument(node.equals(node2), "Edge %s is not incident to node %s", edge, node);<a name="line.66"></a>
+<span class="sourceLineNo">067</span>      return node1;<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    }<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  }<a name="line.69"></a>
+<span class="sourceLineNo">070</span><a name="line.70"></a>
+<span class="sourceLineNo">071</span>  /**<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   * Returns an unmodifiable view of edges that are parallel to {@code edge}, i.e. the set of edges<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   * that connect the same nodes in the same direction (if any). An edge is not parallel to itself.<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   *<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   * @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * @throws IllegalArgumentException if {@code edge} is not present in {@code graph}<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   */<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  public static &lt;N, E&gt; Set&lt;E&gt; parallelEdges(Graph&lt;N, E&gt; graph, Object edge) {<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    if (graph instanceof Hypergraph) {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>      throw new UnsupportedOperationException();<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    }<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>    Set&lt;N&gt; incidentNodes = graph.incidentNodes(edge); // Verifies that edge is in graph<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    if (!graph.allowsParallelEdges()) {<a name="line.84"></a>
+<span class="sourceLineNo">085</span>      return ImmutableSet.of();<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    }<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    Iterator&lt;N&gt; incidentNodesIterator = incidentNodes.iterator();<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    N node1 = incidentNodesIterator.next();<a name="line.88"></a>
+<span class="sourceLineNo">089</span>    N node2 = incidentNodesIterator.hasNext() ? incidentNodesIterator.next() : node1;<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    return Sets.difference(graph.edgesConnecting(node1, node2), ImmutableSet.of(edge));<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  }<a name="line.91"></a>
+<span class="sourceLineNo">092</span><a name="line.92"></a>
+<span class="sourceLineNo">093</span>  /**<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   * Adds {@code edge} to {@code graph} with the specified incident {@code nodes}, in the order<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * returned by {@code nodes}' iterator.<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   */<a name="line.96"></a>
+<span class="sourceLineNo">097</span>  @CanIgnoreReturnValue<a name="line.97"></a>
+<span class="sourceLineNo">098</span>  public static &lt;N, E&gt; boolean addEdge(Graph&lt;N, E&gt; graph, E edge, Iterable&lt;N&gt; nodes) {<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    checkNotNull(graph, "graph");<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    checkNotNull(edge, "edge");<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    checkNotNull(nodes, "nodes");<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    if (graph instanceof Hypergraph) {<a name="line.102"></a>
+<span class="sourceLineNo">103</span>      return ((Hypergraph&lt;N, E&gt;) graph).addEdge(edge, nodes);<a name="line.103"></a>
+<span class="sourceLineNo">104</span>    }<a name="line.104"></a>
+<span class="sourceLineNo">105</span><a name="line.105"></a>
+<span class="sourceLineNo">106</span>    Iterator&lt;N&gt; nodesIterator = nodes.iterator();<a name="line.106"></a>
+<span class="sourceLineNo">107</span>    checkArgument(nodesIterator.hasNext(),<a name="line.107"></a>
+<span class="sourceLineNo">108</span>        "'graph' is not a Hypergraph, and 'nodes' has &lt; 1 elements: %s", nodes);<a name="line.108"></a>
+<span class="sourceLineNo">109</span>    N node1 = nodesIterator.next();<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    N node2 = nodesIterator.hasNext() ? nodesIterator.next() : node1;<a name="line.110"></a>
+<span class="sourceLineNo">111</span>    checkArgument(!nodesIterator.hasNext(),<a name="line.111"></a>
+<span class="sourceLineNo">112</span>        "'graph' is not a Hypergraph, and 'nodes' has &gt; 2 elements: %s", nodes);<a name="line.112"></a>
+<span class="sourceLineNo">113</span>    return graph.addEdge(edge, node1, node2);<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  }<a name="line.114"></a>
+<span class="sourceLineNo">115</span><a name="line.115"></a>
+<span class="sourceLineNo">116</span>  /**<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * Creates a mutable copy of {@code graph}, using the same node and edge elements.<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   */<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  public static &lt;N, E&gt; Graph&lt;N, E&gt; copyOf(Graph&lt;N, E&gt; graph) {<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    return copyOf(graph, Predicates.alwaysTrue(), Predicates.alwaysTrue());<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  }<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  /**<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * Creates a mutable copy of {@code graph}, using all of its elements that satisfy<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * {@code nodePredicate} and {@code edgePredicate}.<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   */<a name="line.126"></a>
+<span class="sourceLineNo">127</span>  public static &lt;N, E&gt; Graph&lt;N, E&gt; copyOf(<a name="line.127"></a>
+<span class="sourceLineNo">128</span>      Graph&lt;N, E&gt; graph,<a name="line.128"></a>
+<span class="sourceLineNo">129</span>      Predicate&lt;? super N&gt; nodePredicate,<a name="line.129"></a>
+<span class="sourceLineNo">130</span>      Predicate&lt;? super E&gt; edgePredicate) {<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    checkNotNull(graph, "graph");<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    checkNotNull(nodePredicate, "nodePredicate");<a name="line.132"></a>
+<span class="sourceLineNo">133</span>    checkNotNull(edgePredicate, "edgePredicate");<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    Graph&lt;N, E&gt; copy = GraphBuilder.from(graph)<a name="line.134"></a>
+<span class="sourceLineNo">135</span>        .expectedNodeCount(graph.nodes().size()).expectedEdgeCount(graph.edges().size()).build();<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    mergeNodesFrom(graph, copy, nodePredicate);<a name="line.136"></a>
+<span class="sourceLineNo">137</span><a name="line.137"></a>
+<span class="sourceLineNo">138</span>    // We can't just call mergeEdgesFrom(graph, copy, edgePredicate) because addEdge() can add<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    // the edge's incident nodes if they are not present.<a name="line.139"></a>
+<span class="sourceLineNo">140</span>    for (E edge : graph.edges()) {<a name="line.140"></a>
+<span class="sourceLineNo">141</span>      if (edgePredicate.apply(edge)) {<a name="line.141"></a>
+<span class="sourceLineNo">142</span>        Set&lt;N&gt; incidentNodes = graph.incidentNodes(edge);<a name="line.142"></a>
+<span class="sourceLineNo">143</span>        if (copy.nodes().containsAll(incidentNodes)) {<a name="line.143"></a>
+<span class="sourceLineNo">144</span>          addEdge(copy, edge, incidentNodes);<a name="line.144"></a>
+<span class="sourceLineNo">145</span>        }<a name="line.145"></a>
+<span class="sourceLineNo">146</span>      }<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    }<a name="line.147"></a>
+<span class="sourceLineNo">148</span><a name="line.148"></a>
+<span class="sourceLineNo">149</span>    return copy;<a name="line.149"></a>
+<span class="sourceLineNo">150</span>  }<a name="line.150"></a>
+<span class="sourceLineNo">151</span><a name="line.151"></a>
+<span class="sourceLineNo">152</span>  /**<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * Copies all nodes from {@code original} into {@code copy}.<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   */<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  public static &lt;N, E&gt; void mergeNodesFrom(Graph&lt;N, E&gt; original, Graph&lt;N, E&gt; copy) {<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    mergeNodesFrom(original, copy, Predicates.alwaysTrue());<a name="line.156"></a>
+<span class="sourceLineNo">157</span>  }<a name="line.157"></a>
+<span class="sourceLineNo">158</span><a name="line.158"></a>
+<span class="sourceLineNo">159</span>  /**<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   * Copies all nodes from {@code original} into {@code copy} that satisfy {@code nodePredicate}.<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   */<a name="line.161"></a>
+<span class="sourceLineNo">162</span>  public static &lt;N, E&gt; void mergeNodesFrom(<a name="line.162"></a>
+<span class="sourceLineNo">163</span>      Graph&lt;N, E&gt; original, Graph&lt;N, E&gt; copy, Predicate&lt;? super N&gt; nodePredicate) {<a name="line.163"></a>
+<span class="sourceLineNo">164</span>    checkNotNull(original, "original");<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    checkNotNull(copy, "copy");<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    checkNotNull(nodePredicate, "nodePredicate");<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    for (N node : Sets.filter(original.nodes(), nodePredicate)) {<a name="line.167"></a>
+<span class="sourceLineNo">168</span>      copy.addNode(node);<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    }<a name="line.169"></a>
+<span class="sourceLineNo">170</span>  }<a name="line.170"></a>
+<span class="sourceLineNo">171</span><a name="line.171"></a>
+<span class="sourceLineNo">172</span>  /**<a name="line.172"></a>
+<span class="sourceLineNo">173</span>   * Copies all edges from {@code original} into {@code copy}. Also copies all nodes incident<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * to these edges.<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   */<a name="line.175"></a>
+<span class="sourceLineNo">176</span>  public static &lt;N, E&gt; void mergeEdgesFrom(Graph&lt;N, E&gt; original, Graph&lt;N, E&gt; copy) {<a name="line.176"></a>
+<span class="sourceLineNo">177</span>    mergeEdgesFrom(original, copy, Predicates.alwaysTrue());<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  }<a name="line.178"></a>
+<span class="sourceLineNo">179</span><a name="line.179"></a>
+<span class="sourceLineNo">180</span>  /**<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   * Copies all edges from {@code original} into {@code copy} that satisfy {@code edgePredicate}.<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * Also copies all nodes incident to these edges.<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   */<a name="line.183"></a>
+<span class="sourceLineNo">184</span>  public static &lt;N, E&gt; void mergeEdgesFrom(<a name="line.184"></a>
+<span class="sourceLineNo">185</span>      Graph&lt;N, E&gt; original, Graph&lt;N, E&gt; copy, Predicate&lt;? super E&gt; edgePredicate) {<a name="line.185"></a>
+<span class="sourceLineNo">186</span>    checkNotNull(original, "original");<a name="line.186"></a>
+<span class="sourceLineNo">187</span>    checkNotNull(copy, "copy");<a name="line.187"></a>
+<span class="sourceLineNo">188</span>    checkNotNull(edgePredicate, "edgePredicate");<a name="line.188"></a>
+<span class="sourceLineNo">189</span>    for (E edge : Sets.filter(original.edges(), edgePredicate)) {<a name="line.189"></a>
+<span class="sourceLineNo">190</span>      addEdge(copy, edge, original.incidentNodes(edge));<a name="line.190"></a>
+<span class="sourceLineNo">191</span>    }<a name="line.191"></a>
+<span class="sourceLineNo">192</span>  }<a name="line.192"></a>
+<span class="sourceLineNo">193</span><a name="line.193"></a>
+<span class="sourceLineNo">194</span>  /**<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   * Returns true iff {@code graph1} and {@code graph2} have the same node/edge relationships.<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   *<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   * @see Graph#equals(Object)<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   */<a name="line.198"></a>
+<span class="sourceLineNo">199</span>  public static boolean equal(@Nullable Graph&lt;?, ?&gt; graph1, @Nullable Graph&lt;?, ?&gt; graph2) {<a name="line.199"></a>
+<span class="sourceLineNo">200</span>    if (graph1 == graph2) {<a name="line.200"></a>
+<span class="sourceLineNo">201</span>      return true;<a name="line.201"></a>
+<span class="sourceLineNo">202</span>    }<a name="line.202"></a>
+<span class="sourceLineNo">203</span><a name="line.203"></a>
+<span class="sourceLineNo">204</span>    if (graph1 == null || graph2 == null) {<a name="line.204"></a>
+<span class="sourceLineNo">205</span>      return false;<a name="line.205"></a>
+<span class="sourceLineNo">206</span>    }<a name="line.206"></a>
+<span class="sourceLineNo">207</span><a name="line.207"></a>
+<span class="sourceLineNo">208</span>    if (graph1.edges().size() != graph2.edges().size()) {<a name="line.208"></a>
+<span class="sourceLineNo">209</span>      return false;<a name="line.209"></a>
+<span class="sourceLineNo">210</span>    }<a name="line.210"></a>
+<span class="sourceLineNo">211</span><a name="line.211"></a>
+<span class="sourceLineNo">212</span>    if (!graph1.nodes().equals(graph2.nodes())) {<a name="line.212"></a>
+<span class="sourceLineNo">213</span>      return false;<a name="line.213"></a>
+<span class="sourceLineNo">214</span>    }<a name="line.214"></a>
+<span class="sourceLineNo">215</span><a name="line.215"></a>
+<span class="sourceLineNo">216</span>    for (Object node : graph1.nodes()) {<a name="line.216"></a>
+<span class="sourceLineNo">217</span>      if (!graph1.inEdges(node).equals(graph2.inEdges(node))) {<a name="line.217"></a>
+<span class="sourceLineNo">218</span>        return false;<a name="line.218"></a>
+<span class="sourceLineNo">219</span>      }<a name="line.219"></a>
+<span class="sourceLineNo">220</span>      boolean bothUndirected = !graph1.isDirected() &amp;&amp; !graph2.isDirected();<a name="line.220"></a>
+<span class="sourceLineNo">221</span>      if (!bothUndirected &amp;&amp; !graph1.outEdges(node).equals(graph2.outEdges(node))) {<a name="line.221"></a>
+<span class="sourceLineNo">222</span>        return false;<a name="line.222"></a>
+<span class="sourceLineNo">223</span>      }<a name="line.223"></a>
+<span class="sourceLineNo">224</span>    }<a name="line.224"></a>
+<span class="sourceLineNo">225</span><a name="line.225"></a>
+<span class="sourceLineNo">226</span>    return true;<a name="line.226"></a>
+<span class="sourceLineNo">227</span>  }<a name="line.227"></a>
+<span class="sourceLineNo">228</span><a name="line.228"></a>
+<span class="sourceLineNo">229</span>  /**<a name="line.229"></a>
+<span class="sourceLineNo">230</span>   * Returns the hash code of {@code graph}.<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   *<a name="line.231"></a>
+<span class="sourceLineNo">232</span>   * @see Graph#hashCode()<a name="line.232"></a>
+<span class="sourceLineNo">233</span>   */<a name="line.233"></a>
+<span class="sourceLineNo">234</span>  public static int hashCode(Graph&lt;?, ?&gt; graph) {<a name="line.234"></a>
+<span class="sourceLineNo">235</span>    return nodeToIncidentEdges(graph).hashCode();<a name="line.235"></a>
+<span class="sourceLineNo">236</span>  }<a name="line.236"></a>
+<span class="sourceLineNo">237</span><a name="line.237"></a>
+<span class="sourceLineNo">238</span>  /**<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   * Returns a string representation of {@code graph}. Encodes edge direction if {@code graph}<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   * is directed.<a name="line.240"></a>
+<span class="sourceLineNo">241</span>   */<a name="line.241"></a>
+<span class="sourceLineNo">242</span>  public static String toString(Graph&lt;?, ?&gt; graph) {<a name="line.242"></a>
+<span class="sourceLineNo">243</span>    return String.format("%s, nodes: %s, edges: %s",<a name="line.243"></a>
+<span class="sourceLineNo">244</span>        getPropertiesString(graph),<a name="line.244"></a>
+<span class="sourceLineNo">245</span>        graph.nodes(),<a name="line.245"></a>
+<span class="sourceLineNo">246</span>        Maps.asMap(graph.edges(), edgeToIncidentNodesString(graph)));<a name="line.246"></a>
+<span class="sourceLineNo">247</span>  }<a name="line.247"></a>
+<span class="sourceLineNo">248</span><a name="line.248"></a>
+<span class="sourceLineNo">249</span>  /**<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   * Returns a {@link Predicate} that returns {@code true} if the input edge is a self-loop in<a name="line.250"></a>
+<span class="sourceLineNo">251</span>   * {@code graph}. A self-loop is defined as an edge whose set of incident nodes has exactly one<a name="line.251"></a>
+<span class="sourceLineNo">252</span>   * element. The predicate's {@code apply} method will throw an {@link IllegalArgumentException} if<a name="line.252"></a>
+<span class="sourceLineNo">253</span>   * {@code graph} does not contain {@code edge}.<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   */<a name="line.254"></a>
+<span class="sourceLineNo">255</span>  public static &lt;E&gt; Predicate&lt;E&gt; selfLoopPredicate(final Graph&lt;?, E&gt; graph) {<a name="line.255"></a>
+<span class="sourceLineNo">256</span>    checkNotNull(graph, "graph");<a name="line.256"></a>
+<span class="sourceLineNo">257</span>    return new Predicate&lt;E&gt;() {<a name="line.257"></a>
+<span class="sourceLineNo">258</span>      @Override<a name="line.258"></a>
+<span class="sourceLineNo">259</span>      public boolean apply(E edge) {<a name="line.259"></a>
+<span class="sourceLineNo">260</span>        return (graph.incidentNodes(edge).size() == 1);<a name="line.260"></a>
+<span class="sourceLineNo">261</span>      }<a name="line.261"></a>
+<span class="sourceLineNo">262</span>    };<a name="line.262"></a>
+<span class="sourceLineNo">263</span>  }<a name="line.263"></a>
+<span class="sourceLineNo">264</span><a name="line.264"></a>
+<span class="sourceLineNo">265</span>  /**<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   * Returns a map that is a live view of {@code graph}, with nodes as keys<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   * and the set of incident edges as values.<a name="line.267"></a>
+<span class="sourceLineNo">268</span>   */<a name="line.268"></a>
+<span class="sourceLineNo">269</span>  private static &lt;N, E&gt; Map&lt;N, Set&lt;E&gt;&gt; nodeToIncidentEdges(final Graph&lt;N, E&gt; graph) {<a name="line.269"></a>
+<span class="sourceLineNo">270</span>    checkNotNull(graph, "graph");<a name="line.270"></a>
+<span class="sourceLineNo">271</span>    return Maps.asMap(graph.nodes(), new Function&lt;N, Set&lt;E&gt;&gt;() {<a name="line.271"></a>
+<span class="sourceLineNo">272</span>      @Override<a name="line.272"></a>
+<span class="sourceLineNo">273</span>      public Set&lt;E&gt; apply(N node) {<a name="line.273"></a>
+<span class="sourceLineNo">274</span>        return graph.incidentEdges(node);<a name="line.274"></a>
+<span class="sourceLineNo">275</span>      }<a name="line.275"></a>
+<span class="sourceLineNo">276</span>    });<a name="line.276"></a>
+<span class="sourceLineNo">277</span>  }<a name="line.277"></a>
+<span class="sourceLineNo">278</span><a name="line.278"></a>
+<span class="sourceLineNo">279</span>  /**<a name="line.279"></a>
+<span class="sourceLineNo">280</span>   * Returns a function that transforms an edge into a string representation of its incident nodes<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   * in {@code graph}. The function's {@code apply} method will throw an<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   * {@link IllegalArgumentException} if {@code graph} does not contain {@code edge}.<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   */<a name="line.283"></a>
+<span class="sourceLineNo">284</span>  private static Function&lt;Object, String&gt; edgeToIncidentNodesString(final Graph&lt;?, ?&gt; graph) {<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    if (graph.isDirected()) {<a name="line.285"></a>
+<span class="sourceLineNo">286</span>      return new Function&lt;Object, String&gt;() {<a name="line.286"></a>
+<span class="sourceLineNo">287</span>        @Override<a name="line.287"></a>
+<span class="sourceLineNo">288</span>        public String apply(Object edge) {<a name="line.288"></a>
+<span class="sourceLineNo">289</span>          return String.format("&lt;%s -&gt; %s&gt;",<a name="line.289"></a>
+<span class="sourceLineNo">290</span>              graph.source(edge), graph.target(edge));<a name="line.290"></a>
+<span class="sourceLineNo">291</span>          }<a name="line.291"></a>
+<span class="sourceLineNo">292</span>        };<a name="line.292"></a>
+<span class="sourceLineNo">293</span>    }<a name="line.293"></a>
+<span class="sourceLineNo">294</span>    return new Function&lt;Object, String&gt;() {<a name="line.294"></a>
+<span class="sourceLineNo">295</span>      @Override<a name="line.295"></a>
+<span class="sourceLineNo">296</span>      public String apply(Object edge) {<a name="line.296"></a>
+<span class="sourceLineNo">297</span>        return graph.incidentNodes(edge).toString();<a name="line.297"></a>
+<span class="sourceLineNo">298</span>      }<a name="line.298"></a>
+<span class="sourceLineNo">299</span>    };<a name="line.299"></a>
+<span class="sourceLineNo">300</span>  }<a name="line.300"></a>
+<span class="sourceLineNo">301</span><a name="line.301"></a>
+<span class="sourceLineNo">302</span>  /**<a name="line.302"></a>
+<span class="sourceLineNo">303</span>   * Returns a string representation of the properties of {@code graph}.<a name="line.303"></a>
+<span class="sourceLineNo">304</span>   */<a name="line.304"></a>
+<span class="sourceLineNo">305</span>  private static String getPropertiesString(Graph&lt;?, ?&gt; graph) {<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    return String.format("isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",<a name="line.306"></a>
+<span class="sourceLineNo">307</span>        graph.isDirected(), graph.allowsParallelEdges(), graph.allowsSelfLoops());<a name="line.307"></a>
+<span class="sourceLineNo">308</span>  }<a name="line.308"></a>
+<span class="sourceLineNo">309</span>}<a name="line.309"></a>
 
 
 

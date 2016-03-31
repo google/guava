@@ -1767,26 +1767,28 @@
 <span class="sourceLineNo">1759</span>  @GwtIncompatible // NavigableSet<a name="line.1759"></a>
 <span class="sourceLineNo">1760</span>  public static &lt;K extends Comparable&lt;? super K&gt;&gt; NavigableSet&lt;K&gt; subSet(<a name="line.1760"></a>
 <span class="sourceLineNo">1761</span>      NavigableSet&lt;K&gt; set, Range&lt;K&gt; range) {<a name="line.1761"></a>
-<span class="sourceLineNo">1762</span>    if (set.comparator() != null &amp;&amp; set.comparator() != Ordering.natural()<a name="line.1762"></a>
-<span class="sourceLineNo">1763</span>        &amp;&amp; range.hasLowerBound() &amp;&amp; range.hasUpperBound()) {<a name="line.1763"></a>
-<span class="sourceLineNo">1764</span>      checkArgument(set.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) &lt;= 0,<a name="line.1764"></a>
-<span class="sourceLineNo">1765</span>          "set is using a custom comparator which is inconsistent with the natural ordering.");<a name="line.1765"></a>
-<span class="sourceLineNo">1766</span>    }<a name="line.1766"></a>
-<span class="sourceLineNo">1767</span>    if (range.hasLowerBound() &amp;&amp; range.hasUpperBound()) {<a name="line.1767"></a>
-<span class="sourceLineNo">1768</span>      return set.subSet(range.lowerEndpoint(),<a name="line.1768"></a>
-<span class="sourceLineNo">1769</span>                        range.lowerBoundType() == BoundType.CLOSED,<a name="line.1769"></a>
-<span class="sourceLineNo">1770</span>                        range.upperEndpoint(),<a name="line.1770"></a>
-<span class="sourceLineNo">1771</span>                        range.upperBoundType() == BoundType.CLOSED);<a name="line.1771"></a>
-<span class="sourceLineNo">1772</span>    } else if (range.hasLowerBound()) {<a name="line.1772"></a>
-<span class="sourceLineNo">1773</span>      return set.tailSet(range.lowerEndpoint(),<a name="line.1773"></a>
-<span class="sourceLineNo">1774</span>                         range.lowerBoundType() == BoundType.CLOSED);<a name="line.1774"></a>
-<span class="sourceLineNo">1775</span>    } else if (range.hasUpperBound()) {<a name="line.1775"></a>
-<span class="sourceLineNo">1776</span>      return set.headSet(range.upperEndpoint(),<a name="line.1776"></a>
-<span class="sourceLineNo">1777</span>                         range.upperBoundType() == BoundType.CLOSED);<a name="line.1777"></a>
-<span class="sourceLineNo">1778</span>    }<a name="line.1778"></a>
-<span class="sourceLineNo">1779</span>    return checkNotNull(set);<a name="line.1779"></a>
-<span class="sourceLineNo">1780</span>  }<a name="line.1780"></a>
-<span class="sourceLineNo">1781</span>}<a name="line.1781"></a>
+<span class="sourceLineNo">1762</span>    if (set.comparator() != null<a name="line.1762"></a>
+<span class="sourceLineNo">1763</span>        &amp;&amp; set.comparator() != Ordering.natural()<a name="line.1763"></a>
+<span class="sourceLineNo">1764</span>        &amp;&amp; range.hasLowerBound()<a name="line.1764"></a>
+<span class="sourceLineNo">1765</span>        &amp;&amp; range.hasUpperBound()) {<a name="line.1765"></a>
+<span class="sourceLineNo">1766</span>      checkArgument(<a name="line.1766"></a>
+<span class="sourceLineNo">1767</span>          set.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) &lt;= 0,<a name="line.1767"></a>
+<span class="sourceLineNo">1768</span>          "set is using a custom comparator which is inconsistent with the natural ordering.");<a name="line.1768"></a>
+<span class="sourceLineNo">1769</span>    }<a name="line.1769"></a>
+<span class="sourceLineNo">1770</span>    if (range.hasLowerBound() &amp;&amp; range.hasUpperBound()) {<a name="line.1770"></a>
+<span class="sourceLineNo">1771</span>      return set.subSet(<a name="line.1771"></a>
+<span class="sourceLineNo">1772</span>          range.lowerEndpoint(),<a name="line.1772"></a>
+<span class="sourceLineNo">1773</span>          range.lowerBoundType() == BoundType.CLOSED,<a name="line.1773"></a>
+<span class="sourceLineNo">1774</span>          range.upperEndpoint(),<a name="line.1774"></a>
+<span class="sourceLineNo">1775</span>          range.upperBoundType() == BoundType.CLOSED);<a name="line.1775"></a>
+<span class="sourceLineNo">1776</span>    } else if (range.hasLowerBound()) {<a name="line.1776"></a>
+<span class="sourceLineNo">1777</span>      return set.tailSet(range.lowerEndpoint(), range.lowerBoundType() == BoundType.CLOSED);<a name="line.1777"></a>
+<span class="sourceLineNo">1778</span>    } else if (range.hasUpperBound()) {<a name="line.1778"></a>
+<span class="sourceLineNo">1779</span>      return set.headSet(range.upperEndpoint(), range.upperBoundType() == BoundType.CLOSED);<a name="line.1779"></a>
+<span class="sourceLineNo">1780</span>    }<a name="line.1780"></a>
+<span class="sourceLineNo">1781</span>    return checkNotNull(set);<a name="line.1781"></a>
+<span class="sourceLineNo">1782</span>  }<a name="line.1782"></a>
+<span class="sourceLineNo">1783</span>}<a name="line.1783"></a>
 
 
 

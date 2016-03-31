@@ -993,24 +993,23 @@
 <span class="sourceLineNo">985</span>          @Override<a name="line.985"></a>
 <span class="sourceLineNo">986</span>          public Iterator&lt;T&gt; iterator() {<a name="line.986"></a>
 <span class="sourceLineNo">987</span>            return Iterators.mergeSorted(<a name="line.987"></a>
-<span class="sourceLineNo">988</span>                Iterables.transform(iterables, Iterables.&lt;T&gt;toIterator()),<a name="line.988"></a>
-<span class="sourceLineNo">989</span>                comparator);<a name="line.989"></a>
-<span class="sourceLineNo">990</span>          }<a name="line.990"></a>
-<span class="sourceLineNo">991</span>        };<a name="line.991"></a>
-<span class="sourceLineNo">992</span>    return new UnmodifiableIterable&lt;T&gt;(iterable);<a name="line.992"></a>
-<span class="sourceLineNo">993</span>  }<a name="line.993"></a>
-<span class="sourceLineNo">994</span><a name="line.994"></a>
-<span class="sourceLineNo">995</span>  // TODO(user): Is this the best place for this? Move to fluent functions?<a name="line.995"></a>
-<span class="sourceLineNo">996</span>  // Useful as a public method?<a name="line.996"></a>
-<span class="sourceLineNo">997</span>  static &lt;T&gt; Function&lt;Iterable&lt;? extends T&gt;, Iterator&lt;? extends T&gt;&gt; toIterator() {<a name="line.997"></a>
-<span class="sourceLineNo">998</span>    return new Function&lt;Iterable&lt;? extends T&gt;, Iterator&lt;? extends T&gt;&gt;() {<a name="line.998"></a>
-<span class="sourceLineNo">999</span>      @Override<a name="line.999"></a>
-<span class="sourceLineNo">1000</span>      public Iterator&lt;? extends T&gt; apply(Iterable&lt;? extends T&gt; iterable) {<a name="line.1000"></a>
-<span class="sourceLineNo">1001</span>        return iterable.iterator();<a name="line.1001"></a>
-<span class="sourceLineNo">1002</span>      }<a name="line.1002"></a>
-<span class="sourceLineNo">1003</span>    };<a name="line.1003"></a>
-<span class="sourceLineNo">1004</span>  }<a name="line.1004"></a>
-<span class="sourceLineNo">1005</span>}<a name="line.1005"></a>
+<span class="sourceLineNo">988</span>                Iterables.transform(iterables, Iterables.&lt;T&gt;toIterator()), comparator);<a name="line.988"></a>
+<span class="sourceLineNo">989</span>          }<a name="line.989"></a>
+<span class="sourceLineNo">990</span>        };<a name="line.990"></a>
+<span class="sourceLineNo">991</span>    return new UnmodifiableIterable&lt;T&gt;(iterable);<a name="line.991"></a>
+<span class="sourceLineNo">992</span>  }<a name="line.992"></a>
+<span class="sourceLineNo">993</span><a name="line.993"></a>
+<span class="sourceLineNo">994</span>  // TODO(user): Is this the best place for this? Move to fluent functions?<a name="line.994"></a>
+<span class="sourceLineNo">995</span>  // Useful as a public method?<a name="line.995"></a>
+<span class="sourceLineNo">996</span>  static &lt;T&gt; Function&lt;Iterable&lt;? extends T&gt;, Iterator&lt;? extends T&gt;&gt; toIterator() {<a name="line.996"></a>
+<span class="sourceLineNo">997</span>    return new Function&lt;Iterable&lt;? extends T&gt;, Iterator&lt;? extends T&gt;&gt;() {<a name="line.997"></a>
+<span class="sourceLineNo">998</span>      @Override<a name="line.998"></a>
+<span class="sourceLineNo">999</span>      public Iterator&lt;? extends T&gt; apply(Iterable&lt;? extends T&gt; iterable) {<a name="line.999"></a>
+<span class="sourceLineNo">1000</span>        return iterable.iterator();<a name="line.1000"></a>
+<span class="sourceLineNo">1001</span>      }<a name="line.1001"></a>
+<span class="sourceLineNo">1002</span>    };<a name="line.1002"></a>
+<span class="sourceLineNo">1003</span>  }<a name="line.1003"></a>
+<span class="sourceLineNo">1004</span>}<a name="line.1004"></a>
 
 
 

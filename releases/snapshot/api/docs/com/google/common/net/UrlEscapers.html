@@ -175,7 +175,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>urlFormParameterEscaper</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape">Escaper</a>&nbsp;<a href="../../../../src-html/com/google/common/net/UrlEscapers.html#line.78">urlFormParameterEscaper</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape">Escaper</a>&nbsp;<a href="../../../../src-html/com/google/common/net/UrlEscapers.html#line.75">urlFormParameterEscaper</a>()</pre>
 <div class="block">Returns an <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes strings so they can be safely included in
  <a href="http://goo.gl/OQEc8">URL form parameter names and values</a>. Escaping is performed
  with the UTF-8 character encoding. The caller is responsible for
@@ -198,11 +198,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  as a parameter delimiter. Nevertheless, we recommend using the ampersand unless you must
  interoperate with systems that require semicolons.
 
- <p><b>Note:</b> Unlike other escapers, URL escapers produce uppercase hexadecimal sequences.
- From <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:
-
- <blockquote><p>"URI producers and normalizers should use uppercase hexadecimal digits for all
- percent-encodings."</blockquote></div>
+ <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
+ href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.</div>
 </li>
 </ul>
 <a name="urlPathSegmentEscaper()">
@@ -211,7 +208,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>urlPathSegmentEscaper</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape">Escaper</a>&nbsp;<a href="../../../../src-html/com/google/common/net/UrlEscapers.html#line.116">urlPathSegmentEscaper</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape">Escaper</a>&nbsp;<a href="../../../../src-html/com/google/common/net/UrlEscapers.html#line.110">urlPathSegmentEscaper</a>()</pre>
 <div class="block">Returns an <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes strings so they can be safely included in
  <a href="http://goo.gl/swjbR">URL path segments</a>. The returned escaper escapes all non-ASCII
  characters, even though <a href="http://goo.gl/xIJWe">many of these are accepted in modern
@@ -236,11 +233,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
      uppercase, hexadecimal representation of the byte value.
  </ul>
 
- <p><b>Note:</b> Unlike other escapers, URL escapers produce uppercase hexadecimal sequences.
- From <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:
-
- <blockquote><p>"URI producers and normalizers should use uppercase hexadecimal digits for all
- percent-encodings."</blockquote></div>
+ <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
+ href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.</div>
 </li>
 </ul>
 <a name="urlFragmentEscaper()">
@@ -249,7 +243,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>urlFragmentEscaper</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape">Escaper</a>&nbsp;<a href="../../../../src-html/com/google/common/net/UrlEscapers.html#line.151">urlFragmentEscaper</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape">Escaper</a>&nbsp;<a href="../../../../src-html/com/google/common/net/UrlEscapers.html#line.142">urlFragmentEscaper</a>()</pre>
 <div class="block">Returns an <a href="../../../../com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes strings so they can be safely included in a
  <a href="http://goo.gl/xXEq4p">URL fragment</a>. The returned escaper escapes all non-ASCII
  characters, even though <a href="http://goo.gl/xIJWe">many of these are accepted in modern
@@ -271,11 +265,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
      uppercase, hexadecimal representation of the byte value.
  </ul>
 
- <p><b>Note:</b> Unlike other escapers, URL escapers produce uppercase hexadecimal sequences.
- From <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:
-
- <blockquote><p>"URI producers and normalizers should use uppercase hexadecimal digits for all
- percent-encodings."</blockquote></div>
+ <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
+ href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.</div>
 </li>
 </ul>
 </li>

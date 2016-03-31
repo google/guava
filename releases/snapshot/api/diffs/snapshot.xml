@@ -2216,7 +2216,7 @@
  <p>A future version of this class will implement {@code BiPredicate<T, T>}. In the meantime, to
  use an equivalence (say, named {@code equivalence}) as a bi-predicate, use the method reference
  {@code equivalence::equivalent}.
- 
+
  @author Bob Lee
  @author Ben Yu
  @author Gregory Kick
@@ -39382,6 +39382,19 @@
  @throws IOException if an I/O error occurs]]>
       </doc>
     </method>
+    <method name="exhaust" return="long"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="in" type="java.io.InputStream"/>
+      <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[Reads and discards data from the given {@code InputStream} until the end of the stream is
+ reached. Returns the total number of bytes read. Does not close the stream.
+
+ @since 20.0]]>
+      </doc>
+    </method>
     <method name="newDataInput" return="com.google.common.io.ByteArrayDataInput"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -40110,6 +40123,19 @@
 
  @throws IOException if an I/O error occurs
  @since 14.0]]>
+      </doc>
+    </method>
+    <method name="exhaust" return="long"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="readable" type="java.lang.Readable"/>
+      <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[Reads and discards data from the given {@code Readable} until the end of the stream is
+ reached. Returns the total number of chars read. Does not close the stream.
+
+ @since 20.0]]>
       </doc>
     </method>
     <method name="skipFully"
@@ -42698,7 +42724,8 @@
       deprecated="not deprecated">
       <param name="x" type="double"/>
       <doc>
-      <![CDATA[Builds an instance representing a vertical transformation with a constant value of {@code x}.]]>
+      <![CDATA[Builds an instance representing a vertical transformation with a constant value of {@code x}.
+ (The inverse of this will be a horizontal transformation.)]]>
       </doc>
     </method>
     <method name="horizontal" return="com.google.common.math.LinearTransformation"
@@ -42707,7 +42734,8 @@
       deprecated="not deprecated">
       <param name="y" type="double"/>
       <doc>
-      <![CDATA[Builds an instance representing a horizontal transformation with a constant value of {@code y}.]]>
+      <![CDATA[Builds an instance representing a horizontal transformation with a constant value of {@code y}.
+ (The inverse of this will be a vertical transformation.)]]>
       </doc>
     </method>
     <method name="forNaN" return="com.google.common.math.LinearTransformation"
@@ -42716,8 +42744,9 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Builds an instance for datasets which contains {@link Double#NaN}. The {@link #isHorizontal}
- and {@link #isVertical} methods return {@code false} and the {@link #slope},
- {@link #transformX}, and {@link #transformY} methods all return {@link Double#NaN}.]]>
+ and {@link #isVertical} methods return {@code false} and the {@link #slope}, and
+ {@link #transform} methods all return {@link Double#NaN}. The {@link #inverse} method returns
+ the same instance.]]>
       </doc>
     </method>
     <method name="isVertical" return="boolean"
@@ -42746,7 +42775,7 @@
  {@link #isVertical()} is true).]]>
       </doc>
     </method>
-    <method name="transformX" return="double"
+    <method name="transform" return="double"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -42756,14 +42785,18 @@
  vertical transformation (i.e. when {@link #isVertical()} is true).]]>
       </doc>
     </method>
-    <method name="transformY" return="double"
+    <method name="inverse" return="com.google.common.math.LinearTransformation"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="y" type="double"/>
       <doc>
-      <![CDATA[Returns the {@code x} corresponding to the given {@code y}. This must not be called on a
- horizontal transformation (i.e. when {@link #isHorizontal()} is true).]]>
+      <![CDATA[Returns the inverse linear transformation. The inverse of a horizontal transformation is a
+ vertical transformation, and vice versa. The inverse of the {@link #forNaN} transformation is
+ itself. In all other cases, the inverse is a transformation such that applying both the
+ original transformation and its inverse to a value gives you the original value give-or-take
+ numerical errors. Calling this method multiple times on the same instance will always return
+ the same instance. Calling this method on the result of calling this method on an instance will
+ always return that original instance.]]>
       </doc>
     </method>
     <doc>
@@ -47319,11 +47352,8 @@
  <p>For performance reasons the only currently supported character encoding of this class is
  UTF-8.
 
- <p><b>Note:</b> This escaper produces uppercase hexadecimal sequences. From
- <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:
-
- <blockquote><p>"URI producers and normalizers should use uppercase hexadecimal digits for all
- percent-encodings."</blockquote>
+ <p><b>Note:</b> This escaper produces <a
+ href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.
 
  @author David Beaumont
  @since 15.0]]>
@@ -47362,11 +47392,8 @@
  as a parameter delimiter. Nevertheless, we recommend using the ampersand unless you must
  interoperate with systems that require semicolons.
 
- <p><b>Note:</b> Unlike other escapers, URL escapers produce uppercase hexadecimal sequences.
- From <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:
-
- <blockquote><p>"URI producers and normalizers should use uppercase hexadecimal digits for all
- percent-encodings."</blockquote>]]>
+ <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
+ href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.]]>
       </doc>
     </method>
     <method name="urlPathSegmentEscaper" return="com.google.common.escape.Escaper"
@@ -47398,11 +47425,8 @@
      uppercase, hexadecimal representation of the byte value.
  </ul>
 
- <p><b>Note:</b> Unlike other escapers, URL escapers produce uppercase hexadecimal sequences.
- From <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:
-
- <blockquote><p>"URI producers and normalizers should use uppercase hexadecimal digits for all
- percent-encodings."</blockquote>]]>
+ <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
+ href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.]]>
       </doc>
     </method>
     <method name="urlFragmentEscaper" return="com.google.common.escape.Escaper"
@@ -47431,11 +47455,8 @@
      uppercase, hexadecimal representation of the byte value.
  </ul>
 
- <p><b>Note:</b> Unlike other escapers, URL escapers produce uppercase hexadecimal sequences.
- From <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:
-
- <blockquote><p>"URI producers and normalizers should use uppercase hexadecimal digits for all
- percent-encodings."</blockquote>]]>
+ <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
+ href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.]]>
       </doc>
     </method>
     <doc>

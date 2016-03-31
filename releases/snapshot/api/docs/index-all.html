@@ -5722,6 +5722,16 @@
 <div class="block">Returns the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> that will be used to execute the <a href="./com/google/common/util/concurrent/AbstractScheduledService.html#startUp()"><code>AbstractScheduledService.startUp()</code></a>,
  <a href="./com/google/common/util/concurrent/AbstractScheduledService.html#runOneIteration()"><code>AbstractScheduledService.runOneIteration()</code></a> and <a href="./com/google/common/util/concurrent/AbstractScheduledService.html#shutDown()"><code>AbstractScheduledService.shutDown()</code></a> methods.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/io/ByteStreams.html#exhaust(java.io.InputStream)">exhaust(InputStream)</a></span> - Static method in class com.google.common.io.<a href="./com/google/common/io/ByteStreams.html" title="class in com.google.common.io">ByteStreams</a></dt>
+<dd>
+<div class="block">Reads and discards data from the given <code>InputStream</code> until the end of the stream is
+ reached.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/io/CharStreams.html#exhaust(java.lang.Readable)">exhaust(Readable)</a></span> - Static method in class com.google.common.io.<a href="./com/google/common/io/CharStreams.html" title="class in com.google.common.io">CharStreams</a></dt>
+<dd>
+<div class="block">Reads and discards data from the given <code>Readable</code> until the end of the stream is
+ reached.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/net/HttpHeaders.html#EXPECT">EXPECT</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
 <div class="block">The HTTP <code>Expect</code> header field name.</div>
@@ -8747,6 +8757,10 @@
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableSetMultimap.html#inverse()">inverse()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a></dt>
 <dd>
 <div class="block">Returns an immutable multimap which is the inverse of this one.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/math/LinearTransformation.html#inverse()">inverse()</a></span> - Method in class com.google.common.math.<a href="./com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></dt>
+<dd>
+<div class="block">Returns the inverse linear transformation.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Multimaps.html#invertFrom(com.google.common.collect.Multimap,%20M)">invertFrom(Multimap&lt;? extends V, ? extends K&gt;, M)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Multimaps.html" title="class in com.google.common.collect">Multimaps</a></dt>
 <dd>
@@ -16134,6 +16148,10 @@
 <dd>
 <div class="block">Returns a list that applies <code>function</code> to each element of <code>fromList</code>.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/math/LinearTransformation.html#transform(double)">transform(double)</a></span> - Method in class com.google.common.math.<a href="./com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></dt>
+<dd>
+<div class="block">Returns the <code>y</code> corresponding to the given <code>x</code>.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,%20com.google.common.base.Function)">transform(ListenableFuture&lt;I&gt;, Function&lt;? super I, ? extends O&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
 <div class="block">Returns a new <code>Future</code> whose result is derived from the result of the given <code>Future</code>.</div>
@@ -16212,14 +16230,6 @@
 <dt><span class="strong"><a href="./com/google/common/collect/Tables.html#transformValues(com.google.common.collect.Table,%20com.google.common.base.Function)">transformValues(Table&lt;R, C, V1&gt;, Function&lt;? super V1, V2&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Tables.html" title="class in com.google.common.collect">Tables</a></dt>
 <dd>
 <div class="block">Returns a view of a table where each value is transformed by a function.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/math/LinearTransformation.html#transformX(double)">transformX(double)</a></span> - Method in class com.google.common.math.<a href="./com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></dt>
-<dd>
-<div class="block">Returns the <code>y</code> corresponding to the given <code>x</code>.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/math/LinearTransformation.html#transformY(double)">transformY(double)</a></span> - Method in class com.google.common.math.<a href="./com/google/common/math/LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></dt>
-<dd>
-<div class="block">Returns the <code>x</code> corresponding to the given <code>y</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Tables.html#transpose(com.google.common.collect.Table)">transpose(Table&lt;R, C, V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Tables.html" title="class in com.google.common.collect">Tables</a></dt>
 <dd>

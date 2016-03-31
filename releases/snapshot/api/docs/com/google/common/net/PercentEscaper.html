@@ -107,7 +107,7 @@
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.56">PercentEscaper</a>
+public final class <a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.53">PercentEscaper</a>
 extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title="class in com.google.common.escape">UnicodeEscaper</a></pre>
 <div class="block">A <code>UnicodeEscaper</code> that escapes some set of Java characters using a UTF-8 based percent
  encoding scheme. The set of safe characters (those which remain unescaped) can be specified on
@@ -130,11 +130,8 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
  <p>For performance reasons the only currently supported character encoding of this class is
  UTF-8.
 
- <p><b>Note:</b> This escaper produces uppercase hexadecimal sequences. From
- <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:
-
- <blockquote><p>"URI producers and normalizers should use uppercase hexadecimal digits for all
- percent-encodings."</blockquote></div>
+ <p><b>Note:</b> This escaper produces <a
+ href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>15.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -241,7 +238,7 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
 <ul class="blockListLast">
 <li class="blockList">
 <h4>PercentEscaper</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.89">PercentEscaper</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;safeChars,
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.86">PercentEscaper</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;safeChars,
               boolean&nbsp;plusForSpace)</pre>
 <div class="block">Constructs a percent escaper with the specified safe characters and optional handling of the
  space character.
@@ -269,7 +266,7 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>nextEscapeIndex</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.132">nextEscapeIndex</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;csq,
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.129">nextEscapeIndex</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;csq,
                   int&nbsp;index,
                   int&nbsp;end)</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../com/google/common/escape/UnicodeEscaper.html#nextEscapeIndex(java.lang.CharSequence,%20int,%20int)">UnicodeEscaper</a></code></strong></div>
@@ -299,7 +296,7 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>escape</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.148">escape</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;s)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.145">escape</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;s)</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../com/google/common/escape/UnicodeEscaper.html#escape(java.lang.String)">UnicodeEscaper</a></code></strong></div>
 <div class="block">Returns the escaped form of a given literal string.
 
@@ -325,7 +322,7 @@ extends <a href="../../../../com/google/common/escape/UnicodeEscaper.html" title
 <ul class="blockListLast">
 <li class="blockList">
 <h4>escape</h4>
-<pre>protected&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.164">escape</a>(int&nbsp;cp)</pre>
+<pre>protected&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/net/PercentEscaper.html#line.161">escape</a>(int&nbsp;cp)</pre>
 <div class="block">Escapes the given Unicode code point in UTF-8.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>

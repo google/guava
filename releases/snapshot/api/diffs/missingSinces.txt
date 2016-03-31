@@ -90,6 +90,8 @@ OK: com.google.common.collect.FluentIterable Method concat(java.lang.Iterable<? 
 OK: com.google.common.collect.FluentIterable Method concat(java.lang.Iterable<? extends T>, java.lang.Iterable<? extends T>, java.lang.Iterable<? extends T>, java.lang.Iterable<? extends T>)
 OK: com.google.common.collect.FluentIterable Method concat(java.lang.Iterable<? extends java.lang.Iterable<? extends T>>)
 OK: com.google.common.collect.FluentIterable Method concat(java.lang.Iterable[])
+OK: com.google.common.io.ByteStreams Method exhaust(java.io.InputStream)
+OK: com.google.common.io.CharStreams Method exhaust(java.lang.Readable)
 OK: com.google.common.hash.Hashing Method farmHashFingerprint64()
 OK: com.google.common.math.BigIntegerMath Method floorPowerOfTwo(java.math.BigInteger)
 OK: com.google.common.math.IntMath Method floorPowerOfTwo(int)
