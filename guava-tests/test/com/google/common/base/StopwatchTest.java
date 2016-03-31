@@ -21,7 +21,6 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.FakeTicker;
 
 import junit.framework.TestCase;
@@ -31,7 +30,7 @@ import junit.framework.TestCase;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class StopwatchTest extends TestCase {
 
   private final FakeTicker ticker = new FakeTicker();
@@ -168,7 +167,6 @@ public class StopwatchTest extends TestCase {
     assertEquals(1, stopwatch.elapsed(MILLISECONDS));
   }
 
-  @GwtIncompatible // String.format()
   public void testToString() {
     stopwatch.start();
     assertEquals("0.000 ns", stopwatch.toString());

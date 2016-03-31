@@ -17,6 +17,7 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 
 import java.lang.ref.WeakReference;
+import java.util.Locale;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -41,5 +42,9 @@ final class Platform {
     return ref == null
         ? Optional.<T>absent()
         : Optional.of(enumClass.cast(ref.get()));
+  }
+  
+  static String formatCompact4Digits(double value) {
+    return String.format(Locale.ROOT, "%.4g", value);
   }
 }

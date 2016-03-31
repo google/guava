@@ -25,10 +25,8 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -67,7 +65,7 @@ import java.util.concurrent.TimeUnit;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Stopwatch {
   private final Ticker ticker;
   private boolean isRunning;
@@ -189,7 +187,6 @@ public final class Stopwatch {
   /**
    * Returns a string representation of the current elapsed time.
    */
-  @GwtIncompatible // String.format()
   @Override
   public String toString() {
     long nanos = elapsedNanos();
@@ -198,7 +195,7 @@ public final class Stopwatch {
     double value = (double) nanos / NANOSECONDS.convert(1, unit);
 
     // Too bad this functionality is not exposed as a regular method call
-    return String.format(Locale.ROOT, "%.4g %s", value, abbreviate(unit));
+    return Platform.formatCompact4Digits(value) + " " + abbreviate(unit);
   }
 
   private static TimeUnit chooseUnit(long nanos) {

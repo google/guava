@@ -16,6 +16,10 @@
 
 package com.google.common.base;
 
+import static jsinterop.annotations.JsPackage.GLOBAL;
+
+import jsinterop.annotations.JsType;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -42,6 +46,15 @@ final class Platform {
     } catch (IllegalArgumentException iae) {
       return Optional.absent();
     }
+  }
+  
+  static String formatCompact4Digits(double value) {
+    return "" + ((Number) (Object) value).toPrecision(4);
+  }
+
+  @JsType(isNative = true, name = "Number", namespace = GLOBAL)
+  private static class Number {
+    public native double toPrecision(int precision);
   }
 
   private Platform() {}
