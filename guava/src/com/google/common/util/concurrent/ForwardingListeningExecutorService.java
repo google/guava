@@ -14,6 +14,9 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.util.concurrent.Callable;
 
 /**
@@ -25,6 +28,8 @@ import java.util.concurrent.Callable;
  * @author Isaac Shum
  * @since 10.0
  */
+@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
+@GwtIncompatible
 public abstract class ForwardingListeningExecutorService extends ForwardingExecutorService
     implements ListeningExecutorService {
   /** Constructor for use by subclasses. */

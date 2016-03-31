@@ -93,7 +93,7 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
   /**
    * @since 12.0
    */
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   @Override
   public ContiguousSet<C> headSet(C toElement, boolean inclusive) {
     return headSetImpl(checkNotNull(toElement), inclusive);
@@ -110,7 +110,7 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
   /**
    * @since 12.0
    */
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   @Override
   public ContiguousSet<C> subSet(
       C fromElement, boolean fromInclusive, C toElement, boolean toInclusive) {
@@ -128,7 +128,7 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
   /**
    * @since 12.0
    */
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   @Override
   public ContiguousSet<C> tailSet(C fromElement, boolean inclusive) {
     return tailSetImpl(checkNotNull(fromElement), inclusive);

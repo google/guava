@@ -16,6 +16,7 @@
 
 package com.google.common.reflect;
 
+import static com.google.common.base.Charsets.US_ASCII;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Charsets;

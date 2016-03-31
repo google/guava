@@ -37,19 +37,21 @@ import java.util.Map.Entry;
  * @author George van den Driessche
  */
 @GwtCompatible
-public abstract class AbstractMapTester<K, V> extends
-    AbstractContainerTester<Map<K, V>, Map.Entry<K, V>> {
+public abstract class AbstractMapTester<K, V>
+    extends AbstractContainerTester<Map<K, V>, Map.Entry<K, V>> {
   protected Map<K, V> getMap() {
     return container;
   }
 
-  @Override public void setUp() throws Exception {
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     samples = this.getSubjectGenerator().samples();
     resetMap();
   }
 
-  @Override protected Collection<Map.Entry<K, V>> actualContents() {
+  @Override
+  protected Collection<Map.Entry<K, V>> actualContents() {
     return getMap().entrySet();
   }
 
@@ -60,15 +62,13 @@ public abstract class AbstractMapTester<K, V> extends
 
   protected void expectMissingKeys(K... elements) {
     for (K element : elements) {
-      assertFalse("Should not contain key " + element,
-          getMap().containsKey(element));
+      assertFalse("Should not contain key " + element, getMap().containsKey(element));
     }
   }
 
   protected void expectMissingValues(V... elements) {
     for (V element : elements) {
-      assertFalse("Should not contain value " + element,
-          getMap().containsValue(element));
+      assertFalse("Should not contain value " + element, getMap().containsValue(element));
     }
   }
 
@@ -142,8 +142,7 @@ public abstract class AbstractMapTester<K, V> extends
    * {@code NullPointerException}.
    * @param message message to use upon assertion failure
    */
-  protected void expectNullValueMissingWhenNullValuesUnsupported(
-      String message) {
+  protected void expectNullValueMissingWhenNullValuesUnsupported(String message) {
     try {
       assertFalse(message, getMap().containsValue(null));
     } catch (NullPointerException tolerated) {
@@ -152,8 +151,8 @@ public abstract class AbstractMapTester<K, V> extends
   }
 
   @SuppressWarnings("unchecked")
-  @Override protected MinimalCollection<Map.Entry<K, V>>
-      createDisjointCollection() {
+  @Override
+  protected MinimalCollection<Map.Entry<K, V>> createDisjointCollection() {
     return MinimalCollection.of(e3(), e4());
   }
 
@@ -169,12 +168,12 @@ public abstract class AbstractMapTester<K, V> extends
     return getSampleElements();
   }
 
-  @Override protected void expectMissing(Entry<K, V>... entries) {
+  @Override
+  protected void expectMissing(Entry<K, V>... entries) {
     for (Entry<K, V> entry : entries) {
-      assertFalse("Should not contain entry " + entry,
-          actualContents().contains(entry));
-      assertFalse("Should not contain key " + entry.getKey() + " mapped to"
-          + " value " + entry.getValue(),
+      assertFalse("Should not contain entry " + entry, actualContents().contains(entry));
+      assertFalse(
+          "Should not contain key " + entry.getKey() + " mapped to value " + entry.getValue(),
           equal(getMap().get(entry.getKey()), entry.getValue()));
     }
   }
@@ -188,12 +187,13 @@ public abstract class AbstractMapTester<K, V> extends
     return Helpers.mapEntry(key, value);
   }
 
-  @Override protected void expectContents(Collection<Entry<K, V>> expected) {
+  @Override
+  protected void expectContents(Collection<Entry<K, V>> expected) {
     // TODO: move this to invariant checks once the appropriate hook exists?
     super.expectContents(expected);
     for (Entry<K, V> entry : expected) {
-      assertEquals("Wrong value for key " + entry.getKey(),
-          entry.getValue(), getMap().get(entry.getKey()));
+      assertEquals(
+          "Wrong value for key " + entry.getKey(), entry.getValue(), getMap().get(entry.getKey()));
     }
   }
 
@@ -204,15 +204,15 @@ public abstract class AbstractMapTester<K, V> extends
   }
 
   private void replaceValue(List<Entry<K, V>> expected, Entry<K, V> newEntry) {
-    for (ListIterator<Entry<K, V>> i = expected.listIterator(); i.hasNext();) {
+    for (ListIterator<Entry<K, V>> i = expected.listIterator(); i.hasNext(); ) {
       if (Helpers.equal(i.next().getKey(), newEntry.getKey())) {
         i.set(newEntry);
         return;
       }
     }
 
-    throw new IllegalArgumentException(Platform.format(
-        "key %s not found in entries %s", newEntry.getKey(), expected));
+    throw new IllegalArgumentException(
+        Platform.format("key %s not found in entries %s", newEntry.getKey(), expected));
   }
 
   /**

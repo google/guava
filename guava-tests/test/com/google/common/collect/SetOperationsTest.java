@@ -41,7 +41,7 @@ import java.util.Set;
  */
 @GwtCompatible(emulated = true)
 public class SetOperationsTest extends TestCase {
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
 

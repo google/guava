@@ -27,7 +27,7 @@ import java.io.Serializable;
 @SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
 final class NaturalOrdering extends Ordering<Comparable> implements Serializable {
   static final NaturalOrdering INSTANCE = new NaturalOrdering();
-  
+
   private transient Ordering<Comparable> nullsFirst;
   private transient Ordering<Comparable> nullsLast;
 

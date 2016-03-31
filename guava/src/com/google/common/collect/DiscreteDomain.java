@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -182,11 +183,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
     @Override
     public long distance(BigInteger start, BigInteger end) {
-      return end
-          .subtract(start)
-          .max(MIN_LONG)
-          .min(MAX_LONG)
-          .longValue();
+      return end.subtract(start).max(MIN_LONG).min(MAX_LONG).longValue();
     }
 
     private Object readResolve() {
@@ -254,6 +251,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
    * @throws NoSuchElementException if the type has no (practical) minimum
    *     value; for example, {@link java.math.BigInteger}
    */
+  @CanIgnoreReturnValue
   public C minValue() {
     throw new NoSuchElementException();
   }
@@ -269,6 +267,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
    * @throws NoSuchElementException if the type has no (practical) maximum
    *     value; for example, {@link java.math.BigInteger}
    */
+  @CanIgnoreReturnValue
   public C maxValue() {
     throw new NoSuchElementException();
   }

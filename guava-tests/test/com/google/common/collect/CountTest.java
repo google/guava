@@ -31,7 +31,8 @@ public class CountTest extends TestCase {
 
   public void testGetAndAdd() {
     Count holder = new Count(20);
-    assertEquals(20, holder.getAndAdd(1));
+    assertEquals(20, holder.get());
+    holder.add(1);
     assertEquals(21, holder.get());
   }
 

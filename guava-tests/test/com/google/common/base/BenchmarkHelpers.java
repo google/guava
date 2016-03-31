@@ -55,11 +55,11 @@ class BenchmarkHelpers {
    * Sample CharMatcher instances for benchmarking. 
    */
   public enum SampleMatcherConfig {
-    WHITESPACE(CharMatcher.WHITESPACE, WHITESPACE_CHARACTERS),
+    WHITESPACE(CharMatcher.whitespace(), WHITESPACE_CHARACTERS),
     HASH(CharMatcher.is('#'), "#"),
-    ASCII(CharMatcher.ASCII, ASCII_CHARACTERS),
+    ASCII(CharMatcher.ascii(), ASCII_CHARACTERS),
     WESTERN_DIGIT("0123456789"),
-    ALL_DIGIT(CharMatcher.DIGIT, ALL_DIGITS),
+    ALL_DIGIT(CharMatcher.digit(), ALL_DIGITS),
     OPS_5("+-*/%"),
     HEX_16(CharMatcher.inRange('0', '9').or(CharMatcher.inRange('A', 'F')), "0123456789ABCDEF"),
     HEX_22(CharMatcher.inRange('0', '9')

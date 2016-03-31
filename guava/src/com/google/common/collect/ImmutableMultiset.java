@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Multiset.Entry;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
@@ -126,15 +127,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
-    return new Builder<E>()
-        .add(e1)
-        .add(e2)
-        .add(e3)
-        .add(e4)
-        .add(e5)
-        .add(e6)
-        .add(others)
-        .build();
+    return new Builder<E>().add(e1).add(e2).add(e3).add(e4).add(e5).add(e6).add(others).build();
   }
 
   /**
@@ -236,6 +229,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final int add(E element, int occurrences) {
@@ -248,6 +242,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final int remove(Object element, int occurrences) {
@@ -260,6 +255,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final int setCount(E element, int count) {
@@ -272,13 +268,14 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final boolean setCount(E element, int oldCount, int newCount) {
     throw new UnsupportedOperationException();
   }
 
-  @GwtIncompatible("not present in emulated superclass")
+  @GwtIncompatible // not present in emulated superclass
   @Override
   int copyIntoArray(Object[] dst, int offset) {
     for (Multiset.Entry<E> entry : entrySet()) {
@@ -455,6 +452,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code element} is null
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E element) {
       contents.add(checkNotNull(element));
@@ -474,6 +472,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      *     if this operation would result in more than {@link Integer#MAX_VALUE}
      *     occurrences of the element
      */
+    @CanIgnoreReturnValue
     public Builder<E> addCopies(E element, int occurrences) {
       contents.add(checkNotNull(element), occurrences);
       return this;
@@ -489,6 +488,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @throws NullPointerException if {@code element} is null
      * @throws IllegalArgumentException if {@code count} is negative
      */
+    @CanIgnoreReturnValue
     public Builder<E> setCount(E element, int count) {
       contents.setCount(checkNotNull(element), count);
       return this;
@@ -502,6 +502,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> add(E... elements) {
       super.add(elements);
@@ -517,6 +518,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Multiset) {
@@ -538,6 +540,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
      * @throws NullPointerException if {@code elements} is null or contains a
      *     null element
      */
+    @CanIgnoreReturnValue
     @Override
     public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);

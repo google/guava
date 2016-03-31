@@ -17,15 +17,15 @@ package com.google.common.hash;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 
 /**
- * Skeleton implementation of {@link HashFunction}. Provides default implementations which
- * invokes the appropriate method on {@link #newHasher()}, then return the result of
- * {@link Hasher#hash}.
+ * Skeleton implementation of {@link HashFunction}. Provides default implementations which invokes
+ * the appropriate method on {@link #newHasher()}, then return the result of {@link Hasher#hash}.
  *
  * <p>Invocations of {@link #newHasher(int)} also delegate to {@linkplain #newHasher()}, ignoring
  * the expected input size parameter.
@@ -75,13 +75,14 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
   }
 
   /**
-   * A convenience base class for implementors of {@code Hasher}; handles accumulating data
-   * until an entire "chunk" (of implementation-dependent length) is ready to be hashed.
+   * A convenience base class for implementors of {@code Hasher}; handles accumulating data until an
+   * entire "chunk" (of implementation-dependent length) is ready to be hashed.
    *
    * @author Kevin Bourrillion
    * @author Dimitris Andreou
    */
   // TODO(kevinb): this class still needs some design-and-document-for-inheritance love
+  @CanIgnoreReturnValue
   protected static abstract class AbstractStreamingHasher extends AbstractHasher {
     /** Buffer via which we pass data to the hash algorithm (the implementor) */
     private final ByteBuffer buffer;
@@ -97,7 +98,7 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
      * size.
      *
      * @param chunkSize the number of bytes available per {@link #process(ByteBuffer)} invocation;
-     *        must be at least 4
+     *     must be at least 4
      */
     protected AbstractStreamingHasher(int chunkSize) {
       this(chunkSize, chunkSize);
@@ -109,7 +110,7 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
      * {@code chunkSize}.
      *
      * @param chunkSize the number of bytes available per {@link #process(ByteBuffer)} invocation;
-     *        must be at least 4
+     *     must be at least 4
      * @param bufferSize the size of the internal buffer. Must be a multiple of chunkSize
      */
     protected AbstractStreamingHasher(int chunkSize, int bufferSize) {
@@ -129,12 +130,10 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
     protected abstract void process(ByteBuffer bb);
 
     /**
-     * This is invoked for the last bytes of the input, which are not enough to
-     * fill a whole chunk. The passed {@code ByteBuffer} is guaranteed to be
-     * non-empty.
+     * This is invoked for the last bytes of the input, which are not enough to fill a whole chunk.
+     * The passed {@code ByteBuffer} is guaranteed to be non-empty.
      *
-     * <p>This implementation simply pads with zeros and delegates to
-     * {@link #process(ByteBuffer)}.
+     * <p>This implementation simply pads with zeros and delegates to {@link #process(ByteBuffer)}.
      */
     protected void processRemaining(ByteBuffer bb) {
       bb.position(bb.limit()); // move at the end
@@ -193,8 +192,8 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
     /*
      * Note: hashString(CharSequence, Charset) is intentionally not overridden.
      *
-     * While intuitively, using CharsetEncoder to encode the CharSequence directly to the buffer
-     * (or even to an intermediate buffer) should be considerably more efficient than potentially
+     * While intuitively, using CharsetEncoder to encode the CharSequence directly to the buffer (or
+     * even to an intermediate buffer) should be considerably more efficient than potentially
      * copying the CharSequence to a String and then calling getBytes(Charset) on that String, in
      * reality there are optimizations that make the getBytes(Charset) approach considerably faster,
      * at least for commonly used charsets like UTF-8.

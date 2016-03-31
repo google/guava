@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2007 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -23,29 +21,25 @@ import com.google.common.annotations.VisibleForTesting;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
  * Useful suppliers.
  *
- * <p>All methods return serializable suppliers as long as they're given
- * serializable parameters.
+ * <p>All methods return serializable suppliers as long as they're given serializable parameters.
  *
  * @author Laurence Gonsalves
  * @author Harry Heymann
  * @since 2.0
  */
-@CheckReturnValue
 @GwtCompatible
 public final class Suppliers {
   private Suppliers() {}
 
   /**
-   * Returns a new supplier which is the composition of the provided function
-   * and supplier. In other words, the new supplier's value will be computed by
-   * retrieving the value from {@code supplier}, and then applying
-   * {@code function} to that value. Note that the resulting supplier will not
+   * Returns a new supplier which is the composition of the provided function and supplier. In other
+   * words, the new supplier's value will be computed by retrieving the value from {@code supplier},
+   * and then applying {@code function} to that value. Note that the resulting supplier will not
    * call {@code supplier} or invoke {@code function} until it is called.
    */
   public static <F, T> Supplier<T> compose(Function<? super F, T> function, Supplier<F> supplier) {
@@ -91,15 +85,13 @@ public final class Suppliers {
   }
 
   /**
-   * Returns a supplier which caches the instance retrieved during the first
-   * call to {@code get()} and returns that value on subsequent calls to
-   * {@code get()}. See:
+   * Returns a supplier which caches the instance retrieved during the first call to {@code get()}
+   * and returns that value on subsequent calls to {@code get()}. See:
    * <a href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
    *
-   * <p>The returned supplier is thread-safe. The delegate's {@code get()}
-   * method will be invoked at most once. The supplier's serialized form does
-   * not contain the cached value, which will be recalculated when {@code get()}
-   * is called on the reserialized instance.
+   * <p>The returned supplier is thread-safe. The delegate's {@code get()} method will be invoked at
+   * most once. The supplier's serialized form does not contain the cached value, which will be
+   * recalculated when {@code get()} is called on the reserialized instance.
    *
    * <p>If {@code delegate} is an instance created by an earlier call to {@code
    * memoize}, it is returned directly.
@@ -147,19 +139,18 @@ public final class Suppliers {
   }
 
   /**
-   * Returns a supplier that caches the instance supplied by the delegate and
-   * removes the cached value after the specified time has passed. Subsequent
-   * calls to {@code get()} return the cached value if the expiration time has
-   * not passed. After the expiration time, a new value is retrieved, cached,
-   * and returned. See:
+   * Returns a supplier that caches the instance supplied by the delegate and removes the cached
+   * value after the specified time has passed. Subsequent calls to {@code get()} return the cached
+   * value if the expiration time has not passed. After the expiration time, a new value is
+   * retrieved, cached, and returned. See:
    * <a href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
    *
-   * <p>The returned supplier is thread-safe. The supplier's serialized form
-   * does not contain the cached value, which will be recalculated when {@code
+   * <p>The returned supplier is thread-safe. The supplier's serialized form does not contain the
+   * cached value, which will be recalculated when {@code
    * get()} is called on the reserialized instance.
    *
-   * @param duration the length of time after a value is created that it
-   *     should stop being returned by subsequent {@code get()} calls
+   * @param duration the length of time after a value is created that it should stop being returned
+   *     by subsequent {@code get()} calls
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is not positive
    * @since 2.0
@@ -187,7 +178,7 @@ public final class Suppliers {
     public T get() {
       // Another variant of Double Checked Locking.
       //
-      // We use two volatile reads.  We could reduce this to one by
+      // We use two volatile reads. We could reduce this to one by
       // putting our fields into a holder class, but (at least on x86)
       // the extra memory consumption and indirection are more
       // expensive than the extra volatile reads.
@@ -261,8 +252,8 @@ public final class Suppliers {
   }
 
   /**
-   * Returns a supplier whose {@code get()} method synchronizes on
-   * {@code delegate} before calling it, making it thread-safe.
+   * Returns a supplier whose {@code get()} method synchronizes on {@code delegate} before calling
+   * it, making it thread-safe.
    */
   public static <T> Supplier<T> synchronizedSupplier(Supplier<T> delegate) {
     return new ThreadSafeSupplier<T>(Preconditions.checkNotNull(delegate));
@@ -291,8 +282,8 @@ public final class Suppliers {
   }
 
   /**
-   * Returns a function that accepts a supplier and returns the result of
-   * invoking {@link Supplier#get} on that supplier.
+   * Returns a function that accepts a supplier and returns the result of invoking
+   * {@link Supplier#get} on that supplier.
    *
    * @since 8.0
    */

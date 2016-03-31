@@ -61,19 +61,19 @@ import java.util.Iterator;
  * @author Chris Povirk
  */
 @GwtCompatible
-public abstract class IteratorTester<E> extends
-    AbstractIteratorTester<E, Iterator<E>> {
+public abstract class IteratorTester<E> extends AbstractIteratorTester<E, Iterator<E>> {
   /**
    * Creates an IteratorTester.
    *
    * @param steps how many operations to test for each tested pair of iterators
    * @param features the features supported by the iterator
    */
-  protected IteratorTester(int steps,
+  protected IteratorTester(
+      int steps,
       Iterable<? extends IteratorFeature> features,
-      Iterable<E> expectedElements, KnownOrder knownOrder) {
-    super(steps, Collections.<E>singleton(null), features, expectedElements,
-        knownOrder, 0);
+      Iterable<E> expectedElements,
+      KnownOrder knownOrder) {
+    super(steps, Collections.<E>singleton(null), features, expectedElements, knownOrder, 0);
   }
 
   @Override

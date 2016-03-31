@@ -28,7 +28,7 @@ import java.util.Set;
 /**
  * A generic JUnit test which tests multiset-specific serialization. Can't be invoked directly;
  * please see {@link com.google.common.collect.testing.MultisetTestSuiteBuilder}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible // but no-op

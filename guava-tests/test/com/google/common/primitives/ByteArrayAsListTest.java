@@ -50,7 +50,7 @@ public class ByteArrayAsListTest extends TestCase {
     return Bytes.asList(temp);
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     List<ListTestSuiteBuilder<Byte>> builders =
         ImmutableList.of(

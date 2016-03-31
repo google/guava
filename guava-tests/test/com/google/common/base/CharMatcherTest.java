@@ -47,7 +47,7 @@ import java.util.Set;
 @GwtCompatible(emulated = true)
 public class CharMatcherTest extends TestCase {
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testStaticNullPointers() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(CharMatcher.class);
@@ -91,7 +91,7 @@ public class CharMatcherTest extends TestCase {
   // The next tests require ICU4J and have, at least for now, been sliced out
   // of the open-source view of the tests.
 
-  @GwtIncompatible("Character.isISOControl")
+  @GwtIncompatible // Character.isISOControl
   public void testJavaIsoControl() {
     for (int c = 0; c <= Character.MAX_VALUE; c++) {
       assertEquals("" + c, Character.isISOControl(c),
@@ -109,7 +109,7 @@ public class CharMatcherTest extends TestCase {
   // method, but by overall "scenario". Also, the variety of actual tests we
   // do borders on absurd overkill. Better safe than sorry, though?
 
-  @GwtIncompatible("java.util.BitSet")
+  @GwtIncompatible // java.util.BitSet
   public void testSetBits() {
     doTestSetBits(CharMatcher.any());
     doTestSetBits(CharMatcher.none());
@@ -129,7 +129,7 @@ public class CharMatcherTest extends TestCase {
     doTestSetBits(inRange('A', 'Z').and(inRange('F', 'K').negate()));
   }
 
-  @GwtIncompatible("java.util.BitSet")
+  @GwtIncompatible // java.util.BitSet
   private void doTestSetBits(CharMatcher matcher) {
     BitSet bitset = new BitSet();
     matcher.setBits(bitset);
@@ -152,7 +152,7 @@ public class CharMatcherTest extends TestCase {
     doTestEmpty(forPredicate(Predicates.equalTo('c')));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNull() throws Exception {
     doTestNull(CharMatcher.any());
     doTestNull(CharMatcher.none());
@@ -197,7 +197,7 @@ public class CharMatcherTest extends TestCase {
     assertEquals(0, matcher.countIn(""));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   private static void doTestNull(CharMatcher matcher) throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(matcher);
@@ -668,12 +668,12 @@ public class CharMatcherTest extends TestCase {
     assertSame(CharMatcher.any(), CharMatcher.any().precomputed());
   }
 
-  @GwtIncompatible("java.util.BitSet")
+  @GwtIncompatible // java.util.BitSet
   private static BitSet bitSet(String chars) {
     return bitSet(chars.toCharArray());
   }
 
-  @GwtIncompatible("java.util.BitSet")
+  @GwtIncompatible // java.util.BitSet
   private static BitSet bitSet(char[] chars) {
     BitSet tmp = new BitSet();
     for (char c : chars) {
@@ -682,7 +682,7 @@ public class CharMatcherTest extends TestCase {
     return tmp;
   }
 
-  @GwtIncompatible("java.util.Random, java.util.BitSet")
+  @GwtIncompatible // java.util.Random, java.util.BitSet
   public void testSmallCharMatcher() {
     CharMatcher len1 = SmallCharMatcher.from(bitSet("#"), "#");
     CharMatcher len2 = SmallCharMatcher.from(bitSet("ab"), "ab");

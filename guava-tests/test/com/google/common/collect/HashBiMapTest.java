@@ -54,7 +54,7 @@ public class HashBiMapTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(BiMapTestSuiteBuilder.using(new HashBiMapGenerator())
@@ -130,7 +130,7 @@ public class HashBiMapTest extends TestCase {
     assertTrue(map.isEmpty());
   }
 
-  @GwtIncompatible("insertion order currently not preserved in GWT")
+  @GwtIncompatible // insertion order currently not preserved in GWT
   public void testInsertionOrder() {
     BiMap<String, Integer> map = HashBiMap.create();
     map.put("foo", 1);
@@ -142,7 +142,7 @@ public class HashBiMapTest extends TestCase {
         Maps.immutableEntry("quux", 3)).inOrder();
   }
 
-  @GwtIncompatible("insertion order currently not preserved in GWT")
+  @GwtIncompatible // insertion order currently not preserved in GWT
   public void testInsertionOrderAfterRemoveFirst() {
     BiMap<String, Integer> map = HashBiMap.create();
     map.put("foo", 1);
@@ -155,7 +155,7 @@ public class HashBiMapTest extends TestCase {
         Maps.immutableEntry("quux", 3)).inOrder();
   }
 
-  @GwtIncompatible("insertion order currently not preserved in GWT")
+  @GwtIncompatible // insertion order currently not preserved in GWT
   public void testInsertionOrderAfterRemoveMiddle() {
     BiMap<String, Integer> map = HashBiMap.create();
     map.put("foo", 1);
@@ -168,7 +168,7 @@ public class HashBiMapTest extends TestCase {
         Maps.immutableEntry("quux", 3)).inOrder();
   }
 
-  @GwtIncompatible("insertion order currently not preserved in GWT")
+  @GwtIncompatible // insertion order currently not preserved in GWT
   public void testInsertionOrderAfterRemoveLast() {
     BiMap<String, Integer> map = HashBiMap.create();
     map.put("foo", 1);
@@ -181,7 +181,7 @@ public class HashBiMapTest extends TestCase {
         Maps.immutableEntry("bar", 2)).inOrder();
   }
 
-  @GwtIncompatible("insertion order currently not preserved in GWT")
+  @GwtIncompatible // insertion order currently not preserved in GWT
   public void testInsertionOrderAfterForcePut() {
     BiMap<String, Integer> map = HashBiMap.create();
     map.put("foo", 1);
@@ -194,7 +194,7 @@ public class HashBiMapTest extends TestCase {
         Maps.immutableEntry("quux", 1)).inOrder();
   }
 
-  @GwtIncompatible("insertion order currently not preserved in GWT")
+  @GwtIncompatible // insertion order currently not preserved in GWT
   public void testInsertionOrderAfterInverseForcePut() {
     BiMap<String, Integer> map = HashBiMap.create();
     map.put("foo", 1);
@@ -207,7 +207,7 @@ public class HashBiMapTest extends TestCase {
         Maps.immutableEntry("quux", 1)).inOrder();
   }
 
-  @GwtIncompatible("insertion order currently not preserved in GWT")
+  @GwtIncompatible // insertion order currently not preserved in GWT
   public void testInverseInsertionOrderAfterInverseForcePut() {
     BiMap<String, Integer> map = HashBiMap.create();
     map.put("foo", 1);

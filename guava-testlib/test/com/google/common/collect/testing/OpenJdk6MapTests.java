@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.testing.testers.CollectionAddAllTester.getAddAllUnsupportedNonePresentMethod;
 import static com.google.common.collect.testing.testers.CollectionAddAllTester.getAddAllUnsupportedSomePresentMethod;
 import static com.google.common.collect.testing.testers.CollectionAddTester.getAddUnsupportedNotPresentMethod;
@@ -31,6 +32,7 @@ import junit.framework.Test;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -79,8 +81,10 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
 
   @Override
   protected Collection<Method> suppressForConcurrentSkipListMap() {
-    return Arrays.asList(
-        getContainsEntryWithIncomparableKeyMethod(),
-        getContainsEntryWithIncomparableValueMethod()); 
+    List<Method> methods = newArrayList();
+    methods.addAll(super.suppressForConcurrentSkipListMap());
+    methods.add(getContainsEntryWithIncomparableKeyMethod());
+    methods.add(getContainsEntryWithIncomparableValueMethod());
+    return methods;
   }
 }

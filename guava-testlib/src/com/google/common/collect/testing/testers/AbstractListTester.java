@@ -46,7 +46,8 @@ public class AbstractListTester<E> extends AbstractCollectionTester<E> {
    * {@link AbstractCollectionTester#expectContents(Collection)} to verify that
    * the order of the elements in the list under test matches what is expected.
    */
-  @Override protected void expectContents(Collection<E> expectedCollection) {
+  @Override
+  protected void expectContents(Collection<E> expectedCollection) {
     List<E> expectedList = Helpers.copyToList(expectedCollection);
     // Avoid expectEquals() here to delay reason manufacture until necessary.
     if (getList().size() != expectedList.size()) {
@@ -55,8 +56,7 @@ public class AbstractListTester<E> extends AbstractCollectionTester<E> {
     for (int i = 0; i < expectedList.size(); i++) {
       E expected = expectedList.get(i);
       E actual = getList().get(i);
-      if (expected != actual &&
-          (expected == null || !expected.equals(actual))) {
+      if (expected != actual && (expected == null || !expected.equals(actual))) {
         fail("mismatch at index " + i + ": " + reportContext(expectedList));
       }
     }
@@ -68,7 +68,7 @@ public class AbstractListTester<E> extends AbstractCollectionTester<E> {
    * extremely large numbers of tests.
    */
   private String reportContext(List<E> expected) {
-    return Platform.format("expected collection %s; actual collection %s",
-                           expected, this.collection);
+    return Platform.format(
+        "expected collection %s; actual collection %s", expected, this.collection);
   }
 }

@@ -30,8 +30,7 @@ import java.util.Map.Entry;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-public abstract class TestEnumMapGenerator
-    implements TestMapGenerator<AnEnum, String> {
+public abstract class TestEnumMapGenerator implements TestMapGenerator<AnEnum, String> {
 
   @Override
   public SampleElements<Entry<AnEnum, String>> samples() {
@@ -40,8 +39,7 @@ public abstract class TestEnumMapGenerator
         Helpers.mapEntry(AnEnum.B, "February"),
         Helpers.mapEntry(AnEnum.C, "March"),
         Helpers.mapEntry(AnEnum.D, "April"),
-        Helpers.mapEntry(AnEnum.E, "May")
-    );
+        Helpers.mapEntry(AnEnum.E, "May"));
   }
 
   @Override
@@ -57,8 +55,7 @@ public abstract class TestEnumMapGenerator
     return create(array);
   }
 
-  protected abstract Map<AnEnum, String> create(
-      Entry<AnEnum, String>[] entries);
+  protected abstract Map<AnEnum, String> create(Entry<AnEnum, String>[] entries);
 
   @Override
   @SuppressWarnings("unchecked")
@@ -78,8 +75,7 @@ public abstract class TestEnumMapGenerator
 
   /** Returns the elements sorted in natural order. */
   @Override
-  public Iterable<Entry<AnEnum, String>> order(
-      List<Entry<AnEnum, String>> insertionOrder) {
+  public Iterable<Entry<AnEnum, String>> order(List<Entry<AnEnum, String>> insertionOrder) {
     return orderEntriesByKey(insertionOrder);
   }
 }

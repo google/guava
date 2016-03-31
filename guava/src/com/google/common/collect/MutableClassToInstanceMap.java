@@ -16,8 +16,10 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.MapConstraints.ConstrainedMap;
 import com.google.common.primitives.Primitives;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -34,6 +36,7 @@ import java.util.Map;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@GwtIncompatible
 @SuppressWarnings("serial") // using writeReplace instead of standard serialization
 public final class MutableClassToInstanceMap<B> extends ConstrainedMap<Class<? extends B>, B>
     implements ClassToInstanceMap<B>, Serializable {
@@ -67,6 +70,7 @@ public final class MutableClassToInstanceMap<B> extends ConstrainedMap<Class<? e
         }
       };
 
+  @CanIgnoreReturnValue
   @Override
   public <T extends B> T putInstance(Class<T> type, T value) {
     return cast(type, put(type, value));
@@ -77,6 +81,7 @@ public final class MutableClassToInstanceMap<B> extends ConstrainedMap<Class<? e
     return cast(type, get(type));
   }
 
+  @CanIgnoreReturnValue
   private static <B, T extends B> T cast(Class<T> type, B value) {
     return Primitives.wrap(type).cast(value);
   }

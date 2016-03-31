@@ -53,7 +53,7 @@ public class ImmutableEnumMapTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(MapTestSuiteBuilder.using(new ImmutableEnumMapGenerator())

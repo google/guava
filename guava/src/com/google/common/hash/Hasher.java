@@ -15,15 +15,14 @@
 package com.google.common.hash;
 
 import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.nio.charset.Charset;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * A {@link PrimitiveSink} that can compute a hash code after reading the input. Each hasher should
- * translate all multibyte values ({@link #putInt(int)}, {@link #putLong(long)}, etc) to bytes
- * in little-endian order.
+ * translate all multibyte values ({@link #putInt(int)}, {@link #putLong(long)}, etc) to bytes in
+ * little-endian order.
  *
  * <p><b>Warning:</b> The result of calling any methods after calling {@link #hash} is undefined.
  *
@@ -33,10 +32,10 @@ import javax.annotation.CheckReturnValue;
  * must be identical across languages. Also beware that {@link Charset} definitions may occasionally
  * change between Java releases.
  *
- * <p><b>Warning:</b> Chunks of data that are put into the {@link Hasher} are not delimited.
- * The resulting {@link HashCode} is dependent only on the bytes inserted, and the order in which
- * they were inserted, not how those bytes were chunked into discrete put() operations. For example,
- * the following three expressions all generate colliding hash codes: <pre>   {@code
+ * <p><b>Warning:</b> Chunks of data that are put into the {@link Hasher} are not delimited. The
+ * resulting {@link HashCode} is dependent only on the bytes inserted, and the order in which they
+ * were inserted, not how those bytes were chunked into discrete put() operations. For example, the
+ * following three expressions all generate colliding hash codes: <pre>   {@code
  *
  *   newHasher().putByte(b1).putByte(b2).putByte(b3).hash()
  *   newHasher().putByte(b1).putBytes(new byte[] { b2, b3 }).hash()
@@ -52,6 +51,7 @@ import javax.annotation.CheckReturnValue;
  * @since 11.0
  */
 @Beta
+@CanIgnoreReturnValue
 public interface Hasher extends PrimitiveSink {
   @Override
   Hasher putByte(byte b);
@@ -93,8 +93,8 @@ public interface Hasher extends PrimitiveSink {
   Hasher putChar(char c);
 
   /**
-   * Equivalent to processing each {@code char} value in the {@code CharSequence}, in order.
-   * The input must not be updated while this method is in progress.
+   * Equivalent to processing each {@code char} value in the {@code CharSequence}, in order. The
+   * input must not be updated while this method is in progress.
    *
    * @since 15.0 (since 11.0 as putString(CharSequence)).
    */
@@ -116,7 +116,6 @@ public interface Hasher extends PrimitiveSink {
    * Computes a hash code based on the data that have been provided to this hasher. The result is
    * unspecified if this method is called more than once on the same instance.
    */
-  @CheckReturnValue
   HashCode hash();
 
   /**

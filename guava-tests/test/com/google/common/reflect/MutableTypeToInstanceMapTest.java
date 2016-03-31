@@ -25,14 +25,12 @@ import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-import com.google.common.collect.testing.testers.MapPutTester;
 import com.google.common.reflect.ImmutableTypeToInstanceMapTest.TestTypeToInstanceMapGenerator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -47,16 +45,6 @@ public class MutableTypeToInstanceMapTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(MutableTypeToInstanceMapTest.class);
-
-    // Suppress this one because the tester framework doesn't understand that
-    // *some* remappings will be allowed and others not.
-    Method remapTest = null;
-    try {
-      remapTest = MapPutTester.class.getMethod(
-          "testPut_replaceNullValueWithNonNullSupported");
-    } catch (NoSuchMethodException e) {
-      throw new AssertionError();
-    }
 
     suite.addTest(MapTestSuiteBuilder
         .using(new TestTypeToInstanceMapGenerator() {
@@ -82,7 +70,6 @@ public class MutableTypeToInstanceMapTest extends TestCase {
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             CollectionSize.ANY,
             MapFeature.ALLOWS_ANY_NULL_QUERIES)
-        .suppressing(remapTest)
         .createTestSuite());
 
     return suite;

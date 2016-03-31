@@ -1,21 +1,20 @@
 /*
  * Copyright (C) 2008 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 
 import java.util.ArrayDeque;
@@ -27,9 +26,8 @@ import java.util.logging.Logger;
 import javax.annotation.concurrent.GuardedBy;
 
 /**
- * Executor ensuring that all Runnables submitted are executed in order,
- * using the provided Executor, and serially such that no two will ever
- * be running at the same time.
+ * Executor ensuring that all Runnables submitted are executed in order, using the provided
+ * Executor, and serially such that no two will ever be running at the same time.
  *
  * <p>Tasks submitted to {@link #execute(Runnable)} are executed in FIFO order.
  *
@@ -46,17 +44,19 @@ import javax.annotation.concurrent.GuardedBy;
  * logged and the executor keeps trucking. If an {@code Error} is thrown, the error will propagate
  * and execution will stop until it is restarted by external calls.
  */
+@GwtIncompatible
 final class SerializingExecutor implements Executor {
-  private static final Logger log =
-      Logger.getLogger(SerializingExecutor.class.getName());
+  private static final Logger log = Logger.getLogger(SerializingExecutor.class.getName());
 
   /** Underlying executor that all submitted Runnable objects are run on. */
   private final Executor executor;
 
   @GuardedBy("internalLock")
   private final Deque<Runnable> queue = new ArrayDeque<Runnable>();
+
   @GuardedBy("internalLock")
   private boolean isWorkerRunning = false;
+
   @GuardedBy("internalLock")
   private int suspensions = 0;
 
@@ -71,8 +71,7 @@ final class SerializingExecutor implements Executor {
    * suspended.
    *
    * <p>If this method throws, e.g. a {@code RejectedExecutionException} from the delegate executor,
-   * execution of tasks will stop until a call to this method or to {@link #resume()} is
-   * made.
+   * execution of tasks will stop until a call to this method or to {@link #resume()} is made.
    */
   public void execute(Runnable task) {
     synchronized (internalLock) {
@@ -97,8 +96,8 @@ final class SerializingExecutor implements Executor {
    * times to increase the suspensions count and execution will not continue until {@link #resume}
    * has been called the same number of times as {@code suspend} has been.
    *
-   * <p>Any task that has already been pulled off the queue for execution will be completed
-   * before execution is suspended.
+   * <p>Any task that has already been pulled off the queue for execution will be completed before
+   * execution is suspended.
    */
   public void suspend() {
     synchronized (internalLock) {

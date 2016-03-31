@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
-@GwtIncompatible("unnecessary")
+@GwtIncompatible // unnecessary
 class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
   /**
    * Creates an {@code ImmutableMapEntry} array to hold parameterized entries. The

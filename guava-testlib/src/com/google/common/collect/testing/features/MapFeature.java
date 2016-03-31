@@ -62,10 +62,7 @@ public enum MapFeature implements Feature<Map> {
    * @see #ALLOWS_NULL_ENTRY_QUERIES
    */
   ALLOWS_ANY_NULL_QUERIES(
-      ALLOWS_NULL_ENTRY_QUERIES,
-      ALLOWS_NULL_KEY_QUERIES,
-      ALLOWS_NULL_VALUE_QUERIES
-  ),
+      ALLOWS_NULL_ENTRY_QUERIES, ALLOWS_NULL_KEY_QUERIES, ALLOWS_NULL_VALUE_QUERIES),
   RESTRICTS_KEYS,
   RESTRICTS_VALUES,
   SUPPORTS_PUT,
@@ -78,14 +75,11 @@ public enum MapFeature implements Feature<Map> {
    */
   REJECTS_DUPLICATES_AT_CREATION,
 
-  GENERAL_PURPOSE(
-      SUPPORTS_PUT,
-      SUPPORTS_REMOVE
-  );
+  GENERAL_PURPOSE(SUPPORTS_PUT, SUPPORTS_REMOVE);
 
   private final Set<Feature<? super Map>> implied;
 
-  MapFeature(Feature<? super Map> ... implied) {
+  MapFeature(Feature<? super Map>... implied) {
     this.implied = Helpers.copyToSet(implied);
   }
 
@@ -99,6 +93,7 @@ public enum MapFeature implements Feature<Map> {
   @TesterAnnotation
   public @interface Require {
     public abstract MapFeature[] value() default {};
+
     public abstract MapFeature[] absent() default {};
   }
 }

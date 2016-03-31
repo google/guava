@@ -71,7 +71,7 @@ import java.util.TreeSet;
  *
  * @author Jared Levy
  */
-@GwtIncompatible("suite") // TODO(cpovirk): set up collect/gwt/suites version
+@GwtIncompatible // suite // TODO(cpovirk): set up collect/gwt/suites version
 public class MultimapsCollectionTest extends TestCase {
 
   private static final Feature<?>[] FOR_MAP_FEATURES_ONE = {

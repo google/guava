@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.Map;
@@ -140,6 +141,7 @@ public interface Table<R, C, V> {
    * @return the value previously associated with the keys, or {@code null} if
    *     no mapping existed for the keys
    */
+  @CanIgnoreReturnValue
   @Nullable
   V put(R rowKey, C columnKey, V value);
 
@@ -160,6 +162,7 @@ public interface Table<R, C, V> {
    * @return the value previously associated with the keys, or {@code null} if
    *     no such value existed
    */
+  @CanIgnoreReturnValue
   @Nullable
   V remove(@Nullable Object rowKey, @Nullable Object columnKey);
 

@@ -96,12 +96,12 @@ public class PeekingIteratorTest extends TestCase {
   }
 
   // TODO(cpovirk): instead of skipping, use a smaller number of steps
-  @GwtIncompatible("works but takes 5 minutes to run")
+  @GwtIncompatible // works but takes 5 minutes to run
   public void testPeekingIteratorBehavesLikeIteratorOnThreeElementIterable() {
     actsLikeIteratorHelper(Lists.newArrayList("A", "B", "C"));
   }
 
-  @GwtIncompatible("works but takes 5 minutes to run")
+  @GwtIncompatible // works but takes 5 minutes to run
   public void testPeekingIteratorAcceptsNullElements() {
     actsLikeIteratorHelper(Lists.newArrayList(null, "A", null));
   }

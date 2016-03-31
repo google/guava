@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.collect.ObjectArrays;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.AbstractQueue;
 import java.util.Collection;
@@ -59,8 +60,9 @@ import javax.annotation.Nullable;
  * @author Justin T. Sampson
  * @param <E> the type of elements held in this collection
  */
+@CanIgnoreReturnValue
 public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
-        implements BlockingQueue<E> {
+    implements BlockingQueue<E> {
 
     // Based on revision 1.58 of ArrayBlockingQueue by Doug Lea, from
     // http://gee.cs.oswego.edu/cgi-bin/viewcvs.cgi/jsr166/src/main/java/util/concurrent/

@@ -61,7 +61,6 @@ public class UnsignedLongsTest extends TestCase {
     assertTrue(UnsignedLongs.compare(0xff1a618b7f65ea12L, 0xff1a618b7f65ea12L) == 0);
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       UnsignedLongs.max();
@@ -78,7 +77,6 @@ public class UnsignedLongsTest extends TestCase {
         0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       UnsignedLongs.min();
@@ -132,7 +130,7 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(4, UnsignedLongs.remainder(0xfffffffffffffffeL, 5));
   }
 
-  @GwtIncompatible("Too slow in GWT (~3min fully optimized)")
+  @GwtIncompatible // Too slow in GWT (~3min fully optimized)
   public void testDivideRemainderEuclideanProperty() {
     // Use a seed so that the test is deterministic:
     Random r = new Random(0L);
@@ -154,7 +152,6 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(0x6cf78a4b139a4e2aL, UnsignedLongs.parseUnsignedLong("7851896530399809066"));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testParseLongFails() {
     try {
       // One more than maximum value
@@ -174,7 +171,6 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(0L, UnsignedLongs.decode("0"));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testDecodeLongFails() {
     try {
       // One more than maximum value
@@ -207,7 +203,6 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(0x1234567890abcdefL, UnsignedLongs.parseUnsignedLong("1234567890abcdef", 16));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testParseLongWithRadixLimits() {
     BigInteger max = BigInteger.ZERO.setBit(64).subtract(ONE);
     // loops through all legal radix values.
@@ -233,7 +228,6 @@ public class UnsignedLongsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testParseLongThrowsExceptionForInvalidRadix() {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX, inclusive.
     try {
@@ -285,7 +279,7 @@ public class UnsignedLongsTest extends TestCase {
         UnsignedLongs.join("", -1, Long.MIN_VALUE));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(UnsignedLongs.class);
   }

@@ -85,14 +85,9 @@ public class MultimapReplaceValuesTester<K, V>
   public void testReplaceValuesWithDuplicates() {
     int size = multimap().size();
     List<V> oldValues = new ArrayList<V>(multimap().get(k0()));
-    List<V> values = Arrays.asList(
-        v0(),
-        v3(),
-        v0());
+    List<V> values = Arrays.asList(v0(), v3(), v0());
     assertEquals(oldValues, new ArrayList<V>(multimap().replaceValues(k0(), values)));
-    assertEquals(
-        size - oldValues.size() + multimap().get(k0()).size(),
-        multimap().size());
+    assertEquals(size - oldValues.size() + multimap().get(k0()).size(), multimap().size());
     assertTrue(multimap().get(k0()).containsAll(values));
   }
 

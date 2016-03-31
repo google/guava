@@ -145,7 +145,6 @@ public class BytesTest extends TestCase {
         Bytes.ensureCapacity(ARRAY1, 2, 1)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
       Bytes.ensureCapacity(ARRAY1, -1, 1);
@@ -192,7 +191,6 @@ public class BytesTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Byte> list = Arrays.asList((byte) 0, (byte) 1, null);
     try {
@@ -256,7 +254,7 @@ public class BytesTest extends TestCase {
     assertSame(Collections.emptyList(), Bytes.asList(EMPTY));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Bytes.class);
   }

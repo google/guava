@@ -27,13 +27,13 @@ import java.util.SortedSet;
 
 /**
  * Testers for {@link SortedSetMultimap#asMap}.
- * 
+ *
  * @author Louis Wasserman
  * @param <K> The key type of the tested multimap.
  * @param <V> The value type of the tested multimap.
  */
 @GwtCompatible
-public class SortedSetMultimapAsMapTester<K, V> 
+public class SortedSetMultimapAsMapTester<K, V>
     extends AbstractMultimapTester<K, V, SortedSetMultimap<K, V>> {
   public void testAsMapValuesImplementSortedSet() {
     for (Collection<V> valueCollection : multimap().asMap().values()) {
@@ -41,14 +41,14 @@ public class SortedSetMultimapAsMapTester<K, V>
       assertEquals(multimap().valueComparator(), valueSet.comparator());
     }
   }
-  
+
   public void testAsMapGetImplementsSortedSet() {
     for (K key : multimap().keySet()) {
       SortedSet<V> valueSet = (SortedSet<V>) multimap().asMap().get(key);
       assertEquals(multimap().valueComparator(), valueSet.comparator());
     }
   }
-  
+
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testAsMapRemoveImplementsSortedSet() {
     List<K> keys = new ArrayList<K>(multimap().keySet());

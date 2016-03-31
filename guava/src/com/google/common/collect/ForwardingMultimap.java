@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.Map;
@@ -93,31 +94,37 @@ public abstract class ForwardingMultimap<K, V> extends ForwardingObject implemen
     return delegate().keySet();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean put(K key, V value) {
     return delegate().put(key, value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean putAll(K key, Iterable<? extends V> values) {
     return delegate().putAll(key, values);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
     return delegate().putAll(multimap);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean remove(@Nullable Object key, @Nullable Object value) {
     return delegate().remove(key, value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public Collection<V> removeAll(@Nullable Object key) {
     return delegate().removeAll(key);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public Collection<V> replaceValues(K key, Iterable<? extends V> values) {
     return delegate().replaceValues(key, values);

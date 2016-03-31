@@ -53,7 +53,7 @@ public class ImmutableBiMapTest extends TestCase {
 
   // TODO: Reduce duplication of ImmutableMapTest code
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
 
@@ -514,13 +514,13 @@ public class ImmutableBiMapTest extends TestCase {
       assertSame(bimap, bimap.inverse().inverse());
     }
 
-    @GwtIncompatible("SerializableTester")
+    @GwtIncompatible // SerializableTester
     public void testEmptySerialization() {
       ImmutableBiMap<String, Integer> bimap = ImmutableBiMap.of();
       assertSame(bimap, SerializableTester.reserializeAndAssert(bimap));
     }
 
-    @GwtIncompatible("SerializableTester")
+    @GwtIncompatible // SerializableTester
     public void testSerialization() {
       ImmutableBiMap<String, Integer> bimap = ImmutableBiMap.copyOf(
           ImmutableMap.of("one", 1, "two", 2));
@@ -531,7 +531,7 @@ public class ImmutableBiMapTest extends TestCase {
       assertSame(copy, copy.inverse().inverse());
     }
 
-    @GwtIncompatible("SerializableTester")
+    @GwtIncompatible // SerializableTester
     public void testInverseSerialization() {
       ImmutableBiMap<String, Integer> bimap = ImmutableBiMap.copyOf(
           ImmutableMap.of(1, "one", 2, "two")).inverse();

@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -62,11 +63,13 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
     return delegate().count(element);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public int add(E element, int occurrences) {
     return delegate().add(element, occurrences);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public int remove(Object element, int occurrences) {
     return delegate().remove(element, occurrences);
@@ -92,11 +95,13 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
     return delegate().hashCode();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public int setCount(E element, int count) {
     return delegate().setCount(element, count);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean setCount(E element, int oldCount, int newCount) {
     return delegate().setCount(element, oldCount, newCount);

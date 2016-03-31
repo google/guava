@@ -87,13 +87,13 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
     };
   }
 
-  @GwtIncompatible("serialization")
+  @GwtIncompatible // serialization
   @Override
   Object writeReplace() {
     return new SerializedForm<V>(map);
   }
 
-  @GwtIncompatible("serialization")
+  @GwtIncompatible // serialization
   private static class SerializedForm<V> implements Serializable {
     final ImmutableMap<?, V> map;
 

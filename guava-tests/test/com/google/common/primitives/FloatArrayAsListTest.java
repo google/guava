@@ -50,7 +50,7 @@ public class FloatArrayAsListTest extends TestCase {
     return Floats.asList(temp);
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     List<ListTestSuiteBuilder<Float>> builders =
         ImmutableList.of(

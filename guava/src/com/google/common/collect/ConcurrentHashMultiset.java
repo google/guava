@@ -22,10 +22,12 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Serialization.FieldSetter;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.IOException;
@@ -55,6 +57,7 @@ import javax.annotation.Nullable;
  * @author mike nonemacher
  * @since 2.0
  */
+@GwtIncompatible
 public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> implements Serializable {
 
   /*
@@ -214,6 +217,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @throws IllegalArgumentException if {@code occurrences} is negative, or if
    *     the resulting amount would exceed {@link Integer#MAX_VALUE}
    */
+  @CanIgnoreReturnValue
   @Override
   public int add(E element, int occurrences) {
     checkNotNull(element);
@@ -280,6 +284,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * we'll want to remove @Nullable, add an eager checkNotNull, and loosen up
    * testRemove_nullAllowed.
    */
+  @CanIgnoreReturnValue
   @Override
   public int remove(@Nullable Object element, int occurrences) {
     if (occurrences == 0) {
@@ -321,6 +326,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @return {@code true} if the removal was possible (including if {@code occurrences} is zero)
    * @throws IllegalArgumentException if {@code occurrences} is negative
    */
+  @CanIgnoreReturnValue
   public boolean removeExactly(@Nullable Object element, int occurrences) {
     if (occurrences == 0) {
       return true;
@@ -355,6 +361,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @return the count of {@code element} in the multiset before this call
    * @throws IllegalArgumentException if {@code count} is negative
    */
+  @CanIgnoreReturnValue
   @Override
   public int setCount(E element, int count) {
     checkNotNull(element);
@@ -411,6 +418,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    *     the condition was met.
    * @throws IllegalArgumentException if {@code expectedOldCount} or {@code newCount} is negative
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean setCount(E element, int expectedOldCount, int newCount) {
     checkNotNull(element);
@@ -508,7 +516,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     // remove(), we create an AbstractIterator, and then use ForwardingIterator to delegate to it.
     final Iterator<Entry<E>> readOnlyIterator =
         new AbstractIterator<Entry<E>>() {
-          private Iterator<Map.Entry<E, AtomicInteger>> mapEntries = countMap.entrySet().iterator();
+          private final Iterator<Map.Entry<E, AtomicInteger>> mapEntries =
+              countMap.entrySet().iterator();
 
           @Override
           protected Entry<E> computeNext() {

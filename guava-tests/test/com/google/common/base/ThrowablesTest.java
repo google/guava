@@ -515,7 +515,6 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testGetCasualChainNull() {
     try {
       Throwables.getCausalChain(null);

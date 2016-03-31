@@ -44,7 +44,7 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // No serialization is used in this test
 @GwtCompatible(emulated = true)
 public class SimpleAbstractMultisetTest extends TestCase {
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(SimpleAbstractMultisetTest.class);

@@ -38,7 +38,7 @@ class TestingRemovalListeners {
   /**
    * Type-inferring factory method for creating a {@link QueuingRemovalListener}.
    */
-  @GwtIncompatible("ConcurrentLinkedQueue")
+  @GwtIncompatible // ConcurrentLinkedQueue
   static <K, V> QueuingRemovalListener<K, V> queuingRemovalListener() {
     return new QueuingRemovalListener<K,V>();
   }
@@ -53,9 +53,9 @@ class TestingRemovalListeners {
   /**
    * {@link RemovalListener} that adds all {@link RemovalNotification} objects to a queue.
    */
-  @GwtIncompatible("ConcurrentLinkedQueue")
-  static class QueuingRemovalListener<K, V>
-      extends ConcurrentLinkedQueue<RemovalNotification<K, V>> implements RemovalListener<K, V> {
+  @GwtIncompatible // ConcurrentLinkedQueue
+  static class QueuingRemovalListener<K, V> extends ConcurrentLinkedQueue<RemovalNotification<K, V>>
+      implements RemovalListener<K, V> {
 
     @Override
     public void onRemoval(RemovalNotification<K, V> notification) {

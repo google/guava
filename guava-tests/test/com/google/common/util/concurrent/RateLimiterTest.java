@@ -167,8 +167,9 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testCreateWarmupParameterValidation() {
-    RateLimiter.create(1.0, 1, NANOSECONDS);
-    RateLimiter.create(1.0, 0, NANOSECONDS);
+    RateLimiter unused;
+    unused = RateLimiter.create(1.0, 1, NANOSECONDS);
+    unused = RateLimiter.create(1.0, 0, NANOSECONDS);
 
     try {
       RateLimiter.create(0.0, 1, NANOSECONDS);

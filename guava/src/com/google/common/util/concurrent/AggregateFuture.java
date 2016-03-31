@@ -16,13 +16,13 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
-import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableCollection;
-import com.google.j2objc.annotations.WeakOuter;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -45,14 +45,15 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
   private RunningState runningState;
 
   @Override
-  final void done() {
-    super.done();
+  protected final void afterDone() {
+    super.afterDone();
 
     // Let go of the memory held by the running state
     this.runningState = null;
   }
 
   // TODO(cpovirk): Use maybePropagateCancellation() if the performance is OK and the code is clean.
+  @CanIgnoreReturnValue
   @Override
   public final boolean cancel(boolean mayInterruptIfRunning) {
     // Must get a reference to the futures before we cancel, as they'll be cleared out.
@@ -70,7 +71,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     return cancelled;
   }
 
-  @GwtIncompatible("Interruption not supported")
+  @GwtIncompatible // Interruption not supported
   @Override
   protected final void interruptTask() {
     RunningState localRunningState = runningState;
@@ -87,7 +88,6 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     runningState.init();
   }
 
-  @WeakOuter
   abstract class RunningState extends AggregateFutureState implements Runnable {
     private ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures;
     private final boolean allMustSucceed;
@@ -198,7 +198,8 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     @Override
     final void addInitialException(Set<Throwable> seen) {
       if (!isCancelled()) {
-        addCausalChain(seen, trustedGetException());
+        // TODO(cpovirk): Think about whether we could/should use Verify to check this.
+        boolean unused = addCausalChain(seen, trustedGetException());
       }
     }
 
@@ -222,13 +223,13 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
             AggregateFuture.super.cancel(false);
           } else {
             // We always get the result so that we can have fail-fast, even if we don't collect
-            InputT result = getUninterruptibly(future);
+            InputT result = getDone(future);
             if (collectsValues) {
               collectOneValue(allMustSucceed, index, result);
             }
           }
         } else if (collectsValues && !future.isCancelled()) {
-          collectOneValue(allMustSucceed, index, getUninterruptibly(future));
+          collectOneValue(allMustSucceed, index, getDone(future));
         }
       } catch (ExecutionException e) {
         handleException(e.getCause());

@@ -43,17 +43,14 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
   @CollectionSize.Require(SEVERAL)
   public void testKeys() {
     resetContainer(
-        Helpers.mapEntry(k0(), v0()),
-        Helpers.mapEntry(k0(), v1()),
-        Helpers.mapEntry(k1(), v0()));
+        Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k0(), v1()), Helpers.mapEntry(k1(), v0()));
     Multiset<K> keys = multimap().keys();
     assertEquals(2, keys.count(k0()));
     assertEquals(1, keys.count(k1()));
     assertEquals(3, keys.size());
     assertContainsAllOf(keys, k0(), k1());
-    assertContainsAllOf(keys.entrySet(),
-        Multisets.immutableEntry(k0(), 2),
-        Multisets.immutableEntry(k1(), 1));
+    assertContainsAllOf(
+        keys.entrySet(), Multisets.immutableEntry(k0(), 2), Multisets.immutableEntry(k1(), 1));
   }
 
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
@@ -73,9 +70,8 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
     assertEquals(1, keys.count(k1()));
     assertEquals(3, keys.size());
     assertContainsAllOf(keys, null, k1());
-    assertContainsAllOf(keys.entrySet(),
-        Multisets.immutableEntry((K) null, 2),
-        Multisets.immutableEntry(k1(), 1));
+    assertContainsAllOf(
+        keys.entrySet(), Multisets.immutableEntry((K) null, 2), Multisets.immutableEntry(k1(), 1));
   }
 
   public void testKeysElementSet() {
@@ -93,8 +89,7 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
   public void testKeysEntrySetIteratorRemove() {
     Multiset<K> keys = multimap().keys();
     Iterator<Multiset.Entry<K>> itr = keys.entrySet().iterator();
-    assertEquals(Multisets.immutableEntry(k0(), 1),
-        itr.next());
+    assertEquals(Multisets.immutableEntry(k0(), 1), itr.next());
     itr.remove();
     assertTrue(multimap().isEmpty());
   }
@@ -103,11 +98,8 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testKeysEntrySetRemove() {
     resetContainer(
-        Helpers.mapEntry(k0(), v0()),
-        Helpers.mapEntry(k0(), v1()),
-        Helpers.mapEntry(k1(), v0()));
-    assertTrue(multimap().keys().entrySet().remove(
-        Multisets.immutableEntry(k0(), 2)));
+        Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k0(), v1()), Helpers.mapEntry(k1(), v0()));
+    assertTrue(multimap().keys().entrySet().remove(Multisets.immutableEntry(k0(), 2)));
     assertEquals(1, multimap().size());
     assertTrue(multimap().containsEntry(k1(), v0()));
   }

@@ -16,18 +16,17 @@
 
 package com.google.common.collect;
 
+import com.google.common.collect.ImmutableClassToInstanceMapTest.Impl;
 import com.google.common.collect.ImmutableClassToInstanceMapTest.TestClassToInstanceMapGenerator;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-import com.google.common.collect.testing.testers.MapPutTester;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -41,43 +40,32 @@ public class MutableClassToInstanceMapTest extends TestCase {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(MutableClassToInstanceMapTest.class);
 
-    // Suppress this one because the tester framework doesn't understand that
-    // *some* remappings will be allowed and others not.
-    Method remapTest = null;
-    try {
-      remapTest = MapPutTester.class.getMethod(
-          "testPut_replaceNullValueWithNonNullSupported");
-    } catch (NoSuchMethodException e) {
-      throw new AssertionError();
-    }
-
-    suite.addTest(MapTestSuiteBuilder
-        .using(new TestClassToInstanceMapGenerator() {
-          // Other tests will verify what real, warning-free usage looks like
-          // but here we have to do some serious fudging
-          @Override
-          @SuppressWarnings("unchecked")
-          public Map<Class, Number> create(Object... elements) {
-            MutableClassToInstanceMap<Number> map
-                = MutableClassToInstanceMap.create();
-            for (Object object : elements) {
-              Entry<Class, Number> entry = (Entry<Class, Number>) object;
-              map.putInstance(entry.getKey(), entry.getValue());
-            }
-            return (Map) map;
-          }
-        })
-        .named("MutableClassToInstanceMap")
-        .withFeatures(
-            MapFeature.GENERAL_PURPOSE,
-            MapFeature.RESTRICTS_KEYS,
-            MapFeature.ALLOWS_NULL_VALUES,
-            CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-            MapFeature.ALLOWS_ANY_NULL_QUERIES)
-        .suppressing(remapTest)
-        .createTestSuite());
+    suite.addTest(
+        MapTestSuiteBuilder.using(
+                new TestClassToInstanceMapGenerator() {
+                  // Other tests will verify what real, warning-free usage looks like
+                  // but here we have to do some serious fudging
+                  @Override
+                  @SuppressWarnings("unchecked")
+                  public Map<Class, Impl> create(Object... elements) {
+                    MutableClassToInstanceMap<Impl> map = MutableClassToInstanceMap.create();
+                    for (Object object : elements) {
+                      Entry<Class, Impl> entry = (Entry<Class, Impl>) object;
+                      map.putInstance(entry.getKey(), entry.getValue());
+                    }
+                    return (Map) map;
+                  }
+                })
+            .named("MutableClassToInstanceMap")
+            .withFeatures(
+                MapFeature.GENERAL_PURPOSE,
+                MapFeature.RESTRICTS_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                CollectionSize.ANY,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES)
+            .createTestSuite());
 
     return suite;
   }

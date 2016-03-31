@@ -109,7 +109,7 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("too slow")
+  @GwtIncompatible // too slow
   public void testToStringRadix() {
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
       for (int l : TEST_INTS) {
@@ -168,7 +168,7 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("multiply")
+  @GwtIncompatible // multiply
   public void testTimes() {
     for (int a : TEST_INTS) {
       for (int b : TEST_INTS) {
@@ -200,7 +200,7 @@ public class UnsignedIntegerTest extends TestCase {
   public void testDivideByZeroThrows() {
     for (int a : TEST_INTS) {
       try {
-        UnsignedInteger ignored =
+        UnsignedInteger unused =
             UnsignedInteger.fromIntBits(a).dividedBy(UnsignedInteger.ZERO);
         fail("Expected ArithmeticException");
       } catch (ArithmeticException expected) {}
@@ -222,7 +222,6 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("ReturnValueIgnored")
   public void testModByZero() {
     for (int a : TEST_INTS) {
       try {
@@ -243,7 +242,7 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("too slow")
+  @GwtIncompatible // too slow
   public void testEquals() {
     EqualsTester equalsTester = new EqualsTester();
     for (int a : TEST_INTS) {
@@ -263,14 +262,14 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("serialization")
+  @GwtIncompatible // serialization
   public void testSerialization() {
     for (int a : TEST_INTS) {
       SerializableTester.reserializeAndAssert(UnsignedInteger.fromIntBits(a));
     }
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(UnsignedInteger.class);
   }

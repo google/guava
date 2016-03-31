@@ -26,7 +26,7 @@ import java.util.Collections;
 
 /**
  * Tests for {@code Multiset.add}.
- * 
+ *
  * @author Jared Levy
  */
 @GwtCompatible
@@ -36,16 +36,17 @@ public class MultisetAddTester<E> extends AbstractMultisetTester<E> {
     try {
       getMultiset().add(e0());
       fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
-  
+
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddMeansAddOne() {
     int originalCount = getMultiset().count(e0());
     assertTrue(getMultiset().add(e0()));
     assertEquals(originalCount + 1, getMultiset().count(e0()));
   }
-  
+
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddOccurrencesZero() {
     int originalCount = getMultiset().count(e0());
@@ -59,7 +60,7 @@ public class MultisetAddTester<E> extends AbstractMultisetTester<E> {
     assertEquals("old count", originalCount, getMultiset().add(e0(), 2));
     assertEquals("old count", originalCount + 2, getMultiset().count(e0()));
   }
-  
+
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddSeveralTimes() {
     int originalCount = getMultiset().count(e0());
@@ -74,7 +75,8 @@ public class MultisetAddTester<E> extends AbstractMultisetTester<E> {
     try {
       getMultiset().add(e0(), 2);
       fail("unsupported multiset.add(E, int) didn't throw exception");
-    } catch (UnsupportedOperationException required) {}
+    } catch (UnsupportedOperationException required) {
+    }
   }
 
   @CollectionFeature.Require(SUPPORTS_ADD)
@@ -82,7 +84,8 @@ public class MultisetAddTester<E> extends AbstractMultisetTester<E> {
     try {
       getMultiset().add(e0(), -1);
       fail("multiset.add(E, -1) didn't throw an exception");
-    } catch (IllegalArgumentException required) {}
+    } catch (IllegalArgumentException required) {
+    }
   }
 
   @CollectionFeature.Require(SUPPORTS_ADD)
@@ -91,33 +94,33 @@ public class MultisetAddTester<E> extends AbstractMultisetTester<E> {
     try {
       getMultiset().add(e3());
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
     assertEquals(Integer.MAX_VALUE, getMultiset().count(e3()));
     assertEquals(Integer.MAX_VALUE, getMultiset().size());
   }
-  
+
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_emptySet() {
     assertFalse(getMultiset().addAll(Collections.<E>emptySet()));
     expectUnchanged();
   }
-  
+
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_emptyMultiset() {
     assertFalse(getMultiset().addAll(getSubjectGenerator().create()));
     expectUnchanged();
   }
-  
+
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_nonEmptyList() {
     assertTrue(getMultiset().addAll(Arrays.asList(e3(), e4(), e3())));
     expectAdded(e3(), e4(), e3());
   }
-  
+
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_nonEmptyMultiset() {
-    assertTrue(getMultiset().addAll(
-        getSubjectGenerator().create(e3(), e4(), e3())));
+    assertTrue(getMultiset().addAll(getSubjectGenerator().create(e3(), e4(), e3())));
     expectAdded(e3(), e4(), e3());
   }
 }

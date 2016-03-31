@@ -17,6 +17,8 @@ package com.google.common.hash;
 import static com.google.common.base.Charsets.UTF_16LE;
 import static org.junit.Assert.assertArrayEquals;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import junit.framework.TestCase;
 
 import java.io.ByteArrayOutputStream;
@@ -110,6 +112,7 @@ public class AbstractByteHasherTest extends TestCase {
     }
   }
 
+  @CanIgnoreReturnValue
   private class TestHasher extends AbstractByteHasher {
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();

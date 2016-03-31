@@ -16,6 +16,12 @@
 
 package com.google.common.collect;
 
+import com.google.common.collect.Table.Cell;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Tests {@link ForwardingTable}.
  *
@@ -43,12 +49,12 @@ public class ForwardingTableTest extends ForwardingTestCase {
   }
 
   public void testHashCode() {
-    forward.hashCode();
+    int unused = forward.hashCode();
     assertEquals("[hashCode]", getCalls());
   }
 
   public void testCellSet() {
-    forward.cellSet();
+    Set<Cell<String, Integer, Boolean>> unused = forward.cellSet();
     assertEquals("[cellSet]", getCalls());
   }
 
@@ -58,47 +64,47 @@ public class ForwardingTableTest extends ForwardingTestCase {
   }
 
   public void testColumn() {
-    forward.column(1);
+    Map<String, Boolean> unused = forward.column(1);
     assertEquals("[column(Object)]", getCalls());
   }
 
   public void testColumnKeySet() {
-    forward.columnKeySet();
+    Set<Integer> unused = forward.columnKeySet();
     assertEquals("[columnKeySet]", getCalls());
   }
 
   public void testColumnMap() {
-    forward.columnMap();
+    Map<Integer, Map<String, Boolean>> unused = forward.columnMap();
     assertEquals("[columnMap]", getCalls());
   }
 
   public void testContains() {
-    forward.contains("blah", 1);
+    boolean unused = forward.contains("blah", 1);
     assertEquals("[contains(Object,Object)]", getCalls());
   }
 
   public void testContainsColumn() {
-    forward.containsColumn(1);
+    boolean unused = forward.containsColumn(1);
     assertEquals("[containsColumn(Object)]", getCalls());
   }
 
   public void testContainsRow() {
-    forward.containsRow("blah");
+    boolean unused = forward.containsRow("blah");
     assertEquals("[containsRow(Object)]", getCalls());
   }
 
   public void testContainsValue() {
-    forward.containsValue(false);
+    boolean unused = forward.containsValue(false);
     assertEquals("[containsValue(Object)]", getCalls());
   }
 
   public void testGet() {
-    forward.get("blah", 1);
+    Boolean unused = forward.get("blah", 1);
     assertEquals("[get(Object,Object)]", getCalls());
   }
 
   public void testIsEmpty() {
-    forward.isEmpty();
+    boolean unused = forward.isEmpty();
     assertEquals("[isEmpty]", getCalls());
   }
 
@@ -118,32 +124,32 @@ public class ForwardingTableTest extends ForwardingTestCase {
   }
 
   public void testRow() {
-    forward.row("String");
+    Map<Integer, Boolean> unused = forward.row("String");
     assertEquals("[row(Object)]", getCalls());
   }
 
   public void testRowKeySet() {
-    forward.rowKeySet();
+    Set<String> unused = forward.rowKeySet();
     assertEquals("[rowKeySet]", getCalls());
   }
 
   public void testRowMap() {
-    forward.rowMap();
+    Map<String, Map<Integer, Boolean>> unused = forward.rowMap();
     assertEquals("[rowMap]", getCalls());
   }
 
   public void testSize() {
-    forward.size();
+    int unused = forward.size();
     assertEquals("[size]", getCalls());
   }
 
   public void testValues() {
-    forward.values();
+    Collection<Boolean> unused = forward.values();
     assertEquals("[values]", getCalls());
   }
 
   public void testEqualsObject() {
-    forward.equals(null);
+    boolean unused = forward.equals(null);
     assertEquals("[equals(Object)]", getCalls());
   }
 

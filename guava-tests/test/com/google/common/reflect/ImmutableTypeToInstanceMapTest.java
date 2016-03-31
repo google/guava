@@ -16,10 +16,10 @@
 
 package com.google.common.reflect;
 
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestMapGenerator;
@@ -156,21 +156,16 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
 
     @Override
     public SampleElements<Entry<TypeToken, Object>> samples() {
-      Entry<TypeToken, Object> entry1 =
-          Maps.immutableEntry((TypeToken) TypeToken.of(Integer.class), (Object) 0);
-      Entry<TypeToken, Object> entry2 =
-          Maps.immutableEntry((TypeToken) TypeToken.of(Number.class), (Object) 1);
-      Entry<TypeToken, Object> entry3 =
-          Maps.immutableEntry((TypeToken) new TypeToken<ImmutableList<Integer>>() {},
-              (Object) ImmutableList.of(2));
-      Entry<TypeToken, Object> entry4 =
-          Maps.immutableEntry((TypeToken) new TypeToken<int[]>() {}, (Object) new int[] {3});
-      Entry<TypeToken, Object> entry5 =
-          Maps.immutableEntry((TypeToken) new TypeToken<Iterable<?>>() {},
-              (Object) ImmutableList.of("4"));
       return new SampleElements<Entry<TypeToken, Object>>(
-          entry1, entry2, entry3, entry4, entry5
-      );
+          entry(TypeToken.of(Integer.class), 0),
+          entry(TypeToken.of(Number.class), 1),
+          entry(new TypeToken<ImmutableList<Integer>>() {}, ImmutableList.of(2)),
+          entry(new TypeToken<int[]>() {}, new int[] {3}),
+          entry(new TypeToken<Iterable<?>>() {}, ImmutableList.of("4")));
+    }
+
+    private static Entry<TypeToken, Object> entry(TypeToken<?> k, Object v) {
+      return immutableEntry((TypeToken) k, v);
     }
 
     @Override

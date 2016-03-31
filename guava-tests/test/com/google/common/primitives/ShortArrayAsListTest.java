@@ -50,7 +50,7 @@ public class ShortArrayAsListTest extends TestCase {
     return Shorts.asList(temp);
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     List<ListTestSuiteBuilder<Short>> builders =
         ImmutableList.of(

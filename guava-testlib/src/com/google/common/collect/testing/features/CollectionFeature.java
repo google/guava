@@ -42,8 +42,7 @@ public enum CollectionFeature implements Feature<Collection> {
    * must return a simple {@code false}.
    */
   ALLOWS_NULL_QUERIES,
-
-  ALLOWS_NULL_VALUES (ALLOWS_NULL_QUERIES),
+  ALLOWS_NULL_VALUES(ALLOWS_NULL_QUERIES),
 
   /**
    * Indicates that a collection disallows certain elements (other than
@@ -80,7 +79,7 @@ public enum CollectionFeature implements Feature<Collection> {
    */
   REJECTS_DUPLICATES_AT_CREATION,
 
-  SUPPORTS_ADD,
+    SUPPORTS_ADD,
   SUPPORTS_REMOVE,
   SUPPORTS_ITERATOR_REMOVE,
   FAILS_FAST_ON_CONCURRENT_MODIFICATION,
@@ -90,18 +89,14 @@ public enum CollectionFeature implements Feature<Collection> {
    * everything but {@link #RESTRICTS_ELEMENTS}.
    * @see java.util.Collection the definition of general-purpose collections.
    */
-  GENERAL_PURPOSE(
-      SUPPORTS_ADD,
-      SUPPORTS_REMOVE,
-      SUPPORTS_ITERATOR_REMOVE),
+  GENERAL_PURPOSE(SUPPORTS_ADD, SUPPORTS_REMOVE, SUPPORTS_ITERATOR_REMOVE),
 
   /** Features supported by collections where only removal is allowed. */
-  REMOVE_OPERATIONS(
-      SUPPORTS_REMOVE,
-      SUPPORTS_ITERATOR_REMOVE),
+  REMOVE_OPERATIONS(SUPPORTS_REMOVE, SUPPORTS_ITERATOR_REMOVE),
 
-  SERIALIZABLE, SERIALIZABLE_INCLUDING_VIEWS(SERIALIZABLE),
-  
+  SERIALIZABLE,
+  SERIALIZABLE_INCLUDING_VIEWS(SERIALIZABLE),
+
   SUBSET_VIEW,
   DESCENDING_VIEW,
 
@@ -113,7 +108,7 @@ public enum CollectionFeature implements Feature<Collection> {
 
   private final Set<Feature<? super Collection>> implied;
 
-  CollectionFeature(Feature<? super Collection> ... implied) {
+  CollectionFeature(Feature<? super Collection>... implied) {
     this.implied = Helpers.copyToSet(implied);
   }
 
@@ -127,6 +122,7 @@ public enum CollectionFeature implements Feature<Collection> {
   @TesterAnnotation
   public @interface Require {
     CollectionFeature[] value() default {};
+
     CollectionFeature[] absent() default {};
   }
 }

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.net;
@@ -78,6 +76,7 @@ public final class HttpHeaders {
   public static final String EXPECT = "Expect";
   /** The HTTP {@code From} header field name. */
   public static final String FROM = "From";
+
   /**
    * The HTTP {@code Follow-Only-When-Prerender-Shown}</a> header field name.
    *
@@ -109,6 +108,11 @@ public final class HttpHeaders {
   public static final String RANGE = "Range";
   /** The HTTP {@code Referer} header field name. */
   public static final String REFERER = "Referer";
+  /**
+   * The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">
+   * {@code Service-Worker}</a> header field name.
+   */
+  public static final String SERVICE_WORKER = "Service-Worker";
   /** The HTTP {@code TE} header field name. */
   public static final String TE = "TE";
   /** The HTTP {@code Upgrade} header field name. */
@@ -183,13 +187,21 @@ public final class HttpHeaders {
   public static final String RETRY_AFTER = "Retry-After";
   /** The HTTP {@code Server} header field name. */
   public static final String SERVER = "Server";
+  /**
+   * The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">
+   * {@code Service-Worker-Allowed}</a> header field name.
+   *
+   * @since 20.0
+   */
+  public static final String SERVICE_WORKER_ALLOWED = "Service-Worker-Allowed";
   /** The HTTP {@code Set-Cookie} header field name. */
   public static final String SET_COOKIE = "Set-Cookie";
   /** The HTTP {@code Set-Cookie2} header field name. */
   public static final String SET_COOKIE2 = "Set-Cookie2";
   /**
-   * The HTTP <a href="http://tools.ietf.org/html/rfc6797#section-6.1">
-   * {@code Strict-Transport-Security}</a> header field name.
+   * The HTTP
+   * <a href="http://tools.ietf.org/html/rfc6797#section-6.1">{@code Strict-Transport-Security}</a>
+   * header field name.
    *
    * @since 15.0
    */
@@ -222,26 +234,37 @@ public final class HttpHeaders {
   public static final String X_FORWARDED_FOR = "X-Forwarded-For";
   /** The HTTP {@code X-Forwarded-Proto} header field name. */
   public static final String X_FORWARDED_PROTO = "X-Forwarded-Proto";
+  /**
+   * The HTTP <a href="http://goo.gl/lQirAH">{@code X-Forwarded-Host}</a> header field name.
+   *
+   * @since 20.0
+   */
+  public static final String X_FORWARDED_HOST = "X-Forwarded-Host";
+  /**
+   * The HTTP <a href="http://goo.gl/YtV2at">{@code X-Forwarded-Port}</a> header field name.
+   *
+   * @since 20.0
+   */
+  public static final String X_FORWARDED_PORT = "X-Forwarded-Port";
   /** The HTTP {@code X-Frame-Options} header field name. */
   public static final String X_FRAME_OPTIONS = "X-Frame-Options";
   /** The HTTP {@code X-Powered-By} header field name. */
   public static final String X_POWERED_BY = "X-Powered-By";
   /**
-   * The HTTP <a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning">
-   * {@code Public-Key-Pins}</a> header field name.
+   * The HTTP
+   * <a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning">{@code Public-Key-Pins}</a>
+   * header field name.
    *
    * @since 15.0
    */
-  @Beta
-  public static final String PUBLIC_KEY_PINS = "Public-Key-Pins";
+  @Beta public static final String PUBLIC_KEY_PINS = "Public-Key-Pins";
   /**
    * The HTTP <a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning">
    * {@code Public-Key-Pins-Report-Only}</a> header field name.
    *
    * @since 15.0
    */
-  @Beta
-  public static final String PUBLIC_KEY_PINS_REPORT_ONLY = "Public-Key-Pins-Report-Only";
+  @Beta public static final String PUBLIC_KEY_PINS_REPORT_ONLY = "Public-Key-Pins-Report-Only";
   /** The HTTP {@code X-Requested-With} header field name. */
   public static final String X_REQUESTED_WITH = "X-Requested-With";
   /** The HTTP {@code X-User-IP} header field name. */

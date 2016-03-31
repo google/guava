@@ -152,7 +152,7 @@ class TestingCacheLoaders {
       return key;
     }
 
-    @GwtIncompatible("reload")
+    @GwtIncompatible // reload
     @Override
     public ListenableFuture<Integer> reload(Integer key, Integer oldValue) {
       countReload.incrementAndGet();

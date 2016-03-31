@@ -20,6 +20,7 @@ import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Supplier;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -143,6 +144,7 @@ public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
     return super.equals(obj);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
     return super.remove(rowKey, columnKey);

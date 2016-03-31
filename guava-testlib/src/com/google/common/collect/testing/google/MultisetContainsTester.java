@@ -30,10 +30,9 @@ import java.util.Arrays;
 public class MultisetContainsTester<E> extends AbstractMultisetTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testContainsAllMultisetIgnoresFrequency() {
-    assertTrue(getMultiset()
-        .containsAll(getSubjectGenerator().create(e0(), e0(), e0())));
+    assertTrue(getMultiset().containsAll(getSubjectGenerator().create(e0(), e0(), e0())));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testContainsAllListIgnoresFrequency() {
     assertTrue(getMultiset().containsAll(Arrays.asList(e0(), e0(), e0())));

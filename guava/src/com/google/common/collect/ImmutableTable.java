@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -155,6 +156,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
     /**
      * Specifies the ordering of the generated table's rows.
      */
+    @CanIgnoreReturnValue
     public Builder<R, C, V> orderRowsBy(Comparator<? super R> rowComparator) {
       this.rowComparator = checkNotNull(rowComparator);
       return this;
@@ -163,6 +165,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
     /**
      * Specifies the ordering of the generated table's columns.
      */
+    @CanIgnoreReturnValue
     public Builder<R, C, V> orderColumnsBy(Comparator<? super C> columnComparator) {
       this.columnComparator = checkNotNull(columnComparator);
       return this;
@@ -173,6 +176,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
      * value} in the built table. Duplicate key pairs are not allowed and will
      * cause {@link #build} to fail.
      */
+    @CanIgnoreReturnValue
     public Builder<R, C, V> put(R rowKey, C columnKey, V value) {
       cells.add(cellOf(rowKey, columnKey, value));
       return this;
@@ -183,6 +187,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
      * necessary. Duplicate key pairs are not allowed and will cause {@link
      * #build} to fail.
      */
+    @CanIgnoreReturnValue
     public Builder<R, C, V> put(Cell<? extends R, ? extends C, ? extends V> cell) {
       if (cell instanceof Tables.ImmutableCell) {
         checkNotNull(cell.getRowKey());
@@ -204,6 +209,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
      *
      * @throws NullPointerException if any key or value in {@code table} is null
      */
+    @CanIgnoreReturnValue
     public Builder<R, C, V> putAll(Table<? extends R, ? extends C, ? extends V> table) {
       for (Cell<? extends R, ? extends C, ? extends V> cell : table.cellSet()) {
         put(cell);
@@ -266,8 +272,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
   public ImmutableMap<R, V> column(C columnKey) {
     checkNotNull(columnKey);
     return MoreObjects.firstNonNull(
-        (ImmutableMap<R, V>) columnMap().get(columnKey),
-        ImmutableMap.<R, V>of());
+        (ImmutableMap<R, V>) columnMap().get(columnKey), ImmutableMap.<R, V>of());
   }
 
   @Override
@@ -293,8 +298,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
   public ImmutableMap<C, V> row(R rowKey) {
     checkNotNull(rowKey);
     return MoreObjects.firstNonNull(
-        (ImmutableMap<C, V>) rowMap().get(rowKey),
-        ImmutableMap.<C, V>of());
+        (ImmutableMap<C, V>) rowMap().get(rowKey), ImmutableMap.<C, V>of());
   }
 
   @Override
@@ -339,6 +343,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final V put(R rowKey, C columnKey, V value) {
@@ -363,6 +368,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
    * @throws UnsupportedOperationException always
    * @deprecated Unsupported operation.
    */
+  @CanIgnoreReturnValue
   @Deprecated
   @Override
   public final V remove(Object rowKey, Object columnKey) {

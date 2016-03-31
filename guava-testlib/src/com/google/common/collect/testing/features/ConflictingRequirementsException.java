@@ -46,7 +46,8 @@ public class ConflictingRequirementsException extends Exception {
     return source;
   }
 
-  @Override public String getMessage() {
+  @Override
+  public String getMessage() {
     return super.getMessage() + " (source: " + source + ")";
   }
 

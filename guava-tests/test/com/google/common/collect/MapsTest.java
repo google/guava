@@ -119,7 +119,7 @@ public class MapsTest extends TestCase {
    *
    * This test may fail miserably on non-OpenJDK environments...
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   @AndroidIncompatible // relies on assumptions about OpenJDK
   public void testNewHashMapWithExpectedSize_wontGrow() throws Exception {
     // before jdk7u40: creates one-bucket table
@@ -136,7 +136,7 @@ public class MapsTest extends TestCase {
   /**
    * Same test as above but for newLinkedHashMapWithExpectedSize
    */
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   @AndroidIncompatible // relies on assumptions about OpenJDK
   public void testNewLinkedHashMapWithExpectedSize_wontGrow() throws Exception {
     assertTrue(bucketsOf(Maps.newLinkedHashMapWithExpectedSize(0)) <= 1);
@@ -148,7 +148,7 @@ public class MapsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   private static void assertWontGrow(
       int size, HashMap<Object, Object> map1, HashMap<Object, Object> map2) throws Exception {
     // Only start measuring table size after the first element inserted, to
@@ -174,7 +174,7 @@ public class MapsTest extends TestCase {
         .isEqualTo(initialBuckets);
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   private static int bucketsOf(HashMap<?, ?> hashMap) throws Exception {
     Field tableField = HashMap.class.getDeclaredField("table");
     tableField.setAccessible(true);
@@ -363,7 +363,7 @@ public class MapsTest extends TestCase {
     assertEquals(hashmap.toString(), Maps.toStringImpl(hashmap));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     new NullPointerTester().testAllPublicStaticMethods(Maps.class);
   }
@@ -696,11 +696,6 @@ public class MapsTest extends TestCase {
     }
   }
 
-  public void testAsMapReturnsSortedMapForSortedSetInput() {
-    Set<String> set = new NonNavigableSortedSet();
-    assertTrue(Maps.asMap(set, Functions.identity()) instanceof SortedMap);
-  }
-
   public void testAsMapSorted() {
     SortedSet<String> strings = new NonNavigableSortedSet();
     Collections.addAll(strings, "one", "two", "three");
@@ -790,13 +785,7 @@ public class MapsTest extends TestCase {
     assertNull(map.get("five"));
   }
 
-  @GwtIncompatible("NavigableMap")
-  public void testAsMapReturnsNavigableMapForNavigableSetInput() {
-    Set<String> set = Sets.newTreeSet();
-    assertTrue(Maps.asMap(set, Functions.identity()) instanceof NavigableMap);
-  }
-
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   public void testAsMapNavigable() {
     NavigableSet<String> strings =
         Sets.newTreeSet(asList("one", "two", "three"));
@@ -853,7 +842,7 @@ public class MapsTest extends TestCase {
     assertEquals(1, map.size());
   }
 
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   public void testAsMapNavigableReadsThrough() {
     NavigableSet<String> strings = Sets.newTreeSet();
     Collections.addAll(strings, "one", "two", "three");
@@ -895,7 +884,7 @@ public class MapsTest extends TestCase {
         mapEntry("six", 3)).inOrder();
   }
 
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   public void testAsMapNavigableWritesThrough() {
     NavigableSet<String> strings = Sets.newTreeSet();
     Collections.addAll(strings, "one", "two", "three");
@@ -908,7 +897,7 @@ public class MapsTest extends TestCase {
     assertThat(strings).contains("one");
   }
 
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   public void testAsMapNavigableSubViewKeySetsDoNotSupportAdd() {
     NavigableMap<String, Integer> map = Maps.asMap(
         Sets.<String>newTreeSet(), LENGTH_FUNCTION);
@@ -939,7 +928,7 @@ public class MapsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   public void testAsMapNavigableEmpty() {
     NavigableSet<String> strings = ImmutableSortedSet.of();
     NavigableMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
@@ -1032,7 +1021,8 @@ public class MapsTest extends TestCase {
   /** Can't create the map if more than one value maps to the same key. */
   public void testUniqueIndexDuplicates() {
     try {
-      Maps.uniqueIndex(ImmutableSet.of("one", "uno"), Functions.constant(1));
+      Map<Integer, String> unused =
+          Maps.uniqueIndex(ImmutableSet.of("one", "uno"), Functions.constant(1));
       fail();
     } catch (IllegalArgumentException expected) {
       assertThat(expected.getMessage()).contains("Multimaps.index");
@@ -1059,7 +1049,7 @@ public class MapsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Maps.fromProperties")
+  @GwtIncompatible // Maps.fromProperties
   @SuppressWarnings("deprecation") // StringBufferInputStream
   public void testFromProperties() throws IOException {
     Properties testProp = new Properties();
@@ -1109,7 +1099,7 @@ public class MapsTest extends TestCase {
                   result.get("java.version"));
   }
 
-  @GwtIncompatible("Maps.fromProperties")
+  @GwtIncompatible // Maps.fromProperties
   @SuppressWarnings("serial") // never serialized
   public void testFromPropertiesNullKey() {
     Properties properties = new Properties() {
@@ -1127,7 +1117,7 @@ public class MapsTest extends TestCase {
     } catch (NullPointerException expected) {}
   }
 
-  @GwtIncompatible("Maps.fromProperties")
+  @GwtIncompatible // Maps.fromProperties
   @SuppressWarnings("serial") // never serialized
   public void testFromPropertiesNonStringKeys() {
     Properties properties = new Properties() {
@@ -1551,24 +1541,6 @@ public class MapsTest extends TestCase {
       return Maps.newTreeMap();
     }
 
-    public void testFilterKeysIdentifiesSortedMap() {
-      SortedMap<String, Integer> map = createUnfiltered();
-      assertTrue(Maps.filterKeys((Map<String, Integer>) map, NOT_LENGTH_3)
-          instanceof SortedMap);
-    }
-
-    public void testFilterValuesIdentifiesSortedMap() {
-      SortedMap<String, Integer> map = createUnfiltered();
-      assertTrue(Maps.filterValues((Map<String, Integer>) map, EVEN)
-          instanceof SortedMap);
-    }
-
-    public void testFilterEntriesIdentifiesSortedMap() {
-      SortedMap<String, Integer> map = createUnfiltered();
-      assertTrue(Maps.filterEntries((Map<String, Integer>) map, CORRECT_LENGTH)
-          instanceof SortedMap);
-    }
-
     public void testFirstAndLastKeyFilteredMap() {
       SortedMap<String, Integer> unfiltered = createUnfiltered();
       unfiltered.put("apple", 2);
@@ -1606,24 +1578,6 @@ public class MapsTest extends TestCase {
     BiMap<String, Integer> createUnfiltered() {
       return HashBiMap.create();
     }
-
-    public void testFilterKeysIdentifiesBiMap() {
-      BiMap<String, Integer> map = createUnfiltered();
-      assertTrue(Maps.filterKeys((Map<String, Integer>) map, NOT_LENGTH_3)
-          instanceof BiMap);
-    }
-
-    public void testFilterValuesIdentifiesBiMap() {
-      BiMap<String, Integer> map = createUnfiltered();
-      assertTrue(Maps.filterValues((Map<String, Integer>) map, EVEN)
-          instanceof BiMap);
-    }
-
-    public void testFilterEntriesIdentifiesBiMap() {
-      BiMap<String, Integer> map = createUnfiltered();
-      assertTrue(Maps.filterEntries((Map<String, Integer>) map, CORRECT_LENGTH)
-          instanceof BiMap);
-    }
   }
 
   public void testTransformValues() {
@@ -1631,30 +1585,6 @@ public class MapsTest extends TestCase {
     Map<String, Double> transformed = transformValues(map, SQRT_FUNCTION);
 
     assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
-  }
-
-  public void testTransformValuesSecretlySorted() {
-    Map<String, Integer> map =
-        sortedNotNavigable(ImmutableSortedMap.of("a", 4, "b", 9));
-    Map<String, Double> transformed = transformValues(map, SQRT_FUNCTION);
-
-    assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
-    assertTrue(transformed instanceof SortedMap);
-  }
-
-  @GwtIncompatible("NavigableMap")
-  public void testTransformValuesSecretlyNavigable() {
-    Map<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
-    Map<String, Double> transformed;
-
-    transformed = transformValues(map, SQRT_FUNCTION);
-    assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
-    assertTrue(transformed instanceof NavigableMap);
-
-    transformed =
-        transformValues((SortedMap<String, Integer>) map, SQRT_FUNCTION);
-    assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
-    assertTrue(transformed instanceof NavigableMap);
   }
 
   public void testTransformEntries() {
@@ -1669,42 +1599,6 @@ public class MapsTest extends TestCase {
     Map<String, String> transformed = transformEntries(map, concat);
 
     assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
-  }
-
-  public void testTransformEntriesSecretlySorted() {
-    Map<String, String> map = ImmutableSortedMap.of("a", "4", "b", "9");
-    EntryTransformer<String, String, String> concat =
-        new EntryTransformer<String, String, String>() {
-          @Override
-          public String transformEntry(String key, String value) {
-            return key + value;
-          }
-        };
-    Map<String, String> transformed = transformEntries(map, concat);
-
-    assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
-    assertTrue(transformed instanceof SortedMap);
-  }
-
-  @GwtIncompatible("NavigableMap")
-  public void testTransformEntriesSecretlyNavigable() {
-    Map<String, String> map = ImmutableSortedMap.of("a", "4", "b", "9");
-    EntryTransformer<String, String, String> concat =
-        new EntryTransformer<String, String, String>() {
-          @Override
-          public String transformEntry(String key, String value) {
-            return key + value;
-          }
-        };
-    Map<String, String> transformed;
-
-    transformed = transformEntries(map, concat);
-    assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
-    assertTrue(transformed instanceof NavigableMap);
-
-    transformed = transformEntries((SortedMap<String, String>) map, concat);
-    assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
-    assertTrue(transformed instanceof NavigableMap);
   }
 
   @SuppressWarnings("unused")
@@ -1801,7 +1695,7 @@ public class MapsTest extends TestCase {
     assertEquals(ImmutableSortedMap.of("a", 2.0, "b", 3.0), transformed);
   }
 
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   public void testNavigableMapTransformValues() {
     NavigableMap<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
     NavigableMap<String, Double> transformed =
@@ -1829,7 +1723,7 @@ public class MapsTest extends TestCase {
     assertEquals(ImmutableSortedMap.of("a", "a4", "b", "b9"), transformed);
   }
 
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   public void testNavigableMapTransformEntries() {
     NavigableMap<String, String> map =
         ImmutableSortedMap.of("a", "4", "b", "9");
@@ -1845,7 +1739,7 @@ public class MapsTest extends TestCase {
     assertEquals(ImmutableSortedMap.of("a", "a4", "b", "b9"), transformed);
   }
 
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   public void testUnmodifiableNavigableMap() {
     TreeMap<Integer, String> mod = Maps.newTreeMap();
     mod.put(1, "one");
@@ -1956,7 +1850,7 @@ public class MapsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("NavigableMap")
+  @GwtIncompatible // NavigableMap
   void ensureNotDirectlyModifiable(NavigableMap<Integer, String> unmod) {
     try {
       unmod.put(4, "four");
@@ -1983,5 +1877,89 @@ public class MapsTest extends TestCase {
       fail("UnsupportedOperationException expected");
     } catch (UnsupportedOperationException expected) {
     }
+  }
+
+  @GwtIncompatible // NavigableMap
+  public void testSubMap_boundedRange() {
+    ImmutableSortedMap<Integer, Integer> map = ImmutableSortedMap.of(2, 0, 4, 0, 6, 0, 8, 0, 10, 0);
+    ImmutableSortedMap<Integer, Integer> empty = ImmutableSortedMap.of();
+
+    assertEquals(map, Maps.subMap(map, Range.closed(0, 12)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0), Maps.subMap(map, Range.closed(0, 4)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0, 6, 0), Maps.subMap(map, Range.closed(2, 6)));
+    assertEquals(ImmutableSortedMap.of(4, 0, 6, 0), Maps.subMap(map, Range.closed(3, 7)));
+    assertEquals(empty, Maps.subMap(map, Range.closed(20, 30)));
+
+    assertEquals(map, Maps.subMap(map, Range.open(0, 12)));
+    assertEquals(ImmutableSortedMap.of(2, 0), Maps.subMap(map, Range.open(0, 4)));
+    assertEquals(ImmutableSortedMap.of(4, 0), Maps.subMap(map, Range.open(2, 6)));
+    assertEquals(ImmutableSortedMap.of(4, 0, 6, 0), Maps.subMap(map, Range.open(3, 7)));
+    assertEquals(empty, Maps.subMap(map, Range.open(20, 30)));
+
+    assertEquals(map, Maps.subMap(map, Range.openClosed(0, 12)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0), Maps.subMap(map, Range.openClosed(0, 4)));
+    assertEquals(ImmutableSortedMap.of(4, 0, 6, 0), Maps.subMap(map, Range.openClosed(2, 6)));
+    assertEquals(ImmutableSortedMap.of(4, 0, 6, 0), Maps.subMap(map, Range.openClosed(3, 7)));
+    assertEquals(empty, Maps.subMap(map, Range.openClosed(20, 30)));
+
+    assertEquals(map, Maps.subMap(map, Range.closedOpen(0, 12)));
+    assertEquals(ImmutableSortedMap.of(2, 0), Maps.subMap(map, Range.closedOpen(0, 4)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0), Maps.subMap(map, Range.closedOpen(2, 6)));
+    assertEquals(ImmutableSortedMap.of(4, 0, 6, 0), Maps.subMap(map, Range.closedOpen(3, 7)));
+    assertEquals(empty, Maps.subMap(map, Range.closedOpen(20, 30)));
+  }
+
+  @GwtIncompatible // NavigableMap
+  public void testSubMap_halfBoundedRange() {
+    ImmutableSortedMap<Integer, Integer> map = ImmutableSortedMap.of(2, 0, 4, 0, 6, 0, 8, 0, 10, 0);
+    ImmutableSortedMap<Integer, Integer> empty = ImmutableSortedMap.of();
+
+    assertEquals(map, Maps.subMap(map, Range.atLeast(0)));
+    assertEquals(ImmutableSortedMap.of(4, 0, 6, 0, 8, 0, 10, 0),
+        Maps.subMap(map, Range.atLeast(4)));
+    assertEquals(ImmutableSortedMap.of(8, 0, 10, 0), Maps.subMap(map, Range.atLeast(7)));
+    assertEquals(empty, Maps.subMap(map, Range.atLeast(20)));
+
+    assertEquals(map, Maps.subMap(map, Range.greaterThan(0)));
+    assertEquals(ImmutableSortedMap.of(6, 0, 8, 0, 10, 0), Maps.subMap(map, Range.greaterThan(4)));
+    assertEquals(ImmutableSortedMap.of(8, 0, 10, 0), Maps.subMap(map, Range.greaterThan(7)));
+    assertEquals(empty, Maps.subMap(map, Range.greaterThan(20)));
+
+    assertEquals(empty, Maps.subMap(map, Range.lessThan(0)));
+    assertEquals(ImmutableSortedMap.of(2, 0), Maps.subMap(map, Range.lessThan(4)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0, 6, 0), Maps.subMap(map, Range.lessThan(7)));
+    assertEquals(map, Maps.subMap(map, Range.lessThan(20)));
+
+    assertEquals(empty, Maps.subMap(map, Range.atMost(0)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0), Maps.subMap(map, Range.atMost(4)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0, 6, 0), Maps.subMap(map, Range.atMost(7)));
+    assertEquals(map, Maps.subMap(map, Range.atMost(20)));
+  }
+
+  @GwtIncompatible // NavigableMap
+  public void testSubMap_unboundedRange() {
+    ImmutableSortedMap<Integer, Integer> map = ImmutableSortedMap.of(2, 0, 4, 0, 6, 0, 8, 0, 10, 0);
+
+    assertEquals(map, Maps.subMap(map, Range.<Integer>all()));
+  }
+
+  @GwtIncompatible // NavigableMap
+  public void testSubMap_unnaturalOrdering() {
+    ImmutableSortedMap<Integer, Integer> map =
+        ImmutableSortedMap.<Integer, Integer>reverseOrder()
+            .put(2, 0).put(4, 0).put(6, 0).put(8, 0).put(10, 0).build();
+
+    try {
+      Maps.subMap(map, Range.closed(4, 8));
+      fail("IllegalArgumentException expected");
+    } catch (IllegalArgumentException expected) {
+    }
+
+    // These results are all incorrect, but there's no way (short of iterating over the result)
+    // to verify that with an arbitrary ordering or comparator.
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0), Maps.subMap(map, Range.atLeast(4)));
+    assertEquals(ImmutableSortedMap.of(8, 0, 10, 0), Maps.subMap(map, Range.atMost(8)));
+    assertEquals(ImmutableSortedMap.of(2, 0, 4, 0, 6, 0, 8, 0, 10, 0),
+        Maps.subMap(map, Range.<Integer>all()));
   }
 }

@@ -31,7 +31,7 @@ public class InternersBenchmark {
     }
     return reps;
   }
-  
+
   @Benchmark int strongInterner(int reps) {
     Interner<String> interner = Interners.newStrongInterner();
     for (int i = 0; i < reps; i++) {
@@ -39,11 +39,10 @@ public class InternersBenchmark {
     }
     return reps;
   }
-  
-  @SuppressWarnings("ReturnValueIgnored")
+
   @Benchmark int stringIntern(int reps) {
     for (int i = 0; i < reps; i++) {
-      Double.toHexString(Math.random()).intern();
+      String unused = Double.toHexString(Math.random()).intern();
     }
     return reps;
   }

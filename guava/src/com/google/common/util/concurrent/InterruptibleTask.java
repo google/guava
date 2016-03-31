@@ -25,7 +25,7 @@ abstract class InterruptibleTask implements Runnable {
   private static final AtomicReferenceFieldUpdater<InterruptibleTask, Thread> RUNNER =
       newUpdater(InterruptibleTask.class, Thread.class, "runner");
 
-  // These two fields are used to interrupt running tasks.  The thread executing the task publishes
+  // These two fields are used to interrupt running tasks. The thread executing the task publishes
   // itself to the 'runner' field and the thread interrupting sets 'doneInterrupting' when it has
   // finished interrupting.
   private volatile Thread runner;
@@ -40,11 +40,11 @@ abstract class InterruptibleTask implements Runnable {
       runInterruptibly();
     } finally {
       if (wasInterrupted()) {
-        // We were interrupted, it is possible that the interrupted bit hasn't been set yet.  Wait
+        // We were interrupted, it is possible that the interrupted bit hasn't been set yet. Wait
         // for the interrupting thread to set 'doneInterrupting' to true. See interruptTask().
         // We want to wait so that we don't interrupt the _next_ thing run on the thread.
-        // Note. We don't reset the interrupted bit, just wait for it to be set.
-        // If this is a thread pool thread, the thread pool will reset it for us.  Otherwise, the
+        // Note: We don't reset the interrupted bit, just wait for it to be set.
+        // If this is a thread pool thread, the thread pool will reset it for us. Otherwise, the
         // interrupted bit may have been intended for something else, so don't clear it.
         while (!doneInterrupting) {
           Thread.yield();
@@ -58,9 +58,9 @@ abstract class InterruptibleTask implements Runnable {
   abstract boolean wasInterrupted();
 
   final void interruptTask() {
-    // interruptTask is guaranteed to be called at most once and if runner is non-null when that
-    // happens then it must have been the first thread that entered run().  So there is no risk
-    // that we are interrupting the wrong thread.
+    // interruptTask is guaranteed to be called at most once, and if runner is non-null when that
+    // happens, then it must have been the first thread that entered run(). So there is no risk that
+    // we are interrupting the wrong thread.
     Thread currentRunner = runner;
     if (currentRunner != null) {
       currentRunner.interrupt();

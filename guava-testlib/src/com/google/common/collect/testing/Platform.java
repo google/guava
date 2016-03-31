@@ -29,17 +29,6 @@ import java.util.Locale;
  */
 @GwtCompatible
 final class Platform {
-
-  /**
-   * Calls {@link Class#isInstance(Object)}.  Factored out so that it can be
-   * emulated in GWT.
-   *
-   * <p>This method always returns {@code true} in GWT.
-   */
-  static boolean checkIsInstance(Class<?> clazz, Object obj) {
-    return clazz.isInstance(obj);
-  }
-
   static <T> T[] clone(T[] array) {
     return array.clone();
   }

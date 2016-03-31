@@ -29,8 +29,8 @@ import com.google.common.collect.testing.features.MapFeature;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * Tester for {@link ConcurrentMap#remove}.  Can't be invoked directly; please see 
- * {@link com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder}. 
+ * Tester for {@link ConcurrentMap#remove}.  Can't be invoked directly; please see
+ * {@link com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */
@@ -65,7 +65,7 @@ public class ConcurrentMapRemoveTester<K, V> extends AbstractMapTester<K, V> {
     assertFalse(getMap().remove(k3(), v3()));
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(value = SUPPORTS_REMOVE, absent = ALLOWS_NULL_KEY_QUERIES)
   public void testRemove_nullKeyQueriesUnsupported() {
     try {
@@ -73,9 +73,9 @@ public class ConcurrentMapRemoveTester<K, V> extends AbstractMapTester<K, V> {
     } catch (NullPointerException tolerated) {
       // since the operation would be a no-op, the exception is not required
     }
-    expectUnchanged();    
+    expectUnchanged();
   }
-  
+
   @MapFeature.Require(value = SUPPORTS_REMOVE, absent = ALLOWS_NULL_VALUE_QUERIES)
   public void testRemove_nullValueQueriesUnsupported() {
     try {
@@ -83,19 +83,20 @@ public class ConcurrentMapRemoveTester<K, V> extends AbstractMapTester<K, V> {
     } catch (NullPointerException tolerated) {
       // since the operation would be a no-op, the exception is not required
     }
-    expectUnchanged();    
+    expectUnchanged();
   }
-  
+
   @MapFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemove_unsupportedPresent() {
     try {
       getMap().remove(k0(), v0());
       fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(absent = SUPPORTS_REMOVE)
   public void testRemove_unsupportedAbsent() {
     try {

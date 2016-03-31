@@ -41,7 +41,7 @@ import java.util.List;
  *
  * @author Jared Levy
  */
-@GwtIncompatible("suite") // TODO(cpovirk): set up collect/gwt/suites version
+@GwtIncompatible // suite // TODO(cpovirk): set up collect/gwt/suites version
 public class MultisetsCollectionTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();

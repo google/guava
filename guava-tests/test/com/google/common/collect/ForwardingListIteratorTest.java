@@ -49,32 +49,32 @@ public class ForwardingListIteratorTest extends ForwardingTestCase {
   }
 
   public void testHasNext() {
-    forward.hasNext();
+    boolean unused = forward.hasNext();
     assertEquals("[hasNext]", getCalls());
   }
 
   public void testHasPrevious() {
-    forward.hasPrevious();
+    boolean unused = forward.hasPrevious();
     assertEquals("[hasPrevious]", getCalls());
   }
 
   public void testNext() {
-    forward.next();
+    String unused = forward.next();
     assertEquals("[next]", getCalls());
   }
 
   public void testNextIndex() {
-    forward.nextIndex();
+    int unused = forward.nextIndex();
     assertEquals("[nextIndex]", getCalls());
   }
 
   public void testPrevious() {
-    forward.previous();
+    String unused = forward.previous();
     assertEquals("[previous]", getCalls());
   }
 
   public void testPreviousIndex() {
-    forward.previousIndex();
+    int unused = forward.previousIndex();
     assertEquals("[previousIndex]", getCalls());
   }
 

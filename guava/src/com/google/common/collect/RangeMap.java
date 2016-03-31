@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.util.Map;
 
@@ -33,6 +34,7 @@ import javax.annotation.Nullable;
  * @since 14.0
  */
 @Beta
+@GwtIncompatible
 public interface RangeMap<K extends Comparable, V> {
   /**
    * Returns the value associated with the specified key, or {@code null} if there is no
@@ -117,7 +119,7 @@ public interface RangeMap<K extends Comparable, V> {
    * Returns a view of the part of this range map that intersects with {@code range}.
    *
    * <p>For example, if {@code rangeMap} had the entries
-   * {@code [1, 5] => "foo", (6, 8) => "bar", (10, \u2025) => "baz"}
+   * {@code [1, 5] => "foo", (6, 8) => "bar", (10, ∞) => "baz"}
    * then {@code rangeMap.subRangeMap(Range.open(3, 12))} would return a range map
    * with the entries {@code (3, 5) => "foo", (6, 8) => "bar", (10, 12) => "baz"}.
    *

@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.BoundType.OPEN;
 
+import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
@@ -27,6 +28,7 @@ import junit.framework.TestSuite;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NavigableSet;
@@ -221,47 +223,47 @@ public class ForwardingSortedMultisetTest extends ForwardingMultisetTest {
   }
 
   public void testComparator() {
-    forward().comparator();
+    Comparator<?> unused = forward().comparator();
     assertEquals("[comparator]", getCalls());
   }
 
   public void testFirstEntry() {
-    forward().firstEntry();
+    Entry<String> unused = forward().firstEntry();
     assertEquals("[firstEntry]", getCalls());
   }
 
   public void testLastEntry() {
-    forward().lastEntry();
+    Entry<String> unused = forward().lastEntry();
     assertEquals("[lastEntry]", getCalls());
   }
 
   public void testPollFirstEntry() {
-    forward().pollFirstEntry();
+    Entry<String> unused = forward().pollFirstEntry();
     assertEquals("[pollFirstEntry]", getCalls());
   }
 
   public void testPollLastEntry() {
-    forward().pollLastEntry();
+    Entry<String> unused = forward().pollLastEntry();
     assertEquals("[pollLastEntry]", getCalls());
   }
 
   public void testDescendingMultiset() {
-    forward().descendingMultiset();
+    Multiset<String> unused = forward().descendingMultiset();
     assertEquals("[descendingMultiset]", getCalls());
   }
 
   public void testHeadMultiset() {
-    forward().headMultiset("abcd", CLOSED);
+    Multiset<String> unused = forward().headMultiset("abcd", CLOSED);
     assertEquals("[headMultiset(Object,BoundType)]", getCalls());
   }
 
   public void testSubMultiset() {
-    forward().subMultiset("abcd", CLOSED, "dcba", OPEN);
+    Multiset<String> unused = forward().subMultiset("abcd", CLOSED, "dcba", OPEN);
     assertEquals("[subMultiset(Object,BoundType,Object,BoundType)]", getCalls());
   }
 
   public void testTailMultiset() {
-    forward().tailMultiset("last", OPEN);
+    Multiset<String> unused = forward().tailMultiset("last", OPEN);
     assertEquals("[tailMultiset(Object,BoundType)]", getCalls());
   }
 

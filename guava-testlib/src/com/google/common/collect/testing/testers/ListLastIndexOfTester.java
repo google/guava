@@ -33,11 +33,13 @@ import com.google.common.collect.testing.features.CollectionSize;
  */
 @GwtCompatible
 public class ListLastIndexOfTester<E> extends AbstractListIndexOfTester<E> {
-  @Override protected int find(Object o) {
+  @Override
+  protected int find(Object o) {
     return getList().lastIndexOf(o);
   }
 
-  @Override protected String getMethodName() {
+  @Override
+  protected String getMethodName() {
     return "lastIndexOf";
   }
 
@@ -49,6 +51,7 @@ public class ListLastIndexOfTester<E> extends AbstractListIndexOfTester<E> {
     collection = getSubjectGenerator().create(array);
     assertEquals(
         "lastIndexOf(duplicate) should return index of last occurrence",
-        getNumElements() / 2, getList().lastIndexOf(e0()));
+        getNumElements() / 2,
+        getList().lastIndexOf(e0()));
   }
 }

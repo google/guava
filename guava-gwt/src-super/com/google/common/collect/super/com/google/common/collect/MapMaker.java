@@ -17,7 +17,10 @@
 package com.google.common.collect;
 
 import com.google.common.base.Function;
-import com.google.gwt.user.client.Timer;
+
+import jsinterop.annotations.JsFunction;
+import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsPackage;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -110,14 +113,22 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
        * expiration comes). We also want to avoid removing an entry prematurely if the entry was set
        * to the same value again.
        */
-      Timer timer = new Timer() {
+      setTimeout(new Callback() {
         @Override
         public void run() {
           remove(key, value);
         }
-      };
-      timer.schedule((int) expirationMillis);
+      }, (int) expirationMillis);
     }
+
+    @JsFunction
+    private interface Callback {
+      void run();
+    }
+
+    // TODO(user): Move this logic to a common location.
+    @JsMethod(name = "setTimeout", namespace = JsPackage.GLOBAL)
+    private static native void setTimeout(Callback callback, int delayInMs);
 
     @Override
     public V get(Object k) {

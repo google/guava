@@ -35,8 +35,7 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public class SetMultimapPutTester<K, V>
-    extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
+public class SetMultimapPutTester<K, V> extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
   // Tests for non-duplicate values are in MultimapPutTester
 
   @MapFeature.Require(SUPPORTS_PUT)

@@ -220,6 +220,32 @@ public class NullPointerTesterTest extends TestCase {
     }
   }
 
+  public void testMessageOtherException() throws Exception {
+    Method method = OneArg.class.getMethod("staticOneArgThrowsOtherThanNpe", String.class);
+    boolean foundProblem = false;
+    try {
+      new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
+    } catch (AssertionFailedError expected) {
+      assertThat(expected.getMessage()).contains("index 0");
+      assertThat(expected.getMessage()).contains("[null]");
+      foundProblem = true;
+    }
+    assertTrue("Should report error when different exception is thrown", foundProblem);
+  }
+
+  public void testMessageNoException() throws Exception {
+    Method method = OneArg.class.getMethod("staticOneArgShouldThrowNpeButDoesnt", String.class);
+    boolean foundProblem = false;
+    try {
+      new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
+    } catch (AssertionFailedError expected) {
+      assertThat(expected.getMessage()).contains("index 0");
+      assertThat(expected.getMessage()).contains("[null]");
+      foundProblem = true;
+    }
+    assertTrue("Should report error when no exception is thrown", foundProblem);
+  }
+
   /**
    * Class for testing all permutations of nullable/non-nullable two-argument
    * methods using testMethod().

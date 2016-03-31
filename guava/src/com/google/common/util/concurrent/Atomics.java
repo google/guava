@@ -14,18 +14,20 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import javax.annotation.Nullable;
 
 /**
- * Static utility methods pertaining to classes in the
- * {@code java.util.concurrent.atomic} package.
+ * Static utility methods pertaining to classes in the {@code java.util.concurrent.atomic} package.
  *
  * @author Kurt Alfred Kluever
  * @since 10.0
  */
+@GwtIncompatible
 public final class Atomics {
   private Atomics() {}
 

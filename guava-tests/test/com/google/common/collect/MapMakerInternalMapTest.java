@@ -1202,7 +1202,7 @@ public class MapMakerInternalMapTest extends TestCase {
         assertTrue(segment.recencyQueue.isEmpty());
 
         for (int i = 0; i < DRAIN_THRESHOLD / 2; i++) {
-          map.get(keyOne);
+          Object unused = map.get(keyOne);
         }
         assertFalse(segment.recencyQueue.isEmpty());
 
@@ -1227,12 +1227,12 @@ public class MapMakerInternalMapTest extends TestCase {
         assertTrue(segment.recencyQueue.isEmpty());
 
         for (int i = 0; i < DRAIN_THRESHOLD / 2; i++) {
-          map.get(keyOne);
+          Object unused = map.get(keyOne);
         }
         assertFalse(segment.recencyQueue.isEmpty());
 
         for (int i = 0; i < DRAIN_THRESHOLD * 2; i++) {
-          map.get(keyOne);
+          Object unused = map.get(keyOne);
           assertTrue(segment.recencyQueue.size() <= DRAIN_THRESHOLD);
         }
 
@@ -1244,12 +1244,12 @@ public class MapMakerInternalMapTest extends TestCase {
         assertTrue(segment.recencyQueue.isEmpty());
 
         for (int i = 0; i < DRAIN_THRESHOLD / 2; i++) {
-          map.get(keyOne);
+          Object unused = map.get(keyOne);
         }
         assertFalse(segment.recencyQueue.isEmpty());
 
         for (Object key : map.keySet()) {
-          map.get(key);
+          Object unused = map.get(key);
           assertTrue(segment.recencyQueue.size() <= DRAIN_THRESHOLD);
         }
       }
@@ -1325,7 +1325,7 @@ public class MapMakerInternalMapTest extends TestCase {
       while (i.hasNext()) {
         ReferenceEntry<Object, Object> entry = i.next();
         if (random.nextBoolean()) {
-          map.get(entry.getKey());
+          Object unused = map.get(entry.getKey());
           reads.add(entry);
           i.remove();
           assertTrue(segment.recencyQueue.size() <= DRAIN_THRESHOLD);
@@ -1555,7 +1555,7 @@ public class MapMakerInternalMapTest extends TestCase {
         reference.enqueue();
 
         for (int i = 0; i < SMALL_MAX_SIZE; i++) {
-          map.get(keyTwo);
+          Object unused = map.get(keyTwo);
         }
         assertFalse(map.containsKey(keyOne));
         assertFalse(map.containsValue(valueOne));
@@ -1587,7 +1587,7 @@ public class MapMakerInternalMapTest extends TestCase {
         reference.enqueue();
 
         for (int i = 0; i < SMALL_MAX_SIZE; i++) {
-          map.get(keyTwo);
+          Object unused = map.get(keyTwo);
         }
         assertFalse(map.containsKey(keyOne));
         assertFalse(map.containsValue(valueOne));

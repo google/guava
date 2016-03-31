@@ -25,9 +25,11 @@ import static com.google.common.util.concurrent.Service.State.STOPPING;
 import static com.google.common.util.concurrent.Service.State.TERMINATED;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.ListenerCallQueue.Callback;
 import com.google.common.util.concurrent.Monitor.Guard;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.ArrayList;
@@ -52,6 +54,7 @@ import javax.annotation.concurrent.Immutable;
  * @since 1.0
  */
 @Beta
+@GwtIncompatible
 public abstract class AbstractService implements Service {
   private static final Callback<Listener> STARTING_CALLBACK =
       new Callback<Listener>("starting()") {
@@ -200,6 +203,7 @@ public abstract class AbstractService implements Service {
    */
   protected abstract void doStop();
 
+  @CanIgnoreReturnValue
   @Override
   public final Service startAsync() {
     if (monitor.enterIf(isStartable)) {
@@ -219,6 +223,7 @@ public abstract class AbstractService implements Service {
     return this;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public final Service stopAsync() {
     if (monitor.enterIf(isStoppable)) {
@@ -277,7 +282,7 @@ public abstract class AbstractService implements Service {
     } else {
       // It is possible due to races the we are currently in the expected state even though we
       // timed out. e.g. if we weren't event able to grab the lock within the timeout we would never
-      // even check the guard.  I don't think we care too much about this use case but it could lead
+      // even check the guard. I don't think we care too much about this use case but it could lead
       // to a confusing error message.
       throw new TimeoutException("Timed out waiting for " + this + " to reach the RUNNING state.");
     }
@@ -304,7 +309,7 @@ public abstract class AbstractService implements Service {
     } else {
       // It is possible due to races the we are currently in the expected state even though we
       // timed out. e.g. if we weren't event able to grab the lock within the timeout we would never
-      // even check the guard.  I don't think we care too much about this use case but it could lead
+      // even check the guard. I don't think we care too much about this use case but it could lead
       // to a confusing error message.
       throw new TimeoutException(
           "Timed out waiting for "
@@ -538,20 +543,18 @@ public abstract class AbstractService implements Service {
   @Immutable
   private static final class StateSnapshot {
     /**
-     * The internal state, which equals external state unless
-     * shutdownWhenStartupFinishes is true.
+     * The internal state, which equals external state unless shutdownWhenStartupFinishes is true.
      */
     final State state;
 
     /**
-     * If true, the user requested a shutdown while the service was still starting
-     * up.
+     * If true, the user requested a shutdown while the service was still starting up.
      */
     final boolean shutdownWhenStartupFinishes;
 
     /**
-     * The exception that caused this service to fail.  This will be {@code null}
-     * unless the service has failed.
+     * The exception that caused this service to fail. This will be {@code null} unless the service
+     * has failed.
      */
     @Nullable final Throwable failure;
 

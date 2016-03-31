@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
@@ -49,7 +50,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -76,6 +76,7 @@ import javax.annotation.Nullable;
  * @since 14.0
  */
 @Beta
+@GwtIncompatible
 public final class ClassSanityTester {
 
   private static final Ordering<Invokable<?, ?>> BY_METHOD_NAME =
@@ -129,36 +130,6 @@ public final class ClassSanityTester {
   public <T> ClassSanityTester setDefault(Class<T> type, T value) {
     nullPointerTester.setDefault(type, value);
     defaultValues.putInstance(type, value);
-    return this;
-  }
-
-  /**
-   * Sets sample instances for {@code type}, so that when a class {@code Foo} is tested for {@link
-   * Object#equals} and {@link Object#hashCode}, and its construction requires a parameter of {@code
-   * type}, the sample instances can be passed to create {@code Foo} instances that are unequal.
-   *
-   * <p>Used for types where {@link ClassSanityTester} doesn't already know how to instantiate
-   * distinct values. It's usually necessary to add two unequal instances for each type, with the
-   * exception that if the sample instance is to be passed to a {@link Nullable} parameter, one
-   * non-null sample is sufficient. Setting an empty list will clear sample instances for {@code
-   * type}.
-   *
-   * @deprecated To supply multiple values, use {@link #setDistinctValues}. It accepts only two
-   *     values, which is enough for any {@code equals} testing. To supply a single value, use
-   *     {@link #setDefault}. This method will be removed in Guava release 20.0.
-   */
-  @Deprecated
-  public <T> ClassSanityTester setSampleInstances(
-      Class<T> type, Iterable<? extends T> instances) {
-    ImmutableList<? extends T> samples = ImmutableList.copyOf(instances);
-    Set<Object> uniqueValues = new HashSet<Object>();
-    for (T instance : instances) {
-      checkArgument(uniqueValues.add(instance), "Duplicate value: %s", instance);
-    }
-    distinctValues.putAll(checkNotNull(type), samples);
-    if (!samples.isEmpty()) {
-      setDefault(type, samples.get(0));
-    }
     return this;
   }
 
@@ -301,7 +272,7 @@ public final class ClassSanityTester {
       throw Throwables.propagate(e);
     }
   }
-
+ 
   void doTestEquals(Class<?> cls)
       throws ParameterNotInstantiableException, ParameterHasNoDistinctValueException,
              IllegalAccessException, InvocationTargetException, FactoryMethodReturnsNullException {
@@ -822,3 +793,4 @@ public final class ClassSanityTester {
     }
   }
 }
+

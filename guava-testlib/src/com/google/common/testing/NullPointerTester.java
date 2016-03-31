@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.base.Objects;
 import com.google.common.collect.ClassToInstanceMap;
@@ -66,6 +67,7 @@ import javax.annotation.Nullable;
  * @since 10.0
  */
 @Beta
+@GwtIncompatible
 public final class NullPointerTester {
 
   private final ClassToInstanceMap<Object> defaults =
@@ -344,8 +346,17 @@ public final class NullPointerTester {
       if (policy.isExpectedType(cause)) {
         return;
       }
-      AssertionFailedError error = new AssertionFailedError(
-          "wrong exception thrown from " + invokable + ": " + cause);
+      AssertionFailedError error =
+          new AssertionFailedError(
+              String.format(
+                  "wrong exception thrown from %s when passing null to %s parameter at index %s.%n"
+                      + "Full parameters: %s%n"
+                      + "Actual exception message: %s",
+                  invokable,
+                  invokable.getParameters().get(paramIndex).getType(),
+                  paramIndex,
+                  Arrays.toString(params),
+                  cause));
       error.initCause(cause);
       throw error;
     } catch (IllegalAccessException e) {

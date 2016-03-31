@@ -16,6 +16,9 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.util.Deque;
 import java.util.Iterator;
 
@@ -34,6 +37,7 @@ import java.util.Iterator;
  * @author Kurt Alfred Kluever
  * @since 12.0
  */
+@GwtIncompatible
 public abstract class ForwardingDeque<E> extends ForwardingQueue<E> implements Deque<E> {
 
   /** Constructor for use by subclasses. */
@@ -67,11 +71,13 @@ public abstract class ForwardingDeque<E> extends ForwardingQueue<E> implements D
     return delegate().getLast();
   }
 
+  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
   public boolean offerFirst(E e) {
     return delegate().offerFirst(e);
   }
 
+  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
   public boolean offerLast(E e) {
     return delegate().offerLast(e);
@@ -87,16 +93,19 @@ public abstract class ForwardingDeque<E> extends ForwardingQueue<E> implements D
     return delegate().peekLast();
   }
 
+  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
   public E pollFirst() {
     return delegate().pollFirst();
   }
 
+  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
   public E pollLast() {
     return delegate().pollLast();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public E pop() {
     return delegate().pop();
@@ -107,21 +116,25 @@ public abstract class ForwardingDeque<E> extends ForwardingQueue<E> implements D
     delegate().push(e);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public E removeFirst() {
     return delegate().removeFirst();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public E removeLast() {
     return delegate().removeLast();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean removeFirstOccurrence(Object o) {
     return delegate().removeFirstOccurrence(o);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean removeLastOccurrence(Object o) {
     return delegate().removeLastOccurrence(o);

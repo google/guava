@@ -77,7 +77,6 @@ public class ShortsTest extends TestCase {
     assertEquals(LEAST, Shorts.saturatedCast(Long.MIN_VALUE));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   private static void assertCastFails(long value) {
     try {
       Shorts.checkedCast(value);
@@ -179,7 +178,6 @@ public class ShortsTest extends TestCase {
         (short) 3));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       Shorts.max();
@@ -196,7 +194,6 @@ public class ShortsTest extends TestCase {
         (short) 5, (short) 3, (short) 0, (short) 9));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       Shorts.min();
@@ -228,7 +225,7 @@ public class ShortsTest extends TestCase {
         Shorts.concat(ARRAY1, ARRAY234)));
   }
 
-  @GwtIncompatible("Shorts.toByteArray")
+  @GwtIncompatible // Shorts.toByteArray
   public void testToByteArray() {
     assertTrue(Arrays.equals(
         new byte[] {0x23, 0x45}, Shorts.toByteArray((short) 0x2345)));
@@ -237,7 +234,7 @@ public class ShortsTest extends TestCase {
         Shorts.toByteArray((short) 0xFEDC)));
   }
 
-  @GwtIncompatible("Shorts.fromByteArray")
+  @GwtIncompatible // Shorts.fromByteArray
   public void testFromByteArray() {
     assertEquals((short) 0x2345,
         Shorts.fromByteArray(new byte[] {0x23, 0x45}));
@@ -245,8 +242,7 @@ public class ShortsTest extends TestCase {
         new byte[] {(byte) 0xFE, (byte) 0xDC}));
   }
 
-  @SuppressWarnings("CheckReturnValue")
-  @GwtIncompatible("Shorts.fromByteArray")
+  @GwtIncompatible // Shorts.fromByteArray
   public void testFromByteArrayFails() {
     try {
       Shorts.fromByteArray(new byte[] {0x01});
@@ -255,13 +251,13 @@ public class ShortsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Shorts.fromBytes")
+  @GwtIncompatible // Shorts.fromBytes
   public void testFromBytes() {
     assertEquals((short) 0x2345, Shorts.fromBytes((byte) 0x23, (byte) 0x45));
     assertEquals((short) 0xFEDC, Shorts.fromBytes((byte) 0xFE, (byte) 0xDC));
   }
 
-  @GwtIncompatible("Shorts.fromByteArray, Shorts.toByteArray")
+  @GwtIncompatible // Shorts.fromByteArray, Shorts.toByteArray
   public void testByteArrayRoundTrips() {
     Random r = new Random(5);
     byte[] b = new byte[Shorts.BYTES];
@@ -286,7 +282,6 @@ public class ShortsTest extends TestCase {
         Shorts.ensureCapacity(ARRAY1, 2, 1)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
       Shorts.ensureCapacity(ARRAY1, -1, 1);
@@ -325,13 +320,13 @@ public class ShortsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<short[]> comparator = Shorts.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Shorts.stringConverter());
   }
@@ -368,7 +363,6 @@ public class ShortsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Short> list = Arrays.asList((short) 0, (short) 1, null);
     try {
@@ -432,7 +426,7 @@ public class ShortsTest extends TestCase {
     assertSame(Collections.emptyList(), Shorts.asList(EMPTY));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Shorts.class);
   }
@@ -449,7 +443,6 @@ public class ShortsTest extends TestCase {
     assertEquals((Short) (short) 438, converter.convert("0666"));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testStringConverter_convertError() {
     try {
       Shorts.stringConverter().convert("notanumber");
@@ -474,7 +467,7 @@ public class ShortsTest extends TestCase {
     assertEquals("438", converter.reverse().convert((short) 0666));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testStringConverter_nullPointerTester() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Shorts.stringConverter());

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.reflect;
@@ -29,8 +27,7 @@ import javax.annotation.Nullable;
  * Abstract implementation of {@link InvocationHandler} that handles {@link Object#equals},
  * {@link Object#hashCode} and {@link Object#toString}. For example: <pre>
  * class Unsupported extends AbstractInvocationHandler {
- *   protected Object handleInvocation(
- *       Object proxy, Method method, Object[] args) {
+ *   protected Object handleInvocation(Object proxy, Method method, Object[] args) {
  *     throw new UnsupportedOperationException();
  *   }
  * }
@@ -49,18 +46,20 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
   /**
    * {@inheritDoc}
    *
-   * <p><ul>
+   * <ul>
    * <li>{@code proxy.hashCode()} delegates to {@link AbstractInvocationHandler#hashCode}
    * <li>{@code proxy.toString()} delegates to {@link AbstractInvocationHandler#toString}
-   * <li>{@code proxy.equals(argument)} returns true if: <ul>
+   * <li>{@code proxy.equals(argument)} returns true if:
+   *   <ul>
    *   <li>{@code proxy} and {@code argument} are of the same type
-   *   <li>and {@link AbstractInvocationHandler#equals} returns true for the {@link
-   *       InvocationHandler} of {@code argument}
+   *   <li>and {@link AbstractInvocationHandler#equals} returns true for the
+   *       {@link InvocationHandler} of {@code argument}
    *   </ul>
    * <li>other method calls are dispatched to {@link #handleInvocation}.
    * </ul>
    */
-  @Override public final Object invoke(Object proxy, Method method, @Nullable Object[] args)
+  @Override
+  public final Object invoke(Object proxy, Method method, @Nullable Object[] args)
       throws Throwable {
     if (args == null) {
       args = NO_ARGS;
@@ -91,7 +90,7 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
    * {@link #invoke} delegates to this method upon any method invocation on the proxy instance,
    * except {@link Object#equals}, {@link Object#hashCode} and {@link Object#toString}. The result
    * will be returned as the proxied method's return value.
-   * 
+   *
    * <p>Unlike {@link #invoke}, {@code args} will never be null. When the method has no parameter,
    * an empty array is passed in.
    */
@@ -100,13 +99,17 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
 
   /**
    * By default delegates to {@link Object#equals} so instances are only equal if they are
-   * identical. {@code proxy.equals(argument)} returns true if: <ul>
+   * identical. {@code proxy.equals(argument)} returns true if:
+   *
+   * <ul>
    * <li>{@code proxy} and {@code argument} are of the same type
    * <li>and this method returns true for the {@link InvocationHandler} of {@code argument}
    * </ul>
+   *
    * <p>Subclasses can override this method to provide custom equality.
    */
-  @Override public boolean equals(Object obj) {
+  @Override
+  public boolean equals(Object obj) {
     return super.equals(obj);
   }
 
@@ -114,7 +117,8 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
    * By default delegates to {@link Object#hashCode}. The dynamic proxies' {@code hashCode()} will
    * delegate to this method. Subclasses can override this method to provide custom equality.
    */
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return super.hashCode();
   }
 
@@ -123,7 +127,8 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
    * delegate to this method. Subclasses can override this method to provide custom string
    * representation for the proxies.
    */
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return super.toString();
   }
 

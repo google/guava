@@ -71,7 +71,6 @@ public class UnsignedBytesTest extends TestCase {
     assertEquals(LEAST, UnsignedBytes.saturatedCast(Long.MIN_VALUE));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   private static void assertCastFails(long value) {
     try {
       UnsignedBytes.checkedCast(value);
@@ -97,7 +96,6 @@ public class UnsignedBytesTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       UnsignedBytes.max();
@@ -113,7 +111,6 @@ public class UnsignedBytesTest extends TestCase {
         (byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       UnsignedBytes.min();
@@ -131,7 +128,6 @@ public class UnsignedBytesTest extends TestCase {
         (byte) -1, (byte) 127, (byte) 1, (byte) -128, (byte) 0));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   private static void assertParseFails(String value) {
     try {
       UnsignedBytes.parseUnsignedByte(value);
@@ -156,7 +152,6 @@ public class UnsignedBytesTest extends TestCase {
         .compare(UnsignedBytes.MAX_VALUE, (byte) (UnsignedBytes.MAX_VALUE + 1)) > 0);
   }
 
-  @SuppressWarnings("CheckReturnValue")
   private static void assertParseFails(String value, int radix) {
     try {
       UnsignedBytes.parseUnsignedByte(value, radix);
@@ -178,7 +173,6 @@ public class UnsignedBytesTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testParseUnsignedByteThrowsExceptionForInvalidRadix() {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX,
     // inclusive.

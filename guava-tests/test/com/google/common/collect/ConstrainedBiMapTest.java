@@ -47,7 +47,7 @@ public class ConstrainedBiMapTest extends TestCase {
   private static final String TEST_VALUE = "test";
   private static final MapConstraint<String, String> TEST_CONSTRAINT = new TestConstraint();
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(BiMapTestSuiteBuilder

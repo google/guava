@@ -52,7 +52,7 @@ public class LongsTest extends TestCase {
   private static final long[] VALUES =
       { MIN_VALUE, (long) -1, (long) 0, (long) 1, MAX_VALUE };
 
-  @GwtIncompatible("Long.hashCode returns different values in GWT.")
+  @GwtIncompatible // Long.hashCode returns different values in GWT.
   public void testHashCode() {
     for (long value : VALUES) {
       assertEquals("hashCode for " + value,
@@ -143,7 +143,6 @@ public class LongsTest extends TestCase {
         (long) 3));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       Longs.max();
@@ -160,7 +159,6 @@ public class LongsTest extends TestCase {
         (long) 5, (long) 3, (long) 0, (long) 9));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       Longs.min();
@@ -218,7 +216,6 @@ public class LongsTest extends TestCase {
             (byte) 0xBB, (byte) 0xAA, (byte) 0x99, (byte) 0x88}));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testFromByteArrayFails() {
     try {
       Longs.fromByteArray(new byte[Longs.BYTES - 1]);
@@ -260,7 +257,6 @@ public class LongsTest extends TestCase {
         Longs.ensureCapacity(ARRAY1, 2, 1)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
       Longs.ensureCapacity(ARRAY1, -1, 1);
@@ -299,13 +295,13 @@ public class LongsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<long[]> comparator = Longs.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Longs.stringConverter());
   }
@@ -342,7 +338,6 @@ public class LongsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Long> list = Arrays.asList((long) 0, (long) 1, null);
     try {
@@ -406,7 +401,7 @@ public class LongsTest extends TestCase {
     assertSame(Collections.emptyList(), Longs.asList(EMPTY));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Longs.class);
   }
@@ -447,7 +442,7 @@ public class LongsTest extends TestCase {
     assertEquals("438", converter.reverse().convert(0666L));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testStringConverter_nullPointerTester() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Longs.stringConverter());
@@ -513,7 +508,6 @@ public class LongsTest extends TestCase {
         Longs.tryParse(Long.toString(value, radix), radix));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testTryParse_radixTooBig() {
     try {
       Longs.tryParse("0", Character.MAX_RADIX + 1);
@@ -522,12 +516,20 @@ public class LongsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testTryParse_radixTooSmall() {
     try {
       Longs.tryParse("0", Character.MIN_RADIX - 1);
       fail();
     } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testTryParse_withNullGwt() {
+    assertNull(Longs.tryParse("null"));
+    try {
+      Longs.tryParse(null);
+      fail("Expected NPE");
+    } catch (NullPointerException expected) {
     }
   }
 }

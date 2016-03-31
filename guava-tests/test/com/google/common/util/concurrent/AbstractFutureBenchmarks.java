@@ -18,6 +18,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -34,25 +36,38 @@ final class AbstractFutureBenchmarks {
   private AbstractFutureBenchmarks() {}
 
   interface Facade<T> extends ListenableFuture<T> {
+    @CanIgnoreReturnValue
     boolean set(T t);
+
+    @CanIgnoreReturnValue
     boolean setException(Throwable t);
   }
 
   private static class NewAbstractFutureFacade<T> extends AbstractFuture<T> implements Facade<T> {
-    @Override public boolean set(T t) {
+    @CanIgnoreReturnValue
+    @Override
+    public boolean set(T t) {
       return super.set(t);
     }
-    @Override public boolean setException(Throwable t) {
+
+    @CanIgnoreReturnValue
+    @Override
+    public boolean setException(Throwable t) {
       return super.setException(t);
     }
   }
 
   private static class OldAbstractFutureFacade<T>
       extends OldAbstractFuture<T> implements Facade<T> {
-    @Override public boolean set(T t) {
+    @CanIgnoreReturnValue
+    @Override
+    public boolean set(T t) {
       return super.set(t);
     }
-    @Override public boolean setException(Throwable t) {
+
+    @CanIgnoreReturnValue
+    @Override
+    public boolean setException(Throwable t) {
       return super.setException(t);
     }
   }
@@ -116,9 +131,10 @@ final class AbstractFutureBenchmarks {
      *     or during the call (optional but recommended).
      * @throws CancellationException {@inheritDoc}
      */
+    @CanIgnoreReturnValue
     @Override
-    public V get(long timeout, TimeUnit unit) throws InterruptedException,
-        TimeoutException, ExecutionException {
+    public V get(long timeout, TimeUnit unit)
+        throws InterruptedException, TimeoutException, ExecutionException {
       return sync.get(unit.toNanos(timeout));
     }
 
@@ -137,6 +153,7 @@ final class AbstractFutureBenchmarks {
      *     or during the call (optional but recommended).
      * @throws CancellationException {@inheritDoc}
      */
+    @CanIgnoreReturnValue
     @Override
     public V get() throws InterruptedException, ExecutionException {
       return sync.get();
@@ -152,6 +169,7 @@ final class AbstractFutureBenchmarks {
       return sync.isCancelled();
     }
 
+    @CanIgnoreReturnValue
     @Override
     public boolean cancel(boolean mayInterruptIfRunning) {
       if (!sync.cancel(mayInterruptIfRunning)) {
@@ -205,6 +223,7 @@ final class AbstractFutureBenchmarks {
      * @param value the value that was the result of the task.
      * @return true if the state was successfully changed.
      */
+    @CanIgnoreReturnValue
     protected boolean set(@Nullable V value) {
       boolean result = sync.set(value);
       if (result) {
@@ -222,6 +241,7 @@ final class AbstractFutureBenchmarks {
      * @param throwable the exception that the task failed with.
      * @return true if the state was successfully changed.
      */
+    @CanIgnoreReturnValue
     protected boolean setException(Throwable throwable) {
       boolean result = sync.setException(checkNotNull(throwable));
       if (result) {

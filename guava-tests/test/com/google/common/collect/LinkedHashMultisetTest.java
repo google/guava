@@ -42,7 +42,7 @@ import java.util.List;
 @GwtCompatible(emulated = true)
 public class LinkedHashMultisetTest extends TestCase {
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(MultisetTestSuiteBuilder.using(linkedHashMultisetGenerator())

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
@@ -23,12 +21,12 @@ import com.google.common.base.CharMatcher.NamedFastMatcher;
 import java.util.BitSet;
 
 /**
- * An immutable version of CharMatcher for smallish sets of characters that uses a hash table
- * with linear probing to check for matches.
+ * An immutable version of CharMatcher for smallish sets of characters that uses a hash table with
+ * linear probing to check for matches.
  *
  * @author Christopher Swenson
  */
-@GwtIncompatible("no precomputation is done in GWT")
+@GwtIncompatible // no precomputation is done in GWT
 final class SmallCharMatcher extends NamedFastMatcher {
   static final int MAX_SIZE = 1023;
   private final char[] table;
@@ -68,10 +66,9 @@ final class SmallCharMatcher extends NamedFastMatcher {
   private static final double DESIRED_LOAD_FACTOR = 0.5;
 
   /**
-   * Returns an array size suitable for the backing array of a hash table that
-   * uses open addressing with linear probing in its implementation.  The
-   * returned size is the smallest power of two that can hold setSize elements
-   * with the desired load factor.
+   * Returns an array size suitable for the backing array of a hash table that uses open addressing
+   * with linear probing in its implementation. The returned size is the smallest power of two that
+   * can hold setSize elements with the desired load factor.
    */
   @VisibleForTesting
   static int chooseTableSize(int setSize) {
@@ -124,14 +121,11 @@ final class SmallCharMatcher extends NamedFastMatcher {
     int startingIndex = smear(c) & mask;
     int index = startingIndex;
     do {
-      // Check for empty.
-      if (table[index] == 0) {
+      if (table[index] == 0) { // Check for empty.
         return false;
-      // Check for match.
-      } else if (table[index] == c) {
+      } else if (table[index] == c) { // Check for match.
         return true;
-      } else {
-        // Linear probing.
+      } else { // Linear probing.
         index = (index + 1) & mask;
       }
       // Check to see if we wrapped around the whole table.

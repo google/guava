@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * A constraint that an element must satisfy in order to be added to a
@@ -51,6 +52,7 @@ interface Constraint<E> {
    * @param element the element to check
    * @return the provided element
    */
+  @CanIgnoreReturnValue
   E checkElement(E element);
 
   /**

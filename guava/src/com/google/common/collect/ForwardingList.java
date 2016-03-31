@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -66,6 +67,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E> implemen
     delegate().add(index, element);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean addAll(int index, Collection<? extends E> elements) {
     return delegate().addAll(index, elements);
@@ -96,11 +98,13 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E> implemen
     return delegate().listIterator(index);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public E remove(int index) {
     return delegate().remove(index);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public E set(int index, E element) {
     return delegate().set(index, element);

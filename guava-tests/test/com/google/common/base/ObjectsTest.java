@@ -72,7 +72,6 @@ public class ObjectsTest extends TestCase {
     assertSame(n1, n2);
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testFirstNonNull_throwsNullPointerException() throws Exception {
     try {
       firstNonNull(null, null);
@@ -81,7 +80,7 @@ public class ObjectsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Objects.class);

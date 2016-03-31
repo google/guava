@@ -75,7 +75,7 @@ public class EnumsTest extends TestCase {
     assertThat(Enums.getIfPresent(TestEnum.class, "WOMBAT")).isAbsent();
   }
 
-  @GwtIncompatible("weak references")
+  @GwtIncompatible // weak references
   public void testGetIfPresent_doesNotPreventClassUnloading() throws Exception {
     WeakReference<?> shadowLoaderReference = doTestClassUnloading();
     GcFinalization.awaitClear(shadowLoaderReference);
@@ -86,7 +86,7 @@ public class EnumsTest extends TestCase {
   // new ClassLoader. If Enums.getIfPresent does caching that prevents the shadow TestEnum
   // (and therefore its ClassLoader) from being unloaded, then this WeakReference will never be
   // cleared.
-  @GwtIncompatible("weak references")
+  @GwtIncompatible // weak references
   private WeakReference<?> doTestClassUnloading() throws Exception {
     URLClassLoader myLoader = (URLClassLoader) getClass().getClassLoader();
     URLClassLoader shadowLoader = new URLClassLoader(myLoader.getURLs(), null);
@@ -94,13 +94,15 @@ public class EnumsTest extends TestCase {
     Class<TestEnum> shadowTestEnum =
         (Class<TestEnum>) Class.forName(TestEnum.class.getName(), false, shadowLoader);
     assertNotSame(shadowTestEnum, TestEnum.class);
-    Set<TestEnum> shadowConstants = new HashSet<TestEnum>();
+    // We can't write Set<TestEnum> because that is a Set of the TestEnum from the original
+    // ClassLoader.
+    Set<Object> shadowConstants = new HashSet<Object>();
     for (TestEnum constant : TestEnum.values()) {
       Optional<TestEnum> result = Enums.getIfPresent(shadowTestEnum, constant.name());
       assertThat(result).isPresent();
       shadowConstants.add(result.get());
     }
-    assertEquals(ImmutableSet.copyOf(shadowTestEnum.getEnumConstants()), shadowConstants);
+    assertEquals(ImmutableSet.<Object>copyOf(shadowTestEnum.getEnumConstants()), shadowConstants);
     Optional<TestEnum> result = Enums.getIfPresent(shadowTestEnum, "blibby");
     assertThat(result).isAbsent();
     return new WeakReference<ClassLoader>(shadowLoader);
@@ -131,7 +133,7 @@ public class EnumsTest extends TestCase {
     assertEquals("POODLE", converter.reverse().convert(TestEnum.POODLE));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testStringConverter_nullPointerTester() throws Exception {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
     NullPointerTester tester = new NullPointerTester();
@@ -144,7 +146,7 @@ public class EnumsTest extends TestCase {
     assertNull(converter.reverse().convert(null));
   }
 
-  @GwtIncompatible("Class.getName()")
+  @GwtIncompatible // Class.getName()
   public void testStringConverter_toString() {
     assertEquals(
         "Enums.stringConverter(com.google.common.base.EnumsTest$TestEnum.class)",
@@ -155,7 +157,7 @@ public class EnumsTest extends TestCase {
     SerializableTester.reserializeAndAssert(Enums.stringConverter(TestEnum.class));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Enums.class);
@@ -169,7 +171,7 @@ public class EnumsTest extends TestCase {
     BAR
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testGetField() {
     Field foo = Enums.getField(AnEnum.FOO);
     assertEquals("FOO", foo.getName());

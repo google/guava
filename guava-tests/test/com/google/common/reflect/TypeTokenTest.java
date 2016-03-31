@@ -28,6 +28,7 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import com.google.common.truth.IterableSubject;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import junit.framework.TestCase;
 
@@ -1286,7 +1287,7 @@ public class TypeTokenTest extends TestCase {
     assertTrue(subType.isSubtypeOf(superType));
 
     // TODO(benyu): This should check equality to an expected value, see discussion in cl/98674873
-    superType.getSubtype(subType.getRawType());
+    TypeToken<?> unused = superType.getSubtype(subType.getRawType());
   }
   
   public void testGetSubtype_baseClassWithNoTypeArgs() {
@@ -1339,7 +1340,7 @@ public class TypeTokenTest extends TestCase {
     ParameterizedType owner = (ParameterizedType) subtype.getOwnerType();
     assertEquals(Outer.class, owner.getRawType());
     // This returns a strange ? extends Sub2<Y> type, which isn't ideal.
-    new TypeToken<BaseWithTypeVar<List<?>>>() {}.getSubtype(Outer.Sub2.class);
+    TypeToken<?> unused = new TypeToken<BaseWithTypeVar<List<?>>>() {}.getSubtype(Outer.Sub2.class);
   }
   
   public void testGetSubtype_subtypeSameAsDeclaringType() throws Exception {
@@ -1691,6 +1692,7 @@ public class TypeTokenTest extends TestCase {
     }
   }
 
+  @CanIgnoreReturnValue
   private static <T> T reserialize(T object) {
     T copy = SerializableTester.reserialize(object);
     new EqualsTester()
@@ -1722,10 +1724,11 @@ public class TypeTokenTest extends TestCase {
 
   // For Guava bug http://code.google.com/p/guava-libraries/issues/detail?id=1025
   public void testDespiteGenericSignatureFormatError() {
-    ImmutableSet.copyOf(
-        TypeToken.of(ToReproduceGenericSignatureFormatError.SubOuter.SubInner.class)
-            .getTypes()
-            .rawTypes());
+    ImmutableSet<?> unused =
+        ImmutableSet.copyOf(
+            TypeToken.of(ToReproduceGenericSignatureFormatError.SubOuter.SubInner.class)
+                .getTypes()
+                .rawTypes());
   }
 
   private abstract static class Entry<K, V> {
@@ -1872,7 +1875,7 @@ public class TypeTokenTest extends TestCase {
   private static class Base implements BaseInterface {}
   private static class Sub extends Base {}
 
-  private static IterableSubject<?, Object, ?> makeUnmodifiable(Collection<?> actual) {
+  private static IterableSubject makeUnmodifiable(Collection<?> actual) {
     return assertThat(Collections.<Object>unmodifiableCollection(actual));
   }
 }

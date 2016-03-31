@@ -179,7 +179,6 @@ public class FloatsTest extends TestCase {
     assertEquals(-1, Floats.lastIndexOf(new float[] {NaN, 5f}, NaN));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMax_noArgs() {
     try {
       Floats.max();
@@ -201,7 +200,6 @@ public class FloatsTest extends TestCase {
     assertTrue(Float.isNaN(Floats.max(VALUES)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testMin_noArgs() {
     try {
       Floats.min();
@@ -247,7 +245,6 @@ public class FloatsTest extends TestCase {
         Floats.ensureCapacity(ARRAY1, 2, 1)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
       Floats.ensureCapacity(ARRAY1, -1, 1);
@@ -262,7 +259,7 @@ public class FloatsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Float.toString returns different value in GWT.")
+  @GwtIncompatible // Float.toString returns different value in GWT.
   public void testJoin() {
     assertEquals("", Floats.join(",", EMPTY));
     assertEquals("1.0", Floats.join(",", ARRAY1));
@@ -287,13 +284,13 @@ public class FloatsTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<float[]> comparator = Floats.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testStringConverterSerialization() {
     SerializableTester.reserializeAndAssert(Floats.stringConverter());
   }
@@ -330,7 +327,6 @@ public class FloatsTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Float> list = Arrays.asList((float) 0, (float) 1, null);
     try {
@@ -409,17 +405,17 @@ public class FloatsTest extends TestCase {
     }
  }
 
-  @GwtIncompatible("Floats.tryParse")
+  @GwtIncompatible // Floats.tryParse
   private static void checkTryParse(String input) {
     assertEquals(referenceTryParse(input), Floats.tryParse(input));
   }
 
-  @GwtIncompatible("Floats.tryParse")
+  @GwtIncompatible // Floats.tryParse
   private static void checkTryParse(float expected, String input) {
     assertEquals(Float.valueOf(expected), Floats.tryParse(input));
   }
 
-  @GwtIncompatible("Floats.tryParse")
+  @GwtIncompatible // Floats.tryParse
   public void testTryParseHex() {
     for (String signChar : ImmutableList.of("", "+", "-")) {
       for (String hexPrefix : ImmutableList.of("0x", "0X")) {
@@ -440,7 +436,7 @@ public class FloatsTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
-  @GwtIncompatible("Floats.tryParse")
+  @GwtIncompatible // Floats.tryParse
   public void testTryParseAllCodePoints() {
     // Exercise non-ASCII digit test cases and the like.
     char[] tmp = new char[2];
@@ -450,28 +446,28 @@ public class FloatsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Floats.tryParse")
+  @GwtIncompatible // Floats.tryParse
   public void testTryParseOfToStringIsOriginal() {
     for (float f : NUMBERS) {
       checkTryParse(f, Float.toString(f));
     }
   }
 
-  @GwtIncompatible("Floats.tryParse")
+  @GwtIncompatible // Floats.tryParse
   public void testTryParseOfToHexStringIsOriginal() {
     for (float f : NUMBERS) {
       checkTryParse(f, Float.toHexString(f));
     }
   }
 
-  @GwtIncompatible("Floats.tryParse")
+  @GwtIncompatible // Floats.tryParse
   public void testTryParseNaN() {
     checkTryParse("NaN");
     checkTryParse("+NaN");
     checkTryParse("-NaN");
   }
 
-  @GwtIncompatible("Floats.tryParse")
+  @GwtIncompatible // Floats.tryParse
   public void testTryParseInfinity() {
     checkTryParse(Float.POSITIVE_INFINITY, "Infinity");
     checkTryParse(Float.POSITIVE_INFINITY, "+Infinity");
@@ -482,7 +478,7 @@ public class FloatsTest extends TestCase {
     { "", "+-", "+-0", " 5", "32 ", " 55 ", "infinity", "POSITIVE_INFINITY", "0x9A", "0x9A.bE-5",
       ".", ".e5", "NaNd", "InfinityF" };
 
-  @GwtIncompatible("Floats.tryParse")
+  @GwtIncompatible // Floats.tryParse
   public void testTryParseFailures() {
     for (String badInput : BAD_TRY_PARSE_INPUTS) {
       assertEquals(referenceTryParse(badInput), Floats.tryParse(badInput));
@@ -490,12 +486,12 @@ public class FloatsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Floats.class);
   }
 
-  @GwtIncompatible("Float.toString returns different value in GWT.")
+  @GwtIncompatible // Float.toString returns different value in GWT.
   public void testStringConverter_convert() {
     Converter<String, Float> converter = Floats.stringConverter();
     assertEquals((Float) 1.0f, converter.convert("1.0"));
@@ -508,7 +504,6 @@ public class FloatsTest extends TestCase {
     assertEquals((Float) 1e-6f, converter.convert("1e-6"));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testStringConverter_convertError() {
     try {
       Floats.stringConverter().convert("notanumber");
@@ -522,7 +517,7 @@ public class FloatsTest extends TestCase {
     assertNull(Floats.stringConverter().reverse().convert(null));
   }
 
-  @GwtIncompatible("Float.toString returns different value in GWT.")
+  @GwtIncompatible // Float.toString returns different value in GWT.
   public void testStringConverter_reverse() {
     Converter<String, Float> converter = Floats.stringConverter();
     assertEquals("1.0", converter.reverse().convert(1.0f));
@@ -532,9 +527,19 @@ public class FloatsTest extends TestCase {
     assertEquals("1.0E-6", converter.reverse().convert(1e-6f));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testStringConverter_nullPointerTester() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Floats.stringConverter());
+  }
+
+  @GwtIncompatible
+  public void testTryParse_withNullNoGwt() {
+    assertNull(Floats.tryParse("null"));
+    try {
+      Floats.tryParse(null);
+      fail("Expected NPE");
+    } catch (NullPointerException expected) {
+    }
   }
 }

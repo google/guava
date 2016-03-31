@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.NoSuchElementException;
 
@@ -120,11 +121,13 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
    * @return {@code null}; a convenience so your {@code computeNext}
    *     implementation can use the simple statement {@code return endOfData();}
    */
+  @CanIgnoreReturnValue
   protected final T endOfData() {
     state = State.DONE;
     return null;
   }
 
+  @CanIgnoreReturnValue // TODO(kak): Should we remove this? Some people are using it to prefetch?
   @Override
   public final boolean hasNext() {
     checkState(state != State.FAILED);
@@ -148,6 +151,7 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
     return false;
   }
 
+  @CanIgnoreReturnValue // TODO(kak): Should we remove this?
   @Override
   public final T next() {
     if (!hasNext()) {

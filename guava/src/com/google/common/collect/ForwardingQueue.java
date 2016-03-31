@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.NoSuchElementException;
 import java.util.Queue;
@@ -50,16 +51,19 @@ public abstract class ForwardingQueue<E> extends ForwardingCollection<E> impleme
   @Override
   protected abstract Queue<E> delegate();
 
+  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
   public boolean offer(E o) {
     return delegate().offer(o);
   }
 
+  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
   public E poll() {
     return delegate().poll();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public E remove() {
     return delegate().remove();

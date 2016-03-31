@@ -349,7 +349,7 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     assertThat(table.row('c').keySet()).containsExactly(1, 2, 3).inOrder();
   }
 
-  @GwtIncompatible("Mind-bogglingly slow in GWT")
+  @GwtIncompatible // Mind-bogglingly slow in GWT
   @AndroidIncompatible // slow
   public void testOverflowCondition() {
     // See https://code.google.com/p/guava-libraries/issues/detail?id=1322 for details.

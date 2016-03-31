@@ -36,25 +36,21 @@ public class ListToArrayTester<E> extends AbstractListTester<E> {
 
   public void testToArray_noArg() {
     Object[] actual = getList().toArray();
-    assertArrayEquals("toArray() order should match list",
-        createOrderedArray(), actual);
+    assertArrayEquals("toArray() order should match list", createOrderedArray(), actual);
   }
 
   @CollectionSize.Require(absent = ZERO)
   public void testToArray_tooSmall() {
     Object[] actual = getList().toArray(new Object[0]);
-    assertArrayEquals("toArray(tooSmall) order should match list",
-        createOrderedArray(), actual);
+    assertArrayEquals("toArray(tooSmall) order should match list", createOrderedArray(), actual);
   }
 
   public void testToArray_largeEnough() {
     Object[] actual = getList().toArray(new Object[getNumElements()]);
-    assertArrayEquals("toArray(largeEnough) order should match list",
-        createOrderedArray(), actual);
+    assertArrayEquals("toArray(largeEnough) order should match list", createOrderedArray(), actual);
   }
 
-  private static void assertArrayEquals(String message, Object[] expected,
-      Object[] actual) {
+  private static void assertArrayEquals(String message, Object[] expected, Object[] actual) {
     assertEquals(message, Arrays.asList(expected), Arrays.asList(actual));
   }
 }

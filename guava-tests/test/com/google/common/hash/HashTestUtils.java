@@ -414,10 +414,11 @@ final class HashTestUtils {
   static void assertInvariants(HashFunction hashFunction) {
     int objects = 100;
     Set<HashCode> hashcodes = Sets.newHashSetWithExpectedSize(objects);
+    Random random = new Random(314159);
     for (int i = 0; i < objects; i++) {
-      Object o = new Object();
-      HashCode hashcode1 = hashFunction.hashObject(o, HashTestUtils.BAD_FUNNEL);
-      HashCode hashcode2 = hashFunction.hashObject(o, HashTestUtils.BAD_FUNNEL);
+      int value = random.nextInt();
+      HashCode hashcode1 = hashFunction.hashInt(value);
+      HashCode hashcode2 = hashFunction.hashInt(value);
       Assert.assertEquals(hashcode1, hashcode2); // idempotent
       Assert.assertEquals(hashFunction.bits(), hashcode1.bits());
       Assert.assertEquals(hashFunction.bits(), hashcode1.asBytes().length * 8);
@@ -431,7 +432,9 @@ final class HashTestUtils {
   }
 
   static void assertHashBytesThrowsCorrectExceptions(HashFunction hashFunction) {
-    hashFunction.hashBytes(new byte[64], 0, 0);
+    {
+      HashCode unused = hashFunction.hashBytes(new byte[64], 0, 0);
+    }
 
     try {
       hashFunction.hashBytes(new byte[128], -1, 128);

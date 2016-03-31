@@ -47,7 +47,6 @@ public final class OptionalTest extends TestCase {
     assertEquals("training", Optional.of("training").get());
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testOf_null() {
     try {
       Optional.of(null);
@@ -74,7 +73,6 @@ public final class OptionalTest extends TestCase {
     assertTrue(Optional.of("training").isPresent());
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testGet_absent() {
     Optional<String> optional = Optional.absent();
     try {
@@ -104,7 +102,6 @@ public final class OptionalTest extends TestCase {
     assertEquals("fallback", Optional.absent().or(Suppliers.ofInstance("fallback")));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testOr_nullSupplier_absent() {
     Supplier<Object> nullSupplier = Suppliers.ofInstance(null);
     Optional<Object> absentOptional = Optional.absent();
@@ -176,15 +173,17 @@ public final class OptionalTest extends TestCase {
     assertEquals(Optional.of("42"), Optional.of(42).transform(Functions.toStringFunction()));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testTransform_present_functionReturnsNull() {
     try {
-      Optional.of("a").transform(
-          new Function<String, String>() {
-            @Override public String apply(String input) {
-              return null;
-            }
-          });
+      Optional<String> unused =
+          Optional.of("a")
+              .transform(
+                  new Function<String, String>() {
+                    @Override
+                    public String apply(String input) {
+                      return null;
+                    }
+                  });
       fail("Should throw if Function returns null.");
     } catch (NullPointerException expected) {
     }
@@ -300,13 +299,13 @@ public final class OptionalTest extends TestCase {
     Number value = first.or(0.5); // fine
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization() {
     SerializableTester.reserializeAndAssert(Optional.absent());
     SerializableTester.reserializeAndAssert(Optional.of("foo"));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester npTester = new NullPointerTester();
     npTester.testAllPublicConstructors(Optional.class);

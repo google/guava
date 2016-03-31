@@ -17,15 +17,20 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Runnables.doNothing;
+import static com.google.common.util.concurrent.TestPlatform.getDoneFromTimeoutOverload;
 import static com.google.common.util.concurrent.TestPlatform.verifyGetOnPendingFuture;
 import static com.google.common.util.concurrent.TestPlatform.verifyTimedGetOnPendingFuture;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
+import com.google.common.util.concurrent.AbstractFutureTest.TimedWaiterThread;
 
 import junit.framework.TestCase;
 
@@ -37,7 +42,7 @@ import java.util.concurrent.TimeoutException;
  * Base class for tests for emulated {@link AbstractFuture} that allow subclasses to swap in a
  * different "source Future" for {@link AbstractFuture#setFuture} calls.
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 abstract class AbstractAbstractFutureTest extends TestCase {
   private TestedFuture<Integer> future;
   private AbstractFuture<Integer> delegate;
@@ -118,6 +123,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     assertCancelled(future, false);
   }
 
+  @GwtIncompatible // All GWT Futures behaves like TrustedFuture.
   public void testSetFutureDelegateAlreadyInterrupted() throws Exception {
     delegate.cancel(true /** mayInterruptIfRunning */);
     assertThat(future.setFuture(delegate)).isTrue();
@@ -129,6 +135,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     assertCancelled(future, delegate instanceof TrustedFuture);
   }
 
+  @GwtIncompatible // All GWT Futures behaves like TrustedFuture.
   public void testSetFutureDelegateLaterInterrupted() throws Exception {
     assertThat(future.setFuture(delegate)).isTrue();
     delegate.cancel(true /** mayInterruptIfRunning */);
@@ -345,6 +352,27 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     }
   }
 
+  public void testNegativeTimeout() throws Exception {
+    future.set(1);
+    assertEquals(1, future.get(-1, SECONDS).intValue());
+  }
+
+  @GwtIncompatible // threads
+
+  public void testOverflowTimeout() throws Exception {
+    // First, sanity check that naive multiplication would really overflow to a negative number:
+    long nanosPerSecond = NANOSECONDS.convert(1, SECONDS);
+    assertThat(nanosPerSecond * Long.MAX_VALUE).isLessThan(0L);
+
+    // Check that we wait long enough anyway (presumably as long as MAX_VALUE nanos):
+    TimedWaiterThread waiter = new TimedWaiterThread(future, Long.MAX_VALUE, SECONDS);
+    waiter.start();
+    waiter.awaitWaiting();
+
+    future.set(1);
+    waiter.join();
+  }
+
   public void testSetNull() throws Exception {
     future.set(null);
     assertSuccessful(future, null);
@@ -422,9 +450,8 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     assertDone(future);
     assertThat(future.isCancelled()).isFalse();
 
-    assertThat(future.get()).isEqualTo(expectedResult);
-    assertThat(future.get(0, SECONDS)).isEqualTo(expectedResult);
-    assertThat(future.get(-1, SECONDS)).isEqualTo(expectedResult);
+    assertThat(getDone(future)).isEqualTo(expectedResult);
+    assertThat(getDoneFromTimeoutOverload(future)).isEqualTo(expectedResult);
   }
 
   private static void assertFailed(AbstractFuture<Integer> future, Throwable expectedException)
@@ -433,14 +460,14 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     assertThat(future.isCancelled()).isFalse();
 
     try {
-      future.get();
+      getDone(future);
       fail();
     } catch (ExecutionException e) {
       assertThat(e.getCause()).isSameAs(expectedException);
     }
 
     try {
-      future.get(0, SECONDS);
+      getDoneFromTimeoutOverload(future);
       fail();
     } catch (ExecutionException e) {
       assertThat(e.getCause()).isSameAs(expectedException);
@@ -454,13 +481,13 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     assertThat(future.wasInterrupted()).isEqualTo(expectWasInterrupted);
 
     try {
-      future.get();
+      getDone(future);
       fail();
     } catch (CancellationException expected) {
     }
 
     try {
-      future.get(0, SECONDS);
+      getDoneFromTimeoutOverload(future);
       fail();
     } catch (CancellationException expected) {
     }

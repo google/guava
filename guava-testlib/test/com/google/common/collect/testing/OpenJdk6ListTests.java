@@ -18,11 +18,7 @@ package com.google.common.collect.testing;
 
 import static com.google.common.collect.testing.testers.CollectionToArrayTester.getToArrayIsPlainObjectArrayMethod;
 import static com.google.common.collect.testing.testers.ListAddTester.getAddSupportedNullPresentMethod;
-import static com.google.common.collect.testing.testers.ListListIteratorTester.getListIteratorFullyModifiableMethod;
 import static com.google.common.collect.testing.testers.ListSetTester.getSetNullSupportedMethod;
-import static com.google.common.collect.testing.testers.ListSubListTester.getSubListOriginalListSetAffectsSubListLargeListMethod;
-import static com.google.common.collect.testing.testers.ListSubListTester.getSubListOriginalListSetAffectsSubListMethod;
-import static com.google.common.collect.testing.testers.ListSubListTester.getSubListSubListRemoveAffectsOriginalLargeListMethod;
 
 import com.google.common.collect.testing.testers.CollectionAddTester;
 import com.google.common.collect.testing.testers.ListAddAtIndexTester;
@@ -48,14 +44,6 @@ public class OpenJdk6ListTests extends TestsForListsInJavaUtil {
   @Override protected Collection<Method> suppressForArraysAsList() {
     return Arrays.asList(
         getToArrayIsPlainObjectArrayMethod());
-  }
-
-  @Override protected Collection<Method> suppressForCopyOnWriteArrayList() {
-    return Arrays.asList(
-        getSubListOriginalListSetAffectsSubListMethod(),
-        getSubListOriginalListSetAffectsSubListLargeListMethod(),
-        getSubListSubListRemoveAffectsOriginalLargeListMethod(),
-        getListIteratorFullyModifiableMethod());
   }
 
   @Override protected Collection<Method> suppressForCheckedList() {

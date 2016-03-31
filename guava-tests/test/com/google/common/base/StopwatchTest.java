@@ -168,7 +168,7 @@ public class StopwatchTest extends TestCase {
     assertEquals(1, stopwatch.elapsed(MILLISECONDS));
   }
 
-  @GwtIncompatible("String.format()")
+  @GwtIncompatible // String.format()
   public void testToString() {
     stopwatch.start();
     assertEquals("0.000 ns", stopwatch.toString());

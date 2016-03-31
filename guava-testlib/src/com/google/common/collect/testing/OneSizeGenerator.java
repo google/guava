@@ -30,13 +30,11 @@ import java.util.List;
  * @author George van den Driessche
  */
 @GwtCompatible
-public final class OneSizeGenerator<T, E>
-    implements OneSizeTestContainerGenerator<T, E> {
+public final class OneSizeGenerator<T, E> implements OneSizeTestContainerGenerator<T, E> {
   private final TestContainerGenerator<T, E> generator;
   private final CollectionSize collectionSize;
 
-  public OneSizeGenerator(TestContainerGenerator<T, E> generator,
-      CollectionSize collectionSize) {
+  public OneSizeGenerator(TestContainerGenerator<T, E> generator, CollectionSize collectionSize) {
     this.generator = generator;
     this.collectionSize = collectionSize;
   }
@@ -63,8 +61,7 @@ public final class OneSizeGenerator<T, E>
 
   @Override
   public T createTestSubject() {
-    Collection<E> elements = getSampleElements(
-        getCollectionSize().getNumElements());
+    Collection<E> elements = getSampleElements(getCollectionSize().getNumElements());
     return generator.create(elements.toArray());
   }
 
@@ -72,8 +69,8 @@ public final class OneSizeGenerator<T, E>
   public Collection<E> getSampleElements(int howMany) {
     SampleElements<E> samples = samples();
     @SuppressWarnings("unchecked")
-    List<E> allSampleElements = Arrays.asList(
-        samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
+    List<E> allSampleElements =
+        Arrays.asList(samples.e0(), samples.e1(), samples.e2(), samples.e3(), samples.e4());
     return new ArrayList<E>(allSampleElements.subList(0, howMany));
   }
 

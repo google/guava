@@ -39,7 +39,7 @@ import java.util.NoSuchElementException;
  *
  * @author Louis Wasserman
  */
-@GwtIncompatible("NavigableMap")
+@GwtIncompatible // NavigableMap
 public class TreeRangeMapTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();

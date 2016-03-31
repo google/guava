@@ -192,4 +192,9 @@ public void testTryParse_radixTooSmall() throws Exception {
   com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
   testCase.testTryParse_radixTooSmall();
 }
+
+public void testTryParse_withNullGwt() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testTryParse_withNullGwt();
+}
 }
