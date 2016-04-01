@@ -55,7 +55,7 @@ import javax.annotation.Nullable;
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
   /**
-   * Returns the empty immutable list. This set behaves and performs comparably
+   * Returns the empty immutable list. This list behaves and performs comparably
    * to {@link Collections#emptyList}, and is preferable mainly for consistency
    * and maintainability of your code.
    */
