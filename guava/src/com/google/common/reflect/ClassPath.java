@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
@@ -425,7 +426,13 @@ public final class ClassPath {
         URLClassLoader urlClassLoader = (URLClassLoader) classloader;
         for (URL entry : urlClassLoader.getURLs()) {
           if (entry.getProtocol().equals("file")) {
-            File file = new File(entry.getFile());
+            File file;
+            try {
+              file = new File(entry.toURI());
+            } catch (URISyntaxException e) {
+              //not a valid file path, ignore
+              continue;
+            }
             if (!entries.containsKey(file)) {
               entries.put(file, classloader);
             }
