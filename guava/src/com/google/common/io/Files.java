@@ -287,6 +287,10 @@ public final class Files {
   /**
    * Copies all the bytes from one file to another.
    *
+   * <p>Copying is not an atomic operation - in the case of an I/O error, power loss, process
+   * termination, or other problems, {@code to} may not be a complete copy of {@code from}. If you
+   * need to guard against those conditions, you should employ other file-level synchronization.
+   *
    * <p><b>Warning:</b> If {@code to} represents an existing file, that file will be overwritten
    * with the contents of {@code from}. If {@code to} and {@code from} refer to the <i>same</i>
    * file, the contents of that file will be deleted.
