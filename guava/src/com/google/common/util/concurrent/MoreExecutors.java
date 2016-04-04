@@ -912,16 +912,16 @@ public final class MoreExecutors {
   }
 
   /**
-   * Shuts down the given executor gradually, first disabling new submissions and later cancelling
-   * existing tasks.
+   * Shuts down the given executor service gradually, first disabling new submissions and later, if
+   * necessary, cancelling remaining tasks.
    *
    * <p>The method takes the following steps:
    * <ol>
    * <li>calls {@link ExecutorService#shutdown()}, disabling acceptance of new submitted tasks.
-   * <li>waits for half of the specified timeout.
+   * <li>awaits executor service termination for half of the specified timeout.
    * <li>if the timeout expires, it calls {@link ExecutorService#shutdownNow()}, cancelling pending
    * tasks and interrupting running tasks.
-   * <li>waits for the other half of the specified timeout.
+   * <li>awaits executor service termination for the other half of the specified timeout.
    * </ol>
    *
    * <p>If, at any step of the process, the calling thread is interrupted, the method calls
@@ -931,7 +931,7 @@ public final class MoreExecutors {
    * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
    * @param unit the time unit of the timeout argument
    * @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
-   *     the call timed out or was interrupted
+   *     if the call timed out or was interrupted
    * @since 17.0
    */
   @Beta
@@ -939,11 +939,10 @@ public final class MoreExecutors {
   @GwtIncompatible // concurrency
   public static boolean shutdownAndAwaitTermination(
       ExecutorService service, long timeout, TimeUnit unit) {
-    checkNotNull(unit);
+    long halfTimeoutNanos = unit.toNanos(timeout) / 2;
     // Disable new tasks from being submitted
     service.shutdown();
     try {
-      long halfTimeoutNanos = TimeUnit.NANOSECONDS.convert(timeout, unit) / 2;
       // Wait for half the duration of the timeout for existing tasks to terminate
       if (!service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS)) {
         // Cancel currently executing tasks
