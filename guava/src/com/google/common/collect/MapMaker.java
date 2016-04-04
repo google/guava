@@ -193,19 +193,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * {@code (0, unit)}. It can be useful in testing, or to disable caching temporarily without
    * a code change.
    *
-   * <p>Caching functionality in {@code MapMaker} has been moved to
-   * {@link com.google.common.cache.CacheBuilder}.
-   *
    * @param size the maximum size of the map
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
-   * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #maximumSize} being replaced by
-   *     {@link com.google.common.cache.CacheBuilder#maximumSize}. Note that {@code CacheBuilder} is
-   *     simply an enhanced API for an implementation which was branched from {@code MapMaker}.
    */
   @CanIgnoreReturnValue
-  @Deprecated
   @Override
   MapMaker maximumSize(int size) {
     checkState(
