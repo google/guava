@@ -61,11 +61,6 @@ abstract class GenericMapMaker<K0, V0> {
   public abstract GenericMapMaker<K0, V0> initialCapacity(int initialCapacity);
 
   /**
-   * See {@link MapMaker#maximumSize}.
-   */
-  abstract GenericMapMaker<K0, V0> maximumSize(int maximumSize);
-
-  /**
    * See {@link MapMaker#concurrencyLevel}.
    */
   public abstract GenericMapMaker<K0, V0> concurrencyLevel(int concurrencyLevel);

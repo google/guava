@@ -134,46 +134,11 @@ public class MapMakerTest extends TestCase {
       }
     }
 
-    public void testMaximumSize_setTwice() {
-      MapMaker maker = new MapMaker().maximumSize(16);
-      try {
-        // even to the same value is not allowed
-        maker.maximumSize(16);
-        fail();
-      } catch (IllegalStateException expected) {
-      }
-    }
-
     public void testReturnsPlainConcurrentHashMapWhenPossible() {
       Map<?, ?> map = new MapMaker()
           .initialCapacity(5)
           .makeMap();
       assertTrue(map instanceof ConcurrentHashMap);
-    }
-  }
-
-  /** Tests of the built map with maximumSize. */
-  public static class MaximumSizeTest extends TestCase {
-    public void testPut_sizeIsZero() {
-      ConcurrentMap<Object, Object> map =
-          new MapMaker().maximumSize(0).makeMap();
-      assertEquals(0, map.size());
-      map.put(new Object(), new Object());
-      assertEquals(0, map.size());
-    }
-
-    public void testSizeBasedEviction() {
-      int numKeys = 10;
-      int mapSize = 5;
-      ConcurrentMap<Object, Object> map =
-          new MapMaker().maximumSize(mapSize).makeMap();
-      for (int i = 0; i < numKeys; i++) {
-        map.put(i, i);
-      }
-      assertEquals(mapSize, map.size());
-      for (int i = numKeys - mapSize; i < mapSize; i++) {
-        assertTrue(map.containsKey(i));
-      }
     }
   }
 

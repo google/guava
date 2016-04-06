@@ -58,7 +58,6 @@ public class MapMakerSingleThreadBenchmark {
 
     cache = new MapMaker()
         .concurrencyLevel(segments)
-        .maximumSize(maximumSize)
         .makeComputingMap(
             new Function<Integer, Integer>() {
               @Override public Integer apply(Integer from) {

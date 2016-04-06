@@ -33,16 +33,6 @@ public void testRecursiveComputation__RecursiveComputationTest() throws Exceptio
   testCase.testRecursiveComputation();
 }
 
-public void testPut_sizeIsZero__MaximumSizeTest() throws Exception {
-  com.google.common.collect.MapMakerTest.MaximumSizeTest testCase = new com.google.common.collect.MapMakerTest.MaximumSizeTest();
-  testCase.testPut_sizeIsZero();
-}
-
-public void testSizeBasedEviction__MaximumSizeTest() throws Exception {
-  com.google.common.collect.MapMakerTest.MaximumSizeTest testCase = new com.google.common.collect.MapMakerTest.MaximumSizeTest();
-  testCase.testSizeBasedEviction();
-}
-
 public void testExpiration_setTwice__MakerTest() throws Exception {
   com.google.common.collect.MapMakerTest.MakerTest testCase = new com.google.common.collect.MapMakerTest.MakerTest();
   testCase.testExpiration_setTwice();
@@ -51,11 +41,6 @@ public void testExpiration_setTwice__MakerTest() throws Exception {
 public void testInitialCapacity_negative__MakerTest() throws Exception {
   com.google.common.collect.MapMakerTest.MakerTest testCase = new com.google.common.collect.MapMakerTest.MakerTest();
   testCase.testInitialCapacity_negative();
-}
-
-public void testMaximumSize_setTwice__MakerTest() throws Exception {
-  com.google.common.collect.MapMakerTest.MakerTest testCase = new com.google.common.collect.MapMakerTest.MakerTest();
-  testCase.testMaximumSize_setTwice();
 }
 
 public void testReturnsPlainConcurrentHashMapWhenPossible__MakerTest() throws Exception {

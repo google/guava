@@ -277,6 +277,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
     try {
       cms.removeExactly("a", -2);
+      fail();
     } catch (IllegalArgumentException expected) {}
 
     assertTrue(cms.removeExactly("a", 0));
@@ -527,25 +528,6 @@ public class ConcurrentHashMultisetTest extends TestCase {
 //
 //    EasyMock.verify(evictionListener);
 //  }
-
-  public void testWithMapMakerEvictionListener() {
-    @SuppressWarnings("deprecation") // TODO(kevinb): what to do?
-    MapMaker mapMaker = new MapMaker()
-        .concurrencyLevel(1)
-        .maximumSize(1);
-
-    ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(mapMaker);
-
-    multiset.add("a", 5);
-    assertTrue(multiset.contains("a"));
-    assertEquals(5, multiset.count("a"));
-
-    multiset.add("b", 3);
-
-    assertFalse(multiset.contains("a"));
-    assertTrue(multiset.contains("b"));
-    assertEquals(3, multiset.count("b"));
-  }
 
   private void replay() {
     EasyMock.replay(backingMap);

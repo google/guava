@@ -115,7 +115,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   int initialCapacity = UNSET_INT;
   int concurrencyLevel = UNSET_INT;
-  int maximumSize = UNSET_INT;
 
   Strength keyStrength;
   Strength valueStrength;
@@ -180,35 +179,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   int getInitialCapacity() {
     return (initialCapacity == UNSET_INT) ? DEFAULT_INITIAL_CAPACITY : initialCapacity;
-  }
-
-  /**
-   * Specifies the maximum number of entries the map may contain. Note that the map <b>may evict an
-   * entry before this limit is exceeded</b>. As the map size grows close to the maximum, the map
-   * evicts entries that are less likely to be used again. For example, the map may evict an entry
-   * because it hasn't been used recently or very often.
-   *
-   * <p>When {@code size} is zero, elements can be successfully added to the map, but are evicted
-   * immediately. This has the same effect as invoking {@link #expireAfterWrite expireAfterWrite}
-   * {@code (0, unit)}. It can be useful in testing, or to disable caching temporarily without
-   * a code change.
-   *
-   * @param size the maximum size of the map
-   * @throws IllegalArgumentException if {@code size} is negative
-   * @throws IllegalStateException if a maximum size was already set
-   */
-  @CanIgnoreReturnValue
-  @Override
-  MapMaker maximumSize(int size) {
-    checkState(
-        this.maximumSize == UNSET_INT, "maximum size was already set to %s", this.maximumSize);
-    checkArgument(size >= 0, "maximum size must not be negative");
-    this.maximumSize = size;
-    this.useCustomMap = true;
-    if (maximumSize == 0) {
-      this.evictImmediately = true;
-    }
-    return this;
   }
 
   /**
@@ -308,9 +278,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * be garbage-collected in a <i>globally</i> least-recently-used manner, in response to memory
    * demand.
    *
-   * <p><b>Warning:</b> in most circumstances it is better to set a per-cache
-   * {@linkplain #maximumSize maximum size} instead of using soft references. You should only use
-   * this method if you are well familiar with the practical consequences of soft references.
+   * <p><b>Warning:</b> you should only use this method if you are well familiar with the practical
+   * consequences of soft references.
    *
    * <p><b>Warning:</b> when this method is used, the resulting map will use identity ({@code ==})
    * comparison to determine equality of values. This technically violates the specifications of the
@@ -351,8 +320,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * has elapsed after the entry's creation, or the most recent replacement of its value.
    *
    * <p>When {@code duration} is zero, elements can be successfully added to the map, but are
-   * evicted immediately. This has a very similar effect to invoking {@link #maximumSize
-   * maximumSize}{@code (0)}. It can be useful in testing, or to disable caching temporarily without
+   * evicted immediately. It can be useful in testing, or to disable caching temporarily without
    * a code change.
    *
    * <p>Expired entries may be counted by {@link Map#size}, but will never be visible to read or
@@ -405,8 +373,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * has elapsed after the entry's last read or write access.
    *
    * <p>When {@code duration} is zero, elements can be successfully added to the map, but are
-   * evicted immediately. This has a very similar effect to invoking {@link #maximumSize
-   * maximumSize}{@code (0)}. It can be useful in testing, or to disable caching temporarily without
+   * evicted immediately. It can be useful in testing, or to disable caching temporarily without
    * a code change.
    *
    * <p>Expired entries may be counted by {@link Map#size}, but will never be visible to read or
@@ -549,9 +516,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     }
     if (concurrencyLevel != UNSET_INT) {
       s.add("concurrencyLevel", concurrencyLevel);
-    }
-    if (maximumSize != UNSET_INT) {
-      s.add("maximumSize", maximumSize);
     }
     if (expireAfterWriteNanos != UNSET_INT) {
       s.add("expireAfterWrite", expireAfterWriteNanos + "ns");

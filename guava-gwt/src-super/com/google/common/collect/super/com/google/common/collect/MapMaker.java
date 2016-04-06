@@ -23,7 +23,6 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
@@ -43,19 +42,16 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       implements ConcurrentMap<K, V> {
     private final long expirationMillis;
     private final Function<? super K, ? extends V> computer;
-    private final int maximumSize;
 
-    ExpiringComputingMap(
-        long expirationMillis, int maximumSize, int initialCapacity) {
-      this(expirationMillis, null, maximumSize, initialCapacity);
+    ExpiringComputingMap(long expirationMillis, int initialCapacity) {
+      this(expirationMillis, null, initialCapacity);
     }
 
-    ExpiringComputingMap(long expirationMillis, Function<? super K, ? extends V> computer,
-        int maximumSize, int initialCapacity) {
-      super(initialCapacity, /* ignored loadFactor */ 0.75f, (maximumSize != -1));
+    ExpiringComputingMap(
+        long expirationMillis, Function<? super K, ? extends V> computer, int initialCapacity) {
+      super(initialCapacity, /* ignored loadFactor */ 0.75f, true);
       this.expirationMillis = expirationMillis;
       this.computer = computer;
-      this.maximumSize = maximumSize;
     }
 
     @Override
@@ -65,11 +61,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
         scheduleRemoval(key, value);
       }
       return result;
-    }
-
-    @Override
-    protected boolean removeEldestEntry(Map.Entry<K, V> ignored) {
-      return (maximumSize == -1) ? false : size() > maximumSize;
     }
 
     @Override
@@ -171,7 +162,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   private int initialCapacity = 16;
   private long expirationMillis = 0;
-  private int maximumSize = -1;
   private boolean useCustomMap;
 
   public MapMaker() {}
@@ -200,19 +190,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   @Override
-  MapMaker maximumSize(int maximumSize) {
-    if (this.maximumSize != -1) {
-      throw new IllegalStateException("maximum size of " + maximumSize + " was already set");
-    }
-    if (maximumSize < 0) {
-      throw new IllegalArgumentException("invalid maximum size: " + maximumSize);
-    }
-    this.maximumSize = maximumSize;
-    useCustomMap = true;
-    return this;
-  }
-
-  @Override
   public MapMaker concurrencyLevel(int concurrencyLevel) {
     if (concurrencyLevel < 1) {
       throw new IllegalArgumentException("GWT only supports a concurrency level of 1");
@@ -225,13 +202,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   @Override
   public <K, V> ConcurrentMap<K, V> makeMap() {
     return useCustomMap
-        ? new ExpiringComputingMap<K, V>(expirationMillis, null, maximumSize, initialCapacity)
+        ? new ExpiringComputingMap<K, V>(expirationMillis, null, initialCapacity)
         : new ConcurrentHashMap<K, V>(initialCapacity);
   }
 
   @Override
   public <K, V> ConcurrentMap<K, V> makeComputingMap(Function<? super K, ? extends V> computer) {
-    return new ExpiringComputingMap<K, V>(
-        expirationMillis, computer, maximumSize, initialCapacity);
+    return new ExpiringComputingMap<K, V>(expirationMillis, computer, initialCapacity);
   }
 }

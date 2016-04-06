@@ -125,7 +125,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
                     }
 
                     // immediately reuse invalid entries
-                    evictionQueue.remove(e);
                     expirationQueue.remove(e);
                     this.count = newCount; // write-volatile
                   }
@@ -381,7 +380,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
         valueEquivalence,
         expireAfterWriteNanos,
         expireAfterAccessNanos,
-        maximumSize,
         concurrencyLevel,
         this,
         computingFunction);
@@ -398,7 +396,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
         Equivalence<Object> valueEquivalence,
         long expireAfterWriteNanos,
         long expireAfterAccessNanos,
-        int maximumSize,
         int concurrencyLevel,
         ConcurrentMap<K, V> delegate,
         Function<? super K, ? extends V> computingFunction) {
@@ -409,7 +406,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
           valueEquivalence,
           expireAfterWriteNanos,
           expireAfterAccessNanos,
-          maximumSize,
           concurrencyLevel,
           delegate);
       this.computingFunction = computingFunction;

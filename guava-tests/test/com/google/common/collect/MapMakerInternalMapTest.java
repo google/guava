@@ -38,7 +38,6 @@ import junit.framework.TestCase;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -51,10 +50,6 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 public class MapMakerInternalMapTest extends TestCase {
 
   static final int SMALL_MAX_SIZE = DRAIN_THRESHOLD * 5;
-
-  private static <K, V> MapMakerInternalMap<K, V> makeMap(GenericMapMaker<K, V> maker) {
-    return new MapMakerInternalMap<K, V>((MapMaker) maker);
-  }
 
   private static <K, V> MapMakerInternalMap<K, V> makeMap(MapMaker maker) {
     return new MapMakerInternalMap<K, V>(maker);
@@ -78,7 +73,6 @@ public class MapMakerInternalMapTest extends TestCase {
 
     assertEquals(0, map.expireAfterAccessNanos);
     assertEquals(0, map.expireAfterWriteNanos);
-    assertEquals(MapMaker.UNSET_INT, map.maximumSize);
 
     assertSame(EntryFactory.STRONG, map.entryFactory);
     assertSame(Ticker.systemTicker(), map.ticker);
@@ -90,7 +84,6 @@ public class MapMakerInternalMapTest extends TestCase {
     // initial capacity / concurrency level
     assertEquals(16 / map.segments.length, map.segments[0].table.length());
 
-    assertFalse(map.evictsBySize());
     assertFalse(map.expires());
     assertFalse(map.expiresAfterWrite());
     assertFalse(map.expiresAfterAccess());
@@ -203,10 +196,9 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   private static void checkMaximumSize(int concurrencyLevel, int initialCapacity, int maxSize) {
-    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker()
-        .concurrencyLevel(concurrencyLevel)
-        .initialCapacity(initialCapacity)
-        .maximumSize(maxSize));
+    MapMakerInternalMap<Object, Object> map =
+        makeMap(
+            createMapMaker().concurrencyLevel(concurrencyLevel).initialCapacity(initialCapacity));
     int totalCapacity = 0;
     for (int i = 0; i < map.segments.length; i++) {
       totalCapacity += map.segments[i].maxSegmentSize;
@@ -305,9 +297,6 @@ public class MapMakerInternalMapTest extends TestCase {
       int hashTwo = map.hash(keyTwo);
       ReferenceEntry<Object, Object> entryTwo = map.newEntry(keyTwo, hashTwo, entryOne);
       entryTwo.setValueReference(map.newValueReference(entryTwo, valueTwo));
-      if (map.evictsBySize()) {
-        MapMakerInternalMap.connectEvictables(entryOne, entryTwo);
-      }
       if (map.expires()) {
         MapMakerInternalMap.connectExpirables(entryOne, entryTwo);
       }
@@ -331,9 +320,6 @@ public class MapMakerInternalMapTest extends TestCase {
 
   private static <K, V> void assertConnected(
       MapMakerInternalMap<K, V> map, ReferenceEntry<K, V> one, ReferenceEntry<K, V> two) {
-    if (map.evictsBySize()) {
-      assertSame(two, one.getNextEvictable());
-    }
     if (map.expires()) {
       assertSame(two, one.getNextExpirable());
     }
@@ -577,28 +563,6 @@ public class MapMakerInternalMapTest extends TestCase {
     }
   }
 
-  public void testSegmentPut_evict() {
-    int maxSize = 10;
-    MapMakerInternalMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).maximumSize(maxSize));
-
-    // manually add elements to avoid eviction
-    int originalCount = 1024;
-    LinkedHashMap<Object, Object> originalMap = Maps.newLinkedHashMap();
-    for (int i = 0; i < originalCount; i++) {
-      Object key = new Object();
-      Object value = new Object();
-      map.put(key, value);
-      originalMap.put(key, value);
-      if (i >= maxSize) {
-        Iterator<Object> it = originalMap.keySet().iterator();
-        it.next();
-        it.remove();
-      }
-      assertEquals(originalMap, map);
-    }
-  }
-
   public void testSegmentRemove() {
     MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker().concurrencyLevel(1));
     Segment<Object, Object> segment = map.segments[0];
@@ -725,7 +689,6 @@ public class MapMakerInternalMapTest extends TestCase {
             createMapMaker()
                 .concurrencyLevel(1)
                 .initialCapacity(1)
-                .maximumSize(SMALL_MAX_SIZE)
                 .expireAfterWrite(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
     AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
@@ -757,7 +720,6 @@ public class MapMakerInternalMapTest extends TestCase {
     table.set(0, entryOne);
     segment.count = 1;
     assertTrue(segment.reclaimKey(entryOne, hashOne));
-    assertFalse(segment.evictionQueue.contains(entryOne));
     assertFalse(segment.expirationQueue.contains(entryOne));
     assertEquals(0, segment.count);
     assertNull(table.get(0));
@@ -870,7 +832,6 @@ public class MapMakerInternalMapTest extends TestCase {
     MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker()
         .concurrencyLevel(1)
         .initialCapacity(1)
-        .maximumSize(SMALL_MAX_SIZE)
         .expireAfterWrite(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
     AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
@@ -886,12 +847,10 @@ public class MapMakerInternalMapTest extends TestCase {
     segment.count = 1;
 
     assertSame(entry, table.get(0));
-    assertSame(entry, segment.evictionQueue.peek());
     assertSame(entry, segment.expirationQueue.peek());
 
     segment.clear();
     assertNull(table.get(0));
-    assertTrue(segment.evictionQueue.isEmpty());
     assertTrue(segment.expirationQueue.isEmpty());
     assertEquals(0, segment.readCount.get());
     assertEquals(0, segment.count);
@@ -903,7 +862,6 @@ public class MapMakerInternalMapTest extends TestCase {
             createMapMaker()
                 .concurrencyLevel(1)
                 .initialCapacity(1)
-                .maximumSize(SMALL_MAX_SIZE)
                 .expireAfterWrite(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
     AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
@@ -922,7 +880,6 @@ public class MapMakerInternalMapTest extends TestCase {
     table.set(0, entry);
     segment.count = 1;
     assertTrue(segment.removeEntry(entry, hash));
-    assertFalse(segment.evictionQueue.contains(entry));
     assertFalse(segment.expirationQueue.contains(entry));
     assertEquals(0, segment.count);
     assertNull(table.get(0));
@@ -934,7 +891,6 @@ public class MapMakerInternalMapTest extends TestCase {
             createMapMaker()
                 .concurrencyLevel(1)
                 .initialCapacity(1)
-                .maximumSize(SMALL_MAX_SIZE)
                 .expireAfterWrite(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
     AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
@@ -955,7 +911,6 @@ public class MapMakerInternalMapTest extends TestCase {
     table.set(0, entry);
     segment.count = 1;
     assertTrue(segment.reclaimValue(key, hash, valueRef));
-    assertFalse(segment.evictionQueue.contains(entry));
     assertFalse(segment.expirationQueue.contains(entry));
     assertEquals(0, segment.count);
     assertNull(table.get(0));
@@ -974,7 +929,6 @@ public class MapMakerInternalMapTest extends TestCase {
             createMapMaker()
                 .concurrencyLevel(1)
                 .initialCapacity(1)
-                .maximumSize(SMALL_MAX_SIZE)
                 .expireAfterWrite(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
     AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
@@ -996,7 +950,6 @@ public class MapMakerInternalMapTest extends TestCase {
     // don't increment count; this is used during computation
     assertTrue(segment.clearValue(key, hash, valueRef));
     // no notification sent with clearValue
-    assertFalse(segment.evictionQueue.contains(entry));
     assertFalse(segment.expirationQueue.contains(entry));
     assertEquals(0, segment.count);
     assertNull(table.get(0));
@@ -1205,7 +1158,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
   static <K, V> void checkAndDrainRecencyQueue(MapMakerInternalMap<K, V> map,
       Segment<K, V> segment, List<ReferenceEntry<K, V>> reads) {
-    if (map.evictsBySize() || map.expiresAfterAccess()) {
+    if (map.expiresAfterAccess()) {
       assertSameEntries(reads, ImmutableList.copyOf(segment.recencyQueue));
     }
     segment.drainRecencyQueue();
@@ -1214,9 +1167,6 @@ public class MapMakerInternalMapTest extends TestCase {
   static <K, V> void checkEvictionQueues(MapMakerInternalMap<K, V> map,
       Segment<K, V> segment, List<ReferenceEntry<K, V>> readOrder,
       List<ReferenceEntry<K, V>> writeOrder) {
-    if (map.evictsBySize()) {
-      assertSameEntries(readOrder, ImmutableList.copyOf(segment.evictionQueue));
-    }
     if (map.expiresAfterAccess()) {
       assertSameEntries(readOrder, ImmutableList.copyOf(segment.expirationQueue));
     }
@@ -1257,44 +1207,6 @@ public class MapMakerInternalMapTest extends TestCase {
         lastExpirationTime = expirationTime;
       }
     }
-  }
-
-  public void testEvictEntries() {
-    int maxSize = 10;
-    MapMakerInternalMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).maximumSize(maxSize));
-    Segment<Object, Object> segment = map.segments[0];
-
-    // manually add elements to avoid eviction
-    int originalCount = 1024;
-    ReferenceEntry<Object, Object> entry = null;
-    LinkedHashMap<Object, Object> originalMap = Maps.newLinkedHashMap();
-    for (int i = 0; i < originalCount; i++) {
-      Object key = new Object();
-      Object value = new Object();
-      AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
-      int hash = map.hash(key);
-      int index = hash & (table.length() - 1);
-      ReferenceEntry<Object, Object> first = table.get(index);
-      entry = map.newEntry(key, hash, first);
-      ValueReference<Object, Object> valueRef = map.newValueReference(entry, value);
-      entry.setValueReference(valueRef);
-      segment.recordWrite(entry);
-      table.set(index, entry);
-      originalMap.put(key, value);
-    }
-    segment.count = originalCount;
-    assertEquals(originalCount, originalMap.size());
-    assertEquals(originalMap, map);
-
-    for (int i = maxSize - 1; i < originalCount; i++) {
-      assertTrue(segment.evictEntries());
-      Iterator<Object> it = originalMap.keySet().iterator();
-      it.next();
-      it.remove();
-      assertEquals(originalMap, map);
-    }
-    assertFalse(segment.evictEntries());
   }
 
   // reference queues
@@ -1432,36 +1344,23 @@ public class MapMakerInternalMapTest extends TestCase {
   private static Iterable<MapMaker> allEntryTypeMakers() {
     List<MapMaker> result = newArrayList(allKeyValueStrengthMakers());
     for (MapMaker maker : allKeyValueStrengthMakers()) {
-      result.add(maker.maximumSize(SMALL_MAX_SIZE));
-    }
-    for (MapMaker maker : allKeyValueStrengthMakers()) {
       result.add(maker.expireAfterAccess(99999, SECONDS));
     }
     for (MapMaker maker : allKeyValueStrengthMakers()) {
       result.add(maker.expireAfterWrite(99999, SECONDS));
     }
-    for (MapMaker maker : allKeyValueStrengthMakers()) {
-      result.add(maker.maximumSize(SMALL_MAX_SIZE).expireAfterAccess(99999, SECONDS));
-    }
-    for (MapMaker maker : allKeyValueStrengthMakers()) {
-      result.add(maker.maximumSize(SMALL_MAX_SIZE).expireAfterWrite(99999, SECONDS));
-    }
     return result;
   }
 
   /**
-   * Returns an iterable containing all combinations of maximumSize and expireAfterAccess/Write.
+   * Returns an iterable containing all combinations of expireAfterAccess/Write.
    */
   static Iterable<MapMaker> allEvictingMakers() {
-    return ImmutableList.of(createMapMaker().maximumSize(SMALL_MAX_SIZE),
+    return ImmutableList.of(
         createMapMaker().expireAfterAccess(99999, SECONDS),
         createMapMaker().expireAfterWrite(99999, SECONDS),
-        createMapMaker()
-            .maximumSize(SMALL_MAX_SIZE)
-            .expireAfterAccess(SMALL_MAX_SIZE, TimeUnit.SECONDS),
-        createMapMaker()
-            .maximumSize(SMALL_MAX_SIZE)
-            .expireAfterWrite(SMALL_MAX_SIZE, TimeUnit.SECONDS));
+        createMapMaker().expireAfterAccess(SMALL_MAX_SIZE, TimeUnit.SECONDS),
+        createMapMaker().expireAfterWrite(SMALL_MAX_SIZE, TimeUnit.SECONDS));
   }
 
   /**
