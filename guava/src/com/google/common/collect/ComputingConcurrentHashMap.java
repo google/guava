@@ -20,8 +20,6 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
-import com.google.common.collect.MapMaker.RemovalCause;
-import com.google.common.collect.MapMaker.RemovalListener;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.IOException;
@@ -116,11 +114,11 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
                   } else {
                     V value = e.getValueReference().get();
                     if (value == null) {
-                      enqueueNotification(entryKey, hash, value, RemovalCause.COLLECTED);
+                      // TODO(kak): Remove this branch.
                     } else if (map.expires() && map.isExpired(e)) {
                       // This is a duplicate check, as preWriteCleanup already purged expired
                       // entries, but let's accomodate an incorrect expiration queue.
-                      enqueueNotification(entryKey, hash, value, RemovalCause.EXPIRED);
+                      // TODO(kak): Remove this branch.
                     } else {
                       recordLockedRead(e);
                       return value;
@@ -148,7 +146,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
               }
             } finally {
               unlock();
-              postWriteCleanup();
             }
 
             if (createNewEntry) {
@@ -189,11 +186,7 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
         }
         if (value != null) {
           // putIfAbsent
-          V oldValue = put(key, hash, value, true);
-          if (oldValue != null) {
-            // the computed value was already clobbered
-            enqueueNotification(key, hash, value, RemovalCause.REPLACED);
-          }
+          V unused = put(key, hash, value, true);
         }
         return value;
       } finally {
@@ -390,7 +383,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
         expireAfterAccessNanos,
         maximumSize,
         concurrencyLevel,
-        removalListener,
         this,
         computingFunction);
   }
@@ -408,7 +400,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
         long expireAfterAccessNanos,
         int maximumSize,
         int concurrencyLevel,
-        RemovalListener<? super K, ? super V> removalListener,
         ConcurrentMap<K, V> delegate,
         Function<? super K, ? extends V> computingFunction) {
       super(
@@ -420,7 +411,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
           expireAfterAccessNanos,
           maximumSize,
           concurrencyLevel,
-          removalListener,
           delegate);
       this.computingFunction = computingFunction;
     }

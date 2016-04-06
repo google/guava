@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.collect.MapMakerInternalMap.DRAIN_THRESHOLD;
 import static com.google.common.collect.MapMakerInternalMapTest.SMALL_MAX_SIZE;
 import static com.google.common.collect.MapMakerInternalMapTest.allEvictingMakers;
-import static com.google.common.collect.MapMakerInternalMapTest.assertNotified;
 import static com.google.common.collect.MapMakerInternalMapTest.checkAndDrainRecencyQueue;
 import static com.google.common.collect.MapMakerInternalMapTest.checkEvictionQueues;
 import static com.google.common.collect.MapMakerInternalMapTest.checkExpirationTimes;
@@ -27,12 +26,10 @@ import static com.google.common.collect.MapMakerInternalMapTest.checkExpirationT
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.MapMaker.ComputingMapAdapter;
-import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMakerInternalMap.ReferenceEntry;
 import com.google.common.collect.MapMakerInternalMap.Segment;
 import com.google.common.collect.MapMakerInternalMapTest.DummyEntry;
 import com.google.common.collect.MapMakerInternalMapTest.DummyValueReference;
-import com.google.common.collect.MapMakerInternalMapTest.QueuingRemovalListener;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
@@ -255,12 +252,9 @@ public class ComputingConcurrentHashMapTest extends TestCase {
       }
     };
 
-    QueuingRemovalListener<Object, Object> listener =
-        new QueuingRemovalListener<Object, Object>();
-    MapMaker maker = (MapMaker) createMapMaker().removalListener(listener);
+    MapMaker maker = (MapMaker) createMapMaker();
     final ComputingConcurrentHashMap<Object, Object> map =
         makeComputingMap(maker, computingFunction);
-    assertTrue(listener.isEmpty());
 
     final Object one = new Object();
     final Object two = new Object();
@@ -294,8 +288,6 @@ public class ComputingConcurrentHashMapTest extends TestCase {
     }
 
     assertNotNull(map.putIfAbsent(one, three)); // force notifications
-    assertNotified(listener, one, computedObject, RemovalCause.REPLACED);
-    assertTrue(listener.isEmpty());
   }
 
   // computing functions

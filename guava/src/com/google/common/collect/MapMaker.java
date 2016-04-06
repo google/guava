@@ -123,7 +123,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   long expireAfterWriteNanos = UNSET_INT;
   long expireAfterAccessNanos = UNSET_INT;
 
-  RemovalCause nullRemovalCause;
+  boolean evictImmediately = false;
 
   Equivalence<Object> keyEquivalence;
 
@@ -206,8 +206,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     this.maximumSize = size;
     this.useCustomMap = true;
     if (maximumSize == 0) {
-      // SIZE trumps EXPIRED
-      this.nullRemovalCause = RemovalCause.SIZE;
+      this.evictImmediately = true;
     }
     return this;
   }
@@ -378,9 +377,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   MapMaker expireAfterWrite(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
     this.expireAfterWriteNanos = unit.toNanos(duration);
-    if (duration == 0 && this.nullRemovalCause == null) {
-      // SIZE trumps EXPIRED
-      this.nullRemovalCause = RemovalCause.EXPIRED;
+    if (duration == 0) {
+      this.evictImmediately = true;
     }
     useCustomMap = true;
     return this;
@@ -428,9 +426,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   MapMaker expireAfterAccess(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
     this.expireAfterAccessNanos = unit.toNanos(duration);
-    if (duration == 0 && this.nullRemovalCause == null) {
-      // SIZE trumps EXPIRED
-      this.nullRemovalCause = RemovalCause.EXPIRED;
+    if (duration == 0) {
+      this.evictImmediately = true;
     }
     useCustomMap = true;
     return this;
@@ -444,43 +441,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   Ticker getTicker() {
     return MoreObjects.firstNonNull(ticker, Ticker.systemTicker());
-  }
-
-  /**
-   * Specifies a listener instance, which all maps built using this {@code MapMaker} will notify
-   * each time an entry is removed from the map by any means.
-   *
-   * <p>Each map built by this map maker after this method is called invokes the supplied listener
-   * after removing an element for any reason (see removal causes in {@link RemovalCause}). It will
-   * invoke the listener during invocations of any of that map's public methods (even read-only
-   * methods).
-   *
-   * <p><b>Important note:</b> Instead of returning <i>this</i> as a {@code MapMaker} instance, this
-   * method returns {@code GenericMapMaker<K, V>}. From this point on, either the original reference
-   * or the returned reference may be used to complete configuration and build the map, but only the
-   * "generic" one is type-safe. That is, it will properly prevent you from building maps whose key
-   * or value types are incompatible with the types accepted by the listener already provided; the
-   * {@code MapMaker} type cannot do this. For best results, simply use the standard method-chaining
-   * idiom, as illustrated in the documentation at top, configuring a {@code MapMaker} and building
-   * your {@link Map} all in a single statement.
-   *
-   * <p><b>Warning:</b> if you ignore the above advice, and use this {@code MapMaker} to build a map
-   * or cache whose key or value type is incompatible with the listener, you will likely experience
-   * a {@link ClassCastException} at some <i>undefined</i> point in the future.
-   *
-   * @throws IllegalStateException if a removal listener was already set
-   */
-  @CanIgnoreReturnValue
-  @GwtIncompatible // To be supported
-  <K, V> GenericMapMaker<K, V> removalListener(RemovalListener<K, V> listener) {
-    checkState(this.removalListener == null);
-
-    // safely limiting the kinds of maps this can produce
-    @SuppressWarnings("unchecked")
-    GenericMapMaker<K, V> me = (GenericMapMaker<K, V>) this;
-    me.removalListener = checkNotNull(listener);
-    useCustomMap = true;
-    return me;
   }
 
   /**
@@ -499,9 +459,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     if (!useCustomMap) {
       return new ConcurrentHashMap<K, V>(getInitialCapacity(), 0.75f, getConcurrencyLevel());
     }
-    return (nullRemovalCause == null)
-        ? new MapMakerInternalMap<K, V>(this)
-        : new NullConcurrentMap<K, V>(this);
+    return evictImmediately ? new NullConcurrentMap<K, V>() : new MapMakerInternalMap<K, V>(this);
   }
 
   /**
@@ -574,9 +532,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   @Deprecated
   @Override
   <K, V> ConcurrentMap<K, V> makeComputingMap(Function<? super K, ? extends V> computingFunction) {
-    return (nullRemovalCause == null)
-        ? new MapMaker.ComputingMapAdapter<K, V>(this, computingFunction)
-        : new NullComputingConcurrentMap<K, V>(this, computingFunction);
+    return evictImmediately
+        ? new NullComputingConcurrentMap<K, V>(computingFunction)
+        : new MapMaker.ComputingMapAdapter<K, V>(this, computingFunction);
   }
 
   /**
@@ -610,147 +568,13 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     if (keyEquivalence != null) {
       s.addValue("keyEquivalence");
     }
-    if (removalListener != null) {
-      s.addValue("removalListener");
-    }
     return s.toString();
-  }
-
-  /**
-   * An object that can receive a notification when an entry is removed from a map. The removal
-   * resulting in notification could have occured to an entry being manually removed or replaced, or
-   * due to eviction resulting from timed expiration, exceeding a maximum size, or garbage
-   * collection.
-   *
-   * <p>An instance may be called concurrently by multiple threads to process different entries.
-   * Implementations of this interface should avoid performing blocking calls or synchronizing on
-   * shared resources.
-   *
-   * @param <K> the most general type of keys this listener can listen for; for example
-   *     {@code Object} if any key is acceptable
-   * @param <V> the most general type of values this listener can listen for; for example
-   *     {@code Object} if any key is acceptable
-   */
-  interface RemovalListener<K, V> {
-    /**
-     * Notifies the listener that a removal occurred at some point in the past.
-     */
-    void onRemoval(RemovalNotification<K, V> notification);
-  }
-
-  /**
-   * A notification of the removal of a single entry. The key or value may be null if it was already
-   * garbage collected.
-   *
-   * <p>Like other {@code Map.Entry} instances associated with MapMaker, this class holds strong
-   * references to the key and value, regardless of the type of references the map may be using.
-   */
-  static final class RemovalNotification<K, V> extends ImmutableEntry<K, V> {
-    private static final long serialVersionUID = 0;
-
-    private final RemovalCause cause;
-
-    RemovalNotification(@Nullable K key, @Nullable V value, RemovalCause cause) {
-      super(key, value);
-      this.cause = cause;
-    }
-
-    /**
-     * Returns the cause for which the entry was removed.
-     */
-    public RemovalCause getCause() {
-      return cause;
-    }
-
-    /**
-     * Returns {@code true} if there was an automatic removal due to eviction (the cause is neither
-     * {@link RemovalCause#EXPLICIT} nor {@link RemovalCause#REPLACED}).
-     */
-    public boolean wasEvicted() {
-      return cause.wasEvicted();
-    }
-  }
-
-  /**
-   * The reason why an entry was removed.
-   */
-  enum RemovalCause {
-    /**
-     * The entry was manually removed by the user. This can result from the user invoking
-     * {@link Map#remove}, {@link ConcurrentMap#remove}, or {@link java.util.Iterator#remove}.
-     */
-    EXPLICIT {
-      @Override
-      boolean wasEvicted() {
-        return false;
-      }
-    },
-
-    /**
-     * The entry itself was not actually removed, but its value was replaced by the user. This can
-     * result from the user invoking {@link Map#put}, {@link Map#putAll},
-     * {@link ConcurrentMap#replace(Object, Object)}, or
-     * {@link ConcurrentMap#replace(Object, Object, Object)}.
-     */
-    REPLACED {
-      @Override
-      boolean wasEvicted() {
-        return false;
-      }
-    },
-
-    /**
-     * The entry was removed automatically because its key or value was garbage-collected. This can
-     * occur when using {@link #softValues}, {@link #weakKeys}, or {@link #weakValues}.
-     */
-    COLLECTED {
-      @Override
-      boolean wasEvicted() {
-        return true;
-      }
-    },
-
-    /**
-     * The entry's expiration timestamp has passed. This can occur when using
-     * {@link #expireAfterWrite} or {@link #expireAfterAccess}.
-     */
-    EXPIRED {
-      @Override
-      boolean wasEvicted() {
-        return true;
-      }
-    },
-
-    /**
-     * The entry was evicted due to size constraints. This can occur when using
-     * {@link #maximumSize}.
-     */
-    SIZE {
-      @Override
-      boolean wasEvicted() {
-        return true;
-      }
-    };
-
-    /**
-     * Returns {@code true} if there was an automatic removal due to eviction (the cause is neither
-     * {@link #EXPLICIT} nor {@link #REPLACED}).
-     */
-    abstract boolean wasEvicted();
   }
 
   /** A map that is always empty and evicts on insertion. */
   static class NullConcurrentMap<K, V> extends AbstractMap<K, V>
       implements ConcurrentMap<K, V>, Serializable {
     private static final long serialVersionUID = 0;
-
-    private final RemovalListener<K, V> removalListener;
-    private final RemovalCause removalCause;
-
-    NullConcurrentMap(MapMaker mapMaker) {
-      removalListener = mapMaker.getRemovalListener();
-      removalCause = mapMaker.nullRemovalCause;
-    }
 
     // implements ConcurrentMap
 
@@ -769,17 +593,10 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       return null;
     }
 
-    void notifyRemoval(K key, V value) {
-      RemovalNotification<K, V> notification =
-          new RemovalNotification<K, V>(key, value, removalCause);
-      removalListener.onRemoval(notification);
-    }
-
     @Override
     public V put(K key, V value) {
       checkNotNull(key);
       checkNotNull(value);
-      notifyRemoval(key, value);
       return null;
     }
 
@@ -824,9 +641,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
     final Function<? super K, ? extends V> computingFunction;
 
-    NullComputingConcurrentMap(
-        MapMaker mapMaker, Function<? super K, ? extends V> computingFunction) {
-      super(mapMaker);
+    NullComputingConcurrentMap(Function<? super K, ? extends V> computingFunction) {
       this.computingFunction = checkNotNull(computingFunction);
     }
 
@@ -836,7 +651,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       K key = (K) k;
       V value = compute(key);
       checkNotNull(value, "%s returned null for key %s.", computingFunction, key);
-      notifyRemoval(key, value);
       return value;
     }
 

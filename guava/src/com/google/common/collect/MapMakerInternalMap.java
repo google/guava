@@ -21,10 +21,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Ticker;
-import com.google.common.collect.GenericMapMaker.NullListener;
-import com.google.common.collect.MapMaker.RemovalCause;
-import com.google.common.collect.MapMaker.RemovalListener;
-import com.google.common.collect.MapMaker.RemovalNotification;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
@@ -57,7 +53,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
@@ -180,16 +175,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   /** How long after the last write to an entry the map will retain that entry. */
   final long expireAfterWriteNanos;
 
-  /** Entries waiting to be consumed by the removal listener. */
-  // TODO(fry): define a new type which creates event objects and automates the clear logic
-  final Queue<RemovalNotification<K, V>> removalNotificationQueue;
-
-  /**
-   * A listener that is invoked when an entry is removed due to expiration or garbage collection of
-   * soft/weak entries.
-   */
-  final RemovalListener<K, V> removalListener;
-
   /** Factory used to create new entries. */
   final transient EntryFactory entryFactory;
 
@@ -214,12 +199,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
 
     entryFactory = EntryFactory.getFactory(keyStrength, expires(), evictsBySize());
     ticker = builder.getTicker();
-
-    removalListener = builder.getRemovalListener();
-    removalNotificationQueue =
-        (removalListener == NullListener.INSTANCE)
-            ? MapMakerInternalMap.<RemovalNotification<K, V>>discardingQueue()
-            : new ConcurrentLinkedQueue<RemovalNotification<K, V>>();
 
     int initialCapacity = Math.min(builder.getInitialCapacity(), MAXIMUM_CAPACITY);
     if (evictsBySize()) {
@@ -1950,22 +1929,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
 
   // eviction
 
-  /**
-   * Notifies listeners that an entry has been automatically removed due to expiration, eviction,
-   * or eligibility for garbage collection. This should be called every time expireEntries or
-   * evictEntry is called (once the lock is released).
-   */
-  void processPendingNotifications() {
-    RemovalNotification<K, V> notification;
-    while ((notification = removalNotificationQueue.poll()) != null) {
-      try {
-        removalListener.onRemoval(notification);
-      } catch (Exception e) {
-        logger.log(Level.WARNING, "Exception thrown by removal listener", e);
-      }
-    }
-  }
-
   /** Links the evitables together. */
   // Guarded By Segment.this
   static <K, V> void connectEvictables(ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
@@ -2341,7 +2304,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
           expireEntries();
         } finally {
           unlock();
-          // don't call postWriteCleanup as we're in a read
         }
       }
     }
@@ -2358,22 +2320,9 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       long now = map.ticker.read();
       ReferenceEntry<K, V> e;
       while ((e = expirationQueue.peek()) != null && map.isExpired(e, now)) {
-        if (!removeEntry(e, e.getHash(), RemovalCause.EXPIRED)) {
+        if (!removeEntry(e, e.getHash())) {
           throw new AssertionError();
         }
-      }
-    }
-
-    // eviction
-
-    void enqueueNotification(ReferenceEntry<K, V> entry, RemovalCause cause) {
-      enqueueNotification(entry.getKey(), entry.getHash(), entry.getValueReference().get(), cause);
-    }
-
-    void enqueueNotification(@Nullable K key, int hash, @Nullable V value, RemovalCause cause) {
-      if (map.removalNotificationQueue != DISCARDING_QUEUE) {
-        RemovalNotification<K, V> notification = new RemovalNotification<K, V>(key, value, cause);
-        map.removalNotificationQueue.offer(notification);
       }
     }
 
@@ -2389,7 +2338,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         drainRecencyQueue();
 
         ReferenceEntry<K, V> e = evictionQueue.remove();
-        if (!removeEntry(e, e.getHash(), RemovalCause.SIZE)) {
+        if (!removeEntry(e, e.getHash())) {
           throw new AssertionError();
         }
         return true;
@@ -2535,7 +2484,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
               ++modCount;
               setValue(e, value);
               if (!valueReference.isComputingReference()) {
-                enqueueNotification(key, hash, entryValue, RemovalCause.COLLECTED);
                 newCount = this.count; // count remains unchanged
               } else if (evictEntries()) { // evictEntries after setting new value
                 newCount = this.count + 1;
@@ -2551,7 +2499,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
             } else {
               // clobber existing entry, count remains unchanged
               ++modCount;
-              enqueueNotification(key, hash, entryValue, RemovalCause.REPLACED);
               setValue(e, value);
               return entryValue;
             }
@@ -2570,7 +2517,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         return null;
       } finally {
         unlock();
-        postWriteCleanup();
       }
     }
 
@@ -2668,7 +2614,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
               if (isCollected(valueReference)) {
                 int newCount = this.count - 1;
                 ++modCount;
-                enqueueNotification(entryKey, hash, entryValue, RemovalCause.COLLECTED);
                 ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
                 newCount = this.count - 1;
                 table.set(index, newFirst);
@@ -2679,7 +2624,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
 
             if (map.valueEquivalence.equivalent(oldValue, entryValue)) {
               ++modCount;
-              enqueueNotification(key, hash, entryValue, RemovalCause.REPLACED);
               setValue(e, newValue);
               return true;
             } else {
@@ -2694,7 +2638,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         return false;
       } finally {
         unlock();
-        postWriteCleanup();
       }
     }
 
@@ -2720,7 +2663,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
               if (isCollected(valueReference)) {
                 int newCount = this.count - 1;
                 ++modCount;
-                enqueueNotification(entryKey, hash, entryValue, RemovalCause.COLLECTED);
                 ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
                 newCount = this.count - 1;
                 table.set(index, newFirst);
@@ -2730,7 +2672,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
             }
 
             ++modCount;
-            enqueueNotification(key, hash, entryValue, RemovalCause.REPLACED);
             setValue(e, newValue);
             return entryValue;
           }
@@ -2739,7 +2680,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         return null;
       } finally {
         unlock();
-        postWriteCleanup();
       }
     }
 
@@ -2762,17 +2702,15 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
             ValueReference<K, V> valueReference = e.getValueReference();
             V entryValue = valueReference.get();
 
-            RemovalCause cause;
             if (entryValue != null) {
-              cause = RemovalCause.EXPLICIT;
+              // TODO(kak): Remove this branch
             } else if (isCollected(valueReference)) {
-              cause = RemovalCause.COLLECTED;
+              // TODO(kak): Remove this branch
             } else {
               return null;
             }
 
             ++modCount;
-            enqueueNotification(entryKey, hash, entryValue, cause);
             ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
             newCount = this.count - 1;
             table.set(index, newFirst);
@@ -2784,7 +2722,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         return null;
       } finally {
         unlock();
-        postWriteCleanup();
       }
     }
 
@@ -2806,29 +2743,27 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
             ValueReference<K, V> valueReference = e.getValueReference();
             V entryValue = valueReference.get();
 
-            RemovalCause cause;
+            boolean explicitRemoval = false;
             if (map.valueEquivalence.equivalent(value, entryValue)) {
-              cause = RemovalCause.EXPLICIT;
+              explicitRemoval = true;
             } else if (isCollected(valueReference)) {
-              cause = RemovalCause.COLLECTED;
+              // TODO(kak): Remove this branch
             } else {
               return false;
             }
 
             ++modCount;
-            enqueueNotification(entryKey, hash, entryValue, cause);
             ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
             newCount = this.count - 1;
             table.set(index, newFirst);
             this.count = newCount; // write-volatile
-            return (cause == RemovalCause.EXPLICIT);
+            return explicitRemoval;
           }
         }
 
         return false;
       } finally {
         unlock();
-        postWriteCleanup();
       }
     }
 
@@ -2837,16 +2772,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         lock();
         try {
           AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-          if (map.removalNotificationQueue != DISCARDING_QUEUE) {
-            for (int i = 0; i < table.length(); ++i) {
-              for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
-                // Computing references aren't actually in the map yet.
-                if (!e.getValueReference().isComputingReference()) {
-                  enqueueNotification(e, RemovalCause.EXPLICIT);
-                }
-              }
-            }
-          }
           for (int i = 0; i < table.length(); ++i) {
             table.set(i, null);
           }
@@ -2859,7 +2784,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
           count = 0; // write-volatile
         } finally {
           unlock();
-          postWriteCleanup();
         }
       }
     }
@@ -2897,7 +2821,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     }
 
     void removeCollectedEntry(ReferenceEntry<K, V> entry) {
-      enqueueNotification(entry, RemovalCause.COLLECTED);
       evictionQueue.remove(entry);
       expirationQueue.remove(entry);
     }
@@ -2917,8 +2840,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           if (e == entry) {
             ++modCount;
-            enqueueNotification(
-                e.getKey(), hash, e.getValueReference().get(), RemovalCause.COLLECTED);
             ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
             newCount = this.count - 1;
             table.set(index, newFirst);
@@ -2930,7 +2851,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         return false;
       } finally {
         unlock();
-        postWriteCleanup();
       }
     }
 
@@ -2954,7 +2874,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
             ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
               ++modCount;
-              enqueueNotification(key, hash, valueReference.get(), RemovalCause.COLLECTED);
               ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
               newCount = this.count - 1;
               table.set(index, newFirst);
@@ -2968,9 +2887,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         return false;
       } finally {
         unlock();
-        if (!isHeldByCurrentThread()) { // don't cleanup inside of put
-          postWriteCleanup();
-        }
       }
     }
 
@@ -3003,13 +2919,12 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         return false;
       } finally {
         unlock();
-        postWriteCleanup();
       }
     }
 
     @CanIgnoreReturnValue
     @GuardedBy("this")
-    boolean removeEntry(ReferenceEntry<K, V> entry, int hash, RemovalCause cause) {
+    boolean removeEntry(ReferenceEntry<K, V> entry, int hash) {
       int newCount = this.count - 1;
       AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
       int index = hash & (table.length() - 1);
@@ -3018,7 +2933,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
         if (e == entry) {
           ++modCount;
-          enqueueNotification(e.getKey(), hash, e.getValueReference().get(), cause);
           ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
           newCount = this.count - 1;
           table.set(index, newFirst);
@@ -3085,16 +2999,8 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       runLockedCleanup();
     }
 
-    /**
-     * Performs routine cleanup following a write.
-     */
-    void postWriteCleanup() {
-      runUnlockedCleanup();
-    }
-
     void runCleanup() {
       runLockedCleanup();
-      runUnlockedCleanup();
     }
 
     void runLockedCleanup() {
@@ -3106,13 +3012,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         } finally {
           unlock();
         }
-      }
-    }
-
-    void runUnlockedCleanup() {
-      // locked cleanup may generate notifications we can send unlocked
-      if (!isHeldByCurrentThread()) {
-        map.processPendingNotifications();
       }
     }
   }
@@ -3962,7 +3861,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         expireAfterAccessNanos,
         maximumSize,
         concurrencyLevel,
-        removalListener,
         this);
   }
 
@@ -3982,7 +3880,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     final long expireAfterAccessNanos;
     final int maximumSize;
     final int concurrencyLevel;
-    final RemovalListener<? super K, ? super V> removalListener;
 
     transient ConcurrentMap<K, V> delegate;
 
@@ -3995,7 +3892,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         long expireAfterAccessNanos,
         int maximumSize,
         int concurrencyLevel,
-        RemovalListener<? super K, ? super V> removalListener,
         ConcurrentMap<K, V> delegate) {
       this.keyStrength = keyStrength;
       this.valueStrength = valueStrength;
@@ -4005,7 +3901,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       this.expireAfterAccessNanos = expireAfterAccessNanos;
       this.maximumSize = maximumSize;
       this.concurrencyLevel = concurrencyLevel;
-      this.removalListener = removalListener;
       this.delegate = delegate;
     }
 
@@ -4033,7 +3928,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
               .setValueStrength(valueStrength)
               .keyEquivalence(keyEquivalence)
               .concurrencyLevel(concurrencyLevel);
-      mapMaker.removalListener(removalListener);
       if (expireAfterWriteNanos > 0) {
         mapMaker.expireAfterWrite(expireAfterWriteNanos, TimeUnit.NANOSECONDS);
       }
@@ -4075,7 +3969,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         long expireAfterAccessNanos,
         int maximumSize,
         int concurrencyLevel,
-        RemovalListener<? super K, ? super V> removalListener,
         ConcurrentMap<K, V> delegate) {
       super(
           keyStrength,
@@ -4086,7 +3979,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
           expireAfterAccessNanos,
           maximumSize,
           concurrencyLevel,
-          removalListener,
           delegate);
     }
 
