@@ -241,11 +241,18 @@ public final class PairedStats implements Serializable {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("xStats", xStats)
-        .add("yStats", yStats)
-        .add("populationCovariance", populationCovariance())
-        .toString();
+    if (count() > 0) {
+      return MoreObjects.toStringHelper(this)
+          .add("xStats", xStats)
+          .add("yStats", yStats)
+          .add("populationCovariance", populationCovariance())
+          .toString();
+    } else {
+      return MoreObjects.toStringHelper(this)
+          .add("xStats", xStats)
+          .add("yStats", yStats)
+          .toString();
+    }
   }
 
   double sumOfProductsOfDeltas() {

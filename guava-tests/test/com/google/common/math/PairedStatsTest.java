@@ -278,6 +278,20 @@ public class PairedStatsTest extends TestCase {
     SerializableTester.reserializeAndAssert(MANY_VALUES_PAIRED_STATS);
   }
 
+  public void testToString() {
+    assertThat(EMPTY_PAIRED_STATS.toString())
+        .isEqualTo("PairedStats{xStats=Stats{count=0}, yStats=Stats{count=0}}");
+    assertThat(MANY_VALUES_PAIRED_STATS.toString())
+        .isEqualTo(
+            "PairedStats{xStats="
+                + MANY_VALUES_PAIRED_STATS.xStats()
+                + ", yStats="
+                + MANY_VALUES_PAIRED_STATS.yStats()
+                + ", populationCovariance="
+                + MANY_VALUES_PAIRED_STATS.populationCovariance()
+                + "}");
+  }
+
   private PairedStats createSingleStats(double x, double y) {
     return createPairedStatsOf(ImmutableList.of(x), ImmutableList.of(y));
   }

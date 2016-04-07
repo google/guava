@@ -364,13 +364,17 @@ public final class Stats implements Serializable {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("count", count)
-        .add("mean", mean)
-        .add("populationStandardDeviation", populationStandardDeviation())
-        .add("min", min)
-        .add("max", max)
-        .toString();
+    if (count() > 0) {
+      return MoreObjects.toStringHelper(this)
+          .add("count", count)
+          .add("mean", mean)
+          .add("populationStandardDeviation", populationStandardDeviation())
+          .add("min", min)
+          .add("max", max)
+          .toString();
+    } else {
+      return MoreObjects.toStringHelper(this).add("count", count).toString();
+    }
   }
 
   double sumOfSquaresOfDeltas() {
