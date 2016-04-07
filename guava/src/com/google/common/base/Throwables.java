@@ -49,6 +49,37 @@ public final class Throwables {
   private Throwables() {}
 
   /**
+   * Throws {@code throwable} if it is an instance of {@code declaredType}. Example usage:
+   *
+   * <pre>
+   * for (Foo foo : foos) {
+   *   try {
+   *     foo.bar();
+   *   } catch (BarException | RuntimeException | Error t) {
+   *     failure = t;
+   *   }
+   * }
+   * if (failure != null) {
+   *   throwIfInstanceOf(failure, BarException.class);
+   *   throwIfUnchecked(failure);
+   *   throw new AssertionError(failure);
+   * }
+   * </pre>
+   *
+   * @since 20.0
+   */
+  public static <X extends Throwable> void throwIfInstanceOf(
+      Throwable throwable, Class<X> declaredType) throws X {
+    checkNotNull(throwable);
+    if (declaredType.isInstance(throwable)) {
+      throw declaredType.cast(throwable);
+    }
+  }
+
+  /**
+   * <b>To be deprecated.</b> Use {@link #throwIfInstanceOf}, which has the same behavior but
+   * rejects {@code null}.
+   *
    * Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@code
    * declaredType}. Example usage:
    *
@@ -66,14 +97,45 @@ public final class Throwables {
    */
   public static <X extends Throwable> void propagateIfInstanceOf(
       @Nullable Throwable throwable, Class<X> declaredType) throws X {
-    // Check for null is needed to avoid frequent JNI calls to isInstance().
-    if (throwable != null && declaredType.isInstance(throwable)) {
-      throw declaredType.cast(throwable);
+    if (throwable != null) {
+      throwIfInstanceOf(throwable, declaredType);
     }
   }
 
   /**
-   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of
+   * Throws {@code throwable} if it is a {@link RuntimeException} or {@link Error}. Example usage:
+   *
+   * <pre>
+   * for (Foo foo : foos) {
+   *   try {
+   *     foo.bar();
+   *   } catch (RuntimeException | Error t) {
+   *     failure = t;
+   *   }
+   * }
+   * if (failure != null) {
+   *   throwIfUnchecked(failure);
+   *   throw new AssertionError(failure);
+   * }
+   * </pre>
+   *
+   * @since 20.0
+   */
+  public static void throwIfUnchecked(Throwable throwable) {
+    checkNotNull(throwable);
+    if (throwable instanceof RuntimeException) {
+      throw (RuntimeException) throwable;
+    }
+    if (throwable instanceof Error) {
+      throw (Error) throwable;
+    }
+  }
+
+  /**
+   * <b>To be deprecated.</b> Use {@link #throwIfUnchecked}, which has the same behavior but rejects
+   * {@code null}.
+   *
+   * <p>Propagates {@code throwable} exactly as-is, if and only if it is an instance of
    * {@link RuntimeException} or {@link Error}. Example usage:
    *
    * <pre>
@@ -88,8 +150,9 @@ public final class Throwables {
    * </pre>
    */
   public static void propagateIfPossible(@Nullable Throwable throwable) {
-    propagateIfInstanceOf(throwable, Error.class);
-    propagateIfInstanceOf(throwable, RuntimeException.class);
+    if (throwable != null) {
+      throwIfUnchecked(throwable);
+    }
   }
 
   /**
@@ -136,7 +199,10 @@ public final class Throwables {
   }
 
   /**
-   * Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or
+   * <b>To be deprecated.</b> Use {@code throw e} or {@code throw new RuntimeException(e)} directly,
+   * or use a combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}.
+   *
+   * <p>Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or
    * {@link Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then
    * propagates.
    *
@@ -162,7 +228,7 @@ public final class Throwables {
    */
   @CanIgnoreReturnValue
   public static RuntimeException propagate(Throwable throwable) {
-    propagateIfPossible(checkNotNull(throwable));
+    throwIfUnchecked(throwable);
     throw new RuntimeException(throwable);
   }
 

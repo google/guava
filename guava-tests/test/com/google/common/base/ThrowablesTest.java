@@ -19,6 +19,8 @@ package com.google.common.base;
 import static com.google.common.base.Throwables.getStackTraceAsString;
 import static com.google.common.base.Throwables.lazyStackTrace;
 import static com.google.common.base.Throwables.lazyStackTraceIsLazy;
+import static com.google.common.base.Throwables.throwIfInstanceOf;
+import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.regex.Pattern.quote;
@@ -40,6 +42,26 @@ import java.util.List;
  * @author Kevin Bourrillion
  */
 public class ThrowablesTest extends TestCase {
+  public void testThrowIfUnchecked_Unchecked() {
+    try {
+      throwIfUnchecked(new SomeUncheckedException());
+      fail();
+    } catch (SomeUncheckedException expected) {
+    }
+  }
+
+  public void testThrowIfUnchecked_Error() {
+    try {
+      throwIfUnchecked(new SomeError());
+      fail();
+    } catch (SomeError expected) {
+    }
+  }
+
+  public void testThrowIfUnchecked_Checked() {
+    throwIfUnchecked(new SomeCheckedException());
+  }
+
   public void testPropagateIfPossible_NoneDeclared_NoneThrown() {
     Sample sample = new Sample() {
       @Override public void noneDeclared() {
@@ -265,6 +287,14 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  public void testThrowIfUnchecked_null() throws SomeCheckedException {
+    try {
+      throwIfUnchecked(null);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
   public void testPropageIfPossible_null() throws SomeCheckedException {
     Throwables.propagateIfPossible(null);
     Throwables.propagateIfPossible(null, SomeCheckedException.class);
@@ -345,6 +375,30 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  public void testThrowIfInstanceOf_Unchecked() throws SomeCheckedException {
+    throwIfInstanceOf(new SomeUncheckedException(), SomeCheckedException.class);
+  }
+
+  public void testThrowIfInstanceOf_CheckedDifferent() throws SomeCheckedException {
+    throwIfInstanceOf(new SomeOtherCheckedException(), SomeCheckedException.class);
+  }
+
+  public void testThrowIfInstanceOf_CheckedSame() {
+    try {
+      throwIfInstanceOf(new SomeCheckedException(), SomeCheckedException.class);
+      fail();
+    } catch (SomeCheckedException expected) {
+    }
+  }
+
+  public void testThrowIfInstanceOf_CheckedSubclass() {
+    try {
+      throwIfInstanceOf(new SomeCheckedException() {}, SomeCheckedException.class);
+      fail();
+    } catch (SomeCheckedException expected) {
+    }
+  }
+
   public void testPropagateIfInstanceOf_NoneThrown()
       throws SomeCheckedException {
     Sample sample = new Sample() {
@@ -422,6 +476,14 @@ public class ThrowablesTest extends TestCase {
       fail();
     } catch (RuntimeException expected) {
       assertThat(expected.getCause()).isInstanceOf(SomeOtherCheckedException.class);
+    }
+  }
+
+  public void testThrowIfInstanceOf_null() throws SomeCheckedException {
+    try {
+      throwIfInstanceOf(null, SomeCheckedException.class);
+      fail();
+    } catch (NullPointerException expected) {
     }
   }
 
