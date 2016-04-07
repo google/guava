@@ -501,324 +501,326 @@
 <span class="sourceLineNo">493</span><a name="line.493"></a>
 <span class="sourceLineNo">494</span>  /**<a name="line.494"></a>
 <span class="sourceLineNo">495</span>   * Returns an {@link Optional} containing the last element in this fluent iterable. If the<a name="line.495"></a>
-<span class="sourceLineNo">496</span>   * iterable is empty, {@code Optional.absent()} is returned.<a name="line.496"></a>
-<span class="sourceLineNo">497</span>   *<a name="line.497"></a>
-<span class="sourceLineNo">498</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.reduce((a, b) -&gt; b)}.<a name="line.498"></a>
+<span class="sourceLineNo">496</span>   * iterable is empty, {@code Optional.absent()} is returned. If the underlying {@code iterable}<a name="line.496"></a>
+<span class="sourceLineNo">497</span>   * is a {@link List} with {@link java.util.RandomAccess} support, then this operation is<a name="line.497"></a>
+<span class="sourceLineNo">498</span>   * guaranteed to be {@code O(1)}.<a name="line.498"></a>
 <span class="sourceLineNo">499</span>   *<a name="line.499"></a>
-<span class="sourceLineNo">500</span>   * @throws NullPointerException if the last element is null; if this is a possibility, use<a name="line.500"></a>
-<span class="sourceLineNo">501</span>   *     {@link Iterables#getLast} instead.<a name="line.501"></a>
-<span class="sourceLineNo">502</span>   */<a name="line.502"></a>
-<span class="sourceLineNo">503</span>  public final Optional&lt;E&gt; last() {<a name="line.503"></a>
-<span class="sourceLineNo">504</span>    // Iterables#getLast was inlined here so we don't have to throw/catch a NSEE<a name="line.504"></a>
-<span class="sourceLineNo">505</span><a name="line.505"></a>
-<span class="sourceLineNo">506</span>    // TODO(kevinb): Support a concurrently modified collection?<a name="line.506"></a>
-<span class="sourceLineNo">507</span>    if (iterable instanceof List) {<a name="line.507"></a>
-<span class="sourceLineNo">508</span>      List&lt;E&gt; list = (List&lt;E&gt;) iterable;<a name="line.508"></a>
-<span class="sourceLineNo">509</span>      if (list.isEmpty()) {<a name="line.509"></a>
-<span class="sourceLineNo">510</span>        return Optional.absent();<a name="line.510"></a>
-<span class="sourceLineNo">511</span>      }<a name="line.511"></a>
-<span class="sourceLineNo">512</span>      return Optional.of(list.get(list.size() - 1));<a name="line.512"></a>
-<span class="sourceLineNo">513</span>    }<a name="line.513"></a>
-<span class="sourceLineNo">514</span>    Iterator&lt;E&gt; iterator = iterable.iterator();<a name="line.514"></a>
-<span class="sourceLineNo">515</span>    if (!iterator.hasNext()) {<a name="line.515"></a>
-<span class="sourceLineNo">516</span>      return Optional.absent();<a name="line.516"></a>
-<span class="sourceLineNo">517</span>    }<a name="line.517"></a>
-<span class="sourceLineNo">518</span><a name="line.518"></a>
-<span class="sourceLineNo">519</span>    /*<a name="line.519"></a>
-<span class="sourceLineNo">520</span>     * TODO(kevinb): consider whether this "optimization" is worthwhile. Users with SortedSets tend<a name="line.520"></a>
-<span class="sourceLineNo">521</span>     * to know they are SortedSets and probably would not call this method.<a name="line.521"></a>
-<span class="sourceLineNo">522</span>     */<a name="line.522"></a>
-<span class="sourceLineNo">523</span>    if (iterable instanceof SortedSet) {<a name="line.523"></a>
-<span class="sourceLineNo">524</span>      SortedSet&lt;E&gt; sortedSet = (SortedSet&lt;E&gt;) iterable;<a name="line.524"></a>
-<span class="sourceLineNo">525</span>      return Optional.of(sortedSet.last());<a name="line.525"></a>
-<span class="sourceLineNo">526</span>    }<a name="line.526"></a>
-<span class="sourceLineNo">527</span><a name="line.527"></a>
-<span class="sourceLineNo">528</span>    while (true) {<a name="line.528"></a>
-<span class="sourceLineNo">529</span>      E current = iterator.next();<a name="line.529"></a>
-<span class="sourceLineNo">530</span>      if (!iterator.hasNext()) {<a name="line.530"></a>
-<span class="sourceLineNo">531</span>        return Optional.of(current);<a name="line.531"></a>
-<span class="sourceLineNo">532</span>      }<a name="line.532"></a>
-<span class="sourceLineNo">533</span>    }<a name="line.533"></a>
-<span class="sourceLineNo">534</span>  }<a name="line.534"></a>
-<span class="sourceLineNo">535</span><a name="line.535"></a>
-<span class="sourceLineNo">536</span>  /**<a name="line.536"></a>
-<span class="sourceLineNo">537</span>   * Returns a view of this fluent iterable that skips its first {@code numberToSkip} elements. If<a name="line.537"></a>
-<span class="sourceLineNo">538</span>   * this fluent iterable contains fewer than {@code numberToSkip} elements, the returned fluent<a name="line.538"></a>
-<span class="sourceLineNo">539</span>   * iterable skips all of its elements.<a name="line.539"></a>
-<span class="sourceLineNo">540</span>   *<a name="line.540"></a>
-<span class="sourceLineNo">541</span>   * &lt;p&gt;Modifications to this fluent iterable before a call to {@code iterator()} are reflected in<a name="line.541"></a>
-<span class="sourceLineNo">542</span>   * the returned fluent iterable. That is, the its iterator skips the first {@code numberToSkip}<a name="line.542"></a>
-<span class="sourceLineNo">543</span>   * elements that exist when the iterator is created, not when {@code skip()} is called.<a name="line.543"></a>
-<span class="sourceLineNo">544</span>   *<a name="line.544"></a>
-<span class="sourceLineNo">545</span>   * &lt;p&gt;The returned fluent iterable's iterator supports {@code remove()} if the {@code Iterator} of<a name="line.545"></a>
-<span class="sourceLineNo">546</span>   * this fluent iterable supports it. Note that it is &lt;i&gt;not&lt;/i&gt; possible to delete the last<a name="line.546"></a>
-<span class="sourceLineNo">547</span>   * skipped element by immediately calling {@code remove()} on the returned fluent iterable's<a name="line.547"></a>
-<span class="sourceLineNo">548</span>   * iterator, as the {@code Iterator} contract states that a call to {@code * remove()} before a<a name="line.548"></a>
-<span class="sourceLineNo">549</span>   * call to {@code next()} will throw an {@link IllegalStateException}.<a name="line.549"></a>
-<span class="sourceLineNo">550</span>   *<a name="line.550"></a>
-<span class="sourceLineNo">551</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.skip(numberToSkip)} (same).<a name="line.551"></a>
-<span class="sourceLineNo">552</span>   */<a name="line.552"></a>
-<span class="sourceLineNo">553</span>  public final FluentIterable&lt;E&gt; skip(int numberToSkip) {<a name="line.553"></a>
-<span class="sourceLineNo">554</span>    return from(Iterables.skip(iterable, numberToSkip));<a name="line.554"></a>
-<span class="sourceLineNo">555</span>  }<a name="line.555"></a>
-<span class="sourceLineNo">556</span><a name="line.556"></a>
-<span class="sourceLineNo">557</span>  /**<a name="line.557"></a>
-<span class="sourceLineNo">558</span>   * Creates a fluent iterable with the first {@code size} elements of this fluent iterable. If this<a name="line.558"></a>
-<span class="sourceLineNo">559</span>   * fluent iterable does not contain that many elements, the returned fluent iterable will have the<a name="line.559"></a>
-<span class="sourceLineNo">560</span>   * same behavior as this fluent iterable. The returned fluent iterable's iterator supports<a name="line.560"></a>
-<span class="sourceLineNo">561</span>   * {@code remove()} if this fluent iterable's iterator does.<a name="line.561"></a>
-<span class="sourceLineNo">562</span>   *<a name="line.562"></a>
-<span class="sourceLineNo">563</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.limit(maxSize)} (same).<a name="line.563"></a>
+<span class="sourceLineNo">500</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.reduce((a, b) -&gt; b)}.<a name="line.500"></a>
+<span class="sourceLineNo">501</span>   *<a name="line.501"></a>
+<span class="sourceLineNo">502</span>   * @throws NullPointerException if the last element is null; if this is a possibility, use<a name="line.502"></a>
+<span class="sourceLineNo">503</span>   *     {@link Iterables#getLast} instead.<a name="line.503"></a>
+<span class="sourceLineNo">504</span>   */<a name="line.504"></a>
+<span class="sourceLineNo">505</span>  public final Optional&lt;E&gt; last() {<a name="line.505"></a>
+<span class="sourceLineNo">506</span>    // Iterables#getLast was inlined here so we don't have to throw/catch a NSEE<a name="line.506"></a>
+<span class="sourceLineNo">507</span><a name="line.507"></a>
+<span class="sourceLineNo">508</span>    // TODO(kevinb): Support a concurrently modified collection?<a name="line.508"></a>
+<span class="sourceLineNo">509</span>    if (iterable instanceof List) {<a name="line.509"></a>
+<span class="sourceLineNo">510</span>      List&lt;E&gt; list = (List&lt;E&gt;) iterable;<a name="line.510"></a>
+<span class="sourceLineNo">511</span>      if (list.isEmpty()) {<a name="line.511"></a>
+<span class="sourceLineNo">512</span>        return Optional.absent();<a name="line.512"></a>
+<span class="sourceLineNo">513</span>      }<a name="line.513"></a>
+<span class="sourceLineNo">514</span>      return Optional.of(list.get(list.size() - 1));<a name="line.514"></a>
+<span class="sourceLineNo">515</span>    }<a name="line.515"></a>
+<span class="sourceLineNo">516</span>    Iterator&lt;E&gt; iterator = iterable.iterator();<a name="line.516"></a>
+<span class="sourceLineNo">517</span>    if (!iterator.hasNext()) {<a name="line.517"></a>
+<span class="sourceLineNo">518</span>      return Optional.absent();<a name="line.518"></a>
+<span class="sourceLineNo">519</span>    }<a name="line.519"></a>
+<span class="sourceLineNo">520</span><a name="line.520"></a>
+<span class="sourceLineNo">521</span>    /*<a name="line.521"></a>
+<span class="sourceLineNo">522</span>     * TODO(kevinb): consider whether this "optimization" is worthwhile. Users with SortedSets tend<a name="line.522"></a>
+<span class="sourceLineNo">523</span>     * to know they are SortedSets and probably would not call this method.<a name="line.523"></a>
+<span class="sourceLineNo">524</span>     */<a name="line.524"></a>
+<span class="sourceLineNo">525</span>    if (iterable instanceof SortedSet) {<a name="line.525"></a>
+<span class="sourceLineNo">526</span>      SortedSet&lt;E&gt; sortedSet = (SortedSet&lt;E&gt;) iterable;<a name="line.526"></a>
+<span class="sourceLineNo">527</span>      return Optional.of(sortedSet.last());<a name="line.527"></a>
+<span class="sourceLineNo">528</span>    }<a name="line.528"></a>
+<span class="sourceLineNo">529</span><a name="line.529"></a>
+<span class="sourceLineNo">530</span>    while (true) {<a name="line.530"></a>
+<span class="sourceLineNo">531</span>      E current = iterator.next();<a name="line.531"></a>
+<span class="sourceLineNo">532</span>      if (!iterator.hasNext()) {<a name="line.532"></a>
+<span class="sourceLineNo">533</span>        return Optional.of(current);<a name="line.533"></a>
+<span class="sourceLineNo">534</span>      }<a name="line.534"></a>
+<span class="sourceLineNo">535</span>    }<a name="line.535"></a>
+<span class="sourceLineNo">536</span>  }<a name="line.536"></a>
+<span class="sourceLineNo">537</span><a name="line.537"></a>
+<span class="sourceLineNo">538</span>  /**<a name="line.538"></a>
+<span class="sourceLineNo">539</span>   * Returns a view of this fluent iterable that skips its first {@code numberToSkip} elements. If<a name="line.539"></a>
+<span class="sourceLineNo">540</span>   * this fluent iterable contains fewer than {@code numberToSkip} elements, the returned fluent<a name="line.540"></a>
+<span class="sourceLineNo">541</span>   * iterable skips all of its elements.<a name="line.541"></a>
+<span class="sourceLineNo">542</span>   *<a name="line.542"></a>
+<span class="sourceLineNo">543</span>   * &lt;p&gt;Modifications to this fluent iterable before a call to {@code iterator()} are reflected in<a name="line.543"></a>
+<span class="sourceLineNo">544</span>   * the returned fluent iterable. That is, the its iterator skips the first {@code numberToSkip}<a name="line.544"></a>
+<span class="sourceLineNo">545</span>   * elements that exist when the iterator is created, not when {@code skip()} is called.<a name="line.545"></a>
+<span class="sourceLineNo">546</span>   *<a name="line.546"></a>
+<span class="sourceLineNo">547</span>   * &lt;p&gt;The returned fluent iterable's iterator supports {@code remove()} if the {@code Iterator} of<a name="line.547"></a>
+<span class="sourceLineNo">548</span>   * this fluent iterable supports it. Note that it is &lt;i&gt;not&lt;/i&gt; possible to delete the last<a name="line.548"></a>
+<span class="sourceLineNo">549</span>   * skipped element by immediately calling {@code remove()} on the returned fluent iterable's<a name="line.549"></a>
+<span class="sourceLineNo">550</span>   * iterator, as the {@code Iterator} contract states that a call to {@code * remove()} before a<a name="line.550"></a>
+<span class="sourceLineNo">551</span>   * call to {@code next()} will throw an {@link IllegalStateException}.<a name="line.551"></a>
+<span class="sourceLineNo">552</span>   *<a name="line.552"></a>
+<span class="sourceLineNo">553</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.skip(numberToSkip)} (same).<a name="line.553"></a>
+<span class="sourceLineNo">554</span>   */<a name="line.554"></a>
+<span class="sourceLineNo">555</span>  public final FluentIterable&lt;E&gt; skip(int numberToSkip) {<a name="line.555"></a>
+<span class="sourceLineNo">556</span>    return from(Iterables.skip(iterable, numberToSkip));<a name="line.556"></a>
+<span class="sourceLineNo">557</span>  }<a name="line.557"></a>
+<span class="sourceLineNo">558</span><a name="line.558"></a>
+<span class="sourceLineNo">559</span>  /**<a name="line.559"></a>
+<span class="sourceLineNo">560</span>   * Creates a fluent iterable with the first {@code size} elements of this fluent iterable. If this<a name="line.560"></a>
+<span class="sourceLineNo">561</span>   * fluent iterable does not contain that many elements, the returned fluent iterable will have the<a name="line.561"></a>
+<span class="sourceLineNo">562</span>   * same behavior as this fluent iterable. The returned fluent iterable's iterator supports<a name="line.562"></a>
+<span class="sourceLineNo">563</span>   * {@code remove()} if this fluent iterable's iterator does.<a name="line.563"></a>
 <span class="sourceLineNo">564</span>   *<a name="line.564"></a>
-<span class="sourceLineNo">565</span>   * @param maxSize the maximum number of elements in the returned fluent iterable<a name="line.565"></a>
-<span class="sourceLineNo">566</span>   * @throws IllegalArgumentException if {@code size} is negative<a name="line.566"></a>
-<span class="sourceLineNo">567</span>   */<a name="line.567"></a>
-<span class="sourceLineNo">568</span>  public final FluentIterable&lt;E&gt; limit(int maxSize) {<a name="line.568"></a>
-<span class="sourceLineNo">569</span>    return from(Iterables.limit(iterable, maxSize));<a name="line.569"></a>
-<span class="sourceLineNo">570</span>  }<a name="line.570"></a>
-<span class="sourceLineNo">571</span><a name="line.571"></a>
-<span class="sourceLineNo">572</span>  /**<a name="line.572"></a>
-<span class="sourceLineNo">573</span>   * Determines whether this fluent iterable is empty.<a name="line.573"></a>
-<span class="sourceLineNo">574</span>   *<a name="line.574"></a>
-<span class="sourceLineNo">575</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code !stream.findAny().isPresent()}.<a name="line.575"></a>
-<span class="sourceLineNo">576</span>   */<a name="line.576"></a>
-<span class="sourceLineNo">577</span>  public final boolean isEmpty() {<a name="line.577"></a>
-<span class="sourceLineNo">578</span>    return !iterable.iterator().hasNext();<a name="line.578"></a>
-<span class="sourceLineNo">579</span>  }<a name="line.579"></a>
-<span class="sourceLineNo">580</span><a name="line.580"></a>
-<span class="sourceLineNo">581</span>  /**<a name="line.581"></a>
-<span class="sourceLineNo">582</span>   * Returns an {@code ImmutableList} containing all of the elements from this fluent iterable in<a name="line.582"></a>
-<span class="sourceLineNo">583</span>   * proper sequence.<a name="line.583"></a>
-<span class="sourceLineNo">584</span>   *<a name="line.584"></a>
-<span class="sourceLineNo">585</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code ImmutableList.copyOf(stream.iterator())}.<a name="line.585"></a>
+<span class="sourceLineNo">565</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.limit(maxSize)} (same).<a name="line.565"></a>
+<span class="sourceLineNo">566</span>   *<a name="line.566"></a>
+<span class="sourceLineNo">567</span>   * @param maxSize the maximum number of elements in the returned fluent iterable<a name="line.567"></a>
+<span class="sourceLineNo">568</span>   * @throws IllegalArgumentException if {@code size} is negative<a name="line.568"></a>
+<span class="sourceLineNo">569</span>   */<a name="line.569"></a>
+<span class="sourceLineNo">570</span>  public final FluentIterable&lt;E&gt; limit(int maxSize) {<a name="line.570"></a>
+<span class="sourceLineNo">571</span>    return from(Iterables.limit(iterable, maxSize));<a name="line.571"></a>
+<span class="sourceLineNo">572</span>  }<a name="line.572"></a>
+<span class="sourceLineNo">573</span><a name="line.573"></a>
+<span class="sourceLineNo">574</span>  /**<a name="line.574"></a>
+<span class="sourceLineNo">575</span>   * Determines whether this fluent iterable is empty.<a name="line.575"></a>
+<span class="sourceLineNo">576</span>   *<a name="line.576"></a>
+<span class="sourceLineNo">577</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code !stream.findAny().isPresent()}.<a name="line.577"></a>
+<span class="sourceLineNo">578</span>   */<a name="line.578"></a>
+<span class="sourceLineNo">579</span>  public final boolean isEmpty() {<a name="line.579"></a>
+<span class="sourceLineNo">580</span>    return !iterable.iterator().hasNext();<a name="line.580"></a>
+<span class="sourceLineNo">581</span>  }<a name="line.581"></a>
+<span class="sourceLineNo">582</span><a name="line.582"></a>
+<span class="sourceLineNo">583</span>  /**<a name="line.583"></a>
+<span class="sourceLineNo">584</span>   * Returns an {@code ImmutableList} containing all of the elements from this fluent iterable in<a name="line.584"></a>
+<span class="sourceLineNo">585</span>   * proper sequence.<a name="line.585"></a>
 <span class="sourceLineNo">586</span>   *<a name="line.586"></a>
-<span class="sourceLineNo">587</span>   * @since 14.0 (since 12.0 as {@code toImmutableList()}).<a name="line.587"></a>
-<span class="sourceLineNo">588</span>   */<a name="line.588"></a>
-<span class="sourceLineNo">589</span>  public final ImmutableList&lt;E&gt; toList() {<a name="line.589"></a>
-<span class="sourceLineNo">590</span>    return ImmutableList.copyOf(iterable);<a name="line.590"></a>
-<span class="sourceLineNo">591</span>  }<a name="line.591"></a>
-<span class="sourceLineNo">592</span><a name="line.592"></a>
-<span class="sourceLineNo">593</span>  /**<a name="line.593"></a>
-<span class="sourceLineNo">594</span>   * Returns an {@code ImmutableList} containing all of the elements from this {@code<a name="line.594"></a>
-<span class="sourceLineNo">595</span>   * FluentIterable} in the order specified by {@code comparator}. To produce an {@code<a name="line.595"></a>
-<span class="sourceLineNo">596</span>   * ImmutableList} sorted by its natural ordering, use {@code toSortedList(Ordering.natural())}.<a name="line.596"></a>
-<span class="sourceLineNo">597</span>   *<a name="line.597"></a>
-<span class="sourceLineNo">598</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt;<a name="line.598"></a>
-<span class="sourceLineNo">599</span>   * {@code ImmutableList.copyOf(stream.sorted(comparator).iterator())}.<a name="line.599"></a>
-<span class="sourceLineNo">600</span>   *<a name="line.600"></a>
-<span class="sourceLineNo">601</span>   * @param comparator the function by which to sort list elements<a name="line.601"></a>
-<span class="sourceLineNo">602</span>   * @throws NullPointerException if any element is null<a name="line.602"></a>
-<span class="sourceLineNo">603</span>   * @since 14.0 (since 13.0 as {@code toSortedImmutableList()}).<a name="line.603"></a>
-<span class="sourceLineNo">604</span>   */<a name="line.604"></a>
-<span class="sourceLineNo">605</span>  public final ImmutableList&lt;E&gt; toSortedList(Comparator&lt;? super E&gt; comparator) {<a name="line.605"></a>
-<span class="sourceLineNo">606</span>    return Ordering.from(comparator).immutableSortedCopy(iterable);<a name="line.606"></a>
-<span class="sourceLineNo">607</span>  }<a name="line.607"></a>
-<span class="sourceLineNo">608</span><a name="line.608"></a>
-<span class="sourceLineNo">609</span>  /**<a name="line.609"></a>
-<span class="sourceLineNo">610</span>   * Returns an {@code ImmutableSet} containing all of the elements from this fluent iterable with<a name="line.610"></a>
-<span class="sourceLineNo">611</span>   * duplicates removed.<a name="line.611"></a>
-<span class="sourceLineNo">612</span>   *<a name="line.612"></a>
-<span class="sourceLineNo">613</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code ImmutableSet.copyOf(stream.iterator())}.<a name="line.613"></a>
+<span class="sourceLineNo">587</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code ImmutableList.copyOf(stream.iterator())}.<a name="line.587"></a>
+<span class="sourceLineNo">588</span>   *<a name="line.588"></a>
+<span class="sourceLineNo">589</span>   * @since 14.0 (since 12.0 as {@code toImmutableList()}).<a name="line.589"></a>
+<span class="sourceLineNo">590</span>   */<a name="line.590"></a>
+<span class="sourceLineNo">591</span>  public final ImmutableList&lt;E&gt; toList() {<a name="line.591"></a>
+<span class="sourceLineNo">592</span>    return ImmutableList.copyOf(iterable);<a name="line.592"></a>
+<span class="sourceLineNo">593</span>  }<a name="line.593"></a>
+<span class="sourceLineNo">594</span><a name="line.594"></a>
+<span class="sourceLineNo">595</span>  /**<a name="line.595"></a>
+<span class="sourceLineNo">596</span>   * Returns an {@code ImmutableList} containing all of the elements from this {@code<a name="line.596"></a>
+<span class="sourceLineNo">597</span>   * FluentIterable} in the order specified by {@code comparator}. To produce an {@code<a name="line.597"></a>
+<span class="sourceLineNo">598</span>   * ImmutableList} sorted by its natural ordering, use {@code toSortedList(Ordering.natural())}.<a name="line.598"></a>
+<span class="sourceLineNo">599</span>   *<a name="line.599"></a>
+<span class="sourceLineNo">600</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt;<a name="line.600"></a>
+<span class="sourceLineNo">601</span>   * {@code ImmutableList.copyOf(stream.sorted(comparator).iterator())}.<a name="line.601"></a>
+<span class="sourceLineNo">602</span>   *<a name="line.602"></a>
+<span class="sourceLineNo">603</span>   * @param comparator the function by which to sort list elements<a name="line.603"></a>
+<span class="sourceLineNo">604</span>   * @throws NullPointerException if any element is null<a name="line.604"></a>
+<span class="sourceLineNo">605</span>   * @since 14.0 (since 13.0 as {@code toSortedImmutableList()}).<a name="line.605"></a>
+<span class="sourceLineNo">606</span>   */<a name="line.606"></a>
+<span class="sourceLineNo">607</span>  public final ImmutableList&lt;E&gt; toSortedList(Comparator&lt;? super E&gt; comparator) {<a name="line.607"></a>
+<span class="sourceLineNo">608</span>    return Ordering.from(comparator).immutableSortedCopy(iterable);<a name="line.608"></a>
+<span class="sourceLineNo">609</span>  }<a name="line.609"></a>
+<span class="sourceLineNo">610</span><a name="line.610"></a>
+<span class="sourceLineNo">611</span>  /**<a name="line.611"></a>
+<span class="sourceLineNo">612</span>   * Returns an {@code ImmutableSet} containing all of the elements from this fluent iterable with<a name="line.612"></a>
+<span class="sourceLineNo">613</span>   * duplicates removed.<a name="line.613"></a>
 <span class="sourceLineNo">614</span>   *<a name="line.614"></a>
-<span class="sourceLineNo">615</span>   * @since 14.0 (since 12.0 as {@code toImmutableSet()}).<a name="line.615"></a>
-<span class="sourceLineNo">616</span>   */<a name="line.616"></a>
-<span class="sourceLineNo">617</span>  public final ImmutableSet&lt;E&gt; toSet() {<a name="line.617"></a>
-<span class="sourceLineNo">618</span>    return ImmutableSet.copyOf(iterable);<a name="line.618"></a>
-<span class="sourceLineNo">619</span>  }<a name="line.619"></a>
-<span class="sourceLineNo">620</span><a name="line.620"></a>
-<span class="sourceLineNo">621</span>  /**<a name="line.621"></a>
-<span class="sourceLineNo">622</span>   * Returns an {@code ImmutableSortedSet} containing all of the elements from this {@code<a name="line.622"></a>
-<span class="sourceLineNo">623</span>   * FluentIterable} in the order specified by {@code comparator}, with duplicates (determined by<a name="line.623"></a>
-<span class="sourceLineNo">624</span>   * {@code comparator.compare(x, y) == 0}) removed. To produce an {@code ImmutableSortedSet} sorted<a name="line.624"></a>
-<span class="sourceLineNo">625</span>   * by its natural ordering, use {@code toSortedSet(Ordering.natural())}.<a name="line.625"></a>
-<span class="sourceLineNo">626</span>   *<a name="line.626"></a>
-<span class="sourceLineNo">627</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt;<a name="line.627"></a>
-<span class="sourceLineNo">628</span>   * {@code ImmutableSortedSet.copyOf(comparator, stream.iterator())}.<a name="line.628"></a>
-<span class="sourceLineNo">629</span>   *<a name="line.629"></a>
-<span class="sourceLineNo">630</span>   * @param comparator the function by which to sort set elements<a name="line.630"></a>
-<span class="sourceLineNo">631</span>   * @throws NullPointerException if any element is null<a name="line.631"></a>
-<span class="sourceLineNo">632</span>   * @since 14.0 (since 12.0 as {@code toImmutableSortedSet()}).<a name="line.632"></a>
-<span class="sourceLineNo">633</span>   */<a name="line.633"></a>
-<span class="sourceLineNo">634</span>  public final ImmutableSortedSet&lt;E&gt; toSortedSet(Comparator&lt;? super E&gt; comparator) {<a name="line.634"></a>
-<span class="sourceLineNo">635</span>    return ImmutableSortedSet.copyOf(comparator, iterable);<a name="line.635"></a>
-<span class="sourceLineNo">636</span>  }<a name="line.636"></a>
-<span class="sourceLineNo">637</span><a name="line.637"></a>
-<span class="sourceLineNo">638</span>  /**<a name="line.638"></a>
-<span class="sourceLineNo">639</span>   * Returns an {@code ImmutableMultiset} containing all of the elements from this fluent iterable.<a name="line.639"></a>
-<span class="sourceLineNo">640</span>   *<a name="line.640"></a>
-<span class="sourceLineNo">641</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code ImmutableMultiset.copyOf(stream.iterator())}.<a name="line.641"></a>
+<span class="sourceLineNo">615</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code ImmutableSet.copyOf(stream.iterator())}.<a name="line.615"></a>
+<span class="sourceLineNo">616</span>   *<a name="line.616"></a>
+<span class="sourceLineNo">617</span>   * @since 14.0 (since 12.0 as {@code toImmutableSet()}).<a name="line.617"></a>
+<span class="sourceLineNo">618</span>   */<a name="line.618"></a>
+<span class="sourceLineNo">619</span>  public final ImmutableSet&lt;E&gt; toSet() {<a name="line.619"></a>
+<span class="sourceLineNo">620</span>    return ImmutableSet.copyOf(iterable);<a name="line.620"></a>
+<span class="sourceLineNo">621</span>  }<a name="line.621"></a>
+<span class="sourceLineNo">622</span><a name="line.622"></a>
+<span class="sourceLineNo">623</span>  /**<a name="line.623"></a>
+<span class="sourceLineNo">624</span>   * Returns an {@code ImmutableSortedSet} containing all of the elements from this {@code<a name="line.624"></a>
+<span class="sourceLineNo">625</span>   * FluentIterable} in the order specified by {@code comparator}, with duplicates (determined by<a name="line.625"></a>
+<span class="sourceLineNo">626</span>   * {@code comparator.compare(x, y) == 0}) removed. To produce an {@code ImmutableSortedSet} sorted<a name="line.626"></a>
+<span class="sourceLineNo">627</span>   * by its natural ordering, use {@code toSortedSet(Ordering.natural())}.<a name="line.627"></a>
+<span class="sourceLineNo">628</span>   *<a name="line.628"></a>
+<span class="sourceLineNo">629</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt;<a name="line.629"></a>
+<span class="sourceLineNo">630</span>   * {@code ImmutableSortedSet.copyOf(comparator, stream.iterator())}.<a name="line.630"></a>
+<span class="sourceLineNo">631</span>   *<a name="line.631"></a>
+<span class="sourceLineNo">632</span>   * @param comparator the function by which to sort set elements<a name="line.632"></a>
+<span class="sourceLineNo">633</span>   * @throws NullPointerException if any element is null<a name="line.633"></a>
+<span class="sourceLineNo">634</span>   * @since 14.0 (since 12.0 as {@code toImmutableSortedSet()}).<a name="line.634"></a>
+<span class="sourceLineNo">635</span>   */<a name="line.635"></a>
+<span class="sourceLineNo">636</span>  public final ImmutableSortedSet&lt;E&gt; toSortedSet(Comparator&lt;? super E&gt; comparator) {<a name="line.636"></a>
+<span class="sourceLineNo">637</span>    return ImmutableSortedSet.copyOf(comparator, iterable);<a name="line.637"></a>
+<span class="sourceLineNo">638</span>  }<a name="line.638"></a>
+<span class="sourceLineNo">639</span><a name="line.639"></a>
+<span class="sourceLineNo">640</span>  /**<a name="line.640"></a>
+<span class="sourceLineNo">641</span>   * Returns an {@code ImmutableMultiset} containing all of the elements from this fluent iterable.<a name="line.641"></a>
 <span class="sourceLineNo">642</span>   *<a name="line.642"></a>
-<span class="sourceLineNo">643</span>   * @since 19.0<a name="line.643"></a>
-<span class="sourceLineNo">644</span>   */<a name="line.644"></a>
-<span class="sourceLineNo">645</span>  public final ImmutableMultiset&lt;E&gt; toMultiset() {<a name="line.645"></a>
-<span class="sourceLineNo">646</span>    return ImmutableMultiset.copyOf(iterable);<a name="line.646"></a>
-<span class="sourceLineNo">647</span>  }<a name="line.647"></a>
-<span class="sourceLineNo">648</span><a name="line.648"></a>
-<span class="sourceLineNo">649</span>  /**<a name="line.649"></a>
-<span class="sourceLineNo">650</span>   * Returns an immutable map whose keys are the distinct elements of this {@code FluentIterable}<a name="line.650"></a>
-<span class="sourceLineNo">651</span>   * and whose value for each key was computed by {@code valueFunction}. The map's iteration order<a name="line.651"></a>
-<span class="sourceLineNo">652</span>   * is the order of the first appearance of each key in this iterable.<a name="line.652"></a>
-<span class="sourceLineNo">653</span>   *<a name="line.653"></a>
-<span class="sourceLineNo">654</span>   * &lt;p&gt;When there are multiple instances of a key in this iterable, it is unspecified whether<a name="line.654"></a>
-<span class="sourceLineNo">655</span>   * {@code valueFunction} will be applied to more than one instance of that key and, if it is,<a name="line.655"></a>
-<span class="sourceLineNo">656</span>   * which result will be mapped to that key in the returned map.<a name="line.656"></a>
-<span class="sourceLineNo">657</span>   *<a name="line.657"></a>
-<span class="sourceLineNo">658</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code<a name="line.658"></a>
-<span class="sourceLineNo">659</span>   * ImmutableMap.copyOf(stream.collect(Collectors.toMap(k -&gt; k, valueFunction)))} (but note that<a name="line.659"></a>
-<span class="sourceLineNo">660</span>   * this may not preserve the order of entries).<a name="line.660"></a>
-<span class="sourceLineNo">661</span>   *<a name="line.661"></a>
-<span class="sourceLineNo">662</span>   * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code<a name="line.662"></a>
-<span class="sourceLineNo">663</span>   *     valueFunction} produces {@code null} for any key<a name="line.663"></a>
-<span class="sourceLineNo">664</span>   * @since 14.0<a name="line.664"></a>
-<span class="sourceLineNo">665</span>   */<a name="line.665"></a>
-<span class="sourceLineNo">666</span>  public final &lt;V&gt; ImmutableMap&lt;E, V&gt; toMap(Function&lt;? super E, V&gt; valueFunction) {<a name="line.666"></a>
-<span class="sourceLineNo">667</span>    return Maps.toMap(iterable, valueFunction);<a name="line.667"></a>
-<span class="sourceLineNo">668</span>  }<a name="line.668"></a>
-<span class="sourceLineNo">669</span><a name="line.669"></a>
-<span class="sourceLineNo">670</span>  /**<a name="line.670"></a>
-<span class="sourceLineNo">671</span>   * Creates an index {@code ImmutableListMultimap} that contains the results of applying a<a name="line.671"></a>
-<span class="sourceLineNo">672</span>   * specified function to each item in this {@code FluentIterable} of values. Each element of this<a name="line.672"></a>
-<span class="sourceLineNo">673</span>   * iterable will be stored as a value in the resulting multimap, yielding a multimap with the same<a name="line.673"></a>
-<span class="sourceLineNo">674</span>   * size as this iterable. The key used to store that value in the multimap will be the result of<a name="line.674"></a>
-<span class="sourceLineNo">675</span>   * calling the function on that value. The resulting multimap is created as an immutable snapshot.<a name="line.675"></a>
-<span class="sourceLineNo">676</span>   * In the returned multimap, keys appear in the order they are first encountered, and the values<a name="line.676"></a>
-<span class="sourceLineNo">677</span>   * corresponding to each key appear in the same order as they are encountered.<a name="line.677"></a>
-<span class="sourceLineNo">678</span>   *<a name="line.678"></a>
-<span class="sourceLineNo">679</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.collect(Collectors.groupingBy(keyFunction))}<a name="line.679"></a>
-<span class="sourceLineNo">680</span>   * behaves similarly, but returns a mutable {@code Map&lt;K, List&lt;E&gt;&gt;} instead, and may not preserve<a name="line.680"></a>
-<span class="sourceLineNo">681</span>   * the order of entries).<a name="line.681"></a>
-<span class="sourceLineNo">682</span>   *<a name="line.682"></a>
-<span class="sourceLineNo">683</span>   * @param keyFunction the function used to produce the key for each value<a name="line.683"></a>
-<span class="sourceLineNo">684</span>   * @throws NullPointerException if any of the following cases is true:<a name="line.684"></a>
-<span class="sourceLineNo">685</span>   *     &lt;ul&gt;<a name="line.685"></a>
-<span class="sourceLineNo">686</span>   *     &lt;li&gt;{@code keyFunction} is null<a name="line.686"></a>
-<span class="sourceLineNo">687</span>   *     &lt;li&gt;An element in this fluent iterable is null<a name="line.687"></a>
-<span class="sourceLineNo">688</span>   *     &lt;li&gt;{@code keyFunction} returns {@code null} for any element of this iterable<a name="line.688"></a>
-<span class="sourceLineNo">689</span>   *     &lt;/ul&gt;<a name="line.689"></a>
-<span class="sourceLineNo">690</span>   *<a name="line.690"></a>
-<span class="sourceLineNo">691</span>   * @since 14.0<a name="line.691"></a>
-<span class="sourceLineNo">692</span>   */<a name="line.692"></a>
-<span class="sourceLineNo">693</span>  public final &lt;K&gt; ImmutableListMultimap&lt;K, E&gt; index(Function&lt;? super E, K&gt; keyFunction) {<a name="line.693"></a>
-<span class="sourceLineNo">694</span>    return Multimaps.index(iterable, keyFunction);<a name="line.694"></a>
-<span class="sourceLineNo">695</span>  }<a name="line.695"></a>
-<span class="sourceLineNo">696</span><a name="line.696"></a>
-<span class="sourceLineNo">697</span>  /**<a name="line.697"></a>
-<span class="sourceLineNo">698</span>   * Returns a map with the contents of this {@code FluentIterable} as its {@code values}, indexed<a name="line.698"></a>
-<span class="sourceLineNo">699</span>   * by keys derived from those values. In other words, each input value produces an entry in the<a name="line.699"></a>
-<span class="sourceLineNo">700</span>   * map whose key is the result of applying {@code keyFunction} to that value. These entries appear<a name="line.700"></a>
-<span class="sourceLineNo">701</span>   * in the same order as they appeared in this fluent iterable. Example usage:<a name="line.701"></a>
-<span class="sourceLineNo">702</span>   * &lt;pre&gt;   {@code<a name="line.702"></a>
-<span class="sourceLineNo">703</span>   *<a name="line.703"></a>
-<span class="sourceLineNo">704</span>   *   Color red = new Color("red", 255, 0, 0);<a name="line.704"></a>
-<span class="sourceLineNo">705</span>   *   ...<a name="line.705"></a>
-<span class="sourceLineNo">706</span>   *   FluentIterable&lt;Color&gt; allColors = FluentIterable.from(ImmutableSet.of(red, green, blue));<a name="line.706"></a>
-<span class="sourceLineNo">707</span>   *<a name="line.707"></a>
-<span class="sourceLineNo">708</span>   *   Map&lt;String, Color&gt; colorForName = allColors.uniqueIndex(toStringFunction());<a name="line.708"></a>
-<span class="sourceLineNo">709</span>   *   assertThat(colorForName).containsEntry("red", red);}&lt;/pre&gt;<a name="line.709"></a>
-<span class="sourceLineNo">710</span>   *<a name="line.710"></a>
-<span class="sourceLineNo">711</span>   * &lt;p&gt;If your index may associate multiple values with each key, use {@link #index(Function)<a name="line.711"></a>
-<span class="sourceLineNo">712</span>   * index}.<a name="line.712"></a>
-<span class="sourceLineNo">713</span>   *<a name="line.713"></a>
-<span class="sourceLineNo">714</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code<a name="line.714"></a>
-<span class="sourceLineNo">715</span>   * ImmutableMap.copyOf(stream.collect(Collectors.toMap(keyFunction, v -&gt; v)))} (but note that this<a name="line.715"></a>
-<span class="sourceLineNo">716</span>   * may not preserve the order of entries).<a name="line.716"></a>
-<span class="sourceLineNo">717</span>   *<a name="line.717"></a>
-<span class="sourceLineNo">718</span>   * @param keyFunction the function used to produce the key for each value<a name="line.718"></a>
-<span class="sourceLineNo">719</span>   * @return a map mapping the result of evaluating the function {@code<a name="line.719"></a>
-<span class="sourceLineNo">720</span>   *     keyFunction} on each value in this fluent iterable to that value<a name="line.720"></a>
-<span class="sourceLineNo">721</span>   * @throws IllegalArgumentException if {@code keyFunction} produces the same key for more than one<a name="line.721"></a>
-<span class="sourceLineNo">722</span>   *     value in this fluent iterable<a name="line.722"></a>
-<span class="sourceLineNo">723</span>   * @throws NullPointerException if any elements of this fluent iterable is null, or if<a name="line.723"></a>
-<span class="sourceLineNo">724</span>   *     {@code keyFunction} produces {@code null} for any value<a name="line.724"></a>
-<span class="sourceLineNo">725</span>   * @since 14.0<a name="line.725"></a>
-<span class="sourceLineNo">726</span>   */<a name="line.726"></a>
-<span class="sourceLineNo">727</span>  public final &lt;K&gt; ImmutableMap&lt;K, E&gt; uniqueIndex(Function&lt;? super E, K&gt; keyFunction) {<a name="line.727"></a>
-<span class="sourceLineNo">728</span>    return Maps.uniqueIndex(iterable, keyFunction);<a name="line.728"></a>
-<span class="sourceLineNo">729</span>  }<a name="line.729"></a>
-<span class="sourceLineNo">730</span><a name="line.730"></a>
-<span class="sourceLineNo">731</span>  /**<a name="line.731"></a>
-<span class="sourceLineNo">732</span>   * Returns an array containing all of the elements from this fluent iterable in iteration order.<a name="line.732"></a>
-<span class="sourceLineNo">733</span>   *<a name="line.733"></a>
-<span class="sourceLineNo">734</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; if an object array is acceptable, use<a name="line.734"></a>
-<span class="sourceLineNo">735</span>   * {@code stream.toArray()}; if {@code type} is a class literal such as {@code MyType.class}, use<a name="line.735"></a>
-<span class="sourceLineNo">736</span>   * {@code stream.toArray(MyType[]::new)}. Otherwise use {@code stream.toArray(<a name="line.736"></a>
-<span class="sourceLineNo">737</span>   * len -&gt; (E[]) Array.newInstance(type, len))}.<a name="line.737"></a>
-<span class="sourceLineNo">738</span>   *<a name="line.738"></a>
-<span class="sourceLineNo">739</span>   * @param type the type of the elements<a name="line.739"></a>
-<span class="sourceLineNo">740</span>   * @return a newly-allocated array into which all the elements of this fluent iterable have been<a name="line.740"></a>
-<span class="sourceLineNo">741</span>   *     copied<a name="line.741"></a>
-<span class="sourceLineNo">742</span>   */<a name="line.742"></a>
-<span class="sourceLineNo">743</span>  @GwtIncompatible // Array.newArray(Class, int)<a name="line.743"></a>
-<span class="sourceLineNo">744</span>  public final E[] toArray(Class&lt;E&gt; type) {<a name="line.744"></a>
-<span class="sourceLineNo">745</span>    return Iterables.toArray(iterable, type);<a name="line.745"></a>
-<span class="sourceLineNo">746</span>  }<a name="line.746"></a>
-<span class="sourceLineNo">747</span><a name="line.747"></a>
-<span class="sourceLineNo">748</span>  /**<a name="line.748"></a>
-<span class="sourceLineNo">749</span>   * Copies all the elements from this fluent iterable to {@code collection}. This is equivalent to<a name="line.749"></a>
-<span class="sourceLineNo">750</span>   * calling {@code Iterables.addAll(collection, this)}.<a name="line.750"></a>
-<span class="sourceLineNo">751</span>   *<a name="line.751"></a>
-<span class="sourceLineNo">752</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.forEachOrdered(collection::add)} or<a name="line.752"></a>
-<span class="sourceLineNo">753</span>   * {@code stream.forEach(collection::add)}.<a name="line.753"></a>
-<span class="sourceLineNo">754</span>   *<a name="line.754"></a>
-<span class="sourceLineNo">755</span>   * @param collection the collection to copy elements to<a name="line.755"></a>
-<span class="sourceLineNo">756</span>   * @return {@code collection}, for convenience<a name="line.756"></a>
-<span class="sourceLineNo">757</span>   * @since 14.0<a name="line.757"></a>
-<span class="sourceLineNo">758</span>   */<a name="line.758"></a>
-<span class="sourceLineNo">759</span>  @CanIgnoreReturnValue<a name="line.759"></a>
-<span class="sourceLineNo">760</span>  public final &lt;C extends Collection&lt;? super E&gt;&gt; C copyInto(C collection) {<a name="line.760"></a>
-<span class="sourceLineNo">761</span>    checkNotNull(collection);<a name="line.761"></a>
-<span class="sourceLineNo">762</span>    if (iterable instanceof Collection) {<a name="line.762"></a>
-<span class="sourceLineNo">763</span>      collection.addAll(Collections2.cast(iterable));<a name="line.763"></a>
-<span class="sourceLineNo">764</span>    } else {<a name="line.764"></a>
-<span class="sourceLineNo">765</span>      for (E item : iterable) {<a name="line.765"></a>
-<span class="sourceLineNo">766</span>        collection.add(item);<a name="line.766"></a>
-<span class="sourceLineNo">767</span>      }<a name="line.767"></a>
-<span class="sourceLineNo">768</span>    }<a name="line.768"></a>
-<span class="sourceLineNo">769</span>    return collection;<a name="line.769"></a>
-<span class="sourceLineNo">770</span>  }<a name="line.770"></a>
-<span class="sourceLineNo">771</span><a name="line.771"></a>
-<span class="sourceLineNo">772</span>  /**<a name="line.772"></a>
-<span class="sourceLineNo">773</span>   * Returns a {@link String} containing all of the elements of this fluent iterable joined with<a name="line.773"></a>
-<span class="sourceLineNo">774</span>   * {@code joiner}.<a name="line.774"></a>
-<span class="sourceLineNo">775</span>   *<a name="line.775"></a>
-<span class="sourceLineNo">776</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code joiner.join(stream.iterator())}, or, if you are not<a name="line.776"></a>
-<span class="sourceLineNo">777</span>   * using any optional {@code Joiner} features,<a name="line.777"></a>
-<span class="sourceLineNo">778</span>   * {@code stream.collect(Collectors.joining(delimiter)}.<a name="line.778"></a>
-<span class="sourceLineNo">779</span>   *<a name="line.779"></a>
-<span class="sourceLineNo">780</span>   * @since 18.0<a name="line.780"></a>
-<span class="sourceLineNo">781</span>   */<a name="line.781"></a>
-<span class="sourceLineNo">782</span>  @Beta<a name="line.782"></a>
-<span class="sourceLineNo">783</span>  public final String join(Joiner joiner) {<a name="line.783"></a>
-<span class="sourceLineNo">784</span>    return joiner.join(this);<a name="line.784"></a>
-<span class="sourceLineNo">785</span>  }<a name="line.785"></a>
-<span class="sourceLineNo">786</span><a name="line.786"></a>
-<span class="sourceLineNo">787</span>  /**<a name="line.787"></a>
-<span class="sourceLineNo">788</span>   * Returns the element at the specified position in this fluent iterable.<a name="line.788"></a>
-<span class="sourceLineNo">789</span>   *<a name="line.789"></a>
-<span class="sourceLineNo">790</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.skip(position).findFirst().get()} (but note<a name="line.790"></a>
-<span class="sourceLineNo">791</span>   * that this throws different exception types, and throws an exception if {@code null} would be<a name="line.791"></a>
-<span class="sourceLineNo">792</span>   * returned).<a name="line.792"></a>
-<span class="sourceLineNo">793</span>   *<a name="line.793"></a>
-<span class="sourceLineNo">794</span>   * @param position position of the element to return<a name="line.794"></a>
-<span class="sourceLineNo">795</span>   * @return the element at the specified position in this fluent iterable<a name="line.795"></a>
-<span class="sourceLineNo">796</span>   * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to<a name="line.796"></a>
-<span class="sourceLineNo">797</span>   *     the size of this fluent iterable<a name="line.797"></a>
-<span class="sourceLineNo">798</span>   */<a name="line.798"></a>
-<span class="sourceLineNo">799</span>  // TODO(kevinb): add @Nullable?<a name="line.799"></a>
-<span class="sourceLineNo">800</span>  public final E get(int position) {<a name="line.800"></a>
-<span class="sourceLineNo">801</span>    return Iterables.get(iterable, position);<a name="line.801"></a>
-<span class="sourceLineNo">802</span>  }<a name="line.802"></a>
-<span class="sourceLineNo">803</span><a name="line.803"></a>
-<span class="sourceLineNo">804</span>  /**<a name="line.804"></a>
-<span class="sourceLineNo">805</span>   * Function that transforms {@code Iterable&lt;E&gt;} into a fluent iterable.<a name="line.805"></a>
-<span class="sourceLineNo">806</span>   */<a name="line.806"></a>
-<span class="sourceLineNo">807</span>  private static class FromIterableFunction&lt;E&gt; implements Function&lt;Iterable&lt;E&gt;, FluentIterable&lt;E&gt;&gt; {<a name="line.807"></a>
-<span class="sourceLineNo">808</span>    @Override<a name="line.808"></a>
-<span class="sourceLineNo">809</span>    public FluentIterable&lt;E&gt; apply(Iterable&lt;E&gt; fromObject) {<a name="line.809"></a>
-<span class="sourceLineNo">810</span>      return FluentIterable.from(fromObject);<a name="line.810"></a>
-<span class="sourceLineNo">811</span>    }<a name="line.811"></a>
-<span class="sourceLineNo">812</span>  }<a name="line.812"></a>
-<span class="sourceLineNo">813</span>}<a name="line.813"></a>
+<span class="sourceLineNo">643</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code ImmutableMultiset.copyOf(stream.iterator())}.<a name="line.643"></a>
+<span class="sourceLineNo">644</span>   *<a name="line.644"></a>
+<span class="sourceLineNo">645</span>   * @since 19.0<a name="line.645"></a>
+<span class="sourceLineNo">646</span>   */<a name="line.646"></a>
+<span class="sourceLineNo">647</span>  public final ImmutableMultiset&lt;E&gt; toMultiset() {<a name="line.647"></a>
+<span class="sourceLineNo">648</span>    return ImmutableMultiset.copyOf(iterable);<a name="line.648"></a>
+<span class="sourceLineNo">649</span>  }<a name="line.649"></a>
+<span class="sourceLineNo">650</span><a name="line.650"></a>
+<span class="sourceLineNo">651</span>  /**<a name="line.651"></a>
+<span class="sourceLineNo">652</span>   * Returns an immutable map whose keys are the distinct elements of this {@code FluentIterable}<a name="line.652"></a>
+<span class="sourceLineNo">653</span>   * and whose value for each key was computed by {@code valueFunction}. The map's iteration order<a name="line.653"></a>
+<span class="sourceLineNo">654</span>   * is the order of the first appearance of each key in this iterable.<a name="line.654"></a>
+<span class="sourceLineNo">655</span>   *<a name="line.655"></a>
+<span class="sourceLineNo">656</span>   * &lt;p&gt;When there are multiple instances of a key in this iterable, it is unspecified whether<a name="line.656"></a>
+<span class="sourceLineNo">657</span>   * {@code valueFunction} will be applied to more than one instance of that key and, if it is,<a name="line.657"></a>
+<span class="sourceLineNo">658</span>   * which result will be mapped to that key in the returned map.<a name="line.658"></a>
+<span class="sourceLineNo">659</span>   *<a name="line.659"></a>
+<span class="sourceLineNo">660</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code<a name="line.660"></a>
+<span class="sourceLineNo">661</span>   * ImmutableMap.copyOf(stream.collect(Collectors.toMap(k -&gt; k, valueFunction)))} (but note that<a name="line.661"></a>
+<span class="sourceLineNo">662</span>   * this may not preserve the order of entries).<a name="line.662"></a>
+<span class="sourceLineNo">663</span>   *<a name="line.663"></a>
+<span class="sourceLineNo">664</span>   * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code<a name="line.664"></a>
+<span class="sourceLineNo">665</span>   *     valueFunction} produces {@code null} for any key<a name="line.665"></a>
+<span class="sourceLineNo">666</span>   * @since 14.0<a name="line.666"></a>
+<span class="sourceLineNo">667</span>   */<a name="line.667"></a>
+<span class="sourceLineNo">668</span>  public final &lt;V&gt; ImmutableMap&lt;E, V&gt; toMap(Function&lt;? super E, V&gt; valueFunction) {<a name="line.668"></a>
+<span class="sourceLineNo">669</span>    return Maps.toMap(iterable, valueFunction);<a name="line.669"></a>
+<span class="sourceLineNo">670</span>  }<a name="line.670"></a>
+<span class="sourceLineNo">671</span><a name="line.671"></a>
+<span class="sourceLineNo">672</span>  /**<a name="line.672"></a>
+<span class="sourceLineNo">673</span>   * Creates an index {@code ImmutableListMultimap} that contains the results of applying a<a name="line.673"></a>
+<span class="sourceLineNo">674</span>   * specified function to each item in this {@code FluentIterable} of values. Each element of this<a name="line.674"></a>
+<span class="sourceLineNo">675</span>   * iterable will be stored as a value in the resulting multimap, yielding a multimap with the same<a name="line.675"></a>
+<span class="sourceLineNo">676</span>   * size as this iterable. The key used to store that value in the multimap will be the result of<a name="line.676"></a>
+<span class="sourceLineNo">677</span>   * calling the function on that value. The resulting multimap is created as an immutable snapshot.<a name="line.677"></a>
+<span class="sourceLineNo">678</span>   * In the returned multimap, keys appear in the order they are first encountered, and the values<a name="line.678"></a>
+<span class="sourceLineNo">679</span>   * corresponding to each key appear in the same order as they are encountered.<a name="line.679"></a>
+<span class="sourceLineNo">680</span>   *<a name="line.680"></a>
+<span class="sourceLineNo">681</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.collect(Collectors.groupingBy(keyFunction))}<a name="line.681"></a>
+<span class="sourceLineNo">682</span>   * behaves similarly, but returns a mutable {@code Map&lt;K, List&lt;E&gt;&gt;} instead, and may not preserve<a name="line.682"></a>
+<span class="sourceLineNo">683</span>   * the order of entries).<a name="line.683"></a>
+<span class="sourceLineNo">684</span>   *<a name="line.684"></a>
+<span class="sourceLineNo">685</span>   * @param keyFunction the function used to produce the key for each value<a name="line.685"></a>
+<span class="sourceLineNo">686</span>   * @throws NullPointerException if any of the following cases is true:<a name="line.686"></a>
+<span class="sourceLineNo">687</span>   *     &lt;ul&gt;<a name="line.687"></a>
+<span class="sourceLineNo">688</span>   *     &lt;li&gt;{@code keyFunction} is null<a name="line.688"></a>
+<span class="sourceLineNo">689</span>   *     &lt;li&gt;An element in this fluent iterable is null<a name="line.689"></a>
+<span class="sourceLineNo">690</span>   *     &lt;li&gt;{@code keyFunction} returns {@code null} for any element of this iterable<a name="line.690"></a>
+<span class="sourceLineNo">691</span>   *     &lt;/ul&gt;<a name="line.691"></a>
+<span class="sourceLineNo">692</span>   *<a name="line.692"></a>
+<span class="sourceLineNo">693</span>   * @since 14.0<a name="line.693"></a>
+<span class="sourceLineNo">694</span>   */<a name="line.694"></a>
+<span class="sourceLineNo">695</span>  public final &lt;K&gt; ImmutableListMultimap&lt;K, E&gt; index(Function&lt;? super E, K&gt; keyFunction) {<a name="line.695"></a>
+<span class="sourceLineNo">696</span>    return Multimaps.index(iterable, keyFunction);<a name="line.696"></a>
+<span class="sourceLineNo">697</span>  }<a name="line.697"></a>
+<span class="sourceLineNo">698</span><a name="line.698"></a>
+<span class="sourceLineNo">699</span>  /**<a name="line.699"></a>
+<span class="sourceLineNo">700</span>   * Returns a map with the contents of this {@code FluentIterable} as its {@code values}, indexed<a name="line.700"></a>
+<span class="sourceLineNo">701</span>   * by keys derived from those values. In other words, each input value produces an entry in the<a name="line.701"></a>
+<span class="sourceLineNo">702</span>   * map whose key is the result of applying {@code keyFunction} to that value. These entries appear<a name="line.702"></a>
+<span class="sourceLineNo">703</span>   * in the same order as they appeared in this fluent iterable. Example usage:<a name="line.703"></a>
+<span class="sourceLineNo">704</span>   * &lt;pre&gt;   {@code<a name="line.704"></a>
+<span class="sourceLineNo">705</span>   *<a name="line.705"></a>
+<span class="sourceLineNo">706</span>   *   Color red = new Color("red", 255, 0, 0);<a name="line.706"></a>
+<span class="sourceLineNo">707</span>   *   ...<a name="line.707"></a>
+<span class="sourceLineNo">708</span>   *   FluentIterable&lt;Color&gt; allColors = FluentIterable.from(ImmutableSet.of(red, green, blue));<a name="line.708"></a>
+<span class="sourceLineNo">709</span>   *<a name="line.709"></a>
+<span class="sourceLineNo">710</span>   *   Map&lt;String, Color&gt; colorForName = allColors.uniqueIndex(toStringFunction());<a name="line.710"></a>
+<span class="sourceLineNo">711</span>   *   assertThat(colorForName).containsEntry("red", red);}&lt;/pre&gt;<a name="line.711"></a>
+<span class="sourceLineNo">712</span>   *<a name="line.712"></a>
+<span class="sourceLineNo">713</span>   * &lt;p&gt;If your index may associate multiple values with each key, use {@link #index(Function)<a name="line.713"></a>
+<span class="sourceLineNo">714</span>   * index}.<a name="line.714"></a>
+<span class="sourceLineNo">715</span>   *<a name="line.715"></a>
+<span class="sourceLineNo">716</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code<a name="line.716"></a>
+<span class="sourceLineNo">717</span>   * ImmutableMap.copyOf(stream.collect(Collectors.toMap(keyFunction, v -&gt; v)))} (but note that this<a name="line.717"></a>
+<span class="sourceLineNo">718</span>   * may not preserve the order of entries).<a name="line.718"></a>
+<span class="sourceLineNo">719</span>   *<a name="line.719"></a>
+<span class="sourceLineNo">720</span>   * @param keyFunction the function used to produce the key for each value<a name="line.720"></a>
+<span class="sourceLineNo">721</span>   * @return a map mapping the result of evaluating the function {@code<a name="line.721"></a>
+<span class="sourceLineNo">722</span>   *     keyFunction} on each value in this fluent iterable to that value<a name="line.722"></a>
+<span class="sourceLineNo">723</span>   * @throws IllegalArgumentException if {@code keyFunction} produces the same key for more than one<a name="line.723"></a>
+<span class="sourceLineNo">724</span>   *     value in this fluent iterable<a name="line.724"></a>
+<span class="sourceLineNo">725</span>   * @throws NullPointerException if any elements of this fluent iterable is null, or if<a name="line.725"></a>
+<span class="sourceLineNo">726</span>   *     {@code keyFunction} produces {@code null} for any value<a name="line.726"></a>
+<span class="sourceLineNo">727</span>   * @since 14.0<a name="line.727"></a>
+<span class="sourceLineNo">728</span>   */<a name="line.728"></a>
+<span class="sourceLineNo">729</span>  public final &lt;K&gt; ImmutableMap&lt;K, E&gt; uniqueIndex(Function&lt;? super E, K&gt; keyFunction) {<a name="line.729"></a>
+<span class="sourceLineNo">730</span>    return Maps.uniqueIndex(iterable, keyFunction);<a name="line.730"></a>
+<span class="sourceLineNo">731</span>  }<a name="line.731"></a>
+<span class="sourceLineNo">732</span><a name="line.732"></a>
+<span class="sourceLineNo">733</span>  /**<a name="line.733"></a>
+<span class="sourceLineNo">734</span>   * Returns an array containing all of the elements from this fluent iterable in iteration order.<a name="line.734"></a>
+<span class="sourceLineNo">735</span>   *<a name="line.735"></a>
+<span class="sourceLineNo">736</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; if an object array is acceptable, use<a name="line.736"></a>
+<span class="sourceLineNo">737</span>   * {@code stream.toArray()}; if {@code type} is a class literal such as {@code MyType.class}, use<a name="line.737"></a>
+<span class="sourceLineNo">738</span>   * {@code stream.toArray(MyType[]::new)}. Otherwise use {@code stream.toArray(<a name="line.738"></a>
+<span class="sourceLineNo">739</span>   * len -&gt; (E[]) Array.newInstance(type, len))}.<a name="line.739"></a>
+<span class="sourceLineNo">740</span>   *<a name="line.740"></a>
+<span class="sourceLineNo">741</span>   * @param type the type of the elements<a name="line.741"></a>
+<span class="sourceLineNo">742</span>   * @return a newly-allocated array into which all the elements of this fluent iterable have been<a name="line.742"></a>
+<span class="sourceLineNo">743</span>   *     copied<a name="line.743"></a>
+<span class="sourceLineNo">744</span>   */<a name="line.744"></a>
+<span class="sourceLineNo">745</span>  @GwtIncompatible // Array.newArray(Class, int)<a name="line.745"></a>
+<span class="sourceLineNo">746</span>  public final E[] toArray(Class&lt;E&gt; type) {<a name="line.746"></a>
+<span class="sourceLineNo">747</span>    return Iterables.toArray(iterable, type);<a name="line.747"></a>
+<span class="sourceLineNo">748</span>  }<a name="line.748"></a>
+<span class="sourceLineNo">749</span><a name="line.749"></a>
+<span class="sourceLineNo">750</span>  /**<a name="line.750"></a>
+<span class="sourceLineNo">751</span>   * Copies all the elements from this fluent iterable to {@code collection}. This is equivalent to<a name="line.751"></a>
+<span class="sourceLineNo">752</span>   * calling {@code Iterables.addAll(collection, this)}.<a name="line.752"></a>
+<span class="sourceLineNo">753</span>   *<a name="line.753"></a>
+<span class="sourceLineNo">754</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.forEachOrdered(collection::add)} or<a name="line.754"></a>
+<span class="sourceLineNo">755</span>   * {@code stream.forEach(collection::add)}.<a name="line.755"></a>
+<span class="sourceLineNo">756</span>   *<a name="line.756"></a>
+<span class="sourceLineNo">757</span>   * @param collection the collection to copy elements to<a name="line.757"></a>
+<span class="sourceLineNo">758</span>   * @return {@code collection}, for convenience<a name="line.758"></a>
+<span class="sourceLineNo">759</span>   * @since 14.0<a name="line.759"></a>
+<span class="sourceLineNo">760</span>   */<a name="line.760"></a>
+<span class="sourceLineNo">761</span>  @CanIgnoreReturnValue<a name="line.761"></a>
+<span class="sourceLineNo">762</span>  public final &lt;C extends Collection&lt;? super E&gt;&gt; C copyInto(C collection) {<a name="line.762"></a>
+<span class="sourceLineNo">763</span>    checkNotNull(collection);<a name="line.763"></a>
+<span class="sourceLineNo">764</span>    if (iterable instanceof Collection) {<a name="line.764"></a>
+<span class="sourceLineNo">765</span>      collection.addAll(Collections2.cast(iterable));<a name="line.765"></a>
+<span class="sourceLineNo">766</span>    } else {<a name="line.766"></a>
+<span class="sourceLineNo">767</span>      for (E item : iterable) {<a name="line.767"></a>
+<span class="sourceLineNo">768</span>        collection.add(item);<a name="line.768"></a>
+<span class="sourceLineNo">769</span>      }<a name="line.769"></a>
+<span class="sourceLineNo">770</span>    }<a name="line.770"></a>
+<span class="sourceLineNo">771</span>    return collection;<a name="line.771"></a>
+<span class="sourceLineNo">772</span>  }<a name="line.772"></a>
+<span class="sourceLineNo">773</span><a name="line.773"></a>
+<span class="sourceLineNo">774</span>  /**<a name="line.774"></a>
+<span class="sourceLineNo">775</span>   * Returns a {@link String} containing all of the elements of this fluent iterable joined with<a name="line.775"></a>
+<span class="sourceLineNo">776</span>   * {@code joiner}.<a name="line.776"></a>
+<span class="sourceLineNo">777</span>   *<a name="line.777"></a>
+<span class="sourceLineNo">778</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code joiner.join(stream.iterator())}, or, if you are not<a name="line.778"></a>
+<span class="sourceLineNo">779</span>   * using any optional {@code Joiner} features,<a name="line.779"></a>
+<span class="sourceLineNo">780</span>   * {@code stream.collect(Collectors.joining(delimiter)}.<a name="line.780"></a>
+<span class="sourceLineNo">781</span>   *<a name="line.781"></a>
+<span class="sourceLineNo">782</span>   * @since 18.0<a name="line.782"></a>
+<span class="sourceLineNo">783</span>   */<a name="line.783"></a>
+<span class="sourceLineNo">784</span>  @Beta<a name="line.784"></a>
+<span class="sourceLineNo">785</span>  public final String join(Joiner joiner) {<a name="line.785"></a>
+<span class="sourceLineNo">786</span>    return joiner.join(this);<a name="line.786"></a>
+<span class="sourceLineNo">787</span>  }<a name="line.787"></a>
+<span class="sourceLineNo">788</span><a name="line.788"></a>
+<span class="sourceLineNo">789</span>  /**<a name="line.789"></a>
+<span class="sourceLineNo">790</span>   * Returns the element at the specified position in this fluent iterable.<a name="line.790"></a>
+<span class="sourceLineNo">791</span>   *<a name="line.791"></a>
+<span class="sourceLineNo">792</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.skip(position).findFirst().get()} (but note<a name="line.792"></a>
+<span class="sourceLineNo">793</span>   * that this throws different exception types, and throws an exception if {@code null} would be<a name="line.793"></a>
+<span class="sourceLineNo">794</span>   * returned).<a name="line.794"></a>
+<span class="sourceLineNo">795</span>   *<a name="line.795"></a>
+<span class="sourceLineNo">796</span>   * @param position position of the element to return<a name="line.796"></a>
+<span class="sourceLineNo">797</span>   * @return the element at the specified position in this fluent iterable<a name="line.797"></a>
+<span class="sourceLineNo">798</span>   * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to<a name="line.798"></a>
+<span class="sourceLineNo">799</span>   *     the size of this fluent iterable<a name="line.799"></a>
+<span class="sourceLineNo">800</span>   */<a name="line.800"></a>
+<span class="sourceLineNo">801</span>  // TODO(kevinb): add @Nullable?<a name="line.801"></a>
+<span class="sourceLineNo">802</span>  public final E get(int position) {<a name="line.802"></a>
+<span class="sourceLineNo">803</span>    return Iterables.get(iterable, position);<a name="line.803"></a>
+<span class="sourceLineNo">804</span>  }<a name="line.804"></a>
+<span class="sourceLineNo">805</span><a name="line.805"></a>
+<span class="sourceLineNo">806</span>  /**<a name="line.806"></a>
+<span class="sourceLineNo">807</span>   * Function that transforms {@code Iterable&lt;E&gt;} into a fluent iterable.<a name="line.807"></a>
+<span class="sourceLineNo">808</span>   */<a name="line.808"></a>
+<span class="sourceLineNo">809</span>  private static class FromIterableFunction&lt;E&gt; implements Function&lt;Iterable&lt;E&gt;, FluentIterable&lt;E&gt;&gt; {<a name="line.809"></a>
+<span class="sourceLineNo">810</span>    @Override<a name="line.810"></a>
+<span class="sourceLineNo">811</span>    public FluentIterable&lt;E&gt; apply(Iterable&lt;E&gt; fromObject) {<a name="line.811"></a>
+<span class="sourceLineNo">812</span>      return FluentIterable.from(fromObject);<a name="line.812"></a>
+<span class="sourceLineNo">813</span>    }<a name="line.813"></a>
+<span class="sourceLineNo">814</span>  }<a name="line.814"></a>
+<span class="sourceLineNo">815</span>}<a name="line.815"></a>
 
 
 

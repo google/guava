@@ -920,16 +920,16 @@
 <span class="sourceLineNo">912</span>  }<a name="line.912"></a>
 <span class="sourceLineNo">913</span><a name="line.913"></a>
 <span class="sourceLineNo">914</span>  /**<a name="line.914"></a>
-<span class="sourceLineNo">915</span>   * Shuts down the given executor gradually, first disabling new submissions and later cancelling<a name="line.915"></a>
-<span class="sourceLineNo">916</span>   * existing tasks.<a name="line.916"></a>
+<span class="sourceLineNo">915</span>   * Shuts down the given executor service gradually, first disabling new submissions and later, if<a name="line.915"></a>
+<span class="sourceLineNo">916</span>   * necessary, cancelling remaining tasks.<a name="line.916"></a>
 <span class="sourceLineNo">917</span>   *<a name="line.917"></a>
 <span class="sourceLineNo">918</span>   * &lt;p&gt;The method takes the following steps:<a name="line.918"></a>
 <span class="sourceLineNo">919</span>   * &lt;ol&gt;<a name="line.919"></a>
 <span class="sourceLineNo">920</span>   * &lt;li&gt;calls {@link ExecutorService#shutdown()}, disabling acceptance of new submitted tasks.<a name="line.920"></a>
-<span class="sourceLineNo">921</span>   * &lt;li&gt;waits for half of the specified timeout.<a name="line.921"></a>
+<span class="sourceLineNo">921</span>   * &lt;li&gt;awaits executor service termination for half of the specified timeout.<a name="line.921"></a>
 <span class="sourceLineNo">922</span>   * &lt;li&gt;if the timeout expires, it calls {@link ExecutorService#shutdownNow()}, cancelling pending<a name="line.922"></a>
 <span class="sourceLineNo">923</span>   * tasks and interrupting running tasks.<a name="line.923"></a>
-<span class="sourceLineNo">924</span>   * &lt;li&gt;waits for the other half of the specified timeout.<a name="line.924"></a>
+<span class="sourceLineNo">924</span>   * &lt;li&gt;awaits executor service termination for the other half of the specified timeout.<a name="line.924"></a>
 <span class="sourceLineNo">925</span>   * &lt;/ol&gt;<a name="line.925"></a>
 <span class="sourceLineNo">926</span>   *<a name="line.926"></a>
 <span class="sourceLineNo">927</span>   * &lt;p&gt;If, at any step of the process, the calling thread is interrupted, the method calls<a name="line.927"></a>
@@ -939,7 +939,7 @@
 <span class="sourceLineNo">931</span>   * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate<a name="line.931"></a>
 <span class="sourceLineNo">932</span>   * @param unit the time unit of the timeout argument<a name="line.932"></a>
 <span class="sourceLineNo">933</span>   * @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}<a name="line.933"></a>
-<span class="sourceLineNo">934</span>   *     the call timed out or was interrupted<a name="line.934"></a>
+<span class="sourceLineNo">934</span>   *     if the call timed out or was interrupted<a name="line.934"></a>
 <span class="sourceLineNo">935</span>   * @since 17.0<a name="line.935"></a>
 <span class="sourceLineNo">936</span>   */<a name="line.936"></a>
 <span class="sourceLineNo">937</span>  @Beta<a name="line.937"></a>
@@ -947,67 +947,66 @@
 <span class="sourceLineNo">939</span>  @GwtIncompatible // concurrency<a name="line.939"></a>
 <span class="sourceLineNo">940</span>  public static boolean shutdownAndAwaitTermination(<a name="line.940"></a>
 <span class="sourceLineNo">941</span>      ExecutorService service, long timeout, TimeUnit unit) {<a name="line.941"></a>
-<span class="sourceLineNo">942</span>    checkNotNull(unit);<a name="line.942"></a>
+<span class="sourceLineNo">942</span>    long halfTimeoutNanos = unit.toNanos(timeout) / 2;<a name="line.942"></a>
 <span class="sourceLineNo">943</span>    // Disable new tasks from being submitted<a name="line.943"></a>
 <span class="sourceLineNo">944</span>    service.shutdown();<a name="line.944"></a>
 <span class="sourceLineNo">945</span>    try {<a name="line.945"></a>
-<span class="sourceLineNo">946</span>      long halfTimeoutNanos = TimeUnit.NANOSECONDS.convert(timeout, unit) / 2;<a name="line.946"></a>
-<span class="sourceLineNo">947</span>      // Wait for half the duration of the timeout for existing tasks to terminate<a name="line.947"></a>
-<span class="sourceLineNo">948</span>      if (!service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS)) {<a name="line.948"></a>
-<span class="sourceLineNo">949</span>        // Cancel currently executing tasks<a name="line.949"></a>
-<span class="sourceLineNo">950</span>        service.shutdownNow();<a name="line.950"></a>
-<span class="sourceLineNo">951</span>        // Wait the other half of the timeout for tasks to respond to being cancelled<a name="line.951"></a>
-<span class="sourceLineNo">952</span>        service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS);<a name="line.952"></a>
-<span class="sourceLineNo">953</span>      }<a name="line.953"></a>
-<span class="sourceLineNo">954</span>    } catch (InterruptedException ie) {<a name="line.954"></a>
-<span class="sourceLineNo">955</span>      // Preserve interrupt status<a name="line.955"></a>
-<span class="sourceLineNo">956</span>      Thread.currentThread().interrupt();<a name="line.956"></a>
-<span class="sourceLineNo">957</span>      // (Re-)Cancel if current thread also interrupted<a name="line.957"></a>
-<span class="sourceLineNo">958</span>      service.shutdownNow();<a name="line.958"></a>
-<span class="sourceLineNo">959</span>    }<a name="line.959"></a>
-<span class="sourceLineNo">960</span>    return service.isTerminated();<a name="line.960"></a>
-<span class="sourceLineNo">961</span>  }<a name="line.961"></a>
-<span class="sourceLineNo">962</span><a name="line.962"></a>
-<span class="sourceLineNo">963</span>  /**<a name="line.963"></a>
-<span class="sourceLineNo">964</span>   * Returns an Executor that will propagate {@link RejectedExecutionException} from the delegate<a name="line.964"></a>
-<span class="sourceLineNo">965</span>   * executor to the given {@code future}.<a name="line.965"></a>
-<span class="sourceLineNo">966</span>   *<a name="line.966"></a>
-<span class="sourceLineNo">967</span>   * &lt;p&gt;Note, the returned executor can only be used once.<a name="line.967"></a>
-<span class="sourceLineNo">968</span>   */<a name="line.968"></a>
-<span class="sourceLineNo">969</span>  static Executor rejectionPropagatingExecutor(<a name="line.969"></a>
-<span class="sourceLineNo">970</span>      final Executor delegate, final AbstractFuture&lt;?&gt; future) {<a name="line.970"></a>
-<span class="sourceLineNo">971</span>    checkNotNull(delegate);<a name="line.971"></a>
-<span class="sourceLineNo">972</span>    checkNotNull(future);<a name="line.972"></a>
-<span class="sourceLineNo">973</span>    if (delegate == directExecutor()) {<a name="line.973"></a>
-<span class="sourceLineNo">974</span>      // directExecutor() cannot throw RejectedExecutionException<a name="line.974"></a>
-<span class="sourceLineNo">975</span>      return delegate;<a name="line.975"></a>
-<span class="sourceLineNo">976</span>    }<a name="line.976"></a>
-<span class="sourceLineNo">977</span>    return new Executor() {<a name="line.977"></a>
-<span class="sourceLineNo">978</span>      volatile boolean thrownFromDelegate = true;<a name="line.978"></a>
-<span class="sourceLineNo">979</span><a name="line.979"></a>
-<span class="sourceLineNo">980</span>      @Override<a name="line.980"></a>
-<span class="sourceLineNo">981</span>      public void execute(final Runnable command) {<a name="line.981"></a>
-<span class="sourceLineNo">982</span>        try {<a name="line.982"></a>
-<span class="sourceLineNo">983</span>          delegate.execute(<a name="line.983"></a>
-<span class="sourceLineNo">984</span>              new Runnable() {<a name="line.984"></a>
-<span class="sourceLineNo">985</span>                @Override<a name="line.985"></a>
-<span class="sourceLineNo">986</span>                public void run() {<a name="line.986"></a>
-<span class="sourceLineNo">987</span>                  thrownFromDelegate = false;<a name="line.987"></a>
-<span class="sourceLineNo">988</span>                  command.run();<a name="line.988"></a>
-<span class="sourceLineNo">989</span>                }<a name="line.989"></a>
-<span class="sourceLineNo">990</span>              });<a name="line.990"></a>
-<span class="sourceLineNo">991</span>        } catch (RejectedExecutionException e) {<a name="line.991"></a>
-<span class="sourceLineNo">992</span>          if (thrownFromDelegate) {<a name="line.992"></a>
-<span class="sourceLineNo">993</span>            // wrap exception?<a name="line.993"></a>
-<span class="sourceLineNo">994</span>            future.setException(e);<a name="line.994"></a>
-<span class="sourceLineNo">995</span>          }<a name="line.995"></a>
-<span class="sourceLineNo">996</span>          // otherwise it must have been thrown from a transitive call and the delegate runnable<a name="line.996"></a>
-<span class="sourceLineNo">997</span>          // should have handled it.<a name="line.997"></a>
-<span class="sourceLineNo">998</span>        }<a name="line.998"></a>
-<span class="sourceLineNo">999</span>      }<a name="line.999"></a>
-<span class="sourceLineNo">1000</span>    };<a name="line.1000"></a>
-<span class="sourceLineNo">1001</span>  }<a name="line.1001"></a>
-<span class="sourceLineNo">1002</span>}<a name="line.1002"></a>
+<span class="sourceLineNo">946</span>      // Wait for half the duration of the timeout for existing tasks to terminate<a name="line.946"></a>
+<span class="sourceLineNo">947</span>      if (!service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS)) {<a name="line.947"></a>
+<span class="sourceLineNo">948</span>        // Cancel currently executing tasks<a name="line.948"></a>
+<span class="sourceLineNo">949</span>        service.shutdownNow();<a name="line.949"></a>
+<span class="sourceLineNo">950</span>        // Wait the other half of the timeout for tasks to respond to being cancelled<a name="line.950"></a>
+<span class="sourceLineNo">951</span>        service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS);<a name="line.951"></a>
+<span class="sourceLineNo">952</span>      }<a name="line.952"></a>
+<span class="sourceLineNo">953</span>    } catch (InterruptedException ie) {<a name="line.953"></a>
+<span class="sourceLineNo">954</span>      // Preserve interrupt status<a name="line.954"></a>
+<span class="sourceLineNo">955</span>      Thread.currentThread().interrupt();<a name="line.955"></a>
+<span class="sourceLineNo">956</span>      // (Re-)Cancel if current thread also interrupted<a name="line.956"></a>
+<span class="sourceLineNo">957</span>      service.shutdownNow();<a name="line.957"></a>
+<span class="sourceLineNo">958</span>    }<a name="line.958"></a>
+<span class="sourceLineNo">959</span>    return service.isTerminated();<a name="line.959"></a>
+<span class="sourceLineNo">960</span>  }<a name="line.960"></a>
+<span class="sourceLineNo">961</span><a name="line.961"></a>
+<span class="sourceLineNo">962</span>  /**<a name="line.962"></a>
+<span class="sourceLineNo">963</span>   * Returns an Executor that will propagate {@link RejectedExecutionException} from the delegate<a name="line.963"></a>
+<span class="sourceLineNo">964</span>   * executor to the given {@code future}.<a name="line.964"></a>
+<span class="sourceLineNo">965</span>   *<a name="line.965"></a>
+<span class="sourceLineNo">966</span>   * &lt;p&gt;Note, the returned executor can only be used once.<a name="line.966"></a>
+<span class="sourceLineNo">967</span>   */<a name="line.967"></a>
+<span class="sourceLineNo">968</span>  static Executor rejectionPropagatingExecutor(<a name="line.968"></a>
+<span class="sourceLineNo">969</span>      final Executor delegate, final AbstractFuture&lt;?&gt; future) {<a name="line.969"></a>
+<span class="sourceLineNo">970</span>    checkNotNull(delegate);<a name="line.970"></a>
+<span class="sourceLineNo">971</span>    checkNotNull(future);<a name="line.971"></a>
+<span class="sourceLineNo">972</span>    if (delegate == directExecutor()) {<a name="line.972"></a>
+<span class="sourceLineNo">973</span>      // directExecutor() cannot throw RejectedExecutionException<a name="line.973"></a>
+<span class="sourceLineNo">974</span>      return delegate;<a name="line.974"></a>
+<span class="sourceLineNo">975</span>    }<a name="line.975"></a>
+<span class="sourceLineNo">976</span>    return new Executor() {<a name="line.976"></a>
+<span class="sourceLineNo">977</span>      volatile boolean thrownFromDelegate = true;<a name="line.977"></a>
+<span class="sourceLineNo">978</span><a name="line.978"></a>
+<span class="sourceLineNo">979</span>      @Override<a name="line.979"></a>
+<span class="sourceLineNo">980</span>      public void execute(final Runnable command) {<a name="line.980"></a>
+<span class="sourceLineNo">981</span>        try {<a name="line.981"></a>
+<span class="sourceLineNo">982</span>          delegate.execute(<a name="line.982"></a>
+<span class="sourceLineNo">983</span>              new Runnable() {<a name="line.983"></a>
+<span class="sourceLineNo">984</span>                @Override<a name="line.984"></a>
+<span class="sourceLineNo">985</span>                public void run() {<a name="line.985"></a>
+<span class="sourceLineNo">986</span>                  thrownFromDelegate = false;<a name="line.986"></a>
+<span class="sourceLineNo">987</span>                  command.run();<a name="line.987"></a>
+<span class="sourceLineNo">988</span>                }<a name="line.988"></a>
+<span class="sourceLineNo">989</span>              });<a name="line.989"></a>
+<span class="sourceLineNo">990</span>        } catch (RejectedExecutionException e) {<a name="line.990"></a>
+<span class="sourceLineNo">991</span>          if (thrownFromDelegate) {<a name="line.991"></a>
+<span class="sourceLineNo">992</span>            // wrap exception?<a name="line.992"></a>
+<span class="sourceLineNo">993</span>            future.setException(e);<a name="line.993"></a>
+<span class="sourceLineNo">994</span>          }<a name="line.994"></a>
+<span class="sourceLineNo">995</span>          // otherwise it must have been thrown from a transitive call and the delegate runnable<a name="line.995"></a>
+<span class="sourceLineNo">996</span>          // should have handled it.<a name="line.996"></a>
+<span class="sourceLineNo">997</span>        }<a name="line.997"></a>
+<span class="sourceLineNo">998</span>      }<a name="line.998"></a>
+<span class="sourceLineNo">999</span>    };<a name="line.999"></a>
+<span class="sourceLineNo">1000</span>  }<a name="line.1000"></a>
+<span class="sourceLineNo">1001</span>}<a name="line.1001"></a>
 
 
 

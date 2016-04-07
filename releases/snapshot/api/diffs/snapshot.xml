@@ -6514,6 +6514,34 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
+    <method name="throwIfInstanceOf"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="throwable" type="java.lang.Throwable"/>
+      <param name="declaredType" type="java.lang.Class&lt;X&gt;"/>
+      <exception name="Throwable" type="java.lang.Throwable"/>
+      <doc>
+      <![CDATA[Throws {@code throwable} if it is an instance of {@code declaredType}. Example usage:
+
+ <pre>
+ for (Foo foo : foos) {
+   try {
+     foo.bar();
+   } catch (BarException | RuntimeException | Error t) {
+     failure = t;
+   }
+ }
+ if (failure != null) {
+   throwIfInstanceOf(failure, BarException.class);
+   throwIfUnchecked(failure);
+   throw new AssertionError(failure);
+ }
+ </pre>
+
+ @since 20.0]]>
+      </doc>
+    </method>
     <method name="propagateIfInstanceOf"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -6522,7 +6550,10 @@
       <param name="declaredType" type="java.lang.Class&lt;X&gt;"/>
       <exception name="Throwable" type="java.lang.Throwable"/>
       <doc>
-      <![CDATA[Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@code
+      <![CDATA[<b>To be deprecated.</b> Use {@link #throwIfInstanceOf}, which has the same behavior but
+ rejects {@code null}.
+
+ Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@code
  declaredType}. Example usage:
 
  <pre>
@@ -6538,13 +6569,41 @@
  </pre>]]>
       </doc>
     </method>
+    <method name="throwIfUnchecked"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="throwable" type="java.lang.Throwable"/>
+      <doc>
+      <![CDATA[Throws {@code throwable} if it is a {@link RuntimeException} or {@link Error}. Example usage:
+
+ <pre>
+ for (Foo foo : foos) {
+   try {
+     foo.bar();
+   } catch (RuntimeException | Error t) {
+     failure = t;
+   }
+ }
+ if (failure != null) {
+   throwIfUnchecked(failure);
+   throw new AssertionError(failure);
+ }
+ </pre>
+
+ @since 20.0]]>
+      </doc>
+    </method>
     <method name="propagateIfPossible"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="throwable" type="java.lang.Throwable"/>
       <doc>
-      <![CDATA[Propagates {@code throwable} exactly as-is, if and only if it is an instance of
+      <![CDATA[<b>To be deprecated.</b> Use {@link #throwIfUnchecked}, which has the same behavior but rejects
+ {@code null}.
+
+ <p>Propagates {@code throwable} exactly as-is, if and only if it is an instance of
  {@link RuntimeException} or {@link Error}. Example usage:
 
  <pre>
@@ -6612,7 +6671,10 @@
       deprecated="not deprecated">
       <param name="throwable" type="java.lang.Throwable"/>
       <doc>
-      <![CDATA[Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or
+      <![CDATA[<b>To be deprecated.</b> Use {@code throw e} or {@code throw new RuntimeException(e)} directly,
+ or use a combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}.
+
+ <p>Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or
  {@link Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then
  propagates.
 
@@ -11635,7 +11697,9 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an {@link Optional} containing the last element in this fluent iterable. If the
- iterable is empty, {@code Optional.absent()} is returned.
+ iterable is empty, {@code Optional.absent()} is returned. If the underlying {@code iterable}
+ is a {@link List} with {@link java.util.RandomAccess} support, then this operation is
+ guaranteed to be {@code O(1)}.
 
  <p><b>{@code Stream} equivalent:</b> {@code stream.reduce((a, b) -> b)}.
 
@@ -16640,7 +16704,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the empty immutable list. This set behaves and performs comparably
+      <![CDATA[Returns the empty immutable list. This list behaves and performs comparably
  to {@link Collections#emptyList}, and is preferable mainly for consistency
  and maintainability of your code.]]>
       </doc>
@@ -22421,7 +22485,8 @@
       deprecated="not deprecated">
       <param name="iterable" type="java.lang.Iterable&lt;T&gt;"/>
       <doc>
-      <![CDATA[Returns the last element of {@code iterable}.
+      <![CDATA[Returns the last element of {@code iterable}. If {@code iterable} is a {@link List} with
+ {@link RandomAccess} support, then this operation is guaranteed to be {@code O(1)}.
 
  @return the last element of {@code iterable}
  @throws NoSuchElementException if the iterable is empty]]>
@@ -22435,7 +22500,8 @@
       <param name="defaultValue" type="T"/>
       <doc>
       <![CDATA[Returns the last element of {@code iterable} or {@code defaultValue} if
- the iterable is empty.
+ the iterable is empty. If {@code iterable} is a {@link List} with
+ {@link RandomAccess} support, then this operation is guaranteed to be {@code O(1)}.
 
  @param defaultValue the value to return if {@code iterable} is empty
  @return the last element of {@code iterable} or the default value
@@ -40825,6 +40891,10 @@
       <doc>
       <![CDATA[Copies all the bytes from one file to another.
 
+ <p>Copying is not an atomic operation - in the case of an I/O error, power loss, process
+ termination, or other problems, {@code to} may not be a complete copy of {@code from}. If you
+ need to guard against those conditions, you should employ other file-level synchronization.
+
  <p><b>Warning:</b> If {@code to} represents an existing file, that file will be overwritten
  with the contents of {@code from}. If {@code to} and {@code from} refer to the <i>same</i>
  file, the contents of that file will be deleted.
@@ -57140,11 +57210,12 @@
  create {@code ListenableFuture} instances depends on how you currently create {@code Future}
  instances:
  <ul>
- <li>If you receive them from an {@code ExecutorService}, convert that service to a
-     {@link ListeningExecutorService}, usually by calling
-     {@link MoreExecutors#listeningDecorator(ExecutorService) MoreExecutors.listeningDecorator}.
- <li>If you manually call {@link FutureTask#set} or a similar method, create a
-     {@link SettableFuture} instead. (If your needs are more complex, you may prefer
+ <li>If you receive them from an {@code java.util.concurrent.ExecutorService}, convert that
+     service to a {@link ListeningExecutorService}, usually by calling
+     {@link MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)
+     MoreExecutors.listeningDecorator}.
+ <li>If you manually call {@link java.util.concurrent.FutureTask#set} or a similar method, create
+     a {@link SettableFuture} instead. (If your needs are more complex, you may prefer
      {@link AbstractFuture}.)
  </ul>
 
@@ -58227,16 +58298,16 @@
       <param name="timeout" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <doc>
-      <![CDATA[Shuts down the given executor gradually, first disabling new submissions and later cancelling
- existing tasks.
+      <![CDATA[Shuts down the given executor service gradually, first disabling new submissions and later, if
+ necessary, cancelling remaining tasks.
 
  <p>The method takes the following steps:
  <ol>
  <li>calls {@link ExecutorService#shutdown()}, disabling acceptance of new submitted tasks.
- <li>waits for half of the specified timeout.
+ <li>awaits executor service termination for half of the specified timeout.
  <li>if the timeout expires, it calls {@link ExecutorService#shutdownNow()}, cancelling pending
  tasks and interrupting running tasks.
- <li>waits for the other half of the specified timeout.
+ <li>awaits executor service termination for the other half of the specified timeout.
  </ol>
 
  <p>If, at any step of the process, the calling thread is interrupted, the method calls
@@ -58246,7 +58317,7 @@
  @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
  @param unit the time unit of the timeout argument
  @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
-     the call timed out or was interrupted
+     if the call timed out or was interrupted
  @since 17.0]]>
       </doc>
     </method>

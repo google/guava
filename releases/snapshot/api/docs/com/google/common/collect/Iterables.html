@@ -1066,8 +1066,9 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>getLast</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.763">getLast</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;iterable)</pre>
-<div class="block">Returns the last element of <code>iterable</code>.</div>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.764">getLast</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;iterable)</pre>
+<div class="block">Returns the last element of <code>iterable</code>. If <code>iterable</code> is a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a> with
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util"><code>RandomAccess</code></a> support, then this operation is guaranteed to be <code>O(1)</code>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>the last element of <code>iterable</code></dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util">NoSuchElementException</a></code> - if the iterable is empty</dd></dl>
@@ -1082,11 +1083,12 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <li class="blockList">
 <h4>getLast</h4>
 <pre><a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.785">getLast</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
+public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.787">getLast</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
                      <a href="http://jsr-305.googlecode.com/svn/trunk/javadoc/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                      T&nbsp;defaultValue)</pre>
 <div class="block">Returns the last element of <code>iterable</code> or <code>defaultValue</code> if
- the iterable is empty.</div>
+ the iterable is empty. If <code>iterable</code> is a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a> with
+ <a href="http://docs.oracle.com/javase/7/docs/api/java/util/RandomAccess.html?is-external=true" title="class or interface in java.util"><code>RandomAccess</code></a> support, then this operation is guaranteed to be <code>O(1)</code>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>defaultValue</code> - the value to return if <code>iterable</code> is empty</dd>
 <dt><span class="strong">Returns:</span></dt><dd>the last element of <code>iterable</code> or the default value</dd><dt><span class="strong">Since:</span></dt>
   <dd>3.0</dd></dl>
@@ -1098,7 +1100,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>skip</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.822">skip</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.824">skip</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;iterable,
                    int&nbsp;numberToSkip)</pre>
 <div class="block">Returns a view of <code>iterable</code> that skips its first
  <code>numberToSkip</code> elements. If <code>iterable</code> contains fewer than
@@ -1126,7 +1128,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>limit</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.887">limit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.889">limit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;iterable,
                     int&nbsp;limitSize)</pre>
 <div class="block">Returns a view of <code>iterable</code> containing its first <code>limitSize</code>
  elements. If <code>iterable</code> contains fewer than <code>limitSize</code>
@@ -1145,7 +1147,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>consumingIterable</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.917">consumingIterable</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;iterable)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.919">consumingIterable</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;iterable)</pre>
 <div class="block">Returns a view of the supplied iterable that wraps each generated
  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util"><code>Iterator</code></a> through <a href="../../../../com/google/common/collect/Iterators.html#consumingIterator(java.util.Iterator)"><code>Iterators.consumingIterator(Iterator)</code></a>.
 
@@ -1169,7 +1171,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.958">isEmpty</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;iterable)</pre>
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.960">isEmpty</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;iterable)</pre>
 <div class="block">Determines if the given iterable contains no elements.
 
  <p>There is no precise <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util"><code>Iterator</code></a> equivalent to this method, since
@@ -1185,7 +1187,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <li class="blockList">
 <h4>mergeSorted</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.978">mergeSorted</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;iterables,
+public static&nbsp;&lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterables.html#line.980">mergeSorted</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;iterables,
                                <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns an iterable over the merged contents of all given
  <code>iterables</code>. Equivalent entries will not be de-duplicated.

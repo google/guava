@@ -12409,18 +12409,18 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Throwables.html#propagate(java.lang.Throwable)">propagate(Throwable)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Throwables.html" title="class in com.google.common.base">Throwables</a></dt>
 <dd>
-<div class="block">Propagates <code>throwable</code> as-is if it is an instance of <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang"><code>RuntimeException</code></a> or
- <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?is-external=true" title="class or interface in java.lang"><code>Error</code></a>, or else as a last resort, wraps it in a <code>RuntimeException</code> and then
- propagates.</div>
+<div class="block"><b>To be deprecated.</b> Use <code>throw e</code> or <code>throw new RuntimeException(e)</code> directly,
+ or use a combination of <a href="./com/google/common/base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>Throwables.throwIfUnchecked(java.lang.Throwable)</code></a> and <code>throw new RuntimeException(e)</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Throwables.html#propagateIfInstanceOf(java.lang.Throwable,%20java.lang.Class)">propagateIfInstanceOf(Throwable, Class&lt;X&gt;)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Throwables.html" title="class in com.google.common.base">Throwables</a></dt>
 <dd>
-<div class="block">Propagates <code>throwable</code> exactly as-is, if and only if it is an instance of <code>declaredType</code>.</div>
+<div class="block"><b>To be deprecated.</b> Use <a href="./com/google/common/base/Throwables.html#throwIfInstanceOf(java.lang.Throwable,%20java.lang.Class)"><code>Throwables.throwIfInstanceOf(java.lang.Throwable, java.lang.Class&lt;X&gt;)</code></a>, which has the same behavior but
+ rejects <code>null</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Throwables.html#propagateIfPossible(java.lang.Throwable)">propagateIfPossible(Throwable)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Throwables.html" title="class in com.google.common.base">Throwables</a></dt>
 <dd>
-<div class="block">Propagates <code>throwable</code> exactly as-is, if and only if it is an instance of
- <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang"><code>RuntimeException</code></a> or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?is-external=true" title="class or interface in java.lang"><code>Error</code></a>.</div>
+<div class="block"><b>To be deprecated.</b> Use <a href="./com/google/common/base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>Throwables.throwIfUnchecked(java.lang.Throwable)</code></a>, which has the same behavior but rejects
+ <code>null</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Throwables.html#propagateIfPossible(java.lang.Throwable,%20java.lang.Class)">propagateIfPossible(Throwable, Class&lt;X&gt;)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Throwables.html" title="class in com.google.common.base">Throwables</a></dt>
 <dd>
@@ -14332,8 +14332,8 @@
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/MoreExecutors.html#shutdownAndAwaitTermination(java.util.concurrent.ExecutorService,%20long,%20java.util.concurrent.TimeUnit)">shutdownAndAwaitTermination(ExecutorService, long, TimeUnit)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent">MoreExecutors</a></dt>
 <dd>
-<div class="block">Shuts down the given executor gradually, first disabling new submissions and later cancelling
- existing tasks.</div>
+<div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if
+ necessary, cancelling remaining tasks.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingExecutorService.html#shutdownNow()">shutdownNow()</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingExecutorService.html" title="class in com.google.common.util.concurrent">ForwardingExecutorService</a></dt>
 <dd>&nbsp;</dd>
@@ -15585,6 +15585,14 @@
 <dt><a href="./com/google/common/base/Throwables.html" title="class in com.google.common.base"><span class="strong">Throwables</span></a> - Class in <a href="./com/google/common/base/package-summary.html">com.google.common.base</a></dt>
 <dd>
 <div class="block">Static utility methods pertaining to instances of <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang"><code>Throwable</code></a>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/base/Throwables.html#throwIfInstanceOf(java.lang.Throwable,%20java.lang.Class)">throwIfInstanceOf(Throwable, Class&lt;X&gt;)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Throwables.html" title="class in com.google.common.base">Throwables</a></dt>
+<dd>
+<div class="block">Throws <code>throwable</code> if it is an instance of <code>declaredType</code>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/base/Throwables.html#throwIfUnchecked(java.lang.Throwable)">throwIfUnchecked(Throwable)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Throwables.html" title="class in com.google.common.base">Throwables</a></dt>
+<dd>
+<div class="block">Throws <code>throwable</code> if it is a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang"><code>RuntimeException</code></a> or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?is-external=true" title="class or interface in java.lang"><code>Error</code></a>.</div>
 </dd>
 <dt><a href="./com/google/common/base/Ticker.html" title="class in com.google.common.base"><span class="strong">Ticker</span></a> - Class in <a href="./com/google/common/base/package-summary.html">com.google.common.base</a></dt>
 <dd>

@@ -372,221 +372,225 @@
 <span class="sourceLineNo">364</span><a name="line.364"></a>
 <span class="sourceLineNo">365</span>  @Override<a name="line.365"></a>
 <span class="sourceLineNo">366</span>  public String toString() {<a name="line.366"></a>
-<span class="sourceLineNo">367</span>    return MoreObjects.toStringHelper(this)<a name="line.367"></a>
-<span class="sourceLineNo">368</span>        .add("count", count)<a name="line.368"></a>
-<span class="sourceLineNo">369</span>        .add("mean", mean)<a name="line.369"></a>
-<span class="sourceLineNo">370</span>        .add("populationStandardDeviation", populationStandardDeviation())<a name="line.370"></a>
-<span class="sourceLineNo">371</span>        .add("min", min)<a name="line.371"></a>
-<span class="sourceLineNo">372</span>        .add("max", max)<a name="line.372"></a>
-<span class="sourceLineNo">373</span>        .toString();<a name="line.373"></a>
-<span class="sourceLineNo">374</span>  }<a name="line.374"></a>
-<span class="sourceLineNo">375</span><a name="line.375"></a>
-<span class="sourceLineNo">376</span>  double sumOfSquaresOfDeltas() {<a name="line.376"></a>
-<span class="sourceLineNo">377</span>    return sumOfSquaresOfDeltas;<a name="line.377"></a>
+<span class="sourceLineNo">367</span>    if (count() &gt; 0) {<a name="line.367"></a>
+<span class="sourceLineNo">368</span>      return MoreObjects.toStringHelper(this)<a name="line.368"></a>
+<span class="sourceLineNo">369</span>          .add("count", count)<a name="line.369"></a>
+<span class="sourceLineNo">370</span>          .add("mean", mean)<a name="line.370"></a>
+<span class="sourceLineNo">371</span>          .add("populationStandardDeviation", populationStandardDeviation())<a name="line.371"></a>
+<span class="sourceLineNo">372</span>          .add("min", min)<a name="line.372"></a>
+<span class="sourceLineNo">373</span>          .add("max", max)<a name="line.373"></a>
+<span class="sourceLineNo">374</span>          .toString();<a name="line.374"></a>
+<span class="sourceLineNo">375</span>    } else {<a name="line.375"></a>
+<span class="sourceLineNo">376</span>      return MoreObjects.toStringHelper(this).add("count", count).toString();<a name="line.376"></a>
+<span class="sourceLineNo">377</span>    }<a name="line.377"></a>
 <span class="sourceLineNo">378</span>  }<a name="line.378"></a>
 <span class="sourceLineNo">379</span><a name="line.379"></a>
-<span class="sourceLineNo">380</span>  /**<a name="line.380"></a>
-<span class="sourceLineNo">381</span>   * Returns the &lt;a href="http://en.wikipedia.org/wiki/Arithmetic_mean"&gt;arithmetic mean&lt;/a&gt; of the<a name="line.381"></a>
-<span class="sourceLineNo">382</span>   * values. The count must be non-zero.<a name="line.382"></a>
-<span class="sourceLineNo">383</span>   *<a name="line.383"></a>
-<span class="sourceLineNo">384</span>   * &lt;p&gt;The definition of the mean is the same as {@link Stats#mean}.<a name="line.384"></a>
-<span class="sourceLineNo">385</span>   *<a name="line.385"></a>
-<span class="sourceLineNo">386</span>   * @param values a series of values, which will be converted to {@code double} values (this may<a name="line.386"></a>
-<span class="sourceLineNo">387</span>   *     cause loss of precision)<a name="line.387"></a>
-<span class="sourceLineNo">388</span>   * @throws IllegalArgumentException if the dataset is empty<a name="line.388"></a>
-<span class="sourceLineNo">389</span>   */<a name="line.389"></a>
-<span class="sourceLineNo">390</span>  public static double meanOf(Iterable&lt;? extends Number&gt; values) {<a name="line.390"></a>
-<span class="sourceLineNo">391</span>    return meanOf(values.iterator());<a name="line.391"></a>
-<span class="sourceLineNo">392</span>  }<a name="line.392"></a>
-<span class="sourceLineNo">393</span><a name="line.393"></a>
-<span class="sourceLineNo">394</span>  /**<a name="line.394"></a>
-<span class="sourceLineNo">395</span>   * Returns the &lt;a href="http://en.wikipedia.org/wiki/Arithmetic_mean"&gt;arithmetic mean&lt;/a&gt; of the<a name="line.395"></a>
-<span class="sourceLineNo">396</span>   * values. The count must be non-zero.<a name="line.396"></a>
-<span class="sourceLineNo">397</span>   *<a name="line.397"></a>
-<span class="sourceLineNo">398</span>   * &lt;p&gt;The definition of the mean is the same as {@link Stats#mean}.<a name="line.398"></a>
-<span class="sourceLineNo">399</span>   *<a name="line.399"></a>
-<span class="sourceLineNo">400</span>   * @param values a series of values, which will be converted to {@code double} values (this may<a name="line.400"></a>
-<span class="sourceLineNo">401</span>   *     cause loss of precision)<a name="line.401"></a>
-<span class="sourceLineNo">402</span>   * @throws IllegalArgumentException if the dataset is empty<a name="line.402"></a>
-<span class="sourceLineNo">403</span>   */<a name="line.403"></a>
-<span class="sourceLineNo">404</span>  public static double meanOf(Iterator&lt;? extends Number&gt; values) {<a name="line.404"></a>
-<span class="sourceLineNo">405</span>    checkArgument(values.hasNext());<a name="line.405"></a>
-<span class="sourceLineNo">406</span>    long count = 1;<a name="line.406"></a>
-<span class="sourceLineNo">407</span>    double mean = values.next().doubleValue();<a name="line.407"></a>
-<span class="sourceLineNo">408</span>    while (values.hasNext()) {<a name="line.408"></a>
-<span class="sourceLineNo">409</span>      double value = values.next().doubleValue();<a name="line.409"></a>
-<span class="sourceLineNo">410</span>      count++;<a name="line.410"></a>
-<span class="sourceLineNo">411</span>      if (isFinite(value) &amp;&amp; isFinite(mean)) {<a name="line.411"></a>
-<span class="sourceLineNo">412</span>        // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15)<a name="line.412"></a>
-<span class="sourceLineNo">413</span>        mean += (value - mean) / count;<a name="line.413"></a>
-<span class="sourceLineNo">414</span>      } else {<a name="line.414"></a>
-<span class="sourceLineNo">415</span>        mean = calculateNewMeanNonFinite(mean, value);<a name="line.415"></a>
-<span class="sourceLineNo">416</span>      }<a name="line.416"></a>
-<span class="sourceLineNo">417</span>    }<a name="line.417"></a>
-<span class="sourceLineNo">418</span>    return mean;<a name="line.418"></a>
-<span class="sourceLineNo">419</span>  }<a name="line.419"></a>
-<span class="sourceLineNo">420</span><a name="line.420"></a>
-<span class="sourceLineNo">421</span>  /**<a name="line.421"></a>
-<span class="sourceLineNo">422</span>   * Returns the &lt;a href="http://en.wikipedia.org/wiki/Arithmetic_mean"&gt;arithmetic mean&lt;/a&gt; of the<a name="line.422"></a>
-<span class="sourceLineNo">423</span>   * values. The count must be non-zero.<a name="line.423"></a>
-<span class="sourceLineNo">424</span>   *<a name="line.424"></a>
-<span class="sourceLineNo">425</span>   * &lt;p&gt;The definition of the mean is the same as {@link Stats#mean}.<a name="line.425"></a>
-<span class="sourceLineNo">426</span>   *<a name="line.426"></a>
-<span class="sourceLineNo">427</span>   * @param values a series of values<a name="line.427"></a>
-<span class="sourceLineNo">428</span>   * @throws IllegalArgumentException if the dataset is empty<a name="line.428"></a>
-<span class="sourceLineNo">429</span>   */<a name="line.429"></a>
-<span class="sourceLineNo">430</span>  public static double meanOf(double... values) {<a name="line.430"></a>
-<span class="sourceLineNo">431</span>    checkArgument(values.length &gt; 0);<a name="line.431"></a>
-<span class="sourceLineNo">432</span>    double mean = values[0];<a name="line.432"></a>
-<span class="sourceLineNo">433</span>    for (int index = 1; index &lt; values.length; index++) {<a name="line.433"></a>
-<span class="sourceLineNo">434</span>      double value = values[index];<a name="line.434"></a>
-<span class="sourceLineNo">435</span>      if (isFinite(value) &amp;&amp; isFinite(mean)) {<a name="line.435"></a>
-<span class="sourceLineNo">436</span>        // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15)<a name="line.436"></a>
-<span class="sourceLineNo">437</span>        mean += (value - mean) / (index + 1);<a name="line.437"></a>
-<span class="sourceLineNo">438</span>      } else {<a name="line.438"></a>
-<span class="sourceLineNo">439</span>        mean = calculateNewMeanNonFinite(mean, value);<a name="line.439"></a>
-<span class="sourceLineNo">440</span>      }<a name="line.440"></a>
-<span class="sourceLineNo">441</span>    }<a name="line.441"></a>
-<span class="sourceLineNo">442</span>    return mean;<a name="line.442"></a>
-<span class="sourceLineNo">443</span>  }<a name="line.443"></a>
-<span class="sourceLineNo">444</span><a name="line.444"></a>
-<span class="sourceLineNo">445</span>  /**<a name="line.445"></a>
-<span class="sourceLineNo">446</span>   * Returns the &lt;a href="http://en.wikipedia.org/wiki/Arithmetic_mean"&gt;arithmetic mean&lt;/a&gt; of the<a name="line.446"></a>
-<span class="sourceLineNo">447</span>   * values. The count must be non-zero.<a name="line.447"></a>
-<span class="sourceLineNo">448</span>   *<a name="line.448"></a>
-<span class="sourceLineNo">449</span>   * &lt;p&gt;The definition of the mean is the same as {@link Stats#mean}.<a name="line.449"></a>
-<span class="sourceLineNo">450</span>   *<a name="line.450"></a>
-<span class="sourceLineNo">451</span>   * @param values a series of values<a name="line.451"></a>
-<span class="sourceLineNo">452</span>   * @throws IllegalArgumentException if the dataset is empty<a name="line.452"></a>
-<span class="sourceLineNo">453</span>   */<a name="line.453"></a>
-<span class="sourceLineNo">454</span>  public static double meanOf(int... values) {<a name="line.454"></a>
-<span class="sourceLineNo">455</span>    checkArgument(values.length &gt; 0);<a name="line.455"></a>
-<span class="sourceLineNo">456</span>    double mean = values[0];<a name="line.456"></a>
-<span class="sourceLineNo">457</span>    for (int index = 1; index &lt; values.length; index++) {<a name="line.457"></a>
-<span class="sourceLineNo">458</span>      double value = values[index];<a name="line.458"></a>
-<span class="sourceLineNo">459</span>      if (isFinite(value) &amp;&amp; isFinite(mean)) {<a name="line.459"></a>
-<span class="sourceLineNo">460</span>        // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15)<a name="line.460"></a>
-<span class="sourceLineNo">461</span>        mean += (value - mean) / (index + 1);<a name="line.461"></a>
-<span class="sourceLineNo">462</span>      } else {<a name="line.462"></a>
-<span class="sourceLineNo">463</span>        mean = calculateNewMeanNonFinite(mean, value);<a name="line.463"></a>
-<span class="sourceLineNo">464</span>      }<a name="line.464"></a>
-<span class="sourceLineNo">465</span>    }<a name="line.465"></a>
-<span class="sourceLineNo">466</span>    return mean;<a name="line.466"></a>
-<span class="sourceLineNo">467</span>  }<a name="line.467"></a>
-<span class="sourceLineNo">468</span><a name="line.468"></a>
-<span class="sourceLineNo">469</span>  /**<a name="line.469"></a>
-<span class="sourceLineNo">470</span>   * Returns the &lt;a href="http://en.wikipedia.org/wiki/Arithmetic_mean"&gt;arithmetic mean&lt;/a&gt; of the<a name="line.470"></a>
-<span class="sourceLineNo">471</span>   * values. The count must be non-zero.<a name="line.471"></a>
-<span class="sourceLineNo">472</span>   *<a name="line.472"></a>
-<span class="sourceLineNo">473</span>   * &lt;p&gt;The definition of the mean is the same as {@link Stats#mean}.<a name="line.473"></a>
-<span class="sourceLineNo">474</span>   *<a name="line.474"></a>
-<span class="sourceLineNo">475</span>   * @param values a series of values, which will be converted to {@code double} values (this may<a name="line.475"></a>
-<span class="sourceLineNo">476</span>   *     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))<a name="line.476"></a>
-<span class="sourceLineNo">477</span>   * @throws IllegalArgumentException if the dataset is empty<a name="line.477"></a>
-<span class="sourceLineNo">478</span>   */<a name="line.478"></a>
-<span class="sourceLineNo">479</span>  public static double meanOf(long... values) {<a name="line.479"></a>
-<span class="sourceLineNo">480</span>    checkArgument(values.length &gt; 0);<a name="line.480"></a>
-<span class="sourceLineNo">481</span>    double mean = values[0];<a name="line.481"></a>
-<span class="sourceLineNo">482</span>    for (int index = 1; index &lt; values.length; index++) {<a name="line.482"></a>
-<span class="sourceLineNo">483</span>      double value = values[index];<a name="line.483"></a>
-<span class="sourceLineNo">484</span>      if (isFinite(value) &amp;&amp; isFinite(mean)) {<a name="line.484"></a>
-<span class="sourceLineNo">485</span>        // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15)<a name="line.485"></a>
-<span class="sourceLineNo">486</span>        mean += (value - mean) / (index + 1);<a name="line.486"></a>
-<span class="sourceLineNo">487</span>      } else {<a name="line.487"></a>
-<span class="sourceLineNo">488</span>        mean = calculateNewMeanNonFinite(mean, value);<a name="line.488"></a>
-<span class="sourceLineNo">489</span>      }<a name="line.489"></a>
-<span class="sourceLineNo">490</span>    }<a name="line.490"></a>
-<span class="sourceLineNo">491</span>    return mean;<a name="line.491"></a>
-<span class="sourceLineNo">492</span>  }<a name="line.492"></a>
-<span class="sourceLineNo">493</span><a name="line.493"></a>
-<span class="sourceLineNo">494</span>  // Serialization helpers<a name="line.494"></a>
-<span class="sourceLineNo">495</span><a name="line.495"></a>
-<span class="sourceLineNo">496</span>  /**<a name="line.496"></a>
-<span class="sourceLineNo">497</span>   * The size of byte array representaion in bytes.<a name="line.497"></a>
-<span class="sourceLineNo">498</span>   */<a name="line.498"></a>
-<span class="sourceLineNo">499</span>  static final int BYTES = (Long.SIZE + Double.SIZE * 4) / Byte.SIZE;<a name="line.499"></a>
-<span class="sourceLineNo">500</span><a name="line.500"></a>
-<span class="sourceLineNo">501</span>  /**<a name="line.501"></a>
-<span class="sourceLineNo">502</span>   * Gets a byte array representation of this instance.<a name="line.502"></a>
-<span class="sourceLineNo">503</span>   *<a name="line.503"></a>
-<span class="sourceLineNo">504</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.504"></a>
-<span class="sourceLineNo">505</span>   * versions.<a name="line.505"></a>
-<span class="sourceLineNo">506</span>   */<a name="line.506"></a>
-<span class="sourceLineNo">507</span>  public byte[] toByteArray() {<a name="line.507"></a>
-<span class="sourceLineNo">508</span>    ByteBuffer buff = ByteBuffer.allocate(BYTES).order(ByteOrder.LITTLE_ENDIAN);<a name="line.508"></a>
-<span class="sourceLineNo">509</span>    writeTo(buff);<a name="line.509"></a>
-<span class="sourceLineNo">510</span>    return buff.array();<a name="line.510"></a>
-<span class="sourceLineNo">511</span>  }<a name="line.511"></a>
-<span class="sourceLineNo">512</span><a name="line.512"></a>
-<span class="sourceLineNo">513</span>  /**<a name="line.513"></a>
-<span class="sourceLineNo">514</span>   * Writes to the given {@link ByteBuffer} a byte representation of this instance.<a name="line.514"></a>
-<span class="sourceLineNo">515</span>   *<a name="line.515"></a>
-<span class="sourceLineNo">516</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.516"></a>
-<span class="sourceLineNo">517</span>   * versions.<a name="line.517"></a>
-<span class="sourceLineNo">518</span>   *<a name="line.518"></a>
-<span class="sourceLineNo">519</span>   * @param buffer A {@link ByteBuffer} with at least BYTES {@link ByteBuffer#remaining}, ordered as<a name="line.519"></a>
-<span class="sourceLineNo">520</span>   *     {@link ByteOrder#LITTLE_ENDIAN}, to which a BYTES-long byte representation of this instance<a name="line.520"></a>
-<span class="sourceLineNo">521</span>   *     is written. In the process increases the position of {@link ByteBuffer} by BYTES.<a name="line.521"></a>
-<span class="sourceLineNo">522</span>   */<a name="line.522"></a>
-<span class="sourceLineNo">523</span>  void writeTo(ByteBuffer buffer) {<a name="line.523"></a>
-<span class="sourceLineNo">524</span>    checkNotNull(buffer);<a name="line.524"></a>
-<span class="sourceLineNo">525</span>    checkArgument(<a name="line.525"></a>
-<span class="sourceLineNo">526</span>        buffer.remaining() &gt;= BYTES,<a name="line.526"></a>
-<span class="sourceLineNo">527</span>        "Expected at least Stats.BYTES = %s remaining , got %s",<a name="line.527"></a>
-<span class="sourceLineNo">528</span>        BYTES,<a name="line.528"></a>
-<span class="sourceLineNo">529</span>        buffer.remaining());<a name="line.529"></a>
-<span class="sourceLineNo">530</span>    buffer<a name="line.530"></a>
-<span class="sourceLineNo">531</span>        .putLong(count)<a name="line.531"></a>
-<span class="sourceLineNo">532</span>        .putDouble(mean)<a name="line.532"></a>
-<span class="sourceLineNo">533</span>        .putDouble(sumOfSquaresOfDeltas)<a name="line.533"></a>
-<span class="sourceLineNo">534</span>        .putDouble(min)<a name="line.534"></a>
-<span class="sourceLineNo">535</span>        .putDouble(max);<a name="line.535"></a>
-<span class="sourceLineNo">536</span>  }<a name="line.536"></a>
-<span class="sourceLineNo">537</span><a name="line.537"></a>
-<span class="sourceLineNo">538</span>  /**<a name="line.538"></a>
-<span class="sourceLineNo">539</span>   * Creates a Stats instance from the given byte representation which was obtained by<a name="line.539"></a>
-<span class="sourceLineNo">540</span>   * {@link #toByteArray}.<a name="line.540"></a>
-<span class="sourceLineNo">541</span>   *<a name="line.541"></a>
-<span class="sourceLineNo">542</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.542"></a>
-<span class="sourceLineNo">543</span>   * versions.<a name="line.543"></a>
-<span class="sourceLineNo">544</span>   */<a name="line.544"></a>
-<span class="sourceLineNo">545</span>  public static Stats fromByteArray(byte[] byteArray) {<a name="line.545"></a>
-<span class="sourceLineNo">546</span>    checkNotNull(byteArray);<a name="line.546"></a>
-<span class="sourceLineNo">547</span>    checkArgument(<a name="line.547"></a>
-<span class="sourceLineNo">548</span>        byteArray.length == BYTES,<a name="line.548"></a>
-<span class="sourceLineNo">549</span>        "Expected Stats.BYTES = %s remaining , got %s",<a name="line.549"></a>
-<span class="sourceLineNo">550</span>        BYTES,<a name="line.550"></a>
-<span class="sourceLineNo">551</span>        byteArray.length);<a name="line.551"></a>
-<span class="sourceLineNo">552</span>    return readFrom(ByteBuffer.wrap(byteArray).order(ByteOrder.LITTLE_ENDIAN));<a name="line.552"></a>
-<span class="sourceLineNo">553</span>  }<a name="line.553"></a>
-<span class="sourceLineNo">554</span><a name="line.554"></a>
-<span class="sourceLineNo">555</span>  /**<a name="line.555"></a>
-<span class="sourceLineNo">556</span>   * Creates a Stats instance from the byte representation read from the given {@link ByteBuffer}.<a name="line.556"></a>
-<span class="sourceLineNo">557</span>   *<a name="line.557"></a>
-<span class="sourceLineNo">558</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.558"></a>
-<span class="sourceLineNo">559</span>   * versions.<a name="line.559"></a>
-<span class="sourceLineNo">560</span>   *<a name="line.560"></a>
-<span class="sourceLineNo">561</span>   * @param buffer A {@link ByteBuffer} with at least BYTES {@link ByteBuffer#remaining}, ordered as<a name="line.561"></a>
-<span class="sourceLineNo">562</span>   *     {@link ByteOrder#LITTLE_ENDIAN}, from which a BYTES-long byte representation of this<a name="line.562"></a>
-<span class="sourceLineNo">563</span>   *     instance is read. In the process increases the position of {@link ByteBuffer} by BYTES.<a name="line.563"></a>
-<span class="sourceLineNo">564</span>   */<a name="line.564"></a>
-<span class="sourceLineNo">565</span>  static Stats readFrom(ByteBuffer buffer) {<a name="line.565"></a>
-<span class="sourceLineNo">566</span>    checkNotNull(buffer);<a name="line.566"></a>
-<span class="sourceLineNo">567</span>    checkArgument(<a name="line.567"></a>
-<span class="sourceLineNo">568</span>        buffer.remaining() &gt;= BYTES,<a name="line.568"></a>
-<span class="sourceLineNo">569</span>        "Expected at least Stats.BYTES = %s remaining , got %s",<a name="line.569"></a>
-<span class="sourceLineNo">570</span>        BYTES,<a name="line.570"></a>
-<span class="sourceLineNo">571</span>        buffer.remaining());<a name="line.571"></a>
-<span class="sourceLineNo">572</span>    return new Stats(<a name="line.572"></a>
-<span class="sourceLineNo">573</span>        buffer.getLong(),<a name="line.573"></a>
-<span class="sourceLineNo">574</span>        buffer.getDouble(),<a name="line.574"></a>
-<span class="sourceLineNo">575</span>        buffer.getDouble(),<a name="line.575"></a>
-<span class="sourceLineNo">576</span>        buffer.getDouble(),<a name="line.576"></a>
-<span class="sourceLineNo">577</span>        buffer.getDouble());<a name="line.577"></a>
-<span class="sourceLineNo">578</span>  }<a name="line.578"></a>
-<span class="sourceLineNo">579</span><a name="line.579"></a>
-<span class="sourceLineNo">580</span>  private static final long serialVersionUID = 0;<a name="line.580"></a>
-<span class="sourceLineNo">581</span>}<a name="line.581"></a>
+<span class="sourceLineNo">380</span>  double sumOfSquaresOfDeltas() {<a name="line.380"></a>
+<span class="sourceLineNo">381</span>    return sumOfSquaresOfDeltas;<a name="line.381"></a>
+<span class="sourceLineNo">382</span>  }<a name="line.382"></a>
+<span class="sourceLineNo">383</span><a name="line.383"></a>
+<span class="sourceLineNo">384</span>  /**<a name="line.384"></a>
+<span class="sourceLineNo">385</span>   * Returns the &lt;a href="http://en.wikipedia.org/wiki/Arithmetic_mean"&gt;arithmetic mean&lt;/a&gt; of the<a name="line.385"></a>
+<span class="sourceLineNo">386</span>   * values. The count must be non-zero.<a name="line.386"></a>
+<span class="sourceLineNo">387</span>   *<a name="line.387"></a>
+<span class="sourceLineNo">388</span>   * &lt;p&gt;The definition of the mean is the same as {@link Stats#mean}.<a name="line.388"></a>
+<span class="sourceLineNo">389</span>   *<a name="line.389"></a>
+<span class="sourceLineNo">390</span>   * @param values a series of values, which will be converted to {@code double} values (this may<a name="line.390"></a>
+<span class="sourceLineNo">391</span>   *     cause loss of precision)<a name="line.391"></a>
+<span class="sourceLineNo">392</span>   * @throws IllegalArgumentException if the dataset is empty<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   */<a name="line.393"></a>
+<span class="sourceLineNo">394</span>  public static double meanOf(Iterable&lt;? extends Number&gt; values) {<a name="line.394"></a>
+<span class="sourceLineNo">395</span>    return meanOf(values.iterator());<a name="line.395"></a>
+<span class="sourceLineNo">396</span>  }<a name="line.396"></a>
+<span class="sourceLineNo">397</span><a name="line.397"></a>
+<span class="sourceLineNo">398</span>  /**<a name="line.398"></a>
+<span class="sourceLineNo">399</span>   * Returns the &lt;a href="http://en.wikipedia.org/wiki/Arithmetic_mean"&gt;arithmetic mean&lt;/a&gt; of the<a name="line.399"></a>
+<span class="sourceLineNo">400</span>   * values. The count must be non-zero.<a name="line.400"></a>
+<span class="sourceLineNo">401</span>   *<a name="line.401"></a>
+<span class="sourceLineNo">402</span>   * &lt;p&gt;The definition of the mean is the same as {@link Stats#mean}.<a name="line.402"></a>
+<span class="sourceLineNo">403</span>   *<a name="line.403"></a>
+<span class="sourceLineNo">404</span>   * @param values a series of values, which will be converted to {@code double} values (this may<a name="line.404"></a>
+<span class="sourceLineNo">405</span>   *     cause loss of precision)<a name="line.405"></a>
+<span class="sourceLineNo">406</span>   * @throws IllegalArgumentException if the dataset is empty<a name="line.406"></a>
+<span class="sourceLineNo">407</span>   */<a name="line.407"></a>
+<span class="sourceLineNo">408</span>  public static double meanOf(Iterator&lt;? extends Number&gt; values) {<a name="line.408"></a>
+<span class="sourceLineNo">409</span>    checkArgument(values.hasNext());<a name="line.409"></a>
+<span class="sourceLineNo">410</span>    long count = 1;<a name="line.410"></a>
+<span class="sourceLineNo">411</span>    double mean = values.next().doubleValue();<a name="line.411"></a>
+<span class="sourceLineNo">412</span>    while (values.hasNext()) {<a name="line.412"></a>
+<span class="sourceLineNo">413</span>      double value = values.next().doubleValue();<a name="line.413"></a>
+<span class="sourceLineNo">414</span>      count++;<a name="line.414"></a>
+<span class="sourceLineNo">415</span>      if (isFinite(value) &amp;&amp; isFinite(mean)) {<a name="line.415"></a>
+<span class="sourceLineNo">416</span>        // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15)<a name="line.416"></a>
+<span class="sourceLineNo">417</span>        mean += (value - mean) / count;<a name="line.417"></a>
+<span class="sourceLineNo">418</span>      } else {<a name="line.418"></a>
+<span class="sourceLineNo">419</span>        mean = calculateNewMeanNonFinite(mean, value);<a name="line.419"></a>
+<span class="sourceLineNo">420</span>      }<a name="line.420"></a>
+<span class="sourceLineNo">421</span>    }<a name="line.421"></a>
+<span class="sourceLineNo">422</span>    return mean;<a name="line.422"></a>
+<span class="sourceLineNo">423</span>  }<a name="line.423"></a>
+<span class="sourceLineNo">424</span><a name="line.424"></a>
+<span class="sourceLineNo">425</span>  /**<a name="line.425"></a>
+<span class="sourceLineNo">426</span>   * Returns the &lt;a href="http://en.wikipedia.org/wiki/Arithmetic_mean"&gt;arithmetic mean&lt;/a&gt; of the<a name="line.426"></a>
+<span class="sourceLineNo">427</span>   * values. The count must be non-zero.<a name="line.427"></a>
+<span class="sourceLineNo">428</span>   *<a name="line.428"></a>
+<span class="sourceLineNo">429</span>   * &lt;p&gt;The definition of the mean is the same as {@link Stats#mean}.<a name="line.429"></a>
+<span class="sourceLineNo">430</span>   *<a name="line.430"></a>
+<span class="sourceLineNo">431</span>   * @param values a series of values<a name="line.431"></a>
+<span class="sourceLineNo">432</span>   * @throws IllegalArgumentException if the dataset is empty<a name="line.432"></a>
+<span class="sourceLineNo">433</span>   */<a name="line.433"></a>
+<span class="sourceLineNo">434</span>  public static double meanOf(double... values) {<a name="line.434"></a>
+<span class="sourceLineNo">435</span>    checkArgument(values.length &gt; 0);<a name="line.435"></a>
+<span class="sourceLineNo">436</span>    double mean = values[0];<a name="line.436"></a>
+<span class="sourceLineNo">437</span>    for (int index = 1; index &lt; values.length; index++) {<a name="line.437"></a>
+<span class="sourceLineNo">438</span>      double value = values[index];<a name="line.438"></a>
+<span class="sourceLineNo">439</span>      if (isFinite(value) &amp;&amp; isFinite(mean)) {<a name="line.439"></a>
+<span class="sourceLineNo">440</span>        // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15)<a name="line.440"></a>
+<span class="sourceLineNo">441</span>        mean += (value - mean) / (index + 1);<a name="line.441"></a>
+<span class="sourceLineNo">442</span>      } else {<a name="line.442"></a>
+<span class="sourceLineNo">443</span>        mean = calculateNewMeanNonFinite(mean, value);<a name="line.443"></a>
+<span class="sourceLineNo">444</span>      }<a name="line.444"></a>
+<span class="sourceLineNo">445</span>    }<a name="line.445"></a>
+<span class="sourceLineNo">446</span>    return mean;<a name="line.446"></a>
+<span class="sourceLineNo">447</span>  }<a name="line.447"></a>
+<span class="sourceLineNo">448</span><a name="line.448"></a>
+<span class="sourceLineNo">449</span>  /**<a name="line.449"></a>
+<span class="sourceLineNo">450</span>   * Returns the &lt;a href="http://en.wikipedia.org/wiki/Arithmetic_mean"&gt;arithmetic mean&lt;/a&gt; of the<a name="line.450"></a>
+<span class="sourceLineNo">451</span>   * values. The count must be non-zero.<a name="line.451"></a>
+<span class="sourceLineNo">452</span>   *<a name="line.452"></a>
+<span class="sourceLineNo">453</span>   * &lt;p&gt;The definition of the mean is the same as {@link Stats#mean}.<a name="line.453"></a>
+<span class="sourceLineNo">454</span>   *<a name="line.454"></a>
+<span class="sourceLineNo">455</span>   * @param values a series of values<a name="line.455"></a>
+<span class="sourceLineNo">456</span>   * @throws IllegalArgumentException if the dataset is empty<a name="line.456"></a>
+<span class="sourceLineNo">457</span>   */<a name="line.457"></a>
+<span class="sourceLineNo">458</span>  public static double meanOf(int... values) {<a name="line.458"></a>
+<span class="sourceLineNo">459</span>    checkArgument(values.length &gt; 0);<a name="line.459"></a>
+<span class="sourceLineNo">460</span>    double mean = values[0];<a name="line.460"></a>
+<span class="sourceLineNo">461</span>    for (int index = 1; index &lt; values.length; index++) {<a name="line.461"></a>
+<span class="sourceLineNo">462</span>      double value = values[index];<a name="line.462"></a>
+<span class="sourceLineNo">463</span>      if (isFinite(value) &amp;&amp; isFinite(mean)) {<a name="line.463"></a>
+<span class="sourceLineNo">464</span>        // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15)<a name="line.464"></a>
+<span class="sourceLineNo">465</span>        mean += (value - mean) / (index + 1);<a name="line.465"></a>
+<span class="sourceLineNo">466</span>      } else {<a name="line.466"></a>
+<span class="sourceLineNo">467</span>        mean = calculateNewMeanNonFinite(mean, value);<a name="line.467"></a>
+<span class="sourceLineNo">468</span>      }<a name="line.468"></a>
+<span class="sourceLineNo">469</span>    }<a name="line.469"></a>
+<span class="sourceLineNo">470</span>    return mean;<a name="line.470"></a>
+<span class="sourceLineNo">471</span>  }<a name="line.471"></a>
+<span class="sourceLineNo">472</span><a name="line.472"></a>
+<span class="sourceLineNo">473</span>  /**<a name="line.473"></a>
+<span class="sourceLineNo">474</span>   * Returns the &lt;a href="http://en.wikipedia.org/wiki/Arithmetic_mean"&gt;arithmetic mean&lt;/a&gt; of the<a name="line.474"></a>
+<span class="sourceLineNo">475</span>   * values. The count must be non-zero.<a name="line.475"></a>
+<span class="sourceLineNo">476</span>   *<a name="line.476"></a>
+<span class="sourceLineNo">477</span>   * &lt;p&gt;The definition of the mean is the same as {@link Stats#mean}.<a name="line.477"></a>
+<span class="sourceLineNo">478</span>   *<a name="line.478"></a>
+<span class="sourceLineNo">479</span>   * @param values a series of values, which will be converted to {@code double} values (this may<a name="line.479"></a>
+<span class="sourceLineNo">480</span>   *     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))<a name="line.480"></a>
+<span class="sourceLineNo">481</span>   * @throws IllegalArgumentException if the dataset is empty<a name="line.481"></a>
+<span class="sourceLineNo">482</span>   */<a name="line.482"></a>
+<span class="sourceLineNo">483</span>  public static double meanOf(long... values) {<a name="line.483"></a>
+<span class="sourceLineNo">484</span>    checkArgument(values.length &gt; 0);<a name="line.484"></a>
+<span class="sourceLineNo">485</span>    double mean = values[0];<a name="line.485"></a>
+<span class="sourceLineNo">486</span>    for (int index = 1; index &lt; values.length; index++) {<a name="line.486"></a>
+<span class="sourceLineNo">487</span>      double value = values[index];<a name="line.487"></a>
+<span class="sourceLineNo">488</span>      if (isFinite(value) &amp;&amp; isFinite(mean)) {<a name="line.488"></a>
+<span class="sourceLineNo">489</span>        // Art of Computer Programming vol. 2, Knuth, 4.2.2, (15)<a name="line.489"></a>
+<span class="sourceLineNo">490</span>        mean += (value - mean) / (index + 1);<a name="line.490"></a>
+<span class="sourceLineNo">491</span>      } else {<a name="line.491"></a>
+<span class="sourceLineNo">492</span>        mean = calculateNewMeanNonFinite(mean, value);<a name="line.492"></a>
+<span class="sourceLineNo">493</span>      }<a name="line.493"></a>
+<span class="sourceLineNo">494</span>    }<a name="line.494"></a>
+<span class="sourceLineNo">495</span>    return mean;<a name="line.495"></a>
+<span class="sourceLineNo">496</span>  }<a name="line.496"></a>
+<span class="sourceLineNo">497</span><a name="line.497"></a>
+<span class="sourceLineNo">498</span>  // Serialization helpers<a name="line.498"></a>
+<span class="sourceLineNo">499</span><a name="line.499"></a>
+<span class="sourceLineNo">500</span>  /**<a name="line.500"></a>
+<span class="sourceLineNo">501</span>   * The size of byte array representaion in bytes.<a name="line.501"></a>
+<span class="sourceLineNo">502</span>   */<a name="line.502"></a>
+<span class="sourceLineNo">503</span>  static final int BYTES = (Long.SIZE + Double.SIZE * 4) / Byte.SIZE;<a name="line.503"></a>
+<span class="sourceLineNo">504</span><a name="line.504"></a>
+<span class="sourceLineNo">505</span>  /**<a name="line.505"></a>
+<span class="sourceLineNo">506</span>   * Gets a byte array representation of this instance.<a name="line.506"></a>
+<span class="sourceLineNo">507</span>   *<a name="line.507"></a>
+<span class="sourceLineNo">508</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.508"></a>
+<span class="sourceLineNo">509</span>   * versions.<a name="line.509"></a>
+<span class="sourceLineNo">510</span>   */<a name="line.510"></a>
+<span class="sourceLineNo">511</span>  public byte[] toByteArray() {<a name="line.511"></a>
+<span class="sourceLineNo">512</span>    ByteBuffer buff = ByteBuffer.allocate(BYTES).order(ByteOrder.LITTLE_ENDIAN);<a name="line.512"></a>
+<span class="sourceLineNo">513</span>    writeTo(buff);<a name="line.513"></a>
+<span class="sourceLineNo">514</span>    return buff.array();<a name="line.514"></a>
+<span class="sourceLineNo">515</span>  }<a name="line.515"></a>
+<span class="sourceLineNo">516</span><a name="line.516"></a>
+<span class="sourceLineNo">517</span>  /**<a name="line.517"></a>
+<span class="sourceLineNo">518</span>   * Writes to the given {@link ByteBuffer} a byte representation of this instance.<a name="line.518"></a>
+<span class="sourceLineNo">519</span>   *<a name="line.519"></a>
+<span class="sourceLineNo">520</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.520"></a>
+<span class="sourceLineNo">521</span>   * versions.<a name="line.521"></a>
+<span class="sourceLineNo">522</span>   *<a name="line.522"></a>
+<span class="sourceLineNo">523</span>   * @param buffer A {@link ByteBuffer} with at least BYTES {@link ByteBuffer#remaining}, ordered as<a name="line.523"></a>
+<span class="sourceLineNo">524</span>   *     {@link ByteOrder#LITTLE_ENDIAN}, to which a BYTES-long byte representation of this instance<a name="line.524"></a>
+<span class="sourceLineNo">525</span>   *     is written. In the process increases the position of {@link ByteBuffer} by BYTES.<a name="line.525"></a>
+<span class="sourceLineNo">526</span>   */<a name="line.526"></a>
+<span class="sourceLineNo">527</span>  void writeTo(ByteBuffer buffer) {<a name="line.527"></a>
+<span class="sourceLineNo">528</span>    checkNotNull(buffer);<a name="line.528"></a>
+<span class="sourceLineNo">529</span>    checkArgument(<a name="line.529"></a>
+<span class="sourceLineNo">530</span>        buffer.remaining() &gt;= BYTES,<a name="line.530"></a>
+<span class="sourceLineNo">531</span>        "Expected at least Stats.BYTES = %s remaining , got %s",<a name="line.531"></a>
+<span class="sourceLineNo">532</span>        BYTES,<a name="line.532"></a>
+<span class="sourceLineNo">533</span>        buffer.remaining());<a name="line.533"></a>
+<span class="sourceLineNo">534</span>    buffer<a name="line.534"></a>
+<span class="sourceLineNo">535</span>        .putLong(count)<a name="line.535"></a>
+<span class="sourceLineNo">536</span>        .putDouble(mean)<a name="line.536"></a>
+<span class="sourceLineNo">537</span>        .putDouble(sumOfSquaresOfDeltas)<a name="line.537"></a>
+<span class="sourceLineNo">538</span>        .putDouble(min)<a name="line.538"></a>
+<span class="sourceLineNo">539</span>        .putDouble(max);<a name="line.539"></a>
+<span class="sourceLineNo">540</span>  }<a name="line.540"></a>
+<span class="sourceLineNo">541</span><a name="line.541"></a>
+<span class="sourceLineNo">542</span>  /**<a name="line.542"></a>
+<span class="sourceLineNo">543</span>   * Creates a Stats instance from the given byte representation which was obtained by<a name="line.543"></a>
+<span class="sourceLineNo">544</span>   * {@link #toByteArray}.<a name="line.544"></a>
+<span class="sourceLineNo">545</span>   *<a name="line.545"></a>
+<span class="sourceLineNo">546</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.546"></a>
+<span class="sourceLineNo">547</span>   * versions.<a name="line.547"></a>
+<span class="sourceLineNo">548</span>   */<a name="line.548"></a>
+<span class="sourceLineNo">549</span>  public static Stats fromByteArray(byte[] byteArray) {<a name="line.549"></a>
+<span class="sourceLineNo">550</span>    checkNotNull(byteArray);<a name="line.550"></a>
+<span class="sourceLineNo">551</span>    checkArgument(<a name="line.551"></a>
+<span class="sourceLineNo">552</span>        byteArray.length == BYTES,<a name="line.552"></a>
+<span class="sourceLineNo">553</span>        "Expected Stats.BYTES = %s remaining , got %s",<a name="line.553"></a>
+<span class="sourceLineNo">554</span>        BYTES,<a name="line.554"></a>
+<span class="sourceLineNo">555</span>        byteArray.length);<a name="line.555"></a>
+<span class="sourceLineNo">556</span>    return readFrom(ByteBuffer.wrap(byteArray).order(ByteOrder.LITTLE_ENDIAN));<a name="line.556"></a>
+<span class="sourceLineNo">557</span>  }<a name="line.557"></a>
+<span class="sourceLineNo">558</span><a name="line.558"></a>
+<span class="sourceLineNo">559</span>  /**<a name="line.559"></a>
+<span class="sourceLineNo">560</span>   * Creates a Stats instance from the byte representation read from the given {@link ByteBuffer}.<a name="line.560"></a>
+<span class="sourceLineNo">561</span>   *<a name="line.561"></a>
+<span class="sourceLineNo">562</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; No guarantees are made regarding stability of the representation between<a name="line.562"></a>
+<span class="sourceLineNo">563</span>   * versions.<a name="line.563"></a>
+<span class="sourceLineNo">564</span>   *<a name="line.564"></a>
+<span class="sourceLineNo">565</span>   * @param buffer A {@link ByteBuffer} with at least BYTES {@link ByteBuffer#remaining}, ordered as<a name="line.565"></a>
+<span class="sourceLineNo">566</span>   *     {@link ByteOrder#LITTLE_ENDIAN}, from which a BYTES-long byte representation of this<a name="line.566"></a>
+<span class="sourceLineNo">567</span>   *     instance is read. In the process increases the position of {@link ByteBuffer} by BYTES.<a name="line.567"></a>
+<span class="sourceLineNo">568</span>   */<a name="line.568"></a>
+<span class="sourceLineNo">569</span>  static Stats readFrom(ByteBuffer buffer) {<a name="line.569"></a>
+<span class="sourceLineNo">570</span>    checkNotNull(buffer);<a name="line.570"></a>
+<span class="sourceLineNo">571</span>    checkArgument(<a name="line.571"></a>
+<span class="sourceLineNo">572</span>        buffer.remaining() &gt;= BYTES,<a name="line.572"></a>
+<span class="sourceLineNo">573</span>        "Expected at least Stats.BYTES = %s remaining , got %s",<a name="line.573"></a>
+<span class="sourceLineNo">574</span>        BYTES,<a name="line.574"></a>
+<span class="sourceLineNo">575</span>        buffer.remaining());<a name="line.575"></a>
+<span class="sourceLineNo">576</span>    return new Stats(<a name="line.576"></a>
+<span class="sourceLineNo">577</span>        buffer.getLong(),<a name="line.577"></a>
+<span class="sourceLineNo">578</span>        buffer.getDouble(),<a name="line.578"></a>
+<span class="sourceLineNo">579</span>        buffer.getDouble(),<a name="line.579"></a>
+<span class="sourceLineNo">580</span>        buffer.getDouble(),<a name="line.580"></a>
+<span class="sourceLineNo">581</span>        buffer.getDouble());<a name="line.581"></a>
+<span class="sourceLineNo">582</span>  }<a name="line.582"></a>
+<span class="sourceLineNo">583</span><a name="line.583"></a>
+<span class="sourceLineNo">584</span>  private static final long serialVersionUID = 0;<a name="line.584"></a>
+<span class="sourceLineNo">585</span>}<a name="line.585"></a>
 
 
 
