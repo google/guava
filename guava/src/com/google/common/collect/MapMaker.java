@@ -120,7 +120,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   Strength valueStrength;
 
   long expireAfterWriteNanos = UNSET_INT;
-  long expireAfterAccessNanos = UNSET_INT;
 
   boolean evictImmediately = false;
 
@@ -357,53 +356,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
         expireAfterWriteNanos == UNSET_INT,
         "expireAfterWrite was already set to %s ns",
         expireAfterWriteNanos);
-    checkState(
-        expireAfterAccessNanos == UNSET_INT,
-        "expireAfterAccess was already set to %s ns",
-        expireAfterAccessNanos);
     checkArgument(duration >= 0, "duration cannot be negative: %s %s", duration, unit);
   }
 
   long getExpireAfterWriteNanos() {
     return (expireAfterWriteNanos == UNSET_INT) ? DEFAULT_EXPIRATION_NANOS : expireAfterWriteNanos;
-  }
-
-  /**
-   * Specifies that each entry should be automatically removed from the map once a fixed duration
-   * has elapsed after the entry's last read or write access.
-   *
-   * <p>When {@code duration} is zero, elements can be successfully added to the map, but are
-   * evicted immediately. It can be useful in testing, or to disable caching temporarily without
-   * a code change.
-   *
-   * <p>Expired entries may be counted by {@link Map#size}, but will never be visible to read or
-   * write operations. Expired entries are currently cleaned up during write operations, or during
-   * occasional read operations in the absense of writes; though this behavior may change in the
-   * future.
-   *
-   * @param duration the length of time after an entry is last accessed that it should be
-   *     automatically removed
-   * @param unit the unit that {@code duration} is expressed in
-   * @throws IllegalArgumentException if {@code duration} is negative
-   * @throws IllegalStateException if the time to idle or time to live was already set
-   */
-  @CanIgnoreReturnValue
-  @GwtIncompatible
-  @Override
-  MapMaker expireAfterAccess(long duration, TimeUnit unit) {
-    checkExpiration(duration, unit);
-    this.expireAfterAccessNanos = unit.toNanos(duration);
-    if (duration == 0) {
-      this.evictImmediately = true;
-    }
-    useCustomMap = true;
-    return this;
-  }
-
-  long getExpireAfterAccessNanos() {
-    return (expireAfterAccessNanos == UNSET_INT)
-        ? DEFAULT_EXPIRATION_NANOS
-        : expireAfterAccessNanos;
   }
 
   Ticker getTicker() {
@@ -519,9 +476,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     }
     if (expireAfterWriteNanos != UNSET_INT) {
       s.add("expireAfterWrite", expireAfterWriteNanos + "ns");
-    }
-    if (expireAfterAccessNanos != UNSET_INT) {
-      s.add("expireAfterAccess", expireAfterAccessNanos + "ns");
     }
     if (keyStrength != null) {
       s.add("keyStrength", Ascii.toLowerCase(keyStrength.toString()));

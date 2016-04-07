@@ -84,7 +84,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
           if (e != null) {
             V value = getLiveValue(e);
             if (value != null) {
-              recordRead(e);
               return value;
             }
           }
@@ -120,7 +119,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
                       // entries, but let's accomodate an incorrect expiration queue.
                       // TODO(kak): Remove this branch.
                     } else {
-                      recordLockedRead(e);
                       return value;
                     }
 
@@ -158,7 +156,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
           // don't consider expiration as we're concurrent with computation
           V value = e.getValueReference().waitForValue();
           if (value != null) {
-            recordRead(e);
             return value;
           }
           // else computing thread will clearValue
@@ -379,7 +376,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
         keyEquivalence,
         valueEquivalence,
         expireAfterWriteNanos,
-        expireAfterAccessNanos,
         concurrencyLevel,
         this,
         computingFunction);
@@ -395,7 +391,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
         Equivalence<Object> keyEquivalence,
         Equivalence<Object> valueEquivalence,
         long expireAfterWriteNanos,
-        long expireAfterAccessNanos,
         int concurrencyLevel,
         ConcurrentMap<K, V> delegate,
         Function<? super K, ? extends V> computingFunction) {
@@ -405,7 +400,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
           keyEquivalence,
           valueEquivalence,
           expireAfterWriteNanos,
-          expireAfterAccessNanos,
           concurrencyLevel,
           delegate);
       this.computingFunction = computingFunction;

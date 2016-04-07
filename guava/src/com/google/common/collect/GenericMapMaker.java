@@ -95,12 +95,6 @@ abstract class GenericMapMaker<K0, V0> {
   abstract GenericMapMaker<K0, V0> expireAfterWrite(long duration, TimeUnit unit);
 
   /**
-   * See {@link MapMaker#expireAfterAccess}.
-   */
-  @GwtIncompatible
-  abstract GenericMapMaker<K0, V0> expireAfterAccess(long duration, TimeUnit unit);
-
-  /**
    * See {@link MapMaker#makeMap}.
    */
   public abstract <K extends K0, V extends V0> ConcurrentMap<K, V> makeMap();

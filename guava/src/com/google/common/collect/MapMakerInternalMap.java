@@ -46,7 +46,6 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.CancellationException;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -163,9 +162,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   /** Strategy for referencing values. */
   final Strength valueStrength;
 
-  /** How long after the last access to an entry the map will retain that entry. */
-  final long expireAfterAccessNanos;
-
   /** How long after the last write to an entry the map will retain that entry. */
   final long expireAfterWriteNanos;
 
@@ -187,7 +183,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     keyEquivalence = builder.getKeyEquivalence();
     valueEquivalence = valueStrength.defaultEquivalence();
 
-    expireAfterAccessNanos = builder.getExpireAfterAccessNanos();
     expireAfterWriteNanos = builder.getExpireAfterWriteNanos();
 
     entryFactory = EntryFactory.getFactory(keyStrength, expires());
@@ -224,15 +219,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
   }
 
   boolean expires() {
-    return expiresAfterWrite() || expiresAfterAccess();
-  }
-
-  boolean expiresAfterWrite() {
     return expireAfterWriteNanos > 0;
-  }
-
-  boolean expiresAfterAccess() {
-    return expireAfterAccessNanos > 0;
   }
 
   boolean usesKeyReferences() {
@@ -2004,21 +1991,14 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     final ReferenceQueue<V> valueReferenceQueue;
 
     /**
-     * The recency queue is used to record which entries were accessed for updating the eviction
-     * list's ordering. It is drained as a batch operation when either the DRAIN_THRESHOLD is
-     * crossed or a write occurs on the segment.
-     */
-    final Queue<ReferenceEntry<K, V>> recencyQueue;
-
-    /**
      * A counter of the number of reads since the last write, used to drain queues on a small
      * fraction of read operations.
      */
     final AtomicInteger readCount = new AtomicInteger();
 
     /**
-     * A queue of elements currently in the map, ordered by expiration time (either access or write
-     * time). Elements are added to the tail of the queue on access/write.
+     * A queue of elements currently in the map, ordered by expiration time (write time).
+     * Elements are added to the tail of the queue on write.
      */
     @GuardedBy("this")
     final Queue<ReferenceEntry<K, V>> expirationQueue;
@@ -2031,11 +2011,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       keyReferenceQueue = map.usesKeyReferences() ? new ReferenceQueue<K>() : null;
 
       valueReferenceQueue = map.usesValueReferences() ? new ReferenceQueue<V>() : null;
-
-      recencyQueue =
-          (map.expiresAfterAccess())
-              ? new ConcurrentLinkedQueue<ReferenceEntry<K, V>>()
-              : MapMakerInternalMap.<ReferenceEntry<K, V>>discardingQueue();
 
       expirationQueue =
           map.expires()
@@ -2174,69 +2149,15 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     // recency queue, shared by expiration and eviction
 
     /**
-     * Records the relative order in which this read was performed by adding {@code entry} to the
-     * recency queue. At write-time, or when the queue is full past the threshold, the queue will
-     * be drained and the entries therein processed.
-     *
-     * <p>Note: locked reads should use {@link #recordLockedRead}.
-     */
-    void recordRead(ReferenceEntry<K, V> entry) {
-      if (map.expiresAfterAccess()) {
-        recordExpirationTime(entry, map.expireAfterAccessNanos);
-      }
-      recencyQueue.add(entry);
-    }
-
-    /**
-     * Updates the eviction metadata that {@code entry} was just read. This currently amounts to
-     * adding {@code entry} to relevant eviction lists.
-     *
-     * <p>Note: this method should only be called under lock, as it directly manipulates the
-     * eviction queues. Unlocked reads should use {@link #recordRead}.
-     */
-    @GuardedBy("this")
-    void recordLockedRead(ReferenceEntry<K, V> entry) {
-      if (map.expiresAfterAccess()) {
-        recordExpirationTime(entry, map.expireAfterAccessNanos);
-        expirationQueue.add(entry);
-      }
-    }
-
-    /**
      * Updates eviction metadata that {@code entry} was just written. This currently amounts to
      * adding {@code entry} to relevant eviction lists.
      */
     @GuardedBy("this")
     void recordWrite(ReferenceEntry<K, V> entry) {
-      // we are already under lock, so drain the recency queue immediately
-      drainRecencyQueue();
       if (map.expires()) {
-        // currently MapMaker ensures that expireAfterWrite and
-        // expireAfterAccess are mutually exclusive
-        long expiration =
-            map.expiresAfterAccess() ? map.expireAfterAccessNanos : map.expireAfterWriteNanos;
+        long expiration = map.expireAfterWriteNanos;
         recordExpirationTime(entry, expiration);
         expirationQueue.add(entry);
-      }
-    }
-
-    /**
-     * Drains the recency queue, updating eviction metadata that the entries therein were read in
-     * the specified relative order. This currently amounts to adding them to relevant eviction
-     * lists (accounting for the fact that they could have been removed from the map since being
-     * added to the recency queue).
-     */
-    @GuardedBy("this")
-    void drainRecencyQueue() {
-      ReferenceEntry<K, V> e;
-      while ((e = recencyQueue.poll()) != null) {
-        // An entry may be in the recency queue despite it being removed from
-        // the map . This can occur when the entry was concurrently read while a
-        // writer is removing it from the segment or after a clear has removed
-        // all of the segment's entries.
-        if (map.expiresAfterAccess() && expirationQueue.contains(e)) {
-          expirationQueue.add(e);
-        }
       }
     }
 
@@ -2262,7 +2183,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("this")
     void expireEntries() {
-      drainRecencyQueue();
 
       if (expirationQueue.isEmpty()) {
         // There's no point in calling nanoTime() if we have no entries to
@@ -2330,9 +2250,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         }
 
         V value = e.getValueReference().get();
-        if (value != null) {
-          recordRead(e);
-        } else {
+        if (value == null) {
           tryDrainReferenceQueues();
         }
         return value;
@@ -2424,7 +2342,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
               // Mimic
               // "if (!map.containsKey(key)) ...
               // else return map.get(key);
-              recordLockedRead(e);
               return entryValue;
             } else {
               // clobber existing entry, count remains unchanged
@@ -2556,7 +2473,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
             } else {
               // Mimic
               // "if (map.containsKey(key) && map.get(key).equals(oldValue))..."
-              recordLockedRead(e);
               return false;
             }
           }
@@ -2931,7 +2847,7 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       if (tryLock()) {
         try {
           drainReferenceQueues();
-          expireEntries(); // calls drainRecencyQueue
+          expireEntries();
           readCount.set(0);
         } finally {
           unlock();
@@ -3652,7 +3568,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         keyEquivalence,
         valueEquivalence,
         expireAfterWriteNanos,
-        expireAfterAccessNanos,
         concurrencyLevel,
         this);
   }
@@ -3670,7 +3585,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     final Equivalence<Object> keyEquivalence;
     final Equivalence<Object> valueEquivalence;
     final long expireAfterWriteNanos;
-    final long expireAfterAccessNanos;
     final int concurrencyLevel;
 
     transient ConcurrentMap<K, V> delegate;
@@ -3681,7 +3595,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         Equivalence<Object> keyEquivalence,
         Equivalence<Object> valueEquivalence,
         long expireAfterWriteNanos,
-        long expireAfterAccessNanos,
         int concurrencyLevel,
         ConcurrentMap<K, V> delegate) {
       this.keyStrength = keyStrength;
@@ -3689,7 +3602,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       this.keyEquivalence = keyEquivalence;
       this.valueEquivalence = valueEquivalence;
       this.expireAfterWriteNanos = expireAfterWriteNanos;
-      this.expireAfterAccessNanos = expireAfterAccessNanos;
       this.concurrencyLevel = concurrencyLevel;
       this.delegate = delegate;
     }
@@ -3721,9 +3633,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       if (expireAfterWriteNanos > 0) {
         mapMaker.expireAfterWrite(expireAfterWriteNanos, TimeUnit.NANOSECONDS);
       }
-      if (expireAfterAccessNanos > 0) {
-        mapMaker.expireAfterAccess(expireAfterAccessNanos, TimeUnit.NANOSECONDS);
-      }
       return mapMaker;
     }
 
@@ -3753,7 +3662,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
         Equivalence<Object> keyEquivalence,
         Equivalence<Object> valueEquivalence,
         long expireAfterWriteNanos,
-        long expireAfterAccessNanos,
         int concurrencyLevel,
         ConcurrentMap<K, V> delegate) {
       super(
@@ -3762,7 +3670,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
           keyEquivalence,
           valueEquivalence,
           expireAfterWriteNanos,
-          expireAfterAccessNanos,
           concurrencyLevel,
           delegate);
     }

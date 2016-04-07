@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.MapMakerInternalMap.DISCARDING_QUEUE;
 import static com.google.common.collect.MapMakerInternalMap.DRAIN_THRESHOLD;
 import static com.google.common.collect.MapMakerInternalMap.nullEntry;
 import static com.google.common.collect.MapMakerInternalMap.unset;
@@ -71,7 +70,6 @@ public class MapMakerInternalMapTest extends TestCase {
     assertSame(map.keyStrength.defaultEquivalence(), map.keyEquivalence);
     assertSame(map.valueStrength.defaultEquivalence(), map.valueEquivalence);
 
-    assertEquals(0, map.expireAfterAccessNanos);
     assertEquals(0, map.expireAfterWriteNanos);
 
     assertSame(EntryFactory.STRONG, map.entryFactory);
@@ -85,8 +83,6 @@ public class MapMakerInternalMapTest extends TestCase {
     assertEquals(16 / map.segments.length, map.segments[0].table.length());
 
     assertFalse(map.expires());
-    assertFalse(map.expiresAfterWrite());
-    assertFalse(map.expiresAfterAccess());
   }
 
   public void testSetKeyEquivalence() {
@@ -240,14 +236,6 @@ public class MapMakerInternalMapTest extends TestCase {
     assertEquals(unit.toNanos(duration), map.expireAfterWriteNanos);
   }
 
-  public void testSetExpireAfterAccess() {
-    long duration = 42;
-    TimeUnit unit = SECONDS;
-    MapMakerInternalMap<Object, Object> map =
-        makeMap(createMapMaker().expireAfterAccess(duration, unit));
-    assertEquals(unit.toNanos(duration), map.expireAfterAccessNanos);
-  }
-
   // Segment core tests
 
   public void testNewEntry() {
@@ -326,8 +314,7 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   public void testSegmentGetAndContains() {
-    MapMakerInternalMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
+    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker().concurrencyLevel(1));
     Segment<Object, Object> segment = map.segments[0];
     // TODO(fry): check recency ordering
 
@@ -391,18 +378,10 @@ public class MapMakerInternalMapTest extends TestCase {
     assertTrue(segment.containsKey(key, hash));
     assertTrue(segment.containsValue(value));
     assertTrue(segment.containsValue(dummyValue));
-
-    // expired
-    dummy.setExpirationTime(0);
-    assertNull(segment.get(key, hash));
-    assertFalse(segment.containsKey(key, hash));
-    assertTrue(segment.containsValue(value));
-    assertFalse(segment.containsValue(dummyValue));
   }
 
   public void testSegmentReplaceValue() {
-    MapMakerInternalMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
+    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker().concurrencyLevel(1));
     Segment<Object, Object> segment = map.segments[0];
     // TODO(fry): check recency ordering
 
@@ -445,8 +424,7 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   public void testSegmentReplace() {
-    MapMakerInternalMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
+    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker().concurrencyLevel(1));
     Segment<Object, Object> segment = map.segments[0];
     // TODO(fry): check recency ordering
 
@@ -484,8 +462,7 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   public void testSegmentPut() {
-    MapMakerInternalMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
+    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker().concurrencyLevel(1));
     Segment<Object, Object> segment = map.segments[0];
     // TODO(fry): check recency ordering
 
@@ -516,8 +493,7 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   public void testSegmentPutIfAbsent() {
-    MapMakerInternalMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
+    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker().concurrencyLevel(1));
     Segment<Object, Object> segment = map.segments[0];
     // TODO(fry): check recency ordering
 
@@ -965,75 +941,6 @@ public class MapMakerInternalMapTest extends TestCase {
 
   // Segment eviction tests
 
-  public void testDrainRecencyQueueOnWrite() {
-    for (MapMaker maker : allEvictingMakers()) {
-      MapMakerInternalMap<Object, Object> map = makeMap(maker.concurrencyLevel(1));
-      Segment<Object, Object> segment = map.segments[0];
-
-      if (segment.recencyQueue != DISCARDING_QUEUE) {
-        Object keyOne = new Object();
-        Object valueOne = new Object();
-        Object keyTwo = new Object();
-        Object valueTwo = new Object();
-
-        map.put(keyOne, valueOne);
-        assertTrue(segment.recencyQueue.isEmpty());
-
-        for (int i = 0; i < DRAIN_THRESHOLD / 2; i++) {
-          Object unused = map.get(keyOne);
-        }
-        assertFalse(segment.recencyQueue.isEmpty());
-
-        map.put(keyTwo, valueTwo);
-        assertTrue(segment.recencyQueue.isEmpty());
-      }
-    }
-  }
-
-  public void testDrainRecencyQueueOnRead() {
-    for (MapMaker maker : allEvictingMakers()) {
-      MapMakerInternalMap<Object, Object> map = makeMap(maker.concurrencyLevel(1));
-      Segment<Object, Object> segment = map.segments[0];
-
-      if (segment.recencyQueue != DISCARDING_QUEUE) {
-        Object keyOne = new Object();
-        Object valueOne = new Object();
-
-        // repeated get of the same key
-
-        map.put(keyOne, valueOne);
-        assertTrue(segment.recencyQueue.isEmpty());
-
-        for (int i = 0; i < DRAIN_THRESHOLD / 2; i++) {
-          Object unused = map.get(keyOne);
-        }
-        assertFalse(segment.recencyQueue.isEmpty());
-
-        for (int i = 0; i < DRAIN_THRESHOLD * 2; i++) {
-          Object unused = map.get(keyOne);
-          assertTrue(segment.recencyQueue.size() <= DRAIN_THRESHOLD);
-        }
-
-        // get over many different keys
-
-        for (int i = 0; i < DRAIN_THRESHOLD * 2; i++) {
-          map.put(new Object(), new Object());
-        }
-        assertTrue(segment.recencyQueue.isEmpty());
-
-        for (int i = 0; i < DRAIN_THRESHOLD / 2; i++) {
-          Object unused = map.get(keyOne);
-        }
-        assertFalse(segment.recencyQueue.isEmpty());
-
-        for (Object key : map.keySet()) {
-          Object unused = map.get(key);
-          assertTrue(segment.recencyQueue.size() <= DRAIN_THRESHOLD);
-        }
-      }
-    }
-  }
-
   public void testRecordRead() {
     for (MapMaker maker : allEvictingMakers()) {
       MapMakerInternalMap<Object, Object> map = makeMap(maker.concurrencyLevel(1));
@@ -1046,7 +953,6 @@ public class MapMakerInternalMapTest extends TestCase {
         Object value = new Object();
 
         ReferenceEntry<Object, Object> entry = createDummyEntry(key, hash, value, null);
-        // must recordRead for drainRecencyQueue to believe this entry is live
         segment.recordWrite(entry);
         writeOrder.add(entry);
         readOrder.add(entry);
@@ -1062,12 +968,10 @@ public class MapMakerInternalMapTest extends TestCase {
       while (i.hasNext()) {
         ReferenceEntry<Object, Object> entry = i.next();
         if (random.nextBoolean()) {
-          segment.recordRead(entry);
           reads.add(entry);
           i.remove();
         }
       }
-      checkAndDrainRecencyQueue(map, segment, reads);
       readOrder.addAll(reads);
 
       checkEvictionQueues(map, segment, readOrder, writeOrder);
@@ -1094,7 +998,6 @@ public class MapMakerInternalMapTest extends TestCase {
 
       checkEvictionQueues(map, segment, readOrder, writeOrder);
       checkExpirationTimes(map);
-      assertTrue(segment.recencyQueue.isEmpty());
 
       // access some of the elements
       Random random = new Random();
@@ -1106,11 +1009,8 @@ public class MapMakerInternalMapTest extends TestCase {
           Object unused = map.get(entry.getKey());
           reads.add(entry);
           i.remove();
-          assertTrue(segment.recencyQueue.size() <= DRAIN_THRESHOLD);
         }
       }
-      int undrainedIndex = reads.size() - segment.recencyQueue.size();
-      checkAndDrainRecencyQueue(map, segment, reads.subList(undrainedIndex, reads.size()));
       readOrder.addAll(reads);
 
       checkEvictionQueues(map, segment, readOrder, writeOrder);
@@ -1129,7 +1029,6 @@ public class MapMakerInternalMapTest extends TestCase {
         Object value = new Object();
 
         ReferenceEntry<Object, Object> entry = createDummyEntry(key, hash, value, null);
-        // must recordRead for drainRecencyQueue to believe this entry is live
         segment.recordWrite(entry);
         writeOrder.add(entry);
       }
@@ -1156,21 +1055,10 @@ public class MapMakerInternalMapTest extends TestCase {
     }
   }
 
-  static <K, V> void checkAndDrainRecencyQueue(MapMakerInternalMap<K, V> map,
-      Segment<K, V> segment, List<ReferenceEntry<K, V>> reads) {
-    if (map.expiresAfterAccess()) {
-      assertSameEntries(reads, ImmutableList.copyOf(segment.recencyQueue));
-    }
-    segment.drainRecencyQueue();
-  }
-
   static <K, V> void checkEvictionQueues(MapMakerInternalMap<K, V> map,
       Segment<K, V> segment, List<ReferenceEntry<K, V>> readOrder,
       List<ReferenceEntry<K, V>> writeOrder) {
-    if (map.expiresAfterAccess()) {
-      assertSameEntries(readOrder, ImmutableList.copyOf(segment.expirationQueue));
-    }
-    if (map.expiresAfterWrite()) {
+    if (map.expires()) {
       assertSameEntries(writeOrder, ImmutableList.copyOf(segment.expirationQueue));
     }
   }
@@ -1194,13 +1082,6 @@ public class MapMakerInternalMapTest extends TestCase {
 
     for (Segment<K, V> segment : map.segments) {
       long lastExpirationTime = 0;
-      for (ReferenceEntry<K, V> e : segment.recencyQueue) {
-        long expirationTime = e.getExpirationTime();
-        assertTrue(expirationTime >= lastExpirationTime);
-        lastExpirationTime = expirationTime;
-      }
-
-      lastExpirationTime = 0;
       for (ReferenceEntry<K, V> e : segment.expirationQueue) {
         long expirationTime = e.getExpirationTime();
         assertTrue(expirationTime >= lastExpirationTime);
@@ -1338,14 +1219,11 @@ public class MapMakerInternalMapTest extends TestCase {
   // utility methods
 
   /**
-   * Returns an iterable containing all combinations of maximumSize, expireAfterAccess/Write,
+   * Returns an iterable containing all combinations of expireAfterWrite,
    * weakKeys and weak/softValues.
    */
   private static Iterable<MapMaker> allEntryTypeMakers() {
     List<MapMaker> result = newArrayList(allKeyValueStrengthMakers());
-    for (MapMaker maker : allKeyValueStrengthMakers()) {
-      result.add(maker.expireAfterAccess(99999, SECONDS));
-    }
     for (MapMaker maker : allKeyValueStrengthMakers()) {
       result.add(maker.expireAfterWrite(99999, SECONDS));
     }
@@ -1353,13 +1231,11 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   /**
-   * Returns an iterable containing all combinations of expireAfterAccess/Write.
+   * Returns an iterable containing all combinations of expireAfterWrite.
    */
   static Iterable<MapMaker> allEvictingMakers() {
     return ImmutableList.of(
-        createMapMaker().expireAfterAccess(99999, SECONDS),
         createMapMaker().expireAfterWrite(99999, SECONDS),
-        createMapMaker().expireAfterAccess(SMALL_MAX_SIZE, TimeUnit.SECONDS),
         createMapMaker().expireAfterWrite(SMALL_MAX_SIZE, TimeUnit.SECONDS));
   }
 

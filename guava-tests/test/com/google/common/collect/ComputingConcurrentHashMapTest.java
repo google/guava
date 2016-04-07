@@ -16,10 +16,8 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.MapMakerInternalMap.DRAIN_THRESHOLD;
 import static com.google.common.collect.MapMakerInternalMapTest.SMALL_MAX_SIZE;
 import static com.google.common.collect.MapMakerInternalMapTest.allEvictingMakers;
-import static com.google.common.collect.MapMakerInternalMapTest.checkAndDrainRecencyQueue;
 import static com.google.common.collect.MapMakerInternalMapTest.checkEvictionQueues;
 import static com.google.common.collect.MapMakerInternalMapTest.checkExpirationTimes;
 
@@ -119,7 +117,6 @@ public class ComputingConcurrentHashMapTest extends TestCase {
 
       checkEvictionQueues(map, segment, readOrder, writeOrder);
       checkExpirationTimes(map);
-      assertTrue(segment.recencyQueue.isEmpty());
 
       // access some of the elements
       Random random = new Random();
@@ -131,11 +128,8 @@ public class ComputingConcurrentHashMapTest extends TestCase {
           map.getOrCompute(entry.getKey());
           reads.add(entry);
           i.remove();
-          assertTrue(segment.recencyQueue.size() <= DRAIN_THRESHOLD);
         }
       }
-      int undrainedIndex = reads.size() - segment.recencyQueue.size();
-      checkAndDrainRecencyQueue(map, segment, reads.subList(undrainedIndex, reads.size()));
       readOrder.addAll(reads);
 
       checkEvictionQueues(map, segment, readOrder, writeOrder);
