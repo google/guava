@@ -28,8 +28,7 @@ import java.util.Set;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-public abstract class TestStringSetGenerator implements TestSetGenerator<String>
-{
+public abstract class TestStringSetGenerator implements TestSetGenerator<String> {
   @Override
   public SampleElements<String> samples() {
     return new Strings();

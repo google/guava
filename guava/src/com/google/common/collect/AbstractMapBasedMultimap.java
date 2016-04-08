@@ -695,7 +695,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   @WeakOuter
   class WrappedNavigableSet extends WrappedSortedSet implements NavigableSet<V> {
     WrappedNavigableSet(
@@ -1043,7 +1043,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   @WeakOuter
   class NavigableKeySet extends SortedKeySet implements NavigableSet<K> {
     NavigableKeySet(NavigableMap<K, Collection<V>> subMap) {
@@ -1129,19 +1129,16 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * Removes all values for the provided key. Unlike {@link #removeAll}, it
-   * returns the number of removed mappings.
+   * Removes all values for the provided key.
    */
-  private int removeValuesForKey(Object key) {
+  private void removeValuesForKey(Object key) {
     Collection<V> collection = Maps.safeRemove(map, key);
 
-    int count = 0;
     if (collection != null) {
-      count = collection.size();
+      int count = collection.size();
       collection.clear();
       totalSize -= count;
     }
-    return count;
   }
 
   private abstract class Itr<T> implements Iterator<T> {
@@ -1454,7 +1451,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  @GwtIncompatible("NavigableAsMap")
+  @GwtIncompatible // NavigableAsMap
   class NavigableAsMap extends SortedAsMap implements NavigableMap<K, Collection<V>> {
 
     NavigableAsMap(NavigableMap<K, Collection<V>> submap) {

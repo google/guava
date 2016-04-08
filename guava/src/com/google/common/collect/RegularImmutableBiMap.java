@@ -92,12 +92,12 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
          */
         boolean reusable =
             entry instanceof ImmutableMapEntry && ((ImmutableMapEntry<K, V>) entry).isReusable();
-        newEntry = reusable
-            ? (ImmutableMapEntry<K, V>) entry
-            : new ImmutableMapEntry<K, V>(key, value);
+        newEntry =
+            reusable ? (ImmutableMapEntry<K, V>) entry : new ImmutableMapEntry<K, V>(key, value);
       } else {
-        newEntry = new NonTerminalImmutableBiMapEntry<K, V>(
-            key, value, nextInKeyBucket, nextInValueBucket);
+        newEntry =
+            new NonTerminalImmutableBiMapEntry<K, V>(
+                key, value, nextInKeyBucket, nextInValueBucket);
       }
       keyTable[keyBucket] = newEntry;
       valueTable[valueBucket] = newEntry;

@@ -49,7 +49,8 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multim
     try {
       multimap().put(k3(), v3());
       fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   @MapFeature.Require(SUPPORTS_PUT)

@@ -23,6 +23,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUE_QUERIES;
+import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -39,7 +40,7 @@ import java.util.Set;
 
 /**
  * Tests {@link java.util.Map#entrySet}.
- * 
+ *
  * @author Louis Wasserman
  * @param <K> The key type of the map implementation under test.
  * @param <V> The value type of the map implementation under test.
@@ -49,7 +50,7 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
   private enum IncomparableType {
     INSTANCE;
   }
-  
+
   @CollectionSize.Require(ONE)
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   public void testEntrySetIteratorRemove() {
@@ -63,8 +64,7 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
 
   public void testContainsEntryWithIncomparableKey() {
     try {
-      assertFalse(getMap()
-          .entrySet().contains(Helpers.mapEntry(IncomparableType.INSTANCE, v0())));
+      assertFalse(getMap().entrySet().contains(Helpers.mapEntry(IncomparableType.INSTANCE, v0())));
     } catch (ClassCastException acceptable) {
       // allowed by the spec
     }
@@ -72,48 +72,60 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
 
   public void testContainsEntryWithIncomparableValue() {
     try {
-      assertFalse(getMap()
-          .entrySet().contains(Helpers.mapEntry(k0(), IncomparableType.INSTANCE)));
+      assertFalse(getMap().entrySet().contains(Helpers.mapEntry(k0(), IncomparableType.INSTANCE)));
     } catch (ClassCastException acceptable) {
       // allowed by the spec
     }
   }
-  
+
   @MapFeature.Require(ALLOWS_NULL_KEY_QUERIES)
   public void testContainsEntryWithNullKeyAbsent() {
-    assertFalse(getMap()
-        .entrySet().contains(Helpers.mapEntry(null, v0())));
+    assertFalse(getMap().entrySet().contains(Helpers.mapEntry(null, v0())));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testContainsEntryWithNullKeyPresent() {
     initMapWithNullKey();
-    assertTrue(getMap()
-        .entrySet().contains(Helpers.mapEntry(null, getValueForNullKey())));
+    assertTrue(getMap().entrySet().contains(Helpers.mapEntry(null, getValueForNullKey())));
   }
-  
+
   @MapFeature.Require(ALLOWS_NULL_VALUE_QUERIES)
   public void testContainsEntryWithNullValueAbsent() {
-    assertFalse(getMap()
-        .entrySet().contains(Helpers.mapEntry(k0(), null)));
+    assertFalse(getMap().entrySet().contains(Helpers.mapEntry(k0(), null)));
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(ALLOWS_NULL_VALUES)
   public void testContainsEntryWithNullValuePresent() {
     initMapWithNullValue();
-    assertTrue(getMap()
-        .entrySet().contains(Helpers.mapEntry(getKeyForNullValue(), null)));
+    assertTrue(getMap().entrySet().contains(Helpers.mapEntry(getKeyForNullValue(), null)));
   }
-  
-  @GwtIncompatible("reflection")
+
+  @MapFeature.Require(SUPPORTS_PUT)
+  @CollectionSize.Require(absent = ZERO)
+  public void testSetValue() {
+    for (Entry<K, V> entry : getMap().entrySet()) {
+      if (entry.getKey().equals(k0())) {
+        assertEquals("entry.setValue() should return the old value", v0(), entry.setValue(v3()));
+        break;
+      }
+    }
+    expectReplacement(entry(k0(), v3()));
+  }
+
+  @GwtIncompatible // reflection
   public static Method getContainsEntryWithIncomparableKeyMethod() {
     return Helpers.getMethod(MapEntrySetTester.class, "testContainsEntryWithIncomparableKey");
   }
-  
-  @GwtIncompatible("reflection")
+
+  @GwtIncompatible // reflection
   public static Method getContainsEntryWithIncomparableValueMethod() {
     return Helpers.getMethod(MapEntrySetTester.class, "testContainsEntryWithIncomparableValue");
+  }
+
+  @GwtIncompatible // reflection
+  public static Method getSetValueMethod() {
+    return Helpers.getMethod(MapEntrySetTester.class, "testSetValue");
   }
 }

@@ -34,10 +34,7 @@ public class ListMultimapPutAllTester<K, V> extends AbstractListMultimapTester<K
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllAddsAtEndInOrder() {
     @SuppressWarnings("unchecked")
-    List<V> values = Arrays.asList(
-        v3(),
-        v1(),
-        v4());
+    List<V> values = Arrays.asList(v3(), v1(), v4());
 
     for (K k : sampleKeys()) {
       resetContainer();

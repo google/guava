@@ -44,7 +44,7 @@ public class AtomicLongMapTest extends TestCase {
 
   private Random random = new Random(301);
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicConstructors(AtomicLongMap.class);
@@ -554,7 +554,7 @@ public class AtomicLongMapTest extends TestCase {
     assertFalse(map.replace("a", 1L, 0L));
   }
 
-  @GwtIncompatible("threads")
+  @GwtIncompatible // threads
   public void testModify_basher() throws InterruptedException {
     int nTasks = 3000;
     int nThreads = 100;

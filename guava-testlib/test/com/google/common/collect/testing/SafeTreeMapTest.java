@@ -86,7 +86,7 @@ public class SafeTreeMapTest extends TestCase {
     return suite;
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testViewSerialization() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
@@ -96,9 +96,8 @@ public class SafeTreeMapTest extends TestCase {
         Lists.newArrayList(SerializableTester.reserialize(map.values())));
   }
 
-  @GwtIncompatible("SerializableTester")
-  public static class ReserializedMapTests
-      extends SortedMapInterfaceTest<String, Integer> {
+  @GwtIncompatible // SerializableTester
+  public static class ReserializedMapTests extends SortedMapInterfaceTest<String, Integer> {
     public ReserializedMapTests() {
       super(false, true, true, true, true);
     }

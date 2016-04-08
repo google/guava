@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
@@ -319,6 +320,7 @@ public final class MapConstraints {
       return result;
     }
 
+    @CanIgnoreReturnValue // TODO(kak): Remove this?
     @Override
     public V put(K key, V value) {
       constraint.checkKeyValue(key, value);
@@ -385,8 +387,9 @@ public final class MapConstraints {
     @Override
     public BiMap<V, K> inverse() {
       if (inverse == null) {
-        inverse = new ConstrainedBiMap<V, K>(
-            delegate().inverse(), this, new InverseConstraint<V, K>(constraint));
+        inverse =
+            new ConstrainedBiMap<V, K>(
+                delegate().inverse(), this, new InverseConstraint<V, K>(constraint));
       }
       return inverse;
     }

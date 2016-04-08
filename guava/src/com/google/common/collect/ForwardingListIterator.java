@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.ListIterator;
 
@@ -54,6 +55,7 @@ public abstract class ForwardingListIterator<E> extends ForwardingIterator<E>
     return delegate().nextIndex();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public E previous() {
     return delegate().previous();

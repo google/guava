@@ -15,7 +15,9 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +34,7 @@ import java.util.logging.Logger;
  * @since 1.0
  */
 @Beta
+@GwtIncompatible
 public abstract class AbstractExecutionThreadService implements Service {
   private static final Logger logger =
       Logger.getLogger(AbstractExecutionThreadService.class.getName());
@@ -196,6 +199,7 @@ public abstract class AbstractExecutionThreadService implements Service {
   /**
    * @since 15.0
    */
+  @CanIgnoreReturnValue
   @Override
   public final Service startAsync() {
     delegate.startAsync();
@@ -205,6 +209,7 @@ public abstract class AbstractExecutionThreadService implements Service {
   /**
    * @since 15.0
    */
+  @CanIgnoreReturnValue
   @Override
   public final Service stopAsync() {
     delegate.stopAsync();

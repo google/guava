@@ -42,7 +42,8 @@ public class MapHashCodeTester<K, V> extends AbstractMapTester<K, V> {
     }
     assertEquals(
         "A Map's hashCode() should be the sum of those of its entries.",
-        expectedHashCode, getMap().hashCode());
+        expectedHashCode,
+        getMap().hashCode());
   }
 
   @CollectionSize.Require(absent = CollectionSize.ZERO)
@@ -73,7 +74,8 @@ public class MapHashCodeTester<K, V> extends AbstractMapTester<K, V> {
     assertEquals(
         "A Map's hashCode() should be the sum of those of its entries (where "
             + "a null element in an entry counts as having a hash of zero).",
-        expectedHashCode, getMap().hashCode());
+        expectedHashCode,
+        getMap().hashCode());
   }
 
   private static int hash(Map.Entry<?, ?> e) {

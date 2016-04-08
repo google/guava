@@ -15,12 +15,14 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Throwables;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -59,25 +61,29 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 public abstract class AbstractFuture<V> implements ListenableFuture<V> {
+  // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
+
   private static final boolean GENERATE_CANCELLATION_CAUSES =
       Boolean.parseBoolean(
           System.getProperty("guava.concurrent.generate_cancellation_cause", "false"));
 
   /**
-   * A less abstract subclass of AbstractFuture.  This can be used to optimize setFuture by ensuring
+   * A less abstract subclass of AbstractFuture. This can be used to optimize setFuture by ensuring
    * that {@link #get} calls exactly the implementation of {@link AbstractFuture#get}.
    */
   abstract static class TrustedFuture<V> extends AbstractFuture<V> {
     // N.B. cancel is not overridden to be final, because many future utilities need to override
     // cancel in order to propagate cancellation to other futures.
-    // TODO(lukes): with maybePropagateCancellation this is no longer really true.  Track down the
+    // TODO(lukes): with maybePropagateCancellation this is no longer really true. Track down the
     // final few cases and eliminate their overrides of cancel()
 
+    @CanIgnoreReturnValue
     @Override
     public final V get() throws InterruptedException, ExecutionException {
       return super.get();
     }
 
+    @CanIgnoreReturnValue
     @Override
     public final V get(long timeout, TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException {
@@ -103,8 +109,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   // Logger to log exceptions caught when running listeners.
   private static final Logger log = Logger.getLogger(AbstractFuture.class.getName());
 
-  // A heuristic for timed gets.  If the remaining timeout is less than this, spin instead of
-  // blocking.  This value is what AbstractQueuedSynchronizer uses.
+  // A heuristic for timed gets. If the remaining timeout is less than this, spin instead of
+  // blocking. This value is what AbstractQueuedSynchronizer uses.
   private static final long SPIN_THRESHOLD_NANOS = 1000L;
 
   private static final AtomicHelper ATOMIC_HELPER;
@@ -119,17 +125,18 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       // The access control checks that ARFU does means the caller class has to be AbstractFuture
       // instead of SafeAtomicHelper, so we annoyingly define these here
       try {
-        helper = new SafeAtomicHelper(
-            newUpdater(Waiter.class, Thread.class, "thread"),
-            newUpdater(Waiter.class, Waiter.class, "next"),
-            newUpdater(AbstractFuture.class, Waiter.class, "waiters"),
-            newUpdater(AbstractFuture.class, Listener.class, "listeners"),
-            newUpdater(AbstractFuture.class, Object.class, "value"));
+        helper =
+            new SafeAtomicHelper(
+                newUpdater(Waiter.class, Thread.class, "thread"),
+                newUpdater(Waiter.class, Waiter.class, "next"),
+                newUpdater(AbstractFuture.class, Waiter.class, "waiters"),
+                newUpdater(AbstractFuture.class, Listener.class, "listeners"),
+                newUpdater(AbstractFuture.class, Object.class, "value"));
       } catch (Throwable atomicReferenceFieldUpdaterFailure) {
         // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
         // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
-        // For these users fallback to a suboptimal implementation, based on synchronized.  This
-        // will be a definite performance hit to those users.
+        // For these users fallback to a suboptimal implementation, based on synchronized. This will
+        // be a definite performance hit to those users.
         log.log(Level.SEVERE, "UnsafeAtomicHelper is broken!", unsafeFailure);
         log.log(Level.SEVERE, "SafeAtomicHelper is broken!", atomicReferenceFieldUpdaterFailure);
         helper = new SynchronizedHelper();
@@ -170,9 +177,9 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     }
 
     void unpark() {
-      // This is racy with removeWaiter.  The consequence of the race is that we may spuriously
-      // call unpark even though the thread has already removed itself from the list.  But even if
-      // we did use a CAS, that race would still exist (it would just be ever so slightly smaller).
+      // This is racy with removeWaiter. The consequence of the race is that we may spuriously call
+      // unpark even though the thread has already removed itself from the list. But even if we did
+      // use a CAS, that race would still exist (it would just be ever so slightly smaller).
       Thread w = thread;
       if (w != null) {
         thread = null;
@@ -183,12 +190,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
   /**
    * Marks the given node as 'deleted' (null waiter) and then scans the list to unlink all deleted
-   * nodes.  This is an O(n) operation in the common case (and O(n^2) in the worst), but we are
-   * saved by two things.
+   * nodes. This is an O(n) operation in the common case (and O(n^2) in the worst), but we are saved
+   * by two things.
    * <ul>
-   *   <li>This is only called when a waiting thread times out or is interrupted.  Both of which
-   *       should be rare.
-   *   <li>The waiters list should be very short.
+   * <li>This is only called when a waiting thread times out or is interrupted. Both of which should
+   *     be rare.
+   * <li>The waiters list should be very short.
    * </ul>
    */
   private void removeWaiter(Waiter node) {
@@ -290,13 +297,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    *
    * <p>The valid values are:
    * <ul>
-   *   <li>{@code null} initial state, nothing has happened.
-   *   <li>{@link Cancellation} terminal state, {@code cancel} was called.
-   *   <li>{@link Failure} terminal state, {@code setException} was called.
-   *   <li>{@link SetFuture} intermediate state, {@code setFuture} was called.
-   *   <li>{@link #NULL} terminal state, {@code set(null)} was called.
-   *   <li>Any other non-null value, terminal state, {@code set} was called with a non-null
-   *       argument.
+   * <li>{@code null} initial state, nothing has happened.
+   * <li>{@link Cancellation} terminal state, {@code cancel} was called.
+   * <li>{@link Failure} terminal state, {@code setException} was called.
+   * <li>{@link SetFuture} intermediate state, {@code setFuture} was called.
+   * <li>{@link #NULL} terminal state, {@code set(null)} was called.
+   * <li>Any other non-null value, terminal state, {@code set} was called with a non-null argument.
    * </ul>
    */
   private volatile Object value;
@@ -323,18 +329,18 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   // Timed Get
   // There are a few design constraints to consider
   // * We want to be responsive to small timeouts, unpark() has non trivial latency overheads (I
-  //   have observed 12 micros on 64 bit linux systems to wake up a parked thread).  So if the
-  //   timeout is small we shouldn't park().  This needs to be traded off with the cpu overhead of
+  //   have observed 12 micros on 64 bit linux systems to wake up a parked thread). So if the
+  //   timeout is small we shouldn't park(). This needs to be traded off with the cpu overhead of
   //   spinning, so we use SPIN_THRESHOLD_NANOS which is what AbstractQueuedSynchronizer uses for
   //   similar purposes.
   // * We want to behave reasonably for timeouts of 0
-  // * We are more responsive to completion than timeouts.  This is because parkNanos depends on
+  // * We are more responsive to completion than timeouts. This is because parkNanos depends on
   //   system scheduling and as such we could either miss our deadline, or unpark() could be delayed
-  //   so that it looks like we timed out even though we didn't.  For comparison FutureTask respects
+  //   so that it looks like we timed out even though we didn't. For comparison FutureTask respects
   //   completion preferably and AQS is non-deterministic (depends on where in the queue the waiter
-  //   is).  If we wanted to be strict about it, we could store the unpark() time in the Waiter
-  //   node and we could use that to make a decision about whether or not we timed out prior to
-  //   being unparked.
+  //   is). If we wanted to be strict about it, we could store the unpark() time in the Waiter node
+  //   and we could use that to make a decision about whether or not we timed out prior to being
+  //   unparked.
 
   /*
    * Improve the documentation of when InterruptedException is thrown. Our behavior matches the
@@ -352,6 +358,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    *     (optional but recommended).
    * @throws CancellationException {@inheritDoc}
    */
+  @CanIgnoreReturnValue
   @Override
   public V get(long timeout, TimeUnit unit)
       throws InterruptedException, TimeoutException, ExecutionException {
@@ -383,7 +390,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
                 throw new InterruptedException();
               }
 
-              // Otherwise re-read and check doneness.  If we loop then it must have been a spurious
+              // Otherwise re-read and check doneness. If we loop then it must have been a spurious
               // wakeup
               localValue = value;
               if (localValue != null & !(localValue instanceof AbstractFuture.SetFuture)) {
@@ -437,6 +444,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    *     (optional but recommended).
    * @throws CancellationException {@inheritDoc}
    */
+  @CanIgnoreReturnValue
   @Override
   public V get() throws InterruptedException, ExecutionException {
     if (Thread.interrupted()) {
@@ -460,7 +468,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
               removeWaiter(node);
               throw new InterruptedException();
             }
-            // Otherwise re-read and check doneness.  If we loop then it must have been a spurious
+            // Otherwise re-read and check doneness. If we loop then it must have been a spurious
             // wakeup
             localValue = value;
             if (localValue != null & !(localValue instanceof AbstractFuture.SetFuture)) {
@@ -477,7 +485,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   /**
-   * Unboxes {@code obj}.  Assumes that obj is not {@code null} or a {@link SetFuture}.
+   * Unboxes {@code obj}. Assumes that obj is not {@code null} or a {@link SetFuture}.
    */
   private V getDoneValue(Object obj) throws ExecutionException {
     // While this seems like it might be too branch-y, simple benchmarking proves it to be
@@ -514,14 +522,13 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * #setFuture set asynchronously}, then the cancellation will also be propagated to the delegate
    * {@code Future} that was supplied in the {@code setFuture} call.
    */
+  @CanIgnoreReturnValue
   @Override
   public boolean cancel(boolean mayInterruptIfRunning) {
     Object localValue = value;
     if (localValue == null | localValue instanceof AbstractFuture.SetFuture) {
-      // Try to delay allocating the exception.  At this point we may still lose the CAS, but it is
+      // Try to delay allocating the exception. At this point we may still lose the CAS, but it is
       // certainly less likely.
-      // TODO(lukes): this exception actually makes cancellation significantly more expensive :(
-      // I wonder if we should consider removing it or providing a mechanism to not do it.
       Throwable cause =
           GENERATE_CANCELLATION_CAUSES
               ? new CancellationException("Future.cancel() was called.")
@@ -529,7 +536,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       Object valueToSet = new Cancellation(mayInterruptIfRunning, cause);
       do {
         if (ATOMIC_HELPER.casValue(this, localValue, valueToSet)) {
-          // We call interuptTask before calling complete(), first which is consistent with
+          // We call interuptTask before calling complete(), which is consistent with
           // FutureTask
           if (mayInterruptIfRunning) {
             interruptTask();
@@ -609,6 +616,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * @param value the value to be used as the result
    * @return true if the attempt was accepted, completing the {@code Future}
    */
+  @CanIgnoreReturnValue
   protected boolean set(@Nullable V value) {
     Object valueToSet = value == null ? NULL : value;
     if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
@@ -630,6 +638,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * @param throwable the exception to be used as the failed result
    * @return true if the attempt was accepted, completing the {@code Future}
    */
+  @CanIgnoreReturnValue
   protected boolean setException(Throwable throwable) {
     Object valueToSet = new Failure(checkNotNull(throwable));
     if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
@@ -661,6 +670,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * @since 19.0
    */
   @Beta
+  @CanIgnoreReturnValue
   protected boolean setFuture(ListenableFuture<? extends V> future) {
     checkNotNull(future);
     Object localValue = value;
@@ -675,9 +685,9 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
         try {
           future.addListener(valueToSet, directExecutor());
         } catch (Throwable t) {
-          // addListener has thrown an exception!  SetFuture.run can't throw any exceptions so this
-          // must have been caused by addListener itself.  The most likely explanation is a
-          // misconfigured mock.  Try to switch to Failure.
+          // addListener has thrown an exception! SetFuture.run can't throw any exceptions so this
+          // must have been caused by addListener itself. The most likely explanation is a
+          // misconfigured mock. Try to switch to Failure.
           Failure failure;
           try {
             failure = new Failure(t);
@@ -685,13 +695,13 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
             failure = Failure.FALLBACK_INSTANCE;
           }
           // Note: The only way this CAS could fail is if cancel() has raced with us. That is ok.
-          ATOMIC_HELPER.casValue(this, valueToSet, failure);
+          boolean unused = ATOMIC_HELPER.casValue(this, valueToSet, failure);
         }
         return true;
       }
       localValue = value; // we lost the cas, fall through and maybe cancel
     }
-    // The future has already been set to something.  If it is cancellation we should cancel the
+    // The future has already been set to something. If it is cancellation we should cancel the
     // incoming future.
     if (localValue instanceof Cancellation) {
       // we don't care if it fails, this is best-effort.
@@ -706,6 +716,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * @param future the done future to complete this future with.
    * @param expected the expected value of the {@link #value} field.
    */
+  @CanIgnoreReturnValue
   private boolean completeWithFuture(ListenableFuture<? extends V> future, Object expected) {
     Object valueToSet;
     if (future instanceof TrustedFuture) {
@@ -717,7 +728,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     } else {
       // Otherwise calculate valueToSet by calling .get()
       try {
-        V v = Uninterruptibles.getUninterruptibly(future);
+        V v = getDone(future);
         valueToSet = v == null ? NULL : v;
       } catch (ExecutionException exception) {
         valueToSet = new Failure(exception.getCause());
@@ -755,21 +766,26 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     for (; reversedList != null; reversedList = reversedList.next) {
       executeListener(reversedList.task, reversedList.executor);
     }
-    // We call this after the listeners on the theory that done() will only be used for 'cleanup'
-    // oriented tasks (e.g. clearing fields) and so can wait behind listeners which may be executing
-    // more important work.  A counter argument would be that done() is trusted code and therefore
-    // it would be safe to run before potentially slow or poorly behaved listeners.  Reevaluate this
-    // once we have more examples of done() implementations.
-    done();
+    // We call this after the listeners on the theory that afterDone() will only be used for
+    // 'cleanup' oriented tasks (e.g. clearing fields) and so can wait behind listeners which may be
+    // executing more important work. A counter argument would be that done() is trusted code and
+    // therefore it would be safe to run before potentially slow or poorly behaved listeners.
+    // Reevaluate this once we have more examples of afterDone() implementations.
+    afterDone();
   }
 
   /**
-   * Callback method that is called immediately after the future is completed.
+   * Callback method that is called exactly once after the future is completed.
    *
-   * <p>This is called exactly once, after all listeners have executed.  By default it does nothing.
+   * <p>If {@link #interruptTask} is also run during completion, {@link #afterDone} runs after it.
+   *
+   * <p>The default implementation of this method in {@code AbstractFuture} does nothing.
+   *
+   * @since 20.0
    */
   // TODO(cpovirk): @ForOverride https://github.com/google/error-prone/issues/342
-  void done() {}
+  @Beta
+  protected void afterDone() {}
 
   /**
    * Returns the exception that this {@code Future} completed with. This includes completion through
@@ -820,21 +836,14 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     try {
       executor.execute(runnable);
     } catch (RuntimeException e) {
-      // Log it and keep going, bad runnable and/or executor.  Don't
-      // punish the other runnables if we're given a bad one.  We only
-      // catch RuntimeException because we want Errors to propagate up.
+      // Log it and keep going -- bad runnable and/or executor. Don't punish the other runnables if
+      // we're given a bad one. We only catch RuntimeException because we want Errors to propagate
+      // up.
       log.log(
           Level.SEVERE,
           "RuntimeException while executing runnable " + runnable + " with executor " + executor,
           e);
     }
-  }
-
-  static final CancellationException cancellationExceptionWithCause(
-      @Nullable String message, @Nullable Throwable cause) {
-    CancellationException exception = new CancellationException(message);
-    exception.initCause(cause);
-    return exception;
   }
 
   private abstract static class AtomicHelper {
@@ -986,8 +995,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   /**
    * {@link AtomicHelper} based on {@code synchronized} and volatile writes.
    *
-   * <p>This is an implementation of last resort for when certain basic VM features are broken
-   * (like AtomicReferenceFieldUpdater).
+   * <p>This is an implementation of last resort for when certain basic VM features are broken (like
+   * AtomicReferenceFieldUpdater).
    */
   private static final class SynchronizedHelper extends AtomicHelper {
     @Override
@@ -1032,5 +1041,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
         return false;
       }
     }
+  }
+
+  private static CancellationException cancellationExceptionWithCause(
+      @Nullable String message, @Nullable Throwable cause) {
+    CancellationException exception = new CancellationException(message);
+    exception.initCause(cause);
+    return exception;
   }
 }

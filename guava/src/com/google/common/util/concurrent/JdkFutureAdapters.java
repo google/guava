@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -34,6 +35,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @since 10.0 (replacing {@code Futures.makeListenable}, which existed in 1.0)
  */
 @Beta
+@GwtIncompatible
 public final class JdkFutureAdapters {
   /**
    * Assigns a thread to the given {@link Future} to provide {@link ListenableFuture} functionality.
@@ -62,7 +64,7 @@ public final class JdkFutureAdapters {
    * <p><b>Warning:</b> If the input future does not already implement {@code ListenableFuture}, the
    * returned future will emulate {@link ListenableFuture#addListener} by submitting a task to the
    * given executor at the first call to {@code addListener}. The task must be started by the
-   * executor promptly, or else the returned {@code ListenableFuture} may fail to work.  The task's
+   * executor promptly, or else the returned {@code ListenableFuture} may fail to work. The task's
    * execution consists of blocking until the input future is {@linkplain Future#isDone() done}, so
    * each call to this method may claim and hold a thread for an arbitrary length of time. Use of
    * bounded executors or other executors that may fail to execute a task promptly may result in
@@ -84,8 +86,8 @@ public final class JdkFutureAdapters {
   }
 
   /**
-   * An adapter to turn a {@link Future} into a {@link ListenableFuture}.  This will wait on the
-   * future to finish, and when it completes, run the listeners.  This implementation will wait on
+   * An adapter to turn a {@link Future} into a {@link ListenableFuture}. This will wait on the
+   * future to finish, and when it completes, run the listeners. This implementation will wait on
    * the source future indefinitely, so if the source future never completes, the adapter will never
    * complete either.
    *

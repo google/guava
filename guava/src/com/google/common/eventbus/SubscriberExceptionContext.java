@@ -1,16 +1,14 @@
 /*
  * Copyright (C) 2013 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
 package com.google.common.eventbus;
@@ -31,14 +29,14 @@ public class SubscriberExceptionContext {
   private final Method subscriberMethod;
 
   /**
-   * @param eventBus The {@link EventBus} that handled the event and the
-   *     subscriber. Useful for broadcasting a a new event based on the error.
+   * @param eventBus The {@link EventBus} that handled the event and the subscriber. Useful for
+   *     broadcasting a a new event based on the error.
    * @param event The event object that caused the subscriber to throw.
    * @param subscriber The source subscriber context.
    * @param subscriberMethod the subscribed method.
    */
-  SubscriberExceptionContext(EventBus eventBus, Object event, Object subscriber,
-      Method subscriberMethod) {
+  SubscriberExceptionContext(
+      EventBus eventBus, Object event, Object subscriber, Method subscriberMethod) {
     this.eventBus = checkNotNull(eventBus);
     this.event = checkNotNull(event);
     this.subscriber = checkNotNull(subscriber);
@@ -46,8 +44,8 @@ public class SubscriberExceptionContext {
   }
 
   /**
-   * @return The {@link EventBus} that handled the event and the subscriber.
-   *     Useful for broadcasting a a new event based on the error.
+   * @return The {@link EventBus} that handled the event and the subscriber. Useful for broadcasting
+   *     a a new event based on the error.
    */
   public EventBus getEventBus() {
     return eventBus;

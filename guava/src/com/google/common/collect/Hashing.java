@@ -51,7 +51,7 @@ final class Hashing {
     return smear((o == null) ? 0 : o.hashCode());
   }
 
-  private static int MAX_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;
+  private static final int MAX_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;
 
   static int closedTableSize(int expectedEntries, double loadFactor) {
     // Get the recommended table size.

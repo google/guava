@@ -92,4 +92,9 @@ public void testStop_new() throws Exception {
   com.google.common.base.StopwatchTest testCase = new com.google.common.base.StopwatchTest();
   testCase.testStop_new();
 }
+
+public void testToString() throws Exception {
+  com.google.common.base.StopwatchTest testCase = new com.google.common.base.StopwatchTest();
+  testCase.testToString();
+}
 }

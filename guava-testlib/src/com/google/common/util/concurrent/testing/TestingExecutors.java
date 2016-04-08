@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent.testing;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Longs;
 import com.google.common.util.concurrent.AbstractFuture;
@@ -38,6 +39,7 @@ import java.util.concurrent.TimeUnit;
  * @since 14.0
  */
 @Beta
+@GwtIncompatible
 public final class TestingExecutors {
   private TestingExecutors() {}
 

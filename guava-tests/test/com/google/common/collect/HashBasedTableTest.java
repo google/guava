@@ -77,13 +77,13 @@ public class HashBasedTableTest extends AbstractTableTest {
     assertEquals((Character) 'a', copy.get("foo", 1));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     SerializableTester.reserializeAndAssert(table);
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointerStatic() {
     new NullPointerTester().testAllPublicStaticMethods(HashBasedTable.class);
   }

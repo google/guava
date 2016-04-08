@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.util.Iterator;
 import java.util.NavigableSet;
@@ -44,6 +45,7 @@ import java.util.SortedSet;
  * @author Louis Wasserman
  * @since 12.0
  */
+@GwtIncompatible
 public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
     implements NavigableSet<E> {
 

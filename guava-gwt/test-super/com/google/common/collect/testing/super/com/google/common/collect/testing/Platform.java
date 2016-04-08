@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import java.util.Arrays;
+
 /**
  * Minimal GWT emulation of {@code com.google.common.collect.testing.Platform}.
  *
@@ -24,22 +26,12 @@ package com.google.common.collect.testing;
  * @author Hayward Chan
  */
 final class Platform {
-
-  static boolean checkIsInstance(Class<?> clazz, Object obj) {
-    /*
-     * In GWT, we can't tell whether obj is an instance of clazz because GWT
-     * doesn't support reflections.  For testing purposes, we give up this
-     * particular assertion (so that we can keep the rest).
-     */
-    return true;
-  }
-
   // Class.cast is not supported in GWT.
   static void checkCast(Class<?> clazz, Object obj) {
   }
 
   static <T> T[] clone(T[] array) {
-    return GwtPlatform.clone(array);
+    return (T[]) Arrays.copyOfRange(array, 0, array.length);
   }
 
   // TODO: Consolidate different copies in one single place.

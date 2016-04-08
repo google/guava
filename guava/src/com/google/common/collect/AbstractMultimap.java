@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.AbstractCollection;
@@ -59,17 +60,20 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     return collection != null && collection.contains(value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean remove(@Nullable Object key, @Nullable Object value) {
     Collection<V> collection = asMap().get(key);
     return collection != null && collection.remove(value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean put(@Nullable K key, @Nullable V value) {
     return get(key).add(value);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean putAll(@Nullable K key, Iterable<? extends V> values) {
     checkNotNull(values);
@@ -84,6 +88,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     }
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
     boolean changed = false;
@@ -93,6 +98,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     return changed;
   }
 
+  @CanIgnoreReturnValue
   @Override
   public Collection<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
     checkNotNull(values);

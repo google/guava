@@ -664,7 +664,7 @@ public class MapConstraintsTest extends TestCase {
     };
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization() {
     // TODO: Test serialization of constrained collections.
     assertSame(MapConstraints.notNull(),

@@ -23,7 +23,6 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.List;
 
@@ -35,7 +34,6 @@ import javax.annotation.Nullable;
 @GwtCompatible(emulated = true)
 abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
 
-  @WeakOuter
   abstract class CollectionFutureRunningState extends RunningState {
     private List<Optional<V>> values;
 

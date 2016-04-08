@@ -83,7 +83,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   }
 
   @Override
-  @GwtIncompatible("not used in GWT")
+  @GwtIncompatible // not used in GWT
   boolean isHashCodeFast() {
     return map().isHashCodeFast();
   }
@@ -93,13 +93,13 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
     return map().hashCode();
   }
 
-  @GwtIncompatible("serialization")
+  @GwtIncompatible // serialization
   @Override
   Object writeReplace() {
     return new EntrySetSerializedForm<K, V>(map());
   }
 
-  @GwtIncompatible("serialization")
+  @GwtIncompatible // serialization
   private static class EntrySetSerializedForm<K, V> implements Serializable {
     final ImmutableMap<K, V> map;
 

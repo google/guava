@@ -62,7 +62,8 @@ final class FilteredMultimapValues<K, V> extends AbstractCollection<V> {
   public boolean remove(@Nullable Object o) {
     Predicate<? super Entry<K, V>> entryPredicate = multimap.entryPredicate();
     for (Iterator<Entry<K, V>> unfilteredItr = multimap.unfiltered().entries().iterator();
-        unfilteredItr.hasNext();) {
+        unfilteredItr.hasNext();
+        ) {
       Map.Entry<K, V> entry = unfilteredItr.next();
       if (entryPredicate.apply(entry) && Objects.equal(entry.getValue(), o)) {
         unfilteredItr.remove();

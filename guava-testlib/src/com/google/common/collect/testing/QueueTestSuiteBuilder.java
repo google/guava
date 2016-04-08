@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.testers.QueueElementTester;
 import com.google.common.collect.testing.testers.QueueOfferTester;
 import com.google.common.collect.testing.testers.QueuePeekTester;
@@ -31,10 +32,10 @@ import java.util.List;
  *
  * @author Jared Levy
  */
+@GwtIncompatible
 public final class QueueTestSuiteBuilder<E>
     extends AbstractCollectionTestSuiteBuilder<QueueTestSuiteBuilder<E>, E> {
-  public static <E> QueueTestSuiteBuilder<E> using(
-      TestQueueGenerator<E> generator) {
+  public static <E> QueueTestSuiteBuilder<E> using(TestQueueGenerator<E> generator) {
     return new QueueTestSuiteBuilder<E>().usingGenerator(generator);
   }
 
@@ -50,7 +51,8 @@ public final class QueueTestSuiteBuilder<E>
     return this;
   }
 
-  @Override protected List<Class<? extends AbstractTester>> getTesters() {
+  @Override
+  protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers =
         new ArrayList<Class<? extends AbstractTester>>();
     if (runCollectionTests) {

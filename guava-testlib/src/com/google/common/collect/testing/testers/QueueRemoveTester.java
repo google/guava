@@ -44,23 +44,22 @@ public class QueueRemoveTester<E> extends AbstractQueueTester<E> {
     try {
       getQueue().remove();
       fail("emptyQueue.remove() should throw");
-    } catch (NoSuchElementException expected) {}
+    } catch (NoSuchElementException expected) {
+    }
     expectUnchanged();
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ONE)
   public void testRemove_size1() {
-    assertEquals("size1Queue.remove() should return first element",
-        e0(), getQueue().remove());
+    assertEquals("size1Queue.remove() should return first element", e0(), getQueue().remove());
     expectMissing(e0());
   }
 
   @CollectionFeature.Require({KNOWN_ORDER, SUPPORTS_REMOVE})
   @CollectionSize.Require(SEVERAL)
   public void testRemove_sizeMany() {
-    assertEquals("sizeManyQueue.remove() should return first element",
-        e0(), getQueue().remove());
+    assertEquals("sizeManyQueue.remove() should return first element", e0(), getQueue().remove());
     expectMissing(e0());
   }
 }

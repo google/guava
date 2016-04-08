@@ -70,7 +70,7 @@ public class SafeTreeSetTest extends TestCase {
     return suite;
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testViewSerialization() {
     Map<String, Integer> map =
         ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
@@ -80,14 +80,14 @@ public class SafeTreeSetTest extends TestCase {
         Lists.newArrayList(SerializableTester.reserialize(map.values())));
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testEmpty_serialization() {
     SortedSet<String> set = new SafeTreeSet<String>();
     SortedSet<String> copy = SerializableTester.reserializeAndAssert(set);
     assertEquals(set.comparator(), copy.comparator());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSingle_serialization() {
     SortedSet<String> set = new SafeTreeSet<String>();
     set.add("e");
@@ -95,7 +95,7 @@ public class SafeTreeSetTest extends TestCase {
     assertEquals(set.comparator(), copy.comparator());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSeveral_serialization() {
     SortedSet<String> set = new SafeTreeSet<String>();
     set.add("a");

@@ -91,7 +91,7 @@ final class SortedMultisets {
   /**
    * A skeleton navigable implementation for {@link SortedMultiset#elementSet}.
    */
-  @GwtIncompatible("Navigable")
+  @GwtIncompatible // Navigable
   static class NavigableElementSet<E> extends ElementSet<E> implements NavigableSet<E> {
     NavigableElementSet(SortedMultiset<E> multiset) {
       super(multiset);
@@ -141,9 +141,10 @@ final class SortedMultisets {
     public NavigableSet<E> subSet(
         E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
       return new NavigableElementSet<E>(
-          multiset().subMultiset(
-              fromElement, BoundType.forBoolean(fromInclusive),
-              toElement, BoundType.forBoolean(toInclusive)));
+          multiset()
+              .subMultiset(
+                  fromElement, BoundType.forBoolean(fromInclusive),
+                  toElement, BoundType.forBoolean(toInclusive)));
     }
 
     @Override

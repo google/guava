@@ -74,6 +74,7 @@ public class CountingInputStreamTest extends IoTestCase {
     assertEquals(20, counter.getCount());
   }
 
+  @SuppressWarnings("CheckReturnValue") // calling read() to skip a byte
   public void testMark() throws Exception {
     assertTrue(counter.markSupported());
     assertEquals(10, counter.read(new byte[10]));
@@ -86,7 +87,7 @@ public class CountingInputStreamTest extends IoTestCase {
     assertEquals(10, counter.skip(100));
     assertEquals(20, counter.getCount());
   }
-  
+
   public void testMarkNotSet() {
     try {
       counter.reset();
@@ -95,7 +96,7 @@ public class CountingInputStreamTest extends IoTestCase {
       assertThat(expected).hasMessage("Mark not set");
     }
   }
-  
+
   public void testMarkNotSupported() {
     counter = new CountingInputStream(new UnmarkableInputStream());
 
@@ -106,16 +107,16 @@ public class CountingInputStreamTest extends IoTestCase {
       assertThat(expected).hasMessage("Mark not supported");
     }
   }
-  
+
   private static class UnmarkableInputStream extends InputStream {
     @Override
     public int read() throws IOException {
       return 0;
     }
-    
+
     @Override
     public boolean markSupported() {
       return false;
-    }    
+    }
   }
 }

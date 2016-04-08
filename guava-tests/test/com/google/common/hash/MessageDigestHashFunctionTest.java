@@ -73,7 +73,6 @@ public class MessageDigestHashFunctionTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testHashTwice() {
     Hasher sha1 = Hashing.sha1().newHasher();
 

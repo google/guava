@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.escape;
@@ -20,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,8 +38,7 @@ public final class Escapers {
   private Escapers() {}
 
   /**
-   * Returns an {@link Escaper} that does no escaping, passing all character
-   * data through unchanged.
+   * Returns an {@link Escaper} that does no escaping, passing all character data through unchanged.
    */
   public static Escaper nullEscaper() {
     return NULL_ESCAPER;
@@ -48,31 +46,34 @@ public final class Escapers {
 
   // An Escaper that efficiently performs no escaping.
   // Extending CharEscaper (instead of Escaper) makes Escapers.compose() easier.
-  private static final Escaper NULL_ESCAPER = new CharEscaper() {
-    @Override public String escape(String string) {
-      return checkNotNull(string);
-    }
+  private static final Escaper NULL_ESCAPER =
+      new CharEscaper() {
+        @Override
+        public String escape(String string) {
+          return checkNotNull(string);
+        }
 
-    @Override protected char[] escape(char c) {
-      // TODO: Fix tests not to call this directly and make it throw an error.
-      return null;
-    }
-  };
+        @Override
+        protected char[] escape(char c) {
+          // TODO: Fix tests not to call this directly and make it throw an error.
+          return null;
+        }
+      };
 
   /**
-   * Returns a builder for creating simple, fast escapers. A builder instance
-   * can be reused and each escaper that is created will be a snapshot of the
-   * current builder state. Builders are not thread safe.
+   * Returns a builder for creating simple, fast escapers. A builder instance can be reused and each
+   * escaper that is created will be a snapshot of the current builder state. Builders are not
+   * thread safe.
    *
    * <p>The initial state of the builder is such that:
    * <ul>
-   * <li>There are no replacement mappings<li>
-   * <li>{@code safeMin == Character.MIN_VALUE}</li>
-   * <li>{@code safeMax == Character.MAX_VALUE}</li>
-   * <li>{@code unsafeReplacement == null}</li>
+   * <li>There are no replacement mappings
+   * <li>{@code safeMin == Character.MIN_VALUE}
+   * <li>{@code safeMax == Character.MAX_VALUE}
+   * <li>{@code unsafeReplacement == null}
    * </ul>
-   * <p>For performance reasons escapers created by this builder are not
-   * Unicode aware and will not validate the well-formedness of their input.
+   * <p>For performance reasons escapers created by this builder are not Unicode aware and will not
+   * validate the well-formedness of their input.
    */
   public static Builder builder() {
     return new Builder();
@@ -81,19 +82,17 @@ public final class Escapers {
   /**
    * A builder for simple, fast escapers.
    *
-   * <p>Typically an escaper needs to deal with the escaping of high valued
-   * characters or code points. In these cases it is necessary to extend either
-   * {@link ArrayBasedCharEscaper} or {@link ArrayBasedUnicodeEscaper} to
-   * provide the desired behavior. However this builder is suitable for creating
-   * escapers that replace a relative small set of characters.
+   * <p>Typically an escaper needs to deal with the escaping of high valued characters or code
+   * points. In these cases it is necessary to extend either {@link ArrayBasedCharEscaper} or
+   * {@link ArrayBasedUnicodeEscaper} to provide the desired behavior. However this builder is
+   * suitable for creating escapers that replace a relative small set of characters.
    *
    * @author David Beaumont
    * @since 15.0
    */
   @Beta
   public static final class Builder {
-    private final Map<Character, String> replacementMap =
-        new HashMap<Character, String>();
+    private final Map<Character, String> replacementMap = new HashMap<Character, String>();
     private char safeMin = Character.MIN_VALUE;
     private char safeMax = Character.MAX_VALUE;
     private String unsafeReplacement = null;
@@ -102,15 +101,15 @@ public final class Escapers {
     private Builder() {}
 
     /**
-     * Sets the safe range of characters for the escaper. Characters in this
-     * range that have no explicit replacement are considered 'safe' and remain
-     * unescaped in the output. If {@code safeMax < safeMin} then the safe range
-     * is empty.
+     * Sets the safe range of characters for the escaper. Characters in this range that have no
+     * explicit replacement are considered 'safe' and remain unescaped in the output. If
+     * {@code safeMax < safeMin} then the safe range is empty.
      *
      * @param safeMin the lowest 'safe' character
      * @param safeMax the highest 'safe' character
      * @return the builder instance
      */
+    @CanIgnoreReturnValue
     public Builder setSafeRange(char safeMin, char safeMax) {
       this.safeMin = safeMin;
       this.safeMax = safeMax;
@@ -118,30 +117,30 @@ public final class Escapers {
     }
 
     /**
-     * Sets the replacement string for any characters outside the 'safe' range
-     * that have no explicit replacement. If {@code unsafeReplacement} is
-     * {@code null} then no replacement will occur, if it is {@code ""} then
-     * the unsafe characters are removed from the output.
+     * Sets the replacement string for any characters outside the 'safe' range that have no explicit
+     * replacement. If {@code unsafeReplacement} is {@code null} then no replacement will occur, if
+     * it is {@code ""} then the unsafe characters are removed from the output.
      *
      * @param unsafeReplacement the string to replace unsafe chracters
      * @return the builder instance
      */
+    @CanIgnoreReturnValue
     public Builder setUnsafeReplacement(@Nullable String unsafeReplacement) {
       this.unsafeReplacement = unsafeReplacement;
       return this;
     }
 
     /**
-     * Adds a replacement string for the given input character. The specified
-     * character will be replaced by the given string whenever it occurs in the
-     * input, irrespective of whether it lies inside or outside the 'safe'
-     * range.
+     * Adds a replacement string for the given input character. The specified character will be
+     * replaced by the given string whenever it occurs in the input, irrespective of whether it lies
+     * inside or outside the 'safe' range.
      *
      * @param c the character to be replaced
      * @param replacement the string to replace the given character
      * @return the builder instance
      * @throws NullPointerException if {@code replacement} is null
      */
+    @CanIgnoreReturnValue
     public Builder addEscape(char c, String replacement) {
       checkNotNull(replacement);
       // This can replace an existing character (the builder is re-usable).
@@ -156,7 +155,9 @@ public final class Escapers {
       return new ArrayBasedCharEscaper(replacementMap, safeMin, safeMax) {
         private final char[] replacementChars =
             unsafeReplacement != null ? unsafeReplacement.toCharArray() : null;
-        @Override protected char[] escapeUnsafe(char c) {
+
+        @Override
+        protected char[] escapeUnsafe(char c) {
           return replacementChars;
         }
       };
@@ -164,20 +165,18 @@ public final class Escapers {
   }
 
   /**
-   * Returns a {@link UnicodeEscaper} equivalent to the given escaper instance.
-   * If the escaper is already a UnicodeEscaper then it is simply returned,
-   * otherwise it is wrapped in a UnicodeEscaper.
+   * Returns a {@link UnicodeEscaper} equivalent to the given escaper instance. If the escaper is
+   * already a UnicodeEscaper then it is simply returned, otherwise it is wrapped in a
+   * UnicodeEscaper.
    *
-   * <p>When a {@link CharEscaper} escaper is wrapped by this method it acquires
-   * extra behavior with respect to the well-formedness of Unicode character
-   * sequences and will throw {@link IllegalArgumentException} when given bad
-   * input.
+   * <p>When a {@link CharEscaper} escaper is wrapped by this method it acquires extra behavior with
+   * respect to the well-formedness of Unicode character sequences and will throw
+   * {@link IllegalArgumentException} when given bad input.
    *
    * @param escaper the instance to be wrapped
    * @return a UnicodeEscaper with the same behavior as the given instance
    * @throws NullPointerException if escaper is null
-   * @throws IllegalArgumentException if escaper is not a UnicodeEscaper or a
-   *         CharEscaper
+   * @throws IllegalArgumentException if escaper is not a UnicodeEscaper or a CharEscaper
    */
   static UnicodeEscaper asUnicodeEscaper(Escaper escaper) {
     checkNotNull(escaper);
@@ -188,16 +187,15 @@ public final class Escapers {
     }
     // In practice this shouldn't happen because it would be very odd not to
     // extend either CharEscaper or UnicodeEscaper for non trivial cases.
-    throw new IllegalArgumentException("Cannot create a UnicodeEscaper from: " +
-        escaper.getClass().getName());
+    throw new IllegalArgumentException(
+        "Cannot create a UnicodeEscaper from: " + escaper.getClass().getName());
   }
 
   /**
-   * Returns a string that would replace the given character in the specified
-   * escaper, or {@code null} if no replacement should be made. This method is
-   * intended for use in tests through the {@code EscaperAsserts} class;
-   * production users of {@link CharEscaper} should limit themselves to its
-   * public interface.
+   * Returns a string that would replace the given character in the specified escaper, or
+   * {@code null} if no replacement should be made. This method is intended for use in tests through
+   * the {@code EscaperAsserts} class; production users of {@link CharEscaper} should limit
+   * themselves to its public interface.
    *
    * @param c the character to escape if necessary
    * @return the replacement string, or {@code null} if no escaping was needed
@@ -207,11 +205,10 @@ public final class Escapers {
   }
 
   /**
-   * Returns a string that would replace the given character in the specified
-   * escaper, or {@code null} if no replacement should be made. This method is
-   * intended for use in tests through the {@code EscaperAsserts} class;
-   * production users of {@link UnicodeEscaper} should limit themselves to its
-   * public interface.
+   * Returns a string that would replace the given character in the specified escaper, or
+   * {@code null} if no replacement should be made. This method is intended for use in tests through
+   * the {@code EscaperAsserts} class; production users of {@link UnicodeEscaper} should limit
+   * themselves to its public interface.
    *
    * @param cp the Unicode code point to escape if necessary
    * @return the replacement string, or {@code null} if no escaping was needed
@@ -227,7 +224,8 @@ public final class Escapers {
   /** Private helper to wrap a CharEscaper as a UnicodeEscaper. */
   private static UnicodeEscaper wrap(final CharEscaper escaper) {
     return new UnicodeEscaper() {
-      @Override protected char[] escape(int cp) {
+      @Override
+      protected char[] escape(int cp) {
         // If a code point maps to a single character, just escape that.
         if (cp < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
           return escaper.escape((char) cp);

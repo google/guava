@@ -24,7 +24,7 @@ import com.google.common.testing.EqualsTester;
 
 /**
  * Tests for {@code Multiset.equals} and {@code Multiset.hashCode}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
@@ -32,11 +32,10 @@ public class MultisetEqualsTester<E> extends AbstractMultisetTester<E> {
   public void testEqualsSameContents() {
     new EqualsTester()
         .addEqualityGroup(
-            getMultiset(), 
-            getSubjectGenerator().create(getSampleElements().toArray()))
+            getMultiset(), getSubjectGenerator().create(getSampleElements().toArray()))
         .testEquals();
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   public void testNotEqualsEmpty() {
     new EqualsTester()
@@ -44,11 +43,11 @@ public class MultisetEqualsTester<E> extends AbstractMultisetTester<E> {
         .addEqualityGroup(getSubjectGenerator().create())
         .testEquals();
   }
-  
+
   public void testHashCodeMatchesEntrySet() {
     assertEquals(getMultiset().entrySet().hashCode(), getMultiset().hashCode());
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(ALLOWS_NULL_VALUES)
   public void testEqualsMultisetWithNullValue() {

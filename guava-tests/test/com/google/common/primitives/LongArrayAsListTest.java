@@ -50,7 +50,7 @@ public class LongArrayAsListTest extends TestCase {
     return Longs.asList(temp);
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     List<ListTestSuiteBuilder<Long>> builders =
         ImmutableList.of(

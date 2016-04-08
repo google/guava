@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.format;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import javax.annotation.Nullable;
 
@@ -73,15 +74,14 @@ import javax.annotation.Nullable;
  * <h3>Only {@code %s} is supported</h3>
  *
  * <p>As with {@link Preconditions} error message template strings, only the {@code "%s"} specifier
- * is supported, not the full range of {@link java.util.Formatter} specifiers. However, note that
- * if the number of arguments does not match the number of occurrences of {@code "%s"} in the
- * format string, {@code Verify} will still behave as expected, and will still include all argument
- * values in the error message; the message will simply not be formatted exactly as intended.
+ * is supported, not the full range of {@link java.util.Formatter} specifiers. However, note that if
+ * the number of arguments does not match the number of occurrences of {@code "%s"} in the format
+ * string, {@code Verify} will still behave as expected, and will still include all argument values
+ * in the error message; the message will simply not be formatted exactly as intended.
  *
  * <h3>More information</h3>
  *
- * See
- * <a href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional
+ * See <a href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional
  * failures explained</a> in the Guava User Guide for advice on when this class should be used.
  *
  * @since 17.0
@@ -106,15 +106,13 @@ public final class Verify {
    * custom message otherwise.
    *
    * @param expression a boolean expression
-   * @param errorMessageTemplate a template for the exception message should the
-   *     check fail. The message is formed by replacing each {@code %s}
-   *     placeholder in the template with an argument. These are matched by
-   *     position - the first {@code %s} gets {@code errorMessageArgs[0]}, etc.
-   *     Unmatched arguments will be appended to the formatted message in square
-   *     braces. Unmatched placeholders will be left as-is.
-   * @param errorMessageArgs the arguments to be substituted into the message
-   *     template. Arguments are converted to strings using
-   *     {@link String#valueOf(Object)}.
+   * @param errorMessageTemplate a template for the exception message should the check fail. The
+   *     message is formed by replacing each {@code %s} placeholder in the template with an
+   *     argument. These are matched by position - the first {@code %s} gets
+   *     {@code errorMessageArgs[0]}, etc. Unmatched arguments will be appended to the formatted
+   *     message in square braces. Unmatched placeholders will be left as-is.
+   * @param errorMessageArgs the arguments to be substituted into the message template. Arguments
+   *     are converted to strings using {@link String#valueOf(Object)}.
    * @throws VerifyException if {@code expression} is {@code false}
    */
   public static void verify(
@@ -133,6 +131,7 @@ public final class Verify {
    * @return {@code reference}, guaranteed to be non-null, for convenience
    * @throws VerifyException if {@code reference} is {@code null}
    */
+  @CanIgnoreReturnValue
   public static <T> T verifyNotNull(@Nullable T reference) {
     return verifyNotNull(reference, "expected a non-null reference");
   }
@@ -141,18 +140,17 @@ public final class Verify {
    * Ensures that {@code reference} is non-null, throwing a {@code VerifyException} with a custom
    * message otherwise.
    *
-   * @param errorMessageTemplate a template for the exception message should the
-   *     check fail. The message is formed by replacing each {@code %s}
-   *     placeholder in the template with an argument. These are matched by
-   *     position - the first {@code %s} gets {@code errorMessageArgs[0]}, etc.
-   *     Unmatched arguments will be appended to the formatted message in square
-   *     braces. Unmatched placeholders will be left as-is.
-   * @param errorMessageArgs the arguments to be substituted into the message
-   *     template. Arguments are converted to strings using
-   *     {@link String#valueOf(Object)}.
+   * @param errorMessageTemplate a template for the exception message should the check fail. The
+   *     message is formed by replacing each {@code %s} placeholder in the template with an
+   *     argument. These are matched by position - the first {@code %s} gets
+   *     {@code errorMessageArgs[0]}, etc. Unmatched arguments will be appended to the formatted
+   *     message in square braces. Unmatched placeholders will be left as-is.
+   * @param errorMessageArgs the arguments to be substituted into the message template. Arguments
+   *     are converted to strings using {@link String#valueOf(Object)}.
    * @return {@code reference}, guaranteed to be non-null, for convenience
    * @throws VerifyException if {@code reference} is {@code null}
    */
+  @CanIgnoreReturnValue
   public static <T> T verifyNotNull(
       @Nullable T reference,
       @Nullable String errorMessageTemplate,

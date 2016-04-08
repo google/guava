@@ -14,6 +14,9 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -30,6 +33,8 @@ import java.util.concurrent.TimeUnit;
  * @author Chris Povirk
  * @since 10.0
  */
+@CanIgnoreReturnValue
+@GwtIncompatible
 public interface ListeningExecutorService extends ExecutorService {
   /**
    * @return a {@code ListenableFuture} representing pending completion of the task

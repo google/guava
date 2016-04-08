@@ -43,7 +43,7 @@ public interface TestContainerGenerator<T, E> {
    * to figure out how to use E... or E[] as a parameter type, but this doesn't
    * seem to work because Java creates an array of the erased type.
    */
-  T create(Object ... elements);
+  T create(Object... elements);
 
   /**
    * Helper method to create an array of the appropriate type used by this
@@ -57,11 +57,11 @@ public interface TestContainerGenerator<T, E> {
    * original list unchanged, the original list modified in place, or a
    * different list.
    *
-   * <p>This method runs only when {@link
-   * com.google.common.collect.testing.features.CollectionFeature#KNOWN_ORDER}
-   * is specified when creating the test suite. It should never run when testing
-   * containers such as {@link java.util.HashSet}, which have a
-   * non-deterministic iteration order.
+   * <p>If the order is non-deterministic, as with {@link java.util.HashSet},
+   * this method can return its input unmodified. Provided that the test suite
+   * is built without {@link
+   * com.google.common.collect.testing.features.CollectionFeature#KNOWN_ORDER},
+   * the tests will look only at the returned contents without regard for order.
    */
   Iterable<E> order(List<E> insertionOrder);
 }

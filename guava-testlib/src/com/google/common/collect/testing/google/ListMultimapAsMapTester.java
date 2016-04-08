@@ -36,7 +36,7 @@ import java.util.Set;
 
 /**
  * Testers for {@link com.google.common.collect.ListMultimap#asMap}.
- * 
+ *
  * @author Louis Wasserman
  * @param <K> The key type of the tested multimap.
  * @param <V> The value type of the tested multimap.
@@ -48,13 +48,13 @@ public class ListMultimapAsMapTester<K, V> extends AbstractListMultimapTester<K,
       assertTrue(valueCollection instanceof List);
     }
   }
-  
+
   public void testAsMapGetImplementsList() {
     for (K key : multimap().keySet()) {
       assertTrue(multimap().asMap().get(key) instanceof List);
     }
   }
-  
+
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testAsMapRemoveImplementsList() {
     List<K> keys = new ArrayList<K>(multimap().keySet());
@@ -73,9 +73,7 @@ public class ListMultimapAsMapTester<K, V> extends AbstractListMultimapTester<K,
     Map<K, Collection<V>> expected = Maps.newHashMap();
     expected.put(k0(), Lists.newArrayList(v0(), v3()));
     expected.put(k1(), Lists.newArrayList(v0()));
-    new EqualsTester()
-        .addEqualityGroup(expected, multimap().asMap())
-        .testEquals();
+    new EqualsTester().addEqualityGroup(expected, multimap().asMap()).testEquals();
   }
 
   @CollectionSize.Require(SEVERAL)
@@ -85,17 +83,11 @@ public class ListMultimapAsMapTester<K, V> extends AbstractListMultimapTester<K,
         Helpers.mapEntry(k1(), v0()),
         Helpers.mapEntry(k0(), v3()));
     Set<Entry<K, Collection<V>>> expected = Sets.newHashSet();
-    expected.add(Helpers.mapEntry(
-        k0(), 
-        (Collection<V>) Lists.newArrayList(v0(), v3())));
-    expected.add(Helpers.mapEntry(
-        k1(), 
-        (Collection<V>) Lists.newArrayList(v0())));
-    new EqualsTester()
-        .addEqualityGroup(expected, multimap().asMap().entrySet())
-        .testEquals();
+    expected.add(Helpers.mapEntry(k0(), (Collection<V>) Lists.newArrayList(v0(), v3())));
+    expected.add(Helpers.mapEntry(k1(), (Collection<V>) Lists.newArrayList(v0())));
+    new EqualsTester().addEqualityGroup(expected, multimap().asMap().entrySet()).testEquals();
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testValuesRemove() {
@@ -106,8 +98,6 @@ public class ListMultimapAsMapTester<K, V> extends AbstractListMultimapTester<K,
     assertTrue(multimap().asMap().values().remove(Collections.singletonList(v0())));
     assertEquals(2, multimap().size());
     assertEquals(
-        Collections.singletonMap(
-            k0(), Lists.newArrayList(v0(), v3())),
-        multimap().asMap());
+        Collections.singletonMap(k0(), Lists.newArrayList(v0(), v3())), multimap().asMap());
   }
 }

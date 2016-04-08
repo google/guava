@@ -457,7 +457,11 @@ public class AbstractServiceTest extends TestCase {
 
   public void testManualServiceFailureIdempotence() {
     ManualSwitchedService service = new ManualSwitchedService();
-    RecordingListener.record(service);
+    /*
+     * Set up a RecordingListener to perform its built-in assertions, even though we won't look at
+     * its state history.
+     */
+    RecordingListener unused = RecordingListener.record(service);
     service.startAsync();
     service.notifyFailed(new Exception("1"));
     service.notifyFailed(new Exception("2"));

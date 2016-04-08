@@ -73,11 +73,6 @@ public void testAsMapReadsThrough() throws Exception {
   testCase.testAsMapReadsThrough();
 }
 
-public void testAsMapReturnsSortedMapForSortedSetInput() throws Exception {
-  com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();
-  testCase.testAsMapReturnsSortedMapForSortedSetInput();
-}
-
 public void testAsMapSorted() throws Exception {
   com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();
   testCase.testAsMapSorted();
@@ -328,19 +323,9 @@ public void testTransformEntriesGenerics() throws Exception {
   testCase.testTransformEntriesGenerics();
 }
 
-public void testTransformEntriesSecretlySorted() throws Exception {
-  com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();
-  testCase.testTransformEntriesSecretlySorted();
-}
-
 public void testTransformValues() throws Exception {
   com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();
   testCase.testTransformValues();
-}
-
-public void testTransformValuesSecretlySorted() throws Exception {
-  com.google.common.collect.MapsTest testCase = new com.google.common.collect.MapsTest();
-  testCase.testTransformValuesSecretlySorted();
 }
 
 public void testTreeMap() throws Exception {
@@ -403,21 +388,6 @@ public void testUnmodifiableBiMap() throws Exception {
   testCase.testUnmodifiableBiMap();
 }
 
-public void testFilterEntriesIdentifiesBiMap__FilteredBiMapTest() throws Exception {
-  com.google.common.collect.MapsTest.FilteredBiMapTest testCase = new com.google.common.collect.MapsTest.FilteredBiMapTest();
-  testCase.testFilterEntriesIdentifiesBiMap();
-}
-
-public void testFilterKeysIdentifiesBiMap__FilteredBiMapTest() throws Exception {
-  com.google.common.collect.MapsTest.FilteredBiMapTest testCase = new com.google.common.collect.MapsTest.FilteredBiMapTest();
-  testCase.testFilterKeysIdentifiesBiMap();
-}
-
-public void testFilterValuesIdentifiesBiMap__FilteredBiMapTest() throws Exception {
-  com.google.common.collect.MapsTest.FilteredBiMapTest testCase = new com.google.common.collect.MapsTest.FilteredBiMapTest();
-  testCase.testFilterValuesIdentifiesBiMap();
-}
-
 public void testFilteredEntriesIllegalPut__FilteredBiMapTest() throws Exception {
   com.google.common.collect.MapsTest.FilteredBiMapTest testCase = new com.google.common.collect.MapsTest.FilteredBiMapTest();
   testCase.testFilteredEntriesIllegalPut();
@@ -471,21 +441,6 @@ public void testFilteredValuesIllegalPutAll__FilteredBiMapTest() throws Exceptio
 public void testFilteredValuesIllegalSetValue__FilteredBiMapTest() throws Exception {
   com.google.common.collect.MapsTest.FilteredBiMapTest testCase = new com.google.common.collect.MapsTest.FilteredBiMapTest();
   testCase.testFilteredValuesIllegalSetValue();
-}
-
-public void testFilterEntriesIdentifiesSortedMap__FilteredSortedMapTest() throws Exception {
-  com.google.common.collect.MapsTest.FilteredSortedMapTest testCase = new com.google.common.collect.MapsTest.FilteredSortedMapTest();
-  testCase.testFilterEntriesIdentifiesSortedMap();
-}
-
-public void testFilterKeysIdentifiesSortedMap__FilteredSortedMapTest() throws Exception {
-  com.google.common.collect.MapsTest.FilteredSortedMapTest testCase = new com.google.common.collect.MapsTest.FilteredSortedMapTest();
-  testCase.testFilterKeysIdentifiesSortedMap();
-}
-
-public void testFilterValuesIdentifiesSortedMap__FilteredSortedMapTest() throws Exception {
-  com.google.common.collect.MapsTest.FilteredSortedMapTest testCase = new com.google.common.collect.MapsTest.FilteredSortedMapTest();
-  testCase.testFilterValuesIdentifiesSortedMap();
 }
 
 public void testFilteredEntriesIllegalPut__FilteredSortedMapTest() throws Exception {

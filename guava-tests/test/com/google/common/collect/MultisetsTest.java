@@ -281,7 +281,7 @@ public class MultisetsTest extends TestCase {
     assertThat(Multisets.copyHighestCountFirst(ImmutableMultiset.of())).isEmpty();
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(Multisets.class);
   }

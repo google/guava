@@ -201,7 +201,7 @@ public class StripedTest extends TestCase {
         Striped.lazyWeakReadWriteLock(Integer.MAX_VALUE))) {
       for (int i = 0; i < 3; i++) {
         // doesn't throw exception
-        striped.getAt(Integer.MAX_VALUE - i);
+        Object unused = striped.getAt(Integer.MAX_VALUE - i);
       }
     }
   }

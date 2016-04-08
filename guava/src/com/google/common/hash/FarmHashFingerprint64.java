@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2015 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.hash;
@@ -25,15 +23,16 @@ import com.google.common.annotations.VisibleForTesting;
 
 /**
  * Implementation of FarmHash Fingerprint64, an open-source fingerprinting algorithm for strings.
- * <p>
- * Its speed is comparable to CityHash64, and its quality of hashing is at least as good.
- * <p>
- * Note to maintainers: This implementation relies on signed arithmetic being
- * bit-wise equivalent to unsigned arithmetic in all cases except:
+ *
+ * <p>Its speed is comparable to CityHash64, and its quality of hashing is at least as good.
+ *
+ * <p>Note to maintainers: This implementation relies on signed arithmetic being bit-wise equivalent
+ * to unsigned arithmetic in all cases except:
+ *
  * <ul>
- * <li> comparisons (signed values can be negative)
- * <li> division (avoided here)
- * <li> shifting (right shift must be unsigned)
+ * <li>comparisons (signed values can be negative)
+ * <li>division (avoided here)
+ * <li>shifting (right shift must be unsigned)
  * </ul>
  *
  * @author Kyle Maddison
@@ -93,9 +92,9 @@ final class FarmHashFingerprint64 extends AbstractNonStreamingHashFunction {
   }
 
   /**
-   * Computes intermediate hash of 32 bytes of byte array from the given offset.  Results are
-   * returned in the output array because when we last measured, this was 12% faster than
-   * allocating new arrays every time.
+   * Computes intermediate hash of 32 bytes of byte array from the given offset. Results are
+   * returned in the output array because when we last measured, this was 12% faster than allocating
+   * new arrays every time.
    */
   private static void weakHashLength32WithSeeds(
       byte[] bytes, int offset, long seedA, long seedB, long[] output) {
@@ -170,7 +169,7 @@ final class FarmHashFingerprint64 extends AbstractNonStreamingHashFunction {
    */
   private static long hashLength65Plus(byte[] bytes, int offset, int length) {
     final int seed = 81;
-    // For strings over 64 bytes we loop.  Internal state consists of 56 bytes: v, w, x, y, and z.
+    // For strings over 64 bytes we loop. Internal state consists of 56 bytes: v, w, x, y, and z.
     long x = seed;
     long y = seed * K1 + 113;
     long z = shiftMix(y * K2 + 113) * K2;

@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.Map;
@@ -94,6 +95,7 @@ public abstract class ForwardingTable<R, C, V> extends ForwardingObject implemen
     return delegate().isEmpty();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V put(R rowKey, C columnKey, V value) {
     return delegate().put(rowKey, columnKey, value);
@@ -104,6 +106,7 @@ public abstract class ForwardingTable<R, C, V> extends ForwardingObject implemen
     delegate().putAll(table);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V remove(Object rowKey, Object columnKey) {
     return delegate().remove(rowKey, columnKey);

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.reflect;
@@ -29,9 +27,9 @@ import java.lang.reflect.Modifier;
 import javax.annotation.Nullable;
 
 /**
- * Represents either a {@link Field}, a {@link Method} or a {@link Constructor}.
- * Provides convenience methods such as {@link #isPublic} and {@link #isPackagePrivate}.
- * 
+ * Represents either a {@link Field}, a {@link Method} or a {@link Constructor}. Provides
+ * convenience methods such as {@link #isPublic} and {@link #isPackagePrivate}.
+ *
  * @author Ben Yu
  */
 class Element extends AccessibleObject implements Member {
@@ -49,43 +47,53 @@ class Element extends AccessibleObject implements Member {
     return TypeToken.of(getDeclaringClass());
   }
 
-  @Override public final boolean isAnnotationPresent(Class<? extends Annotation> annotationClass) {
+  @Override
+  public final boolean isAnnotationPresent(Class<? extends Annotation> annotationClass) {
     return accessibleObject.isAnnotationPresent(annotationClass);
   }
 
-  @Override public final <A extends Annotation> A getAnnotation(Class<A> annotationClass) {
+  @Override
+  public final <A extends Annotation> A getAnnotation(Class<A> annotationClass) {
     return accessibleObject.getAnnotation(annotationClass);
   }
 
-  @Override public final Annotation[] getAnnotations() {
+  @Override
+  public final Annotation[] getAnnotations() {
     return accessibleObject.getAnnotations();
   }
 
-  @Override public final Annotation[] getDeclaredAnnotations() {
+  @Override
+  public final Annotation[] getDeclaredAnnotations() {
     return accessibleObject.getDeclaredAnnotations();
   }
 
-  @Override public final void setAccessible(boolean flag) throws SecurityException {
+  @Override
+  public final void setAccessible(boolean flag) throws SecurityException {
     accessibleObject.setAccessible(flag);
   }
 
-  @Override public final boolean isAccessible() {
+  @Override
+  public final boolean isAccessible() {
     return accessibleObject.isAccessible();
   }
 
-  @Override public Class<?> getDeclaringClass() {
+  @Override
+  public Class<?> getDeclaringClass() {
     return member.getDeclaringClass();
   }
 
-  @Override public final String getName() {
+  @Override
+  public final String getName() {
     return member.getName();
   }
 
-  @Override public final int getModifiers() {
+  @Override
+  public final int getModifiers() {
     return member.getModifiers();
   }
 
-  @Override public final boolean isSynthetic() {
+  @Override
+  public final boolean isSynthetic() {
     return member.isSynthetic();
   }
 
@@ -116,7 +124,7 @@ class Element extends AccessibleObject implements Member {
 
   /**
    * Returns {@code true} if this method is final, per {@code Modifier.isFinal(getModifiers())}.
-   * 
+   *
    * <p>Note that a method may still be effectively "final", or non-overridable when it has no
    * {@code final} keyword. For example, it could be private, or it could be declared by a final
    * class. To tell whether a method is overridable, use {@link Invokable#isOverridable}.
@@ -150,7 +158,8 @@ class Element extends AccessibleObject implements Member {
     return Modifier.isTransient(getModifiers());
   }
 
-  @Override public boolean equals(@Nullable Object obj) {
+  @Override
+  public boolean equals(@Nullable Object obj) {
     if (obj instanceof Element) {
       Element that = (Element) obj;
       return getOwnerType().equals(that.getOwnerType()) && member.equals(that.member);
@@ -158,11 +167,13 @@ class Element extends AccessibleObject implements Member {
     return false;
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return member.hashCode();
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return member.toString();
   }
 }

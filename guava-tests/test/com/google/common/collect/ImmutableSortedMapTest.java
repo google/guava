@@ -60,7 +60,7 @@ import java.util.SortedMap;
 public class ImmutableSortedMapTest extends TestCase {
   // TODO: Avoid duplicating code in ImmutableMapTest
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableSortedMapTest.class);
@@ -182,9 +182,8 @@ public class ImmutableSortedMapTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("SerializableTester")
-  public static class ReserializedMapTests
-      extends AbstractMapTests<String, Integer> {
+  @GwtIncompatible // SerializableTester
+  public static class ReserializedMapTests extends AbstractMapTests<String, Integer> {
     @Override protected SortedMap<String, Integer> makePopulatedMap() {
       return SerializableTester.reserialize(
           ImmutableSortedMap.of("one", 1, "two", 2, "three", 3));
@@ -663,7 +662,7 @@ public class ImmutableSortedMapTest extends TestCase {
     assertNull(map.get(null));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableSortedMap.class);
@@ -716,7 +715,7 @@ public class ImmutableSortedMapTest extends TestCase {
     assertEquals(intMap.hashCode(), map.hashCode());
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testViewSerialization() {
     Map<String, Integer> map
         = ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);

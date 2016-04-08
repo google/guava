@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -75,6 +76,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject implements Ma
     return delegate().isEmpty();
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V remove(Object object) {
     return delegate().remove(object);
@@ -100,6 +102,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject implements Ma
     return delegate().get(key);
   }
 
+  @CanIgnoreReturnValue
   @Override
   public V put(K key, V value) {
     return delegate().put(key, value);

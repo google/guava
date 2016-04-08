@@ -46,7 +46,7 @@ import java.util.SortedMap;
  */
 @GwtCompatible(emulated = true)
 public class TreeBasedTableTest extends AbstractTableTest {
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(TreeBasedTableTest.class);
@@ -171,7 +171,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
     assertEquals(original, table);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testSerialization() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     SerializableTester.reserializeAndAssert(table);

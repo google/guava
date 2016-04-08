@@ -15,6 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import javax.annotation.Nullable;
 
@@ -61,23 +62,23 @@ import javax.annotation.Nullable;
  * <h3>Other types of preconditions</h3>
  *
  * <p>Not every type of precondition failure is supported by these methods. Continue to throw
- * standard JDK exceptions such as {@link java.util.NoSuchElementException} or {@link
- * UnsupportedOperationException} in the situations they are intended for.
+ * standard JDK exceptions such as {@link java.util.NoSuchElementException} or
+ * {@link UnsupportedOperationException} in the situations they are intended for.
  *
  * <h3>Non-preconditions</h3>
  *
  * <p>It is of course possible to use the methods of this class to check for invalid conditions
  * which are <i>not the caller's fault</i>. Doing so is <b>not recommended</b> because it is
  * misleading to future readers of the code and of stack traces. See
- * <a href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional
- * failures explained</a> in the Guava User Guide for more advice.
+ * <a href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional failures
+ * explained</a> in the Guava User Guide for more advice.
  *
  * <h3>{@code java.util.Objects.requireNonNull()}</h3>
  *
- * <p>Projects which use {@code com.google.common} should generally avoid the use of {@link
- * java.util.Objects#requireNonNull(Object)}. Instead, use whichever of {@link
- * #checkNotNull(Object)} or {@link Verify#verifyNotNull(Object)} is appropriate to the situation.
- * (The same goes for the message-accepting overloads.)
+ * <p>Projects which use {@code com.google.common} should generally avoid the use of
+ * {@link java.util.Objects#requireNonNull(Object)}. Instead, use whichever of
+ * {@link #checkNotNull(Object)} or {@link Verify#verifyNotNull(Object)} is appropriate to the
+ * situation. (The same goes for the message-accepting overloads.)
  *
  * <h3>Only {@code %s} is supported</h3>
  *
@@ -130,8 +131,8 @@ public final class Preconditions {
    * @param errorMessageTemplate a template for the exception message should the check fail. The
    *     message is formed by replacing each {@code %s} placeholder in the template with an
    *     argument. These are matched by position - the first {@code %s} gets {@code
-   *     errorMessageArgs[0]}, etc.  Unmatched arguments will be appended to the formatted message
-   *     in square braces. Unmatched placeholders will be left as-is.
+   *     errorMessageArgs[0]}, etc. Unmatched arguments will be appended to the formatted message in
+   *     square braces. Unmatched placeholders will be left as-is.
    * @param errorMessageArgs the arguments to be substituted into the message template. Arguments
    *     are converted to strings using {@link String#valueOf(Object)}.
    * @throws IllegalArgumentException if {@code expression} is false
@@ -144,6 +145,276 @@ public final class Preconditions {
       @Nullable Object... errorMessageArgs) {
     if (!expression) {
       throw new IllegalArgumentException(format(errorMessageTemplate, errorMessageArgs));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(boolean b, @Nullable String errorMessageTemplate, char p1) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(boolean b, @Nullable String errorMessageTemplate, int p1) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(boolean b, @Nullable String errorMessageTemplate, long p1) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, char p1, char p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, char p1, int p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, char p1, long p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, char p1, @Nullable Object p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, int p1, char p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, int p1, int p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, int p1, long p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, int p1, @Nullable Object p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, long p1, char p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, long p1, int p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, long p1, long p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, long p1, @Nullable Object p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, char p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, int p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, long p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, @Nullable Object p2) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b,
+      @Nullable String errorMessageTemplate,
+      @Nullable Object p1,
+      @Nullable Object p2,
+      @Nullable Object p3) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2, p3));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   *
+   * <p>See {@link #checkArgument(boolean, String, Object...)} for details.
+   */
+  public static void checkArgument(
+      boolean b,
+      @Nullable String errorMessageTemplate,
+      @Nullable Object p1,
+      @Nullable Object p2,
+      @Nullable Object p3,
+      @Nullable Object p4) {
+    if (!b) {
+      throw new IllegalArgumentException(format(errorMessageTemplate, p1, p2, p3, p4));
     }
   }
 
@@ -183,8 +454,8 @@ public final class Preconditions {
    * @param errorMessageTemplate a template for the exception message should the check fail. The
    *     message is formed by replacing each {@code %s} placeholder in the template with an
    *     argument. These are matched by position - the first {@code %s} gets {@code
-   *     errorMessageArgs[0]}, etc.  Unmatched arguments will be appended to the formatted message
-   *     in square braces. Unmatched placeholders will be left as-is.
+   *     errorMessageArgs[0]}, etc. Unmatched arguments will be appended to the formatted message in
+   *     square braces. Unmatched placeholders will be left as-is.
    * @param errorMessageArgs the arguments to be substituted into the message template. Arguments
    *     are converted to strings using {@link String#valueOf(Object)}.
    * @throws IllegalStateException if {@code expression} is false
@@ -201,12 +472,300 @@ public final class Preconditions {
   }
 
   /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(boolean b, @Nullable String errorMessageTemplate, char p1) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(boolean b, @Nullable String errorMessageTemplate, int p1) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(boolean b, @Nullable String errorMessageTemplate, long p1) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(
+      boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(
+      boolean b, @Nullable String errorMessageTemplate, char p1, char p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(boolean b, @Nullable String errorMessageTemplate, char p1, int p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(
+      boolean b, @Nullable String errorMessageTemplate, char p1, long p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(
+      boolean b, @Nullable String errorMessageTemplate, char p1, @Nullable Object p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(boolean b, @Nullable String errorMessageTemplate, int p1, char p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(boolean b, @Nullable String errorMessageTemplate, int p1, int p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(boolean b, @Nullable String errorMessageTemplate, int p1, long p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(
+      boolean b, @Nullable String errorMessageTemplate, int p1, @Nullable Object p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(
+      boolean b, @Nullable String errorMessageTemplate, long p1, char p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(boolean b, @Nullable String errorMessageTemplate, long p1, int p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(
+      boolean b, @Nullable String errorMessageTemplate, long p1, long p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(
+      boolean b, @Nullable String errorMessageTemplate, long p1, @Nullable Object p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(
+      boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, char p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(
+      boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, int p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(
+      boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, long p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(
+      boolean b, @Nullable String errorMessageTemplate, @Nullable Object p1, @Nullable Object p2) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(
+      boolean b,
+      @Nullable String errorMessageTemplate,
+      @Nullable Object p1,
+      @Nullable Object p2,
+      @Nullable Object p3) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2, p3));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   *
+   * <p>See {@link #checkState(boolean, String, Object...)} for details.
+   */
+  public static void checkState(
+      boolean b,
+      @Nullable String errorMessageTemplate,
+      @Nullable Object p1,
+      @Nullable Object p2,
+      @Nullable Object p3,
+      @Nullable Object p4) {
+    if (!b) {
+      throw new IllegalStateException(format(errorMessageTemplate, p1, p2, p3, p4));
+    }
+  }
+
+  /**
    * Ensures that an object reference passed as a parameter to the calling method is not null.
    *
    * @param reference an object reference
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
    */
+  @CanIgnoreReturnValue
   public static <T> T checkNotNull(T reference) {
     if (reference == null) {
       throw new NullPointerException();
@@ -223,6 +782,7 @@ public final class Preconditions {
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
    */
+  @CanIgnoreReturnValue
   public static <T> T checkNotNull(T reference, @Nullable Object errorMessage) {
     if (reference == null) {
       throw new NullPointerException(String.valueOf(errorMessage));
@@ -237,13 +797,14 @@ public final class Preconditions {
    * @param errorMessageTemplate a template for the exception message should the check fail. The
    *     message is formed by replacing each {@code %s} placeholder in the template with an
    *     argument. These are matched by position - the first {@code %s} gets {@code
-   *     errorMessageArgs[0]}, etc.  Unmatched arguments will be appended to the formatted message
-   *     in square braces. Unmatched placeholders will be left as-is.
+   *     errorMessageArgs[0]}, etc. Unmatched arguments will be appended to the formatted message in
+   *     square braces. Unmatched placeholders will be left as-is.
    * @param errorMessageArgs the arguments to be substituted into the message template. Arguments
    *     are converted to strings using {@link String#valueOf(Object)}.
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
    */
+  @CanIgnoreReturnValue
   public static <T> T checkNotNull(
       T reference, @Nullable String errorMessageTemplate, @Nullable Object... errorMessageArgs) {
     if (reference == null) {
@@ -251,6 +812,311 @@ public final class Preconditions {
       throw new NullPointerException(format(errorMessageTemplate, errorMessageArgs));
     }
     return reference;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, char p1) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, int p1) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, long p1) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, @Nullable Object p1) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, char p1, char p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, char p1, int p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, char p1, long p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, char p1, @Nullable Object p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, int p1, char p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, int p1, int p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, int p1, long p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, int p1, @Nullable Object p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, long p1, char p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, long p1, int p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(T obj, @Nullable String errorMessageTemplate, long p1, long p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, long p1, @Nullable Object p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, @Nullable Object p1, char p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, @Nullable Object p1, int p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, @Nullable Object p1, long p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(
+      T obj, @Nullable String errorMessageTemplate, @Nullable Object p1, @Nullable Object p2) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(
+      T obj,
+      @Nullable String errorMessageTemplate,
+      @Nullable Object p1,
+      @Nullable Object p2,
+      @Nullable Object p3) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2, p3));
+    }
+    return obj;
+  }
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   *
+   * <p>See {@link #checkNotNull(Object, String, Object...)} for details.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(
+      T obj,
+      @Nullable String errorMessageTemplate,
+      @Nullable Object p1,
+      @Nullable Object p2,
+      @Nullable Object p3,
+      @Nullable Object p4) {
+    if (obj == null) {
+      throw new NullPointerException(format(errorMessageTemplate, p1, p2, p3, p4));
+    }
+    return obj;
   }
 
   /*
@@ -267,15 +1133,15 @@ public final class Preconditions {
    * }
    *
    * The alternative natural refactorings into void or Exception-returning methods are much slower.
-   * This is a big deal - we're talking factors of 2-8 in microbenchmarks, not just 10-20%.  (This
-   * is a hotspot optimizer bug, which should be fixed, but that's a separate, big project).
+   * This is a big deal - we're talking factors of 2-8 in microbenchmarks, not just 10-20%. (This is
+   * a hotspot optimizer bug, which should be fixed, but that's a separate, big project).
    *
-   * The coding pattern above is heavily used in java.util, e.g. in ArrayList.  There is a
+   * The coding pattern above is heavily used in java.util, e.g. in ArrayList. There is a
    * RangeCheckMicroBenchmark in the JDK that was used to test this.
    *
    * But the methods in this class want to throw different exceptions, depending on the args, so it
-   * appears that this pattern is not directly applicable.  But we can use the ridiculous, devious
-   * trick of throwing an exception in the middle of the construction of another exception.  Hotspot
+   * appears that this pattern is not directly applicable. But we can use the ridiculous, devious
+   * trick of throwing an exception in the middle of the construction of another exception. Hotspot
    * is fine with that.
    */
 
@@ -289,6 +1155,7 @@ public final class Preconditions {
    * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than {@code size}
    * @throws IllegalArgumentException if {@code size} is negative
    */
+  @CanIgnoreReturnValue
   public static int checkElementIndex(int index, int size) {
     return checkElementIndex(index, size, "index");
   }
@@ -304,6 +1171,7 @@ public final class Preconditions {
    * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than {@code size}
    * @throws IllegalArgumentException if {@code size} is negative
    */
+  @CanIgnoreReturnValue
   public static int checkElementIndex(int index, int size, @Nullable String desc) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (index < 0 || index >= size) {
@@ -332,6 +1200,7 @@ public final class Preconditions {
    * @throws IndexOutOfBoundsException if {@code index} is negative or is greater than {@code size}
    * @throws IllegalArgumentException if {@code size} is negative
    */
+  @CanIgnoreReturnValue
   public static int checkPositionIndex(int index, int size) {
     return checkPositionIndex(index, size, "index");
   }
@@ -347,6 +1216,7 @@ public final class Preconditions {
    * @throws IndexOutOfBoundsException if {@code index} is negative or is greater than {@code size}
    * @throws IllegalArgumentException if {@code size} is negative
    */
+  @CanIgnoreReturnValue
   public static int checkPositionIndex(int index, int size, @Nullable String desc) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (index < 0 || index > size) {
@@ -397,7 +1267,7 @@ public final class Preconditions {
 
   /**
    * Substitutes each {@code %s} in {@code template} with an argument. These are matched by
-   * position: the first {@code %s} gets {@code args[0]}, etc.  If there are more arguments than
+   * position: the first {@code %s} gets {@code args[0]}, etc. If there are more arguments than
    * placeholders, the unmatched arguments will be appended to the end of the formatted message in
    * square braces.
    *
@@ -418,11 +1288,11 @@ public final class Preconditions {
       if (placeholderStart == -1) {
         break;
       }
-      builder.append(template.substring(templateStart, placeholderStart));
+      builder.append(template, templateStart, placeholderStart);
       builder.append(args[i++]);
       templateStart = placeholderStart + 2;
     }
-    builder.append(template.substring(templateStart));
+    builder.append(template, templateStart, template.length());
 
     // if we run out of placeholders, append the extra args in square braces
     if (i < args.length) {

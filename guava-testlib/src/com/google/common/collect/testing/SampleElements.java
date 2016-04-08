@@ -49,7 +49,7 @@ public class SampleElements<E> implements Iterable<E> {
   public Iterator<E> iterator() {
     return asList().iterator();
   }
-  
+
   public List<E> asList() {
     return Arrays.asList(e0(), e1(), e2(), e3(), e4());
   }
@@ -121,7 +121,8 @@ public class SampleElements<E> implements Iterable<E> {
 
   public static class Unhashables extends SampleElements<UnhashableObject> {
     public Unhashables() {
-      super(new UnhashableObject(1),
+      super(
+          new UnhashableObject(1),
           new UnhashableObject(2),
           new UnhashableObject(3),
           new UnhashableObject(4),
@@ -131,11 +132,7 @@ public class SampleElements<E> implements Iterable<E> {
 
   public static class Colliders extends SampleElements<Object> {
     public Colliders() {
-      super(new Collider(1),
-          new Collider(2),
-          new Collider(3),
-          new Collider(4),
-          new Collider(5));
+      super(new Collider(1), new Collider(2), new Collider(3), new Collider(4), new Collider(5));
     }
   }
 
@@ -146,11 +143,13 @@ public class SampleElements<E> implements Iterable<E> {
       this.value = value;
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override
+    public boolean equals(Object obj) {
       return obj instanceof Collider && ((Collider) obj).value == value;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return 1; // evil!
     }
   }

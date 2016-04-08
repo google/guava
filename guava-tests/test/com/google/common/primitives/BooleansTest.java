@@ -123,7 +123,6 @@ public class BooleansTest extends TestCase {
         Booleans.ensureCapacity(new boolean[] {true}, 2, 1)));
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testEnsureCapacity_fail() {
     try {
       Booleans.ensureCapacity(ARRAY_FALSE, -1, 1);
@@ -161,7 +160,7 @@ public class BooleansTest extends TestCase {
     Helpers.testComparator(comparator, ordered);
   }
 
-  @GwtIncompatible("SerializableTester")
+  @GwtIncompatible // SerializableTester
   public void testLexicographicalComparatorSerializable() {
     Comparator<boolean[]> comparator = Booleans.lexicographicalComparator();
     assertSame(comparator, SerializableTester.reserialize(comparator));
@@ -203,7 +202,6 @@ public class BooleansTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testToArray_withNull() {
     List<Boolean> list = Arrays.asList(false, true, null);
     try {
@@ -298,7 +296,7 @@ public class BooleansTest extends TestCase {
     assertEquals(1, Booleans.countTrue(false, false, true, false, false));
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Booleans.class);
   }

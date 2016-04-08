@@ -29,10 +29,10 @@ import com.google.common.collect.testing.features.MapFeature;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * A generic JUnit test which tests {@code replace(K, V, V)} operations on a concurrent map. Can't 
+ * A generic JUnit test which tests {@code replace(K, V, V)} operations on a concurrent map. Can't
  * be invoked directly; please see
  * {@link com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
@@ -41,45 +41,46 @@ public class ConcurrentMapReplaceEntryTester<K, V> extends AbstractMapTester<K, 
   protected ConcurrentMap<K, V> getMap() {
     return (ConcurrentMap<K, V>) super.getMap();
   }
-  
+
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testReplaceEntry_supportedPresent() {
     assertTrue(getMap().replace(k0(), v0(), v3()));
     expectReplacement(entry(k0(), v3()));
   }
-  
+
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testReplaceEntry_supportedPresentUnchanged() {
     assertTrue(getMap().replace(k0(), v0(), v0()));
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testReplaceEntry_supportedWrongValue() {
     assertFalse(getMap().replace(k0(), v3(), v4()));
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(SUPPORTS_PUT)
   public void testReplaceEntry_supportedAbsentKey() {
     assertFalse(getMap().replace(k3(), v3(), v4()));
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
   @CollectionSize.Require(absent = ZERO)
   public void testReplaceEntry_presentNullValueUnsupported() {
     try {
       getMap().replace(k0(), v0(), null);
       fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {}
+    } catch (NullPointerException expected) {
+    }
     expectUnchanged();
   }
-  
-  @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUE_QUERIES) 
+
+  @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUE_QUERIES)
   @CollectionSize.Require(absent = ZERO)
   public void testReplaceEntry_wrongValueNullValueUnsupported() {
     try {
@@ -89,8 +90,8 @@ public class ConcurrentMapReplaceEntryTester<K, V> extends AbstractMapTester<K, 
     }
     expectUnchanged();
   }
-  
-  @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUE_QUERIES) 
+
+  @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUE_QUERIES)
   public void testReplaceEntry_absentKeyNullValueUnsupported() {
     try {
       assertFalse(getMap().replace(k3(), v3(), null));
@@ -99,33 +100,34 @@ public class ConcurrentMapReplaceEntryTester<K, V> extends AbstractMapTester<K, 
     }
     expectUnchanged();
   }
-  
+
   @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUE_QUERIES})
   public void testReplaceEntry_nullDifferentFromAbsent() {
     assertFalse(getMap().replace(k3(), null, v3()));
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUE_QUERIES)
   public void testReplaceEntry_expectNullUnsupported() {
     try {
-      assertFalse(getMap().replace(k3(), null, v3())); 
+      assertFalse(getMap().replace(k3(), null, v3()));
     } catch (NullPointerException tolerated) {
       // the operation would be a no-op, so exceptions are allowed but not required
     }
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(absent = SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testReplaceEntry_unsupportedPresent() {
     try {
       getMap().replace(k0(), v0(), v3());
       fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(absent = SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testReplaceEntry_unsupportedWrongValue() {
@@ -136,7 +138,7 @@ public class ConcurrentMapReplaceEntryTester<K, V> extends AbstractMapTester<K, 
     }
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(absent = SUPPORTS_PUT)
   public void testReplaceEntry_unsupportedAbsentKey() {
     try {

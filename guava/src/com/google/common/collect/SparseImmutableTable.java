@@ -63,8 +63,14 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
       V oldValue = thisRow.put(columnKey, value);
       if (oldValue != null) {
         throw new IllegalArgumentException(
-            "Duplicate value for row=" + rowKey + ", column=" + columnKey + ": "
-                + value + ", " + oldValue);
+            "Duplicate value for row="
+                + rowKey
+                + ", column="
+                + columnKey
+                + ": "
+                + value
+                + ", "
+                + oldValue);
       }
       columns.get(columnKey).put(rowKey, value);
     }

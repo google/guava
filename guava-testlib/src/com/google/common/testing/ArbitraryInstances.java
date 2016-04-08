@@ -19,6 +19,7 @@ package com.google.common.testing;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
 import com.google.common.base.Defaults;
@@ -170,6 +171,7 @@ import javax.annotation.Nullable;
  * @since 12.0
  */
 @Beta
+@GwtIncompatible
 public final class ArbitraryInstances {
 
   private static final Ordering<Field> BY_FIELD_NAME = new Ordering<Field>() {
@@ -206,7 +208,7 @@ public final class ArbitraryInstances {
       .put(Currency.class, Currency.getInstance(Locale.US))
       .put(Locale.class, Locale.US)
       // common.base
-      .put(CharMatcher.class, CharMatcher.NONE)
+      .put(CharMatcher.class, CharMatcher.none())
       .put(Joiner.class, Joiner.on(','))
       .put(Splitter.class, Splitter.on(','))
       .put(Optional.class, Optional.absent())

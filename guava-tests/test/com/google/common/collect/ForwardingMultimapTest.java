@@ -16,7 +16,11 @@
 
 package com.google.common.collect;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Unit test for {@link ForwardingMultimap}.
@@ -46,27 +50,27 @@ public class ForwardingMultimapTest extends ForwardingTestCase {
   }
 
   public void testSize() {
-    forward.size();
+    int unused = forward.size();
     assertEquals("[size]", getCalls());
   }
 
   public void testIsEmpty() {
-    forward.isEmpty();
+    boolean unused = forward.isEmpty();
     assertEquals("[isEmpty]", getCalls());
   }
 
   public void testContainsKey_Object() {
-    forward.containsKey("asdf");
+    boolean unused = forward.containsKey("asdf");
     assertEquals("[containsKey(Object)]", getCalls());
   }
 
   public void testContainsValue_Object() {
-    forward.containsValue("asdf");
+    boolean unused = forward.containsValue("asdf");
     assertEquals("[containsValue(Object)]", getCalls());
   }
 
   public void testContainsEntry_Object_Object() {
-    forward.containsEntry("asdf", false);
+    boolean unused = forward.containsEntry("asdf", false);
     assertEquals("[containsEntry(Object,Object)]", getCalls());
   }
 
@@ -106,47 +110,47 @@ public class ForwardingMultimapTest extends ForwardingTestCase {
   }
 
   public void testGet_Key() {
-    forward.get(null);
+    Collection<Boolean> unused = forward.get(null);
     assertEquals("[get(Object)]", getCalls());
   }
 
   public void testKeySet() {
-    forward.keySet();
+    Set<String> unused = forward.keySet();
     assertEquals("[keySet]", getCalls());
   }
 
   public void testKeys() {
-    forward.keys();
+    Multiset<String> unused = forward.keys();
     assertEquals("[keys]", getCalls());
   }
 
   public void testValues() {
-    forward.values();
+    Collection<Boolean> unused = forward.values();
     assertEquals("[values]", getCalls());
   }
 
   public void testEntries() {
-    forward.entries();
+    Collection<Entry<String, Boolean>> unused = forward.entries();
     assertEquals("[entries]", getCalls());
   }
 
   public void testAsMap() {
-    forward.asMap();
+    Map<String, Collection<Boolean>> unused = forward.asMap();
     assertEquals("[asMap]", getCalls());
   }
 
   public void testEquals() {
-    forward.equals(null);
+    boolean unused = forward.equals(null);
     assertEquals("[equals(Object)]", getCalls());
   }
 
   public void testHashCode() {
-    forward.hashCode();
+    int unused = forward.hashCode();
     assertEquals("[hashCode]", getCalls());
   }
 
   public void testToString() {
-    forward.toString();
+    String unused = forward.toString();
     assertEquals("[toString]", getCalls());
   }
 }

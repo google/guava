@@ -189,21 +189,21 @@ public class IterablesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Iterables.toArray(Iterable, Class)")
+  @GwtIncompatible // Iterables.toArray(Iterable, Class)
   public void testToArrayEmpty() {
     Iterable<String> iterable = Collections.emptyList();
     String[] array = Iterables.toArray(iterable, String.class);
     assertTrue(Arrays.equals(new String[0], array));
   }
 
-  @GwtIncompatible("Iterables.toArray(Iterable, Class)")
+  @GwtIncompatible // Iterables.toArray(Iterable, Class)
   public void testToArraySingleton() {
     Iterable<String> iterable = Collections.singletonList("a");
     String[] array = Iterables.toArray(iterable, String.class);
     assertTrue(Arrays.equals(new String[] {"a"}, array));
   }
 
-  @GwtIncompatible("Iterables.toArray(Iterable, Class)")
+  @GwtIncompatible // Iterables.toArray(Iterable, Class)
   public void testToArray() {
     String[] sourceArray = new String[] {"a", "b", "c"};
     Iterable<String> iterable = asList(sourceArray);
@@ -273,7 +273,7 @@ public class IterablesTest extends TestCase {
   private interface TypeB {}
   private static class HasBoth extends TypeA implements TypeB {}
 
-  @GwtIncompatible("Iterables.filter(Iterable, Class)")
+  @GwtIncompatible // Iterables.filter(Iterable, Class)
   public void testFilterByType() throws Exception {
     HasBoth hasBoth = new HasBoth();
     Iterable<TypeA> alist = Lists
@@ -452,7 +452,7 @@ public class IterablesTest extends TestCase {
     assertEquals(ImmutableList.of(3, 4), first);
   }
 
-  @GwtIncompatible("?")
+  @GwtIncompatible // ?
   // TODO: Figure out why this is failing in GWT.
   public void testPartitionRandomAccessInput() {
     Iterable<Integer> source = asList(1, 2, 3);
@@ -462,7 +462,7 @@ public class IterablesTest extends TestCase {
     assertTrue(iterator.next() instanceof RandomAccess);
   }
 
-  @GwtIncompatible("?")
+  @GwtIncompatible // ?
   // TODO: Figure out why this is failing in GWT.
   public void testPartitionNonRandomAccessInput() {
     Iterable<Integer> source = Lists.newLinkedList(asList(1, 2, 3));
@@ -515,7 +515,7 @@ public class IterablesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Iterables.class);
@@ -648,7 +648,7 @@ public class IterablesTest extends TestCase {
     } catch (UnsupportedOperationException expected) {}
   }
 
-  @GwtIncompatible("slow (~35s)")
+  @GwtIncompatible // slow (~35s)
   public void testSkip_iterator() {
     new IteratorTester<Integer>(5, MODIFIABLE, newArrayList(2, 3),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
@@ -658,7 +658,7 @@ public class IterablesTest extends TestCase {
     }.test();
   }
 
-  @GwtIncompatible("slow (~35s)")
+  @GwtIncompatible // slow (~35s)
   public void testSkip_iteratorList() {
     new IteratorTester<Integer>(5, MODIFIABLE, newArrayList(2, 3),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
@@ -1168,7 +1168,7 @@ public class IterablesTest extends TestCase {
     assertFalse(consumingIterator.hasNext());
   }
 
-  @GwtIncompatible("?")
+  @GwtIncompatible // ?
   // TODO: Figure out why this is failing in GWT.
   public void testConsumingIterable_duelingIterators() {
     // Test data
@@ -1366,7 +1366,7 @@ public class IterablesTest extends TestCase {
     verifyMergeSorted(iterables, allIntegers);
   }
 
-  @GwtIncompatible("reflection")
+  @GwtIncompatible // reflection
   public void testIterables_nullCheck() throws Exception {
     new ClassSanityTester()
         .forAllPublicStaticMethods(Iterables.class)

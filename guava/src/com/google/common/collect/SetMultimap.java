@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
 import java.util.Map;
@@ -70,6 +71,7 @@ public interface SetMultimap<K, V> extends Multimap<K, V> {
    * method returns a {@link Set}, instead of the {@link java.util.Collection}
    * specified in the {@link Multimap} interface.
    */
+  @CanIgnoreReturnValue
   @Override
   Set<V> removeAll(@Nullable Object key);
 
@@ -82,6 +84,7 @@ public interface SetMultimap<K, V> extends Multimap<K, V> {
    *
    * <p>Any duplicates in {@code values} will be stored in the multimap once.
    */
+  @CanIgnoreReturnValue
   @Override
   Set<V> replaceValues(K key, Iterable<? extends V> values);
 

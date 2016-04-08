@@ -31,7 +31,8 @@ public class UnhashableObject implements Comparable<UnhashableObject> {
     this.value = value;
   }
 
-  @Override public boolean equals(Object object) {
+  @Override
+  public boolean equals(Object object) {
     if (object instanceof UnhashableObject) {
       UnhashableObject that = (UnhashableObject) object;
       return this.value == that.value;
@@ -39,12 +40,14 @@ public class UnhashableObject implements Comparable<UnhashableObject> {
     return false;
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     throw new UnsupportedOperationException();
   }
 
   // needed because otherwise Object.toString() calls hashCode()
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return "DontHashMe" + value;
   }
 

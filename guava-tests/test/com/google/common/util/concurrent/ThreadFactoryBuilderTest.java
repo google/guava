@@ -164,8 +164,9 @@ public class ThreadFactoryBuilderTest extends TestCase {
   }
 
   public void testBuildTwice() {
-    builder.build();  // this is allowed
-    builder.build();  // this is *also* allowed
+    ThreadFactory unused;
+    unused = builder.build();  // this is allowed
+    unused = builder.build();  // this is *also* allowed
   }
 
   public void testBuildMutate() {

@@ -145,13 +145,13 @@ public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {
    *     each distinct key: the key, number of values for that key, and the
    *     key's values
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
+  @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMultimap(this, stream);
   }
 
-  @GwtIncompatible("java.io.ObjectOutputStream")
+  @GwtIncompatible // java.io.ObjectOutputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
@@ -161,6 +161,6 @@ public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {
     Serialization.populateMultimap(this, stream, distinctKeys);
   }
 
-  @GwtIncompatible("Not needed in emulated source.")
+  @GwtIncompatible // Not needed in emulated source.
   private static final long serialVersionUID = 0;
 }

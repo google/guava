@@ -50,7 +50,7 @@ public class DoubleArrayAsListTest extends TestCase {
     return Doubles.asList(temp);
   }
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     List<ListTestSuiteBuilder<Double>> builders =
         ImmutableList.of(

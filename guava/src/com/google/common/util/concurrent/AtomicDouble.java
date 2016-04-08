@@ -17,6 +17,9 @@ package com.google.common.util.concurrent;
 import static java.lang.Double.doubleToRawLongBits;
 import static java.lang.Double.longBitsToDouble;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 
 /**
@@ -52,6 +55,7 @@ import java.util.concurrent.atomic.AtomicLongFieldUpdater;
  * @author Martin Buchholz
  * @since 11.0
  */
+@GwtIncompatible
 public class AtomicDouble extends Number implements java.io.Serializable {
   private static final long serialVersionUID = 0L;
 
@@ -161,6 +165,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    * @param delta the value to add
    * @return the previous value
    */
+  @CanIgnoreReturnValue
   public final double getAndAdd(double delta) {
     while (true) {
       long current = value;
@@ -179,6 +184,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    * @param delta the value to add
    * @return the updated value
    */
+  @CanIgnoreReturnValue
   public final double addAndGet(double delta) {
     while (true) {
       long current = value;

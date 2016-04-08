@@ -18,6 +18,21 @@ public class IntMathTest_gwt extends com.google.gwt.junit.client.GWTTestCase {
 @Override public String getModuleName() {
   return "com.google.common.math.testModule";
 }
+public void testCeilingPowerOfTwo() throws Exception {
+  com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
+  testCase.testCeilingPowerOfTwo();
+}
+
+public void testCeilingPowerOfTwoNegative() throws Exception {
+  com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
+  testCase.testCeilingPowerOfTwoNegative();
+}
+
+public void testCeilingPowerOfTwoZero() throws Exception {
+  com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
+  testCase.testCeilingPowerOfTwoZero();
+}
+
 public void testCheckedAdd() throws Exception {
   com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
   testCase.testCheckedAdd();
@@ -63,6 +78,21 @@ public void testFactorialNegative() throws Exception {
   testCase.testFactorialNegative();
 }
 
+public void testFloorPowerOfTwo() throws Exception {
+  com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
+  testCase.testFloorPowerOfTwo();
+}
+
+public void testFloorPowerOfTwoNegative() throws Exception {
+  com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
+  testCase.testFloorPowerOfTwoNegative();
+}
+
+public void testFloorPowerOfTwoZero() throws Exception {
+  com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
+  testCase.testFloorPowerOfTwoZero();
+}
+
 public void testGCD() throws Exception {
   com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
   testCase.testGCD();
@@ -106,6 +136,11 @@ public void testLog2NegativeAlwaysThrows() throws Exception {
 public void testLog2ZeroAlwaysThrows() throws Exception {
   com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
   testCase.testLog2ZeroAlwaysThrows();
+}
+
+public void testMaxSignedPowerOfTwo() throws Exception {
+  com.google.common.math.IntMathTest testCase = new com.google.common.math.IntMathTest();
+  testCase.testMaxSignedPowerOfTwo();
 }
 
 public void testMod() throws Exception {

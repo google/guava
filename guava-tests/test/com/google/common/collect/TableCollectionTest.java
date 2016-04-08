@@ -82,7 +82,7 @@ public class TableCollectionTest extends TestCase {
     CollectionFeature.ALLOWS_NULL_QUERIES
   };
 
-  @GwtIncompatible("suite")
+  @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ArrayRowTests.class);
@@ -682,7 +682,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("TODO(hhchan): ArrayTable")
+  @GwtIncompatible // TODO(hhchan): ArrayTable
   public static class ArrayRowTests extends RowTests {
     public ArrayRowTests() {
       super(true, true, false, false, false);
@@ -823,7 +823,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("TODO(hhchan): ArrayTable")
+  @GwtIncompatible // TODO(hhchan): ArrayTable
   public static class ArrayColumnTests extends ColumnTests {
     public ArrayColumnTests() {
       super(true, true, false, false, false);
@@ -1014,7 +1014,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("TODO(hhchan): ArrayTable")
+  @GwtIncompatible // TODO(hhchan): ArrayTable
   public static class ArrayRowMapTests extends RowMapTests {
     public ArrayRowMapTests() {
       super(true, false, false, false);
@@ -1226,7 +1226,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("TODO(hhchan): ArrayTable")
+  @GwtIncompatible // TODO(hhchan): ArrayTable
   public static class ArrayColumnMapTests extends ColumnMapTests {
     public ArrayColumnMapTests() {
       super(true, false, false, false);

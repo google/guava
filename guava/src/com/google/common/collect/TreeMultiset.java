@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -244,6 +245,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     }
   }
 
+  @CanIgnoreReturnValue
   @Override
   public int add(@Nullable E element, int occurrences) {
     checkNonnegative(occurrences, "occurrences");
@@ -265,6 +267,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     return result[0];
   }
 
+  @CanIgnoreReturnValue
   @Override
   public int remove(@Nullable Object element, int occurrences) {
     checkNonnegative(occurrences, "occurrences");
@@ -290,6 +293,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     return result[0];
   }
 
+  @CanIgnoreReturnValue
   @Override
   public int setCount(@Nullable E element, int count) {
     checkNonnegative(count, "count");
@@ -311,6 +315,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     return result[0];
   }
 
+  @CanIgnoreReturnValue
   @Override
   public boolean setCount(@Nullable E element, int oldCount, int newCount) {
     checkNonnegative(newCount, "newCount");
@@ -962,14 +967,14 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
    * @serialData the comparator, the number of distinct elements, the first element, its count, the
    *             second element, its count, and so on
    */
-  @GwtIncompatible("java.io.ObjectOutputStream")
+  @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(elementSet().comparator());
     Serialization.writeMultiset(this, stream);
   }
 
-  @GwtIncompatible("java.io.ObjectInputStream")
+  @GwtIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     @SuppressWarnings("unchecked")
@@ -986,6 +991,6 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     Serialization.populateMultiset(this, stream);
   }
 
-  @GwtIncompatible("not needed in emulated source")
+  @GwtIncompatible // not needed in emulated source
   private static final long serialVersionUID = 1;
 }

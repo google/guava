@@ -68,6 +68,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
@@ -308,8 +309,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
       throws Exception {
     ListeningExecutorService executor = newDirectExecutorService();
     List<Callable<T>> tasks = ImmutableList.of();
-    @SuppressWarnings("unchecked") // guaranteed by invokeAll contract
-    List<ListenableFuture<T>> unused = (List) executor.invokeAll(tasks);
+    executor.invokeAll(tasks);
   }
 
   public void testListeningDecorator() throws Exception {
@@ -466,7 +466,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     ListeningExecutorService e = newDirectExecutorService();
     try {
       invokeAnyImpl(e, null, false, 0);
-      shouldThrow();
+      fail();
     } catch (NullPointerException success) {
     } finally {
       joinPool(e);
@@ -480,7 +480,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     ListeningExecutorService e = newDirectExecutorService();
     try {
       invokeAnyImpl(e, new ArrayList<Callable<String>>(), false, 0);
-      shouldThrow();
+      fail();
     } catch (IllegalArgumentException success) {
     } finally {
       joinPool(e);
@@ -501,7 +501,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     l.add(null);
     try {
       invokeAnyImpl(e, l, false, 0);
-      shouldThrow();
+      fail();
     } catch (NullPointerException success) {
     } finally {
       joinPool(e);
@@ -517,7 +517,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     l.add(new NPETask());
     try {
       invokeAnyImpl(e, l, false, 0);
-      shouldThrow();
+      fail();
     } catch (ExecutionException success) {
       assertThat(success.getCause()).isInstanceOf(NullPointerException.class);
     } finally {
@@ -598,7 +598,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     ThreadPoolExecutor executor = mock(ThreadPoolExecutor.class);
     ThreadFactory threadFactory = mock(ThreadFactory.class);
     when(executor.getThreadFactory()).thenReturn(threadFactory);
-    application.getExitingExecutorService(executor);
+    ExecutorService unused = application.getExitingExecutorService(executor);
     application.shutdown();
     verify(executor).shutdown();
   }
@@ -625,7 +625,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     ScheduledThreadPoolExecutor executor = mock(ScheduledThreadPoolExecutor.class);
     ThreadFactory threadFactory = mock(ThreadFactory.class);
     when(executor.getThreadFactory()).thenReturn(threadFactory);
-    application.getExitingScheduledExecutorService(executor);
+    ScheduledExecutorService unused = application.getExitingScheduledExecutorService(executor);
     application.shutdown();
     verify(executor).shutdown();
   }

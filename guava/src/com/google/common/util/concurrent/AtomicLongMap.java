@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -85,6 +86,7 @@ public final class AtomicLongMap<K> {
   /**
    * Increments by one the value currently associated with {@code key}, and returns the new value.
    */
+  @CanIgnoreReturnValue
   public long incrementAndGet(K key) {
     return addAndGet(key, 1);
   }
@@ -92,6 +94,7 @@ public final class AtomicLongMap<K> {
   /**
    * Decrements by one the value currently associated with {@code key}, and returns the new value.
    */
+  @CanIgnoreReturnValue
   public long decrementAndGet(K key) {
     return addAndGet(key, -1);
   }
@@ -100,6 +103,7 @@ public final class AtomicLongMap<K> {
    * Adds {@code delta} to the value currently associated with {@code key}, and returns the new
    * value.
    */
+  @CanIgnoreReturnValue
   public long addAndGet(K key, long delta) {
     outer:
     while (true) {
@@ -135,6 +139,7 @@ public final class AtomicLongMap<K> {
   /**
    * Increments by one the value currently associated with {@code key}, and returns the old value.
    */
+  @CanIgnoreReturnValue
   public long getAndIncrement(K key) {
     return getAndAdd(key, 1);
   }
@@ -142,6 +147,7 @@ public final class AtomicLongMap<K> {
   /**
    * Decrements by one the value currently associated with {@code key}, and returns the old value.
    */
+  @CanIgnoreReturnValue
   public long getAndDecrement(K key) {
     return getAndAdd(key, -1);
   }
@@ -150,6 +156,7 @@ public final class AtomicLongMap<K> {
    * Adds {@code delta} to the value currently associated with {@code key}, and returns the old
    * value.
    */
+  @CanIgnoreReturnValue
   public long getAndAdd(K key, long delta) {
     outer:
     while (true) {
@@ -186,6 +193,7 @@ public final class AtomicLongMap<K> {
    * Associates {@code newValue} with {@code key} in this map, and returns the value previously
    * associated with {@code key}, or zero if there was no such value.
    */
+  @CanIgnoreReturnValue
   public long put(K key, long newValue) {
     outer:
     while (true) {
@@ -233,6 +241,7 @@ public final class AtomicLongMap<K> {
    * Removes and returns the value associated with {@code key}. If {@code key} is not in the map,
    * this method has no effect and returns zero.
    */
+  @CanIgnoreReturnValue
   public long remove(K key) {
     AtomicLong atomic = map.get(key);
     if (atomic == null) {

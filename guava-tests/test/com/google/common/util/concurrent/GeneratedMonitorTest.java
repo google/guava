@@ -21,6 +21,7 @@ import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterrup
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -708,6 +709,7 @@ public class GeneratedMonitorTest extends TestCase {
     awaitUninterruptibly(enteredLatch);
   }
 
+  @CanIgnoreReturnValue
   static Thread startThread(Runnable runnable) {
     Thread thread = new Thread(runnable);
     thread.setDaemon(true);

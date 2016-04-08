@@ -45,9 +45,7 @@ public class MultimapAsMapGetTester<K, V> extends AbstractMultimapTester<K, V, M
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testPropagatesRemoveToMultimap() {
     resetContainer(
-        Helpers.mapEntry(k0(), v0()),
-        Helpers.mapEntry(k0(), v3()),
-        Helpers.mapEntry(k0(), v2()));
+        Helpers.mapEntry(k0(), v0()), Helpers.mapEntry(k0(), v3()), Helpers.mapEntry(k0(), v2()));
     Collection<V> result = multimap().asMap().get(k0());
     assertTrue(result.remove(v0()));
     assertFalse(multimap().containsEntry(k0(), v0()));
@@ -93,7 +91,8 @@ public class MultimapAsMapGetTester<K, V> extends AbstractMultimapTester<K, V, M
     try {
       result.add(null);
       fail("Expected NullPointerException");
-    } catch (NullPointerException expected) {}
+    } catch (NullPointerException expected) {
+    }
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -101,13 +100,11 @@ public class MultimapAsMapGetTester<K, V> extends AbstractMultimapTester<K, V, M
   public void testPropagatesAddToMultimap() {
     Collection<V> result = multimap().asMap().get(k0());
     result.add(v3());
-    assertContentsAnyOrder(
-        multimap().get(k0()),
-        v0(), v3());
+    assertContentsAnyOrder(multimap().get(k0()), v0(), v3());
   }
 
   @CollectionSize.Require(absent = ZERO)
-  @MapFeature.Require({ SUPPORTS_REMOVE, SUPPORTS_PUT })
+  @MapFeature.Require({SUPPORTS_REMOVE, SUPPORTS_PUT})
   public void testPropagatesRemoveThenAddToMultimap() {
     int oldSize = getNumElements();
 

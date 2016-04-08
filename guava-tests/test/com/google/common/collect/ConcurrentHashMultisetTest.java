@@ -25,8 +25,6 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 
 import com.google.common.base.Equivalence;
-import com.google.common.collect.MapMaker.RemovalListener;
-import com.google.common.collect.MapMaker.RemovalNotification;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
@@ -279,6 +277,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
     try {
       cms.removeExactly("a", -2);
+      fail();
     } catch (IllegalArgumentException expected) {}
 
     assertTrue(cms.removeExactly("a", 0));
@@ -529,43 +528,6 @@ public class ConcurrentHashMultisetTest extends TestCase {
 //
 //    EasyMock.verify(evictionListener);
 //  }
-
-  public void testWithMapMakerEvictionListener() {
-    final List<RemovalNotification<String, Number>> notificationQueue = Lists.newArrayList();
-    RemovalListener<String, Number> removalListener =
-        new RemovalListener<String, Number>() {
-          @Override public void onRemoval(RemovalNotification<String, Number> notification) {
-            notificationQueue.add(notification);
-          }
-        };
-
-    @SuppressWarnings("deprecation") // TODO(kevinb): what to do?
-    MapMaker mapMaker = new MapMaker()
-        .concurrencyLevel(1)
-        .maximumSize(1);
-    /*
-     * Cleverly ignore the return type now that ConcurrentHashMultiset accepts only MapMaker and not
-     * the deprecated GenericMapMaker. We know that a RemovalListener<String, Number> is a type that
-     * will work with ConcurrentHashMultiset.
-     */
-    mapMaker.removalListener(removalListener);
-
-    ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(mapMaker);
-
-    multiset.add("a", 5);
-    assertTrue(multiset.contains("a"));
-    assertEquals(5, multiset.count("a"));
-
-    multiset.add("b", 3);
-
-    assertFalse(multiset.contains("a"));
-    assertTrue(multiset.contains("b"));
-    assertEquals(3, multiset.count("b"));
-    RemovalNotification<String, Number> notification = Iterables.getOnlyElement(notificationQueue);
-    assertEquals("a", notification.getKey());
-    // The map evicted this entry, so CHM didn't have a chance to zero it.
-    assertEquals(5, notification.getValue().intValue());
-  }
 
   private void replay() {
     EasyMock.replay(backingMap);

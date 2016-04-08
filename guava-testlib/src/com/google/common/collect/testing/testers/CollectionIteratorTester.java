@@ -16,10 +16,12 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
+import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
@@ -27,11 +29,13 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -49,8 +53,7 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
     for (E element : collection) { // uses iterator()
       iteratorElements.add(element);
     }
-    Helpers.assertEqualIgnoringOrder(
-        Arrays.asList(createSamplesArray()), iteratorElements);
+    Helpers.assertEqualIgnoringOrder(Arrays.asList(createSamplesArray()), iteratorElements);
   }
 
   @CollectionFeature.Require(KNOWN_ORDER)
@@ -65,40 +68,55 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
 
   // TODO: switch to DerivedIteratorTestSuiteBuilder
 
+  @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
+  @CollectionSize.Require(absent = ZERO)
+  public void testIterator_removeAffectsBackingCollection() {
+    int originalSize = collection.size();
+    Iterator<E> iterator = collection.iterator();
+    Object element = iterator.next();
+    // If it's an Entry, it may become invalid once it's removed from the Map. Copy it.
+    if (element instanceof Entry) {
+      Entry<?, ?> entry = (Entry<?, ?>) element;
+      element = mapEntry(entry.getKey(), entry.getValue());
+    }
+    assertTrue(collection.contains(element)); // sanity check
+    iterator.remove();
+    assertFalse(collection.contains(element));
+    assertEquals(originalSize - 1, collection.size());
+  }
+
   @CollectionFeature.Require({KNOWN_ORDER, SUPPORTS_ITERATOR_REMOVE})
   public void testIterator_knownOrderRemoveSupported() {
-    runIteratorTest(MODIFIABLE, IteratorTester.KnownOrder.KNOWN_ORDER,
-        getOrderedElements());
+    runIteratorTest(MODIFIABLE, IteratorTester.KnownOrder.KNOWN_ORDER, getOrderedElements());
   }
 
   @CollectionFeature.Require(value = KNOWN_ORDER, absent = SUPPORTS_ITERATOR_REMOVE)
   public void testIterator_knownOrderRemoveUnsupported() {
-    runIteratorTest(UNMODIFIABLE, IteratorTester.KnownOrder.KNOWN_ORDER,
-        getOrderedElements());
+    runIteratorTest(UNMODIFIABLE, IteratorTester.KnownOrder.KNOWN_ORDER, getOrderedElements());
   }
 
   @CollectionFeature.Require(absent = KNOWN_ORDER, value = SUPPORTS_ITERATOR_REMOVE)
   public void testIterator_unknownOrderRemoveSupported() {
-    runIteratorTest(MODIFIABLE, IteratorTester.KnownOrder.UNKNOWN_ORDER,
-        getSampleElements());
+    runIteratorTest(MODIFIABLE, IteratorTester.KnownOrder.UNKNOWN_ORDER, getSampleElements());
   }
 
   @CollectionFeature.Require(absent = {KNOWN_ORDER, SUPPORTS_ITERATOR_REMOVE})
   public void testIterator_unknownOrderRemoveUnsupported() {
-    runIteratorTest(UNMODIFIABLE, IteratorTester.KnownOrder.UNKNOWN_ORDER,
-        getSampleElements());
+    runIteratorTest(UNMODIFIABLE, IteratorTester.KnownOrder.UNKNOWN_ORDER, getSampleElements());
   }
 
-  private void runIteratorTest(Set<IteratorFeature> features,
-      IteratorTester.KnownOrder knownOrder, Iterable<E> elements) {
-    new IteratorTester<E>(Platform.collectionIteratorTesterNumIterations(), features, elements,
-        knownOrder) {
-      @Override protected Iterator<E> newTargetIterator() {
+  private void runIteratorTest(
+      Set<IteratorFeature> features, IteratorTester.KnownOrder knownOrder, Iterable<E> elements) {
+    new IteratorTester<E>(
+        Platform.collectionIteratorTesterNumIterations(), features, elements, knownOrder) {
+      @Override
+      protected Iterator<E> newTargetIterator() {
         resetCollection();
         return collection.iterator();
       }
 
-      @Override protected void verify(List<E> elements) {
+      @Override
+      protected void verify(List<E> elements) {
         expectContents(elements);
       }
     }.test();
@@ -113,6 +131,7 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
     try {
       iterator.next();
       fail("iterator.next() should throw NoSuchElementException");
-    } catch (NoSuchElementException expected) {}
+    } catch (NoSuchElementException expected) {
+    }
   }
 }

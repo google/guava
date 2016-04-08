@@ -62,7 +62,7 @@ public class ApacheBenchmark {
       @Override
       public boolean noAddOverflow(int a, int b) {
         try {
-          IntMath.checkedAdd(a, b);
+          int unused = IntMath.checkedAdd(a, b);
           return true;
         } catch (ArithmeticException e) {
           return false;
@@ -72,7 +72,7 @@ public class ApacheBenchmark {
       @Override
       public boolean noAddOverflow(long a, long b) {
         try {
-          LongMath.checkedAdd(a, b);
+          long unused = LongMath.checkedAdd(a, b);
           return true;
         } catch (ArithmeticException e) {
           return false;
@@ -82,7 +82,7 @@ public class ApacheBenchmark {
       @Override
       public boolean noMulOverflow(int a, int b) {
         try {
-          IntMath.checkedMultiply(a, b);
+          int unused = IntMath.checkedMultiply(a, b);
           return true;
         } catch (ArithmeticException e) {
           return false;
@@ -92,7 +92,7 @@ public class ApacheBenchmark {
       @Override
       public boolean noMulOverflow(long a, long b) {
         try {
-          LongMath.checkedMultiply(a, b);
+          long unused = LongMath.checkedMultiply(a, b);
           return true;
         } catch (ArithmeticException e) {
           return false;

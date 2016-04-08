@@ -1567,6 +1567,14 @@ public class LocalCacheTest extends TestCase {
     }
   }
 
+  public void testGetOrDefault() {
+    LocalCache<Object, Object> map =
+        makeLocalCache(createCacheBuilder().concurrencyLevel(1).initialCapacity(1));
+    map.put(1, 1);
+    assertEquals(1, map.getOrDefault(1, 2));
+    assertEquals(2, map.getOrDefault(2, 2));
+  }
+
   public void testPutCausesExpansion() {
     for (int count = 1; count <= 100; count++) {
       LocalCache<Object, Object> map =

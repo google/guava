@@ -82,7 +82,6 @@ public class MacHashFunctionTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   @AndroidIncompatible // sun.security
   public void testNoProviders() {
     ProviderList providers = Providers.getProviderList();
@@ -125,7 +124,6 @@ public class MacHashFunctionTest extends TestCase {
             .hash());
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testCustomKey() throws Exception {
     SecretKey customKey = new SecretKey() {
       @Override public String getAlgorithm() {
@@ -144,7 +142,6 @@ public class MacHashFunctionTest extends TestCase {
             .toString());
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testBadKey_emptyKey() throws Exception {
     SecretKey badKey = new SecretKey() {
       @Override public String getAlgorithm() {
@@ -223,7 +220,6 @@ public class MacHashFunctionTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("CheckReturnValue")
   public void testHashTwice() {
     Hasher hasher = Hashing.hmacMd5(MD5_KEY).newHasher();
 

@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2011 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.math;
@@ -36,6 +34,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Booleans;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -50,10 +49,10 @@ import java.util.Iterator;
 @GwtCompatible(emulated = true)
 public final class DoubleMath {
   /*
-   * This method returns a value y such that rounding y DOWN (towards zero) gives the same result
-   * as rounding x according to the specified mode.
+   * This method returns a value y such that rounding y DOWN (towards zero) gives the same result as
+   * rounding x according to the specified mode.
    */
-  @GwtIncompatible("#isMathematicalInteger, com.google.common.math.DoubleUtils")
+  @GwtIncompatible // #isMathematicalInteger, com.google.common.math.DoubleUtils
   static double roundIntermediate(double x, RoundingMode mode) {
     if (!isFinite(x)) {
       throw new ArithmeticException("input is infinite or NaN");
@@ -90,23 +89,25 @@ public final class DoubleMath {
       case HALF_EVEN:
         return rint(x);
 
-      case HALF_UP: {
-        double z = rint(x);
-        if (abs(x - z) == 0.5) {
-          return x + copySign(0.5, x);
-        } else {
-          return z;
+      case HALF_UP:
+        {
+          double z = rint(x);
+          if (abs(x - z) == 0.5) {
+            return x + copySign(0.5, x);
+          } else {
+            return z;
+          }
         }
-      }
 
-      case HALF_DOWN: {
-        double z = rint(x);
-        if (abs(x - z) == 0.5) {
-          return x;
-        } else {
-          return z;
+      case HALF_DOWN:
+        {
+          double z = rint(x);
+          if (abs(x - z) == 0.5) {
+            return x;
+          } else {
+            return z;
+          }
         }
-      }
 
       default:
         throw new AssertionError();
@@ -118,16 +119,16 @@ public final class DoubleMath {
    * mode, if possible.
    *
    * @throws ArithmeticException if
-   *         <ul>
-   *         <li>{@code x} is infinite or NaN
-   *         <li>{@code x}, after being rounded to a mathematical integer using the specified
-   *         rounding mode, is either less than {@code Integer.MIN_VALUE} or greater than {@code
+   *     <ul>
+   *     <li>{@code x} is infinite or NaN
+   *     <li>{@code x}, after being rounded to a mathematical integer using the specified rounding
+   *         mode, is either less than {@code Integer.MIN_VALUE} or greater than {@code
    *         Integer.MAX_VALUE}
-   *         <li>{@code x} is not a mathematical integer and {@code mode} is
+   *     <li>{@code x} is not a mathematical integer and {@code mode} is
    *         {@link RoundingMode#UNNECESSARY}
-   *         </ul>
+   *     </ul>
    */
-  @GwtIncompatible("#roundIntermediate")
+  @GwtIncompatible // #roundIntermediate
   public static int roundToInt(double x, RoundingMode mode) {
     double z = roundIntermediate(x, mode);
     checkInRange(z > MIN_INT_AS_DOUBLE - 1.0 & z < MAX_INT_AS_DOUBLE + 1.0);
@@ -142,16 +143,16 @@ public final class DoubleMath {
    * mode, if possible.
    *
    * @throws ArithmeticException if
-   *         <ul>
-   *         <li>{@code x} is infinite or NaN
-   *         <li>{@code x}, after being rounded to a mathematical integer using the specified
-   *         rounding mode, is either less than {@code Long.MIN_VALUE} or greater than {@code
+   *     <ul>
+   *     <li>{@code x} is infinite or NaN
+   *     <li>{@code x}, after being rounded to a mathematical integer using the specified rounding
+   *         mode, is either less than {@code Long.MIN_VALUE} or greater than {@code
    *         Long.MAX_VALUE}
-   *         <li>{@code x} is not a mathematical integer and {@code mode} is
+   *     <li>{@code x} is not a mathematical integer and {@code mode} is
    *         {@link RoundingMode#UNNECESSARY}
-   *         </ul>
+   *     </ul>
    */
-  @GwtIncompatible("#roundIntermediate")
+  @GwtIncompatible // #roundIntermediate
   public static long roundToLong(double x, RoundingMode mode) {
     double z = roundIntermediate(x, mode);
     checkInRange(MIN_LONG_AS_DOUBLE - z < 1.0 & z < MAX_LONG_AS_DOUBLE_PLUS_ONE);
@@ -160,7 +161,7 @@ public final class DoubleMath {
 
   private static final double MIN_LONG_AS_DOUBLE = -0x1p63;
   /*
-   * We cannot store Long.MAX_VALUE as a double without losing precision.  Instead, we store
+   * We cannot store Long.MAX_VALUE as a double without losing precision. Instead, we store
    * Long.MAX_VALUE + 1 == -Long.MIN_VALUE, and then offset all comparisons by 1.
    */
   private static final double MAX_LONG_AS_DOUBLE_PLUS_ONE = 0x1p63;
@@ -170,14 +171,14 @@ public final class DoubleMath {
    * rounding mode, if possible.
    *
    * @throws ArithmeticException if
-   *         <ul>
-   *         <li>{@code x} is infinite or NaN
-   *         <li>{@code x} is not a mathematical integer and {@code mode} is
+   *     <ul>
+   *     <li>{@code x} is infinite or NaN
+   *     <li>{@code x} is not a mathematical integer and {@code mode} is
    *         {@link RoundingMode#UNNECESSARY}
-   *         </ul>
+   *     </ul>
    */
-  @GwtIncompatible("#roundIntermediate, java.lang.Math.getExponent, "
-      + "com.google.common.math.DoubleUtils")
+  // #roundIntermediate, java.lang.Math.getExponent, com.google.common.math.DoubleUtils
+  @GwtIncompatible
   public static BigInteger roundToBigInteger(double x, RoundingMode mode) {
     x = roundIntermediate(x, mode);
     if (MIN_LONG_AS_DOUBLE - x < 1.0 & x < MAX_LONG_AS_DOUBLE_PLUS_ONE) {
@@ -193,7 +194,7 @@ public final class DoubleMath {
    * Returns {@code true} if {@code x} is exactly equal to {@code 2^k} for some finite integer
    * {@code k}.
    */
-  @GwtIncompatible("com.google.common.math.DoubleUtils")
+  @GwtIncompatible // com.google.common.math.DoubleUtils
   public static boolean isPowerOfTwo(double x) {
     return x > 0.0 && isFinite(x) && LongMath.isPowerOfTwo(getSignificand(x));
   }
@@ -226,9 +227,9 @@ public final class DoubleMath {
    * <p>Regardless of the rounding mode, this is faster than {@code (int) log2(x)}.
    *
    * @throws IllegalArgumentException if {@code x <= 0.0}, {@code x} is NaN, or {@code x} is
-   *         infinite
+   *     infinite
    */
-  @GwtIncompatible("java.lang.Math.getExponent, com.google.common.math.DoubleUtils")
+  @GwtIncompatible // java.lang.Math.getExponent, com.google.common.math.DoubleUtils
   @SuppressWarnings("fallthrough")
   public static int log2(double x, RoundingMode mode) {
     checkArgument(x > 0.0 && isFinite(x), "x must be positive and finite");
@@ -275,17 +276,17 @@ public final class DoubleMath {
    * <p>This is equivalent to, but not necessarily implemented as, the expression {@code
    * !Double.isNaN(x) && !Double.isInfinite(x) && x == Math.rint(x)}.
    */
-  @GwtIncompatible("java.lang.Math.getExponent, com.google.common.math.DoubleUtils")
+  @GwtIncompatible // java.lang.Math.getExponent, com.google.common.math.DoubleUtils
   public static boolean isMathematicalInteger(double x) {
     return isFinite(x)
-        && (x == 0.0 ||
-            SIGNIFICAND_BITS - Long.numberOfTrailingZeros(getSignificand(x)) <= getExponent(x));
+        && (x == 0.0
+            || SIGNIFICAND_BITS - Long.numberOfTrailingZeros(getSignificand(x)) <= getExponent(x));
   }
 
   /**
-   * Returns {@code n!}, that is, the product of the first {@code n} positive
-   * integers, {@code 1} if {@code n == 0}, or {@code n!}, or
-   * {@link Double#POSITIVE_INFINITY} if {@code n! > Double.MAX_VALUE}.
+   * Returns {@code n!}, that is, the product of the first {@code n} positive integers, {@code 1} if
+   * {@code n == 0}, or {@code n!}, or {@link Double#POSITIVE_INFINITY} if
+   * {@code n! > Double.MAX_VALUE}.
    *
    * <p>The result is within 1 ulp of the true value.
    *
@@ -306,22 +307,22 @@ public final class DoubleMath {
     }
   }
 
-  @VisibleForTesting
-  static final int MAX_FACTORIAL = 170;
+  @VisibleForTesting static final int MAX_FACTORIAL = 170;
 
   @VisibleForTesting
   static final double[] everySixteenthFactorial = {
-      0x1.0p0,
-      0x1.30777758p44,
-      0x1.956ad0aae33a4p117,
-      0x1.ee69a78d72cb6p202,
-      0x1.fe478ee34844ap295,
-      0x1.c619094edabffp394,
-      0x1.3638dd7bd6347p498,
-      0x1.7cac197cfe503p605,
-      0x1.1e5dfc140e1e5p716,
-      0x1.8ce85fadb707ep829,
-      0x1.95d5f3d928edep945};
+    0x1.0p0,
+    0x1.30777758p44,
+    0x1.956ad0aae33a4p117,
+    0x1.ee69a78d72cb6p202,
+    0x1.fe478ee34844ap295,
+    0x1.c619094edabffp394,
+    0x1.3638dd7bd6347p498,
+    0x1.7cac197cfe503p605,
+    0x1.1e5dfc140e1e5p716,
+    0x1.8ce85fadb707ep829,
+    0x1.95d5f3d928edep945
+  };
 
   /**
    * Returns {@code true} if {@code a} and {@code b} are within {@code tolerance} of each other.
@@ -334,12 +335,11 @@ public final class DoubleMath {
    * <li>All NaNs are fuzzily equal.
    * <li>If {@code a == b}, then {@code a} and {@code b} are always fuzzily equal.
    * <li>Positive and negative zero are always fuzzily equal.
-   * <li>If {@code tolerance} is zero, and neither {@code a} nor {@code b} is NaN, then
-   * {@code a} and {@code b} are fuzzily equal if and only if {@code a == b}.
+   * <li>If {@code tolerance} is zero, and neither {@code a} nor {@code b} is NaN, then {@code a}
+   *     and {@code b} are fuzzily equal if and only if {@code a == b}.
    * <li>With {@link Double#POSITIVE_INFINITY} tolerance, all non-NaN values are fuzzily equal.
    * <li>With finite tolerance, {@code Double.POSITIVE_INFINITY} and {@code
-   * Double.NEGATIVE_INFINITY} are fuzzily equal only to themselves.
-   * </li>
+   *     Double.NEGATIVE_INFINITY} are fuzzily equal only to themselves.
    *
    * <p>This is reflexive and symmetric, but <em>not</em> transitive, so it is <em>not</em> an
    * equivalence relation and <em>not</em> suitable for use in {@link Object#equals}
@@ -350,11 +350,10 @@ public final class DoubleMath {
    */
   public static boolean fuzzyEquals(double a, double b, double tolerance) {
     MathPreconditions.checkNonNegative("tolerance", tolerance);
-    return
-          Math.copySign(a - b, 1.0) <= tolerance
-           // copySign(x, 1.0) is a branch-free version of abs(x), but with different NaN semantics
-          || (a == b) // needed to ensure that infinities equal themselves
-          || (Double.isNaN(a) && Double.isNaN(b));
+    return Math.copySign(a - b, 1.0) <= tolerance
+        // copySign(x, 1.0) is a branch-free version of abs(x), but with different NaN semantics
+        || (a == b) // needed to ensure that infinities equal themselves
+        || (Double.isNaN(a) && Double.isNaN(b));
   }
 
   /**
@@ -366,7 +365,7 @@ public final class DoubleMath {
    * other values (including {@link Double#POSITIVE_INFINITY}).
    *
    * <p>This is <em>not</em> a total ordering and is <em>not</em> suitable for use in
-   * {@link Comparable#compareTo} implementations.  In particular, it is not transitive.
+   * {@link Comparable#compareTo} implementations. In particular, it is not transitive.
    *
    * @throws IllegalArgumentException if {@code tolerance} is {@code < 0} or NaN
    * @since 13.0
@@ -392,8 +391,12 @@ public final class DoubleMath {
    *
    * @param values a nonempty series of values
    * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
+   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   *     values. This method will be removed in February 2018.
    */
-  @GwtIncompatible("com.google.common.math.DoubleUtils")
+  @Deprecated
+  // com.google.common.math.DoubleUtils
+  @GwtIncompatible
   public static double mean(double... values) {
     checkArgument(values.length > 0, "Cannot take mean of 0 values");
     long count = 1;
@@ -416,7 +419,10 @@ public final class DoubleMath {
    *
    * @param values a nonempty series of values
    * @throws IllegalArgumentException if {@code values} is empty
+   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   *     values. This method will be removed in February 2018.
    */
+  @Deprecated
   public static double mean(int... values) {
     checkArgument(values.length > 0, "Cannot take mean of 0 values");
     // The upper bound on the the length of an array and the bounds on the int values mean that, in
@@ -439,7 +445,10 @@ public final class DoubleMath {
    * @param values a nonempty series of values, which will be converted to {@code double} values
    *     (this may cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
    * @throws IllegalArgumentException if {@code values} is empty
+   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   *     values. This method will be removed in February 2018.
    */
+  @Deprecated
   public static double mean(long... values) {
     checkArgument(values.length > 0, "Cannot take mean of 0 values");
     long count = 1;
@@ -462,8 +471,12 @@ public final class DoubleMath {
    * @param values a nonempty series of values, which will be converted to {@code double} values
    *     (this may cause loss of precision)
    * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
+   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   *     values. This method will be removed in February 2018.
    */
-  @GwtIncompatible("com.google.common.math.DoubleUtils")
+  @Deprecated
+  // com.google.common.math.DoubleUtils
+  @GwtIncompatible
   public static double mean(Iterable<? extends Number> values) {
     return mean(values.iterator());
   }
@@ -478,8 +491,12 @@ public final class DoubleMath {
    * @param values a nonempty series of values, which will be converted to {@code double} values
    *     (this may cause loss of precision)
    * @throws IllegalArgumentException if {@code values} is empty or contains any non-finite value
+   * @deprecated Use {@link Stats#meanOf} instead, noting the less strict handling of non-finite
+   *     values. This method will be removed in February 2018.
    */
-  @GwtIncompatible("com.google.common.math.DoubleUtils")
+  @Deprecated
+  // com.google.common.math.DoubleUtils
+  @GwtIncompatible
   public static double mean(Iterator<? extends Number> values) {
     checkArgument(values.hasNext(), "Cannot take mean of 0 values");
     long count = 1;
@@ -493,7 +510,8 @@ public final class DoubleMath {
     return mean;
   }
 
-  @GwtIncompatible("com.google.common.math.DoubleUtils")
+  @GwtIncompatible // com.google.common.math.DoubleUtils
+  @CanIgnoreReturnValue
   private static double checkFinite(double argument) {
     checkArgument(isFinite(argument));
     return argument;

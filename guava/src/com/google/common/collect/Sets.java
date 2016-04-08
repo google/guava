@@ -19,11 +19,14 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
+import com.google.common.math.IntMath;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 import java.util.AbstractSet;
@@ -45,7 +48,6 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -253,7 +255,7 @@ public final class Sets {
    * @since 15.0
    */
   public static <E> Set<E> newConcurrentHashSet() {
-    return newSetFromMap(new ConcurrentHashMap<E, Boolean>());
+    return Collections.newSetFromMap(new ConcurrentHashMap<E, Boolean>());
   }
 
   /**
@@ -409,7 +411,7 @@ public final class Sets {
    * @since 8.0
    */
   public static <E> Set<E> newIdentityHashSet() {
-    return Sets.newSetFromMap(Maps.<E, Boolean>newIdentityHashMap());
+    return Collections.newSetFromMap(Maps.<E, Boolean>newIdentityHashMap());
   }
 
   /**
@@ -421,7 +423,7 @@ public final class Sets {
    * @return a new, empty {@code CopyOnWriteArraySet}
    * @since 12.0
    */
-  @GwtIncompatible("CopyOnWriteArraySet")
+  @GwtIncompatible // CopyOnWriteArraySet
   public static <E> CopyOnWriteArraySet<E> newCopyOnWriteArraySet() {
     return new CopyOnWriteArraySet<E>();
   }
@@ -433,7 +435,7 @@ public final class Sets {
    * @return a new {@code CopyOnWriteArraySet} containing those elements
    * @since 12.0
    */
-  @GwtIncompatible("CopyOnWriteArraySet")
+  @GwtIncompatible // CopyOnWriteArraySet
   public static <E> CopyOnWriteArraySet<E> newCopyOnWriteArraySet(Iterable<? extends E> elements) {
     // We copy elements to an ArrayList first, rather than incurring the
     // quadratic cost of adding them to the COWAS directly.
@@ -525,11 +527,11 @@ public final class Sets {
    * @return the set backed by the map
    * @throws IllegalArgumentException if {@code map} is not empty
    * @deprecated Use {@link Collections#newSetFromMap} instead. This method
-   *     will be removed in August 2017.
+   *     will be removed in December 2017.
    */
   @Deprecated
   public static <E> Set<E> newSetFromMap(Map<E, Boolean> map) {
-    return Platform.newSetFromMap(map);
+    return Collections.newSetFromMap(map);
   }
 
   /**
@@ -567,6 +569,7 @@ public final class Sets {
      */
     // Note: S should logically extend Set<? super E> but can't due to either
     // some javac bug or some weirdness in the spec, not sure which.
+    @CanIgnoreReturnValue
     public <S extends Set<E>> S copyInto(S set) {
       set.addAll(this);
       return set;
@@ -583,15 +586,6 @@ public final class Sets {
    * <p>Results are undefined if {@code set1} and {@code set2} are sets based on
    * different equivalence relations (as {@link HashSet}, {@link TreeSet}, and
    * the {@link Map#keySet} of an {@code IdentityHashMap} all are).
-   *
-   * <p><b>Note:</b> The returned view performs better when {@code set1} is the
-   * smaller of the two sets. If you have reason to believe one of your sets
-   * will generally be smaller than the other, pass it first.
-   *
-   * <p>Further, note that the current implementation is not suitable for nested
-   * {@code union} views, i.e. the following should be avoided when in a loop:
-   * {@code union = Sets.union(union, anotherSet);}, since iterating over the resulting
-   * set has a cubic complexity to the depth of the nesting.
    */
   public static <E> SetView<E> union(final Set<? extends E> set1, final Set<? extends E> set2) {
     checkNotNull(set1, "set1");
@@ -602,7 +596,7 @@ public final class Sets {
     return new SetView<E>() {
       @Override
       public int size() {
-        return set1.size() + set2minus1.size();
+        return IntMath.saturatedAdd(set1.size(), set2minus1.size());
       }
 
       @Override
@@ -819,7 +813,6 @@ public final class Sets {
    * functionality.)
    */
   // TODO(kevinb): how to omit that last sentence when building GWT javadoc?
-  @CheckReturnValue
   public static <E> Set<E> filter(Set<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof SortedSet) {
       return filter((SortedSet<E>) unfiltered, predicate);
@@ -880,13 +873,7 @@ public final class Sets {
    *
    * @since 11.0
    */
-  @CheckReturnValue
   public static <E> SortedSet<E> filter(SortedSet<E> unfiltered, Predicate<? super E> predicate) {
-    return Platform.setsFilterSortedSet(unfiltered, predicate);
-  }
-
-  static <E> SortedSet<E> filterSortedIgnoreNavigable(
-      SortedSet<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredSet) {
       // Support clear(), removeAll(), and retainAll() when filtering a filtered
       // collection.
@@ -972,9 +959,8 @@ public final class Sets {
    *
    * @since 14.0
    */
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   public static <E> NavigableSet<E> filter(
       NavigableSet<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredSet) {
@@ -988,7 +974,7 @@ public final class Sets {
     return new FilteredNavigableSet<E>(checkNotNull(unfiltered), checkNotNull(predicate));
   }
 
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   private static class FilteredNavigableSet<E> extends FilteredSortedSet<E>
       implements NavigableSet<E> {
     FilteredNavigableSet(NavigableSet<E> unfiltered, Predicate<? super E> predicate) {
@@ -1184,8 +1170,8 @@ public final class Sets {
 
   private static final class CartesianSet<E> extends ForwardingCollection<List<E>>
       implements Set<List<E>> {
-    private transient final ImmutableList<ImmutableSet<E>> axes;
-    private transient final CartesianList<E> delegate;
+    private final transient ImmutableList<ImmutableSet<E>> axes;
+    private final transient CartesianList<E> delegate;
 
     static <E> Set<List<E>> create(List<? extends Set<? extends E>> sets) {
       ImmutableList.Builder<ImmutableSet<E>> axesBuilder =
@@ -1454,7 +1440,7 @@ public final class Sets {
    * @return an unmodifiable view of the specified navigable set
    * @since 12.0
    */
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   public static <E> NavigableSet<E> unmodifiableNavigableSet(NavigableSet<E> set) {
     if (set instanceof ImmutableSortedSet || set instanceof UnmodifiableNavigableSet) {
       return set;
@@ -1462,7 +1448,7 @@ public final class Sets {
     return new UnmodifiableNavigableSet<E>(set);
   }
 
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   static final class UnmodifiableNavigableSet<E> extends ForwardingSortedSet<E>
       implements NavigableSet<E>, Serializable {
     private final NavigableSet<E> delegate;
@@ -1586,7 +1572,7 @@ public final class Sets {
    * @return a synchronized view of the specified navigable set.
    * @since 13.0
    */
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   public static <E> NavigableSet<E> synchronizedNavigableSet(NavigableSet<E> navigableSet) {
     return Synchronized.navigableSet(navigableSet);
   }
@@ -1621,7 +1607,7 @@ public final class Sets {
     }
   }
 
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   static class DescendingSet<E> extends ForwardingNavigableSet<E> {
     private final NavigableSet<E> forward;
 
@@ -1750,5 +1736,48 @@ public final class Sets {
     public String toString() {
       return standardToString();
     }
+  }
+
+  /**
+   * Returns a view of the portion of {@code set} whose elements are contained by {@code range}.
+   *
+   * <p>This method delegates to the appropriate methods of {@link NavigableSet} (namely
+   * {@link NavigableSet#subSet(Object, boolean, Object, boolean) subSet()},
+   * {@link NavigableSet#tailSet(Object, boolean) tailSet()}, and
+   * {@link NavigableSet#headSet(Object, boolean) headSet()}) to actually construct the view.
+   * Consult these methods for a full description of the returned view's behavior.
+   *
+   * <p><b>Warning:</b> {@code Range}s always represent a range of values using the values' natural
+   * ordering. {@code NavigableSet} on the other hand can specify a custom ordering via a
+   * {@link Comparator}, which can violate the natural ordering. Using this method (or in general
+   * using {@code Range}) with unnaturally-ordered sets can lead to unexpected and undefined
+   * behavior.
+   *
+   * @since 20.0
+   */
+  @Beta
+  @GwtIncompatible // NavigableSet
+  public static <K extends Comparable<? super K>> NavigableSet<K> subSet(
+      NavigableSet<K> set, Range<K> range) {
+    if (set.comparator() != null
+        && set.comparator() != Ordering.natural()
+        && range.hasLowerBound()
+        && range.hasUpperBound()) {
+      checkArgument(
+          set.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) <= 0,
+          "set is using a custom comparator which is inconsistent with the natural ordering.");
+    }
+    if (range.hasLowerBound() && range.hasUpperBound()) {
+      return set.subSet(
+          range.lowerEndpoint(),
+          range.lowerBoundType() == BoundType.CLOSED,
+          range.upperEndpoint(),
+          range.upperBoundType() == BoundType.CLOSED);
+    } else if (range.hasLowerBound()) {
+      return set.tailSet(range.lowerEndpoint(), range.lowerBoundType() == BoundType.CLOSED);
+    } else if (range.hasUpperBound()) {
+      return set.headSet(range.upperEndpoint(), range.upperBoundType() == BoundType.CLOSED);
+    }
+    return checkNotNull(set);
   }
 }

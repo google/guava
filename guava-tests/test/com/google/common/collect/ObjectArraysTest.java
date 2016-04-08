@@ -36,20 +36,20 @@ import java.util.List;
 @GwtCompatible(emulated = true)
 public class ObjectArraysTest extends TestCase {
 
-  @GwtIncompatible("NullPointerTester")
+  @GwtIncompatible // NullPointerTester
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ObjectArrays.class);
   }
 
-  @GwtIncompatible("ObjectArrays.newArray(Class, int)")
+  @GwtIncompatible // ObjectArrays.newArray(Class, int)
   public void testNewArray_fromClass_Empty() {
     String[] empty = ObjectArrays.newArray(String.class, 0);
     assertEquals(String[].class, empty.getClass());
     assertThat(empty).isEmpty();
   }
 
-  @GwtIncompatible("ObjectArrays.newArray(Class, int)")
+  @GwtIncompatible // ObjectArrays.newArray(Class, int)
   public void testNewArray_fromClass_Nonempty() {
     String[] array = ObjectArrays.newArray(String.class, 2);
     assertEquals(String[].class, array.getClass());
@@ -57,7 +57,7 @@ public class ObjectArraysTest extends TestCase {
     assertNull(array[0]);
   }
 
-  @GwtIncompatible("ObjectArrays.newArray(Class, int)")
+  @GwtIncompatible // ObjectArrays.newArray(Class, int)
   public void testNewArray_fromClass_OfArray() {
     String[][] array = ObjectArrays.newArray(String[].class, 1);
     assertEquals(String[][].class, array.getClass());
@@ -85,7 +85,7 @@ public class ObjectArraysTest extends TestCase {
     assertNull(array[0]);
   }
 
-  @GwtIncompatible("ObjectArrays.concat(Object[], Object[], Class)")
+  @GwtIncompatible // ObjectArrays.concat(Object[], Object[], Class)
   public void testConcatEmptyEmpty() {
     String[] result
         = ObjectArrays.concat(new String[0], new String[0], String.class);
@@ -93,7 +93,7 @@ public class ObjectArraysTest extends TestCase {
     assertThat(result).isEmpty();
   }
 
-  @GwtIncompatible("ObjectArrays.concat(Object[], Object[], Class)")
+  @GwtIncompatible // ObjectArrays.concat(Object[], Object[], Class)
   public void testConcatEmptyNonempty() {
     String[] result = ObjectArrays.concat(
         new String[0], new String[] { "a", "b" }, String.class);
@@ -101,7 +101,7 @@ public class ObjectArraysTest extends TestCase {
     assertThat(result).asList().containsExactly("a", "b").inOrder();
   }
 
-  @GwtIncompatible("ObjectArrays.concat(Object[], Object[], Class)")
+  @GwtIncompatible // ObjectArrays.concat(Object[], Object[], Class)
   public void testConcatNonemptyEmpty() {
     String[] result = ObjectArrays.concat(
         new String[] { "a", "b" }, new String[0], String.class);
@@ -109,7 +109,7 @@ public class ObjectArraysTest extends TestCase {
     assertThat(result).asList().containsExactly("a", "b").inOrder();
   }
 
-  @GwtIncompatible("ObjectArrays.concat(Object[], Object[], Class)")
+  @GwtIncompatible // ObjectArrays.concat(Object[], Object[], Class)
   public void testConcatBasic() {
     String[] result = ObjectArrays.concat(
         new String[] { "a", "b" }, new String[] { "c", "d" }, String.class);
@@ -117,7 +117,7 @@ public class ObjectArraysTest extends TestCase {
     assertThat(result).asList().containsExactly("a", "b", "c", "d").inOrder();
   }
 
-  @GwtIncompatible("ObjectArrays.concat(Object[], Object[], Class)")
+  @GwtIncompatible // ObjectArrays.concat(Object[], Object[], Class)
   public void testConcatWithMoreGeneralType() {
     Serializable[] result
         = ObjectArrays.concat(new String[0], new String[0], Serializable.class);

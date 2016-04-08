@@ -18,8 +18,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
 
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -33,11 +33,6 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 abstract class ImmediateFuture<V> implements ListenableFuture<V> {
-  /*
-   * TODO(lukes): Use AbstractFuture.TrustedFuture instead of special classes so that get() throws
-   * InterruptedException when appropriate, and, more importantly for failed/cancelled Futures, we
-   * can take advantage of the TrustedFuture optimizations.
-   */
   private static final Logger log = Logger.getLogger(ImmediateFuture.class.getName());
 
   @Override
@@ -89,13 +84,14 @@ abstract class ImmediateFuture<V> implements ListenableFuture<V> {
       this.value = value;
     }
 
+    // TODO(lukes): Consider throwing InterruptedException when appropriate.
     @Override
     public V get() {
       return value;
     }
   }
 
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   static class ImmediateSuccessfulCheckedFuture<V, X extends Exception> extends ImmediateFuture<V>
       implements CheckedFuture<V, X> {
     @Nullable private final V value;
@@ -121,39 +117,19 @@ abstract class ImmediateFuture<V> implements ListenableFuture<V> {
     }
   }
 
-  static class ImmediateFailedFuture<V> extends ImmediateFuture<V> {
-    private final Throwable thrown;
-
+  static final class ImmediateFailedFuture<V> extends TrustedFuture<V> {
     ImmediateFailedFuture(Throwable thrown) {
-      this.thrown = thrown;
-    }
-
-    @Override
-    public V get() throws ExecutionException {
-      throw new ExecutionException(thrown);
+      setException(thrown);
     }
   }
 
-  @GwtIncompatible("TODO")
-  static class ImmediateCancelledFuture<V> extends ImmediateFuture<V> {
-    private final CancellationException thrown;
-
+  static final class ImmediateCancelledFuture<V> extends TrustedFuture<V> {
     ImmediateCancelledFuture() {
-      this.thrown = new CancellationException("Immediate cancelled future.");
-    }
-
-    @Override
-    public boolean isCancelled() {
-      return true;
-    }
-
-    @Override
-    public V get() {
-      throw AbstractFuture.cancellationExceptionWithCause("Task was cancelled.", thrown);
+      cancel(false);
     }
   }
 
-  @GwtIncompatible("TODO")
+  @GwtIncompatible // TODO
   static class ImmediateFailedCheckedFuture<V, X extends Exception> extends ImmediateFuture<V>
       implements CheckedFuture<V, X> {
     private final X thrown;

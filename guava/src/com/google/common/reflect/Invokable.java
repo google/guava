@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2012 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.reflect;
@@ -20,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
@@ -36,13 +35,13 @@ import java.util.Arrays;
 import javax.annotation.Nullable;
 
 /**
- * Wrapper around either a {@link Method} or a {@link Constructor}.
- * Convenience API is provided to make common reflective operation easier to deal with,
- * such as {@link #isPublic}, {@link #getParameters} etc.
+ * Wrapper around either a {@link Method} or a {@link Constructor}. Convenience API is provided to
+ * make common reflective operation easier to deal with, such as {@link #isPublic},
+ * {@link #getParameters} etc.
  *
- * <p>In addition to convenience methods, {@link TypeToken#method} and {@link
- * TypeToken#constructor} will resolve the type parameters of the method or constructor in the
- * context of the owner type, which may be a subtype of the declaring class. For example:
+ * <p>In addition to convenience methods, {@link TypeToken#method} and {@link TypeToken#constructor}
+ * will resolve the type parameters of the method or constructor in the context of the owner type,
+ * which may be a subtype of the declaring class. For example:
  *
  * <pre>   {@code
  *   Method getMethod = List.class.getMethod("get", int.class);
@@ -52,7 +51,7 @@ import javax.annotation.Nullable;
  * 
  * @param <T> the type that owns this method or constructor.
  * @param <R> the return type of (or supertype thereof) the method or the declaring type of the
- *            constructor.
+ *     constructor.
  * @author Ben Yu
  * @since 14.0
  */
@@ -83,20 +82,21 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
   public abstract boolean isVarArgs();
 
   /**
-   * Invokes with {@code receiver} as 'this' and {@code args} passed to the underlying method
-   * and returns the return value; or calls the underlying constructor with {@code args} and returns
-   * the constructed instance.
+   * Invokes with {@code receiver} as 'this' and {@code args} passed to the underlying method and
+   * returns the return value; or calls the underlying constructor with {@code args} and returns the
+   * constructed instance.
    *
-   * @throws IllegalAccessException if this {@code Constructor} object enforces Java language
-   *         access control and the underlying method or constructor is inaccessible.
-   * @throws IllegalArgumentException if the number of actual and formal parameters differ;
-   *         if an unwrapping conversion for primitive arguments fails; or if, after possible
-   *         unwrapping, a parameter value cannot be converted to the corresponding formal
-   *         parameter type by a method invocation conversion.
+   * @throws IllegalAccessException if this {@code Constructor} object enforces Java language access
+   *     control and the underlying method or constructor is inaccessible.
+   * @throws IllegalArgumentException if the number of actual and formal parameters differ; if an
+   *     unwrapping conversion for primitive arguments fails; or if, after possible unwrapping, a
+   *     parameter value cannot be converted to the corresponding formal parameter type by a method
+   *     invocation conversion.
    * @throws InvocationTargetException if the underlying method or constructor throws an exception.
    */
   // All subclasses are owned by us and we'll make sure to get the R type right.
   @SuppressWarnings("unchecked")
+  @CanIgnoreReturnValue
   public final R invoke(@Nullable T receiver, Object... args)
       throws InvocationTargetException, IllegalAccessException {
     return (R) invokeInternal(receiver, checkNotNull(args));
@@ -119,8 +119,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     Annotation[][] annotations = getParameterAnnotations();
     ImmutableList.Builder<Parameter> builder = ImmutableList.builder();
     for (int i = 0; i < parameterTypes.length; i++) {
-      builder.add(new Parameter(
-          this, i, TypeToken.of(parameterTypes[i]), annotations[i]));
+      builder.add(new Parameter(this, i, TypeToken.of(parameterTypes[i]), annotations[i]));
     }
     return builder.build();
   }
@@ -129,10 +128,10 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
   public final ImmutableList<TypeToken<? extends Throwable>> getExceptionTypes() {
     ImmutableList.Builder<TypeToken<? extends Throwable>> builder = ImmutableList.builder();
     for (Type type : getGenericExceptionTypes()) {
-       // getGenericExceptionTypes() will never return a type that's not exception
+      // getGenericExceptionTypes() will never return a type that's not exception
       @SuppressWarnings("unchecked")
-      TypeToken<? extends Throwable> exceptionType = (TypeToken<? extends Throwable>)
-          TypeToken.of(type);
+      TypeToken<? extends Throwable> exceptionType =
+          (TypeToken<? extends Throwable>) TypeToken.of(type);
       builder.add(exceptionType);
     }
     return builder.build();
@@ -160,14 +159,16 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
   }
 
   @SuppressWarnings("unchecked") // The declaring class is T's raw class, or one of its supertypes.
-  @Override public final Class<? super T> getDeclaringClass() {
+  @Override
+  public final Class<? super T> getDeclaringClass() {
     return (Class<? super T>) super.getDeclaringClass();
   }
 
   /** Returns the type of {@code T}. */
   // Overridden in TypeToken#method() and TypeToken#constructor()
   @SuppressWarnings("unchecked") // The declaring class is T.
-  @Override public TypeToken<T> getOwnerType() {
+  @Override
+  public TypeToken<T> getOwnerType() {
     return (TypeToken<T>) TypeToken.of(getDeclaringClass());
   }
 
@@ -182,7 +183,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
   abstract Annotation[][] getParameterAnnotations();
 
   abstract Type getGenericReturnType();
-  
+
   static class MethodInvokable<T> extends Invokable<T, Object> {
 
     final Method method;
@@ -192,37 +193,47 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
       this.method = method;
     }
 
-    @Override final Object invokeInternal(@Nullable Object receiver, Object[] args)
+    @Override
+    final Object invokeInternal(@Nullable Object receiver, Object[] args)
         throws InvocationTargetException, IllegalAccessException {
       return method.invoke(receiver, args);
     }
 
-    @Override Type getGenericReturnType() {
+    @Override
+    Type getGenericReturnType() {
       return method.getGenericReturnType();
     }
 
-    @Override Type[] getGenericParameterTypes() {
+    @Override
+    Type[] getGenericParameterTypes() {
       return method.getGenericParameterTypes();
     }
 
-    @Override Type[] getGenericExceptionTypes() {
+    @Override
+    Type[] getGenericExceptionTypes() {
       return method.getGenericExceptionTypes();
     }
 
-    @Override final Annotation[][] getParameterAnnotations() {
+    @Override
+    final Annotation[][] getParameterAnnotations() {
       return method.getParameterAnnotations();
     }
 
-    @Override public final TypeVariable<?>[] getTypeParameters() {
+    @Override
+    public final TypeVariable<?>[] getTypeParameters() {
       return method.getTypeParameters();
     }
 
-    @Override public final boolean isOverridable() {
-      return  !(isFinal() || isPrivate() || isStatic()
+    @Override
+    public final boolean isOverridable() {
+      return !(isFinal()
+          || isPrivate()
+          || isStatic()
           || Modifier.isFinal(getDeclaringClass().getModifiers()));
     }
 
-    @Override public final boolean isVarArgs() {
+    @Override
+    public final boolean isVarArgs() {
       return method.isVarArgs();
     }
   }
@@ -236,7 +247,8 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
       this.constructor = constructor;
     }
 
-    @Override final Object invokeInternal(@Nullable Object receiver, Object[] args)
+    @Override
+    final Object invokeInternal(@Nullable Object receiver, Object[] args)
         throws InvocationTargetException, IllegalAccessException {
       try {
         return constructor.newInstance(args);
@@ -246,7 +258,8 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     }
 
     /** If the class is parameterized, such as ArrayList, this returns ArrayList<E>. */
-    @Override Type getGenericReturnType() {
+    @Override
+    Type getGenericReturnType() {
       Class<?> declaringClass = getDeclaringClass();
       TypeVariable<?>[] typeParams = declaringClass.getTypeParameters();
       if (typeParams.length > 0) {
@@ -256,7 +269,8 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
       }
     }
 
-    @Override Type[] getGenericParameterTypes() {
+    @Override
+    Type[] getGenericParameterTypes() {
       Type[] types = constructor.getGenericParameterTypes();
       if (types.length > 0 && mayNeedHiddenThis()) {
         Class<?>[] rawParamTypes = constructor.getParameterTypes();
@@ -269,11 +283,13 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
       return types;
     }
 
-    @Override Type[] getGenericExceptionTypes() {
+    @Override
+    Type[] getGenericExceptionTypes() {
       return constructor.getGenericExceptionTypes();
     }
 
-    @Override final Annotation[][] getParameterAnnotations() {
+    @Override
+    final Annotation[][] getParameterAnnotations() {
       return constructor.getParameterAnnotations();
     }
 
@@ -283,10 +299,11 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
      * {@code [<E>]} will be returned for ArrayList's constructor. When both the class and the
      * constructor have type parameters, the class parameters are prepended before those of the
      * constructor's. This is an arbitrary rule since no existing language spec mandates one way or
-     * the other. From the declaration syntax, the class type parameter appears first, but the
-     * call syntax may show up in opposite order such as {@code new <A>Foo<B>()}.
+     * the other. From the declaration syntax, the class type parameter appears first, but the call
+     * syntax may show up in opposite order such as {@code new <A>Foo<B>()}.
      */
-    @Override public final TypeVariable<?>[] getTypeParameters() {
+    @Override
+    public final TypeVariable<?>[] getTypeParameters() {
       TypeVariable<?>[] declaredByClass = getDeclaringClass().getTypeParameters();
       TypeVariable<?>[] declaredByConstructor = constructor.getTypeParameters();
       TypeVariable<?>[] result =
@@ -299,11 +316,13 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
       return result;
     }
 
-    @Override public final boolean isOverridable() {
+    @Override
+    public final boolean isOverridable() {
       return false;
     }
 
-    @Override public final boolean isVarArgs() {
+    @Override
+    public final boolean isVarArgs() {
       return constructor.isVarArgs();
     }
 

@@ -42,8 +42,6 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import javax.annotation.CheckReturnValue;
-
 /**
  * A builder for a multimap implementation that allows customization of the backing map and value
  * collection implementations used in a particular multimap.
@@ -71,7 +69,6 @@ import javax.annotation.CheckReturnValue;
  */
 @Beta
 @GwtCompatible
-@CheckReturnValue
 public abstract class MultimapBuilder<K0, V0> {
   /*
    * Leaving K and V as upper bounds rather than the actual key and value types allows type

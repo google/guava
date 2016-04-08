@@ -30,7 +30,7 @@ import java.util.NoSuchElementException;
  *
  * @author Louis Wasserman
  */
-@GwtIncompatible("NavigableMap")
+@GwtIncompatible // NavigableMap
 public class ImmutableRangeMapTest extends TestCase {
   private static final ImmutableList<Range<Integer>> RANGES;
   private static final int MIN_BOUND = 0;

@@ -27,7 +27,9 @@ import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Multiset.Entry;
+import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -37,7 +39,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -72,8 +73,7 @@ public final class Multisets {
    */
   public static <E> Multiset<E> unmodifiableMultiset(Multiset<? extends E> multiset) {
     if (multiset instanceof UnmodifiableMultiset || multiset instanceof ImmutableMultiset) {
-      // Since it's unmodifiable, the covariant cast is safe
-      @SuppressWarnings("unchecked")
+      @SuppressWarnings("unchecked") // Since it's unmodifiable, the covariant cast is safe
       Multiset<E> result = (Multiset<E>) multiset;
       return result;
     }
@@ -130,11 +130,9 @@ public final class Multisets {
           : es;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Iterator<E> iterator() {
-      // Safe because the returned Iterator is made unmodifiable
-      return (Iterator<E>) Iterators.unmodifiableIterator(delegate.iterator());
+      return Iterators.<E>unmodifiableIterator(delegate.iterator());
     }
 
     @Override
@@ -277,7 +275,6 @@ public final class Multisets {
    * @since 14.0
    */
   @Beta
-  @CheckReturnValue
   public static <E> Multiset<E> filter(Multiset<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredMultiset) {
       // Support clear(), removeAll(), and retainAll() when filtering a filtered
@@ -545,7 +542,7 @@ public final class Multisets {
 
       @Override
       public int size() {
-        return multiset1.size() + multiset2.size();
+        return IntMath.saturatedAdd(multiset1.size(), multiset2.size());
       }
 
       @Override
@@ -651,6 +648,7 @@ public final class Multisets {
    *
    * @since 10.0
    */
+  @CanIgnoreReturnValue
   public static boolean containsOccurrences(Multiset<?> superMultiset, Multiset<?> subMultiset) {
     checkNotNull(superMultiset);
     checkNotNull(subMultiset);
@@ -682,6 +680,7 @@ public final class Multisets {
    *         of this operation
    * @since 10.0
    */
+  @CanIgnoreReturnValue
   public static boolean retainOccurrences(
       Multiset<?> multisetToModify, Multiset<?> multisetToRetain) {
     return retainOccurrencesImpl(multisetToModify, multisetToRetain);
@@ -735,6 +734,7 @@ public final class Multisets {
    * @since 18.0 (present in 10.0 with a requirement that the second parameter
    *     be a {@code Multiset})
    */
+  @CanIgnoreReturnValue
   public static boolean removeOccurrences(
       Multiset<?> multisetToModify, Iterable<?> occurrencesToRemove) {
     if (occurrencesToRemove instanceof Multiset) {
@@ -773,6 +773,7 @@ public final class Multisets {
    *         this operation
    * @since 10.0 (missing in 18.0 when only the overload taking an {@code Iterable} was present)
    */
+  @CanIgnoreReturnValue
   public static boolean removeOccurrences(
       Multiset<?> multisetToModify, Multiset<?> occurrencesToRemove) {
     checkNotNull(multisetToModify);

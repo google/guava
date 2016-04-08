@@ -85,7 +85,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     return false;
   }
 
-  @GwtIncompatible("not used by GWT emulation")
+  @GwtIncompatible // not used by GWT emulation
   @Override
   int indexOf(Object target) {
     return -1;
@@ -96,7 +96,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     return Iterators.emptyIterator();
   }
 
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   @Override
   public UnmodifiableIterator<C> descendingIterator() {
     return Iterators.emptyIterator();
@@ -131,7 +131,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     return false;
   }
 
-  @GwtIncompatible("not used in GWT")
+  @GwtIncompatible // not used in GWT
   @Override
   boolean isHashCodeFast() {
     return true;
@@ -142,7 +142,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     return 0;
   }
 
-  @GwtIncompatible("serialization")
+  @GwtIncompatible // serialization
   private static final class SerializedForm<C extends Comparable> implements Serializable {
     private final DiscreteDomain<C> domain;
 
@@ -157,13 +157,13 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     private static final long serialVersionUID = 0;
   }
 
-  @GwtIncompatible("serialization")
+  @GwtIncompatible // serialization
   @Override
   Object writeReplace() {
     return new SerializedForm<C>(domain);
   }
 
-  @GwtIncompatible("NavigableSet")
+  @GwtIncompatible // NavigableSet
   ImmutableSortedSet<C> createDescendingSet() {
     return ImmutableSortedSet.emptySet(Ordering.natural().reverse());
   }

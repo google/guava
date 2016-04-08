@@ -47,20 +47,19 @@ public class MultimapContainsEntryTester<K, V>
   public void testContainsEntryAgreesWithGet() {
     for (K k : sampleKeys()) {
       for (V v : sampleValues()) {
-        assertEquals(multimap().get(k).contains(v),
-            multimap().containsEntry(k, v));
+        assertEquals(multimap().get(k).contains(v), multimap().containsEntry(k, v));
       }
     }
   }
 
   @CollectionSize.Require(absent = ZERO)
-  @MapFeature.Require({ ALLOWS_NULL_KEYS, ALLOWS_NULL_VALUES })
+  @MapFeature.Require({ALLOWS_NULL_KEYS, ALLOWS_NULL_VALUES})
   public void testContainsEntryNullYes() {
     initMultimapWithNullKeyAndValue();
     assertTrue(multimap().containsEntry(null, null));
   }
 
-  @MapFeature.Require({ ALLOWS_NULL_KEY_QUERIES, ALLOWS_NULL_VALUE_QUERIES })
+  @MapFeature.Require({ALLOWS_NULL_KEY_QUERIES, ALLOWS_NULL_VALUE_QUERIES})
   public void testContainsEntryNullNo() {
     assertFalse(multimap().containsEntry(null, null));
   }
