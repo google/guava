@@ -24,13 +24,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for an undirected {@link ConfigurableGraph} allowing parallel edges.
+ * Tests for an undirected {@link ConfigurableNetwork} allowing parallel edges.
  */
 @RunWith(JUnit4.class)
-public class ConfigurableUndirectedMultigraphTest extends ConfigurableUndirectedGraphTest {
+public class ConfigurableUndirectedMultiNetworkTest extends ConfigurableUndirectedNetworkTest {
   @Override
-  public Graph<Integer, String> createGraph() {
-    return GraphBuilder.undirected().allowsParallelEdges(true).build();
+  public MutableNetwork<Integer, String> createGraph() {
+    return NetworkBuilder.undirected().allowsParallelEdges(true).build();
   }
 
   @Test

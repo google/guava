@@ -16,16 +16,16 @@
 
 package com.google.common.graph;
 
-import java.util.Set;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
+import java.util.Set;
 /**
- * An interface for representing an origin node's adjacent nodes and incident edges in a network.
+ * An interface for representing an origin node's adjacent nodes in a network.
  *
  * @author James Sexton
  * @param <N> Node parameter type
- * @param <E> Edge parameter type
  */
-interface NodeConnections<N, E> {
+interface NodeAdjacencies<N> {
 
   Set<N> adjacentNodes();
 
@@ -33,43 +33,37 @@ interface NodeConnections<N, E> {
 
   Set<N> successors();
 
-  Set<E> incidentEdges();
-
-  Set<E> inEdges();
-
-  Set<E> outEdges();
-
-  /**
-   * Remove {@code edge} from the sets of in edges. If this is known to be the last remaining edge
-   * between two (formerly) connected nodes, {@link #removePredecessor} must also be called.
-   */
-  void removeInEdge(Object edge);
-
-  /**
-   * Remove {@code edge} from the sets of out edges. If this is known to be the last remaining edge
-   * between two (formerly) connected nodes, {@link #removeSuccessor} must also be called.
-   */
-  void removeOutEdge(Object edge);
-
   /**
    * Remove {@code node} from the set of predecessors.
+   *
+   * @return true iff the adjacency relationships changed
    */
-  void removePredecessor(Object node);
+  @CanIgnoreReturnValue
+  boolean removePredecessor(Object node);
 
   /**
    * Remove {@code node} from the set of successors.
+   *
+   * @return true iff the adjacency relationships changed
    */
-  void removeSuccessor(Object node);
+  @CanIgnoreReturnValue
+  boolean removeSuccessor(Object node);
 
   /**
-   * Add {@code node} as a predecessor to the origin node, connected with {@code edge}.
+   * Add {@code node} as a predecessor to the origin node.
    * In the case of an undirected graph, it also becomes a successor.
+   *
+   * @return true iff the adjacency relationships changed
    */
-  void addPredecessor(N node, E edge);
+  @CanIgnoreReturnValue
+  boolean addPredecessor(N node);
 
   /**
-   * Add {@code node} as a successor to the origin node, connected with {@code edge}.
+   * Add {@code node} as a successor to the origin node.
    * In the case of an undirected graph, it also becomes a predecessor.
+   *
+   * @return true iff the adjacency relationships changed
    */
-  void addSuccessor(N node, E edge);
+  @CanIgnoreReturnValue
+  boolean addSuccessor(N node);
 }

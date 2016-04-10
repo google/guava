@@ -40,7 +40,7 @@ public final class GraphProperties {
   /**
    * Returns true iff {@code graph} has at least one cycle.
    */
-  public static boolean isCyclic(Graph<?, ?> graph) {
+  public static boolean isCyclic(Graph<?> graph) {
     // TODO(user): Implement an algorithm that also works on undirected graphs.
     // For instance, we should keep track of the edge used to reach a node to avoid
     // reusing it (making a cycle by getting back to that node). Also, parallel edges
@@ -63,7 +63,7 @@ public final class GraphProperties {
    * {@code node}.
    */
   private static boolean isSubgraphCyclic(
-      Graph<?, ?> graph, Map<Object, NodeVisitState> nodeToVisitState, Object node) {
+      Graph<?> graph, Map<Object, NodeVisitState> nodeToVisitState, Object node) {
     nodeToVisitState.put(node, NodeVisitState.PENDING);
     for (Object successor : graph.successors(node)) {
       NodeVisitState nodeVisitState = nodeToVisitState.get(successor);
@@ -95,7 +95,7 @@ public final class GraphProperties {
    *
    * <p>Note that in an undirected graph, this is equivalent to all isolated nodes.
    */
-  public static <N> ImmutableSet<N> roots(Graph<N, ?> graph) {
+  public static <N> ImmutableSet<N> roots(Graph<N> graph) {
     ImmutableSet.Builder<N> builder = ImmutableSet.builder();
     for (N node : graph.nodes()) {
       if (graph.predecessors(node).isEmpty()) {

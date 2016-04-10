@@ -36,30 +36,35 @@ import java.util.Comparator;
  * @since 20.0
  */
 // TODO(b/24620028): Add support for sorted nodes/edges. Use the same pattern as CacheBuilder
-// to narrow the generic <N, E> type when Comparators are provided.
-public final class GraphBuilder<N, E> {
-  Boolean directed = null; // No default value to enforce that this is set before building
-  boolean allowsParallelEdges = false;
+// to narrow the generic type when Comparators are provided.
+public final class GraphBuilder<N> {
+  final boolean directed;
   boolean allowsSelfLoops = true;
   Comparator<N> nodeComparator = null;
-  Comparator<E> edgeComparator = null;
   Optional<Integer> expectedNodeCount = Optional.absent();
-  Optional<Integer> expectedEdgeCount = Optional.absent();
 
-  private GraphBuilder() {}
+  /**
+   * Creates a new instance with the specified edge directionality.
+   *
+   * @param directed if true, creates an instance for graphs whose edges are each directed;
+   *      if false, creates an instance for graphs whose edges are each undirected.
+   */
+  private GraphBuilder(boolean directed) {
+    this.directed = directed;
+  }
 
   /**
    * Returns a {@link GraphBuilder} for building directed graphs.
    */
-  public static GraphBuilder<Object, Object> directed() {
-    return new GraphBuilder<Object, Object>().directed(true);
+  public static GraphBuilder<Object> directed() {
+    return new GraphBuilder<Object>(true);
   }
 
   /**
    * Returns a {@link GraphBuilder} for building undirected graphs.
    */
-  public static GraphBuilder<Object, Object> undirected() {
-    return new GraphBuilder<Object, Object>().directed(false);
+  public static GraphBuilder<Object> undirected() {
+    return new GraphBuilder<Object>(false);
   }
 
   /**
@@ -69,29 +74,10 @@ public final class GraphBuilder<N, E> {
    * such as {@link Graph#isDirected()}. Other properties, such as {@link #expectedNodeCount(int)},
    * are not set in the new builder.
    */
-  public static <N, E> GraphBuilder<N, E> from(Graph<N, E> graph) {
-    return new GraphBuilder<N, E>()
-        .directed(graph.isDirected())
-        .allowsParallelEdges(graph.allowsParallelEdges())
+  public static <N> GraphBuilder<N> from(Graph<N> graph) {
+    // TODO(b/28087289): add allowsParallelEdges() once we support them
+    return new GraphBuilder<N>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops());
-  }
-
-  /**
-   * This value should be set by {@link #directed()}, {@link #undirected()},
-   * or {@link #from(Graph)}.
-   */
-  private GraphBuilder<N, E> directed(boolean directed) {
-    this.directed = directed;
-    return this;
-  }
-
-  /**
-   * Specifies whether the graph will allow parallel edges. Attempting to add a parallel edge to
-   * a graph that does not allow them will throw an {@link UnsupportedOperationException}.
-   */
-  public GraphBuilder<N, E> allowsParallelEdges(boolean allowsParallelEdges) {
-    this.allowsParallelEdges = allowsParallelEdges;
-    return this;
   }
 
   /**
@@ -99,7 +85,7 @@ public final class GraphBuilder<N, E> {
    * Attempting to add a self-loop to a graph that does not allow them will throw an
    * {@link UnsupportedOperationException}.
    */
-  public GraphBuilder<N, E> allowsSelfLoops(boolean allowsSelfLoops) {
+  public GraphBuilder<N> allowsSelfLoops(boolean allowsSelfLoops) {
     this.allowsSelfLoops = allowsSelfLoops;
     return this;
   }
@@ -109,7 +95,7 @@ public final class GraphBuilder<N, E> {
    *
    * @throws IllegalArgumentException if {@code expectedNodeCount} is negative
    */
-  public GraphBuilder<N, E> expectedNodeCount(int expectedNodeCount) {
+  public GraphBuilder<N> expectedNodeCount(int expectedNodeCount) {
     checkArgument(expectedNodeCount >= 0, "The expected number of nodes can't be negative: %s",
         expectedNodeCount);
     this.expectedNodeCount = Optional.of(expectedNodeCount);
@@ -117,21 +103,9 @@ public final class GraphBuilder<N, E> {
   }
 
   /**
-   * Specifies the expected number of edges in the graph.
-   *
-   * @throws IllegalArgumentException if {@code expectedEdgeCount} is negative
-   */
-  public GraphBuilder<N, E> expectedEdgeCount(int expectedEdgeCount) {
-    checkArgument(expectedEdgeCount >= 0, "The expected number of edges can't be negative: %s",
-        expectedEdgeCount);
-    this.expectedEdgeCount = Optional.of(expectedEdgeCount);
-    return this;
-  }
-
-  /**
    * Returns an empty mutable {@link Graph} with the properties of this {@link GraphBuilder}.
    */
-  public <N1 extends N, E1 extends E> Graph<N1, E1> build() {
-    return new ConfigurableGraph<N1, E1>(this);
+  public <N1 extends N> MutableGraph<N1> build() {
+    return new ConfigurableGraph<N1>(this);
   }
 }

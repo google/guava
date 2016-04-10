@@ -29,7 +29,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * A class representing an origin node's adjacent nodes and incident edges in an undirected graph.
+ * A class representing an origin node's adjacent nodes and incident edges in an undirected network.
  *
  * @author James Sexton
  * @param <N> Node parameter type

@@ -19,6 +19,7 @@ package com.google.common.graph;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.graph.testing.TestGraphBuilder;
+import com.google.common.graph.testing.TestNetworkBuilder;
 import com.google.common.testing.AbstractPackageSanityTests;
 
 import junit.framework.AssertionFailedError;
@@ -31,29 +32,47 @@ import junit.framework.AssertionFailedError;
 
 public class PackageSanityTests extends AbstractPackageSanityTests {
 
-  private static final GraphBuilder<?, ?> BUILDER_A =
-      GraphBuilder.directed().allowsParallelEdges(true).expectedNodeCount(10);
-  private static final GraphBuilder<?, ?> BUILDER_B =
+  private static final GraphBuilder<?> GRAPH_BUILDER_A =
+      GraphBuilder.directed().expectedNodeCount(10);
+  private static final GraphBuilder<?> GRAPH_BUILDER_B =
       GraphBuilder.directed().allowsSelfLoops(false).expectedNodeCount(16);
 
-  private static final ImmutableGraph<String, String> IMMUTABLE_GRAPH_A =
-      TestGraphBuilder.<String, String>init(GraphBuilder.directed())
+  private static final ImmutableGraph<String> IMMUTABLE_GRAPH_A =
+      TestGraphBuilder.<String>init(GraphBuilder.directed())
           .addNode("A")
           .toImmutableGraph();
-  private static final ImmutableGraph<String, String> IMMUTABLE_GRAPH_B =
-      TestGraphBuilder.<String, String>init(GraphBuilder.directed())
+  private static final ImmutableGraph<String> IMMUTABLE_GRAPH_B =
+      TestGraphBuilder.<String>init(GraphBuilder.directed())
           .addNode("B")
           .toImmutableGraph();
 
-  public PackageSanityTests() {
-    setDistinctValues(GraphBuilder.class, BUILDER_A, BUILDER_B);
-    setDistinctValues(Graph.class, IMMUTABLE_GRAPH_A, IMMUTABLE_GRAPH_B);
+  private static final NetworkBuilder<?, ?> NETWORK_BUILDER_A =
+      NetworkBuilder.directed().allowsParallelEdges(true).expectedNodeCount(10);
+  private static final NetworkBuilder<?, ?> NETWORK_BUILDER_B =
+      NetworkBuilder.directed().allowsSelfLoops(false).expectedNodeCount(16);
 
+  private static final ImmutableNetwork<String, String> IMMUTABLE_NETWORK_A =
+      TestNetworkBuilder.<String, String>init(NetworkBuilder.directed())
+          .addNode("A")
+          .toImmutableNetwork();
+  private static final ImmutableNetwork<String, String> IMMUTABLE_NETWORK_B =
+      TestNetworkBuilder.<String, String>init(NetworkBuilder.directed())
+          .addNode("B")
+          .toImmutableNetwork();
+
+  public PackageSanityTests() {
+    setDistinctValues(GraphBuilder.class, GRAPH_BUILDER_A, GRAPH_BUILDER_B);
+    setDistinctValues(Graph.class, IMMUTABLE_GRAPH_A, IMMUTABLE_GRAPH_B);
+    setDistinctValues(NetworkBuilder.class, NETWORK_BUILDER_A, NETWORK_BUILDER_B);
+    setDistinctValues(Network.class, IMMUTABLE_NETWORK_A, IMMUTABLE_NETWORK_B);
+
+    // TODO(b/28091268): the below comment is obsolete now that GraphConfig no longer exists;
+    // what updating of this test do we need to do?
     // We override AbstractPackageSanityTests's equality testing of mutable graphs by defining
-    // testEquals() methods in ConfigurableUndirectedGraphTest and ConfigurableDirectedGraphTest.
+    // testEquals() in ConfigurableUndirectedNetworkTest and ConfigurableDirectedNetworkTest.
     // If we don't define testEquals(), the tool tries to automatically create non-equal, mutable
-    // graphs by passing different instances of GraphBuilder into their constructors. However,
-    // the GraphBuilder instances are *not* used to determine equality for mutable graphs.
+    // graphs by passing different instances of NetworkBuilder into their constructors. However,
+    // the NetworkBuilder instances are *not* used to determine equality for mutable graphs.
     // Therefore, the tool ends up creating 2 equal mutable instances and it causes failures.
     // However, the tool is still checking the nullability contracts of the mutable graphs.
   }
@@ -63,7 +82,8 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
     try {
       super.testNulls();
     } catch (AssertionFailedError e) {
-      assertThat(e.getCause().getMessage()).contains(AbstractGraphTest.ERROR_ELEMENT_NOT_IN_GRAPH);
+      assertThat(e.getCause().getMessage()).contains(
+          AbstractNetworkTest.ERROR_ELEMENT_NOT_IN_GRAPH);
     }
   }
 }

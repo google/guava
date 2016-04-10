@@ -20,7 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
- * A subinterface of {@code Graph} which specifies that all edges are hyperedges, that is,
+ * A subinterface of {@link Network} which specifies that all edges are hyperedges, that is,
  * they connect arbitrary sets of nodes rather than pairs of nodes.
  *
  * <p>A few notes about how hyperedges and connectivity:
@@ -37,7 +37,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @since 20.0
  */
 @Beta
-public interface Hypergraph<N, E> extends Graph<N, E> {
+public interface Hypergraph<N, E> extends Network<N, E> {
   /**
    * Source is not applicable to hypergraphs.
    *

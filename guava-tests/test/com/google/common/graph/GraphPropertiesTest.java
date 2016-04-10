@@ -44,13 +44,13 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_emptyGraph() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    Network<Integer, String> directedGraph = NetworkBuilder.directed().build();
     assertThat(isCyclic(directedGraph)).isFalse();
   }
 
   @Test
   public void isCyclic_isolatedNodes() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
     directedGraph.addNode(N1);
     assertThat(isCyclic(directedGraph)).isFalse();
     directedGraph.addNode(N2);
@@ -59,22 +59,22 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_oneEdge() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     assertThat(isCyclic(directedGraph)).isFalse();
   }
 
   @Test
   public void isCyclic_selfLoopEdge() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
     directedGraph.addEdge(E11, N1, N1);
     assertThat(isCyclic(directedGraph)).isTrue();
   }
 
   @Test
   public void isCyclic_twoParallelEdges() {
-    Graph<Integer, String> directedGraph =
-        GraphBuilder.directed().allowsParallelEdges(true).build();
+    MutableNetwork<Integer, String> directedGraph =
+        NetworkBuilder.directed().allowsParallelEdges(true).build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E12_A, N1, N2);
     assertThat(isCyclic(directedGraph)).isFalse();
@@ -82,7 +82,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_twoAcyclicEdges() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E13, N1, N3);
     assertThat(isCyclic(directedGraph)).isFalse();
@@ -90,7 +90,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_twoCyclicEdges() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E21, N2, N1);
     assertThat(isCyclic(directedGraph)).isTrue();
@@ -98,7 +98,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_threeAcyclicEdges() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E23, N2, N3);
     directedGraph.addEdge(E13, N1, N3);
@@ -107,7 +107,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_threeCyclicEdges() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E23, N2, N3);
     directedGraph.addEdge(E31, N3, N1);
@@ -116,7 +116,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_disconnectedCyclicGraph() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E21, N2, N1);
     directedGraph.addNode(N3);
@@ -125,8 +125,8 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_cyclicMultigraph() {
-    Graph<Integer, String> directedGraph =
-        GraphBuilder.directed().allowsParallelEdges(true).build();
+    MutableNetwork<Integer, String> directedGraph =
+        NetworkBuilder.directed().allowsParallelEdges(true).build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E12_A, N1, N2);
     directedGraph.addEdge(E23, N2, N3);
@@ -136,8 +136,8 @@ public class GraphPropertiesTest {
 
   @Test
   public void isCyclic_multipleCycles() {
-    Graph<Integer, String> directedGraph =
-        GraphBuilder.directed().allowsParallelEdges(true).build();
+    MutableNetwork<Integer, String> directedGraph =
+        NetworkBuilder.directed().allowsParallelEdges(true).build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E21, N2, N1);
     directedGraph.addEdge(E23, N2, N3);
@@ -147,20 +147,20 @@ public class GraphPropertiesTest {
 
   @Test
   public void roots_emptyGraph() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    Network<Integer, String> directedGraph = NetworkBuilder.directed().build();
     assertThat(roots(directedGraph)).isEmpty();
   }
 
   @Test
   public void roots_trivialGraph() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
     directedGraph.addNode(N1);
     assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1));
   }
 
   @Test
   public void roots_nodeWithSelfLoop() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
     directedGraph.addNode(N1);
     directedGraph.addEdge(E11, N1, N1);
     assertThat(roots(directedGraph)).isEmpty();
@@ -168,7 +168,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void roots_nodeWithChildren() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E13, N1, N3);
     assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1));
@@ -176,7 +176,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void roots_cycle() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
     directedGraph.addEdge(E12, N1, N2);
     directedGraph.addEdge(E21, N2, N1);
     assertThat(roots(directedGraph)).isEmpty();
@@ -184,7 +184,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void roots_multipleRoots() {
-    Graph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
     directedGraph.addNode(N1);
     directedGraph.addNode(N2);
     assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1, N2));

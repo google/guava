@@ -25,33 +25,31 @@ import javax.annotation.Nullable;
  *
  * @author James Sexton
  * @param <N> Node parameter type
+ * @param <E> Edge parameter type
  */
-public abstract class AbstractGraph<N> implements Graph<N> {
+public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
   @Override
   public int degree(Object node) {
-    // only works for non-multigraphs; multigraphs not yet supported
-    return adjacentNodes(node).size();
+    return incidentEdges(node).size();
   }
 
   @Override
   public int inDegree(Object node) {
-    // only works for non-multigraphs; multigraphs not yet supported
-    return predecessors(node).size();
+    return inEdges(node).size();
   }
 
   @Override
   public int outDegree(Object node) {
-    // only works for non-multigraphs; multigraphs not yet supported
-    return successors(node).size();
+    return outEdges(node).size();
   }
 
   @Override
   public boolean equals(@Nullable Object object) {
-    if (!(object instanceof Graph)) {
+    if (!(object instanceof Network)) {
       return false;
     }
-    return Graphs.equal(this, (Graph<?>) object);
+    return Graphs.equal(this, (Network<?, ?>) object);
   }
 
   @Override

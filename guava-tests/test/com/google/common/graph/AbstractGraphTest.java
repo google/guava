@@ -30,8 +30,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Iterator;
-
 /**
  * Abstract base class for testing implementations of {@link Graph} interface. Graph
  * instances created for testing should have Integer node and String edge objects.
@@ -55,25 +53,13 @@ import java.util.Iterator;
  * TODO(user): Differentiate between directed and undirected edge strings.
  */
 public abstract class AbstractGraphTest {
-  Graph<Integer, String> graph;
+  MutableGraph<Integer> graph;
   static final Integer N1 = 1;
   static final Integer N2 = 2;
   static final Integer N3 = 3;
   static final Integer N4 = 4;
   static final Integer N5 = 5;
   static final Integer NODE_NOT_IN_GRAPH = 1000;
-
-  static final String E11 = "1-1";
-  static final String E11_A = "1-1a";
-  static final String E12 = "1-2";
-  static final String E12_A = "1-2a";
-  static final String E21 = "2-1";
-  static final String E13 = "1-3";
-  static final String E14 = "1-4";
-  static final String E23 = "2-3";
-  static final String E41 = "4-1";
-  static final String E15 = "1-5";
-  static final String EDGE_NOT_IN_GRAPH = "edgeNotInGraph";
 
   // TODO(user): Consider separating Strings that we've defined here to capture
   // identifiable substrings of expected error messages, from Strings that we've defined
@@ -83,23 +69,17 @@ public abstract class AbstractGraphTest {
   static final String ERROR_ELEMENT_NOT_IN_GRAPH = "not an element of this graph";
   static final String NODE_STRING = "Node";
   static final String EDGE_STRING = "Edge";
-  static final String ERROR_PARALLEL_EDGE = "connected by a different edge";
-  static final String ERROR_REUSE_EDGE = "it can't be reused to connect";
   static final String ERROR_MODIFIABLE_SET = "Set returned is unexpectedly modifiable";
   static final String ERROR_SELF_LOOP = "self-loops are not allowed";
   static final String ERROR_NODE_NOT_IN_GRAPH =
       "Should not be allowed to pass a node that is not an element of the graph.";
-  static final String ERROR_EDGE_NOT_IN_GRAPH =
-      "Should not be allowed to pass an edge that is not an element of the graph.";
   static final String ERROR_ADDED_SELF_LOOP = "Should not be allowed to add a self-loop edge.";
   static final String ERROR_ADDED_PARALLEL_EDGE = "Should not be allowed to add a parallel edge.";
-  static final String ERROR_ADDED_EXISTING_EDGE =
-      "Reusing an existing edge to connect different nodes succeeded";
 
   /**
    * Creates and returns an instance of the graph to be tested.
    */
-  public abstract Graph<Integer, String> createGraph();
+  public abstract MutableGraph<Integer> createGraph();
 
   /**
    * A proxy method that adds the node {@code n} to the graph being tested.
@@ -134,10 +114,10 @@ public abstract class AbstractGraphTest {
    * TODO(user): Consider changing access modifier to be protected.
    */
   @CanIgnoreReturnValue
-  boolean addEdge(String e, Integer n1, Integer n2) {
+  boolean addEdge(Integer n1, Integer n2) {
     graph.addNode(n1);
     graph.addNode(n2);
-    return graph.addEdge(e, n1, n2);
+    return graph.addEdge(n1, n2);
   }
 
   @Before
@@ -147,91 +127,34 @@ public abstract class AbstractGraphTest {
 
   @After
   public void validateGraphState() {
-    new EqualsTester().addEqualityGroup(graph, ImmutableGraph.copyOf(graph)).testEquals();
+    new EqualsTester().addEqualityGroup(
+        graph,
+        Graphs.copyOf(graph),
+        ImmutableGraph.copyOf(graph)).testEquals();
 
     String graphString = graph.toString();
     assertThat(graphString).contains("isDirected: " + graph.isDirected());
-    assertThat(graphString).contains("allowsParallelEdges: " + graph.allowsParallelEdges());
+    // TODO(b/28087289): add test for allowsParallelEdges when supported
     assertThat(graphString).contains("allowsSelfLoops: " + graph.allowsSelfLoops());
 
     int nodeStart = graphString.indexOf("nodes:");
     int edgeStart = graphString.indexOf("edges:");
     String nodeString = graphString.substring(nodeStart, edgeStart);
-    String edgeString = graphString.substring(edgeStart);
-
-    for (String edge : graph.edges()) {
-      // TODO(b/27817069): Consider verifying the edge's incident nodes in the string.
-      assertThat(edgeString).contains(edge);
-
-      if (!(graph instanceof Hypergraph)) {
-        Iterator<Integer> incidentNodesIterator = graph.incidentNodes(edge).iterator();
-        Integer node1 = incidentNodesIterator.next();
-        Integer node2 = incidentNodesIterator.hasNext() ? incidentNodesIterator.next() : node1;
-        assertFalse(incidentNodesIterator.hasNext());
-        assertThat(graph.edgesConnecting(node1, node2)).contains(edge);
-        assertThat(graph.successors(node1)).contains(node2);
-        assertThat(graph.adjacentNodes(node1)).contains(node2);
-        assertThat(graph.outEdges(node1)).contains(edge);
-        assertThat(graph.incidentEdges(node1)).contains(edge);
-        assertThat(graph.predecessors(node2)).contains(node1);
-        assertThat(graph.adjacentNodes(node2)).contains(node1);
-        assertThat(graph.inEdges(node2)).contains(edge);
-        assertThat(graph.incidentEdges(node2)).contains(edge);
-      }
-
-      for (Integer incidentNode : graph.incidentNodes(edge)) {
-        assertThat(graph.nodes()).contains(incidentNode);
-        for (String adjacentEdge : graph.incidentEdges(incidentNode)) {
-          assertTrue(edge.equals(adjacentEdge) || graph.adjacentEdges(edge).contains(adjacentEdge));
-        }
-      }
-    }
 
     for (Integer node : graph.nodes()) {
       assertThat(nodeString).contains(node.toString());
 
-      for (String incidentEdge : graph.incidentEdges(node)) {
-        assertTrue(graph.inEdges(node).contains(incidentEdge)
-            || graph.outEdges(node).contains(incidentEdge));
-        assertThat(graph.edges()).contains(incidentEdge);
-        assertThat(graph.incidentNodes(incidentEdge)).contains(node);
-      }
-
-      for (String inEdge : graph.inEdges(node)) {
-        assertThat(graph.incidentEdges(node)).contains(inEdge);
-        if (!(graph instanceof Hypergraph)) {
-          assertThat(graph.outEdges(Graphs.oppositeNode(graph, inEdge, node))).contains(inEdge);
-        }
-      }
-
-      for (String outEdge : graph.outEdges(node)) {
-        assertThat(graph.incidentEdges(node)).contains(outEdge);
-        if (!(graph instanceof Hypergraph)) {
-          assertThat(graph.inEdges(Graphs.oppositeNode(graph, outEdge, node))).contains(outEdge);
-        }
-      }
-
       for (Integer adjacentNode : graph.adjacentNodes(node)) {
         assertTrue(graph.predecessors(node).contains(adjacentNode)
             || graph.successors(node).contains(adjacentNode));
-        assertTrue(!graph.edgesConnecting(node, adjacentNode).isEmpty()
-            || !graph.edgesConnecting(adjacentNode, node).isEmpty());
-        assertThat(graph.incidentEdges(node)).isNotEmpty();
-        assertThat(graph.incidentEdges(node)).hasSize(graph.degree(node));
       }
 
       for (Integer predecessor : graph.predecessors(node)) {
         assertThat(graph.successors(predecessor)).contains(node);
-        assertThat(graph.edgesConnecting(predecessor, node)).isNotEmpty();
-        assertThat(graph.inEdges(node)).isNotEmpty();
-        assertThat(graph.inEdges(node)).hasSize(graph.inDegree(node));
       }
 
       for (Integer successor : graph.successors(node)) {
         assertThat(graph.predecessors(successor)).contains(node);
-        assertThat(graph.edgesConnecting(node, successor)).isNotEmpty();
-        assertThat(graph.outEdges(node)).isNotEmpty();
-        assertThat(graph.outEdges(node)).hasSize(graph.outDegree(node));
       }
     }
   }
@@ -244,60 +167,11 @@ public abstract class AbstractGraphTest {
   public abstract void nodes_checkReturnedSetMutability();
 
   /**
-   * Verifies that the {@code Set} returned by {@code edges} has the expected mutability property
-   * (see the {@code Graph} documentation for more information).
-   */
-  @Test
-  public abstract void edges_checkReturnedSetMutability();
-
-  /**
-   * Verifies that the {@code Set} returned by {@code incidentEdges} has the expected
-   * mutability property (see the {@code Graph} documentation for more information).
-   */
-  @Test
-  public abstract void incidentEdges_checkReturnedSetMutability();
-
-  /**
-   * Verifies that the {@code Set} returned by {@code incidentNodes} has the expected
-   * mutability property (see the {@code Graph} documentation for more information).
-   */
-  @Test
-  public abstract void incidentNodes_checkReturnedSetMutability();
-
-  /**
    * Verifies that the {@code Set} returned by {@code adjacentNodes} has the expected
    * mutability property (see the {@code Graph} documentation for more information).
    */
   @Test
   public abstract void adjacentNodes_checkReturnedSetMutability();
-
-  /**
-   * Verifies that the {@code Set} returned by {@code adjacentEdges} has the expected
-   * mutability property (see the {@code Graph} documentation for more information).
-   */
-  @Test
-  public abstract void adjacentEdges_checkReturnedSetMutability();
-
-  /**
-   * Verifies that the {@code Set} returned by {@code edgesConnecting} has the expected
-   * mutability property (see the {@code Graph} documentation for more information).
-   */
-  @Test
-  public abstract void edgesConnecting_checkReturnedSetMutability();
-
-  /**
-   * Verifies that the {@code Set} returned by {@code inEdges} has the expected
-   * mutability property (see the {@code Graph} documentation for more information).
-   */
-  @Test
-  public abstract void inEdges_checkReturnedSetMutability();
-
-  /**
-   * Verifies that the {@code Set} returned by {@code outEdges} has the expected
-   * mutability property (see the {@code Graph} documentation for more information).
-   */
-  @Test
-  public abstract void outEdges_checkReturnedSetMutability();
 
   /**
    * Verifies that the {@code Set} returned by {@code predecessors} has the expected
@@ -325,62 +199,8 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  public void edges_oneEdge() {
-    addEdge(E12, N1, N2);
-    assertThat(graph.edges()).containsExactly(E12);
-  }
-
-  @Test
-  public void edges_noEdges() {
-    assertThat(graph.edges()).isEmpty();
-    // Graph with no edges, given disconnected nodes
-    addNode(N1);
-    addNode(N2);
-    assertThat(graph.edges()).isEmpty();
-  }
-
-  @Test
-  public void incidentEdges_oneEdge() {
-    addEdge(E12, N1, N2);
-    assertThat(graph.incidentEdges(N2)).containsExactly(E12);
-    assertThat(graph.incidentEdges(N1)).containsExactly(E12);
-  }
-
-  @Test
-  public void incidentEdges_isolatedNode() {
-    addNode(N1);
-    assertThat(graph.incidentEdges(N1)).isEmpty();
-  }
-
-  @Test
-  public void incidentEdges_nodeNotInGraph() {
-    try {
-      graph.incidentEdges(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-  }
-
-  @Test
-  public void incidentNodes_oneEdge() {
-    addEdge(E12, N1, N2);
-    assertThat(graph.incidentNodes(E12)).containsExactly(N1, N2);
-  }
-
-  @Test
-  public void incidentNodes_edgeNotInGraph() {
-    try {
-      graph.incidentNodes(EDGE_NOT_IN_GRAPH);
-      fail(ERROR_EDGE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertEdgeNotInGraphErrorMessage(e);
-    }
-  }
-
-  @Test
   public void adjacentNodes_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2);
     assertThat(graph.adjacentNodes(N1)).containsExactly(N2);
     assertThat(graph.adjacentNodes(N2)).containsExactly(N1);
   }
@@ -395,93 +215,6 @@ public abstract class AbstractGraphTest {
   public void adjacentNodes_nodeNotInGraph() {
     try {
       graph.adjacentNodes(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-  }
-
-  @Test
-  public void adjacentEdges_addEdges() {
-    addEdge(E12, N1, N2);
-    addEdge(E13, N1, N3);
-    addEdge(E23, N2, N3);
-    assertThat(graph.adjacentEdges(E12)).containsExactly(E13, E23);
-  }
-
-  @Test
-  public void adjacentEdges_noAdjacentEdges() {
-    addEdge(E12, N1, N2);
-    assertThat(graph.adjacentEdges(E12)).isEmpty();
-  }
-
-  @Test
-  public void adjacentEdges_nodeNotInGraph() {
-    try {
-      graph.adjacentEdges(EDGE_NOT_IN_GRAPH);
-      fail(ERROR_EDGE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertEdgeNotInGraphErrorMessage(e);
-    }
-  }
-
-  @Test
-  public void edgesConnecting_disconnectedNodes() {
-    addNode(N1);
-    addNode(N2);
-    assertThat(graph.edgesConnecting(N1, N2)).isEmpty();
-  }
-
-  @Test
-  public void edgesConnecting_nodesNotInGraph() {
-    addNode(N1);
-    addNode(N2);
-    try {
-      graph.edgesConnecting(N1, NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-    try {
-      graph.edgesConnecting(NODE_NOT_IN_GRAPH, N2);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-    try {
-      graph.edgesConnecting(NODE_NOT_IN_GRAPH, NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-  }
-
-  @Test
-  public void inEdges_noInEdges() {
-    addNode(N1);
-    assertThat(graph.inEdges(N1)).isEmpty();
-  }
-
-  @Test
-  public void inEdges_nodeNotInGraph() {
-    try {
-      graph.inEdges(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-  }
-
-  @Test
-  public void outEdges_noOutEdges() {
-    addNode(N1);
-    assertThat(graph.outEdges(N1)).isEmpty();
-  }
-
-  @Test
-  public void outEdges_nodeNotInGraph() {
-    try {
-      graph.outEdges(NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
@@ -522,7 +255,7 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void degree_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2);
     assertEquals(1, graph.degree(N1));
     assertEquals(1, graph.degree(N2));
   }
@@ -591,12 +324,12 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void removeNode_existingNode() {
-    addEdge(E12, N1, N2);
-    addEdge(E41, N4, N1);
+    addEdge(N1, N2);
+    addEdge(N4, N1);
     assertTrue(graph.removeNode(N1));
     assertThat(graph.nodes()).containsExactly(N2, N4);
-    assertThat(graph.edges()).doesNotContain(E12);
-    assertThat(graph.edges()).doesNotContain(E41);
+    assertThat(graph.adjacentNodes(N2)).isEmpty();
+    assertThat(graph.adjacentNodes(N4)).isEmpty();
   }
 
   @Test
@@ -608,19 +341,11 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void removeEdge_oneOfMany() {
-    addEdge(E12, N1, N2);
-    addEdge(E13, N1, N3);
-    addEdge(E14, N1, N4);
-    assertThat(graph.edges()).containsExactly(E12, E13, E14);
-    assertTrue(graph.removeEdge(E13));
-    assertThat(graph.edges()).containsExactly(E12, E14);
-  }
-
-  @Test
-  public void removeEdge_invalidArgument() {
-    ImmutableSet<String> edges = ImmutableSet.copyOf(graph.edges());
-    assertFalse(graph.removeEdge(EDGE_NOT_IN_GRAPH));
-    assertThat(graph.edges()).containsExactlyElementsIn(edges);
+    addEdge(N1, N2);
+    addEdge(N1, N3);
+    addEdge(N1, N4);
+    assertTrue(graph.removeEdge(N1, N3));
+    assertThat(graph.adjacentNodes(N1)).containsExactly(N2, N4);
   }
 
   static void assertNodeNotInGraphErrorMessage(Throwable throwable) {

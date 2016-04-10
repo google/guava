@@ -132,7 +132,7 @@ final class DirectedNodeConnections<N, E> implements NodeConnections<N, E> {
     outEdges.add(edge);
   }
 
-  // For now, hashCode() and equals() are unused by any graph implementation.
+  // For now, hashCode() and equals() are unused by any implementation.
   // If needed, there may be room for optimization (e.g. only considering the edges).
   @Override
   public int hashCode() {
