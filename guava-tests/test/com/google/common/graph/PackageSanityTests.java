@@ -65,22 +65,13 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
     setDistinctValues(Graph.class, IMMUTABLE_GRAPH_A, IMMUTABLE_GRAPH_B);
     setDistinctValues(NetworkBuilder.class, NETWORK_BUILDER_A, NETWORK_BUILDER_B);
     setDistinctValues(Network.class, IMMUTABLE_NETWORK_A, IMMUTABLE_NETWORK_B);
-
-    // TODO(b/28091268): the below comment is obsolete now that GraphConfig no longer exists;
-    // what updating of this test do we need to do?
-    // We override AbstractPackageSanityTests's equality testing of mutable graphs by defining
-    // testEquals() in ConfigurableUndirectedNetworkTest and ConfigurableDirectedNetworkTest.
-    // If we don't define testEquals(), the tool tries to automatically create non-equal, mutable
-    // graphs by passing different instances of NetworkBuilder into their constructors. However,
-    // the NetworkBuilder instances are *not* used to determine equality for mutable graphs.
-    // Therefore, the tool ends up creating 2 equal mutable instances and it causes failures.
-    // However, the tool is still checking the nullability contracts of the mutable graphs.
   }
 
   @Override
   public void testNulls() throws Exception {
     try {
       super.testNulls();
+      throw new Error("Should have thrown AssertionFailedError");
     } catch (AssertionFailedError e) {
       assertThat(e.getCause().getMessage()).contains(
           AbstractNetworkTest.ERROR_ELEMENT_NOT_IN_GRAPH);

@@ -23,7 +23,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.testing.EqualsTester;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -206,19 +205,5 @@ public class ConfigurableUndirectedNetworkTest extends ConfigurableSimpleUndirec
     assertTrue(graph.removeEdge(E11));
     assertThat(graph.edges()).doesNotContain(E11);
     assertThat(graph.edgesConnecting(N1, N1)).isEmpty();
-  }
-
-  // TODO(kak): Can't we ditch this and just use PackageSanityTests?
-  @Test
-  public void testEquals() {
-    MutableNetwork<Integer, String> graphA = createGraph();
-    graphA.addNode(N1);
-    MutableNetwork<Integer, String> graphB = createGraph();
-    graphA.addNode(N2);
-
-    new EqualsTester()
-        .addEqualityGroup(graphA)
-        .addEqualityGroup(graphB)
-        .testEquals();
   }
 }

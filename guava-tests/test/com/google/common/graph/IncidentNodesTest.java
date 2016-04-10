@@ -34,20 +34,6 @@ import org.junit.runners.JUnit4;
 public final class IncidentNodesTest {
 
   @Test
-  public void testEquals() {
-    new EqualsTester()
-        .addEqualityGroup(
-            IncidentNodes.of("foo", "bar"),
-            IncidentNodes.of("bar", "foo"),
-            IncidentNodes.of(ImmutableSet.of("foo", "bar")),
-            IncidentNodes.of(ImmutableSet.of("bar", "foo")))
-        .addEqualityGroup(
-            IncidentNodes.of("test", "test"),
-            IncidentNodes.of(ImmutableSet.of("test")))
-        .testEquals();
-  }
-
-  @Test
   public void testNodes_basic() {
     IncidentNodes<String> incidentNodes = IncidentNodes.of("foo", "bar");
     assertThat(incidentNodes.node1()).isEqualTo("foo");

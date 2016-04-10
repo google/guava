@@ -21,8 +21,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.google.common.testing.EqualsTester;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -112,19 +110,5 @@ public class ConfigurableUndirectedGraphTest extends ConfigurableSimpleUndirecte
     assertTrue(graph.removeEdge(N1, N1));
     assertThat(graph.nodes()).containsExactly(N1);
     assertThat(graph.adjacentNodes(N1)).isEmpty();
-  }
-
-  // TODO(kak): Can't we ditch this and just use PackageSanityTests?
-  @Test
-  public void testEquals() {
-    MutableGraph<Integer> graphA = createGraph();
-    graphA.addNode(N1);
-    MutableGraph<Integer> graphB = createGraph();
-    graphA.addNode(N2);
-
-    new EqualsTester()
-        .addEqualityGroup(graphA)
-        .addEqualityGroup(graphB)
-        .testEquals();
   }
 }
