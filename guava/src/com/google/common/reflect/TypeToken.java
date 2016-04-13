@@ -36,6 +36,7 @@ import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -1043,9 +1044,11 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     }
     TypeVariable<Class<T>>[] typeParams = cls.getTypeParameters();
     Type ownerType =
-        cls.isMemberClass() ? toGenericType(cls.getEnclosingClass()).runtimeType : null;
+        cls.isMemberClass() && !Modifier.isStatic(cls.getModifiers())
+            ? toGenericType(cls.getEnclosingClass()).runtimeType
+            : null;
 
-    if ((typeParams.length > 0) || (ownerType != cls.getEnclosingClass())) {
+    if ((typeParams.length > 0) || ((ownerType != null) && ownerType != cls.getEnclosingClass())) {
       @SuppressWarnings("unchecked") // Like, it's Iterable<T> for Iterable.class
       TypeToken<? extends T> type =
           (TypeToken<? extends T>)
@@ -1109,7 +1112,13 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   }
 
   private Type resolveTypeArgsForSubclass(Class<?> subclass) {
-    if (runtimeType instanceof Class) {
+    // If both runtimeType and subclass are not parameterized, return subclass
+    // If runtimeType is not parameterized but subclass is, process subclass as a parameterized type
+    // If runtimeType is a raw type (i.e. is a parameterized type specified as a Class<?>), we
+    // return subclass as a raw type
+    if (runtimeType instanceof Class
+        && ((subclass.getTypeParameters().length == 0)
+            || (getRawType().getTypeParameters().length != 0))) {
       // no resolution needed
       return subclass;
     }

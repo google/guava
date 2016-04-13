@@ -39,6 +39,7 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1056,6 +1057,24 @@ public class TypeTokenTest extends TestCase {
         genericType.getType());
   }
 
+  public void testToGenericType_staticMemberClass() throws Exception {
+    Method getStaticAnonymousClassMethod =
+        TypeTokenTest.class.getDeclaredMethod("getStaticAnonymousClass", Object.class);
+    ParameterizedType javacReturnType =
+        (ParameterizedType) getStaticAnonymousClassMethod.getGenericReturnType();
+
+    ParameterizedType parameterizedType =
+        (ParameterizedType) TypeToken.toGenericType(GenericClass.class).getType();
+    assertThat(parameterizedType.getOwnerType()).isEqualTo(javacReturnType.getOwnerType());
+  }
+
+  public static <T> GenericClass<T> getStaticAnonymousClass(final T value) {
+    return new GenericClass<T>() {
+      @SuppressWarnings("unused")
+      public T innerValue = value;
+    };
+  }
+
   private interface ListIterable<T> extends Iterable<List<T>> {}
   private interface StringListIterable extends ListIterable<String> {}
   private interface ListArrayIterable<T> extends Iterable<List<T>[]> {}
@@ -1296,8 +1315,58 @@ public class TypeTokenTest extends TestCase {
     TypeToken<SingleGenericExtendsBase<String>> subType =
         new TypeToken<SingleGenericExtendsBase<String>>() {};
     assertTrue(subType.isSubtypeOf(superType));
-    assertEquals(TypeToken.of(SingleGenericExtendsBase.class),
-        superType.getSubtype(subType.getRawType()));
+    ParameterizedType actualSubType =
+        (ParameterizedType) superType.getSubtype(subType.getRawType()).getType();
+    assertEquals(SingleGenericExtendsBase.class, actualSubType.getRawType());
+  }
+
+  public void testGetSubtype_baseClassInGenericClassWithNoTypeArgs() {
+    class SingleGenericExtendsBase<T> implements GenericClass.Base {}
+    TypeToken<GenericClass.Base> superType = new TypeToken<GenericClass.Base>() {};
+    TypeToken<SingleGenericExtendsBase<String>> subType =
+        new TypeToken<SingleGenericExtendsBase<String>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    ParameterizedType actualSubType =
+        (ParameterizedType) superType.getSubtype(subType.getRawType()).getType();
+    assertEquals(SingleGenericExtendsBase.class, actualSubType.getRawType());
+    assertTrue(TypeToken.of(actualSubType).isSubtypeOf(superType));
+  }
+
+  public void testGetSubtype_genericSubtypeOfNonGenericType() {
+    TypeToken<Serializable> superType = new TypeToken<Serializable>() {};
+    TypeToken<ArrayList<String>> subType =
+        new TypeToken<ArrayList<String>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    ParameterizedType actualSubType =
+        (ParameterizedType) superType.getSubtype(subType.getRawType()).getType();
+    assertEquals(ArrayList.class, actualSubType.getRawType());
+    assertThat(actualSubType.getActualTypeArguments()[0]).isInstanceOf(TypeVariable.class);
+    assertTrue(TypeToken.of(actualSubType).isSubtypeOf(superType));
+  }
+
+  private interface MySpecialList<E, F> extends List<E> {}
+
+  public void testGetSubtype_genericSubtypeOfGenericTypeWithFewerParameters() {
+    TypeToken<List<String>> superType = new TypeToken<List<String>>() {};
+    TypeToken<MySpecialList<String, ?>> subType =
+        new TypeToken<MySpecialList<String, ?>>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    ParameterizedType actualSubType =
+        (ParameterizedType) superType.getSubtype(subType.getRawType()).getType();
+    assertEquals(MySpecialList.class, actualSubType.getRawType());
+    assertThat(actualSubType.getActualTypeArguments()[0]).isEqualTo(String.class);
+    assertThat(actualSubType.getActualTypeArguments()[1]).isInstanceOf(TypeVariable.class);
+    assertTrue(TypeToken.of(actualSubType).isSubtypeOf(superType));
+  }
+
+  public void testGetSubtype_genericSubtypeOfRawTypeWithFewerTypeParameters() {
+    TypeToken<List> superType = new TypeToken<List>() {};
+    TypeToken<MySpecialList> subType = new TypeToken<MySpecialList>() {};
+    assertTrue(subType.isSubtypeOf(superType));
+    Class<?> actualSubType =
+        (Class<?>) superType.getSubtype(subType.getRawType()).getType();
+    assertEquals(MySpecialList.class, actualSubType);
+    assertTrue(TypeToken.of(actualSubType).isSubtypeOf(superType));
   }
 
   public void testGetSubtype_baseClassWithLessTypeArgs() {
@@ -1874,6 +1943,9 @@ public class TypeTokenTest extends TestCase {
   private interface BaseInterface {}
   private static class Base implements BaseInterface {}
   private static class Sub extends Base {}
+  private static class GenericClass<T> {
+    private static interface Base {}
+  }
 
   private static IterableSubject makeUnmodifiable(Collection<?> actual) {
     return assertThat(Collections.<Object>unmodifiableCollection(actual));
