@@ -130,6 +130,7 @@ OK: com.google.common.util.concurrent.Futures Method whenAllComplete(com.google.
 OK: com.google.common.util.concurrent.Futures Method whenAllComplete(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)
 OK: com.google.common.util.concurrent.Futures Method whenAllSucceed(com.google.common.util.concurrent.ListenableFuture[])
 OK: com.google.common.util.concurrent.Futures Method whenAllSucceed(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)
+OK: com.google.common.base.Joiner Method withKeyValueSeparator(char)
 OK: com.google.common.net.MediaType Field AAC_AUDIO
 OK: com.google.common.net.MediaType Field BASIC_AUDIO
 OK: com.google.common.net.MediaType Field FLV_VIDEO

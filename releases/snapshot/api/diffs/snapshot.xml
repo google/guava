@@ -2863,6 +2863,18 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <param name="keyValueSeparator" type="char"/>
+      <doc>
+      <![CDATA[Returns a {@code MapJoiner} using the given key-value separator, and the same configuration as
+ this {@code Joiner} otherwise.
+
+ @since 20.0]]>
+      </doc>
+    </method>
+    <method name="withKeyValueSeparator" return="com.google.common.base.Joiner.MapJoiner"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
       <param name="keyValueSeparator" type="java.lang.String"/>
       <doc>
       <![CDATA[Returns a {@code MapJoiner} using the given key-value separator, and the same configuration as
@@ -35534,8 +35546,62 @@
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <implements name="com.google.common.graph.Graph&lt;N, E&gt;"/>
+    <implements name="com.google.common.graph.Graph&lt;N&gt;"/>
     <constructor name="AbstractGraph"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </constructor>
+    <method name="degree" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+    </method>
+    <method name="inDegree" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+    </method>
+    <method name="outDegree" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+    </method>
+    <method name="equals" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="object" type="java.lang.Object"/>
+    </method>
+    <method name="hashCode" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="toString" return="java.lang.String"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <doc>
+    <![CDATA[This class provides a skeletal implementation of {@link Graph}. It is recommended to extend this
+ class rather than implement {@link Graph} directly, to ensure consistent {@link #equals(Object)}
+ and {@link #hashCode()} results across different graph implementations.
+
+ @author James Sexton
+ @param <N> Node parameter type]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.graph.AbstractGraph -->
+  <!-- start class com.google.common.graph.AbstractNetwork -->
+  <class name="AbstractNetwork" extends="java.lang.Object"
+    abstract="true"
+    static="false" final="false" visibility="public"
+    deprecated="not deprecated">
+    <implements name="com.google.common.graph.Network&lt;N, E&gt;"/>
+    <constructor name="AbstractNetwork"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </constructor>
@@ -35583,7 +35649,7 @@
  @param <E> Edge parameter type]]>
     </doc>
   </class>
-  <!-- end class com.google.common.graph.AbstractGraph -->
+  <!-- end class com.google.common.graph.AbstractNetwork -->
   <!-- start interface com.google.common.graph.Graph -->
   <interface name="Graph"    abstract="true"
     static="false" final="false" visibility="public"
@@ -35594,14 +35660,6 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns all nodes in this graph.]]>
-      </doc>
-    </method>
-    <method name="edges" return="java.util.Set&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns all edges in this graph.]]>
       </doc>
     </method>
     <method name="isDirected" return="boolean"
@@ -35619,15 +35677,6 @@
  of each incident node.]]>
       </doc>
     </method>
-    <method name="allowsParallelEdges" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns true if this graph allows parallel edges. Attempting to add a parallel edge to a graph
- that does not allow them will throw an {@link UnsupportedOperationException}.]]>
-      </doc>
-    </method>
     <method name="allowsSelfLoops" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -35636,6 +35685,988 @@
       <![CDATA[Returns true if this graph allows self-loops (edges that connect a node to itself).
  Attempting to add a self-loop to a graph that does not allow them will throw an
  {@link UnsupportedOperationException}.]]>
+      </doc>
+    </method>
+    <method name="adjacentNodes" return="java.util.Set&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Returns the nodes which have an incident edge in common with {@code node} in this graph.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+      </doc>
+    </method>
+    <method name="predecessors" return="java.util.Set&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+ {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+      </doc>
+    </method>
+    <method name="successors" return="java.util.Set&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+ {@code node}'s outgoing edges in the direction (if any) of the edge.
+
+ <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
+ edges" (also known as {@code node}'s transitive closure).
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+      </doc>
+    </method>
+    <method name="degree" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Returns the number of edges incident in this graph to {@code node}.  If this node has more than
+ {@code Integer.MAX_VALUE} incident edges in this graph, returns {@code Integer.MAX_VALUE}.
+
+ <p>Note that self-loops only count once towards a node's degree.
+ This is consistent with the definition of {@link #incidentEdges(Object)}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+      </doc>
+    </method>
+    <method name="inDegree" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Returns the number of incoming edges in this graph of {@code node}.  If this node has more than
+ {@code Integer.MAX_VALUE} incoming edges in this graph, returns {@code Integer.MAX_VALUE}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+      </doc>
+    </method>
+    <method name="outDegree" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Returns the number of outgoing edges in this graph of {@code node}.  If this node has more than
+ {@code Integer.MAX_VALUE} outgoing edges in this graph, returns {@code Integer.MAX_VALUE}.
+
+ @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+      </doc>
+    </method>
+    <method name="equals" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="object" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Returns {@code true} iff {@code object} is a graph that has the same node relationships
+ as those in this graph.
+
+ <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
+ <ul>
+ <li>A and B have the same node set
+ <li>A and B have the same adjacency relationships, e.g., for each {@code node} the sets of
+     successor and predecessor nodes are the same in both graphs.
+     <br>This implies that every edge in A and B connects the same nodes in the same
+     direction (if any).
+ </ul>
+
+ <p>Graph properties are <b>not</b> respected by this method. For example, two relations may
+ be considered equal even if one allows self-loops and the other doesn't. Additionally, the
+ order in which edges or nodes are added to the graph, and the order in which they are
+ iterated over, are irrelevant.
+
+ <p>A reference implementation of this is provided by {@link Graphs#equal(Graph, Graph)}.]]>
+      </doc>
+    </method>
+    <method name="hashCode" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns the hash code for this graph. The hash code of a graph is defined as the hash code
+ of a map from each of the graph's nodes to their adjacent nodes.
+
+ <p>A reference implementation of this is provided by {@link Graphs#hashCode(Graph)}.
+
+ <p>Note that by this definition, two graphs that are equal in every aspect except edge
+ direction will have the same hash code (but can still be differentiated by {@link #equals}.]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[A graph consisting of a set of nodes of type N and a set of (implicit) edges.
+ Users that want edges to be first-class objects should use the subtype {@link Network} instead.
+
+ <p>For convenience, we may use the term 'graph' to refer to any subtype of {@link Graph},
+ including {@link Network} and {@link Hypergraph}.
+
+ <p>Users that wish to modify a {@code Graph} must work with its subinterface,
+ {@link MutableNetwork}.
+
+ <p>This interface permits, but does not enforce, any of the following variations of graphs:
+ <ul>
+ <li>directed and undirected edges
+ <li>hyperedges (edges which are incident to arbitrary sets of nodes)
+ <li>nodes and edges with attributes (for example, weighted edges)
+ <li>nodes and edges of different types (for example, bipartite or multimodal graphs)
+ <li>internal representations as matrices, adjacency lists, adjacency maps, etc.
+ </ul>
+
+ <p>Extensions or implementations of this interface may enforce or disallow any or all
+ of these variations.
+
+ <p>Definitions:
+ <ul>
+ <li>{@code node1} and {@code node2} are mutually <b>adjacent</b> (or <b>connected</b> in
+     {@code graph} if an edge has been added between them:
+     <br><pre><code>
+       graph.addEdge(node1, node2);  // after this returns, node1 and node2 are adjacent
+     </pre></code>
+   In this example, if {@code graph} is <b>directed</b>, then:
+   <ul>
+   <li>{@code node1} is a <b>predecessor</b> of {code node2} in {@code graph}
+   <li>{@code node2} is a <b>successor</b> of {@code node1} in {@code graph}
+   <li>{@code node1} has an (implicit) outgoing edge to {@code node2} in {@code graph}
+   <li>{@code node2} has an (implicit) incoming edge from {@code node1} in {@code graph}
+   </ul>
+   If {@code graph} is <b>undirected</b>, then:
+   <ul>
+   <li>{@code node1} and {@code node2} are mutually predecessors and successors
+       in {@code graph}
+   <li>{@code node1} has an (implicit) edge in {@code graph} that is both outgoing to
+       to {@code node2} and incoming from {@code node2}, and vice versa.
+   </ul>
+ <li>A self-loop is an edge that connects a node to itself.
+ </ul>
+
+ <p>General notes:
+ <ul>
+ <li><b>Nodes must be useable as {@code Map} keys</b>:
+   <ul>
+   <li>They must be unique in a graph: nodes {@code node1} and {@code node2} are considered
+       different if and only if {@code node1.equals(node2) == false}.
+   <li>If graph elements have mutable state:
+     <ul>
+     <li>the mutable state must not be reflected in the {@code equals/hashCode} methods
+         (this is discussed in the {@code Map} documentation in detail)
+     <li>don't construct multiple elements that are equal to each other and expect them to be
+         interchangeable.  In particular, when adding such elements to a graph, you should
+         create them once and store the reference if you will need to refer to those elements
+         more than once during creation (rather than passing {@code new MyMutableNode(id)}
+         to each {@code add*()} call).
+     </ul>
+   </ul>
+   <br>Generally speaking, your design may be more robust if you use immutable nodes and
+ store mutable per-element state in a separate data structure (e.g. an element-to-state map).
+ <li>There are no Node classes built in.  So you can have a {@code Graph<Integer>}
+     or a {@code Graph<Author>} or a {@code Graph<Webpage>}.
+ <li>This framework supports multiple mechanisms for storing the topology of a graph,
+      including:
+   <ul>
+   <li>the Graph implementation stores the topology (for example, by storing a
+       {@code Map<N, N>} that maps nodes onto their adjacent nodes); this implies that the nodes
+       are just keys, and can be shared among graphs
+   <li>the nodes store the topology (for example, by storing a {@code List<E>} of adjacent nodes);
+       this (usually) implies that nodes are graph-specific
+   <li>a separate data repository (for example, a database) stores the topology
+   </ul>
+ </ul>
+
+ <p>Notes on accessors:
+ <ul>
+ <li>Accessors which return collections may return views of the Graph. Modifications to the graph
+     which affect a view (e.g. calling {@code addNode(n)} or {@code removeNode(n)} while iterating
+     through {@code nodes()}) are not supported and may result in ConcurrentModificationException.
+ <li>Accessors which return collections will return empty collections if their inputs are valid
+     but no elements satisfy the request (for example: {@code adjacentNodes(node)} will return an
+     empty collection if {@code node} has no adjacent nodes).
+ <li>Accessors will throw {@code IllegalArgumentException} if passed an element
+     that is not in the graph.
+ <li>Accessors take Object parameters rather than generic type specifiers to match the pattern
+     set by the Java Collections Framework.
+ </ul>
+
+ <p>Notes for implementors:
+ <ul>
+ <li>For accessors that return a {@code Set}, there are several options for the set behavior,
+     including:
+     <ol>
+     <li>Set is an immutable copy (e.g. {@code ImmutableSet}): attempts to modify the set in any
+         way will throw an exception, and modifications to the graph will <b>not</b> be reflected
+         in the set.
+     <li>Set is an unmodifiable view (e.g. {@code Collections.unmodifiableSet()}): attempts to
+         modify the set in any way will throw an exception, and modifications to the graph will be
+         reflected in the set.
+     <li>Set is a mutable copy: it may be modified, but modifications to the graph will <b>not</b>
+         be reflected in the set, and vice versa.
+     <li>Set is a modifiable view: it may be modified, and modifications to the graph will be
+         reflected in the set (but modifications to the set will <b>not</b> be reflected in the
+         graph).
+     <li>Set exposes the internal data directly: it may be modified, and modifications to the
+         graph will be reflected in the set, and vice versa.
+     </ol>
+     Note that (1) and (2) are generally preferred. (5) is generally a hazardous design choice
+     and should be avoided, because keeping the internal data structures consistent can be tricky.
+ <li>Prefer extending {@link AbstractGraph} over implementing {@link Graph} directly. This will
+     ensure consistent {@link #equals(Object)} and {@link #hashCode()} across implementations.
+ <li>{@code Multimap}s are not sufficient internal data structures for Graph implementations
+     that support isolated nodes (nodes that have no incident edges), due to their restriction
+     that a key either maps to at least one value, or is not present in the {@code Multimap}.
+ </ul>
+
+ <p>Examples of use:
+ <ul>
+ <li>Is {@code node} in the graph?
+ <pre><code>
+   graph.nodes().contains(node)
+ </code></pre>
+ <li>Traversing an undirected graph node-wise:
+ <pre><code>
+   // Visit nodes reachable from {@code node}.
+   void depthFirstTraverse(N node) {
+     for (N neighbor : graph.adjacentNodes(node)) {
+       if (!isVisited(neighbor)) {
+         visit(neighbor);
+         depthFirstTraverse(neighbor);
+       }
+     }
+   }
+ </code></pre>
+ </ul>
+
+ @author Joshua O'Madadhain
+ @param <N> Node parameter type
+ @since 20.0]]>
+    </doc>
+  </interface>
+  <!-- end interface com.google.common.graph.Graph -->
+  <!-- start class com.google.common.graph.GraphBuilder -->
+  <class name="GraphBuilder" extends="java.lang.Object"
+    abstract="false"
+    static="false" final="true" visibility="public"
+    deprecated="not deprecated">
+    <method name="directed" return="com.google.common.graph.GraphBuilder&lt;java.lang.Object&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@link GraphBuilder} for building directed graphs.]]>
+      </doc>
+    </method>
+    <method name="undirected" return="com.google.common.graph.GraphBuilder&lt;java.lang.Object&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a {@link GraphBuilder} for building undirected graphs.]]>
+      </doc>
+    </method>
+    <method name="from" return="com.google.common.graph.GraphBuilder&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link GraphBuilder} initialized with all properties queryable from {@code graph}.
+
+ <p>The "queryable" properties are those that are exposed through the {@link Graph} interface,
+ such as {@link Graph#isDirected()}. Other properties, such as {@link #expectedNodeCount(int)},
+ are not set in the new builder.]]>
+      </doc>
+    </method>
+    <method name="allowsSelfLoops" return="com.google.common.graph.GraphBuilder&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="allowsSelfLoops" type="boolean"/>
+      <doc>
+      <![CDATA[Specifies whether the graph will allow self-loops (edges that connect a node to itself).
+ Attempting to add a self-loop to a graph that does not allow them will throw an
+ {@link UnsupportedOperationException}.]]>
+      </doc>
+    </method>
+    <method name="expectedNodeCount" return="com.google.common.graph.GraphBuilder&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expectedNodeCount" type="int"/>
+      <doc>
+      <![CDATA[Specifies the expected number of nodes in the graph.
+
+ @throws IllegalArgumentException if {@code expectedNodeCount} is negative]]>
+      </doc>
+    </method>
+    <method name="build" return="com.google.common.graph.MutableGraph&lt;N1&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns an empty mutable {@link Graph} with the properties of this {@link GraphBuilder}.]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[A builder for constructing instances of {@link Graph} with user-defined properties.
+
+ <p>A graph built by this class will have the following properties by default:
+ <ul>
+ <li>does not allow parallel edges
+ <li>allows self-loops
+ </ul>
+
+ @author James Sexton
+ @author Joshua O'Madadhain
+ @since 20.0]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.graph.GraphBuilder -->
+  <!-- start class com.google.common.graph.GraphProperties -->
+  <class name="GraphProperties" extends="java.lang.Object"
+    abstract="false"
+    static="false" final="true" visibility="public"
+    deprecated="not deprecated">
+    <method name="isCyclic" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Graph&lt;?&gt;"/>
+      <doc>
+      <![CDATA[Returns true iff {@code graph} has at least one cycle.]]>
+      </doc>
+    </method>
+    <method name="roots" return="com.google.common.collect.ImmutableSet&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Returns the set of all nodes in {@code graph} that have no predecessors.
+
+ <p>Note that in an undirected graph, this is equivalent to all isolated nodes.]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[Static utility methods for calculating properties of {@link Graph} instances.
+
+ @author Joshua O'Madadhain
+ @since 20.0]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.graph.GraphProperties -->
+  <!-- start class com.google.common.graph.Graphs -->
+  <class name="Graphs" extends="java.lang.Object"
+    abstract="false"
+    static="false" final="true" visibility="public"
+    deprecated="not deprecated">
+    <method name="oppositeNode" return="N"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Network&lt;N, ?&gt;"/>
+      <param name="edge" type="java.lang.Object"/>
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Returns the node at the other end of {@code edge} from {@code node}.
+
+ @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}
+ @throws IllegalArgumentException if {@code edge} is not incident to {@code node}]]>
+      </doc>
+    </method>
+    <method name="parallelEdges" return="java.util.Set&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Network&lt;N, E&gt;"/>
+      <param name="edge" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Returns an unmodifiable view of edges that are parallel to {@code edge}, i.e. the set of edges
+ that connect the same nodes in the same direction (if any). An edge is not parallel to itself.
+
+ @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}
+ @throws IllegalArgumentException if {@code edge} is not present in {@code graph}]]>
+      </doc>
+    </method>
+    <method name="addEdge" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.MutableNetwork&lt;N, E&gt;"/>
+      <param name="edge" type="E"/>
+      <param name="nodes" type="java.lang.Iterable&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Adds {@code edge} to {@code graph} with the specified incident {@code nodes}, in the order
+ returned by {@code nodes}' iterator.]]>
+      </doc>
+    </method>
+    <method name="copyOf" return="com.google.common.graph.MutableGraph&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Creates a mutable copy of {@code graph}, using the same nodes.]]>
+      </doc>
+    </method>
+    <method name="copyOf" return="com.google.common.graph.MutableGraph&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <param name="nodePredicate" type="com.google.common.base.Predicate&lt;? super N&gt;"/>
+      <doc>
+      <![CDATA[Creates a mutable copy of {@code graph}, using all of its elements that satisfy
+ {@code nodePredicate} and {@code edgePredicate}.]]>
+      </doc>
+    </method>
+    <method name="mergeNodesFrom"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="original" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <param name="copy" type="com.google.common.graph.MutableGraph&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Copies all nodes from {@code original} into {@code copy}.]]>
+      </doc>
+    </method>
+    <method name="mergeNodesFrom"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="original" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <param name="copy" type="com.google.common.graph.MutableGraph&lt;N&gt;"/>
+      <param name="nodePredicate" type="com.google.common.base.Predicate&lt;? super N&gt;"/>
+      <doc>
+      <![CDATA[Copies all nodes from {@code original} into {@code copy} that satisfy {@code nodePredicate}.]]>
+      </doc>
+    </method>
+    <method name="copyOf" return="com.google.common.graph.MutableNetwork&lt;N, E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Network&lt;N, E&gt;"/>
+      <doc>
+      <![CDATA[Creates a mutable copy of {@code graph}, using the same node and edge elements.]]>
+      </doc>
+    </method>
+    <method name="copyOf" return="com.google.common.graph.MutableNetwork&lt;N, E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Network&lt;N, E&gt;"/>
+      <param name="nodePredicate" type="com.google.common.base.Predicate&lt;? super N&gt;"/>
+      <param name="edgePredicate" type="com.google.common.base.Predicate&lt;? super E&gt;"/>
+      <doc>
+      <![CDATA[Creates a mutable copy of {@code graph}, using all of its elements that satisfy
+ {@code nodePredicate} and {@code edgePredicate}.]]>
+      </doc>
+    </method>
+    <method name="mergeNodesFrom"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="original" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <param name="copy" type="com.google.common.graph.MutableNetwork&lt;N, ?&gt;"/>
+      <doc>
+      <![CDATA[Copies all nodes from {@code original} into {@code copy}.]]>
+      </doc>
+    </method>
+    <method name="mergeNodesFrom"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="original" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <param name="copy" type="com.google.common.graph.MutableNetwork&lt;N, ?&gt;"/>
+      <param name="nodePredicate" type="com.google.common.base.Predicate&lt;? super N&gt;"/>
+      <doc>
+      <![CDATA[Copies all nodes from {@code original} into {@code copy} that satisfy {@code nodePredicate}.]]>
+      </doc>
+    </method>
+    <method name="mergeEdgesFrom"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="original" type="com.google.common.graph.Network&lt;N, E&gt;"/>
+      <param name="copy" type="com.google.common.graph.MutableNetwork&lt;N, E&gt;"/>
+      <doc>
+      <![CDATA[Copies all edges from {@code original} into {@code copy}. Also copies all nodes incident
+ to these edges.]]>
+      </doc>
+    </method>
+    <method name="mergeEdgesFrom"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="original" type="com.google.common.graph.Network&lt;N, E&gt;"/>
+      <param name="copy" type="com.google.common.graph.MutableNetwork&lt;N, E&gt;"/>
+      <param name="edgePredicate" type="com.google.common.base.Predicate&lt;? super E&gt;"/>
+      <doc>
+      <![CDATA[Copies all edges from {@code original} into {@code copy} that satisfy {@code edgePredicate}.
+ Also copies all nodes incident to these edges.]]>
+      </doc>
+    </method>
+    <method name="equal" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph1" type="com.google.common.graph.Graph&lt;?&gt;"/>
+      <param name="graph2" type="com.google.common.graph.Graph&lt;?&gt;"/>
+      <doc>
+      <![CDATA[Returns true iff {@code graph1} and {@code graph2} have the same node connections.
+
+ <p>Note: {@link Network} instances can only be equal to other {@link Network} instances.
+ In particular, {@link Graph}s that are not also {@link Network}s cannot be equal
+ to {@link Network}s.
+
+ @see Network#equals(Object)]]>
+      </doc>
+    </method>
+    <method name="equal" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph1" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
+      <param name="graph2" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
+      <doc>
+      <![CDATA[Returns true iff {@code graph1} and {@code graph2} have the same node/edge relationships.
+
+ @see Network#equals(Object)]]>
+      </doc>
+    </method>
+    <method name="hashCode" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Graph&lt;?&gt;"/>
+      <doc>
+      <![CDATA[Returns the hash code of {@code graph}.
+
+ @see Graph#hashCode()]]>
+      </doc>
+    </method>
+    <method name="hashCode" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
+      <doc>
+      <![CDATA[Returns the hash code of {@code graph}.
+
+ @see Network#hashCode()]]>
+      </doc>
+    </method>
+    <method name="toString" return="java.lang.String"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Graph&lt;?&gt;"/>
+      <doc>
+      <![CDATA[Returns a string representation of {@code graph}. Encodes edge direction if {@code graph}
+ is directed.]]>
+      </doc>
+    </method>
+    <method name="toString" return="java.lang.String"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
+      <doc>
+      <![CDATA[Returns a string representation of {@code graph}. Encodes edge direction if {@code graph}
+ is directed.]]>
+      </doc>
+    </method>
+    <method name="selfLoopPredicate" return="com.google.common.base.Predicate&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Network&lt;?, E&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Predicate} that returns {@code true} if the input edge is a self-loop in
+ {@code graph}. A self-loop is defined as an edge whose set of incident nodes has exactly one
+ element. The predicate's {@code apply} method will throw an {@link IllegalArgumentException} if
+ {@code graph} does not contain {@code edge}.]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[Static utility methods for {@link Graph} instances.
+
+ @author Joshua O'Madadhain
+ @since 20.0]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.graph.Graphs -->
+  <!-- start interface com.google.common.graph.Hypergraph -->
+  <interface name="Hypergraph"    abstract="true"
+    static="false" final="false" visibility="public"
+    deprecated="not deprecated">
+    <implements name="com.google.common.graph.Network&lt;N, E&gt;"/>
+    <method name="source" return="N"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="Unsupported operation. Call {@link #incidentNodes(Object)} instead.">
+      <param name="edge" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Source is not applicable to hypergraphs.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation. Call {@link #incidentNodes(Object)} instead.]]>
+      </doc>
+    </method>
+    <method name="target" return="N"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="Unsupported operation. Call {@link #incidentNodes(Object)} instead.">
+      <param name="edge" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Target is not applicable to hypergraphs.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation. Call {@link #incidentNodes(Object)} instead.]]>
+      </doc>
+    </method>
+    <method name="addEdge" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="edge" type="E"/>
+      <param name="nodes" type="N[]"/>
+      <doc>
+      <![CDATA[Adds {@code edge} to this graph, connecting {@code nodes}.
+
+ @return {@code true} iff the graph was modified as a result of this call
+ @throws UnsupportedOperationException if the add operation is not supported by this graph]]>
+      </doc>
+    </method>
+    <method name="addEdge" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="edge" type="E"/>
+      <param name="nodes" type="java.lang.Iterable&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Adds {@code edge} to this graph, connecting {@code nodes}.
+
+ @return {@code true} iff the graph was modified as a result of this call
+ @throws UnsupportedOperationException if the add operation is not supported by this graph]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[A subinterface of {@link Network} which specifies that all edges are hyperedges, that is,
+ they connect arbitrary sets of nodes rather than pairs of nodes.
+
+ <p>A few notes about how hyperedges and connectivity:
+ <ul>
+ <li>Hyperedges, like undirected edges, are both incoming and outgoing edges.
+ <li>Hyperedges incident to a single node {@code node} connect {@code node} to itself; such edges
+     are analogous to self-loops in graphs.  Hyperedges incident to > 1 nodes do not connect any
+     of their incident nodes to themselves.
+ </ul>
+
+ @author Joshua O'Madadhain
+ @param <N> Node parameter type
+ @param <E> Edge parameter type
+ @since 20.0]]>
+    </doc>
+  </interface>
+  <!-- end interface com.google.common.graph.Hypergraph -->
+  <!-- start class com.google.common.graph.ImmutableGraph -->
+  <class name="ImmutableGraph" extends="com.google.common.graph.AbstractConfigurableGraph&lt;N&gt;"
+    abstract="false"
+    static="false" final="true" visibility="public"
+    deprecated="not deprecated">
+    <method name="copyOf" return="com.google.common.graph.ImmutableGraph&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Returns an immutable copy of {@code graph}.]]>
+      </doc>
+    </method>
+    <method name="copyOf" return="com.google.common.graph.ImmutableGraph&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="no need to use this">
+      <param name="graph" type="com.google.common.graph.ImmutableGraph&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Simply returns its argument.
+
+ @deprecated no need to use this]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[A {@link Graph} whose relationships are constant. Instances of this class may be obtained
+ with {@link #copyOf(Graph)}.
+
+ <p>The time complexity of {@code edgesConnecting(node1, node2)} is O(min(outD_node1, inD_node2)).
+
+ @author James Sexton
+ @author Joshua O'Madadhain
+ @author Omar Darwish
+ @param <N> Node parameter type]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.graph.ImmutableGraph -->
+  <!-- start class com.google.common.graph.ImmutableNetwork -->
+  <class name="ImmutableNetwork" extends="com.google.common.graph.AbstractConfigurableNetwork&lt;N, E&gt;"
+    abstract="false"
+    static="false" final="true" visibility="public"
+    deprecated="not deprecated">
+    <method name="copyOf" return="com.google.common.graph.ImmutableNetwork&lt;N, E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Network&lt;N, E&gt;"/>
+      <doc>
+      <![CDATA[Returns an immutable copy of {@code graph}.]]>
+      </doc>
+    </method>
+    <method name="copyOf" return="com.google.common.graph.ImmutableNetwork&lt;N, E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="no need to use this">
+      <param name="graph" type="com.google.common.graph.ImmutableNetwork&lt;N, E&gt;"/>
+      <doc>
+      <![CDATA[Simply returns its argument.
+
+ @deprecated no need to use this]]>
+      </doc>
+    </method>
+    <method name="edgesConnecting" return="java.util.Set&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node1" type="java.lang.Object"/>
+      <param name="node2" type="java.lang.Object"/>
+    </method>
+    <doc>
+    <![CDATA[A {@link Network} whose relationships are constant. Instances of this class may be obtained
+ with {@link #copyOf(Network)}.
+
+ <p>The time complexity of {@code edgesConnecting(node1, node2)} is O(min(outD_node1, inD_node2)).
+
+ @author James Sexton
+ @author Joshua O'Madadhain
+ @author Omar Darwish
+ @param <N> Node parameter type
+ @param <E> Edge parameter type]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.graph.ImmutableNetwork -->
+  <!-- start interface com.google.common.graph.MutableGraph -->
+  <interface name="MutableGraph"    abstract="true"
+    static="false" final="false" visibility="public"
+    deprecated="not deprecated">
+    <implements name="com.google.common.graph.Graph&lt;N&gt;"/>
+    <method name="addNode" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="N"/>
+      <doc>
+      <![CDATA[Adds {@code node} to this graph (optional operation).
+
+ <p><b>Nodes must be unique</b>, just as {@code Map} keys must be; they must also be non-null.
+
+ @return {@code true} iff the graph was modified as a result of this call
+ @throws UnsupportedOperationException if the add operation is not supported by this graph]]>
+      </doc>
+    </method>
+    <method name="addEdge" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node1" type="N"/>
+      <param name="node2" type="N"/>
+      <doc>
+      <![CDATA[Adds an (implicit) edge to this graph connecting {@code node1} to {@code node2}
+ (optional operation).
+
+ <p>Behavior if {@code node1} and {@code node2} are not already elements of the graph is
+ unspecified. Suggested behaviors include (a) silently adding {@code node1} and {@code node2}
+ to the graph or (b) throwing {@code IllegalArgumentException}.
+
+ <p>Currently, this type does not support parallel edges.  {@code addEdge(node1, node2)} will
+ simply return false on any future calls with the same arguments (analogous to the behavior of
+ {@code Network.addEdge(e, node1, node2)}).  A hypothetical instance that supported parallel
+ edges would add a new edge between {@code node1} and {@code node2} for every call to
+ {@code addEdge(node1, node2)}, and return {@code true} every time.
+
+ @return {@code true} iff the graph was modified as a result of this call
+ @throws UnsupportedOperationException if the add operation is not supported by this graph]]>
+      </doc>
+    </method>
+    <method name="removeNode" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Removes {@code node} from this graph, if it is present (optional operation).
+ In general, all edges incident to {@code node} in this graph will also be removed.
+ (This is not true for hyperedges.)
+
+ @return {@code true} iff the graph was modified as a result of this call
+ @throws UnsupportedOperationException if the remove operation is not supported by this graph]]>
+      </doc>
+    </method>
+    <method name="removeEdge" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node1" type="java.lang.Object"/>
+      <param name="node2" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Removes an edge connecting {@code node1} to {@code node2} from this graph, if one is present
+ (optional operation).
+
+ <p>In general, the input nodes are unaffected (although implementations may choose
+ to disallow certain configurations, e.g., isolated nodes).
+
+ @return {@code true} iff the graph was modified as a result of this call
+ @throws UnsupportedOperationException if the remove operation is not supported by this graph]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[A subtype of {@link Graph} which permits mutations.
+ Users should generally use the {@link Graph} interface where possible.
+
+ @author Joshua O'Madadhain
+ @param <N> Node parameter type
+ @since 20.0]]>
+    </doc>
+  </interface>
+  <!-- end interface com.google.common.graph.MutableGraph -->
+  <!-- start interface com.google.common.graph.MutableNetwork -->
+  <interface name="MutableNetwork"    abstract="true"
+    static="false" final="false" visibility="public"
+    deprecated="not deprecated">
+    <implements name="com.google.common.graph.Network&lt;N, E&gt;"/>
+    <method name="addNode" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="N"/>
+      <doc>
+      <![CDATA[Adds {@code node} to this graph (optional operation).
+
+ <p><b>Nodes must be unique</b>, just as {@code Map} keys must be; they must also be non-null.
+
+ @return {@code true} iff the graph was modified as a result of this call
+ @throws UnsupportedOperationException if the add operation is not supported by this graph]]>
+      </doc>
+    </method>
+    <method name="addEdge" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="edge" type="E"/>
+      <param name="node1" type="N"/>
+      <param name="node2" type="N"/>
+      <doc>
+      <![CDATA[Adds {@code edge} to this graph, connecting {@code node1} to {@code node2}
+ (optional operation).
+
+ <p><b>Edges must be unique</b>, just as {@code Map} keys must be; they must also be non-null.
+
+ <p>If {@code edge} already connects {@code node1} to {@code node2} in this graph
+ (in the specified order if order is significant, as for directed graphs, else in any order),
+ then this method will have no effect and will return {@code false}.
+
+ <p>Behavior if {@code node1} and {@code node2} are not already elements of the graph is
+ unspecified. Suggested behaviors include (a) silently adding {@code node1} and {@code node2}
+ to the graph or (b) throwing {@code IllegalArgumentException}.
+
+ @return {@code true} iff the graph was modified as a result of this call
+ @throws IllegalArgumentException if {@code edge} already exists and connects nodes other than
+     {@code node1} and {@code node2}, or if the graph is not a multigraph and {@code node1} is
+     already connected to {@code node2}
+ @throws UnsupportedOperationException if the add operation is not supported by this graph]]>
+      </doc>
+    </method>
+    <method name="removeNode" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Removes {@code node} from this graph, if it is present (optional operation).
+ In general, all edges incident to {@code node} in this graph will also be removed.
+ (This is not true for hyperedges.)
+
+ @return {@code true} iff the graph was modified as a result of this call
+ @throws UnsupportedOperationException if the remove operation is not supported by this graph]]>
+      </doc>
+    </method>
+    <method name="removeEdge" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="edge" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Removes {@code edge} from this graph, if it is present (optional operation).
+ In general, nodes incident to {@code edge} are unaffected (although implementations may choose
+ to disallow certain configurations, e.g., isolated nodes).
+
+ @return {@code true} iff the graph was modified as a result of this call
+ @throws UnsupportedOperationException if the remove operation is not supported by this graph]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[A subtype of {@link Network} which permits mutations.
+ Users should generally use the {@link Network} interface where possible.
+
+ @author Joshua O'Madadhain
+ @param <N> Node parameter type
+ @param <E> Edge parameter type
+ @since 20.0]]>
+    </doc>
+  </interface>
+  <!-- end interface com.google.common.graph.MutableNetwork -->
+  <!-- start interface com.google.common.graph.Network -->
+  <interface name="Network"    abstract="true"
+    static="false" final="false" visibility="public"
+    deprecated="not deprecated">
+    <implements name="com.google.common.graph.Graph&lt;N&gt;"/>
+    <method name="edges" return="java.util.Set&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns all edges in this network.]]>
+      </doc>
+    </method>
+    <method name="isDirected" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns true if each edge in this graph is directed.
+
+ <p>A directed edge is an {@linkplain #outEdges(Object) outgoing edge} of its
+ {@linkplain #source(Object) source}, and an {@linkplain #inEdges(Object) incoming edge} of its
+ {@linkplain #target(Object) target}. An undirected edge connects its
+ {@linkplain #incidentNodes(Object) incident nodes} to each other, and is both an
+ {@linkplain #outEdges(Object) outgoing edge} and {@linkplain #inEdges(Object) incoming edge}
+ of each incident node.]]>
+      </doc>
+    </method>
+    <method name="allowsParallelEdges" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns true if this graph allows parallel edges. Attempting to add a parallel edge to a graph
+ that does not allow them will throw an {@link UnsupportedOperationException}.]]>
       </doc>
     </method>
     <method name="incidentEdges" return="java.util.Set&lt;E&gt;"
@@ -35828,76 +36859,6 @@
  @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
-    <method name="addNode" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="N"/>
-      <doc>
-      <![CDATA[Adds {@code node} to this graph (optional operation).
-
- <p><b>Nodes must be unique</b>, just as {@code Map} keys must be; they must also be non-null.
-
- @return {@code true} iff the graph was modified as a result of this call
- @throws UnsupportedOperationException if the add operation is not supported by this graph]]>
-      </doc>
-    </method>
-    <method name="addEdge" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="E"/>
-      <param name="node1" type="N"/>
-      <param name="node2" type="N"/>
-      <doc>
-      <![CDATA[Adds {@code edge} to this graph, connecting {@code node1} to {@code node2}
- (optional operation).
-
- <p><b>Edges must be unique</b>, just as {@code Map} keys must be; they must also be non-null.
-
- <p>If {@code edge} already connects {@code node1} to {@code node2} in this graph
- (in the specified order if order is significant, as for directed graphs, else in any order),
- then this method will have no effect and will return {@code false}.
-
- <p>Behavior if {@code node1} and {@code node2} are not already elements of the graph is
- unspecified. Suggested behaviors include (a) silently adding {@code node1} and {@code node2}
- to the graph or (b) throwing {@code IllegalArgumentException}.
-
- @return {@code true} iff the graph was modified as a result of this call
- @throws IllegalArgumentException if {@code edge} already exists and connects nodes other than
-     {@code node1} and {@code node2}, or if the graph is not a multigraph and {@code node1} is
-     already connected to {@code node2}
- @throws UnsupportedOperationException if the add operation is not supported by this graph]]>
-      </doc>
-    </method>
-    <method name="removeNode" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Removes {@code node} from this graph, if it is present (optional operation).
- In general, all edges incident to {@code node} in this graph will also be removed.
- (This is not true for hyperedges.)
-
- @return {@code true} iff the graph was modified as a result of this call
- @throws UnsupportedOperationException if the remove operation is not supported by this graph]]>
-      </doc>
-    </method>
-    <method name="removeEdge" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Removes {@code edge} from this graph, if it is present (optional operation).
- In general, nodes incident to {@code edge} are unaffected (although implementations may choose
- to disallow certain configurations, e.g., isolated nodes).
-
- @return {@code true} iff the graph was modified as a result of this call
- @throws UnsupportedOperationException if the remove operation is not supported by this graph]]>
-      </doc>
-    </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -35939,7 +36900,13 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A graph consisting of a set of nodes of type N and a set of edges of type E.
+    <![CDATA[A network consisting of a set of nodes of type N and a set of edges of type E.
+ That is, a subtype of {@link Graph} that represents edges as explicit first-class objects.
+ Users that are not interested in edges as first-class objects should use a {@link Graph}
+ instead.
+
+ <p>Users that wish to modify a {@code Network} must work with its subinterface,
+ {@code MutableNetwork}.
 
  <p>This interface permits, but does not enforce, any of the following variations of graphs:
  <ul>
@@ -35947,8 +36914,7 @@
  <li>hyperedges (edges which are incident to arbitrary sets of nodes)
  <li>nodes and edges with attributes (for example, weighted edges)
  <li>nodes and edges of different types (for example, bipartite or multimodal graphs)
- <li>parallel edges (multiple edges which connect a single set of vertices)
- <li>internal representations as matrices, adjacency lists, adjacency maps, etc.
+ <li>parallel edges (multiple edges which connect a single set of nodes)
  </ul>
 
  <p>Extensions or implementations of this interface may enforce or disallow any or all
@@ -36004,7 +36970,7 @@
    <li>If you would otherwise have duplicate edges (e.g. weighted edges represented by a Double),
        you can instead wrap the edges in a custom class that defers to {@link Object} for its
        {@code equals()} and {@code hashCode()} implementations.
-   <li>If graph elements have mutable state, both of the following must be true:
+   <li>If graph elements have mutable state:
      <ul>
      <li>the mutable state must not be reflected in the {@code equals/hashCode} methods
          (this is discussed in the {@code Map} documentation in detail)
@@ -36028,12 +36994,6 @@
        this (usually) implies that nodes are graph-specific
    <li>a separate data repository (for example, a database) stores the topology
    </ul>
- <li>Users that are not interested in edges as first-class objects have a couple of options:
-   <ul>
-   <li>pass in arbitrary Objects as edges: {@code addEdge(new Object(), n1, n2)}
-   <li>create an implementation of (or subinterface of, or class delegating to) Graph
-       that only exposes node-related methods.
-   </ul>
  </ul>
 
  <p>Notes on accessors:
@@ -36052,6 +37012,8 @@
 
  <p>Notes for implementors:
  <ul>
+ <li>Implementations have numerous options for internal representations: matrices, adjacency
+     lists, adjacency maps, etc.
  <li>For accessors that return a {@code Set}, there are several options for the set behavior,
      including:
      <ol>
@@ -36119,42 +37081,42 @@
  @since 20.0]]>
     </doc>
   </interface>
-  <!-- end interface com.google.common.graph.Graph -->
-  <!-- start class com.google.common.graph.GraphBuilder -->
-  <class name="GraphBuilder" extends="java.lang.Object"
+  <!-- end interface com.google.common.graph.Network -->
+  <!-- start class com.google.common.graph.NetworkBuilder -->
+  <class name="NetworkBuilder" extends="java.lang.Object"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
-    <method name="directed" return="com.google.common.graph.GraphBuilder&lt;java.lang.Object, java.lang.Object&gt;"
+    <method name="directed" return="com.google.common.graph.NetworkBuilder&lt;java.lang.Object, java.lang.Object&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a {@link GraphBuilder} for building directed graphs.]]>
+      <![CDATA[Returns a {@link NetworkBuilder} for building directed graphs.]]>
       </doc>
     </method>
-    <method name="undirected" return="com.google.common.graph.GraphBuilder&lt;java.lang.Object, java.lang.Object&gt;"
+    <method name="undirected" return="com.google.common.graph.NetworkBuilder&lt;java.lang.Object, java.lang.Object&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a {@link GraphBuilder} for building undirected graphs.]]>
+      <![CDATA[Returns a {@link NetworkBuilder} for building undirected graphs.]]>
       </doc>
     </method>
-    <method name="from" return="com.google.common.graph.GraphBuilder&lt;N, E&gt;"
+    <method name="from" return="com.google.common.graph.NetworkBuilder&lt;N, E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
+      <param name="graph" type="com.google.common.graph.Network&lt;N, E&gt;"/>
       <doc>
-      <![CDATA[Returns a {@link GraphBuilder} initialized with all properties queryable from {@code graph}.
+      <![CDATA[Returns a {@link NetworkBuilder} initialized with all properties queryable from {@code graph}.
 
- <p>The "queryable" properties are those that are exposed through the {@link Graph} interface,
- such as {@link Graph#isDirected()}. Other properties, such as {@link #expectedNodeCount(int)},
- are not set in the new builder.]]>
+ <p>The "queryable" properties are those that are exposed through the {@link Network} interface,
+ such as {@link Network#isDirected()}. Other properties, such as
+ {@link #expectedNodeCount(int)}, are not set in the new builder.]]>
       </doc>
     </method>
-    <method name="allowsParallelEdges" return="com.google.common.graph.GraphBuilder&lt;N, E&gt;"
+    <method name="allowsParallelEdges" return="com.google.common.graph.NetworkBuilder&lt;N, E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -36164,7 +37126,7 @@
  a graph that does not allow them will throw an {@link UnsupportedOperationException}.]]>
       </doc>
     </method>
-    <method name="allowsSelfLoops" return="com.google.common.graph.GraphBuilder&lt;N, E&gt;"
+    <method name="allowsSelfLoops" return="com.google.common.graph.NetworkBuilder&lt;N, E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -36175,7 +37137,7 @@
  {@link UnsupportedOperationException}.]]>
       </doc>
     </method>
-    <method name="expectedNodeCount" return="com.google.common.graph.GraphBuilder&lt;N, E&gt;"
+    <method name="expectedNodeCount" return="com.google.common.graph.NetworkBuilder&lt;N, E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -36186,7 +37148,7 @@
  @throws IllegalArgumentException if {@code expectedNodeCount} is negative]]>
       </doc>
     </method>
-    <method name="expectedEdgeCount" return="com.google.common.graph.GraphBuilder&lt;N, E&gt;"
+    <method name="expectedEdgeCount" return="com.google.common.graph.NetworkBuilder&lt;N, E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -36197,16 +37159,16 @@
  @throws IllegalArgumentException if {@code expectedEdgeCount} is negative]]>
       </doc>
     </method>
-    <method name="build" return="com.google.common.graph.Graph&lt;N1, E1&gt;"
+    <method name="build" return="com.google.common.graph.MutableNetwork&lt;N1, E1&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an empty mutable {@link Graph} with the properties of this {@link GraphBuilder}.]]>
+      <![CDATA[Returns an empty mutable {@link Network} with the properties of this {@link NetworkBuilder}.]]>
       </doc>
     </method>
     <doc>
-    <![CDATA[A builder for constructing instances of {@link Graph} with user-defined properties.
+    <![CDATA[A builder for constructing instances of {@link Network} with user-defined properties.
 
  <p>A graph built by this class will have the following properties by default:
  <ul>
@@ -36219,373 +37181,7 @@
  @since 20.0]]>
     </doc>
   </class>
-  <!-- end class com.google.common.graph.GraphBuilder -->
-  <!-- start class com.google.common.graph.GraphProperties -->
-  <class name="GraphProperties" extends="java.lang.Object"
-    abstract="false"
-    static="false" final="true" visibility="public"
-    deprecated="not deprecated">
-    <method name="isCyclic" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;?, ?&gt;"/>
-      <doc>
-      <![CDATA[Returns true iff {@code graph} has at least one cycle.]]>
-      </doc>
-    </method>
-    <method name="roots" return="com.google.common.collect.ImmutableSet&lt;N&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;N, ?&gt;"/>
-      <doc>
-      <![CDATA[Returns the set of all nodes in {@code graph} that have no predecessors.
-
- <p>Note that in an undirected graph, this is equivalent to all isolated nodes.]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[Static utility methods for calculating properties of {@link Graph} instances.
-
- @author Joshua O'Madadhain
- @since 20.0]]>
-    </doc>
-  </class>
-  <!-- end class com.google.common.graph.GraphProperties -->
-  <!-- start class com.google.common.graph.Graphs -->
-  <class name="Graphs" extends="java.lang.Object"
-    abstract="false"
-    static="false" final="true" visibility="public"
-    deprecated="not deprecated">
-    <method name="oppositeNode" return="N"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;N, ?&gt;"/>
-      <param name="edge" type="java.lang.Object"/>
-      <param name="node" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Returns the node at the other end of {@code edge} from {@code node}.
-
- @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}
- @throws IllegalArgumentException if {@code edge} is not incident to {@code node}]]>
-      </doc>
-    </method>
-    <method name="parallelEdges" return="java.util.Set&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <param name="edge" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Returns an unmodifiable view of edges that are parallel to {@code edge}, i.e. the set of edges
- that connect the same nodes in the same direction (if any). An edge is not parallel to itself.
-
- @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}
- @throws IllegalArgumentException if {@code edge} is not present in {@code graph}]]>
-      </doc>
-    </method>
-    <method name="addEdge" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <param name="edge" type="E"/>
-      <param name="nodes" type="java.lang.Iterable&lt;N&gt;"/>
-      <doc>
-      <![CDATA[Adds {@code edge} to {@code graph} with the specified incident {@code nodes}, in the order
- returned by {@code nodes}' iterator.]]>
-      </doc>
-    </method>
-    <method name="copyOf" return="com.google.common.graph.Graph&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <doc>
-      <![CDATA[Creates a mutable copy of {@code graph}, using the same node and edge elements.]]>
-      </doc>
-    </method>
-    <method name="copyOf" return="com.google.common.graph.Graph&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <param name="nodePredicate" type="com.google.common.base.Predicate&lt;? super N&gt;"/>
-      <param name="edgePredicate" type="com.google.common.base.Predicate&lt;? super E&gt;"/>
-      <doc>
-      <![CDATA[Creates a mutable copy of {@code graph}, using all of its elements that satisfy
- {@code nodePredicate} and {@code edgePredicate}.]]>
-      </doc>
-    </method>
-    <method name="mergeNodesFrom"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="original" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <param name="copy" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <doc>
-      <![CDATA[Copies all nodes from {@code original} into {@code copy}.]]>
-      </doc>
-    </method>
-    <method name="mergeNodesFrom"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="original" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <param name="copy" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <param name="nodePredicate" type="com.google.common.base.Predicate&lt;? super N&gt;"/>
-      <doc>
-      <![CDATA[Copies all nodes from {@code original} into {@code copy} that satisfy {@code nodePredicate}.]]>
-      </doc>
-    </method>
-    <method name="mergeEdgesFrom"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="original" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <param name="copy" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <doc>
-      <![CDATA[Copies all edges from {@code original} into {@code copy}. Also copies all nodes incident
- to these edges.]]>
-      </doc>
-    </method>
-    <method name="mergeEdgesFrom"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="original" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <param name="copy" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <param name="edgePredicate" type="com.google.common.base.Predicate&lt;? super E&gt;"/>
-      <doc>
-      <![CDATA[Copies all edges from {@code original} into {@code copy} that satisfy {@code edgePredicate}.
- Also copies all nodes incident to these edges.]]>
-      </doc>
-    </method>
-    <method name="equal" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph1" type="com.google.common.graph.Graph&lt;?, ?&gt;"/>
-      <param name="graph2" type="com.google.common.graph.Graph&lt;?, ?&gt;"/>
-      <doc>
-      <![CDATA[Returns true iff {@code graph1} and {@code graph2} have the same node/edge relationships.
-
- @see Graph#equals(Object)]]>
-      </doc>
-    </method>
-    <method name="hashCode" return="int"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;?, ?&gt;"/>
-      <doc>
-      <![CDATA[Returns the hash code of {@code graph}.
-
- @see Graph#hashCode()]]>
-      </doc>
-    </method>
-    <method name="toString" return="java.lang.String"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;?, ?&gt;"/>
-      <doc>
-      <![CDATA[Returns a string representation of {@code graph}. Encodes edge direction if {@code graph}
- is directed.]]>
-      </doc>
-    </method>
-    <method name="selfLoopPredicate" return="com.google.common.base.Predicate&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;?, E&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@link Predicate} that returns {@code true} if the input edge is a self-loop in
- {@code graph}. A self-loop is defined as an edge whose set of incident nodes has exactly one
- element. The predicate's {@code apply} method will throw an {@link IllegalArgumentException} if
- {@code graph} does not contain {@code edge}.]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[Static utility methods for {@link Graph} instances.
-
- @author Joshua O'Madadhain
- @since 20.0]]>
-    </doc>
-  </class>
-  <!-- end class com.google.common.graph.Graphs -->
-  <!-- start interface com.google.common.graph.Hypergraph -->
-  <interface name="Hypergraph"    abstract="true"
-    static="false" final="false" visibility="public"
-    deprecated="not deprecated">
-    <implements name="com.google.common.graph.Graph&lt;N, E&gt;"/>
-    <method name="source" return="N"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="Unsupported operation. Call {@link #incidentNodes(Object)} instead.">
-      <param name="edge" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Source is not applicable to hypergraphs.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation. Call {@link #incidentNodes(Object)} instead.]]>
-      </doc>
-    </method>
-    <method name="target" return="N"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="Unsupported operation. Call {@link #incidentNodes(Object)} instead.">
-      <param name="edge" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Target is not applicable to hypergraphs.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation. Call {@link #incidentNodes(Object)} instead.]]>
-      </doc>
-    </method>
-    <method name="addEdge" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="E"/>
-      <param name="nodes" type="N[]"/>
-      <doc>
-      <![CDATA[Adds {@code edge} to this graph, connecting {@code nodes}.
-
- @return {@code true} iff the graph was modified as a result of this call
- @throws UnsupportedOperationException if the add operation is not supported by this graph]]>
-      </doc>
-    </method>
-    <method name="addEdge" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="E"/>
-      <param name="nodes" type="java.lang.Iterable&lt;N&gt;"/>
-      <doc>
-      <![CDATA[Adds {@code edge} to this graph, connecting {@code nodes}.
-
- @return {@code true} iff the graph was modified as a result of this call
- @throws UnsupportedOperationException if the add operation is not supported by this graph]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[A subinterface of {@code Graph} which specifies that all edges are hyperedges, that is,
- they connect arbitrary sets of nodes rather than pairs of nodes.
-
- <p>A few notes about how hyperedges and connectivity:
- <ul>
- <li>Hyperedges, like undirected edges, are both incoming and outgoing edges.
- <li>Hyperedges incident to a single node {@code node} connect {@code node} to itself; such edges
-     are analogous to self-loops in graphs.  Hyperedges incident to > 1 nodes do not connect any
-     of their incident nodes to themselves.
- </ul>
-
- @author Joshua O'Madadhain
- @param <N> Node parameter type
- @param <E> Edge parameter type
- @since 20.0]]>
-    </doc>
-  </interface>
-  <!-- end interface com.google.common.graph.Hypergraph -->
-  <!-- start class com.google.common.graph.ImmutableGraph -->
-  <class name="ImmutableGraph" extends="com.google.common.graph.ConfigurableGraph&lt;N, E&gt;"
-    abstract="false"
-    static="false" final="true" visibility="public"
-    deprecated="not deprecated">
-    <method name="copyOf" return="com.google.common.graph.ImmutableGraph&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;N, E&gt;"/>
-      <doc>
-      <![CDATA[Returns an immutable copy of {@code graph}.]]>
-      </doc>
-    </method>
-    <method name="copyOf" return="com.google.common.graph.ImmutableGraph&lt;N, E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="no need to use this">
-      <param name="graph" type="com.google.common.graph.ImmutableGraph&lt;N, E&gt;"/>
-      <doc>
-      <![CDATA[Simply returns its argument.
-
- @deprecated no need to use this]]>
-      </doc>
-    </method>
-    <method name="addNode" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="node" type="N"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the graph unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="addEdge" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="edge" type="E"/>
-      <param name="node1" type="N"/>
-      <param name="node2" type="N"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the graph unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="removeNode" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="node" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the graph unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="removeEdge" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
-      deprecated="Unsupported operation.">
-      <param name="edge" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Guaranteed to throw an exception and leave the graph unmodified.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation.]]>
-      </doc>
-    </method>
-    <method name="edgesConnecting" return="java.util.Set&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node1" type="java.lang.Object"/>
-      <param name="node2" type="java.lang.Object"/>
-    </method>
-    <doc>
-    <![CDATA[A {@link Graph} whose contents will never change. Instances of this class should be obtained
- with {@link #copyOf(Graph)}.
-
- <p>The time complexity of {@code edgesConnecting(node1, node2)} is O(min(outD_node1, inD_node2)).
-
- @author James Sexton
- @author Joshua O'Madadhain
- @author Omar Darwish
- @param <N> Node parameter type
- @param <E> Edge parameter type]]>
-    </doc>
-  </class>
-  <!-- end class com.google.common.graph.ImmutableGraph -->
+  <!-- end class com.google.common.graph.NetworkBuilder -->
 </package>
 <package name="com.google.common.hash">
   <!-- start class com.google.common.hash.BloomFilter -->

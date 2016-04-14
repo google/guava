@@ -1317,8 +1317,8 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;</strong></code>
-<div class="block">A graph consisting of a set of nodes of type N and a set of edges of type E.</div>
+<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;</strong></code>
+<div class="block">A graph consisting of a set of nodes of type N and a set of (implicit) edges.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -1336,8 +1336,26 @@
 <tr class="rowColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/Hypergraph.html" title="interface in com.google.common.graph">Hypergraph</a>&lt;N,E&gt;</strong></code>
-<div class="block">A subinterface of <code>Graph</code> which specifies that all edges are hyperedges, that is,
+<div class="block">A subinterface of <a href="../../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> which specifies that all edges are hyperedges, that is,
  they connect arbitrary sets of nodes rather than pairs of nodes.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>interface&nbsp;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;</strong></code>
+<div class="block">A subtype of <a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> which permits mutations.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>interface&nbsp;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,E&gt;</strong></code>
+<div class="block">A subtype of <a href="../../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> which permits mutations.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>interface&nbsp;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;</strong></code>
+<div class="block">A network consisting of a set of nodes of type N and a set of edges of type E.</div>
 </td>
 </tr>
 </tbody>

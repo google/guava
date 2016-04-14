@@ -79,14 +79,14 @@
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle">com.google.common.graph</div>
-<h2 title="Class GraphBuilder" class="title">Class GraphBuilder&lt;N,E&gt;</h2>
+<h2 title="Class GraphBuilder" class="title">Class GraphBuilder&lt;N&gt;</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
 <li><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</a></li>
 <li>
 <ul class="inheritance">
-<li>com.google.common.graph.GraphBuilder&lt;N,E&gt;</li>
+<li>com.google.common.graph.GraphBuilder&lt;N&gt;</li>
 </ul>
 </li>
 </ul>
@@ -95,7 +95,7 @@
 <li class="blockList">
 <hr>
 <br>
-<pre>public final class <a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.40">GraphBuilder</a>&lt;N,E&gt;
+<pre>public final class <a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.40">GraphBuilder</a>&lt;N&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A builder for constructing instances of <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> with user-defined properties.
 
@@ -127,49 +127,37 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>,<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">E</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/GraphBuilder.html#allowsParallelEdges(boolean)">allowsParallelEdges</a></strong>(boolean&nbsp;allowsParallelEdges)</code>
-<div class="block">Specifies whether the graph will allow parallel edges.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>,<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">E</a>&gt;</code></td>
+<td class="colFirst"><code><a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/GraphBuilder.html#allowsSelfLoops(boolean)">allowsSelfLoops</a></strong>(boolean&nbsp;allowsSelfLoops)</code>
 <div class="block">Specifies whether the graph will allow self-loops (edges that connect a node to itself).</div>
 </td>
 </tr>
-<tr class="altColor">
-<td class="colFirst"><code>&lt;N1 extends <a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>,E1 extends <a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">E</a>&gt;&nbsp;<br><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N1,E1&gt;</code></td>
+<tr class="rowColor">
+<td class="colFirst"><code>&lt;N1 extends <a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<br><a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N1&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/GraphBuilder.html#build()">build</a></strong>()</code>
 <div class="block">Returns an empty mutable <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> with the properties of this <a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static <a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;</code></td>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/GraphBuilder.html#directed()">directed</a></strong>()</code>
 <div class="block">Returns a <a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> for building directed graphs.</div>
 </td>
 </tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>,<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">E</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/GraphBuilder.html#expectedEdgeCount(int)">expectedEdgeCount</a></strong>(int&nbsp;expectedEdgeCount)</code>
-<div class="block">Specifies the expected number of edges in the graph.</div>
-</td>
-</tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>,<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">E</a>&gt;</code></td>
+<td class="colFirst"><code><a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/GraphBuilder.html#expectedNodeCount(int)">expectedNodeCount</a></strong>(int&nbsp;expectedNodeCount)</code>
 <div class="block">Specifies the expected number of nodes in the graph.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N,E&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/GraphBuilder.html#from(com.google.common.graph.Graph)">from</a></strong>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;graph)</code>
+<td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/GraphBuilder.html#from(com.google.common.graph.Graph)">from</a></strong>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</code>
 <div class="block">Returns a <a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> initialized with all properties queryable from <code>graph</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static <a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;</code></td>
+<td class="colFirst"><code>static <a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/GraphBuilder.html#undirected()">undirected</a></strong>()</code>
 <div class="block">Returns a <a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> for building undirected graphs.</div>
 </td>
@@ -202,7 +190,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>directed</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.54">directed</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.59">directed</a>()</pre>
 <div class="block">Returns a <a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> for building directed graphs.</div>
 </li>
 </ul>
@@ -212,7 +200,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>undirected</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.61">undirected</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.66">undirected</a>()</pre>
 <div class="block">Returns a <a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> for building undirected graphs.</div>
 </li>
 </ul>
@@ -222,23 +210,12 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.72">from</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,E&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.77">from</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
 <div class="block">Returns a <a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> initialized with all properties queryable from <code>graph</code>.
 
  <p>The "queryable" properties are those that are exposed through the <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> interface,
  such as <a href="../../../../com/google/common/graph/Graph.html#isDirected()"><code>Graph.isDirected()</code></a>. Other properties, such as <a href="../../../../com/google/common/graph/GraphBuilder.html#expectedNodeCount(int)"><code>expectedNodeCount(int)</code></a>,
  are not set in the new builder.</div>
-</li>
-</ul>
-<a name="allowsParallelEdges(boolean)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>allowsParallelEdges</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>,<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.92">allowsParallelEdges</a>(boolean&nbsp;allowsParallelEdges)</pre>
-<div class="block">Specifies whether the graph will allow parallel edges. Attempting to add a parallel edge to
- a graph that does not allow them will throw an <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a>.</div>
 </li>
 </ul>
 <a name="allowsSelfLoops(boolean)">
@@ -247,7 +224,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>allowsSelfLoops</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>,<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.102">allowsSelfLoops</a>(boolean&nbsp;allowsSelfLoops)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.88">allowsSelfLoops</a>(boolean&nbsp;allowsSelfLoops)</pre>
 <div class="block">Specifies whether the graph will allow self-loops (edges that connect a node to itself).
  Attempting to add a self-loop to a graph that does not allow them will throw an
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a>.</div>
@@ -259,22 +236,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>expectedNodeCount</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>,<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.112">expectedNodeCount</a>(int&nbsp;expectedNodeCount)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.98">expectedNodeCount</a>(int&nbsp;expectedNodeCount)</pre>
 <div class="block">Specifies the expected number of nodes in the graph.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>expectedNodeCount</code> is negative</dd></dl>
-</li>
-</ul>
-<a name="expectedEdgeCount(int)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>expectedEdgeCount</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>,<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.124">expectedEdgeCount</a>(int&nbsp;expectedEdgeCount)</pre>
-<div class="block">Specifies the expected number of edges in the graph.</div>
-<dl><dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>expectedEdgeCount</code> is negative</dd></dl>
 </li>
 </ul>
 <a name="build()">
@@ -283,7 +248,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre>public&nbsp;&lt;N1 extends <a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>,E1 extends <a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">E</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N1,E1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.134">build</a>()</pre>
+<pre>public&nbsp;&lt;N1 extends <a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.108">build</a>()</pre>
 <div class="block">Returns an empty mutable <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> with the properties of this <a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a>.</div>
 </li>
 </ul>

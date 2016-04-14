@@ -289,195 +289,205 @@
 <span class="sourceLineNo">281</span>  /**<a name="line.281"></a>
 <span class="sourceLineNo">282</span>   * Returns a {@code MapJoiner} using the given key-value separator, and the same configuration as<a name="line.282"></a>
 <span class="sourceLineNo">283</span>   * this {@code Joiner} otherwise.<a name="line.283"></a>
-<span class="sourceLineNo">284</span>   */<a name="line.284"></a>
-<span class="sourceLineNo">285</span>  public MapJoiner withKeyValueSeparator(String keyValueSeparator) {<a name="line.285"></a>
-<span class="sourceLineNo">286</span>    return new MapJoiner(this, keyValueSeparator);<a name="line.286"></a>
-<span class="sourceLineNo">287</span>  }<a name="line.287"></a>
-<span class="sourceLineNo">288</span><a name="line.288"></a>
-<span class="sourceLineNo">289</span>  /**<a name="line.289"></a>
-<span class="sourceLineNo">290</span>   * An object that joins map entries in the same manner as {@code Joiner} joins iterables and<a name="line.290"></a>
-<span class="sourceLineNo">291</span>   * arrays. Like {@code Joiner}, it is thread-safe and immutable.<a name="line.291"></a>
-<span class="sourceLineNo">292</span>   *<a name="line.292"></a>
-<span class="sourceLineNo">293</span>   * &lt;p&gt;In addition to operating on {@code Map} instances, {@code MapJoiner} can operate on {@code<a name="line.293"></a>
-<span class="sourceLineNo">294</span>   * Multimap} entries in two distinct modes:<a name="line.294"></a>
-<span class="sourceLineNo">295</span>   *<a name="line.295"></a>
-<span class="sourceLineNo">296</span>   * &lt;ul&gt;<a name="line.296"></a>
-<span class="sourceLineNo">297</span>   * &lt;li&gt;To output a separate entry for each key-value pair, pass {@code multimap.entries()} to a<a name="line.297"></a>
-<span class="sourceLineNo">298</span>   * {@code MapJoiner} method that accepts entries as input, and receive output of the form<a name="line.298"></a>
-<span class="sourceLineNo">299</span>   * {@code key1=A&amp;key1=B&amp;key2=C}.<a name="line.299"></a>
-<span class="sourceLineNo">300</span>   * &lt;li&gt;To output a single entry for each key, pass {@code multimap.asMap()} to a {@code MapJoiner}<a name="line.300"></a>
-<span class="sourceLineNo">301</span>   * method that accepts a map as input, and receive output of the form {@code<a name="line.301"></a>
-<span class="sourceLineNo">302</span>   *     key1=[A, B]&amp;key2=C}.<a name="line.302"></a>
-<span class="sourceLineNo">303</span>   * &lt;/ul&gt;<a name="line.303"></a>
-<span class="sourceLineNo">304</span>   *<a name="line.304"></a>
-<span class="sourceLineNo">305</span>   * @since 2.0<a name="line.305"></a>
-<span class="sourceLineNo">306</span>   */<a name="line.306"></a>
-<span class="sourceLineNo">307</span>  public static final class MapJoiner {<a name="line.307"></a>
-<span class="sourceLineNo">308</span>    private final Joiner joiner;<a name="line.308"></a>
-<span class="sourceLineNo">309</span>    private final String keyValueSeparator;<a name="line.309"></a>
-<span class="sourceLineNo">310</span><a name="line.310"></a>
-<span class="sourceLineNo">311</span>    private MapJoiner(Joiner joiner, String keyValueSeparator) {<a name="line.311"></a>
-<span class="sourceLineNo">312</span>      this.joiner = joiner; // only "this" is ever passed, so don't checkNotNull<a name="line.312"></a>
-<span class="sourceLineNo">313</span>      this.keyValueSeparator = checkNotNull(keyValueSeparator);<a name="line.313"></a>
-<span class="sourceLineNo">314</span>    }<a name="line.314"></a>
-<span class="sourceLineNo">315</span><a name="line.315"></a>
-<span class="sourceLineNo">316</span>    /**<a name="line.316"></a>
-<span class="sourceLineNo">317</span>     * Appends the string representation of each entry of {@code map}, using the previously<a name="line.317"></a>
-<span class="sourceLineNo">318</span>     * configured separator and key-value separator, to {@code appendable}.<a name="line.318"></a>
-<span class="sourceLineNo">319</span>     */<a name="line.319"></a>
-<span class="sourceLineNo">320</span>    @CanIgnoreReturnValue<a name="line.320"></a>
-<span class="sourceLineNo">321</span>    public &lt;A extends Appendable&gt; A appendTo(A appendable, Map&lt;?, ?&gt; map) throws IOException {<a name="line.321"></a>
-<span class="sourceLineNo">322</span>      return appendTo(appendable, map.entrySet());<a name="line.322"></a>
-<span class="sourceLineNo">323</span>    }<a name="line.323"></a>
-<span class="sourceLineNo">324</span><a name="line.324"></a>
-<span class="sourceLineNo">325</span>    /**<a name="line.325"></a>
-<span class="sourceLineNo">326</span>     * Appends the string representation of each entry of {@code map}, using the previously<a name="line.326"></a>
-<span class="sourceLineNo">327</span>     * configured separator and key-value separator, to {@code builder}. Identical to<a name="line.327"></a>
-<span class="sourceLineNo">328</span>     * {@link #appendTo(Appendable, Map)}, except that it does not throw {@link IOException}.<a name="line.328"></a>
+<span class="sourceLineNo">284</span>   *<a name="line.284"></a>
+<span class="sourceLineNo">285</span>   * @since 20.0<a name="line.285"></a>
+<span class="sourceLineNo">286</span>   */<a name="line.286"></a>
+<span class="sourceLineNo">287</span>  public MapJoiner withKeyValueSeparator(char keyValueSeparator) {<a name="line.287"></a>
+<span class="sourceLineNo">288</span>    return withKeyValueSeparator(String.valueOf(keyValueSeparator));<a name="line.288"></a>
+<span class="sourceLineNo">289</span>  }<a name="line.289"></a>
+<span class="sourceLineNo">290</span><a name="line.290"></a>
+<span class="sourceLineNo">291</span>  /**<a name="line.291"></a>
+<span class="sourceLineNo">292</span>   * Returns a {@code MapJoiner} using the given key-value separator, and the same configuration as<a name="line.292"></a>
+<span class="sourceLineNo">293</span>   * this {@code Joiner} otherwise.<a name="line.293"></a>
+<span class="sourceLineNo">294</span>   */<a name="line.294"></a>
+<span class="sourceLineNo">295</span>  public MapJoiner withKeyValueSeparator(String keyValueSeparator) {<a name="line.295"></a>
+<span class="sourceLineNo">296</span>    return new MapJoiner(this, keyValueSeparator);<a name="line.296"></a>
+<span class="sourceLineNo">297</span>  }<a name="line.297"></a>
+<span class="sourceLineNo">298</span><a name="line.298"></a>
+<span class="sourceLineNo">299</span>  /**<a name="line.299"></a>
+<span class="sourceLineNo">300</span>   * An object that joins map entries in the same manner as {@code Joiner} joins iterables and<a name="line.300"></a>
+<span class="sourceLineNo">301</span>   * arrays. Like {@code Joiner}, it is thread-safe and immutable.<a name="line.301"></a>
+<span class="sourceLineNo">302</span>   *<a name="line.302"></a>
+<span class="sourceLineNo">303</span>   * &lt;p&gt;In addition to operating on {@code Map} instances, {@code MapJoiner} can operate on {@code<a name="line.303"></a>
+<span class="sourceLineNo">304</span>   * Multimap} entries in two distinct modes:<a name="line.304"></a>
+<span class="sourceLineNo">305</span>   *<a name="line.305"></a>
+<span class="sourceLineNo">306</span>   * &lt;ul&gt;<a name="line.306"></a>
+<span class="sourceLineNo">307</span>   * &lt;li&gt;To output a separate entry for each key-value pair, pass {@code multimap.entries()} to a<a name="line.307"></a>
+<span class="sourceLineNo">308</span>   * {@code MapJoiner} method that accepts entries as input, and receive output of the form<a name="line.308"></a>
+<span class="sourceLineNo">309</span>   * {@code key1=A&amp;key1=B&amp;key2=C}.<a name="line.309"></a>
+<span class="sourceLineNo">310</span>   * &lt;li&gt;To output a single entry for each key, pass {@code multimap.asMap()} to a {@code MapJoiner}<a name="line.310"></a>
+<span class="sourceLineNo">311</span>   * method that accepts a map as input, and receive output of the form {@code<a name="line.311"></a>
+<span class="sourceLineNo">312</span>   *     key1=[A, B]&amp;key2=C}.<a name="line.312"></a>
+<span class="sourceLineNo">313</span>   * &lt;/ul&gt;<a name="line.313"></a>
+<span class="sourceLineNo">314</span>   *<a name="line.314"></a>
+<span class="sourceLineNo">315</span>   * @since 2.0<a name="line.315"></a>
+<span class="sourceLineNo">316</span>   */<a name="line.316"></a>
+<span class="sourceLineNo">317</span>  public static final class MapJoiner {<a name="line.317"></a>
+<span class="sourceLineNo">318</span>    private final Joiner joiner;<a name="line.318"></a>
+<span class="sourceLineNo">319</span>    private final String keyValueSeparator;<a name="line.319"></a>
+<span class="sourceLineNo">320</span><a name="line.320"></a>
+<span class="sourceLineNo">321</span>    private MapJoiner(Joiner joiner, String keyValueSeparator) {<a name="line.321"></a>
+<span class="sourceLineNo">322</span>      this.joiner = joiner; // only "this" is ever passed, so don't checkNotNull<a name="line.322"></a>
+<span class="sourceLineNo">323</span>      this.keyValueSeparator = checkNotNull(keyValueSeparator);<a name="line.323"></a>
+<span class="sourceLineNo">324</span>    }<a name="line.324"></a>
+<span class="sourceLineNo">325</span><a name="line.325"></a>
+<span class="sourceLineNo">326</span>    /**<a name="line.326"></a>
+<span class="sourceLineNo">327</span>     * Appends the string representation of each entry of {@code map}, using the previously<a name="line.327"></a>
+<span class="sourceLineNo">328</span>     * configured separator and key-value separator, to {@code appendable}.<a name="line.328"></a>
 <span class="sourceLineNo">329</span>     */<a name="line.329"></a>
 <span class="sourceLineNo">330</span>    @CanIgnoreReturnValue<a name="line.330"></a>
-<span class="sourceLineNo">331</span>    public StringBuilder appendTo(StringBuilder builder, Map&lt;?, ?&gt; map) {<a name="line.331"></a>
-<span class="sourceLineNo">332</span>      return appendTo(builder, map.entrySet());<a name="line.332"></a>
+<span class="sourceLineNo">331</span>    public &lt;A extends Appendable&gt; A appendTo(A appendable, Map&lt;?, ?&gt; map) throws IOException {<a name="line.331"></a>
+<span class="sourceLineNo">332</span>      return appendTo(appendable, map.entrySet());<a name="line.332"></a>
 <span class="sourceLineNo">333</span>    }<a name="line.333"></a>
 <span class="sourceLineNo">334</span><a name="line.334"></a>
 <span class="sourceLineNo">335</span>    /**<a name="line.335"></a>
-<span class="sourceLineNo">336</span>     * Returns a string containing the string representation of each entry of {@code map}, using the<a name="line.336"></a>
-<span class="sourceLineNo">337</span>     * previously configured separator and key-value separator.<a name="line.337"></a>
-<span class="sourceLineNo">338</span>     */<a name="line.338"></a>
-<span class="sourceLineNo">339</span>    public String join(Map&lt;?, ?&gt; map) {<a name="line.339"></a>
-<span class="sourceLineNo">340</span>      return join(map.entrySet());<a name="line.340"></a>
-<span class="sourceLineNo">341</span>    }<a name="line.341"></a>
-<span class="sourceLineNo">342</span><a name="line.342"></a>
-<span class="sourceLineNo">343</span>    /**<a name="line.343"></a>
-<span class="sourceLineNo">344</span>     * Appends the string representation of each entry in {@code entries}, using the previously<a name="line.344"></a>
-<span class="sourceLineNo">345</span>     * configured separator and key-value separator, to {@code appendable}.<a name="line.345"></a>
-<span class="sourceLineNo">346</span>     *<a name="line.346"></a>
-<span class="sourceLineNo">347</span>     * @since 10.0<a name="line.347"></a>
+<span class="sourceLineNo">336</span>     * Appends the string representation of each entry of {@code map}, using the previously<a name="line.336"></a>
+<span class="sourceLineNo">337</span>     * configured separator and key-value separator, to {@code builder}. Identical to<a name="line.337"></a>
+<span class="sourceLineNo">338</span>     * {@link #appendTo(Appendable, Map)}, except that it does not throw {@link IOException}.<a name="line.338"></a>
+<span class="sourceLineNo">339</span>     */<a name="line.339"></a>
+<span class="sourceLineNo">340</span>    @CanIgnoreReturnValue<a name="line.340"></a>
+<span class="sourceLineNo">341</span>    public StringBuilder appendTo(StringBuilder builder, Map&lt;?, ?&gt; map) {<a name="line.341"></a>
+<span class="sourceLineNo">342</span>      return appendTo(builder, map.entrySet());<a name="line.342"></a>
+<span class="sourceLineNo">343</span>    }<a name="line.343"></a>
+<span class="sourceLineNo">344</span><a name="line.344"></a>
+<span class="sourceLineNo">345</span>    /**<a name="line.345"></a>
+<span class="sourceLineNo">346</span>     * Returns a string containing the string representation of each entry of {@code map}, using the<a name="line.346"></a>
+<span class="sourceLineNo">347</span>     * previously configured separator and key-value separator.<a name="line.347"></a>
 <span class="sourceLineNo">348</span>     */<a name="line.348"></a>
-<span class="sourceLineNo">349</span>    @Beta<a name="line.349"></a>
-<span class="sourceLineNo">350</span>    @CanIgnoreReturnValue<a name="line.350"></a>
-<span class="sourceLineNo">351</span>    public &lt;A extends Appendable&gt; A appendTo(A appendable, Iterable&lt;? extends Entry&lt;?, ?&gt;&gt; entries)<a name="line.351"></a>
-<span class="sourceLineNo">352</span>        throws IOException {<a name="line.352"></a>
-<span class="sourceLineNo">353</span>      return appendTo(appendable, entries.iterator());<a name="line.353"></a>
-<span class="sourceLineNo">354</span>    }<a name="line.354"></a>
-<span class="sourceLineNo">355</span><a name="line.355"></a>
-<span class="sourceLineNo">356</span>    /**<a name="line.356"></a>
-<span class="sourceLineNo">357</span>     * Appends the string representation of each entry in {@code entries}, using the previously<a name="line.357"></a>
-<span class="sourceLineNo">358</span>     * configured separator and key-value separator, to {@code appendable}.<a name="line.358"></a>
-<span class="sourceLineNo">359</span>     *<a name="line.359"></a>
-<span class="sourceLineNo">360</span>     * @since 11.0<a name="line.360"></a>
-<span class="sourceLineNo">361</span>     */<a name="line.361"></a>
-<span class="sourceLineNo">362</span>    @Beta<a name="line.362"></a>
-<span class="sourceLineNo">363</span>    @CanIgnoreReturnValue<a name="line.363"></a>
-<span class="sourceLineNo">364</span>    public &lt;A extends Appendable&gt; A appendTo(A appendable, Iterator&lt;? extends Entry&lt;?, ?&gt;&gt; parts)<a name="line.364"></a>
-<span class="sourceLineNo">365</span>        throws IOException {<a name="line.365"></a>
-<span class="sourceLineNo">366</span>      checkNotNull(appendable);<a name="line.366"></a>
-<span class="sourceLineNo">367</span>      if (parts.hasNext()) {<a name="line.367"></a>
-<span class="sourceLineNo">368</span>        Entry&lt;?, ?&gt; entry = parts.next();<a name="line.368"></a>
-<span class="sourceLineNo">369</span>        appendable.append(joiner.toString(entry.getKey()));<a name="line.369"></a>
-<span class="sourceLineNo">370</span>        appendable.append(keyValueSeparator);<a name="line.370"></a>
-<span class="sourceLineNo">371</span>        appendable.append(joiner.toString(entry.getValue()));<a name="line.371"></a>
-<span class="sourceLineNo">372</span>        while (parts.hasNext()) {<a name="line.372"></a>
-<span class="sourceLineNo">373</span>          appendable.append(joiner.separator);<a name="line.373"></a>
-<span class="sourceLineNo">374</span>          Entry&lt;?, ?&gt; e = parts.next();<a name="line.374"></a>
-<span class="sourceLineNo">375</span>          appendable.append(joiner.toString(e.getKey()));<a name="line.375"></a>
-<span class="sourceLineNo">376</span>          appendable.append(keyValueSeparator);<a name="line.376"></a>
-<span class="sourceLineNo">377</span>          appendable.append(joiner.toString(e.getValue()));<a name="line.377"></a>
-<span class="sourceLineNo">378</span>        }<a name="line.378"></a>
-<span class="sourceLineNo">379</span>      }<a name="line.379"></a>
-<span class="sourceLineNo">380</span>      return appendable;<a name="line.380"></a>
-<span class="sourceLineNo">381</span>    }<a name="line.381"></a>
-<span class="sourceLineNo">382</span><a name="line.382"></a>
-<span class="sourceLineNo">383</span>    /**<a name="line.383"></a>
-<span class="sourceLineNo">384</span>     * Appends the string representation of each entry in {@code entries}, using the previously<a name="line.384"></a>
-<span class="sourceLineNo">385</span>     * configured separator and key-value separator, to {@code builder}. Identical to<a name="line.385"></a>
-<span class="sourceLineNo">386</span>     * {@link #appendTo(Appendable, Iterable)}, except that it does not throw {@link IOException}.<a name="line.386"></a>
-<span class="sourceLineNo">387</span>     *<a name="line.387"></a>
-<span class="sourceLineNo">388</span>     * @since 10.0<a name="line.388"></a>
-<span class="sourceLineNo">389</span>     */<a name="line.389"></a>
-<span class="sourceLineNo">390</span>    @Beta<a name="line.390"></a>
-<span class="sourceLineNo">391</span>    @CanIgnoreReturnValue<a name="line.391"></a>
-<span class="sourceLineNo">392</span>    public StringBuilder appendTo(StringBuilder builder, Iterable&lt;? extends Entry&lt;?, ?&gt;&gt; entries) {<a name="line.392"></a>
-<span class="sourceLineNo">393</span>      return appendTo(builder, entries.iterator());<a name="line.393"></a>
-<span class="sourceLineNo">394</span>    }<a name="line.394"></a>
-<span class="sourceLineNo">395</span><a name="line.395"></a>
-<span class="sourceLineNo">396</span>    /**<a name="line.396"></a>
-<span class="sourceLineNo">397</span>     * Appends the string representation of each entry in {@code entries}, using the previously<a name="line.397"></a>
-<span class="sourceLineNo">398</span>     * configured separator and key-value separator, to {@code builder}. Identical to<a name="line.398"></a>
-<span class="sourceLineNo">399</span>     * {@link #appendTo(Appendable, Iterable)}, except that it does not throw {@link IOException}.<a name="line.399"></a>
-<span class="sourceLineNo">400</span>     *<a name="line.400"></a>
-<span class="sourceLineNo">401</span>     * @since 11.0<a name="line.401"></a>
-<span class="sourceLineNo">402</span>     */<a name="line.402"></a>
-<span class="sourceLineNo">403</span>    @Beta<a name="line.403"></a>
-<span class="sourceLineNo">404</span>    @CanIgnoreReturnValue<a name="line.404"></a>
-<span class="sourceLineNo">405</span>    public StringBuilder appendTo(StringBuilder builder, Iterator&lt;? extends Entry&lt;?, ?&gt;&gt; entries) {<a name="line.405"></a>
-<span class="sourceLineNo">406</span>      try {<a name="line.406"></a>
-<span class="sourceLineNo">407</span>        appendTo((Appendable) builder, entries);<a name="line.407"></a>
-<span class="sourceLineNo">408</span>      } catch (IOException impossible) {<a name="line.408"></a>
-<span class="sourceLineNo">409</span>        throw new AssertionError(impossible);<a name="line.409"></a>
-<span class="sourceLineNo">410</span>      }<a name="line.410"></a>
-<span class="sourceLineNo">411</span>      return builder;<a name="line.411"></a>
-<span class="sourceLineNo">412</span>    }<a name="line.412"></a>
-<span class="sourceLineNo">413</span><a name="line.413"></a>
-<span class="sourceLineNo">414</span>    /**<a name="line.414"></a>
-<span class="sourceLineNo">415</span>     * Returns a string containing the string representation of each entry in {@code entries}, using<a name="line.415"></a>
-<span class="sourceLineNo">416</span>     * the previously configured separator and key-value separator.<a name="line.416"></a>
-<span class="sourceLineNo">417</span>     *<a name="line.417"></a>
-<span class="sourceLineNo">418</span>     * @since 10.0<a name="line.418"></a>
-<span class="sourceLineNo">419</span>     */<a name="line.419"></a>
-<span class="sourceLineNo">420</span>    @Beta<a name="line.420"></a>
-<span class="sourceLineNo">421</span>    public String join(Iterable&lt;? extends Entry&lt;?, ?&gt;&gt; entries) {<a name="line.421"></a>
-<span class="sourceLineNo">422</span>      return join(entries.iterator());<a name="line.422"></a>
-<span class="sourceLineNo">423</span>    }<a name="line.423"></a>
-<span class="sourceLineNo">424</span><a name="line.424"></a>
-<span class="sourceLineNo">425</span>    /**<a name="line.425"></a>
-<span class="sourceLineNo">426</span>     * Returns a string containing the string representation of each entry in {@code entries}, using<a name="line.426"></a>
-<span class="sourceLineNo">427</span>     * the previously configured separator and key-value separator.<a name="line.427"></a>
-<span class="sourceLineNo">428</span>     *<a name="line.428"></a>
-<span class="sourceLineNo">429</span>     * @since 11.0<a name="line.429"></a>
-<span class="sourceLineNo">430</span>     */<a name="line.430"></a>
-<span class="sourceLineNo">431</span>    @Beta<a name="line.431"></a>
-<span class="sourceLineNo">432</span>    public String join(Iterator&lt;? extends Entry&lt;?, ?&gt;&gt; entries) {<a name="line.432"></a>
-<span class="sourceLineNo">433</span>      return appendTo(new StringBuilder(), entries).toString();<a name="line.433"></a>
-<span class="sourceLineNo">434</span>    }<a name="line.434"></a>
-<span class="sourceLineNo">435</span><a name="line.435"></a>
-<span class="sourceLineNo">436</span>    /**<a name="line.436"></a>
-<span class="sourceLineNo">437</span>     * Returns a map joiner with the same behavior as this one, except automatically substituting<a name="line.437"></a>
-<span class="sourceLineNo">438</span>     * {@code nullText} for any provided null keys or values.<a name="line.438"></a>
-<span class="sourceLineNo">439</span>     */<a name="line.439"></a>
-<span class="sourceLineNo">440</span>    public MapJoiner useForNull(String nullText) {<a name="line.440"></a>
-<span class="sourceLineNo">441</span>      return new MapJoiner(joiner.useForNull(nullText), keyValueSeparator);<a name="line.441"></a>
-<span class="sourceLineNo">442</span>    }<a name="line.442"></a>
-<span class="sourceLineNo">443</span>  }<a name="line.443"></a>
-<span class="sourceLineNo">444</span><a name="line.444"></a>
-<span class="sourceLineNo">445</span>  CharSequence toString(Object part) {<a name="line.445"></a>
-<span class="sourceLineNo">446</span>    checkNotNull(part); // checkNotNull for GWT (do not optimize).<a name="line.446"></a>
-<span class="sourceLineNo">447</span>    return (part instanceof CharSequence) ? (CharSequence) part : part.toString();<a name="line.447"></a>
-<span class="sourceLineNo">448</span>  }<a name="line.448"></a>
-<span class="sourceLineNo">449</span><a name="line.449"></a>
-<span class="sourceLineNo">450</span>  private static Iterable&lt;Object&gt; iterable(<a name="line.450"></a>
-<span class="sourceLineNo">451</span>      final Object first, final Object second, final Object[] rest) {<a name="line.451"></a>
-<span class="sourceLineNo">452</span>    checkNotNull(rest);<a name="line.452"></a>
-<span class="sourceLineNo">453</span>    return new AbstractList&lt;Object&gt;() {<a name="line.453"></a>
-<span class="sourceLineNo">454</span>      @Override<a name="line.454"></a>
-<span class="sourceLineNo">455</span>      public int size() {<a name="line.455"></a>
-<span class="sourceLineNo">456</span>        return rest.length + 2;<a name="line.456"></a>
-<span class="sourceLineNo">457</span>      }<a name="line.457"></a>
-<span class="sourceLineNo">458</span><a name="line.458"></a>
-<span class="sourceLineNo">459</span>      @Override<a name="line.459"></a>
-<span class="sourceLineNo">460</span>      public Object get(int index) {<a name="line.460"></a>
-<span class="sourceLineNo">461</span>        switch (index) {<a name="line.461"></a>
-<span class="sourceLineNo">462</span>          case 0:<a name="line.462"></a>
-<span class="sourceLineNo">463</span>            return first;<a name="line.463"></a>
-<span class="sourceLineNo">464</span>          case 1:<a name="line.464"></a>
-<span class="sourceLineNo">465</span>            return second;<a name="line.465"></a>
-<span class="sourceLineNo">466</span>          default:<a name="line.466"></a>
-<span class="sourceLineNo">467</span>            return rest[index - 2];<a name="line.467"></a>
-<span class="sourceLineNo">468</span>        }<a name="line.468"></a>
-<span class="sourceLineNo">469</span>      }<a name="line.469"></a>
-<span class="sourceLineNo">470</span>    };<a name="line.470"></a>
-<span class="sourceLineNo">471</span>  }<a name="line.471"></a>
-<span class="sourceLineNo">472</span>}<a name="line.472"></a>
+<span class="sourceLineNo">349</span>    public String join(Map&lt;?, ?&gt; map) {<a name="line.349"></a>
+<span class="sourceLineNo">350</span>      return join(map.entrySet());<a name="line.350"></a>
+<span class="sourceLineNo">351</span>    }<a name="line.351"></a>
+<span class="sourceLineNo">352</span><a name="line.352"></a>
+<span class="sourceLineNo">353</span>    /**<a name="line.353"></a>
+<span class="sourceLineNo">354</span>     * Appends the string representation of each entry in {@code entries}, using the previously<a name="line.354"></a>
+<span class="sourceLineNo">355</span>     * configured separator and key-value separator, to {@code appendable}.<a name="line.355"></a>
+<span class="sourceLineNo">356</span>     *<a name="line.356"></a>
+<span class="sourceLineNo">357</span>     * @since 10.0<a name="line.357"></a>
+<span class="sourceLineNo">358</span>     */<a name="line.358"></a>
+<span class="sourceLineNo">359</span>    @Beta<a name="line.359"></a>
+<span class="sourceLineNo">360</span>    @CanIgnoreReturnValue<a name="line.360"></a>
+<span class="sourceLineNo">361</span>    public &lt;A extends Appendable&gt; A appendTo(A appendable, Iterable&lt;? extends Entry&lt;?, ?&gt;&gt; entries)<a name="line.361"></a>
+<span class="sourceLineNo">362</span>        throws IOException {<a name="line.362"></a>
+<span class="sourceLineNo">363</span>      return appendTo(appendable, entries.iterator());<a name="line.363"></a>
+<span class="sourceLineNo">364</span>    }<a name="line.364"></a>
+<span class="sourceLineNo">365</span><a name="line.365"></a>
+<span class="sourceLineNo">366</span>    /**<a name="line.366"></a>
+<span class="sourceLineNo">367</span>     * Appends the string representation of each entry in {@code entries}, using the previously<a name="line.367"></a>
+<span class="sourceLineNo">368</span>     * configured separator and key-value separator, to {@code appendable}.<a name="line.368"></a>
+<span class="sourceLineNo">369</span>     *<a name="line.369"></a>
+<span class="sourceLineNo">370</span>     * @since 11.0<a name="line.370"></a>
+<span class="sourceLineNo">371</span>     */<a name="line.371"></a>
+<span class="sourceLineNo">372</span>    @Beta<a name="line.372"></a>
+<span class="sourceLineNo">373</span>    @CanIgnoreReturnValue<a name="line.373"></a>
+<span class="sourceLineNo">374</span>    public &lt;A extends Appendable&gt; A appendTo(A appendable, Iterator&lt;? extends Entry&lt;?, ?&gt;&gt; parts)<a name="line.374"></a>
+<span class="sourceLineNo">375</span>        throws IOException {<a name="line.375"></a>
+<span class="sourceLineNo">376</span>      checkNotNull(appendable);<a name="line.376"></a>
+<span class="sourceLineNo">377</span>      if (parts.hasNext()) {<a name="line.377"></a>
+<span class="sourceLineNo">378</span>        Entry&lt;?, ?&gt; entry = parts.next();<a name="line.378"></a>
+<span class="sourceLineNo">379</span>        appendable.append(joiner.toString(entry.getKey()));<a name="line.379"></a>
+<span class="sourceLineNo">380</span>        appendable.append(keyValueSeparator);<a name="line.380"></a>
+<span class="sourceLineNo">381</span>        appendable.append(joiner.toString(entry.getValue()));<a name="line.381"></a>
+<span class="sourceLineNo">382</span>        while (parts.hasNext()) {<a name="line.382"></a>
+<span class="sourceLineNo">383</span>          appendable.append(joiner.separator);<a name="line.383"></a>
+<span class="sourceLineNo">384</span>          Entry&lt;?, ?&gt; e = parts.next();<a name="line.384"></a>
+<span class="sourceLineNo">385</span>          appendable.append(joiner.toString(e.getKey()));<a name="line.385"></a>
+<span class="sourceLineNo">386</span>          appendable.append(keyValueSeparator);<a name="line.386"></a>
+<span class="sourceLineNo">387</span>          appendable.append(joiner.toString(e.getValue()));<a name="line.387"></a>
+<span class="sourceLineNo">388</span>        }<a name="line.388"></a>
+<span class="sourceLineNo">389</span>      }<a name="line.389"></a>
+<span class="sourceLineNo">390</span>      return appendable;<a name="line.390"></a>
+<span class="sourceLineNo">391</span>    }<a name="line.391"></a>
+<span class="sourceLineNo">392</span><a name="line.392"></a>
+<span class="sourceLineNo">393</span>    /**<a name="line.393"></a>
+<span class="sourceLineNo">394</span>     * Appends the string representation of each entry in {@code entries}, using the previously<a name="line.394"></a>
+<span class="sourceLineNo">395</span>     * configured separator and key-value separator, to {@code builder}. Identical to<a name="line.395"></a>
+<span class="sourceLineNo">396</span>     * {@link #appendTo(Appendable, Iterable)}, except that it does not throw {@link IOException}.<a name="line.396"></a>
+<span class="sourceLineNo">397</span>     *<a name="line.397"></a>
+<span class="sourceLineNo">398</span>     * @since 10.0<a name="line.398"></a>
+<span class="sourceLineNo">399</span>     */<a name="line.399"></a>
+<span class="sourceLineNo">400</span>    @Beta<a name="line.400"></a>
+<span class="sourceLineNo">401</span>    @CanIgnoreReturnValue<a name="line.401"></a>
+<span class="sourceLineNo">402</span>    public StringBuilder appendTo(StringBuilder builder, Iterable&lt;? extends Entry&lt;?, ?&gt;&gt; entries) {<a name="line.402"></a>
+<span class="sourceLineNo">403</span>      return appendTo(builder, entries.iterator());<a name="line.403"></a>
+<span class="sourceLineNo">404</span>    }<a name="line.404"></a>
+<span class="sourceLineNo">405</span><a name="line.405"></a>
+<span class="sourceLineNo">406</span>    /**<a name="line.406"></a>
+<span class="sourceLineNo">407</span>     * Appends the string representation of each entry in {@code entries}, using the previously<a name="line.407"></a>
+<span class="sourceLineNo">408</span>     * configured separator and key-value separator, to {@code builder}. Identical to<a name="line.408"></a>
+<span class="sourceLineNo">409</span>     * {@link #appendTo(Appendable, Iterable)}, except that it does not throw {@link IOException}.<a name="line.409"></a>
+<span class="sourceLineNo">410</span>     *<a name="line.410"></a>
+<span class="sourceLineNo">411</span>     * @since 11.0<a name="line.411"></a>
+<span class="sourceLineNo">412</span>     */<a name="line.412"></a>
+<span class="sourceLineNo">413</span>    @Beta<a name="line.413"></a>
+<span class="sourceLineNo">414</span>    @CanIgnoreReturnValue<a name="line.414"></a>
+<span class="sourceLineNo">415</span>    public StringBuilder appendTo(StringBuilder builder, Iterator&lt;? extends Entry&lt;?, ?&gt;&gt; entries) {<a name="line.415"></a>
+<span class="sourceLineNo">416</span>      try {<a name="line.416"></a>
+<span class="sourceLineNo">417</span>        appendTo((Appendable) builder, entries);<a name="line.417"></a>
+<span class="sourceLineNo">418</span>      } catch (IOException impossible) {<a name="line.418"></a>
+<span class="sourceLineNo">419</span>        throw new AssertionError(impossible);<a name="line.419"></a>
+<span class="sourceLineNo">420</span>      }<a name="line.420"></a>
+<span class="sourceLineNo">421</span>      return builder;<a name="line.421"></a>
+<span class="sourceLineNo">422</span>    }<a name="line.422"></a>
+<span class="sourceLineNo">423</span><a name="line.423"></a>
+<span class="sourceLineNo">424</span>    /**<a name="line.424"></a>
+<span class="sourceLineNo">425</span>     * Returns a string containing the string representation of each entry in {@code entries}, using<a name="line.425"></a>
+<span class="sourceLineNo">426</span>     * the previously configured separator and key-value separator.<a name="line.426"></a>
+<span class="sourceLineNo">427</span>     *<a name="line.427"></a>
+<span class="sourceLineNo">428</span>     * @since 10.0<a name="line.428"></a>
+<span class="sourceLineNo">429</span>     */<a name="line.429"></a>
+<span class="sourceLineNo">430</span>    @Beta<a name="line.430"></a>
+<span class="sourceLineNo">431</span>    public String join(Iterable&lt;? extends Entry&lt;?, ?&gt;&gt; entries) {<a name="line.431"></a>
+<span class="sourceLineNo">432</span>      return join(entries.iterator());<a name="line.432"></a>
+<span class="sourceLineNo">433</span>    }<a name="line.433"></a>
+<span class="sourceLineNo">434</span><a name="line.434"></a>
+<span class="sourceLineNo">435</span>    /**<a name="line.435"></a>
+<span class="sourceLineNo">436</span>     * Returns a string containing the string representation of each entry in {@code entries}, using<a name="line.436"></a>
+<span class="sourceLineNo">437</span>     * the previously configured separator and key-value separator.<a name="line.437"></a>
+<span class="sourceLineNo">438</span>     *<a name="line.438"></a>
+<span class="sourceLineNo">439</span>     * @since 11.0<a name="line.439"></a>
+<span class="sourceLineNo">440</span>     */<a name="line.440"></a>
+<span class="sourceLineNo">441</span>    @Beta<a name="line.441"></a>
+<span class="sourceLineNo">442</span>    public String join(Iterator&lt;? extends Entry&lt;?, ?&gt;&gt; entries) {<a name="line.442"></a>
+<span class="sourceLineNo">443</span>      return appendTo(new StringBuilder(), entries).toString();<a name="line.443"></a>
+<span class="sourceLineNo">444</span>    }<a name="line.444"></a>
+<span class="sourceLineNo">445</span><a name="line.445"></a>
+<span class="sourceLineNo">446</span>    /**<a name="line.446"></a>
+<span class="sourceLineNo">447</span>     * Returns a map joiner with the same behavior as this one, except automatically substituting<a name="line.447"></a>
+<span class="sourceLineNo">448</span>     * {@code nullText} for any provided null keys or values.<a name="line.448"></a>
+<span class="sourceLineNo">449</span>     */<a name="line.449"></a>
+<span class="sourceLineNo">450</span>    public MapJoiner useForNull(String nullText) {<a name="line.450"></a>
+<span class="sourceLineNo">451</span>      return new MapJoiner(joiner.useForNull(nullText), keyValueSeparator);<a name="line.451"></a>
+<span class="sourceLineNo">452</span>    }<a name="line.452"></a>
+<span class="sourceLineNo">453</span>  }<a name="line.453"></a>
+<span class="sourceLineNo">454</span><a name="line.454"></a>
+<span class="sourceLineNo">455</span>  CharSequence toString(Object part) {<a name="line.455"></a>
+<span class="sourceLineNo">456</span>    checkNotNull(part); // checkNotNull for GWT (do not optimize).<a name="line.456"></a>
+<span class="sourceLineNo">457</span>    return (part instanceof CharSequence) ? (CharSequence) part : part.toString();<a name="line.457"></a>
+<span class="sourceLineNo">458</span>  }<a name="line.458"></a>
+<span class="sourceLineNo">459</span><a name="line.459"></a>
+<span class="sourceLineNo">460</span>  private static Iterable&lt;Object&gt; iterable(<a name="line.460"></a>
+<span class="sourceLineNo">461</span>      final Object first, final Object second, final Object[] rest) {<a name="line.461"></a>
+<span class="sourceLineNo">462</span>    checkNotNull(rest);<a name="line.462"></a>
+<span class="sourceLineNo">463</span>    return new AbstractList&lt;Object&gt;() {<a name="line.463"></a>
+<span class="sourceLineNo">464</span>      @Override<a name="line.464"></a>
+<span class="sourceLineNo">465</span>      public int size() {<a name="line.465"></a>
+<span class="sourceLineNo">466</span>        return rest.length + 2;<a name="line.466"></a>
+<span class="sourceLineNo">467</span>      }<a name="line.467"></a>
+<span class="sourceLineNo">468</span><a name="line.468"></a>
+<span class="sourceLineNo">469</span>      @Override<a name="line.469"></a>
+<span class="sourceLineNo">470</span>      public Object get(int index) {<a name="line.470"></a>
+<span class="sourceLineNo">471</span>        switch (index) {<a name="line.471"></a>
+<span class="sourceLineNo">472</span>          case 0:<a name="line.472"></a>
+<span class="sourceLineNo">473</span>            return first;<a name="line.473"></a>
+<span class="sourceLineNo">474</span>          case 1:<a name="line.474"></a>
+<span class="sourceLineNo">475</span>            return second;<a name="line.475"></a>
+<span class="sourceLineNo">476</span>          default:<a name="line.476"></a>
+<span class="sourceLineNo">477</span>            return rest[index - 2];<a name="line.477"></a>
+<span class="sourceLineNo">478</span>        }<a name="line.478"></a>
+<span class="sourceLineNo">479</span>      }<a name="line.479"></a>
+<span class="sourceLineNo">480</span>    };<a name="line.480"></a>
+<span class="sourceLineNo">481</span>  }<a name="line.481"></a>
+<span class="sourceLineNo">482</span>}<a name="line.482"></a>
 
 
 

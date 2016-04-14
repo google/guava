@@ -28,7 +28,7 @@
 <span class="sourceLineNo">020</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.20"></a>
 <span class="sourceLineNo">021</span><a name="line.21"></a>
 <span class="sourceLineNo">022</span>/**<a name="line.22"></a>
-<span class="sourceLineNo">023</span> * A subinterface of {@code Graph} which specifies that all edges are hyperedges, that is,<a name="line.23"></a>
+<span class="sourceLineNo">023</span> * A subinterface of {@link Network} which specifies that all edges are hyperedges, that is,<a name="line.23"></a>
 <span class="sourceLineNo">024</span> * they connect arbitrary sets of nodes rather than pairs of nodes.<a name="line.24"></a>
 <span class="sourceLineNo">025</span> *<a name="line.25"></a>
 <span class="sourceLineNo">026</span> * &lt;p&gt;A few notes about how hyperedges and connectivity:<a name="line.26"></a>
@@ -45,7 +45,7 @@
 <span class="sourceLineNo">037</span> * @since 20.0<a name="line.37"></a>
 <span class="sourceLineNo">038</span> */<a name="line.38"></a>
 <span class="sourceLineNo">039</span>@Beta<a name="line.39"></a>
-<span class="sourceLineNo">040</span>public interface Hypergraph&lt;N, E&gt; extends Graph&lt;N, E&gt; {<a name="line.40"></a>
+<span class="sourceLineNo">040</span>public interface Hypergraph&lt;N, E&gt; extends Network&lt;N, E&gt; {<a name="line.40"></a>
 <span class="sourceLineNo">041</span>  /**<a name="line.41"></a>
 <span class="sourceLineNo">042</span>   * Source is not applicable to hypergraphs.<a name="line.42"></a>
 <span class="sourceLineNo">043</span>   *<a name="line.43"></a>
