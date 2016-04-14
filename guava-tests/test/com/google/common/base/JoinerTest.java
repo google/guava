@@ -238,7 +238,7 @@ public class JoinerTest extends TestCase {
   }
 
   public void testMap() {
-    MapJoiner j = Joiner.on(";").withKeyValueSeparator(":");
+    MapJoiner j = Joiner.on(';').withKeyValueSeparator(':');
     assertEquals("", j.join(ImmutableMap.of()));
     assertEquals(":", j.join(ImmutableMap.of("", "")));
 

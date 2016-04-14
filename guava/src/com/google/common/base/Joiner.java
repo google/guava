@@ -281,6 +281,16 @@ public class Joiner {
   /**
    * Returns a {@code MapJoiner} using the given key-value separator, and the same configuration as
    * this {@code Joiner} otherwise.
+   *
+   * @since 20.0
+   */
+  public MapJoiner withKeyValueSeparator(char keyValueSeparator) {
+    return withKeyValueSeparator(String.valueOf(keyValueSeparator));
+  }
+
+  /**
+   * Returns a {@code MapJoiner} using the given key-value separator, and the same configuration as
+   * this {@code Joiner} otherwise.
    */
   public MapJoiner withKeyValueSeparator(String keyValueSeparator) {
     return new MapJoiner(this, keyValueSeparator);
