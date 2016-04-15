@@ -25,12 +25,13 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.regex.Pattern.quote;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Iterables;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 
-import java.io.FileNotFoundException;
 import java.security.Permission;
 import java.security.Policy;
 import java.security.ProtectionDomain;
@@ -41,6 +42,7 @@ import java.util.List;
  *
  * @author Kevin Bourrillion
  */
+@GwtCompatible(emulated = true)
 public class ThrowablesTest extends TestCase {
   public void testThrowIfUnchecked_Unchecked() {
     try {
@@ -118,6 +120,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Throwables.propagateIfPossible(Throwable, Class)")
   public void testPropagateIfPossible_OneDeclared_NoneThrown()
       throws SomeCheckedException {
     Sample sample = new Sample() {
@@ -137,6 +140,7 @@ public class ThrowablesTest extends TestCase {
     sample.oneDeclared();
   }
 
+  @GwtIncompatible("Throwables.propagateIfPossible(Throwable, Class)")
   public void testPropagateIfPossible_OneDeclared_UncheckedThrown()
       throws SomeCheckedException {
     Sample sample = new Sample() {
@@ -158,6 +162,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Throwables.propagateIfPossible(Throwable, Class)")
   public void testPropagateIfPossible_OneDeclared_CheckedThrown() {
     Sample sample = new Sample() {
       @Override public void oneDeclared() throws SomeCheckedException {
@@ -178,6 +183,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Throwables.propagateIfPossible(Throwable, Class)")
   public void testPropagateIfPossible_OneDeclared_UndeclaredThrown()
       throws SomeCheckedException {
     Sample sample = new Sample() {
@@ -199,6 +205,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Throwables.propagateIfPossible(Throwable, Class, Class)")
   public void testPropagateIfPossible_TwoDeclared_NoneThrown()
       throws SomeCheckedException, SomeOtherCheckedException {
     Sample sample = new Sample() {
@@ -218,6 +225,7 @@ public class ThrowablesTest extends TestCase {
     sample.twoDeclared();
   }
 
+  @GwtIncompatible("Throwables.propagateIfPossible(Throwable, Class, Class)")
   public void testPropagateIfPossible_TwoDeclared_UncheckedThrown()
       throws SomeCheckedException, SomeOtherCheckedException {
     Sample sample = new Sample() {
@@ -241,6 +249,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Throwables.propagateIfPossible(Throwable, Class, Class)")
   public void testPropagateIfPossible_TwoDeclared_CheckedThrown()
       throws SomeOtherCheckedException {
     Sample sample = new Sample() {
@@ -264,6 +273,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Throwables.propagateIfPossible(Throwable, Class, Class)")
   public void testPropagateIfPossible_TwoDeclared_OtherCheckedThrown()
       throws SomeCheckedException {
     Sample sample = new Sample() {
@@ -297,7 +307,15 @@ public class ThrowablesTest extends TestCase {
 
   public void testPropageIfPossible_null() throws SomeCheckedException {
     Throwables.propagateIfPossible(null);
+  }
+
+  @GwtIncompatible("Throwables.propagateIfPossible(Throwable, Class)")
+  public void testPropageIfPossible_OneDeclared_null() throws SomeCheckedException {
     Throwables.propagateIfPossible(null, SomeCheckedException.class);
+  }
+
+  @GwtIncompatible("Throwables.propagateIfPossible(Throwable, Class, Class)")
+  public void testPropageIfPossible_TwoDeclared_null() throws SomeCheckedException {
     Throwables.propagateIfPossible(null, SomeCheckedException.class,
         SomeUncheckedException.class);
   }
@@ -371,18 +389,21 @@ public class ThrowablesTest extends TestCase {
       sample.noneDeclared();
       fail();
     } catch (RuntimeException expected) {
-      assertThat(expected.getCause()).isInstanceOf(SomeCheckedException.class);
+      assertTrue(expected.getCause() instanceof SomeCheckedException);
     }
   }
 
+  @GwtIncompatible("Throwables.throwIfInstanceOf(Throwable, Class)")
   public void testThrowIfInstanceOf_Unchecked() throws SomeCheckedException {
     throwIfInstanceOf(new SomeUncheckedException(), SomeCheckedException.class);
   }
 
+  @GwtIncompatible("Throwables.throwIfInstanceOf(Throwable, Class)")
   public void testThrowIfInstanceOf_CheckedDifferent() throws SomeCheckedException {
     throwIfInstanceOf(new SomeOtherCheckedException(), SomeCheckedException.class);
   }
 
+  @GwtIncompatible("Throwables.throwIfInstanceOf(Throwable, Class)")
   public void testThrowIfInstanceOf_CheckedSame() {
     try {
       throwIfInstanceOf(new SomeCheckedException(), SomeCheckedException.class);
@@ -391,6 +412,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Throwables.throwIfInstanceOf(Throwable, Class)")
   public void testThrowIfInstanceOf_CheckedSubclass() {
     try {
       throwIfInstanceOf(new SomeCheckedException() {}, SomeCheckedException.class);
@@ -399,6 +421,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Throwables.throwIfInstanceOf(Throwable, Class)")
   public void testPropagateIfInstanceOf_NoneThrown()
       throws SomeCheckedException {
     Sample sample = new Sample() {
@@ -416,6 +439,7 @@ public class ThrowablesTest extends TestCase {
     sample.oneDeclared();
   }
 
+  @GwtIncompatible("Throwables.throwIfInstanceOf(Throwable, Class)")
   public void testPropagateIfInstanceOf_DeclaredThrown() {
     Sample sample = new Sample() {
       @Override public void oneDeclared() throws SomeCheckedException {
@@ -436,6 +460,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Throwables.throwIfInstanceOf(Throwable, Class)")
   public void testPropagateIfInstanceOf_UncheckedThrown()
       throws SomeCheckedException {
     Sample sample = new Sample() {
@@ -457,6 +482,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Throwables.throwIfInstanceOf(Throwable, Class)")
   public void testPropagateIfInstanceOf_UndeclaredThrown()
       throws SomeCheckedException {
     Sample sample = new Sample() {
@@ -479,6 +505,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Throwables.throwIfInstanceOf(Throwable, Class)")
   public void testThrowIfInstanceOf_null() throws SomeCheckedException {
     try {
       throwIfInstanceOf(null, SomeCheckedException.class);
@@ -487,6 +514,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Throwables.throwIfInstanceOf(Throwable, Class)")
   public void testPropageIfInstanceOf_null() throws SomeCheckedException {
     Throwables.propagateIfInstanceOf(null, SomeCheckedException.class);
   }
@@ -544,6 +572,7 @@ public class ThrowablesTest extends TestCase {
     throw new SomeUndeclaredCheckedException();
   }
 
+  @GwtIncompatible("Throwables.getStackTraceAsString(Throwable)")
   public void testGetStackTraceAsString() {
     class StackTraceException extends Exception {
       StackTraceException(String message) {
@@ -561,13 +590,13 @@ public class ThrowablesTest extends TestCase {
   }
 
   public void testGetCausalChain() {
-    FileNotFoundException fnfe = new FileNotFoundException();
-    IllegalArgumentException iae = new IllegalArgumentException(fnfe);
+    SomeUncheckedException sue = new SomeUncheckedException();
+    IllegalArgumentException iae = new IllegalArgumentException(sue);
     RuntimeException re = new RuntimeException(iae);
     IllegalStateException ex = new IllegalStateException(re);
 
-    assertEquals(asList(ex, re, iae, fnfe), Throwables.getCausalChain(ex));
-    assertSame(fnfe, Iterables.getOnlyElement(Throwables.getCausalChain(fnfe)));
+    assertEquals(asList(ex, re, iae, sue), Throwables.getCausalChain(ex));
+    assertSame(sue, Iterables.getOnlyElement(Throwables.getCausalChain(sue)));
 
     List<Throwable> causes = Throwables.getCausalChain(ex);
     try {
@@ -586,11 +615,13 @@ public class ThrowablesTest extends TestCase {
   }
 
   @AndroidIncompatible // No getJavaLangAccess in Android (at least not in the version we use).
+  @GwtIncompatible("Throwables.lazyStackTraceIsLazy()")
   public void testLazyStackTraceWorksInProd() {
     // Obviously this isn't guaranteed in every environment, but it works well enough for now:
     assertTrue(lazyStackTraceIsLazy());
   }
 
+  @GwtIncompatible("Throwables.lazyStackTrace(Throwable)")
   public void testLazyStackTrace() {
     Exception e = new Exception();
     StackTraceElement[] originalStackTrace = e.getStackTrace();
@@ -637,6 +668,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("NullPointerTester")
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(Throwables.class);
   }
