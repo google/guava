@@ -407,6 +407,48 @@ public final class BigIntegerMath {
         return listProduct(nums, start, m).multiply(listProduct(nums, m, end));
     }
   }
+  
+  /**
+   * Returns the greatest value present in {@code array}.
+   *
+   * @param array a <i>nonempty</i> array of {@code BigInteger} values
+   * @return the value present in {@code array} that is greater than or equal to every other value
+   *     in the array
+   * @throws IllegalArgumentException if {@code array} is empty or contains null element
+   */
+  public static BigInteger max(BigInteger... array) {
+    checkArgument(array.length > 0);
+    checkArgument(array[0] != null);
+    BigInteger max = array[0];
+    for (int i = 1; i < array.length; i++) {
+      checkArgument(array[i] != null);	
+      if (array[i].compareTo(max) > 0) {
+        max = array[i];
+      }
+    }
+    return max;
+  }  
+  
+  /**
+   * Returns the least value present in {@code array}.
+   *
+   * @param array a <i>nonempty</i> array of {@code BigInteger} values
+   * @return the value present in {@code array} that is less than or equal to every other value
+   *     in the array
+   * @throws IllegalArgumentException if {@code array} is empty or contains null element
+   */
+  public static BigInteger min(BigInteger... array) {
+    checkArgument(array.length > 0);
+    checkArgument(array[0] != null);
+    BigInteger min = array[0];
+    for (int i = 1; i < array.length; i++) {
+      checkArgument(array[i] != null);	
+      if (array[i].compareTo(min) < 0) {
+        min = array[i];
+      }
+    }
+    return min;
+  }   
 
   /**
    * Returns {@code n} choose {@code k}, also known as the binomial coefficient of {@code n} and

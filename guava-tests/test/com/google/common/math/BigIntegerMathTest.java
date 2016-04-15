@@ -533,6 +533,56 @@ public class BigIntegerMathTest extends TestCase {
       } catch (IllegalArgumentException expected) {}
     }
   }
+  
+  public void testMaxEmpty() {
+    try {
+      BigIntegerMath.max();
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {}
+  }
+  
+  public void testMaxNullElement() {
+    try {
+      BigIntegerMath.max(null, new BigInteger("1"));
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {}
+    try {
+      BigIntegerMath.max(new BigInteger("1"), null);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {}    
+  }
+  
+  public void testMax() {
+    BigInteger expected = new BigInteger("3");
+    assertEquals(expected, BigIntegerMath.max(new BigInteger("1"), new BigInteger("2"), new BigInteger("3")));
+    assertEquals(expected, BigIntegerMath.max(new BigInteger("3"), new BigInteger("2"), new BigInteger("1")));
+    assertEquals(expected, BigIntegerMath.max(new BigInteger[]{new BigInteger("3"), new BigInteger("2"), new BigInteger("1")}));
+  }
+  
+  public void testMinEmpty() {
+	try {
+      BigIntegerMath.min();
+      fail("Expected IllegalArgumentException");
+	} catch (IllegalArgumentException expected) {}
+  }
+
+  public void testMinNullElement() {
+    try {
+	  BigIntegerMath.min(null, new BigInteger("1"));
+	  fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {}
+    try {
+      BigIntegerMath.min(new BigInteger("1"), null);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {}    
+  }
+
+  public void testMin() {
+	BigInteger expected = new BigInteger("1");
+	assertEquals(expected, BigIntegerMath.min(new BigInteger("1"), new BigInteger("2"), new BigInteger("3")));
+	assertEquals(expected, BigIntegerMath.min(new BigInteger("3"), new BigInteger("2"), new BigInteger("1")));
+	assertEquals(expected, BigIntegerMath.min(new BigInteger[]{new BigInteger("3"), new BigInteger("2"), new BigInteger("1")}));
+  }  
 
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
