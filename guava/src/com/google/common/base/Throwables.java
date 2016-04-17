@@ -19,6 +19,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -44,7 +45,7 @@ import javax.annotation.Nullable;
  * @author Ben Yu
  * @since 1.0
  */
-@GwtIncompatible
+@GwtCompatible(emulated = true)
 public final class Throwables {
   private Throwables() {}
 
@@ -68,6 +69,7 @@ public final class Throwables {
    *
    * @since 20.0
    */
+  @GwtIncompatible // Class.cast, Class.isInstance
   public static <X extends Throwable> void throwIfInstanceOf(
       Throwable throwable, Class<X> declaredType) throws X {
     checkNotNull(throwable);
@@ -95,6 +97,7 @@ public final class Throwables {
    * }
    * </pre>
    */
+  @GwtIncompatible // throwIfInstanceOf
   public static <X extends Throwable> void propagateIfInstanceOf(
       @Nullable Throwable throwable, Class<X> declaredType) throws X {
     if (throwable != null) {
@@ -149,6 +152,7 @@ public final class Throwables {
    * }
    * </pre>
    */
+  @GwtIncompatible // to be deprecated
   public static void propagateIfPossible(@Nullable Throwable throwable) {
     if (throwable != null) {
       throwIfUnchecked(throwable);
@@ -173,6 +177,7 @@ public final class Throwables {
    * @param throwable the Throwable to possibly propagate
    * @param declaredType the single checked exception type declared by the calling method
    */
+  @GwtIncompatible // propagateIfInstanceOf
   public static <X extends Throwable> void propagateIfPossible(
       @Nullable Throwable throwable, Class<X> declaredType) throws X {
     propagateIfInstanceOf(throwable, declaredType);
@@ -190,6 +195,7 @@ public final class Throwables {
    * @param declaredType1 any checked exception type declared by the calling method
    * @param declaredType2 any other checked exception type declared by the calling method
    */
+  @GwtIncompatible // propagateIfInstanceOf
   public static <X1 extends Throwable, X2 extends Throwable> void propagateIfPossible(
       @Nullable Throwable throwable, Class<X1> declaredType1, Class<X2> declaredType2)
       throws X1, X2 {
@@ -227,6 +233,7 @@ public final class Throwables {
    *     illustrated in the example above
    */
   @CanIgnoreReturnValue
+  @GwtIncompatible // to be deprecated
   public static RuntimeException propagate(Throwable throwable) {
     throwIfUnchecked(throwable);
     throw new RuntimeException(throwable);
@@ -280,6 +287,7 @@ public final class Throwables {
    * parsing the resulting string; if you need programmatic access to the stack frames, you can call
    * {@link Throwable#getStackTrace()}.
    */
+  @GwtIncompatible // java.io.PrintWriter, java.io.StringWriter
   public static String getStackTraceAsString(Throwable throwable) {
     StringWriter stringWriter = new StringWriter();
     throwable.printStackTrace(new PrintWriter(stringWriter));
@@ -314,6 +322,8 @@ public final class Throwables {
    */
   // TODO(cpovirk): Say something about the possibility that List access could fail at runtime?
   @Beta
+  @GwtIncompatible // lazyStackTraceIsLazy, jlaStackTrace
+  // TODO(cpovirk): Consider making this available under GWT (slow implementation only).
   public static List<StackTraceElement> lazyStackTrace(Throwable throwable) {
     return lazyStackTraceIsLazy()
         ? jlaStackTrace(throwable)
@@ -327,10 +337,12 @@ public final class Throwables {
    * @since 19.0
    */
   @Beta
+  @GwtIncompatible // getStackTraceElementMethod
   public static boolean lazyStackTraceIsLazy() {
     return getStackTraceElementMethod != null & getStackTraceDepthMethod != null;
   }
 
+  @GwtIncompatible // invokeAccessibleNonThrowingMethod
   private static List<StackTraceElement> jlaStackTrace(final Throwable t) {
     checkNotNull(t);
     /*
@@ -353,6 +365,7 @@ public final class Throwables {
     };
   }
 
+  @GwtIncompatible // java.lang.reflect
   private static Object invokeAccessibleNonThrowingMethod(
       Method method, Object receiver, Object... params) {
     try {
@@ -365,18 +378,24 @@ public final class Throwables {
   }
 
   /** JavaLangAccess class name to load using reflection */
+  @GwtIncompatible // not used by GWT emulation
   private static final String JAVA_LANG_ACCESS_CLASSNAME = "sun.misc.JavaLangAccess";
 
   /** SharedSecrets class name to load using reflection */
-  @VisibleForTesting static final String SHARED_SECRETS_CLASSNAME = "sun.misc.SharedSecrets";
+  @GwtIncompatible // not used by GWT emulation
+  @VisibleForTesting
+  static final String SHARED_SECRETS_CLASSNAME = "sun.misc.SharedSecrets";
 
   /** Access to some fancy internal JVM internals. */
-  @Nullable private static final Object jla = getJLA();
+  @GwtIncompatible // java.lang.reflect
+  @Nullable
+  private static final Object jla = getJLA();
 
   /**
    * The "getStackTraceElementMethod" method, only available on some JDKs so we use reflection to
    * find it when available. When this is null, use the slow way.
    */
+  @GwtIncompatible // java.lang.reflect
   @Nullable
   private static final Method getStackTraceElementMethod = (jla == null) ? null : getGetMethod();
 
@@ -384,6 +403,7 @@ public final class Throwables {
    * The "getStackTraceDepth" method, only available on some JDKs so we use reflection to find it
    * when available. When this is null, use the slow way.
    */
+  @GwtIncompatible // java.lang.reflect
   @Nullable
   private static final Method getStackTraceDepthMethod = (jla == null) ? null : getSizeMethod();
 
@@ -391,6 +411,7 @@ public final class Throwables {
    * Returns the JavaLangAccess class that is present in all Sun JDKs. It is not whitelisted for
    * AppEngine, and not present in non-Sun JDKs.
    */
+  @GwtIncompatible // java.lang.reflect
   @Nullable
   private static Object getJLA() {
     try {
@@ -416,6 +437,7 @@ public final class Throwables {
    * Returns the Method that can be used to resolve an individual StackTraceElement, or null if that
    * method cannot be found (it is only to be found in fairly recent JDKs).
    */
+  @GwtIncompatible // java.lang.reflect
   @Nullable
   private static Method getGetMethod() {
     return getJlaMethod("getStackTraceElement", Throwable.class, int.class);
@@ -425,11 +447,13 @@ public final class Throwables {
    * Returns the Method that can be used to return the size of a stack, or null if that method
    * cannot be found (it is only to be found in fairly recent JDKs).
    */
+  @GwtIncompatible // java.lang.reflect
   @Nullable
   private static Method getSizeMethod() {
     return getJlaMethod("getStackTraceDepth", Throwable.class);
   }
 
+  @GwtIncompatible // java.lang.reflect
   @Nullable
   private static Method getJlaMethod(String name, Class<?>... parameterTypes) throws ThreadDeath {
     try {
