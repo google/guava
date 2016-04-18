@@ -820,7 +820,7 @@ public final class Maps {
 
     @Override
     Collection<V> createValues() {
-      return Collections2.transform(set, function);
+      return CollectionsExtension.transform(set, function);
     }
 
     @Override
@@ -835,7 +835,7 @@ public final class Maps {
 
     @Override
     public V get(@Nullable Object key) {
-      if (Collections2.safeContains(backingSet(), key)) {
+      if (CollectionsExtension.safeContains(backingSet(), key)) {
         @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
         return function.apply(k);
@@ -974,7 +974,7 @@ public final class Maps {
     @Override
     @Nullable
     public V get(@Nullable Object key) {
-      if (Collections2.safeContains(set, key)) {
+      if (CollectionsExtension.safeContains(set, key)) {
         @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
         return function.apply(k);
@@ -3588,13 +3588,13 @@ public final class Maps {
     return false;
   }
 
-  static final MapJoiner STANDARD_JOINER = Collections2.STANDARD_JOINER.withKeyValueSeparator("=");
+  static final MapJoiner STANDARD_JOINER = CollectionsExtension.STANDARD_JOINER.withKeyValueSeparator("=");
 
   /**
    * An implementation of {@link Map#toString}.
    */
   static String toStringImpl(Map<?, ?> map) {
-    StringBuilder sb = Collections2.newStringBuilderForCollection(map.size()).append('{');
+    StringBuilder sb = CollectionsExtension.newStringBuilderForCollection(map.size()).append('{');
     STANDARD_JOINER.appendTo(sb, map);
     return sb.append('}').toString();
   }

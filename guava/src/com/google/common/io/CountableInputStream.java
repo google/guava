@@ -31,7 +31,7 @@ import java.io.InputStream;
  */
 @Beta
 @GwtIncompatible
-public final class CountingInputStream extends FilterInputStream {
+public final class CountableInputStream extends FilterInputStream {
 
   private long count;
   private long mark = -1;
@@ -41,7 +41,7 @@ public final class CountingInputStream extends FilterInputStream {
    *
    * @param in the input stream to be wrapped
    */
-  public CountingInputStream(InputStream in) {
+  public CountableInputStream(InputStream in) {
     super(checkNotNull(in));
   }
 

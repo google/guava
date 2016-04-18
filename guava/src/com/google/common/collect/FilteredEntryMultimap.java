@@ -22,7 +22,7 @@ import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.j2objc.annotations.WeakOuter;
@@ -90,7 +90,7 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
     if (collection instanceof Set) {
       return Sets.filter((Set<E>) collection, predicate);
     } else {
-      return Collections2.filter(collection, predicate);
+      return CollectionsExtension.filter(collection, predicate);
     }
   }
 
@@ -101,7 +101,7 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
 
   @Override
   public Collection<V> removeAll(@Nullable Object key) {
-    return MoreObjects.firstNonNull(asMap().remove(key), unmodifiableEmptyCollection());
+    return ObjectsExtension.firstNonNull(asMap().remove(key), unmodifiableEmptyCollection());
   }
 
   Collection<V> unmodifiableEmptyCollection() {

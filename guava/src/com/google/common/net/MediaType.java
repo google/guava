@@ -16,19 +16,18 @@ package com.google.common.net;
 
 import static com.google.common.base.CharMatcher.ascii;
 import static com.google.common.base.CharMatcher.javaIsoControl;
-import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.primitives.Charsets.UTF_8;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableListMultimap;
@@ -38,6 +37,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.google.common.primitives.Ascii;
 
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
@@ -79,9 +79,8 @@ import javax.annotation.concurrent.Immutable;
 @GwtCompatible
 @Immutable
 public final class MediaType {
-  private static final String CHARSET_ATTRIBUTE = "charset";
   private static final ImmutableListMultimap<String, String> UTF_8_CONSTANT_PARAMETERS =
-      ImmutableListMultimap.of(CHARSET_ATTRIBUTE, Ascii.toLowerCase(UTF_8.name()));
+      ImmutableListMultimap.of(HostAndPort.CHARSET_ATTRIBUTE, Ascii.toLowerCase(UTF_8.name()));
 
   /** Matcher for type, subtype and attributes. */
   private static final CharMatcher TOKEN_MATCHER =
@@ -534,7 +533,7 @@ public final class MediaType {
    *     in this instance of the Java virtual machine
    */
   public Optional<Charset> charset() {
-    ImmutableSet<String> charsetValues = ImmutableSet.copyOf(parameters.get(CHARSET_ATTRIBUTE));
+    ImmutableSet<String> charsetValues = ImmutableSet.copyOf(parameters.get(HostAndPort.CHARSET_ATTRIBUTE));
     switch (charsetValues.size()) {
       case 0:
         return Optional.absent();
@@ -584,7 +583,7 @@ public final class MediaType {
     builder.put(normalizedAttribute, normalizeParameterValue(normalizedAttribute, value));
     MediaType mediaType = new MediaType(type, subtype, builder.build());
     // Return one of the constants if the media type is a known type.
-    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
+    return ObjectsExtension.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
   }
 
   /**
@@ -598,7 +597,7 @@ public final class MediaType {
    */
   public MediaType withCharset(Charset charset) {
     checkNotNull(charset);
-    return withParameter(CHARSET_ATTRIBUTE, charset.name());
+    return withParameter(HostAndPort.CHARSET_ATTRIBUTE, charset.name());
   }
 
   /** Returns true if either the type or subtype is the wildcard. */
@@ -710,7 +709,7 @@ public final class MediaType {
     }
     MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());
     // Return one of the constants if the media type is a known type.
-    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
+    return ObjectsExtension.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
   }
 
   private static String normalizeToken(String token) {
@@ -719,7 +718,7 @@ public final class MediaType {
   }
 
   private static String normalizeParameterValue(String attribute, String value) {
-    return CHARSET_ATTRIBUTE.equals(attribute) ? Ascii.toLowerCase(value) : value;
+    return HostAndPort.CHARSET_ATTRIBUTE.equals(attribute) ? Ascii.toLowerCase(value) : value;
   }
 
   /**

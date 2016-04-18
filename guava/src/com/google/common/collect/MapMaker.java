@@ -21,13 +21,13 @@ import static com.google.common.collect.MapMakerInternalMap.Strength.SOFT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.base.Throwables;
 import com.google.common.base.Ticker;
 import com.google.common.collect.MapMakerInternalMap.Strength;
+import com.google.common.primitives.Ascii;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
@@ -153,7 +153,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Equivalence<Object> getKeyEquivalence() {
-    return MoreObjects.firstNonNull(keyEquivalence, getKeyStrength().defaultEquivalence());
+    return ObjectsExtension.firstNonNull(keyEquivalence, getKeyStrength().defaultEquivalence());
   }
 
   /**
@@ -285,7 +285,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Strength getKeyStrength() {
-    return MoreObjects.firstNonNull(keyStrength, Strength.STRONG);
+    return ObjectsExtension.firstNonNull(keyStrength, Strength.STRONG);
   }
 
   /**
@@ -352,7 +352,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Strength getValueStrength() {
-    return MoreObjects.firstNonNull(valueStrength, Strength.STRONG);
+    return ObjectsExtension.firstNonNull(valueStrength, Strength.STRONG);
   }
 
   /**
@@ -451,7 +451,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Ticker getTicker() {
-    return MoreObjects.firstNonNull(ticker, Ticker.systemTicker());
+    return ObjectsExtension.firstNonNull(ticker, Ticker.systemTicker());
   }
 
   /**
@@ -593,7 +593,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   @Override
   public String toString() {
-    MoreObjects.ToStringHelper s = MoreObjects.toStringHelper(this);
+    ObjectsExtension.ToStringHelper s = ObjectsExtension.toStringHelper(this);
     if (initialCapacity != UNSET_INT) {
       s.add("initialCapacity", initialCapacity);
     }

@@ -23,13 +23,13 @@
  * <h3>String-related utilities</h3>
  *
  * <ul>
- * <li>{@link com.google.common.base.Ascii}
+ * <li>{@link com.google.common.primitives.Ascii}
  * <li>{@link com.google.common.base.CaseFormat}
  * <li>{@link com.google.common.base.CharMatcher}
- * <li>{@link com.google.common.base.Charsets}
+ * <li>{@link com.google.common.primitives.Charsets}
  * <li>{@link com.google.common.base.Joiner}
  * <li>{@link com.google.common.base.Splitter}
- * <li>{@link com.google.common.base.Strings}
+ * <li>{@link com.google.common.primitives.Strings}
  * </ul>
  *
  * <h3>Function types</h3>
@@ -45,7 +45,7 @@
  * <h3>Other</h3>
  *
  * <ul>
- * <li>{@link com.google.common.base.Defaults}
+ * <li>{@link com.google.common.primitives.Defaults}
  * <li>{@link com.google.common.base.Enums}
  * <li>{@link com.google.common.base.Objects}
  * <li>{@link com.google.common.base.Optional}

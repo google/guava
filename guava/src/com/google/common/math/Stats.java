@@ -26,7 +26,7 @@ import static java.lang.Double.isNaN;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.base.Objects;
 
 import java.io.Serializable;
@@ -364,7 +364,7 @@ public final class Stats implements Serializable {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
+    return ObjectsExtension.toStringHelper(this)
         .add("count", count)
         .add("mean", mean)
         .add("populationStandardDeviation", populationStandardDeviation())

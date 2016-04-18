@@ -12,13 +12,14 @@
  * the License.
  */
 
-package com.google.common.base;
+package com.google.common.primitives;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.CharMatcher;
 
 /**
  * Static methods pertaining to ASCII characters (those in the range of values {@code 0x00} through

@@ -18,7 +18,7 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -153,7 +153,7 @@ final class DirectedNodeConnections<N, E> implements NodeConnections<N, E> {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
+    return ObjectsExtension.toStringHelper(this)
         .add("predecessors", predecessors)
         .add("successors", successors)
         .add("inEdges", inEdges)

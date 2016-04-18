@@ -722,7 +722,11 @@ public final class Files {
       }
     }
 
-    // put it back together
+    return joinPath(pathname, path);
+  }
+
+  private static String joinPath(String pathname, List<String> path) {
+	// put it back together
     String result = Joiner.on('/').join(path);
     if (pathname.charAt(0) == '/') {
       result = "/" + result;

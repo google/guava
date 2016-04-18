@@ -645,11 +645,11 @@ public final class Hashing {
       super(functions);
       int bitSum = 0;
       for (HashFunction function : functions) {
-        bitSum += function.bits();
+        bitSum += function.numberOfBits();
         checkArgument(
-            function.bits() % 8 == 0,
+            function.numberOfBits() % 8 == 0,
             "the number of bits (%s) in hashFunction (%s) must be divisible by 8",
-            function.bits(),
+            function.numberOfBits(),
             function);
       }
       this.bits = bitSum;
@@ -667,7 +667,7 @@ public final class Hashing {
     }
 
     @Override
-    public int bits() {
+    public int numberOfBits() {
       return bits;
     }
 

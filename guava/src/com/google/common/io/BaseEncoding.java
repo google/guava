@@ -27,9 +27,9 @@ import static java.math.RoundingMode.UNNECESSARY;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Objects;
+import com.google.common.primitives.Ascii;
 
 import java.io.IOException;
 import java.io.InputStream;

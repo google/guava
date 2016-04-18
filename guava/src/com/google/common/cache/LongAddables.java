@@ -70,5 +70,9 @@ final class LongAddables {
     public long sum() {
       return get();
     }
+
+	public final long fn(long v, long x) {
+		return 0;
+	}
   }
 }

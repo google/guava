@@ -61,7 +61,7 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public class Joiner {
+public class Joiner implements Joinable {
   /**
    * Returns a joiner which automatically places {@code separator} between consecutive elements.
    */
@@ -199,11 +199,11 @@ public class Joiner {
     return appendTo(new StringBuilder(), parts).toString();
   }
 
-  /**
-   * Returns a string containing the string representation of each of {@code parts}, using the
-   * previously configured separator between each.
-   */
-  public final String join(Object[] parts) {
+  /* (non-Javadoc)
+ * @see com.google.common.base.Joinable#join(java.lang.Object[])
+ */
+  @Override
+public final String join(Object[] parts) {
     return join(Arrays.asList(parts));
   }
 
@@ -243,7 +243,7 @@ public class Joiner {
    * Returns a joiner with the same behavior as this joiner, except automatically skipping over any
    * provided null elements.
    */
-  public Joiner skipNulls() {
+  public Joinable skipNulls() {
     return new Joiner(this) {
       @Override
       public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts) throws IOException {

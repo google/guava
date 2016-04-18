@@ -120,7 +120,7 @@ public final class Objects {
    * @param self the object to generate the string for (typically {@code this}), used only for its
    *     class name
    * @since 2.0
-   * @deprecated Use {@link MoreObjects#toStringHelper(Object)} instead. This method is scheduled
+   * @deprecated Use {@link ObjectsExtension#toStringHelper(Object)} instead. This method is scheduled
    *     for removal in August 2016.
    */
   @Deprecated
@@ -137,7 +137,7 @@ public final class Objects {
    *
    * @param clazz the {@link Class} of the instance
    * @since 7.0 (source-compatible since 2.0)
-   * @deprecated Use {@link MoreObjects#toStringHelper(Class)} instead. This method is scheduled for
+   * @deprecated Use {@link ObjectsExtension#toStringHelper(Class)} instead. This method is scheduled for
    *     removal in August 2016.
    */
   @Deprecated
@@ -152,7 +152,7 @@ public final class Objects {
    *
    * @param className the name of the instance type
    * @since 7.0 (source-compatible since 2.0)
-   * @deprecated Use {@link MoreObjects#toStringHelper(String)} instead. This method is scheduled
+   * @deprecated Use {@link ObjectsExtension#toStringHelper(String)} instead. This method is scheduled
    *     for removal in August 2016.
    */
   @Deprecated
@@ -173,12 +173,12 @@ public final class Objects {
    *     is {@code null} and {@code second} is not {@code null}
    * @throws NullPointerException if both {@code first} and {@code second} were {@code null}
    * @since 3.0
-   * @deprecated Use {@link MoreObjects#firstNonNull} instead. This method is scheduled for removal
+   * @deprecated Use {@link ObjectsExtension#firstNonNull} instead. This method is scheduled for removal
    *     in August 2016.
    */
   @Deprecated
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
-    return MoreObjects.firstNonNull(first, second);
+    return ObjectsExtension.firstNonNull(first, second);
   }
 
   /**
@@ -186,7 +186,7 @@ public final class Objects {
    *
    * @author Jason Lee
    * @since 2.0
-   * @deprecated Use {@link MoreObjects.ToStringHelper} instead. This class is scheduled for removal
+   * @deprecated Use {@link ObjectsExtension.ToStringHelper} instead. This class is scheduled for removal
    *     in August 2016.
    */
   @Deprecated

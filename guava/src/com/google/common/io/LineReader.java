@@ -45,11 +45,12 @@ public final class LineReader {
   private final Queue<String> lines = new LinkedList<String>();
   private final LineBuffer lineBuf =
       new LineBuffer() {
-        @Override
-        protected void handleLine(String line, String end) {
-          lines.add(line);
-        }
+        
       };
+  /** Holds partial line contents. */
+  private StringBuilder line = new StringBuilder();
+  /** Whether a line ending with a CR is pending processing. */
+  private boolean sawReturn;
 
   /**
    * Creates a new instance that will read lines from the given {@code Readable} object.
@@ -78,11 +79,86 @@ public final class LineReader {
           ? reader.read(buf, 0, buf.length)
           : readable.read(cbuf);
       if (read == -1) {
-        lineBuf.finish();
+        this.finish();
         break;
       }
-      lineBuf.add(buf, 0, read);
+      this.add(buf, 0, read);
     }
     return lines.poll();
+  }
+
+/**
+   * Process additional characters from the stream. When a line separator is found the contents of
+   * the line and the line separator itself are passed to the abstract {@link #handleLine} method.
+   *
+   * @param cbuf the character buffer to process
+   * @param off the offset into the buffer
+   * @param len the number of characters to process
+   * @throws IOException if an I/O error occurs
+   * @see #finish
+   */
+  
+  protected void handleLine(String line, String end) {
+      lines.add(line);
+  }
+  
+  protected void add(char[] cbuf, int off, int len) throws IOException {
+    int pos = off;
+    if (sawReturn && len > 0) {
+      // Last call to add ended with a CR; we can handle the line now.
+      if (finishLine(cbuf[pos] == '\n')) {
+        pos++;
+      }
+    }
+
+    int start = pos;
+    for (int end = off + len; pos < end; pos++) {
+      switch (cbuf[pos]) {
+        case '\r':
+          line.append(cbuf, start, pos - start);
+          sawReturn = true;
+          if (pos + 1 < end) {
+            if (finishLine(cbuf[pos + 1] == '\n')) {
+              pos++;
+            }
+          }
+          start = pos + 1;
+          break;
+
+        case '\n':
+          line.append(cbuf, start, pos - start);
+          finishLine(true);
+          start = pos + 1;
+          break;
+
+        default:
+          // do nothing
+      }
+    }
+    line.append(cbuf, start, off + len - start);
+    }
+
+  /** Called when a line is complete. */
+@CanIgnoreReturnValue
+  private boolean finishLine(boolean sawNewline) throws IOException {
+    String separator = sawReturn
+        ? (sawNewline ? "\r\n" : "\r")
+        : (sawNewline ? "\n" : "");
+    handleLine(line.toString(), separator);
+    line = new StringBuilder();
+    sawReturn = false;
+    return sawNewline;
+  }
+
+/**
+   * Subclasses must call this method after finishing character processing, in order to ensure that
+   * any unterminated line in the buffer is passed to {@link #handleLine}.
+   *
+   * @throws IOException if an I/O error occurs
+   */
+protected void finish() throws IOException {
+    if (sawReturn || line.length() > 0) {
+      finishLine(false);
+    }
   }
 }

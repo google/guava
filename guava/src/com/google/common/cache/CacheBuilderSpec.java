@@ -18,9 +18,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.base.Splitter;
+import com.google.common.base.Objects;
 import com.google.common.cache.LocalCache.Strength;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -232,7 +232,7 @@ public final class CacheBuilderSpec {
    */
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).addValue(toParsableString()).toString();
+    return ObjectsExtension.toStringHelper(this).addValue(toParsableString()).toString();
   }
 
   @Override

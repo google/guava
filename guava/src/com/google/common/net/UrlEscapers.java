@@ -23,7 +23,7 @@ import com.google.common.escape.Escaper;
  *
  * <p>If the resulting URLs are inserted into an HTML or XML document, they will require additional
  * escaping with {@link com.google.common.html.HtmlEscapers} or
- * {@link com.google.common.xml.XmlEscapers}.
+ * {@link com.google.common.escape.XmlEscapers}.
  *
  *
  * @author David Beaumont

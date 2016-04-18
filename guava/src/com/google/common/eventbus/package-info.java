@@ -59,7 +59,7 @@
  * <ul>
  * <li><strong>...in traditional Java events:</strong> add code to each event-dispatching method
  *     (perhaps using AOP).
- * <li><strong>...with EventBus:</strong> subscribe to {@link com.google.common.eventbus.DeadEvent}.
+ * <li><strong>...with EventBus:</strong> subscribe to {@link com.google.common.eventbus.GhostEvent}.
  *     The EventBus will notify you of any events that were posted but not delivered. (Handy for
  *     debugging.)
  * </ul>

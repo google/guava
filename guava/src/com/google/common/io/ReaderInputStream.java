@@ -187,7 +187,7 @@ final class ReaderInputStream extends InputStream {
   }
 
   /** Returns a new CharBuffer identical to buf, except twice the capacity. */
-  private static CharBuffer grow(CharBuffer buf) {
+  private static CharBuffer growTwice(CharBuffer buf) {
     char[] copy = Arrays.copyOf(buf.array(), buf.capacity() * 2);
     CharBuffer bigger = CharBuffer.wrap(copy);
     bigger.position(buf.position());
@@ -211,7 +211,7 @@ final class ReaderInputStream extends InputStream {
         charBuffer.compact().flip();
       } else {
         // (3) Entire buffer is full, need bigger buffer.
-        charBuffer = grow(charBuffer);
+        charBuffer = growTwice(charBuffer);
       }
     }
 

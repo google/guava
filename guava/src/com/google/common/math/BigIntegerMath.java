@@ -228,7 +228,11 @@ public final class BigIntegerMath {
     if (fitsInLong(x)) {
       return BigInteger.valueOf(LongMath.sqrt(x.longValue(), mode));
     }
-    BigInteger sqrtFloor = sqrtFloor(x);
+    return sqrtMode(x, mode);
+  }
+
+  private static BigInteger sqrtMode(BigInteger x, RoundingMode mode) throws AssertionError {
+	BigInteger sqrtFloor = sqrtFloor(x);
     switch (mode) {
       case UNNECESSARY:
         checkRoundingUnnecessary(sqrtFloor.pow(2).equals(x)); // fall through
@@ -255,7 +259,7 @@ public final class BigIntegerMath {
       default:
         throw new AssertionError();
     }
-  }
+}
 
   @GwtIncompatible // TODO
   private static BigInteger sqrtFloor(BigInteger x) {
@@ -416,7 +420,7 @@ public final class BigIntegerMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0}, or {@code k > n}
    */
-  public static BigInteger binomial(int n, int k) {
+  public static BigInteger binomialCoefficient(int n, int k) {
     checkNonNegative("n", n);
     checkNonNegative("k", k);
     checkArgument(k <= n, "k (%s) > n (%s)", k, n);

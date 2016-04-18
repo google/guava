@@ -21,7 +21,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
-import com.google.common.base.Strings;
+import com.google.common.primitives.Strings;
 
 import java.io.Serializable;
 
@@ -76,6 +76,10 @@ public final class HostAndPort implements Serializable {
   /** True if the parsed host has colons, but no surrounding brackets. */
   private final boolean hasBracketlessColons;
 
+  static final String CHARSET_ATTRIBUTE = "charset";
+
+  static final String DOT_REGEX = "\\.";
+
   private HostAndPort(String host, int port, boolean hasBracketlessColons) {
     this.host = host;
     this.port = port;
@@ -93,12 +97,7 @@ public final class HostAndPort implements Serializable {
     return host;
   }
 
-  /** Return true if this instance has a defined port. */
-  public boolean hasPort() {
-    return port >= 0;
-  }
-
-  /**
+   /**
    * Get the current port number, failing if no port is defined.
    *
    * @return a validated port number, in the range [0..65535]
@@ -106,7 +105,7 @@ public final class HostAndPort implements Serializable {
    *     to prevent this from occurring.
    */
   public int getPort() {
-    checkState(hasPort());
+    checkState(port >= 0);
     return port;
   }
 
@@ -114,7 +113,7 @@ public final class HostAndPort implements Serializable {
    * Returns the current port number, with a default if no port is defined.
    */
   public int getPortOrDefault(int defaultPort) {
-    return hasPort() ? port : defaultPort;
+    return port >= 0 ? port : defaultPort;
   }
 
   /**
@@ -132,7 +131,7 @@ public final class HostAndPort implements Serializable {
   public static HostAndPort fromParts(String host, int port) {
     checkArgument(isValidPort(port), "Port out of range: %s", port);
     HostAndPort parsedHost = fromString(host);
-    checkArgument(!parsedHost.hasPort(), "Host has a port: %s", host);
+    checkArgument(!(parsedHost.port >= 0), "Host has a port: %s", host);
     return new HostAndPort(parsedHost.host, port, parsedHost.hasBracketlessColons);
   }
 
@@ -149,7 +148,7 @@ public final class HostAndPort implements Serializable {
    */
   public static HostAndPort fromHost(String host) {
     HostAndPort parsedHost = fromString(host);
-    checkArgument(!parsedHost.hasPort(), "Host has a port: %s", host);
+    checkArgument(!(parsedHost.port >= 0), "Host has a port: %s", host);
     return parsedHost;
   }
 
@@ -252,7 +251,7 @@ public final class HostAndPort implements Serializable {
    */
   public HostAndPort withDefaultPort(int defaultPort) {
     checkArgument(isValidPort(defaultPort));
-    if (hasPort() || port == defaultPort) {
+    if (port >= 0 || port == defaultPort) {
       return this;
     }
     return new HostAndPort(host, defaultPort, hasBracketlessColons);
@@ -306,7 +305,7 @@ public final class HostAndPort implements Serializable {
     } else {
       builder.append(host);
     }
-    if (hasPort()) {
+    if (port >= 0) {
       builder.append(':').append(port);
     }
     return builder.toString();

@@ -44,7 +44,7 @@ final class MacHashFunction extends AbstractStreamingHashFunction {
   }
 
   @Override
-  public int bits() {
+  public int numberOfBits() {
     return bits;
   }
 

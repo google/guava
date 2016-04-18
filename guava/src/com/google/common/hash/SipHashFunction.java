@@ -61,7 +61,7 @@ final class SipHashFunction extends AbstractStreamingHashFunction implements Ser
   }
 
   @Override
-  public int bits() {
+  public int numberOfBits() {
     return 64;
   }
 

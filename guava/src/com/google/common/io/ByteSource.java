@@ -21,13 +21,13 @@ import static com.google.common.io.ByteStreams.skipUpTo;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Ascii;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Funnels;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hasher;
+import com.google.common.primitives.Ascii;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.BufferedInputStream;

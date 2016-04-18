@@ -475,7 +475,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
 
       @Override
       public boolean contains(@Nullable Object object) {
-        return object != null && Collections2.safeContains(delegate, object);
+        return object != null && CollectionsExtension.safeContains(delegate, object);
       }
 
       @Override
@@ -485,7 +485,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
 
       @Override
       public boolean remove(Object object) {
-        return object != null && Collections2.safeRemove(delegate, object);
+        return object != null && CollectionsExtension.safeRemove(delegate, object);
       }
 
       @Override

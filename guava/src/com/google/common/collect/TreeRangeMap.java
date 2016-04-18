@@ -24,7 +24,7 @@ import static com.google.common.base.Predicates.not;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 
@@ -601,7 +601,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
           return Iterators.emptyIterator();
         }
         Cut<K> cutToStart =
-            MoreObjects.firstNonNull(
+            ObjectsExtension.firstNonNull(
                 entriesByLowerBound.floorKey(subRange.lowerBound), subRange.lowerBound);
         final Iterator<RangeMapEntry<K, V>> backingItr =
             entriesByLowerBound.tailMap(cutToStart, true).values().iterator();

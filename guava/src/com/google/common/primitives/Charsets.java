@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.common.base;
+package com.google.common.primitives;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;

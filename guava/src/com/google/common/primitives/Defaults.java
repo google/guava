@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.common.base;
+package com.google.common.primitives;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

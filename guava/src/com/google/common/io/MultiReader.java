@@ -36,13 +36,13 @@ class MultiReader extends Reader {
 
   MultiReader(Iterator<? extends CharSource> readers) throws IOException {
     this.it = readers;
-    advance();
+    openNextStream();
   }
 
   /**
    * Closes the current reader and opens the next one, if any.
    */
-  private void advance() throws IOException {
+  private void openNextStream() throws IOException {
     close();
     if (it.hasNext()) {
       current = it.next().openStream();
@@ -56,7 +56,7 @@ class MultiReader extends Reader {
     }
     int result = current.read(cbuf, off, len);
     if (result == -1) {
-      advance();
+      openNextStream();
       return read(cbuf, off, len);
     }
     return result;
@@ -71,7 +71,7 @@ class MultiReader extends Reader {
         if (result > 0) {
           return result;
         }
-        advance();
+        openNextStream();
       }
     }
     return 0;

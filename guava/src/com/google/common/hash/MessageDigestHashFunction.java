@@ -63,7 +63,7 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
   }
 
   @Override
-  public int bits() {
+  public int numberOfBits() {
     return bytes * Byte.SIZE;
   }
 

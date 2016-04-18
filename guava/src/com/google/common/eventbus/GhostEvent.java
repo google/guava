@@ -17,7 +17,7 @@ package com.google.common.eventbus;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 
 /**
  * Wraps an event that was posted, but which had no subscribers and thus could not be delivered.
@@ -29,7 +29,7 @@ import com.google.common.base.MoreObjects;
  * @since 10.0
  */
 @Beta
-public class DeadEvent {
+public class GhostEvent {
 
   private final Object source;
   private final Object event;
@@ -40,7 +40,7 @@ public class DeadEvent {
    * @param source object broadcasting the DeadEvent (generally the {@link EventBus}).
    * @param event the event that could not be delivered.
    */
-  public DeadEvent(Object source, Object event) {
+  public GhostEvent(Object source, Object event) {
     this.source = checkNotNull(source);
     this.event = checkNotNull(event);
   }
@@ -67,7 +67,7 @@ public class DeadEvent {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
+    return ObjectsExtension.toStringHelper(this)
       .add("source", source)
       .add("event", event)
       .toString();

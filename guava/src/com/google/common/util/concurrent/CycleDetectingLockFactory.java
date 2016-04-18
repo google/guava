@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -300,7 +300,7 @@ public class CycleDetectingLockFactory {
     }
     Map<? extends Enum, LockGraphNode> created = createNodes(clazz);
     existing = lockGraphNodesPerType.putIfAbsent(clazz, created);
-    return MoreObjects.firstNonNull(existing, created);
+    return ObjectsExtension.firstNonNull(existing, created);
   }
 
   /**

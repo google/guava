@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -581,7 +581,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
         cut = positiveRangesByLowerBound.higherKey(Cut.<C>belowAll());
       }
       final Cut<C> firstComplementRangeUpperBound =
-          MoreObjects.firstNonNull(cut, Cut.<C>aboveAll());
+          ObjectsExtension.firstNonNull(cut, Cut.<C>aboveAll());
       return new AbstractIterator<Entry<Cut<C>, Range<C>>>() {
         Cut<C> nextComplementRangeUpperBound = firstComplementRangeUpperBound;
 

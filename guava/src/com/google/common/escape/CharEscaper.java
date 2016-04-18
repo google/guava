@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Function;
 
 /**
  * An object that converts literal text into a format safe for inclusion in a particular context
@@ -33,7 +34,7 @@ import com.google.common.annotations.GwtCompatible;
  * multiple threads.
  *
  * <p>Popular escapers are defined as constants in classes like
- * {@link com.google.common.html.HtmlEscapers} and {@link com.google.common.xml.XmlEscapers}. To
+ * {@link com.google.common.html.HtmlEscapers} and {@link com.google.common.escape.XmlEscapers}. To
  * create your own escapers extend this class and implement the {@link #escape(char)} method.
  *
  * @author Sven Mawson
@@ -42,7 +43,14 @@ import com.google.common.annotations.GwtCompatible;
 @Beta
 @GwtCompatible
 public abstract class CharEscaper extends Escaper {
-  /** Constructor for use by subclasses. */
+  private final Function<String, String> asFunction = new Function<String, String>() {
+	        @Override
+	        public String apply(String from) {
+	          return escape(from);
+	        }
+	      };
+
+/** Constructor for use by subclasses. */
   protected CharEscaper() {}
 
   /**
@@ -155,20 +163,10 @@ public abstract class CharEscaper extends Escaper {
    */
   protected abstract char[] escape(char c);
 
-  /**
-   * Helper method to grow the character buffer as needed, this only happens once in a while so it's
-   * ok if it's in a method call. If the index passed in is 0 then no copying will be done.
+/**
+   * Returns a {@link Function} that invokes {@link #escape(String)} on this escaper.
    */
-  private static char[] growBuffer(char[] dest, int index, int size) {
-    char[] copy = new char[size];
-    if (index > 0) {
-      System.arraycopy(dest, 0, copy, 0, index);
-    }
-    return copy;
+public final Function<String, String> asFunction() {
+    return asFunction;
   }
-
-  /**
-   * The multiplier for padding to use when growing the escape buffer.
-   */
-  private static final int DEST_PAD_MULTIPLIER = 2;
 }

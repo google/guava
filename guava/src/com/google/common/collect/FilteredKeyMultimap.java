@@ -187,7 +187,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
   class Entries extends ForwardingCollection<Entry<K, V>> {
     @Override
     protected Collection<Entry<K, V>> delegate() {
-      return Collections2.filter(unfiltered.entries(), entryPredicate());
+      return CollectionsExtension.filter(unfiltered.entries(), entryPredicate());
     }
 
     @Override

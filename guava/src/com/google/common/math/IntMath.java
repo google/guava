@@ -267,7 +267,7 @@ public final class IntMath {
   @SuppressWarnings("fallthrough")
   public static int sqrt(int x, RoundingMode mode) {
     checkNonNegative("x", x);
-    int sqrtFloor = sqrtFloor(x);
+    int sqrtFloor = (int) Math.sqrt(x);
     switch (mode) {
       case UNNECESSARY:
         checkRoundingUnnecessary(sqrtFloor * sqrtFloor == x); // fall through
@@ -296,12 +296,6 @@ public final class IntMath {
       default:
         throw new AssertionError();
     }
-  }
-
-  private static int sqrtFloor(int x) {
-    // There is no loss of precision in converting an int to a double, according to
-    // http://java.sun.com/docs/books/jls/third_edition/html/conversions.html#5.1.2
-    return (int) Math.sqrt(x);
   }
 
   /**
@@ -650,7 +644,11 @@ public final class IntMath {
     if (k >= biggestBinomials.length || n > biggestBinomials[k]) {
       return Integer.MAX_VALUE;
     }
-    switch (k) {
+    return calculateK(n, k);
+  }
+
+  private static int calculateK(int n, int k) {
+	switch (k) {
       case 0:
         return 1;
       case 1:

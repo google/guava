@@ -145,7 +145,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
    * @since 7.0
    */
   protected boolean standardContainsAll(Collection<?> collection) {
-    return Collections2.containsAllImpl(this, collection);
+    return CollectionsExtension.containsAllImpl(this, collection);
   }
 
   /**
@@ -234,7 +234,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
    * @since 7.0
    */
   protected String standardToString() {
-    return Collections2.toStringImpl(this);
+    return CollectionsExtension.toStringImpl(this);
   }
 
   /**

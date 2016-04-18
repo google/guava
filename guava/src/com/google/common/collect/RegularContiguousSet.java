@@ -140,7 +140,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
 
   @Override
   public boolean containsAll(Collection<?> targets) {
-    return Collections2.containsAllImpl(this, targets);
+    return CollectionsExtension.containsAllImpl(this, targets);
   }
 
   @Override

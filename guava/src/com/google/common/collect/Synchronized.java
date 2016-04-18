@@ -917,7 +917,7 @@ final class Synchronized {
     @Override
     public boolean containsAll(Collection<?> c) {
       synchronized (mutex) {
-        return Collections2.containsAllImpl(delegate(), c);
+        return CollectionsExtension.containsAllImpl(delegate(), c);
       }
     }
 

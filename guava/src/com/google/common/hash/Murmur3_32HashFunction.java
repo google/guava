@@ -55,7 +55,7 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
   }
 
   @Override
-  public int bits() {
+  public int numberOfBits() {
     return 32;
   }
 

@@ -16,7 +16,6 @@ package com.google.common.escape;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Function;
 
 /**
  * An object that converts literal text into a format safe for inclusion in a particular context
@@ -47,7 +46,7 @@ import com.google.common.base.Function;
  * using either of these classes, please contact the Java libraries team for advice.
  *
  * <p>Popular escapers are defined as constants in classes like
- * {@link com.google.common.html.HtmlEscapers} and {@link com.google.common.xml.XmlEscapers}. To
+ * {@link com.google.common.html.HtmlEscapers} and {@link com.google.common.escape.XmlEscapers}. To
  * create your own escapers, use {@link CharEscaperBuilder}, or extend {@code CharEscaper} or
  * {@code UnicodeEscaper}.
  *
@@ -57,7 +56,24 @@ import com.google.common.base.Function;
 @Beta
 @GwtCompatible
 public abstract class Escaper {
-  // TODO(user): evaluate custom implementations, considering package private constructor.
+  /**
+  * The multiplier for padding to use when growing the escape buffer.
+  */
+  protected static final int DEST_PAD_MULTIPLIER = 2;
+
+  /**
+  * Helper method to grow the character buffer as needed, this only happens once in a while so it's
+  * ok if it's in a method call. If the index passed in is 0 then no copying will be done.
+  */
+  protected static char[] growBuffer(char[] dest, int index, int size) {
+    char[] copy = new char[size];
+    if (index > 0) {
+      System.arraycopy(dest, 0, copy, 0, index);
+    }
+    return copy;
+  }
+
+// TODO(user): evaluate custom implementations, considering package private constructor.
   /** Constructor for use by subclasses. */
   protected Escaper() {}
 
@@ -83,19 +99,4 @@ public abstract class Escaper {
    *     escaped for any other reason
    */
   public abstract String escape(String string);
-
-  private final Function<String, String> asFunction =
-      new Function<String, String>() {
-        @Override
-        public String apply(String from) {
-          return escape(from);
-        }
-      };
-
-  /**
-   * Returns a {@link Function} that invokes {@link #escape(String)} on this escaper.
-   */
-  public final Function<String, String> asFunction() {
-    return asFunction;
-  }
 }

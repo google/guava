@@ -17,7 +17,7 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
@@ -449,7 +449,7 @@ public abstract class Striped<L> {
       }
       L created = supplier.get();
       existing = locks.putIfAbsent(index, created);
-      return MoreObjects.firstNonNull(existing, created);
+      return ObjectsExtension.firstNonNull(existing, created);
     }
 
     @Override

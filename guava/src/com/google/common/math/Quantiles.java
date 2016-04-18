@@ -216,7 +216,7 @@ public final class Quantiles {
     private final int index;
 
     private ScaleAndIndex(int scale, int index) {
-      checkIndex(index, scale);
+      ScaleAndIndex.checkIndex(index, scale);
       this.scale = scale;
       this.index = index;
     }
@@ -277,7 +277,7 @@ public final class Quantiles {
      */
     public double computeInPlace(double... dataset) {
       checkArgument(dataset.length > 0, "Cannot calculate quantiles of an empty dataset");
-      if (containsNaN(dataset)) {
+      if (ScaleAndIndex.containsNaN(dataset)) {
         return NaN;
       }
 
@@ -294,14 +294,101 @@ public final class Quantiles {
       // a rounded ratio and a remainder which can be expressed as ints, without risk of overflow:
       int quotient = (int) LongMath.divide(numerator, scale, RoundingMode.DOWN);
       int remainder = (int) (numerator - (long) quotient * scale);
-      selectInPlace(quotient, dataset, 0, dataset.length - 1);
+      ScaleAndIndex.selectInPlace(quotient, dataset, 0, dataset.length - 1);
       if (remainder == 0) {
         return dataset[quotient];
       } else {
-        selectInPlace(quotient + 1, dataset, quotient + 1, dataset.length - 1);
-        return interpolate(dataset[quotient], dataset[quotient + 1], remainder, scale);
+        ScaleAndIndex.selectInPlace(quotient + 1, dataset, quotient + 1, dataset.length - 1);
+        return ScaleAndIndex.interpolate(dataset[quotient], dataset[quotient + 1], remainder, scale);
       }
     }
+
+	/**
+	   * Performs an in-place selection to find the element which would appear at a given index in a
+	   * dataset if it were sorted. The following preconditions should hold:
+	   * <ul>
+	   * <li>{@code required}, {@code from}, and {@code to} should all be indexes into {@code array};
+	   * <li>{@code required} should be in the range [{@code from}, {@code to}];
+	   * <li>all the values with indexes in the range [0, {@code from}) should be less than or equal to
+	   * all the values with indexes in the range [{@code from}, {@code to}];
+	   * <li>all the values with indexes in the range ({@code to}, {@code array.length - 1}] should be
+	   * greater than or equal to all the values with indexes in the range [{@code from}, {@code to}].
+	   * </ul>
+	   * This method will reorder the values with indexes in the range [{@code from}, {@code to}] such
+	   * that all the values with indexes in the range [{@code from}, {@code required}) are less than or
+	   * equal to the value with index {@code required}, and all the values with indexes in the range
+	   * ({@code required}, {@code to}] are greater than or equal to that value. Therefore, the value at
+	   * {@code required} is the value which would appear at that index in the sorted dataset.
+	   */
+	  private static void selectInPlace(int required, double[] array, int from, int to) {
+	    // If we are looking for the least element in the range, we can just do a linear search for it.
+	    // (We will hit this whenever we are doing quantile interpolation: our first selection finds
+	    // the lower value, our second one finds the upper value by looking for the next least element.)
+	    if (required == from) {
+	      int min = from;
+	      for (int index = from + 1; index <= to; index++) {
+	        if (array[min] > array[index]) {
+	          min = index;
+	        }
+	      }
+	      if (min != from) {
+	        Quantiles.swap(array, min, from);
+	      }
+	      return;
+	    }
+	
+	    // Let's play quickselect! We'll repeatedly partition the range [from, to] containing the
+	    // required element, as long as it has more than one element.
+	    while (to > from) {
+	      int partitionPoint = Quantiles.partition(array, from, to);
+	      if (partitionPoint >= required) {
+	        to = partitionPoint - 1;
+	      }
+	      if (partitionPoint <= required) {
+	        from = partitionPoint + 1;
+	      }
+	    }
+	  }
+
+	/**
+	   * Returns whether any of the values in {@code dataset} are {@code NaN}.
+	   */
+	  private static boolean containsNaN(double... dataset) {
+	    for (double value : dataset) {
+	      if (Double.isNaN(value)) {
+	        return true;
+	      }
+	    }
+	    return false;
+	  }
+
+	private static void checkIndex(int index, int scale) {
+	    if (index < 0 || index > scale) {
+	      throw new IllegalArgumentException(
+	          "Quantile indexes must be between 0 and the scale, which is " + scale);
+	    }
+	  }
+
+	/**
+	   * Returns a value a fraction {@code (remainder / scale)} of the way between {@code lower} and
+	   * {@code upper}. Assumes that {@code lower <= upper}. Correctly handles infinities (but not
+	   * {@code NaN}).
+	   */
+	  private static double interpolate(double lower, double upper, double remainder, double scale) {
+	    if (lower == NEGATIVE_INFINITY) {
+	      if (upper == POSITIVE_INFINITY) {
+	        // Return NaN when lower == NEGATIVE_INFINITY and upper == POSITIVE_INFINITY:
+	        return NaN;
+	      }
+	      // Return NEGATIVE_INFINITY when NEGATIVE_INFINITY == lower <= upper < POSITIVE_INFINITY:
+	      return NEGATIVE_INFINITY;
+	    }
+	    if (upper == POSITIVE_INFINITY) {
+	      // Return POSITIVE_INFINITY when NEGATIVE_INFINITY < lower <= upper == POSITIVE_INFINITY:
+	      return POSITIVE_INFINITY;
+	    }
+	    return lower + (upper - lower) * remainder / scale;
+	  }
   }
 
   /**
@@ -315,7 +402,7 @@ public final class Quantiles {
 
     private ScaleAndIndexes(int scale, int[] indexes) {
       for (int index : indexes) {
-        checkIndex(index, scale);
+        ScaleAndIndex.checkIndex(index, scale);
       }
       this.scale = scale;
       this.indexes = indexes;
@@ -381,7 +468,7 @@ public final class Quantiles {
      */
     public Map<Integer, Double> computeInPlace(double... dataset) {
       checkArgument(dataset.length > 0, "Cannot calculate quantiles of an empty dataset");
-      if (containsNaN(dataset)) {
+      if (ScaleAndIndex.containsNaN(dataset)) {
         Map<Integer, Double> nanMap = new HashMap<Integer, Double>();
         for (int index : indexes) {
           nanMap.put(index, NaN);
@@ -429,50 +516,10 @@ public final class Quantiles {
           ret.put(indexes[i], dataset[quotient]);
         } else {
           ret.put(
-              indexes[i], interpolate(dataset[quotient], dataset[quotient + 1], remainder, scale));
+              indexes[i], ScaleAndIndex.interpolate(dataset[quotient], dataset[quotient + 1], remainder, scale));
         }
       }
       return unmodifiableMap(ret);
-    }
-  }
-
-  /**
-   * Returns whether any of the values in {@code dataset} are {@code NaN}.
-   */
-  private static boolean containsNaN(double... dataset) {
-    for (double value : dataset) {
-      if (Double.isNaN(value)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /**
-   * Returns a value a fraction {@code (remainder / scale)} of the way between {@code lower} and
-   * {@code upper}. Assumes that {@code lower <= upper}. Correctly handles infinities (but not
-   * {@code NaN}).
-   */
-  private static double interpolate(double lower, double upper, double remainder, double scale) {
-    if (lower == NEGATIVE_INFINITY) {
-      if (upper == POSITIVE_INFINITY) {
-        // Return NaN when lower == NEGATIVE_INFINITY and upper == POSITIVE_INFINITY:
-        return NaN;
-      }
-      // Return NEGATIVE_INFINITY when NEGATIVE_INFINITY == lower <= upper < POSITIVE_INFINITY:
-      return NEGATIVE_INFINITY;
-    }
-    if (upper == POSITIVE_INFINITY) {
-      // Return POSITIVE_INFINITY when NEGATIVE_INFINITY < lower <= upper == POSITIVE_INFINITY:
-      return POSITIVE_INFINITY;
-    }
-    return lower + (upper - lower) * remainder / scale;
-  }
-
-  private static void checkIndex(int index, int scale) {
-    if (index < 0 || index > scale) {
-      throw new IllegalArgumentException(
-          "Quantile indexes must be between 0 and the scale, which is " + scale);
     }
   }
 
@@ -492,53 +539,6 @@ public final class Quantiles {
       doubles[i] = ints[i];
     }
     return doubles;
-  }
-
-  /**
-   * Performs an in-place selection to find the element which would appear at a given index in a
-   * dataset if it were sorted. The following preconditions should hold:
-   * <ul>
-   * <li>{@code required}, {@code from}, and {@code to} should all be indexes into {@code array};
-   * <li>{@code required} should be in the range [{@code from}, {@code to}];
-   * <li>all the values with indexes in the range [0, {@code from}) should be less than or equal to
-   * all the values with indexes in the range [{@code from}, {@code to}];
-   * <li>all the values with indexes in the range ({@code to}, {@code array.length - 1}] should be
-   * greater than or equal to all the values with indexes in the range [{@code from}, {@code to}].
-   * </ul>
-   * This method will reorder the values with indexes in the range [{@code from}, {@code to}] such
-   * that all the values with indexes in the range [{@code from}, {@code required}) are less than or
-   * equal to the value with index {@code required}, and all the values with indexes in the range
-   * ({@code required}, {@code to}] are greater than or equal to that value. Therefore, the value at
-   * {@code required} is the value which would appear at that index in the sorted dataset.
-   */
-  private static void selectInPlace(int required, double[] array, int from, int to) {
-    // If we are looking for the least element in the range, we can just do a linear search for it.
-    // (We will hit this whenever we are doing quantile interpolation: our first selection finds
-    // the lower value, our second one finds the upper value by looking for the next least element.)
-    if (required == from) {
-      int min = from;
-      for (int index = from + 1; index <= to; index++) {
-        if (array[min] > array[index]) {
-          min = index;
-        }
-      }
-      if (min != from) {
-        swap(array, min, from);
-      }
-      return;
-    }
-
-    // Let's play quickselect! We'll repeatedly partition the range [from, to] containing the
-    // required element, as long as it has more than one element.
-    while (to > from) {
-      int partitionPoint = partition(array, from, to);
-      if (partitionPoint >= required) {
-        to = partitionPoint - 1;
-      }
-      if (partitionPoint <= required) {
-        from = partitionPoint + 1;
-      }
-    }
   }
 
   /**
@@ -597,7 +597,7 @@ public final class Quantiles {
   }
 
   /**
-   * Performs an in-place selection, like {@link #selectInPlace}, to select all the indexes
+   * Performs an in-place selection, like {@link ScaleAndIndex#selectInPlace}, to select all the indexes
    * {@code allRequired[i]} for {@code i} in the range [{@code requiredFrom}, {@code requiredTo}].
    * These indexes must be sorted in the array and must all be in the range [{@code from},
    * {@code to}].
@@ -609,7 +609,7 @@ public final class Quantiles {
     int required = allRequired[requiredChosen];
 
     // ...do the first selection...
-    selectInPlace(required, array, from, to);
+    ScaleAndIndex.selectInPlace(required, array, from, to);
 
     // ...then recursively perform the selections in the range below...
     int requiredBelow = requiredChosen - 1;

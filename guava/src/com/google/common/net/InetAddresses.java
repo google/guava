@@ -16,7 +16,9 @@ package com.google.common.net;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Joiner;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.hash.Hashing;
@@ -106,6 +108,9 @@ public final class InetAddresses {
   private static final Splitter IPV4_SPLITTER = Splitter.on('.').limit(IPV4_PART_COUNT);
   private static final Inet4Address LOOPBACK4 = (Inet4Address) forString("127.0.0.1");
   private static final Inet4Address ANY4 = (Inet4Address) forString("0.0.0.0");
+  static final CharMatcher DOTS_MATCHER = CharMatcher.anyOf(".\u3002\uFF0E\uFF61");
+  static final Splitter DOT_SPLITTER = Splitter.on('.');
+  static final Joiner DOT_JOINER = Joiner.on('.');
 
   private InetAddresses() {}
 
@@ -276,7 +281,11 @@ public final class InetAddresses {
     if (quad == null) {
       return null;
     }
-    String penultimate = Integer.toHexString(((quad[0] & 0xff) << 8) | (quad[1] & 0xff));
+    return concatLastTerms(initialPart, quad);
+  }
+
+  private static String concatLastTerms(String initialPart, byte[] quad) {
+	String penultimate = Integer.toHexString(((quad[0] & 0xff) << 8) | (quad[1] & 0xff));
     String ultimate = Integer.toHexString(((quad[2] & 0xff) << 8) | (quad[3] & 0xff));
     return initialPart + penultimate + ":" + ultimate;
   }
@@ -611,8 +620,8 @@ public final class InetAddresses {
           "flags '%s' is out of range (0 <= flags <= 0xffff)",
           flags);
 
-      this.server = MoreObjects.firstNonNull(server, ANY4);
-      this.client = MoreObjects.firstNonNull(client, ANY4);
+      this.server = ObjectsExtension.firstNonNull(server, ANY4);
+      this.client = ObjectsExtension.firstNonNull(client, ANY4);
       this.port = port;
       this.flags = flags;
     }
@@ -844,7 +853,13 @@ public final class InetAddresses {
       return ANY4; // ::0
     }
 
-    Inet6Address ip6 = (Inet6Address) ip;
+    int coercedHash = coercedInet6(ip);
+
+    return getInet4Address(Ints.toByteArray(coercedHash));
+  }
+
+  private static int coercedInet6(InetAddress ip) {
+	Inet6Address ip6 = (Inet6Address) ip;
     long addressAsLong = 0;
     if (hasEmbeddedIPv4ClientAddress(ip6)) {
       addressAsLong = getEmbeddedIPv4ClientAddress(ip6).hashCode();
@@ -865,8 +880,7 @@ public final class InetAddresses {
     if (coercedHash == 0xffffffff) {
       coercedHash = 0xfffffffe;
     }
-
-    return getInet4Address(Ints.toByteArray(coercedHash));
+	return coercedHash;
   }
 
   /**

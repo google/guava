@@ -129,7 +129,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
         Cell<?, ?, ?> cell = (Cell<?, ?, ?>) o;
         Map<C, V> row = Maps.safeGet(rowMap(), cell.getRowKey());
         return row != null
-            && Collections2.safeContains(
+            && CollectionsExtension.safeContains(
                 row.entrySet(), Maps.immutableEntry(cell.getColumnKey(), cell.getValue()));
       }
       return false;
@@ -141,7 +141,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
         Cell<?, ?, ?> cell = (Cell<?, ?, ?>) o;
         Map<C, V> row = Maps.safeGet(rowMap(), cell.getRowKey());
         return row != null
-            && Collections2.safeRemove(
+            && CollectionsExtension.safeRemove(
                 row.entrySet(), Maps.immutableEntry(cell.getColumnKey(), cell.getValue()));
       }
       return false;

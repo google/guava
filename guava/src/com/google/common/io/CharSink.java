@@ -154,7 +154,7 @@ public abstract class CharSink {
     Closer closer = Closer.create();
     try {
       Writer out = closer.register(openStream());
-      long written = CharStreams.copy(readable, out);
+      long written = CharSource.copy(readable, out);
       out.flush(); // https://code.google.com/p/guava-libraries/issues/detail?id=1330
       return written;
     } catch (Throwable e) {

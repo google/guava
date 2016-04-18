@@ -69,7 +69,8 @@ public final class ThreadFactoryBuilder {
    * @return this for the builder pattern
    */
   public ThreadFactoryBuilder setNameFormat(String nameFormat) {
-    String unused = format(nameFormat, 0); // fail fast if the format is bad or null
+    Object[] args = { 0 };
+	String unused = String.format(Locale.ROOT, nameFormat, args); // fail fast if the format is bad or null
     this.nameFormat = nameFormat;
     return this;
   }
@@ -163,7 +164,8 @@ public final class ThreadFactoryBuilder {
       public Thread newThread(Runnable runnable) {
         Thread thread = backingThreadFactory.newThread(runnable);
         if (nameFormat != null) {
-          thread.setName(format(nameFormat, count.getAndIncrement()));
+          Object[] args = { count.getAndIncrement() };
+		thread.setName(String.format(Locale.ROOT, nameFormat, args));
         }
         if (daemon != null) {
           thread.setDaemon(daemon);
@@ -177,9 +179,5 @@ public final class ThreadFactoryBuilder {
         return thread;
       }
     };
-  }
-
-  private static String format(String format, Object... args) {
-    return String.format(Locale.ROOT, format, args);
   }
 }

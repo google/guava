@@ -22,7 +22,7 @@ package com.google.common.hash;
  */
 final class Crc32cHashFunction extends AbstractStreamingHashFunction {
   @Override
-  public int bits() {
+  public int numberOfBits() {
     return 32;
   }
 

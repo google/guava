@@ -26,7 +26,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,33 +46,9 @@ import java.util.List;
 @Beta
 @GwtIncompatible
 public final class CharStreams {
-  private static final int BUF_SIZE = 0x800; // 2K chars (4K bytes)
+  static final int BUF_SIZE = 0x800; // 2K chars (4K bytes)
 
   private CharStreams() {}
-
-  /**
-   * Copies all characters between the {@link Readable} and {@link Appendable} objects. Does not
-   * close or flush either object.
-   *
-   * @param from the object to read from
-   * @param to the object to write to
-   * @return the number of characters copied
-   * @throws IOException if an I/O error occurs
-   */
-  @CanIgnoreReturnValue
-  public static long copy(Readable from, Appendable to) throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    CharBuffer buf = CharBuffer.allocate(BUF_SIZE);
-    long total = 0;
-    while (from.read(buf) != -1) {
-      buf.flip();
-      to.append(buf);
-      total += buf.remaining();
-      buf.clear();
-    }
-    return total;
-  }
 
   /**
    * Reads all characters from a {@link Readable} object into a {@link String}. Does not close the
@@ -97,7 +72,7 @@ public final class CharStreams {
    */
   private static StringBuilder toStringBuilder(Readable r) throws IOException {
     StringBuilder sb = new StringBuilder();
-    copy(r, sb);
+    CharSource.copy(r, sb);
     return sb;
   }
 

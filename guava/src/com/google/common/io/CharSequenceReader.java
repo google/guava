@@ -51,10 +51,6 @@ final class CharSequenceReader extends Reader {
     }
   }
 
-  private boolean hasRemaining() {
-    return remaining() > 0;
-  }
-
   private int remaining() {
     return seq.length() - pos;
   }
@@ -63,7 +59,7 @@ final class CharSequenceReader extends Reader {
   public synchronized int read(CharBuffer target) throws IOException {
     checkNotNull(target);
     checkOpen();
-    if (!hasRemaining()) {
+    if (!(remaining() > 0)) {
       return -1;
     }
     int charsToRead = Math.min(target.remaining(), remaining());
@@ -76,14 +72,14 @@ final class CharSequenceReader extends Reader {
   @Override
   public synchronized int read() throws IOException {
     checkOpen();
-    return hasRemaining() ? seq.charAt(pos++) : -1;
+    return remaining() > 0 ? seq.charAt(pos++) : -1;
   }
 
   @Override
   public synchronized int read(char[] cbuf, int off, int len) throws IOException {
     checkPositionIndexes(off, off + len, cbuf.length);
     checkOpen();
-    if (!hasRemaining()) {
+    if (!(remaining() > 0)) {
       return -1;
     }
     int charsToRead = Math.min(len, remaining());

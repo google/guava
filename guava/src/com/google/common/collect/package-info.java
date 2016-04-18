@@ -142,7 +142,7 @@
  * <h2>Classes of static utility methods</h2>
  *
  * <ul>
- * <li>{@link com.google.common.collect.Collections2}
+ * <li>{@link com.google.common.collect.CollectionsExtension}
  * <li>{@link com.google.common.collect.Iterators}
  * <li>{@link com.google.common.collect.Iterables}
  * <li>{@link com.google.common.collect.Lists}

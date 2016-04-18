@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Function;
 
 /**
  * An {@link Escaper} that converts literal text into a format safe for inclusion in a particular
@@ -44,7 +45,7 @@ import com.google.common.annotations.GwtCompatible;
  * by multiple threads.
  *
  * <p>Popular escapers are defined as constants in classes like
- * {@link com.google.common.html.HtmlEscapers} and {@link com.google.common.xml.XmlEscapers}. To
+ * {@link com.google.common.html.HtmlEscapers} and {@link com.google.common.escape.XmlEscapers}. To
  * create your own escapers extend this class and implement the {@link #escape(int)} method.
  *
  * @author David Beaumont
@@ -55,6 +56,12 @@ import com.google.common.annotations.GwtCompatible;
 public abstract class UnicodeEscaper extends Escaper {
   /** The amount of padding (chars) to use when growing the escape buffer. */
   private static final int DEST_PAD = 32;
+private final Function<String, String> asFunction = new Function<String, String>() {
+        @Override
+        public String apply(String from) {
+          return escape(from);
+        }
+      };
 
   /** Constructor for use by subclasses. */
   protected UnicodeEscaper() {}
@@ -213,6 +220,13 @@ public abstract class UnicodeEscaper extends Escaper {
   }
 
   /**
+   * Returns a {@link Function} that invokes {@link #escape(String)} on this escaper.
+   */
+public final Function<String, String> asFunction() {
+    return asFunction;
+  }
+
+/**
    * Returns the Unicode code point of the character at the given index.
    *
    * <p>Unlike {@link Character#codePointAt(CharSequence, int)} or {@link String#codePointAt(int)}
@@ -283,17 +297,5 @@ public abstract class UnicodeEscaper extends Escaper {
       }
     }
     throw new IndexOutOfBoundsException("Index exceeds specified range");
-  }
-
-  /**
-   * Helper method to grow the character buffer as needed, this only happens once in a while so it's
-   * ok if it's in a method call. If the index passed in is 0 then no copying will be done.
-   */
-  private static char[] growBuffer(char[] dest, int index, int size) {
-    char[] copy = new char[size];
-    if (index > 0) {
-      System.arraycopy(dest, 0, copy, 0, index);
-    }
-    return copy;
   }
 }

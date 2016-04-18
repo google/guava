@@ -71,7 +71,7 @@ final class TrieParser {
       }
     }
 
-    stack.add(0, reverse(encoded.subSequence(0, idx)));
+    stack.add(0, (CharSequence) new StringBuilder(encoded.subSequence(0, idx)).reverse());
 
     if (c == '!' || c == '?' || c == ':' || c == ',') {
       // '!' represents an interior node that represents an ICANN entry in the map.
@@ -98,9 +98,5 @@ final class TrieParser {
     }
     stack.remove(0);
     return idx;
-  }
-
-  private static CharSequence reverse(CharSequence s) {
-    return new StringBuilder(s).reverse();
   }
 }

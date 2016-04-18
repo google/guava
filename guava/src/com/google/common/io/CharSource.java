@@ -18,12 +18,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Ascii;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.primitives.Ascii;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.BufferedReader;
@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
@@ -192,7 +193,7 @@ public abstract class CharSource {
     Closer closer = Closer.create();
     try {
       Reader reader = closer.register(openStream());
-      return CharStreams.copy(reader, appendable);
+      return CharSource.copy(reader, appendable);
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {
@@ -215,7 +216,7 @@ public abstract class CharSource {
     try {
       Reader reader = closer.register(openStream());
       Writer writer = closer.register(sink.openStream());
-      return CharStreams.copy(reader, writer);
+      return CharSource.copy(reader, writer);
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {
@@ -348,6 +349,30 @@ public abstract class CharSource {
   }
 
   /**
+   * Copies all characters between the {@link Readable} and {@link Appendable} objects. Does not
+   * close or flush either object.
+   *
+   * @param from the object to read from
+   * @param to the object to write to
+   * @return the number of characters copied
+   * @throws IOException if an I/O error occurs
+   */
+  @CanIgnoreReturnValue
+  public static long copy(Readable from, Appendable to) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
+    CharBuffer buf = CharBuffer.allocate(CharStreams.BUF_SIZE);
+    long total = 0;
+    while (from.read(buf) != -1) {
+      buf.flip();
+      to.append(buf);
+      total += buf.remaining();
+      buf.clear();
+    }
+    return total;
+  }
+
+/**
    * Concatenates multiple {@link CharSource} instances into a single source. Streams returned from
    * the source will contain the concatenated data from the streams of the underlying sources.
    *

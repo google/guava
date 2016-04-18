@@ -420,7 +420,7 @@ public final class Tables {
 
     @Override
     Collection<V2> createValues() {
-      return Collections2.transform(fromTable.values(), function);
+      return CollectionsExtension.transform(fromTable.values(), function);
     }
 
     @Override

@@ -1219,7 +1219,7 @@ public final class Multimaps {
       if (values instanceof List) {
         return Lists.transform((List<V1>) values, function);
       } else {
-        return Collections2.transform(values, function);
+        return CollectionsExtension.transform(values, function);
       }
     }
 
@@ -1310,7 +1310,7 @@ public final class Multimaps {
 
     @Override
     Collection<V2> createValues() {
-      return Collections2.transform(
+      return CollectionsExtension.transform(
           fromMultimap.entries(), Maps.<K, V1, V2>asEntryToValueFunction(transformer));
     }
   }

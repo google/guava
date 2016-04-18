@@ -760,7 +760,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   public final <C extends Collection<? super E>> C copyInto(C collection) {
     checkNotNull(collection);
     if (iterable instanceof Collection) {
-      collection.addAll(Collections2.cast(iterable));
+      collection.addAll(CollectionsExtension.cast(iterable));
     } else {
       for (E item : iterable) {
         collection.add(item);

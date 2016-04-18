@@ -55,7 +55,7 @@ public final class HostSpecifier {
 
   /**
    * Returns a {@code HostSpecifier} built from the provided {@code specifier}, which is already
-   * known to be valid. If the {@code specifier} might be invalid, use {@link #from(String)}
+   * known to be valid. If the {@code specifier} might be invalid, use {@link #create(String)}
    * instead.
    *
    * <p>The specifier must be in one of these formats:
@@ -72,7 +72,7 @@ public final class HostSpecifier {
     // Verify that no port was specified, and strip optional brackets from
     // IPv6 literals.
     final HostAndPort parsedHost = HostAndPort.fromString(specifier);
-    Preconditions.checkArgument(!parsedHost.hasPort());
+    Preconditions.checkArgument(!(parsedHost.getPort() >= 0));
     final String host = parsedHost.getHostText();
 
     // Try to interpret the specifier as an IP address. Note we build
@@ -110,7 +110,7 @@ public final class HostSpecifier {
    *
    * @throws ParseException if the specifier is not valid.
    */
-  public static HostSpecifier from(String specifier) throws ParseException {
+  public static HostSpecifier create(String specifier) throws ParseException {
     try {
       return fromValid(specifier);
     } catch (IllegalArgumentException e) {

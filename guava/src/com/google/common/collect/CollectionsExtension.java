@@ -53,8 +53,8 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public final class Collections2 {
-  private Collections2() {}
+public final class CollectionsExtension {
+  private CollectionsExtension() {}
 
   /**
    * Returns the elements of {@code unfiltered} that satisfy a predicate. The

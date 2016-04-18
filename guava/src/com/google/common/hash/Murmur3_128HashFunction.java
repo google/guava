@@ -49,7 +49,7 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
   }
 
   @Override
-  public int bits() {
+  public int numberOfBits() {
     return 128;
   }
 

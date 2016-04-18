@@ -23,7 +23,7 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
@@ -911,7 +911,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     private AvlNode<E> ceiling(Comparator<? super E> comparator, E e) {
       int cmp = comparator.compare(e, elem);
       if (cmp < 0) {
-        return (left == null) ? this : MoreObjects.firstNonNull(left.ceiling(comparator, e), this);
+        return (left == null) ? this : ObjectsExtension.firstNonNull(left.ceiling(comparator, e), this);
       } else if (cmp == 0) {
         return this;
       } else {
@@ -923,7 +923,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     private AvlNode<E> floor(Comparator<? super E> comparator, E e) {
       int cmp = comparator.compare(e, elem);
       if (cmp > 0) {
-        return (right == null) ? this : MoreObjects.firstNonNull(right.floor(comparator, e), this);
+        return (right == null) ? this : ObjectsExtension.firstNonNull(right.floor(comparator, e), this);
       } else if (cmp == 0) {
         return this;
       } else {

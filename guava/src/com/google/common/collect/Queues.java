@@ -73,7 +73,7 @@ public final class Queues {
    */
   public static <E> ArrayDeque<E> newArrayDeque(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new ArrayDeque<E>(Collections2.cast(elements));
+      return new ArrayDeque<E>(CollectionsExtension.cast(elements));
     }
     ArrayDeque<E> deque = new ArrayDeque<E>();
     Iterables.addAll(deque, elements);
@@ -96,7 +96,7 @@ public final class Queues {
   public static <E> ConcurrentLinkedQueue<E> newConcurrentLinkedQueue(
       Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new ConcurrentLinkedQueue<E>(Collections2.cast(elements));
+      return new ConcurrentLinkedQueue<E>(CollectionsExtension.cast(elements));
     }
     ConcurrentLinkedQueue<E> queue = new ConcurrentLinkedQueue<E>();
     Iterables.addAll(queue, elements);
@@ -133,7 +133,7 @@ public final class Queues {
    */
   public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new LinkedBlockingDeque<E>(Collections2.cast(elements));
+      return new LinkedBlockingDeque<E>(CollectionsExtension.cast(elements));
     }
     LinkedBlockingDeque<E> deque = new LinkedBlockingDeque<E>();
     Iterables.addAll(deque, elements);
@@ -168,7 +168,7 @@ public final class Queues {
    */
   public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue(Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new LinkedBlockingQueue<E>(Collections2.cast(elements));
+      return new LinkedBlockingQueue<E>(CollectionsExtension.cast(elements));
     }
     LinkedBlockingQueue<E> queue = new LinkedBlockingQueue<E>();
     Iterables.addAll(queue, elements);
@@ -200,7 +200,7 @@ public final class Queues {
   public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue(
       Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new PriorityBlockingQueue<E>(Collections2.cast(elements));
+      return new PriorityBlockingQueue<E>(CollectionsExtension.cast(elements));
     }
     PriorityBlockingQueue<E> queue = new PriorityBlockingQueue<E>();
     Iterables.addAll(queue, elements);
@@ -230,7 +230,7 @@ public final class Queues {
   public static <E extends Comparable> PriorityQueue<E> newPriorityQueue(
       Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      return new PriorityQueue<E>(Collections2.cast(elements));
+      return new PriorityQueue<E>(CollectionsExtension.cast(elements));
     }
     PriorityQueue<E> queue = new PriorityQueue<E>();
     Iterables.addAll(queue, elements);

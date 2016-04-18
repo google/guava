@@ -17,7 +17,7 @@ package com.google.common.cache;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.base.Objects;
 
 import java.util.concurrent.Callable;
@@ -266,7 +266,7 @@ public final class CacheStats {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
+    return ObjectsExtension.toStringHelper(this)
         .add("hitCount", hitCount)
         .add("missCount", missCount)
         .add("loadSuccessCount", loadSuccessCount)

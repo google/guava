@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
  * @since 18.0 (since 2.0 as {@code Objects})
  */
 @GwtCompatible
-public final class MoreObjects {
+public final class ObjectsExtension {
   /**
    * Returns the first of two given parameters that is not {@code null}, if either is, or otherwise
    * throws a {@link NullPointerException}.
@@ -129,7 +129,7 @@ public final class MoreObjects {
   }
 
   /**
-   * Support class for {@link MoreObjects#toStringHelper}.
+   * Support class for {@link ObjectsExtension#toStringHelper}.
    *
    * @author Jason Lee
    * @since 18.0 (since 2.0 as {@code Objects.ToStringHelper}).
@@ -141,7 +141,7 @@ public final class MoreObjects {
     private boolean omitNullValues = false;
 
     /**
-     * Use {@link MoreObjects#toStringHelper(Object)} to create an instance.
+     * Use {@link ObjectsExtension#toStringHelper(Object)} to create an instance.
      */
     private ToStringHelper(String className) {
       this.className = checkNotNull(className);
@@ -320,7 +320,7 @@ public final class MoreObjects {
     }
 
     /**
-     * Returns a string in the format specified by {@link MoreObjects#toStringHelper(Object)}.
+     * Returns a string in the format specified by {@link ObjectsExtension#toStringHelper(Object)}.
      *
      * <p>After calling this method, you can keep adding more properties to later call toString()
      * again and get a more complete representation of the same object; but properties cannot be
@@ -382,5 +382,5 @@ public final class MoreObjects {
     }
   }
 
-  private MoreObjects() {}
+  private ObjectsExtension() {}
 }

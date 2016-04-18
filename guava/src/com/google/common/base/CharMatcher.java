@@ -1017,7 +1017,9 @@ public abstract class CharMatcher implements Predicate<Character> {
   /** {@link FastMatcher} which overrides {@code toString()} with a custom name. */
   abstract static class NamedFastMatcher extends FastMatcher {
 
-    private final String description;
+    protected static final int C1 = 0xcc9e2d51;
+	protected static final int C2 = 0x1b873593;
+	private final String description;
 
     NamedFastMatcher(String description) {
       this.description = checkNotNull(description);

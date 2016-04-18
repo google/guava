@@ -28,4 +28,6 @@ interface LongAddable {
   void add(long x);
 
   long sum();
+
+abstract long fn(long v, long x);
 }

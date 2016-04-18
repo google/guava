@@ -1355,7 +1355,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
       @Override
       public boolean contains(Object o) {
-        return Collections2.safeContains(submap.entrySet(), o);
+        return CollectionsExtension.safeContains(submap.entrySet(), o);
       }
 
       @Override

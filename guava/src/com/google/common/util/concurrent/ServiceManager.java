@@ -32,9 +32,9 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.base.Stopwatch;
-import com.google.common.collect.Collections2;
+import com.google.common.collect.CollectionsExtension;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -395,8 +395,8 @@ public final class ServiceManager {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(ServiceManager.class)
-        .add("services", Collections2.filter(services, not(instanceOf(NoOpService.class))))
+    return ObjectsExtension.toStringHelper(ServiceManager.class)
+        .add("services", CollectionsExtension.filter(services, not(instanceOf(NoOpService.class))))
         .toString();
   }
 

@@ -146,7 +146,7 @@ public final class Lists {
     checkNotNull(elements); // for GWT
     // Let ArrayList's sizing logic work, if possible
     return (elements instanceof Collection)
-        ? new ArrayList<E>(Collections2.cast(elements))
+        ? new ArrayList<E>(CollectionsExtension.cast(elements))
         : newArrayList(elements.iterator());
   }
 
@@ -290,7 +290,7 @@ public final class Lists {
     // quadratic cost of adding them to the COWAL directly.
     Collection<? extends E> elementsCollection =
         (elements instanceof Collection)
-            ? Collections2.cast(elements)
+            ? CollectionsExtension.cast(elements)
             : newArrayList(elements);
     return new CopyOnWriteArrayList<E>(elementsCollection);
   }
@@ -542,7 +542,7 @@ public final class Lists {
    * function are.
    *
    * <p>If only a {@code Collection} or {@code Iterable} input is available, use
-   * {@link Collections2#transform} or {@link Iterables#transform}.
+   * {@link CollectionsExtension#transform} or {@link Iterables#transform}.
    *
    * <p><b>Note:</b> serializing the returned list is implemented by serializing
    * {@code fromList}, its contents, and {@code function} -- <i>not</i> by

@@ -40,7 +40,7 @@ final class ChecksumHashFunction extends AbstractStreamingHashFunction implement
   }
 
   @Override
-  public int bits() {
+  public int numberOfBits() {
     return bits;
   }
 

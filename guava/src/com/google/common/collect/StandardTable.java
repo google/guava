@@ -794,7 +794,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
           Entry<?, ?> entry = (Entry<?, ?>) obj;
           return entry.getKey() != null
               && entry.getValue() instanceof Map
-              && Collections2.safeContains(backingMap.entrySet(), entry);
+              && CollectionsExtension.safeContains(backingMap.entrySet(), entry);
         }
         return false;
       }

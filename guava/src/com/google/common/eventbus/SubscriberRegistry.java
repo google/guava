@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.base.Objects;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
@@ -87,7 +87,7 @@ final class SubscriberRegistry {
       if (eventSubscribers == null) {
         CopyOnWriteArraySet<Subscriber> newSet = new CopyOnWriteArraySet<Subscriber>();
         eventSubscribers =
-            MoreObjects.firstNonNull(subscribers.putIfAbsent(eventType, newSet), newSet);
+            ObjectsExtension.firstNonNull(subscribers.putIfAbsent(eventType, newSet), newSet);
       }
 
       eventSubscribers.addAll(eventMethodsInListener);
@@ -121,7 +121,7 @@ final class SubscriberRegistry {
 
   @VisibleForTesting
   Set<Subscriber> getSubscribersForTesting(Class<?> eventType) {
-    return MoreObjects.firstNonNull(subscribers.get(eventType), ImmutableSet.<Subscriber>of());
+    return ObjectsExtension.firstNonNull(subscribers.get(eventType), ImmutableSet.<Subscriber>of());
   }
 
   /**

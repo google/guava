@@ -17,7 +17,7 @@ package com.google.common.eventbus;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.ObjectsExtension;
 import com.google.common.util.concurrent.MoreExecutors;
 
 import java.lang.reflect.Method;
@@ -77,7 +77,7 @@ import java.util.logging.Logger;
  *
  * <p>If an event is posted, but no registered subscribers can accept it, it is considered "dead."
  * To give the system a second chance to handle dead events, they are wrapped in an instance of
- * {@link DeadEvent} and reposted.
+ * {@link GhostEvent} and reposted.
  *
  * <p>If a subscriber for a supertype of all events (such as Object) is registered, no event will
  * ever be considered dead, and no DeadEvents will be generated. Accordingly, while DeadEvent
@@ -208,7 +208,7 @@ public class EventBus {
    * subscribers.
    *
    * <p>If no subscribers have been subscribed for {@code event}'s class, and {@code event} is not
-   * already a {@link DeadEvent}, it will be wrapped in a DeadEvent and reposted.
+   * already a {@link GhostEvent}, it will be wrapped in a DeadEvent and reposted.
    *
    * @param event event to post.
    */
@@ -216,15 +216,15 @@ public class EventBus {
     Iterator<Subscriber> eventSubscribers = subscribers.getSubscribers(event);
     if (eventSubscribers.hasNext()) {
       dispatcher.dispatch(event, eventSubscribers);
-    } else if (!(event instanceof DeadEvent)) {
+    } else if (!(event instanceof GhostEvent)) {
       // the event had no subscribers and was not itself a DeadEvent
-      post(new DeadEvent(this, event));
+      post(new GhostEvent(this, event));
     }
   }
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).addValue(identifier).toString();
+    return ObjectsExtension.toStringHelper(this).addValue(identifier).toString();
   }
 
   /**

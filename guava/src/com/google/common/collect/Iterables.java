@@ -118,7 +118,7 @@ public final class Iterables {
   public static boolean contains(Iterable<?> iterable, @Nullable Object element) {
     if (iterable instanceof Collection) {
       Collection<?> collection = (Collection<?>) iterable;
-      return Collections2.safeContains(collection, element);
+      return CollectionsExtension.safeContains(collection, element);
     }
     return Iterators.contains(iterable.iterator(), element);
   }
@@ -358,7 +358,7 @@ public final class Iterables {
   @CanIgnoreReturnValue
   public static <T> boolean addAll(Collection<T> addTo, Iterable<? extends T> elementsToAdd) {
     if (elementsToAdd instanceof Collection) {
-      Collection<? extends T> c = Collections2.cast(elementsToAdd);
+      Collection<? extends T> c = CollectionsExtension.cast(elementsToAdd);
       return addTo.addAll(c);
     }
     return Iterators.addAll(addTo, checkNotNull(elementsToAdd).iterator());
@@ -680,7 +680,7 @@ public final class Iterables {
    *
    * <p>If the input {@code Iterable} is known to be a {@code List} or other
    * {@code Collection}, consider {@link Lists#transform} and {@link
-   * Collections2#transform}.
+   * CollectionsExtension#transform}.
    */
   public static <F, T> Iterable<T> transform(
       final Iterable<F> fromIterable, final Function<? super F, ? extends T> function) {
@@ -784,7 +784,7 @@ public final class Iterables {
   @Nullable
   public static <T> T getLast(Iterable<? extends T> iterable, @Nullable T defaultValue) {
     if (iterable instanceof Collection) {
-      Collection<? extends T> c = Collections2.cast(iterable);
+      Collection<? extends T> c = CollectionsExtension.cast(iterable);
       if (c.isEmpty()) {
         return defaultValue;
       } else if (iterable instanceof List) {

@@ -31,7 +31,7 @@ import java.io.OutputStream;
  */
 @Beta
 @GwtIncompatible
-public final class CountingOutputStream extends FilterOutputStream {
+public final class CountableOutputStream extends FilterOutputStream {
 
   private long count;
 
@@ -40,7 +40,7 @@ public final class CountingOutputStream extends FilterOutputStream {
    *
    * @param out the output stream to be wrapped
    */
-  public CountingOutputStream(OutputStream out) {
+  public CountableOutputStream(OutputStream out) {
     super(checkNotNull(out));
   }
 
