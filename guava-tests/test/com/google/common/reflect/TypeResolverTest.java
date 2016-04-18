@@ -216,34 +216,34 @@ public class TypeResolverTest extends TestCase {
   }
 
   public <T> void testWhere_mapFromWildcard() {
-    Type subType = new TypeCapture<TypedKeyMap<T>>() {}.capture();
+    Type subtype = new TypeCapture<TypedKeyMap<T>>() {}.capture();
     assertEquals(new TypeCapture<TypedKeyMap<String>>() {}.capture(),
         new TypeResolver()
             .where(
                 new TypeCapture<Map<Integer, T>>() {}.capture(),
                 new TypeCapture<Map<?, String>>() {}.capture())
-        .resolveType(subType));
+        .resolveType(subtype));
   }
 
   public <T> void testWhere_mapFromWildcardToParameterized() {
-    Type subType = new TypeCapture<TypedListKeyMap<T>>() {}.capture();
+    Type subtype = new TypeCapture<TypedListKeyMap<T>>() {}.capture();
     assertEquals(new TypeCapture<TypedListKeyMap<String>>() {}.capture(),
         new TypeResolver()
             .where(
                 new TypeCapture<Map<List<Integer>, T>>() {}.capture(),
                 new TypeCapture<Map<?, String>>() {}.capture())
-        .resolveType(subType));
+        .resolveType(subtype));
   }
 
   public <T> void testWhere_mapFromBoundedWildcard() {
-    Type subType = new TypeCapture<TypedKeyMap<T>>() {}.capture();
+    Type subtype = new TypeCapture<TypedKeyMap<T>>() {}.capture();
     // TODO(benyu): This should check equality to an expected value, see discussion in cl/98674873
     Type unused =
         new TypeResolver()
             .where(
                 new TypeCapture<Map<Integer, T>>() {}.capture(),
                 new TypeCapture<Map<? extends Number, ? extends Number>>() {}.capture())
-            .resolveType(subType);
+            .resolveType(subtype);
   }
 
   interface TypedKeyMap<T> extends Map<Integer, T> {}

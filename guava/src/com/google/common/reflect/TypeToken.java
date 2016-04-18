@@ -480,7 +480,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
           || any(((TypeVariable<?>) runtimeType).getBounds()).isSubtypeOf(supertype);
     }
     if (runtimeType instanceof GenericArrayType) {
-      return of(supertype).isSuperTypeOfArray((GenericArrayType) runtimeType);
+      return of(supertype).isSupertypeOfArray((GenericArrayType) runtimeType);
     }
     // Proceed to regular Type subtype check
     if (supertype instanceof Class) {
@@ -488,7 +488,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     } else if (supertype instanceof ParameterizedType) {
       return this.isSubtypeOfParameterizedType((ParameterizedType) supertype);
     } else if (supertype instanceof GenericArrayType) {
-      return this.isSubTypeOfArrayType((GenericArrayType) supertype);
+      return this.isSubtypeOfArrayType((GenericArrayType) supertype);
     } else { // to instanceof TypeVariable
       return false;
     }
@@ -895,7 +895,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return true;
   }
 
-  private boolean isSubTypeOfArrayType(GenericArrayType supertype) {
+  private boolean isSubtypeOfArrayType(GenericArrayType supertype) {
     if (runtimeType instanceof Class) {
       Class<?> fromClass = (Class<?>) runtimeType;
       if (!fromClass.isArray()) {
@@ -911,7 +911,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     }
   }
 
-  private boolean isSuperTypeOfArray(GenericArrayType subtype) {
+  private boolean isSupertypeOfArray(GenericArrayType subtype) {
     if (runtimeType instanceof Class) {
       Class<?> thisClass = (Class<?>) runtimeType;
       if (!thisClass.isArray()) {
