@@ -862,7 +862,7 @@ public class AbstractServiceTest extends TestCase {
         } catch (IllegalStateException expected) {
           assertNull(expected.getCause());
           assertTrue(expected.getMessage().equals(
-              "Expected the service to be RUNNING, but was STOPPING"));
+              "Expected the service " + service + " to be RUNNING, but was STOPPING"));
         }
       }
       assertNotSame(from, service.state());
@@ -879,7 +879,7 @@ public class AbstractServiceTest extends TestCase {
         } catch (IllegalStateException expected) {
           assertNull(expected.getCause());
           assertTrue(expected.getMessage().equals(
-              "Expected the service to be RUNNING, but was TERMINATED"));
+              "Expected the service " + service + " to be RUNNING, but was TERMINATED"));
         }
       }
       completionLatch.countDown();

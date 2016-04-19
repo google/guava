@@ -328,11 +328,11 @@ public abstract class AbstractService implements Service {
       if (actual == FAILED) {
         // Handle this specially so that we can include the failureCause, if there is one.
         throw new IllegalStateException(
-            "Expected the service to be " + expected + ", but the service has FAILED",
+            "Expected the service " + this + " to be " + expected + ", but the service has FAILED",
             failureCause());
       }
       throw new IllegalStateException(
-          "Expected the service to be " + expected + ", but was " + actual);
+          "Expected the service " + this + " to be " + expected + ", but was " + actual);
     }
   }
 
