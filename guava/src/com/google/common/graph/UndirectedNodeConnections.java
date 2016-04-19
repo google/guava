@@ -16,130 +16,63 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.graph.GraphConstants.EXPECTED_DEGREE;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Iterators;
 
+import java.util.AbstractSet;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Nullable;
-
 /**
- * A class representing an origin node's adjacent nodes and incident edges in an undirected network.
+ * An implementation of {@link NodeConnections} for undirected networks.
  *
  * @author James Sexton
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-final class UndirectedNodeConnections<N, E> implements NodeConnections<N, E> {
-  private final Set<N> adjacentNodes;
-  private final Set<E> incidentEdges;
+final class UndirectedNodeConnections<N, E> extends AbstractUndirectedNodeConnections<N, E> {
 
-  private UndirectedNodeConnections(Set<N> adjacentNodes, Set<E> incidentEdges) {
-    this.adjacentNodes = checkNotNull(adjacentNodes, "adjacentNodes");
-    this.incidentEdges = checkNotNull(incidentEdges, "incidentEdges");
+  protected UndirectedNodeConnections(Map<E, N> incidentEdgeMap) {
+    super(incidentEdgeMap);
   }
 
   static <N, E> UndirectedNodeConnections<N, E> of() {
-    // TODO(user): Enable users to specify the expected number of neighbors of a new node.
-    return new UndirectedNodeConnections<N, E>(Sets.<N>newHashSet(), Sets.<E>newHashSet());
+    return new UndirectedNodeConnections<N, E>(HashBiMap.<E, N>create(EXPECTED_DEGREE));
   }
 
-  static <N, E> UndirectedNodeConnections<N, E> ofImmutable(
-      Set<N> adjacentNodes, Set<E> incidentEdges) {
-    return new UndirectedNodeConnections<N, E>(
-        ImmutableSet.copyOf(adjacentNodes), ImmutableSet.copyOf(incidentEdges));
+  static <N, E> UndirectedNodeConnections<N, E> ofImmutable(Map<E, N> incidentEdges) {
+    return new UndirectedNodeConnections<N, E>(ImmutableBiMap.copyOf(incidentEdges));
   }
 
   @Override
   public Set<N> adjacentNodes() {
-    return Collections.unmodifiableSet(adjacentNodes);
+    return Collections.unmodifiableSet(((BiMap<E, N>) incidentEdgeMap).values());
   }
 
   @Override
-  public Set<N> predecessors() {
-    return adjacentNodes();
-  }
+  public Set<E> edgesConnecting(final Object node) {
+    return new AbstractSet<E>() {
+      @Override
+      public Iterator<E> iterator() {
+        Map<N, E> adjacentNodes = ((BiMap<E, N>) incidentEdgeMap).inverse();
+        E connectingEdge = adjacentNodes.get(node);
+        if (connectingEdge == null) {
+          return ImmutableSet.<E>of().iterator();
+        }
+        return Iterators.singletonIterator(connectingEdge);
+      }
 
-  @Override
-  public Set<N> successors() {
-    return adjacentNodes();
-  }
-
-  @Override
-  public Set<E> incidentEdges() {
-    return Collections.unmodifiableSet(incidentEdges);
-  }
-
-  @Override
-  public Set<E> inEdges() {
-    return incidentEdges();
-  }
-
-  @Override
-  public Set<E> outEdges() {
-    return incidentEdges();
-  }
-
-  @Override
-  public void removeInEdge(Object edge) {
-    removeOutEdge(edge);
-  }
-
-  @Override
-  public void removeOutEdge(Object edge) {
-    checkNotNull(edge, "edge");
-    incidentEdges.remove(edge);
-  }
-
-  @Override
-  public void removePredecessor(Object node) {
-    removeSuccessor(node);
-  }
-
-  @Override
-  public void removeSuccessor(Object node) {
-    checkNotNull(node, "node");
-    adjacentNodes.remove(node);
-  }
-
-  @Override
-  public void addPredecessor(N node, E edge) {
-    addSuccessor(node, edge);
-  }
-
-  @Override
-  public void addSuccessor(N node, E edge) {
-    checkNotNull(node, "node");
-    checkNotNull(edge, "edge");
-    adjacentNodes.add(node);
-    incidentEdges.add(edge);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(adjacentNodes, incidentEdges);
-  }
-
-  @Override
-  public boolean equals(@Nullable Object object) {
-    if (object instanceof UndirectedNodeConnections) {
-      UndirectedNodeConnections<?, ?> that = (UndirectedNodeConnections<?, ?>) object;
-      return this.adjacentNodes.equals(that.adjacentNodes)
-          && this.incidentEdges.equals(that.incidentEdges);
-    }
-    return false;
-  }
-
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("adjacentNodes", adjacentNodes)
-        .add("incidentEdges", incidentEdges)
-        .toString();
+      @Override
+      public int size() {
+        return adjacentNodes().contains(node) ? 1 : 0;
+      }
+    };
   }
 }

@@ -18,8 +18,10 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 
 import java.util.Map;
 import java.util.Set;
@@ -39,7 +41,7 @@ import java.util.Set;
 public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N, E> {
 
   private ImmutableNetwork(Network<N, E> graph) {
-    super(NetworkBuilder.from(graph), getNodeConnections(graph), getEdgeToIncidentNodes(graph));
+    super(NetworkBuilder.from(graph), getNodeConnections(graph), getEdgeToReferenceNode(graph));
   }
 
   /**
@@ -76,20 +78,54 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
     return nodeConnections.build();
   }
 
-  private static <N, E> Map<E, IncidentNodes<N>> getEdgeToIncidentNodes(Network<N, E> graph) {
-    ImmutableMap.Builder<E, IncidentNodes<N>> edgeToIncidentNodes = ImmutableMap.builder();
+  private static <N, E> Map<E, N> getEdgeToReferenceNode(Network<N, E> graph) {
+    ImmutableMap.Builder<E, N> edgeToReferenceNode = ImmutableMap.builder();
     for (E edge : graph.edges()) {
-      edgeToIncidentNodes.put(edge, IncidentNodes.of(graph.incidentNodes(edge)));
+      edgeToReferenceNode.put(edge, graph.incidentNodes(edge).iterator().next());
     }
-    return edgeToIncidentNodes.build();
+    return edgeToReferenceNode.build();
   }
 
   private static <N, E> NodeConnections<N, E> nodeConnectionsOf(Network<N, E> graph, N node) {
-    return graph.isDirected()
-        ? DirectedNodeConnections.ofImmutable(
-            graph.predecessors(node), graph.successors(node),
-            graph.inEdges(node), graph.outEdges(node))
-        : UndirectedNodeConnections.ofImmutable(
-            graph.adjacentNodes(node), graph.incidentEdges(node));
+    if (graph.isDirected()) {
+      Map<E, N> inEdgeMap = Maps.asMap(graph.inEdges(node), sourceNodeFn(graph));
+      Map<E, N> outEdgeMap = Maps.asMap(graph.outEdges(node), targetNodeFn(graph));
+      return graph.allowsParallelEdges()
+           ? DirectedMultiNodeConnections.ofImmutable(inEdgeMap, outEdgeMap)
+           : DirectedNodeConnections.ofImmutable(inEdgeMap, outEdgeMap);
+    } else {
+      Map<E, N> incidentEdgeMap =
+          Maps.asMap(graph.incidentEdges(node), oppositeNodeFn(graph, node));
+      return graph.allowsParallelEdges()
+          ? UndirectedMultiNodeConnections.ofImmutable(incidentEdgeMap)
+          : UndirectedNodeConnections.ofImmutable(incidentEdgeMap);
+    }
+  }
+
+  private static <N, E> Function<E, N> sourceNodeFn(final Network<N, E> graph) {
+    return new Function<E, N>() {
+      @Override
+      public N apply(E edge) {
+        return graph.source(edge);
+      }
+    };
+  }
+
+  private static <N, E> Function<E, N> targetNodeFn(final Network<N, E> graph) {
+    return new Function<E, N>() {
+      @Override
+      public N apply(E edge) {
+        return graph.target(edge);
+      }
+    };
+  }
+
+  private static <N, E> Function<E, N> oppositeNodeFn(final Network<N, E> graph, final N node) {
+    return new Function<E, N>() {
+      @Override
+      public N apply(E edge) {
+        return Graphs.oppositeNode(graph, edge, node);
+      }
+    };
   }
 }

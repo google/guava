@@ -36,7 +36,7 @@ import java.util.Set;
  * by {@link NetworkBuilder}.
  *
  * <p>This class maintains a map of {@link NodeConnections} for every node
- * and {@link IncidentNodes} for every edge.
+ * and a reference node for every edge.
  *
  * <p>{@code Set}-returning accessors return unmodifiable views: the view returned will reflect
  * changes to the graph (if the graph is mutable) but may not be modified by the user.
@@ -67,7 +67,7 @@ class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   private final boolean allowsSelfLoops;
 
   protected final Map<N, NodeConnections<N, E>> nodeConnections;
-  protected final Map<E, IncidentNodes<N>> edgeToIncidentNodes;
+  protected final Map<E, N> edgeToReferenceNode; // reference node == source on directed networks
 
   /**
    * Constructs a mutable graph with the properties specified in {@code builder}.
@@ -77,7 +77,7 @@ class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
         builder,
         Maps.<N, NodeConnections<N, E>>newLinkedHashMapWithExpectedSize(
             builder.expectedNodeCount.or(DEFAULT_MAP_SIZE)),
-        Maps.<E, IncidentNodes<N>>newLinkedHashMapWithExpectedSize(
+        Maps.<E, N>newLinkedHashMapWithExpectedSize(
             builder.expectedEdgeCount.or(DEFAULT_MAP_SIZE)));
   }
 
@@ -87,12 +87,12 @@ class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
    */
   AbstractConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder,
       Map<N, NodeConnections<N, E>> nodeConnections,
-      Map<E, IncidentNodes<N>> edgeToIncidentNodes) {
+      Map<E, N> edgeToReferenceNode) {
     this.isDirected = builder.directed;
     this.allowsParallelEdges = builder.allowsParallelEdges;
     this.allowsSelfLoops = builder.allowsSelfLoops;
     this.nodeConnections = checkNotNull(nodeConnections);
-    this.edgeToIncidentNodes = checkNotNull(edgeToIncidentNodes);
+    this.edgeToReferenceNode = checkNotNull(edgeToReferenceNode);
   }
 
   @Override
@@ -102,7 +102,7 @@ class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
 
   @Override
   public Set<E> edges() {
-    return Collections.unmodifiableSet(edgeToIncidentNodes.keySet());
+    return Collections.unmodifiableSet(edgeToReferenceNode.keySet());
   }
 
   @Override
@@ -127,7 +127,9 @@ class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
 
   @Override
   public Set<N> incidentNodes(Object edge) {
-    return checkedIncidentNodes(edge);
+    N node1 = checkedReferenceNode(edge);
+    N node2 = nodeConnections.get(node1).oppositeNode(edge);
+    return ImmutableSet.of(node1, node2);
   }
 
   @Override
@@ -146,28 +148,14 @@ class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     return Sets.difference(endpointsIncidentEdges, ImmutableSet.of(edge));
   }
 
-  /**
-   * If {@code node1} is equal to {@code node2}, the set of self-loop edges is returned.
-   * Otherwise, returns the intersection of these two sets, using {@link Sets#intersection}:
-   * <ol>
-   * <li>Outgoing edges of {@code node1}.
-   * <li>Incoming edges of {@code node2}.
-   * </ol>
-   */
   @Override
   public Set<E> edgesConnecting(Object node1, Object node2) {
-    Set<E> outEdgesN1 = outEdges(node1); // Verifies that node1 is in graph
-    if (node1.equals(node2)) {
-      if (!allowsSelfLoops) {
-        return ImmutableSet.of();
-      }
-      Set<E> selfLoopEdges = Sets.filter(outEdgesN1, Graphs.selfLoopPredicate(this));
-      return Collections.unmodifiableSet(selfLoopEdges);
+    NodeConnections<N, E> connectionsN1 = checkedConnections(node1);
+    if (!allowsSelfLoops && node1.equals(node2)) {
+      return ImmutableSet.of();
     }
-    Set<E> inEdgesN2 = inEdges(node2);
-    return (outEdgesN1.size() <= inEdgesN2.size())
-        ? Sets.intersection(outEdgesN1, inEdgesN2)
-        : Sets.intersection(inEdgesN2, outEdgesN1);
+    checkArgument(nodeConnections.get(node2) != null, NODE_NOT_IN_GRAPH, node2);
+    return connectionsN1.edgesConnecting(node2);
   }
 
   @Override
@@ -195,15 +183,13 @@ class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     if (!isDirected) {
       throw new UnsupportedOperationException(NOT_AVAILABLE_ON_UNDIRECTED);
     }
-    return checkedIncidentNodes(edge).node1();
+    return checkedReferenceNode(edge);
   }
 
   @Override
   public N target(Object edge) {
-    if (!isDirected) {
-      throw new UnsupportedOperationException(NOT_AVAILABLE_ON_UNDIRECTED);
-    }
-    return checkedIncidentNodes(edge).node2();
+    N source = source(edge);
+    return nodeConnections.get(source).oppositeNode(edge);
   }
 
   protected NodeConnections<N, E> checkedConnections(Object node) {
@@ -213,10 +199,10 @@ class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     return connections;
   }
 
-  protected IncidentNodes<N> checkedIncidentNodes(Object edge) {
+  protected N checkedReferenceNode(Object edge) {
     checkNotNull(edge, "edge");
-    IncidentNodes<N> incidentNodes = edgeToIncidentNodes.get(edge);
-    checkArgument(incidentNodes != null, EDGE_NOT_IN_GRAPH, edge);
-    return incidentNodes;
+    N referenceNode = edgeToReferenceNode.get(edge);
+    checkArgument(referenceNode != null, EDGE_NOT_IN_GRAPH, edge);
+    return referenceNode;
   }
 }

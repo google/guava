@@ -16,6 +16,8 @@
 
 package com.google.common.graph;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.util.Set;
 
 /**
@@ -40,36 +42,40 @@ interface NodeConnections<N, E> {
   Set<E> outEdges();
 
   /**
-   * Remove {@code edge} from the sets of in edges. If this is known to be the last remaining edge
-   * between two (formerly) connected nodes, {@link #removePredecessor} must also be called.
+   * Returns the node that is opposite the origin node along {@code edge}.
+   * In the directed case, {@code edge} is assumed to be an outgoing edge.
    */
-  void removeInEdge(Object edge);
+  N oppositeNode(Object edge);
 
   /**
-   * Remove {@code edge} from the sets of out edges. If this is known to be the last remaining edge
-   * between two (formerly) connected nodes, {@link #removeSuccessor} must also be called.
+   * Returns the set of edges connecting the origin node to {@code node}.
+   * For networks without parallel edges, this set cannot be of size greater than one.
    */
-  void removeOutEdge(Object edge);
+  Set<E> edgesConnecting(Object node);
 
   /**
-   * Remove {@code node} from the set of predecessors.
+   * Remove {@code edge} from the set of incoming edges. Returns the former predecessor node.
    */
-  void removePredecessor(Object node);
+  @CanIgnoreReturnValue
+  N removeInEdge(Object edge);
 
   /**
-   * Remove {@code node} from the set of successors.
+   * Remove {@code edge} from the set of outgoing edges. Returns the former successor node.
    */
-  void removeSuccessor(Object node);
+  @CanIgnoreReturnValue
+  N removeOutEdge(Object edge);
 
   /**
-   * Add {@code node} as a predecessor to the origin node, connected with {@code edge}.
-   * In the case of an undirected graph, it also becomes a successor.
+   * Add {@code edge} to the set of incoming edges. Implicitly adds {@code node} as a predecessor.
+   * Returns true if the edge did not already exist.
    */
-  void addPredecessor(N node, E edge);
+  @CanIgnoreReturnValue
+  boolean addInEdge(E edge, N node);
 
   /**
-   * Add {@code node} as a successor to the origin node, connected with {@code edge}.
-   * In the case of an undirected graph, it also becomes a predecessor.
+   * Add {@code edge} to the set of outgoing edges. Implicitly adds {@code node} as a successor.
+   * Returns true if the edge did not already exist.
    */
-  void addSuccessor(N node, E edge);
+  @CanIgnoreReturnValue
+  boolean addOutEdge(E edge, N node);
 }

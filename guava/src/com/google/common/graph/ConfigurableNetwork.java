@@ -31,16 +31,8 @@ import java.util.Map;
  * Configurable implementation of {@link Network} that supports both directed and undirected graphs.
  * Instances of this class should be constructed with {@link NetworkBuilder}.
  *
-  * <p>Time complexities for mutation methods:
- * <ul>
- * <li>{@code addNode(N node)}: O(1).
- * <li>{@code addEdge(E edge, N node1, N node2)}: O(1).
- * <li>{@code removeNode(N node)}: O(d_node).
- * <li>{@code removeEdge(E edge)}: O(1), unless this graph allows parallel edges;
- *     in that case this method is O(min(outD_edgeSource, inD_edgeTarget)).
- * </ul>
- * where d_node is the degree of node, inD_node is the in-degree of node, and outD_node is the
- * out-degree of node.
+ * <p>Time complexities for mutation methods are all O(1) except for {@code removeNode(N node)},
+ * which is in O(d_node) where d_node is the degree of {@code node}.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
@@ -66,8 +58,8 @@ class ConfigurableNetwork<N, E>
    */
   ConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder,
       Map<N, NodeConnections<N, E>> nodeConnections,
-      Map<E, IncidentNodes<N>> edgeToIncidentNodes) {
-    super(builder, nodeConnections, edgeToIncidentNodes);
+      Map<E, N> edgeToReferenceNode) {
+    super(builder, nodeConnections, edgeToReferenceNode);
   }
 
   @Override
@@ -77,7 +69,7 @@ class ConfigurableNetwork<N, E>
     if (nodes().contains(node)) {
       return false;
     }
-    nodeConnections.put(node, newNodeConnections(isDirected()));
+    nodeConnections.put(node, newNodeConnections());
     return true;
   }
 
@@ -96,13 +88,12 @@ class ConfigurableNetwork<N, E>
     checkNotNull(edge, "edge");
     checkNotNull(node1, "node1");
     checkNotNull(node2, "node2");
-    IncidentNodes<N> incidentNodes = IncidentNodes.of(node1, node2);
-    checkArgument(allowsSelfLoops() || !incidentNodes.isSelfLoop(), SELF_LOOPS_NOT_ALLOWED, node1);
+    checkArgument(allowsSelfLoops() || !node1.equals(node2), SELF_LOOPS_NOT_ALLOWED, node1);
     boolean containsN1 = nodes().contains(node1);
     boolean containsN2 = nodes().contains(node2);
     if (edges().contains(edge)) {
       checkArgument(containsN1 && containsN2 && edgesConnecting(node1, node2).contains(edge),
-          REUSING_EDGE, edge, incidentNodes(edge), incidentNodes);
+          REUSING_EDGE, edge, incidentNodes(edge), node1, node2);
       return false;
     } else if (!allowsParallelEdges()) {
       checkArgument(!(containsN1 && containsN2 && successors(node1).contains(node2)),
@@ -112,13 +103,13 @@ class ConfigurableNetwork<N, E>
       addNode(node1);
     }
     NodeConnections<N, E> connectionsN1 = nodeConnections.get(node1);
-    connectionsN1.addSuccessor(node2, edge);
+    connectionsN1.addOutEdge(edge, node2);
     if (!containsN2) {
       addNode(node2);
     }
     NodeConnections<N, E> connectionsN2 = nodeConnections.get(node2);
-    connectionsN2.addPredecessor(node1, edge);
-    edgeToIncidentNodes.put(edge, incidentNodes);
+    connectionsN2.addInEdge(edge, node1);
+    edgeToReferenceNode.put(edge, node1);
     return true;
   }
 
@@ -132,9 +123,7 @@ class ConfigurableNetwork<N, E>
     // Since views are returned, we need to copy the edges that will be removed.
     // Thus we avoid modifying the underlying view while iterating over it.
     for (E edge : ImmutableList.copyOf(incidentEdges(node))) {
-      // Simply calling removeEdge(edge) would result in O(degree^2) behavior. However, we know that
-      // after all incident edges are removed, the input node will be disconnected from all others.
-      removeEdgeAndUpdateConnections(edge, true);
+      removeEdge(edge);
     }
     nodeConnections.remove(node);
     return true;
@@ -144,40 +133,24 @@ class ConfigurableNetwork<N, E>
   @CanIgnoreReturnValue
   public boolean removeEdge(Object edge) {
     checkNotNull(edge, "edge");
-    if (!edges().contains(edge)) {
+    N node1 = edgeToReferenceNode.get(edge);
+    if (node1 == null) {
       return false;
     }
-    // If there are no parallel edges, the removal of this edge will disconnect the incident nodes.
-    removeEdgeAndUpdateConnections(edge, Graphs.parallelEdges(this, edge).isEmpty());
+    N node2 = nodeConnections.get(node1).oppositeNode(edge);
+    nodeConnections.get(node1).removeOutEdge(edge);
+    nodeConnections.get(node2).removeInEdge(edge);
+    edgeToReferenceNode.remove(edge);
     return true;
   }
 
-  /**
-   * If {@code disconnectIncidentNodes} is true, disconnects the nodes formerly connected
-   * by {@code edge}. This should be set when all parallel edges are or will be removed.
-   *
-   * <p>Unlike {@link #removeEdge(Object)}, this method is guaranteed to run in O(1) time.
-   *
-   * @throws IllegalArgumentException if {@code edge} is not present in the graph.
-   */
-  private void removeEdgeAndUpdateConnections(Object edge, boolean disconnectIncidentNodes) {
-    IncidentNodes<N> incidentNodes = checkedIncidentNodes(edge);
-    N node1 = incidentNodes.node1();
-    N node2 = incidentNodes.node2();
-    NodeConnections<N, E> connectionsN1 = nodeConnections.get(node1);
-    NodeConnections<N, E> connectionsN2 = nodeConnections.get(node2);
-    if (disconnectIncidentNodes) {
-      connectionsN1.removeSuccessor(node2);
-      connectionsN2.removePredecessor(node1);
-    }
-    connectionsN1.removeOutEdge(edge);
-    connectionsN2.removeInEdge(edge);
-    edgeToIncidentNodes.remove(edge);
-  }
-
-  private NodeConnections<N, E> newNodeConnections(boolean isDirected) {
-    return isDirected
-        ? DirectedNodeConnections.<N, E>of()
-        : UndirectedNodeConnections.<N, E>of();
+  private NodeConnections<N, E> newNodeConnections() {
+    return isDirected()
+        ? allowsParallelEdges()
+            ? DirectedMultiNodeConnections.<N, E>of()
+            : DirectedNodeConnections.<N, E>of()
+        : allowsParallelEdges()
+            ? UndirectedMultiNodeConnections.<N, E>of()
+            : UndirectedNodeConnections.<N, E>of();
   }
 }
