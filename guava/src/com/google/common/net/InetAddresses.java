@@ -455,6 +455,16 @@ public final class InetAddresses {
    *     address surrounded by square brackets
    */
   public static InetAddress forUriString(String hostAddr) {
+    InetAddress addr = forUriStringNoThrow(hostAddr);
+    if (addr == null) {
+      throw formatIllegalArgumentException("Not a valid URI IP literal: '%s'", hostAddr);
+    }
+
+    return addr;
+  }
+
+  @Nullable
+  private static InetAddress forUriStringNoThrow(String hostAddr) {
     Preconditions.checkNotNull(hostAddr);
 
     // Decide if this should be an IPv6 or IPv4 address.
@@ -471,7 +481,7 @@ public final class InetAddresses {
     // Parse the address, and make sure the length/version is correct.
     byte[] addr = ipStringToBytes(ipString);
     if (addr == null || addr.length != expectBytes) {
-      throw formatIllegalArgumentException("Not a valid URI IP literal: '%s'", hostAddr);
+      return null;
     }
 
     return bytesToInetAddress(addr);
@@ -485,12 +495,7 @@ public final class InetAddresses {
    * @return {@code true} if the argument is a valid IP URI host
    */
   public static boolean isUriInetAddress(String ipString) {
-    try {
-      forUriString(ipString);
-      return true;
-    } catch (IllegalArgumentException e) {
-      return false;
-    }
+    return forUriStringNoThrow(ipString) != null;
   }
 
   /**
