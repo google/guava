@@ -20,8 +20,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.graph.DirectedNodeAdjacencies.Adjacency;
 
-import java.util.Map;
+import java.util.Set;
 
 /**
  * A {@link Graph} whose relationships are constant. Instances of this class may be obtained
@@ -61,7 +62,7 @@ public final class ImmutableGraph<N> extends AbstractConfigurableGraph<N> {
     return checkNotNull(graph);
   }
 
-  private static <N> Map<N, NodeAdjacencies<N>> getNodeConnections(Graph<N> graph) {
+  private static <N> ImmutableMap<N, NodeAdjacencies<N>> getNodeConnections(Graph<N> graph) {
     ImmutableMap.Builder<N, NodeAdjacencies<N>> nodeConnections = ImmutableMap.builder();
     for (N node : graph.nodes()) {
       nodeConnections.put(node, nodeConnectionsOf(graph, node));
@@ -71,7 +72,31 @@ public final class ImmutableGraph<N> extends AbstractConfigurableGraph<N> {
 
   private static <N> NodeAdjacencies<N> nodeConnectionsOf(Graph<N> graph, N node) {
     return graph.isDirected()
-        ? DirectedNodeAdjacencies.ofImmutable(graph.predecessors(node), graph.successors(node))
+        ? DirectedNodeAdjacencies.ofImmutable(createAdjacencyMap(
+            graph, node), graph.predecessors(node).size(), graph.successors(node).size())
         : UndirectedNodeAdjacencies.ofImmutable(graph.adjacentNodes(node));
+  }
+
+  private static <N> ImmutableMap<N, Adjacency> createAdjacencyMap(Graph<N> graph, N node) {
+    Set<N> predecessors = graph.predecessors(node);
+    Set<N> successors = graph.successors(node);
+    ImmutableMap.Builder<N, Adjacency> nodeAdjacencies = ImmutableMap.builder();
+    for (N adjacentNode : graph.adjacentNodes(node)) {
+      nodeAdjacencies.put(adjacentNode,
+          getAdjacency(predecessors.contains(adjacentNode), successors.contains(adjacentNode)));
+    }
+    return nodeAdjacencies.build();
+  }
+
+  private static Adjacency getAdjacency(boolean isPredecessor, boolean isSuccesor) {
+    if (isPredecessor && isSuccesor) {
+      return Adjacency.BOTH;
+    } else if (isPredecessor) {
+      return Adjacency.PRED;
+    } else if (isSuccesor) {
+      return Adjacency.SUCC;
+    } else {
+      throw new IllegalStateException();
+    }
   }
 }

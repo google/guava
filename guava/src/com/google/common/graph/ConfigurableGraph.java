@@ -103,16 +103,17 @@ class ConfigurableGraph<N> extends AbstractConfigurableGraph<N> implements Mutab
   @CanIgnoreReturnValue
   public boolean removeNode(Object node) {
     checkNotNull(node, "node");
-    if (!nodes().contains(node)) {
+    NodeAdjacencies<N> connections = nodeConnections.get(node);
+    if (connections == null) {
       return false;
     }
-    for (N successor : nodeConnections.get(node).successors()) {
+    for (N successor : connections.successors()) {
       if (!node.equals(successor)) {
         // don't remove the successor if it's the input node (=> CME); will be removed below
         nodeConnections.get(successor).removePredecessor(node);
       }
     }
-    for (N predecessor : nodeConnections.get(node).predecessors()) {
+    for (N predecessor : connections.predecessors()) {
       nodeConnections.get(predecessor).removeSuccessor(node);
     }
     nodeConnections.remove(node);
@@ -125,13 +126,13 @@ class ConfigurableGraph<N> extends AbstractConfigurableGraph<N> implements Mutab
     checkNotNull(node1, "node1");
     checkNotNull(node2, "node2");
     NodeAdjacencies<N> connectionsN1 = nodeConnections.get(node1);
-    NodeAdjacencies<N> connectionsN2 = nodeConnections.get(node2);
-    if (connectionsN1 == null || connectionsN2 == null) {
+    if (connectionsN1 == null || !connectionsN1.successors().contains(node2)) {
       return false;
     }
-    boolean result = connectionsN1.removeSuccessor(node2);
+    NodeAdjacencies<N> connectionsN2 = nodeConnections.get(node2);
+    connectionsN1.removeSuccessor(node2);
     connectionsN2.removePredecessor(node1);
-    return result;
+    return true;
   }
 
   private NodeAdjacencies<N> newNodeConnections() {

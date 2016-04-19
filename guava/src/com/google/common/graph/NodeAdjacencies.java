@@ -16,11 +16,9 @@
 
 package com.google.common.graph;
 
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Set;
 /**
- * An interface for representing an origin node's adjacent nodes in a network.
+ * An interface for representing an origin node's adjacent nodes in a graph.
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -35,35 +33,23 @@ interface NodeAdjacencies<N> {
 
   /**
    * Remove {@code node} from the set of predecessors.
-   *
-   * @return true iff the adjacency relationships changed
    */
-  @CanIgnoreReturnValue
-  boolean removePredecessor(Object node);
+  void removePredecessor(Object node);
 
   /**
    * Remove {@code node} from the set of successors.
-   *
-   * @return true iff the adjacency relationships changed
    */
-  @CanIgnoreReturnValue
-  boolean removeSuccessor(Object node);
+  void removeSuccessor(Object node);
 
   /**
    * Add {@code node} as a predecessor to the origin node.
    * In the case of an undirected graph, it also becomes a successor.
-   *
-   * @return true iff the adjacency relationships changed
    */
-  @CanIgnoreReturnValue
-  boolean addPredecessor(N node);
+  void addPredecessor(N node);
 
   /**
    * Add {@code node} as a successor to the origin node.
    * In the case of an undirected graph, it also becomes a predecessor.
-   *
-   * @return true iff the adjacency relationships changed
    */
-  @CanIgnoreReturnValue
-  boolean addSuccessor(N node);
+  void addSuccessor(N node);
 }

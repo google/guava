@@ -17,16 +17,18 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.graph.GraphConstants.EXPECTED_DEGREE;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
+import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Maps;
 
+import java.util.AbstractSet;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
-
-import javax.annotation.Nullable;
 
 /**
  * A class representing an origin node's adjacent nodes in a directed graph.
@@ -35,84 +37,153 @@ import javax.annotation.Nullable;
  * @param <N> Node parameter type
  */
 final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
-  private final Set<N> predecessors;
-  private final Set<N> successors;
+  enum Adjacency {
+    PRED,
+    SUCC,
+    BOTH;
+  }
 
-  private DirectedNodeAdjacencies(Set<N> predecessors, Set<N> successors) {
-    this.predecessors = checkNotNull(predecessors, "predecessors");
-    this.successors = checkNotNull(successors, "successors");
+  private final Map<N, Adjacency> adjacentNodes;
+
+  private int predecessorCount;
+  private int successorCount;
+
+  private DirectedNodeAdjacencies(
+      Map<N, Adjacency> adjacentNodes, int predecessorCount, int successorCount) {
+    this.adjacentNodes = checkNotNull(adjacentNodes, "adjacentNodes");
+    this.predecessorCount = predecessorCount;
+    this.successorCount = successorCount;
   }
 
   static <N> DirectedNodeAdjacencies<N> of() {
-    // TODO(user): Enable users to specify the expected number of neighbors of a new node.
-    return new DirectedNodeAdjacencies<N>(Sets.<N>newHashSet(), Sets.<N>newHashSet());
+    return new DirectedNodeAdjacencies<N>(
+        Maps.<N, Adjacency>newHashMapWithExpectedSize(EXPECTED_DEGREE), 0, 0);
   }
 
-  static <N> DirectedNodeAdjacencies<N> ofImmutable(Set<N> predecessors, Set<N> successors) {
+  static <N> DirectedNodeAdjacencies<N> ofImmutable(
+      Map<N, Adjacency> adjacentNodes, int predecessorCount, int successorCount) {
     return new DirectedNodeAdjacencies<N>(
-        ImmutableSet.copyOf(predecessors), ImmutableSet.copyOf(successors));
+        ImmutableMap.copyOf(adjacentNodes), predecessorCount, successorCount);
   }
 
   @Override
   public Set<N> adjacentNodes() {
-    return Sets.union(predecessors(), successors());
+    return Collections.unmodifiableSet(adjacentNodes.keySet());
   }
 
   @Override
   public Set<N> predecessors() {
-    return Collections.unmodifiableSet(predecessors);
+    // Don't simply use Sets.filter() or we'll end up with O(N) instead of O(1) size().
+    return new AbstractSet<N>() {
+      @Override
+      public Iterator<N> iterator() {
+        return Iterators.filter(adjacentNodes().iterator(), new Predicate<N>() {
+          @Override
+          public boolean apply(N node) {
+            return isPredecessor(node);
+          }
+        });
+      }
+
+      @Override
+      public int size() {
+        return predecessorCount;
+      }
+
+      @Override
+      public boolean contains(Object o) {
+        return isPredecessor(o);
+      }
+    };
   }
 
   @Override
   public Set<N> successors() {
-    return Collections.unmodifiableSet(successors);
+    // Don't simply use Sets.filter() or we'll end up with O(N) instead of O(1) size().
+    return new AbstractSet<N>() {
+      @Override
+      public Iterator<N> iterator() {
+        return Iterators.filter(adjacentNodes().iterator(), new Predicate<N>() {
+          @Override
+          public boolean apply(N node) {
+            return isSuccessor(node);
+          }
+        });
+      }
+
+      @Override
+      public int size() {
+        return successorCount;
+      }
+
+      @Override
+      public boolean contains(Object o) {
+        return isSuccessor(o);
+      }
+    };
   }
 
+  @SuppressWarnings("unchecked") // Safe because we only cast if node is a key of Map<N, Adjacency>
   @Override
-  public boolean removePredecessor(Object node) {
+  public void removePredecessor(Object node) {
     checkNotNull(node, "node");
-    return predecessors.remove(node);
-  }
-
-  @Override
-  public boolean removeSuccessor(Object node) {
-    checkNotNull(node, "node");
-    return successors.remove(node);
-  }
-
-  @Override
-  public boolean addPredecessor(N node) {
-    checkNotNull(node, "node");
-    return predecessors.add(node);
-  }
-
-  @Override
-  public boolean addSuccessor(N node) {
-    checkNotNull(node, "node");
-    return successors.add(node);
-  }
-
-  // For now, hashCode() and equals() are unused by any graph implementation.
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(predecessors, successors);
-  }
-
-  @Override
-  public boolean equals(@Nullable Object object) {
-    if (object instanceof DirectedNodeAdjacencies) {
-      DirectedNodeAdjacencies<?> that = (DirectedNodeAdjacencies<?>) object;
-      return this.predecessors.equals(that.predecessors)
-          && this.successors.equals(that.successors);
+    Adjacency adjacency = adjacentNodes.get(node);
+    if (adjacency == Adjacency.BOTH) {
+      adjacentNodes.put((N) node, Adjacency.SUCC);
+      predecessorCount--;
+    } else if (adjacency == Adjacency.PRED) {
+      adjacentNodes.remove(node);
+      predecessorCount--;
     }
-    return false;
+  }
+
+  @SuppressWarnings("unchecked") // Safe because we only cast if node is a key of Map<N, Adjacency>
+  @Override
+  public void removeSuccessor(Object node) {
+    checkNotNull(node, "node");
+    Adjacency adjacency = adjacentNodes.get(node);
+    if (adjacency == Adjacency.BOTH) {
+      adjacentNodes.put((N) node, Adjacency.PRED);
+      successorCount--;
+    } else if (adjacency == Adjacency.SUCC) {
+      adjacentNodes.remove(node);
+      successorCount--;
+    }
   }
 
   @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("predecessors", predecessors)
-        .add("successors", successors)
-        .toString();
+  public void addPredecessor(N node) {
+    checkNotNull(node, "node");
+    Adjacency adjacency = adjacentNodes.get(node);
+    if (adjacency == null) {
+      adjacentNodes.put(node, Adjacency.PRED);
+      predecessorCount++;
+    } else if (adjacency == Adjacency.SUCC) {
+      adjacentNodes.put(node, Adjacency.BOTH);
+      predecessorCount++;
+    }
+  }
+
+  @Override
+  public void addSuccessor(N node) {
+    checkNotNull(node, "node");
+    Adjacency adjacency = adjacentNodes.get(node);
+    if (adjacency == null) {
+      adjacentNodes.put(node, Adjacency.SUCC);
+      successorCount++;
+    } else if (adjacency == Adjacency.PRED) {
+      adjacentNodes.put(node, Adjacency.BOTH);
+      successorCount++;
+    }
+  }
+
+  private boolean isPredecessor(Object node) {
+    Adjacency adjacency = adjacentNodes.get(node);
+    return (adjacency == Adjacency.PRED || adjacency == Adjacency.BOTH);
+  }
+
+  private boolean isSuccessor(Object node) {
+    Adjacency adjacency = adjacentNodes.get(node);
+    return (adjacency == Adjacency.SUCC || adjacency == Adjacency.BOTH);
   }
 }

@@ -17,16 +17,13 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.graph.GraphConstants.EXPECTED_DEGREE;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 import java.util.Collections;
 import java.util.Set;
-
-import javax.annotation.Nullable;
 
 /**
  * A class representing an origin node's adjacent nodes in an undirected graph.
@@ -42,8 +39,7 @@ final class UndirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
   }
 
   static <N> UndirectedNodeAdjacencies<N> of() {
-    // TODO(user): Enable users to specify the expected number of neighbors of a new node.
-    return new UndirectedNodeAdjacencies<N>(Sets.<N>newHashSet());
+    return new UndirectedNodeAdjacencies<N>(Sets.<N>newHashSetWithExpectedSize(EXPECTED_DEGREE));
   }
 
   static <N> UndirectedNodeAdjacencies<N> ofImmutable(Set<N> adjacentNodes) {
@@ -66,45 +62,24 @@ final class UndirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
   }
 
   @Override
-  public boolean removePredecessor(Object node) {
-    return removeSuccessor(node);
+  public void removePredecessor(Object node) {
+    removeSuccessor(node);
   }
 
   @Override
-  public boolean removeSuccessor(Object node) {
+  public void removeSuccessor(Object node) {
     checkNotNull(node, "node");
-    return adjacentNodes.remove(node);
+    adjacentNodes.remove(node);
   }
 
   @Override
-  public boolean addPredecessor(N node) {
-    return addSuccessor(node);
+  public void addPredecessor(N node) {
+    addSuccessor(node);
   }
 
   @Override
-  public boolean addSuccessor(N node) {
+  public void addSuccessor(N node) {
     checkNotNull(node, "node");
-    return adjacentNodes.add(node);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(adjacentNodes);
-  }
-
-  @Override
-  public boolean equals(@Nullable Object object) {
-    if (object instanceof UndirectedNodeAdjacencies) {
-      UndirectedNodeAdjacencies<?> that = (UndirectedNodeAdjacencies<?>) object;
-      return this.adjacentNodes.equals(that.adjacentNodes);
-    }
-    return false;
-  }
-
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("adjacentNodes", adjacentNodes)
-        .toString();
+    adjacentNodes.add(node);
   }
 }
