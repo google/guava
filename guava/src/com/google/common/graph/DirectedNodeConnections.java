@@ -21,12 +21,8 @@ import static com.google.common.graph.GraphConstants.EXPECTED_DEGREE;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterators;
 
-import java.util.AbstractSet;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -64,20 +60,7 @@ final class DirectedNodeConnections<N, E> extends AbstractDirectedNodeConnection
   }
 
   @Override
-  public Set<E> edgesConnecting(final Object node) {
-    return new AbstractSet<E>() {
-      @Override
-      public Iterator<E> iterator() {
-        E connectingEdge = ((BiMap<E, N>) outEdgeMap).inverse().get(node);
-        return (connectingEdge == null)
-            ? ImmutableSet.<E>of().iterator()
-            : Iterators.singletonIterator(connectingEdge);
-      }
-
-      @Override
-      public int size() {
-        return successors().contains(node) ? 1 : 0;
-      }
-    };
+  public Set<E> edgesConnecting(Object node) {
+    return new SimpleEdgesConnecting<E>(((BiMap<E, N>) outEdgeMap).inverse(), node);
   }
 }
