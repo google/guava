@@ -23,6 +23,8 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A helper which does some thread-safe operations for aggregate futures, which must be implemented
@@ -34,20 +36,33 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
  */
 @GwtCompatible(emulated = true)
 abstract class AggregateFutureState {
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  private static final AtomicReferenceFieldUpdater<AggregateFutureState, Set<Throwable>>
-      SEEN_EXCEPTIONS_UDPATER =
-          newUpdater(AggregateFutureState.class, (Class) Set.class, "seenExceptions");
-
-  private static final AtomicIntegerFieldUpdater<AggregateFutureState> REMAINING_COUNT_UPDATER =
-      newUpdater(AggregateFutureState.class, "remaining");
-
   // Lazily initialized the first time we see an exception; not released until all the input futures
   // & this future completes. Released when the future releases the reference to the running state
   private volatile Set<Throwable> seenExceptions = null;
 
-  @SuppressWarnings("unused")
   private volatile int remaining;
+
+  private static final AtomicHelper ATOMIC_HELPER;
+
+  private static final Logger log = Logger.getLogger(AggregateFutureState.class.getName());
+
+  static {
+    AtomicHelper helper;
+    try {
+      helper =
+          new SafeAtomicHelper(
+              newUpdater(AggregateFutureState.class, (Class) Set.class, "seenExceptions"),
+              newUpdater(AggregateFutureState.class, "remaining"));
+    } catch (Throwable reflectionFailure) {
+      // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
+      // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
+      // For these users fallback to a suboptimal implementation, based on synchronized. This will
+      // be a definite performance hit to those users.
+      log.log(Level.SEVERE, "SafeAtomicHelper is broken!", reflectionFailure);
+      helper = new SynchronizedAtomicHelper();
+    }
+    ATOMIC_HELPER = helper;
+  }
 
   AggregateFutureState(int remainingFutures) {
     this.remaining = remainingFutures;
@@ -80,7 +95,7 @@ abstract class AggregateFutureState {
        */
       addInitialException(seenExceptionsLocal);
 
-      SEEN_EXCEPTIONS_UDPATER.compareAndSet(this, null, seenExceptionsLocal);
+      ATOMIC_HELPER.compareAndSetSeenExceptions(this, null, seenExceptionsLocal);
       /*
        * If another handleException() caller created the set, we need to use that copy in case yet
        * other callers have added to it.
@@ -96,6 +111,59 @@ abstract class AggregateFutureState {
   abstract void addInitialException(Set<Throwable> seen);
 
   final int decrementRemainingAndGet() {
-    return REMAINING_COUNT_UPDATER.decrementAndGet(this);
+    return ATOMIC_HELPER.decrementAndGetRemainingCount(this);
+  }
+
+  private abstract static class AtomicHelper {
+    /** Atomic compare-and-set of the {@link AggregateFutureState#seenExceptions} field. */
+    abstract void compareAndSetSeenExceptions(
+        AggregateFutureState state, Set<Throwable> expect, Set<Throwable> update);
+
+    /** Atomic decrement-and-get of the {@link AggregateFutureState#remaining} field. */
+    abstract int decrementAndGetRemainingCount(AggregateFutureState state);
+  }
+
+  private static final class SafeAtomicHelper extends AtomicHelper {
+    final AtomicReferenceFieldUpdater<AggregateFutureState, Set<Throwable>> seenExceptionsUpdater;
+
+    final AtomicIntegerFieldUpdater<AggregateFutureState> remainingCountUpdater;
+
+    SafeAtomicHelper(
+        AtomicReferenceFieldUpdater seenExceptionsUpdater,
+        AtomicIntegerFieldUpdater remainingCountUpdater) {
+      this.seenExceptionsUpdater = seenExceptionsUpdater;
+      this.remainingCountUpdater = remainingCountUpdater;
+    }
+
+    @Override
+    void compareAndSetSeenExceptions(
+        AggregateFutureState state, Set<Throwable> expect, Set<Throwable> update) {
+      seenExceptionsUpdater.compareAndSet(state, expect, update);
+    }
+
+    @Override
+    int decrementAndGetRemainingCount(AggregateFutureState state) {
+      return remainingCountUpdater.decrementAndGet(state);
+    }
+  }
+
+  private static final class SynchronizedAtomicHelper extends AtomicHelper {
+    @Override
+    void compareAndSetSeenExceptions(
+        AggregateFutureState state, Set<Throwable> expect, Set<Throwable> update) {
+      synchronized (state) {
+        if (state.seenExceptions == expect) {
+          state.seenExceptions = update;
+        }
+      }
+    }
+
+    @Override
+    int decrementAndGetRemainingCount(AggregateFutureState state) {
+      synchronized (state) {
+        state.remaining--;
+        return state.remaining;
+      }
+    }
   }
 }

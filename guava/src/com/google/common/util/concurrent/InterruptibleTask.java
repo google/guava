@@ -19,21 +19,40 @@ import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @GwtCompatible(emulated = true)
 abstract class InterruptibleTask implements Runnable {
-  private static final AtomicReferenceFieldUpdater<InterruptibleTask, Thread> RUNNER =
-      newUpdater(InterruptibleTask.class, Thread.class, "runner");
-
   // These two fields are used to interrupt running tasks. The thread executing the task publishes
   // itself to the 'runner' field and the thread interrupting sets 'doneInterrupting' when it has
   // finished interrupting.
   private volatile Thread runner;
   private volatile boolean doneInterrupting;
 
+  private static final AtomicHelper ATOMIC_HELPER;
+
+  private static final Logger log = Logger.getLogger(InterruptibleTask.class.getName());
+
+  static {
+    AtomicHelper helper;
+    try {
+      helper =
+          new SafeAtomicHelper(newUpdater(InterruptibleTask.class, (Class) Thread.class, "runner"));
+    } catch (Throwable reflectionFailure) {
+      // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
+      // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
+      // For these users fallback to a suboptimal implementation, based on synchronized. This will
+      // be a definite performance hit to those users.
+      log.log(Level.SEVERE, "SafeAtomicHelper is broken!", reflectionFailure);
+      helper = new SynchronizedAtomicHelper();
+    }
+    ATOMIC_HELPER = helper;
+  }
+
   @Override
   public final void run() {
-    if (!RUNNER.compareAndSet(this, null, Thread.currentThread())) {
+    if (!ATOMIC_HELPER.compareAndSetRunner(this, null, Thread.currentThread())) {
       return; // someone else has run or is running.
     }
     try {
@@ -66,5 +85,38 @@ abstract class InterruptibleTask implements Runnable {
       currentRunner.interrupt();
     }
     doneInterrupting = true;
+  }
+
+  private abstract static class AtomicHelper {
+    /**
+     * Atomic compare-and-set of the {@link InterruptibleTask#runner} field.
+     * @return true if successful
+     */
+    abstract boolean compareAndSetRunner(InterruptibleTask task, Thread expect, Thread update);
+  }
+
+  private static final class SafeAtomicHelper extends AtomicHelper {
+    final AtomicReferenceFieldUpdater<InterruptibleTask, Thread> runnerUpdater;
+
+    SafeAtomicHelper(AtomicReferenceFieldUpdater runnerUpdater) {
+      this.runnerUpdater = runnerUpdater;
+    }
+
+    @Override
+    boolean compareAndSetRunner(InterruptibleTask task, Thread expect, Thread update) {
+      return runnerUpdater.compareAndSet(task, expect, update);
+    }
+  }
+
+  private static final class SynchronizedAtomicHelper extends AtomicHelper {
+    @Override
+    boolean compareAndSetRunner(InterruptibleTask task, Thread expect, Thread update) {
+      synchronized (task) {
+        if (task.runner == expect) {
+          task.runner = update;
+        }
+      }
+      return true;
+    }
   }
 }

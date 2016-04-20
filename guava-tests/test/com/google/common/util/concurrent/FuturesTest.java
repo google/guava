@@ -105,13 +105,13 @@ public class FuturesTest extends TestCase {
   private static final String DATA3 = "most data";
 
   @Override
-  protected void setUp() throws Exception {
+  public void setUp() throws Exception {
     super.setUp();
     aggregateFutureLogger.addHandler(aggregateFutureLogHandler);
   }
 
   @Override
-  protected void tearDown() throws Exception {
+  public void tearDown() throws Exception {
     /*
      * Clear interrupt for future tests.
      *
