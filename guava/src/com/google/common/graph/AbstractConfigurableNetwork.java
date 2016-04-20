@@ -31,6 +31,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 /**
  * Abstract configurable implementation of {@link Network} that supports the options supplied
  * by {@link NetworkBuilder}.
@@ -154,7 +156,7 @@ class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     if (!allowsSelfLoops && node1.equals(node2)) {
       return ImmutableSet.of();
     }
-    checkArgument(nodeConnections.get(node2) != null, NODE_NOT_IN_GRAPH, node2);
+    checkArgument(containsNode(node2), NODE_NOT_IN_GRAPH, node2);
     return connectionsN1.edgesConnecting(node2);
   }
 
@@ -204,5 +206,13 @@ class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     N referenceNode = edgeToReferenceNode.get(edge);
     checkArgument(referenceNode != null, EDGE_NOT_IN_GRAPH, edge);
     return referenceNode;
+  }
+
+  protected boolean containsNode(@Nullable Object node) {
+    return nodeConnections.containsKey(node);
+  }
+
+  protected boolean containsEdge(@Nullable Object edge) {
+    return edgeToReferenceNode.containsKey(edge);
   }
 }

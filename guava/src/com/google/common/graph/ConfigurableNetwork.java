@@ -66,7 +66,7 @@ class ConfigurableNetwork<N, E>
   @CanIgnoreReturnValue
   public boolean addNode(N node) {
     checkNotNull(node, "node");
-    if (nodes().contains(node)) {
+    if (containsNode(node)) {
       return false;
     }
     nodeConnections.put(node, newNodeConnections());
@@ -89,9 +89,9 @@ class ConfigurableNetwork<N, E>
     checkNotNull(node1, "node1");
     checkNotNull(node2, "node2");
     checkArgument(allowsSelfLoops() || !node1.equals(node2), SELF_LOOPS_NOT_ALLOWED, node1);
-    boolean containsN1 = nodes().contains(node1);
-    boolean containsN2 = nodes().contains(node2);
-    if (edges().contains(edge)) {
+    boolean containsN1 = containsNode(node1);
+    boolean containsN2 = containsNode(node2);
+    if (containsEdge(edge)) {
       checkArgument(containsN1 && containsN2 && edgesConnecting(node1, node2).contains(edge),
           REUSING_EDGE, edge, incidentNodes(edge), node1, node2);
       return false;
@@ -117,7 +117,7 @@ class ConfigurableNetwork<N, E>
   @CanIgnoreReturnValue
   public boolean removeNode(Object node) {
     checkNotNull(node, "node");
-    if (!nodes().contains(node)) {
+    if (!containsNode(node)) {
       return false;
     }
     // Since views are returned, we need to copy the edges that will be removed.

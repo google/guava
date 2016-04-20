@@ -58,7 +58,7 @@ class ConfigurableGraph<N> extends AbstractConfigurableGraph<N> implements Mutab
   @CanIgnoreReturnValue
   public boolean addNode(N node) {
     checkNotNull(node, "node");
-    if (nodes().contains(node)) {
+    if (containsNode(node)) {
       return false;
     }
     nodeConnections.put(node, newNodeConnections());
@@ -80,8 +80,8 @@ class ConfigurableGraph<N> extends AbstractConfigurableGraph<N> implements Mutab
     checkNotNull(node1, "node1");
     checkNotNull(node2, "node2");
     checkArgument(allowsSelfLoops() || !node1.equals(node2), SELF_LOOPS_NOT_ALLOWED, node1);
-    boolean containsN1 = nodes().contains(node1);
-    boolean containsN2 = nodes().contains(node2);
+    boolean containsN1 = containsNode(node1);
+    boolean containsN2 = containsNode(node2);
     // TODO(user): does not support parallel edges
     if (containsN1 && containsN2 && nodeConnections.get(node1).successors().contains(node2)) {
       return false;

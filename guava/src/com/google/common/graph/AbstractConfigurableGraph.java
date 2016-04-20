@@ -26,6 +26,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 /**
  * Abstract configurable implementation of {@link Graph} that supports the options supplied
  * by {@link GraphBuilder}.
@@ -116,5 +118,9 @@ class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
     NodeAdjacencies<N> connections = nodeConnections.get(node);
     checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);
     return connections;
+  }
+
+  protected boolean containsNode(@Nullable Object node) {
+    return nodeConnections.containsKey(node);
   }
 }
