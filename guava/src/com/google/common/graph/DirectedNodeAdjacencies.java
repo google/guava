@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.EXPECTED_DEGREE;
 
 import com.google.common.base.Predicate;
@@ -135,6 +136,7 @@ final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
       adjacentNodes.remove(node);
       predecessorCount--;
     }
+    checkState(predecessorCount >= 0);
   }
 
   @SuppressWarnings("unchecked") // Safe because we only cast if node is a key of Map<N, Adjacency>
@@ -149,6 +151,7 @@ final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
       adjacentNodes.remove(node);
       successorCount--;
     }
+    checkState(successorCount >= 0);
   }
 
   @Override
@@ -162,6 +165,7 @@ final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
       adjacentNodes.put(node, Adjacency.BOTH);
       predecessorCount++;
     }
+    checkState(predecessorCount >= 1);
   }
 
   @Override
@@ -175,6 +179,7 @@ final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
       adjacentNodes.put(node, Adjacency.BOTH);
       successorCount++;
     }
+    checkState(successorCount >= 1);
   }
 
   private boolean isPredecessor(Object node) {
