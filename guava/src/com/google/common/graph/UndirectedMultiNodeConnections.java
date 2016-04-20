@@ -58,12 +58,13 @@ final class UndirectedMultiNodeConnections<N, E> extends AbstractUndirectedNodeC
 
   @Override
   public Set<E> edgesConnecting(final Object node) {
-    return Maps.filterEntries(incidentEdgeMap, new Predicate<Entry<E, N>>() {
-      @Override
-      public boolean apply(Entry<E, N> entry) {
-        return entry.getValue().equals(node);
-      }
-    }).keySet();
+    return Collections.unmodifiableSet(
+        Maps.filterEntries(incidentEdgeMap, new Predicate<Entry<E, N>>() {
+          @Override
+          public boolean apply(Entry<E, N> entry) {
+            return entry.getValue().equals(node);
+          }
+        }).keySet());
   }
 
   private transient Reference<Multiset<N>> adjacentNodesReference;

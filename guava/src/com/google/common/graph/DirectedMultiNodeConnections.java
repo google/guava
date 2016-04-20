@@ -85,12 +85,13 @@ final class DirectedMultiNodeConnections<N, E> extends AbstractDirectedNodeConne
 
   @Override
   public Set<E> edgesConnecting(final Object node) {
-    return Maps.filterEntries(outEdgeMap, new Predicate<Entry<E, N>>() {
-      @Override
-      public boolean apply(Entry<E, N> entry) {
-        return entry.getValue().equals(node);
-      }
-    }).keySet();
+    return Collections.unmodifiableSet(
+        Maps.filterEntries(outEdgeMap, new Predicate<Entry<E, N>>() {
+          @Override
+          public boolean apply(Entry<E, N> entry) {
+            return entry.getValue().equals(node);
+          }
+        }).keySet());
   }
 
   @Override
