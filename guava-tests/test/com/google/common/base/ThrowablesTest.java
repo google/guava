@@ -60,6 +60,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("ThrowIfUncheckedKnownChecked")
   public void testThrowIfUnchecked_Checked() {
     throwIfUnchecked(new SomeCheckedException());
   }
