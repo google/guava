@@ -148,7 +148,7 @@
           </configuration>
           <executions>
             <execution>
-              <id>check-java16-sun</id>
+              <id>check-java-version-compatibility</id>
               <phase>test</phase>
               <goals>
                 <goal>check</goal>
