@@ -77,18 +77,6 @@ abstract class GenericMapMaker<K0, V0> {
   public abstract GenericMapMaker<K0, V0> weakValues();
 
   /**
-   * See {@link MapMaker#softValues}.
-   *
-   * @deprecated Caching functionality in {@code MapMaker} has been moved to {@link
-   *     com.google.common.cache.CacheBuilder}, with {@link #softValues} being replaced by {@link
-   *     com.google.common.cache.CacheBuilder#softValues}. Note that {@code CacheBuilder} is simply
-   *     an enhanced API for an implementation which was branched from {@code MapMaker}.
-   */
-  @Deprecated
-  @GwtIncompatible // java.lang.ref.SoftReference
-  abstract GenericMapMaker<K0, V0> softValues();
-
-  /**
    * See {@link MapMaker#makeMap}.
    */
   public abstract <K extends K0, V extends V0> ConcurrentMap<K, V> makeMap();

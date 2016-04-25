@@ -202,12 +202,6 @@ public class MapMakerInternalMapTest extends TestCase {
     assertSame(EntryFactory.STRONG, map.entryFactory);
   }
 
-  public void testSetSoftValues() {
-    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker().softValues());
-    checkStrength(map, Strength.STRONG, Strength.SOFT);
-    assertSame(EntryFactory.STRONG, map.entryFactory);
-  }
-
   private static void checkStrength(
       MapMakerInternalMap<Object, Object> map, Strength keyStrength, Strength valueStrength) {
     assertSame(keyStrength, map.keyStrength);
@@ -937,15 +931,14 @@ public class MapMakerInternalMapTest extends TestCase {
   // utility methods
 
   /**
-   * Returns an iterable containing all combinations weakKeys and weak/softValues.
+   * Returns an iterable containing all combinations weakKeys and weakValues.
    */
   private static Iterable<MapMaker> allKeyValueStrengthMakers() {
-    return ImmutableList.of(createMapMaker(),
+    return ImmutableList.of(
+        createMapMaker(),
         createMapMaker().weakValues(),
-        createMapMaker().softValues(),
         createMapMaker().weakKeys(),
-        createMapMaker().weakKeys().weakValues(),
-        createMapMaker().weakKeys().softValues());
+        createMapMaker().weakKeys().weakValues());
   }
 
   // entries and values

@@ -31,7 +31,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
-import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
@@ -228,19 +227,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
       }
     },
 
-    SOFT {
-      @Override
-      <K, V> ValueReference<K, V> referenceValue(
-          Segment<K, V> segment, ReferenceEntry<K, V> entry, V value) {
-        return new SoftValueReference<K, V>(segment.valueReferenceQueue, value, entry);
-      }
-
-      @Override
-      Equivalence<Object> defaultEquivalence() {
-        return Equivalence.identity();
-      }
-    },
-
     WEAK {
       @Override
       <K, V> ValueReference<K, V> referenceValue(
@@ -294,8 +280,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
           return EntryFactory.STRONG;
         case WEAK:
           return EntryFactory.WEAK;
-        case SOFT:
-          throw new IllegalArgumentException();
       }
       throw new AssertionError();
     }
@@ -516,10 +500,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
 
   /*
    * Note: All of this duplicate code sucks, but it saves a lot of memory. If only Java had mixins!
-   * To maintain this code, make a change for the strong reference type. Then, cut and paste, and
-   * replace "Strong" with "Soft" or "Weak" within the pasted text. The primary difference is that
-   * strong entries store the key reference directly while soft and weak entries delegate to their
-   * respective superclasses.
    */
 
   /**
@@ -638,45 +618,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     public ValueReference<K, V> copyFor(
         ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
       return new WeakValueReference<K, V>(queue, value, entry);
-    }
-
-    @Override
-    public boolean isComputingReference() {
-      return false;
-    }
-
-    @Override
-    public V waitForValue() {
-      return get();
-    }
-  }
-
-  /**
-   * References a soft value.
-   */
-  static final class SoftValueReference<K, V> extends SoftReference<V>
-      implements ValueReference<K, V> {
-    final ReferenceEntry<K, V> entry;
-
-    SoftValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry) {
-      super(referent, queue);
-      this.entry = entry;
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getEntry() {
-      return entry;
-    }
-
-    @Override
-    public void clear(ValueReference<K, V> newValue) {
-      clear();
-    }
-
-    @Override
-    public ValueReference<K, V> copyFor(
-        ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
-      return new SoftValueReference<K, V>(queue, value, entry);
     }
 
     @Override
