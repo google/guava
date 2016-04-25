@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.MapMakerInternalMap.DRAIN_THRESHOLD;
-import static com.google.common.collect.MapMakerInternalMap.nullEntry;
 import static com.google.common.collect.MapMakerInternalMap.unset;
 import static com.google.common.truth.Truth.assertThat;
 

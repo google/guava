@@ -439,65 +439,6 @@ class MapMakerInternalMap<K, V> extends AbstractMap<K, V>
     K getKey();
   }
 
-  private enum NullEntry implements ReferenceEntry<Object, Object> {
-    INSTANCE;
-
-    @Override
-    public ValueReference<Object, Object> getValueReference() {
-      return null;
-    }
-
-    @Override
-    public void setValueReference(ValueReference<Object, Object> valueReference) {}
-
-    @Override
-    public ReferenceEntry<Object, Object> getNext() {
-      return null;
-    }
-
-    @Override
-    public int getHash() {
-      return 0;
-    }
-
-    @Override
-    public Object getKey() {
-      return null;
-    }
-  }
-
-  abstract static class AbstractReferenceEntry<K, V> implements ReferenceEntry<K, V> {
-    @Override
-    public ValueReference<K, V> getValueReference() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setValueReference(ValueReference<K, V> valueReference) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getNext() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int getHash() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public K getKey() {
-      throw new UnsupportedOperationException();
-    }
-  }
-
-  @SuppressWarnings("unchecked") // impl never uses a parameter or returns any non-null value
-  static <K, V> ReferenceEntry<K, V> nullEntry() {
-    return (ReferenceEntry<K, V>) NullEntry.INSTANCE;
-  }
-
   /*
    * Note: All of this duplicate code sucks, but it saves a lot of memory. If only Java had mixins!
    */

@@ -89,7 +89,7 @@ import java.util.concurrent.ExecutionException;
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
-public final class MapMaker extends GenericMapMaker<Object, Object> {
+public final class MapMaker {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
 
@@ -121,7 +121,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   @CanIgnoreReturnValue
   @GwtIncompatible // To be supported
-  @Override
   MapMaker keyEquivalence(Equivalence<Object> equivalence) {
     checkState(keyEquivalence == null, "key equivalence was already set to %s", keyEquivalence);
     keyEquivalence = checkNotNull(equivalence);
@@ -144,7 +143,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalStateException if an initial capacity was already set
    */
   @CanIgnoreReturnValue
-  @Override
   public MapMaker initialCapacity(int initialCapacity) {
     checkState(
         this.initialCapacity == UNSET_INT,
@@ -179,7 +177,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalStateException if a concurrency level was already set
    */
   @CanIgnoreReturnValue
-  @Override
   public MapMaker concurrencyLevel(int concurrencyLevel) {
     checkState(
         this.concurrencyLevel == UNSET_INT,
@@ -207,7 +204,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   @CanIgnoreReturnValue
   @GwtIncompatible // java.lang.ref.WeakReference
-  @Override
   public MapMaker weakKeys() {
     return setKeyStrength(Strength.WEAK);
   }
@@ -244,7 +240,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   @CanIgnoreReturnValue
   @GwtIncompatible // java.lang.ref.WeakReference
-  @Override
   public MapMaker weakValues() {
     return setValueStrength(Strength.WEAK);
   }
@@ -274,7 +269,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * @return a serializable concurrent map having the requested features
    */
-  @Override
   public <K, V> ConcurrentMap<K, V> makeMap() {
     if (!useCustomMap) {
       return new ConcurrentHashMap<K, V>(getInitialCapacity(), 0.75f, getConcurrencyLevel());
@@ -286,7 +280,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * Returns a MapMakerInternalMap for the benefit of internal callers that use features of that
    * class not exposed through ConcurrentMap.
    */
-  @Override
   @GwtIncompatible // MapMakerInternalMap
   <K, V> MapMakerInternalMap<K, V> makeCustomMap() {
     return new MapMakerInternalMap<K, V>(this);
@@ -350,7 +343,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     Guide</a> for more details.
    */
   @Deprecated
-  @Override
   <K, V> ConcurrentMap<K, V> makeComputingMap(Function<? super K, ? extends V> computingFunction) {
     return new MapMaker.ComputingMapAdapter<K, V>(this, computingFunction);
   }

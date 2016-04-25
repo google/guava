@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author Charles Fry
  */
-public final class MapMaker extends GenericMapMaker<Object, Object> {
+public final class MapMaker {
 
   // TODO(fry,kak): ConcurrentHashMap never throws a CME when mutating the map during iteration, but
   // this implementation (based on a LHM) does. This will all be replaced soon anyways, so leaving
@@ -122,7 +122,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   public MapMaker() {}
 
-  @Override
   public MapMaker initialCapacity(int initialCapacity) {
     if (initialCapacity < 0) {
       throw new IllegalArgumentException();
@@ -131,7 +130,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     return this;
   }
 
-  @Override
   public MapMaker concurrencyLevel(int concurrencyLevel) {
     if (concurrencyLevel < 1) {
       throw new IllegalArgumentException("GWT only supports a concurrency level of 1");
@@ -141,14 +139,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     return this;
   }
 
-  @Override
   public <K, V> ConcurrentMap<K, V> makeMap() {
     return useCustomMap
         ? new ComputingMap<K, V>(null, initialCapacity)
         : new ConcurrentHashMap<K, V>(initialCapacity);
   }
 
-  @Override
   public <K, V> ConcurrentMap<K, V> makeComputingMap(Function<? super K, ? extends V> computer) {
     return new ComputingMap<K, V>(computer, initialCapacity);
   }
