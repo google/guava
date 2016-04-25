@@ -23,7 +23,6 @@ import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.TimeUnit;
 
 /**
  * A class exactly like {@link MapMaker}, except restricted in the types of maps it can build.
@@ -88,11 +87,6 @@ abstract class GenericMapMaker<K0, V0> {
   @Deprecated
   @GwtIncompatible // java.lang.ref.SoftReference
   abstract GenericMapMaker<K0, V0> softValues();
-
-  /**
-   * See {@link MapMaker#expireAfterWrite}.
-   */
-  abstract GenericMapMaker<K0, V0> expireAfterWrite(long duration, TimeUnit unit);
 
   /**
    * See {@link MapMaker#makeMap}.

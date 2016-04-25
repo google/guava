@@ -112,18 +112,10 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
                     createNewEntry = false;
                   } else {
                     V value = e.getValueReference().get();
-                    if (value == null) {
-                      // TODO(kak): Remove this branch.
-                    } else if (map.expires() && map.isExpired(e)) {
-                      // This is a duplicate check, as preWriteCleanup already purged expired
-                      // entries, but let's accomodate an incorrect expiration queue.
-                      // TODO(kak): Remove this branch.
-                    } else {
+                    if (value != null) {
                       return value;
                     }
 
-                    // immediately reuse invalid entries
-                    expirationQueue.remove(e);
                     this.count = newCount; // write-volatile
                   }
                   break;
@@ -375,7 +367,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
         valueStrength,
         keyEquivalence,
         valueEquivalence,
-        expireAfterWriteNanos,
         concurrencyLevel,
         this,
         computingFunction);
@@ -390,7 +381,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
         Strength valueStrength,
         Equivalence<Object> keyEquivalence,
         Equivalence<Object> valueEquivalence,
-        long expireAfterWriteNanos,
         int concurrencyLevel,
         ConcurrentMap<K, V> delegate,
         Function<? super K, ? extends V> computingFunction) {
@@ -399,7 +389,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
           valueStrength,
           keyEquivalence,
           valueEquivalence,
-          expireAfterWriteNanos,
           concurrencyLevel,
           delegate);
       this.computingFunction = computingFunction;

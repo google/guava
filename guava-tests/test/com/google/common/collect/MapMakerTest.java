@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
-import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -120,17 +119,6 @@ public class MapMakerTest extends TestCase {
         maker.initialCapacity(16);
         fail();
       } catch (IllegalArgumentException expected) {
-      }
-    }
-
-    @SuppressWarnings("deprecation") // test of deprecated method
-    public void testExpiration_setTwice() {
-      MapMaker maker = new MapMaker().expireAfterWrite(1, HOURS);
-      try {
-        // even to the same value is not allowed
-        maker.expireAfterWrite(1, HOURS);
-        fail();
-      } catch (IllegalStateException expected) {
       }
     }
 

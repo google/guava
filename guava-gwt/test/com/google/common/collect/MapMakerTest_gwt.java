@@ -33,11 +33,6 @@ public void testRecursiveComputation__RecursiveComputationTest() throws Exceptio
   testCase.testRecursiveComputation();
 }
 
-public void testExpiration_setTwice__MakerTest() throws Exception {
-  com.google.common.collect.MapMakerTest.MakerTest testCase = new com.google.common.collect.MapMakerTest.MakerTest();
-  testCase.testExpiration_setTwice();
-}
-
 public void testInitialCapacity_negative__MakerTest() throws Exception {
   com.google.common.collect.MapMakerTest.MakerTest testCase = new com.google.common.collect.MapMakerTest.MakerTest();
   testCase.testInitialCapacity_negative();

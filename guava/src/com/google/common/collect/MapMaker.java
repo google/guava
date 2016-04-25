@@ -26,7 +26,6 @@ import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
-import com.google.common.base.Ticker;
 import com.google.common.collect.MapMakerInternalMap.Strength;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
@@ -41,7 +40,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
 
@@ -106,7 +104,6 @@ import javax.annotation.Nullable;
 public final class MapMaker extends GenericMapMaker<Object, Object> {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
-  private static final int DEFAULT_EXPIRATION_NANOS = 0;
 
   static final int UNSET_INT = -1;
 
@@ -119,13 +116,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   Strength keyStrength;
   Strength valueStrength;
 
-  long expireAfterWriteNanos = UNSET_INT;
-
   boolean evictImmediately = false;
 
   Equivalence<Object> keyEquivalence;
-
-  Ticker ticker;
 
   /**
    * Constructs a new {@code MapMaker} instance with default settings, including strong keys, strong
@@ -315,59 +308,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /**
-   * Specifies that each entry should be automatically removed from the map once a fixed duration
-   * has elapsed after the entry's creation, or the most recent replacement of its value.
-   *
-   * <p>When {@code duration} is zero, elements can be successfully added to the map, but are
-   * evicted immediately. It can be useful in testing, or to disable caching temporarily without
-   * a code change.
-   *
-   * <p>Expired entries may be counted by {@link Map#size}, but will never be visible to read or
-   * write operations. Expired entries are currently cleaned up during write operations, or during
-   * occasional read operations in the absense of writes; though this behavior may change in the
-   * future.
-   *
-   * @param duration the length of time after an entry is created that it should be automatically
-   *     removed
-   * @param unit the unit that {@code duration} is expressed in
-   * @throws IllegalArgumentException if {@code duration} is negative
-   * @throws IllegalStateException if the time to live or time to idle was already set
-   * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterWrite} being replaced
-   *     by {@link com.google.common.cache.CacheBuilder#expireAfterWrite}. Note that
-   *     {@code CacheBuilder} is simply an enhanced API for an implementation which was branched
-   *     from {@code MapMaker}.
-   */
-  @CanIgnoreReturnValue
-  @Deprecated
-  @Override
-  MapMaker expireAfterWrite(long duration, TimeUnit unit) {
-    checkExpiration(duration, unit);
-    this.expireAfterWriteNanos = unit.toNanos(duration);
-    if (duration == 0) {
-      this.evictImmediately = true;
-    }
-    useCustomMap = true;
-    return this;
-  }
-
-  private void checkExpiration(long duration, TimeUnit unit) {
-    checkState(
-        expireAfterWriteNanos == UNSET_INT,
-        "expireAfterWrite was already set to %s ns",
-        expireAfterWriteNanos);
-    checkArgument(duration >= 0, "duration cannot be negative: %s %s", duration, unit);
-  }
-
-  long getExpireAfterWriteNanos() {
-    return (expireAfterWriteNanos == UNSET_INT) ? DEFAULT_EXPIRATION_NANOS : expireAfterWriteNanos;
-  }
-
-  Ticker getTicker() {
-    return MoreObjects.firstNonNull(ticker, Ticker.systemTicker());
-  }
-
-  /**
    * Builds a thread-safe map. This method does not alter the state of this {@code MapMaker}
    * instance, so it can be invoked again to create multiple independent maps.
    *
@@ -473,9 +413,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     }
     if (concurrencyLevel != UNSET_INT) {
       s.add("concurrencyLevel", concurrencyLevel);
-    }
-    if (expireAfterWriteNanos != UNSET_INT) {
-      s.add("expireAfterWrite", expireAfterWriteNanos + "ns");
     }
     if (keyStrength != null) {
       s.add("keyStrength", Ascii.toLowerCase(keyStrength.toString()));
