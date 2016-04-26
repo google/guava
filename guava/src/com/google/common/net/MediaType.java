@@ -411,6 +411,26 @@ public final class MediaType {
   public static final MediaType MICROSOFT_POWERPOINT =
       createConstant(APPLICATION_TYPE, "vnd.ms-powerpoint");
   public static final MediaType MICROSOFT_WORD = createConstant(APPLICATION_TYPE, "msword");
+
+  /**
+   * Media type for NaCl applications. For more information see
+   * <a href="https://developer.chrome.com/native-client/devguide/coding/application-structure">
+   * the Developer Guide for Native Client Application Structure</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType NACL_APPLICATION = createConstant(APPLICATION_TYPE, "x-nacl");
+
+  /**
+   * Media type for NaCl portable applications. For more information see
+   * <a href="https://developer.chrome.com/native-client/devguide/coding/application-structure">
+   * the Developer Guide for Native Client Application Structure</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType NACL_PORTABLE_APPLICATION =
+      createConstant(APPLICATION_TYPE, "x-pnacl");
+
   public static final MediaType OCTET_STREAM = createConstant(APPLICATION_TYPE, "octet-stream");
   public static final MediaType OGG_CONTAINER = createConstant(APPLICATION_TYPE, "ogg");
   public static final MediaType OOXML_DOCUMENT =
