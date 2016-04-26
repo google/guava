@@ -1494,8 +1494,9 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Predicates.html#assignableFrom(java.lang.Class)">assignableFrom(Class&lt;?&gt;)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Predicates.html" title="class in com.google.common.base">Predicates</a></dt>
 <dd>
-<div class="block">Returns a predicate that evaluates to <code>true</code> if the class being tested is assignable from
- the given class.</div>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>Use the correctly-named method <a href="./com/google/common/base/Predicates.html#subtypeOf(java.lang.Class)"><code>Predicates.subtypeOf(java.lang.Class&lt;?&gt;)</code></a> instead.</i></div>
+</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/io/CharStreams.html#asWriter(java.lang.Appendable)">asWriter(Appendable)</a></span> - Static method in class com.google.common.io.<a href="./com/google/common/io/CharStreams.html" title="class in com.google.common.io">CharStreams</a></dt>
 <dd>
@@ -10137,11 +10138,8 @@
 </dd>
 <dt><a href="./com/google/common/collect/MapMaker.html" title="class in com.google.common.collect"><span class="strong">MapMaker</span></a> - Class in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
-<div class="block">A builder of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent"><code>ConcurrentMap</code></a> instances having any combination of the following features:
-
- 
- keys or values automatically wrapped in <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref">weak</a> references
- </div>
+<div class="block">A builder of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent"><code>ConcurrentMap</code></a> instances that can have keys or values automatically
+ wrapped in <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref">weak</a> references.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/MapMaker.html#MapMaker()">MapMaker()</a></span> - Constructor for class com.google.common.collect.<a href="./com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a></dt>
 <dd>
@@ -10729,6 +10727,14 @@
 </a>
 <h2 class="title">N</h2>
 <dl>
+<dt><span class="strong"><a href="./com/google/common/net/MediaType.html#NACL_APPLICATION">NACL_APPLICATION</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
+<dd>
+<div class="block">Media type for NaCl applications.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/net/MediaType.html#NACL_PORTABLE_APPLICATION">NACL_PORTABLE_APPLICATION</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
+<dd>
+<div class="block">Media type for NaCl portable applications.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/base/Ascii.html#NAK">NAK</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
 <dd>
 <div class="block">Negative Acknowledge: A communication control character transmitted by a receiver as a negative
@@ -15470,6 +15476,11 @@
 <dt><span class="strong"><a href="./com/google/common/net/MediaType.html#subtype()">subtype()</a></span> - Method in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>
 <div class="block">Returns the media subtype.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/base/Predicates.html#subtypeOf(java.lang.Class)">subtypeOf(Class&lt;?&gt;)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Predicates.html" title="class in com.google.common.base">Predicates</a></dt>
+<dd>
+<div class="block">Returns a predicate that evaluates to <code>true</code> if the class being tested is assignable
+ to (is a subtype of) <code>clazz</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#successfulAsList(com.google.common.util.concurrent.ListenableFuture...)">successfulAsList(ListenableFuture&lt;? extends V&gt;...)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>

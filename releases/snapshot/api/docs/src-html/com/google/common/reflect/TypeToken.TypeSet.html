@@ -488,7 +488,7 @@
 <span class="sourceLineNo">480</span>          || any(((TypeVariable&lt;?&gt;) runtimeType).getBounds()).isSubtypeOf(supertype);<a name="line.480"></a>
 <span class="sourceLineNo">481</span>    }<a name="line.481"></a>
 <span class="sourceLineNo">482</span>    if (runtimeType instanceof GenericArrayType) {<a name="line.482"></a>
-<span class="sourceLineNo">483</span>      return of(supertype).isSuperTypeOfArray((GenericArrayType) runtimeType);<a name="line.483"></a>
+<span class="sourceLineNo">483</span>      return of(supertype).isSupertypeOfArray((GenericArrayType) runtimeType);<a name="line.483"></a>
 <span class="sourceLineNo">484</span>    }<a name="line.484"></a>
 <span class="sourceLineNo">485</span>    // Proceed to regular Type subtype check<a name="line.485"></a>
 <span class="sourceLineNo">486</span>    if (supertype instanceof Class) {<a name="line.486"></a>
@@ -496,7 +496,7 @@
 <span class="sourceLineNo">488</span>    } else if (supertype instanceof ParameterizedType) {<a name="line.488"></a>
 <span class="sourceLineNo">489</span>      return this.isSubtypeOfParameterizedType((ParameterizedType) supertype);<a name="line.489"></a>
 <span class="sourceLineNo">490</span>    } else if (supertype instanceof GenericArrayType) {<a name="line.490"></a>
-<span class="sourceLineNo">491</span>      return this.isSubTypeOfArrayType((GenericArrayType) supertype);<a name="line.491"></a>
+<span class="sourceLineNo">491</span>      return this.isSubtypeOfArrayType((GenericArrayType) supertype);<a name="line.491"></a>
 <span class="sourceLineNo">492</span>    } else { // to instanceof TypeVariable<a name="line.492"></a>
 <span class="sourceLineNo">493</span>      return false;<a name="line.493"></a>
 <span class="sourceLineNo">494</span>    }<a name="line.494"></a>
@@ -903,7 +903,7 @@
 <span class="sourceLineNo">895</span>    return true;<a name="line.895"></a>
 <span class="sourceLineNo">896</span>  }<a name="line.896"></a>
 <span class="sourceLineNo">897</span><a name="line.897"></a>
-<span class="sourceLineNo">898</span>  private boolean isSubTypeOfArrayType(GenericArrayType supertype) {<a name="line.898"></a>
+<span class="sourceLineNo">898</span>  private boolean isSubtypeOfArrayType(GenericArrayType supertype) {<a name="line.898"></a>
 <span class="sourceLineNo">899</span>    if (runtimeType instanceof Class) {<a name="line.899"></a>
 <span class="sourceLineNo">900</span>      Class&lt;?&gt; fromClass = (Class&lt;?&gt;) runtimeType;<a name="line.900"></a>
 <span class="sourceLineNo">901</span>      if (!fromClass.isArray()) {<a name="line.901"></a>
@@ -919,7 +919,7 @@
 <span class="sourceLineNo">911</span>    }<a name="line.911"></a>
 <span class="sourceLineNo">912</span>  }<a name="line.912"></a>
 <span class="sourceLineNo">913</span><a name="line.913"></a>
-<span class="sourceLineNo">914</span>  private boolean isSuperTypeOfArray(GenericArrayType subtype) {<a name="line.914"></a>
+<span class="sourceLineNo">914</span>  private boolean isSupertypeOfArray(GenericArrayType subtype) {<a name="line.914"></a>
 <span class="sourceLineNo">915</span>    if (runtimeType instanceof Class) {<a name="line.915"></a>
 <span class="sourceLineNo">916</span>      Class&lt;?&gt; thisClass = (Class&lt;?&gt;) runtimeType;<a name="line.916"></a>
 <span class="sourceLineNo">917</span>      if (!thisClass.isArray()) {<a name="line.917"></a>

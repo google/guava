@@ -1858,7 +1858,7 @@
 <span class="sourceLineNo">1850</span>    } else if (unfiltered instanceof FilteredKeyMultimap) {<a name="line.1850"></a>
 <span class="sourceLineNo">1851</span>      FilteredKeyMultimap&lt;K, V&gt; prev = (FilteredKeyMultimap&lt;K, V&gt;) unfiltered;<a name="line.1851"></a>
 <span class="sourceLineNo">1852</span>      return new FilteredKeyMultimap&lt;K, V&gt;(<a name="line.1852"></a>
-<span class="sourceLineNo">1853</span>          prev.unfiltered, Predicates.and(prev.keyPredicate, keyPredicate));<a name="line.1853"></a>
+<span class="sourceLineNo">1853</span>          prev.unfiltered, Predicates.&lt;K&gt;and(prev.keyPredicate, keyPredicate));<a name="line.1853"></a>
 <span class="sourceLineNo">1854</span>    } else if (unfiltered instanceof FilteredMultimap) {<a name="line.1854"></a>
 <span class="sourceLineNo">1855</span>      FilteredMultimap&lt;K, V&gt; prev = (FilteredMultimap&lt;K, V&gt;) unfiltered;<a name="line.1855"></a>
 <span class="sourceLineNo">1856</span>      return filterFiltered(prev, Maps.&lt;K&gt;keyPredicateOnEntries(keyPredicate));<a name="line.1856"></a>
@@ -1902,7 +1902,7 @@
 <span class="sourceLineNo">1894</span>    if (unfiltered instanceof FilteredKeySetMultimap) {<a name="line.1894"></a>
 <span class="sourceLineNo">1895</span>      FilteredKeySetMultimap&lt;K, V&gt; prev = (FilteredKeySetMultimap&lt;K, V&gt;) unfiltered;<a name="line.1895"></a>
 <span class="sourceLineNo">1896</span>      return new FilteredKeySetMultimap&lt;K, V&gt;(<a name="line.1896"></a>
-<span class="sourceLineNo">1897</span>          prev.unfiltered(), Predicates.and(prev.keyPredicate, keyPredicate));<a name="line.1897"></a>
+<span class="sourceLineNo">1897</span>          prev.unfiltered(), Predicates.&lt;K&gt;and(prev.keyPredicate, keyPredicate));<a name="line.1897"></a>
 <span class="sourceLineNo">1898</span>    } else if (unfiltered instanceof FilteredSetMultimap) {<a name="line.1898"></a>
 <span class="sourceLineNo">1899</span>      FilteredSetMultimap&lt;K, V&gt; prev = (FilteredSetMultimap&lt;K, V&gt;) unfiltered;<a name="line.1899"></a>
 <span class="sourceLineNo">1900</span>      return filterFiltered(prev, Maps.&lt;K&gt;keyPredicateOnEntries(keyPredicate));<a name="line.1900"></a>
@@ -1946,7 +1946,7 @@
 <span class="sourceLineNo">1938</span>    if (unfiltered instanceof FilteredKeyListMultimap) {<a name="line.1938"></a>
 <span class="sourceLineNo">1939</span>      FilteredKeyListMultimap&lt;K, V&gt; prev = (FilteredKeyListMultimap&lt;K, V&gt;) unfiltered;<a name="line.1939"></a>
 <span class="sourceLineNo">1940</span>      return new FilteredKeyListMultimap&lt;K, V&gt;(<a name="line.1940"></a>
-<span class="sourceLineNo">1941</span>          prev.unfiltered(), Predicates.and(prev.keyPredicate, keyPredicate));<a name="line.1941"></a>
+<span class="sourceLineNo">1941</span>          prev.unfiltered(), Predicates.&lt;K&gt;and(prev.keyPredicate, keyPredicate));<a name="line.1941"></a>
 <span class="sourceLineNo">1942</span>    } else {<a name="line.1942"></a>
 <span class="sourceLineNo">1943</span>      return new FilteredKeyListMultimap&lt;K, V&gt;(unfiltered, keyPredicate);<a name="line.1943"></a>
 <span class="sourceLineNo">1944</span>    }<a name="line.1944"></a>
@@ -2106,35 +2106,37 @@
 <span class="sourceLineNo">2098</span>   */<a name="line.2098"></a>
 <span class="sourceLineNo">2099</span>  private static &lt;K, V&gt; Multimap&lt;K, V&gt; filterFiltered(<a name="line.2099"></a>
 <span class="sourceLineNo">2100</span>      FilteredMultimap&lt;K, V&gt; multimap, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2100"></a>
-<span class="sourceLineNo">2101</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate = Predicates.and(multimap.entryPredicate(), entryPredicate);<a name="line.2101"></a>
-<span class="sourceLineNo">2102</span>    return new FilteredEntryMultimap&lt;K, V&gt;(multimap.unfiltered(), predicate);<a name="line.2102"></a>
-<span class="sourceLineNo">2103</span>  }<a name="line.2103"></a>
-<span class="sourceLineNo">2104</span><a name="line.2104"></a>
-<span class="sourceLineNo">2105</span>  /**<a name="line.2105"></a>
-<span class="sourceLineNo">2106</span>   * Support removal operations when filtering a filtered multimap. Since a filtered multimap has<a name="line.2106"></a>
-<span class="sourceLineNo">2107</span>   * iterators that don't support remove, passing one to the FilteredEntryMultimap constructor would<a name="line.2107"></a>
-<span class="sourceLineNo">2108</span>   * lead to a multimap whose removal operations would fail. This method combines the predicates to<a name="line.2108"></a>
-<span class="sourceLineNo">2109</span>   * avoid that problem.<a name="line.2109"></a>
-<span class="sourceLineNo">2110</span>   */<a name="line.2110"></a>
-<span class="sourceLineNo">2111</span>  private static &lt;K, V&gt; SetMultimap&lt;K, V&gt; filterFiltered(<a name="line.2111"></a>
-<span class="sourceLineNo">2112</span>      FilteredSetMultimap&lt;K, V&gt; multimap, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2112"></a>
-<span class="sourceLineNo">2113</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate = Predicates.and(multimap.entryPredicate(), entryPredicate);<a name="line.2113"></a>
-<span class="sourceLineNo">2114</span>    return new FilteredEntrySetMultimap&lt;K, V&gt;(multimap.unfiltered(), predicate);<a name="line.2114"></a>
-<span class="sourceLineNo">2115</span>  }<a name="line.2115"></a>
-<span class="sourceLineNo">2116</span><a name="line.2116"></a>
-<span class="sourceLineNo">2117</span>  static boolean equalsImpl(Multimap&lt;?, ?&gt; multimap, @Nullable Object object) {<a name="line.2117"></a>
-<span class="sourceLineNo">2118</span>    if (object == multimap) {<a name="line.2118"></a>
-<span class="sourceLineNo">2119</span>      return true;<a name="line.2119"></a>
-<span class="sourceLineNo">2120</span>    }<a name="line.2120"></a>
-<span class="sourceLineNo">2121</span>    if (object instanceof Multimap) {<a name="line.2121"></a>
-<span class="sourceLineNo">2122</span>      Multimap&lt;?, ?&gt; that = (Multimap&lt;?, ?&gt;) object;<a name="line.2122"></a>
-<span class="sourceLineNo">2123</span>      return multimap.asMap().equals(that.asMap());<a name="line.2123"></a>
-<span class="sourceLineNo">2124</span>    }<a name="line.2124"></a>
-<span class="sourceLineNo">2125</span>    return false;<a name="line.2125"></a>
-<span class="sourceLineNo">2126</span>  }<a name="line.2126"></a>
-<span class="sourceLineNo">2127</span><a name="line.2127"></a>
-<span class="sourceLineNo">2128</span>  // TODO(jlevy): Create methods that filter a SortedSetMultimap.<a name="line.2128"></a>
-<span class="sourceLineNo">2129</span>}<a name="line.2129"></a>
+<span class="sourceLineNo">2101</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate =<a name="line.2101"></a>
+<span class="sourceLineNo">2102</span>        Predicates.&lt;Entry&lt;K, V&gt;&gt;and(multimap.entryPredicate(), entryPredicate);<a name="line.2102"></a>
+<span class="sourceLineNo">2103</span>    return new FilteredEntryMultimap&lt;K, V&gt;(multimap.unfiltered(), predicate);<a name="line.2103"></a>
+<span class="sourceLineNo">2104</span>  }<a name="line.2104"></a>
+<span class="sourceLineNo">2105</span><a name="line.2105"></a>
+<span class="sourceLineNo">2106</span>  /**<a name="line.2106"></a>
+<span class="sourceLineNo">2107</span>   * Support removal operations when filtering a filtered multimap. Since a filtered multimap has<a name="line.2107"></a>
+<span class="sourceLineNo">2108</span>   * iterators that don't support remove, passing one to the FilteredEntryMultimap constructor would<a name="line.2108"></a>
+<span class="sourceLineNo">2109</span>   * lead to a multimap whose removal operations would fail. This method combines the predicates to<a name="line.2109"></a>
+<span class="sourceLineNo">2110</span>   * avoid that problem.<a name="line.2110"></a>
+<span class="sourceLineNo">2111</span>   */<a name="line.2111"></a>
+<span class="sourceLineNo">2112</span>  private static &lt;K, V&gt; SetMultimap&lt;K, V&gt; filterFiltered(<a name="line.2112"></a>
+<span class="sourceLineNo">2113</span>      FilteredSetMultimap&lt;K, V&gt; multimap, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2113"></a>
+<span class="sourceLineNo">2114</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate =<a name="line.2114"></a>
+<span class="sourceLineNo">2115</span>        Predicates.&lt;Entry&lt;K, V&gt;&gt;and(multimap.entryPredicate(), entryPredicate);<a name="line.2115"></a>
+<span class="sourceLineNo">2116</span>    return new FilteredEntrySetMultimap&lt;K, V&gt;(multimap.unfiltered(), predicate);<a name="line.2116"></a>
+<span class="sourceLineNo">2117</span>  }<a name="line.2117"></a>
+<span class="sourceLineNo">2118</span><a name="line.2118"></a>
+<span class="sourceLineNo">2119</span>  static boolean equalsImpl(Multimap&lt;?, ?&gt; multimap, @Nullable Object object) {<a name="line.2119"></a>
+<span class="sourceLineNo">2120</span>    if (object == multimap) {<a name="line.2120"></a>
+<span class="sourceLineNo">2121</span>      return true;<a name="line.2121"></a>
+<span class="sourceLineNo">2122</span>    }<a name="line.2122"></a>
+<span class="sourceLineNo">2123</span>    if (object instanceof Multimap) {<a name="line.2123"></a>
+<span class="sourceLineNo">2124</span>      Multimap&lt;?, ?&gt; that = (Multimap&lt;?, ?&gt;) object;<a name="line.2124"></a>
+<span class="sourceLineNo">2125</span>      return multimap.asMap().equals(that.asMap());<a name="line.2125"></a>
+<span class="sourceLineNo">2126</span>    }<a name="line.2126"></a>
+<span class="sourceLineNo">2127</span>    return false;<a name="line.2127"></a>
+<span class="sourceLineNo">2128</span>  }<a name="line.2128"></a>
+<span class="sourceLineNo">2129</span><a name="line.2129"></a>
+<span class="sourceLineNo">2130</span>  // TODO(jlevy): Create methods that filter a SortedSetMultimap.<a name="line.2130"></a>
+<span class="sourceLineNo">2131</span>}<a name="line.2131"></a>
 
 
 

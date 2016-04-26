@@ -208,7 +208,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <ul class="blockListLast">
 <li class="blockList">
 <h4>callWithTimeout</h4>
-<pre>&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/TimeLimiter.html#line.99">callWithTimeout</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;callable,
+<pre>&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/TimeLimiter.html#line.97">callWithTimeout</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;callable,
                     long&nbsp;timeoutDuration,
                     <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeoutUnit,
                     boolean&nbsp;interruptible)
@@ -216,9 +216,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <div class="block">Invokes a specified Callable, timing out after the specified time limit. If the target method
  call finished before the limit is reached, the return value or exception is propagated to the
  caller exactly as-is. If, on the other hand, the time limit is reached, we attempt to abort the
- call to the target, and throw an <a href="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent"><code>UncheckedTimeoutException</code></a> to the caller. <p>
- <b>Warning:</b> The future of this method is in doubt. It may be nuked, or changed
- significantly.</div>
+ call to the target, and throw an <a href="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent"><code>UncheckedTimeoutException</code></a> to the caller.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>callable</code> - the Callable to execute</dd><dd><code>timeoutDuration</code> - with timeoutUnit, the maximum length of time to wait</dd><dd><code>timeoutUnit</code> - with timeoutDuration, the maximum length of time to wait</dd><dd><code>interruptible</code> - whether to respond to thread interruption by aborting the operation and
      throwing InterruptedException; if false, the operation is allowed to complete or time out,
      and the current thread's interrupt status is re-asserted.</dd>

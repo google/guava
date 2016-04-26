@@ -336,11 +336,11 @@
 <span class="sourceLineNo">328</span>      if (actual == FAILED) {<a name="line.328"></a>
 <span class="sourceLineNo">329</span>        // Handle this specially so that we can include the failureCause, if there is one.<a name="line.329"></a>
 <span class="sourceLineNo">330</span>        throw new IllegalStateException(<a name="line.330"></a>
-<span class="sourceLineNo">331</span>            "Expected the service to be " + expected + ", but the service has FAILED",<a name="line.331"></a>
+<span class="sourceLineNo">331</span>            "Expected the service " + this + " to be " + expected + ", but the service has FAILED",<a name="line.331"></a>
 <span class="sourceLineNo">332</span>            failureCause());<a name="line.332"></a>
 <span class="sourceLineNo">333</span>      }<a name="line.333"></a>
 <span class="sourceLineNo">334</span>      throw new IllegalStateException(<a name="line.334"></a>
-<span class="sourceLineNo">335</span>          "Expected the service to be " + expected + ", but was " + actual);<a name="line.335"></a>
+<span class="sourceLineNo">335</span>          "Expected the service " + this + " to be " + expected + ", but was " + actual);<a name="line.335"></a>
 <span class="sourceLineNo">336</span>    }<a name="line.336"></a>
 <span class="sourceLineNo">337</span>  }<a name="line.337"></a>
 <span class="sourceLineNo">338</span><a name="line.338"></a>

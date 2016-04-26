@@ -287,9 +287,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/TimeLimiter
 <div class="block">Invokes a specified Callable, timing out after the specified time limit. If the target method
  call finished before the limit is reached, the return value or exception is propagated to the
  caller exactly as-is. If, on the other hand, the time limit is reached, we attempt to abort the
- call to the target, and throw an <a href="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent"><code>UncheckedTimeoutException</code></a> to the caller. <p>
- <b>Warning:</b> The future of this method is in doubt. It may be nuked, or changed
- significantly.</div>
+ call to the target, and throw an <a href="../../../../../com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent"><code>UncheckedTimeoutException</code></a> to the caller.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/TimeLimiter.html#callWithTimeout(java.util.concurrent.Callable,%20long,%20java.util.concurrent.TimeUnit,%20boolean)">callWithTimeout</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></code></dd>

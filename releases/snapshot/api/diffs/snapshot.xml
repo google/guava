@@ -5602,13 +5602,42 @@
     <method name="assignableFrom" return="com.google.common.base.Predicate&lt;java.lang.Class&lt;?&gt;&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
+      deprecated="Use the correctly-named method {@link #subtypeOf} instead.">
+      <param name="clazz" type="java.lang.Class&lt;?&gt;"/>
+      <doc>
+      <![CDATA[Returns a predicate that evaluates to {@code true} if the class being tested is assignable
+ <b>TO</b> {@code clazz}, that is, if it is a <b>subtype</b> of {@code clazz}. Yes, this method
+ is named very incorrectly! Example: <pre>   {@code
+
+   List<Class<?>> classes = Arrays.asList(
+       Object.class, String.class, Number.class, Long.class);
+   return Iterables.filter(classes, assignableFrom(Number.class));}</pre>
+
+ The code above returns {@code Number.class} and {@code Long.class}, <b>not</b> {@code
+ Number.class} and {@code Object.class} as the name implies!
+
+ <p>The returned predicate does not allow null inputs.
+
+ @deprecated Use the correctly-named method {@link #subtypeOf} instead.
+ @since 10.0]]>
+      </doc>
+    </method>
+    <method name="subtypeOf" return="com.google.common.base.Predicate&lt;java.lang.Class&lt;?&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="clazz" type="java.lang.Class&lt;?&gt;"/>
       <doc>
-      <![CDATA[Returns a predicate that evaluates to {@code true} if the class being tested is assignable from
- the given class. The returned predicate does not allow null inputs.
+      <![CDATA[Returns a predicate that evaluates to {@code true} if the class being tested is assignable
+ to (is a subtype of) {@code clazz}. Example: <pre>   {@code
 
- @since 10.0]]>
+   List<Class<?>> classes = Arrays.asList(
+       Object.class, String.class, Number.class, Long.class);
+   return Iterables.filter(classes, subtypeOf(Number.class));}</pre>
+
+ The code above returns an iterable containing {@code Number.class} and {@code Long.class}.
+
+ @since 20.0 (since 10.0 under the incorrect name {@code assignableFrom})]]>
       </doc>
     </method>
     <method name="in" return="com.google.common.base.Predicate&lt;T&gt;"
@@ -21884,9 +21913,7 @@
       <doc>
       <![CDATA[Returns a new thread-safe interner which retains a strong reference to each instance it has
  interned, thus preventing these instances from being garbage-collected. If this retention is
- acceptable, this implementation may perform better than {@link #newWeakInterner}. Note that
- unlike {@link String#intern}, using this interner does not consume memory in the permanent
- generation.]]>
+ acceptable, this implementation may perform better than {@link #newWeakInterner}.]]>
       </doc>
     </method>
     <method name="newWeakInterner" return="com.google.common.collect.Interner&lt;E&gt;"
@@ -21897,8 +21924,7 @@
       <![CDATA[Returns a new thread-safe interner which retains a weak reference to each instance it has
  interned, and so does not prevent these instances from being garbage-collected. This most
  likely does not perform as well as {@link #newStrongInterner}, but is the best alternative
- when the memory usage of that implementation is unacceptable. Note that unlike {@link
- String#intern}, using this interner does not consume memory in the permanent generation.]]>
+ when the memory usage of that implementation is unacceptable.]]>
       </doc>
     </method>
     <method name="asFunction" return="com.google.common.base.Function&lt;E, E&gt;"
@@ -24810,7 +24836,7 @@
   </interface>
   <!-- end interface com.google.common.collect.MapDifference.ValueDifference -->
   <!-- start class com.google.common.collect.MapMaker -->
-  <class name="MapMaker" extends="com.google.common.collect.GenericMapMaker&lt;java.lang.Object, java.lang.Object&gt;"
+  <class name="MapMaker" extends="java.lang.Object"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
@@ -24926,11 +24952,8 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[<p>A builder of {@link ConcurrentMap} instances having any combination of the following features:
-
- <ul>
- <li>keys or values automatically wrapped in {@linkplain WeakReference weak} references
- </ul>
+    <![CDATA[<p>A builder of {@link ConcurrentMap} instances that can have keys or values automatically
+ wrapped in {@linkplain WeakReference weak} references.
 
  <p>Usage example: <pre>   {@code
 
@@ -24949,16 +24972,15 @@
  <p><b>Note:</b> by default, the returned map uses equality comparisons (the {@link Object#equals
  equals} method) to determine equality for keys or values. However, if {@link #weakKeys} was
  specified, the map uses identity ({@code ==}) comparisons instead for keys. Likewise, if
- {@link #weakValues}
- was specified, the map uses identity comparisons for values.
+ {@link #weakValues} was specified, the map uses identity comparisons for values.
 
  <p>The view collections of the returned map have <i>weakly consistent iterators</i>. This means
  that they are safe for concurrent use, but if other threads modify the map after the iterator is
  created, it is undefined which of these changes, if any, are reflected in that iterator. These
  iterators never throw {@link ConcurrentModificationException}.
 
- <p>If {@link #weakKeys}/{@link #weakValues}
- are requested, it is possible for a key or value present in the map to be reclaimed by the
+ <p>If {@link #weakKeys} or {@link #weakValues} are requested, it is possible for a key or value
+ present in the map to be reclaimed by the
  garbage collector. Entries with reclaimed keys or values may be removed from the map on each map
  modification or on occasional map accesses; such entries may be counted by {@link Map#size}, but
  will never be visible to read or write operations. A partially-reclaimed entry is never exposed
@@ -24969,9 +24991,8 @@
 
  <p>The maps produced by {@code MapMaker} are serializable, and the deserialized maps retain all
  the configuration properties of the original map. During deserialization, if the original map had
- used weak
- references, the entries are reconstructed as they were, but it's not unlikely they'll be quickly
- garbage-collected before they are ever accessed.
+ used weak references, the entries are reconstructed as they were, but it's not unlikely they'll
+ be quickly garbage-collected before they are ever accessed.
 
  <p>{@code new MapMaker().weakKeys().makeMap()} is a recommended replacement for
  {@link java.util.WeakHashMap}, but note that it compares keys using object identity whereas
@@ -47769,6 +47790,30 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
+    <field name="NACL_APPLICATION" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for NaCl applications. For more information see
+ <a href="https://developer.chrome.com/native-client/devguide/coding/application-structure">
+ the Developer Guide for Native Client Application Structure</a>.
+
+ @since 20.0]]>
+      </doc>
+    </field>
+    <field name="NACL_PORTABLE_APPLICATION" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for NaCl portable applications. For more information see
+ <a href="https://developer.chrome.com/native-client/devguide/coding/application-structure">
+ the Developer Guide for Native Client Application Structure</a>.
+
+ @since 20.0]]>
+      </doc>
+    </field>
     <field name="OCTET_STREAM" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -60253,9 +60298,7 @@
       <![CDATA[Invokes a specified Callable, timing out after the specified time limit. If the target method
  call finished before the limit is reached, the return value or exception is propagated to the
  caller exactly as-is. If, on the other hand, the time limit is reached, we attempt to abort the
- call to the target, and throw an {@link UncheckedTimeoutException} to the caller. <p>
- <b>Warning:</b> The future of this method is in doubt. It may be nuked, or changed
- significantly.
+ call to the target, and throw an {@link UncheckedTimeoutException} to the caller.
 
  @param callable the Callable to execute
  @param timeoutDuration with timeoutUnit, the maximum length of time to wait

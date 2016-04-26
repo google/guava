@@ -96,13 +96,10 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.106">MapMaker</a>
+public final class <a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.92">MapMaker</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block"><p>A builder of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent"><code>ConcurrentMap</code></a> instances having any combination of the following features:
-
- <ul>
- <li>keys or values automatically wrapped in <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref">weak</a> references
- </ul>
+<div class="block"><p>A builder of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent"><code>ConcurrentMap</code></a> instances that can have keys or values automatically
+ wrapped in <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref">weak</a> references.
 
  <p>Usage example: <pre>   <code>ConcurrentMap&lt;Request, Stopwatch&gt; timers = new MapMaker()
        .concurrencyLevel(4)
@@ -118,16 +115,15 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 
  <p><b>Note:</b> by default, the returned map uses equality comparisons (the <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>equals</code></a> method) to determine equality for keys or values. However, if <a href="../../../../com/google/common/collect/MapMaker.html#weakKeys()"><code>weakKeys()</code></a> was
  specified, the map uses identity (<code>==</code>) comparisons instead for keys. Likewise, if
- <a href="../../../../com/google/common/collect/MapMaker.html#weakValues()"><code>weakValues()</code></a>
- was specified, the map uses identity comparisons for values.
+ <a href="../../../../com/google/common/collect/MapMaker.html#weakValues()"><code>weakValues()</code></a> was specified, the map uses identity comparisons for values.
 
  <p>The view collections of the returned map have <i>weakly consistent iterators</i>. This means
  that they are safe for concurrent use, but if other threads modify the map after the iterator is
  created, it is undefined which of these changes, if any, are reflected in that iterator. These
  iterators never throw <a href="http://docs.oracle.com/javase/7/docs/api/java/util/ConcurrentModificationException.html?is-external=true" title="class or interface in java.util"><code>ConcurrentModificationException</code></a>.
 
- <p>If <a href="../../../../com/google/common/collect/MapMaker.html#weakKeys()"><code>weakKeys()</code></a>/<a href="../../../../com/google/common/collect/MapMaker.html#weakValues()"><code>weakValues()</code></a>
- are requested, it is possible for a key or value present in the map to be reclaimed by the
+ <p>If <a href="../../../../com/google/common/collect/MapMaker.html#weakKeys()"><code>weakKeys()</code></a> or <a href="../../../../com/google/common/collect/MapMaker.html#weakValues()"><code>weakValues()</code></a> are requested, it is possible for a key or value
+ present in the map to be reclaimed by the
  garbage collector. Entries with reclaimed keys or values may be removed from the map on each map
  modification or on occasional map accesses; such entries may be counted by <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true#size()" title="class or interface in java.util"><code>Map.size()</code></a>, but
  will never be visible to read or write operations. A partially-reclaimed entry is never exposed
@@ -138,9 +134,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 
  <p>The maps produced by <code>MapMaker</code> are serializable, and the deserialized maps retain all
  the configuration properties of the original map. During deserialization, if the original map had
- used weak
- references, the entries are reconstructed as they were, but it's not unlikely they'll be quickly
- garbage-collected before they are ever accessed.
+ used weak references, the entries are reconstructed as they were, but it's not unlikely they'll
+ be quickly garbage-collected before they are ever accessed.
 
  <p><code>new MapMaker().weakKeys().makeMap()</code> is a recommended replacement for
  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/WeakHashMap.html?is-external=true" title="class or interface in java.util"><code>WeakHashMap</code></a>, but note that it compares keys using object identity whereas
@@ -253,7 +248,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>MapMaker</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.134">MapMaker</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.113">MapMaker</a>()</pre>
 <div class="block">Constructs a new <code>MapMaker</code> instance with default settings, including strong keys, strong
  values, and no automatic eviction of any kind.</div>
 </li>
@@ -272,7 +267,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>initialCapacity</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.169">initialCapacity</a>(int&nbsp;initialCapacity)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.146">initialCapacity</a>(int&nbsp;initialCapacity)</pre>
 <div class="block">Sets the minimum total size for the internal hash tables. For example, if the initial capacity
  is <code>60</code>, and the concurrency level is <code>8</code>, then eight segments are created, each
  having a hash table of size eight. Providing a large enough estimate at construction time
@@ -289,7 +284,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>concurrencyLevel</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.204">concurrencyLevel</a>(int&nbsp;concurrencyLevel)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.180">concurrencyLevel</a>(int&nbsp;concurrencyLevel)</pre>
 <div class="block">Guides the allowed concurrency among update operations. Used as a hint for internal sizing. The
  table is internally partitioned to try to permit the indicated number of concurrent updates
  without contention. Because assignment of entries to these partitions is not necessarily
@@ -316,7 +311,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>weakKeys</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.232">weakKeys</a>()</pre>
+public&nbsp;<a href="../../../../com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.207">weakKeys</a>()</pre>
 <div class="block">Specifies that each key (not value) stored in the map should be wrapped in a
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref"><code>WeakReference</code></a> (by default, strong references are used).
 
@@ -334,7 +329,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/MapMaker.html" title=
 <li class="blockList">
 <h4>weakValues</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.270">weakValues</a>()</pre>
+public&nbsp;<a href="../../../../com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.243">weakValues</a>()</pre>
 <div class="block">Specifies that each value (not key) stored in the map should be wrapped in a
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html?is-external=true" title="class or interface in java.lang.ref"><code>WeakReference</code></a> (by default, strong references are used).
 
@@ -355,7 +350,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/MapMaker.html" title=
 <ul class="blockList">
 <li class="blockList">
 <h4>makeMap</h4>
-<pre>public&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.382">makeMap</a>()</pre>
+<pre>public&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.272">makeMap</a>()</pre>
 <div class="block">Builds a thread-safe map. This method does not alter the state of this <code>MapMaker</code>
  instance, so it can be invoked again to create multiple independent maps.
 
@@ -372,7 +367,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/MapMaker.html" title=
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.469">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapMaker.html#line.355">toString</a>()</pre>
 <div class="block">Returns a string representation for this MapMaker instance. The exact form of the returned
  string is not specificed.</div>
 <dl>

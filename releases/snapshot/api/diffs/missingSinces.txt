@@ -124,6 +124,7 @@ OK: com.google.common.math.IntMath Method saturatedSubtract(int, int)
 OK: com.google.common.math.LongMath Method saturatedSubtract(long, long)
 OK: com.google.common.collect.Maps Method subMap(java.util.NavigableMap<K, V>, com.google.common.collect.Range<K>)
 OK: com.google.common.collect.Sets Method subSet(java.util.NavigableSet<K>, com.google.common.collect.Range<K>)
+OK: com.google.common.base.Predicates Method subtypeOf(java.lang.Class<?>)
 OK: com.google.common.base.Throwables Method throwIfInstanceOf(java.lang.Throwable, java.lang.Class<X>)
 OK: com.google.common.base.Throwables Method throwIfUnchecked(java.lang.Throwable)
 OK: com.google.common.util.concurrent.Futures Method whenAllComplete(com.google.common.util.concurrent.ListenableFuture[])
@@ -135,6 +136,8 @@ OK: com.google.common.net.MediaType Field AAC_AUDIO
 OK: com.google.common.net.MediaType Field BASIC_AUDIO
 OK: com.google.common.net.MediaType Field FLV_VIDEO
 OK: com.google.common.net.MediaType Field L24_AUDIO
+OK: com.google.common.net.MediaType Field NACL_APPLICATION
+OK: com.google.common.net.MediaType Field NACL_PORTABLE_APPLICATION
 MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field SERVICE_WORKER
 OK: com.google.common.net.HttpHeaders Field SERVICE_WORKER_ALLOWED
 OK: com.google.common.net.MediaType Field SOAP_XML_UTF_8

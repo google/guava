@@ -26,97 +26,99 @@
 <span class="sourceLineNo">018</span><a name="line.18"></a>
 <span class="sourceLineNo">019</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.19"></a>
 <span class="sourceLineNo">020</span><a name="line.20"></a>
-<span class="sourceLineNo">021</span>import com.google.common.base.Optional;<a name="line.21"></a>
-<span class="sourceLineNo">022</span><a name="line.22"></a>
-<span class="sourceLineNo">023</span>import java.util.Comparator;<a name="line.23"></a>
-<span class="sourceLineNo">024</span><a name="line.24"></a>
-<span class="sourceLineNo">025</span>/**<a name="line.25"></a>
-<span class="sourceLineNo">026</span> * A builder for constructing instances of {@link Graph} with user-defined properties.<a name="line.26"></a>
-<span class="sourceLineNo">027</span> *<a name="line.27"></a>
-<span class="sourceLineNo">028</span> * &lt;p&gt;A graph built by this class will have the following properties by default:<a name="line.28"></a>
-<span class="sourceLineNo">029</span> * &lt;ul&gt;<a name="line.29"></a>
-<span class="sourceLineNo">030</span> * &lt;li&gt;does not allow parallel edges<a name="line.30"></a>
-<span class="sourceLineNo">031</span> * &lt;li&gt;allows self-loops<a name="line.31"></a>
-<span class="sourceLineNo">032</span> * &lt;/ul&gt;<a name="line.32"></a>
-<span class="sourceLineNo">033</span> *<a name="line.33"></a>
-<span class="sourceLineNo">034</span> * @author James Sexton<a name="line.34"></a>
-<span class="sourceLineNo">035</span> * @author Joshua O'Madadhain<a name="line.35"></a>
-<span class="sourceLineNo">036</span> * @since 20.0<a name="line.36"></a>
-<span class="sourceLineNo">037</span> */<a name="line.37"></a>
-<span class="sourceLineNo">038</span>// TODO(b/24620028): Add support for sorted nodes/edges. Use the same pattern as CacheBuilder<a name="line.38"></a>
-<span class="sourceLineNo">039</span>// to narrow the generic type when Comparators are provided.<a name="line.39"></a>
-<span class="sourceLineNo">040</span>public final class GraphBuilder&lt;N&gt; {<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  final boolean directed;<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  boolean allowsSelfLoops = true;<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  Comparator&lt;N&gt; nodeComparator = null;<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  Optional&lt;Integer&gt; expectedNodeCount = Optional.absent();<a name="line.44"></a>
-<span class="sourceLineNo">045</span><a name="line.45"></a>
-<span class="sourceLineNo">046</span>  /**<a name="line.46"></a>
-<span class="sourceLineNo">047</span>   * Creates a new instance with the specified edge directionality.<a name="line.47"></a>
-<span class="sourceLineNo">048</span>   *<a name="line.48"></a>
-<span class="sourceLineNo">049</span>   * @param directed if true, creates an instance for graphs whose edges are each directed;<a name="line.49"></a>
-<span class="sourceLineNo">050</span>   *      if false, creates an instance for graphs whose edges are each undirected.<a name="line.50"></a>
-<span class="sourceLineNo">051</span>   */<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  private GraphBuilder(boolean directed) {<a name="line.52"></a>
-<span class="sourceLineNo">053</span>    this.directed = directed;<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  }<a name="line.54"></a>
-<span class="sourceLineNo">055</span><a name="line.55"></a>
-<span class="sourceLineNo">056</span>  /**<a name="line.56"></a>
-<span class="sourceLineNo">057</span>   * Returns a {@link GraphBuilder} for building directed graphs.<a name="line.57"></a>
-<span class="sourceLineNo">058</span>   */<a name="line.58"></a>
-<span class="sourceLineNo">059</span>  public static GraphBuilder&lt;Object&gt; directed() {<a name="line.59"></a>
-<span class="sourceLineNo">060</span>    return new GraphBuilder&lt;Object&gt;(true);<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  }<a name="line.61"></a>
-<span class="sourceLineNo">062</span><a name="line.62"></a>
-<span class="sourceLineNo">063</span>  /**<a name="line.63"></a>
-<span class="sourceLineNo">064</span>   * Returns a {@link GraphBuilder} for building undirected graphs.<a name="line.64"></a>
-<span class="sourceLineNo">065</span>   */<a name="line.65"></a>
-<span class="sourceLineNo">066</span>  public static GraphBuilder&lt;Object&gt; undirected() {<a name="line.66"></a>
-<span class="sourceLineNo">067</span>    return new GraphBuilder&lt;Object&gt;(false);<a name="line.67"></a>
-<span class="sourceLineNo">068</span>  }<a name="line.68"></a>
-<span class="sourceLineNo">069</span><a name="line.69"></a>
-<span class="sourceLineNo">070</span>  /**<a name="line.70"></a>
-<span class="sourceLineNo">071</span>   * Returns a {@link GraphBuilder} initialized with all properties queryable from {@code graph}.<a name="line.71"></a>
-<span class="sourceLineNo">072</span>   *<a name="line.72"></a>
-<span class="sourceLineNo">073</span>   * &lt;p&gt;The "queryable" properties are those that are exposed through the {@link Graph} interface,<a name="line.73"></a>
-<span class="sourceLineNo">074</span>   * such as {@link Graph#isDirected()}. Other properties, such as {@link #expectedNodeCount(int)},<a name="line.74"></a>
-<span class="sourceLineNo">075</span>   * are not set in the new builder.<a name="line.75"></a>
-<span class="sourceLineNo">076</span>   */<a name="line.76"></a>
-<span class="sourceLineNo">077</span>  public static &lt;N&gt; GraphBuilder&lt;N&gt; from(Graph&lt;N&gt; graph) {<a name="line.77"></a>
-<span class="sourceLineNo">078</span>    // TODO(b/28087289): add allowsParallelEdges() once we support them<a name="line.78"></a>
-<span class="sourceLineNo">079</span>    return new GraphBuilder&lt;N&gt;(graph.isDirected())<a name="line.79"></a>
-<span class="sourceLineNo">080</span>        .allowsSelfLoops(graph.allowsSelfLoops());<a name="line.80"></a>
-<span class="sourceLineNo">081</span>  }<a name="line.81"></a>
-<span class="sourceLineNo">082</span><a name="line.82"></a>
-<span class="sourceLineNo">083</span>  /**<a name="line.83"></a>
-<span class="sourceLineNo">084</span>   * Specifies whether the graph will allow self-loops (edges that connect a node to itself).<a name="line.84"></a>
-<span class="sourceLineNo">085</span>   * Attempting to add a self-loop to a graph that does not allow them will throw an<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   * {@link UnsupportedOperationException}.<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   */<a name="line.87"></a>
-<span class="sourceLineNo">088</span>  public GraphBuilder&lt;N&gt; allowsSelfLoops(boolean allowsSelfLoops) {<a name="line.88"></a>
-<span class="sourceLineNo">089</span>    this.allowsSelfLoops = allowsSelfLoops;<a name="line.89"></a>
-<span class="sourceLineNo">090</span>    return this;<a name="line.90"></a>
-<span class="sourceLineNo">091</span>  }<a name="line.91"></a>
-<span class="sourceLineNo">092</span><a name="line.92"></a>
-<span class="sourceLineNo">093</span>  /**<a name="line.93"></a>
-<span class="sourceLineNo">094</span>   * Specifies the expected number of nodes in the graph.<a name="line.94"></a>
-<span class="sourceLineNo">095</span>   *<a name="line.95"></a>
-<span class="sourceLineNo">096</span>   * @throws IllegalArgumentException if {@code expectedNodeCount} is negative<a name="line.96"></a>
-<span class="sourceLineNo">097</span>   */<a name="line.97"></a>
-<span class="sourceLineNo">098</span>  public GraphBuilder&lt;N&gt; expectedNodeCount(int expectedNodeCount) {<a name="line.98"></a>
-<span class="sourceLineNo">099</span>    checkArgument(expectedNodeCount &gt;= 0, "The expected number of nodes can't be negative: %s",<a name="line.99"></a>
-<span class="sourceLineNo">100</span>        expectedNodeCount);<a name="line.100"></a>
-<span class="sourceLineNo">101</span>    this.expectedNodeCount = Optional.of(expectedNodeCount);<a name="line.101"></a>
-<span class="sourceLineNo">102</span>    return this;<a name="line.102"></a>
-<span class="sourceLineNo">103</span>  }<a name="line.103"></a>
-<span class="sourceLineNo">104</span><a name="line.104"></a>
-<span class="sourceLineNo">105</span>  /**<a name="line.105"></a>
-<span class="sourceLineNo">106</span>   * Returns an empty mutable {@link Graph} with the properties of this {@link GraphBuilder}.<a name="line.106"></a>
-<span class="sourceLineNo">107</span>   */<a name="line.107"></a>
-<span class="sourceLineNo">108</span>  public &lt;N1 extends N&gt; MutableGraph&lt;N1&gt; build() {<a name="line.108"></a>
-<span class="sourceLineNo">109</span>    return new ConfigurableGraph&lt;N1&gt;(this);<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  }<a name="line.110"></a>
-<span class="sourceLineNo">111</span>}<a name="line.111"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.Beta;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.base.Optional;<a name="line.22"></a>
+<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.Comparator;<a name="line.24"></a>
+<span class="sourceLineNo">025</span><a name="line.25"></a>
+<span class="sourceLineNo">026</span>/**<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * A builder for constructing instances of {@link Graph} with user-defined properties.<a name="line.27"></a>
+<span class="sourceLineNo">028</span> *<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * &lt;p&gt;A graph built by this class will have the following properties by default:<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * &lt;ul&gt;<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * &lt;li&gt;does not allow parallel edges<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * &lt;li&gt;allows self-loops<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * &lt;/ul&gt;<a name="line.33"></a>
+<span class="sourceLineNo">034</span> *<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * @author James Sexton<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * @author Joshua O'Madadhain<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * @since 20.0<a name="line.37"></a>
+<span class="sourceLineNo">038</span> */<a name="line.38"></a>
+<span class="sourceLineNo">039</span>// TODO(b/24620028): Add support for sorted nodes/edges. Use the same pattern as CacheBuilder<a name="line.39"></a>
+<span class="sourceLineNo">040</span>// to narrow the generic type when Comparators are provided.<a name="line.40"></a>
+<span class="sourceLineNo">041</span>@Beta<a name="line.41"></a>
+<span class="sourceLineNo">042</span>public final class GraphBuilder&lt;N&gt; {<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  final boolean directed;<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  boolean allowsSelfLoops = true;<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  Comparator&lt;N&gt; nodeComparator = null;<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  Optional&lt;Integer&gt; expectedNodeCount = Optional.absent();<a name="line.46"></a>
+<span class="sourceLineNo">047</span><a name="line.47"></a>
+<span class="sourceLineNo">048</span>  /**<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   * Creates a new instance with the specified edge directionality.<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   *<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   * @param directed if true, creates an instance for graphs whose edges are each directed;<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   *      if false, creates an instance for graphs whose edges are each undirected.<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  private GraphBuilder(boolean directed) {<a name="line.54"></a>
+<span class="sourceLineNo">055</span>    this.directed = directed;<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  }<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>  /**<a name="line.58"></a>
+<span class="sourceLineNo">059</span>   * Returns a {@link GraphBuilder} for building directed graphs.<a name="line.59"></a>
+<span class="sourceLineNo">060</span>   */<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  public static GraphBuilder&lt;Object&gt; directed() {<a name="line.61"></a>
+<span class="sourceLineNo">062</span>    return new GraphBuilder&lt;Object&gt;(true);<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  }<a name="line.63"></a>
+<span class="sourceLineNo">064</span><a name="line.64"></a>
+<span class="sourceLineNo">065</span>  /**<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * Returns a {@link GraphBuilder} for building undirected graphs.<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   */<a name="line.67"></a>
+<span class="sourceLineNo">068</span>  public static GraphBuilder&lt;Object&gt; undirected() {<a name="line.68"></a>
+<span class="sourceLineNo">069</span>    return new GraphBuilder&lt;Object&gt;(false);<a name="line.69"></a>
+<span class="sourceLineNo">070</span>  }<a name="line.70"></a>
+<span class="sourceLineNo">071</span><a name="line.71"></a>
+<span class="sourceLineNo">072</span>  /**<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   * Returns a {@link GraphBuilder} initialized with all properties queryable from {@code graph}.<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   *<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   * &lt;p&gt;The "queryable" properties are those that are exposed through the {@link Graph} interface,<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * such as {@link Graph#isDirected()}. Other properties, such as {@link #expectedNodeCount(int)},<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   * are not set in the new builder.<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   */<a name="line.78"></a>
+<span class="sourceLineNo">079</span>  public static &lt;N&gt; GraphBuilder&lt;N&gt; from(Graph&lt;N&gt; graph) {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    // TODO(b/28087289): add allowsParallelEdges() once we support them<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    return new GraphBuilder&lt;N&gt;(graph.isDirected())<a name="line.81"></a>
+<span class="sourceLineNo">082</span>        .allowsSelfLoops(graph.allowsSelfLoops());<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  }<a name="line.83"></a>
+<span class="sourceLineNo">084</span><a name="line.84"></a>
+<span class="sourceLineNo">085</span>  /**<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * Specifies whether the graph will allow self-loops (edges that connect a node to itself).<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * Attempting to add a self-loop to a graph that does not allow them will throw an<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * {@link UnsupportedOperationException}.<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   */<a name="line.89"></a>
+<span class="sourceLineNo">090</span>  public GraphBuilder&lt;N&gt; allowsSelfLoops(boolean allowsSelfLoops) {<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    this.allowsSelfLoops = allowsSelfLoops;<a name="line.91"></a>
+<span class="sourceLineNo">092</span>    return this;<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  }<a name="line.93"></a>
+<span class="sourceLineNo">094</span><a name="line.94"></a>
+<span class="sourceLineNo">095</span>  /**<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   * Specifies the expected number of nodes in the graph.<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   *<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * @throws IllegalArgumentException if {@code expectedNodeCount} is negative<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   */<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  public GraphBuilder&lt;N&gt; expectedNodeCount(int expectedNodeCount) {<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    checkArgument(expectedNodeCount &gt;= 0, "The expected number of nodes can't be negative: %s",<a name="line.101"></a>
+<span class="sourceLineNo">102</span>        expectedNodeCount);<a name="line.102"></a>
+<span class="sourceLineNo">103</span>    this.expectedNodeCount = Optional.of(expectedNodeCount);<a name="line.103"></a>
+<span class="sourceLineNo">104</span>    return this;<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  }<a name="line.105"></a>
+<span class="sourceLineNo">106</span><a name="line.106"></a>
+<span class="sourceLineNo">107</span>  /**<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   * Returns an empty mutable {@link Graph} with the properties of this {@link GraphBuilder}.<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   */<a name="line.109"></a>
+<span class="sourceLineNo">110</span>  public &lt;N1 extends N&gt; MutableGraph&lt;N1&gt; build() {<a name="line.110"></a>
+<span class="sourceLineNo">111</span>    return new ConfigurableGraph&lt;N1&gt;(this);<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  }<a name="line.112"></a>
+<span class="sourceLineNo">113</span>}<a name="line.113"></a>
 
 
 

@@ -382,7 +382,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect
  applies to all occurrences of a given element as a single unit. However, most updates to the
  multiset do not count as map updates at all, since we're usually just mutating the value
  stored in the map, so <code>MapMaker#expireAfterAccess</code> makes sense (evict the entry that
- was queried or updated longest ago), but <a href="../../../../com/google/common/collect/MapMaker.html#expireAfterWrite(long,%20java.util.concurrent.TimeUnit)"><code>MapMaker.expireAfterWrite(long, java.util.concurrent.TimeUnit)</code></a> doesn't, because
+ was queried or updated longest ago), but <code>MapMaker#expireAfterWrite</code> doesn't, because
  the eviction time is measured from when we saw the first occurrence of the object.
 
  <p>The returned multiset is serializable but any serialization caveats
