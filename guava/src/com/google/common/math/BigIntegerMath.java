@@ -23,6 +23,7 @@ import static java.math.RoundingMode.CEILING;
 import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.HALF_EVEN;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -54,6 +55,7 @@ public final class BigIntegerMath {
    * @throws IllegalArgumentException if {@code x <= 0}
    * @since 20.0
    */
+  @Beta
   public static BigInteger ceilingPowerOfTwo(BigInteger x) {
     return BigInteger.ZERO.setBit(log2(x, RoundingMode.CEILING));
   }
@@ -65,6 +67,7 @@ public final class BigIntegerMath {
    * @throws IllegalArgumentException if {@code x <= 0}
    * @since 20.0
    */
+  @Beta
   public static BigInteger floorPowerOfTwo(BigInteger x) {
     return BigInteger.ZERO.setBit(log2(x, RoundingMode.FLOOR));
   }

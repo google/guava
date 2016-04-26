@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
 
 import java.util.Comparator;
@@ -37,6 +38,7 @@ import java.util.Comparator;
  */
 // TODO(b/24620028): Add support for sorted nodes/edges. Use the same pattern as CacheBuilder
 // to narrow the generic type when Comparators are provided.
+@Beta
 public final class GraphBuilder<N> {
   final boolean directed;
   boolean allowsSelfLoops = true;

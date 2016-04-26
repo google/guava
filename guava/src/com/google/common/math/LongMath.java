@@ -25,6 +25,7 @@ import static java.lang.Math.min;
 import static java.math.RoundingMode.HALF_EVEN;
 import static java.math.RoundingMode.HALF_UP;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -62,6 +63,7 @@ public final class LongMath {
    *         {@code long}, i.e. when {@code x > 2^62}
    * @since 20.0
    */
+  @Beta
   public static long ceilingPowerOfTwo(long x) {
     checkPositive("x", x);
     if (x > (1L << (Long.SIZE - 2))) {
@@ -77,6 +79,7 @@ public final class LongMath {
    * @throws IllegalArgumentException if {@code x <= 0}
    * @since 20.0
    */
+  @Beta
   public static long floorPowerOfTwo(long x) {
     checkPositive("x", x);
 
@@ -644,6 +647,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
+  @Beta
   public static long saturatedAdd(long a, long b) {
     long naiveSum = a + b;
     if ((a ^ b) < 0 | (a ^ naiveSum) >= 0) {
@@ -661,6 +665,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
+  @Beta
   public static long saturatedSubtract(long a, long b) {
     long naiveDifference = a - b;
     if ((a ^ b) >= 0 | (a ^ naiveDifference) >= 0) {
@@ -678,6 +683,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
+  @Beta
   public static long saturatedMultiply(long a, long b) {
     // see checkedMultiply for explanation
     int leadingZeros =
@@ -707,6 +713,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
+  @Beta
   public static long saturatedPow(long b, int k) {
     checkNonNegative("exponent", k);
     if (b >= -2 & b <= 2) {
