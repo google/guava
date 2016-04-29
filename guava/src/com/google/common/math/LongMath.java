@@ -66,7 +66,7 @@ public final class LongMath {
   @Beta
   public static long ceilingPowerOfTwo(long x) {
     checkPositive("x", x);
-    if (x > (1L << (Long.SIZE - 2))) {
+    if (x > MAX_SIGNED_POWER_OF_TWO) {
       throw new ArithmeticException("ceilingPowerOfTwo(" + x + ") is not representable as a long");
     }
     return 1L << -Long.numberOfLeadingZeros(x - 1);
