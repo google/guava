@@ -37,7 +37,8 @@ public class HttpHeadersTest extends TestCase {
 
   public void testConstantNameMatchesString() throws Exception {
     // Special case some of the weird HTTP Header names...
-    ImmutableBiMap<String, String> specialCases = ImmutableBiMap.of("ETAG", "ETag");
+    ImmutableBiMap<String, String> specialCases = ImmutableBiMap.of("ETAG", "ETag",
+        "X_WEBKIT_CSP", "X-WebKit-CSP", "X_WEBKIT_CSP_REPORT_ONLY", "X-WebKit-CSP-Report-Only");
     ImmutableSet<String> uppercaseAcronyms = ImmutableSet.of(
         "ID", "DNT", "IP", "MD5", "P3P", "TE", "UID", "URL", "WWW", "XSS");
     assertConstantNameMatchesString(HttpHeaders.class, specialCases, uppercaseAcronyms);

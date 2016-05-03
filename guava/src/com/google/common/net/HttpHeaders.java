@@ -167,6 +167,41 @@ public final class HttpHeaders {
    */
   public static final String CONTENT_SECURITY_POLICY_REPORT_ONLY =
       "Content-Security-Policy-Report-Only";
+  /**
+   * The HTTP nonstandard {@code X-Content-Security-Policy} header field name. It was introduced in
+   * <a href="https://www.w3.org/TR/2011/WD-CSP-20111129/">CSP v.1</a> and used by the Firefox
+   * until version 23 and the Internet Explorer version 10.
+   * Please, use {@link #CONTENT_SECURITY_POLICY} to pass the CSP.
+   *
+   * @since 20.0
+   */
+  public static final String X_CONTENT_SECURITY_POLICY = "X-Content-Security-Policy";
+  /**
+   * The HTTP nonstandard {@code X-Content-Security-Policy-Report-Only} header field name.
+   * It was introduced in <a href="https://www.w3.org/TR/2011/WD-CSP-20111129/">CSP v.1</a> and
+   * used by the Firefox until version 23 and the Internet Explorer version 10.
+   * Please, use {@link #CONTENT_SECURITY_POLICY_REPORT_ONLY} to pass the CSP.
+   *
+   * @since 20.0
+   */
+  public static final String X_CONTENT_SECURITY_POLICY_REPORT_ONLY =
+      "X-Content-Security-Policy-Report-Only";
+  /**
+   * The HTTP nonstandard {@code X-WebKit-CSP} header field name. It was introduced in
+   * <a href="https://www.w3.org/TR/2011/WD-CSP-20111129/">CSP v.1</a> and used by the Chrome until
+   * version 25. Please, use {@link #CONTENT_SECURITY_POLICY} to pass the CSP.
+   *
+   * @since 20.0
+   */
+  public static final String X_WEBKIT_CSP = "X-WebKit-CSP";
+  /**
+   * The HTTP nonstandard {@code X-WebKit-CSP-Report-Only} header field name. It was introduced in
+   * <a href="https://www.w3.org/TR/2011/WD-CSP-20111129/">CSP v.1</a> and used by the Chrome until
+   * version 25. Please, use {@link #CONTENT_SECURITY_POLICY_REPORT_ONLY} to pass the CSP.
+   *
+   * @since 20.0
+   */
+  public static final String X_WEBKIT_CSP_REPORT_ONLY = "X-WebKit-CSP-Report-Only";
   /** The HTTP {@code ETag} header field name. */
   public static final String ETAG = "ETag";
   /** The HTTP {@code Expires} header field name. */
