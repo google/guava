@@ -207,9 +207,6 @@ public final class Throwables {
   }
 
   /**
-   * <b>To be deprecated.</b> Use {@code throw e} or {@code throw new RuntimeException(e)} directly,
-   * or use a combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}.
-   *
    * <p>Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or
    * {@link Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then
    * propagates.
@@ -233,9 +230,13 @@ public final class Throwables {
    * @param throwable the Throwable to propagate
    * @return nothing will ever be returned; this return type is only for your convenience, as
    *     illustrated in the example above
+   * @deprecated Use {@code throw e} or {@code throw new RuntimeException(e)} directly, or use a
+   *     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. This
+   *     method is scheduled to be removed in July 2018.
    */
   @CanIgnoreReturnValue
-  @GwtIncompatible // to be deprecated
+  @GwtIncompatible
+  @Deprecated
   public static RuntimeException propagate(Throwable throwable) {
     throwIfUnchecked(throwable);
     throw new RuntimeException(throwable);
