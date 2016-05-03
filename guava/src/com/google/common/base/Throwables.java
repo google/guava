@@ -69,7 +69,6 @@ public final class Throwables {
    *
    * @since 20.0
    */
-  @Beta
   @GwtIncompatible // Class.cast, Class.isInstance
   public static <X extends Throwable> void throwIfInstanceOf(
       Throwable throwable, Class<X> declaredType) throws X {
@@ -125,7 +124,6 @@ public final class Throwables {
    *
    * @since 20.0
    */
-  @Beta
   public static void throwIfUnchecked(Throwable throwable) {
     checkNotNull(throwable);
     if (throwable instanceof RuntimeException) {
