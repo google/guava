@@ -74,7 +74,7 @@
 <span class="sourceLineNo">066</span>  @Beta<a name="line.66"></a>
 <span class="sourceLineNo">067</span>  public static long ceilingPowerOfTwo(long x) {<a name="line.67"></a>
 <span class="sourceLineNo">068</span>    checkPositive("x", x);<a name="line.68"></a>
-<span class="sourceLineNo">069</span>    if (x &gt; (1L &lt;&lt; (Long.SIZE - 2))) {<a name="line.69"></a>
+<span class="sourceLineNo">069</span>    if (x &gt; MAX_SIGNED_POWER_OF_TWO) {<a name="line.69"></a>
 <span class="sourceLineNo">070</span>      throw new ArithmeticException("ceilingPowerOfTwo(" + x + ") is not representable as a long");<a name="line.70"></a>
 <span class="sourceLineNo">071</span>    }<a name="line.71"></a>
 <span class="sourceLineNo">072</span>    return 1L &lt;&lt; -Long.numberOfLeadingZeros(x - 1);<a name="line.72"></a>

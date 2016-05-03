@@ -6709,13 +6709,12 @@
     <method name="propagate" return="java.lang.RuntimeException"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@code throw e} or {@code throw new RuntimeException(e)} directly, or use a
+     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. This
+     method is scheduled to be removed in July 2018.">
       <param name="throwable" type="java.lang.Throwable"/>
       <doc>
-      <![CDATA[<b>To be deprecated.</b> Use {@code throw e} or {@code throw new RuntimeException(e)} directly,
- or use a combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}.
-
- <p>Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or
+      <![CDATA[<p>Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or
  {@link Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then
  propagates.
 
@@ -6737,7 +6736,10 @@
 
  @param throwable the Throwable to propagate
  @return nothing will ever be returned; this return type is only for your convenience, as
-     illustrated in the example above]]>
+     illustrated in the example above
+ @deprecated Use {@code throw e} or {@code throw new RuntimeException(e)} directly, or use a
+     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. This
+     method is scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="getRootCause" return="java.lang.Throwable"
@@ -45952,6 +45954,56 @@
  {@code Content-Security-Policy-Report-Only}</a> header field name.
 
  @since 15.0]]>
+      </doc>
+    </field>
+    <field name="X_CONTENT_SECURITY_POLICY" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP nonstandard {@code X-Content-Security-Policy} header field name. It was introduced in
+ <a href="https://www.w3.org/TR/2011/WD-CSP-20111129/">CSP v.1</a> and used by the Firefox
+ until version 23 and the Internet Explorer version 10.
+ Please, use {@link #CONTENT_SECURITY_POLICY} to pass the CSP.
+
+ @since 20.0]]>
+      </doc>
+    </field>
+    <field name="X_CONTENT_SECURITY_POLICY_REPORT_ONLY" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP nonstandard {@code X-Content-Security-Policy-Report-Only} header field name.
+ It was introduced in <a href="https://www.w3.org/TR/2011/WD-CSP-20111129/">CSP v.1</a> and
+ used by the Firefox until version 23 and the Internet Explorer version 10.
+ Please, use {@link #CONTENT_SECURITY_POLICY_REPORT_ONLY} to pass the CSP.
+
+ @since 20.0]]>
+      </doc>
+    </field>
+    <field name="X_WEBKIT_CSP" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP nonstandard {@code X-WebKit-CSP} header field name. It was introduced in
+ <a href="https://www.w3.org/TR/2011/WD-CSP-20111129/">CSP v.1</a> and used by the Chrome until
+ version 25. Please, use {@link #CONTENT_SECURITY_POLICY} to pass the CSP.
+
+ @since 20.0]]>
+      </doc>
+    </field>
+    <field name="X_WEBKIT_CSP_REPORT_ONLY" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP nonstandard {@code X-WebKit-CSP-Report-Only} header field name. It was introduced in
+ <a href="https://www.w3.org/TR/2011/WD-CSP-20111129/">CSP v.1</a> and used by the Chrome until
+ version 25. Please, use {@link #CONTENT_SECURITY_POLICY_REPORT_ONLY} to pass the CSP.
+
+ @since 20.0]]>
       </doc>
     </field>
     <field name="ETAG" type="java.lang.String"

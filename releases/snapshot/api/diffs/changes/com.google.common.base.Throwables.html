@@ -71,6 +71,24 @@ Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Throwabl
 </TR>
 </TABLE>
 &nbsp;
+<p>
+<a NAME="Changed"></a>
+<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.base.Throwables.propagate_changed(java.lang.Throwable)"></A>
+  <nobr><code>RuntimeException</code>&nbsp;<A HREF="../../docs/com/google/common/base/Throwables.html#propagate(java.lang.Throwable)" target="_top"><tt>propagate</tt></A>(<code>Throwable</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
+  </TD>
+  <TD VALIGN="TOP">Use {@code throw e} or {@code throw new RuntimeException(e)} directly, or use a      combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}.</TD>
+</TR>
+</TABLE>
+&nbsp;
 <a NAME="fields"></a>
 <HR>
 <!-- Start of nav bar -->
