@@ -130,9 +130,9 @@ public final class NetworkBuilder<N, E> {
   }
 
   /**
-   * Returns an empty mutable {@link Network} with the properties of this {@link NetworkBuilder}.
+   * Returns an empty {@link MutableNetwork} with the properties of this {@link NetworkBuilder}.
    */
   public <N1 extends N, E1 extends E> MutableNetwork<N1, E1> build() {
-    return new ConfigurableNetwork<N1, E1>(this);
+    return new ConfigurableMutableNetwork<N1, E1>(this);
   }
 }

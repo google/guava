@@ -27,8 +27,8 @@ import org.junit.runners.JUnit4;
 import java.util.Set;
 
 /**
- * Tests for an undirected {@link ConfigurableGraph}, creating a simple undirected graph (parallel
- * and self-loop edges are not allowed).
+ * Tests for an undirected {@link ConfigurableMutableGraph}, creating a simple undirected graph
+ * (parallel and self-loop edges are not allowed).
  */
 @RunWith(JUnit4.class)
 public class ConfigurableSimpleUndirectedGraphTest extends AbstractUndirectedGraphTest {

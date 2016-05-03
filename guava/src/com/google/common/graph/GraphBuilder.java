@@ -105,9 +105,9 @@ public final class GraphBuilder<N> {
   }
 
   /**
-   * Returns an empty mutable {@link Graph} with the properties of this {@link GraphBuilder}.
+   * Returns an empty {@link MutableGraph} with the properties of this {@link GraphBuilder}.
    */
   public <N1 extends N> MutableGraph<N1> build() {
-    return new ConfigurableGraph<N1>(this);
+    return new ConfigurableMutableGraph<N1>(this);
   }
 }

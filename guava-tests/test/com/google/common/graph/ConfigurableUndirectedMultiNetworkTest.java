@@ -24,7 +24,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for an undirected {@link ConfigurableNetwork} allowing parallel edges.
+ * Tests for an undirected {@link ConfigurableMutableNetwork} allowing parallel edges.
  */
 @RunWith(JUnit4.class)
 public class ConfigurableUndirectedMultiNetworkTest extends ConfigurableUndirectedNetworkTest {

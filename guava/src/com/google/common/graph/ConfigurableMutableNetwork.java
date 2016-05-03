@@ -28,8 +28,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
 
 /**
- * Configurable implementation of {@link Network} that supports both directed and undirected graphs.
- * Instances of this class should be constructed with {@link NetworkBuilder}.
+ * Configurable implementation of {@link MutableNetwork} that supports both directed and undirected
+ * graphs. Instances of this class should be constructed with {@link NetworkBuilder}.
  *
  * <p>Time complexities for mutation methods are all O(1) except for {@code removeNode(N node)},
  * which is in O(d_node) where d_node is the degree of {@code node}.
@@ -41,14 +41,14 @@ import java.util.Map;
  * @param <E> Edge parameter type
  */
 // TODO(b/24620028): Enable this class to support sorted nodes/edges.
-class ConfigurableNetwork<N, E>
+class ConfigurableMutableNetwork<N, E>
     extends AbstractConfigurableNetwork<N, E>
     implements MutableNetwork<N, E> {
 
   /**
    * Constructs a mutable graph with the properties specified in {@code builder}.
    */
-  ConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder) {
+  ConfigurableMutableNetwork(NetworkBuilder<? super N, ? super E> builder) {
     super(builder);
   }
 
@@ -56,7 +56,7 @@ class ConfigurableNetwork<N, E>
    * Constructs a graph with the properties specified in {@code builder}, initialized with
    * the given node and edge maps. May be used for either mutable or immutable graphs.
    */
-  ConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder,
+  ConfigurableMutableNetwork(NetworkBuilder<? super N, ? super E> builder,
       Map<N, NodeConnections<N, E>> nodeConnections,
       Map<E, N> edgeToReferenceNode) {
     super(builder, nodeConnections, edgeToReferenceNode);

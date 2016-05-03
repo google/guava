@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for a directed {@link ConfigurableGraph} with default graph properties.
+ * Tests for a directed {@link ConfigurableMutableGraph} with default graph properties.
  */
 @RunWith(JUnit4.class)
 public class ConfigurableDirectedGraphTest extends ConfigurableSimpleDirectedGraphTest {

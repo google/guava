@@ -27,8 +27,8 @@ import org.junit.runners.JUnit4;
 import java.util.Set;
 
 /**
- * Tests for a directed {@link ConfigurableGraph}, creating a simple directed graph (parallel
- * and self-loop edges are not allowed).
+ * Tests for a directed {@link ConfigurableMutableGraph}, creating a simple directed graph
+ * (parallel and self-loop edges are not allowed).
  */
 @RunWith(JUnit4.class)
 public class ConfigurableSimpleDirectedGraphTest extends AbstractDirectedGraphTest {

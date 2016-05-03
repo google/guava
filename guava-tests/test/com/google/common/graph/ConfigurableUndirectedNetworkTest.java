@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for an undirected {@link ConfigurableNetwork} with default graph properties.
+ * Tests for an undirected {@link ConfigurableMutableNetwork} with default graph properties.
  */
 @RunWith(JUnit4.class)
 public class ConfigurableUndirectedNetworkTest extends ConfigurableSimpleUndirectedNetworkTest {

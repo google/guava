@@ -24,7 +24,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for a directed {@link ConfigurableNetwork} allowing parallel edges.
+ * Tests for a directed {@link ConfigurableMutableNetwork} allowing parallel edges.
  */
 @RunWith(JUnit4.class)
 public class ConfigurableDirectedMultiNetworkTest extends ConfigurableDirectedNetworkTest {
