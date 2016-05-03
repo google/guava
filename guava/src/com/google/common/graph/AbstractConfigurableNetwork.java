@@ -37,8 +37,9 @@ import javax.annotation.Nullable;
  * Abstract configurable implementation of {@link Network} that supports the options supplied
  * by {@link NetworkBuilder}.
  *
- * <p>This class maintains a map of {@link NodeConnections} for every node
- * and a reference node for every edge.
+ * <p>This class maintains a map of nodes to {@link NodeConnections}. This class also maintains
+ * a map of edges to reference nodes. The reference node is defined to be the edge's source node
+ * on directed graphs, and an arbitrary endpoint of the edge on undirected graphs.
  *
  * <p>{@code Set}-returning accessors return unmodifiable views: the view returned will reflect
  * changes to the graph (if the graph is mutable) but may not be modified by the user.
@@ -60,7 +61,7 @@ import javax.annotation.Nullable;
  * @param <E> Edge parameter type
  */
 // TODO(b/24620028): Enable this class to support sorted nodes/edges.
-class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
+abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   // The default of 11 is rather arbitrary, but roughly matches the sizing of just new HashMap()
   private static final int DEFAULT_MAP_SIZE = 11;
 
@@ -72,7 +73,7 @@ class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   protected final Map<E, N> edgeToReferenceNode; // reference node == source on directed networks
 
   /**
-   * Constructs a mutable graph with the properties specified in {@code builder}.
+   * Constructs a graph with the properties specified in {@code builder}.
    */
   AbstractConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder) {
     this(
@@ -85,7 +86,7 @@ class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
 
   /**
    * Constructs a graph with the properties specified in {@code builder}, initialized with
-   * the given node and edge maps. May be used for either mutable or immutable graphs.
+   * the given node and edge maps.
    */
   AbstractConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder,
       Map<N, NodeConnections<N, E>> nodeConnections,

@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
  * Abstract configurable implementation of {@link Graph} that supports the options supplied
  * by {@link GraphBuilder}.
  *
- * <p>This class maintains a map of {@link NodeAdjacencies} for every node.
+ * <p>This class maintains a map of nodes to {@link NodeAdjacencies}.
  *
  * <p>{@code Set}-returning accessors return unmodifiable views: the view returned will reflect
  * changes to the graph (if the graph is mutable) but may not be modified by the user.
@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
  * @param <N> Node parameter type
  */
 // TODO(b/24620028): Enable this class to support sorted nodes/edges.
-class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
+abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
   // The default of 11 is rather arbitrary, but roughly matches the sizing of just new HashMap()
   private static final int DEFAULT_MAP_SIZE = 11;
 
@@ -63,7 +63,7 @@ class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
   protected final Map<N, NodeAdjacencies<N>> nodeConnections;
 
   /**
-   * Constructs a mutable graph with the properties specified in {@code builder}.
+   * Constructs a graph with the properties specified in {@code builder}.
    */
   AbstractConfigurableGraph(GraphBuilder<? super N> builder) {
     this(
@@ -74,7 +74,7 @@ class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
 
   /**
    * Constructs a graph with the properties specified in {@code builder}, initialized with
-   * the given node and edge maps. May be used for either mutable or immutable graphs.
+   * the given node map.
    */
   AbstractConfigurableGraph(GraphBuilder<? super N> builder,
       Map<N, NodeAdjacencies<N>> nodeConnections) {
