@@ -25,8 +25,6 @@ import static com.google.common.graph.GraphErrorMessageUtils.SELF_LOOPS_NOT_ALLO
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
-import java.util.Map;
-
 /**
  * Configurable implementation of {@link MutableNetwork} that supports both directed and undirected
  * graphs. Instances of this class should be constructed with {@link NetworkBuilder}.
@@ -41,25 +39,14 @@ import java.util.Map;
  * @param <E> Edge parameter type
  */
 // TODO(b/24620028): Enable this class to support sorted nodes/edges.
-class ConfigurableMutableNetwork<N, E>
-    extends AbstractConfigurableNetwork<N, E>
-    implements MutableNetwork<N, E> {
+final class ConfigurableMutableNetwork<N, E>
+    extends AbstractConfigurableNetwork<N, E> implements MutableNetwork<N, E> {
 
   /**
    * Constructs a mutable graph with the properties specified in {@code builder}.
    */
   ConfigurableMutableNetwork(NetworkBuilder<? super N, ? super E> builder) {
     super(builder);
-  }
-
-  /**
-   * Constructs a graph with the properties specified in {@code builder}, initialized with
-   * the given node and edge maps. May be used for either mutable or immutable graphs.
-   */
-  ConfigurableMutableNetwork(NetworkBuilder<? super N, ? super E> builder,
-      Map<N, NodeConnections<N, E>> nodeConnections,
-      Map<E, N> edgeToReferenceNode) {
-    super(builder, nodeConnections, edgeToReferenceNode);
   }
 
   @Override
