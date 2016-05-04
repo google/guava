@@ -79,9 +79,6 @@ public final class Throwables {
   }
 
   /**
-   * <b>To be deprecated.</b> Use {@link #throwIfInstanceOf}, which has the same behavior but
-   * rejects {@code null}.
-   *
    * Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@code
    * declaredType}. Example usage:
    *
@@ -96,7 +93,11 @@ public final class Throwables {
    *   throw Throwables.propagate(t);
    * }
    * </pre>
+   *
+   * @deprecated Use {@link #throwIfInstanceOf}, which has the same behavior
+   *     but rejects {@code null}. This method is scheduled to be removed in July 2018.
    */
+  @Deprecated
   @GwtIncompatible // throwIfInstanceOf
   public static <X extends Throwable> void propagateIfInstanceOf(
       @Nullable Throwable throwable, Class<X> declaredType) throws X {
@@ -135,10 +136,7 @@ public final class Throwables {
   }
 
   /**
-   * <b>To be deprecated.</b> Use {@link #throwIfUnchecked}, which has the same behavior but rejects
-   * {@code null}.
-   *
-   * <p>Propagates {@code throwable} exactly as-is, if and only if it is an instance of
+   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of
    * {@link RuntimeException} or {@link Error}. Example usage:
    *
    * <pre>
@@ -151,8 +149,12 @@ public final class Throwables {
    *   throw new RuntimeException("unexpected", t);
    * }
    * </pre>
+   *
+   * @deprecated Use {@link #throwIfUnchecked}, which has the same behavior but rejects
+   *     {@code null}. This method is scheduled to be removed in July 2018.
    */
-  @GwtIncompatible // to be deprecated
+  @Deprecated
+  @GwtIncompatible
   public static void propagateIfPossible(@Nullable Throwable throwable) {
     if (throwable != null) {
       throwIfUnchecked(throwable);
