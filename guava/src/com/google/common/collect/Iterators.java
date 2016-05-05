@@ -109,13 +109,8 @@ public final class Iterators {
    *
    * <p>The {@link Iterable} equivalent of this method is {@link
    * ImmutableSet#of()}.
-   *
-   * @deprecated Use {@code ImmutableSet.<T>of().iterator()} instead; or for
-   *     Java 7 or later, {@link Collections#emptyIterator}. This method is
-   *     scheduled for removal in May 2016.
    */
-  @Deprecated
-  public static <T> UnmodifiableIterator<T> emptyIterator() {
+  static <T> UnmodifiableIterator<T> emptyIterator() {
     return emptyListIterator();
   }
 
