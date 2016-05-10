@@ -38,6 +38,7 @@ import junit.framework.TestCase;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.Random;
 
 /**
  * Tests for LongMath.
@@ -872,6 +873,66 @@ public class LongMathTest extends TestCase {
     tester.setDefault(int.class, 1);
     tester.setDefault(long.class, 1L);
     tester.testAllPublicStaticMethods(LongMath.class);
+  }
+
+  @GwtIncompatible // isPrime is GWT-incompatible
+  public void testIsPrimeSmall() {
+    // Check the first 1000 integers
+    for (int i = 2; i < 1000; i++) {
+      assertEquals(BigInteger.valueOf(i).isProbablePrime(100), LongMath.isPrime(i));
+    }
+  }
+
+  @GwtIncompatible // isPrime is GWT-incompatible
+  public void testIsPrimeManyConstants() {
+    // Test the thorough test inputs, which also includes special constants in the Miller-Rabin
+    // tests.
+    for (long l : POSITIVE_LONG_CANDIDATES) {
+      assertEquals(BigInteger.valueOf(l).isProbablePrime(100), LongMath.isPrime(l));
+    }
+  }
+
+  @GwtIncompatible // isPrime is GWT-incompatible
+  public void testIsPrimeOnUniformRandom() {
+    Random rand = new Random(1);
+    for (int bits = 10; bits < 63; bits++) {
+      for (int i = 0; i < 2000; i++) {
+        // A random long between 0 and Long.MAX_VALUE, inclusive.
+        long l = rand.nextLong() & ((1L << bits) - 1);
+        assertEquals(BigInteger.valueOf(l).isProbablePrime(100), LongMath.isPrime(l));
+      }
+    }
+  }
+
+  @GwtIncompatible // isPrime is GWT-incompatible
+  public void testIsPrimeOnRandomPrimes() {
+    Random rand = new Random(1);
+    for (int bits = 10; bits < 63; bits++) {
+      for (int i = 0; i < 100; i++) {
+        long p = BigInteger.probablePrime(bits, rand).longValue();
+        assertTrue(LongMath.isPrime(p));
+      }
+    }
+  }
+
+  @GwtIncompatible // isPrime is GWT-incompatible
+  public void testIsPrimeOnRandomComposites() {
+    Random rand = new Random(1);
+    for (int bits = 5; bits < 32; bits++) {
+      for (int i = 0; i < 100; i++) {
+        long p = BigInteger.probablePrime(bits, rand).longValue();
+        long q = BigInteger.probablePrime(bits, rand).longValue();
+        assertFalse(LongMath.isPrime(p * q));
+      }
+    }
+  }
+
+  @GwtIncompatible // isPrime is GWT-incompatible
+  public void testIsPrimeThrowsOnNegative() {
+    try {
+      LongMath.isPrime(-1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {}
   }
 
   @GwtIncompatible // String.format

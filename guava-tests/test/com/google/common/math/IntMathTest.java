@@ -37,6 +37,7 @@ import junit.framework.TestCase;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.Random;
 
 /**
  * Tests for {@link IntMath}.
@@ -110,7 +111,7 @@ public class IntMathTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-
+  
   @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testConstantMaxPowerOfSqrt2Unsigned() {
     assertEquals(
@@ -161,7 +162,7 @@ public class IntMathTest extends TestCase {
   public void testPowersSqrtMaxInt() {
     assertEquals(IntMath.sqrt(Integer.MAX_VALUE, FLOOR), IntMath.FLOOR_SQRT_MAX_INT);
   }
-
+  
   @AndroidIncompatible // presumably slow
   public void testLessThanBranchFree() {
     for (int x : ALL_INTEGER_CANDIDATES) {
@@ -733,6 +734,23 @@ public class IntMathTest extends TestCase {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(int.class, 1);
     tester.testAllPublicStaticMethods(IntMath.class);
+  }
+
+  @GwtIncompatible // isPrime is GWT-incompatible
+  public void testIsPrime() {
+    // Defer correctness tests to Long.isPrime
+
+    // Check the first 100,000 integers
+    for (int i = 0; i < 100000; i++) {
+      assertEquals(LongMath.isPrime(i), IntMath.isPrime(i));
+    }
+
+    // Then check 1000 deterministic pseudo-random int values.
+    Random rand = new Random(1);
+    for (int i = 0; i < 1000; i++) {
+      int n = rand.nextInt(Integer.MAX_VALUE);
+      assertEquals(LongMath.isPrime(n), IntMath.isPrime(n));
+    }
   }
 
   private static int force32(int value) {

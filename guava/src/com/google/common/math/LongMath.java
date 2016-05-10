@@ -978,6 +978,56 @@ public final class LongMath {
     // The alternative (x + y) >>> 1 fails for negative values.
     return (x & y) + ((x ^ y) >> 1);
   }
+  
+  /*
+   * This bitmask is used as an optimization for cheaply testing for divisiblity by 2, 3, or 5.
+   * Each bit is set to 1 for all remainders that indicate divisibility by 2, 3, or 5.
+   * 1, 7, 11, 13, 17, 19, 23, 29 are set to 0. 30 and up are 0 because they won't be hit.
+   * Bit offsets:       25    20    15    10     5     0
+   *            0b00_01111_10111_01011_10101_11011_11101;
+   * We can't actually use the binary form because it has to work in Java 6.
+   */
+  private static final int SIEVE_30 = 0x1F75D77D;
+
+  /**
+   * Returns {@code true} if the non-negative number {@code n} is prime.
+   *
+   * @throws IllegalArgumentException if {@code n < 0}
+   * @since 20.0
+   */
+  @GwtIncompatible // TODO
+  @Beta
+  public static boolean isPrime(long n) {
+    if (n < 2) {
+      checkNonNegative("n", n);
+      return false;
+    }
+    if (n == 2 || n == 3 || n == 5 || n == 7 || n == 11 || n == 13) {
+      return true;
+    }
+    
+    if ((SIEVE_30 & (1 << (n % 30))) != 0) {
+      return false;
+    }
+    if (n % 7 == 0 || n % 11 == 0 || n % 13 == 0) {
+      return false;
+    }
+    if (n < 17 * 17) {
+      return true;
+    }
+
+    for (long[] baseSet : millerRabinBaseSets) {
+      if (n <= baseSet[0]) {
+        for (int i = 1; i < baseSet.length; i++) {
+          if (!MillerRabinTester.test(baseSet[i], n)) {
+            return false;
+          }
+        }
+        return true;
+      }
+    }
+    throw new AssertionError();
+  }
 
   /*
    * If n <= millerRabinBases[i][0], then testing n against bases millerRabinBases[i][1..] suffices
