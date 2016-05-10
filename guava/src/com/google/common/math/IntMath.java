@@ -708,9 +708,15 @@ public final class IntMath {
   }
 
   /**
-   * Returns {@code true} if the non-negative number {@code n} is prime.
+   * Returns {@code true} if {@code n} is a
+   * <a href="http://mathworld.wolfram.com/PrimeNumber.html">prime number</a>: an integer <i>greater
+   * than one</i> that cannot be factored into a product of <i>smaller</i> positive integers.
+   * Returns {@code false} if {@code n} is zero, one, or a composite number (one which <i>can</i>
+   * be factored into smaller positive integers).
    *
-   * @throws IllegalArgumentException if {@code n < 0}
+   * <p>To test larger numbers, use {@link LongMath#isPrime} or {@link BigInteger#isProbablePrime}.
+   *
+   * @throws IllegalArgumentException if {@code n} is negative
    * @since 20.0
    */
   @GwtIncompatible // TODO
