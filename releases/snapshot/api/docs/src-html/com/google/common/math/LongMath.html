@@ -986,203 +986,259 @@
 <span class="sourceLineNo">978</span>    // The alternative (x + y) &gt;&gt;&gt; 1 fails for negative values.<a name="line.978"></a>
 <span class="sourceLineNo">979</span>    return (x &amp; y) + ((x ^ y) &gt;&gt; 1);<a name="line.979"></a>
 <span class="sourceLineNo">980</span>  }<a name="line.980"></a>
-<span class="sourceLineNo">981</span><a name="line.981"></a>
+<span class="sourceLineNo">981</span>  <a name="line.981"></a>
 <span class="sourceLineNo">982</span>  /*<a name="line.982"></a>
-<span class="sourceLineNo">983</span>   * If n &lt;= millerRabinBases[i][0], then testing n against bases millerRabinBases[i][1..] suffices<a name="line.983"></a>
-<span class="sourceLineNo">984</span>   * to prove its primality. Values from miller-rabin.appspot.com.<a name="line.984"></a>
-<span class="sourceLineNo">985</span>   *<a name="line.985"></a>
-<span class="sourceLineNo">986</span>   * NOTE: We could get slightly better bases that would be treated as unsigned, but benchmarks<a name="line.986"></a>
-<span class="sourceLineNo">987</span>   * showed negligible performance improvements.<a name="line.987"></a>
-<span class="sourceLineNo">988</span>   */<a name="line.988"></a>
-<span class="sourceLineNo">989</span>  private static final long[][] millerRabinBaseSets = {<a name="line.989"></a>
-<span class="sourceLineNo">990</span>    {291830, 126401071349994536L},<a name="line.990"></a>
-<span class="sourceLineNo">991</span>    {885594168, 725270293939359937L, 3569819667048198375L},<a name="line.991"></a>
-<span class="sourceLineNo">992</span>    {273919523040L, 15, 7363882082L, 992620450144556L},<a name="line.992"></a>
-<span class="sourceLineNo">993</span>    {47636622961200L, 2, 2570940, 211991001, 3749873356L},<a name="line.993"></a>
-<span class="sourceLineNo">994</span>    {<a name="line.994"></a>
-<span class="sourceLineNo">995</span>      7999252175582850L,<a name="line.995"></a>
-<span class="sourceLineNo">996</span>      2,<a name="line.996"></a>
-<span class="sourceLineNo">997</span>      4130806001517L,<a name="line.997"></a>
-<span class="sourceLineNo">998</span>      149795463772692060L,<a name="line.998"></a>
-<span class="sourceLineNo">999</span>      186635894390467037L,<a name="line.999"></a>
-<span class="sourceLineNo">1000</span>      3967304179347715805L<a name="line.1000"></a>
-<span class="sourceLineNo">1001</span>    },<a name="line.1001"></a>
-<span class="sourceLineNo">1002</span>    {<a name="line.1002"></a>
-<span class="sourceLineNo">1003</span>      585226005592931976L,<a name="line.1003"></a>
-<span class="sourceLineNo">1004</span>      2,<a name="line.1004"></a>
-<span class="sourceLineNo">1005</span>      123635709730000L,<a name="line.1005"></a>
-<span class="sourceLineNo">1006</span>      9233062284813009L,<a name="line.1006"></a>
-<span class="sourceLineNo">1007</span>      43835965440333360L,<a name="line.1007"></a>
-<span class="sourceLineNo">1008</span>      761179012939631437L,<a name="line.1008"></a>
-<span class="sourceLineNo">1009</span>      1263739024124850375L<a name="line.1009"></a>
-<span class="sourceLineNo">1010</span>    },<a name="line.1010"></a>
-<span class="sourceLineNo">1011</span>    {Long.MAX_VALUE, 2, 325, 9375, 28178, 450775, 9780504, 1795265022}<a name="line.1011"></a>
-<span class="sourceLineNo">1012</span>  };<a name="line.1012"></a>
-<span class="sourceLineNo">1013</span><a name="line.1013"></a>
-<span class="sourceLineNo">1014</span>  private enum MillerRabinTester {<a name="line.1014"></a>
-<span class="sourceLineNo">1015</span>    /**<a name="line.1015"></a>
-<span class="sourceLineNo">1016</span>     * Works for inputs &lt;= FLOOR_SQRT_MAX_LONG.<a name="line.1016"></a>
-<span class="sourceLineNo">1017</span>     */<a name="line.1017"></a>
-<span class="sourceLineNo">1018</span>    SMALL {<a name="line.1018"></a>
-<span class="sourceLineNo">1019</span>      @Override<a name="line.1019"></a>
-<span class="sourceLineNo">1020</span>      long mulMod(long a, long b, long m) {<a name="line.1020"></a>
-<span class="sourceLineNo">1021</span>        /*<a name="line.1021"></a>
-<span class="sourceLineNo">1022</span>         * NOTE(lowasser, 2015-Feb-12): Benchmarks suggest that changing this to<a name="line.1022"></a>
-<span class="sourceLineNo">1023</span>         * UnsignedLongs.remainder and increasing the threshold to 2^32 doesn't pay for itself, and<a name="line.1023"></a>
-<span class="sourceLineNo">1024</span>         * adding another enum constant hurts performance further -- I suspect because bimorphic<a name="line.1024"></a>
-<span class="sourceLineNo">1025</span>         * implementation is a sweet spot for the JVM.<a name="line.1025"></a>
-<span class="sourceLineNo">1026</span>         */<a name="line.1026"></a>
-<span class="sourceLineNo">1027</span>        return (a * b) % m;<a name="line.1027"></a>
-<span class="sourceLineNo">1028</span>      }<a name="line.1028"></a>
-<span class="sourceLineNo">1029</span><a name="line.1029"></a>
-<span class="sourceLineNo">1030</span>      @Override<a name="line.1030"></a>
-<span class="sourceLineNo">1031</span>      long squareMod(long a, long m) {<a name="line.1031"></a>
-<span class="sourceLineNo">1032</span>        return (a * a) % m;<a name="line.1032"></a>
+<span class="sourceLineNo">983</span>   * This bitmask is used as an optimization for cheaply testing for divisiblity by 2, 3, or 5.<a name="line.983"></a>
+<span class="sourceLineNo">984</span>   * Each bit is set to 1 for all remainders that indicate divisibility by 2, 3, or 5.<a name="line.984"></a>
+<span class="sourceLineNo">985</span>   * 1, 7, 11, 13, 17, 19, 23, 29 are set to 0. 30 and up are 0 because they won't be hit.<a name="line.985"></a>
+<span class="sourceLineNo">986</span>   * Bit offsets:       25    20    15    10     5     0<a name="line.986"></a>
+<span class="sourceLineNo">987</span>   *            0b00_01111_10111_01011_10101_11011_11101;<a name="line.987"></a>
+<span class="sourceLineNo">988</span>   * We can't actually use the binary form because it has to work in Java 6.<a name="line.988"></a>
+<span class="sourceLineNo">989</span>   */<a name="line.989"></a>
+<span class="sourceLineNo">990</span>  private static final int SIEVE_30 = 0x1F75D77D;<a name="line.990"></a>
+<span class="sourceLineNo">991</span><a name="line.991"></a>
+<span class="sourceLineNo">992</span>  /**<a name="line.992"></a>
+<span class="sourceLineNo">993</span>   * Returns {@code true} if {@code n} is a<a name="line.993"></a>
+<span class="sourceLineNo">994</span>   * &lt;a href="http://mathworld.wolfram.com/PrimeNumber.html"&gt;prime number&lt;/a&gt;: an integer &lt;i&gt;greater<a name="line.994"></a>
+<span class="sourceLineNo">995</span>   * than one&lt;/i&gt; that cannot be factored into a product of &lt;i&gt;smaller&lt;/i&gt; positive integers.<a name="line.995"></a>
+<span class="sourceLineNo">996</span>   * Returns {@code false} if {@code n} is zero, one, or a composite number (one which &lt;i&gt;can&lt;/i&gt;<a name="line.996"></a>
+<span class="sourceLineNo">997</span>   * be factored into smaller positive integers).<a name="line.997"></a>
+<span class="sourceLineNo">998</span>   *<a name="line.998"></a>
+<span class="sourceLineNo">999</span>   * &lt;p&gt;To test larger numbers, use {@link BigInteger#isProbablePrime}.<a name="line.999"></a>
+<span class="sourceLineNo">1000</span>   *<a name="line.1000"></a>
+<span class="sourceLineNo">1001</span>   * @throws IllegalArgumentException if {@code n} is negative<a name="line.1001"></a>
+<span class="sourceLineNo">1002</span>   * @since 20.0<a name="line.1002"></a>
+<span class="sourceLineNo">1003</span>   */<a name="line.1003"></a>
+<span class="sourceLineNo">1004</span>  @GwtIncompatible // TODO<a name="line.1004"></a>
+<span class="sourceLineNo">1005</span>  @Beta<a name="line.1005"></a>
+<span class="sourceLineNo">1006</span>  public static boolean isPrime(long n) {<a name="line.1006"></a>
+<span class="sourceLineNo">1007</span>    if (n &lt; 2) {<a name="line.1007"></a>
+<span class="sourceLineNo">1008</span>      checkNonNegative("n", n);<a name="line.1008"></a>
+<span class="sourceLineNo">1009</span>      return false;<a name="line.1009"></a>
+<span class="sourceLineNo">1010</span>    }<a name="line.1010"></a>
+<span class="sourceLineNo">1011</span>    if (n == 2 || n == 3 || n == 5 || n == 7 || n == 11 || n == 13) {<a name="line.1011"></a>
+<span class="sourceLineNo">1012</span>      return true;<a name="line.1012"></a>
+<span class="sourceLineNo">1013</span>    }<a name="line.1013"></a>
+<span class="sourceLineNo">1014</span>    <a name="line.1014"></a>
+<span class="sourceLineNo">1015</span>    if ((SIEVE_30 &amp; (1 &lt;&lt; (n % 30))) != 0) {<a name="line.1015"></a>
+<span class="sourceLineNo">1016</span>      return false;<a name="line.1016"></a>
+<span class="sourceLineNo">1017</span>    }<a name="line.1017"></a>
+<span class="sourceLineNo">1018</span>    if (n % 7 == 0 || n % 11 == 0 || n % 13 == 0) {<a name="line.1018"></a>
+<span class="sourceLineNo">1019</span>      return false;<a name="line.1019"></a>
+<span class="sourceLineNo">1020</span>    }<a name="line.1020"></a>
+<span class="sourceLineNo">1021</span>    if (n &lt; 17 * 17) {<a name="line.1021"></a>
+<span class="sourceLineNo">1022</span>      return true;<a name="line.1022"></a>
+<span class="sourceLineNo">1023</span>    }<a name="line.1023"></a>
+<span class="sourceLineNo">1024</span><a name="line.1024"></a>
+<span class="sourceLineNo">1025</span>    for (long[] baseSet : millerRabinBaseSets) {<a name="line.1025"></a>
+<span class="sourceLineNo">1026</span>      if (n &lt;= baseSet[0]) {<a name="line.1026"></a>
+<span class="sourceLineNo">1027</span>        for (int i = 1; i &lt; baseSet.length; i++) {<a name="line.1027"></a>
+<span class="sourceLineNo">1028</span>          if (!MillerRabinTester.test(baseSet[i], n)) {<a name="line.1028"></a>
+<span class="sourceLineNo">1029</span>            return false;<a name="line.1029"></a>
+<span class="sourceLineNo">1030</span>          }<a name="line.1030"></a>
+<span class="sourceLineNo">1031</span>        }<a name="line.1031"></a>
+<span class="sourceLineNo">1032</span>        return true;<a name="line.1032"></a>
 <span class="sourceLineNo">1033</span>      }<a name="line.1033"></a>
-<span class="sourceLineNo">1034</span>    },<a name="line.1034"></a>
-<span class="sourceLineNo">1035</span>    /**<a name="line.1035"></a>
-<span class="sourceLineNo">1036</span>     * Works for all nonnegative signed longs.<a name="line.1036"></a>
-<span class="sourceLineNo">1037</span>     */<a name="line.1037"></a>
-<span class="sourceLineNo">1038</span>    LARGE {<a name="line.1038"></a>
-<span class="sourceLineNo">1039</span>      /**<a name="line.1039"></a>
-<span class="sourceLineNo">1040</span>       * Returns (a + b) mod m. Precondition: 0 &lt;= a, b &lt; m &lt; 2^63.<a name="line.1040"></a>
-<span class="sourceLineNo">1041</span>       */<a name="line.1041"></a>
-<span class="sourceLineNo">1042</span>      private long plusMod(long a, long b, long m) {<a name="line.1042"></a>
-<span class="sourceLineNo">1043</span>        return (a &gt;= m - b) ? (a + b - m) : (a + b);<a name="line.1043"></a>
-<span class="sourceLineNo">1044</span>      }<a name="line.1044"></a>
-<span class="sourceLineNo">1045</span><a name="line.1045"></a>
-<span class="sourceLineNo">1046</span>      /**<a name="line.1046"></a>
-<span class="sourceLineNo">1047</span>       * Returns (a * 2^32) mod m. a may be any unsigned long.<a name="line.1047"></a>
-<span class="sourceLineNo">1048</span>       */<a name="line.1048"></a>
-<span class="sourceLineNo">1049</span>      private long times2ToThe32Mod(long a, long m) {<a name="line.1049"></a>
-<span class="sourceLineNo">1050</span>        int remainingPowersOf2 = 32;<a name="line.1050"></a>
-<span class="sourceLineNo">1051</span>        do {<a name="line.1051"></a>
-<span class="sourceLineNo">1052</span>          int shift = Math.min(remainingPowersOf2, Long.numberOfLeadingZeros(a));<a name="line.1052"></a>
-<span class="sourceLineNo">1053</span>          // shift is either the number of powers of 2 left to multiply a by, or the biggest shift<a name="line.1053"></a>
-<span class="sourceLineNo">1054</span>          // possible while keeping a in an unsigned long.<a name="line.1054"></a>
-<span class="sourceLineNo">1055</span>          a = UnsignedLongs.remainder(a &lt;&lt; shift, m);<a name="line.1055"></a>
-<span class="sourceLineNo">1056</span>          remainingPowersOf2 -= shift;<a name="line.1056"></a>
-<span class="sourceLineNo">1057</span>        } while (remainingPowersOf2 &gt; 0);<a name="line.1057"></a>
-<span class="sourceLineNo">1058</span>        return a;<a name="line.1058"></a>
-<span class="sourceLineNo">1059</span>      }<a name="line.1059"></a>
-<span class="sourceLineNo">1060</span><a name="line.1060"></a>
-<span class="sourceLineNo">1061</span>      @Override<a name="line.1061"></a>
-<span class="sourceLineNo">1062</span>      long mulMod(long a, long b, long m) {<a name="line.1062"></a>
-<span class="sourceLineNo">1063</span>        long aHi = a &gt;&gt;&gt; 32; // &lt; 2^31<a name="line.1063"></a>
-<span class="sourceLineNo">1064</span>        long bHi = b &gt;&gt;&gt; 32; // &lt; 2^31<a name="line.1064"></a>
-<span class="sourceLineNo">1065</span>        long aLo = a &amp; 0xFFFFFFFFL; // &lt; 2^32<a name="line.1065"></a>
-<span class="sourceLineNo">1066</span>        long bLo = b &amp; 0xFFFFFFFFL; // &lt; 2^32<a name="line.1066"></a>
-<span class="sourceLineNo">1067</span><a name="line.1067"></a>
-<span class="sourceLineNo">1068</span>        /*<a name="line.1068"></a>
-<span class="sourceLineNo">1069</span>         * a * b == aHi * bHi * 2^64 + (aHi * bLo + aLo * bHi) * 2^32 + aLo * bLo.<a name="line.1069"></a>
-<span class="sourceLineNo">1070</span>         *       == (aHi * bHi * 2^32 + aHi * bLo + aLo * bHi) * 2^32 + aLo * bLo<a name="line.1070"></a>
-<span class="sourceLineNo">1071</span>         *<a name="line.1071"></a>
-<span class="sourceLineNo">1072</span>         * We carry out this computation in modular arithmetic. Since times2ToThe32Mod accepts any<a name="line.1072"></a>
-<span class="sourceLineNo">1073</span>         * unsigned long, we don't have to do a mod on every operation, only when intermediate<a name="line.1073"></a>
-<span class="sourceLineNo">1074</span>         * results can exceed 2^63.<a name="line.1074"></a>
-<span class="sourceLineNo">1075</span>         */<a name="line.1075"></a>
-<span class="sourceLineNo">1076</span>        long result = times2ToThe32Mod(aHi * bHi /* &lt; 2^62 */, m); // &lt; m &lt; 2^63<a name="line.1076"></a>
-<span class="sourceLineNo">1077</span>        result += aHi * bLo; // aHi * bLo &lt; 2^63, result &lt; 2^64<a name="line.1077"></a>
-<span class="sourceLineNo">1078</span>        if (result &lt; 0) {<a name="line.1078"></a>
-<span class="sourceLineNo">1079</span>          result = UnsignedLongs.remainder(result, m);<a name="line.1079"></a>
-<span class="sourceLineNo">1080</span>        }<a name="line.1080"></a>
-<span class="sourceLineNo">1081</span>        // result &lt; 2^63 again<a name="line.1081"></a>
-<span class="sourceLineNo">1082</span>        result += aLo * bHi; // aLo * bHi &lt; 2^63, result &lt; 2^64<a name="line.1082"></a>
-<span class="sourceLineNo">1083</span>        result = times2ToThe32Mod(result, m); // result &lt; m &lt; 2^63<a name="line.1083"></a>
-<span class="sourceLineNo">1084</span>        return plusMod(<a name="line.1084"></a>
-<span class="sourceLineNo">1085</span>            result,<a name="line.1085"></a>
-<span class="sourceLineNo">1086</span>            UnsignedLongs.remainder(aLo * bLo /* &lt; 2^64 */, m),<a name="line.1086"></a>
-<span class="sourceLineNo">1087</span>            m);<a name="line.1087"></a>
-<span class="sourceLineNo">1088</span>      }<a name="line.1088"></a>
-<span class="sourceLineNo">1089</span><a name="line.1089"></a>
-<span class="sourceLineNo">1090</span>      @Override<a name="line.1090"></a>
-<span class="sourceLineNo">1091</span>      long squareMod(long a, long m) {<a name="line.1091"></a>
-<span class="sourceLineNo">1092</span>        long aHi = a &gt;&gt;&gt; 32; // &lt; 2^31<a name="line.1092"></a>
-<span class="sourceLineNo">1093</span>        long aLo = a &amp; 0xFFFFFFFFL; // &lt; 2^32<a name="line.1093"></a>
-<span class="sourceLineNo">1094</span><a name="line.1094"></a>
-<span class="sourceLineNo">1095</span>        /*<a name="line.1095"></a>
-<span class="sourceLineNo">1096</span>         * a^2 == aHi^2 * 2^64 + aHi * aLo * 2^33 + aLo^2<a name="line.1096"></a>
-<span class="sourceLineNo">1097</span>         *     == (aHi^2 * 2^32 + aHi * aLo * 2) * 2^32 + aLo^2<a name="line.1097"></a>
-<span class="sourceLineNo">1098</span>         * We carry out this computation in modular arithmetic.  Since times2ToThe32Mod accepts any<a name="line.1098"></a>
-<span class="sourceLineNo">1099</span>         * unsigned long, we don't have to do a mod on every operation, only when intermediate<a name="line.1099"></a>
-<span class="sourceLineNo">1100</span>         * results can exceed 2^63.<a name="line.1100"></a>
-<span class="sourceLineNo">1101</span>         */<a name="line.1101"></a>
-<span class="sourceLineNo">1102</span>        long result = times2ToThe32Mod(aHi * aHi /* &lt; 2^62 */, m); // &lt; m &lt; 2^63<a name="line.1102"></a>
-<span class="sourceLineNo">1103</span>        long hiLo = aHi * aLo * 2;<a name="line.1103"></a>
-<span class="sourceLineNo">1104</span>        if (hiLo &lt; 0) {<a name="line.1104"></a>
-<span class="sourceLineNo">1105</span>          hiLo = UnsignedLongs.remainder(hiLo, m);<a name="line.1105"></a>
-<span class="sourceLineNo">1106</span>        }<a name="line.1106"></a>
-<span class="sourceLineNo">1107</span>        // hiLo &lt; 2^63<a name="line.1107"></a>
-<span class="sourceLineNo">1108</span>        result += hiLo; // result &lt; 2^64<a name="line.1108"></a>
-<span class="sourceLineNo">1109</span>        result = times2ToThe32Mod(result, m); // result &lt; m &lt; 2^63<a name="line.1109"></a>
-<span class="sourceLineNo">1110</span>        return plusMod(<a name="line.1110"></a>
-<span class="sourceLineNo">1111</span>            result,<a name="line.1111"></a>
-<span class="sourceLineNo">1112</span>            UnsignedLongs.remainder(aLo * aLo /* &lt; 2^64 */, m),<a name="line.1112"></a>
-<span class="sourceLineNo">1113</span>            m);<a name="line.1113"></a>
-<span class="sourceLineNo">1114</span>      }<a name="line.1114"></a>
-<span class="sourceLineNo">1115</span>    };<a name="line.1115"></a>
+<span class="sourceLineNo">1034</span>    }<a name="line.1034"></a>
+<span class="sourceLineNo">1035</span>    throw new AssertionError();<a name="line.1035"></a>
+<span class="sourceLineNo">1036</span>  }<a name="line.1036"></a>
+<span class="sourceLineNo">1037</span><a name="line.1037"></a>
+<span class="sourceLineNo">1038</span>  /*<a name="line.1038"></a>
+<span class="sourceLineNo">1039</span>   * If n &lt;= millerRabinBases[i][0], then testing n against bases millerRabinBases[i][1..] suffices<a name="line.1039"></a>
+<span class="sourceLineNo">1040</span>   * to prove its primality. Values from miller-rabin.appspot.com.<a name="line.1040"></a>
+<span class="sourceLineNo">1041</span>   *<a name="line.1041"></a>
+<span class="sourceLineNo">1042</span>   * NOTE: We could get slightly better bases that would be treated as unsigned, but benchmarks<a name="line.1042"></a>
+<span class="sourceLineNo">1043</span>   * showed negligible performance improvements.<a name="line.1043"></a>
+<span class="sourceLineNo">1044</span>   */<a name="line.1044"></a>
+<span class="sourceLineNo">1045</span>  private static final long[][] millerRabinBaseSets = {<a name="line.1045"></a>
+<span class="sourceLineNo">1046</span>    {291830, 126401071349994536L},<a name="line.1046"></a>
+<span class="sourceLineNo">1047</span>    {885594168, 725270293939359937L, 3569819667048198375L},<a name="line.1047"></a>
+<span class="sourceLineNo">1048</span>    {273919523040L, 15, 7363882082L, 992620450144556L},<a name="line.1048"></a>
+<span class="sourceLineNo">1049</span>    {47636622961200L, 2, 2570940, 211991001, 3749873356L},<a name="line.1049"></a>
+<span class="sourceLineNo">1050</span>    {<a name="line.1050"></a>
+<span class="sourceLineNo">1051</span>      7999252175582850L,<a name="line.1051"></a>
+<span class="sourceLineNo">1052</span>      2,<a name="line.1052"></a>
+<span class="sourceLineNo">1053</span>      4130806001517L,<a name="line.1053"></a>
+<span class="sourceLineNo">1054</span>      149795463772692060L,<a name="line.1054"></a>
+<span class="sourceLineNo">1055</span>      186635894390467037L,<a name="line.1055"></a>
+<span class="sourceLineNo">1056</span>      3967304179347715805L<a name="line.1056"></a>
+<span class="sourceLineNo">1057</span>    },<a name="line.1057"></a>
+<span class="sourceLineNo">1058</span>    {<a name="line.1058"></a>
+<span class="sourceLineNo">1059</span>      585226005592931976L,<a name="line.1059"></a>
+<span class="sourceLineNo">1060</span>      2,<a name="line.1060"></a>
+<span class="sourceLineNo">1061</span>      123635709730000L,<a name="line.1061"></a>
+<span class="sourceLineNo">1062</span>      9233062284813009L,<a name="line.1062"></a>
+<span class="sourceLineNo">1063</span>      43835965440333360L,<a name="line.1063"></a>
+<span class="sourceLineNo">1064</span>      761179012939631437L,<a name="line.1064"></a>
+<span class="sourceLineNo">1065</span>      1263739024124850375L<a name="line.1065"></a>
+<span class="sourceLineNo">1066</span>    },<a name="line.1066"></a>
+<span class="sourceLineNo">1067</span>    {Long.MAX_VALUE, 2, 325, 9375, 28178, 450775, 9780504, 1795265022}<a name="line.1067"></a>
+<span class="sourceLineNo">1068</span>  };<a name="line.1068"></a>
+<span class="sourceLineNo">1069</span><a name="line.1069"></a>
+<span class="sourceLineNo">1070</span>  private enum MillerRabinTester {<a name="line.1070"></a>
+<span class="sourceLineNo">1071</span>    /**<a name="line.1071"></a>
+<span class="sourceLineNo">1072</span>     * Works for inputs &lt;= FLOOR_SQRT_MAX_LONG.<a name="line.1072"></a>
+<span class="sourceLineNo">1073</span>     */<a name="line.1073"></a>
+<span class="sourceLineNo">1074</span>    SMALL {<a name="line.1074"></a>
+<span class="sourceLineNo">1075</span>      @Override<a name="line.1075"></a>
+<span class="sourceLineNo">1076</span>      long mulMod(long a, long b, long m) {<a name="line.1076"></a>
+<span class="sourceLineNo">1077</span>        /*<a name="line.1077"></a>
+<span class="sourceLineNo">1078</span>         * NOTE(lowasser, 2015-Feb-12): Benchmarks suggest that changing this to<a name="line.1078"></a>
+<span class="sourceLineNo">1079</span>         * UnsignedLongs.remainder and increasing the threshold to 2^32 doesn't pay for itself, and<a name="line.1079"></a>
+<span class="sourceLineNo">1080</span>         * adding another enum constant hurts performance further -- I suspect because bimorphic<a name="line.1080"></a>
+<span class="sourceLineNo">1081</span>         * implementation is a sweet spot for the JVM.<a name="line.1081"></a>
+<span class="sourceLineNo">1082</span>         */<a name="line.1082"></a>
+<span class="sourceLineNo">1083</span>        return (a * b) % m;<a name="line.1083"></a>
+<span class="sourceLineNo">1084</span>      }<a name="line.1084"></a>
+<span class="sourceLineNo">1085</span><a name="line.1085"></a>
+<span class="sourceLineNo">1086</span>      @Override<a name="line.1086"></a>
+<span class="sourceLineNo">1087</span>      long squareMod(long a, long m) {<a name="line.1087"></a>
+<span class="sourceLineNo">1088</span>        return (a * a) % m;<a name="line.1088"></a>
+<span class="sourceLineNo">1089</span>      }<a name="line.1089"></a>
+<span class="sourceLineNo">1090</span>    },<a name="line.1090"></a>
+<span class="sourceLineNo">1091</span>    /**<a name="line.1091"></a>
+<span class="sourceLineNo">1092</span>     * Works for all nonnegative signed longs.<a name="line.1092"></a>
+<span class="sourceLineNo">1093</span>     */<a name="line.1093"></a>
+<span class="sourceLineNo">1094</span>    LARGE {<a name="line.1094"></a>
+<span class="sourceLineNo">1095</span>      /**<a name="line.1095"></a>
+<span class="sourceLineNo">1096</span>       * Returns (a + b) mod m. Precondition: 0 &lt;= a, b &lt; m &lt; 2^63.<a name="line.1096"></a>
+<span class="sourceLineNo">1097</span>       */<a name="line.1097"></a>
+<span class="sourceLineNo">1098</span>      private long plusMod(long a, long b, long m) {<a name="line.1098"></a>
+<span class="sourceLineNo">1099</span>        return (a &gt;= m - b) ? (a + b - m) : (a + b);<a name="line.1099"></a>
+<span class="sourceLineNo">1100</span>      }<a name="line.1100"></a>
+<span class="sourceLineNo">1101</span><a name="line.1101"></a>
+<span class="sourceLineNo">1102</span>      /**<a name="line.1102"></a>
+<span class="sourceLineNo">1103</span>       * Returns (a * 2^32) mod m. a may be any unsigned long.<a name="line.1103"></a>
+<span class="sourceLineNo">1104</span>       */<a name="line.1104"></a>
+<span class="sourceLineNo">1105</span>      private long times2ToThe32Mod(long a, long m) {<a name="line.1105"></a>
+<span class="sourceLineNo">1106</span>        int remainingPowersOf2 = 32;<a name="line.1106"></a>
+<span class="sourceLineNo">1107</span>        do {<a name="line.1107"></a>
+<span class="sourceLineNo">1108</span>          int shift = Math.min(remainingPowersOf2, Long.numberOfLeadingZeros(a));<a name="line.1108"></a>
+<span class="sourceLineNo">1109</span>          // shift is either the number of powers of 2 left to multiply a by, or the biggest shift<a name="line.1109"></a>
+<span class="sourceLineNo">1110</span>          // possible while keeping a in an unsigned long.<a name="line.1110"></a>
+<span class="sourceLineNo">1111</span>          a = UnsignedLongs.remainder(a &lt;&lt; shift, m);<a name="line.1111"></a>
+<span class="sourceLineNo">1112</span>          remainingPowersOf2 -= shift;<a name="line.1112"></a>
+<span class="sourceLineNo">1113</span>        } while (remainingPowersOf2 &gt; 0);<a name="line.1113"></a>
+<span class="sourceLineNo">1114</span>        return a;<a name="line.1114"></a>
+<span class="sourceLineNo">1115</span>      }<a name="line.1115"></a>
 <span class="sourceLineNo">1116</span><a name="line.1116"></a>
-<span class="sourceLineNo">1117</span>    static boolean test(long base, long n) {<a name="line.1117"></a>
-<span class="sourceLineNo">1118</span>      // Since base will be considered % n, it's okay if base &gt; FLOOR_SQRT_MAX_LONG,<a name="line.1118"></a>
-<span class="sourceLineNo">1119</span>      // so long as n &lt;= FLOOR_SQRT_MAX_LONG.<a name="line.1119"></a>
-<span class="sourceLineNo">1120</span>      return ((n &lt;= FLOOR_SQRT_MAX_LONG) ? SMALL : LARGE).testWitness(base, n);<a name="line.1120"></a>
-<span class="sourceLineNo">1121</span>    }<a name="line.1121"></a>
-<span class="sourceLineNo">1122</span><a name="line.1122"></a>
-<span class="sourceLineNo">1123</span>    /**<a name="line.1123"></a>
-<span class="sourceLineNo">1124</span>     * Returns a * b mod m.<a name="line.1124"></a>
-<span class="sourceLineNo">1125</span>     */<a name="line.1125"></a>
-<span class="sourceLineNo">1126</span>    abstract long mulMod(long a, long b, long m);<a name="line.1126"></a>
-<span class="sourceLineNo">1127</span><a name="line.1127"></a>
-<span class="sourceLineNo">1128</span>    /**<a name="line.1128"></a>
-<span class="sourceLineNo">1129</span>     * Returns a^2 mod m.<a name="line.1129"></a>
-<span class="sourceLineNo">1130</span>     */<a name="line.1130"></a>
-<span class="sourceLineNo">1131</span>    abstract long squareMod(long a, long m);<a name="line.1131"></a>
-<span class="sourceLineNo">1132</span><a name="line.1132"></a>
-<span class="sourceLineNo">1133</span>    /**<a name="line.1133"></a>
-<span class="sourceLineNo">1134</span>     * Returns a^p mod m.<a name="line.1134"></a>
-<span class="sourceLineNo">1135</span>     */<a name="line.1135"></a>
-<span class="sourceLineNo">1136</span>    private long powMod(long a, long p, long m) {<a name="line.1136"></a>
-<span class="sourceLineNo">1137</span>      long res = 1;<a name="line.1137"></a>
-<span class="sourceLineNo">1138</span>      for (; p != 0; p &gt;&gt;= 1) {<a name="line.1138"></a>
-<span class="sourceLineNo">1139</span>        if ((p &amp; 1) != 0) {<a name="line.1139"></a>
-<span class="sourceLineNo">1140</span>          res = mulMod(res, a, m);<a name="line.1140"></a>
-<span class="sourceLineNo">1141</span>        }<a name="line.1141"></a>
-<span class="sourceLineNo">1142</span>        a = squareMod(a, m);<a name="line.1142"></a>
-<span class="sourceLineNo">1143</span>      }<a name="line.1143"></a>
-<span class="sourceLineNo">1144</span>      return res;<a name="line.1144"></a>
-<span class="sourceLineNo">1145</span>    }<a name="line.1145"></a>
-<span class="sourceLineNo">1146</span><a name="line.1146"></a>
-<span class="sourceLineNo">1147</span>    /**<a name="line.1147"></a>
-<span class="sourceLineNo">1148</span>     * Returns true if n is a strong probable prime relative to the specified base.<a name="line.1148"></a>
-<span class="sourceLineNo">1149</span>     */<a name="line.1149"></a>
-<span class="sourceLineNo">1150</span>    private boolean testWitness(long base, long n) {<a name="line.1150"></a>
-<span class="sourceLineNo">1151</span>      int r = Long.numberOfTrailingZeros(n - 1);<a name="line.1151"></a>
-<span class="sourceLineNo">1152</span>      long d = (n - 1) &gt;&gt; r;<a name="line.1152"></a>
-<span class="sourceLineNo">1153</span>      base %= n;<a name="line.1153"></a>
-<span class="sourceLineNo">1154</span>      if (base == 0) {<a name="line.1154"></a>
-<span class="sourceLineNo">1155</span>        return true;<a name="line.1155"></a>
-<span class="sourceLineNo">1156</span>      }<a name="line.1156"></a>
-<span class="sourceLineNo">1157</span>      // Calculate a := base^d mod n.<a name="line.1157"></a>
-<span class="sourceLineNo">1158</span>      long a = powMod(base, d, n);<a name="line.1158"></a>
-<span class="sourceLineNo">1159</span>      // n passes this test if<a name="line.1159"></a>
-<span class="sourceLineNo">1160</span>      //    base^d = 1 (mod n)<a name="line.1160"></a>
-<span class="sourceLineNo">1161</span>      // or base^(2^j * d) = -1 (mod n) for some 0 &lt;= j &lt; r.<a name="line.1161"></a>
-<span class="sourceLineNo">1162</span>      if (a == 1) {<a name="line.1162"></a>
-<span class="sourceLineNo">1163</span>        return true;<a name="line.1163"></a>
-<span class="sourceLineNo">1164</span>      }<a name="line.1164"></a>
-<span class="sourceLineNo">1165</span>      int j = 0;<a name="line.1165"></a>
-<span class="sourceLineNo">1166</span>      while (a != n - 1) {<a name="line.1166"></a>
-<span class="sourceLineNo">1167</span>        if (++j == r) {<a name="line.1167"></a>
-<span class="sourceLineNo">1168</span>          return false;<a name="line.1168"></a>
-<span class="sourceLineNo">1169</span>        }<a name="line.1169"></a>
-<span class="sourceLineNo">1170</span>        a = squareMod(a, n);<a name="line.1170"></a>
-<span class="sourceLineNo">1171</span>      }<a name="line.1171"></a>
-<span class="sourceLineNo">1172</span>      return true;<a name="line.1172"></a>
-<span class="sourceLineNo">1173</span>    }<a name="line.1173"></a>
-<span class="sourceLineNo">1174</span>  }<a name="line.1174"></a>
-<span class="sourceLineNo">1175</span><a name="line.1175"></a>
-<span class="sourceLineNo">1176</span>  private LongMath() {}<a name="line.1176"></a>
-<span class="sourceLineNo">1177</span>}<a name="line.1177"></a>
+<span class="sourceLineNo">1117</span>      @Override<a name="line.1117"></a>
+<span class="sourceLineNo">1118</span>      long mulMod(long a, long b, long m) {<a name="line.1118"></a>
+<span class="sourceLineNo">1119</span>        long aHi = a &gt;&gt;&gt; 32; // &lt; 2^31<a name="line.1119"></a>
+<span class="sourceLineNo">1120</span>        long bHi = b &gt;&gt;&gt; 32; // &lt; 2^31<a name="line.1120"></a>
+<span class="sourceLineNo">1121</span>        long aLo = a &amp; 0xFFFFFFFFL; // &lt; 2^32<a name="line.1121"></a>
+<span class="sourceLineNo">1122</span>        long bLo = b &amp; 0xFFFFFFFFL; // &lt; 2^32<a name="line.1122"></a>
+<span class="sourceLineNo">1123</span><a name="line.1123"></a>
+<span class="sourceLineNo">1124</span>        /*<a name="line.1124"></a>
+<span class="sourceLineNo">1125</span>         * a * b == aHi * bHi * 2^64 + (aHi * bLo + aLo * bHi) * 2^32 + aLo * bLo.<a name="line.1125"></a>
+<span class="sourceLineNo">1126</span>         *       == (aHi * bHi * 2^32 + aHi * bLo + aLo * bHi) * 2^32 + aLo * bLo<a name="line.1126"></a>
+<span class="sourceLineNo">1127</span>         *<a name="line.1127"></a>
+<span class="sourceLineNo">1128</span>         * We carry out this computation in modular arithmetic. Since times2ToThe32Mod accepts any<a name="line.1128"></a>
+<span class="sourceLineNo">1129</span>         * unsigned long, we don't have to do a mod on every operation, only when intermediate<a name="line.1129"></a>
+<span class="sourceLineNo">1130</span>         * results can exceed 2^63.<a name="line.1130"></a>
+<span class="sourceLineNo">1131</span>         */<a name="line.1131"></a>
+<span class="sourceLineNo">1132</span>        long result = times2ToThe32Mod(aHi * bHi /* &lt; 2^62 */, m); // &lt; m &lt; 2^63<a name="line.1132"></a>
+<span class="sourceLineNo">1133</span>        result += aHi * bLo; // aHi * bLo &lt; 2^63, result &lt; 2^64<a name="line.1133"></a>
+<span class="sourceLineNo">1134</span>        if (result &lt; 0) {<a name="line.1134"></a>
+<span class="sourceLineNo">1135</span>          result = UnsignedLongs.remainder(result, m);<a name="line.1135"></a>
+<span class="sourceLineNo">1136</span>        }<a name="line.1136"></a>
+<span class="sourceLineNo">1137</span>        // result &lt; 2^63 again<a name="line.1137"></a>
+<span class="sourceLineNo">1138</span>        result += aLo * bHi; // aLo * bHi &lt; 2^63, result &lt; 2^64<a name="line.1138"></a>
+<span class="sourceLineNo">1139</span>        result = times2ToThe32Mod(result, m); // result &lt; m &lt; 2^63<a name="line.1139"></a>
+<span class="sourceLineNo">1140</span>        return plusMod(<a name="line.1140"></a>
+<span class="sourceLineNo">1141</span>            result,<a name="line.1141"></a>
+<span class="sourceLineNo">1142</span>            UnsignedLongs.remainder(aLo * bLo /* &lt; 2^64 */, m),<a name="line.1142"></a>
+<span class="sourceLineNo">1143</span>            m);<a name="line.1143"></a>
+<span class="sourceLineNo">1144</span>      }<a name="line.1144"></a>
+<span class="sourceLineNo">1145</span><a name="line.1145"></a>
+<span class="sourceLineNo">1146</span>      @Override<a name="line.1146"></a>
+<span class="sourceLineNo">1147</span>      long squareMod(long a, long m) {<a name="line.1147"></a>
+<span class="sourceLineNo">1148</span>        long aHi = a &gt;&gt;&gt; 32; // &lt; 2^31<a name="line.1148"></a>
+<span class="sourceLineNo">1149</span>        long aLo = a &amp; 0xFFFFFFFFL; // &lt; 2^32<a name="line.1149"></a>
+<span class="sourceLineNo">1150</span><a name="line.1150"></a>
+<span class="sourceLineNo">1151</span>        /*<a name="line.1151"></a>
+<span class="sourceLineNo">1152</span>         * a^2 == aHi^2 * 2^64 + aHi * aLo * 2^33 + aLo^2<a name="line.1152"></a>
+<span class="sourceLineNo">1153</span>         *     == (aHi^2 * 2^32 + aHi * aLo * 2) * 2^32 + aLo^2<a name="line.1153"></a>
+<span class="sourceLineNo">1154</span>         * We carry out this computation in modular arithmetic.  Since times2ToThe32Mod accepts any<a name="line.1154"></a>
+<span class="sourceLineNo">1155</span>         * unsigned long, we don't have to do a mod on every operation, only when intermediate<a name="line.1155"></a>
+<span class="sourceLineNo">1156</span>         * results can exceed 2^63.<a name="line.1156"></a>
+<span class="sourceLineNo">1157</span>         */<a name="line.1157"></a>
+<span class="sourceLineNo">1158</span>        long result = times2ToThe32Mod(aHi * aHi /* &lt; 2^62 */, m); // &lt; m &lt; 2^63<a name="line.1158"></a>
+<span class="sourceLineNo">1159</span>        long hiLo = aHi * aLo * 2;<a name="line.1159"></a>
+<span class="sourceLineNo">1160</span>        if (hiLo &lt; 0) {<a name="line.1160"></a>
+<span class="sourceLineNo">1161</span>          hiLo = UnsignedLongs.remainder(hiLo, m);<a name="line.1161"></a>
+<span class="sourceLineNo">1162</span>        }<a name="line.1162"></a>
+<span class="sourceLineNo">1163</span>        // hiLo &lt; 2^63<a name="line.1163"></a>
+<span class="sourceLineNo">1164</span>        result += hiLo; // result &lt; 2^64<a name="line.1164"></a>
+<span class="sourceLineNo">1165</span>        result = times2ToThe32Mod(result, m); // result &lt; m &lt; 2^63<a name="line.1165"></a>
+<span class="sourceLineNo">1166</span>        return plusMod(<a name="line.1166"></a>
+<span class="sourceLineNo">1167</span>            result,<a name="line.1167"></a>
+<span class="sourceLineNo">1168</span>            UnsignedLongs.remainder(aLo * aLo /* &lt; 2^64 */, m),<a name="line.1168"></a>
+<span class="sourceLineNo">1169</span>            m);<a name="line.1169"></a>
+<span class="sourceLineNo">1170</span>      }<a name="line.1170"></a>
+<span class="sourceLineNo">1171</span>    };<a name="line.1171"></a>
+<span class="sourceLineNo">1172</span><a name="line.1172"></a>
+<span class="sourceLineNo">1173</span>    static boolean test(long base, long n) {<a name="line.1173"></a>
+<span class="sourceLineNo">1174</span>      // Since base will be considered % n, it's okay if base &gt; FLOOR_SQRT_MAX_LONG,<a name="line.1174"></a>
+<span class="sourceLineNo">1175</span>      // so long as n &lt;= FLOOR_SQRT_MAX_LONG.<a name="line.1175"></a>
+<span class="sourceLineNo">1176</span>      return ((n &lt;= FLOOR_SQRT_MAX_LONG) ? SMALL : LARGE).testWitness(base, n);<a name="line.1176"></a>
+<span class="sourceLineNo">1177</span>    }<a name="line.1177"></a>
+<span class="sourceLineNo">1178</span><a name="line.1178"></a>
+<span class="sourceLineNo">1179</span>    /**<a name="line.1179"></a>
+<span class="sourceLineNo">1180</span>     * Returns a * b mod m.<a name="line.1180"></a>
+<span class="sourceLineNo">1181</span>     */<a name="line.1181"></a>
+<span class="sourceLineNo">1182</span>    abstract long mulMod(long a, long b, long m);<a name="line.1182"></a>
+<span class="sourceLineNo">1183</span><a name="line.1183"></a>
+<span class="sourceLineNo">1184</span>    /**<a name="line.1184"></a>
+<span class="sourceLineNo">1185</span>     * Returns a^2 mod m.<a name="line.1185"></a>
+<span class="sourceLineNo">1186</span>     */<a name="line.1186"></a>
+<span class="sourceLineNo">1187</span>    abstract long squareMod(long a, long m);<a name="line.1187"></a>
+<span class="sourceLineNo">1188</span><a name="line.1188"></a>
+<span class="sourceLineNo">1189</span>    /**<a name="line.1189"></a>
+<span class="sourceLineNo">1190</span>     * Returns a^p mod m.<a name="line.1190"></a>
+<span class="sourceLineNo">1191</span>     */<a name="line.1191"></a>
+<span class="sourceLineNo">1192</span>    private long powMod(long a, long p, long m) {<a name="line.1192"></a>
+<span class="sourceLineNo">1193</span>      long res = 1;<a name="line.1193"></a>
+<span class="sourceLineNo">1194</span>      for (; p != 0; p &gt;&gt;= 1) {<a name="line.1194"></a>
+<span class="sourceLineNo">1195</span>        if ((p &amp; 1) != 0) {<a name="line.1195"></a>
+<span class="sourceLineNo">1196</span>          res = mulMod(res, a, m);<a name="line.1196"></a>
+<span class="sourceLineNo">1197</span>        }<a name="line.1197"></a>
+<span class="sourceLineNo">1198</span>        a = squareMod(a, m);<a name="line.1198"></a>
+<span class="sourceLineNo">1199</span>      }<a name="line.1199"></a>
+<span class="sourceLineNo">1200</span>      return res;<a name="line.1200"></a>
+<span class="sourceLineNo">1201</span>    }<a name="line.1201"></a>
+<span class="sourceLineNo">1202</span><a name="line.1202"></a>
+<span class="sourceLineNo">1203</span>    /**<a name="line.1203"></a>
+<span class="sourceLineNo">1204</span>     * Returns true if n is a strong probable prime relative to the specified base.<a name="line.1204"></a>
+<span class="sourceLineNo">1205</span>     */<a name="line.1205"></a>
+<span class="sourceLineNo">1206</span>    private boolean testWitness(long base, long n) {<a name="line.1206"></a>
+<span class="sourceLineNo">1207</span>      int r = Long.numberOfTrailingZeros(n - 1);<a name="line.1207"></a>
+<span class="sourceLineNo">1208</span>      long d = (n - 1) &gt;&gt; r;<a name="line.1208"></a>
+<span class="sourceLineNo">1209</span>      base %= n;<a name="line.1209"></a>
+<span class="sourceLineNo">1210</span>      if (base == 0) {<a name="line.1210"></a>
+<span class="sourceLineNo">1211</span>        return true;<a name="line.1211"></a>
+<span class="sourceLineNo">1212</span>      }<a name="line.1212"></a>
+<span class="sourceLineNo">1213</span>      // Calculate a := base^d mod n.<a name="line.1213"></a>
+<span class="sourceLineNo">1214</span>      long a = powMod(base, d, n);<a name="line.1214"></a>
+<span class="sourceLineNo">1215</span>      // n passes this test if<a name="line.1215"></a>
+<span class="sourceLineNo">1216</span>      //    base^d = 1 (mod n)<a name="line.1216"></a>
+<span class="sourceLineNo">1217</span>      // or base^(2^j * d) = -1 (mod n) for some 0 &lt;= j &lt; r.<a name="line.1217"></a>
+<span class="sourceLineNo">1218</span>      if (a == 1) {<a name="line.1218"></a>
+<span class="sourceLineNo">1219</span>        return true;<a name="line.1219"></a>
+<span class="sourceLineNo">1220</span>      }<a name="line.1220"></a>
+<span class="sourceLineNo">1221</span>      int j = 0;<a name="line.1221"></a>
+<span class="sourceLineNo">1222</span>      while (a != n - 1) {<a name="line.1222"></a>
+<span class="sourceLineNo">1223</span>        if (++j == r) {<a name="line.1223"></a>
+<span class="sourceLineNo">1224</span>          return false;<a name="line.1224"></a>
+<span class="sourceLineNo">1225</span>        }<a name="line.1225"></a>
+<span class="sourceLineNo">1226</span>        a = squareMod(a, n);<a name="line.1226"></a>
+<span class="sourceLineNo">1227</span>      }<a name="line.1227"></a>
+<span class="sourceLineNo">1228</span>      return true;<a name="line.1228"></a>
+<span class="sourceLineNo">1229</span>    }<a name="line.1229"></a>
+<span class="sourceLineNo">1230</span>  }<a name="line.1230"></a>
+<span class="sourceLineNo">1231</span><a name="line.1231"></a>
+<span class="sourceLineNo">1232</span>  private LongMath() {}<a name="line.1232"></a>
+<span class="sourceLineNo">1233</span>}<a name="line.1233"></a>
 
 
 

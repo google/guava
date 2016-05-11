@@ -6586,15 +6586,13 @@
     <method name="propagateIfInstanceOf"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #throwIfInstanceOf}, which has the same behavior
+     but rejects {@code null}. This method is scheduled to be removed in July 2018.">
       <param name="throwable" type="java.lang.Throwable"/>
       <param name="declaredType" type="java.lang.Class&lt;X&gt;"/>
       <exception name="Throwable" type="java.lang.Throwable"/>
       <doc>
-      <![CDATA[<b>To be deprecated.</b> Use {@link #throwIfInstanceOf}, which has the same behavior but
- rejects {@code null}.
-
- Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@code
+      <![CDATA[Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@code
  declaredType}. Example usage:
 
  <pre>
@@ -6607,7 +6605,10 @@
    Throwables.propagateIfInstanceOf(t, SQLException.class);
    throw Throwables.propagate(t);
  }
- </pre>]]>
+ </pre>
+
+ @deprecated Use {@link #throwIfInstanceOf}, which has the same behavior
+     but rejects {@code null}. This method is scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="throwIfUnchecked"
@@ -6638,13 +6639,11 @@
     <method name="propagateIfPossible"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #throwIfUnchecked}, which has the same behavior but rejects
+     {@code null}. This method is scheduled to be removed in July 2018.">
       <param name="throwable" type="java.lang.Throwable"/>
       <doc>
-      <![CDATA[<b>To be deprecated.</b> Use {@link #throwIfUnchecked}, which has the same behavior but rejects
- {@code null}.
-
- <p>Propagates {@code throwable} exactly as-is, if and only if it is an instance of
+      <![CDATA[Propagates {@code throwable} exactly as-is, if and only if it is an instance of
  {@link RuntimeException} or {@link Error}. Example usage:
 
  <pre>
@@ -6656,7 +6655,10 @@
    Throwables.propagateIfPossible(t);
    throw new RuntimeException("unexpected", t);
  }
- </pre>]]>
+ </pre>
+
+ @deprecated Use {@link #throwIfUnchecked}, which has the same behavior but rejects
+     {@code null}. This method is scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="propagateIfPossible"
@@ -22677,23 +22679,6 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
-    <method name="emptyIterator" return="com.google.common.collect.UnmodifiableIterator&lt;T&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="Use {@code ImmutableSet.lEsS_tHaNT>of().iterator()} instead; or for
-     Java 7 or later, {@link Collections#emptyIterator}. This method is
-     scheduled for removal in May 2016.">
-      <doc>
-      <![CDATA[Returns the empty iterator.
-
- <p>The {@link Iterable} equivalent of this method is {@link
- ImmutableSet#of()}.
-
- @deprecated Use {@code ImmutableSet.<T>of().iterator()} instead; or for
-     Java 7 or later, {@link Collections#emptyIterator}. This method is
-     scheduled for removal in May 2016.]]>
-      </doc>
-    </method>
     <method name="unmodifiableIterator" return="com.google.common.collect.UnmodifiableIterator&lt;T&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -36035,7 +36020,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an empty mutable {@link Graph} with the properties of this {@link GraphBuilder}.]]>
+      <![CDATA[Returns an empty {@link MutableGraph} with the properties of this {@link GraphBuilder}.]]>
       </doc>
     </method>
     <doc>
@@ -37187,7 +37172,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an empty mutable {@link Network} with the properties of this {@link NetworkBuilder}.]]>
+      <![CDATA[Returns an empty {@link MutableNetwork} with the properties of this {@link NetworkBuilder}.]]>
       </doc>
     </method>
     <doc>
@@ -43369,6 +43354,24 @@
  @since 14.0]]>
       </doc>
     </method>
+    <method name="isPrime" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="n" type="int"/>
+      <doc>
+      <![CDATA[Returns {@code true} if {@code n} is a
+ <a href="http://mathworld.wolfram.com/PrimeNumber.html">prime number</a>: an integer <i>greater
+ than one</i> that cannot be factored into a product of <i>smaller</i> positive integers.
+ Returns {@code false} if {@code n} is zero, one, or a composite number (one which <i>can</i>
+ be factored into smaller positive integers).
+
+ <p>To test larger numbers, use {@link LongMath#isPrime} or {@link BigInteger#isProbablePrime}.
+
+ @throws IllegalArgumentException if {@code n} is negative
+ @since 20.0]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[A class for arithmetic on values of type {@code int}. Where possible, methods are defined and
  named analogously to their {@code BigInteger} counterparts.
@@ -43854,6 +43857,24 @@
  method is resilient to overflow.
 
  @since 14.0]]>
+      </doc>
+    </method>
+    <method name="isPrime" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="n" type="long"/>
+      <doc>
+      <![CDATA[Returns {@code true} if {@code n} is a
+ <a href="http://mathworld.wolfram.com/PrimeNumber.html">prime number</a>: an integer <i>greater
+ than one</i> that cannot be factored into a product of <i>smaller</i> positive integers.
+ Returns {@code false} if {@code n} is zero, one, or a composite number (one which <i>can</i>
+ be factored into smaller positive integers).
+
+ <p>To test larger numbers, use {@link BigInteger#isProbablePrime}.
+
+ @throws IllegalArgumentException if {@code n} is negative
+ @since 20.0]]>
       </doc>
     </method>
     <doc>

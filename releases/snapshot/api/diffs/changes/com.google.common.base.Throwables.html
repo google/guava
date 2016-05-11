@@ -87,6 +87,26 @@ Class com.google.common.base.<A HREF="../../docs/com/google/common/base/Throwabl
   </TD>
   <TD VALIGN="TOP">Use {@code throw e} or {@code throw new RuntimeException(e)} directly, or use a      combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}.</TD>
 </TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.base.Throwables.propagateIfInstanceOf_changed(java.lang.Throwable, java.lang.Class<X>)"></A>
+  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/base/Throwables.html#propagateIfInstanceOf(java.lang.Throwable, java.lang.Class<X>)" target="_top"><tt>propagateIfInstanceOf</tt></A>(<code>Throwable,</nobr> Class&lt;X&gt;<nobr><nobr></code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
+  </TD>
+  <TD VALIGN="TOP">Use {@link #throwIfInstanceOf}, which has the same behavior      but rejects {@code null}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.base.Throwables.propagateIfPossible_changed(java.lang.Throwable)"></A>
+  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/base/Throwables.html#propagateIfPossible(java.lang.Throwable)" target="_top"><tt>propagateIfPossible</tt></A>(<code>Throwable</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+<b>Now deprecated</b>.<br>
+  </TD>
+  <TD VALIGN="TOP">Use {@link #throwIfUnchecked}, which has the same behavior but rejects      {@code null}.</TD>
+</TR>
 </TABLE>
 &nbsp;
 <a NAME="fields"></a>

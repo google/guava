@@ -138,10 +138,10 @@
 <span class="sourceLineNo">130</span>  }<a name="line.130"></a>
 <span class="sourceLineNo">131</span><a name="line.131"></a>
 <span class="sourceLineNo">132</span>  /**<a name="line.132"></a>
-<span class="sourceLineNo">133</span>   * Returns an empty mutable {@link Network} with the properties of this {@link NetworkBuilder}.<a name="line.133"></a>
+<span class="sourceLineNo">133</span>   * Returns an empty {@link MutableNetwork} with the properties of this {@link NetworkBuilder}.<a name="line.133"></a>
 <span class="sourceLineNo">134</span>   */<a name="line.134"></a>
 <span class="sourceLineNo">135</span>  public &lt;N1 extends N, E1 extends E&gt; MutableNetwork&lt;N1, E1&gt; build() {<a name="line.135"></a>
-<span class="sourceLineNo">136</span>    return new ConfigurableNetwork&lt;N1, E1&gt;(this);<a name="line.136"></a>
+<span class="sourceLineNo">136</span>    return new ConfigurableMutableNetwork&lt;N1, E1&gt;(this);<a name="line.136"></a>
 <span class="sourceLineNo">137</span>  }<a name="line.137"></a>
 <span class="sourceLineNo">138</span>}<a name="line.138"></a>
 

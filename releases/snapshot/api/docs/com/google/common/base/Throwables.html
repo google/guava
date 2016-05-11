@@ -171,15 +171,19 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colFirst"><code>static &lt;X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<br>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/Throwables.html#propagateIfInstanceOf(java.lang.Throwable,%20java.lang.Class)">propagateIfInstanceOf</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable,
                                           <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;declaredType)</code>
-<div class="block"><b>To be deprecated.</b> Use <a href="../../../../com/google/common/base/Throwables.html#throwIfInstanceOf(java.lang.Throwable,%20java.lang.Class)"><code>throwIfInstanceOf(java.lang.Throwable, java.lang.Class&lt;X&gt;)</code></a>, which has the same behavior but
- rejects <code>null</code>.</div>
+<div class="block"><strong>Deprecated.</strong>&nbsp;
+<div class="block"><i>Use <a href="../../../../com/google/common/base/Throwables.html#throwIfInstanceOf(java.lang.Throwable,%20java.lang.Class)"><code>throwIfInstanceOf(java.lang.Throwable, java.lang.Class&lt;X&gt;)</code></a>, which has the same behavior
+     but rejects <code>null</code>. This method is scheduled to be removed in July 2018.</i></div>
+</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/Throwables.html#propagateIfPossible(java.lang.Throwable)">propagateIfPossible</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</code>
-<div class="block"><b>To be deprecated.</b> Use <a href="../../../../com/google/common/base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>throwIfUnchecked(java.lang.Throwable)</code></a>, which has the same behavior but rejects
- <code>null</code>.</div>
+<div class="block"><strong>Deprecated.</strong>&nbsp;
+<div class="block"><i>Use <a href="../../../../com/google/common/base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>throwIfUnchecked(java.lang.Throwable)</code></a>, which has the same behavior but rejects
+     <code>null</code>. This method is scheduled to be removed in July 2018.</i></div>
+</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -271,15 +275,15 @@ public static&nbsp;&lt;X extends <a href="http://docs.oracle.com/javase/7/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>propagateIfInstanceOf</h4>
-<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.101">propagateIfInstanceOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                                                               <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable,
-                                                               <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;declaredType)
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+<a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;&lt;X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.102">propagateIfInstanceOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                                                                          <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable,
+                                                                          <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;declaredType)
                                   throws X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a></pre>
-<div class="block"><b>To be deprecated.</b> Use <a href="../../../../com/google/common/base/Throwables.html#throwIfInstanceOf(java.lang.Throwable,%20java.lang.Class)"><code>throwIfInstanceOf(java.lang.Throwable, java.lang.Class&lt;X&gt;)</code></a>, which has the same behavior but
- rejects <code>null</code>.
-
- Propagates <code>throwable</code> exactly as-is, if and only if it is an instance of <code>declaredType</code>. Example usage:
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Use <a href="../../../../com/google/common/base/Throwables.html#throwIfInstanceOf(java.lang.Throwable,%20java.lang.Class)"><code>throwIfInstanceOf(java.lang.Throwable, java.lang.Class&lt;X&gt;)</code></a>, which has the same behavior
+     but rejects <code>null</code>. This method is scheduled to be removed in July 2018.</i></div>
+<div class="block">Propagates <code>throwable</code> exactly as-is, if and only if it is an instance of <code>declaredType</code>. Example usage:
 
  <pre>
  try {
@@ -302,7 +306,7 @@ public static&nbsp;&lt;X extends <a href="http://docs.oracle.com/javase/7/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>throwIfUnchecked</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.127">throwIfUnchecked</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.128">throwIfUnchecked</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
 <div class="block">Throws <code>throwable</code> if it is a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang"><code>RuntimeException</code></a> or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?is-external=true" title="class or interface in java.lang"><code>Error</code></a>. Example usage:
 
  <pre>
@@ -328,13 +332,13 @@ public static&nbsp;&lt;X extends <a href="http://docs.oracle.com/javase/7/docs/a
 <ul class="blockList">
 <li class="blockList">
 <h4>propagateIfPossible</h4>
-<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.156">propagateIfPossible</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-                                       <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
-<div class="block"><b>To be deprecated.</b> Use <a href="../../../../com/google/common/base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>throwIfUnchecked(java.lang.Throwable)</code></a>, which has the same behavior but rejects
- <code>null</code>.
-
- <p>Propagates <code>throwable</code> exactly as-is, if and only if it is an instance of
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+<a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.158">propagateIfPossible</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                                                  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Use <a href="../../../../com/google/common/base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>throwIfUnchecked(java.lang.Throwable)</code></a>, which has the same behavior but rejects
+     <code>null</code>. This method is scheduled to be removed in July 2018.</i></div>
+<div class="block">Propagates <code>throwable</code> exactly as-is, if and only if it is an instance of
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang"><code>RuntimeException</code></a> or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Error.html?is-external=true" title="class or interface in java.lang"><code>Error</code></a>. Example usage:
 
  <pre>
@@ -356,7 +360,7 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/bas
 <li class="blockList">
 <h4>propagateIfPossible</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.181">propagateIfPossible</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public static&nbsp;&lt;X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.183">propagateIfPossible</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                                              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable,
                                                              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;declaredType)
                                 throws X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a></pre>
@@ -385,7 +389,7 @@ public static&nbsp;&lt;X extends <a href="http://docs.oracle.com/javase/7/docs/a
 <li class="blockList">
 <h4>propagateIfPossible</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;&lt;X1 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>,X2 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.199">propagateIfPossible</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+public static&nbsp;&lt;X1 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>,X2 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.201">propagateIfPossible</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                                                                    <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable,
                                                                                    <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X1&gt;&nbsp;declaredType1,
                                                                                    <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X2&gt;&nbsp;declaredType2)
@@ -409,7 +413,7 @@ public static&nbsp;&lt;X1 extends <a href="http://docs.oracle.com/javase/7/docs/
 <h4>propagate</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.238">propagate</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
+public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.240">propagate</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Use <code>throw e</code> or <code>throw new RuntimeException(e)</code> directly, or use a
      combination of <a href="../../../../com/google/common/base/Throwables.html#throwIfUnchecked(java.lang.Throwable)"><code>throwIfUnchecked(java.lang.Throwable)</code></a> and <code>throw new RuntimeException(e)</code>. This
      method is scheduled to be removed in July 2018.</i></div>
@@ -443,7 +447,7 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/R
 <ul class="blockList">
 <li class="blockList">
 <h4>getRootCause</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.251">getRootCause</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.253">getRootCause</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
 <div class="block">Returns the innermost cause of <code>throwable</code>. The first throwable in a chain provides
  context from when the error or exception was initially detected. Example usage:
 
@@ -459,7 +463,7 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/R
 <li class="blockList">
 <h4>getCausalChain</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.275">getCausalChain</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
+public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.277">getCausalChain</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
 <div class="block">Gets a <code>Throwable</code> cause chain as a list. The first entry in the list will be <code>throwable</code> followed by its cause hierarchy. Note that this is a snapshot of the cause chain and
  will not reflect any subsequent changes to the cause chain.
 
@@ -480,7 +484,7 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/L
 <li class="blockList">
 <h4>getStackTraceAsString</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.292">getStackTraceAsString</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
+public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.294">getStackTraceAsString</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
 <div class="block">Returns a string containing the result of <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true#toString()" title="class or interface in java.lang"><code>toString()</code></a>, followed by
  the full, recursive stack trace of <code>throwable</code>. Note that you probably should not be
  parsing the resulting string; if you need programmatic access to the stack frames, you can call
@@ -495,7 +499,7 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/S
 <h4>lazyStackTrace</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/StackTraceElement.html?is-external=true" title="class or interface in java.lang">StackTraceElement</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.328">lazyStackTrace</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
+public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/StackTraceElement.html?is-external=true" title="class or interface in java.lang">StackTraceElement</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.330">lazyStackTrace</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
 <div class="block">Returns the stack trace of <code>throwable</code>, possibly providing slower iteration over the full
  trace but faster iteration over parts of the trace. Here, "slower" and "faster" are defined in
  comparison to the normal way to access the stack trace, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true#getStackTrace()" title="class or interface in java.lang"><code>throwable.getStackTrace()</code></a>. Note, however, that this method's special implementation is not
@@ -528,7 +532,7 @@ public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/L
 <h4>lazyStackTraceIsLazy</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.342">lazyStackTraceIsLazy</a>()</pre>
+public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Throwables.html#line.344">lazyStackTraceIsLazy</a>()</pre>
 <div class="block">Returns whether <a href="../../../../com/google/common/base/Throwables.html#lazyStackTrace(java.lang.Throwable)"><code>lazyStackTrace(java.lang.Throwable)</code></a> will use the special implementation described in its
  documentation.</div>
 <dl><dt><span class="strong">Since:</span></dt>

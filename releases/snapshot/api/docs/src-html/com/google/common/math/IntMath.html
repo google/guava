@@ -69,7 +69,7 @@
 <span class="sourceLineNo">061</span>   * @throws IllegalArgumentException if {@code x &lt;= 0}<a name="line.61"></a>
 <span class="sourceLineNo">062</span>   * @throws ArithmeticException of the next-higher power of two is not representable as an<a name="line.62"></a>
 <span class="sourceLineNo">063</span>   *         {@code int}, i.e. when {@code x &gt; 2^30}<a name="line.63"></a>
-<span class="sourceLineNo">064</span>   * @since 20.0<a name="line.64"></a>
+<span class="sourceLineNo">064</span>   * @since 20.0        <a name="line.64"></a>
 <span class="sourceLineNo">065</span>   */<a name="line.65"></a>
 <span class="sourceLineNo">066</span>  @Beta<a name="line.66"></a>
 <span class="sourceLineNo">067</span>  public static int ceilingPowerOfTwo(int x) {<a name="line.67"></a>
@@ -715,8 +715,26 @@
 <span class="sourceLineNo">707</span>    return (x &amp; y) + ((x ^ y) &gt;&gt; 1);<a name="line.707"></a>
 <span class="sourceLineNo">708</span>  }<a name="line.708"></a>
 <span class="sourceLineNo">709</span><a name="line.709"></a>
-<span class="sourceLineNo">710</span>  private IntMath() {}<a name="line.710"></a>
-<span class="sourceLineNo">711</span>}<a name="line.711"></a>
+<span class="sourceLineNo">710</span>  /**<a name="line.710"></a>
+<span class="sourceLineNo">711</span>   * Returns {@code true} if {@code n} is a<a name="line.711"></a>
+<span class="sourceLineNo">712</span>   * &lt;a href="http://mathworld.wolfram.com/PrimeNumber.html"&gt;prime number&lt;/a&gt;: an integer &lt;i&gt;greater<a name="line.712"></a>
+<span class="sourceLineNo">713</span>   * than one&lt;/i&gt; that cannot be factored into a product of &lt;i&gt;smaller&lt;/i&gt; positive integers.<a name="line.713"></a>
+<span class="sourceLineNo">714</span>   * Returns {@code false} if {@code n} is zero, one, or a composite number (one which &lt;i&gt;can&lt;/i&gt;<a name="line.714"></a>
+<span class="sourceLineNo">715</span>   * be factored into smaller positive integers).<a name="line.715"></a>
+<span class="sourceLineNo">716</span>   *<a name="line.716"></a>
+<span class="sourceLineNo">717</span>   * &lt;p&gt;To test larger numbers, use {@link LongMath#isPrime} or {@link BigInteger#isProbablePrime}.<a name="line.717"></a>
+<span class="sourceLineNo">718</span>   *<a name="line.718"></a>
+<span class="sourceLineNo">719</span>   * @throws IllegalArgumentException if {@code n} is negative<a name="line.719"></a>
+<span class="sourceLineNo">720</span>   * @since 20.0<a name="line.720"></a>
+<span class="sourceLineNo">721</span>   */<a name="line.721"></a>
+<span class="sourceLineNo">722</span>  @GwtIncompatible // TODO<a name="line.722"></a>
+<span class="sourceLineNo">723</span>  @Beta<a name="line.723"></a>
+<span class="sourceLineNo">724</span>  public static boolean isPrime(int n) {<a name="line.724"></a>
+<span class="sourceLineNo">725</span>    return LongMath.isPrime(n);<a name="line.725"></a>
+<span class="sourceLineNo">726</span>  }<a name="line.726"></a>
+<span class="sourceLineNo">727</span><a name="line.727"></a>
+<span class="sourceLineNo">728</span>  private IntMath() {}<a name="line.728"></a>
+<span class="sourceLineNo">729</span>}<a name="line.729"></a>
 
 
 
