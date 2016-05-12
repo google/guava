@@ -711,11 +711,11 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * SettableFuture#setFuture setFuture(otherFuture)} on it.
    *
    * <p>{@code dereference} has the same cancellation and execution semantics as {@link
-   * #transform(ListenableFuture, AsyncFunction)}, in that the returned {@code Future} attempts to
-   * keep its cancellation state in sync with both the input {@code Future} and the nested {@code
-   * Future}.  The transformation is very lightweight and therefore takes place in the same thread
-   * (either the thread that called {@code dereference}, or the thread in which the dereferenced
-   * future completes).
+   * #transformAsync(ListenableFuture, AsyncFunction)}, in that the returned {@code Future}
+   * attempts to keep its cancellation state in sync with both the input {@code Future} and the
+   * nested {@code Future}.  The transformation is very lightweight and therefore takes place in
+   * the same thread (either the thread that called {@code dereference}, or the thread in which
+   * the dereferenced future completes).
    *
    * @param nested The nested future to transform.
    * @return A future that holds result of the inner future.
