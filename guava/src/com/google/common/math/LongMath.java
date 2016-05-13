@@ -981,13 +981,12 @@ public final class LongMath {
   
   /*
    * This bitmask is used as an optimization for cheaply testing for divisiblity by 2, 3, or 5.
-   * Each bit is set to 1 for all remainders that indicate divisibility by 2, 3, or 5.
-   * 1, 7, 11, 13, 17, 19, 23, 29 are set to 0. 30 and up are 0 because they won't be hit.
-   * Bit offsets:       25    20    15    10     5     0
-   *            0b00_01111_10111_01011_10101_11011_11101;
-   * We can't actually use the binary form because it has to work in Java 6.
+   * Each bit is set to 1 for all remainders that indicate divisibility by 2, 3, or 5, so
+   * 1, 7, 11, 13, 17, 19, 23, 29 are set to 0. 30 and up don't matter because they won't be hit.
    */
-  private static final int SIEVE_30 = 0x1F75D77D;
+  private static final int SIEVE_30 =
+      ~((1 << 1) | (1 << 7) | (1 << 11) | (1 << 13)
+          | (1 << 17) | (1 << 19) | (1 << 23) | (1 << 29));
 
   /**
    * Returns {@code true} if {@code n} is a
