@@ -649,7 +649,7 @@ public class PreconditionsTest extends TestCase {
     @SuppressWarnings("unchecked")
     final Supplier<Object> errorMessageCallback = mock(Supplier.class);
     @SuppressWarnings("unchecked")
-    final Consumer<Object> result = mock(Consumer.class);
+    final Function<Object, Void> result = mock(Function.class);
 
     // when
     Throwable caughtException = catchException(new ThrowableAction() {
@@ -657,14 +657,14 @@ public class PreconditionsTest extends TestCase {
       public void call() {
         Object checkResult = Preconditions.checkNotNull(
           notNullReference, errorMessageCallback);
-          result.accept(checkResult);
+          result.apply(checkResult);
       }
     });
 
     // then
     assertThat(caughtException).isNull();
     verify(errorMessageCallback, never()).get();
-    verify(result).accept(notNullReference);
+    verify(result).apply(notNullReference);
   }
 
   public void testThatExceptionFromCallbackIsThrownWhenGivenExpressionIfFalse()
