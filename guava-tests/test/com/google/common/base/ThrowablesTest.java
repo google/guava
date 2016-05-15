@@ -684,6 +684,7 @@ public class ThrowablesTest extends TestCase {
     new NullPointerTester().testAllPublicStaticMethods(Throwables.class);
   }
 
+  @GwtIncompatible
   public void testThatExceptionInGivenActionHasBeenCaught() {
     // given
     final Exception exception = new Exception();
@@ -701,6 +702,7 @@ public class ThrowablesTest extends TestCase {
     assertThat(caughtException).isEqualTo(exception);
   }
 
+  @GwtIncompatible
   public void testThatNullIsReturnedWhenExceptionWasNotThrown() {
     // given
     ThrowableAction action = ThrowableActions.doNothing();

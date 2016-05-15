@@ -478,6 +478,7 @@ public final class Throwables {
    * @param action checked action
    * @return caught exception or null
    */
+  @GwtIncompatible
   @Nullable
   public static Throwable catchException(ThrowableAction action) {
     Preconditions.checkNotNull(action, "Action was not specified");

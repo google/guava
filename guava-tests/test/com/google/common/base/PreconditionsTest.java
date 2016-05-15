@@ -539,6 +539,7 @@ public class PreconditionsTest extends TestCase {
     assertThat(e).hasMessage("I ate 5 pies.");
   }
 
+  @GwtIncompatible
   public void testThatArgumentExceptionIsThrownWithMessageFromCallback() {
     // given
     final boolean falseExpression = false;
@@ -561,6 +562,7 @@ public class PreconditionsTest extends TestCase {
     assertThat(caughtException).hasMessage(errorMessage);
   }
 
+  @GwtIncompatible
   public void testThatErrorMessageCallbackIsNotCalledWhenArgumentExceptionIsNotThrown() {
     // given
     final boolean trueExpression = true;
@@ -580,6 +582,7 @@ public class PreconditionsTest extends TestCase {
     verify(errorMessageCallback, never()).get();
   }
 
+  @GwtIncompatible
   public void testThatStateExceptionIsThrownWithMessageFromCallback() {
     // given
     final boolean falseExpression = false;
@@ -602,6 +605,7 @@ public class PreconditionsTest extends TestCase {
     assertThat(caughtException).hasMessage(errorMessage);
   }
 
+  @GwtIncompatible
   public void testThatErrorMessageCallbackIsNotCalledWhenStateExceptionIsNotThrown() {
     // given
     final boolean trueExpression = true;
@@ -621,6 +625,7 @@ public class PreconditionsTest extends TestCase {
     verify(errorMessageCallback, never()).get();
   }
 
+  @GwtIncompatible
   public void testThatNullExceptionIsThrownWithMessageFromCallback() {
     // given
     final Object nullReference = null;
@@ -643,6 +648,7 @@ public class PreconditionsTest extends TestCase {
     assertThat(caughtException).hasMessage(errorMessage);
   }
 
+  @GwtIncompatible
   public void testThatErrorMessageCallbackIsNotCalledWhenNullExceptionIsNotThrown() {
     // given
     final Object notNullReference = new Object();
@@ -667,6 +673,7 @@ public class PreconditionsTest extends TestCase {
     verify(result).apply(notNullReference);
   }
 
+  @GwtIncompatible
   public void testThatExceptionFromCallbackIsThrownWhenGivenExpressionIfFalse()
     throws IOException {
     // given
@@ -687,6 +694,7 @@ public class PreconditionsTest extends TestCase {
     assertThat(caughtException).isEqualTo(exception);
   }
 
+  @GwtIncompatible
   public void testThatExceptionCallbackIsNotCalledWhenExpressionIsTrue()
     throws IOException {
     // given
