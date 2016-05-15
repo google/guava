@@ -471,4 +471,21 @@ public final class Throwables {
       return null;
     }
   }
+
+  /**
+   * Returns exception thrown in given action. If exception didn't occur returns null.
+   *
+   * @param action checked action
+   * @return caught exception or null
+   */
+  @Nullable
+  public static Throwable catchException(ThrowableAction action) {
+    Preconditions.checkNotNull(action, "Action was not specified");
+    try {
+      action.call();
+      return null;
+    } catch (Throwable e) {
+      return e;
+    }
+  }
 }

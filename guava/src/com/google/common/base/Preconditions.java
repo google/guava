@@ -419,6 +419,24 @@ public final class Preconditions {
   }
 
   /**
+   * Ensures the truth of an expression involving one or more parameters to the calling method.
+   * If expression happens to be false {@link IllegalArgumentException} will be thrown with messsage
+   * provided from the errorMessage callback. Otherwise errorMessage will not be called.
+   *
+   * @param expression a boolean expression
+   * @param errorMessage the exception message callback
+   * @throws IllegalArgumentException if {@code expression} is false
+   */
+  public static void checkArgument(final boolean expression, final @Nullable Supplier<Object> errorMessage) {
+    if (!expression) {
+      if (errorMessage == null) {
+          checkArgument(expression, (Object) null);
+      }
+      throw new IllegalArgumentException(String.valueOf(errorMessage.get()));
+    }
+  }
+
+  /**
    * Ensures the truth of an expression involving the state of the calling instance, but not
    * involving any parameters to the calling method.
    *
@@ -755,6 +773,25 @@ public final class Preconditions {
       @Nullable Object p4) {
     if (!b) {
       throw new IllegalStateException(format(errorMessageTemplate, p1, p2, p3, p4));
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling instance, but not
+   * involving any parameters to the calling method.
+   * If expression happens to be false {@link IllegalStateException} will be thrown with messsage
+   * provided from the errorMessage callback. Otherwise errorMessage will not be called.
+   *
+   * @param expression a boolean expression
+   * @param errorMessage the exception message callback
+   * @throws IllegalStateException if {@code expression} is false
+   */
+  public static void checkState(boolean expression, @Nullable Supplier<Object> errorMessage) {
+    if (!expression) {
+      if (errorMessage == null) {
+          checkState(expression, (Object) null);
+      }
+      throw new IllegalStateException(String.valueOf(errorMessage.get()));
     }
   }
 
@@ -1119,6 +1156,27 @@ public final class Preconditions {
     return obj;
   }
 
+  /**
+   * Ensures that an object reference passed as a parameter to the calling method is not null.
+   * If reference happens to be null {@link NullPointerException} will be thrown with messsage
+   * provided from the errorMessage callback. Otherwise errorMessage will not be called.
+   *
+   * @param reference an object reference
+   * @param errorMessage the exception message callback
+   * @return the non-null reference that was validated
+   * @throws NullPointerException if {@code reference} is null
+   */
+  @CanIgnoreReturnValue
+  public static <T> T checkNotNull(T reference, @Nullable Supplier<Object> errorMessage) {
+    if (reference == null) {
+      if (errorMessage == null) {
+          checkNotNull(reference, (Object) null);
+      }
+      throw new NullPointerException(String.valueOf(errorMessage.get()));
+    }
+    return reference;
+  }
+
   /*
    * All recent hotspots (as of 2009) *really* like to have the natural code
    *
@@ -1306,5 +1364,20 @@ public final class Preconditions {
     }
 
     return builder.toString();
+  }
+
+  /**
+   *  Ensures the truth of an expression.
+   *  When expression is false exception from given callback will be thrown.
+   *
+   * @param expression a boolean expression
+   * @param exception callback to exception
+   * @throws TException exception thrown when given expression is false
+   */
+  public static <TException extends Throwable> void check(boolean expression, Supplier<TException> exception)
+        throws TException {
+    if (!expression) {
+      throw exception.get();
+    }
   }
 }
