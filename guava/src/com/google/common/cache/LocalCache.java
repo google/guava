@@ -4057,20 +4057,18 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return get(key, defaultLoader);
   }
 
-  ImmutableMap<K, V> getAllPresent(Iterable<?> keys) {
+  ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
     int hits = 0;
     int misses = 0;
 
     Map<K, V> result = Maps.newLinkedHashMap();
-    for (Object key : keys) {
+    for (K key : keys) {
       V value = get(key);
       if (value == null) {
         misses++;
       } else {
         // TODO(fry): store entry key instead of query key
-        @SuppressWarnings("unchecked")
-        K castKey = (K) key;
-        result.put(castKey, value);
+        result.put(key, value);
         hits++;
       }
     }
@@ -4323,7 +4321,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  void invalidateAll(Iterable<?> keys) {
+  void invalidateAll(Iterable<? extends K> keys) {
     // TODO(fry): batch by segment
     for (Object key : keys) {
       remove(key);
@@ -4907,7 +4905,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
-    public ImmutableMap<K, V> getAllPresent(Iterable<?> keys) {
+    public ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
       return localCache.getAllPresent(keys);
     }
 
@@ -4922,13 +4920,13 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
-    public void invalidate(Object key) {
+    public void invalidate(K key) {
       checkNotNull(key);
       localCache.remove(key);
     }
 
     @Override
-    public void invalidateAll(Iterable<?> keys) {
+    public void invalidateAll(Iterable<? extends K> keys) {
       localCache.invalidateAll(keys);
     }
 

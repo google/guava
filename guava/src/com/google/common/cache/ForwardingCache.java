@@ -48,7 +48,7 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
    */
   @Override
   @Nullable
-  public V getIfPresent(Object key) {
+  public V getIfPresent(K key) {
     return delegate().getIfPresent(key);
   }
 
@@ -64,7 +64,7 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
    * @since 11.0
    */
   @Override
-  public ImmutableMap<K, V> getAllPresent(Iterable<?> keys) {
+  public ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
     return delegate().getAllPresent(keys);
   }
 
@@ -85,7 +85,7 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
   }
 
   @Override
-  public void invalidate(Object key) {
+  public void invalidate(K key) {
     delegate().invalidate(key);
   }
 
@@ -93,7 +93,7 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
    * @since 11.0
    */
   @Override
-  public void invalidateAll(Iterable<?> keys) {
+  public void invalidateAll(Iterable<? extends K> keys) {
     delegate().invalidateAll(keys);
   }
 
