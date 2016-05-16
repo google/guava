@@ -396,12 +396,12 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * <p><b>{@code Stream} equivalent:</b> <pre>   {@code
    *
-   *   @SuppressWarnings("unchecked") // safe by runtime check
+   *  }{@code @SuppressWarnings("unchecked") // safe by runtime check
    *   Stream<T> result = (Stream) stream.filter(type::isInstance);}</pre>
    *
    * ... or if {@code type} is a class literal {@code MyType.class}, <pre>   {@code
    *
-   *   @SuppressWarnings("unchecked") // safe by runtime check
+   *  }{@code @SuppressWarnings("unchecked") // safe by runtime check
    *   Stream<MyType> result = (Stream) stream.filter(e -> e instanceof MyType);}</pre>
    *
    * @param type the type of elements desired

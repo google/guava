@@ -89,12 +89,10 @@ import javax.annotation.Nullable;
  *
  * <pre>
  *   return new Converter&lt;Integer, String&gt;() {
- *     &#64;Override
  *     protected String doForward(Integer i) {
  *       return Integer.toHexString(i);
  *     }
  *
- *     &#64;Override
  *     protected Integer doBackward(String s) {
  *       return parseUnsignedInt(s, 16);
  *     }
