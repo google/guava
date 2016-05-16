@@ -51,6 +51,13 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <version>2.3.7</version>
         <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
         </executions>
         <configuration>
           <instructions>
