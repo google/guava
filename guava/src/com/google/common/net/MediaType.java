@@ -495,6 +495,13 @@ public final class MediaType {
    * @since 17.0
    */
   public static final MediaType WOFF = createConstant(APPLICATION_TYPE, "font-woff");
+  /**
+   * Media type for the <a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font
+   * Format</a> (WOFF) version 2 <a href="https://www.w3.org/TR/WOFF2/">defined</a> by the W3C.
+   *
+   * @since 20.0
+   */
+  public static final MediaType WOFF2 = createConstant(APPLICATION_TYPE, "font-woff2");
   public static final MediaType XHTML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xhtml+xml");
   /**
    * Media type for Extensible Resource Descriptors. This is not yet registered with the IANA, but
