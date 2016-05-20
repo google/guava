@@ -20,16 +20,18 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.EXPECTED_DEGREE;
 
-import com.google.common.base.Predicate;
+import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 
 import java.util.AbstractSet;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+
+import javax.annotation.Nullable;
 
 /**
  * A class representing an origin node's adjacent nodes in a directed graph.
@@ -74,16 +76,22 @@ final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
 
   @Override
   public Set<N> predecessors() {
-    // Don't simply use Sets.filter() or we'll end up with O(N) instead of O(1) size().
     return new AbstractSet<N>() {
       @Override
       public Iterator<N> iterator() {
-        return Iterators.filter(adjacentNodes().iterator(), new Predicate<N>() {
+        final Iterator<Entry<N, Adjacency>> entries = adjacentNodes.entrySet().iterator();
+        return new AbstractIterator<N>() {
           @Override
-          public boolean apply(N node) {
-            return isPredecessor(node);
+          protected N computeNext() {
+            while (entries.hasNext()) {
+              Entry<N, Adjacency> entry = entries.next();
+              if (isPredecessor(entry.getValue())) {
+                return entry.getKey();
+              }
+            }
+            return endOfData();
           }
-        });
+        };
       }
 
       @Override
@@ -92,24 +100,30 @@ final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
       }
 
       @Override
-      public boolean contains(Object o) {
-        return isPredecessor(o);
+      public boolean contains(Object obj) {
+        return isPredecessor(adjacentNodes.get(obj));
       }
     };
   }
 
   @Override
   public Set<N> successors() {
-    // Don't simply use Sets.filter() or we'll end up with O(N) instead of O(1) size().
     return new AbstractSet<N>() {
       @Override
       public Iterator<N> iterator() {
-        return Iterators.filter(adjacentNodes().iterator(), new Predicate<N>() {
+        final Iterator<Entry<N, Adjacency>> entries = adjacentNodes.entrySet().iterator();
+        return new AbstractIterator<N>() {
           @Override
-          public boolean apply(N node) {
-            return isSuccessor(node);
+          protected N computeNext() {
+            while (entries.hasNext()) {
+              Entry<N, Adjacency> entry = entries.next();
+              if (isSuccessor(entry.getValue())) {
+                return entry.getKey();
+              }
+            }
+            return endOfData();
           }
-        });
+        };
       }
 
       @Override
@@ -118,8 +132,8 @@ final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
       }
 
       @Override
-      public boolean contains(Object o) {
-        return isSuccessor(o);
+      public boolean contains(Object obj) {
+        return isSuccessor(adjacentNodes.get(obj));
       }
     };
   }
@@ -182,13 +196,11 @@ final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
     checkState(successorCount >= 1);
   }
 
-  private boolean isPredecessor(Object node) {
-    Adjacency adjacency = adjacentNodes.get(node);
+  private static boolean isPredecessor(@Nullable Adjacency adjacency) {
     return (adjacency == Adjacency.PRED || adjacency == Adjacency.BOTH);
   }
 
-  private boolean isSuccessor(Object node) {
-    Adjacency adjacency = adjacentNodes.get(node);
+  private static boolean isSuccessor(@Nullable Adjacency adjacency) {
     return (adjacency == Adjacency.SUCC || adjacency == Adjacency.BOTH);
   }
 }
