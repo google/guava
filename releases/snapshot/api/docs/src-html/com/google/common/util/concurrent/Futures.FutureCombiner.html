@@ -719,11 +719,11 @@
 <span class="sourceLineNo">711</span>   * SettableFuture#setFuture setFuture(otherFuture)} on it.<a name="line.711"></a>
 <span class="sourceLineNo">712</span>   *<a name="line.712"></a>
 <span class="sourceLineNo">713</span>   * &lt;p&gt;{@code dereference} has the same cancellation and execution semantics as {@link<a name="line.713"></a>
-<span class="sourceLineNo">714</span>   * #transform(ListenableFuture, AsyncFunction)}, in that the returned {@code Future} attempts to<a name="line.714"></a>
-<span class="sourceLineNo">715</span>   * keep its cancellation state in sync with both the input {@code Future} and the nested {@code<a name="line.715"></a>
-<span class="sourceLineNo">716</span>   * Future}.  The transformation is very lightweight and therefore takes place in the same thread<a name="line.716"></a>
-<span class="sourceLineNo">717</span>   * (either the thread that called {@code dereference}, or the thread in which the dereferenced<a name="line.717"></a>
-<span class="sourceLineNo">718</span>   * future completes).<a name="line.718"></a>
+<span class="sourceLineNo">714</span>   * #transformAsync(ListenableFuture, AsyncFunction)}, in that the returned {@code Future}<a name="line.714"></a>
+<span class="sourceLineNo">715</span>   * attempts to keep its cancellation state in sync with both the input {@code Future} and the<a name="line.715"></a>
+<span class="sourceLineNo">716</span>   * nested {@code Future}.  The transformation is very lightweight and therefore takes place in<a name="line.716"></a>
+<span class="sourceLineNo">717</span>   * the same thread (either the thread that called {@code dereference}, or the thread in which<a name="line.717"></a>
+<span class="sourceLineNo">718</span>   * the dereferenced future completes).<a name="line.718"></a>
 <span class="sourceLineNo">719</span>   *<a name="line.719"></a>
 <span class="sourceLineNo">720</span>   * @param nested The nested future to transform.<a name="line.720"></a>
 <span class="sourceLineNo">721</span>   * @return A future that holds result of the inner future.<a name="line.721"></a>

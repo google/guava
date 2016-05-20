@@ -404,12 +404,12 @@
 <span class="sourceLineNo">396</span>   *<a name="line.396"></a>
 <span class="sourceLineNo">397</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; &lt;pre&gt;   {@code<a name="line.397"></a>
 <span class="sourceLineNo">398</span>   *<a name="line.398"></a>
-<span class="sourceLineNo">399</span>   *   @SuppressWarnings("unchecked") // safe by runtime check<a name="line.399"></a>
+<span class="sourceLineNo">399</span>   *  }{@code @SuppressWarnings("unchecked") // safe by runtime check<a name="line.399"></a>
 <span class="sourceLineNo">400</span>   *   Stream&lt;T&gt; result = (Stream) stream.filter(type::isInstance);}&lt;/pre&gt;<a name="line.400"></a>
 <span class="sourceLineNo">401</span>   *<a name="line.401"></a>
 <span class="sourceLineNo">402</span>   * ... or if {@code type} is a class literal {@code MyType.class}, &lt;pre&gt;   {@code<a name="line.402"></a>
 <span class="sourceLineNo">403</span>   *<a name="line.403"></a>
-<span class="sourceLineNo">404</span>   *   @SuppressWarnings("unchecked") // safe by runtime check<a name="line.404"></a>
+<span class="sourceLineNo">404</span>   *  }{@code @SuppressWarnings("unchecked") // safe by runtime check<a name="line.404"></a>
 <span class="sourceLineNo">405</span>   *   Stream&lt;MyType&gt; result = (Stream) stream.filter(e -&gt; e instanceof MyType);}&lt;/pre&gt;<a name="line.405"></a>
 <span class="sourceLineNo">406</span>   *<a name="line.406"></a>
 <span class="sourceLineNo">407</span>   * @param type the type of elements desired<a name="line.407"></a>

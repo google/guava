@@ -503,416 +503,423 @@
 <span class="sourceLineNo">495</span>   * @since 17.0<a name="line.495"></a>
 <span class="sourceLineNo">496</span>   */<a name="line.496"></a>
 <span class="sourceLineNo">497</span>  public static final MediaType WOFF = createConstant(APPLICATION_TYPE, "font-woff");<a name="line.497"></a>
-<span class="sourceLineNo">498</span>  public static final MediaType XHTML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xhtml+xml");<a name="line.498"></a>
-<span class="sourceLineNo">499</span>  /**<a name="line.499"></a>
-<span class="sourceLineNo">500</span>   * Media type for Extensible Resource Descriptors. This is not yet registered with the IANA, but<a name="line.500"></a>
-<span class="sourceLineNo">501</span>   * it is specified by OASIS in the<a name="line.501"></a>
-<span class="sourceLineNo">502</span>   * &lt;a href="http://docs.oasis-open.org/xri/xrd/v1.0/cd02/xrd-1.0-cd02.html"&gt;XRD definition&lt;/a&gt; and<a name="line.502"></a>
-<span class="sourceLineNo">503</span>   * implemented in projects such as &lt;a href="http://code.google.com/p/webfinger/"&gt;WebFinger&lt;/a&gt;.<a name="line.503"></a>
-<span class="sourceLineNo">504</span>   */<a name="line.504"></a>
-<span class="sourceLineNo">505</span>  public static final MediaType XRD_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xrd+xml");<a name="line.505"></a>
-<span class="sourceLineNo">506</span>  public static final MediaType ZIP = createConstant(APPLICATION_TYPE, "zip");<a name="line.506"></a>
-<span class="sourceLineNo">507</span><a name="line.507"></a>
-<span class="sourceLineNo">508</span>  private final String type;<a name="line.508"></a>
-<span class="sourceLineNo">509</span>  private final String subtype;<a name="line.509"></a>
-<span class="sourceLineNo">510</span>  private final ImmutableListMultimap&lt;String, String&gt; parameters;<a name="line.510"></a>
-<span class="sourceLineNo">511</span><a name="line.511"></a>
-<span class="sourceLineNo">512</span>  private String toString;<a name="line.512"></a>
-<span class="sourceLineNo">513</span><a name="line.513"></a>
-<span class="sourceLineNo">514</span>  private int hashCode;<a name="line.514"></a>
-<span class="sourceLineNo">515</span><a name="line.515"></a>
-<span class="sourceLineNo">516</span>  private MediaType(String type, String subtype, ImmutableListMultimap&lt;String, String&gt; parameters) {<a name="line.516"></a>
-<span class="sourceLineNo">517</span>    this.type = type;<a name="line.517"></a>
-<span class="sourceLineNo">518</span>    this.subtype = subtype;<a name="line.518"></a>
-<span class="sourceLineNo">519</span>    this.parameters = parameters;<a name="line.519"></a>
-<span class="sourceLineNo">520</span>  }<a name="line.520"></a>
-<span class="sourceLineNo">521</span><a name="line.521"></a>
-<span class="sourceLineNo">522</span>  /** Returns the top-level media type. For example, {@code "text"} in {@code "text/plain"}. */<a name="line.522"></a>
-<span class="sourceLineNo">523</span>  public String type() {<a name="line.523"></a>
-<span class="sourceLineNo">524</span>    return type;<a name="line.524"></a>
-<span class="sourceLineNo">525</span>  }<a name="line.525"></a>
-<span class="sourceLineNo">526</span><a name="line.526"></a>
-<span class="sourceLineNo">527</span>  /** Returns the media subtype. For example, {@code "plain"} in {@code "text/plain"}. */<a name="line.527"></a>
-<span class="sourceLineNo">528</span>  public String subtype() {<a name="line.528"></a>
-<span class="sourceLineNo">529</span>    return subtype;<a name="line.529"></a>
-<span class="sourceLineNo">530</span>  }<a name="line.530"></a>
-<span class="sourceLineNo">531</span><a name="line.531"></a>
-<span class="sourceLineNo">532</span>  /** Returns a multimap containing the parameters of this media type. */<a name="line.532"></a>
-<span class="sourceLineNo">533</span>  public ImmutableListMultimap&lt;String, String&gt; parameters() {<a name="line.533"></a>
-<span class="sourceLineNo">534</span>    return parameters;<a name="line.534"></a>
-<span class="sourceLineNo">535</span>  }<a name="line.535"></a>
-<span class="sourceLineNo">536</span><a name="line.536"></a>
-<span class="sourceLineNo">537</span>  private Map&lt;String, ImmutableMultiset&lt;String&gt;&gt; parametersAsMap() {<a name="line.537"></a>
-<span class="sourceLineNo">538</span>    return Maps.transformValues(<a name="line.538"></a>
-<span class="sourceLineNo">539</span>        parameters.asMap(),<a name="line.539"></a>
-<span class="sourceLineNo">540</span>        new Function&lt;Collection&lt;String&gt;, ImmutableMultiset&lt;String&gt;&gt;() {<a name="line.540"></a>
-<span class="sourceLineNo">541</span>          @Override<a name="line.541"></a>
-<span class="sourceLineNo">542</span>          public ImmutableMultiset&lt;String&gt; apply(Collection&lt;String&gt; input) {<a name="line.542"></a>
-<span class="sourceLineNo">543</span>            return ImmutableMultiset.copyOf(input);<a name="line.543"></a>
-<span class="sourceLineNo">544</span>          }<a name="line.544"></a>
-<span class="sourceLineNo">545</span>        });<a name="line.545"></a>
-<span class="sourceLineNo">546</span>  }<a name="line.546"></a>
-<span class="sourceLineNo">547</span><a name="line.547"></a>
-<span class="sourceLineNo">548</span>  /**<a name="line.548"></a>
-<span class="sourceLineNo">549</span>   * Returns an optional charset for the value of the charset parameter if it is specified.<a name="line.549"></a>
-<span class="sourceLineNo">550</span>   *<a name="line.550"></a>
-<span class="sourceLineNo">551</span>   * @throws IllegalStateException if multiple charset values have been set for this media type<a name="line.551"></a>
-<span class="sourceLineNo">552</span>   * @throws IllegalCharsetNameException if a charset value is present, but illegal<a name="line.552"></a>
-<span class="sourceLineNo">553</span>   * @throws UnsupportedCharsetException if a charset value is present, but no support is available<a name="line.553"></a>
-<span class="sourceLineNo">554</span>   *     in this instance of the Java virtual machine<a name="line.554"></a>
-<span class="sourceLineNo">555</span>   */<a name="line.555"></a>
-<span class="sourceLineNo">556</span>  public Optional&lt;Charset&gt; charset() {<a name="line.556"></a>
-<span class="sourceLineNo">557</span>    ImmutableSet&lt;String&gt; charsetValues = ImmutableSet.copyOf(parameters.get(CHARSET_ATTRIBUTE));<a name="line.557"></a>
-<span class="sourceLineNo">558</span>    switch (charsetValues.size()) {<a name="line.558"></a>
-<span class="sourceLineNo">559</span>      case 0:<a name="line.559"></a>
-<span class="sourceLineNo">560</span>        return Optional.absent();<a name="line.560"></a>
-<span class="sourceLineNo">561</span>      case 1:<a name="line.561"></a>
-<span class="sourceLineNo">562</span>        return Optional.of(Charset.forName(Iterables.getOnlyElement(charsetValues)));<a name="line.562"></a>
-<span class="sourceLineNo">563</span>      default:<a name="line.563"></a>
-<span class="sourceLineNo">564</span>        throw new IllegalStateException("Multiple charset values defined: " + charsetValues);<a name="line.564"></a>
-<span class="sourceLineNo">565</span>    }<a name="line.565"></a>
-<span class="sourceLineNo">566</span>  }<a name="line.566"></a>
-<span class="sourceLineNo">567</span><a name="line.567"></a>
-<span class="sourceLineNo">568</span>  /**<a name="line.568"></a>
-<span class="sourceLineNo">569</span>   * Returns a new instance with the same type and subtype as this instance, but without any<a name="line.569"></a>
-<span class="sourceLineNo">570</span>   * parameters.<a name="line.570"></a>
-<span class="sourceLineNo">571</span>   */<a name="line.571"></a>
-<span class="sourceLineNo">572</span>  public MediaType withoutParameters() {<a name="line.572"></a>
-<span class="sourceLineNo">573</span>    return parameters.isEmpty() ? this : create(type, subtype);<a name="line.573"></a>
-<span class="sourceLineNo">574</span>  }<a name="line.574"></a>
-<span class="sourceLineNo">575</span><a name="line.575"></a>
-<span class="sourceLineNo">576</span>  /**<a name="line.576"></a>
-<span class="sourceLineNo">577</span>   * &lt;em&gt;Replaces&lt;/em&gt; all parameters with the given parameters.<a name="line.577"></a>
-<span class="sourceLineNo">578</span>   *<a name="line.578"></a>
-<span class="sourceLineNo">579</span>   * @throws IllegalArgumentException if any parameter or value is invalid<a name="line.579"></a>
-<span class="sourceLineNo">580</span>   */<a name="line.580"></a>
-<span class="sourceLineNo">581</span>  public MediaType withParameters(Multimap&lt;String, String&gt; parameters) {<a name="line.581"></a>
-<span class="sourceLineNo">582</span>    return create(type, subtype, parameters);<a name="line.582"></a>
-<span class="sourceLineNo">583</span>  }<a name="line.583"></a>
-<span class="sourceLineNo">584</span><a name="line.584"></a>
-<span class="sourceLineNo">585</span>  /**<a name="line.585"></a>
-<span class="sourceLineNo">586</span>   * &lt;em&gt;Replaces&lt;/em&gt; all parameters with the given attribute with a single parameter with the<a name="line.586"></a>
-<span class="sourceLineNo">587</span>   * given value. If multiple parameters with the same attributes are necessary use<a name="line.587"></a>
-<span class="sourceLineNo">588</span>   * {@link #withParameters}. Prefer {@link #withCharset} for setting the {@code charset} parameter<a name="line.588"></a>
-<span class="sourceLineNo">589</span>   * when using a {@link Charset} object.<a name="line.589"></a>
-<span class="sourceLineNo">590</span>   *<a name="line.590"></a>
-<span class="sourceLineNo">591</span>   * @throws IllegalArgumentException if either {@code attribute} or {@code value} is invalid<a name="line.591"></a>
-<span class="sourceLineNo">592</span>   */<a name="line.592"></a>
-<span class="sourceLineNo">593</span>  public MediaType withParameter(String attribute, String value) {<a name="line.593"></a>
-<span class="sourceLineNo">594</span>    checkNotNull(attribute);<a name="line.594"></a>
-<span class="sourceLineNo">595</span>    checkNotNull(value);<a name="line.595"></a>
-<span class="sourceLineNo">596</span>    String normalizedAttribute = normalizeToken(attribute);<a name="line.596"></a>
-<span class="sourceLineNo">597</span>    ImmutableListMultimap.Builder&lt;String, String&gt; builder = ImmutableListMultimap.builder();<a name="line.597"></a>
-<span class="sourceLineNo">598</span>    for (Entry&lt;String, String&gt; entry : parameters.entries()) {<a name="line.598"></a>
-<span class="sourceLineNo">599</span>      String key = entry.getKey();<a name="line.599"></a>
-<span class="sourceLineNo">600</span>      if (!normalizedAttribute.equals(key)) {<a name="line.600"></a>
-<span class="sourceLineNo">601</span>        builder.put(key, entry.getValue());<a name="line.601"></a>
-<span class="sourceLineNo">602</span>      }<a name="line.602"></a>
-<span class="sourceLineNo">603</span>    }<a name="line.603"></a>
-<span class="sourceLineNo">604</span>    builder.put(normalizedAttribute, normalizeParameterValue(normalizedAttribute, value));<a name="line.604"></a>
-<span class="sourceLineNo">605</span>    MediaType mediaType = new MediaType(type, subtype, builder.build());<a name="line.605"></a>
-<span class="sourceLineNo">606</span>    // Return one of the constants if the media type is a known type.<a name="line.606"></a>
-<span class="sourceLineNo">607</span>    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);<a name="line.607"></a>
-<span class="sourceLineNo">608</span>  }<a name="line.608"></a>
-<span class="sourceLineNo">609</span><a name="line.609"></a>
-<span class="sourceLineNo">610</span>  /**<a name="line.610"></a>
-<span class="sourceLineNo">611</span>   * Returns a new instance with the same type and subtype as this instance, with the<a name="line.611"></a>
-<span class="sourceLineNo">612</span>   * {@code charset} parameter set to the {@link Charset#name name} of the given charset. Only one<a name="line.612"></a>
-<span class="sourceLineNo">613</span>   * {@code charset} parameter will be present on the new instance regardless of the number set on<a name="line.613"></a>
-<span class="sourceLineNo">614</span>   * this one.<a name="line.614"></a>
-<span class="sourceLineNo">615</span>   *<a name="line.615"></a>
-<span class="sourceLineNo">616</span>   * &lt;p&gt;If a charset must be specified that is not supported on this JVM (and thus is not<a name="line.616"></a>
-<span class="sourceLineNo">617</span>   * representable as a {@link Charset} instance, use {@link #withParameter}.<a name="line.617"></a>
-<span class="sourceLineNo">618</span>   */<a name="line.618"></a>
-<span class="sourceLineNo">619</span>  public MediaType withCharset(Charset charset) {<a name="line.619"></a>
-<span class="sourceLineNo">620</span>    checkNotNull(charset);<a name="line.620"></a>
-<span class="sourceLineNo">621</span>    return withParameter(CHARSET_ATTRIBUTE, charset.name());<a name="line.621"></a>
-<span class="sourceLineNo">622</span>  }<a name="line.622"></a>
-<span class="sourceLineNo">623</span><a name="line.623"></a>
-<span class="sourceLineNo">624</span>  /** Returns true if either the type or subtype is the wildcard. */<a name="line.624"></a>
-<span class="sourceLineNo">625</span>  public boolean hasWildcard() {<a name="line.625"></a>
-<span class="sourceLineNo">626</span>    return WILDCARD.equals(type) || WILDCARD.equals(subtype);<a name="line.626"></a>
-<span class="sourceLineNo">627</span>  }<a name="line.627"></a>
-<span class="sourceLineNo">628</span><a name="line.628"></a>
-<span class="sourceLineNo">629</span>  /**<a name="line.629"></a>
-<span class="sourceLineNo">630</span>   * Returns {@code true} if this instance falls within the range (as defined by<a name="line.630"></a>
-<span class="sourceLineNo">631</span>   * &lt;a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html"&gt;the HTTP Accept header&lt;/a&gt;)<a name="line.631"></a>
-<span class="sourceLineNo">632</span>   * given by the argument according to three criteria:<a name="line.632"></a>
-<span class="sourceLineNo">633</span>   *<a name="line.633"></a>
-<span class="sourceLineNo">634</span>   * &lt;ol&gt;<a name="line.634"></a>
-<span class="sourceLineNo">635</span>   * &lt;li&gt;The type of the argument is the wildcard or equal to the type of this instance.<a name="line.635"></a>
-<span class="sourceLineNo">636</span>   * &lt;li&gt;The subtype of the argument is the wildcard or equal to the subtype of this instance.<a name="line.636"></a>
-<span class="sourceLineNo">637</span>   * &lt;li&gt;All of the parameters present in the argument are present in this instance.<a name="line.637"></a>
-<span class="sourceLineNo">638</span>   * &lt;/ol&gt;<a name="line.638"></a>
-<span class="sourceLineNo">639</span>   *<a name="line.639"></a>
-<span class="sourceLineNo">640</span>   * &lt;p&gt;For example: &lt;pre&gt;   {@code<a name="line.640"></a>
-<span class="sourceLineNo">641</span>   *   PLAIN_TEXT_UTF_8.is(PLAIN_TEXT_UTF_8) // true<a name="line.641"></a>
-<span class="sourceLineNo">642</span>   *   PLAIN_TEXT_UTF_8.is(HTML_UTF_8) // false<a name="line.642"></a>
-<span class="sourceLineNo">643</span>   *   PLAIN_TEXT_UTF_8.is(ANY_TYPE) // true<a name="line.643"></a>
-<span class="sourceLineNo">644</span>   *   PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE) // true<a name="line.644"></a>
-<span class="sourceLineNo">645</span>   *   PLAIN_TEXT_UTF_8.is(ANY_IMAGE_TYPE) // false<a name="line.645"></a>
-<span class="sourceLineNo">646</span>   *   PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_8)) // true<a name="line.646"></a>
-<span class="sourceLineNo">647</span>   *   PLAIN_TEXT_UTF_8.withoutParameters().is(ANY_TEXT_TYPE.withCharset(UTF_8)) // false<a name="line.647"></a>
-<span class="sourceLineNo">648</span>   *   PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_16)) // false}&lt;/pre&gt;<a name="line.648"></a>
-<span class="sourceLineNo">649</span>   *<a name="line.649"></a>
-<span class="sourceLineNo">650</span>   * &lt;p&gt;Note that while it is possible to have the same parameter declared multiple times within a<a name="line.650"></a>
-<span class="sourceLineNo">651</span>   * media type this method does not consider the number of occurrences of a parameter. For example,<a name="line.651"></a>
-<span class="sourceLineNo">652</span>   * {@code "text/plain; charset=UTF-8"} satisfies<a name="line.652"></a>
-<span class="sourceLineNo">653</span>   * {@code "text/plain; charset=UTF-8; charset=UTF-8"}.<a name="line.653"></a>
-<span class="sourceLineNo">654</span>   */<a name="line.654"></a>
-<span class="sourceLineNo">655</span>  public boolean is(MediaType mediaTypeRange) {<a name="line.655"></a>
-<span class="sourceLineNo">656</span>    return (mediaTypeRange.type.equals(WILDCARD) || mediaTypeRange.type.equals(this.type))<a name="line.656"></a>
-<span class="sourceLineNo">657</span>        &amp;&amp; (mediaTypeRange.subtype.equals(WILDCARD) || mediaTypeRange.subtype.equals(this.subtype))<a name="line.657"></a>
-<span class="sourceLineNo">658</span>        &amp;&amp; this.parameters.entries().containsAll(mediaTypeRange.parameters.entries());<a name="line.658"></a>
-<span class="sourceLineNo">659</span>  }<a name="line.659"></a>
-<span class="sourceLineNo">660</span><a name="line.660"></a>
-<span class="sourceLineNo">661</span>  /**<a name="line.661"></a>
-<span class="sourceLineNo">662</span>   * Creates a new media type with the given type and subtype.<a name="line.662"></a>
-<span class="sourceLineNo">663</span>   *<a name="line.663"></a>
-<span class="sourceLineNo">664</span>   * @throws IllegalArgumentException if type or subtype is invalid or if a wildcard is used for the<a name="line.664"></a>
-<span class="sourceLineNo">665</span>   *     type, but not the subtype.<a name="line.665"></a>
-<span class="sourceLineNo">666</span>   */<a name="line.666"></a>
-<span class="sourceLineNo">667</span>  public static MediaType create(String type, String subtype) {<a name="line.667"></a>
-<span class="sourceLineNo">668</span>    return create(type, subtype, ImmutableListMultimap.&lt;String, String&gt;of());<a name="line.668"></a>
-<span class="sourceLineNo">669</span>  }<a name="line.669"></a>
-<span class="sourceLineNo">670</span><a name="line.670"></a>
-<span class="sourceLineNo">671</span>  /**<a name="line.671"></a>
-<span class="sourceLineNo">672</span>   * Creates a media type with the "application" type and the given subtype.<a name="line.672"></a>
-<span class="sourceLineNo">673</span>   *<a name="line.673"></a>
-<span class="sourceLineNo">674</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.674"></a>
-<span class="sourceLineNo">675</span>   */<a name="line.675"></a>
-<span class="sourceLineNo">676</span>  static MediaType createApplicationType(String subtype) {<a name="line.676"></a>
-<span class="sourceLineNo">677</span>    return create(APPLICATION_TYPE, subtype);<a name="line.677"></a>
-<span class="sourceLineNo">678</span>  }<a name="line.678"></a>
-<span class="sourceLineNo">679</span><a name="line.679"></a>
-<span class="sourceLineNo">680</span>  /**<a name="line.680"></a>
-<span class="sourceLineNo">681</span>   * Creates a media type with the "audio" type and the given subtype.<a name="line.681"></a>
-<span class="sourceLineNo">682</span>   *<a name="line.682"></a>
-<span class="sourceLineNo">683</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.683"></a>
-<span class="sourceLineNo">684</span>   */<a name="line.684"></a>
-<span class="sourceLineNo">685</span>  static MediaType createAudioType(String subtype) {<a name="line.685"></a>
-<span class="sourceLineNo">686</span>    return create(AUDIO_TYPE, subtype);<a name="line.686"></a>
-<span class="sourceLineNo">687</span>  }<a name="line.687"></a>
-<span class="sourceLineNo">688</span><a name="line.688"></a>
-<span class="sourceLineNo">689</span>  /**<a name="line.689"></a>
-<span class="sourceLineNo">690</span>   * Creates a media type with the "image" type and the given subtype.<a name="line.690"></a>
-<span class="sourceLineNo">691</span>   *<a name="line.691"></a>
-<span class="sourceLineNo">692</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.692"></a>
-<span class="sourceLineNo">693</span>   */<a name="line.693"></a>
-<span class="sourceLineNo">694</span>  static MediaType createImageType(String subtype) {<a name="line.694"></a>
-<span class="sourceLineNo">695</span>    return create(IMAGE_TYPE, subtype);<a name="line.695"></a>
-<span class="sourceLineNo">696</span>  }<a name="line.696"></a>
-<span class="sourceLineNo">697</span><a name="line.697"></a>
-<span class="sourceLineNo">698</span>  /**<a name="line.698"></a>
-<span class="sourceLineNo">699</span>   * Creates a media type with the "text" type and the given subtype.<a name="line.699"></a>
-<span class="sourceLineNo">700</span>   *<a name="line.700"></a>
-<span class="sourceLineNo">701</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.701"></a>
-<span class="sourceLineNo">702</span>   */<a name="line.702"></a>
-<span class="sourceLineNo">703</span>  static MediaType createTextType(String subtype) {<a name="line.703"></a>
-<span class="sourceLineNo">704</span>    return create(TEXT_TYPE, subtype);<a name="line.704"></a>
-<span class="sourceLineNo">705</span>  }<a name="line.705"></a>
-<span class="sourceLineNo">706</span><a name="line.706"></a>
-<span class="sourceLineNo">707</span>  /**<a name="line.707"></a>
-<span class="sourceLineNo">708</span>   * Creates a media type with the "video" type and the given subtype.<a name="line.708"></a>
-<span class="sourceLineNo">709</span>   *<a name="line.709"></a>
-<span class="sourceLineNo">710</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.710"></a>
-<span class="sourceLineNo">711</span>   */<a name="line.711"></a>
-<span class="sourceLineNo">712</span>  static MediaType createVideoType(String subtype) {<a name="line.712"></a>
-<span class="sourceLineNo">713</span>    return create(VIDEO_TYPE, subtype);<a name="line.713"></a>
-<span class="sourceLineNo">714</span>  }<a name="line.714"></a>
-<span class="sourceLineNo">715</span><a name="line.715"></a>
-<span class="sourceLineNo">716</span>  private static MediaType create(<a name="line.716"></a>
-<span class="sourceLineNo">717</span>      String type, String subtype, Multimap&lt;String, String&gt; parameters) {<a name="line.717"></a>
-<span class="sourceLineNo">718</span>    checkNotNull(type);<a name="line.718"></a>
-<span class="sourceLineNo">719</span>    checkNotNull(subtype);<a name="line.719"></a>
-<span class="sourceLineNo">720</span>    checkNotNull(parameters);<a name="line.720"></a>
-<span class="sourceLineNo">721</span>    String normalizedType = normalizeToken(type);<a name="line.721"></a>
-<span class="sourceLineNo">722</span>    String normalizedSubtype = normalizeToken(subtype);<a name="line.722"></a>
-<span class="sourceLineNo">723</span>    checkArgument(<a name="line.723"></a>
-<span class="sourceLineNo">724</span>        !WILDCARD.equals(normalizedType) || WILDCARD.equals(normalizedSubtype),<a name="line.724"></a>
-<span class="sourceLineNo">725</span>        "A wildcard type cannot be used with a non-wildcard subtype");<a name="line.725"></a>
-<span class="sourceLineNo">726</span>    ImmutableListMultimap.Builder&lt;String, String&gt; builder = ImmutableListMultimap.builder();<a name="line.726"></a>
-<span class="sourceLineNo">727</span>    for (Entry&lt;String, String&gt; entry : parameters.entries()) {<a name="line.727"></a>
-<span class="sourceLineNo">728</span>      String attribute = normalizeToken(entry.getKey());<a name="line.728"></a>
-<span class="sourceLineNo">729</span>      builder.put(attribute, normalizeParameterValue(attribute, entry.getValue()));<a name="line.729"></a>
-<span class="sourceLineNo">730</span>    }<a name="line.730"></a>
-<span class="sourceLineNo">731</span>    MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());<a name="line.731"></a>
-<span class="sourceLineNo">732</span>    // Return one of the constants if the media type is a known type.<a name="line.732"></a>
-<span class="sourceLineNo">733</span>    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);<a name="line.733"></a>
-<span class="sourceLineNo">734</span>  }<a name="line.734"></a>
-<span class="sourceLineNo">735</span><a name="line.735"></a>
-<span class="sourceLineNo">736</span>  private static String normalizeToken(String token) {<a name="line.736"></a>
-<span class="sourceLineNo">737</span>    checkArgument(TOKEN_MATCHER.matchesAllOf(token));<a name="line.737"></a>
-<span class="sourceLineNo">738</span>    return Ascii.toLowerCase(token);<a name="line.738"></a>
-<span class="sourceLineNo">739</span>  }<a name="line.739"></a>
-<span class="sourceLineNo">740</span><a name="line.740"></a>
-<span class="sourceLineNo">741</span>  private static String normalizeParameterValue(String attribute, String value) {<a name="line.741"></a>
-<span class="sourceLineNo">742</span>    return CHARSET_ATTRIBUTE.equals(attribute) ? Ascii.toLowerCase(value) : value;<a name="line.742"></a>
-<span class="sourceLineNo">743</span>  }<a name="line.743"></a>
-<span class="sourceLineNo">744</span><a name="line.744"></a>
-<span class="sourceLineNo">745</span>  /**<a name="line.745"></a>
-<span class="sourceLineNo">746</span>   * Parses a media type from its string representation.<a name="line.746"></a>
-<span class="sourceLineNo">747</span>   *<a name="line.747"></a>
-<span class="sourceLineNo">748</span>   * @throws IllegalArgumentException if the input is not parsable<a name="line.748"></a>
-<span class="sourceLineNo">749</span>   */<a name="line.749"></a>
-<span class="sourceLineNo">750</span>  public static MediaType parse(String input) {<a name="line.750"></a>
-<span class="sourceLineNo">751</span>    checkNotNull(input);<a name="line.751"></a>
-<span class="sourceLineNo">752</span>    Tokenizer tokenizer = new Tokenizer(input);<a name="line.752"></a>
-<span class="sourceLineNo">753</span>    try {<a name="line.753"></a>
-<span class="sourceLineNo">754</span>      String type = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.754"></a>
-<span class="sourceLineNo">755</span>      tokenizer.consumeCharacter('/');<a name="line.755"></a>
-<span class="sourceLineNo">756</span>      String subtype = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.756"></a>
-<span class="sourceLineNo">757</span>      ImmutableListMultimap.Builder&lt;String, String&gt; parameters = ImmutableListMultimap.builder();<a name="line.757"></a>
-<span class="sourceLineNo">758</span>      while (tokenizer.hasMore()) {<a name="line.758"></a>
-<span class="sourceLineNo">759</span>        tokenizer.consumeCharacter(';');<a name="line.759"></a>
-<span class="sourceLineNo">760</span>        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);<a name="line.760"></a>
-<span class="sourceLineNo">761</span>        String attribute = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.761"></a>
-<span class="sourceLineNo">762</span>        tokenizer.consumeCharacter('=');<a name="line.762"></a>
-<span class="sourceLineNo">763</span>        final String value;<a name="line.763"></a>
-<span class="sourceLineNo">764</span>        if ('"' == tokenizer.previewChar()) {<a name="line.764"></a>
-<span class="sourceLineNo">765</span>          tokenizer.consumeCharacter('"');<a name="line.765"></a>
-<span class="sourceLineNo">766</span>          StringBuilder valueBuilder = new StringBuilder();<a name="line.766"></a>
-<span class="sourceLineNo">767</span>          while ('"' != tokenizer.previewChar()) {<a name="line.767"></a>
-<span class="sourceLineNo">768</span>            if ('\\' == tokenizer.previewChar()) {<a name="line.768"></a>
-<span class="sourceLineNo">769</span>              tokenizer.consumeCharacter('\\');<a name="line.769"></a>
-<span class="sourceLineNo">770</span>              valueBuilder.append(tokenizer.consumeCharacter(ascii()));<a name="line.770"></a>
-<span class="sourceLineNo">771</span>            } else {<a name="line.771"></a>
-<span class="sourceLineNo">772</span>              valueBuilder.append(tokenizer.consumeToken(QUOTED_TEXT_MATCHER));<a name="line.772"></a>
-<span class="sourceLineNo">773</span>            }<a name="line.773"></a>
-<span class="sourceLineNo">774</span>          }<a name="line.774"></a>
-<span class="sourceLineNo">775</span>          value = valueBuilder.toString();<a name="line.775"></a>
-<span class="sourceLineNo">776</span>          tokenizer.consumeCharacter('"');<a name="line.776"></a>
-<span class="sourceLineNo">777</span>        } else {<a name="line.777"></a>
-<span class="sourceLineNo">778</span>          value = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.778"></a>
-<span class="sourceLineNo">779</span>        }<a name="line.779"></a>
-<span class="sourceLineNo">780</span>        parameters.put(attribute, value);<a name="line.780"></a>
-<span class="sourceLineNo">781</span>      }<a name="line.781"></a>
-<span class="sourceLineNo">782</span>      return create(type, subtype, parameters.build());<a name="line.782"></a>
-<span class="sourceLineNo">783</span>    } catch (IllegalStateException e) {<a name="line.783"></a>
-<span class="sourceLineNo">784</span>      throw new IllegalArgumentException("Could not parse '" + input + "'", e);<a name="line.784"></a>
-<span class="sourceLineNo">785</span>    }<a name="line.785"></a>
-<span class="sourceLineNo">786</span>  }<a name="line.786"></a>
-<span class="sourceLineNo">787</span><a name="line.787"></a>
-<span class="sourceLineNo">788</span>  private static final class Tokenizer {<a name="line.788"></a>
-<span class="sourceLineNo">789</span>    final String input;<a name="line.789"></a>
-<span class="sourceLineNo">790</span>    int position = 0;<a name="line.790"></a>
-<span class="sourceLineNo">791</span><a name="line.791"></a>
-<span class="sourceLineNo">792</span>    Tokenizer(String input) {<a name="line.792"></a>
-<span class="sourceLineNo">793</span>      this.input = input;<a name="line.793"></a>
-<span class="sourceLineNo">794</span>    }<a name="line.794"></a>
-<span class="sourceLineNo">795</span><a name="line.795"></a>
-<span class="sourceLineNo">796</span>    String consumeTokenIfPresent(CharMatcher matcher) {<a name="line.796"></a>
-<span class="sourceLineNo">797</span>      checkState(hasMore());<a name="line.797"></a>
-<span class="sourceLineNo">798</span>      int startPosition = position;<a name="line.798"></a>
-<span class="sourceLineNo">799</span>      position = matcher.negate().indexIn(input, startPosition);<a name="line.799"></a>
-<span class="sourceLineNo">800</span>      return hasMore() ? input.substring(startPosition, position) : input.substring(startPosition);<a name="line.800"></a>
+<span class="sourceLineNo">498</span>  /**<a name="line.498"></a>
+<span class="sourceLineNo">499</span>   * Media type for the &lt;a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format"&gt;Web Open Font<a name="line.499"></a>
+<span class="sourceLineNo">500</span>   * Format&lt;/a&gt; (WOFF) version 2 &lt;a href="https://www.w3.org/TR/WOFF2/"&gt;defined&lt;/a&gt; by the W3C.<a name="line.500"></a>
+<span class="sourceLineNo">501</span>   *<a name="line.501"></a>
+<span class="sourceLineNo">502</span>   * @since 20.0<a name="line.502"></a>
+<span class="sourceLineNo">503</span>   */<a name="line.503"></a>
+<span class="sourceLineNo">504</span>  public static final MediaType WOFF2 = createConstant(APPLICATION_TYPE, "font-woff2");<a name="line.504"></a>
+<span class="sourceLineNo">505</span>  public static final MediaType XHTML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xhtml+xml");<a name="line.505"></a>
+<span class="sourceLineNo">506</span>  /**<a name="line.506"></a>
+<span class="sourceLineNo">507</span>   * Media type for Extensible Resource Descriptors. This is not yet registered with the IANA, but<a name="line.507"></a>
+<span class="sourceLineNo">508</span>   * it is specified by OASIS in the<a name="line.508"></a>
+<span class="sourceLineNo">509</span>   * &lt;a href="http://docs.oasis-open.org/xri/xrd/v1.0/cd02/xrd-1.0-cd02.html"&gt;XRD definition&lt;/a&gt; and<a name="line.509"></a>
+<span class="sourceLineNo">510</span>   * implemented in projects such as &lt;a href="http://code.google.com/p/webfinger/"&gt;WebFinger&lt;/a&gt;.<a name="line.510"></a>
+<span class="sourceLineNo">511</span>   */<a name="line.511"></a>
+<span class="sourceLineNo">512</span>  public static final MediaType XRD_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xrd+xml");<a name="line.512"></a>
+<span class="sourceLineNo">513</span>  public static final MediaType ZIP = createConstant(APPLICATION_TYPE, "zip");<a name="line.513"></a>
+<span class="sourceLineNo">514</span><a name="line.514"></a>
+<span class="sourceLineNo">515</span>  private final String type;<a name="line.515"></a>
+<span class="sourceLineNo">516</span>  private final String subtype;<a name="line.516"></a>
+<span class="sourceLineNo">517</span>  private final ImmutableListMultimap&lt;String, String&gt; parameters;<a name="line.517"></a>
+<span class="sourceLineNo">518</span><a name="line.518"></a>
+<span class="sourceLineNo">519</span>  private String toString;<a name="line.519"></a>
+<span class="sourceLineNo">520</span><a name="line.520"></a>
+<span class="sourceLineNo">521</span>  private int hashCode;<a name="line.521"></a>
+<span class="sourceLineNo">522</span><a name="line.522"></a>
+<span class="sourceLineNo">523</span>  private MediaType(String type, String subtype, ImmutableListMultimap&lt;String, String&gt; parameters) {<a name="line.523"></a>
+<span class="sourceLineNo">524</span>    this.type = type;<a name="line.524"></a>
+<span class="sourceLineNo">525</span>    this.subtype = subtype;<a name="line.525"></a>
+<span class="sourceLineNo">526</span>    this.parameters = parameters;<a name="line.526"></a>
+<span class="sourceLineNo">527</span>  }<a name="line.527"></a>
+<span class="sourceLineNo">528</span><a name="line.528"></a>
+<span class="sourceLineNo">529</span>  /** Returns the top-level media type. For example, {@code "text"} in {@code "text/plain"}. */<a name="line.529"></a>
+<span class="sourceLineNo">530</span>  public String type() {<a name="line.530"></a>
+<span class="sourceLineNo">531</span>    return type;<a name="line.531"></a>
+<span class="sourceLineNo">532</span>  }<a name="line.532"></a>
+<span class="sourceLineNo">533</span><a name="line.533"></a>
+<span class="sourceLineNo">534</span>  /** Returns the media subtype. For example, {@code "plain"} in {@code "text/plain"}. */<a name="line.534"></a>
+<span class="sourceLineNo">535</span>  public String subtype() {<a name="line.535"></a>
+<span class="sourceLineNo">536</span>    return subtype;<a name="line.536"></a>
+<span class="sourceLineNo">537</span>  }<a name="line.537"></a>
+<span class="sourceLineNo">538</span><a name="line.538"></a>
+<span class="sourceLineNo">539</span>  /** Returns a multimap containing the parameters of this media type. */<a name="line.539"></a>
+<span class="sourceLineNo">540</span>  public ImmutableListMultimap&lt;String, String&gt; parameters() {<a name="line.540"></a>
+<span class="sourceLineNo">541</span>    return parameters;<a name="line.541"></a>
+<span class="sourceLineNo">542</span>  }<a name="line.542"></a>
+<span class="sourceLineNo">543</span><a name="line.543"></a>
+<span class="sourceLineNo">544</span>  private Map&lt;String, ImmutableMultiset&lt;String&gt;&gt; parametersAsMap() {<a name="line.544"></a>
+<span class="sourceLineNo">545</span>    return Maps.transformValues(<a name="line.545"></a>
+<span class="sourceLineNo">546</span>        parameters.asMap(),<a name="line.546"></a>
+<span class="sourceLineNo">547</span>        new Function&lt;Collection&lt;String&gt;, ImmutableMultiset&lt;String&gt;&gt;() {<a name="line.547"></a>
+<span class="sourceLineNo">548</span>          @Override<a name="line.548"></a>
+<span class="sourceLineNo">549</span>          public ImmutableMultiset&lt;String&gt; apply(Collection&lt;String&gt; input) {<a name="line.549"></a>
+<span class="sourceLineNo">550</span>            return ImmutableMultiset.copyOf(input);<a name="line.550"></a>
+<span class="sourceLineNo">551</span>          }<a name="line.551"></a>
+<span class="sourceLineNo">552</span>        });<a name="line.552"></a>
+<span class="sourceLineNo">553</span>  }<a name="line.553"></a>
+<span class="sourceLineNo">554</span><a name="line.554"></a>
+<span class="sourceLineNo">555</span>  /**<a name="line.555"></a>
+<span class="sourceLineNo">556</span>   * Returns an optional charset for the value of the charset parameter if it is specified.<a name="line.556"></a>
+<span class="sourceLineNo">557</span>   *<a name="line.557"></a>
+<span class="sourceLineNo">558</span>   * @throws IllegalStateException if multiple charset values have been set for this media type<a name="line.558"></a>
+<span class="sourceLineNo">559</span>   * @throws IllegalCharsetNameException if a charset value is present, but illegal<a name="line.559"></a>
+<span class="sourceLineNo">560</span>   * @throws UnsupportedCharsetException if a charset value is present, but no support is available<a name="line.560"></a>
+<span class="sourceLineNo">561</span>   *     in this instance of the Java virtual machine<a name="line.561"></a>
+<span class="sourceLineNo">562</span>   */<a name="line.562"></a>
+<span class="sourceLineNo">563</span>  public Optional&lt;Charset&gt; charset() {<a name="line.563"></a>
+<span class="sourceLineNo">564</span>    ImmutableSet&lt;String&gt; charsetValues = ImmutableSet.copyOf(parameters.get(CHARSET_ATTRIBUTE));<a name="line.564"></a>
+<span class="sourceLineNo">565</span>    switch (charsetValues.size()) {<a name="line.565"></a>
+<span class="sourceLineNo">566</span>      case 0:<a name="line.566"></a>
+<span class="sourceLineNo">567</span>        return Optional.absent();<a name="line.567"></a>
+<span class="sourceLineNo">568</span>      case 1:<a name="line.568"></a>
+<span class="sourceLineNo">569</span>        return Optional.of(Charset.forName(Iterables.getOnlyElement(charsetValues)));<a name="line.569"></a>
+<span class="sourceLineNo">570</span>      default:<a name="line.570"></a>
+<span class="sourceLineNo">571</span>        throw new IllegalStateException("Multiple charset values defined: " + charsetValues);<a name="line.571"></a>
+<span class="sourceLineNo">572</span>    }<a name="line.572"></a>
+<span class="sourceLineNo">573</span>  }<a name="line.573"></a>
+<span class="sourceLineNo">574</span><a name="line.574"></a>
+<span class="sourceLineNo">575</span>  /**<a name="line.575"></a>
+<span class="sourceLineNo">576</span>   * Returns a new instance with the same type and subtype as this instance, but without any<a name="line.576"></a>
+<span class="sourceLineNo">577</span>   * parameters.<a name="line.577"></a>
+<span class="sourceLineNo">578</span>   */<a name="line.578"></a>
+<span class="sourceLineNo">579</span>  public MediaType withoutParameters() {<a name="line.579"></a>
+<span class="sourceLineNo">580</span>    return parameters.isEmpty() ? this : create(type, subtype);<a name="line.580"></a>
+<span class="sourceLineNo">581</span>  }<a name="line.581"></a>
+<span class="sourceLineNo">582</span><a name="line.582"></a>
+<span class="sourceLineNo">583</span>  /**<a name="line.583"></a>
+<span class="sourceLineNo">584</span>   * &lt;em&gt;Replaces&lt;/em&gt; all parameters with the given parameters.<a name="line.584"></a>
+<span class="sourceLineNo">585</span>   *<a name="line.585"></a>
+<span class="sourceLineNo">586</span>   * @throws IllegalArgumentException if any parameter or value is invalid<a name="line.586"></a>
+<span class="sourceLineNo">587</span>   */<a name="line.587"></a>
+<span class="sourceLineNo">588</span>  public MediaType withParameters(Multimap&lt;String, String&gt; parameters) {<a name="line.588"></a>
+<span class="sourceLineNo">589</span>    return create(type, subtype, parameters);<a name="line.589"></a>
+<span class="sourceLineNo">590</span>  }<a name="line.590"></a>
+<span class="sourceLineNo">591</span><a name="line.591"></a>
+<span class="sourceLineNo">592</span>  /**<a name="line.592"></a>
+<span class="sourceLineNo">593</span>   * &lt;em&gt;Replaces&lt;/em&gt; all parameters with the given attribute with a single parameter with the<a name="line.593"></a>
+<span class="sourceLineNo">594</span>   * given value. If multiple parameters with the same attributes are necessary use<a name="line.594"></a>
+<span class="sourceLineNo">595</span>   * {@link #withParameters}. Prefer {@link #withCharset} for setting the {@code charset} parameter<a name="line.595"></a>
+<span class="sourceLineNo">596</span>   * when using a {@link Charset} object.<a name="line.596"></a>
+<span class="sourceLineNo">597</span>   *<a name="line.597"></a>
+<span class="sourceLineNo">598</span>   * @throws IllegalArgumentException if either {@code attribute} or {@code value} is invalid<a name="line.598"></a>
+<span class="sourceLineNo">599</span>   */<a name="line.599"></a>
+<span class="sourceLineNo">600</span>  public MediaType withParameter(String attribute, String value) {<a name="line.600"></a>
+<span class="sourceLineNo">601</span>    checkNotNull(attribute);<a name="line.601"></a>
+<span class="sourceLineNo">602</span>    checkNotNull(value);<a name="line.602"></a>
+<span class="sourceLineNo">603</span>    String normalizedAttribute = normalizeToken(attribute);<a name="line.603"></a>
+<span class="sourceLineNo">604</span>    ImmutableListMultimap.Builder&lt;String, String&gt; builder = ImmutableListMultimap.builder();<a name="line.604"></a>
+<span class="sourceLineNo">605</span>    for (Entry&lt;String, String&gt; entry : parameters.entries()) {<a name="line.605"></a>
+<span class="sourceLineNo">606</span>      String key = entry.getKey();<a name="line.606"></a>
+<span class="sourceLineNo">607</span>      if (!normalizedAttribute.equals(key)) {<a name="line.607"></a>
+<span class="sourceLineNo">608</span>        builder.put(key, entry.getValue());<a name="line.608"></a>
+<span class="sourceLineNo">609</span>      }<a name="line.609"></a>
+<span class="sourceLineNo">610</span>    }<a name="line.610"></a>
+<span class="sourceLineNo">611</span>    builder.put(normalizedAttribute, normalizeParameterValue(normalizedAttribute, value));<a name="line.611"></a>
+<span class="sourceLineNo">612</span>    MediaType mediaType = new MediaType(type, subtype, builder.build());<a name="line.612"></a>
+<span class="sourceLineNo">613</span>    // Return one of the constants if the media type is a known type.<a name="line.613"></a>
+<span class="sourceLineNo">614</span>    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);<a name="line.614"></a>
+<span class="sourceLineNo">615</span>  }<a name="line.615"></a>
+<span class="sourceLineNo">616</span><a name="line.616"></a>
+<span class="sourceLineNo">617</span>  /**<a name="line.617"></a>
+<span class="sourceLineNo">618</span>   * Returns a new instance with the same type and subtype as this instance, with the<a name="line.618"></a>
+<span class="sourceLineNo">619</span>   * {@code charset} parameter set to the {@link Charset#name name} of the given charset. Only one<a name="line.619"></a>
+<span class="sourceLineNo">620</span>   * {@code charset} parameter will be present on the new instance regardless of the number set on<a name="line.620"></a>
+<span class="sourceLineNo">621</span>   * this one.<a name="line.621"></a>
+<span class="sourceLineNo">622</span>   *<a name="line.622"></a>
+<span class="sourceLineNo">623</span>   * &lt;p&gt;If a charset must be specified that is not supported on this JVM (and thus is not<a name="line.623"></a>
+<span class="sourceLineNo">624</span>   * representable as a {@link Charset} instance, use {@link #withParameter}.<a name="line.624"></a>
+<span class="sourceLineNo">625</span>   */<a name="line.625"></a>
+<span class="sourceLineNo">626</span>  public MediaType withCharset(Charset charset) {<a name="line.626"></a>
+<span class="sourceLineNo">627</span>    checkNotNull(charset);<a name="line.627"></a>
+<span class="sourceLineNo">628</span>    return withParameter(CHARSET_ATTRIBUTE, charset.name());<a name="line.628"></a>
+<span class="sourceLineNo">629</span>  }<a name="line.629"></a>
+<span class="sourceLineNo">630</span><a name="line.630"></a>
+<span class="sourceLineNo">631</span>  /** Returns true if either the type or subtype is the wildcard. */<a name="line.631"></a>
+<span class="sourceLineNo">632</span>  public boolean hasWildcard() {<a name="line.632"></a>
+<span class="sourceLineNo">633</span>    return WILDCARD.equals(type) || WILDCARD.equals(subtype);<a name="line.633"></a>
+<span class="sourceLineNo">634</span>  }<a name="line.634"></a>
+<span class="sourceLineNo">635</span><a name="line.635"></a>
+<span class="sourceLineNo">636</span>  /**<a name="line.636"></a>
+<span class="sourceLineNo">637</span>   * Returns {@code true} if this instance falls within the range (as defined by<a name="line.637"></a>
+<span class="sourceLineNo">638</span>   * &lt;a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html"&gt;the HTTP Accept header&lt;/a&gt;)<a name="line.638"></a>
+<span class="sourceLineNo">639</span>   * given by the argument according to three criteria:<a name="line.639"></a>
+<span class="sourceLineNo">640</span>   *<a name="line.640"></a>
+<span class="sourceLineNo">641</span>   * &lt;ol&gt;<a name="line.641"></a>
+<span class="sourceLineNo">642</span>   * &lt;li&gt;The type of the argument is the wildcard or equal to the type of this instance.<a name="line.642"></a>
+<span class="sourceLineNo">643</span>   * &lt;li&gt;The subtype of the argument is the wildcard or equal to the subtype of this instance.<a name="line.643"></a>
+<span class="sourceLineNo">644</span>   * &lt;li&gt;All of the parameters present in the argument are present in this instance.<a name="line.644"></a>
+<span class="sourceLineNo">645</span>   * &lt;/ol&gt;<a name="line.645"></a>
+<span class="sourceLineNo">646</span>   *<a name="line.646"></a>
+<span class="sourceLineNo">647</span>   * &lt;p&gt;For example: &lt;pre&gt;   {@code<a name="line.647"></a>
+<span class="sourceLineNo">648</span>   *   PLAIN_TEXT_UTF_8.is(PLAIN_TEXT_UTF_8) // true<a name="line.648"></a>
+<span class="sourceLineNo">649</span>   *   PLAIN_TEXT_UTF_8.is(HTML_UTF_8) // false<a name="line.649"></a>
+<span class="sourceLineNo">650</span>   *   PLAIN_TEXT_UTF_8.is(ANY_TYPE) // true<a name="line.650"></a>
+<span class="sourceLineNo">651</span>   *   PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE) // true<a name="line.651"></a>
+<span class="sourceLineNo">652</span>   *   PLAIN_TEXT_UTF_8.is(ANY_IMAGE_TYPE) // false<a name="line.652"></a>
+<span class="sourceLineNo">653</span>   *   PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_8)) // true<a name="line.653"></a>
+<span class="sourceLineNo">654</span>   *   PLAIN_TEXT_UTF_8.withoutParameters().is(ANY_TEXT_TYPE.withCharset(UTF_8)) // false<a name="line.654"></a>
+<span class="sourceLineNo">655</span>   *   PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_16)) // false}&lt;/pre&gt;<a name="line.655"></a>
+<span class="sourceLineNo">656</span>   *<a name="line.656"></a>
+<span class="sourceLineNo">657</span>   * &lt;p&gt;Note that while it is possible to have the same parameter declared multiple times within a<a name="line.657"></a>
+<span class="sourceLineNo">658</span>   * media type this method does not consider the number of occurrences of a parameter. For example,<a name="line.658"></a>
+<span class="sourceLineNo">659</span>   * {@code "text/plain; charset=UTF-8"} satisfies<a name="line.659"></a>
+<span class="sourceLineNo">660</span>   * {@code "text/plain; charset=UTF-8; charset=UTF-8"}.<a name="line.660"></a>
+<span class="sourceLineNo">661</span>   */<a name="line.661"></a>
+<span class="sourceLineNo">662</span>  public boolean is(MediaType mediaTypeRange) {<a name="line.662"></a>
+<span class="sourceLineNo">663</span>    return (mediaTypeRange.type.equals(WILDCARD) || mediaTypeRange.type.equals(this.type))<a name="line.663"></a>
+<span class="sourceLineNo">664</span>        &amp;&amp; (mediaTypeRange.subtype.equals(WILDCARD) || mediaTypeRange.subtype.equals(this.subtype))<a name="line.664"></a>
+<span class="sourceLineNo">665</span>        &amp;&amp; this.parameters.entries().containsAll(mediaTypeRange.parameters.entries());<a name="line.665"></a>
+<span class="sourceLineNo">666</span>  }<a name="line.666"></a>
+<span class="sourceLineNo">667</span><a name="line.667"></a>
+<span class="sourceLineNo">668</span>  /**<a name="line.668"></a>
+<span class="sourceLineNo">669</span>   * Creates a new media type with the given type and subtype.<a name="line.669"></a>
+<span class="sourceLineNo">670</span>   *<a name="line.670"></a>
+<span class="sourceLineNo">671</span>   * @throws IllegalArgumentException if type or subtype is invalid or if a wildcard is used for the<a name="line.671"></a>
+<span class="sourceLineNo">672</span>   *     type, but not the subtype.<a name="line.672"></a>
+<span class="sourceLineNo">673</span>   */<a name="line.673"></a>
+<span class="sourceLineNo">674</span>  public static MediaType create(String type, String subtype) {<a name="line.674"></a>
+<span class="sourceLineNo">675</span>    return create(type, subtype, ImmutableListMultimap.&lt;String, String&gt;of());<a name="line.675"></a>
+<span class="sourceLineNo">676</span>  }<a name="line.676"></a>
+<span class="sourceLineNo">677</span><a name="line.677"></a>
+<span class="sourceLineNo">678</span>  /**<a name="line.678"></a>
+<span class="sourceLineNo">679</span>   * Creates a media type with the "application" type and the given subtype.<a name="line.679"></a>
+<span class="sourceLineNo">680</span>   *<a name="line.680"></a>
+<span class="sourceLineNo">681</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.681"></a>
+<span class="sourceLineNo">682</span>   */<a name="line.682"></a>
+<span class="sourceLineNo">683</span>  static MediaType createApplicationType(String subtype) {<a name="line.683"></a>
+<span class="sourceLineNo">684</span>    return create(APPLICATION_TYPE, subtype);<a name="line.684"></a>
+<span class="sourceLineNo">685</span>  }<a name="line.685"></a>
+<span class="sourceLineNo">686</span><a name="line.686"></a>
+<span class="sourceLineNo">687</span>  /**<a name="line.687"></a>
+<span class="sourceLineNo">688</span>   * Creates a media type with the "audio" type and the given subtype.<a name="line.688"></a>
+<span class="sourceLineNo">689</span>   *<a name="line.689"></a>
+<span class="sourceLineNo">690</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.690"></a>
+<span class="sourceLineNo">691</span>   */<a name="line.691"></a>
+<span class="sourceLineNo">692</span>  static MediaType createAudioType(String subtype) {<a name="line.692"></a>
+<span class="sourceLineNo">693</span>    return create(AUDIO_TYPE, subtype);<a name="line.693"></a>
+<span class="sourceLineNo">694</span>  }<a name="line.694"></a>
+<span class="sourceLineNo">695</span><a name="line.695"></a>
+<span class="sourceLineNo">696</span>  /**<a name="line.696"></a>
+<span class="sourceLineNo">697</span>   * Creates a media type with the "image" type and the given subtype.<a name="line.697"></a>
+<span class="sourceLineNo">698</span>   *<a name="line.698"></a>
+<span class="sourceLineNo">699</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.699"></a>
+<span class="sourceLineNo">700</span>   */<a name="line.700"></a>
+<span class="sourceLineNo">701</span>  static MediaType createImageType(String subtype) {<a name="line.701"></a>
+<span class="sourceLineNo">702</span>    return create(IMAGE_TYPE, subtype);<a name="line.702"></a>
+<span class="sourceLineNo">703</span>  }<a name="line.703"></a>
+<span class="sourceLineNo">704</span><a name="line.704"></a>
+<span class="sourceLineNo">705</span>  /**<a name="line.705"></a>
+<span class="sourceLineNo">706</span>   * Creates a media type with the "text" type and the given subtype.<a name="line.706"></a>
+<span class="sourceLineNo">707</span>   *<a name="line.707"></a>
+<span class="sourceLineNo">708</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.708"></a>
+<span class="sourceLineNo">709</span>   */<a name="line.709"></a>
+<span class="sourceLineNo">710</span>  static MediaType createTextType(String subtype) {<a name="line.710"></a>
+<span class="sourceLineNo">711</span>    return create(TEXT_TYPE, subtype);<a name="line.711"></a>
+<span class="sourceLineNo">712</span>  }<a name="line.712"></a>
+<span class="sourceLineNo">713</span><a name="line.713"></a>
+<span class="sourceLineNo">714</span>  /**<a name="line.714"></a>
+<span class="sourceLineNo">715</span>   * Creates a media type with the "video" type and the given subtype.<a name="line.715"></a>
+<span class="sourceLineNo">716</span>   *<a name="line.716"></a>
+<span class="sourceLineNo">717</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.717"></a>
+<span class="sourceLineNo">718</span>   */<a name="line.718"></a>
+<span class="sourceLineNo">719</span>  static MediaType createVideoType(String subtype) {<a name="line.719"></a>
+<span class="sourceLineNo">720</span>    return create(VIDEO_TYPE, subtype);<a name="line.720"></a>
+<span class="sourceLineNo">721</span>  }<a name="line.721"></a>
+<span class="sourceLineNo">722</span><a name="line.722"></a>
+<span class="sourceLineNo">723</span>  private static MediaType create(<a name="line.723"></a>
+<span class="sourceLineNo">724</span>      String type, String subtype, Multimap&lt;String, String&gt; parameters) {<a name="line.724"></a>
+<span class="sourceLineNo">725</span>    checkNotNull(type);<a name="line.725"></a>
+<span class="sourceLineNo">726</span>    checkNotNull(subtype);<a name="line.726"></a>
+<span class="sourceLineNo">727</span>    checkNotNull(parameters);<a name="line.727"></a>
+<span class="sourceLineNo">728</span>    String normalizedType = normalizeToken(type);<a name="line.728"></a>
+<span class="sourceLineNo">729</span>    String normalizedSubtype = normalizeToken(subtype);<a name="line.729"></a>
+<span class="sourceLineNo">730</span>    checkArgument(<a name="line.730"></a>
+<span class="sourceLineNo">731</span>        !WILDCARD.equals(normalizedType) || WILDCARD.equals(normalizedSubtype),<a name="line.731"></a>
+<span class="sourceLineNo">732</span>        "A wildcard type cannot be used with a non-wildcard subtype");<a name="line.732"></a>
+<span class="sourceLineNo">733</span>    ImmutableListMultimap.Builder&lt;String, String&gt; builder = ImmutableListMultimap.builder();<a name="line.733"></a>
+<span class="sourceLineNo">734</span>    for (Entry&lt;String, String&gt; entry : parameters.entries()) {<a name="line.734"></a>
+<span class="sourceLineNo">735</span>      String attribute = normalizeToken(entry.getKey());<a name="line.735"></a>
+<span class="sourceLineNo">736</span>      builder.put(attribute, normalizeParameterValue(attribute, entry.getValue()));<a name="line.736"></a>
+<span class="sourceLineNo">737</span>    }<a name="line.737"></a>
+<span class="sourceLineNo">738</span>    MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());<a name="line.738"></a>
+<span class="sourceLineNo">739</span>    // Return one of the constants if the media type is a known type.<a name="line.739"></a>
+<span class="sourceLineNo">740</span>    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);<a name="line.740"></a>
+<span class="sourceLineNo">741</span>  }<a name="line.741"></a>
+<span class="sourceLineNo">742</span><a name="line.742"></a>
+<span class="sourceLineNo">743</span>  private static String normalizeToken(String token) {<a name="line.743"></a>
+<span class="sourceLineNo">744</span>    checkArgument(TOKEN_MATCHER.matchesAllOf(token));<a name="line.744"></a>
+<span class="sourceLineNo">745</span>    return Ascii.toLowerCase(token);<a name="line.745"></a>
+<span class="sourceLineNo">746</span>  }<a name="line.746"></a>
+<span class="sourceLineNo">747</span><a name="line.747"></a>
+<span class="sourceLineNo">748</span>  private static String normalizeParameterValue(String attribute, String value) {<a name="line.748"></a>
+<span class="sourceLineNo">749</span>    return CHARSET_ATTRIBUTE.equals(attribute) ? Ascii.toLowerCase(value) : value;<a name="line.749"></a>
+<span class="sourceLineNo">750</span>  }<a name="line.750"></a>
+<span class="sourceLineNo">751</span><a name="line.751"></a>
+<span class="sourceLineNo">752</span>  /**<a name="line.752"></a>
+<span class="sourceLineNo">753</span>   * Parses a media type from its string representation.<a name="line.753"></a>
+<span class="sourceLineNo">754</span>   *<a name="line.754"></a>
+<span class="sourceLineNo">755</span>   * @throws IllegalArgumentException if the input is not parsable<a name="line.755"></a>
+<span class="sourceLineNo">756</span>   */<a name="line.756"></a>
+<span class="sourceLineNo">757</span>  public static MediaType parse(String input) {<a name="line.757"></a>
+<span class="sourceLineNo">758</span>    checkNotNull(input);<a name="line.758"></a>
+<span class="sourceLineNo">759</span>    Tokenizer tokenizer = new Tokenizer(input);<a name="line.759"></a>
+<span class="sourceLineNo">760</span>    try {<a name="line.760"></a>
+<span class="sourceLineNo">761</span>      String type = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.761"></a>
+<span class="sourceLineNo">762</span>      tokenizer.consumeCharacter('/');<a name="line.762"></a>
+<span class="sourceLineNo">763</span>      String subtype = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.763"></a>
+<span class="sourceLineNo">764</span>      ImmutableListMultimap.Builder&lt;String, String&gt; parameters = ImmutableListMultimap.builder();<a name="line.764"></a>
+<span class="sourceLineNo">765</span>      while (tokenizer.hasMore()) {<a name="line.765"></a>
+<span class="sourceLineNo">766</span>        tokenizer.consumeCharacter(';');<a name="line.766"></a>
+<span class="sourceLineNo">767</span>        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);<a name="line.767"></a>
+<span class="sourceLineNo">768</span>        String attribute = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.768"></a>
+<span class="sourceLineNo">769</span>        tokenizer.consumeCharacter('=');<a name="line.769"></a>
+<span class="sourceLineNo">770</span>        final String value;<a name="line.770"></a>
+<span class="sourceLineNo">771</span>        if ('"' == tokenizer.previewChar()) {<a name="line.771"></a>
+<span class="sourceLineNo">772</span>          tokenizer.consumeCharacter('"');<a name="line.772"></a>
+<span class="sourceLineNo">773</span>          StringBuilder valueBuilder = new StringBuilder();<a name="line.773"></a>
+<span class="sourceLineNo">774</span>          while ('"' != tokenizer.previewChar()) {<a name="line.774"></a>
+<span class="sourceLineNo">775</span>            if ('\\' == tokenizer.previewChar()) {<a name="line.775"></a>
+<span class="sourceLineNo">776</span>              tokenizer.consumeCharacter('\\');<a name="line.776"></a>
+<span class="sourceLineNo">777</span>              valueBuilder.append(tokenizer.consumeCharacter(ascii()));<a name="line.777"></a>
+<span class="sourceLineNo">778</span>            } else {<a name="line.778"></a>
+<span class="sourceLineNo">779</span>              valueBuilder.append(tokenizer.consumeToken(QUOTED_TEXT_MATCHER));<a name="line.779"></a>
+<span class="sourceLineNo">780</span>            }<a name="line.780"></a>
+<span class="sourceLineNo">781</span>          }<a name="line.781"></a>
+<span class="sourceLineNo">782</span>          value = valueBuilder.toString();<a name="line.782"></a>
+<span class="sourceLineNo">783</span>          tokenizer.consumeCharacter('"');<a name="line.783"></a>
+<span class="sourceLineNo">784</span>        } else {<a name="line.784"></a>
+<span class="sourceLineNo">785</span>          value = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.785"></a>
+<span class="sourceLineNo">786</span>        }<a name="line.786"></a>
+<span class="sourceLineNo">787</span>        parameters.put(attribute, value);<a name="line.787"></a>
+<span class="sourceLineNo">788</span>      }<a name="line.788"></a>
+<span class="sourceLineNo">789</span>      return create(type, subtype, parameters.build());<a name="line.789"></a>
+<span class="sourceLineNo">790</span>    } catch (IllegalStateException e) {<a name="line.790"></a>
+<span class="sourceLineNo">791</span>      throw new IllegalArgumentException("Could not parse '" + input + "'", e);<a name="line.791"></a>
+<span class="sourceLineNo">792</span>    }<a name="line.792"></a>
+<span class="sourceLineNo">793</span>  }<a name="line.793"></a>
+<span class="sourceLineNo">794</span><a name="line.794"></a>
+<span class="sourceLineNo">795</span>  private static final class Tokenizer {<a name="line.795"></a>
+<span class="sourceLineNo">796</span>    final String input;<a name="line.796"></a>
+<span class="sourceLineNo">797</span>    int position = 0;<a name="line.797"></a>
+<span class="sourceLineNo">798</span><a name="line.798"></a>
+<span class="sourceLineNo">799</span>    Tokenizer(String input) {<a name="line.799"></a>
+<span class="sourceLineNo">800</span>      this.input = input;<a name="line.800"></a>
 <span class="sourceLineNo">801</span>    }<a name="line.801"></a>
 <span class="sourceLineNo">802</span><a name="line.802"></a>
-<span class="sourceLineNo">803</span>    String consumeToken(CharMatcher matcher) {<a name="line.803"></a>
-<span class="sourceLineNo">804</span>      int startPosition = position;<a name="line.804"></a>
-<span class="sourceLineNo">805</span>      String token = consumeTokenIfPresent(matcher);<a name="line.805"></a>
-<span class="sourceLineNo">806</span>      checkState(position != startPosition);<a name="line.806"></a>
-<span class="sourceLineNo">807</span>      return token;<a name="line.807"></a>
+<span class="sourceLineNo">803</span>    String consumeTokenIfPresent(CharMatcher matcher) {<a name="line.803"></a>
+<span class="sourceLineNo">804</span>      checkState(hasMore());<a name="line.804"></a>
+<span class="sourceLineNo">805</span>      int startPosition = position;<a name="line.805"></a>
+<span class="sourceLineNo">806</span>      position = matcher.negate().indexIn(input, startPosition);<a name="line.806"></a>
+<span class="sourceLineNo">807</span>      return hasMore() ? input.substring(startPosition, position) : input.substring(startPosition);<a name="line.807"></a>
 <span class="sourceLineNo">808</span>    }<a name="line.808"></a>
 <span class="sourceLineNo">809</span><a name="line.809"></a>
-<span class="sourceLineNo">810</span>    char consumeCharacter(CharMatcher matcher) {<a name="line.810"></a>
-<span class="sourceLineNo">811</span>      checkState(hasMore());<a name="line.811"></a>
-<span class="sourceLineNo">812</span>      char c = previewChar();<a name="line.812"></a>
-<span class="sourceLineNo">813</span>      checkState(matcher.matches(c));<a name="line.813"></a>
-<span class="sourceLineNo">814</span>      position++;<a name="line.814"></a>
-<span class="sourceLineNo">815</span>      return c;<a name="line.815"></a>
-<span class="sourceLineNo">816</span>    }<a name="line.816"></a>
-<span class="sourceLineNo">817</span><a name="line.817"></a>
-<span class="sourceLineNo">818</span>    char consumeCharacter(char c) {<a name="line.818"></a>
-<span class="sourceLineNo">819</span>      checkState(hasMore());<a name="line.819"></a>
-<span class="sourceLineNo">820</span>      checkState(previewChar() == c);<a name="line.820"></a>
+<span class="sourceLineNo">810</span>    String consumeToken(CharMatcher matcher) {<a name="line.810"></a>
+<span class="sourceLineNo">811</span>      int startPosition = position;<a name="line.811"></a>
+<span class="sourceLineNo">812</span>      String token = consumeTokenIfPresent(matcher);<a name="line.812"></a>
+<span class="sourceLineNo">813</span>      checkState(position != startPosition);<a name="line.813"></a>
+<span class="sourceLineNo">814</span>      return token;<a name="line.814"></a>
+<span class="sourceLineNo">815</span>    }<a name="line.815"></a>
+<span class="sourceLineNo">816</span><a name="line.816"></a>
+<span class="sourceLineNo">817</span>    char consumeCharacter(CharMatcher matcher) {<a name="line.817"></a>
+<span class="sourceLineNo">818</span>      checkState(hasMore());<a name="line.818"></a>
+<span class="sourceLineNo">819</span>      char c = previewChar();<a name="line.819"></a>
+<span class="sourceLineNo">820</span>      checkState(matcher.matches(c));<a name="line.820"></a>
 <span class="sourceLineNo">821</span>      position++;<a name="line.821"></a>
 <span class="sourceLineNo">822</span>      return c;<a name="line.822"></a>
 <span class="sourceLineNo">823</span>    }<a name="line.823"></a>
 <span class="sourceLineNo">824</span><a name="line.824"></a>
-<span class="sourceLineNo">825</span>    char previewChar() {<a name="line.825"></a>
+<span class="sourceLineNo">825</span>    char consumeCharacter(char c) {<a name="line.825"></a>
 <span class="sourceLineNo">826</span>      checkState(hasMore());<a name="line.826"></a>
-<span class="sourceLineNo">827</span>      return input.charAt(position);<a name="line.827"></a>
-<span class="sourceLineNo">828</span>    }<a name="line.828"></a>
-<span class="sourceLineNo">829</span><a name="line.829"></a>
-<span class="sourceLineNo">830</span>    boolean hasMore() {<a name="line.830"></a>
-<span class="sourceLineNo">831</span>      return (position &gt;= 0) &amp;&amp; (position &lt; input.length());<a name="line.831"></a>
-<span class="sourceLineNo">832</span>    }<a name="line.832"></a>
-<span class="sourceLineNo">833</span>  }<a name="line.833"></a>
-<span class="sourceLineNo">834</span><a name="line.834"></a>
-<span class="sourceLineNo">835</span>  @Override<a name="line.835"></a>
-<span class="sourceLineNo">836</span>  public boolean equals(@Nullable Object obj) {<a name="line.836"></a>
-<span class="sourceLineNo">837</span>    if (obj == this) {<a name="line.837"></a>
-<span class="sourceLineNo">838</span>      return true;<a name="line.838"></a>
-<span class="sourceLineNo">839</span>    } else if (obj instanceof MediaType) {<a name="line.839"></a>
-<span class="sourceLineNo">840</span>      MediaType that = (MediaType) obj;<a name="line.840"></a>
-<span class="sourceLineNo">841</span>      return this.type.equals(that.type)<a name="line.841"></a>
-<span class="sourceLineNo">842</span>          &amp;&amp; this.subtype.equals(that.subtype)<a name="line.842"></a>
-<span class="sourceLineNo">843</span>          // compare parameters regardless of order<a name="line.843"></a>
-<span class="sourceLineNo">844</span>          &amp;&amp; this.parametersAsMap().equals(that.parametersAsMap());<a name="line.844"></a>
-<span class="sourceLineNo">845</span>    } else {<a name="line.845"></a>
-<span class="sourceLineNo">846</span>      return false;<a name="line.846"></a>
-<span class="sourceLineNo">847</span>    }<a name="line.847"></a>
-<span class="sourceLineNo">848</span>  }<a name="line.848"></a>
-<span class="sourceLineNo">849</span><a name="line.849"></a>
-<span class="sourceLineNo">850</span>  @Override<a name="line.850"></a>
-<span class="sourceLineNo">851</span>  public int hashCode() {<a name="line.851"></a>
-<span class="sourceLineNo">852</span>    // racy single-check idiom<a name="line.852"></a>
-<span class="sourceLineNo">853</span>    int h = hashCode;<a name="line.853"></a>
-<span class="sourceLineNo">854</span>    if (h == 0) {<a name="line.854"></a>
-<span class="sourceLineNo">855</span>      h = Objects.hashCode(type, subtype, parametersAsMap());<a name="line.855"></a>
-<span class="sourceLineNo">856</span>      hashCode = h;<a name="line.856"></a>
-<span class="sourceLineNo">857</span>    }<a name="line.857"></a>
-<span class="sourceLineNo">858</span>    return h;<a name="line.858"></a>
-<span class="sourceLineNo">859</span>  }<a name="line.859"></a>
-<span class="sourceLineNo">860</span><a name="line.860"></a>
-<span class="sourceLineNo">861</span>  private static final MapJoiner PARAMETER_JOINER = Joiner.on("; ").withKeyValueSeparator("=");<a name="line.861"></a>
-<span class="sourceLineNo">862</span><a name="line.862"></a>
-<span class="sourceLineNo">863</span>  /**<a name="line.863"></a>
-<span class="sourceLineNo">864</span>   * Returns the string representation of this media type in the format described in<a name="line.864"></a>
-<span class="sourceLineNo">865</span>   * &lt;a href="http://www.ietf.org/rfc/rfc2045.txt"&gt;RFC 2045&lt;/a&gt;.<a name="line.865"></a>
-<span class="sourceLineNo">866</span>   */<a name="line.866"></a>
-<span class="sourceLineNo">867</span>  @Override<a name="line.867"></a>
-<span class="sourceLineNo">868</span>  public String toString() {<a name="line.868"></a>
-<span class="sourceLineNo">869</span>    // racy single-check idiom, safe because String is immutable<a name="line.869"></a>
-<span class="sourceLineNo">870</span>    String result = toString;<a name="line.870"></a>
-<span class="sourceLineNo">871</span>    if (result == null) {<a name="line.871"></a>
-<span class="sourceLineNo">872</span>      result = computeToString();<a name="line.872"></a>
-<span class="sourceLineNo">873</span>      toString = result;<a name="line.873"></a>
-<span class="sourceLineNo">874</span>    }<a name="line.874"></a>
-<span class="sourceLineNo">875</span>    return result;<a name="line.875"></a>
-<span class="sourceLineNo">876</span>  }<a name="line.876"></a>
-<span class="sourceLineNo">877</span><a name="line.877"></a>
-<span class="sourceLineNo">878</span>  private String computeToString() {<a name="line.878"></a>
-<span class="sourceLineNo">879</span>    StringBuilder builder = new StringBuilder().append(type).append('/').append(subtype);<a name="line.879"></a>
-<span class="sourceLineNo">880</span>    if (!parameters.isEmpty()) {<a name="line.880"></a>
-<span class="sourceLineNo">881</span>      builder.append("; ");<a name="line.881"></a>
-<span class="sourceLineNo">882</span>      Multimap&lt;String, String&gt; quotedParameters =<a name="line.882"></a>
-<span class="sourceLineNo">883</span>          Multimaps.transformValues(<a name="line.883"></a>
-<span class="sourceLineNo">884</span>              parameters,<a name="line.884"></a>
-<span class="sourceLineNo">885</span>              new Function&lt;String, String&gt;() {<a name="line.885"></a>
-<span class="sourceLineNo">886</span>                @Override<a name="line.886"></a>
-<span class="sourceLineNo">887</span>                public String apply(String value) {<a name="line.887"></a>
-<span class="sourceLineNo">888</span>                  return TOKEN_MATCHER.matchesAllOf(value) ? value : escapeAndQuote(value);<a name="line.888"></a>
-<span class="sourceLineNo">889</span>                }<a name="line.889"></a>
-<span class="sourceLineNo">890</span>              });<a name="line.890"></a>
-<span class="sourceLineNo">891</span>      PARAMETER_JOINER.appendTo(builder, quotedParameters.entries());<a name="line.891"></a>
-<span class="sourceLineNo">892</span>    }<a name="line.892"></a>
-<span class="sourceLineNo">893</span>    return builder.toString();<a name="line.893"></a>
-<span class="sourceLineNo">894</span>  }<a name="line.894"></a>
-<span class="sourceLineNo">895</span><a name="line.895"></a>
-<span class="sourceLineNo">896</span>  private static String escapeAndQuote(String value) {<a name="line.896"></a>
-<span class="sourceLineNo">897</span>    StringBuilder escaped = new StringBuilder(value.length() + 16).append('"');<a name="line.897"></a>
-<span class="sourceLineNo">898</span>    for (int i = 0; i &lt; value.length(); i++) {<a name="line.898"></a>
-<span class="sourceLineNo">899</span>      char ch = value.charAt(i);<a name="line.899"></a>
-<span class="sourceLineNo">900</span>      if (ch == '\r' || ch == '\\' || ch == '"') {<a name="line.900"></a>
-<span class="sourceLineNo">901</span>        escaped.append('\\');<a name="line.901"></a>
-<span class="sourceLineNo">902</span>      }<a name="line.902"></a>
-<span class="sourceLineNo">903</span>      escaped.append(ch);<a name="line.903"></a>
-<span class="sourceLineNo">904</span>    }<a name="line.904"></a>
-<span class="sourceLineNo">905</span>    return escaped.append('"').toString();<a name="line.905"></a>
-<span class="sourceLineNo">906</span>  }<a name="line.906"></a>
-<span class="sourceLineNo">907</span>}<a name="line.907"></a>
+<span class="sourceLineNo">827</span>      checkState(previewChar() == c);<a name="line.827"></a>
+<span class="sourceLineNo">828</span>      position++;<a name="line.828"></a>
+<span class="sourceLineNo">829</span>      return c;<a name="line.829"></a>
+<span class="sourceLineNo">830</span>    }<a name="line.830"></a>
+<span class="sourceLineNo">831</span><a name="line.831"></a>
+<span class="sourceLineNo">832</span>    char previewChar() {<a name="line.832"></a>
+<span class="sourceLineNo">833</span>      checkState(hasMore());<a name="line.833"></a>
+<span class="sourceLineNo">834</span>      return input.charAt(position);<a name="line.834"></a>
+<span class="sourceLineNo">835</span>    }<a name="line.835"></a>
+<span class="sourceLineNo">836</span><a name="line.836"></a>
+<span class="sourceLineNo">837</span>    boolean hasMore() {<a name="line.837"></a>
+<span class="sourceLineNo">838</span>      return (position &gt;= 0) &amp;&amp; (position &lt; input.length());<a name="line.838"></a>
+<span class="sourceLineNo">839</span>    }<a name="line.839"></a>
+<span class="sourceLineNo">840</span>  }<a name="line.840"></a>
+<span class="sourceLineNo">841</span><a name="line.841"></a>
+<span class="sourceLineNo">842</span>  @Override<a name="line.842"></a>
+<span class="sourceLineNo">843</span>  public boolean equals(@Nullable Object obj) {<a name="line.843"></a>
+<span class="sourceLineNo">844</span>    if (obj == this) {<a name="line.844"></a>
+<span class="sourceLineNo">845</span>      return true;<a name="line.845"></a>
+<span class="sourceLineNo">846</span>    } else if (obj instanceof MediaType) {<a name="line.846"></a>
+<span class="sourceLineNo">847</span>      MediaType that = (MediaType) obj;<a name="line.847"></a>
+<span class="sourceLineNo">848</span>      return this.type.equals(that.type)<a name="line.848"></a>
+<span class="sourceLineNo">849</span>          &amp;&amp; this.subtype.equals(that.subtype)<a name="line.849"></a>
+<span class="sourceLineNo">850</span>          // compare parameters regardless of order<a name="line.850"></a>
+<span class="sourceLineNo">851</span>          &amp;&amp; this.parametersAsMap().equals(that.parametersAsMap());<a name="line.851"></a>
+<span class="sourceLineNo">852</span>    } else {<a name="line.852"></a>
+<span class="sourceLineNo">853</span>      return false;<a name="line.853"></a>
+<span class="sourceLineNo">854</span>    }<a name="line.854"></a>
+<span class="sourceLineNo">855</span>  }<a name="line.855"></a>
+<span class="sourceLineNo">856</span><a name="line.856"></a>
+<span class="sourceLineNo">857</span>  @Override<a name="line.857"></a>
+<span class="sourceLineNo">858</span>  public int hashCode() {<a name="line.858"></a>
+<span class="sourceLineNo">859</span>    // racy single-check idiom<a name="line.859"></a>
+<span class="sourceLineNo">860</span>    int h = hashCode;<a name="line.860"></a>
+<span class="sourceLineNo">861</span>    if (h == 0) {<a name="line.861"></a>
+<span class="sourceLineNo">862</span>      h = Objects.hashCode(type, subtype, parametersAsMap());<a name="line.862"></a>
+<span class="sourceLineNo">863</span>      hashCode = h;<a name="line.863"></a>
+<span class="sourceLineNo">864</span>    }<a name="line.864"></a>
+<span class="sourceLineNo">865</span>    return h;<a name="line.865"></a>
+<span class="sourceLineNo">866</span>  }<a name="line.866"></a>
+<span class="sourceLineNo">867</span><a name="line.867"></a>
+<span class="sourceLineNo">868</span>  private static final MapJoiner PARAMETER_JOINER = Joiner.on("; ").withKeyValueSeparator("=");<a name="line.868"></a>
+<span class="sourceLineNo">869</span><a name="line.869"></a>
+<span class="sourceLineNo">870</span>  /**<a name="line.870"></a>
+<span class="sourceLineNo">871</span>   * Returns the string representation of this media type in the format described in<a name="line.871"></a>
+<span class="sourceLineNo">872</span>   * &lt;a href="http://www.ietf.org/rfc/rfc2045.txt"&gt;RFC 2045&lt;/a&gt;.<a name="line.872"></a>
+<span class="sourceLineNo">873</span>   */<a name="line.873"></a>
+<span class="sourceLineNo">874</span>  @Override<a name="line.874"></a>
+<span class="sourceLineNo">875</span>  public String toString() {<a name="line.875"></a>
+<span class="sourceLineNo">876</span>    // racy single-check idiom, safe because String is immutable<a name="line.876"></a>
+<span class="sourceLineNo">877</span>    String result = toString;<a name="line.877"></a>
+<span class="sourceLineNo">878</span>    if (result == null) {<a name="line.878"></a>
+<span class="sourceLineNo">879</span>      result = computeToString();<a name="line.879"></a>
+<span class="sourceLineNo">880</span>      toString = result;<a name="line.880"></a>
+<span class="sourceLineNo">881</span>    }<a name="line.881"></a>
+<span class="sourceLineNo">882</span>    return result;<a name="line.882"></a>
+<span class="sourceLineNo">883</span>  }<a name="line.883"></a>
+<span class="sourceLineNo">884</span><a name="line.884"></a>
+<span class="sourceLineNo">885</span>  private String computeToString() {<a name="line.885"></a>
+<span class="sourceLineNo">886</span>    StringBuilder builder = new StringBuilder().append(type).append('/').append(subtype);<a name="line.886"></a>
+<span class="sourceLineNo">887</span>    if (!parameters.isEmpty()) {<a name="line.887"></a>
+<span class="sourceLineNo">888</span>      builder.append("; ");<a name="line.888"></a>
+<span class="sourceLineNo">889</span>      Multimap&lt;String, String&gt; quotedParameters =<a name="line.889"></a>
+<span class="sourceLineNo">890</span>          Multimaps.transformValues(<a name="line.890"></a>
+<span class="sourceLineNo">891</span>              parameters,<a name="line.891"></a>
+<span class="sourceLineNo">892</span>              new Function&lt;String, String&gt;() {<a name="line.892"></a>
+<span class="sourceLineNo">893</span>                @Override<a name="line.893"></a>
+<span class="sourceLineNo">894</span>                public String apply(String value) {<a name="line.894"></a>
+<span class="sourceLineNo">895</span>                  return TOKEN_MATCHER.matchesAllOf(value) ? value : escapeAndQuote(value);<a name="line.895"></a>
+<span class="sourceLineNo">896</span>                }<a name="line.896"></a>
+<span class="sourceLineNo">897</span>              });<a name="line.897"></a>
+<span class="sourceLineNo">898</span>      PARAMETER_JOINER.appendTo(builder, quotedParameters.entries());<a name="line.898"></a>
+<span class="sourceLineNo">899</span>    }<a name="line.899"></a>
+<span class="sourceLineNo">900</span>    return builder.toString();<a name="line.900"></a>
+<span class="sourceLineNo">901</span>  }<a name="line.901"></a>
+<span class="sourceLineNo">902</span><a name="line.902"></a>
+<span class="sourceLineNo">903</span>  private static String escapeAndQuote(String value) {<a name="line.903"></a>
+<span class="sourceLineNo">904</span>    StringBuilder escaped = new StringBuilder(value.length() + 16).append('"');<a name="line.904"></a>
+<span class="sourceLineNo">905</span>    for (int i = 0; i &lt; value.length(); i++) {<a name="line.905"></a>
+<span class="sourceLineNo">906</span>      char ch = value.charAt(i);<a name="line.906"></a>
+<span class="sourceLineNo">907</span>      if (ch == '\r' || ch == '\\' || ch == '"') {<a name="line.907"></a>
+<span class="sourceLineNo">908</span>        escaped.append('\\');<a name="line.908"></a>
+<span class="sourceLineNo">909</span>      }<a name="line.909"></a>
+<span class="sourceLineNo">910</span>      escaped.append(ch);<a name="line.910"></a>
+<span class="sourceLineNo">911</span>    }<a name="line.911"></a>
+<span class="sourceLineNo">912</span>    return escaped.append('"').toString();<a name="line.912"></a>
+<span class="sourceLineNo">913</span>  }<a name="line.913"></a>
+<span class="sourceLineNo">914</span>}<a name="line.914"></a>
 
 
 

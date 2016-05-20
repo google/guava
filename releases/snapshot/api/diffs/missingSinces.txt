@@ -150,6 +150,7 @@ OK: com.google.common.net.MediaType Field VND_WAVE_AUDIO
 OK: com.google.common.net.MediaType Field VORBIS_AUDIO
 OK: com.google.common.net.MediaType Field WAX_AUDIO
 OK: com.google.common.net.MediaType Field WMA_AUDIO
+OK: com.google.common.net.MediaType Field WOFF2
 OK: com.google.common.net.HttpHeaders Field X_CONTENT_SECURITY_POLICY
 OK: com.google.common.net.HttpHeaders Field X_CONTENT_SECURITY_POLICY_REPORT_ONLY
 OK: com.google.common.net.HttpHeaders Field X_FORWARDED_HOST

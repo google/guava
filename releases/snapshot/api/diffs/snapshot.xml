@@ -1918,12 +1918,10 @@
 
  <pre>
    return new Converter&lt;Integer, String&gt;() {
-     &#64;Override
      protected String doForward(Integer i) {
        return Integer.toHexString(i);
      }
 
-     &#64;Override
      protected Integer doBackward(String s) {
        return parseUnsignedInt(s, 16);
      }
@@ -2370,12 +2368,12 @@
  calling its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but that
  has a number of well-known problems. Here is how you might use this class instead:
 
- <pre>
+ <pre>   {@code
  public class MyServer implements Closeable {
    private static final FinalizableReferenceQueue frq = new FinalizableReferenceQueue();
    // You might also share this between several objects.
 
-   private static final Set&lt;Reference&lt;?>> references = Sets.newConcurrentHashSet();
+   private static final Set<Reference<?>> references = Sets.newConcurrentHashSet();
    // This ensures that the FinalizablePhantomReference itself is not garbage-collected.
 
    private final ServerSocket serverSocket;
@@ -2389,8 +2387,8 @@
    public static MyServer create(...) {
      MyServer myServer = new MyServer(...);
      final ServerSocket serverSocket = myServer.serverSocket;
-     Reference&lt;?> reference = new FinalizablePhantomReference&lt;MyServer>(myServer, frq) {
-       &#64;Override public void finalizeReferent() {
+     Reference<?> reference = new FinalizablePhantomReference<MyServer>(myServer, frq) {
+       public void finalizeReferent() {
          references.remove(this):
          if (!serverSocket.isClosed()) {
            ...log a message about how nobody called close()...
@@ -2406,11 +2404,10 @@
      return myServer;
    }
 
-   &#64;Override public void close() {
+   public void close() {
      serverSocket.close();
    }
- }
- </pre>
+ }}</pre>
 
  @author Bob Lee
  @since 2.0]]>
@@ -11636,12 +11633,12 @@
 
  <p><b>{@code Stream} equivalent:</b> <pre>   {@code
 
-   @SuppressWarnings("unchecked") // safe by runtime check
+  }{@code @SuppressWarnings("unchecked") // safe by runtime check
    Stream<T> result = (Stream) stream.filter(type::isInstance);}</pre>
 
  ... or if {@code type} is a class literal {@code MyType.class}, <pre>   {@code
 
-   @SuppressWarnings("unchecked") // safe by runtime check
+  }{@code @SuppressWarnings("unchecked") // safe by runtime check
    Stream<MyType> result = (Stream) stream.filter(e -> e instanceof MyType);}</pre>
 
  @param type the type of elements desired]]>
@@ -48020,6 +48017,17 @@
  @since 17.0]]>
       </doc>
     </field>
+    <field name="WOFF2" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for the <a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font
+ Format</a> (WOFF) version 2 <a href="https://www.w3.org/TR/WOFF2/">defined</a> by the W3C.
+
+ @since 20.0]]>
+      </doc>
+    </field>
     <field name="XHTML_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -57241,11 +57249,11 @@
  SettableFuture#setFuture setFuture(otherFuture)} on it.
 
  <p>{@code dereference} has the same cancellation and execution semantics as {@link
- #transform(ListenableFuture, AsyncFunction)}, in that the returned {@code Future} attempts to
- keep its cancellation state in sync with both the input {@code Future} and the nested {@code
- Future}.  The transformation is very lightweight and therefore takes place in the same thread
- (either the thread that called {@code dereference}, or the thread in which the dereferenced
- future completes).
+ #transformAsync(ListenableFuture, AsyncFunction)}, in that the returned {@code Future}
+ attempts to keep its cancellation state in sync with both the input {@code Future} and the
+ nested {@code Future}.  The transformation is very lightweight and therefore takes place in
+ the same thread (either the thread that called {@code dereference}, or the thread in which
+ the dereferenced future completes).
 
  @param nested The nested future to transform.
  @return A future that holds result of the inner future.
