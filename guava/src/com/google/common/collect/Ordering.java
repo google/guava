@@ -714,98 +714,11 @@ public abstract class Ordering<T> implements Comparator<T> {
       }
       list.trimToSize();
       return Collections.unmodifiableList(list);
+    } else {
+      TopKSelector<E> selector = TopKSelector.least(k, this);
+      selector.offerAll(elements);
+      return selector.topK();
     }
-
-    /*
-     * Our goal is an O(n) algorithm using only one pass and O(k) additional
-     * memory.
-     *
-     * We use the following algorithm: maintain a buffer of size 2*k. Every time
-     * the buffer gets full, find the median and partition around it, keeping
-     * only the lowest k elements.  This requires n/k find-median-and-partition
-     * steps, each of which take O(k) time with a traditional quickselect.
-     *
-     * After sorting the output, the whole algorithm is O(n + k log k). It
-     * degrades gracefully for worst-case input (descending order), performs
-     * competitively or wins outright for randomly ordered input, and doesn't
-     * require the whole collection to fit into memory.
-     */
-    int bufferCap = k * 2;
-    @SuppressWarnings("unchecked") // we'll only put E's in
-    E[] buffer = (E[]) new Object[bufferCap];
-    E threshold = elements.next();
-    buffer[0] = threshold;
-    int bufferSize = 1;
-    // threshold is the kth smallest element seen so far.  Once bufferSize >= k,
-    // anything larger than threshold can be ignored immediately.
-
-    while (bufferSize < k && elements.hasNext()) {
-      E e = elements.next();
-      buffer[bufferSize++] = e;
-      threshold = max(threshold, e);
-    }
-
-    while (elements.hasNext()) {
-      E e = elements.next();
-      if (compare(e, threshold) >= 0) {
-        continue;
-      }
-
-      buffer[bufferSize++] = e;
-      if (bufferSize == bufferCap) {
-        // We apply the quickselect algorithm to partition about the median,
-        // and then ignore the last k elements.
-        int left = 0;
-        int right = bufferCap - 1;
-
-        int minThresholdPosition = 0;
-        // The leftmost position at which the greatest of the k lower elements
-        // -- the new value of threshold -- might be found.
-
-        while (left < right) {
-          int pivotIndex = (left + right + 1) >>> 1;
-          int pivotNewIndex = partition(buffer, left, right, pivotIndex);
-          if (pivotNewIndex > k) {
-            right = pivotNewIndex - 1;
-          } else if (pivotNewIndex < k) {
-            left = Math.max(pivotNewIndex, left + 1);
-            minThresholdPosition = pivotNewIndex;
-          } else {
-            break;
-          }
-        }
-        bufferSize = k;
-
-        threshold = buffer[minThresholdPosition];
-        for (int i = minThresholdPosition + 1; i < bufferSize; i++) {
-          threshold = max(threshold, buffer[i]);
-        }
-      }
-    }
-
-    Arrays.sort(buffer, 0, bufferSize, this);
-
-    bufferSize = Math.min(bufferSize, k);
-    return Collections.unmodifiableList(
-        Arrays.asList(ObjectArrays.arraysCopyOf(buffer, bufferSize)));
-    // We can't use ImmutableList; we have to be null-friendly!
-  }
-
-  private <E extends T> int partition(E[] values, int left, int right, int pivotIndex) {
-    E pivotValue = values[pivotIndex];
-
-    values[pivotIndex] = values[right];
-    values[right] = pivotValue;
-
-    int storeIndex = left;
-    for (int i = left; i < right; i++) {
-      if (compare(values[i], pivotValue) < 0) {
-        ObjectArrays.swap(values, storeIndex, i);
-        storeIndex++;
-      }
-    }
-    ObjectArrays.swap(values, right, storeIndex);
-    return storeIndex;
   }
 
   /**
