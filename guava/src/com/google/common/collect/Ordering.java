@@ -863,7 +863,10 @@ public abstract class Ordering<T> implements Comparator<T> {
    *
    * @param sortedList the list to be searched
    * @param key the key to be searched for
+   * @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly. This
+   * method is scheduled for deletion in June 2018.
    */
+  @Deprecated
   public int binarySearch(List<? extends T> sortedList, @Nullable T key) {
     return Collections.binarySearch(sortedList, key, this);
   }
