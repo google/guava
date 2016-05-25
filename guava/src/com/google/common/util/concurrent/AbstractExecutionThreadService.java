@@ -74,7 +74,7 @@ public abstract class AbstractExecutionThreadService implements Service {
                           // Closer.Suppressor
                           logger.log(
                               Level.WARNING,
-                              "Error while attempting to shut down the service" + " after failure.",
+                              "Error while attempting to shut down the service after failure.",
                               ignored);
                         }
                         notifyFailed(t);
