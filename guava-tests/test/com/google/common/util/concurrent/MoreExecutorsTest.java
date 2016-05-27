@@ -465,7 +465,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
   public void testInvokeAnyImpl_nullTasks() throws Exception {
     ListeningExecutorService e = newDirectExecutorService();
     try {
-      invokeAnyImpl(e, null, false, 0);
+      invokeAnyImpl(e, null, false, 0, TimeUnit.NANOSECONDS);
       fail();
     } catch (NullPointerException success) {
     } finally {
@@ -479,7 +479,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
   public void testInvokeAnyImpl_emptyTasks() throws Exception {
     ListeningExecutorService e = newDirectExecutorService();
     try {
-      invokeAnyImpl(e, new ArrayList<Callable<String>>(), false, 0);
+      invokeAnyImpl(e, new ArrayList<Callable<String>>(), false, 0, TimeUnit.NANOSECONDS);
       fail();
     } catch (IllegalArgumentException success) {
     } finally {
@@ -500,7 +500,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     });
     l.add(null);
     try {
-      invokeAnyImpl(e, l, false, 0);
+      invokeAnyImpl(e, l, false, 0, TimeUnit.NANOSECONDS);
       fail();
     } catch (NullPointerException success) {
     } finally {
@@ -516,7 +516,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     List<Callable<String>> l = new ArrayList<Callable<String>>();
     l.add(new NPETask());
     try {
-      invokeAnyImpl(e, l, false, 0);
+      invokeAnyImpl(e, l, false, 0, TimeUnit.NANOSECONDS);
       fail();
     } catch (ExecutionException success) {
       assertThat(success.getCause()).isInstanceOf(NullPointerException.class);
@@ -534,7 +534,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
       List<Callable<String>> l = new ArrayList<Callable<String>>();
       l.add(new StringTask());
       l.add(new StringTask());
-      String result = invokeAnyImpl(e, l, false, 0);
+      String result = invokeAnyImpl(e, l, false, 0, TimeUnit.NANOSECONDS);
       assertSame(TEST_STRING, result);
     } finally {
       joinPool(e);

@@ -650,13 +650,16 @@ public final class MoreExecutors {
       ListeningExecutorService executorService,
       Collection<? extends Callable<T>> tasks,
       boolean timed,
-      long nanos)
+      long timeout,
+      TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     checkNotNull(executorService);
+    checkNotNull(unit);
     int ntasks = tasks.size();
     checkArgument(ntasks > 0);
     List<Future<T>> futures = Lists.newArrayListWithCapacity(ntasks);
     BlockingQueue<Future<T>> futureQueue = Queues.newLinkedBlockingQueue();
+    long timeoutNanos = unit.toNanos(timeout);
 
     // For efficiency, especially in executors with limited
     // parallelism, check to see if previously submitted tasks are
@@ -685,12 +688,12 @@ public final class MoreExecutors {
           } else if (active == 0) {
             break;
           } else if (timed) {
-            f = futureQueue.poll(nanos, TimeUnit.NANOSECONDS);
+            f = futureQueue.poll(timeoutNanos, TimeUnit.NANOSECONDS);
             if (f == null) {
               throw new TimeoutException();
             }
             long now = System.nanoTime();
-            nanos -= now - lastTime;
+            timeoutNanos -= now - lastTime;
             lastTime = now;
           } else {
             f = futureQueue.take();
