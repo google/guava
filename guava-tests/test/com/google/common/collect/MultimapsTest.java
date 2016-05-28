@@ -774,6 +774,34 @@ public class MultimapsTest extends TestCase {
     assertEquals(stringToObject, outputMap);
   }
 
+  
+  
+  public void testIndexSet_ordering() {
+    final Multimap<Integer, String> expectedIndex =
+        new ImmutableSetMultimap.Builder<Integer, String>()
+            .put(4, "Inky")
+            .put(6, "Blinky")
+            .put(5, "Pinky")
+            .put(5, "Pinky")
+            .put(5, "Clyde")
+            .build();
+
+    final Set<String> badGuys = new HashSet<String>(
+        Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde"));
+    final Function<String, Integer> stringLengthFunction =
+        new Function<String, Integer>() {
+          @Override
+          public Integer apply(String input) {
+            return input.length();
+          }
+        };
+
+    Multimap<Integer, String> index =
+        Multimaps.indexSet(badGuys, stringLengthFunction);
+
+    assertEquals(expectedIndex, index);
+  }
+  
   public void testIndex_ordering() {
     final Multimap<Integer, String> expectedIndex =
         new ImmutableListMultimap.Builder<Integer, String>()
