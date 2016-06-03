@@ -233,9 +233,9 @@ public final class UnsignedLongs {
 
     /*
      * Otherwise, approximate the quotient, check, and correct if necessary. Our approximation is
-     * guaranteed to be either exact or one less than the correct value. This follows from fact that
-     * floor(floor(x)/i) == floor(x/i) for any real x and integer i != 0. The proof is not quite
-     * trivial.
+     * guaranteed to be either exact or one less than the correct value. This follows from the fact
+     * that floor(floor(x)/i) == floor(x/i) for any real x and integer i != 0. The proof is not
+     * quite trivial.
      */
     long quotient = ((dividend >>> 1) / divisor) << 1;
     long rem = dividend - quotient * divisor;
@@ -368,21 +368,37 @@ public final class UnsignedLongs {
     if (x == 0) {
       // Simply return "0"
       return "0";
+    } else if (x > 0) {
+      return Long.toString(x, radix);
     } else {
       char[] buf = new char[64];
       int i = buf.length;
-      if (x < 0) {
+      if ((radix & (radix - 1)) == 0) {
+        // Radix is a power of two so we can avoid division.
+        int shift = Integer.numberOfTrailingZeros(radix);
+        int mask = radix - 1;
+        do {
+          buf[--i] = Character.forDigit(((int) x) & mask, radix);
+          x >>>= shift;
+        } while (x != 0);
+      } else {
         // Separate off the last digit using unsigned division. That will leave
         // a number that is nonnegative as a signed integer.
-        long quotient = divide(x, radix);
+        long quotient;
+        if ((radix & 1) == 0) {
+          // Fast path for the usual case where the radix is even.
+          quotient = (x >>> 1) / (radix >>> 1);
+        } else {
+          quotient = divide(x, radix);
+        }
         long rem = x - quotient * radix;
         buf[--i] = Character.forDigit((int) rem, radix);
         x = quotient;
-      }
-      // Simple modulo/division approach
-      while (x > 0) {
-        buf[--i] = Character.forDigit((int) (x % radix), radix);
-        x /= radix;
+        // Simple modulo/division approach
+        while (x > 0) {
+          buf[--i] = Character.forDigit((int) (x % radix), radix);
+          x /= radix;
+        }
       }
       // Generate string
       return new String(buf, i, buf.length - i);
