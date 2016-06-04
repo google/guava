@@ -137,6 +137,11 @@ public final class TypeResolver {
           return; // Okay to say Foo<A> is <?>
         }
         ParameterizedType toParameterizedType = expectArgument(ParameterizedType.class, to);
+        if (fromParameterizedType.getOwnerType() != null
+            && toParameterizedType.getOwnerType() != null) {
+          populateTypeMappings(
+              mappings, fromParameterizedType.getOwnerType(), toParameterizedType.getOwnerType());
+        }
         checkArgument(
             fromParameterizedType.getRawType().equals(toParameterizedType.getRawType()),
             "Inconsistent raw type: %s vs. %s",

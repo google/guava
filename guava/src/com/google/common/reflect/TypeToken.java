@@ -875,7 +875,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   private boolean isSubtypeOfParameterizedType(ParameterizedType supertype) {
     Class<?> matchedClass = of(supertype).getRawType();
-    if (!this.someRawTypeIsSubclassOf(matchedClass)) {
+    if (!someRawTypeIsSubclassOf(matchedClass)) {
       return false;
     }
     Type[] typeParams = matchedClass.getTypeParameters();
@@ -892,7 +892,12 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
         return false;
       }
     }
-    return true;
+    // We only care about the case when the supertype is a non-static inner class
+    // in which case we need to make sure the subclass's owner type is a subtype of the
+    // supertype's owner.
+    return Modifier.isStatic(((Class<?>) supertype.getRawType()).getModifiers())
+        || supertype.getOwnerType() == null
+        || isOwnedBySubtypeOf(supertype.getOwnerType());
   }
 
   private boolean isSubtypeOfArrayType(GenericArrayType supertype) {
@@ -1022,6 +1027,30 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     @SuppressWarnings({"unchecked", "rawtypes"})
     ImmutableSet<Class<? super T>> result = (ImmutableSet) builder.build();
     return result;
+  }
+
+  private boolean isOwnedBySubtypeOf(Type supertype) {
+    for (TypeToken<?> type : getTypes()) {
+      Type ownerType = type.getOwnerTypeIfPresent();
+      if (ownerType != null && of(ownerType).isSubtypeOf(supertype)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Returns the owner type of a {@link ParameterizedType} or enclosing class of a {@link Class},
+   * or null otherwise.
+   */
+  @Nullable private Type getOwnerTypeIfPresent() {
+    if (runtimeType instanceof ParameterizedType) {
+      return ((ParameterizedType) runtimeType).getOwnerType();
+    } else if (runtimeType instanceof Class<?>) {
+      return ((Class<?>) runtimeType).getEnclosingClass();
+    } else {
+      return null;
+    }
   }
 
   /**
