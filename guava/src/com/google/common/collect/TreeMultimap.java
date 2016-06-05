@@ -26,6 +26,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.SortedSet;
@@ -112,10 +113,37 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
     return new TreeMultimap<K, V>(Ordering.natural(), Ordering.natural(), multimap);
   }
 
+  /**
+   * Constructs a {@code TreeMultimap} with the same mappings
+   * and using the same ordering as the specified tree multimap.
+   * This method runs in linear time.
+   *
+   * @param multimap the tree multimap whose contents are copied to this multimap,
+   *        and whose comparators are used to sort this multimap
+   */
+  public static <K extends Comparable, V extends Comparable> TreeMultimap<K, V> create(
+      TreeMultimap<K, V> multimap) {
+    return new TreeMultimap<K, V>(multimap);
+  }
+
   TreeMultimap(Comparator<? super K> keyComparator, Comparator<? super V> valueComparator) {
     super(new TreeMap<K, Collection<V>>(keyComparator));
     this.keyComparator = keyComparator;
     this.valueComparator = valueComparator;
+  }
+
+  private TreeMultimap(TreeMultimap<K, V> multimap) {
+    super(new TreeMap<K, Collection<V>>(multimap.backingMap()));
+    this.keyComparator = multimap.keyComparator();
+    this.valueComparator = multimap.valueComparator();
+    for (Map.Entry<K, Collection<V>> entry : backingMap().entrySet()) {
+      if (entry.getValue() instanceof SortedSet) {
+        entry.setValue(new TreeSet<V>((SortedSet<V>) entry.getValue()));
+      }
+      else {
+        entry.setValue(new TreeSet<V>(entry.getValue()));
+      }
+    }
   }
 
   private TreeMultimap(

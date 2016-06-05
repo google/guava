@@ -118,10 +118,10 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
    *
    * @param map place to store the mapping from each key to its corresponding
    *     values
-   * @throws IllegalArgumentException if {@code map} is not empty
+   * @throws NullPointerException if {@code map} is null
    */
   protected AbstractMapBasedMultimap(Map<K, Collection<V>> map) {
-    checkArgument(map.isEmpty());
+    checkNotNull(map);
     this.map = map;
   }
 

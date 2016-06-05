@@ -89,8 +89,10 @@ public class TreeMultimapExplicitTest extends TestCase {
     return multimap;
   }
 
+
   /**
-   * Test that a TreeMultimap created from another uses the natural ordering.
+   * Test that a TreeMultimap created from another uses the same ordering
+   * and doesn't use the same instances of collections.
    */
   public void testMultimapCreateFromTreeMultimap() {
     TreeMultimap<String, Integer> tree = TreeMultimap.create(
@@ -104,11 +106,13 @@ public class TreeMultimapExplicitTest extends TestCase {
 
     TreeMultimap<String, Integer> copy = TreeMultimap.create(tree);
     assertEquals(tree, copy);
-    assertThat(copy.keySet()).containsExactly("google", "tree").inOrder();
-    assertThat(copy.get("google")).containsExactly(2, 6).inOrder();
-    assertEquals(Ordering.natural(), copy.keyComparator());
-    assertEquals(Ordering.natural(), copy.valueComparator());
-    assertEquals(Ordering.natural(), copy.get("google").comparator());
+    assertThat(copy.keySet()).containsExactly("tree", "google").inOrder();
+    assertThat(copy.get("google")).containsExactly(6, 2).inOrder();
+    assertEquals(StringLength.COMPARATOR, copy.keyComparator());
+    assertEquals(DECREASING_INT_COMPARATOR, copy.valueComparator());
+    assertEquals(DECREASING_INT_COMPARATOR, copy.get("google").comparator());
+    assertThat(copy.get("google") != tree.get("google"));
+    assertThat(copy.get("tree") != tree.get("tree"));
   }
 
   public void testToString() {
