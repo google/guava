@@ -38,9 +38,10 @@ FIELD com.google.common.collect.AbstractMultimap.values com.google.common.collec
 FIELD com.google.common.collect.AbstractMultimap.values com.google.common.collect.Multimaps.MapMultimap.get.$
 FIELD com.google.common.collect.AbstractMultiset.entrySet com.google.common.collect.FilteredEntryMultimap.Keys.entrySet.$
 FIELD com.google.common.collect.ConcurrentHashMultiset.countMap
-FIELD com.google.common.collect.ImmutableCollection.asList
+FIELD com.google.common.collect.ImmutableMultiset.asList
 FIELD com.google.common.collect.ImmutableRangeMap.ranges
 FIELD com.google.common.collect.ImmutableRangeSet.ranges
+FIELD com.google.common.collect.ImmutableSet.asList
 FIELD com.google.common.collect.Maps.FilteredMapValues.unfiltered
 FIELD com.google.common.collect.Sets.SubSet.inputSet
 FIELD com.google.common.collect.TreeTraverser.PostOrderNode.childIterator

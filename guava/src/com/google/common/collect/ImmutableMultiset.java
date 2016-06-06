@@ -218,6 +218,21 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
     };
   }
 
+  private transient ImmutableList<E> asList;
+
+  @Override
+  public ImmutableList<E> asList() {
+    ImmutableList<E> result = asList;
+    return (result == null) ? asList = createAsList() : result;
+  }
+
+  ImmutableList<E> createAsList() {
+    if (isEmpty()) {
+      return ImmutableList.of();
+    }
+    return new RegularImmutableAsList<E>(this, toArray());
+  }
+
   @Override
   public boolean contains(@Nullable Object object) {
     return count(object) > 0;

@@ -65,6 +65,11 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
+  ImmutableList<E> createAsList() {
+    return ImmutableList.of(element);
+  }
+
+  @Override
   boolean isPartialView() {
     return false;
   }

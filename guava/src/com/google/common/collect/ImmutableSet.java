@@ -337,6 +337,18 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Override
   public abstract UnmodifiableIterator<E> iterator();
 
+  private transient ImmutableList<E> asList;
+
+  @Override
+  public ImmutableList<E> asList() {
+    ImmutableList<E> result = asList;
+    return (result == null) ? asList = createAsList() : result;
+  }
+
+  ImmutableList<E> createAsList() {
+    return new RegularImmutableAsList<E>(this, toArray());
+  }
+
   abstract static class Indexed<E> extends ImmutableSet<E> {
     abstract E get(int index);
 
