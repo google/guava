@@ -26,6 +26,9 @@ import com.google.common.collect.testing.AbstractCollectionTester;
  */
 @GwtCompatible
 public class CollectionEqualsTester<E> extends AbstractCollectionTester<E> {
+
+  // TODO(cpovirk): Consider using EqualsTester from Guava.
+  @SuppressWarnings("SelfEquals")
   public void testEquals_self() {
     assertTrue("An Object should be equal to itself.", collection.equals(collection));
   }
