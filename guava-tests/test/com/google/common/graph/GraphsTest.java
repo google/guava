@@ -16,12 +16,12 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.Graphs.addEdge;
 import static com.google.common.graph.Graphs.copyOf;
 import static com.google.common.graph.Graphs.mergeEdgesFrom;
 import static com.google.common.graph.Graphs.mergeNodesFrom;
 import static com.google.common.graph.Graphs.oppositeNode;
-import static com.google.common.graph.Graphs.selfLoopPredicate;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
@@ -70,6 +70,22 @@ public class GraphsTest {
   private static final String ERROR_ADDED_SELF_LOOP =
       "Should not be allowed to add a self-loop edge.";
   static final String ERROR_SELF_LOOP = "self-loops are not allowed";
+
+  /**
+   * Returns a {@link Predicate} that returns {@code true} if the input edge is a self-loop in
+   * {@code graph}. A self-loop is defined as an edge whose set of incident nodes has exactly one
+   * element. The predicate's {@code apply} method will throw an {@link IllegalArgumentException} if
+   * {@code graph} does not contain {@code edge}.
+   */
+  private static <E> Predicate<E> selfLoopPredicate(final Network<?, E> graph) {
+    checkNotNull(graph, "graph");
+    return new Predicate<E>() {
+      @Override
+      public boolean apply(E edge) {
+        return (graph.incidentNodes(edge).size() == 1);
+      }
+    };
+  }
 
   @Test
   public void oppositeNode_basic() {

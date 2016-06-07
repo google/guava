@@ -376,22 +376,6 @@ public final class Graphs {
   }
 
   /**
-   * Returns a {@link Predicate} that returns {@code true} if the input edge is a self-loop in
-   * {@code graph}. A self-loop is defined as an edge whose set of incident nodes has exactly one
-   * element. The predicate's {@code apply} method will throw an {@link IllegalArgumentException} if
-   * {@code graph} does not contain {@code edge}.
-   */
-  public static <E> Predicate<E> selfLoopPredicate(final Network<?, E> graph) {
-    checkNotNull(graph, "graph");
-    return new Predicate<E>() {
-      @Override
-      public boolean apply(E edge) {
-        return (graph.incidentNodes(edge).size() == 1);
-      }
-    };
-  }
-
-  /**
    * Returns a String of the adjacent node relationships for {@code graph}.
    */
   private static <N> String adjacentNodesString(final Graph<N> graph) {
