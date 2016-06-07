@@ -374,7 +374,8 @@ public class MediaTypeTest extends TestCase {
 
   public void testEquals() {
     new EqualsTester()
-        .addEqualityGroup(MediaType.create("text", "plain"),
+        .addEqualityGroup(
+            MediaType.create("text", "plain"),
             MediaType.create("TEXT", "PLAIN"),
             MediaType.parse("text/plain"),
             MediaType.parse("TEXT/PLAIN"),
@@ -382,8 +383,8 @@ public class MediaTypeTest extends TestCase {
         .addEqualityGroup(
             MediaType.create("text", "plain").withCharset(UTF_8),
             MediaType.create("text", "plain").withParameter("CHARSET", "UTF-8"),
-            MediaType.create("text", "plain").withParameters(
-                ImmutableMultimap.of("charset", "utf-8")),
+            MediaType.create("text", "plain")
+                .withParameters(ImmutableMultimap.of("charset", "utf-8")),
             MediaType.parse("text/plain;charset=utf-8"),
             MediaType.parse("text/plain; charset=utf-8"),
             MediaType.parse("text/plain;  charset=utf-8"),
@@ -392,11 +393,14 @@ public class MediaTypeTest extends TestCase {
             MediaType.parse("text/plain; CHARSET=utf-8"),
             MediaType.parse("text/plain; charset=\"utf-8\""),
             MediaType.parse("text/plain; charset=\"\\u\\tf-\\8\""),
-            MediaType.parse("text/plain; charset=UTF-8"))
+            MediaType.parse("text/plain; charset=UTF-8"),
+            MediaType.parse("text/plain ; charset=utf-8"))
         .addEqualityGroup(MediaType.parse("text/plain; charset=utf-8; charset=utf-8"))
-        .addEqualityGroup(MediaType.create("text", "plain").withParameter("a", "value"),
+        .addEqualityGroup(
+            MediaType.create("text", "plain").withParameter("a", "value"),
             MediaType.create("text", "plain").withParameter("A", "value"))
-        .addEqualityGroup(MediaType.create("text", "plain").withParameter("a", "VALUE"),
+        .addEqualityGroup(
+            MediaType.create("text", "plain").withParameter("a", "VALUE"),
             MediaType.create("text", "plain").withParameter("A", "VALUE"))
         .addEqualityGroup(
             MediaType.create("text", "plain")

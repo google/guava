@@ -763,6 +763,7 @@ public final class MediaType {
       String subtype = tokenizer.consumeToken(TOKEN_MATCHER);
       ImmutableListMultimap.Builder<String, String> parameters = ImmutableListMultimap.builder();
       while (tokenizer.hasMore()) {
+        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
         tokenizer.consumeCharacter(';');
         tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
         String attribute = tokenizer.consumeToken(TOKEN_MATCHER);
