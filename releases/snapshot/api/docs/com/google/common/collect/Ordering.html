@@ -245,8 +245,10 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparato
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#binarySearch(java.util.List,%20T)">binarySearch</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;sortedList,
                         <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&nbsp;key)</code>
-<div class="block"><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#binarySearch(java.util.List,%20T,%20java.util.Comparator)" title="class or interface in java.util"><code>Searches</code></a>
- <code>sortedList</code> for <code>key</code> using the binary search algorithm.</div>
+<div class="block"><strong>Deprecated.</strong>&nbsp;
+<div class="block"><i>Use <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#binarySearch(java.util.List,%20T,%20java.util.Comparator)" title="class or interface in java.util"><code>Collections.binarySearch(List, Object, Comparator)</code></a> directly. This
+ method is scheduled for deletion in June 2018.</i></div>
+</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -1036,7 +1038,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>greatestOf</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.825">greatestOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable,
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.738">greatestOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable,
                                int&nbsp;k)</pre>
 <div class="block">Returns the <code>k</code> greatest elements of the given iterable according to
  this ordering, in order from greatest to least. If there are fewer than
@@ -1058,7 +1060,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>greatestOf</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.845">greatestOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator,
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.758">greatestOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator,
                                int&nbsp;k)</pre>
 <div class="block">Returns the <code>k</code> greatest elements from the given iterator according to
  this ordering, in order from greatest to least. If there are fewer than
@@ -1080,7 +1082,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>sortedCopy</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.868">sortedCopy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.781">sortedCopy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
 <div class="block">Returns a <b>mutable</b> list containing <code>elements</code> sorted by this
  ordering; use this only when the resulting list may need further
  modification, or may contain <code>null</code>. The input is not modified. The
@@ -1104,7 +1106,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>immutableSortedCopy</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.894">immutableSortedCopy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.807">immutableSortedCopy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an <b>immutable</b> list containing <code>elements</code> sorted by this
  ordering. The input is not modified.
 
@@ -1128,7 +1130,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>isOrdered</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.910">isOrdered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.823">isOrdered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</pre>
 <div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is
  greater than or equal to the element that preceded it, according to this
  ordering. Note that this is always true when the iterable has fewer than
@@ -1141,7 +1143,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>isStrictlyOrdered</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.931">isStrictlyOrdered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.844">isStrictlyOrdered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</pre>
 <div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is
  <i>strictly</i> greater than the element that preceded it, according to
  this ordering. Note that this is always true when the iterable has fewer
@@ -1156,9 +1158,12 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockListLast">
 <li class="blockList">
 <h4>binarySearch</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.954">binarySearch</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;sortedList,
-               <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
-               <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&nbsp;key)</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.870">binarySearch</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;sortedList,
+                          <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+                          <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&nbsp;key)</pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Use <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#binarySearch(java.util.List,%20T,%20java.util.Comparator)" title="class or interface in java.util"><code>Collections.binarySearch(List, Object, Comparator)</code></a> directly. This
+ method is scheduled for deletion in June 2018.</i></div>
 <div class="block"><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#binarySearch(java.util.List,%20T,%20java.util.Comparator)" title="class or interface in java.util"><code>Searches</code></a>
  <code>sortedList</code> for <code>key</code> using the binary search algorithm. The
  list must be sorted using this ordering.</div>

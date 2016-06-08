@@ -15,6 +15,8 @@ OK: com.google.common.util.concurrent.Callables Method asAsyncCallable(java.util
 OK: com.google.common.io.CharSource Method asByteSource(java.nio.charset.Charset)
 OK: com.google.common.reflect.ClassPath.ResourceInfo Method asByteSource()
 OK: com.google.common.reflect.ClassPath.ResourceInfo Method asCharSource(java.nio.charset.Charset)
+NO DOC BLOCK: com.google.common.collect.ImmutableMultiset Method asList()
+NO DOC BLOCK: com.google.common.collect.ImmutableSet Method asList()
 MISSING @SINCE TAG: com.google.common.io.BaseEncoding Method canDecode(java.lang.CharSequence)
 OK: com.google.common.math.BigIntegerMath Method ceilingPowerOfTwo(java.math.BigInteger)
 OK: com.google.common.math.IntMath Method ceilingPowerOfTwo(int)

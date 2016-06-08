@@ -241,9 +241,9 @@
 <span class="sourceLineNo">233</span><a name="line.233"></a>
 <span class="sourceLineNo">234</span>    /*<a name="line.234"></a>
 <span class="sourceLineNo">235</span>     * Otherwise, approximate the quotient, check, and correct if necessary. Our approximation is<a name="line.235"></a>
-<span class="sourceLineNo">236</span>     * guaranteed to be either exact or one less than the correct value. This follows from fact that<a name="line.236"></a>
-<span class="sourceLineNo">237</span>     * floor(floor(x)/i) == floor(x/i) for any real x and integer i != 0. The proof is not quite<a name="line.237"></a>
-<span class="sourceLineNo">238</span>     * trivial.<a name="line.238"></a>
+<span class="sourceLineNo">236</span>     * guaranteed to be either exact or one less than the correct value. This follows from the fact<a name="line.236"></a>
+<span class="sourceLineNo">237</span>     * that floor(floor(x)/i) == floor(x/i) for any real x and integer i != 0. The proof is not<a name="line.237"></a>
+<span class="sourceLineNo">238</span>     * quite trivial.<a name="line.238"></a>
 <span class="sourceLineNo">239</span>     */<a name="line.239"></a>
 <span class="sourceLineNo">240</span>    long quotient = ((dividend &gt;&gt;&gt; 1) / divisor) &lt;&lt; 1;<a name="line.240"></a>
 <span class="sourceLineNo">241</span>    long rem = dividend - quotient * divisor;<a name="line.241"></a>
@@ -376,41 +376,57 @@
 <span class="sourceLineNo">368</span>    if (x == 0) {<a name="line.368"></a>
 <span class="sourceLineNo">369</span>      // Simply return "0"<a name="line.369"></a>
 <span class="sourceLineNo">370</span>      return "0";<a name="line.370"></a>
-<span class="sourceLineNo">371</span>    } else {<a name="line.371"></a>
-<span class="sourceLineNo">372</span>      char[] buf = new char[64];<a name="line.372"></a>
-<span class="sourceLineNo">373</span>      int i = buf.length;<a name="line.373"></a>
-<span class="sourceLineNo">374</span>      if (x &lt; 0) {<a name="line.374"></a>
-<span class="sourceLineNo">375</span>        // Separate off the last digit using unsigned division. That will leave<a name="line.375"></a>
-<span class="sourceLineNo">376</span>        // a number that is nonnegative as a signed integer.<a name="line.376"></a>
-<span class="sourceLineNo">377</span>        long quotient = divide(x, radix);<a name="line.377"></a>
-<span class="sourceLineNo">378</span>        long rem = x - quotient * radix;<a name="line.378"></a>
-<span class="sourceLineNo">379</span>        buf[--i] = Character.forDigit((int) rem, radix);<a name="line.379"></a>
-<span class="sourceLineNo">380</span>        x = quotient;<a name="line.380"></a>
-<span class="sourceLineNo">381</span>      }<a name="line.381"></a>
-<span class="sourceLineNo">382</span>      // Simple modulo/division approach<a name="line.382"></a>
-<span class="sourceLineNo">383</span>      while (x &gt; 0) {<a name="line.383"></a>
-<span class="sourceLineNo">384</span>        buf[--i] = Character.forDigit((int) (x % radix), radix);<a name="line.384"></a>
-<span class="sourceLineNo">385</span>        x /= radix;<a name="line.385"></a>
-<span class="sourceLineNo">386</span>      }<a name="line.386"></a>
-<span class="sourceLineNo">387</span>      // Generate string<a name="line.387"></a>
-<span class="sourceLineNo">388</span>      return new String(buf, i, buf.length - i);<a name="line.388"></a>
-<span class="sourceLineNo">389</span>    }<a name="line.389"></a>
-<span class="sourceLineNo">390</span>  }<a name="line.390"></a>
-<span class="sourceLineNo">391</span><a name="line.391"></a>
-<span class="sourceLineNo">392</span>  // calculated as 0xffffffffffffffff / radix<a name="line.392"></a>
-<span class="sourceLineNo">393</span>  private static final long[] maxValueDivs = new long[Character.MAX_RADIX + 1];<a name="line.393"></a>
-<span class="sourceLineNo">394</span>  private static final int[] maxValueMods = new int[Character.MAX_RADIX + 1];<a name="line.394"></a>
-<span class="sourceLineNo">395</span>  private static final int[] maxSafeDigits = new int[Character.MAX_RADIX + 1];<a name="line.395"></a>
-<span class="sourceLineNo">396</span><a name="line.396"></a>
-<span class="sourceLineNo">397</span>  static {<a name="line.397"></a>
-<span class="sourceLineNo">398</span>    BigInteger overflow = new BigInteger("10000000000000000", 16);<a name="line.398"></a>
-<span class="sourceLineNo">399</span>    for (int i = Character.MIN_RADIX; i &lt;= Character.MAX_RADIX; i++) {<a name="line.399"></a>
-<span class="sourceLineNo">400</span>      maxValueDivs[i] = divide(MAX_VALUE, i);<a name="line.400"></a>
-<span class="sourceLineNo">401</span>      maxValueMods[i] = (int) remainder(MAX_VALUE, i);<a name="line.401"></a>
-<span class="sourceLineNo">402</span>      maxSafeDigits[i] = overflow.toString(i).length() - 1;<a name="line.402"></a>
-<span class="sourceLineNo">403</span>    }<a name="line.403"></a>
-<span class="sourceLineNo">404</span>  }<a name="line.404"></a>
-<span class="sourceLineNo">405</span>}<a name="line.405"></a>
+<span class="sourceLineNo">371</span>    } else if (x &gt; 0) {<a name="line.371"></a>
+<span class="sourceLineNo">372</span>      return Long.toString(x, radix);<a name="line.372"></a>
+<span class="sourceLineNo">373</span>    } else {<a name="line.373"></a>
+<span class="sourceLineNo">374</span>      char[] buf = new char[64];<a name="line.374"></a>
+<span class="sourceLineNo">375</span>      int i = buf.length;<a name="line.375"></a>
+<span class="sourceLineNo">376</span>      if ((radix &amp; (radix - 1)) == 0) {<a name="line.376"></a>
+<span class="sourceLineNo">377</span>        // Radix is a power of two so we can avoid division.<a name="line.377"></a>
+<span class="sourceLineNo">378</span>        int shift = Integer.numberOfTrailingZeros(radix);<a name="line.378"></a>
+<span class="sourceLineNo">379</span>        int mask = radix - 1;<a name="line.379"></a>
+<span class="sourceLineNo">380</span>        do {<a name="line.380"></a>
+<span class="sourceLineNo">381</span>          buf[--i] = Character.forDigit(((int) x) &amp; mask, radix);<a name="line.381"></a>
+<span class="sourceLineNo">382</span>          x &gt;&gt;&gt;= shift;<a name="line.382"></a>
+<span class="sourceLineNo">383</span>        } while (x != 0);<a name="line.383"></a>
+<span class="sourceLineNo">384</span>      } else {<a name="line.384"></a>
+<span class="sourceLineNo">385</span>        // Separate off the last digit using unsigned division. That will leave<a name="line.385"></a>
+<span class="sourceLineNo">386</span>        // a number that is nonnegative as a signed integer.<a name="line.386"></a>
+<span class="sourceLineNo">387</span>        long quotient;<a name="line.387"></a>
+<span class="sourceLineNo">388</span>        if ((radix &amp; 1) == 0) {<a name="line.388"></a>
+<span class="sourceLineNo">389</span>          // Fast path for the usual case where the radix is even.<a name="line.389"></a>
+<span class="sourceLineNo">390</span>          quotient = (x &gt;&gt;&gt; 1) / (radix &gt;&gt;&gt; 1);<a name="line.390"></a>
+<span class="sourceLineNo">391</span>        } else {<a name="line.391"></a>
+<span class="sourceLineNo">392</span>          quotient = divide(x, radix);<a name="line.392"></a>
+<span class="sourceLineNo">393</span>        }<a name="line.393"></a>
+<span class="sourceLineNo">394</span>        long rem = x - quotient * radix;<a name="line.394"></a>
+<span class="sourceLineNo">395</span>        buf[--i] = Character.forDigit((int) rem, radix);<a name="line.395"></a>
+<span class="sourceLineNo">396</span>        x = quotient;<a name="line.396"></a>
+<span class="sourceLineNo">397</span>        // Simple modulo/division approach<a name="line.397"></a>
+<span class="sourceLineNo">398</span>        while (x &gt; 0) {<a name="line.398"></a>
+<span class="sourceLineNo">399</span>          buf[--i] = Character.forDigit((int) (x % radix), radix);<a name="line.399"></a>
+<span class="sourceLineNo">400</span>          x /= radix;<a name="line.400"></a>
+<span class="sourceLineNo">401</span>        }<a name="line.401"></a>
+<span class="sourceLineNo">402</span>      }<a name="line.402"></a>
+<span class="sourceLineNo">403</span>      // Generate string<a name="line.403"></a>
+<span class="sourceLineNo">404</span>      return new String(buf, i, buf.length - i);<a name="line.404"></a>
+<span class="sourceLineNo">405</span>    }<a name="line.405"></a>
+<span class="sourceLineNo">406</span>  }<a name="line.406"></a>
+<span class="sourceLineNo">407</span><a name="line.407"></a>
+<span class="sourceLineNo">408</span>  // calculated as 0xffffffffffffffff / radix<a name="line.408"></a>
+<span class="sourceLineNo">409</span>  private static final long[] maxValueDivs = new long[Character.MAX_RADIX + 1];<a name="line.409"></a>
+<span class="sourceLineNo">410</span>  private static final int[] maxValueMods = new int[Character.MAX_RADIX + 1];<a name="line.410"></a>
+<span class="sourceLineNo">411</span>  private static final int[] maxSafeDigits = new int[Character.MAX_RADIX + 1];<a name="line.411"></a>
+<span class="sourceLineNo">412</span><a name="line.412"></a>
+<span class="sourceLineNo">413</span>  static {<a name="line.413"></a>
+<span class="sourceLineNo">414</span>    BigInteger overflow = new BigInteger("10000000000000000", 16);<a name="line.414"></a>
+<span class="sourceLineNo">415</span>    for (int i = Character.MIN_RADIX; i &lt;= Character.MAX_RADIX; i++) {<a name="line.415"></a>
+<span class="sourceLineNo">416</span>      maxValueDivs[i] = divide(MAX_VALUE, i);<a name="line.416"></a>
+<span class="sourceLineNo">417</span>      maxValueMods[i] = (int) remainder(MAX_VALUE, i);<a name="line.417"></a>
+<span class="sourceLineNo">418</span>      maxSafeDigits[i] = overflow.toString(i).length() - 1;<a name="line.418"></a>
+<span class="sourceLineNo">419</span>    }<a name="line.419"></a>
+<span class="sourceLineNo">420</span>  }<a name="line.420"></a>
+<span class="sourceLineNo">421</span>}<a name="line.421"></a>
 
 
 

@@ -1318,6 +1318,10 @@
 <dd>
 <div class="block">Returns this list instance.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/collect/ImmutableMultiset.html#asList()">asList()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/collect/ImmutableSet.html#asList()">asList()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Lists.html#asList(E,%20E[])">asList(E, E[])</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Lists.html" title="class in com.google.common.collect">Lists</a></dt>
 <dd>
 <div class="block">Returns an unmodifiable list containing the specified first element and
@@ -1754,8 +1758,10 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Ordering.html#binarySearch(java.util.List,%20T)">binarySearch(List&lt;? extends T&gt;, T)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
 <dd>
-<div class="block"><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#binarySearch(java.util.List,%20T,%20java.util.Comparator)" title="class or interface in java.util"><code>Searches</code></a>
- <code>sortedList</code> for <code>key</code> using the binary search algorithm.</div>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>Use <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#binarySearch(java.util.List,%20T,%20java.util.Comparator)" title="class or interface in java.util"><code>Collections.binarySearch(List, Object, Comparator)</code></a> directly. This
+ method is scheduled for deletion in June 2018.</i></div>
+</div>
 </dd>
 <dt><a href="./com/google/common/collect/BinaryTreeTraverser.html" title="class in com.google.common.collect"><span class="strong">BinaryTreeTraverser</span></a>&lt;<a href="./com/google/common/collect/BinaryTreeTraverser.html" title="type parameter in BinaryTreeTraverser">T</a>&gt; - Class in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
@@ -14182,11 +14188,6 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/ListeningScheduledExecutorService.html#scheduleWithFixedDelay(java.lang.Runnable,%20long,%20long,%20java.util.concurrent.TimeUnit)">scheduleWithFixedDelay(Runnable, long, long, TimeUnit)</a></span> - Method in interface com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#selfLoopPredicate(com.google.common.graph.Network)">selfLoopPredicate(Network&lt;?, E&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
-<dd>
-<div class="block">Returns a <a href="./com/google/common/base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> that returns <code>true</code> if the input edge is a self-loop in
- <code>graph</code>.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/Striped.html#semaphore(int,%20int)">semaphore(int, int)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent">Striped</a></dt>
 <dd>
 <div class="block">Creates a <code>Striped&lt;Semaphore&gt;</code> with eagerly initialized, strongly referenced semaphores,
@@ -16870,17 +16871,17 @@
 <dt><span class="strong"><a href="./com/google/common/net/UrlEscapers.html#urlFormParameterEscaper()">urlFormParameterEscaper()</a></span> - Static method in class com.google.common.net.<a href="./com/google/common/net/UrlEscapers.html" title="class in com.google.common.net">UrlEscapers</a></dt>
 <dd>
 <div class="block">Returns an <a href="./com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes strings so they can be safely included in
- <a href="http://goo.gl/OQEc8">URL form parameter names and values</a>.</div>
+ <a href="https://goo.gl/MplK6I">URL form parameter names and values</a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/UrlEscapers.html#urlFragmentEscaper()">urlFragmentEscaper()</a></span> - Static method in class com.google.common.net.<a href="./com/google/common/net/UrlEscapers.html" title="class in com.google.common.net">UrlEscapers</a></dt>
 <dd>
 <div class="block">Returns an <a href="./com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes strings so they can be safely included in a
- <a href="http://goo.gl/xXEq4p">URL fragment</a>.</div>
+ <a href="https://goo.gl/xXEq4p">URL fragment</a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/UrlEscapers.html#urlPathSegmentEscaper()">urlPathSegmentEscaper()</a></span> - Static method in class com.google.common.net.<a href="./com/google/common/net/UrlEscapers.html" title="class in com.google.common.net">UrlEscapers</a></dt>
 <dd>
 <div class="block">Returns an <a href="./com/google/common/escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes strings so they can be safely included in
- <a href="http://goo.gl/swjbR">URL path segments</a>.</div>
+ <a href="https://goo.gl/m2MIf0">URL path segments</a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Ascii.html#US">US</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
 <dd>

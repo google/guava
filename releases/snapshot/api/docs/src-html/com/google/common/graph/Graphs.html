@@ -384,107 +384,91 @@
 <span class="sourceLineNo">376</span>  }<a name="line.376"></a>
 <span class="sourceLineNo">377</span><a name="line.377"></a>
 <span class="sourceLineNo">378</span>  /**<a name="line.378"></a>
-<span class="sourceLineNo">379</span>   * Returns a {@link Predicate} that returns {@code true} if the input edge is a self-loop in<a name="line.379"></a>
-<span class="sourceLineNo">380</span>   * {@code graph}. A self-loop is defined as an edge whose set of incident nodes has exactly one<a name="line.380"></a>
-<span class="sourceLineNo">381</span>   * element. The predicate's {@code apply} method will throw an {@link IllegalArgumentException} if<a name="line.381"></a>
-<span class="sourceLineNo">382</span>   * {@code graph} does not contain {@code edge}.<a name="line.382"></a>
-<span class="sourceLineNo">383</span>   */<a name="line.383"></a>
-<span class="sourceLineNo">384</span>  public static &lt;E&gt; Predicate&lt;E&gt; selfLoopPredicate(final Network&lt;?, E&gt; graph) {<a name="line.384"></a>
-<span class="sourceLineNo">385</span>    checkNotNull(graph, "graph");<a name="line.385"></a>
-<span class="sourceLineNo">386</span>    return new Predicate&lt;E&gt;() {<a name="line.386"></a>
-<span class="sourceLineNo">387</span>      @Override<a name="line.387"></a>
-<span class="sourceLineNo">388</span>      public boolean apply(E edge) {<a name="line.388"></a>
-<span class="sourceLineNo">389</span>        return (graph.incidentNodes(edge).size() == 1);<a name="line.389"></a>
-<span class="sourceLineNo">390</span>      }<a name="line.390"></a>
-<span class="sourceLineNo">391</span>    };<a name="line.391"></a>
-<span class="sourceLineNo">392</span>  }<a name="line.392"></a>
+<span class="sourceLineNo">379</span>   * Returns a String of the adjacent node relationships for {@code graph}.<a name="line.379"></a>
+<span class="sourceLineNo">380</span>   */<a name="line.380"></a>
+<span class="sourceLineNo">381</span>  private static &lt;N&gt; String adjacentNodesString(final Graph&lt;N&gt; graph) {<a name="line.381"></a>
+<span class="sourceLineNo">382</span>    checkNotNull(graph, "graph");<a name="line.382"></a>
+<span class="sourceLineNo">383</span>    List&lt;String&gt; adjacencies = new ArrayList&lt;String&gt;();<a name="line.383"></a>
+<span class="sourceLineNo">384</span>    // This will list each undirected edge twice (once as [n1, n2] and once as [n2, n1]); this is OK<a name="line.384"></a>
+<span class="sourceLineNo">385</span>    for (N node : graph.nodes()) {<a name="line.385"></a>
+<span class="sourceLineNo">386</span>      for (N successor : graph.successors(node)) {<a name="line.386"></a>
+<span class="sourceLineNo">387</span>        adjacencies.add(<a name="line.387"></a>
+<span class="sourceLineNo">388</span>            String.format(<a name="line.388"></a>
+<span class="sourceLineNo">389</span>                graph.isDirected() ? DIRECTED_FORMAT : UNDIRECTED_FORMAT,<a name="line.389"></a>
+<span class="sourceLineNo">390</span>                node, successor));<a name="line.390"></a>
+<span class="sourceLineNo">391</span>      }<a name="line.391"></a>
+<span class="sourceLineNo">392</span>    }<a name="line.392"></a>
 <span class="sourceLineNo">393</span><a name="line.393"></a>
-<span class="sourceLineNo">394</span>  /**<a name="line.394"></a>
-<span class="sourceLineNo">395</span>   * Returns a String of the adjacent node relationships for {@code graph}.<a name="line.395"></a>
-<span class="sourceLineNo">396</span>   */<a name="line.396"></a>
-<span class="sourceLineNo">397</span>  private static &lt;N&gt; String adjacentNodesString(final Graph&lt;N&gt; graph) {<a name="line.397"></a>
-<span class="sourceLineNo">398</span>    checkNotNull(graph, "graph");<a name="line.398"></a>
-<span class="sourceLineNo">399</span>    List&lt;String&gt; adjacencies = new ArrayList&lt;String&gt;();<a name="line.399"></a>
-<span class="sourceLineNo">400</span>    // This will list each undirected edge twice (once as [n1, n2] and once as [n2, n1]); this is OK<a name="line.400"></a>
-<span class="sourceLineNo">401</span>    for (N node : graph.nodes()) {<a name="line.401"></a>
-<span class="sourceLineNo">402</span>      for (N successor : graph.successors(node)) {<a name="line.402"></a>
-<span class="sourceLineNo">403</span>        adjacencies.add(<a name="line.403"></a>
-<span class="sourceLineNo">404</span>            String.format(<a name="line.404"></a>
-<span class="sourceLineNo">405</span>                graph.isDirected() ? DIRECTED_FORMAT : UNDIRECTED_FORMAT,<a name="line.405"></a>
-<span class="sourceLineNo">406</span>                node, successor));<a name="line.406"></a>
+<span class="sourceLineNo">394</span>    return String.format("{%s}", Joiner.on(", ").join(adjacencies));<a name="line.394"></a>
+<span class="sourceLineNo">395</span>  }<a name="line.395"></a>
+<span class="sourceLineNo">396</span><a name="line.396"></a>
+<span class="sourceLineNo">397</span>  /**<a name="line.397"></a>
+<span class="sourceLineNo">398</span>   * Returns a map that is a live view of {@code graph}, with nodes as keys<a name="line.398"></a>
+<span class="sourceLineNo">399</span>   * and the set of incident edges as values.<a name="line.399"></a>
+<span class="sourceLineNo">400</span>   */<a name="line.400"></a>
+<span class="sourceLineNo">401</span>  private static &lt;N, E&gt; Map&lt;N, Set&lt;E&gt;&gt; nodeToIncidentEdges(final Network&lt;N, E&gt; graph) {<a name="line.401"></a>
+<span class="sourceLineNo">402</span>    checkNotNull(graph, "graph");<a name="line.402"></a>
+<span class="sourceLineNo">403</span>    return Maps.asMap(graph.nodes(), new Function&lt;N, Set&lt;E&gt;&gt;() {<a name="line.403"></a>
+<span class="sourceLineNo">404</span>      @Override<a name="line.404"></a>
+<span class="sourceLineNo">405</span>      public Set&lt;E&gt; apply(N node) {<a name="line.405"></a>
+<span class="sourceLineNo">406</span>        return graph.incidentEdges(node);<a name="line.406"></a>
 <span class="sourceLineNo">407</span>      }<a name="line.407"></a>
-<span class="sourceLineNo">408</span>    }<a name="line.408"></a>
-<span class="sourceLineNo">409</span><a name="line.409"></a>
-<span class="sourceLineNo">410</span>    return String.format("{%s}", Joiner.on(", ").join(adjacencies));<a name="line.410"></a>
-<span class="sourceLineNo">411</span>  }<a name="line.411"></a>
-<span class="sourceLineNo">412</span><a name="line.412"></a>
-<span class="sourceLineNo">413</span>  /**<a name="line.413"></a>
-<span class="sourceLineNo">414</span>   * Returns a map that is a live view of {@code graph}, with nodes as keys<a name="line.414"></a>
-<span class="sourceLineNo">415</span>   * and the set of incident edges as values.<a name="line.415"></a>
-<span class="sourceLineNo">416</span>   */<a name="line.416"></a>
-<span class="sourceLineNo">417</span>  private static &lt;N, E&gt; Map&lt;N, Set&lt;E&gt;&gt; nodeToIncidentEdges(final Network&lt;N, E&gt; graph) {<a name="line.417"></a>
-<span class="sourceLineNo">418</span>    checkNotNull(graph, "graph");<a name="line.418"></a>
-<span class="sourceLineNo">419</span>    return Maps.asMap(graph.nodes(), new Function&lt;N, Set&lt;E&gt;&gt;() {<a name="line.419"></a>
-<span class="sourceLineNo">420</span>      @Override<a name="line.420"></a>
-<span class="sourceLineNo">421</span>      public Set&lt;E&gt; apply(N node) {<a name="line.421"></a>
-<span class="sourceLineNo">422</span>        return graph.incidentEdges(node);<a name="line.422"></a>
-<span class="sourceLineNo">423</span>      }<a name="line.423"></a>
-<span class="sourceLineNo">424</span>    });<a name="line.424"></a>
-<span class="sourceLineNo">425</span>  }<a name="line.425"></a>
-<span class="sourceLineNo">426</span><a name="line.426"></a>
-<span class="sourceLineNo">427</span>  private static &lt;N&gt; Map&lt;N, Set&lt;N&gt;&gt; nodeToAdjacentNodes(final Graph&lt;N&gt; graph) {<a name="line.427"></a>
-<span class="sourceLineNo">428</span>    checkNotNull(graph, "graph");<a name="line.428"></a>
-<span class="sourceLineNo">429</span>    return Maps.asMap(graph.nodes(), new Function&lt;N, Set&lt;N&gt;&gt;() {<a name="line.429"></a>
-<span class="sourceLineNo">430</span>      @Override<a name="line.430"></a>
-<span class="sourceLineNo">431</span>      public Set&lt;N&gt; apply(N node) {<a name="line.431"></a>
-<span class="sourceLineNo">432</span>        return graph.adjacentNodes(node);<a name="line.432"></a>
-<span class="sourceLineNo">433</span>      }<a name="line.433"></a>
-<span class="sourceLineNo">434</span>    });<a name="line.434"></a>
-<span class="sourceLineNo">435</span>  }<a name="line.435"></a>
-<span class="sourceLineNo">436</span><a name="line.436"></a>
-<span class="sourceLineNo">437</span>  /**<a name="line.437"></a>
-<span class="sourceLineNo">438</span>   * Returns a function that transforms an edge into a string representation of its incident nodes<a name="line.438"></a>
-<span class="sourceLineNo">439</span>   * in {@code graph}. The function's {@code apply} method will throw an<a name="line.439"></a>
-<span class="sourceLineNo">440</span>   * {@link IllegalArgumentException} if {@code graph} does not contain {@code edge}.<a name="line.440"></a>
-<span class="sourceLineNo">441</span>   */<a name="line.441"></a>
-<span class="sourceLineNo">442</span>  private static Function&lt;Object, String&gt; edgeToIncidentNodesString(final Network&lt;?, ?&gt; graph) {<a name="line.442"></a>
-<span class="sourceLineNo">443</span>    if (graph.isDirected()) {<a name="line.443"></a>
-<span class="sourceLineNo">444</span>      return new Function&lt;Object, String&gt;() {<a name="line.444"></a>
-<span class="sourceLineNo">445</span>        @Override<a name="line.445"></a>
-<span class="sourceLineNo">446</span>        public String apply(Object edge) {<a name="line.446"></a>
-<span class="sourceLineNo">447</span>          return String.format("&lt;%s -&gt; %s&gt;",<a name="line.447"></a>
-<span class="sourceLineNo">448</span>              graph.source(edge), graph.target(edge));<a name="line.448"></a>
-<span class="sourceLineNo">449</span>          }<a name="line.449"></a>
-<span class="sourceLineNo">450</span>        };<a name="line.450"></a>
+<span class="sourceLineNo">408</span>    });<a name="line.408"></a>
+<span class="sourceLineNo">409</span>  }<a name="line.409"></a>
+<span class="sourceLineNo">410</span><a name="line.410"></a>
+<span class="sourceLineNo">411</span>  private static &lt;N&gt; Map&lt;N, Set&lt;N&gt;&gt; nodeToAdjacentNodes(final Graph&lt;N&gt; graph) {<a name="line.411"></a>
+<span class="sourceLineNo">412</span>    checkNotNull(graph, "graph");<a name="line.412"></a>
+<span class="sourceLineNo">413</span>    return Maps.asMap(graph.nodes(), new Function&lt;N, Set&lt;N&gt;&gt;() {<a name="line.413"></a>
+<span class="sourceLineNo">414</span>      @Override<a name="line.414"></a>
+<span class="sourceLineNo">415</span>      public Set&lt;N&gt; apply(N node) {<a name="line.415"></a>
+<span class="sourceLineNo">416</span>        return graph.adjacentNodes(node);<a name="line.416"></a>
+<span class="sourceLineNo">417</span>      }<a name="line.417"></a>
+<span class="sourceLineNo">418</span>    });<a name="line.418"></a>
+<span class="sourceLineNo">419</span>  }<a name="line.419"></a>
+<span class="sourceLineNo">420</span><a name="line.420"></a>
+<span class="sourceLineNo">421</span>  /**<a name="line.421"></a>
+<span class="sourceLineNo">422</span>   * Returns a function that transforms an edge into a string representation of its incident nodes<a name="line.422"></a>
+<span class="sourceLineNo">423</span>   * in {@code graph}. The function's {@code apply} method will throw an<a name="line.423"></a>
+<span class="sourceLineNo">424</span>   * {@link IllegalArgumentException} if {@code graph} does not contain {@code edge}.<a name="line.424"></a>
+<span class="sourceLineNo">425</span>   */<a name="line.425"></a>
+<span class="sourceLineNo">426</span>  private static Function&lt;Object, String&gt; edgeToIncidentNodesString(final Network&lt;?, ?&gt; graph) {<a name="line.426"></a>
+<span class="sourceLineNo">427</span>    if (graph.isDirected()) {<a name="line.427"></a>
+<span class="sourceLineNo">428</span>      return new Function&lt;Object, String&gt;() {<a name="line.428"></a>
+<span class="sourceLineNo">429</span>        @Override<a name="line.429"></a>
+<span class="sourceLineNo">430</span>        public String apply(Object edge) {<a name="line.430"></a>
+<span class="sourceLineNo">431</span>          return String.format("&lt;%s -&gt; %s&gt;",<a name="line.431"></a>
+<span class="sourceLineNo">432</span>              graph.source(edge), graph.target(edge));<a name="line.432"></a>
+<span class="sourceLineNo">433</span>          }<a name="line.433"></a>
+<span class="sourceLineNo">434</span>        };<a name="line.434"></a>
+<span class="sourceLineNo">435</span>    }<a name="line.435"></a>
+<span class="sourceLineNo">436</span>    return new Function&lt;Object, String&gt;() {<a name="line.436"></a>
+<span class="sourceLineNo">437</span>      @Override<a name="line.437"></a>
+<span class="sourceLineNo">438</span>      public String apply(Object edge) {<a name="line.438"></a>
+<span class="sourceLineNo">439</span>        return graph.incidentNodes(edge).toString();<a name="line.439"></a>
+<span class="sourceLineNo">440</span>      }<a name="line.440"></a>
+<span class="sourceLineNo">441</span>    };<a name="line.441"></a>
+<span class="sourceLineNo">442</span> }<a name="line.442"></a>
+<span class="sourceLineNo">443</span><a name="line.443"></a>
+<span class="sourceLineNo">444</span>  /**<a name="line.444"></a>
+<span class="sourceLineNo">445</span>   * Returns a string representation of the properties of {@code graph}.<a name="line.445"></a>
+<span class="sourceLineNo">446</span>   */<a name="line.446"></a>
+<span class="sourceLineNo">447</span>  // TODO(b/28087289): add allowsParallelEdges() once that's supported<a name="line.447"></a>
+<span class="sourceLineNo">448</span>  private static String getPropertiesString(Graph&lt;?&gt; graph) {<a name="line.448"></a>
+<span class="sourceLineNo">449</span>    if (graph instanceof Network) {<a name="line.449"></a>
+<span class="sourceLineNo">450</span>      return getPropertiesString((Network&lt;?, ?&gt;) graph);<a name="line.450"></a>
 <span class="sourceLineNo">451</span>    }<a name="line.451"></a>
-<span class="sourceLineNo">452</span>    return new Function&lt;Object, String&gt;() {<a name="line.452"></a>
-<span class="sourceLineNo">453</span>      @Override<a name="line.453"></a>
-<span class="sourceLineNo">454</span>      public String apply(Object edge) {<a name="line.454"></a>
-<span class="sourceLineNo">455</span>        return graph.incidentNodes(edge).toString();<a name="line.455"></a>
-<span class="sourceLineNo">456</span>      }<a name="line.456"></a>
-<span class="sourceLineNo">457</span>    };<a name="line.457"></a>
-<span class="sourceLineNo">458</span> }<a name="line.458"></a>
-<span class="sourceLineNo">459</span><a name="line.459"></a>
-<span class="sourceLineNo">460</span>  /**<a name="line.460"></a>
-<span class="sourceLineNo">461</span>   * Returns a string representation of the properties of {@code graph}.<a name="line.461"></a>
-<span class="sourceLineNo">462</span>   */<a name="line.462"></a>
-<span class="sourceLineNo">463</span>  // TODO(b/28087289): add allowsParallelEdges() once that's supported<a name="line.463"></a>
-<span class="sourceLineNo">464</span>  private static String getPropertiesString(Graph&lt;?&gt; graph) {<a name="line.464"></a>
-<span class="sourceLineNo">465</span>    if (graph instanceof Network) {<a name="line.465"></a>
-<span class="sourceLineNo">466</span>      return getPropertiesString((Network&lt;?, ?&gt;) graph);<a name="line.466"></a>
-<span class="sourceLineNo">467</span>    }<a name="line.467"></a>
-<span class="sourceLineNo">468</span>    return String.format("isDirected: %s, allowsSelfLoops: %s",<a name="line.468"></a>
-<span class="sourceLineNo">469</span>        graph.isDirected(), graph.allowsSelfLoops());<a name="line.469"></a>
-<span class="sourceLineNo">470</span>  }<a name="line.470"></a>
-<span class="sourceLineNo">471</span><a name="line.471"></a>
-<span class="sourceLineNo">472</span>  /**<a name="line.472"></a>
-<span class="sourceLineNo">473</span>   * Returns a string representation of the properties of {@code graph}.<a name="line.473"></a>
-<span class="sourceLineNo">474</span>   */<a name="line.474"></a>
-<span class="sourceLineNo">475</span>  private static String getPropertiesString(Network&lt;?, ?&gt; graph) {<a name="line.475"></a>
-<span class="sourceLineNo">476</span>    return String.format("isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",<a name="line.476"></a>
-<span class="sourceLineNo">477</span>        graph.isDirected(), graph.allowsParallelEdges(), graph.allowsSelfLoops());<a name="line.477"></a>
-<span class="sourceLineNo">478</span>  }<a name="line.478"></a>
-<span class="sourceLineNo">479</span>}<a name="line.479"></a>
+<span class="sourceLineNo">452</span>    return String.format("isDirected: %s, allowsSelfLoops: %s",<a name="line.452"></a>
+<span class="sourceLineNo">453</span>        graph.isDirected(), graph.allowsSelfLoops());<a name="line.453"></a>
+<span class="sourceLineNo">454</span>  }<a name="line.454"></a>
+<span class="sourceLineNo">455</span><a name="line.455"></a>
+<span class="sourceLineNo">456</span>  /**<a name="line.456"></a>
+<span class="sourceLineNo">457</span>   * Returns a string representation of the properties of {@code graph}.<a name="line.457"></a>
+<span class="sourceLineNo">458</span>   */<a name="line.458"></a>
+<span class="sourceLineNo">459</span>  private static String getPropertiesString(Network&lt;?, ?&gt; graph) {<a name="line.459"></a>
+<span class="sourceLineNo">460</span>    return String.format("isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",<a name="line.460"></a>
+<span class="sourceLineNo">461</span>        graph.isDirected(), graph.allowsParallelEdges(), graph.allowsSelfLoops());<a name="line.461"></a>
+<span class="sourceLineNo">462</span>  }<a name="line.462"></a>
+<span class="sourceLineNo">463</span>}<a name="line.463"></a>
 
 
 

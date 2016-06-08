@@ -18578,6 +18578,11 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
+    <method name="asList" return="com.google.common.collect.ImmutableList&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
     <method name="contains" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -19406,6 +19411,11 @@
     </method>
     <method name="iterator" return="com.google.common.collect.UnmodifiableIterator&lt;E&gt;"
       abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="asList" return="com.google.common.collect.ImmutableList&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
@@ -30263,7 +30273,8 @@
     <method name="binarySearch" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link Collections#binarySearch(List, Object, Comparator)} directly. This
+ method is scheduled for deletion in June 2018.">
       <param name="sortedList" type="java.util.List&lt;? extends T&gt;"/>
       <param name="key" type="T"/>
       <doc>
@@ -30272,7 +30283,9 @@
  list must be sorted using this ordering.
 
  @param sortedList the list to be searched
- @param key the key to be searched for]]>
+ @param key the key to be searched for
+ @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly. This
+ method is scheduled for deletion in June 2018.]]>
       </doc>
     </method>
     <doc>
@@ -31208,8 +31221,9 @@
  it is either open or unbounded. The construct {@code {x | statement}} is read "the set of all
  <i>x</i> such that <i>statement</i>.")
 
- <blockquote><table>
- <tr><td><b>Notation</b> <td><b>Definition</b>        <td><b>Factory method</b>
+ <blockquote>
+ <table>
+ <tr><th>Notation        <th>Definition               <th>Factory method
  <tr><td>{@code (a..b)}  <td>{@code {x | a < x < b}}  <td>{@link Range#open open}
  <tr><td>{@code [a..b]}  <td>{@code {x | a <= x <= b}}<td>{@link Range#closed closed}
  <tr><td>{@code (a..b]}  <td>{@code {x | a < x <= b}} <td>{@link Range#openClosed openClosed}
@@ -31219,7 +31233,8 @@
  <tr><td>{@code (-#..b)} <td>{@code {x | x < b}}      <td>{@link Range#lessThan lessThan}
  <tr><td>{@code (-#..b]} <td>{@code {x | x <= b}}     <td>{@link Range#atMost atMost}
  <tr><td>{@code (-#..+#)}<td>{@code {x}}              <td>{@link Range#all all}
- </table></blockquote>
+ </table>
+ </blockquote>
 
  <p>When both endpoints exist, the upper endpoint may not be less than the lower. The endpoints
  may be equal only if at least one of the bounds is closed:
@@ -36287,18 +36302,6 @@
       <doc>
       <![CDATA[Returns a string representation of {@code graph}. Encodes edge direction if {@code graph}
  is directed.]]>
-      </doc>
-    </method>
-    <method name="selfLoopPredicate" return="com.google.common.base.Predicate&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Network&lt;?, E&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@link Predicate} that returns {@code true} if the input edge is a self-loop in
- {@code graph}. A self-loop is defined as an edge whose set of incident nodes has exactly one
- element. The predicate's {@code apply} method will throw an {@link IllegalArgumentException} if
- {@code graph} does not contain {@code edge}.]]>
       </doc>
     </method>
     <doc>
@@ -48163,9 +48166,9 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an {@link Escaper} instance that escapes strings so they can be safely included in
- <a href="http://goo.gl/OQEc8">URL form parameter names and values</a>. Escaping is performed
+ <a href="https://goo.gl/MplK6I">URL form parameter names and values</a>. Escaping is performed
  with the UTF-8 character encoding. The caller is responsible for
- <a href="http://goo.gl/i20ms">replacing any unpaired carriage return or line feed characters
+ <a href="https://goo.gl/9EfkM1">replacing any unpaired carriage return or line feed characters
  with a CR+LF pair</a> on any non-file inputs before escaping them with this escaper.
 
  <p>When escaping a String, the following rules apply:
@@ -48180,7 +48183,7 @@
  </ul>
 
  <p>This escaper is suitable for escaping parameter names and values even when
- <a href="http://goo.gl/utn6M">using the non-standard semicolon</a>, rather than the ampersand,
+ <a href="https://goo.gl/utn6M">using the non-standard semicolon</a>, rather than the ampersand,
  as a parameter delimiter. Nevertheless, we recommend using the ampersand unless you must
  interoperate with systems that require semicolons.
 
@@ -48194,9 +48197,9 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an {@link Escaper} instance that escapes strings so they can be safely included in
- <a href="http://goo.gl/swjbR">URL path segments</a>. The returned escaper escapes all non-ASCII
- characters, even though <a href="http://goo.gl/xIJWe">many of these are accepted in modern
- URLs</a>. (<a href="http://goo.gl/WMGvZ">If the escaper were to leave these characters
+ <a href="https://goo.gl/m2MIf0">URL path segments</a>. The returned escaper escapes all
+ non-ASCII characters, even though <a href="https://goo.gl/e7E0In">many of these are accepted in
+ modern URLs</a>. (<a href="https://goo.gl/jfVxXW">If the escaper were to leave these characters
  unescaped, they would be escaped by the consumer at parse time, anyway.</a>) Additionally, the
  escaper escapes the slash character ("/"). While slashes are acceptable in URL paths, they are
  considered by the specification to be separators between "path segments." This implies that, if
@@ -48227,10 +48230,9 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an {@link Escaper} instance that escapes strings so they can be safely included in a
- <a href="http://goo.gl/xXEq4p">URL fragment</a>. The returned escaper escapes all non-ASCII
- characters, even though <a href="http://goo.gl/xIJWe">many of these are accepted in modern
- URLs</a>. (<a href="http://goo.gl/WMGvZ">If the escaper were to leave these characters
- unescaped, they would be escaped by the consumer at parse time, anyway.</a>)
+ <a href="https://goo.gl/xXEq4p">URL fragment</a>. The returned escaper escapes all non-ASCII
+ characters, even though <a href="https://goo.gl/e7E0In">many of these are accepted in modern
+ URLs</a>.
 
  <p>When escaping a String, the following rules apply:
  <ul>
