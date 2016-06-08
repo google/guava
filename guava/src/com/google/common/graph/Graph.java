@@ -178,13 +178,6 @@ public interface Graph<N> {
 
   /**
    * Returns true if the edges in this graph have a direction associated with them.
-   *
-   * <p>A directed edge is an {@linkplain #outEdges(Object) outgoing edge} of its
-   * {@linkplain #source(Object) source}, and an {@linkplain #inEdges(Object) incoming edge} of its
-   * {@linkplain #target(Object) target}. An undirected edge connects its
-   * {@linkplain #incidentNodes(Object) incident nodes} to each other, and is both an
-   * {@linkplain #outEdges(Object) outgoing edge} and {@linkplain #inEdges(Object) incoming edge}
-   * of each incident node.
    */
   boolean isDirected();
 
@@ -234,7 +227,6 @@ public interface Graph<N> {
    * {@code Integer.MAX_VALUE} incident edges in this graph, returns {@code Integer.MAX_VALUE}.
    *
    * <p>Note that self-loops only count once towards a node's degree.
-   * This is consistent with the definition of {@link #incidentEdges(Object)}.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
