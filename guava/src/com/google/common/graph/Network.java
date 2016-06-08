@@ -157,7 +157,9 @@ import javax.annotation.Nullable;
  *     Note that (1) and (2) are generally preferred. (5) is generally a hazardous design choice
  *     and should be avoided, because keeping the internal data structures consistent can be tricky.
  * <li>Prefer extending {@link AbstractGraph} over implementing {@link Graph} directly. This will
- *     ensure consistent {@link #equals(Object)} and {@link #hashCode()} across implementations.
+ *     ensure that the implementations of {@link #equals(Object)} and
+ *     {@link #hashCode()} are mutually consistent, and consistent across
+ *     implementations.
  * <li>{@code Multimap}s are not sufficient internal data structures for Graph implementations
  *     that support isolated nodes (nodes that have no incident edges), due to their restriction
  *     that a key either maps to at least one value, or is not present in the {@code Multimap}.
@@ -205,7 +207,9 @@ import javax.annotation.Nullable;
  */
 @Beta
 public interface Network<N, E> extends Graph<N> {
-  /** Returns all edges in this network. */
+  /**
+   * Returns all edges in this network, in the order specified by {@link #edgeOrder()}.
+   */
   Set<E> edges();
 
   //
@@ -230,6 +234,11 @@ public interface Network<N, E> extends Graph<N> {
    * that does not allow them will throw an {@link UnsupportedOperationException}.
    */
   boolean allowsParallelEdges();
+
+  /**
+   * Returns the order of iteration for the elements of {@link #edges()}.
+   */
+  ElementOrder<? super E> edgeOrder();
 
   //
   // Element-level accessors
@@ -366,7 +375,8 @@ public interface Network<N, E> extends Graph<N> {
    * order in which edges or nodes are added to the graph, and the order in which they are iterated
    * over, are irrelevant.
    *
-   * <p>A reference implementation of this is provided by {@link Graphs#equal(Graph, Graph)}.
+   * <p>A reference implementation of this is provided by
+   * {@link Graphs#equal(Network, Network)}.
    */
   @Override
   boolean equals(@Nullable Object object);
@@ -378,7 +388,8 @@ public interface Network<N, E> extends Graph<N> {
    * <p>A reference implementation of this is provided by {@link Graphs#hashCode(Graph)}.
    *
    * <p>Note that by this definition, two graphs that are equal in every aspect except edge
-   * direction will have the same hash code (but can still be differentiated by {@link #equals}.
+   * direction will have the same hash code (but can still be differentiated by
+   * {@link #equals(Object)}).
    */
   @Override
   int hashCode();

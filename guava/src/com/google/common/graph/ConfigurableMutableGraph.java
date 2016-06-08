@@ -34,7 +34,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @author Omar Darwish
  * @param <N> Node parameter type
  */
-// TODO(b/24620028): Enable this class to support sorted nodes/edges.
 final class ConfigurableMutableGraph<N>
     extends AbstractConfigurableGraph<N> implements MutableGraph<N> {
 

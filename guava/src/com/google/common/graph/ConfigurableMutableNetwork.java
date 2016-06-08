@@ -38,7 +38,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-// TODO(b/24620028): Enable this class to support sorted nodes/edges.
 final class ConfigurableMutableNetwork<N, E>
     extends AbstractConfigurableNetwork<N, E> implements MutableNetwork<N, E> {
 

@@ -52,13 +52,13 @@ import javax.annotation.Nullable;
  * @author Omar Darwish
  * @param <N> Node parameter type
  */
-// TODO(b/24620028): Enable this class to support sorted nodes/edges.
 abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
   // The default of 11 is rather arbitrary, but roughly matches the sizing of just new HashMap()
   private static final int DEFAULT_MAP_SIZE = 11;
 
   private final boolean isDirected;
   private final boolean allowsSelfLoops;
+  private final ElementOrder<? super N> nodeOrder;
 
   protected final Map<N, NodeAdjacencies<N>> nodeConnections;
 
@@ -66,10 +66,22 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
    * Constructs a graph with the properties specified in {@code builder}.
    */
   AbstractConfigurableGraph(GraphBuilder<? super N> builder) {
-    this(
-        builder,
-        Maps.<N, NodeAdjacencies<N>>newLinkedHashMapWithExpectedSize(
-            builder.expectedNodeCount.or(DEFAULT_MAP_SIZE)));
+    this(builder, AbstractConfigurableGraph.<N>getNodeMapforBuilder(builder));
+  }
+
+  private static <S> Map<S, NodeAdjacencies<S>> getNodeMapforBuilder(
+      GraphBuilder<? super S> builder) {
+    int expectedNodeSize = builder.expectedNodeCount.or(DEFAULT_MAP_SIZE);
+    switch (builder.nodeOrder.type()) {
+        case UNORDERED:
+          return Maps.newHashMapWithExpectedSize(expectedNodeSize);
+        case INSERTION:
+          return Maps.newLinkedHashMapWithExpectedSize(expectedNodeSize);
+        case SORTED:
+          return Maps.newTreeMap(builder.nodeOrder.comparator());
+        default:
+          throw new IllegalArgumentException("Unrecognized node ElementOrder type");
+    }
   }
 
   /**
@@ -80,9 +92,16 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
       Map<N, NodeAdjacencies<N>> nodeConnections) {
     this.isDirected = builder.directed;
     this.allowsSelfLoops = builder.allowsSelfLoops;
+    this.nodeOrder = builder.nodeOrder;
     this.nodeConnections = checkNotNull(nodeConnections);
   }
 
+  /**
+   * {@inheritDoc}
+   * <p>The order of iteration for this set is determined by the {@code ElementOrder<N>} provided
+   * to the {@code GraphBuilder} that was used to create this instance.
+   * By default, that order is the order in which the nodes were added to the graph.
+   */
   @Override
   public Set<N> nodes() {
     return Collections.unmodifiableSet(nodeConnections.keySet());
@@ -96,6 +115,11 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
   @Override
   public boolean allowsSelfLoops() {
     return allowsSelfLoops;
+  }
+
+  @Override
+  public ElementOrder<? super N> nodeOrder() {
+    return nodeOrder;
   }
 
   @Override

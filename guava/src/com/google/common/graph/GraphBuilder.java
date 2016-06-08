@@ -17,11 +17,10 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
-
-import java.util.Comparator;
 
 /**
  * A builder for constructing instances of {@link Graph} with user-defined properties.
@@ -30,19 +29,18 @@ import java.util.Comparator;
  * <ul>
  * <li>does not allow parallel edges
  * <li>allows self-loops
+ * <li>orders {@code nodes()} in the order in which the elements were added
  * </ul>
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
  * @since 20.0
  */
-// TODO(b/24620028): Add support for sorted nodes/edges. Use the same pattern as CacheBuilder
-// to narrow the generic type when Comparators are provided.
 @Beta
 public final class GraphBuilder<N> {
   final boolean directed;
   boolean allowsSelfLoops = true;
-  Comparator<N> nodeComparator = null;
+  ElementOrder<N> nodeOrder = ElementOrder.insertion();
   Optional<Integer> expectedNodeCount = Optional.absent();
 
   /**
@@ -77,9 +75,12 @@ public final class GraphBuilder<N> {
    * are not set in the new builder.
    */
   public static <N> GraphBuilder<N> from(Graph<N> graph) {
+    checkNotNull(graph);
     // TODO(b/28087289): add allowsParallelEdges() once we support them
-    return new GraphBuilder<N>(graph.isDirected())
-        .allowsSelfLoops(graph.allowsSelfLoops());
+    return new GraphBuilder<Object>(graph.isDirected())
+        .allowsSelfLoops(graph.allowsSelfLoops())
+        .orderNodes(graph.nodeOrder())
+        .cast();
   }
 
   /**
@@ -105,9 +106,24 @@ public final class GraphBuilder<N> {
   }
 
   /**
+   * Specifies the order of iteration for the elements of {@link Network#nodes()}.
+   */
+  public <N1 extends N> GraphBuilder<N1> orderNodes(ElementOrder<N1> nodeOrder) {
+    checkNotNull(nodeOrder);
+    GraphBuilder<N1> newBuilder = cast();
+    newBuilder.nodeOrder = nodeOrder;
+    return newBuilder;
+  }
+
+  /**
    * Returns an empty {@link MutableGraph} with the properties of this {@link GraphBuilder}.
    */
   public <N1 extends N> MutableGraph<N1> build() {
     return new ConfigurableMutableGraph<N1>(this);
+  }
+
+  @SuppressWarnings("unchecked")
+  private <N1 extends N> GraphBuilder<N1> cast() {
+    return (GraphBuilder<N1>) this;
   }
 }

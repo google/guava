@@ -17,11 +17,10 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
-
-import java.util.Comparator;
 
 /**
  * A builder for constructing instances of {@link Network} with user-defined properties.
@@ -30,22 +29,21 @@ import java.util.Comparator;
  * <ul>
  * <li>does not allow parallel edges
  * <li>allows self-loops
+ * <li>orders {@code nodes()} and {@code edges()} in the order in which the elements were added
  * </ul>
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
  * @since 20.0
  */
-// TODO(b/24620028): Add support for sorted nodes/edges. Use the same pattern as CacheBuilder
-// to narrow the generic <N, E> type when Comparators are provided.
 // TODO(user): try creating an abstract superclass that this and GraphBuilder could derive from.
 @Beta
 public final class NetworkBuilder<N, E> {
   final boolean directed;
   boolean allowsParallelEdges = false;
   boolean allowsSelfLoops = true;
-  Comparator<N> nodeComparator = null;
-  Comparator<E> edgeComparator = null;
+  ElementOrder<? super N> nodeOrder = ElementOrder.insertion();
+  ElementOrder<? super E> edgeOrder = ElementOrder.insertion();
   Optional<Integer> expectedNodeCount = Optional.absent();
   Optional<Integer> expectedEdgeCount = Optional.absent();
 
@@ -81,9 +79,13 @@ public final class NetworkBuilder<N, E> {
    * {@link #expectedNodeCount(int)}, are not set in the new builder.
    */
   public static <N, E> NetworkBuilder<N, E> from(Network<N, E> graph) {
-    return new NetworkBuilder<N, E>(graph.isDirected())
+    checkNotNull(graph);
+    return new NetworkBuilder<Object, Object>(graph.isDirected())
         .allowsParallelEdges(graph.allowsParallelEdges())
-        .allowsSelfLoops(graph.allowsSelfLoops());
+        .allowsSelfLoops(graph.allowsSelfLoops())
+        .orderNodes(graph.nodeOrder())
+        .orderEdges(graph.edgeOrder())
+        .cast();
   }
 
   /**
@@ -130,9 +132,34 @@ public final class NetworkBuilder<N, E> {
   }
 
   /**
+   * Specifies the order of iteration for the elements of {@link Network#nodes()}.
+   */
+  public <N1 extends N> NetworkBuilder<N1, E> orderNodes(ElementOrder<N1> nodeOrder) {
+    checkNotNull(nodeOrder);
+    NetworkBuilder<N1, E> newBuilder = cast();
+    newBuilder.nodeOrder = nodeOrder;
+    return newBuilder;
+  }
+
+  /**
+   * Specifies the order of iteration for the elements of {@link Network#edges()}.
+   */
+  public <E1 extends E> NetworkBuilder<N, E1> orderEdges(ElementOrder<E1> edgeOrder) {
+    checkNotNull(edgeOrder);
+    NetworkBuilder<N, E1> newBuilder = cast();
+    newBuilder.edgeOrder = edgeOrder;
+    return newBuilder;
+  }
+
+  /**
    * Returns an empty {@link MutableNetwork} with the properties of this {@link NetworkBuilder}.
    */
   public <N1 extends N, E1 extends E> MutableNetwork<N1, E1> build() {
     return new ConfigurableMutableNetwork<N1, E1>(this);
+  }
+
+  @SuppressWarnings("unchecked")
+  private <N1 extends N, E1 extends E> NetworkBuilder<N1, E1> cast() {
+    return (NetworkBuilder<N1, E1>) this;
   }
 }

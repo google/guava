@@ -169,7 +169,9 @@ import javax.annotation.Nullable;
  */
 @Beta
 public interface Graph<N> {
-  /** Returns all nodes in this graph. */
+  /**
+   * Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}.
+   */
   Set<N> nodes();
 
   //
@@ -187,6 +189,11 @@ public interface Graph<N> {
    * {@link UnsupportedOperationException}.
    */
   boolean allowsSelfLoops();
+
+  /**
+   * Returns the order of iteration for the elements of {@link #nodes()}.
+   */
+  ElementOrder<? super N> nodeOrder();
 
   //
   // Element-level accessors
@@ -278,7 +285,8 @@ public interface Graph<N> {
    * <p>A reference implementation of this is provided by {@link Graphs#hashCode(Graph)}.
    *
    * <p>Note that by this definition, two graphs that are equal in every aspect except edge
-   * direction will have the same hash code (but can still be differentiated by {@link #equals}.
+   * direction will have the same hash code (but can still be differentiated by
+   * {@link #equals(Object)}.
    */
   @Override
   int hashCode();

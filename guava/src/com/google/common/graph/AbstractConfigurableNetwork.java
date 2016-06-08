@@ -60,7 +60,6 @@ import javax.annotation.Nullable;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-// TODO(b/24620028): Enable this class to support sorted nodes/edges.
 abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   // The default of 11 is rather arbitrary, but roughly matches the sizing of just new HashMap()
   private static final int DEFAULT_MAP_SIZE = 11;
@@ -68,6 +67,8 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   private final boolean isDirected;
   private final boolean allowsParallelEdges;
   private final boolean allowsSelfLoops;
+  private final ElementOrder<? super N> nodeOrder;
+  private final ElementOrder<? super E> edgeOrder;
 
   protected final Map<N, NodeConnections<N, E>> nodeConnections;
   protected final Map<E, N> edgeToReferenceNode; // reference node == source on directed networks
@@ -78,10 +79,38 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   AbstractConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder) {
     this(
         builder,
-        Maps.<N, NodeConnections<N, E>>newLinkedHashMapWithExpectedSize(
-            builder.expectedNodeCount.or(DEFAULT_MAP_SIZE)),
-        Maps.<E, N>newLinkedHashMapWithExpectedSize(
-            builder.expectedEdgeCount.or(DEFAULT_MAP_SIZE)));
+        AbstractConfigurableNetwork.<N, E>getNodeMapForBuilder(builder),
+        AbstractConfigurableNetwork.<N, E>getEdgeMapForBuilder(builder));
+  }
+
+  private static <S, T> Map<S, NodeConnections<S, T>> getNodeMapForBuilder(
+      NetworkBuilder<? super S, ? super T> builder) {
+    int expectedNodeSize = builder.expectedNodeCount.or(DEFAULT_MAP_SIZE);
+    switch (builder.nodeOrder.type()) {
+        case UNORDERED:
+          return Maps.newHashMapWithExpectedSize(expectedNodeSize);
+        case INSERTION:
+          return Maps.newLinkedHashMapWithExpectedSize(expectedNodeSize);
+        case SORTED:
+          return Maps.newTreeMap(builder.nodeOrder.comparator());
+        default:
+          throw new IllegalArgumentException("Unrecognized node ElementOrder type");
+    }
+  }
+
+  private static <S, T> Map<T, S> getEdgeMapForBuilder(
+      NetworkBuilder<? super S, ? super T> builder) {
+    int expectedEdgeSize = builder.expectedEdgeCount.or(DEFAULT_MAP_SIZE);
+    switch (builder.edgeOrder.type()) {
+        case UNORDERED:
+          return Maps.newHashMapWithExpectedSize(expectedEdgeSize);
+        case INSERTION:
+          return Maps.newLinkedHashMapWithExpectedSize(expectedEdgeSize);
+        case SORTED:
+          return Maps.newTreeMap(builder.edgeOrder.comparator());
+        default:
+          throw new IllegalArgumentException("Unrecognized edge ElementOrder type");
+    }
   }
 
   /**
@@ -94,15 +123,31 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     this.isDirected = builder.directed;
     this.allowsParallelEdges = builder.allowsParallelEdges;
     this.allowsSelfLoops = builder.allowsSelfLoops;
+    this.nodeOrder = builder.nodeOrder;
+    this.edgeOrder = builder.edgeOrder;
     this.nodeConnections = checkNotNull(nodeConnections);
     this.edgeToReferenceNode = checkNotNull(edgeToReferenceNode);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The order of iteration for this set is determined by the {@code ElementOrder<N>} provided
+   * to the {@code GraphBuilder} that was used to create this instance.
+   * By default, that order is the order in which the nodes were added to the graph.
+   */
   @Override
   public Set<N> nodes() {
     return Collections.unmodifiableSet(nodeConnections.keySet());
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The order of iteration for this set is determined by the {@code ElementOrder<E>} provided
+   * to the {@code GraphBuilder} that was used to create this instance.
+   * By default, that order is the order in which the edges were added to the graph.
+   */
   @Override
   public Set<E> edges() {
     return Collections.unmodifiableSet(edgeToReferenceNode.keySet());
@@ -121,6 +166,16 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   @Override
   public boolean allowsSelfLoops() {
     return allowsSelfLoops;
+  }
+
+  @Override
+  public ElementOrder<? super N> nodeOrder() {
+    return nodeOrder;
+  }
+
+  @Override
+  public ElementOrder<? super E> edgeOrder() {
+    return edgeOrder;
   }
 
   @Override

@@ -71,6 +71,9 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
   }
 
   private static <N, E> Map<N, NodeConnections<N, E>> getNodeConnections(Network<N, E> graph) {
+    // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will
+    // have whatever ordering the graph's nodes do, so ImmutableSortedMap is unnecessary even if the
+    // input nodes are sorted.
     ImmutableMap.Builder<N, NodeConnections<N, E>> nodeConnections = ImmutableMap.builder();
     for (N node : graph.nodes()) {
       nodeConnections.put(node, nodeConnectionsOf(graph, node));
@@ -79,6 +82,9 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
   }
 
   private static <N, E> Map<E, N> getEdgeToReferenceNode(Network<N, E> graph) {
+    // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will
+    // have whatever ordering the graph's edges do, so ImmutableSortedMap is unnecessary even if the
+    // input edges are sorted.
     ImmutableMap.Builder<E, N> edgeToReferenceNode = ImmutableMap.builder();
     for (E edge : graph.edges()) {
       edgeToReferenceNode.put(edge, graph.incidentNodes(edge).iterator().next());
