@@ -33,12 +33,16 @@ import javax.annotation.Nullable;
  * the backing sorted map as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * <p><i>Warning:</i> The methods of {@code ForwardingSortedMap} forward
+ * <p><b>Warning:</b> The methods of {@code ForwardingSortedMap} forward
  * <i>indiscriminately</i> to the methods of the delegate. For example,
  * overriding {@link #put} alone <i>will not</i> change the behavior of {@link
  * #putAll}, which can lead to unexpected behavior. In this case, you should
  * override {@code putAll} as well, either providing your own implementation, or
  * delegating to the provided {@code standardPutAll} method.
+ *
+ * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ * default} methods. Instead, it inherits their default implementations. When those implementations
+ * invoke methods, they invoke methods on the {@code ForwardingSortedMap}.
  *
  * <p>Each of the {@code standard} methods, where appropriate, use the
  * comparator of the map to test equality for both keys and values, unlike

@@ -44,6 +44,10 @@ import javax.annotation.Nullable;
  * override {@code addAll} as well, either providing your own implementation, or
  * delegating to the provided {@code standardAddAll} method.
  *
+ * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ * default} methods. Instead, it inherits their default implementations. When those implementations
+ * invoke methods, they invoke methods on the {@code ForwardingList}.
+ *
  * <p>The {@code standard} methods and any collection views they return are not
  * guaranteed to be thread-safe, even when all of the methods that they depend
  * on are thread-safe.

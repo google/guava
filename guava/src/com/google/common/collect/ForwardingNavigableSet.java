@@ -28,11 +28,15 @@ import java.util.SortedSet;
  * override one or more methods to modify the behavior of the backing set as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * <p><i>Warning:</i> The methods of {@code ForwardingNavigableSet} forward <i>indiscriminately</i>
+ * <p><b>Warning:</b> The methods of {@code ForwardingNavigableSet} forward <i>indiscriminately</i>
  * to the methods of the delegate. For example, overriding {@link #add} alone <i>will not</i>
  * change the behavior of {@link #addAll}, which can lead to unexpected behavior. In this case, you
  * should override {@code addAll} as well, either providing your own implementation, or delegating
  * to the provided {@code standardAddAll} method.
+ *
+ * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ * default} methods. Instead, it inherits their default implementations. When those implementations
+ * invoke methods, they invoke methods on the {@code ForwardingNavigableSet}.
  *
  * <p>Each of the {@code standard} methods uses the set's comparator (or the natural ordering of
  * the elements, if there is no comparator) to test element equality. As a result, if the
