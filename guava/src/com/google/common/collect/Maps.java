@@ -3196,31 +3196,28 @@ public final class Maps {
    * @since 12.0
    */
   @GwtIncompatible // NavigableMap
-  public static <K, V> NavigableMap<K, V> unmodifiableNavigableMap(NavigableMap<K, V> map) {
+  public static <K, V> NavigableMap<K, V> unmodifiableNavigableMap(
+      NavigableMap<K, ? extends V> map) {
     checkNotNull(map);
-    if (map instanceof UnmodifiableNavigableMap) {
-      return map;
-    } else {
-      return new UnmodifiableNavigableMap<K, V>(map);
-    }
+    return new UnmodifiableNavigableMap<K, V>(map);
   }
 
   @Nullable
-  private static <K, V> Entry<K, V> unmodifiableOrNull(@Nullable Entry<K, V> entry) {
+  private static <K, V> Entry<K, V> unmodifiableOrNull(@Nullable Entry<K, ? extends V> entry) {
     return (entry == null) ? null : Maps.unmodifiableEntry(entry);
   }
 
   @GwtIncompatible // NavigableMap
   static class UnmodifiableNavigableMap<K, V> extends ForwardingSortedMap<K, V>
       implements NavigableMap<K, V>, Serializable {
-    private final NavigableMap<K, V> delegate;
+    private final NavigableMap<K, ? extends V> delegate;
 
-    UnmodifiableNavigableMap(NavigableMap<K, V> delegate) {
+    UnmodifiableNavigableMap(NavigableMap<K, ? extends V> delegate) {
       this.delegate = delegate;
     }
 
     UnmodifiableNavigableMap(
-        NavigableMap<K, V> delegate, UnmodifiableNavigableMap<K, V> descendingMap) {
+        NavigableMap<K, ? extends V> delegate, UnmodifiableNavigableMap<K, V> descendingMap) {
       this.delegate = delegate;
       this.descendingMap = descendingMap;
     }
