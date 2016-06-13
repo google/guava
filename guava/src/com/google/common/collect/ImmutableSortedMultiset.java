@@ -395,7 +395,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * <pre> {@code
    *
    *   public static final ImmutableSortedMultiset<Bean> BEANS =
-   *       new ImmutableSortedMultiset.Builder<Bean>()
+   *       new ImmutableSortedMultiset.Builder<Bean>(colorComparator())
    *           .addCopies(Bean.COCOA, 4)
    *           .addCopies(Bean.GARDEN, 6)
    *           .addCopies(Bean.RED, 8)
