@@ -46,7 +46,7 @@ import javax.annotation.Nullable;
  *
  * <p>Definitions:
  * <ul>
- * <li>{@code node1} and {@code node2} are mutually <b>adjacent</b> (or <b>connected</b> in
+ * <li>{@code node1} and {@code node2} are mutually <b>adjacent</b> (or <b>connected</b>) in
  *     {@code graph} if an edge has been added between them:
  *     <br><pre><code>
  *       graph.addEdge(node1, node2);  // after this returns, node1 and node2 are adjacent
