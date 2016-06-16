@@ -175,10 +175,10 @@ import javax.annotation.Nullable;
  * <pre><code>
  *   // Visit nodes reachable from {@code node}.
  *   void depthFirstTraverse(N node) {
- *     for (N neighbor : graph.adjacentNodes(node)) {
- *       if (!isVisited(neighbor)) {
- *         visit(neighbor);
- *         depthFirstTraverse(neighbor);
+ *     if (!isVisited(node)) {
+ *       visit(node);
+ *       for (N successor : graph.successors(node)) {
+ *         depthFirstTraverse(successor);
  *       }
  *     }
  *   }
