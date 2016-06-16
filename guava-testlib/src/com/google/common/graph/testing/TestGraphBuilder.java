@@ -49,8 +49,8 @@ public final class TestGraphBuilder<N> {
     return this;
   }
 
-  public TestGraphBuilder<N> addEdge(N node1, N node2) {
-    graph.addEdge(node1, node2);
+  public TestGraphBuilder<N> addEdge(N nodeA, N nodeB) {
+    graph.addEdge(nodeA, nodeB);
     return this;
   }
 

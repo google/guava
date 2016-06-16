@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.graph.GraphErrorMessageUtils.ENDPOINTS_GRAPH_DIRECTEDNESS;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
@@ -30,7 +31,6 @@ import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -55,23 +55,17 @@ public final class Graphs {
   /**
    * Returns the node at the other end of {@code edge} from {@code node}.
    *
-   * @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}
    * @throws IllegalArgumentException if {@code edge} is not incident to {@code node}
    */
   public static <N> N oppositeNode(Network<N, ?> graph, Object edge, Object node) {
-    if (graph instanceof Hypergraph) {
-      throw new UnsupportedOperationException();
-    }
-
     checkNotNull(node, "node");
-    Iterator<N> incidentNodesIterator = graph.incidentNodes(edge).iterator();
-    N node1 = incidentNodesIterator.next();
-    N node2 = incidentNodesIterator.hasNext() ? incidentNodesIterator.next() : node1;
-    if (node.equals(node1)) {
-      return node2;
+    Endpoints<N> endpoints = graph.incidentNodes(edge);
+    if (node.equals(endpoints.nodeA())) {
+      return endpoints.nodeB();
     } else {
-      checkArgument(node.equals(node2), "Edge %s is not incident to node %s", edge, node);
-      return node1;
+      checkArgument(node.equals(endpoints.nodeB()),
+          "Edge %s is not incident to node %s", edge, node);
+      return endpoints.nodeA();
     }
   }
 
@@ -79,45 +73,28 @@ public final class Graphs {
    * Returns an unmodifiable view of edges that are parallel to {@code edge}, i.e. the set of edges
    * that connect the same nodes in the same direction (if any). An edge is not parallel to itself.
    *
-   * @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}
    * @throws IllegalArgumentException if {@code edge} is not present in {@code graph}
    */
   public static <N, E> Set<E> parallelEdges(Network<N, E> graph, Object edge) {
-    if (graph instanceof Hypergraph) {
-      throw new UnsupportedOperationException();
-    }
-
-    Set<N> incidentNodes = graph.incidentNodes(edge); // Verifies that edge is in graph
+    Endpoints<N> endpoints = graph.incidentNodes(edge); // Verifies that edge is in graph
     if (!graph.allowsParallelEdges()) {
       return ImmutableSet.of();
     }
-    Iterator<N> incidentNodesIterator = incidentNodes.iterator();
-    N node1 = incidentNodesIterator.next();
-    N node2 = incidentNodesIterator.hasNext() ? incidentNodesIterator.next() : node1;
-    return Sets.difference(graph.edgesConnecting(node1, node2), ImmutableSet.of(edge));
+    return Sets.difference(graph.edgesConnecting(endpoints.nodeA(), endpoints.nodeB()),
+        ImmutableSet.of(edge)); // An edge is not parallel to itself.
   }
 
   /**
-   * Adds {@code edge} to {@code graph} with the specified incident {@code nodes}, in the order
-   * returned by {@code nodes}' iterator.
+   * Adds {@code edge} to {@code graph} with the specified {@code endpoints}.
    */
   @CanIgnoreReturnValue
-  public static <N, E> boolean addEdge(MutableNetwork<N, E> graph, E edge, Iterable<N> nodes) {
+  public static <N, E> boolean addEdge(MutableNetwork<N, E> graph, E edge, Endpoints<N> endpoints) {
     checkNotNull(graph, "graph");
     checkNotNull(edge, "edge");
-    checkNotNull(nodes, "nodes");
-    if (graph instanceof Hypergraph) {
-      return ((Hypergraph<N, E>) graph).addEdge(edge, nodes);
-    }
-
-    Iterator<N> nodesIterator = nodes.iterator();
-    checkArgument(nodesIterator.hasNext(),
-        "'graph' is not a Hypergraph, and 'nodes' has < 1 elements: %s", nodes);
-    N node1 = nodesIterator.next();
-    N node2 = nodesIterator.hasNext() ? nodesIterator.next() : node1;
-    checkArgument(!nodesIterator.hasNext(),
-        "'graph' is not a Hypergraph, and 'nodes' has > 2 elements: %s", nodes);
-    return graph.addEdge(edge, node1, node2);
+    checkNotNull(endpoints, "endpoints");
+    checkArgument(endpoints.isDirected() == graph.isDirected(),
+        ENDPOINTS_GRAPH_DIRECTEDNESS, endpoints.isDirected(), graph.isDirected());
+    return graph.addEdge(edge, endpoints.nodeA(), endpoints.nodeB());
   }
 
   /**
@@ -136,14 +113,10 @@ public final class Graphs {
     checkNotNull(nodePredicate, "nodePredicate");
     MutableGraph<N> copy = GraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();
 
-    for (N node : graph.nodes()) {
-      if (nodePredicate.apply(node)) {
-        copy.addNode(node);
-        for (N successor : graph.successors(node)) {
-          if (nodePredicate.apply(successor)) {
-            copy.addEdge(node, successor);
-          }
-        }
+    for (N node : Sets.filter(graph.nodes(), nodePredicate)) {
+      copy.addNode(node);
+      for (N successor : Sets.filter(graph.successors(node), nodePredicate)) {
+        copy.addEdge(node, successor);
       }
       // TODO(b/28087289): update this when parallel edges are permitted to ensure that the correct
       // multiplicity is preserved.
@@ -196,12 +169,10 @@ public final class Graphs {
 
     // We can't just call mergeEdgesFrom(graph, copy, edgePredicate) because addEdge() can add
     // the edge's incident nodes if they are not present.
-    for (E edge : graph.edges()) {
-      if (edgePredicate.apply(edge)) {
-        Set<N> incidentNodes = graph.incidentNodes(edge);
-        if (copy.nodes().containsAll(incidentNodes)) {
-          addEdge(copy, edge, incidentNodes);
-        }
+    for (E edge : Sets.filter(graph.edges(), edgePredicate)) {
+      Endpoints<N> endpoints = graph.incidentNodes(edge);
+      if (copy.nodes().containsAll(endpoints)) {
+        addEdge(copy, edge, endpoints);
       }
     }
 
@@ -336,9 +307,10 @@ public final class Graphs {
    * @see Graph#hashCode()
    */
   public static int hashCode(Graph<?> graph) {
-    return (graph instanceof Network)
-        ? hashCode((Network<?, ?>) graph)
-        : nodeToAdjacentNodes(graph).hashCode();
+    if (graph instanceof Network) {
+      return hashCode((Network<?, ?>) graph);
+    }
+    return nodeToAdjacentNodes(graph).hashCode();
   }
 
   /**
@@ -408,6 +380,10 @@ public final class Graphs {
     });
   }
 
+  /**
+   * Returns a map that is a live view of {@code graph}, with nodes as keys
+   * and the set of adjacent nodes as values.
+   */
   private static <N> Map<N, Set<N>> nodeToAdjacentNodes(final Graph<N> graph) {
     checkNotNull(graph, "graph");
     return Maps.asMap(graph.nodes(), new Function<N, Set<N>>() {
@@ -424,15 +400,7 @@ public final class Graphs {
    * {@link IllegalArgumentException} if {@code graph} does not contain {@code edge}.
    */
   private static Function<Object, String> edgeToIncidentNodesString(final Network<?, ?> graph) {
-    if (graph.isDirected()) {
-      return new Function<Object, String>() {
-        @Override
-        public String apply(Object edge) {
-          return String.format("<%s -> %s>",
-              graph.source(edge), graph.target(edge));
-          }
-        };
-    }
+    checkNotNull(graph, "graph");
     return new Function<Object, String>() {
       @Override
       public String apply(Object edge) {

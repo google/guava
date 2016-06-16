@@ -42,24 +42,24 @@ public interface MutableGraph<N> extends Graph<N> {
   boolean addNode(N node);
 
   /**
-   * Adds an (implicit) edge to this graph connecting {@code node1} to {@code node2}
+   * Adds an (implicit) edge to this graph connecting {@code nodeA} to {@code nodeB}
    * (optional operation).
    *
-   * <p>Behavior if {@code node1} and {@code node2} are not already elements of the graph is
-   * unspecified. Suggested behaviors include (a) silently adding {@code node1} and {@code node2}
+   * <p>Behavior if {@code nodeA} and {@code nodeB} are not already elements of the graph is
+   * unspecified. Suggested behaviors include (a) silently adding {@code nodeA} and {@code nodeB}
    * to the graph or (b) throwing {@code IllegalArgumentException}.
    *
-   * <p>Currently, this type does not support parallel edges.  {@code addEdge(node1, node2)} will
+   * <p>Currently, this type does not support parallel edges.  {@code addEdge(nodeA, nodeB)} will
    * simply return false on any future calls with the same arguments (analogous to the behavior of
-   * {@code Network.addEdge(e, node1, node2)}).  A hypothetical instance that supported parallel
-   * edges would add a new edge between {@code node1} and {@code node2} for every call to
-   * {@code addEdge(node1, node2)}, and return {@code true} every time.
+   * {@code Network.addEdge(e, nodeA, nodeB)}).  A hypothetical instance that supported parallel
+   * edges would add a new edge between {@code nodeA} and {@code nodeB} for every call to
+   * {@code addEdge(nodeA, nodeB)}, and return {@code true} every time.
    *
    * @return {@code true} iff the graph was modified as a result of this call
    * @throws UnsupportedOperationException if the add operation is not supported by this graph
    */
   @CanIgnoreReturnValue
-  boolean addEdge(N node1, N node2);
+  boolean addEdge(N nodeA, N nodeB);
 
   /**
    * Removes {@code node} from this graph, if it is present (optional operation).
@@ -73,7 +73,7 @@ public interface MutableGraph<N> extends Graph<N> {
   boolean removeNode(Object node);
 
   /**
-   * Removes an edge connecting {@code node1} to {@code node2} from this graph, if one is present
+   * Removes an edge connecting {@code nodeA} to {@code nodeB} from this graph, if one is present
    * (optional operation).
    *
    * <p>In general, the input nodes are unaffected (although implementations may choose
@@ -83,5 +83,5 @@ public interface MutableGraph<N> extends Graph<N> {
    * @throws UnsupportedOperationException if the remove operation is not supported by this graph
    */
   @CanIgnoreReturnValue
-  boolean removeEdge(Object node1, Object node2);
+  boolean removeEdge(Object nodeA, Object nodeB);
 }

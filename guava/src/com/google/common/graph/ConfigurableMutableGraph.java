@@ -56,36 +56,36 @@ final class ConfigurableMutableGraph<N>
   }
 
   /**
-   * Add an edge between {@code node1} and {@code node2}; if these nodes are not already
+   * Add an edge between {@code nodeA} and {@code nodeB}; if these nodes are not already
    * present in this graph, then add them.
-   * Return {@code false} if an edge already exists between {@code node1} and {@code node2},
+   * Return {@code false} if an edge already exists between {@code nodeA} and {@code nodeB},
    * and in the same direction.
    *
-   * @throws IllegalArgumentException if self-loops are not allowed, and {@code node1} is equal to
-   *     {@code node2}.
+   * @throws IllegalArgumentException if self-loops are not allowed, and {@code nodeA} is equal to
+   *     {@code nodeB}.
    */
   @Override
   @CanIgnoreReturnValue
-  public boolean addEdge(N node1, N node2) {
-    checkNotNull(node1, "node1");
-    checkNotNull(node2, "node2");
-    checkArgument(allowsSelfLoops() || !node1.equals(node2), SELF_LOOPS_NOT_ALLOWED, node1);
-    boolean containsN1 = containsNode(node1);
-    boolean containsN2 = containsNode(node2);
+  public boolean addEdge(N nodeA, N nodeB) {
+    checkNotNull(nodeA, "nodeA");
+    checkNotNull(nodeB, "nodeB");
+    checkArgument(allowsSelfLoops() || !nodeA.equals(nodeB), SELF_LOOPS_NOT_ALLOWED, nodeA);
+    boolean containsN1 = containsNode(nodeA);
+    boolean containsN2 = containsNode(nodeB);
     // TODO(user): does not support parallel edges
-    if (containsN1 && containsN2 && nodeConnections.get(node1).successors().contains(node2)) {
+    if (containsN1 && containsN2 && nodeConnections.get(nodeA).successors().contains(nodeB)) {
       return false;
     }
     if (!containsN1) {
-      addNode(node1);
+      addNode(nodeA);
     }
-    NodeAdjacencies<N> connectionsN1 = nodeConnections.get(node1);
-    connectionsN1.addSuccessor(node2);
+    NodeAdjacencies<N> connectionsN1 = nodeConnections.get(nodeA);
+    connectionsN1.addSuccessor(nodeB);
     if (!containsN2) {
-      addNode(node2);
+      addNode(nodeB);
     }
-    NodeAdjacencies<N> connectionsN2 = nodeConnections.get(node2);
-    connectionsN2.addPredecessor(node1);
+    NodeAdjacencies<N> connectionsN2 = nodeConnections.get(nodeB);
+    connectionsN2.addPredecessor(nodeA);
     return true;
   }
 
@@ -112,16 +112,16 @@ final class ConfigurableMutableGraph<N>
 
   @Override
   @CanIgnoreReturnValue
-  public boolean removeEdge(Object node1, Object node2) {
-    checkNotNull(node1, "node1");
-    checkNotNull(node2, "node2");
-    NodeAdjacencies<N> connectionsN1 = nodeConnections.get(node1);
-    if (connectionsN1 == null || !connectionsN1.successors().contains(node2)) {
+  public boolean removeEdge(Object nodeA, Object nodeB) {
+    checkNotNull(nodeA, "nodeA");
+    checkNotNull(nodeB, "nodeB");
+    NodeAdjacencies<N> connectionsN1 = nodeConnections.get(nodeA);
+    if (connectionsN1 == null || !connectionsN1.successors().contains(nodeB)) {
       return false;
     }
-    NodeAdjacencies<N> connectionsN2 = nodeConnections.get(node2);
-    connectionsN1.removeSuccessor(node2);
-    connectionsN2.removePredecessor(node1);
+    NodeAdjacencies<N> connectionsN2 = nodeConnections.get(nodeB);
+    connectionsN1.removeSuccessor(nodeB);
+    connectionsN2.removePredecessor(nodeA);
     return true;
   }
 

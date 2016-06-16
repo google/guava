@@ -31,9 +31,10 @@ final class GraphErrorMessageUtils {
   static final String ADDING_PARALLEL_EDGE =
       "Nodes %s and %s are already connected by a different edge.";
   static final String SELF_LOOPS_NOT_ALLOWED =
-      "Can't add self-loop edge on node %s, as self-loops are not allowed.";
+      "Cannot add self-loop edge on node %s, as self-loops are not allowed.";
   static final String NOT_AVAILABLE_ON_UNDIRECTED =
-      "Cannot call source()/target() on an undirected graph. "
-          + "Consider using incidentNodes() (if you don't know either incident node) "
-          + "or Graphs.oppositeNode() (if you know one of the incident nodes).";
+      "Cannot call source()/target() on undirected endpoints.";
+  static final String ENDPOINTS_GRAPH_DIRECTEDNESS =
+      "The endpoints' directedness (isDirected = %s) does not match the graph's directedness "
+          + "(isDirected = %s). A graph cannot have both directed and undirected edges.";
 }

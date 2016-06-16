@@ -61,41 +61,41 @@ final class ConfigurableMutableNetwork<N, E>
 
   /**
    * Add nodes that are not elements of the graph, then add {@code edge} between them.
-   * Return {@code false} if {@code edge} already exists between {@code node1} and {@code node2},
+   * Return {@code false} if {@code edge} already exists between {@code nodeA} and {@code nodeB},
    * and in the same direction.
    *
    * @throws IllegalArgumentException if an edge (other than {@code edge}) already
-   *         exists from {@code node1} to {@code node2}, and this is not a multigraph.
-   *         Also, if self-loops are not allowed, and {@code node1} is equal to {@code node2}.
+   *         exists from {@code nodeA} to {@code nodeB}, and this is not a multigraph.
+   *         Also, if self-loops are not allowed, and {@code nodeA} is equal to {@code nodeB}.
    */
   @Override
   @CanIgnoreReturnValue
-  public boolean addEdge(E edge, N node1, N node2) {
+  public boolean addEdge(E edge, N nodeA, N nodeB) {
     checkNotNull(edge, "edge");
-    checkNotNull(node1, "node1");
-    checkNotNull(node2, "node2");
-    checkArgument(allowsSelfLoops() || !node1.equals(node2), SELF_LOOPS_NOT_ALLOWED, node1);
-    boolean containsN1 = containsNode(node1);
-    boolean containsN2 = containsNode(node2);
+    checkNotNull(nodeA, "nodeA");
+    checkNotNull(nodeB, "nodeB");
+    checkArgument(allowsSelfLoops() || !nodeA.equals(nodeB), SELF_LOOPS_NOT_ALLOWED, nodeA);
+    boolean containsN1 = containsNode(nodeA);
+    boolean containsN2 = containsNode(nodeB);
     if (containsEdge(edge)) {
-      checkArgument(containsN1 && containsN2 && edgesConnecting(node1, node2).contains(edge),
-          REUSING_EDGE, edge, incidentNodes(edge), node1, node2);
+      checkArgument(containsN1 && containsN2 && edgesConnecting(nodeA, nodeB).contains(edge),
+          REUSING_EDGE, edge, incidentNodes(edge), nodeA, nodeB);
       return false;
     } else if (!allowsParallelEdges()) {
-      checkArgument(!(containsN1 && containsN2 && successors(node1).contains(node2)),
-          ADDING_PARALLEL_EDGE, node1, node2);
+      checkArgument(!(containsN1 && containsN2 && successors(nodeA).contains(nodeB)),
+          ADDING_PARALLEL_EDGE, nodeA, nodeB);
     }
     if (!containsN1) {
-      addNode(node1);
+      addNode(nodeA);
     }
-    NodeConnections<N, E> connectionsN1 = nodeConnections.get(node1);
-    connectionsN1.addOutEdge(edge, node2);
+    NodeConnections<N, E> connectionsN1 = nodeConnections.get(nodeA);
+    connectionsN1.addOutEdge(edge, nodeB);
     if (!containsN2) {
-      addNode(node2);
+      addNode(nodeB);
     }
-    NodeConnections<N, E> connectionsN2 = nodeConnections.get(node2);
-    connectionsN2.addInEdge(edge, node1);
-    edgeToReferenceNode.put(edge, node1);
+    NodeConnections<N, E> connectionsN2 = nodeConnections.get(nodeB);
+    connectionsN2.addInEdge(edge, nodeA);
+    edgeToReferenceNode.put(edge, nodeA);
     return true;
   }
 
@@ -119,13 +119,13 @@ final class ConfigurableMutableNetwork<N, E>
   @CanIgnoreReturnValue
   public boolean removeEdge(Object edge) {
     checkNotNull(edge, "edge");
-    N node1 = edgeToReferenceNode.get(edge);
-    if (node1 == null) {
+    N nodeA = edgeToReferenceNode.get(edge);
+    if (nodeA == null) {
       return false;
     }
-    N node2 = nodeConnections.get(node1).oppositeNode(edge);
-    nodeConnections.get(node1).removeOutEdge(edge);
-    nodeConnections.get(node2).removeInEdge(edge);
+    N nodeB = nodeConnections.get(nodeA).oppositeNode(edge);
+    nodeConnections.get(nodeA).removeOutEdge(edge);
+    nodeConnections.get(nodeB).removeInEdge(edge);
     edgeToReferenceNode.remove(edge);
     return true;
   }

@@ -44,7 +44,7 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
     Set<Integer> nodes = graph.nodes();
     try {
       nodes.add(N2);
-      fail(ERROR_MODIFIABLE_SET);
+      fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
       addNode(N1);
       assertThat(graph.nodes()).containsExactlyElementsIn(nodes);
@@ -57,7 +57,7 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
     Set<String> edges = graph.edges();
     try {
       edges.add(E12);
-      fail(ERROR_MODIFIABLE_SET);
+      fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
       assertThat(graph.edges()).containsExactlyElementsIn(edges);
@@ -71,7 +71,7 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
     Set<String> incidentEdges = graph.incidentEdges(N1);
     try {
       incidentEdges.add(E12);
-      fail(ERROR_MODIFIABLE_SET);
+      fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
       assertThat(graph.incidentEdges(N1)).containsExactlyElementsIn(incidentEdges);
@@ -82,10 +82,10 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
   @Test
   public void incidentNodes_checkReturnedSetMutability() {
     addEdge(E12, N1, N2);
-    Set<Integer> incidentNodes = graph.incidentNodes(E12);
+    Endpoints<Integer> incidentNodes = graph.incidentNodes(E12);
     try {
       incidentNodes.add(N3);
-      fail(ERROR_MODIFIABLE_SET);
+      fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException expected) {
     }
   }
@@ -97,7 +97,7 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
     Set<Integer> adjacentNodes = graph.adjacentNodes(N1);
     try {
       adjacentNodes.add(N2);
-      fail(ERROR_MODIFIABLE_SET);
+      fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
       assertThat(graph.adjacentNodes(N1)).containsExactlyElementsIn(adjacentNodes);
@@ -111,7 +111,7 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
     Set<String> adjacentEdges = graph.adjacentEdges(E12);
     try {
       adjacentEdges.add(E23);
-      fail(ERROR_MODIFIABLE_SET);
+      fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
       addEdge(E23, N2, N3);
       assertThat(graph.adjacentEdges(E12)).containsExactlyElementsIn(adjacentEdges);
@@ -126,7 +126,7 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
     Set<String> edgesConnecting = graph.edgesConnecting(N1, N2);
     try {
       edgesConnecting.add(E23);
-      fail(ERROR_MODIFIABLE_SET);
+      fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
       assertThat(graph.edgesConnecting(N1, N2)).containsExactlyElementsIn(edgesConnecting);
@@ -140,7 +140,7 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
     Set<String> inEdges = graph.inEdges(N2);
     try {
       inEdges.add(E12);
-      fail(ERROR_MODIFIABLE_SET);
+      fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
       assertThat(graph.inEdges(N2)).containsExactlyElementsIn(inEdges);
@@ -154,7 +154,7 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
     Set<String> outEdges = graph.outEdges(N1);
     try {
       outEdges.add(E12);
-      fail(ERROR_MODIFIABLE_SET);
+      fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
       assertThat(graph.outEdges(N1)).containsExactlyElementsIn(outEdges);
@@ -168,7 +168,7 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
     Set<Integer> predecessors = graph.predecessors(N2);
     try {
       predecessors.add(N1);
-      fail(ERROR_MODIFIABLE_SET);
+      fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
       assertThat(graph.predecessors(N2)).containsExactlyElementsIn(predecessors);
@@ -182,7 +182,7 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
     Set<Integer> successors = graph.successors(N1);
     try {
       successors.add(N2);
-      fail(ERROR_MODIFIABLE_SET);
+      fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
       addEdge(E12, N1, N2);
       assertThat(successors).containsExactlyElementsIn(graph.successors(N1));

@@ -46,24 +46,24 @@ import javax.annotation.Nullable;
  *
  * <p>Definitions:
  * <ul>
- * <li>{@code node1} and {@code node2} are mutually <b>adjacent</b> (or <b>connected</b>) in
+ * <li>{@code nodeA} and {@code nodeB} are mutually <b>adjacent</b> (or <b>connected</b>) in
  *     {@code graph} if an edge has been added between them:
  *     <br><pre><code>
- *       graph.addEdge(node1, node2);  // after this returns, node1 and node2 are adjacent
+ *       graph.addEdge(nodeA, nodeB);  // after this returns, nodeA and nodeB are adjacent
  *     </pre></code>
  *   In this example, if {@code graph} is <b>directed</b>, then:
  *   <ul>
- *   <li>{@code node1} is a <b>predecessor</b> of {code node2} in {@code graph}
- *   <li>{@code node2} is a <b>successor</b> of {@code node1} in {@code graph}
- *   <li>{@code node1} has an (implicit) outgoing edge to {@code node2} in {@code graph}
- *   <li>{@code node2} has an (implicit) incoming edge from {@code node1} in {@code graph}
+ *   <li>{@code nodeA} is a <b>predecessor</b> of {code nodeB} in {@code graph}
+ *   <li>{@code nodeB} is a <b>successor</b> of {@code nodeA} in {@code graph}
+ *   <li>{@code nodeA} has an (implicit) outgoing edge to {@code nodeB} in {@code graph}
+ *   <li>{@code nodeB} has an (implicit) incoming edge from {@code nodeA} in {@code graph}
  *   </ul>
  *   If {@code graph} is <b>undirected</b>, then:
  *   <ul>
- *   <li>{@code node1} and {@code node2} are mutually predecessors and successors
+ *   <li>{@code nodeA} and {@code nodeB} are mutually predecessors and successors
  *       in {@code graph}
- *   <li>{@code node1} has an (implicit) edge in {@code graph} that is both outgoing to
- *       to {@code node2} and incoming from {@code node2}, and vice versa.
+ *   <li>{@code nodeA} has an (implicit) edge in {@code graph} that is both outgoing to
+ *       to {@code nodeB} and incoming from {@code nodeB}, and vice versa.
  *   </ul>
  * <li>A self-loop is an edge that connects a node to itself.
  * </ul>
@@ -72,8 +72,8 @@ import javax.annotation.Nullable;
  * <ul>
  * <li><b>Nodes must be useable as {@code Map} keys</b>:
  *   <ul>
- *   <li>They must be unique in a graph: nodes {@code node1} and {@code node2} are considered
- *       different if and only if {@code node1.equals(node2) == false}.
+ *   <li>They must be unique in a graph: nodes {@code nodeA} and {@code nodeB} are considered
+ *       different if and only if {@code nodeA.equals(nodeB) == false}.
  *   <li>If graph elements have mutable state:
  *     <ul>
  *     <li>the mutable state must not be reflected in the {@code equals/hashCode} methods

@@ -30,7 +30,7 @@ import java.util.Set;
  * A {@link Network} whose relationships are constant. Instances of this class may be obtained
  * with {@link #copyOf(Network)}.
  *
- * <p>The time complexity of {@code edgesConnecting(node1, node2)} is O(min(outD_node1, inD_node2)).
+ * <p>The time complexity of {@code edgesConnecting(nodeA, nodeB)} is O(min(outD_nodeA, inD_nodeB)).
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
@@ -64,10 +64,10 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
   }
 
   @Override
-  public Set<E> edgesConnecting(Object node1, Object node2) {
+  public Set<E> edgesConnecting(Object nodeA, Object nodeB) {
     // This set is calculated as the intersection of two sets, and is likely to be small.
     // As an optimization, copy it to an ImmutableSet so re-iterating is fast.
-    return ImmutableSet.copyOf(super.edgesConnecting(node1, node2));
+    return ImmutableSet.copyOf(super.edgesConnecting(nodeA, nodeB));
   }
 
   private static <N, E> Map<N, NodeConnections<N, E>> getNodeConnections(Network<N, E> graph) {
@@ -87,7 +87,7 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
     // input edges are sorted.
     ImmutableMap.Builder<E, N> edgeToReferenceNode = ImmutableMap.builder();
     for (E edge : graph.edges()) {
-      edgeToReferenceNode.put(edge, graph.incidentNodes(edge).iterator().next());
+      edgeToReferenceNode.put(edge, graph.incidentNodes(edge).nodeA());
     }
     return edgeToReferenceNode.build();
   }
@@ -112,7 +112,7 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
     return new Function<E, N>() {
       @Override
       public N apply(E edge) {
-        return graph.source(edge);
+        return graph.incidentNodes(edge).source();
       }
     };
   }
@@ -121,7 +121,7 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
     return new Function<E, N>() {
       @Override
       public N apply(E edge) {
-        return graph.target(edge);
+        return graph.incidentNodes(edge).target();
       }
     };
   }

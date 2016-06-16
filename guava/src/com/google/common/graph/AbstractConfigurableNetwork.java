@@ -20,14 +20,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphErrorMessageUtils.EDGE_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphErrorMessageUtils.NODE_NOT_IN_GRAPH;
-import static com.google.common.graph.GraphErrorMessageUtils.NOT_AVAILABLE_ON_UNDIRECTED;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -71,6 +69,9 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   private final ElementOrder<? super E> edgeOrder;
 
   protected final Map<N, NodeConnections<N, E>> nodeConnections;
+
+  // We could make this a Map<E, Endpoints<N>>. Although it would make incidentNodes(edge)
+  // slightly faster, it would also make Networks consume approximately 20% more memory.
   protected final Map<E, N> edgeToReferenceNode; // reference node == source on directed networks
 
   /**
@@ -184,10 +185,10 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   }
 
   @Override
-  public Set<N> incidentNodes(Object edge) {
-    N node1 = checkedReferenceNode(edge);
-    N node2 = nodeConnections.get(node1).oppositeNode(edge);
-    return ImmutableSet.of(node1, node2);
+  public Endpoints<N> incidentNodes(Object edge) {
+    N nodeA = checkedReferenceNode(edge);
+    N nodeB = nodeConnections.get(nodeA).oppositeNode(edge);
+    return isDirected ? Endpoints.ofDirected(nodeA, nodeB) : Endpoints.ofUndirected(nodeA, nodeB);
   }
 
   @Override
@@ -197,23 +198,20 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
 
   @Override
   public Set<E> adjacentEdges(Object edge) {
-    Iterator<N> incidentNodesIterator = incidentNodes(edge).iterator();
-    Set<E> endpointsIncidentEdges = incidentEdges(incidentNodesIterator.next());
-    while (incidentNodesIterator.hasNext()) {
-      endpointsIncidentEdges =
-          Sets.union(incidentEdges(incidentNodesIterator.next()), endpointsIncidentEdges);
-    }
+    Endpoints<N> endpoints = incidentNodes(edge);
+    Set<E> endpointsIncidentEdges =
+        Sets.union(incidentEdges(endpoints.nodeA()), incidentEdges(endpoints.nodeB()));
     return Sets.difference(endpointsIncidentEdges, ImmutableSet.of(edge));
   }
 
   @Override
-  public Set<E> edgesConnecting(Object node1, Object node2) {
-    NodeConnections<N, E> connectionsN1 = checkedConnections(node1);
-    if (!allowsSelfLoops && node1.equals(node2)) {
+  public Set<E> edgesConnecting(Object nodeA, Object nodeB) {
+    NodeConnections<N, E> connectionsN1 = checkedConnections(nodeA);
+    if (!allowsSelfLoops && nodeA.equals(nodeB)) {
       return ImmutableSet.of();
     }
-    checkArgument(containsNode(node2), NODE_NOT_IN_GRAPH, node2);
-    return connectionsN1.edgesConnecting(node2);
+    checkArgument(containsNode(nodeB), NODE_NOT_IN_GRAPH, nodeB);
+    return connectionsN1.edgesConnecting(nodeB);
   }
 
   @Override
@@ -234,20 +232,6 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   @Override
   public Set<N> successors(Object node) {
     return checkedConnections(node).successors();
-  }
-
-  @Override
-  public N source(Object edge) {
-    if (!isDirected) {
-      throw new UnsupportedOperationException(NOT_AVAILABLE_ON_UNDIRECTED);
-    }
-    return checkedReferenceNode(edge);
-  }
-
-  @Override
-  public N target(Object edge) {
-    N source = source(edge);
-    return nodeConnections.get(source).oppositeNode(edge);
   }
 
   protected NodeConnections<N, E> checkedConnections(Object node) {

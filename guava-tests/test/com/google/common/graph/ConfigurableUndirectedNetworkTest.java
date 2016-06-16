@@ -54,7 +54,7 @@ public class ConfigurableUndirectedNetworkTest extends ConfigurableSimpleUndirec
   @Test
   public void incidentNodes_selfLoop() {
     addEdge(E11, N1, N1);
-    assertThat(graph.incidentNodes(E11)).containsExactly(N1);
+    assertThat(graph.incidentNodes(E11)).containsExactly(N1, N1);
   }
 
   @Test

@@ -45,14 +45,16 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
     for (Integer node : graph.nodes()) {
       for (String inEdge : graph.inEdges(node)) {
         Integer oppositeNode = Graphs.oppositeNode(graph, inEdge, node);
-        assertThat(graph.source(inEdge)).isEqualTo(oppositeNode);
-        assertThat(graph.target(inEdge)).isEqualTo(node);
+        Endpoints<Integer> endpoints = graph.incidentNodes(inEdge);
+        assertThat(endpoints.source()).isEqualTo(oppositeNode);
+        assertThat(endpoints.target()).isEqualTo(node);
       }
 
       for (String outEdge : graph.outEdges(node)) {
         Integer oppositeNode = Graphs.oppositeNode(graph, outEdge, node);
-        assertThat(graph.source(outEdge)).isEqualTo(node);
-        assertThat(graph.target(outEdge)).isEqualTo(oppositeNode);
+        Endpoints<Integer> endpoints = graph.incidentNodes(outEdge);
+        assertThat(endpoints.source()).isEqualTo(node);
+        assertThat(endpoints.target()).isEqualTo(oppositeNode);
       }
 
       for (Integer adjacentNode : graph.adjacentNodes(node)) {
@@ -130,13 +132,13 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
   @Test
   public void source_oneEdge() {
     addEdge(E12, N1, N2);
-    assertEquals(N1, graph.source(E12));
+    assertEquals(N1, graph.incidentNodes(E12).source());
   }
 
   @Test
   public void source_edgeNotInGraph() {
     try {
-      graph.source(EDGE_NOT_IN_GRAPH);
+      graph.incidentNodes(EDGE_NOT_IN_GRAPH).source();
       fail(ERROR_EDGE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);
@@ -146,13 +148,13 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
   @Test
   public void target_oneEdge() {
     addEdge(E12, N1, N2);
-    assertEquals(N2, graph.target(E12));
+    assertEquals(N2, graph.incidentNodes(E12).target());
   }
 
   @Test
   public void target_edgeNotInGraph() {
     try {
-      graph.target(EDGE_NOT_IN_GRAPH);
+      graph.incidentNodes(EDGE_NOT_IN_GRAPH).target();
       fail(ERROR_EDGE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);

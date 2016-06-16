@@ -47,7 +47,7 @@ import javax.annotation.Nullable;
  * <ul>
  * <li>{@code edge} and {@code node} are <b>incident</b> to each other if the set of
  *     {@code edge}'s endpoints includes {@code node}.
- * <li>{@code node1} and {@code node2} are mutually <b>adjacent</b> if both are incident
+ * <li>{@code nodeA} and {@code nodeB} are mutually <b>adjacent</b> if both are incident
  *     to a common {@code edge}.
  *     <br>Similarly, {@code edge1} and {@code edge2} are mutually adjacent if both are
  *     incident to a common {@code node}.
@@ -61,11 +61,11 @@ import javax.annotation.Nullable;
  *   <li>Note: <b>undirected</b> edges are both incoming and outgoing edges of a {@code node},
  *       while <b>directed</b> edges are either incoming or outgoing edges of {@code node}
  *       (and not both, unless the edge is a self-loop).
- *       <br>Thus, in the following example {@code edge1} is an incoming edge of {@code node2} and
- *       an outgoing edge of {@code node1}, while {@code edge2} is both an incoming and an outgoing
+ *       <br>Thus, in the following example {@code edge1} is an incoming edge of {@code nodeB} and
+ *       an outgoing edge of {@code nodeA}, while {@code edge2} is both an incoming and an outgoing
  *       edge of both {@code node3} and {@code node4}:
  *       <br><pre><code>
- *         directedGraph.addEdge(edge1, node1, node2);
+ *         directedGraph.addEdge(edge1, nodeA, nodeB);
  *         undirectedGraph.addEdge(edge2, node3, node4);
  *       </pre></code>
  *   </ul>
@@ -88,8 +88,8 @@ import javax.annotation.Nullable;
  * <ul>
  * <li><b>Nodes/edges must be useable as {@code Map} keys</b>:
  *   <ul>
- *   <li>They must be unique in a graph: nodes {@code node1} and {@code node2} are considered
- *       different if and only if {@code node1.equals(node2) == false}, and the same for edges.
+ *   <li>They must be unique in a graph: nodes {@code nodeA} and {@code nodeB} are considered
+ *       different if and only if {@code nodeA.equals(nodeB) == false}, and the same for edges.
  *   <li>If you would otherwise have duplicate edges (e.g. weighted edges represented by a Double),
  *       you can instead wrap the edges in a custom class that defers to {@link Object} for its
  *       {@code equals()} and {@code hashCode()} implementations.
@@ -220,8 +220,8 @@ public interface Network<N, E> extends Graph<N> {
    * {@inheritDoc}
    *
    * <p>A directed edge is an {@linkplain #outEdges(Object) outgoing edge} of its
-   * {@linkplain #source(Object) source}, and an {@linkplain #inEdges(Object) incoming edge} of its
-   * {@linkplain #target(Object) target}. An undirected edge connects its
+   * {@linkplain Endpoints#source() source}, and an {@linkplain #inEdges(Object) incoming edge}
+   * of its {@linkplain Endpoints#target() target}. An undirected edge connects its
    * {@linkplain #incidentNodes(Object) incident nodes} to each other, and is both an
    * {@linkplain #outEdges(Object) outgoing edge} and {@linkplain #inEdges(Object) incoming edge}
    * of each incident node.
@@ -252,15 +252,11 @@ public interface Network<N, E> extends Graph<N> {
   Set<E> incidentEdges(Object node);
 
   /**
-   * Returns the nodes which are the endpoints of {@code edge} in this graph.
-   *
-   * <p>For self-loop edges, the returned set's size will be 1. If the graph is
-   * {@linkplain #isDirected() directed} and {@code edge} is not a self-loop, the
-   * iteration order will be {@code [source(edge), target(edge)]}.
+   * Returns the nodes which are the endpoints of {@code edge} in this graph as {@link Endpoints}.
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this graph
    */
-  Set<N> incidentNodes(Object edge);
+  Endpoints<N> incidentNodes(Object edge);
 
   /**
    * Returns the nodes which have an {@linkplain #incidentEdges(Object) incident edge}
@@ -283,15 +279,15 @@ public interface Network<N, E> extends Graph<N> {
   Set<E> adjacentEdges(Object edge);
 
   /**
-   * Returns the set of edges that connect {@code node1} to {@code node2}.
+   * Returns the set of edges that connect {@code nodeA} to {@code nodeB}.
    *
-   * <p>This set is the intersection of {@code outEdges(node1)} and {@code inEdges(node2)}. If
-   * {@code node1} is equal to {@code node2}, then it is the set of self-loop edges for that node.
+   * <p>This set is the intersection of {@code outEdges(nodeA)} and {@code inEdges(nodeB)}. If
+   * {@code nodeA} is equal to {@code nodeB}, then it is the set of self-loop edges for that node.
    *
-   * @throws IllegalArgumentException if {@code node1} or {@code node2} is not an element
+   * @throws IllegalArgumentException if {@code nodeA} or {@code nodeB} is not an element
    *     of this graph
    */
-  Set<E> edgesConnecting(Object node1, Object node2);
+  Set<E> edgesConnecting(Object nodeA, Object nodeB);
 
   /**
    * Returns all edges in this graph which can be traversed in the direction (if any) of the edge
@@ -312,18 +308,6 @@ public interface Network<N, E> extends Graph<N> {
   //
   // Element-level queries
   //
-
-  /**
-   * For a directed graph, returns the node for which {@code edge} is an outgoing edge.
-   * For an undirected graph, throws an {@link UnsupportedOperationException}.
-   */
-  N source(Object edge);
-
-  /**
-   * For a directed graph, returns the node for which {@code edge} is an incoming edge.
-   * For an undirected graph, throws an {@link UnsupportedOperationException}.
-   */
-  N target(Object edge);
 
   /**
    * {@inheritDoc}

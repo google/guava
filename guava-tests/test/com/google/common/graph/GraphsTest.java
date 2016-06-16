@@ -73,8 +73,8 @@ public class GraphsTest {
 
   /**
    * Returns a {@link Predicate} that returns {@code true} if the input edge is a self-loop in
-   * {@code graph}. A self-loop is defined as an edge whose set of incident nodes has exactly one
-   * element. The predicate's {@code apply} method will throw an {@link IllegalArgumentException} if
+   * {@code graph}. A self-loop is defined as an edge whose pair of incident nodes are equal.
+   * The predicate's {@code apply} method will throw an {@link IllegalArgumentException} if
    * {@code graph} does not contain {@code edge}.
    */
   private static <E> Predicate<E> selfLoopPredicate(final Network<?, E> graph) {
@@ -82,7 +82,8 @@ public class GraphsTest {
     return new Predicate<E>() {
       @Override
       public boolean apply(E edge) {
-        return (graph.incidentNodes(edge).size() == 1);
+        Endpoints<?> endpoints = graph.incidentNodes(edge);
+        return endpoints.nodeA().equals(endpoints.nodeB());
       }
     };
   }
@@ -352,57 +353,28 @@ public class GraphsTest {
   }
 
   @Test
-  public void addEdge_nullGraph() {
+  public void addEdge_mismatchedDirectedness() {
     try {
-      addEdge(null, E11, ImmutableSet.of(N1));
-      fail("Should have rejected null graph");
-    } catch (NullPointerException expected) {
-    }
-  }
-
-  @Test
-  public void addEdge_nullNodes() {
-    try {
-      addEdge(NetworkBuilder.directed().build(), E11, null);
-      fail("Should have rejected null nodes");
-    } catch (NullPointerException expected) {
-    }
-  }
-
-  @Test
-  public void addEdge_tooManyNodes() {
-    try {
-      addEdge(NetworkBuilder.directed().<Integer, String>build(), E11, ImmutableSet.of(N1, N2, N3));
-      fail("Should have rejected adding an edge to a Graph with > 2 nodes");
-    } catch (IllegalArgumentException expected) {
-    }
-  }
-
-  @Test
-  public void addEdge_notEnoughNodes() {
-    try {
-      addEdge(NetworkBuilder.directed().build(), E11, ImmutableSet.of());
-      fail("Should have rejected adding an edge to a Graph with < 1 nodes");
+      addEdge(NetworkBuilder.undirected().<Integer, String>build(), E12,
+          Endpoints.ofDirected(N1, N2));
+      fail("Should have rejected adding an edge with directed endpoints to a undirected graph.");
     } catch (IllegalArgumentException expected) {
     }
   }
 
   @Test
   public void addEdge_selfLoop() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    assertThat(addEdge(directedGraph, E11, ImmutableSet.of(N1))).isTrue();
-    assertThat(directedGraph.edges()).containsExactly(E11);
-    assertThat(directedGraph.nodes()).containsExactly(N1);
-    assertThat(directedGraph.incidentNodes(E11)).containsExactly(N1);
+    MutableNetwork<Integer, String> undirectedGraph = NetworkBuilder.undirected().build();
+    assertThat(addEdge(undirectedGraph, E11, Endpoints.ofUndirected(N1, N1))).isTrue();
+    assertThat(undirectedGraph.edgesConnecting(N1, N1)).containsExactly(E11);
   }
 
   @Test
   public void addEdge_basic() {
     MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    assertThat(addEdge(directedGraph, E12, ImmutableSet.of(N1, N2))).isTrue();
-    assertThat(directedGraph.edges()).containsExactly(E12);
-    assertThat(directedGraph.nodes()).containsExactly(N1, N2).inOrder();
-    assertThat(directedGraph.incidentNodes(E12)).containsExactly(N1, N2).inOrder();
+    assertThat(addEdge(directedGraph, E12, Endpoints.ofDirected(N1, N2))).isTrue();
+    assertThat(directedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertThat(directedGraph.edgesConnecting(N2, N1)).isEmpty();
   }
 
   @Test

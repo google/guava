@@ -43,27 +43,27 @@ public interface MutableNetwork<N, E> extends Network<N, E> {
   boolean addNode(N node);
 
   /**
-   * Adds {@code edge} to this graph, connecting {@code node1} to {@code node2}
+   * Adds {@code edge} to this graph, connecting {@code nodeA} to {@code nodeB}
    * (optional operation).
    *
    * <p><b>Edges must be unique</b>, just as {@code Map} keys must be; they must also be non-null.
    *
-   * <p>If {@code edge} already connects {@code node1} to {@code node2} in this graph
+   * <p>If {@code edge} already connects {@code nodeA} to {@code nodeB} in this graph
    * (in the specified order if order is significant, as for directed graphs, else in any order),
    * then this method will have no effect and will return {@code false}.
    *
-   * <p>Behavior if {@code node1} and {@code node2} are not already elements of the graph is
-   * unspecified. Suggested behaviors include (a) silently adding {@code node1} and {@code node2}
+   * <p>Behavior if {@code nodeA} and {@code nodeB} are not already elements of the graph is
+   * unspecified. Suggested behaviors include (a) silently adding {@code nodeA} and {@code nodeB}
    * to the graph or (b) throwing {@code IllegalArgumentException}.
    *
    * @return {@code true} iff the graph was modified as a result of this call
    * @throws IllegalArgumentException if {@code edge} already exists and connects nodes other than
-   *     {@code node1} and {@code node2}, or if the graph is not a multigraph and {@code node1} is
-   *     already connected to {@code node2}
+   *     {@code nodeA} and {@code nodeB}, or if the graph is not a multigraph and {@code nodeA} is
+   *     already connected to {@code nodeB}
    * @throws UnsupportedOperationException if the add operation is not supported by this graph
    */
   @CanIgnoreReturnValue
-  boolean addEdge(E edge, N node1, N node2);
+  boolean addEdge(E edge, N nodeA, N nodeB);
 
   /**
    * Removes {@code node} from this graph, if it is present (optional operation).
