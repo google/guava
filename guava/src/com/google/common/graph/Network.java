@@ -34,7 +34,6 @@ import javax.annotation.Nullable;
  * <p>This interface permits, but does not enforce, any of the following variations of graphs:
  * <ul>
  * <li>directed and undirected edges
- * <li>hyperedges (edges which are incident to arbitrary sets of nodes)
  * <li>nodes and edges with attributes (for example, weighted edges)
  * <li>nodes and edges of different types (for example, bipartite or multimodal graphs)
  * <li>parallel edges (multiple edges which connect a single set of nodes)
@@ -272,7 +271,7 @@ public interface Network<N, E> extends Graph<N> {
    * in common with {@code edge} in this graph.
    *
    * <p>Whether an edge is considered adjacent to itself is not defined by this interface, but
-   * generally for non-hypergraphs, edges are not considered to be self-adjacent.
+   * generally edges are not considered to be self-adjacent.
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this graph
    */

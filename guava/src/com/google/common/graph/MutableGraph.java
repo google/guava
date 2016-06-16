@@ -63,8 +63,7 @@ public interface MutableGraph<N> extends Graph<N> {
 
   /**
    * Removes {@code node} from this graph, if it is present (optional operation).
-   * In general, all edges incident to {@code node} in this graph will also be removed.
-   * (This is not true for hyperedges.)
+   * All edges incident to {@code node} in this graph will also be removed.
    *
    * @return {@code true} iff the graph was modified as a result of this call
    * @throws UnsupportedOperationException if the remove operation is not supported by this graph

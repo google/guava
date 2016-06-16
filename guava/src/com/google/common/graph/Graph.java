@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
  * Users that want edges to be first-class objects should use the subtype {@link Network} instead.
  *
  * <p>For convenience, we may use the term 'graph' to refer to any subtype of {@link Graph},
- * including {@link Network} and {@link Hypergraph}.
+ * including {@link Network}.
  *
  * <p>Users that wish to modify a {@code Graph} must work with its subinterface,
  * {@link MutableNetwork}.
@@ -35,7 +35,6 @@ import javax.annotation.Nullable;
  * <p>This interface permits, but does not enforce, any of the following variations of graphs:
  * <ul>
  * <li>directed and undirected edges
- * <li>hyperedges (edges which are incident to arbitrary sets of nodes)
  * <li>nodes and edges with attributes (for example, weighted edges)
  * <li>nodes and edges of different types (for example, bipartite or multimodal graphs)
  * <li>internal representations as matrices, adjacency lists, adjacency maps, etc.
