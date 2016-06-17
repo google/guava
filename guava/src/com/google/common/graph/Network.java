@@ -258,15 +258,6 @@ public interface Network<N, E> extends Graph<N> {
   Endpoints<N> incidentNodes(Object edge);
 
   /**
-   * Returns the nodes which have an {@linkplain #incidentEdges(Object) incident edge}
-   * in common with {@code node} in this graph.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
-   */
-  @Override
-  Set<N> adjacentNodes(Object node);
-
-  /**
    * Returns the edges which have an {@linkplain #incidentNodes(Object) incident node}
    * in common with {@code edge} in this graph.
    *
@@ -317,25 +308,17 @@ public interface Network<N, E> extends Graph<N> {
   int degree(Object node);
 
   /**
-   * Returns the number of {@linkplain #inEdges(Object) incoming edges} in this graph
-   * of {@code node}.  If this node has more than {@code Integer.MAX_VALUE} incoming edges
-   * in this graph, returns {@code Integer.MAX_VALUE}.
+   * {@inheritDoc}
    *
    * <p>Equivalent to {@code inEdges(node).size()}.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   @Override
   int inDegree(Object node);
 
   /**
-   * Returns the number of {@linkplain #outEdges(Object) outgoing edges} in this graph
-   * of {@code node}.  If this node has more than {@code Integer.MAX_VALUE} outgoing edges
-   * in this graph, returns {@code Integer.MAX_VALUE}.
+   * {@inheritDoc}
    *
    * <p>Equivalent to {@code outEdges(node).size()}.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   @Override
   int outDegree(Object node);
