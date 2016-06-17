@@ -115,14 +115,11 @@ public final class Graphs {
    * Creates a mutable copy of {@code graph}, using the same nodes.
    */
   public static <N> MutableGraph<N> copyOf(Graph<N> graph) {
-    return copyOf(graph, Predicates.alwaysTrue());
+    return copyOfInternal(graph, Predicates.alwaysTrue());
   }
 
-  /**
-   * Creates a mutable copy of {@code graph}, using all of its elements that satisfy
-   * {@code nodePredicate} and {@code edgePredicate}.
-   */
-  public static <N> MutableGraph<N> copyOf(Graph<N> graph, Predicate<? super N> nodePredicate) {
+  private static <N> MutableGraph<N> copyOfInternal(Graph<N> graph,
+      Predicate<? super N> nodePredicate) {
     checkNotNull(graph, "graph");
     checkNotNull(nodePredicate, "nodePredicate");
     MutableGraph<N> copy = GraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();
@@ -140,22 +137,19 @@ public final class Graphs {
   }
 
   /**
-   * Copies all nodes from {@code original} into {@code copy}.
+   * Copies all nodes from {@code src} into {@code dest}.
    */
-  public static <N> void mergeNodesFrom(Graph<N> original, MutableGraph<N> copy) {
-    mergeNodesFrom(original, copy, Predicates.alwaysTrue());
+  public static <N> void copyNodes(Graph<N> src, MutableGraph<N> dest) {
+    copyNodesInteral(src, dest, Predicates.alwaysTrue());
   }
 
-  /**
-   * Copies all nodes from {@code original} into {@code copy} that satisfy {@code nodePredicate}.
-   */
-  public static <N, E> void mergeNodesFrom(
-      Graph<N> original, MutableGraph<N> copy, Predicate<? super N> nodePredicate) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
+  private static <N, E> void copyNodesInteral(
+      Graph<N> src, MutableGraph<N> dest, Predicate<? super N> nodePredicate) {
+    checkNotNull(src, "src");
+    checkNotNull(dest, "dest");
     checkNotNull(nodePredicate, "nodePredicate");
-    for (N node : Sets.filter(original.nodes(), nodePredicate)) {
-      copy.addNode(node);
+    for (N node : Sets.filter(src.nodes(), nodePredicate)) {
+      dest.addNode(node);
     }
   }
 
@@ -163,14 +157,10 @@ public final class Graphs {
    * Creates a mutable copy of {@code graph}, using the same node and edge elements.
    */
   public static <N, E> MutableNetwork<N, E> copyOf(Network<N, E> graph) {
-    return copyOf(graph, Predicates.alwaysTrue(), Predicates.alwaysTrue());
+    return copyOfInternal(graph, Predicates.alwaysTrue(), Predicates.alwaysTrue());
   }
 
-  /**
-   * Creates a mutable copy of {@code graph}, using all of its elements that satisfy
-   * {@code nodePredicate} and {@code edgePredicate}.
-   */
-  public static <N, E> MutableNetwork<N, E> copyOf(
+  private static <N, E> MutableNetwork<N, E> copyOfInternal(
       Network<N, E> graph,
       Predicate<? super N> nodePredicate,
       Predicate<? super E> edgePredicate) {
@@ -179,59 +169,49 @@ public final class Graphs {
     checkNotNull(edgePredicate, "edgePredicate");
     MutableNetwork<N, E> copy = NetworkBuilder.from(graph)
         .expectedNodeCount(graph.nodes().size()).expectedEdgeCount(graph.edges().size()).build();
-    mergeNodesFrom(graph, copy, nodePredicate);
 
-    // We can't just call mergeEdgesFrom(graph, copy, edgePredicate) because addEdge() can add
-    // the edge's incident nodes if they are not present.
-    for (E edge : Sets.filter(graph.edges(), edgePredicate)) {
-      Endpoints<N> endpoints = graph.incidentNodes(edge);
-      if (copy.nodes().containsAll(endpoints)) {
-        addEdge(copy, edge, endpoints);
-      }
-    }
+    copyNodesInternal(graph, copy, nodePredicate);
+    copyEdgesInternal(graph, copy, edgePredicate);
 
     return copy;
   }
 
   /**
-   * Copies all nodes from {@code original} into {@code copy}.
+   * Copies all nodes from {@code src} into {@code dest}.
    */
-  public static <N> void mergeNodesFrom(Graph<N> original, MutableNetwork<N, ?> copy) {
-    mergeNodesFrom(original, copy, Predicates.alwaysTrue());
+  public static <N> void copyNodes(Graph<N> src, MutableNetwork<N, ?> dest) {
+    copyNodesInternal(src, dest, Predicates.alwaysTrue());
   }
 
-  /**
-   * Copies all nodes from {@code original} into {@code copy} that satisfy {@code nodePredicate}.
-   */
-  public static <N, E> void mergeNodesFrom(
-      Graph<N> original, MutableNetwork<N, ?> copy, Predicate<? super N> nodePredicate) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
+  private static <N, E> void copyNodesInternal(
+      Graph<N> src, MutableNetwork<N, ?> dest, Predicate<? super N> nodePredicate) {
+    checkNotNull(src, "src");
+    checkNotNull(dest, "dest");
     checkNotNull(nodePredicate, "nodePredicate");
-    for (N node : Sets.filter(original.nodes(), nodePredicate)) {
-      copy.addNode(node);
+    for (N node : Sets.filter(src.nodes(), nodePredicate)) {
+      dest.addNode(node);
     }
   }
 
   /**
-   * Copies all edges from {@code original} into {@code copy}. Also copies all nodes incident
-   * to these edges.
+   * Copies edges from {@code src} into {@code dest}.
+   * <p>
+   * This method DOES NOT copy over edges if their incident nodes are not already in {@code dest}.
    */
-  public static <N, E> void mergeEdgesFrom(Network<N, E> original, MutableNetwork<N, E> copy) {
-    mergeEdgesFrom(original, copy, Predicates.alwaysTrue());
+  public static <N, E> void copyEdges(Network<N, E> src, MutableNetwork<N, E> dest) {
+    copyEdgesInternal(src, dest, Predicates.alwaysTrue());
   }
 
-  /**
-   * Copies all edges from {@code original} into {@code copy} that satisfy {@code edgePredicate}.
-   * Also copies all nodes incident to these edges.
-   */
-  public static <N, E> void mergeEdgesFrom(
-      Network<N, E> original, MutableNetwork<N, E> copy, Predicate<? super E> edgePredicate) {
-    checkNotNull(original, "original");
-    checkNotNull(copy, "copy");
+  private static <N, E> void copyEdgesInternal(
+      Network<N, E> src, MutableNetwork<N, E> dest, Predicate<? super E> edgePredicate) {
+    checkNotNull(src, "src");
+    checkNotNull(dest, "dest");
     checkNotNull(edgePredicate, "edgePredicate");
-    for (E edge : Sets.filter(original.edges(), edgePredicate)) {
-      addEdge(copy, edge, original.incidentNodes(edge));
+    for (E edge : Sets.filter(src.edges(), edgePredicate)) {
+      Endpoints<N> endpoints = src.incidentNodes(edge);
+      if (dest.nodes().containsAll(endpoints)) {
+        addEdge(dest, edge, endpoints);
+      }
     }
   }
 
