@@ -22,6 +22,7 @@ import static com.google.common.graph.Graphs.copyOf;
 import static com.google.common.graph.Graphs.mergeEdgesFrom;
 import static com.google.common.graph.Graphs.mergeNodesFrom;
 import static com.google.common.graph.Graphs.oppositeNode;
+import static com.google.common.graph.Graphs.roots;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
@@ -140,6 +141,51 @@ public class GraphsTest {
       } catch (IllegalArgumentException expected) {
       }
     }
+  }
+
+  @Test
+  public void roots_emptyGraph() {
+    Network<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    assertThat(roots(directedGraph)).isEmpty();
+  }
+
+  @Test
+  public void roots_trivialGraph() {
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    directedGraph.addNode(N1);
+    assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1));
+  }
+
+  @Test
+  public void roots_nodeWithSelfLoop() {
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    directedGraph.addNode(N1);
+    directedGraph.addEdge(E11, N1, N1);
+    assertThat(roots(directedGraph)).isEmpty();
+  }
+
+  @Test
+  public void roots_nodeWithChildren() {
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    directedGraph.addEdge(E12, N1, N2);
+    directedGraph.addEdge(E13, N1, N3);
+    assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1));
+  }
+
+  @Test
+  public void roots_cycle() {
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    directedGraph.addEdge(E12, N1, N2);
+    directedGraph.addEdge(E21, N2, N1);
+    assertThat(roots(directedGraph)).isEmpty();
+  }
+
+  @Test
+  public void roots_multipleRoots() {
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    directedGraph.addNode(N1);
+    directedGraph.addNode(N2);
+    assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1, N2));
   }
 
   @Test

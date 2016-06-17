@@ -70,6 +70,20 @@ public final class Graphs {
   }
 
   /**
+   * Returns the subset of nodes in {@code graph} that have no predecessors.
+   *
+   * <p>Note that in an undirected graph, this is equivalent to all isolated nodes.
+   */
+  public static <N> Set<N> roots(final Graph<N> graph) {
+    return Sets.filter(graph.nodes(), new Predicate<N>() {
+      @Override
+      public boolean apply(N node) {
+        return graph.predecessors(node).isEmpty();
+      }
+    });
+  }
+
+  /**
    * Returns an unmodifiable view of edges that are parallel to {@code edge}, i.e. the set of edges
    * that connect the same nodes in the same direction (if any). An edge is not parallel to itself.
    *

@@ -17,10 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.graph.GraphProperties.isCyclic;
-import static com.google.common.graph.GraphProperties.roots;
 import static com.google.common.truth.Truth.assertThat;
-
-import com.google.common.collect.ImmutableSet;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -143,50 +140,5 @@ public class GraphPropertiesTest {
     directedGraph.addEdge(E23, N2, N3);
     directedGraph.addEdge(E31, N3, N1);
     assertThat(isCyclic(directedGraph)).isTrue();
-  }
-
-  @Test
-  public void roots_emptyGraph() {
-    Network<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    assertThat(roots(directedGraph)).isEmpty();
-  }
-
-  @Test
-  public void roots_trivialGraph() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addNode(N1);
-    assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1));
-  }
-
-  @Test
-  public void roots_nodeWithSelfLoop() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addNode(N1);
-    directedGraph.addEdge(E11, N1, N1);
-    assertThat(roots(directedGraph)).isEmpty();
-  }
-
-  @Test
-  public void roots_nodeWithChildren() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addEdge(E12, N1, N2);
-    directedGraph.addEdge(E13, N1, N3);
-    assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1));
-  }
-
-  @Test
-  public void roots_cycle() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addEdge(E12, N1, N2);
-    directedGraph.addEdge(E21, N2, N1);
-    assertThat(roots(directedGraph)).isEmpty();
-  }
-
-  @Test
-  public void roots_multipleRoots() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addNode(N1);
-    directedGraph.addNode(N2);
-    assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1, N2));
   }
 }

@@ -19,7 +19,6 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.Beta;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -88,20 +87,5 @@ public final class GraphProperties {
   private enum NodeVisitState {
     PENDING,
     COMPLETE
-  }
-
-  /**
-   * Returns the set of all nodes in {@code graph} that have no predecessors.
-   *
-   * <p>Note that in an undirected graph, this is equivalent to all isolated nodes.
-   */
-  public static <N> ImmutableSet<N> roots(Graph<N> graph) {
-    ImmutableSet.Builder<N> builder = ImmutableSet.builder();
-    for (N node : graph.nodes()) {
-      if (graph.predecessors(node).isEmpty()) {
-        builder.add(node);
-      }
-    }
-    return builder.build();
   }
 }
