@@ -101,7 +101,7 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
     assertEquals(ImmutableList.of(1), map.getInstance(type));
   }
 
-  public void testGeneriArrayType() {
+  public void testGenericArrayType() {
     @SuppressWarnings("unchecked") // Trying to test generic array
     ImmutableList<Integer>[] array = new ImmutableList[] {ImmutableList.of(1)};
     TypeToken<ImmutableList<Integer>[]> type = new TypeToken<ImmutableList<Integer>[]>() {};
@@ -110,7 +110,8 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
             .put(type, array)
             .build();
     assertEquals(1, map.size());
-    assertThat(map.getInstance(type)).asList().containsExactly(array[0]);
+    // Redundant cast works around a javac bug.
+    assertThat((Iterable<?>[]) map.getInstance(type)).asList().containsExactly(array[0]);
   }
 
   public void testWildcardType() {
