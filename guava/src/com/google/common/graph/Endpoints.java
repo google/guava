@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphErrorMessageUtils.NOT_AVAILABLE_ON_UNDIRECTED;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.UnmodifiableIterator;
 
 import java.util.AbstractCollection;
@@ -219,12 +218,6 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
     @Override
     public int hashCode() {
       return nodeA().hashCode() ^ nodeB().hashCode();
-    }
-
-    @Override
-    public String toString() {
-      // TODO(b/29393648): Update tests so we can remove this method (defer to AbstractCollection).
-      return ImmutableSet.copyOf(this).toString();
     }
   }
 }

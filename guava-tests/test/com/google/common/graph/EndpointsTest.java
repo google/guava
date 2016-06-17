@@ -18,6 +18,8 @@ package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.testing.EqualsTester;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -29,23 +31,27 @@ import org.junit.runners.JUnit4;
 public final class EndpointsTest {
 
   @Test
-  public void directedEndpoints() {
+  public void testDirectedEndpoints() {
     Endpoints<String> directed = Endpoints.ofDirected("source", "target");
     assertThat(directed.source()).isEqualTo("source");
     assertThat(directed.target()).isEqualTo("target");
     assertThat(directed).containsExactly("source", "target").inOrder();
+    assertThat(directed.toString()).isEqualTo("<source -> target>");
   }
 
   @Test
-  public void undirectedEndpoints() {
+  public void testUndirectedEndpoints() {
     Endpoints<String> undirected = Endpoints.ofUndirected("chicken", "egg");
     assertThat(undirected).containsExactly("chicken", "egg");
+    assertThat(undirected.toString()).contains("chicken");
+    assertThat(undirected.toString()).contains("egg");
   }
 
   @Test
-  public void selfLoop() {
+  public void testSelfLoop() {
     Endpoints<String> undirected = Endpoints.ofUndirected("node", "node");
     assertThat(undirected).hasSize(2);
+    assertThat(undirected.toString()).isEqualTo("[node, node]");
   }
 
   @Test
@@ -55,8 +61,10 @@ public final class EndpointsTest {
     Endpoints<String> undirected = Endpoints.ofUndirected("a", "b");
     Endpoints<String> undirectedMirror = Endpoints.ofUndirected("b", "a");
 
-    assertThat(directed).isNotEqualTo(undirected);
-    assertThat(directed).isNotEqualTo(directedMirror);
-    assertThat(undirected).isEqualTo(undirectedMirror);
+    new EqualsTester()
+        .addEqualityGroup(directed)
+        .addEqualityGroup(directedMirror)
+        .addEqualityGroup(undirected, undirectedMirror)
+        .testEquals();
   }
 }
