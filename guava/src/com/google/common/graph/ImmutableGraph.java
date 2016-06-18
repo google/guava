@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.graph.GraphErrorMessageUtils.NETWORK_WITH_PARALLEL_EDGE;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.graph.DirectedNodeAdjacencies.Adjacency;
@@ -44,9 +45,10 @@ public final class ImmutableGraph<N> extends AbstractConfigurableGraph<N> {
   /**
    * Returns an immutable copy of {@code graph}.
    */
+  @SuppressWarnings("unchecked")
   public static <N> ImmutableGraph<N> copyOf(Graph<N> graph) {
-    // TODO(b/28087289): we can remove this restriction when Graph supports parallel edges
-    checkArgument(!(graph instanceof Network), "Input must not implement common.graph.Network");
+    checkArgument(!((graph instanceof Network) && ((Network<N, ?>) graph).allowsParallelEdges()),
+        NETWORK_WITH_PARALLEL_EDGE);
     return (graph instanceof ImmutableGraph)
         ? (ImmutableGraph<N>) graph
         : new ImmutableGraph<N>(graph);

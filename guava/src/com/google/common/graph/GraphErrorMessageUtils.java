@@ -23,11 +23,11 @@ final class GraphErrorMessageUtils {
 
   private GraphErrorMessageUtils() {}
 
-  static final String NODE_NOT_IN_GRAPH = "Node %s is not an element of this graph";
-  static final String EDGE_NOT_IN_GRAPH = "Edge %s is not an element of this graph";
+  static final String NODE_NOT_IN_GRAPH = "Node %s is not an element of this graph.";
+  static final String EDGE_NOT_IN_GRAPH = "Edge %s is not an element of this graph.";
   static final String REUSING_EDGE =
       "Edge %s already exists between the "
-          + "following nodes: %s, so it can't be reused to connect node %s to %s";
+          + "following nodes: %s, so it can't be reused to connect node %s to %s.";
   static final String ADDING_PARALLEL_EDGE =
       "Nodes %s and %s are already connected by a different edge.";
   static final String SELF_LOOPS_NOT_ALLOWED =
@@ -37,4 +37,6 @@ final class GraphErrorMessageUtils {
   static final String ENDPOINTS_GRAPH_DIRECTEDNESS =
       "The endpoints' directedness (isDirected = %s) does not match the graph's directedness "
           + "(isDirected = %s). A graph cannot have both directed and undirected edges.";
+  static final String NETWORK_WITH_PARALLEL_EDGE =
+      "Cannot make a Graph copy of a Network that allows parallel edges.";
 }

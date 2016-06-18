@@ -19,6 +19,7 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphErrorMessageUtils.ENDPOINTS_GRAPH_DIRECTEDNESS;
+import static com.google.common.graph.GraphErrorMessageUtils.NETWORK_WITH_PARALLEL_EDGE;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
@@ -118,10 +119,13 @@ public final class Graphs {
     return copyOfInternal(graph, Predicates.alwaysTrue());
   }
 
+  @SuppressWarnings("unchecked")
   private static <N> MutableGraph<N> copyOfInternal(Graph<N> graph,
       Predicate<? super N> nodePredicate) {
     checkNotNull(graph, "graph");
     checkNotNull(nodePredicate, "nodePredicate");
+    checkArgument(!((graph instanceof Network) && ((Network<N, ?>) graph).allowsParallelEdges()),
+        NETWORK_WITH_PARALLEL_EDGE);
     MutableGraph<N> copy = GraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();
 
     for (N node : Sets.filter(graph.nodes(), nodePredicate)) {
