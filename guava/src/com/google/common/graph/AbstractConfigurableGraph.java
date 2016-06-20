@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
 import static com.google.common.graph.GraphErrorMessageUtils.NODE_NOT_IN_GRAPH;
 
 import com.google.common.collect.Maps;
@@ -53,9 +54,6 @@ import javax.annotation.Nullable;
  * @param <N> Node parameter type
  */
 abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
-  // The default of 11 is rather arbitrary, but roughly matches the sizing of just new HashMap()
-  private static final int DEFAULT_MAP_SIZE = 11;
-
   private final boolean isDirected;
   private final boolean allowsSelfLoops;
   private final ElementOrder<? super N> nodeOrder;
@@ -71,7 +69,7 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
 
   private static <S> Map<S, NodeAdjacencies<S>> getNodeMapforBuilder(
       GraphBuilder<? super S> builder) {
-    int expectedNodeSize = builder.expectedNodeCount.or(DEFAULT_MAP_SIZE);
+    int expectedNodeSize = builder.expectedNodeCount.or(DEFAULT_NODE_COUNT);
     switch (builder.nodeOrder.type()) {
         case UNORDERED:
           return Maps.newHashMapWithExpectedSize(expectedNodeSize);

@@ -19,11 +19,14 @@ package com.google.common.graph;
 /**
  * A utility class to hold various constants used by the Guava Graph library.
  */
-// TODO(user): Decide what else to put here (error message strings, node/edge map sizes, etc.)
+// TODO(user): Decide what else to put here (error message strings, etc.)
 final class GraphConstants {
 
   private GraphConstants() {}
 
-  // TODO(user): Enable users to specify the expected (in/out?) degree of nodes.
-  static final int EXPECTED_DEGREE = 11;
+  // TODO(user): Enable users to specify the expected degree of nodes.
+  static final int EXPECTED_DEGREE = 2;
+
+  static final int DEFAULT_NODE_COUNT = 10;
+  static final int DEFAULT_EDGE_COUNT = DEFAULT_NODE_COUNT * EXPECTED_DEGREE;
 }

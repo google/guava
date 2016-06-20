@@ -18,6 +18,8 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.graph.GraphConstants.DEFAULT_EDGE_COUNT;
+import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
 import static com.google.common.graph.GraphErrorMessageUtils.EDGE_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphErrorMessageUtils.NODE_NOT_IN_GRAPH;
 
@@ -59,9 +61,6 @@ import javax.annotation.Nullable;
  * @param <E> Edge parameter type
  */
 abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
-  // The default of 11 is rather arbitrary, but roughly matches the sizing of just new HashMap()
-  private static final int DEFAULT_MAP_SIZE = 11;
-
   private final boolean isDirected;
   private final boolean allowsParallelEdges;
   private final boolean allowsSelfLoops;
@@ -86,7 +85,7 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
 
   private static <S, T> Map<S, NodeConnections<S, T>> getNodeMapForBuilder(
       NetworkBuilder<? super S, ? super T> builder) {
-    int expectedNodeSize = builder.expectedNodeCount.or(DEFAULT_MAP_SIZE);
+    int expectedNodeSize = builder.expectedNodeCount.or(DEFAULT_NODE_COUNT);
     switch (builder.nodeOrder.type()) {
         case UNORDERED:
           return Maps.newHashMapWithExpectedSize(expectedNodeSize);
@@ -101,7 +100,7 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
 
   private static <S, T> Map<T, S> getEdgeMapForBuilder(
       NetworkBuilder<? super S, ? super T> builder) {
-    int expectedEdgeSize = builder.expectedEdgeCount.or(DEFAULT_MAP_SIZE);
+    int expectedEdgeSize = builder.expectedEdgeCount.or(DEFAULT_EDGE_COUNT);
     switch (builder.edgeOrder.type()) {
         case UNORDERED:
           return Maps.newHashMapWithExpectedSize(expectedEdgeSize);

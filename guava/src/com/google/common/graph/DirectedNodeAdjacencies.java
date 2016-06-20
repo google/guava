@@ -59,8 +59,10 @@ final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
   }
 
   static <N> DirectedNodeAdjacencies<N> of() {
+    // We store predecessors and successors in the same map, so expected size is twice the degree.
+    int inAndOutDegree = EXPECTED_DEGREE * 2;
     return new DirectedNodeAdjacencies<N>(
-        Maps.<N, Adjacency>newHashMapWithExpectedSize(EXPECTED_DEGREE), 0, 0);
+        Maps.<N, Adjacency>newHashMapWithExpectedSize(inAndOutDegree), 0, 0);
   }
 
   static <N> DirectedNodeAdjacencies<N> ofImmutable(
