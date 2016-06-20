@@ -36,7 +36,6 @@ import com.google.common.base.Optional;
  * @author Joshua O'Madadhain
  * @since 20.0
  */
-// TODO(user): try creating an abstract superclass that this and GraphBuilder could derive from.
 @Beta
 public final class NetworkBuilder<N, E> {
   final boolean directed;
