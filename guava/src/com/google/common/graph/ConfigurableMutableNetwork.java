@@ -75,26 +75,26 @@ final class ConfigurableMutableNetwork<N, E>
     checkNotNull(nodeA, "nodeA");
     checkNotNull(nodeB, "nodeB");
     checkArgument(allowsSelfLoops() || !nodeA.equals(nodeB), SELF_LOOPS_NOT_ALLOWED, nodeA);
-    boolean containsN1 = containsNode(nodeA);
-    boolean containsN2 = containsNode(nodeB);
+    boolean containsA = containsNode(nodeA);
+    boolean containsB = containsNode(nodeB);
     if (containsEdge(edge)) {
-      checkArgument(containsN1 && containsN2 && edgesConnecting(nodeA, nodeB).contains(edge),
+      checkArgument(containsA && containsB && edgesConnecting(nodeA, nodeB).contains(edge),
           REUSING_EDGE, edge, incidentNodes(edge), nodeA, nodeB);
       return false;
     } else if (!allowsParallelEdges()) {
-      checkArgument(!(containsN1 && containsN2 && successors(nodeA).contains(nodeB)),
+      checkArgument(!(containsA && containsB && successors(nodeA).contains(nodeB)),
           ADDING_PARALLEL_EDGE, nodeA, nodeB);
     }
-    if (!containsN1) {
+    if (!containsA) {
       addNode(nodeA);
     }
-    NodeConnections<N, E> connectionsN1 = nodeConnections.get(nodeA);
-    connectionsN1.addOutEdge(edge, nodeB);
-    if (!containsN2) {
+    NodeConnections<N, E> connectionsA = nodeConnections.get(nodeA);
+    connectionsA.addOutEdge(edge, nodeB);
+    if (!containsB) {
       addNode(nodeB);
     }
-    NodeConnections<N, E> connectionsN2 = nodeConnections.get(nodeB);
-    connectionsN2.addInEdge(edge, nodeA);
+    NodeConnections<N, E> connectionsB = nodeConnections.get(nodeB);
+    connectionsB.addInEdge(edge, nodeA);
     edgeToReferenceNode.put(edge, nodeA);
     return true;
   }

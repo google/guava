@@ -70,22 +70,22 @@ final class ConfigurableMutableGraph<N>
     checkNotNull(nodeA, "nodeA");
     checkNotNull(nodeB, "nodeB");
     checkArgument(allowsSelfLoops() || !nodeA.equals(nodeB), SELF_LOOPS_NOT_ALLOWED, nodeA);
-    boolean containsN1 = containsNode(nodeA);
-    boolean containsN2 = containsNode(nodeB);
+    boolean containsA = containsNode(nodeA);
+    boolean containsB = containsNode(nodeB);
     // TODO(user): does not support parallel edges
-    if (containsN1 && containsN2 && nodeConnections.get(nodeA).successors().contains(nodeB)) {
+    if (containsA && containsB && nodeConnections.get(nodeA).successors().contains(nodeB)) {
       return false;
     }
-    if (!containsN1) {
+    if (!containsA) {
       addNode(nodeA);
     }
-    NodeAdjacencies<N> connectionsN1 = nodeConnections.get(nodeA);
-    connectionsN1.addSuccessor(nodeB);
-    if (!containsN2) {
+    NodeAdjacencies<N> connectionsA = nodeConnections.get(nodeA);
+    connectionsA.addSuccessor(nodeB);
+    if (!containsB) {
       addNode(nodeB);
     }
-    NodeAdjacencies<N> connectionsN2 = nodeConnections.get(nodeB);
-    connectionsN2.addPredecessor(nodeA);
+    NodeAdjacencies<N> connectionsB = nodeConnections.get(nodeB);
+    connectionsB.addPredecessor(nodeA);
     return true;
   }
 
@@ -115,13 +115,13 @@ final class ConfigurableMutableGraph<N>
   public boolean removeEdge(Object nodeA, Object nodeB) {
     checkNotNull(nodeA, "nodeA");
     checkNotNull(nodeB, "nodeB");
-    NodeAdjacencies<N> connectionsN1 = nodeConnections.get(nodeA);
-    if (connectionsN1 == null || !connectionsN1.successors().contains(nodeB)) {
+    NodeAdjacencies<N> connectionsA = nodeConnections.get(nodeA);
+    if (connectionsA == null || !connectionsA.successors().contains(nodeB)) {
       return false;
     }
-    NodeAdjacencies<N> connectionsN2 = nodeConnections.get(nodeB);
-    connectionsN1.removeSuccessor(nodeB);
-    connectionsN2.removePredecessor(nodeA);
+    NodeAdjacencies<N> connectionsB = nodeConnections.get(nodeB);
+    connectionsA.removeSuccessor(nodeB);
+    connectionsB.removePredecessor(nodeA);
     return true;
   }
 

@@ -206,12 +206,12 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
 
   @Override
   public Set<E> edgesConnecting(Object nodeA, Object nodeB) {
-    NodeConnections<N, E> connectionsN1 = checkedConnections(nodeA);
+    NodeConnections<N, E> connectionsA = checkedConnections(nodeA);
     if (!allowsSelfLoops && nodeA.equals(nodeB)) {
       return ImmutableSet.of();
     }
     checkArgument(containsNode(nodeB), NODE_NOT_IN_GRAPH, nodeB);
-    return connectionsN1.edgesConnecting(nodeB);
+    return connectionsA.edgesConnecting(nodeB);
   }
 
   @Override
