@@ -124,6 +124,7 @@ public final class Graphs {
       Predicate<? super N> nodePredicate) {
     checkNotNull(graph, "graph");
     checkNotNull(nodePredicate, "nodePredicate");
+    // TODO(b/28087289): we can remove this restriction when Graph supports parallel edges
     checkArgument(!((graph instanceof Network) && ((Network<N, ?>) graph).allowsParallelEdges()),
         NETWORK_WITH_PARALLEL_EDGE);
     MutableGraph<N> copy = GraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();

@@ -72,7 +72,7 @@ final class ConfigurableMutableGraph<N>
     checkArgument(allowsSelfLoops() || !nodeA.equals(nodeB), SELF_LOOPS_NOT_ALLOWED, nodeA);
     boolean containsA = containsNode(nodeA);
     boolean containsB = containsNode(nodeB);
-    // TODO(user): does not support parallel edges
+    // TODO(b/28087289): does not support parallel edges
     if (containsA && containsB && nodeConnections.get(nodeA).successors().contains(nodeB)) {
       return false;
     }
