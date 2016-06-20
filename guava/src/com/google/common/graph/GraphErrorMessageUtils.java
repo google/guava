@@ -30,6 +30,7 @@ final class GraphErrorMessageUtils {
           + "following nodes: %s, so it can't be reused to connect node %s to %s.";
   static final String ADDING_PARALLEL_EDGE =
       "Nodes %s and %s are already connected by a different edge.";
+  static final String EDGE_ALREADY_EXISTS = "Edge %s already exists in the graph.";
   static final String SELF_LOOPS_NOT_ALLOWED =
       "Cannot add self-loop edge on node %s, as self-loops are not allowed.";
   static final String NOT_AVAILABLE_ON_UNDIRECTED =
