@@ -92,6 +92,11 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     }
   }
 
+  @Override
+  public String toString() {
+    return super.toString() + " (delegate = " + task + ")";
+  }
+
   @WeakOuter
   private final class TrustedFutureInterruptibleTask extends InterruptibleTask {
     private final Callable<V> callable;
@@ -115,6 +120,11 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     @Override
     boolean wasInterrupted() {
       return TrustedListenableFutureTask.this.wasInterrupted();
+    }
+
+    @Override
+    public String toString() {
+      return callable.toString();
     }
   }
 }
