@@ -95,15 +95,15 @@ final class ConfigurableMutableNetwork<N, E>
           REUSING_EDGE, edge, existingEndpoints, newEndpoints);
       return false;
     }
+    NodeConnections<N, E> connectionsA = nodeConnections.get(nodeA);
+    if (!allowsParallelEdges()) {
+      checkArgument(!(connectionsA != null && connectionsA.successors().contains(nodeB)),
+          ADDING_PARALLEL_EDGE, nodeA, nodeB);
+    }
+    NodeConnections<N, E> connectionsB = nodeConnections.get(nodeB);
     boolean isSelfLoop = nodeA.equals(nodeB);
     if (!allowsSelfLoops()) {
       checkArgument(!isSelfLoop, SELF_LOOPS_NOT_ALLOWED, nodeA);
-    }
-    NodeConnections<N, E> connectionsA = nodeConnections.get(nodeA);
-    NodeConnections<N, E> connectionsB = nodeConnections.get(nodeB);
-    if (!allowsParallelEdges()) {
-      checkArgument(!(connectionsA != null && connectionsB != null
-          && connectionsA.successors().contains(nodeB)), ADDING_PARALLEL_EDGE, nodeA, nodeB);
     }
 
     if (connectionsA == null) {

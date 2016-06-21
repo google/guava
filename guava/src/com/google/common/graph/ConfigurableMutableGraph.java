@@ -83,15 +83,15 @@ final class ConfigurableMutableGraph<N>
     checkNotNull(nodeA, "nodeA");
     checkNotNull(nodeB, "nodeB");
 
+    NodeAdjacencies<N> connectionsA = nodeConnections.get(nodeA);
+    // TODO(b/28087289): does not support parallel edges
+    if (connectionsA != null && connectionsA.successors().contains(nodeB)) {
+      return false;
+    }
+    NodeAdjacencies<N> connectionsB = nodeConnections.get(nodeB);
     boolean isSelfLoop = nodeA.equals(nodeB);
     if (!allowsSelfLoops()) {
       checkArgument(!isSelfLoop, SELF_LOOPS_NOT_ALLOWED, nodeA);
-    }
-    NodeAdjacencies<N> connectionsA = nodeConnections.get(nodeA);
-    NodeAdjacencies<N> connectionsB = nodeConnections.get(nodeB);
-    // TODO(b/28087289): does not support parallel edges
-    if (connectionsA != null && connectionsB != null && connectionsA.successors().contains(nodeB)) {
-      return false;
     }
 
     if (connectionsA == null) {
