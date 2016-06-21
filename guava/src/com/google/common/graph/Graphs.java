@@ -145,10 +145,10 @@ public final class Graphs {
    * Copies all nodes from {@code src} into {@code dest}.
    */
   public static <N> void copyNodes(Graph<N> src, MutableGraph<N> dest) {
-    copyNodesInteral(src, dest, Predicates.alwaysTrue());
+    copyNodesInternal(src, dest, Predicates.alwaysTrue());
   }
 
-  private static <N, E> void copyNodesInteral(
+  private static <N, E> void copyNodesInternal(
       Graph<N> src, MutableGraph<N> dest, Predicate<? super N> nodePredicate) {
     checkNotNull(src, "src");
     checkNotNull(dest, "dest");
