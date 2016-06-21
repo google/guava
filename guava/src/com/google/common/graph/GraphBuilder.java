@@ -79,7 +79,7 @@ public final class GraphBuilder<N> {
     // TODO(b/28087289): add allowsParallelEdges() once we support them
     return new GraphBuilder<Object>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
-        .orderNodes(graph.nodeOrder())
+        .nodeOrder(graph.nodeOrder())
         .cast();
   }
 
@@ -108,7 +108,7 @@ public final class GraphBuilder<N> {
   /**
    * Specifies the order of iteration for the elements of {@link Network#nodes()}.
    */
-  public <N1 extends N> GraphBuilder<N1> orderNodes(ElementOrder<N1> nodeOrder) {
+  public <N1 extends N> GraphBuilder<N1> nodeOrder(ElementOrder<N1> nodeOrder) {
     checkNotNull(nodeOrder);
     GraphBuilder<N1> newBuilder = cast();
     newBuilder.nodeOrder = nodeOrder;

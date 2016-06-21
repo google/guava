@@ -34,20 +34,20 @@ public final class ElementOrderTest {
   // Node order tests
 
   @Test
-  public void orderNodes_none() throws Exception {
+  public void nodeOrder_none() throws Exception {
     MutableGraph<Integer> graph = GraphBuilder
         .directed()
-        .orderNodes(unordered())
+        .nodeOrder(unordered())
         .build();
 
     assertThat(graph.nodeOrder()).isEqualTo(unordered());
   }
 
   @Test
-  public void orderNodes_insertion() throws Exception {
+  public void nodeOrder_insertion() throws Exception {
     MutableGraph<Integer> graph = GraphBuilder
         .directed()
-        .orderNodes(insertion())
+        .nodeOrder(insertion())
         .build();
 
     addNodes(graph);
@@ -58,7 +58,7 @@ public final class ElementOrderTest {
 
   // The default ordering is INSERTION unless otherwise specified.
   @Test
-  public void orderNodes_default() throws Exception {
+  public void nodeOrder_default() throws Exception {
     MutableGraph<Integer> graph = GraphBuilder
         .directed()
         .build();
@@ -70,10 +70,10 @@ public final class ElementOrderTest {
   }
 
   @Test
-  public void orderNodes_natural() throws Exception {
+  public void nodeOrder_natural() throws Exception {
     MutableGraph<Integer> graph = GraphBuilder
         .directed()
-        .orderNodes(ElementOrder.<Integer>natural())
+        .nodeOrder(ElementOrder.<Integer>natural())
         .build();
 
     addNodes(graph);
@@ -83,10 +83,10 @@ public final class ElementOrderTest {
   }
 
   @Test
-  public void orderNodes_sorted() throws Exception {
+  public void nodeOrder_sorted() throws Exception {
     MutableGraph<Integer> graph = GraphBuilder
         .directed()
-        .orderNodes(ElementOrder.sorted(Ordering.<Integer>natural().reverse()))
+        .nodeOrder(ElementOrder.sorted(Ordering.<Integer>natural().reverse()))
         .build();
 
     addNodes(graph);
@@ -99,10 +99,10 @@ public final class ElementOrderTest {
   // Edge order tests
 
   @Test
-  public void orderEdges_none() throws Exception {
+  public void edgeOrder_none() throws Exception {
     MutableNetwork<Integer, String> graph = NetworkBuilder
         .directed()
-        .orderEdges(unordered())
+        .edgeOrder(unordered())
         .build();
 
     assertThat(graph.edgeOrder()).isEqualTo(unordered());
@@ -110,10 +110,10 @@ public final class ElementOrderTest {
   }
 
   @Test
-  public void orderEdges_insertion() throws Exception {
+  public void edgeOrder_insertion() throws Exception {
     MutableNetwork<Integer, String> graph = NetworkBuilder
         .directed()
-        .orderEdges(insertion())
+        .edgeOrder(insertion())
         .build();
 
     addEdges(graph);
@@ -125,7 +125,7 @@ public final class ElementOrderTest {
 
   // The default ordering is INSERTION unless otherwise specified.
   @Test
-  public void orderEdges_default() throws Exception {
+  public void edgeOrder_default() throws Exception {
     MutableNetwork<Integer, String> graph = NetworkBuilder
         .directed()
         .build();
@@ -138,10 +138,10 @@ public final class ElementOrderTest {
   }
 
   @Test
-  public void orderEdges_natural() throws Exception {
+  public void edgeOrder_natural() throws Exception {
     MutableNetwork<Integer, String> graph = NetworkBuilder
         .directed()
-        .orderEdges(ElementOrder.<String>natural())
+        .edgeOrder(ElementOrder.<String>natural())
         .build();
 
     addEdges(graph);
@@ -152,10 +152,10 @@ public final class ElementOrderTest {
   }
 
   @Test
-  public void orderEdges_sorted() throws Exception {
+  public void edgeOrder_sorted() throws Exception {
     MutableNetwork<Integer, String> graph = NetworkBuilder
         .directed()
-        .orderEdges(ElementOrder.sorted(Ordering.<String>natural().reverse()))
+        .edgeOrder(ElementOrder.sorted(Ordering.<String>natural().reverse()))
         .build();
 
     addEdges(graph);
@@ -168,11 +168,11 @@ public final class ElementOrderTest {
 
   // Combined node and edge order tests
   @Test
-  public void orderNodesUnorderedandEdgesSorted() throws Exception {
+  public void nodeOrderUnorderedandEdgesSorted() throws Exception {
     MutableNetwork<Integer, String> graph = NetworkBuilder
         .directed()
-        .orderNodes(unordered())
-        .orderEdges(ElementOrder.sorted(Ordering.<String>natural().reverse()))
+        .nodeOrder(unordered())
+        .edgeOrder(ElementOrder.sorted(Ordering.<String>natural().reverse()))
         .build();
 
     addEdges(graph);

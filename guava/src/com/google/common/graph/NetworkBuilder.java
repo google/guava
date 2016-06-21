@@ -82,8 +82,8 @@ public final class NetworkBuilder<N, E> {
     return new NetworkBuilder<Object, Object>(graph.isDirected())
         .allowsParallelEdges(graph.allowsParallelEdges())
         .allowsSelfLoops(graph.allowsSelfLoops())
-        .orderNodes(graph.nodeOrder())
-        .orderEdges(graph.edgeOrder())
+        .nodeOrder(graph.nodeOrder())
+        .edgeOrder(graph.edgeOrder())
         .cast();
   }
 
@@ -133,7 +133,7 @@ public final class NetworkBuilder<N, E> {
   /**
    * Specifies the order of iteration for the elements of {@link Network#nodes()}.
    */
-  public <N1 extends N> NetworkBuilder<N1, E> orderNodes(ElementOrder<N1> nodeOrder) {
+  public <N1 extends N> NetworkBuilder<N1, E> nodeOrder(ElementOrder<N1> nodeOrder) {
     checkNotNull(nodeOrder);
     NetworkBuilder<N1, E> newBuilder = cast();
     newBuilder.nodeOrder = nodeOrder;
@@ -143,7 +143,7 @@ public final class NetworkBuilder<N, E> {
   /**
    * Specifies the order of iteration for the elements of {@link Network#edges()}.
    */
-  public <E1 extends E> NetworkBuilder<N, E1> orderEdges(ElementOrder<E1> edgeOrder) {
+  public <E1 extends E> NetworkBuilder<N, E1> edgeOrder(ElementOrder<E1> edgeOrder) {
     checkNotNull(edgeOrder);
     NetworkBuilder<N, E1> newBuilder = cast();
     newBuilder.edgeOrder = edgeOrder;

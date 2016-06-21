@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  * <p>Example usage:
  * <pre><code>
  *   MutableGraph<Integer> graph
- *       = GraphBuilder.directed().orderNodes(ElementOrder.natural()).build();
+ *       = GraphBuilder.directed().nodeOrder(ElementOrder.natural()).build();
  * </code></pre>
  */
 public class ElementOrder<T> {
