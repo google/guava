@@ -20,8 +20,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.DEFAULT_EDGE_COUNT;
 import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
-import static com.google.common.graph.GraphErrorMessageUtils.EDGE_NOT_IN_GRAPH;
-import static com.google.common.graph.GraphErrorMessageUtils.NODE_NOT_IN_GRAPH;
+import static com.google.common.graph.GraphConstants.EDGE_NOT_IN_GRAPH;
+import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;

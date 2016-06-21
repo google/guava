@@ -19,9 +19,9 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.graph.GraphErrorMessageUtils.ADDING_PARALLEL_EDGE;
-import static com.google.common.graph.GraphErrorMessageUtils.REUSING_EDGE;
-import static com.google.common.graph.GraphErrorMessageUtils.SELF_LOOPS_NOT_ALLOWED;
+import static com.google.common.graph.GraphConstants.ADDING_PARALLEL_EDGE;
+import static com.google.common.graph.GraphConstants.REUSING_EDGE;
+import static com.google.common.graph.GraphConstants.SELF_LOOPS_NOT_ALLOWED;
 
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;

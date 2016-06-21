@@ -18,8 +18,8 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.graph.GraphErrorMessageUtils.ENDPOINTS_GRAPH_DIRECTEDNESS;
-import static com.google.common.graph.GraphErrorMessageUtils.NETWORK_WITH_PARALLEL_EDGE;
+import static com.google.common.graph.GraphConstants.ENDPOINTS_GRAPH_DIRECTEDNESS;
+import static com.google.common.graph.GraphConstants.NETWORK_WITH_PARALLEL_EDGE;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;

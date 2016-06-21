@@ -17,7 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.graph.GraphErrorMessageUtils.NOT_AVAILABLE_ON_UNDIRECTED;
+import static com.google.common.graph.GraphConstants.NOT_AVAILABLE_ON_UNDIRECTED;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.UnmodifiableIterator;
