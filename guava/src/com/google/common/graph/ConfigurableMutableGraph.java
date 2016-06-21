@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphErrorMessageUtils.SELF_LOOPS_NOT_ALLOWED;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -51,8 +52,20 @@ final class ConfigurableMutableGraph<N>
     if (containsNode(node)) {
       return false;
     }
-    nodeConnections.put(node, newNodeConnections());
+    addNodeInternal(node);
     return true;
+  }
+
+  /**
+   * Adds {@code node} to the graph and returns the associated {@link NodeAdjacencies}.
+   *
+   * @throws IllegalStateException if {@code node} is already present
+   */
+  @CanIgnoreReturnValue
+  private NodeAdjacencies<N> addNodeInternal(N node) {
+    NodeAdjacencies<N> connections = newNodeConnections();
+    checkState(nodeConnections.put(node, connections) == null);
+    return connections;
   }
 
   /**
@@ -69,22 +82,25 @@ final class ConfigurableMutableGraph<N>
   public boolean addEdge(N nodeA, N nodeB) {
     checkNotNull(nodeA, "nodeA");
     checkNotNull(nodeB, "nodeB");
-    checkArgument(allowsSelfLoops() || !nodeA.equals(nodeB), SELF_LOOPS_NOT_ALLOWED, nodeA);
-    boolean containsA = containsNode(nodeA);
-    boolean containsB = containsNode(nodeB);
-    // TODO(b/28087289): does not support parallel edges
-    if (containsA && containsB && nodeConnections.get(nodeA).successors().contains(nodeB)) {
-      return false;
-    }
-    if (!containsA) {
-      addNode(nodeA);
+
+    boolean isSelfLoop = nodeA.equals(nodeB);
+    if (!allowsSelfLoops()) {
+      checkArgument(!isSelfLoop, SELF_LOOPS_NOT_ALLOWED, nodeA);
     }
     NodeAdjacencies<N> connectionsA = nodeConnections.get(nodeA);
-    connectionsA.addSuccessor(nodeB);
-    if (!containsB) {
-      addNode(nodeB);
-    }
     NodeAdjacencies<N> connectionsB = nodeConnections.get(nodeB);
+    // TODO(b/28087289): does not support parallel edges
+    if (connectionsA != null && connectionsB != null && connectionsA.successors().contains(nodeB)) {
+      return false;
+    }
+
+    if (connectionsA == null) {
+      connectionsA = addNodeInternal(nodeA);
+    }
+    connectionsA.addSuccessor(nodeB);
+    if (connectionsB == null) {
+      connectionsB = isSelfLoop ? connectionsA : addNodeInternal(nodeB);
+    }
     connectionsB.addPredecessor(nodeA);
     return true;
   }

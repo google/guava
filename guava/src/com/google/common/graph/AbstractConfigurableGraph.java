@@ -135,14 +135,14 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
     return checkedConnections(node).successors();
   }
 
-  protected NodeAdjacencies<N> checkedConnections(Object node) {
+  protected final NodeAdjacencies<N> checkedConnections(Object node) {
     checkNotNull(node, "node");
     NodeAdjacencies<N> connections = nodeConnections.get(node);
     checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);
     return connections;
   }
 
-  protected boolean containsNode(@Nullable Object node) {
+  protected final boolean containsNode(@Nullable Object node) {
     return nodeConnections.containsKey(node);
   }
 }

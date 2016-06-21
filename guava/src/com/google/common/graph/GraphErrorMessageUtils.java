@@ -26,8 +26,8 @@ final class GraphErrorMessageUtils {
   static final String NODE_NOT_IN_GRAPH = "Node %s is not an element of this graph.";
   static final String EDGE_NOT_IN_GRAPH = "Edge %s is not an element of this graph.";
   static final String REUSING_EDGE =
-      "Edge %s already exists between the "
-          + "following nodes: %s, so it can't be reused to connect node %s to %s.";
+      "Edge %s already exists between the following nodes: %s, "
+          + "so it can't be reused to connect the following nodes: %s.";
   static final String ADDING_PARALLEL_EDGE =
       "Nodes %s and %s are already connected by a different edge.";
   static final String EDGE_ALREADY_EXISTS = "Edge %s already exists in the graph.";

@@ -187,7 +187,7 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   public Endpoints<N> incidentNodes(Object edge) {
     N nodeA = checkedReferenceNode(edge);
     N nodeB = nodeConnections.get(nodeA).oppositeNode(edge);
-    return isDirected ? Endpoints.ofDirected(nodeA, nodeB) : Endpoints.ofUndirected(nodeA, nodeB);
+    return Endpoints.of(nodeA, nodeB, isDirected);
   }
 
   @Override
@@ -233,25 +233,25 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     return checkedConnections(node).successors();
   }
 
-  protected NodeConnections<N, E> checkedConnections(Object node) {
+  protected final NodeConnections<N, E> checkedConnections(Object node) {
     checkNotNull(node, "node");
     NodeConnections<N, E> connections = nodeConnections.get(node);
     checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);
     return connections;
   }
 
-  protected N checkedReferenceNode(Object edge) {
+  protected final N checkedReferenceNode(Object edge) {
     checkNotNull(edge, "edge");
     N referenceNode = edgeToReferenceNode.get(edge);
     checkArgument(referenceNode != null, EDGE_NOT_IN_GRAPH, edge);
     return referenceNode;
   }
 
-  protected boolean containsNode(@Nullable Object node) {
+  protected final boolean containsNode(@Nullable Object node) {
     return nodeConnections.containsKey(node);
   }
 
-  protected boolean containsEdge(@Nullable Object edge) {
+  protected final boolean containsEdge(@Nullable Object edge) {
     return edgeToReferenceNode.containsKey(edge);
   }
 }

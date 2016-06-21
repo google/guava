@@ -44,6 +44,10 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
     this.nodeB = checkNotNull(nodeB);
   }
 
+  static <N> Endpoints<N> of(N nodeA, N nodeB, boolean isDirected) {
+    return isDirected ? ofDirected(nodeA, nodeB) : ofUndirected(nodeA, nodeB);
+  }
+
   /**
    * Returns an {@link Endpoints} representing the endpoints of a directed edge.
    */
