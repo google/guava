@@ -109,15 +109,23 @@ import javax.annotation.Nullable;
 public abstract class FluentIterable<E> implements Iterable<E> {
   // We store 'iterable' and use it instead of 'this' to allow Iterables to perform instanceof
   // checks on the _original_ iterable when FluentIterable.from is used.
-  private final Iterable<E> iterable;
+  // To avoid a self retain cycle under j2objc, we store Optional.absent() instead of
+  // Optional.of(this). To access the iterator delegate, call #getDelegate(), which converts to
+  // absent() back to 'this'.
+  private final Optional<Iterable<E>> iterableDelegate;
 
   /** Constructor for use by subclasses. */
   protected FluentIterable() {
-    this.iterable = this;
+    this.iterableDelegate = Optional.absent();
   }
 
   FluentIterable(Iterable<E> iterable) {
-    this.iterable = checkNotNull(iterable);
+    checkNotNull(iterable);
+    this.iterableDelegate = Optional.fromNullable(this != iterable ? iterable : null);
+  }
+
+  private Iterable<E> getDelegate() {
+    return iterableDelegate.or(this);
   }
 
   /**
@@ -308,7 +316,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Override
   public String toString() {
-    return Iterables.toString(iterable);
+    return Iterables.toString(getDelegate());
   }
 
   /**
@@ -317,7 +325,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> {@code stream.count()}.
    */
   public final int size() {
-    return Iterables.size(iterable);
+    return Iterables.size(getDelegate());
   }
 
   /**
@@ -327,7 +335,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> {@code stream.anyMatch(Predicate.isEqual(target))}.
    */
   public final boolean contains(@Nullable Object target) {
-    return Iterables.contains(iterable, target);
+    return Iterables.contains(getDelegate(), target);
   }
 
   /**
@@ -349,7 +357,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * {@code Stream.generate(iterable::stream).flatMap(s -> s)}.
    */
   public final FluentIterable<E> cycle() {
-    return from(Iterables.cycle(iterable));
+    return from(Iterables.cycle(getDelegate()));
   }
 
   /**
@@ -365,7 +373,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   public final FluentIterable<E> append(Iterable<? extends E> other) {
-    return from(FluentIterable.concat(iterable, other));
+    return from(FluentIterable.concat(getDelegate(), other));
   }
 
   /**
@@ -378,7 +386,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Beta
   public final FluentIterable<E> append(E... elements) {
-    return from(FluentIterable.concat(iterable, Arrays.asList(elements)));
+    return from(FluentIterable.concat(getDelegate(), Arrays.asList(elements)));
   }
 
   /**
@@ -388,7 +396,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> {@code stream.filter(predicate)} (same).
    */
   public final FluentIterable<E> filter(Predicate<? super E> predicate) {
-    return from(Iterables.filter(iterable, predicate));
+    return from(Iterables.filter(getDelegate(), predicate));
   }
 
   /**
@@ -408,7 +416,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @GwtIncompatible // Class.isInstance
   public final <T> FluentIterable<T> filter(Class<T> type) {
-    return from(Iterables.filter(iterable, type));
+    return from(Iterables.filter(getDelegate(), type));
   }
 
   /**
@@ -417,7 +425,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> {@code stream.anyMatch(predicate)} (same).
    */
   public final boolean anyMatch(Predicate<? super E> predicate) {
-    return Iterables.any(iterable, predicate);
+    return Iterables.any(getDelegate(), predicate);
   }
 
   /**
@@ -427,7 +435,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> {@code stream.allMatch(predicate)} (same).
    */
   public final boolean allMatch(Predicate<? super E> predicate) {
-    return Iterables.all(iterable, predicate);
+    return Iterables.all(getDelegate(), predicate);
   }
 
   /**
@@ -440,7 +448,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> {@code stream.filter(predicate).findFirst()}.
    */
   public final Optional<E> firstMatch(Predicate<? super E> predicate) {
-    return Iterables.tryFind(iterable, predicate);
+    return Iterables.tryFind(getDelegate(), predicate);
   }
 
   /**
@@ -454,7 +462,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> {@code stream.map(function)}.
    */
   public final <T> FluentIterable<T> transform(Function<? super E, T> function) {
-    return from(Iterables.transform(iterable, function));
+    return from(Iterables.transform(getDelegate(), function));
   }
 
   /**
@@ -487,7 +495,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     {@code iterator().next()} or {@link Iterables#getFirst} instead.
    */
   public final Optional<E> first() {
-    Iterator<E> iterator = iterable.iterator();
+    Iterator<E> iterator = getDelegate().iterator();
     return iterator.hasNext() ? Optional.of(iterator.next()) : Optional.<E>absent();
   }
 
@@ -506,6 +514,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
     // Iterables#getLast was inlined here so we don't have to throw/catch a NSEE
 
     // TODO(kevinb): Support a concurrently modified collection?
+    Iterable<E> iterable = getDelegate();
     if (iterable instanceof List) {
       List<E> list = (List<E>) iterable;
       if (list.isEmpty()) {
@@ -553,7 +562,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> {@code stream.skip(numberToSkip)} (same).
    */
   public final FluentIterable<E> skip(int numberToSkip) {
-    return from(Iterables.skip(iterable, numberToSkip));
+    return from(Iterables.skip(getDelegate(), numberToSkip));
   }
 
   /**
@@ -568,7 +577,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @throws IllegalArgumentException if {@code size} is negative
    */
   public final FluentIterable<E> limit(int maxSize) {
-    return from(Iterables.limit(iterable, maxSize));
+    return from(Iterables.limit(getDelegate(), maxSize));
   }
 
   /**
@@ -577,7 +586,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p><b>{@code Stream} equivalent:</b> {@code !stream.findAny().isPresent()}.
    */
   public final boolean isEmpty() {
-    return !iterable.iterator().hasNext();
+    return !getDelegate().iterator().hasNext();
   }
 
   /**
@@ -589,7 +598,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @since 14.0 (since 12.0 as {@code toImmutableList()}).
    */
   public final ImmutableList<E> toList() {
-    return ImmutableList.copyOf(iterable);
+    return ImmutableList.copyOf(getDelegate());
   }
 
   /**
@@ -605,7 +614,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @since 14.0 (since 13.0 as {@code toSortedImmutableList()}).
    */
   public final ImmutableList<E> toSortedList(Comparator<? super E> comparator) {
-    return Ordering.from(comparator).immutableSortedCopy(iterable);
+    return Ordering.from(comparator).immutableSortedCopy(getDelegate());
   }
 
   /**
@@ -617,7 +626,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @since 14.0 (since 12.0 as {@code toImmutableSet()}).
    */
   public final ImmutableSet<E> toSet() {
-    return ImmutableSet.copyOf(iterable);
+    return ImmutableSet.copyOf(getDelegate());
   }
 
   /**
@@ -634,7 +643,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @since 14.0 (since 12.0 as {@code toImmutableSortedSet()}).
    */
   public final ImmutableSortedSet<E> toSortedSet(Comparator<? super E> comparator) {
-    return ImmutableSortedSet.copyOf(comparator, iterable);
+    return ImmutableSortedSet.copyOf(comparator, getDelegate());
   }
 
   /**
@@ -645,7 +654,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @since 19.0
    */
   public final ImmutableMultiset<E> toMultiset() {
-    return ImmutableMultiset.copyOf(iterable);
+    return ImmutableMultiset.copyOf(getDelegate());
   }
 
   /**
@@ -666,7 +675,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @since 14.0
    */
   public final <V> ImmutableMap<E, V> toMap(Function<? super E, V> valueFunction) {
-    return Maps.toMap(iterable, valueFunction);
+    return Maps.toMap(getDelegate(), valueFunction);
   }
 
   /**
@@ -693,7 +702,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @since 14.0
    */
   public final <K> ImmutableListMultimap<K, E> index(Function<? super E, K> keyFunction) {
-    return Multimaps.index(iterable, keyFunction);
+    return Multimaps.index(getDelegate(), keyFunction);
   }
 
   /**
@@ -727,7 +736,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @since 14.0
    */
   public final <K> ImmutableMap<K, E> uniqueIndex(Function<? super E, K> keyFunction) {
-    return Maps.uniqueIndex(iterable, keyFunction);
+    return Maps.uniqueIndex(getDelegate(), keyFunction);
   }
 
   /**
@@ -744,7 +753,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @GwtIncompatible // Array.newArray(Class, int)
   public final E[] toArray(Class<E> type) {
-    return Iterables.toArray(iterable, type);
+    return Iterables.toArray(getDelegate(), type);
   }
 
   /**
@@ -761,6 +770,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   @CanIgnoreReturnValue
   public final <C extends Collection<? super E>> C copyInto(C collection) {
     checkNotNull(collection);
+    Iterable<E> iterable = getDelegate();
     if (iterable instanceof Collection) {
       collection.addAll(Collections2.cast(iterable));
     } else {
@@ -800,7 +810,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   // TODO(kevinb): add @Nullable?
   public final E get(int position) {
-    return Iterables.get(iterable, position);
+    return Iterables.get(getDelegate(), position);
   }
 
   /**
