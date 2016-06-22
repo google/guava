@@ -113,11 +113,11 @@ final class ConfigurableMutableGraph<N>
     if (connections == null) {
       return false;
     }
+    // If there's a self-loop, remove it first so we won't get CME while removing incident edges.
+    connections.removeSuccessor(node);
+    connections.removePredecessor(node);
     for (N successor : connections.successors()) {
-      if (!node.equals(successor)) {
-        // don't remove the successor if it's the input node (=> CME); will be removed below
-        nodeConnections.get(successor).removePredecessor(node);
-      }
+      nodeConnections.get(successor).removePredecessor(node);
     }
     for (N predecessor : connections.predecessors()) {
       nodeConnections.get(predecessor).removeSuccessor(node);
