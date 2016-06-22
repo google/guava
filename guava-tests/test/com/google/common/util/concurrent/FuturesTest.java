@@ -2306,21 +2306,21 @@ public class FuturesTest extends TestCase {
     SettableFuture<String> stringFuture = SettableFuture.create();
     SettableFuture<Boolean> booleanFuture = SettableFuture.create();
     final CountDownLatch inFunction = new CountDownLatch(1);
-    final CountDownLatch shouldCompleteFunction = new CountDownLatch(1);
     final CountDownLatch gotException = new CountDownLatch(1);
-    AsyncCallable<String> combiner = new AsyncCallable<String>() {
-      @Override
-      public ListenableFuture<String> call() throws Exception {
-        inFunction.countDown();
-        try {
-          shouldCompleteFunction.await();
-        } catch (InterruptedException expected) {
-          gotException.countDown();
-          throw expected;
-        }
-        return immediateFuture("a");
-      }
-    };
+    AsyncCallable<String> combiner =
+        new AsyncCallable<String>() {
+          @Override
+          public ListenableFuture<String> call() throws Exception {
+            inFunction.countDown();
+            try {
+              new CountDownLatch(1).await(); // wait for interrupt
+            } catch (InterruptedException expected) {
+              gotException.countDown();
+              throw expected;
+            }
+            return immediateFuture("a");
+          }
+        };
 
     ListenableFuture<String> futureResult = whenAllComplete(stringFuture, booleanFuture)
         .callAsync(combiner, newSingleThreadExecutor());
@@ -2329,7 +2329,6 @@ public class FuturesTest extends TestCase {
     booleanFuture.set(true);
     inFunction.await();
     futureResult.cancel(true);
-    shouldCompleteFunction.countDown();
     try {
       futureResult.get();
       fail();
