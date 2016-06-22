@@ -16,14 +16,14 @@
 
 package com.google.common.collect;
 
-import com.google.common.util.concurrent.Uninterruptibles;
-
 import junit.framework.TestCase;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -52,6 +52,10 @@ public class QueuesTest extends TestCase {
         new PriorityBlockingQueue<Object>(10, Ordering.arbitrary()));
   }
 
+  /*
+   * We need to perform operations in a thread pool, even for simple cases, because the queue might
+   * be a SynchronousQueue.
+   */
   private ExecutorService threadPool;
 
   @Override
@@ -61,8 +65,6 @@ public class QueuesTest extends TestCase {
 
   @Override
   public void tearDown() throws InterruptedException {
-    // notice that if a Producer is interrupted (a bug), the Producer will go into an infinite
-    // loop, which will be noticed here
     threadPool.shutdown();
     assertTrue("Some worker didn't finish in time",
         threadPool.awaitTermination(1, TimeUnit.SECONDS));
@@ -108,8 +110,9 @@ public class QueuesTest extends TestCase {
     for (boolean interruptibly : new boolean[] { true, false }) {
       assertEquals(0, Queues.drain(q, ImmutableList.of(), 1, 10, TimeUnit.MILLISECONDS));
 
+      Producer producer = new Producer(q, 1);
       // producing one, will ask for two
-      Future<?> submitter = threadPool.submit(new Producer(q, 1));
+      Future<?> producerThread = threadPool.submit(producer);
 
       // make sure we time out
       long startTime = System.nanoTime();
@@ -120,9 +123,10 @@ public class QueuesTest extends TestCase {
       assertTrue((System.nanoTime() - startTime) >= TimeUnit.MILLISECONDS.toNanos(10));
 
       // If even the first one wasn't there, clean up so that the next test doesn't see an element.
-      submitter.get();
+      producerThread.cancel(true);
+      producer.doneProducing.await();
       if (drained == 0) {
-        assertNotNull(q.poll());
+        q.poll(); // not necessarily there if producer was interrupted
       }
     }
   }
@@ -164,9 +168,8 @@ public class QueuesTest extends TestCase {
     assertEquals(elements, 0);
     assertTrue(buf.isEmpty());
 
-    // Clean up produced element to free the producer thread, otherwise it will complain
-    // when we shutdown the threadpool.
-    Queues.drain(q, buf, 1, Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+    // Free the producer thread, and give subsequent tests a clean slate.
+    q.take();
   }
 
   public void testDrain_throws() throws Exception {
@@ -192,11 +195,12 @@ public class QueuesTest extends TestCase {
 
   private void testDrainUninterruptibly_doesNotThrow(final BlockingQueue<Object> q) {
     final Thread mainThread = Thread.currentThread();
-    threadPool.submit(new Runnable() {
-      public void run() {
-        new Producer(q, 50).run();
+    threadPool.submit(new Callable<Void>() {
+      public Void call() throws InterruptedException {
+        new Producer(q, 50).call();
         new Interrupter(mainThread).run();
-        new Producer(q, 50).run();
+        new Producer(q, 50).call();
+        return null;
       }
     });
     List<Object> buf = Lists.newArrayList();
@@ -274,26 +278,24 @@ public class QueuesTest extends TestCase {
     while (!Thread.interrupted()) { Thread.yield(); }
   }
 
-  private static class Producer implements Runnable {
+  private static class Producer implements Callable<Void> {
     final BlockingQueue<Object> q;
     final int elements;
+    final CountDownLatch doneProducing = new CountDownLatch(1);
 
     Producer(BlockingQueue<Object> q, int elements) {
       this.q = q;
       this.elements = elements;
     }
 
-    @Override public void run() {
+    @Override public Void call() throws InterruptedException {
       try {
         for (int i = 0; i < elements; i++) {
           q.put(new Object());
         }
-      } catch (InterruptedException e) {
-        // TODO(user): replace this when there is a better way to spawn threads in tests and
-        // have threads propagate their errors back to the test thread.
-        e.printStackTrace();
-        // never returns, so that #tearDown() notices that one worker isn't done
-        Uninterruptibles.sleepUninterruptibly(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+        return null;
+      } finally {
+        doneProducing.countDown();
       }
     }
   }
