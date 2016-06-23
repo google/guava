@@ -116,26 +116,28 @@ public final class Graphs {
    * Creates a mutable copy of {@code graph}, using the same nodes.
    */
   public static <N> MutableGraph<N> copyOf(Graph<N> graph) {
-    return copyOfInternal(graph, Predicates.alwaysTrue());
+    return copyOfInternal(
+        graph,
+        GraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()),
+        Predicates.alwaysTrue());
   }
 
   @SuppressWarnings("unchecked")
-  private static <N> MutableGraph<N> copyOfInternal(Graph<N> graph,
-      Predicate<? super N> nodePredicate) {
+  private static <N> MutableGraph<N> copyOfInternal(
+      Graph<N> graph, GraphBuilder<N> copyBuilder, Predicate<? super N> nodePredicate) {
     checkNotNull(graph, "graph");
     checkNotNull(nodePredicate, "nodePredicate");
     // TODO(b/28087289): we can remove this restriction when Graph supports parallel edges
     checkArgument(!((graph instanceof Network) && ((Network<N, ?>) graph).allowsParallelEdges()),
         NETWORK_WITH_PARALLEL_EDGE);
-    MutableGraph<N> copy = GraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();
+    MutableGraph<N> copy = copyBuilder.build();
 
     for (N node : Sets.filter(graph.nodes(), nodePredicate)) {
       copy.addNode(node);
       for (N successor : Sets.filter(graph.successors(node), nodePredicate)) {
+        // TODO(b/28087289): Ensure that multiplicity is preserved if parallel edges are supported.
         copy.addEdge(node, successor);
       }
-      // TODO(b/28087289): update this when parallel edges are permitted to ensure that the correct
-      // multiplicity is preserved.
     }
 
     return copy;
@@ -162,18 +164,24 @@ public final class Graphs {
    * Creates a mutable copy of {@code graph}, using the same node and edge elements.
    */
   public static <N, E> MutableNetwork<N, E> copyOf(Network<N, E> graph) {
-    return copyOfInternal(graph, Predicates.alwaysTrue(), Predicates.alwaysTrue());
+    return copyOfInternal(
+        graph,
+        NetworkBuilder.from(graph)
+            .expectedNodeCount(graph.nodes().size())
+            .expectedEdgeCount(graph.edges().size()),
+        Predicates.alwaysTrue(),
+        Predicates.alwaysTrue());
   }
 
   private static <N, E> MutableNetwork<N, E> copyOfInternal(
       Network<N, E> graph,
+      NetworkBuilder<N, E> copyBuilder,
       Predicate<? super N> nodePredicate,
       Predicate<? super E> edgePredicate) {
     checkNotNull(graph, "graph");
     checkNotNull(nodePredicate, "nodePredicate");
     checkNotNull(edgePredicate, "edgePredicate");
-    MutableNetwork<N, E> copy = NetworkBuilder.from(graph)
-        .expectedNodeCount(graph.nodes().size()).expectedEdgeCount(graph.edges().size()).build();
+    MutableNetwork<N, E> copy = copyBuilder.build();
 
     copyNodesInternal(graph, copy, nodePredicate);
     copyEdgesInternal(graph, copy, edgePredicate);
