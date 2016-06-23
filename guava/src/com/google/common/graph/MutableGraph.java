@@ -23,6 +23,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * A subtype of {@link Graph} which permits mutations.
  * Users should generally use the {@link Graph} interface where possible.
  *
+ * @author James Sexton
  * @author Joshua O'Madadhain
  * @param <N> Node parameter type
  * @since 20.0

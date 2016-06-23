@@ -16,6 +16,8 @@
 
 package com.google.common.graph;
 
+import com.google.common.annotations.Beta;
+
 import javax.annotation.Nullable;
 
 /**
@@ -26,7 +28,9 @@ import javax.annotation.Nullable;
  * @author James Sexton
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
+ * @since 20.0
  */
+@Beta
 public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
   @Override

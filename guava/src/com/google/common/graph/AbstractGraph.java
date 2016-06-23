@@ -16,6 +16,8 @@
 
 package com.google.common.graph;
 
+import com.google.common.annotations.Beta;
+
 import javax.annotation.Nullable;
 
 /**
@@ -25,7 +27,9 @@ import javax.annotation.Nullable;
  *
  * @author James Sexton
  * @param <N> Node parameter type
+ * @since 20.0
  */
+@Beta
 public abstract class AbstractGraph<N> implements Graph<N> {
 
   @Override

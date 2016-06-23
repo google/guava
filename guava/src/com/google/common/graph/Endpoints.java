@@ -19,6 +19,7 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.NOT_AVAILABLE_ON_UNDIRECTED;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
 import com.google.common.collect.UnmodifiableIterator;
 
@@ -35,6 +36,7 @@ import java.util.NoSuchElementException;
  * @author James Sexton
  * @since 20.0
  */
+@Beta
 public abstract class Endpoints<N> extends AbstractCollection<N> {
   private final N nodeA;
   private final N nodeB;

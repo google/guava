@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import java.util.Set;
+
 /**
  * An interface for representing an origin node's adjacent nodes in a graph.
  *

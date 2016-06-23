@@ -23,6 +23,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * A subtype of {@link Network} which permits mutations.
  * Users should generally use the {@link Network} interface where possible.
  *
+ * @author James Sexton
  * @author Joshua O'Madadhain
  * @param <N> Node parameter type
  * @param <E> Edge parameter type

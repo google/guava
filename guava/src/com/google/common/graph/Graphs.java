@@ -41,6 +41,7 @@ import javax.annotation.Nullable;
 /**
  * Static utility methods for {@link Graph} instances.
  *
+ * @author James Sexton
  * @author Joshua O'Madadhain
  * @since 20.0
  */

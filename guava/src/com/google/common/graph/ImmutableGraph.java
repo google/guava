@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.NETWORK_WITH_PARALLEL_EDGE;
 
+import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.graph.DirectedNodeAdjacencies.Adjacency;
 
@@ -33,7 +34,9 @@ import java.util.Set;
  * @author Joshua O'Madadhain
  * @author Omar Darwish
  * @param <N> Node parameter type
+ * @since 20.0
  */
+@Beta
 public final class ImmutableGraph<N> extends AbstractConfigurableGraph<N> {
 
   private ImmutableGraph(Graph<N> graph) {

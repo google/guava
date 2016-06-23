@@ -199,6 +199,7 @@ import javax.annotation.Nullable;
  * </code></pre>
  * </ul>
  *
+ * @author James Sexton
  * @author Joshua O'Madadhain
  * @param <N> Node parameter type
  * @param <E> Edge parameter type

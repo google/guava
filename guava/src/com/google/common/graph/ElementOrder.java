@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Objects;
@@ -35,8 +36,12 @@ import javax.annotation.Nullable;
  *   MutableGraph<Integer> graph
  *       = GraphBuilder.directed().nodeOrder(ElementOrder.natural()).build();
  * </code></pre>
+ *
+ * @author Joshua O'Madadhain
+ * @since 20.0
  */
-public class ElementOrder<T> {
+@Beta
+public final class ElementOrder<T> {
   private final Type type;
   @Nullable private final Comparator<T> comparator;
 
@@ -81,12 +86,15 @@ public class ElementOrder<T> {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof ElementOrder)) {
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof ElementOrder)) {
       return false;
     }
 
-    ElementOrder<?> other = (ElementOrder<?>) o;
+    ElementOrder<?> other = (ElementOrder<?>) obj;
     return other.type == this.type
         && Objects.equal(other.comparator, this.comparator);
   }

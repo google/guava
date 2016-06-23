@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -35,7 +36,9 @@ import java.util.Set;
  * @author Omar Darwish
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
+ * @since 20.0
  */
+@Beta
 public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N, E> {
 
   private ImmutableNetwork(Network<N, E> graph) {
