@@ -23,7 +23,6 @@ final class GraphConstants {
 
   private GraphConstants() {}
 
-  // TODO(user): Enable users to specify the expected degree of nodes.
   static final int EXPECTED_DEGREE = 2;
 
   static final int DEFAULT_NODE_COUNT = 10;

@@ -113,7 +113,6 @@ final class UndirectedMultiNodeConnections<N, E> extends AbstractUndirectedNodeC
     return false;
   }
 
-  // TODO(user): Move to NodeConnections interface once on Java 8
   @Nullable private static <T> T getReference(@Nullable Reference<T> reference) {
     if (reference == null) {
       return null;
