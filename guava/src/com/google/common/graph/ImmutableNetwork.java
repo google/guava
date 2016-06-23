@@ -30,8 +30,6 @@ import java.util.Set;
  * A {@link Network} whose relationships are constant. Instances of this class may be obtained
  * with {@link #copyOf(Network)}.
  *
- * <p>The time complexity of {@code edgesConnecting(nodeA, nodeB)} is O(min(outD_nodeA, inD_nodeB)).
- *
  * @author James Sexton
  * @author Joshua O'Madadhain
  * @author Omar Darwish
