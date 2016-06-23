@@ -422,7 +422,7 @@ public class QuantilesTest extends TestCase {
   public void testScale_index_compute_doubleCollection_nan() {
     assertQuantile(5, NaN, Quantiles.scale(10).index(5).compute(ONE_TO_FIVE_AND_NAN));
   }
-  
+
   // 3. Tests on a mechanically generated dataset for chains starting with percentiles():
 
   private static final int PSEUDORANDOM_DATASET_SIZE = 9951;
@@ -488,7 +488,7 @@ public class QuantilesTest extends TestCase {
   }
 
   public void testPercentiles_indexes_varargsAll_compute_doubleCollection() {
-    ArrayList<Integer> indexes = new ArrayList<Integer>(); 
+    ArrayList<Integer> indexes = new ArrayList<Integer>();
     ImmutableMap.Builder<Integer, Double> expectedBuilder = ImmutableMap.builder();
     for (int index = 0; index <= 100; index++) {
       indexes.add(index);
@@ -502,7 +502,7 @@ public class QuantilesTest extends TestCase {
 
   public void testPercentiles_indexes_varargsAll_computeInPlace() {
     double[] dataset = Doubles.toArray(PSEUDORANDOM_DATASET);
-    List<Integer> indexes = new ArrayList<Integer>(); 
+    List<Integer> indexes = new ArrayList<Integer>();
     ImmutableMap.Builder<Integer, Double> expectedBuilder = ImmutableMap.builder();
     for (int index = 0; index <= 100; index++) {
       indexes.add(index);

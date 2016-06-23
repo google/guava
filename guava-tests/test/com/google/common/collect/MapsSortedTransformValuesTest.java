@@ -24,7 +24,7 @@ import java.util.SortedMap;
 
 /**
  * Tests for {@link Maps#transformValues(SortedMap, Function)}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible

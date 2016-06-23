@@ -89,7 +89,7 @@ public class UnsignedIntsTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testMin() {
     assertEquals(LEAST, UnsignedInts.min(LEAST));
     assertEquals(GREATEST, UnsignedInts.min(GREATEST));
@@ -98,7 +98,7 @@ public class UnsignedIntsTest extends TestCase {
         (int) 0x12345678L, (int) 0x5a4316b8L,
         (int) 0xff1a618bL, (int) 0L));
   }
-  
+
   public void testLexicographicalComparator() {
     List<int[]> ordered = Arrays.asList(
         new int[] {},

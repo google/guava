@@ -247,7 +247,7 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
           }
         }).named("Maps.synchronizedNavigableMap[SafeTreeMap]")
             .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-                MapFeature.GENERAL_PURPOSE, MapFeature.ALLOWS_NULL_VALUES, 
+                MapFeature.GENERAL_PURPOSE, MapFeature.ALLOWS_NULL_VALUES,
                 CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
             .createTestSuite());
 

@@ -75,9 +75,9 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
 
     return suite;
   }
-  
+
   public void testSerialization_empty() {
-    assertSame(ImmutableClassToInstanceMap.of(), 
+    assertSame(ImmutableClassToInstanceMap.of(),
         SerializableTester.reserialize(ImmutableClassToInstanceMap.of()));
   }
 
@@ -88,11 +88,11 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
     assertSame(map, ImmutableClassToInstanceMap.of());
     assertSame(map, ImmutableClassToInstanceMap.copyOf(map));
   }
-  
+
   public void testOf_zero() {
     assertTrue(ImmutableClassToInstanceMap.of().isEmpty());
   }
-  
+
   public void testOf_one() {
     ImmutableClassToInstanceMap<Number> map =
         ImmutableClassToInstanceMap.of(int.class, 1);

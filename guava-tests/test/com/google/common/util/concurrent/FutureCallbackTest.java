@@ -168,7 +168,7 @@ public class FutureCallbackTest extends TestCase {
     public MockCallback(Throwable expectedFailure) {
       this.failure = expectedFailure;
     }
-    
+
     @Override
     public synchronized void onSuccess(String result) {
       assertFalse(wasCalled);
@@ -178,7 +178,7 @@ public class FutureCallbackTest extends TestCase {
 
     @Override
     public synchronized void onFailure(Throwable t) {
-      assertFalse(wasCalled); 
+      assertFalse(wasCalled);
       wasCalled = true;
       assertEquals(failure, t);
     }

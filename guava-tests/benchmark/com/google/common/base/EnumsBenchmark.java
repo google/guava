@@ -51,7 +51,7 @@ public class EnumsBenchmark {
       hits.add(allConstants[allConstants.length / 2].name());
       hits.add(allConstants[allConstants.length - 1].name());
     }
-    
+
     List<String> misses = new ArrayList<String>();
     for (int i = 0; i < 256 - hits.size(); ++i) {
       misses.add("INVALID");

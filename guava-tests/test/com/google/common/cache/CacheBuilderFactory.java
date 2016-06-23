@@ -129,7 +129,7 @@ class CacheBuilderFactory {
    * "don't call the associated CacheBuilder method" - that is, get the default CacheBuilder
    * behavior. This method wraps the elements in the input sets (which may contain null) as
    * Optionals, calls Sets.cartesianProduct with those, then transforms the result to unwrap
-   * the Optionals. 
+   * the Optionals.
    */
   private Iterable<List<Object>> buildCartesianProduct(Set<?>... sets) {
     List<Set<Optional<?>>> optionalSets = Lists.newArrayListWithExpectedSize(sets.length);

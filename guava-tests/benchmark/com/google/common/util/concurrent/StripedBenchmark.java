@@ -65,14 +65,14 @@ public class StripedBenchmark {
         return new Striped.LargeLazyStriped<Lock>(stripes, LOCK_SUPPLIER);
       }
     };
-    
+
     abstract Striped<Lock> get(int stripes);
   }
 
   private Striped<Lock> striped;
   private int[] stripes;
   private List<Integer> bulkGetSet;
-  
+
   @BeforeExperiment void setUp() {
     this.striped = impl.get(numStripes);
     stripes = new int[numStripes];

@@ -26,7 +26,7 @@ import java.util.Random;
 
 /**
  * Benchmarks for various algorithms for computing the mean and/or variance.
- * 
+ *
  * @author Louis Wasserman
  */
 public class StatsBenchmark {

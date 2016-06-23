@@ -75,7 +75,7 @@ public class UnsignedLongTest extends TestCase {
           UnsignedLong.fromLongBits(value).bigIntegerValue());
     }
   }
-  
+
   public void testValueOfLong() {
     for (long value : TEST_LONGS) {
       boolean expectSuccess = value >= 0;
@@ -87,7 +87,7 @@ public class UnsignedLongTest extends TestCase {
       }
     }
   }
-  
+
   public void testValueOfBigInteger() {
     BigInteger min = BigInteger.ZERO;
     BigInteger max = UnsignedLong.MAX_VALUE.bigIntegerValue();

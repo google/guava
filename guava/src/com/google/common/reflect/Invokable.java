@@ -48,7 +48,7 @@ import javax.annotation.Nullable;
  *   Invokable<List<String>, ?> invokable = new TypeToken<List<String>>() {}.method(getMethod);
  *   assertEquals(TypeToken.of(String.class), invokable.getReturnType()); // Not Object.class!
  *   assertEquals(new TypeToken<List<String>>() {}, invokable.getOwnerType());}</pre>
- * 
+ *
  * @param <T> the type that owns this method or constructor.
  * @param <R> the return type of (or supertype thereof) the method or the declaring type of the
  *     constructor.

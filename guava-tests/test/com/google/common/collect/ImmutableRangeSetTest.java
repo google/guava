@@ -38,7 +38,7 @@ import java.util.Set;
  */
 @GwtIncompatible // ImmutableRangeSet
 public class ImmutableRangeSetTest extends AbstractRangeSetTest {
-  
+
   static final class ImmutableRangeSetIntegerAsSetGenerator implements TestSetGenerator<Integer> {
     @Override
     public SampleElements<Integer> samples() {
@@ -482,7 +482,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
       }
     }
   }
-  
+
   public void testSubRangeSet() {
     ImmutableList.Builder<Range<Integer>> rangesBuilder = ImmutableList.builder();
     rangesBuilder.add(Range.<Integer>all());

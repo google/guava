@@ -59,11 +59,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         @Override
         public UnmodifiableIterator<Entry<K, V>> iterator() {
           return entryIterator();
-        }        
+        }
       };
     }
   }
-  
+
   ImmutableMap() {}
 
   public static <K, V> ImmutableMap<K, V> of() {
@@ -140,14 +140,14 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
       return putAll(map.entrySet());
     }
-    
+
     public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
       for (Entry<? extends K, ? extends V> entry : entries) {
         put(entry);
       }
       return this;
     }
-    
+
     public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
       checkState(this.valueComparator == null, "valueComparator was already set");
       this.valueComparator = checkNotNull(valueComparator, "valueComparator");
@@ -157,7 +157,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     public ImmutableMap<K, V> build() {
       if (valueComparator != null) {
         Collections.sort(
-            entries, 
+            entries,
             Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
       }
       return fromEntryList(entries);
@@ -216,7 +216,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         return new RegularImmutableMap<K, V>(orderPreservingCopy);
     }
   }
-  
+
   public static <K, V> ImmutableMap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
     if (entries instanceof Collection) {
@@ -283,7 +283,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   ImmutableSet<K> createKeySet() {
     return new ImmutableMapKeySet<K, V>(this);
   }
-  
+
   UnmodifiableIterator<K> keyIterator() {
     final UnmodifiableIterator<Entry<K, V>> entryIterator = entrySet().iterator();
     return new UnmodifiableIterator<K>() {
@@ -311,19 +311,19 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   public ImmutableSetMultimap<K, V> asMultimap() {
     ImmutableSetMultimap<K, V> result = multimapView;
-    return (result == null) 
+    return (result == null)
         ? (multimapView = new ImmutableSetMultimap<K, V>(
             new MapViewOfValuesAsSingletonSets(), size(), null))
         : result;
   }
-  
-  final class MapViewOfValuesAsSingletonSets 
+
+  final class MapViewOfValuesAsSingletonSets
       extends IteratorBasedImmutableMap<K, ImmutableSet<V>> {
 
     @Override public int size() {
       return ImmutableMap.this.size();
     }
- 
+
     @Override public ImmutableSet<K> keySet() {
       return ImmutableMap.this.keySet();
     }

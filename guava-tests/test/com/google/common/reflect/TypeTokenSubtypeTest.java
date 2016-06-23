@@ -255,7 +255,7 @@ public class TypeTokenSubtypeTest extends TestCase {
   private static class Mall<T> {
     class Shop<ProductT> {}
     abstract class Retailer<ProductT> extends Shop<ProductT>
-        implements Comparator<ProductT>, ConsumerFacing<ProductT> {} 
+        implements Comparator<ProductT>, ConsumerFacing<ProductT> {}
   }
 
   private static class Outlet<T> extends Mall<T> {}

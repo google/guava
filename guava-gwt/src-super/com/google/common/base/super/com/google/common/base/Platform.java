@@ -47,7 +47,7 @@ final class Platform {
       return Optional.absent();
     }
   }
-  
+
   static String formatCompact4Digits(double value) {
     return "" + ((Number) (Object) value).toPrecision(4);
   }

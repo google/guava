@@ -236,7 +236,7 @@ public class ElementTest extends TestCase {
       assertEquals(A.class, element.getDeclaringClass());
       return element;
     }
-    
+
     native void nativeMethod();
 
     synchronized void synchronizedMethod() {}

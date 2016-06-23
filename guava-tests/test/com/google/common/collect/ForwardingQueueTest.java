@@ -102,13 +102,13 @@ public class ForwardingQueueTest extends ForwardingTestCase {
       return standardPoll();
     }
   }
-  
+
   private Queue<String> forward;
   private Queue<String> queue;
-  
+
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    
+
     suite.addTestSuite(ForwardingQueueTest.class);
     suite.addTest(
         QueueTestSuiteBuilder.using(new TestStringQueueGenerator() {
@@ -122,10 +122,10 @@ public class ForwardingQueueTest extends ForwardingTestCase {
             .withFeatures(CollectionSize.ANY,
                 CollectionFeature.ALLOWS_NULL_VALUES,
                 CollectionFeature.GENERAL_PURPOSE).createTestSuite());
-    
+
     return suite;
   }
-  
+
   /*
    * Class parameters must be raw, so we can't create a proxy with generic
    * type arguments. The created proxy only records calls and returns null, so
@@ -231,7 +231,7 @@ public class ForwardingQueueTest extends ForwardingTestCase {
     forward.toArray(new String[0]);
     assertEquals("[toArray(Object[])]", getCalls());
   }
-      
+
   public void testToString() {
     forward.toString();
     assertEquals("[toString]", getCalls());

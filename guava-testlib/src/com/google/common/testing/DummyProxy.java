@@ -68,7 +68,7 @@ abstract class DummyProxy {
     DummyHandler(TypeToken<?> interfaceType) {
       this.interfaceType = interfaceType;
     }
-  
+
     @Override protected Object handleInvocation(
         Object proxy, Method method, Object[] args) {
       Invokable<?, ?> invokable = interfaceType.method(method);

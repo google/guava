@@ -89,7 +89,7 @@ public class BinaryTreeTraverserBenchmark {
         }
         return createTreap(Ints.asList(keys));
       }
-      
+
       // See http://en.wikipedia.org/wiki/Treap for details on the algorithm.
       private Optional<BinaryNode> createTreap(List<Integer> keys) {
         if (keys.isEmpty()) {
@@ -123,7 +123,7 @@ public class BinaryTreeTraverserBenchmark {
       return node.right;
     }
   };
-  
+
   private static final TreeTraverser<BinaryNode> VIEWER = new TreeTraverser<BinaryNode>() {
     @Override
     public Iterable<BinaryNode> children(BinaryNode root) {
@@ -155,7 +155,7 @@ public class BinaryTreeTraverserBenchmark {
   }
 
   private Iterable<BinaryNode> view;
-  
+
   @Param
   Topology topology;
 
@@ -164,17 +164,17 @@ public class BinaryTreeTraverserBenchmark {
 
   @Param
   Traversal traversal;
-  
+
   @Param
   boolean useBinaryTraverser;
-  
+
   @Param({"1234"})
   SpecialRandom rng;
 
   @BeforeExperiment
   void setUp() {
     this.view = traversal.view(
-        topology.createTree(size, rng).get(), 
+        topology.createTree(size, rng).get(),
         useBinaryTraverser ? BINARY_VIEWER : VIEWER);
   }
 

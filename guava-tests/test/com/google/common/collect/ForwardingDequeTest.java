@@ -26,7 +26,7 @@ import java.util.Deque;
  */
 public class ForwardingDequeTest extends ForwardingTestCase {
   private Deque<String> forward;
-  
+
   /*
    * Class parameters must be raw, so we can't create a proxy with generic
    * type arguments. The created proxy only records calls and returns null, so
@@ -217,7 +217,7 @@ public class ForwardingDequeTest extends ForwardingTestCase {
     forward.toArray(new String[0]);
     assertEquals("[toArray(Object[])]", getCalls());
   }
-      
+
   public void testToString() {
     forward.toString();
     assertEquals("[toString]", getCalls());

@@ -58,7 +58,7 @@ public class ConstrainedMapTest extends TestCase {
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.ALLOWS_ANY_NULL_QUERIES,
-            MapFeature.GENERAL_PURPOSE, 
+            MapFeature.GENERAL_PURPOSE,
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
         .createTestSuite());
     suite.addTestSuite(ConstrainedMapTest.class);

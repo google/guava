@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 
 /**
  * Utilities for performing thread interruption in tests
- * 
+ *
  * @author Kevin Bourrillion
  * @author Chris Povirk
  */

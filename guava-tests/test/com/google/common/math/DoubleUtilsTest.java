@@ -28,7 +28,7 @@ import java.math.BigInteger;
 
 /**
  * Tests for {@link DoubleUtils}.
- * 
+ *
  * @author Louis Wasserman
  */
 public class DoubleUtilsTest extends TestCase {
@@ -38,7 +38,7 @@ public class DoubleUtilsTest extends TestCase {
       assertEquals(FpUtils.nextDown(d), DoubleUtils.nextDown(d));
     }
   }
-  
+
   @AndroidIncompatible // TODO(cpovirk): File bug for BigDecimal.doubleValue().
   public void testBigToDouble() {
     for (BigInteger b : ALL_BIGINTEGER_CANDIDATES) {

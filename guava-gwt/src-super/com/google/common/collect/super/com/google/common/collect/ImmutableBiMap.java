@@ -89,13 +89,13 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
       super.putAll(map);
       return this;
     }
-    
+
     @Override public Builder<K, V> putAll(
         Iterable<? extends Entry<? extends K, ? extends V>> entries) {
       super.putAll(entries);
       return this;
     }
-    
+
     public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
       super.orderEntriesByValue(valueComparator);
       return this;
@@ -125,7 +125,7 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
     ImmutableMap<K, V> immutableMap = ImmutableMap.copyOf(map);
     return new RegularImmutableBiMap<K, V>(immutableMap);
   }
-  
+
   public static <K, V> ImmutableBiMap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
     return new Builder<K, V>().putAll(entries).build();

@@ -40,9 +40,9 @@ import javax.annotation.Nullable;
  * @author Mike Bostock
  */
 public class SynchronizedSetTest extends TestCase {
-  
+
   public static final Object MUTEX = new Integer(1); // something Serializable
-  
+
   public static Test suite() {
     return SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override

@@ -98,15 +98,15 @@ public class ForwardingSetTest extends ForwardingTestCase {
       return standardToString();
     }
   }
-  
+
   private static final List<String> EMPTY_LIST =
       Collections.<String>emptyList();
 
   Set<String> forward;
-  
+
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    
+
     suite.addTestSuite(ForwardingSetTest.class);
     suite.addTest(
         SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -127,12 +127,12 @@ public class ForwardingSetTest extends ForwardingTestCase {
           }
         }).named(
             "ForwardingSet[MinimalSet] with standard implementations")
-            .withFeatures(CollectionSize.ANY, 
+            .withFeatures(CollectionSize.ANY,
                 CollectionFeature.ALLOWS_NULL_VALUES).createTestSuite());
-    
+
     return suite;
   }
-  
+
   @Override public void setUp() throws Exception {
     super.setUp();
     /*

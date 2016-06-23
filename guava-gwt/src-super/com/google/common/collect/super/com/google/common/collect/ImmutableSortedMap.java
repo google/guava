@@ -114,7 +114,7 @@ public final class ImmutableSortedMap<K, V>
   }
 
   public static <K, V> ImmutableSortedMap<K, V> copyOf(
-      Iterable<? extends Entry<? extends K, ? extends V>> entries, 
+      Iterable<? extends Entry<? extends K, ? extends V>> entries,
           Comparator<? super K> comparator) {
     return new Builder<K, V>(comparator).putAll(entries).build();
   }
@@ -202,7 +202,7 @@ public final class ImmutableSortedMap<K, V>
     @Override public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
       return putAll(map.entrySet());
     }
-    
+
     @Override public Builder<K, V> putAll(
         Iterable<? extends Entry<? extends K, ? extends V>> entries) {
       for (Entry<? extends K, ? extends V> entry : entries) {
@@ -210,7 +210,7 @@ public final class ImmutableSortedMap<K, V>
       }
       return this;
     }
-    
+
     @Override
     public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
       throw new UnsupportedOperationException("Not available on ImmutableSortedMap.Builder");

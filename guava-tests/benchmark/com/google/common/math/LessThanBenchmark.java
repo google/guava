@@ -41,7 +41,7 @@ public class LessThanBenchmark {
   long[] yLongs;
 
   int[] constant;
-  
+
   private static final long NONNEGATIVE_LONG_MASK = 0x7FFFFFFFFFFFFFFFL;
 
   @BeforeExperiment

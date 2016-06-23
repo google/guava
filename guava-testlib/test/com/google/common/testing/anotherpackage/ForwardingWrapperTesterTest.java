@@ -350,7 +350,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
 
   private interface ParameterTypesDifferent {
     void foo(String s, Runnable r, Number n, Iterable<?> it, boolean b, Equivalence<String> eq,
-        Exception e, InputStream in, Comparable<?> c, Ordering<Integer> ord, 
+        Exception e, InputStream in, Comparable<?> c, Ordering<Integer> ord,
         Charset charset, TimeUnit unit, Class<?> cls, Joiner joiner,
         Pattern pattern, UnsignedInteger ui, UnsignedLong ul, StringBuilder sb,
         Predicate<?> pred, Function<?, ?> func, Object obj);
@@ -365,7 +365,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
 
     @Override public void foo(
         String s, Runnable r, Number n, Iterable<?> it, boolean b, Equivalence<String> eq,
-        Exception e, InputStream in, Comparable<?> c, Ordering<Integer> ord, 
+        Exception e, InputStream in, Comparable<?> c, Ordering<Integer> ord,
         Charset charset, TimeUnit unit, Class<?> cls, Joiner joiner,
         Pattern pattern, UnsignedInteger ui, UnsignedLong ul, StringBuilder sb,
         Predicate<?> pred, Function<?, ?> func, Object obj) {

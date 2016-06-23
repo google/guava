@@ -918,35 +918,35 @@ public class MultimapsTest extends TestCase {
   }
 
   private static void foo(Object o) {}
-  
+
   public void testFilteredKeysSetMultimapReplaceValues() {
     SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();
     multimap.put("foo", 1);
     multimap.put("bar", 2);
     multimap.put("baz", 3);
     multimap.put("bar", 4);
-    
+
     SetMultimap<String, Integer> filtered = Multimaps.filterKeys(
         multimap, Predicates.in(ImmutableSet.of("foo", "bar")));
-    
+
     assertEquals(
         ImmutableSet.of(),
         filtered.replaceValues("baz", ImmutableSet.<Integer>of()));
-    
+
     try {
       filtered.replaceValues("baz", ImmutableSet.of(5));
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testFilteredKeysSetMultimapGetBadValue() {
     SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();
     multimap.put("foo", 1);
     multimap.put("bar", 2);
     multimap.put("baz", 3);
     multimap.put("bar", 4);
-    
+
     SetMultimap<String, Integer> filtered = Multimaps.filterKeys(
         multimap, Predicates.in(ImmutableSet.of("foo", "bar")));
     Set<Integer> bazSet = filtered.get("baz");
@@ -962,14 +962,14 @@ public class MultimapsTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testFilteredKeysListMultimapGetBadValue() {
     ListMultimap<String, Integer> multimap = ArrayListMultimap.create();
     multimap.put("foo", 1);
     multimap.put("bar", 2);
     multimap.put("baz", 3);
     multimap.put("bar", 4);
-    
+
     ListMultimap<String, Integer> filtered = Multimaps.filterKeys(
         multimap, Predicates.in(ImmutableSet.of("foo", "bar")));
     List<Integer> bazList = filtered.get("baz");

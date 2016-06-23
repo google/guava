@@ -203,7 +203,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     public Builder() {
       this.contents = Lists.newArrayList();
     }
-    
+
     Builder(int initialCapacity) {
       this.contents = Lists.newArrayListWithCapacity(initialCapacity);
     }

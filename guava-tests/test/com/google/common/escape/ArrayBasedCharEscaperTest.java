@@ -50,7 +50,7 @@ public class ArrayBasedCharEscaperTest extends TestCase {
     // '[' and '@' lie either side of [A-Z].
     assertEquals("{[}FOO{@}BAR{]}", wrappingEscaper.escape("[FOO@BAR]"));
   }
-  
+
   public void testSafeRange_maxLessThanMin() throws IOException {
     // Basic escaping of unsafe chars (wrap them in {,}'s)
     CharEscaper wrappingEscaper =

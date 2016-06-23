@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 
 /**
  * Test cases for {@link Tables#transpose}.
- * 
+ *
  * @author Jared Levy
  */
 @GwtCompatible
@@ -34,26 +34,26 @@ public class TransposedTableTest extends AbstractTableTest {
     populate(table, data);
     return table;
   }
-  
+
   public void testTransposeTransposed() {
     Table<Integer, String, Character> original = HashBasedTable.create();
     assertSame(original, Tables.transpose(Tables.transpose(original)));
   }
-  
+
   public void testPutOriginalModifiesTranspose() {
     Table<Integer, String, Character> original = HashBasedTable.create();
     Table<String, Integer, Character> transpose = Tables.transpose(original);
     original.put(1, "foo", 'a');
     assertEquals((Character) 'a', transpose.get("foo", 1));
   }
-  
+
   public void testPutTransposeModifiesOriginal() {
     Table<Integer, String, Character> original = HashBasedTable.create();
     Table<String, Integer, Character> transpose = Tables.transpose(original);
     transpose.put("foo", 1, 'a');
     assertEquals((Character) 'a', original.get(1, "foo"));
   }
-  
+
   public void testTransposedViews() {
     Table<Integer, String, Character> original = HashBasedTable.create();
     Table<String, Integer, Character> transpose = Tables.transpose(original);
@@ -62,7 +62,7 @@ public class TransposedTableTest extends AbstractTableTest {
     assertSame(original.rowKeySet(), transpose.columnKeySet());
     assertSame(original.columnMap(), transpose.rowMap());
     assertSame(original.rowMap(), transpose.columnMap());
-    assertSame(original.values(), transpose.values());    
+    assertSame(original.values(), transpose.values());
     assertEquals(original.row(1), transpose.column(1));
     assertEquals(original.row(2), transpose.column(2));
     assertEquals(original.column("foo"), transpose.row("foo"));

@@ -26,7 +26,7 @@ import java.util.SortedSet;
 /**
  * A skeleton implementation of a descending multiset.  Only needs
  * {@code forwardMultiset()} and {@code entryIterator()}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)

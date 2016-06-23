@@ -163,7 +163,7 @@ public class TreeMultimapExplicitTest extends TestCase {
         Maps.immutableEntry((String) null, 1),
         Maps.immutableEntry("tree", (Integer) null),
         Maps.immutableEntry("tree", 0),
-        Maps.immutableEntry("google", 6), 
+        Maps.immutableEntry("google", 6),
         Maps.immutableEntry("google", 2)).inOrder();
   }
 

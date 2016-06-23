@@ -253,7 +253,7 @@ public class UnsignedBytesTest extends TestCase {
     Helpers.testComparator(javaImpl, ordered);
     assertSame(javaImpl, SerializableTester.reserialize(javaImpl));
   }
-  
+
   @SuppressWarnings("unchecked")
   public void testLexicographicalComparatorLongInputs() {
     for (Comparator<byte[]> comparator : Arrays.asList(

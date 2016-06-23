@@ -57,7 +57,7 @@ public class TopKSelectorTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testZeroK() {
     TopKSelector<Integer> top = TopKSelector.least(0);
     for (int i = 0; i < 10; i++) {
@@ -65,12 +65,12 @@ public class TopKSelectorTest extends TestCase {
     }
     assertThat(top.topK()).isEmpty();
   }
-  
+
   public void testNoElementsOffered() {
     TopKSelector<Integer> top = TopKSelector.least(10);
     assertThat(top.topK()).isEmpty();
   }
-  
+
   public void testOfferedFewerThanK() {
     TopKSelector<Integer> top = TopKSelector.least(10);
     top.offer(3);
@@ -78,7 +78,7 @@ public class TopKSelectorTest extends TestCase {
     top.offer(2);
     assertThat(top.topK()).containsExactly(2, 3, 5).inOrder();
   }
-  
+
   public void testOfferedKPlusOne() {
     for (List<Integer> list : Collections2.permutations(Ints.asList(1, 2, 3, 4, 5))) {
       TopKSelector<Integer> top = TopKSelector.least(4);
@@ -86,7 +86,7 @@ public class TopKSelectorTest extends TestCase {
       assertThat(top.topK()).containsExactly(1, 2, 3, 4).inOrder();
     }
   }
-  
+
   public void testOfferedThreeK() {
     for (List<Integer> list : Collections2.permutations(Ints.asList(1, 2, 3, 4, 5, 6))) {
       TopKSelector<Integer> top = TopKSelector.least(2);
@@ -94,13 +94,13 @@ public class TopKSelectorTest extends TestCase {
       assertThat(top.topK()).containsExactly(1, 2).inOrder();
     }
   }
-  
+
   public void testDifferentComparator() {
     TopKSelector<String> top = TopKSelector.least(3, String.CASE_INSENSITIVE_ORDER);
     top.offerAll(ImmutableList.of("a", "B", "c", "D", "e", "F"));
     assertThat(top.topK()).containsExactly("a", "B", "c").inOrder();
   }
-  
+
   public void testWorstCase() {
     int n = 2000000;
     int k = 200000;

@@ -105,12 +105,12 @@ public class EnumMultisetTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {}
   }
-  
+
   public void testCreateEmptyWithClass() {
     Multiset<Color> ms = EnumMultiset.create(ImmutableList.<Color>of(), Color.class);
     ms.add(Color.RED);
   }
-  
+
   public void testCreateEmptyWithoutClassFails() {
     try {
       EnumMultiset.create(ImmutableList.<Color> of());

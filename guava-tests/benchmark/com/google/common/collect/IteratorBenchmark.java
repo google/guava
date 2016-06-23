@@ -25,7 +25,7 @@ import java.util.LinkedList;
 
 /**
  * Tests the speed of iteration of different iteration methods for collections.
- * 
+ *
  * @author David Richter
  */
 public class IteratorBenchmark {

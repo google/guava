@@ -25,7 +25,7 @@ import java.util.SortedSet;
 /**
  * Implementation of {@link Multisets#unmodifiableSortedMultiset(SortedMultiset)}
  * for GWT.
- * 
+ *
  * @author Louis Wasserman
  */
 final class UnmodifiableSortedMultiset<E>

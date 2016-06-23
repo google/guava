@@ -131,7 +131,7 @@ public class FuturesGetCheckedBenchmark {
     }
 
     for (int i = 0; i < otherEntriesInDataStructure; i++) {
-      ClassValue<Boolean> classValue = 
+      ClassValue<Boolean> classValue =
           new ClassValue<Boolean>() {
             @Override
             protected Boolean computeValue(Class<?> type) {

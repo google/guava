@@ -26,7 +26,7 @@ import java.util.NoSuchElementException;
 
 /**
  * Tests for UnmodifiableListIterator.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
@@ -41,7 +41,7 @@ public class UnmodifiableListIteratorTest extends TestCase {
       fail();
     } catch (UnsupportedOperationException expected) {}
   }
-  
+
   public void testAdd() {
     ListIterator<String> iterator = create();
 
@@ -54,7 +54,7 @@ public class UnmodifiableListIteratorTest extends TestCase {
       fail();
     } catch (UnsupportedOperationException expected) {}
   }
-  
+
   public void testSet() {
     ListIterator<String> iterator = create();
 

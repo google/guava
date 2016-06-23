@@ -50,7 +50,7 @@ public class QuantilesAlgorithmTest extends TestCase {
       dataset[i] = RNG.nextDouble();
     }
   }
-  
+
   public void testSingleQuantile_median() {
     double referenceValue = REFERENCE_ALGORITHM.singleQuantile(1, 2, dataset.clone());
     for (QuantilesAlgorithm algorithm : NON_REFERENCE_ALGORITHMS) {
@@ -60,7 +60,7 @@ public class QuantilesAlgorithmTest extends TestCase {
           .of(referenceValue);
     }
   }
-  
+
   public void testSingleQuantile_percentile99() {
     double referenceValue = REFERENCE_ALGORITHM.singleQuantile(99, 100, dataset.clone());
     for (QuantilesAlgorithm algorithm : NON_REFERENCE_ALGORITHMS) {

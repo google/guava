@@ -978,7 +978,7 @@ public final class LongMath {
     // The alternative (x + y) >>> 1 fails for negative values.
     return (x & y) + ((x ^ y) >> 1);
   }
-  
+
   /*
    * This bitmask is used as an optimization for cheaply testing for divisiblity by 2, 3, or 5.
    * Each bit is set to 1 for all remainders that indicate divisibility by 2, 3, or 5, so
@@ -1010,7 +1010,7 @@ public final class LongMath {
     if (n == 2 || n == 3 || n == 5 || n == 7 || n == 11 || n == 13) {
       return true;
     }
-    
+
     if ((SIEVE_30 & (1 << (n % 30))) != 0) {
       return false;
     }

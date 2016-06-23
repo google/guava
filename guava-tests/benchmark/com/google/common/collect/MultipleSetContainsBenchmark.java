@@ -27,29 +27,29 @@ import java.util.Random;
  * A benchmark that tries invoking {@code Set.contains} on many different sets.
  */
 public class MultipleSetContainsBenchmark {
-  
+
   @Param({"0.0", "0.1", "0.7", "1.0"})
   double emptySetProportion;
-  
+
   @Param({"0.0", "0.1", "0.7", "1.0"})
   double singletonSetProportion;
-  
+
   @Param({"0.2", "0.8"})
   double hitRate;
-  
+
   static final Object PRESENT = new Object();
   static final Object ABSENT = new Object();
-  
+
   @SuppressWarnings("unchecked")
   private final ImmutableSet<Object>[] sets = new ImmutableSet[0x1000];
-  
+
   private final Object[] queries = new Object[0x1000];
-  
+
   @BeforeExperiment void setUp() {
     if (emptySetProportion + singletonSetProportion > 1.01) {
       throw new SkipThisScenarioException();
     }
-    
+
     Random rng = new Random();
     for (int i = 0; i < 0x1000; i++) {
       double setSize = rng.nextDouble();
@@ -60,7 +60,7 @@ public class MultipleSetContainsBenchmark {
       } else {
         sets[i] = ImmutableSet.of(PRESENT, new Object());
       }
-      
+
       if (rng.nextDouble() < hitRate) {
         queries[i] = PRESENT;
       } else {
@@ -68,7 +68,7 @@ public class MultipleSetContainsBenchmark {
       }
     }
   }
-  
+
   @Benchmark public boolean contains(int reps) {
     ImmutableSet<Object>[] sets = this.sets;
     Object[] queries = this.queries;

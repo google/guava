@@ -43,7 +43,7 @@ final class Platform {
         ? Optional.<T>absent()
         : Optional.of(enumClass.cast(ref.get()));
   }
-  
+
   static String formatCompact4Digits(double value) {
     return String.format(Locale.ROOT, "%.4g", value);
   }

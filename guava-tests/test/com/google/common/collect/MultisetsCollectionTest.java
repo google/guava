@@ -85,7 +85,7 @@ public class MultisetsCollectionTest extends TestCase {
             CollectionFeature.KNOWN_ORDER)
         .named("Multisets.difference")
         .createTestSuite());
-    
+
     suite.addTest(MultisetTestSuiteBuilder.using(filteredGenerator())
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.ALLOWS_NULL_VALUES,
@@ -222,13 +222,13 @@ public class MultisetsCollectionTest extends TestCase {
       }
     };
   }
-  
+
   private static final Multiset<String> ELEMENTS_TO_FILTER_OUT = ImmutableMultiset.of(
       "foobar", "bazfoo", "foobar", "foobar");
-  
-  private static final Predicate<String> PREDICATE = 
+
+  private static final Predicate<String> PREDICATE =
       Predicates.not(Predicates.in(ELEMENTS_TO_FILTER_OUT));
-  
+
   private static TestStringMultisetGenerator filteredGenerator() {
     return new TestStringMultisetGenerator() {
       @Override

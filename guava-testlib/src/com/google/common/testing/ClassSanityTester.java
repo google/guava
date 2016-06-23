@@ -272,7 +272,7 @@ public final class ClassSanityTester {
       throw Throwables.propagate(e);
     }
   }
- 
+
   void doTestEquals(Class<?> cls)
       throws ParameterNotInstantiableException, ParameterHasNoDistinctValueException,
              IllegalAccessException, InvocationTargetException, FactoryMethodReturnsNullException {

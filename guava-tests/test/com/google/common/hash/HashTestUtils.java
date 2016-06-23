@@ -227,7 +227,7 @@ final class HashTestUtils {
       return actions[random.nextInt(actions.length)];
     }
   }
-  
+
   /**
    * Test that the hash function contains no funnels. A funnel is a situation where a set of input
    * (key) bits 'affects' a strictly smaller set of output bits. Funneling is bad because it can

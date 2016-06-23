@@ -53,7 +53,7 @@ import javax.lang.model.element.Modifier;
  *       return notSubtype(intList);
  *     }
  *   }
- * 
+ *
  *   public void testMySubtypes() throws Exception {
  *     new MySubtypeTests().testAllDeclarations();
  *   }

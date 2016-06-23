@@ -42,7 +42,7 @@ import java.util.TreeSet;
  */
 public class SynchronizedNavigableSetTest extends TestCase {
   private static final Object MUTEX = new Integer(1); // something Serializable
-  
+
   @SuppressWarnings("unchecked")
   protected <E> NavigableSet<E> create() {
     TestSet<E> inner = new TestSet<E>(

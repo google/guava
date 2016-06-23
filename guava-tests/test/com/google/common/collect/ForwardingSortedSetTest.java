@@ -101,10 +101,10 @@ public class ForwardingSortedSetTest extends ForwardingSetTest {
       return standardSubSet(fromElement, toElement);
     }
   }
-  
+
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    
+
     suite.addTestSuite(ForwardingSortedSetTest.class);
     suite.addTest(
         SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -120,10 +120,10 @@ public class ForwardingSortedSetTest extends ForwardingSetTest {
             "ForwardingSortedSet[SafeTreeSet] with standard implementations")
             .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
                 CollectionFeature.GENERAL_PURPOSE).createTestSuite());
-    
+
     return suite;
   }
-  
+
   @Override public void setUp() throws Exception {
     super.setUp();
     /*

@@ -128,7 +128,7 @@ enum QuantilesAlgorithm {
 
   /**
    * Calculates a single quantile. Equivalent to
-   * {@code Quantiles.scale(scale).index(index).computeInPlace(dataset)}. 
+   * {@code Quantiles.scale(scale).index(index).computeInPlace(dataset)}.
    */
   abstract double singleQuantile(int index, int scale, double[] dataset);
 

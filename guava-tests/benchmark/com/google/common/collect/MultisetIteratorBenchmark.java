@@ -25,7 +25,7 @@ import java.util.Random;
 
 /**
  * Tests the speed of iteration of different iteration methods for collections.
- * 
+ *
  * @author David Richter
  */
 public class MultisetIteratorBenchmark {
@@ -33,7 +33,7 @@ public class MultisetIteratorBenchmark {
 
   LinkedHashMultiset<Object> linkedHashMultiset;
   HashMultiset<Object> hashMultiset;
-  
+
   // TreeMultiset requires a Comparable element.
   TreeMultiset<Integer> treeMultiset;
 
@@ -43,7 +43,7 @@ public class MultisetIteratorBenchmark {
     treeMultiset = TreeMultiset.create();
 
     Random random = new Random();
-    
+
     int sizeRemaining = size;
 
     // TODO(kevinb): generate better test contents for multisets
@@ -57,7 +57,7 @@ public class MultisetIteratorBenchmark {
       treeMultiset.add(value, count);
     }
 
-    //TODO(kevinb): convert to assert once benchmark tests enable asserts by default    
+    //TODO(kevinb): convert to assert once benchmark tests enable asserts by default
     Preconditions.checkState(hashMultiset.size() == size);
   }
 

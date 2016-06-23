@@ -176,7 +176,7 @@ public class UnicodeEscaperTest extends TestCase {
     assertEquals("\0HELLO \uD800\uDC00 WORLD!\n",
         e.escape("\0HeLLo \uD800\uDC00 WorlD!\n"));
   }
-  
+
   public void testCodePointAt_IndexOutOfBoundsException() {
     try {
       UnicodeEscaper.codePointAt("Testing...", 4, 2);

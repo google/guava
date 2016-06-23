@@ -83,7 +83,7 @@ public class ForwardingSortedMapImplementsMapTest
     } catch (ClassCastException tolerated) {
     }
   }
-  
+
   @Override public void testEntrySetRemoveAllNullFromEmpty() {
     try {
       super.testEntrySetRemoveAllNullFromEmpty();

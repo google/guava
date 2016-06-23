@@ -1295,7 +1295,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(new TypeToken<OuterTypeVar<?>>() {},
         type.getSubtype(OuterTypeVar.class));
   }
-  
+
   public void testGetSubtype_toWildcardWithBounds() {
     class TwoTypeArgs<K, V> {}
     class StringForFirstTypeArg<V> extends TwoTypeArgs<String, V> {}
@@ -1308,7 +1308,7 @@ public class TypeTokenTest extends TestCase {
     // TODO(benyu): This should check equality to an expected value, see discussion in cl/98674873
     TypeToken<?> unused = supertype.getSubtype(subtype.getRawType());
   }
-  
+
   public void testGetSubtype_baseClassWithNoTypeArgs() {
     class SingleGenericExtendsBase<T> extends Base {}
     TypeToken<Base> supertype = new TypeToken<Base>() {};
@@ -1411,13 +1411,13 @@ public class TypeTokenTest extends TestCase {
     // This returns a strange ? extends Sub2<Y> type, which isn't ideal.
     TypeToken<?> unused = new TypeToken<BaseWithTypeVar<List<?>>>() {}.getSubtype(Outer.Sub2.class);
   }
-  
+
   public void testGetSubtype_subtypeSameAsDeclaringType() throws Exception {
     class Bar<T> {}
     class SubBar<T> extends Bar<T> {
       @SuppressWarnings("unused")
       Bar<T> delegate;
-      
+
       TypeToken<SubBar<T>> fieldTypeAsSubBar() {
         return new TypeToken<SubBar<T>>() {};
       }

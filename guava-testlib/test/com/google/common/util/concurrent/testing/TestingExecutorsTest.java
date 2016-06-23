@@ -103,7 +103,7 @@ public class TestingExecutorsTest extends TestCase {
         throw new RuntimeException("Oh no!");
       }
     };
-  
+
     Future<?> future = TestingExecutors.sameThreadScheduledExecutor().submit(runnable);
     try {
       future.get();

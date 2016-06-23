@@ -40,9 +40,9 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
-  static final ImmutableList<Object> EMPTY = 
+  static final ImmutableList<Object> EMPTY =
       new RegularImmutableList<Object>(Collections.emptyList());
-  
+
   ImmutableList() {}
 
   // Casting to any type is safe because the list will never hold any elements.

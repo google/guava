@@ -864,17 +864,17 @@ public class OrderingTest extends TestCase {
 
   // should periodically try increasing this, but it makes the test run long
   private static final int RECURSE_DEPTH = 2;
-  
+
   public void testCombinationsExhaustively_startingFromNatural() {
     testExhaustively(Ordering.<String>natural(), "a", "b", "d");
   }
-  
+
   @GwtIncompatible // too slow
   public void testCombinationsExhaustively_startingFromExplicit() {
     testExhaustively(Ordering.explicit("a", "b", "c", "d"),
         "a", "b", "d");
   }
-  
+
   @GwtIncompatible // too slow
   public void testCombinationsExhaustively_startingFromUsingToString() {
     testExhaustively(Ordering.usingToString(), 1, 12, 2);
@@ -885,7 +885,7 @@ public class OrderingTest extends TestCase {
     testExhaustively(Ordering.from(String.CASE_INSENSITIVE_ORDER),
         "A", "b", "C", "d");
   }
-  
+
   @GwtIncompatible // too slow
   public void testCombinationsExhaustively_startingFromArbitrary() {
     Ordering<Object> arbitrary = Ordering.arbitrary();

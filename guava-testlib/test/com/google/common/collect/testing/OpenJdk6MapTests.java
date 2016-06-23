@@ -57,7 +57,7 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
         getCreateWithNullKeyUnsupportedMethod(),
         getCreateWithNullUnsupportedMethod(), // for keySet
         getContainsEntryWithIncomparableKeyMethod(),
-        getContainsEntryWithIncomparableValueMethod()); 
+        getContainsEntryWithIncomparableValueMethod());
   }
 
   @Override

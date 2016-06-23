@@ -352,7 +352,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   private List<Class<?>> loadClassesInPackage() throws IOException {
     List<Class<?>> classes = Lists.newArrayList();
     String packageName = getClass().getPackage().getName();
-    for (ClassPath.ClassInfo classInfo 
+    for (ClassPath.ClassInfo classInfo
         : ClassPath.from(getClass().getClassLoader()).getTopLevelClasses(packageName)) {
       Class<?> cls;
       try {

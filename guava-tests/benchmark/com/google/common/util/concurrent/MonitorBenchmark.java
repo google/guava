@@ -25,15 +25,15 @@ import java.util.concurrent.BlockingQueue;
 
 /**
  * Benchmarks for {@link Monitor}.
- * 
+ *
  * @author Justin T. Sampson
  */
 public class MonitorBenchmark {
-  
+
   @Param({"10", "100", "1000"}) int capacity;
   @Param({"Array", "Priority"}) String queueType;
   @Param boolean useMonitor;
-  
+
   private BlockingQueue<String> queue;
   private String[] strings;
 
@@ -45,7 +45,7 @@ public class MonitorBenchmark {
     String className = prefix + queueType + "BlockingQueue";
     Constructor<?> constructor = Class.forName(className).getConstructor(int.class);
     queue = (BlockingQueue<String>) constructor.newInstance(capacity);
-    
+
     strings = new String[capacity];
     for (int i = 0; i < capacity; i++) {
       strings[i] = String.valueOf(Math.random());

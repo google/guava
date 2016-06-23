@@ -44,5 +44,5 @@ public class GwtTestSuite extends TestCase {
       }
     }
     return suite;
-  } 
+  }
 }

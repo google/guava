@@ -30,7 +30,7 @@ import java.io.InputStream;
 
 /**
  * An implementation of {@link DataInput} that uses little-endian byte ordering for reading
- * {@code short}, {@code int}, {@code float}, {@code double}, and {@code long} values. 
+ * {@code short}, {@code int}, {@code float}, {@code double}, and {@code long} values.
  *
  * <p><b>Note:</b> This class intentionally violates the specification of its supertype
  * {@code DataInput}, which explicitly requires big-endian byte order.

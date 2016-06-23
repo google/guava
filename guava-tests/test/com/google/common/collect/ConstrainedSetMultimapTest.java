@@ -39,18 +39,18 @@ import java.util.Map.Entry;
 public class ConstrainedSetMultimapTest extends TestCase {
   private enum Constraint implements Serializable, MapConstraint<String, String> {
     INSTANCE;
-    
+
     @Override
     public void checkKeyValue(String key, String value) {
       checkArgument(!"test".equals(key));
       checkArgument(!"test".equals(value));
     }
   }
-  
+
   public static Test suite() {
     return SetMultimapTestSuiteBuilder.using(
         new TestStringSetMultimapGenerator() {
-          
+
           @Override
           protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
             SetMultimap<String, String> multimap = HashMultimap.create();

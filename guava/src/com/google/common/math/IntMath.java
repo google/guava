@@ -61,7 +61,7 @@ public final class IntMath {
    * @throws IllegalArgumentException if {@code x <= 0}
    * @throws ArithmeticException of the next-higher power of two is not representable as an
    *         {@code int}, i.e. when {@code x > 2^30}
-   * @since 20.0        
+   * @since 20.0
    */
   @Beta
   public static int ceilingPowerOfTwo(int x) {

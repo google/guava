@@ -23,7 +23,7 @@ import java.util.concurrent.FutureTask;
 import javax.annotation.Nullable;
 
 /**
- * A {@link FutureTask} that also implements the {@link ListenableFuture} interface. Unlike 
+ * A {@link FutureTask} that also implements the {@link ListenableFuture} interface. Unlike
  * {@code FutureTask}, {@code ListenableFutureTask} does not provide an overrideable {@link
  * FutureTask#done() done()} method. For similar functionality, call {@link #addListener}.
  *

@@ -39,7 +39,7 @@ import java.util.Random;
 public class UnsignedLongsTest extends TestCase {
   private static final long LEAST = 0L;
   private static final long GREATEST = 0xffffffffffffffffL;
-  
+
   public void testCompare() {
     // max value
     assertTrue(UnsignedLongs.compare(0, 0xffffffffffffffffL) < 0);
@@ -68,7 +68,7 @@ public class UnsignedLongsTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testMax() {
     assertEquals(LEAST, UnsignedLongs.max(LEAST));
     assertEquals(GREATEST, UnsignedLongs.max(GREATEST));
@@ -84,7 +84,7 @@ public class UnsignedLongsTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testMin() {
     assertEquals(LEAST, UnsignedLongs.min(LEAST));
     assertEquals(GREATEST, UnsignedLongs.min(GREATEST));
@@ -92,7 +92,7 @@ public class UnsignedLongsTest extends TestCase {
         0x5a4316b8c153ac4dL, 8L, 100L,
         0L, 0x6cf78a4b139a4e2aL, 0xff1a618b7f65ea12L));
   }
-  
+
   public void testLexicographicalComparator() {
     List<long[]> ordered = Arrays.asList(
         new long[] {},
@@ -104,7 +104,7 @@ public class UnsignedLongsTest extends TestCase {
         new long[] {GREATEST, GREATEST - (long) 1},
         new long[] {GREATEST, GREATEST},
         new long[] {GREATEST, GREATEST, GREATEST});
-    
+
     Comparator<long[]> comparator = UnsignedLongs.lexicographicalComparator();
     Helpers.testComparator(comparator, ordered);
   }

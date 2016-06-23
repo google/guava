@@ -102,7 +102,7 @@ final class RelationshipTester<T> {
     T related = relatedInfo.value;
     assertWithTemplate("$ITEM must be $RELATIONSHIP to $OTHER", itemInfo, relatedInfo,
         equivalence.equivalent(item, related));
-    
+
     int itemHash = equivalence.hash(item);
     int relatedHash = equivalence.hash(related);
     assertWithTemplate("the $HASH (" + itemHash + ") of $ITEM must be equal to the $HASH ("

@@ -32,7 +32,7 @@ import java.util.Random;
 
 /**
  * Benchmarks to compare performance of MinMaxPriorityQueue and PriorityQueue.
- * 
+ *
  * @author Sverre Sundsdal
  */
 public class MinMaxPriorityQueueBenchmark {
@@ -54,11 +54,11 @@ public class MinMaxPriorityQueueBenchmark {
       queue.add(random.nextInt());
     }
   }
-  
+
   @Benchmark void pollAndAdd(int reps) {
     for (int i = 0; i < reps; i++) {
       // TODO(kevinb): precompute random #s?
-      queue.add(queue.poll() ^ random.nextInt()); 
+      queue.add(queue.poll() ^ random.nextInt());
     }
   }
 
@@ -82,17 +82,17 @@ public class MinMaxPriorityQueueBenchmark {
     public InvertedMinMaxPriorityQueue(Comparator<T> comparator) {
       mmHeap = MinMaxPriorityQueue.orderedBy(comparator).create();
     }
-    
+
     @Override
     protected Queue<T> delegate() {
       return mmHeap;
     }
-    
+
     @Override
     public T poll() {
       return mmHeap.pollLast();
     }
-    
+
   }
 
   public enum HeapType {
@@ -114,9 +114,9 @@ public class MinMaxPriorityQueueBenchmark {
 
     public abstract Queue<Integer> create(Comparator<Integer> comparator);
   }
-  
+
   /**
-   * Does a CPU intensive operation on Integer and returns a BigInteger 
+   * Does a CPU intensive operation on Integer and returns a BigInteger
    * Used to implement an ordering that spends a lot of cpu.
    */
   static class ExpensiveComputation implements Function<Integer, BigInteger> {

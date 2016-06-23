@@ -151,7 +151,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
     fail();
   }
-  
+
   public static class BadNullsFactory {
     public static Object bad(@SuppressWarnings("unused") String a) {
       return new BadNulls();
@@ -1186,7 +1186,7 @@ public class ClassSanityTesterTest extends TestCase {
 
   static class ConstructorParameterMapOfNotInstantiable {
     private final Map<NotInstantiable, NotInstantiable> m;
-    
+
     public ConstructorParameterMapOfNotInstantiable(
         Map<NotInstantiable, NotInstantiable> m) {
       this.m = checkNotNull(m);
@@ -1268,7 +1268,7 @@ public class ClassSanityTesterTest extends TestCase {
   private enum EnumFailsToCheckNull {
     A;
 
-    @SuppressWarnings("unused") 
+    @SuppressWarnings("unused")
     public void failToCheckNull(String s) {}
   }
 

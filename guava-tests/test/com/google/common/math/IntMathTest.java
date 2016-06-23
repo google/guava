@@ -111,7 +111,7 @@ public class IntMathTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testConstantMaxPowerOfSqrt2Unsigned() {
     assertEquals(
@@ -162,7 +162,7 @@ public class IntMathTest extends TestCase {
   public void testPowersSqrtMaxInt() {
     assertEquals(IntMath.sqrt(Integer.MAX_VALUE, FLOOR), IntMath.FLOOR_SQRT_MAX_INT);
   }
-  
+
   @AndroidIncompatible // presumably slow
   public void testLessThanBranchFree() {
     for (int x : ALL_INTEGER_CANDIDATES) {

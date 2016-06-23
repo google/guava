@@ -33,7 +33,7 @@ import java.util.concurrent.TimeoutException;
 
 /**
  * Test for {@link WrappingScheduledExecutorService}
- * 
+ *
  * @author Luke Sandberg
  */
 public class WrappingScheduledExecutorServiceTest extends TestCase {
@@ -46,20 +46,20 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
   public void testSchedule() {
     MockExecutor mock = new MockExecutor();
     TestExecutor testExecutor = new TestExecutor(mock);
-    
+
     testExecutor.schedule(DO_NOTHING, 10, TimeUnit.MINUTES);
     mock.assertLastMethodCalled("scheduleRunnable", 10, TimeUnit.MINUTES);
-    
+
     testExecutor.schedule(Executors.callable(DO_NOTHING), 5, TimeUnit.SECONDS);
     mock.assertLastMethodCalled("scheduleCallable", 5, TimeUnit.SECONDS);
   }
-  
+
   public void testSchedule_repeating() {
     MockExecutor mock = new MockExecutor();
     TestExecutor testExecutor = new TestExecutor(mock);
     testExecutor.scheduleWithFixedDelay(DO_NOTHING, 100, 10, TimeUnit.MINUTES);
     mock.assertLastMethodCalled("scheduleWithFixedDelay", 100, 10, TimeUnit.MINUTES);
-    
+
     testExecutor.scheduleAtFixedRate(DO_NOTHING, 3, 7, TimeUnit.SECONDS);
     mock.assertLastMethodCalled("scheduleAtFixedRate", 3, 7, TimeUnit.SECONDS);
   }
@@ -76,7 +76,7 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
       return delegate.call();
     }
   }
-  
+
   private static final class WrappedRunnable implements Runnable {
     private final Runnable delegate;
 
@@ -84,7 +84,7 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
       this.delegate = delegate;
     }
 
-    @Override 
+    @Override
     public void run() {
       delegate.run();
     }
@@ -99,7 +99,7 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
     protected <T> Callable<T> wrapTask(Callable<T> callable) {
       return new WrappedCallable<T>(callable);
     }
-    
+
     @Override protected Runnable wrapTask(Runnable command) {
       return new WrappedRunnable(command);
     }
@@ -116,7 +116,7 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
       assertEquals(delay, lastDelay);
       assertEquals(unit, lastUnit);
     }
-    
+
     void assertLastMethodCalled(String method, long initialDelay, long delay, TimeUnit unit) {
       assertEquals(method, lastMethodCalled);
       assertEquals(initialDelay, lastInitialDelay);
@@ -163,7 +163,7 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
       lastUnit = unit;
       return null;
     }
-    
+
     // No need to test these methods as they are handled by WrappingExecutorServiceTest
     @Override
     public boolean awaitTermination(long timeout, TimeUnit unit) {

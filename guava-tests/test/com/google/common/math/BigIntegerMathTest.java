@@ -105,7 +105,7 @@ public class BigIntegerMathTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   @GwtIncompatible // TODO
   public void testConstantSqrt2PrecomputedBits() {
     assertEquals(BigIntegerMath.sqrt(

@@ -91,11 +91,11 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
       }
     };
   }
-  
+
   private static final class InOrderNode<T> {
     final T node;
     boolean hasExpandedLeft;
-    
+
     InOrderNode(T node) {
       this.node = checkNotNull(node);
       this.hasExpandedLeft = false;

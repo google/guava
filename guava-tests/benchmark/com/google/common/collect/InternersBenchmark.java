@@ -20,7 +20,7 @@ import com.google.caliper.Benchmark;
 
 /**
  * Benchmarking interners.
- * 
+ *
  * @author Dimitris Andreou
  */
 public class InternersBenchmark {

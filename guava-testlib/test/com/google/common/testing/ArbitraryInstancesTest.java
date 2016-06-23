@@ -216,7 +216,7 @@ public class ArbitraryInstancesTest extends TestCase {
     assertTrue(ArbitraryInstances.get(TreeSet.class).isEmpty());
     assertTrue(ArbitraryInstances.get(TreeMap.class).isEmpty());
     assertFreshInstanceReturned(
-        LinkedList.class, Deque.class, Queue.class, PriorityQueue.class, BitSet.class, 
+        LinkedList.class, Deque.class, Queue.class, PriorityQueue.class, BitSet.class,
         TreeSet.class, TreeMap.class);
   }
 
@@ -426,11 +426,11 @@ public class ArbitraryInstancesTest extends TestCase {
   static class NonPublicClass {
     public NonPublicClass() {}
   }
-  
+
   private static class WithPrivateConstructor {
     public static final WithPrivateConstructor INSTANCE = new WithPrivateConstructor();
   }
-  
+
   public static class NoDefaultConstructor {
     public NoDefaultConstructor(@SuppressWarnings("unused") int i) {}
   }
@@ -455,20 +455,20 @@ public class ArbitraryInstancesTest extends TestCase {
   public static class WithGenericConstant<T> {
     public static final WithGenericConstant<String> STRING_CONSTANT =
         new WithGenericConstant<String>();
-  
+
     private WithGenericConstant() {}
   }
 
   public static class WithNullConstant {
     public static final WithNullConstant NULL = null;
-  
+
     private WithNullConstant() {}
   }
 
   public static class WithPublicConstructorAndConstant {
     public static final WithPublicConstructorAndConstant INSTANCE =
         new WithPublicConstructorAndConstant();
-  
+
     public WithPublicConstructorAndConstant() {}
   }
 
@@ -490,14 +490,14 @@ public class ArbitraryInstancesTest extends TestCase {
   public static class NonFinalFieldIgnored {
     public static NonFinalFieldIgnored instance =
         new NonFinalFieldIgnored();
-  
+
     private NonFinalFieldIgnored() {}
   }
 
   public static class NonPublicConstantIgnored {
     static final NonPublicConstantIgnored INSTANCE =
         new NonPublicConstantIgnored();
-  
+
     private NonPublicConstantIgnored() {}
   }
 
@@ -505,7 +505,7 @@ public class ArbitraryInstancesTest extends TestCase {
     // This should cause infinite recursion. But it shouldn't be used anyway.
     public final NonStaticFieldIgnored instance =
         new NonStaticFieldIgnored();
-  
+
     private NonStaticFieldIgnored() {}
   }
 }

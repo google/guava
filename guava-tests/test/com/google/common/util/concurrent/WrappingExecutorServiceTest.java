@@ -39,7 +39,7 @@ import java.util.concurrent.TimeoutException;
 
 /**
  * Test for {@link WrappingExecutorService}
- * 
+ *
  * @author Chris Nokleberg
  */
 public class WrappingExecutorServiceTest extends TestCase {
@@ -160,7 +160,7 @@ public class WrappingExecutorServiceTest extends TestCase {
       return delegate.call();
     }
   }
-  
+
   private static final class WrappedRunnable implements Runnable {
     private final Runnable delegate;
 
@@ -168,7 +168,7 @@ public class WrappingExecutorServiceTest extends TestCase {
       this.delegate = delegate;
     }
 
-    @Override 
+    @Override
     public void run() {
       delegate.run();
     }
@@ -183,7 +183,7 @@ public class WrappingExecutorServiceTest extends TestCase {
     protected <T> Callable<T> wrapTask(Callable<T> callable) {
       return new WrappedCallable<T>(callable);
     }
-    
+
     @Override protected Runnable wrapTask(Runnable command) {
       return new WrappedRunnable(command);
     }

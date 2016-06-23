@@ -50,9 +50,9 @@ class BenchmarkHelpers {
     }
     ALL_DIGITS = sb.toString();
   }
-  
+
   /**
-   * Sample CharMatcher instances for benchmarking. 
+   * Sample CharMatcher instances for benchmarking.
    */
   public enum SampleMatcherConfig {
     WHITESPACE(CharMatcher.whitespace(), WHITESPACE_CHARACTERS),

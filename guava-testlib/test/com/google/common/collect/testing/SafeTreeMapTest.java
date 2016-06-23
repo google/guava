@@ -59,7 +59,7 @@ public class SafeTreeMapTest extends TestCase {
             return map;
           }
         }).withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.SERIALIZABLE, MapFeature.ALLOWS_NULL_VALUES, 
+            CollectionFeature.SERIALIZABLE, MapFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE, MapFeature.GENERAL_PURPOSE).named(
             "SafeTreeMap with natural comparator").createTestSuite());
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {

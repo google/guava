@@ -31,7 +31,7 @@ import java.math.RoundingMode;
 
 /**
  * Benchmarks for the rounding methods of {@code BigIntegerMath}.
- * 
+ *
  * @author Louis Wasserman
  */
 public class BigIntegerMathRoundingBenchmark {

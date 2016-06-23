@@ -103,7 +103,7 @@ public abstract class ForwardingTestCase extends TestCase {
     });
     return methodName + "(" + COMMA_JOINER.join(parameterNames) + ")";
   }
-  
+
   private static Object getDefaultValue(Class<?> returnType) {
     if (returnType == boolean.class || returnType == Boolean.class) {
       return Boolean.FALSE;
@@ -141,7 +141,7 @@ public abstract class ForwardingTestCase extends TestCase {
       return null;
     }
   }
-  
+
   protected static <T> void callAllPublicMethods(Class<T> theClass, T object)
       throws InvocationTargetException {
     for (Method method : theClass.getMethods()) {

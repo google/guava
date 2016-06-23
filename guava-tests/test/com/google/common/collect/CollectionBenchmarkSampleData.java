@@ -26,7 +26,7 @@ import java.util.Set;
 
 /**
  * Package up sample data for common collections benchmarking.
- * 
+ *
  * @author Nicholaus Shupe
  */
 class CollectionBenchmarkSampleData {
@@ -34,14 +34,14 @@ class CollectionBenchmarkSampleData {
   private final SpecialRandom random;
   private final double hitRate;
   private final int size;
-  
+
   private final Set<Element> valuesInSet;
   private final Element[] queries;
-  
+
   CollectionBenchmarkSampleData(int size) {
     this(true, new SpecialRandom(), 1.0, size);
   }
-  
+
   CollectionBenchmarkSampleData(
       boolean isUserTypeFast,
       SpecialRandom random,
@@ -51,15 +51,15 @@ class CollectionBenchmarkSampleData {
     this.random = checkNotNull(random);
     this.hitRate = hitRate;
     this.size = size;
-    
+
     this.valuesInSet = createData();
     this.queries = createQueries(valuesInSet, 1024);
   }
-  
+
   Set<Element> getValuesInSet() {
     return valuesInSet;
   }
-  
+
   Element[] getQueries() {
     return queries;
   }
@@ -108,7 +108,7 @@ class CollectionBenchmarkSampleData {
         ? new Element(value)
         : new SlowElement(value);
   }
-  
+
   static class Element implements Comparable<Element> {
     final int hash;
     Element(int hash) {
@@ -151,5 +151,5 @@ class CollectionBenchmarkSampleData {
       }
       return result;
     }
-  }  
+  }
 }

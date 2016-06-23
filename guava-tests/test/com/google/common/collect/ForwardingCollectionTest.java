@@ -98,7 +98,7 @@ public class ForwardingCollectionTest extends ForwardingTestCase {
 
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    
+
     suite.addTestSuite(ForwardingCollectionTest.class);
     suite.addTest(
         CollectionTestSuiteBuilder.using(new TestStringCollectionGenerator() {
@@ -120,12 +120,12 @@ public class ForwardingCollectionTest extends ForwardingTestCase {
         }).named(
             "ForwardingCollection[MinimalCollection] with standard"
             + " implementations")
-            .withFeatures(CollectionSize.ANY, 
+            .withFeatures(CollectionSize.ANY,
                 CollectionFeature.ALLOWS_NULL_VALUES).createTestSuite());
-    
+
     return suite;
   }
-  
+
   @Override public void setUp() throws Exception {
     super.setUp();
     /*

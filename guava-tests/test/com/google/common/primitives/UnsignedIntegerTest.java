@@ -72,7 +72,7 @@ public class UnsignedIntegerTest extends TestCase {
           .longValue());
     }
   }
-  
+
   public void testValueOfLong() {
     long min = 0;
     long max = (1L << 32) - 1;
@@ -86,7 +86,7 @@ public class UnsignedIntegerTest extends TestCase {
       }
     }
   }
-  
+
   public void testValueOfBigInteger() {
     long min = 0;
     long max = (1L << 32) - 1;

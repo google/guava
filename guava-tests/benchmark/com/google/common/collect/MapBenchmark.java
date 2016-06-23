@@ -151,7 +151,7 @@ public class MapBenchmark {
 
     abstract Map<Element, Element> create(Collection<Element> contents);
   }
-  
+
   @Param({"5", "50", "500", "5000", "50000"})
   private int size;
 
@@ -176,7 +176,7 @@ public class MapBenchmark {
   private Collection<Element> values;
 
   @BeforeExperiment void setUp() {
-    CollectionBenchmarkSampleData sampleData = 
+    CollectionBenchmarkSampleData sampleData =
         new CollectionBenchmarkSampleData(
             isUserTypeFast, random, hitRate, size);
 
