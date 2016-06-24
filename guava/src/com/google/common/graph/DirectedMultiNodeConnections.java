@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.EXPECTED_DEGREE;
 
@@ -97,50 +98,40 @@ final class DirectedMultiNodeConnections<N, E> extends AbstractDirectedNodeConne
 
   @Override
   public N removeInEdge(Object edge, boolean isSelfLoop) {
-    N node = super.removeInEdge(edge, isSelfLoop);
-    if (node != null) {
-      Multiset<N> predecessors = getReference(predecessorsReference);
-      if (predecessors != null) {
-        checkState(predecessors.remove(node));
-      }
+    N node = checkNotNull(super.removeInEdge(edge, isSelfLoop));
+    Multiset<N> predecessors = getReference(predecessorsReference);
+    if (predecessors != null) {
+      checkState(predecessors.remove(node));
     }
     return node;
   }
 
   @Override
   public N removeOutEdge(Object edge) {
-    N node = super.removeOutEdge(edge);
-    if (node != null) {
-      Multiset<N> successors = getReference(successorsReference);
-      if (successors != null) {
-        checkState(successors.remove(node));
-      }
+    N node = checkNotNull(super.removeOutEdge(edge));
+    Multiset<N> successors = getReference(successorsReference);
+    if (successors != null) {
+      checkState(successors.remove(node));
     }
     return node;
   }
 
   @Override
-  public boolean addInEdge(E edge, N node, boolean isSelfLoop) {
-    if (super.addInEdge(edge, node, isSelfLoop)) {
-      Multiset<N> predecessors = getReference(predecessorsReference);
-      if (predecessors != null) {
-        checkState(predecessors.add(node));
-      }
-      return true;
+  public void addInEdge(E edge, N node, boolean isSelfLoop) {
+    super.addInEdge(edge, node, isSelfLoop);
+    Multiset<N> predecessors = getReference(predecessorsReference);
+    if (predecessors != null) {
+      checkState(predecessors.add(node));
     }
-    return false;
   }
 
   @Override
-  public boolean addOutEdge(E edge, N node) {
-    if (super.addOutEdge(edge, node)) {
-      Multiset<N> successors = getReference(successorsReference);
-      if (successors != null) {
-        checkState(successors.add(node));
-      }
-      return true;
+  public void addOutEdge(E edge, N node) {
+    super.addOutEdge(edge, node);
+    Multiset<N> successors = getReference(successorsReference);
+    if (successors != null) {
+      checkState(successors.add(node));
     }
-    return false;
   }
 
   @Nullable private static <T> T getReference(@Nullable Reference<T> reference) {

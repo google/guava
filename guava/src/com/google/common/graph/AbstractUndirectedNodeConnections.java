@@ -16,8 +16,8 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import java.util.Collections;
 import java.util.Map;
@@ -72,35 +72,31 @@ abstract class AbstractUndirectedNodeConnections<N, E> implements NodeConnection
 
   @Override
   public N removeInEdge(Object edge, boolean isSelfLoop) {
-    if (isSelfLoop) {
-      return null;
+    if (!isSelfLoop) {
+      return removeOutEdge(edge);
     }
-    return removeOutEdge(edge);
+    return null;
   }
 
   @Override
   public N removeOutEdge(Object edge) {
     checkNotNull(edge, "edge");
-    return incidentEdgeMap.remove(edge);
+    N previousNode = incidentEdgeMap.remove(edge);
+    return checkNotNull(previousNode);
   }
 
   @Override
-  public boolean addInEdge(E edge, N node, boolean isSelfLoop) {
-    if (isSelfLoop) {
-      return false;
+  public void addInEdge(E edge, N node, boolean isSelfLoop) {
+    if (!isSelfLoop) {
+      addOutEdge(edge, node);
     }
-    return addOutEdge(edge, node);
   }
 
   @Override
-  public boolean addOutEdge(E edge, N node) {
+  public void addOutEdge(E edge, N node) {
     checkNotNull(edge, "edge");
     checkNotNull(node, "node");
     N previousNode = incidentEdgeMap.put(edge, node);
-    if (previousNode != null) {
-      checkArgument(node.equals(previousNode));
-      return false;
-    }
-    return true;
+    checkState(previousNode == null);
   }
 }

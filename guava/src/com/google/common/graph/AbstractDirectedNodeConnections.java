@@ -107,17 +107,19 @@ abstract class AbstractDirectedNodeConnections<N, E> implements NodeConnections<
       selfLoopCount--;
       checkState(selfLoopCount >= 0);
     }
-    return inEdgeMap.remove(edge);
+    N previousNode = inEdgeMap.remove(edge);
+    return checkNotNull(previousNode);
   }
 
   @Override
   public N removeOutEdge(Object edge) {
     checkNotNull(edge, "edge");
-    return outEdgeMap.remove(edge);
+    N previousNode = outEdgeMap.remove(edge);
+    return checkNotNull(previousNode);
   }
 
   @Override
-  public boolean addInEdge(E edge, N node, boolean isSelfLoop) {
+  public void addInEdge(E edge, N node, boolean isSelfLoop) {
     checkNotNull(edge, "edge");
     checkNotNull(node, "node");
     if (isSelfLoop) {
@@ -125,22 +127,14 @@ abstract class AbstractDirectedNodeConnections<N, E> implements NodeConnections<
       checkState(selfLoopCount >= 1);
     }
     N previousNode = inEdgeMap.put(edge, node);
-    if (previousNode != null) {
-      checkState(node.equals(previousNode));
-      return false;
-    }
-    return true;
+    checkState(previousNode == null);
   }
 
   @Override
-  public boolean addOutEdge(E edge, N node) {
+  public void addOutEdge(E edge, N node) {
     checkNotNull(edge, "edge");
     checkNotNull(node, "node");
     N previousNode = outEdgeMap.put(edge, node);
-    if (previousNode != null) {
-      checkState(node.equals(previousNode));
-      return false;
-    }
-    return true;
+    checkState(previousNode == null);
   }
 }

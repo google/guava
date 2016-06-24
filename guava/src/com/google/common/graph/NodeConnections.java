@@ -43,7 +43,8 @@ interface NodeConnections<N, E> {
 
   /**
    * Returns the node that is opposite the origin node along {@code edge}.
-   * In the directed case, {@code edge} is assumed to be an outgoing edge.
+   *
+   * <p>In the directed case, {@code edge} is assumed to be an outgoing edge.
    */
   N oppositeNode(Object edge);
 
@@ -54,30 +55,26 @@ interface NodeConnections<N, E> {
   Set<E> edgesConnecting(Object node);
 
   /**
-   * Remove {@code edge} from the set of incoming edges. Returns the former predecessor node,
-   * or null if the edge did not exist.
+   * Remove {@code edge} from the set of incoming edges. Returns the former predecessor node.
+   *
+   * <p>In the undirected case, returns {@code null} if {@code isSelfLoop} is true.
    */
   @CanIgnoreReturnValue
   N removeInEdge(Object edge, boolean isSelfLoop);
 
   /**
-   * Remove {@code edge} from the set of outgoing edges. Returns the former successor node,
-   * or null if the edge did not exist.
+   * Remove {@code edge} from the set of outgoing edges. Returns the former successor node.
    */
   @CanIgnoreReturnValue
   N removeOutEdge(Object edge);
 
   /**
    * Add {@code edge} to the set of incoming edges. Implicitly adds {@code node} as a predecessor.
-   * Returns false if the edge already existed.
    */
-  @CanIgnoreReturnValue
-  boolean addInEdge(E edge, N node, boolean isSelfLoop);
+  void addInEdge(E edge, N node, boolean isSelfLoop);
 
   /**
    * Add {@code edge} to the set of outgoing edges. Implicitly adds {@code node} as a successor.
-   * Returns false if the edge already existed.
    */
-  @CanIgnoreReturnValue
-  boolean addOutEdge(E edge, N node);
+  void addOutEdge(E edge, N node);
 }

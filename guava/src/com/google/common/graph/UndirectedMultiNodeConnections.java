@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.EXPECTED_DEGREE;
 
@@ -81,42 +82,36 @@ final class UndirectedMultiNodeConnections<N, E> extends AbstractUndirectedNodeC
 
   @Override
   public N removeInEdge(Object edge, boolean isSelfLoop) {
-    if (isSelfLoop) {
-      return null;
+    if (!isSelfLoop) {
+      return removeOutEdge(edge);
     }
-    return removeOutEdge(edge);
+    return null;
   }
 
   @Override
   public N removeOutEdge(Object edge) {
-    N node = super.removeOutEdge(edge);
-    if (node != null) {
-      Multiset<N> adjacentNodes = getReference(adjacentNodesReference);
-      if (adjacentNodes != null) {
-        checkState(adjacentNodes.remove(node));
-      }
+    N node = checkNotNull(super.removeOutEdge(edge));
+    Multiset<N> adjacentNodes = getReference(adjacentNodesReference);
+    if (adjacentNodes != null) {
+      checkState(adjacentNodes.remove(node));
     }
     return node;
   }
 
   @Override
-  public boolean addInEdge(E edge, N node, boolean isSelfLoop) {
-    if (isSelfLoop) {
-      return false;
+  public void addInEdge(E edge, N node, boolean isSelfLoop) {
+    if (!isSelfLoop) {
+      addOutEdge(edge, node);
     }
-    return addOutEdge(edge, node);
   }
 
   @Override
-  public boolean addOutEdge(E edge, N node) {
-    if (super.addOutEdge(edge, node)) {
-      Multiset<N> adjacentNodes = getReference(adjacentNodesReference);
-      if (adjacentNodes != null) {
-        checkState(adjacentNodes.add(node));
-      }
-      return true;
+  public void addOutEdge(E edge, N node) {
+    super.addOutEdge(edge, node);
+    Multiset<N> adjacentNodes = getReference(adjacentNodesReference);
+    if (adjacentNodes != null) {
+      checkState(adjacentNodes.add(node));
     }
-    return false;
   }
 
   @Nullable private static <T> T getReference(@Nullable Reference<T> reference) {
