@@ -18,14 +18,15 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.graph.GraphConstants.EXPECTED_DEGREE;
+import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
+import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 
 import java.util.AbstractSet;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -59,10 +60,10 @@ final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
   }
 
   static <N> DirectedNodeAdjacencies<N> of() {
-    // We store predecessors and successors in the same map, so expected size is twice the degree.
-    int inAndOutDegree = EXPECTED_DEGREE * 2;
+    // We store predecessors and successors in the same map, so double the initial capacity.
+    int initialCapacity = INNER_CAPACITY * 2;
     return new DirectedNodeAdjacencies<N>(
-        Maps.<N, Adjacency>newHashMapWithExpectedSize(inAndOutDegree), 0, 0);
+        new HashMap<N, Adjacency>(initialCapacity, INNER_LOAD_FACTOR), 0, 0);
   }
 
   static <N> DirectedNodeAdjacencies<N> ofImmutable(

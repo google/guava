@@ -17,12 +17,13 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.graph.GraphConstants.EXPECTED_DEGREE;
+import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
+import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -39,7 +40,7 @@ final class UndirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
   }
 
   static <N> UndirectedNodeAdjacencies<N> of() {
-    return new UndirectedNodeAdjacencies<N>(Sets.<N>newHashSetWithExpectedSize(EXPECTED_DEGREE));
+    return new UndirectedNodeAdjacencies<N>(new HashSet<N>(INNER_CAPACITY, INNER_LOAD_FACTOR));
   }
 
   static <N> UndirectedNodeAdjacencies<N> ofImmutable(Set<N> adjacentNodes) {

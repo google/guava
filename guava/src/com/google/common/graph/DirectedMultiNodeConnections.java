@@ -18,7 +18,8 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.graph.GraphConstants.EXPECTED_DEGREE;
+import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
+import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.HashMultiset;
@@ -29,6 +30,7 @@ import com.google.common.collect.Multiset;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -50,8 +52,8 @@ final class DirectedMultiNodeConnections<N, E> extends AbstractDirectedNodeConne
 
   static <N, E> DirectedMultiNodeConnections<N, E> of() {
     return new DirectedMultiNodeConnections<N, E>(
-        Maps.<E, N>newHashMapWithExpectedSize(EXPECTED_DEGREE),
-        Maps.<E, N>newHashMapWithExpectedSize(EXPECTED_DEGREE),
+        new HashMap<E, N>(INNER_CAPACITY, INNER_LOAD_FACTOR),
+        new HashMap<E, N>(INNER_CAPACITY, INNER_LOAD_FACTOR),
         0);
   }
 
@@ -135,9 +137,6 @@ final class DirectedMultiNodeConnections<N, E> extends AbstractDirectedNodeConne
   }
 
   @Nullable private static <T> T getReference(@Nullable Reference<T> reference) {
-    if (reference == null) {
-      return null;
-    }
-    return reference.get(); // can be null
+    return (reference == null) ? null : reference.get();
   }
 }

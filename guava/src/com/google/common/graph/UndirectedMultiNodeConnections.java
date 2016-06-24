@@ -18,7 +18,8 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.graph.GraphConstants.EXPECTED_DEGREE;
+import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
+import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.HashMultiset;
@@ -29,6 +30,7 @@ import com.google.common.collect.Multiset;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -50,7 +52,7 @@ final class UndirectedMultiNodeConnections<N, E> extends AbstractUndirectedNodeC
 
   static <N, E> UndirectedMultiNodeConnections<N, E> of() {
     return new UndirectedMultiNodeConnections<N, E>(
-        Maps.<E, N>newHashMapWithExpectedSize(EXPECTED_DEGREE));
+        new HashMap<E, N>(INNER_CAPACITY, INNER_LOAD_FACTOR));
   }
 
   static <N, E> UndirectedMultiNodeConnections<N, E> ofImmutable(Map<E, N> incidentEdges) {
@@ -115,9 +117,6 @@ final class UndirectedMultiNodeConnections<N, E> extends AbstractUndirectedNodeC
   }
 
   @Nullable private static <T> T getReference(@Nullable Reference<T> reference) {
-    if (reference == null) {
-      return null;
-    }
-    return reference.get(); // can be null
+    return (reference == null) ? null : reference.get();
   }
 }

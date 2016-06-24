@@ -16,6 +16,10 @@
 
 package com.google.common.graph;
 
+import com.google.common.math.DoubleMath;
+
+import java.math.RoundingMode;
+
 /**
  * A utility class to hold various constants used by the Guava Graph library.
  */
@@ -27,6 +31,11 @@ final class GraphConstants {
 
   static final int DEFAULT_NODE_COUNT = 10;
   static final int DEFAULT_EDGE_COUNT = DEFAULT_NODE_COUNT * EXPECTED_DEGREE;
+
+  // Load factor and capacity for "inner" (i.e. per node/edge element) hash sets or maps
+  static final float INNER_LOAD_FACTOR = 1.0f;
+  static final int INNER_CAPACITY = DoubleMath.roundToInt(
+      (double) EXPECTED_DEGREE / INNER_LOAD_FACTOR, RoundingMode.CEILING);
 
   // Error messages
   static final String NODE_NOT_IN_GRAPH = "Node %s is not an element of this graph.";
