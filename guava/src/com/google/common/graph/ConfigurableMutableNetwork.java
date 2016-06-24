@@ -100,7 +100,6 @@ final class ConfigurableMutableNetwork<N, E>
       checkArgument(!(connectionsA != null && connectionsA.successors().contains(nodeB)),
           ADDING_PARALLEL_EDGE, nodeA, nodeB);
     }
-    NodeConnections<N, E> connectionsB = nodeConnections.get(nodeB);
     boolean isSelfLoop = nodeA.equals(nodeB);
     if (!allowsSelfLoops()) {
       checkArgument(!isSelfLoop, SELF_LOOPS_NOT_ALLOWED, nodeA);
@@ -110,10 +109,11 @@ final class ConfigurableMutableNetwork<N, E>
       connectionsA = addNodeInternal(nodeA);
     }
     connectionsA.addOutEdge(edge, nodeB);
+    NodeConnections<N, E> connectionsB = isSelfLoop ? connectionsA : nodeConnections.get(nodeB);
     if (connectionsB == null) {
-      connectionsB = isSelfLoop ? connectionsA : addNodeInternal(nodeB);
+      connectionsB = addNodeInternal(nodeB);
     }
-    connectionsB.addInEdge(edge, nodeA);
+    connectionsB.addInEdge(edge, nodeA, isSelfLoop);
     edgeToReferenceNode.put(edge, nodeA);
     return true;
   }
@@ -145,9 +145,10 @@ final class ConfigurableMutableNetwork<N, E>
     }
     NodeConnections<N, E> connectionsA = nodeConnections.get(nodeA);
     N nodeB = connectionsA.oppositeNode(edge);
-    NodeConnections<N, E> connectionsB = nodeConnections.get(nodeB);
+    boolean isSelfLoop = allowsSelfLoops() && nodeA.equals(nodeB);
+    NodeConnections<N, E> connectionsB = isSelfLoop ? connectionsA : nodeConnections.get(nodeB);
     connectionsA.removeOutEdge(edge);
-    connectionsB.removeInEdge(edge);
+    connectionsB.removeInEdge(edge, isSelfLoop);
     edgeToReferenceNode.remove(edge);
     return true;
   }

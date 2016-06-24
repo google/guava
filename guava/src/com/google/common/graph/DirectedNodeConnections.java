@@ -35,18 +35,19 @@ import java.util.Set;
  */
 final class DirectedNodeConnections<N, E> extends AbstractDirectedNodeConnections<N, E> {
 
-  protected DirectedNodeConnections(Map<E, N> inEdgeMap, Map<E, N> outEdgeMap) {
-    super(inEdgeMap, outEdgeMap);
+  protected DirectedNodeConnections(Map<E, N> inEdgeMap, Map<E, N> outEdgeMap, int selfLoopCount) {
+    super(inEdgeMap, outEdgeMap, selfLoopCount);
   }
 
   static <N, E> DirectedNodeConnections<N, E> of() {
     return new DirectedNodeConnections<N, E>(
-        HashBiMap.<E, N>create(EXPECTED_DEGREE), HashBiMap.<E, N>create(EXPECTED_DEGREE));
+        HashBiMap.<E, N>create(EXPECTED_DEGREE), HashBiMap.<E, N>create(EXPECTED_DEGREE), 0);
   }
 
-  static <N, E> DirectedNodeConnections<N, E> ofImmutable(Map<E, N> inEdges, Map<E, N> outEdges) {
+  static <N, E> DirectedNodeConnections<N, E> ofImmutable(Map<E, N> inEdges, Map<E, N> outEdges,
+      int selfLoopCount) {
     return new DirectedNodeConnections<N, E>(
-        ImmutableBiMap.copyOf(inEdges), ImmutableBiMap.copyOf(outEdges));
+        ImmutableBiMap.copyOf(inEdges), ImmutableBiMap.copyOf(outEdges), selfLoopCount);
   }
 
   @Override

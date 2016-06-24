@@ -54,27 +54,29 @@ interface NodeConnections<N, E> {
   Set<E> edgesConnecting(Object node);
 
   /**
-   * Remove {@code edge} from the set of incoming edges. Returns the former predecessor node.
+   * Remove {@code edge} from the set of incoming edges. Returns the former predecessor node,
+   * or null if the edge did not exist.
    */
   @CanIgnoreReturnValue
-  N removeInEdge(Object edge);
+  N removeInEdge(Object edge, boolean isSelfLoop);
 
   /**
-   * Remove {@code edge} from the set of outgoing edges. Returns the former successor node.
+   * Remove {@code edge} from the set of outgoing edges. Returns the former successor node,
+   * or null if the edge did not exist.
    */
   @CanIgnoreReturnValue
   N removeOutEdge(Object edge);
 
   /**
    * Add {@code edge} to the set of incoming edges. Implicitly adds {@code node} as a predecessor.
-   * Returns true if the edge did not already exist.
+   * Returns false if the edge already existed.
    */
   @CanIgnoreReturnValue
-  boolean addInEdge(E edge, N node);
+  boolean addInEdge(E edge, N node, boolean isSelfLoop);
 
   /**
    * Add {@code edge} to the set of outgoing edges. Implicitly adds {@code node} as a successor.
-   * Returns true if the edge did not already exist.
+   * Returns false if the edge already existed.
    */
   @CanIgnoreReturnValue
   boolean addOutEdge(E edge, N node);

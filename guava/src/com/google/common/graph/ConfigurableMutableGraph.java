@@ -88,7 +88,6 @@ final class ConfigurableMutableGraph<N>
     if (connectionsA != null && connectionsA.successors().contains(nodeB)) {
       return false;
     }
-    NodeAdjacencies<N> connectionsB = nodeConnections.get(nodeB);
     boolean isSelfLoop = nodeA.equals(nodeB);
     if (!allowsSelfLoops()) {
       checkArgument(!isSelfLoop, SELF_LOOPS_NOT_ALLOWED, nodeA);
@@ -98,8 +97,9 @@ final class ConfigurableMutableGraph<N>
       connectionsA = addNodeInternal(nodeA);
     }
     connectionsA.addSuccessor(nodeB);
+    NodeAdjacencies<N> connectionsB = isSelfLoop ? connectionsA : nodeConnections.get(nodeB);
     if (connectionsB == null) {
-      connectionsB = isSelfLoop ? connectionsA : addNodeInternal(nodeB);
+      connectionsB = addNodeInternal(nodeB);
     }
     connectionsB.addPredecessor(nodeA);
     return true;

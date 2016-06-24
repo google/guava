@@ -43,20 +43,21 @@ import javax.annotation.Nullable;
  */
 final class DirectedMultiNodeConnections<N, E> extends AbstractDirectedNodeConnections<N, E> {
 
-  private DirectedMultiNodeConnections(Map<E, N> inEdges, Map<E, N> outEdges) {
-    super(inEdges, outEdges);
+  private DirectedMultiNodeConnections(Map<E, N> inEdges, Map<E, N> outEdges, int selfLoopCount) {
+    super(inEdges, outEdges, selfLoopCount);
   }
 
   static <N, E> DirectedMultiNodeConnections<N, E> of() {
     return new DirectedMultiNodeConnections<N, E>(
         Maps.<E, N>newHashMapWithExpectedSize(EXPECTED_DEGREE),
-        Maps.<E, N>newHashMapWithExpectedSize(EXPECTED_DEGREE));
+        Maps.<E, N>newHashMapWithExpectedSize(EXPECTED_DEGREE),
+        0);
   }
 
   static <N, E> DirectedMultiNodeConnections<N, E> ofImmutable(
-      Map<E, N> inEdges, Map<E, N> outEdges) {
+      Map<E, N> inEdges, Map<E, N> outEdges, int selfLoopCount) {
     return new DirectedMultiNodeConnections<N, E>(
-        ImmutableMap.copyOf(inEdges), ImmutableMap.copyOf(outEdges));
+        ImmutableMap.copyOf(inEdges), ImmutableMap.copyOf(outEdges), selfLoopCount);
   }
 
   private transient Reference<Multiset<N>> predecessorsReference;
@@ -95,8 +96,8 @@ final class DirectedMultiNodeConnections<N, E> extends AbstractDirectedNodeConne
   }
 
   @Override
-  public N removeInEdge(Object edge) {
-    N node = super.removeInEdge(edge);
+  public N removeInEdge(Object edge, boolean isSelfLoop) {
+    N node = super.removeInEdge(edge, isSelfLoop);
     if (node != null) {
       Multiset<N> predecessors = getReference(predecessorsReference);
       if (predecessors != null) {
@@ -119,8 +120,8 @@ final class DirectedMultiNodeConnections<N, E> extends AbstractDirectedNodeConne
   }
 
   @Override
-  public boolean addInEdge(E edge, N node) {
-    if (super.addInEdge(edge, node)) {
+  public boolean addInEdge(E edge, N node, boolean isSelfLoop) {
+    if (super.addInEdge(edge, node, isSelfLoop)) {
       Multiset<N> predecessors = getReference(predecessorsReference);
       if (predecessors != null) {
         checkState(predecessors.add(node));

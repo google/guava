@@ -71,7 +71,10 @@ abstract class AbstractUndirectedNodeConnections<N, E> implements NodeConnection
   }
 
   @Override
-  public N removeInEdge(Object edge) {
+  public N removeInEdge(Object edge, boolean isSelfLoop) {
+    if (isSelfLoop) {
+      return null;
+    }
     return removeOutEdge(edge);
   }
 
@@ -82,7 +85,10 @@ abstract class AbstractUndirectedNodeConnections<N, E> implements NodeConnection
   }
 
   @Override
-  public boolean addInEdge(E edge, N node) {
+  public boolean addInEdge(E edge, N node, boolean isSelfLoop) {
+    if (isSelfLoop) {
+      return false;
+    }
     return addOutEdge(edge, node);
   }
 

@@ -16,12 +16,16 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
+import com.google.common.math.IntMath;
 
+import java.util.AbstractSet;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -43,9 +47,13 @@ abstract class AbstractDirectedNodeConnections<N, E> implements NodeConnections<
    */
   protected final Map<E, N> outEdgeMap;
 
-  protected AbstractDirectedNodeConnections(Map<E, N> inEdgeMap, Map<E, N> outEdgeMap) {
+  private int selfLoopCount;
+
+  protected AbstractDirectedNodeConnections(Map<E, N> inEdgeMap, Map<E, N> outEdgeMap,
+      int selfLoopCount) {
     this.inEdgeMap = checkNotNull(inEdgeMap, "inEdgeMap");
     this.outEdgeMap = checkNotNull(outEdgeMap, "outEdgeMap");
+    this.selfLoopCount = selfLoopCount;
   }
 
   @Override
@@ -55,7 +63,24 @@ abstract class AbstractDirectedNodeConnections<N, E> implements NodeConnections<
 
   @Override
   public Set<E> incidentEdges() {
-    return Sets.union(inEdges(), outEdges());
+    return new AbstractSet<E>() {
+      @Override
+      public Iterator<E> iterator() {
+        return selfLoopCount == 0
+            ? Iterables.concat(inEdges(), outEdges()).iterator()
+            : Sets.union(inEdges(), outEdges()).iterator();
+      }
+
+      @Override
+      public int size() {
+        return IntMath.saturatedAdd(inEdgeMap.size() - selfLoopCount, outEdgeMap.size());
+      }
+
+      @Override
+      public boolean contains(Object obj) {
+        return inEdgeMap.containsKey(obj) || outEdgeMap.containsKey(obj);
+      }
+    };
   }
 
   @Override
@@ -76,8 +101,12 @@ abstract class AbstractDirectedNodeConnections<N, E> implements NodeConnections<
   }
 
   @Override
-  public N removeInEdge(Object edge) {
+  public N removeInEdge(Object edge, boolean isSelfLoop) {
     checkNotNull(edge, "edge");
+    if (isSelfLoop) {
+      selfLoopCount--;
+      checkState(selfLoopCount >= 0);
+    }
     return inEdgeMap.remove(edge);
   }
 
@@ -88,12 +117,16 @@ abstract class AbstractDirectedNodeConnections<N, E> implements NodeConnections<
   }
 
   @Override
-  public boolean addInEdge(E edge, N node) {
+  public boolean addInEdge(E edge, N node, boolean isSelfLoop) {
     checkNotNull(edge, "edge");
     checkNotNull(node, "node");
+    if (isSelfLoop) {
+      selfLoopCount++;
+      checkState(selfLoopCount >= 1);
+    }
     N previousNode = inEdgeMap.put(edge, node);
     if (previousNode != null) {
-      checkArgument(node.equals(previousNode));
+      checkState(node.equals(previousNode));
       return false;
     }
     return true;
@@ -105,7 +138,7 @@ abstract class AbstractDirectedNodeConnections<N, E> implements NodeConnections<
     checkNotNull(node, "node");
     N previousNode = outEdgeMap.put(edge, node);
     if (previousNode != null) {
-      checkArgument(node.equals(previousNode));
+      checkState(node.equals(previousNode));
       return false;
     }
     return true;
