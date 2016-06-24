@@ -88,16 +88,6 @@ import javax.annotation.Nullable;
  * store mutable per-element state in a separate data structure (e.g. an element-to-state map).
  * <li>There are no Node classes built in.  So you can have a {@code Graph<Integer>}
  *     or a {@code Graph<Author>} or a {@code Graph<Webpage>}.
- * <li>This framework supports multiple mechanisms for storing the topology of a graph,
- *      including:
- *   <ul>
- *   <li>the Graph implementation stores the topology (for example, by storing a
- *       {@code Map<N, N>} that maps nodes onto their adjacent nodes); this implies that the nodes
- *       are just keys, and can be shared among graphs
- *   <li>the nodes store the topology (for example, by storing a {@code List<E>} of adjacent nodes);
- *       this (usually) implies that nodes are graph-specific
- *   <li>a separate data repository (for example, a database) stores the topology
- *   </ul>
  * </ul>
  *
  * <p>Notes on accessors:
