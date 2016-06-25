@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
  * <p>Example usage:
  * <pre><code>
  *   MutableGraph<Integer> graph
- *       = GraphBuilder.directed().nodeOrder(ElementOrder.natural()).build();
+ *       = GraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
  * </code></pre>
  *
  * @author Joshua O'Madadhain
@@ -106,8 +106,7 @@ public final class ElementOrder<T> {
 
   @Override
   public String toString() {
-    ToStringHelper helper = MoreObjects.toStringHelper(this)
-        .add("type", this.type);
+    ToStringHelper helper = MoreObjects.toStringHelper(this).add("type", this.type);
     if (this.comparator != null) {
       helper.add("comparator", this.comparator);
     }
