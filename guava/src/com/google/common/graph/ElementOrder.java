@@ -131,7 +131,7 @@ public final class ElementOrder<T> {
   /**
    * Returns an instance which specifies that the natural ordering of the elements is guaranteed.
    */
-  public static final <S extends Comparable<S>> ElementOrder<S> natural() {
+  public static final <S extends Comparable<? super S>> ElementOrder<S> natural() {
     return new ElementOrder<S>(Type.SORTED, Ordering.<S>natural());
   }
 
@@ -139,7 +139,7 @@ public final class ElementOrder<T> {
    * Returns an instance which specifies that the ordering of the elements is guaranteed to be
    * determined by {@code comparator}.
    */
-  public static final <S extends Comparable<S>> ElementOrder<S> sorted(Comparator<S> comparator) {
+  public static final <S> ElementOrder<S> sorted(Comparator<S> comparator) {
     return new ElementOrder<S>(Type.SORTED, comparator);
   }
 }

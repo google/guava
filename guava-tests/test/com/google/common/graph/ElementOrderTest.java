@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.ElementOrder.insertion;
 import static com.google.common.graph.ElementOrder.unordered;
 import static com.google.common.truth.Truth.assertThat;
@@ -26,6 +27,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.Comparator;
+
 /**
  * Tests for ordering the elements of graphs.
  */
@@ -34,7 +37,7 @@ public final class ElementOrderTest {
   // Node order tests
 
   @Test
-  public void nodeOrder_none() throws Exception {
+  public void nodeOrder_none() {
     MutableGraph<Integer> graph = GraphBuilder
         .directed()
         .nodeOrder(unordered())
@@ -44,7 +47,7 @@ public final class ElementOrderTest {
   }
 
   @Test
-  public void nodeOrder_insertion() throws Exception {
+  public void nodeOrder_insertion() {
     MutableGraph<Integer> graph = GraphBuilder
         .directed()
         .nodeOrder(insertion())
@@ -58,7 +61,7 @@ public final class ElementOrderTest {
 
   // The default ordering is INSERTION unless otherwise specified.
   @Test
-  public void nodeOrder_default() throws Exception {
+  public void nodeOrder_default() {
     MutableGraph<Integer> graph = GraphBuilder
         .directed()
         .build();
@@ -70,7 +73,7 @@ public final class ElementOrderTest {
   }
 
   @Test
-  public void nodeOrder_natural() throws Exception {
+  public void nodeOrder_natural() {
     MutableGraph<Integer> graph = GraphBuilder
         .directed()
         .nodeOrder(ElementOrder.<Integer>natural())
@@ -83,7 +86,7 @@ public final class ElementOrderTest {
   }
 
   @Test
-  public void nodeOrder_sorted() throws Exception {
+  public void nodeOrder_sorted() {
     MutableGraph<Integer> graph = GraphBuilder
         .directed()
         .nodeOrder(ElementOrder.sorted(Ordering.<Integer>natural().reverse()))
@@ -99,7 +102,7 @@ public final class ElementOrderTest {
   // Edge order tests
 
   @Test
-  public void edgeOrder_none() throws Exception {
+  public void edgeOrder_none() {
     MutableNetwork<Integer, String> graph = NetworkBuilder
         .directed()
         .edgeOrder(unordered())
@@ -110,7 +113,7 @@ public final class ElementOrderTest {
   }
 
   @Test
-  public void edgeOrder_insertion() throws Exception {
+  public void edgeOrder_insertion() {
     MutableNetwork<Integer, String> graph = NetworkBuilder
         .directed()
         .edgeOrder(insertion())
@@ -125,7 +128,7 @@ public final class ElementOrderTest {
 
   // The default ordering is INSERTION unless otherwise specified.
   @Test
-  public void edgeOrder_default() throws Exception {
+  public void edgeOrder_default() {
     MutableNetwork<Integer, String> graph = NetworkBuilder
         .directed()
         .build();
@@ -138,7 +141,7 @@ public final class ElementOrderTest {
   }
 
   @Test
-  public void edgeOrder_natural() throws Exception {
+  public void edgeOrder_natural() {
     MutableNetwork<Integer, String> graph = NetworkBuilder
         .directed()
         .edgeOrder(ElementOrder.<String>natural())
@@ -152,7 +155,7 @@ public final class ElementOrderTest {
   }
 
   @Test
-  public void edgeOrder_sorted() throws Exception {
+  public void edgeOrder_sorted() {
     MutableNetwork<Integer, String> graph = NetworkBuilder
         .directed()
         .edgeOrder(ElementOrder.sorted(Ordering.<String>natural().reverse()))
@@ -167,8 +170,9 @@ public final class ElementOrderTest {
   }
 
   // Combined node and edge order tests
+
   @Test
-  public void nodeOrderUnorderedandEdgesSorted() throws Exception {
+  public void nodeOrderUnorderedandEdgesSorted() {
     MutableNetwork<Integer, String> graph = NetworkBuilder
         .directed()
         .nodeOrder(unordered())
@@ -184,6 +188,55 @@ public final class ElementOrderTest {
     assertThat(graph.nodes()).containsExactly(4, 1, 3);
   }
 
+  // Sorting of user-defined classes
+
+  @Test
+  public void customComparator() {
+    Comparator<NonComparableSuperClass> comparator = new Comparator<NonComparableSuperClass>() {
+      @Override
+      public int compare(NonComparableSuperClass left, NonComparableSuperClass right) {
+        return left.value.compareTo(right.value);
+      }
+    };
+
+    MutableGraph<NonComparableSuperClass> graph = GraphBuilder
+        .undirected()
+        .nodeOrder(ElementOrder.sorted(comparator))
+        .build();
+
+    NonComparableSuperClass node1 = new NonComparableSuperClass(1);
+    NonComparableSuperClass node3 = new NonComparableSuperClass(3);
+    NonComparableSuperClass node5 = new NonComparableSuperClass(5);
+    NonComparableSuperClass node7 = new NonComparableSuperClass(7);
+
+    graph.addNode(node1);
+    graph.addNode(node7);
+    graph.addNode(node5);
+    graph.addNode(node3);
+
+    assertThat(graph.nodes()).containsExactly(node1, node3, node5, node7).inOrder();
+  }
+
+  @Test
+  public void customComparable() {
+    MutableGraph<ComparableSubClass> graph = GraphBuilder
+        .undirected()
+        .nodeOrder(ElementOrder.<ComparableSubClass>natural())
+        .build();
+
+    ComparableSubClass node2 = new ComparableSubClass(2);
+    ComparableSubClass node4 = new ComparableSubClass(4);
+    ComparableSubClass node6 = new ComparableSubClass(6);
+    ComparableSubClass node8 = new ComparableSubClass(8);
+
+    graph.addNode(node4);
+    graph.addNode(node2);
+    graph.addNode(node6);
+    graph.addNode(node8);
+
+    assertThat(graph.nodes()).containsExactly(node2, node4, node6, node8).inOrder();
+  }
+
   private static void addNodes(MutableGraph<Integer> graph) {
     graph.addNode(3);
     graph.addNode(1);
@@ -194,5 +247,31 @@ public final class ElementOrderTest {
     graph.addEdge("i", 3, 1);
     graph.addEdge("e", 1, 4);
     graph.addEdge("p", 4, 3);
+  }
+
+  private static class NonComparableSuperClass {
+    final Integer value;
+
+    NonComparableSuperClass(Integer value) {
+      this.value = checkNotNull(value);
+    }
+
+    @Override
+    public String toString() {
+      return "value=" + value;
+    }
+  }
+
+  private static class ComparableSubClass extends NonComparableSuperClass
+      implements Comparable<NonComparableSuperClass> {
+
+    ComparableSubClass(Integer value) {
+      super(value);
+    }
+
+    @Override
+    public int compareTo(NonComparableSuperClass other) {
+      return value.compareTo(other.value);
+    }
   }
 }
