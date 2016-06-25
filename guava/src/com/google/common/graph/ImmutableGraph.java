@@ -68,8 +68,8 @@ public final class ImmutableGraph<N> extends AbstractConfigurableGraph<N> {
 
   private static <N> ImmutableMap<N, NodeAdjacencies<N>> getNodeConnections(Graph<N> graph) {
     // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will
-    // have whatever ordering the graph's edges do, so ImmutableSortedMap is unnecessary even if the
-    // input edges are sorted.
+    // have whatever ordering the graph's nodes do, so ImmutableSortedMap is unnecessary even if the
+    // input nodes are sorted.
     ImmutableMap.Builder<N, NodeAdjacencies<N>> nodeConnections = ImmutableMap.builder();
     for (N node : graph.nodes()) {
       nodeConnections.put(node, nodeConnectionsOf(graph, node));
