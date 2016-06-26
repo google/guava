@@ -88,14 +88,14 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
    * If this {@link Endpoints} is directed, returns the node which is the source.
    * Otherwise, returns an arbitrary (but consistent) endpoint of the edge.
    */
-  N nodeA() {
+  final N nodeA() {
     return nodeA;
   }
 
   /**
    * Returns the node that is opposite {@link #nodeA()}. In the directed case, this is the target.
    */
-  N nodeB() {
+  final N nodeB() {
     return nodeB;
   }
 
@@ -173,6 +173,7 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
       if (!(obj instanceof Directed)) {
         return false;
       }
+
       Directed<?> other = (Directed<?>) obj;
       return source().equals(other.source()) && target().equals(other.target());
     }
@@ -216,9 +217,21 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
       if (!(obj instanceof Undirected)) {
         return false;
       }
+
       Undirected<?> other = (Undirected<?>) obj;
-      return (nodeA().equals(other.nodeA()) && nodeB().equals(other.nodeB()))
-          || (nodeA().equals(other.nodeB()) && nodeB().equals(other.nodeA()));
+      // Equivalent to the following simple implementation:
+      // boolean condition1 = nodeA().equals(other.nodeA()) && nodeB().equals(other.nodeB());
+      // boolean condition2 = nodeA().equals(other.nodeB()) && nodeB().equals(other.nodeA());
+      // return condition1 || condition2;
+      if (nodeA().equals(other.nodeA())) { // check condition1
+        // Here's the tricky bit. We don't have to explicitly check for condition2 in this case.
+        // Why? The second half of condition2 requires that nodeB equals other.nodeA.
+        // We already know that nodeA equals other.nodeA. Combined with the earlier statement,
+        // and the transitive property of equality, this implies that nodeA equals nodeB.
+        // If nodeA equals nodeB, condition1 == condition2, so checking condition1 is sufficient.
+        return nodeB().equals(other.nodeB());
+      }
+      return nodeA().equals(other.nodeB()) && nodeB().equals(other.nodeA()); // check condition2
     }
 
     @Override
