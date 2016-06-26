@@ -67,6 +67,35 @@ public final class ElementOrder<T> {
   }
 
   /**
+   * Returns an instance which specifies that no ordering is guaranteed.
+   */
+  public static <S> ElementOrder<S> unordered() {
+    return new ElementOrder<S>(Type.UNORDERED, null);
+  }
+
+  /**
+   * Returns an instance which specifies that insertion ordering is guaranteed.
+   */
+  public static <S> ElementOrder<S> insertion() {
+    return new ElementOrder<S>(Type.INSERTION, null);
+  }
+
+  /**
+   * Returns an instance which specifies that the natural ordering of the elements is guaranteed.
+   */
+  public static <S extends Comparable<? super S>> ElementOrder<S> natural() {
+    return new ElementOrder<S>(Type.SORTED, Ordering.<S>natural());
+  }
+
+  /**
+   * Returns an instance which specifies that the ordering of the elements is guaranteed to be
+   * determined by {@code comparator}.
+   */
+  public static <S> ElementOrder<S> sorted(Comparator<S> comparator) {
+    return new ElementOrder<S>(Type.SORTED, comparator);
+  }
+
+  /**
    * Returns the type of ordering used.
    */
   public Type type() {
@@ -111,34 +140,5 @@ public final class ElementOrder<T> {
       helper.add("comparator", this.comparator);
     }
     return helper.toString();
-  }
-
-  /**
-   * Returns an instance which specifies that no ordering is guaranteed.
-   */
-  public static final <S> ElementOrder<S> unordered() {
-    return new ElementOrder<S>(Type.UNORDERED, null);
-  }
-
-  /**
-   * Returns an instance which specifies that insertion ordering is guaranteed.
-   */
-  public static final <S> ElementOrder<S> insertion() {
-    return new ElementOrder<S>(Type.INSERTION, null);
-  }
-
-  /**
-   * Returns an instance which specifies that the natural ordering of the elements is guaranteed.
-   */
-  public static final <S extends Comparable<? super S>> ElementOrder<S> natural() {
-    return new ElementOrder<S>(Type.SORTED, Ordering.<S>natural());
-  }
-
-  /**
-   * Returns an instance which specifies that the ordering of the elements is guaranteed to be
-   * determined by {@code comparator}.
-   */
-  public static final <S> ElementOrder<S> sorted(Comparator<S> comparator) {
-    return new ElementOrder<S>(Type.SORTED, comparator);
   }
 }
