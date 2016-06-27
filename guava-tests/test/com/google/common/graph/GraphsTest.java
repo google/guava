@@ -21,6 +21,7 @@ import static com.google.common.graph.Graphs.addEdge;
 import static com.google.common.graph.Graphs.copyEdges;
 import static com.google.common.graph.Graphs.copyNodes;
 import static com.google.common.graph.Graphs.copyOf;
+import static com.google.common.graph.Graphs.inducedSubgraph;
 import static com.google.common.graph.Graphs.oppositeNode;
 import static com.google.common.graph.Graphs.roots;
 import static com.google.common.truth.Truth.assertThat;
@@ -89,6 +90,51 @@ public class GraphsTest {
   }
 
   @Test
+  public void roots_emptyGraph() {
+    Network<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    assertThat(roots(directedGraph)).isEmpty();
+  }
+
+  @Test
+  public void roots_trivialGraph() {
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    directedGraph.addNode(N1);
+    assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1));
+  }
+
+  @Test
+  public void roots_nodeWithSelfLoop() {
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    directedGraph.addNode(N1);
+    directedGraph.addEdge(E11, N1, N1);
+    assertThat(roots(directedGraph)).isEmpty();
+  }
+
+  @Test
+  public void roots_nodeWithChildren() {
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    directedGraph.addEdge(E12, N1, N2);
+    directedGraph.addEdge(E13, N1, N3);
+    assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1));
+  }
+
+  @Test
+  public void roots_cycle() {
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    directedGraph.addEdge(E12, N1, N2);
+    directedGraph.addEdge(E21, N2, N1);
+    assertThat(roots(directedGraph)).isEmpty();
+  }
+
+  @Test
+  public void roots_multipleRoots() {
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    directedGraph.addNode(N1);
+    directedGraph.addNode(N2);
+    assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1, N2));
+  }
+
+  @Test
   public void oppositeNode_basic() {
     List<MutableNetwork<Integer, String>> testNetworks = ImmutableList.of(
         NetworkBuilder.directed().<Integer, String>build(),
@@ -140,51 +186,6 @@ public class GraphsTest {
       } catch (IllegalArgumentException expected) {
       }
     }
-  }
-
-  @Test
-  public void roots_emptyGraph() {
-    Network<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    assertThat(roots(directedGraph)).isEmpty();
-  }
-
-  @Test
-  public void roots_trivialGraph() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addNode(N1);
-    assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1));
-  }
-
-  @Test
-  public void roots_nodeWithSelfLoop() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addNode(N1);
-    directedGraph.addEdge(E11, N1, N1);
-    assertThat(roots(directedGraph)).isEmpty();
-  }
-
-  @Test
-  public void roots_nodeWithChildren() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addEdge(E12, N1, N2);
-    directedGraph.addEdge(E13, N1, N3);
-    assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1));
-  }
-
-  @Test
-  public void roots_cycle() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addEdge(E12, N1, N2);
-    directedGraph.addEdge(E21, N2, N1);
-    assertThat(roots(directedGraph)).isEmpty();
-  }
-
-  @Test
-  public void roots_multipleRoots() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addNode(N1);
-    directedGraph.addNode(N2);
-    assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1, N2));
   }
 
   @Test
@@ -247,6 +248,241 @@ public class GraphsTest {
     } catch (UnsupportedOperationException expected) {
     }
   }
+
+  @Test
+  public void addEdge_mismatchedDirectedness() {
+    try {
+      addEdge(NetworkBuilder.undirected().<Integer, String>build(), E12,
+          Endpoints.ofDirected(N1, N2));
+      fail("Should have rejected adding an edge with directed endpoints to a undirected graph.");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
+  public void addEdge_selfLoop() {
+    MutableNetwork<Integer, String> undirectedGraph = NetworkBuilder.undirected().build();
+    assertThat(addEdge(undirectedGraph, E11, Endpoints.ofUndirected(N1, N1))).isTrue();
+    assertThat(undirectedGraph.edgesConnecting(N1, N1)).containsExactly(E11);
+  }
+
+  @Test
+  public void addEdge_basic() {
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    assertThat(addEdge(directedGraph, E12, Endpoints.ofDirected(N1, N2))).isTrue();
+    assertThat(directedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertThat(directedGraph.edgesConnecting(N2, N1)).isEmpty();
+  }
+
+  @Test
+  public void inducedSubgraph_partialEdgeIncidence() {
+    Set<Integer> nodeSubset = ImmutableSet.of(N1, N2, N4);
+
+    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    directedGraph.addEdge(E12, N1, N2);
+    directedGraph.addEdge(E21, N2, N1);
+    directedGraph.addEdge(E13, N1, N3); // only incident to one node in nodeSubset
+    directedGraph.addEdge(E44, N4, N4);
+    directedGraph.addEdge("5-6", 5, 6); // not incident to any node in nodeSubset
+
+    MutableNetwork<Integer, String> expectedSubgraph = NetworkBuilder.directed().build();
+    expectedSubgraph.addEdge(E12, N1, N2);
+    expectedSubgraph.addEdge(E21, N2, N1);
+    expectedSubgraph.addEdge(E44, N4, N4);
+
+    assertThat(inducedSubgraph(directedGraph, nodeSubset)).isEqualTo(expectedSubgraph);
+  }
+
+  @Test
+  public void inducedSubgraph_nodeNotInGraph() {
+    MutableNetwork<Integer, String> undirectedGraph = NetworkBuilder.undirected().build();
+
+    try {
+      inducedSubgraph(undirectedGraph, ImmutableSet.of(N1));
+      fail("Should have rejected getting induced subgraph with node not in original graph");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
+  public void copyOf_nullArgument() {
+    try {
+      copyOf(null);
+      fail("Should have rejected a null graph");
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  @Test
+  public void copyOf_directedGraph() {
+    Graph<Integer> directedGraph = buildDirectedTestGraph();
+
+    Graph<Integer> copy = copyOf(directedGraph);
+    assertThat(copy).isEqualTo(directedGraph);
+  }
+
+  @Test
+  public void copyOf_undirectedGraph() {
+    Graph<Integer> undirectedGraph = buildUndirectedTestGraph();
+
+    Graph<Integer> copy = copyOf(undirectedGraph);
+    assertThat(copy).isEqualTo(undirectedGraph);
+  }
+
+  @Test
+  public void copyNodes_directedGraph() {
+    MutableGraph<Integer> directedGraph = buildDirectedTestGraph();
+    directedGraph.addNode(N3);
+
+    MutableGraph<Integer> actualGraph = GraphBuilder.directed().build();
+    // prepopulate actualGraph to make sure that existing elements don't interfere with the merging
+    actualGraph.addNode(N4);
+    actualGraph.addNode(N2);
+
+    copyNodes(directedGraph, actualGraph);
+
+    MutableGraph<Integer> expectedGraph = GraphBuilder.directed().build();
+    expectedGraph.addNode(N1);
+    expectedGraph.addNode(N2);
+    expectedGraph.addNode(N3);
+    expectedGraph.addNode(N4);
+
+    assertThat(actualGraph).isEqualTo(expectedGraph);
+  }
+
+  @Test
+  public void copyNodes_undirectedGraph() {
+    MutableGraph<Integer> undirectedGraph = buildUndirectedTestGraph();
+    undirectedGraph.addNode(N3);
+
+    MutableGraph<Integer> actualGraph = GraphBuilder.undirected().build();
+    // prepopulate actualGraph to make sure that existing elements don't interfere with the merging
+    actualGraph.addNode(N4);
+    actualGraph.addNode(N2);
+
+    copyNodes(undirectedGraph, actualGraph);
+
+    MutableGraph<Integer> expectedGraph = GraphBuilder.undirected().build();
+    expectedGraph.addNode(N1);
+    expectedGraph.addNode(N2);
+    expectedGraph.addNode(N3);
+    expectedGraph.addNode(N4);
+
+    assertThat(actualGraph).isEqualTo(expectedGraph);
+  }
+
+  @Test
+  public void copyOf_directedNetwork() {
+    Network<Integer, String> directedGraph = buildDirectedTestNetwork();
+
+    Network<Integer, String> copy = copyOf(directedGraph);
+    assertThat(copy).isEqualTo(directedGraph);
+  }
+
+  @Test
+  public void copyOf_undirectedNetwork() {
+    Network<Integer, String> undirectedGraph = buildUndirectedTestNetwork();
+
+    Network<Integer, String> copy = copyOf(undirectedGraph);
+    assertThat(copy).isEqualTo(undirectedGraph);
+  }
+
+  @Test
+  public void copyNodes_directedNetwork() {
+    MutableNetwork<Integer, String> directedGraph = buildDirectedTestNetwork();
+    directedGraph.addNode(N3);
+
+    MutableNetwork<Integer, String> actualGraph = NetworkBuilder.directed().build();
+    // prepopulate actualGraph to make sure that existing elements don't interfere with the merging
+    actualGraph.addNode(N4);
+    actualGraph.addNode(N2);
+
+    copyNodes(directedGraph, actualGraph);
+
+    MutableNetwork<Integer, String> expectedGraph = NetworkBuilder.directed().build();
+    expectedGraph.addNode(N1);
+    expectedGraph.addNode(N2);
+    expectedGraph.addNode(N3);
+    expectedGraph.addNode(N4);
+
+    assertThat(actualGraph).isEqualTo(expectedGraph);
+  }
+
+  @Test
+  public void copyNodes_undirectedNetwork() {
+    MutableNetwork<Integer, String> undirectedGraph = buildUndirectedTestNetwork();
+    undirectedGraph.addNode(N3);
+
+    MutableNetwork<Integer, String> actualGraph = NetworkBuilder.undirected().build();
+    // prepopulate actualGraph to make sure that existing elements don't interfere with the merging
+    actualGraph.addNode(N4);
+    actualGraph.addNode(N2);
+
+    copyNodes(undirectedGraph, actualGraph);
+
+    MutableNetwork<Integer, String> expectedGraph = NetworkBuilder.undirected().build();
+    expectedGraph.addNode(N1);
+    expectedGraph.addNode(N2);
+    expectedGraph.addNode(N3);
+    expectedGraph.addNode(N4);
+
+    assertThat(actualGraph).isEqualTo(expectedGraph);
+  }
+
+  @Test
+  public void copyEdges_directedNetwork() {
+    Network<Integer, String> directedGraph = buildDirectedTestNetwork();
+
+    MutableNetwork<Integer, String> actualGraph
+        = NetworkBuilder.directed().allowsParallelEdges(true).build();
+    // prepopulate actualGraph to make sure that existing elements don't interfere with the merging
+    actualGraph.addEdge(E11, N1, N1);
+    actualGraph.addEdge(E22, N2, N2);
+
+    copyEdges(directedGraph, actualGraph);
+
+    MutableNetwork<Integer, String> expectedGraph = buildDirectedTestNetwork();
+    expectedGraph.addEdge(E22, N2, N2);
+
+    assertThat(actualGraph).isEqualTo(expectedGraph);
+  }
+
+  @Test
+  public void copyEdges_undirectedNetwork() {
+    Network<Integer, String> undirectedGraph = buildUndirectedTestNetwork();
+
+    MutableNetwork<Integer, String> actualGraph =
+        NetworkBuilder.undirected().allowsParallelEdges(true).build();
+    // prepopulate actualGraph to make sure that existing elements don't interfere with the merging
+    actualGraph.addEdge(E11, N1, N1);
+    actualGraph.addEdge(E22, N2, N2);
+
+    copyEdges(undirectedGraph, actualGraph);
+
+    MutableNetwork<Integer, String> expectedGraph = buildUndirectedTestNetwork();
+    expectedGraph.addEdge(E22, N2, N2);
+
+    assertThat(actualGraph).isEqualTo(expectedGraph);
+  }
+
+  @Test
+  public void copyEdges_incidentNodesMissing() {
+    MutableNetwork<Integer, String> srcGraph = NetworkBuilder.undirected().build();
+    srcGraph.addEdge(E12, N1, N2);
+    srcGraph.addEdge(E13, N1, N3);
+
+    MutableNetwork<Integer, String> destGraph = NetworkBuilder.undirected().build();
+    destGraph.addNode(N1);
+    destGraph.addNode(N2);
+
+    copyEdges(srcGraph, destGraph);
+
+    // E13 should not be copied over because an incident node is missing in the destination graph.
+    assertThat(destGraph.edges()).containsExactly(E12);
+    assertThat(destGraph.nodes()).doesNotContain(N3);
+  }
+
+  // Graph creation tests
 
   @Test
   public void createDirected() {
@@ -395,209 +631,6 @@ public class GraphsTest {
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_SELF_LOOP);
     }
-  }
-
-  @Test
-  public void addEdge_mismatchedDirectedness() {
-    try {
-      addEdge(NetworkBuilder.undirected().<Integer, String>build(), E12,
-          Endpoints.ofDirected(N1, N2));
-      fail("Should have rejected adding an edge with directed endpoints to a undirected graph.");
-    } catch (IllegalArgumentException expected) {
-    }
-  }
-
-  @Test
-  public void addEdge_selfLoop() {
-    MutableNetwork<Integer, String> undirectedGraph = NetworkBuilder.undirected().build();
-    assertThat(addEdge(undirectedGraph, E11, Endpoints.ofUndirected(N1, N1))).isTrue();
-    assertThat(undirectedGraph.edgesConnecting(N1, N1)).containsExactly(E11);
-  }
-
-  @Test
-  public void addEdge_basic() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    assertThat(addEdge(directedGraph, E12, Endpoints.ofDirected(N1, N2))).isTrue();
-    assertThat(directedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
-    assertThat(directedGraph.edgesConnecting(N2, N1)).isEmpty();
-  }
-
-  @Test
-  public void copyOf_nullArgument() {
-    try {
-      copyOf(null);
-      fail("Should have rejected a null graph");
-    } catch (NullPointerException expected) {
-    }
-  }
-
-  @Test
-  public void copyOf_directedGraph() {
-    Graph<Integer> directedGraph = buildDirectedTestGraph();
-
-    Graph<Integer> copy = copyOf(directedGraph);
-    assertThat(copy).isEqualTo(directedGraph);
-  }
-
-  @Test
-  public void copyOf_undirectedGraph() {
-    Graph<Integer> undirectedGraph = buildUndirectedTestGraph();
-
-    Graph<Integer> copy = copyOf(undirectedGraph);
-    assertThat(copy).isEqualTo(undirectedGraph);
-  }
-
-  @Test
-  public void copyNodes_directedGraph() {
-    MutableGraph<Integer> directedGraph = buildDirectedTestGraph();
-    directedGraph.addNode(N3);
-
-    MutableGraph<Integer> actualGraph = GraphBuilder.directed().build();
-    // prepopulate actualGraph to make sure that existing elements don't interfere with the merging
-    actualGraph.addNode(N4);
-    actualGraph.addNode(N2);
-
-    copyNodes(directedGraph, actualGraph);
-
-    MutableGraph<Integer> expectedGraph = GraphBuilder.directed().build();
-    expectedGraph.addNode(N1);
-    expectedGraph.addNode(N2);
-    expectedGraph.addNode(N3);
-    expectedGraph.addNode(N4);
-
-    assertThat(actualGraph).isEqualTo(expectedGraph);
-  }
-
-  @Test
-  public void copyNodes_undirectedGraph() {
-    MutableGraph<Integer> undirectedGraph = buildUndirectedTestGraph();
-    undirectedGraph.addNode(N3);
-
-    MutableGraph<Integer> actualGraph = GraphBuilder.undirected().build();
-    // prepopulate actualGraph to make sure that existing elements don't interfere with the merging
-    actualGraph.addNode(N4);
-    actualGraph.addNode(N2);
-
-    copyNodes(undirectedGraph, actualGraph);
-
-    MutableGraph<Integer> expectedGraph = GraphBuilder.undirected().build();
-    expectedGraph.addNode(N1);
-    expectedGraph.addNode(N2);
-    expectedGraph.addNode(N3);
-    expectedGraph.addNode(N4);
-
-    assertThat(actualGraph).isEqualTo(expectedGraph);
-  }
-
-  @Test
-  public void copyOf_directedNetwork() {
-    Network<Integer, String> directedGraph = buildDirectedTestNetwork();
-
-    Network<Integer, String> copy = copyOf(directedGraph);
-    assertThat(copy).isEqualTo(directedGraph);
-  }
-
-  @Test
-  public void copyOf_undirectedNetwork() {
-    Network<Integer, String> undirectedGraph = buildUndirectedTestNetwork();
-
-    Network<Integer, String> copy = copyOf(undirectedGraph);
-    assertThat(copy).isEqualTo(undirectedGraph);
-  }
-
-  @Test
-  public void copyNodes_directedNetwork() {
-    MutableNetwork<Integer, String> directedGraph = buildDirectedTestNetwork();
-    directedGraph.addNode(N3);
-
-    MutableNetwork<Integer, String> actualGraph = NetworkBuilder.directed().build();
-    // prepopulate actualGraph to make sure that existing elements don't interfere with the merging
-    actualGraph.addNode(N4);
-    actualGraph.addNode(N2);
-
-    copyNodes(directedGraph, actualGraph);
-
-    MutableNetwork<Integer, String> expectedGraph = NetworkBuilder.directed().build();
-    expectedGraph.addNode(N1);
-    expectedGraph.addNode(N2);
-    expectedGraph.addNode(N3);
-    expectedGraph.addNode(N4);
-
-    assertThat(actualGraph).isEqualTo(expectedGraph);
-  }
-
-  @Test
-  public void copyEdges_directedNetwork() {
-    Network<Integer, String> directedGraph = buildDirectedTestNetwork();
-
-    MutableNetwork<Integer, String> actualGraph
-        = NetworkBuilder.directed().allowsParallelEdges(true).build();
-    // prepopulate actualGraph to make sure that existing elements don't interfere with the merging
-    actualGraph.addEdge(E11, N1, N1);
-    actualGraph.addEdge(E22, N2, N2);
-
-    copyEdges(directedGraph, actualGraph);
-
-    MutableNetwork<Integer, String> expectedGraph = buildDirectedTestNetwork();
-    expectedGraph.addEdge(E22, N2, N2);
-
-    assertThat(actualGraph).isEqualTo(expectedGraph);
-  }
-
-  @Test
-  public void copyNodes_undirectedNetwork() {
-    MutableNetwork<Integer, String> undirectedGraph = buildUndirectedTestNetwork();
-    undirectedGraph.addNode(N3);
-
-    MutableNetwork<Integer, String> actualGraph = NetworkBuilder.undirected().build();
-    // prepopulate actualGraph to make sure that existing elements don't interfere with the merging
-    actualGraph.addNode(N4);
-    actualGraph.addNode(N2);
-
-    copyNodes(undirectedGraph, actualGraph);
-
-    MutableNetwork<Integer, String> expectedGraph = NetworkBuilder.undirected().build();
-    expectedGraph.addNode(N1);
-    expectedGraph.addNode(N2);
-    expectedGraph.addNode(N3);
-    expectedGraph.addNode(N4);
-
-    assertThat(actualGraph).isEqualTo(expectedGraph);
-  }
-
-  @Test
-  public void copyEdges_undirectedNetwork() {
-    Network<Integer, String> undirectedGraph = buildUndirectedTestNetwork();
-
-    MutableNetwork<Integer, String> actualGraph =
-        NetworkBuilder.undirected().allowsParallelEdges(true).build();
-    // prepopulate actualGraph to make sure that existing elements don't interfere with the merging
-    actualGraph.addEdge(E11, N1, N1);
-    actualGraph.addEdge(E22, N2, N2);
-
-    copyEdges(undirectedGraph, actualGraph);
-
-    MutableNetwork<Integer, String> expectedGraph = buildUndirectedTestNetwork();
-    expectedGraph.addEdge(E22, N2, N2);
-
-    assertThat(actualGraph).isEqualTo(expectedGraph);
-  }
-
-  @Test
-  public void copyEdges_incidentNodesMissing() {
-    MutableNetwork<Integer, String> srcGraph = NetworkBuilder.undirected().build();
-    srcGraph.addEdge(E12, N1, N2);
-    srcGraph.addEdge(E13, N1, N3);
-
-    MutableNetwork<Integer, String> destGraph = NetworkBuilder.undirected().build();
-    destGraph.addNode(N1);
-    destGraph.addNode(N2);
-
-    copyEdges(srcGraph, destGraph);
-
-    // E13 should not be copied over because an incident node is missing in the destination graph.
-    assertThat(destGraph.edges()).containsExactly(E12);
-    assertThat(destGraph.nodes()).doesNotContain(N3);
   }
 
   private static MutableGraph<Integer> buildDirectedTestGraph() {

@@ -32,6 +32,7 @@ import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -54,6 +55,24 @@ public final class Graphs {
 
   private Graphs() {}
 
+  // Graph properties (methods that act solely on a Graph/Network)
+
+  /**
+   * Returns the subset of nodes in {@code graph} that have no predecessors.
+   *
+   * <p>Note that in an undirected graph, this is equivalent to all isolated nodes.
+   */
+  public static <N> Set<N> roots(final Graph<N> graph) {
+    return Sets.filter(graph.nodes(), new Predicate<N>() {
+      @Override
+      public boolean apply(N node) {
+        return graph.predecessors(node).isEmpty();
+      }
+    });
+  }
+
+  // Node-based properties
+
   /**
    * Returns the node at the other end of {@code edge} from {@code node}.
    *
@@ -71,19 +90,7 @@ public final class Graphs {
     }
   }
 
-  /**
-   * Returns the subset of nodes in {@code graph} that have no predecessors.
-   *
-   * <p>Note that in an undirected graph, this is equivalent to all isolated nodes.
-   */
-  public static <N> Set<N> roots(final Graph<N> graph) {
-    return Sets.filter(graph.nodes(), new Predicate<N>() {
-      @Override
-      public boolean apply(N node) {
-        return graph.predecessors(node).isEmpty();
-      }
-    });
-  }
+  // Edge-based properties
 
   /**
    * Returns an unmodifiable view of edges that are parallel to {@code edge}, i.e. the set of edges
@@ -100,6 +107,8 @@ public final class Graphs {
         ImmutableSet.of(edge)); // An edge is not parallel to itself.
   }
 
+  // Graph mutation methods
+
   /**
    * Adds {@code edge} to {@code graph} with the specified {@code endpoints}.
    */
@@ -111,6 +120,36 @@ public final class Graphs {
     checkArgument(endpoints.isDirected() == graph.isDirected(),
         ENDPOINTS_GRAPH_DIRECTEDNESS, endpoints.isDirected(), graph.isDirected());
     return graph.addEdge(edge, endpoints.nodeA(), endpoints.nodeB());
+  }
+
+  // Graph transformation methods
+
+  /**
+   * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
+   * all of the nodes in {@code nodes}, and all of the edges from {@code graph} for which the
+   * edge's incident nodes are both contained by {@code nodes}.
+   *
+   * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
+   */
+  public static <N, E> MutableNetwork<N, E> inducedSubgraph(Network<N, E> graph,
+      Iterable<? extends N> nodes) {
+    NetworkBuilder<N, E> builder = NetworkBuilder.from(graph);
+    if (nodes instanceof Collection) {
+      builder = builder.expectedNodeCount(((Collection<?>) nodes).size());
+    }
+    MutableNetwork<N, E> subgraph = builder.build();
+    for (N node : nodes) {
+      subgraph.addNode(node);
+    }
+    for (N node : subgraph.nodes()) {
+      for (E edge : graph.outEdges(node)) {
+        N oppositeNode = Graphs.oppositeNode(graph, edge, node);
+        if (subgraph.nodes().contains(oppositeNode)) {
+          subgraph.addEdge(edge, node, oppositeNode);
+        }
+      }
+    }
+    return subgraph;
   }
 
   /**
