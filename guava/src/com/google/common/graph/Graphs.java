@@ -25,7 +25,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -153,28 +152,21 @@ public final class Graphs {
   }
 
   /**
-   * Creates a mutable copy of {@code graph}, using the same nodes.
+   * Creates a mutable copy of {@code graph}, using the same nodes and edges.
    */
-  public static <N> MutableGraph<N> copyOf(Graph<N> graph) {
-    return copyOfInternal(
-        graph,
-        GraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()),
-        Predicates.alwaysTrue());
-  }
-
   @SuppressWarnings("unchecked")
-  private static <N> MutableGraph<N> copyOfInternal(
-      Graph<N> graph, GraphBuilder<N> copyBuilder, Predicate<? super N> nodePredicate) {
+  public static <N> MutableGraph<N> copyOf(Graph<N> graph) {
     checkNotNull(graph, "graph");
-    checkNotNull(nodePredicate, "nodePredicate");
     // TODO(b/28087289): we can remove this restriction when Graph supports parallel edges
     checkArgument(!((graph instanceof Network) && ((Network<N, ?>) graph).allowsParallelEdges()),
         NETWORK_WITH_PARALLEL_EDGE);
-    MutableGraph<N> copy = copyBuilder.build();
+    MutableGraph<N> copy = GraphBuilder.from(graph)
+        .expectedNodeCount(graph.nodes().size())
+        .build();
 
-    for (N node : Sets.filter(graph.nodes(), nodePredicate)) {
+    for (N node : graph.nodes()) {
       copy.addNode(node);
-      for (N successor : Sets.filter(graph.successors(node), nodePredicate)) {
+      for (N successor : graph.successors(node)) {
         // TODO(b/28087289): Ensure that multiplicity is preserved if parallel edges are supported.
         copy.addEdge(node, successor);
       }
@@ -184,88 +176,23 @@ public final class Graphs {
   }
 
   /**
-   * Copies all nodes from {@code src} into {@code dest}.
-   */
-  public static <N> void copyNodes(Graph<N> src, MutableGraph<N> dest) {
-    copyNodesInternal(src, dest, Predicates.alwaysTrue());
-  }
-
-  private static <N, E> void copyNodesInternal(
-      Graph<N> src, MutableGraph<N> dest, Predicate<? super N> nodePredicate) {
-    checkNotNull(src, "src");
-    checkNotNull(dest, "dest");
-    checkNotNull(nodePredicate, "nodePredicate");
-    for (N node : Sets.filter(src.nodes(), nodePredicate)) {
-      dest.addNode(node);
-    }
-  }
-
-  /**
    * Creates a mutable copy of {@code graph}, using the same node and edge elements.
    */
   public static <N, E> MutableNetwork<N, E> copyOf(Network<N, E> graph) {
-    return copyOfInternal(
-        graph,
-        NetworkBuilder.from(graph)
-            .expectedNodeCount(graph.nodes().size())
-            .expectedEdgeCount(graph.edges().size()),
-        Predicates.alwaysTrue(),
-        Predicates.alwaysTrue());
-  }
-
-  private static <N, E> MutableNetwork<N, E> copyOfInternal(
-      Network<N, E> graph,
-      NetworkBuilder<N, E> copyBuilder,
-      Predicate<? super N> nodePredicate,
-      Predicate<? super E> edgePredicate) {
     checkNotNull(graph, "graph");
-    checkNotNull(nodePredicate, "nodePredicate");
-    checkNotNull(edgePredicate, "edgePredicate");
-    MutableNetwork<N, E> copy = copyBuilder.build();
+    MutableNetwork<N, E> copy = NetworkBuilder.from(graph)
+        .expectedNodeCount(graph.nodes().size())
+        .expectedEdgeCount(graph.edges().size())
+        .build();
 
-    copyNodesInternal(graph, copy, nodePredicate);
-    copyEdgesInternal(graph, copy, edgePredicate);
+    for (N node : graph.nodes()) {
+      copy.addNode(node);
+    }
+    for (E edge : graph.edges()) {
+      addEdge(copy, edge, graph.incidentNodes(edge));
+    }
 
     return copy;
-  }
-
-  /**
-   * Copies all nodes from {@code src} into {@code dest}.
-   */
-  public static <N> void copyNodes(Graph<N> src, MutableNetwork<N, ?> dest) {
-    copyNodesInternal(src, dest, Predicates.alwaysTrue());
-  }
-
-  private static <N, E> void copyNodesInternal(
-      Graph<N> src, MutableNetwork<N, ?> dest, Predicate<? super N> nodePredicate) {
-    checkNotNull(src, "src");
-    checkNotNull(dest, "dest");
-    checkNotNull(nodePredicate, "nodePredicate");
-    for (N node : Sets.filter(src.nodes(), nodePredicate)) {
-      dest.addNode(node);
-    }
-  }
-
-  /**
-   * Copies edges from {@code src} into {@code dest}.
-   * <p>
-   * This method DOES NOT copy over edges if their incident nodes are not already in {@code dest}.
-   */
-  public static <N, E> void copyEdges(Network<N, E> src, MutableNetwork<N, E> dest) {
-    copyEdgesInternal(src, dest, Predicates.alwaysTrue());
-  }
-
-  private static <N, E> void copyEdgesInternal(
-      Network<N, E> src, MutableNetwork<N, E> dest, Predicate<? super E> edgePredicate) {
-    checkNotNull(src, "src");
-    checkNotNull(dest, "dest");
-    checkNotNull(edgePredicate, "edgePredicate");
-    for (E edge : Sets.filter(src.edges(), edgePredicate)) {
-      Endpoints<N> endpoints = src.incidentNodes(edge);
-      if (dest.nodes().containsAll(endpoints)) {
-        addEdge(dest, edge, endpoints);
-      }
-    }
   }
 
   /**
@@ -275,7 +202,7 @@ public final class Graphs {
    * In particular, {@link Graph}s that are not also {@link Network}s cannot be equal
    * to {@link Network}s.
    *
-   * @see Network#equals(Object)
+   * @see Graph#equals(Object)
    */
   public static boolean equal(@Nullable Graph<?> graph1, @Nullable Graph<?> graph2) {
     // If both graphs are Network instances, use equal(Network, Network) instead
