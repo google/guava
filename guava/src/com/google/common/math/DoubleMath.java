@@ -66,14 +66,14 @@ public final class DoubleMath {
         if (x >= 0.0 || isMathematicalInteger(x)) {
           return x;
         } else {
-          return x - 1.0;
+          return (long)x - 1.0;
         }
 
       case CEILING:
         if (x <= 0.0 || isMathematicalInteger(x)) {
           return x;
         } else {
-          return x + 1.0;
+          return (long)x + 1.0;
         }
 
       case DOWN:
@@ -83,7 +83,7 @@ public final class DoubleMath {
         if (isMathematicalInteger(x)) {
           return x;
         } else {
-          return x + Math.copySign(1.0, x);
+          return (long)x + Math.copySign(1.0, x);
         }
 
       case HALF_EVEN:
