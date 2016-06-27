@@ -19,7 +19,7 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.graph.GraphConstants.ADDING_PARALLEL_EDGE;
+import static com.google.common.graph.GraphConstants.PARALLEL_EDGES_NOT_ALLOWED;
 import static com.google.common.graph.GraphConstants.REUSING_EDGE;
 import static com.google.common.graph.GraphConstants.SELF_LOOPS_NOT_ALLOWED;
 
@@ -98,7 +98,7 @@ final class ConfigurableMutableNetwork<N, E>
     NodeConnections<N, E> connectionsA = nodeConnections.get(nodeA);
     if (!allowsParallelEdges()) {
       checkArgument(!(connectionsA != null && connectionsA.successors().contains(nodeB)),
-          ADDING_PARALLEL_EDGE, nodeA, nodeB);
+          PARALLEL_EDGES_NOT_ALLOWED, nodeA, nodeB);
     }
     boolean isSelfLoop = nodeA.equals(nodeB);
     if (!allowsSelfLoops()) {

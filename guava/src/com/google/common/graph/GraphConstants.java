@@ -42,17 +42,19 @@ final class GraphConstants {
   static final String EDGE_NOT_IN_GRAPH = "Edge %s is not an element of this graph.";
   static final String REUSING_EDGE =
       "Edge %s already exists between the following nodes: %s, "
-          + "so it can't be reused to connect the following nodes: %s.";
-  static final String ADDING_PARALLEL_EDGE =
-      "Nodes %s and %s are already connected by a different edge.";
-  static final String EDGE_ALREADY_EXISTS = "Edge %s already exists in the graph.";
+          + "so it cannot be reused to connect the following nodes: %s.";
+  static final String PARALLEL_EDGES_NOT_ALLOWED =
+      "Nodes %s and %s are already connected by a different edge. To construct a graph "
+          + "that allows parallel edges, call allowsParallelEdges(true) on the Builder.";
   static final String SELF_LOOPS_NOT_ALLOWED =
-      "Cannot add self-loop edge on node %s, as self-loops are not allowed.";
+      "Cannot add self-loop edge on node %s, as self-loops are not allowed. To construct a graph "
+          + "that allows self-loops, call allowsSelfLoops(true) on the Builder.";
   static final String NOT_AVAILABLE_ON_UNDIRECTED =
       "Cannot call source()/target() on undirected endpoints.";
   static final String ENDPOINTS_GRAPH_DIRECTEDNESS =
       "The endpoints' directedness (isDirected = %s) does not match the graph's directedness "
           + "(isDirected = %s). A graph cannot have both directed and undirected edges.";
+  static final String EDGE_ALREADY_EXISTS = "Edge %s already exists in the graph.";
   static final String NETWORK_WITH_PARALLEL_EDGE =
       "Cannot make a Graph copy of a Network that allows parallel edges.";
 }

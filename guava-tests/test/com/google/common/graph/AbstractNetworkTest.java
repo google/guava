@@ -82,7 +82,7 @@ public abstract class AbstractNetworkTest {
   static final String NODE_STRING = "Node";
   static final String EDGE_STRING = "Edge";
   static final String ERROR_PARALLEL_EDGE = "connected by a different edge";
-  static final String ERROR_REUSE_EDGE = "it can't be reused to connect";
+  static final String ERROR_REUSE_EDGE = "it cannot be reused to connect";
   static final String ERROR_MODIFIABLE_COLLECTION =
       "Collection returned is unexpectedly modifiable";
   static final String ERROR_SELF_LOOP = "self-loops are not allowed";
