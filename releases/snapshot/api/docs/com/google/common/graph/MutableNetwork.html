@@ -93,14 +93,14 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public interface <a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.32">MutableNetwork</a>&lt;N,E&gt;
+public interface <a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.33">MutableNetwork</a>&lt;N,E&gt;
 extends <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;</pre>
 <div class="block">A subtype of <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> which permits mutations.
  Users should generally use the <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> interface where possible.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>20.0</dd>
 <dt><span class="strong">Author:</span></dt>
-  <dd>Joshua O'Madadhain</dd></dl>
+  <dd>James Sexton, Joshua O'Madadhain</dd></dl>
 </li>
 </ul>
 </div>
@@ -122,9 +122,9 @@ extends <a href="../../../../com/google/common/graph/Network.html" title="interf
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/MutableNetwork.html#addEdge(E,%20N,%20N)">addEdge</a></strong>(<a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">E</a>&nbsp;edge,
-              <a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;node1,
-              <a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;node2)</code>
-<div class="block">Adds <code>edge</code> to this graph, connecting <code>node1</code> to <code>node2</code>
+              <a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;nodeA,
+              <a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;nodeB)</code>
+<div class="block">Adds <code>edge</code> to this graph, connecting <code>nodeA</code> to <code>nodeB</code>
  (optional operation).</div>
 </td>
 </tr>
@@ -152,14 +152,14 @@ extends <a href="../../../../com/google/common/graph/Network.html" title="interf
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;com.google.common.graph.<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></h3>
-<code><a href="../../../../com/google/common/graph/Network.html#adjacentEdges(java.lang.Object)">adjacentEdges</a>, <a href="../../../../com/google/common/graph/Network.html#adjacentNodes(java.lang.Object)">adjacentNodes</a>, <a href="../../../../com/google/common/graph/Network.html#allowsParallelEdges()">allowsParallelEdges</a>, <a href="../../../../com/google/common/graph/Network.html#degree(java.lang.Object)">degree</a>, <a href="../../../../com/google/common/graph/Network.html#edges()">edges</a>, <a href="../../../../com/google/common/graph/Network.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting</a>, <a href="../../../../com/google/common/graph/Network.html#equals(java.lang.Object)">equals</a>, <a href="../../../../com/google/common/graph/Network.html#hashCode()">hashCode</a>, <a href="../../../../com/google/common/graph/Network.html#incidentEdges(java.lang.Object)">incidentEdges</a>, <a href="../../../../com/google/common/graph/Network.html#incidentNodes(java.lang.Object)">incidentNodes</a>, <a href="../../../../com/google/common/graph/Network.html#inDegree(java.lang.Object)">inDegree</a>, <a href="../../../../com/google/common/graph/Network.html#inEdges(java.lang.Object)">inEdges</a>, <a href="../../../../com/google/common/graph/Network.html#isDirected()">isDirected</a>, <a href="../../../../com/google/common/graph/Network.html#outDegree(java.lang.Object)">outDegree</a>, <a href="../../../../com/google/common/graph/Network.html#outEdges(java.lang.Object)">outEdges</a>, <a href="../../../../com/google/common/graph/Network.html#predecessors(java.lang.Object)">predecessors</a>, <a href="../../../../com/google/common/graph/Network.html#source(java.lang.Object)">source</a>, <a href="../../../../com/google/common/graph/Network.html#successors(java.lang.Object)">successors</a>, <a href="../../../../com/google/common/graph/Network.html#target(java.lang.Object)">target</a></code></li>
+<code><a href="../../../../com/google/common/graph/Network.html#adjacentEdges(java.lang.Object)">adjacentEdges</a>, <a href="../../../../com/google/common/graph/Network.html#allowsParallelEdges()">allowsParallelEdges</a>, <a href="../../../../com/google/common/graph/Network.html#degree(java.lang.Object)">degree</a>, <a href="../../../../com/google/common/graph/Network.html#edgeOrder()">edgeOrder</a>, <a href="../../../../com/google/common/graph/Network.html#edges()">edges</a>, <a href="../../../../com/google/common/graph/Network.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting</a>, <a href="../../../../com/google/common/graph/Network.html#equals(java.lang.Object)">equals</a>, <a href="../../../../com/google/common/graph/Network.html#hashCode()">hashCode</a>, <a href="../../../../com/google/common/graph/Network.html#incidentEdges(java.lang.Object)">incidentEdges</a>, <a href="../../../../com/google/common/graph/Network.html#incidentNodes(java.lang.Object)">incidentNodes</a>, <a href="../../../../com/google/common/graph/Network.html#inDegree(java.lang.Object)">inDegree</a>, <a href="../../../../com/google/common/graph/Network.html#inEdges(java.lang.Object)">inEdges</a>, <a href="../../../../com/google/common/graph/Network.html#isDirected()">isDirected</a>, <a href="../../../../com/google/common/graph/Network.html#outDegree(java.lang.Object)">outDegree</a>, <a href="../../../../com/google/common/graph/Network.html#outEdges(java.lang.Object)">outEdges</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods_inherited_from_class_com.google.common.graph.Graph">
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;com.google.common.graph.<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></h3>
-<code><a href="../../../../com/google/common/graph/Graph.html#allowsSelfLoops()">allowsSelfLoops</a>, <a href="../../../../com/google/common/graph/Graph.html#nodes()">nodes</a></code></li>
+<code><a href="../../../../com/google/common/graph/Graph.html#adjacentNodes(java.lang.Object)">adjacentNodes</a>, <a href="../../../../com/google/common/graph/Graph.html#allowsSelfLoops()">allowsSelfLoops</a>, <a href="../../../../com/google/common/graph/Graph.html#nodeOrder()">nodeOrder</a>, <a href="../../../../com/google/common/graph/Graph.html#nodes()">nodes</a>, <a href="../../../../com/google/common/graph/Graph.html#predecessors(java.lang.Object)">predecessors</a>, <a href="../../../../com/google/common/graph/Graph.html#successors(java.lang.Object)">successors</a></code></li>
 </ul>
 </li>
 </ul>
@@ -183,7 +183,7 @@ extends <a href="../../../../com/google/common/graph/Network.html" title="interf
 <ul class="blockList">
 <li class="blockList">
 <h4>addNode</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.43">addNode</a>(<a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;node)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.44">addNode</a>(<a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;node)</pre>
 <div class="block">Adds <code>node</code> to this graph (optional operation).
 
  <p><b>Nodes must be unique</b>, just as <code>Map</code> keys must be; they must also be non-null.</div>
@@ -200,26 +200,26 @@ extends <a href="../../../../com/google/common/graph/Network.html" title="interf
 <ul class="blockList">
 <li class="blockList">
 <h4>addEdge</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.66">addEdge</a>(<a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">E</a>&nbsp;edge,
-              <a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;node1,
-              <a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;node2)</pre>
-<div class="block">Adds <code>edge</code> to this graph, connecting <code>node1</code> to <code>node2</code>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.67">addEdge</a>(<a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">E</a>&nbsp;edge,
+              <a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;nodeA,
+              <a href="../../../../com/google/common/graph/MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;nodeB)</pre>
+<div class="block">Adds <code>edge</code> to this graph, connecting <code>nodeA</code> to <code>nodeB</code>
  (optional operation).
 
  <p><b>Edges must be unique</b>, just as <code>Map</code> keys must be; they must also be non-null.
 
- <p>If <code>edge</code> already connects <code>node1</code> to <code>node2</code> in this graph
+ <p>If <code>edge</code> already connects <code>nodeA</code> to <code>nodeB</code> in this graph
  (in the specified order if order is significant, as for directed graphs, else in any order),
  then this method will have no effect and will return <code>false</code>.
 
- <p>Behavior if <code>node1</code> and <code>node2</code> are not already elements of the graph is
- unspecified. Suggested behaviors include (a) silently adding <code>node1</code> and <code>node2</code>
+ <p>Behavior if <code>nodeA</code> and <code>nodeB</code> are not already elements of the graph is
+ unspecified. Suggested behaviors include (a) silently adding <code>nodeA</code> and <code>nodeB</code>
  to the graph or (b) throwing <code>IllegalArgumentException</code>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> iff the graph was modified as a result of this call</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>edge</code> already exists and connects nodes other than
-     <code>node1</code> and <code>node2</code>, or if the graph is not a multigraph and <code>node1</code> is
-     already connected to <code>node2</code></dd>
+     <code>nodeA</code> and <code>nodeB</code>, or if the graph is not a multigraph and <code>nodeA</code> is
+     already connected to <code>nodeB</code></dd>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - if the add operation is not supported by this graph</dd></dl>
 </li>
 </ul>
@@ -231,8 +231,7 @@ extends <a href="../../../../com/google/common/graph/Network.html" title="interf
 <h4>removeNode</h4>
 <pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.77">removeNode</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block">Removes <code>node</code> from this graph, if it is present (optional operation).
- In general, all edges incident to <code>node</code> in this graph will also be removed.
- (This is not true for hyperedges.)</div>
+ All edges incident to <code>node</code> in this graph will also be removed.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> iff the graph was modified as a result of this call</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - if the remove operation is not supported by this graph</dd></dl>

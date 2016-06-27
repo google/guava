@@ -115,7 +115,7 @@ extends <a href="../../../../com/google/common/collect/ImmutableMultiset.Builder
  multisets ("constant multisets"). Example:
 
  <pre> <code>public static final ImmutableSortedMultiset&lt;Bean&gt; BEANS =
-       new ImmutableSortedMultiset.Builder&lt;Bean&gt;()
+       new ImmutableSortedMultiset.Builder&lt;Bean&gt;(colorComparator())
            .addCopies(Bean.COCOA, 4)
            .addCopies(Bean.GARDEN, 6)
            .addCopies(Bean.RED, 8)

@@ -12241,6 +12241,10 @@
  behaviour. In this case, you should override {@code offer} as well, either providing your own
  implementation, or delegating to the provided {@code standardOffer} method.
 
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingBlockingDeque}.
+
  <p>
  The {@code standard} methods are not guaranteed to be thread-safe, even when all of the methods
  that they depend on are thread-safe.
@@ -12498,6 +12502,10 @@
  override {@code addAll} as well, either providing your own implementation, or
  delegating to the provided {@code standardAddAll} method.
 
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingCollection}.
+
  <p>The {@code standard} methods are not guaranteed to be thread-safe, even
  when all of the methods that they depend on are thread-safe.
 
@@ -12559,6 +12567,13 @@
  map. Subclasses should override one or more methods to modify the behavior of
  the backing map as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+
+ <p><b>{@code default} method warning:</b> This class forwards calls to <i>only some</i> {@code
+ default} methods. Specifically, it forwards calls only for methods that existed <a
+ href="https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html">before
+ {@code default} methods were introduced</a>. For newer methods, like {@code forEach}, it inherits
+ their default implementations. When those implementations invoke methods, they invoke methods on
+ the {@code ForwardingConcurrentMap}.
 
  @author Charles Fry
  @since 2.0]]>
@@ -12687,6 +12702,10 @@
  #offer} which can lead to unexpected behavior. In this case, you should
  override {@code offer} as well.
 
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingDeque}.
+
  @author Kurt Alfred Kluever
  @since 12.0]]>
     </doc>
@@ -12730,6 +12749,13 @@
  Subclasses should override one or more methods to modify the behavior of the
  backing iterator as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+
+ <p><b>{@code default} method warning:</b> This class forwards calls to <i>only some</i> {@code
+ default} methods. Specifically, it forwards calls only for methods that existed <a
+ href="https://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html">before {@code default}
+ methods were introduced</a>. For newer methods, like {@code forEachRemaining}, it inherits their
+ default implementations. When those implementations invoke methods, they invoke methods on the
+ {@code ForwardingIterator}.
 
  @author Kevin Bourrillion
  @since 2.0]]>
@@ -12980,6 +13006,10 @@
  override {@code addAll} as well, either providing your own implementation, or
  delegating to the provided {@code standardAddAll} method.
 
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingList}.
+
  <p>The {@code standard} methods and any collection views they return are not
  guaranteed to be thread-safe, even when all of the methods that they depend
  on are thread-safe.
@@ -13045,6 +13075,13 @@
  iterator. Subclasses should override one or more methods to modify the
  behavior of the backing iterator as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+
+ <p><b>{@code default} method warning:</b> This class forwards calls to <i>only some</i> {@code
+ default} methods. Specifically, it forwards calls only for methods that existed <a
+ href="https://docs.oracle.com/javase/7/docs/api/java/util/ListIterator.html">before {@code
+ default} methods were introduced</a>. For newer methods, like {@code forEachRemaining}, it
+ inherits their default implementations. When those implementations invoke methods, they invoke
+ methods on the {@code ForwardingListIterator}.
 
  @author Mike Bostock
  @since 2.0]]>
@@ -13322,12 +13359,16 @@
  desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
- <p><i>Warning:</i> The methods of {@code ForwardingMap} forward
+ <p><b>Warning:</b> The methods of {@code ForwardingMap} forward
  <i>indiscriminately</i> to the methods of the delegate. For example,
  overriding {@link #put} alone <i>will not</i> change the behavior of {@link
  #putAll}, which can lead to unexpected behavior. In this case, you should
  override {@code putAll} as well, either providing your own implementation, or
  delegating to the provided {@code standardPutAll} method.
+
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingMap}.
 
  <p>Each of the {@code standard} methods, where appropriate, use {@link
  Objects#equal} to test equality for both keys and values. This may not be
@@ -13509,7 +13550,7 @@
  backing map entry as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
- <p><i>Warning:</i> The methods of {@code ForwardingMapEntry} forward
+ <p><b>Warning:</b> The methods of {@code ForwardingMapEntry} forward
  <i>indiscriminately</i> to the methods of the delegate. For example,
  overriding {@link #getValue} alone <i>will not</i> change the behavior of
  {@link #equals}, which can lead to unexpected behavior. In this case, you
@@ -13965,6 +14006,10 @@
  your own implementation, or delegating to the provided {@code standardAdd}
  method.
 
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingMultiset}.
+
  <p>The {@code standard} methods and any collection views they return are not
  guaranteed to be thread-safe, even when all of the methods that they depend
  on are thread-safe.
@@ -14325,11 +14370,15 @@
  override one or more methods to modify the behavior of the backing map as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
- <p><i>Warning:</i> The methods of {@code ForwardingNavigableMap} forward <i>indiscriminately</i>
+ <p><b>Warning:</b> The methods of {@code ForwardingNavigableMap} forward <i>indiscriminately</i>
  to the methods of the delegate. For example, overriding {@link #put} alone <i>will not</i>
  change the behavior of {@link #putAll}, which can lead to unexpected behavior. In this case, you
  should override {@code putAll} as well, either providing your own implementation, or delegating
  to the provided {@code standardPutAll} method.
+
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingNavigableMap}.
 
  <p>Each of the {@code standard} methods uses the map's comparator (or the natural ordering of
  the elements, if there is no comparator) to test element equality. As a result, if the comparator
@@ -14612,11 +14661,15 @@
  override one or more methods to modify the behavior of the backing set as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
- <p><i>Warning:</i> The methods of {@code ForwardingNavigableSet} forward <i>indiscriminately</i>
+ <p><b>Warning:</b> The methods of {@code ForwardingNavigableSet} forward <i>indiscriminately</i>
  to the methods of the delegate. For example, overriding {@link #add} alone <i>will not</i>
  change the behavior of {@link #addAll}, which can lead to unexpected behavior. In this case, you
  should override {@code addAll} as well, either providing your own implementation, or delegating
  to the provided {@code standardAddAll} method.
+
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingNavigableSet}.
 
  <p>Each of the {@code standard} methods uses the set's comparator (or the natural ordering of
  the elements, if there is no comparator) to test element equality. As a result, if the
@@ -14812,6 +14865,10 @@
  override {@code offer} as well, either providing your own implementation, or
  delegating to the provided {@code standardOffer} method.
 
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingQueue}.
+
  <p>The {@code standard} methods are not guaranteed to be thread-safe, even
  when all of the methods that they depend on are thread-safe.
 
@@ -14901,6 +14958,10 @@
  #addAll}, which can lead to unexpected behavior. In this case, you should
  override {@code addAll} as well, either providing your own implementation, or
  delegating to the provided {@code standardAddAll} method.
+
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingSet}.
 
  <p>The {@code standard} methods are not guaranteed to be thread-safe, even
  when all of the methods that they depend on are thread-safe.
@@ -15048,12 +15109,16 @@
  the backing sorted map as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
- <p><i>Warning:</i> The methods of {@code ForwardingSortedMap} forward
+ <p><b>Warning:</b> The methods of {@code ForwardingSortedMap} forward
  <i>indiscriminately</i> to the methods of the delegate. For example,
  overriding {@link #put} alone <i>will not</i> change the behavior of {@link
  #putAll}, which can lead to unexpected behavior. In this case, you should
  override {@code putAll} as well, either providing your own implementation, or
  delegating to the provided {@code standardPutAll} method.
+
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingSortedMap}.
 
  <p>Each of the {@code standard} methods, where appropriate, use the
  comparator of the map to test equality for both keys and values, unlike
@@ -15241,6 +15306,10 @@
  well, either providing your own implementation, or delegating to the provided {@code
  standardAdd} method.
 
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingSortedMultiset}.
+
  <p>The {@code standard} methods and any collection views they return are not guaranteed to be
  thread-safe, even when all of the methods that they depend on are thread-safe.
 
@@ -15397,12 +15466,16 @@
  backing sorted set as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
- <p><i>Warning:</i> The methods of {@code ForwardingSortedSet} forward
+ <p><b>Warning:</b> The methods of {@code ForwardingSortedSet} forward
  <i>indiscriminately</i> to the methods of the delegate. For example,
  overriding {@link #add} alone <i>will not</i> change the behavior of {@link
  #addAll}, which can lead to unexpected behavior. In this case, you should
  override {@code addAll} as well, either providing your own implementation, or
  delegating to the provided {@code standardAddAll} method.
+
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingSortedSet}.
 
  <p>Each of the {@code standard} methods, where appropriate, uses the set's
  comparator (or the natural ordering of the elements, if there is no
@@ -20937,7 +21010,7 @@
  <pre> {@code
 
    public static final ImmutableSortedMultiset<Bean> BEANS =
-       new ImmutableSortedMultiset.Builder<Bean>()
+       new ImmutableSortedMultiset.Builder<Bean>(colorComparator())
            .addCopies(Bean.COCOA, 4)
            .addCopies(Bean.GARDEN, 6)
            .addCopies(Bean.RED, 8)
@@ -23544,6 +23617,22 @@
  <p>Each entry is an immutable snapshot of a key-value mapping in the
  multimap, taken at the time the entry is returned by a method call to the
  collection or its iterator.]]>
+      </doc>
+    </method>
+    <method name="keySet" return="java.util.Set&lt;K&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a view collection of all <i>distinct</i> keys contained in this
+ multimap. Note that the key set contains a key if and only if this multimap
+ maps that key to at least one value.
+ 
+ <p>The iterator generated by the returned set traverses the keys in the
+ order they were first added to the multimap.
+
+ <p>Changes to the returned set will update the underlying multimap, and
+ vice versa. However, <i>adding</i> to the returned set is not possible.]]>
       </doc>
     </method>
     <method name="values" return="java.util.Collection&lt;V&gt;"
@@ -26428,7 +26517,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="map" type="java.util.NavigableMap&lt;K, V&gt;"/>
+      <param name="map" type="java.util.NavigableMap&lt;K, ? extends V&gt;"/>
       <doc>
       <![CDATA[Returns an unmodifiable view of the specified navigable map. Query operations on the returned
  map read through to the specified map, and attempts to modify the returned map, whether direct
@@ -26436,6 +26525,12 @@
 
  <p>The returned navigable map will be serializable if the specified navigable map is
  serializable.
+
+ <p>This method's signature will not permit you to convert a {@code NavigableMap<? extends K,
+ V>} to a {@code NavigableMap<K, V>}. If it permitted this, the returned map's {@code
+ comparator()} method might return a {@code Comparator<? extends K>}, which works only on a
+ particular subtype of {@code K}, but promise that it's a {@code Comparator<? super K>}, which
+ must work on any type of {@code K}.
 
  @param map the navigable map for which an unmodifiable view is to be returned
  @return an unmodifiable view of the specified navigable map
@@ -35611,7 +35706,8 @@
  and {@link #hashCode()} results across different graph implementations.
 
  @author James Sexton
- @param <N> Node parameter type]]>
+ @param <N> Node parameter type
+ @since 20.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.AbstractGraph -->
@@ -35666,10 +35762,222 @@
 
  @author James Sexton
  @param <N> Node parameter type
- @param <E> Edge parameter type]]>
+ @param <E> Edge parameter type
+ @since 20.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.AbstractNetwork -->
+  <!-- start class com.google.common.graph.ElementOrder -->
+  <class name="ElementOrder" extends="java.lang.Object"
+    abstract="false"
+    static="false" final="true" visibility="public"
+    deprecated="not deprecated">
+    <method name="unordered" return="com.google.common.graph.ElementOrder&lt;S&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns an instance which specifies that no ordering is guaranteed.]]>
+      </doc>
+    </method>
+    <method name="insertion" return="com.google.common.graph.ElementOrder&lt;S&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns an instance which specifies that insertion ordering is guaranteed.]]>
+      </doc>
+    </method>
+    <method name="natural" return="com.google.common.graph.ElementOrder&lt;S&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns an instance which specifies that the natural ordering of the elements is guaranteed.]]>
+      </doc>
+    </method>
+    <method name="sorted" return="com.google.common.graph.ElementOrder&lt;S&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="comparator" type="java.util.Comparator&lt;S&gt;"/>
+      <doc>
+      <![CDATA[Returns an instance which specifies that the ordering of the elements is guaranteed to be
+ determined by {@code comparator}.]]>
+      </doc>
+    </method>
+    <method name="type" return="com.google.common.graph.ElementOrder.Type"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns the type of ordering used.]]>
+      </doc>
+    </method>
+    <method name="comparator" return="java.util.Comparator&lt;T&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns the {@link Comparator} used.
+
+ @throws IllegalStateException if no comparator is defined]]>
+      </doc>
+    </method>
+    <method name="equals" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="java.lang.Object"/>
+    </method>
+    <method name="hashCode" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="toString" return="java.lang.String"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <doc>
+    <![CDATA[Used to represent the order of elements in a data structure that supports different options
+ for iteration order guarantees.
+
+ <p>Example usage:
+ <pre><code>
+   MutableGraph<Integer> graph
+       = GraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
+ </code></pre>
+
+ @author Joshua O'Madadhain
+ @since 20.0]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.graph.ElementOrder -->
+  <!-- start class com.google.common.graph.ElementOrder.Type -->
+  <class name="ElementOrder.Type" extends="java.lang.Enum&lt;com.google.common.graph.ElementOrder.Type&gt;"
+    abstract="false"
+    static="true" final="true" visibility="public"
+    deprecated="not deprecated">
+    <method name="values" return="com.google.common.graph.ElementOrder.Type[]"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="valueOf" return="com.google.common.graph.ElementOrder.Type"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="name" type="java.lang.String"/>
+    </method>
+    <doc>
+    <![CDATA[The type of ordering that this object specifies.
+ <ul>
+ <li>UNORDERED: no order is guaranteed.
+ <li>INSERTION: insertion ordering is guaranteed.
+ <li>SORTED: ordering according to a supplied comparator is guaranteed.
+ </ul>]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.graph.ElementOrder.Type -->
+  <!-- start class com.google.common.graph.Endpoints -->
+  <class name="Endpoints" extends="java.util.AbstractCollection&lt;N&gt;"
+    abstract="true"
+    static="false" final="false" visibility="public"
+    deprecated="not deprecated">
+    <method name="ofDirected" return="com.google.common.graph.Endpoints&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="source" type="N"/>
+      <param name="target" type="N"/>
+      <doc>
+      <![CDATA[Returns an {@link Endpoints} representing the endpoints of a directed edge.]]>
+      </doc>
+    </method>
+    <method name="ofUndirected" return="com.google.common.graph.Endpoints&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeA" type="N"/>
+      <param name="nodeB" type="N"/>
+      <doc>
+      <![CDATA[Returns an {@link Endpoints} representing the endpoints of an undirected edge.]]>
+      </doc>
+    </method>
+    <method name="isDirected" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns whether the nodes of this {@link Endpoints} are ordered. Generally, this is equal to
+ {@link Graph#isDirected()} of the graph that generated this {@link Endpoints}.]]>
+      </doc>
+    </method>
+    <method name="source" return="N"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[If this {@link Endpoints} is directed, returns the node which is the source.
+
+ @throws UnsupportedOperationException if this Endpoints is not directed]]>
+      </doc>
+    </method>
+    <method name="target" return="N"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[If this {@link Endpoints} is directed, returns the node which is the target.
+
+ @throws UnsupportedOperationException if this Endpoints is not directed]]>
+      </doc>
+    </method>
+    <method name="iterator" return="com.google.common.collect.UnmodifiableIterator&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="size" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="contains" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="java.lang.Object"/>
+    </method>
+    <method name="equals" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="obj" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[If two {@link Endpoints}s are directed, the source and target must be equal to be considered
+ equal. If two {@link Endpoints}s are undirected, the unordered set of nodes must be equal to be
+ considered equal. Directed {@link Endpoints} are never equal to undirected {@link Endpoints}.]]>
+      </doc>
+    </method>
+    <method name="hashCode" return="int"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <doc>
+    <![CDATA[An immutable {@link Collection} to represent the endpoints of an edge in a graph.
+ <p>
+ If an {@link Endpoints} is directed, it is an ordered pair of nodes (source and target).
+ Otherwise, it is an unordered pair of nodes that can be accessed through the iterator.
+
+ @author James Sexton
+ @since 20.0]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.graph.Endpoints -->
   <!-- start interface com.google.common.graph.Graph -->
   <interface name="Graph"    abstract="true"
     static="false" final="false" visibility="public"
@@ -35679,7 +35987,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns all nodes in this graph.]]>
+      <![CDATA[Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}.]]>
       </doc>
     </method>
     <method name="isDirected" return="boolean"
@@ -35687,14 +35995,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns true if the edges in this graph have a direction associated with them.
-
- <p>A directed edge is an {@linkplain #outEdges(Object) outgoing edge} of its
- {@linkplain #source(Object) source}, and an {@linkplain #inEdges(Object) incoming edge} of its
- {@linkplain #target(Object) target}. An undirected edge connects its
- {@linkplain #incidentNodes(Object) incident nodes} to each other, and is both an
- {@linkplain #outEdges(Object) outgoing edge} and {@linkplain #inEdges(Object) incoming edge}
- of each incident node.]]>
+      <![CDATA[Returns true if the edges in this graph have a direction associated with them.]]>
       </doc>
     </method>
     <method name="allowsSelfLoops" return="boolean"
@@ -35705,6 +36006,14 @@
       <![CDATA[Returns true if this graph allows self-loops (edges that connect a node to itself).
  Attempting to add a self-loop to a graph that does not allow them will throw an
  {@link UnsupportedOperationException}.]]>
+      </doc>
+    </method>
+    <method name="nodeOrder" return="com.google.common.graph.ElementOrder&lt;? super N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns the order of iteration for the elements of {@link #nodes()}.]]>
       </doc>
     </method>
     <method name="adjacentNodes" return="java.util.Set&lt;N&gt;"
@@ -35755,7 +36064,6 @@
  {@code Integer.MAX_VALUE} incident edges in this graph, returns {@code Integer.MAX_VALUE}.
 
  <p>Note that self-loops only count once towards a node's degree.
- This is consistent with the definition of {@link #incidentEdges(Object)}.
 
  @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
@@ -35821,7 +36129,8 @@
  <p>A reference implementation of this is provided by {@link Graphs#hashCode(Graph)}.
 
  <p>Note that by this definition, two graphs that are equal in every aspect except edge
- direction will have the same hash code (but can still be differentiated by {@link #equals}.]]>
+ direction will have the same hash code (but can still be differentiated by
+ {@link #equals(Object)}.]]>
       </doc>
     </method>
     <doc>
@@ -35829,7 +36138,7 @@
  Users that want edges to be first-class objects should use the subtype {@link Network} instead.
 
  <p>For convenience, we may use the term 'graph' to refer to any subtype of {@link Graph},
- including {@link Network} and {@link Hypergraph}.
+ including {@link Network}.
 
  <p>Users that wish to modify a {@code Graph} must work with its subinterface,
  {@link MutableNetwork}.
@@ -35837,7 +36146,6 @@
  <p>This interface permits, but does not enforce, any of the following variations of graphs:
  <ul>
  <li>directed and undirected edges
- <li>hyperedges (edges which are incident to arbitrary sets of nodes)
  <li>nodes and edges with attributes (for example, weighted edges)
  <li>nodes and edges of different types (for example, bipartite or multimodal graphs)
  <li>internal representations as matrices, adjacency lists, adjacency maps, etc.
@@ -35848,24 +36156,24 @@
 
  <p>Definitions:
  <ul>
- <li>{@code node1} and {@code node2} are mutually <b>adjacent</b> (or <b>connected</b> in
+ <li>{@code nodeA} and {@code nodeB} are mutually <b>adjacent</b> (or <b>connected</b>) in
      {@code graph} if an edge has been added between them:
      <br><pre><code>
-       graph.addEdge(node1, node2);  // after this returns, node1 and node2 are adjacent
+       graph.addEdge(nodeA, nodeB);  // after this returns, nodeA and nodeB are adjacent
      </pre></code>
    In this example, if {@code graph} is <b>directed</b>, then:
    <ul>
-   <li>{@code node1} is a <b>predecessor</b> of {code node2} in {@code graph}
-   <li>{@code node2} is a <b>successor</b> of {@code node1} in {@code graph}
-   <li>{@code node1} has an (implicit) outgoing edge to {@code node2} in {@code graph}
-   <li>{@code node2} has an (implicit) incoming edge from {@code node1} in {@code graph}
+   <li>{@code nodeA} is a <b>predecessor</b> of {code nodeB} in {@code graph}
+   <li>{@code nodeB} is a <b>successor</b> of {@code nodeA} in {@code graph}
+   <li>{@code nodeA} has an (implicit) outgoing edge to {@code nodeB} in {@code graph}
+   <li>{@code nodeB} has an (implicit) incoming edge from {@code nodeA} in {@code graph}
    </ul>
    If {@code graph} is <b>undirected</b>, then:
    <ul>
-   <li>{@code node1} and {@code node2} are mutually predecessors and successors
+   <li>{@code nodeA} and {@code nodeB} are mutually predecessors and successors
        in {@code graph}
-   <li>{@code node1} has an (implicit) edge in {@code graph} that is both outgoing to
-       to {@code node2} and incoming from {@code node2}, and vice versa.
+   <li>{@code nodeA} has an (implicit) edge in {@code graph} that is both outgoing to
+       to {@code nodeB} and incoming from {@code nodeB}, and vice versa.
    </ul>
  <li>A self-loop is an edge that connects a node to itself.
  </ul>
@@ -35874,8 +36182,8 @@
  <ul>
  <li><b>Nodes must be useable as {@code Map} keys</b>:
    <ul>
-   <li>They must be unique in a graph: nodes {@code node1} and {@code node2} are considered
-       different if and only if {@code node1.equals(node2) == false}.
+   <li>They must be unique in a graph: nodes {@code nodeA} and {@code nodeB} are considered
+       different if and only if {@code nodeA.equals(nodeB) == false}.
    <li>If graph elements have mutable state:
      <ul>
      <li>the mutable state must not be reflected in the {@code equals/hashCode} methods
@@ -35891,16 +36199,6 @@
  store mutable per-element state in a separate data structure (e.g. an element-to-state map).
  <li>There are no Node classes built in.  So you can have a {@code Graph<Integer>}
      or a {@code Graph<Author>} or a {@code Graph<Webpage>}.
- <li>This framework supports multiple mechanisms for storing the topology of a graph,
-      including:
-   <ul>
-   <li>the Graph implementation stores the topology (for example, by storing a
-       {@code Map<N, N>} that maps nodes onto their adjacent nodes); this implies that the nodes
-       are just keys, and can be shared among graphs
-   <li>the nodes store the topology (for example, by storing a {@code List<E>} of adjacent nodes);
-       this (usually) implies that nodes are graph-specific
-   <li>a separate data repository (for example, a database) stores the topology
-   </ul>
  </ul>
 
  <p>Notes on accessors:
@@ -35955,16 +36253,17 @@
  <pre><code>
    // Visit nodes reachable from {@code node}.
    void depthFirstTraverse(N node) {
-     for (N neighbor : graph.adjacentNodes(node)) {
-       if (!isVisited(neighbor)) {
-         visit(neighbor);
-         depthFirstTraverse(neighbor);
+     if (!isVisited(node)) {
+       visit(node);
+       for (N successor : graph.successors(node)) {
+         depthFirstTraverse(successor);
        }
      }
    }
  </code></pre>
  </ul>
 
+ @author James Sexton
  @author Joshua O'Madadhain
  @param <N> Node parameter type
  @since 20.0]]>
@@ -36027,6 +36326,15 @@
  @throws IllegalArgumentException if {@code expectedNodeCount} is negative]]>
       </doc>
     </method>
+    <method name="nodeOrder" return="com.google.common.graph.GraphBuilder&lt;N1&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeOrder" type="com.google.common.graph.ElementOrder&lt;N1&gt;"/>
+      <doc>
+      <![CDATA[Specifies the order of iteration for the elements of {@link Network#nodes()}.]]>
+      </doc>
+    </method>
     <method name="build" return="com.google.common.graph.MutableGraph&lt;N1&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -36042,6 +36350,7 @@
  <ul>
  <li>does not allow parallel edges
  <li>allows self-loops
+ <li>orders {@code nodes()} in the order in which the elements were added
  </ul>
 
  @author James Sexton
@@ -36062,17 +36371,6 @@
       <param name="graph" type="com.google.common.graph.Graph&lt;?&gt;"/>
       <doc>
       <![CDATA[Returns true iff {@code graph} has at least one cycle.]]>
-      </doc>
-    </method>
-    <method name="roots" return="com.google.common.collect.ImmutableSet&lt;N&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
-      <doc>
-      <![CDATA[Returns the set of all nodes in {@code graph} that have no predecessors.
-
- <p>Note that in an undirected graph, this is equivalent to all isolated nodes.]]>
       </doc>
     </method>
     <doc>
@@ -36098,8 +36396,18 @@
       <doc>
       <![CDATA[Returns the node at the other end of {@code edge} from {@code node}.
 
- @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}
  @throws IllegalArgumentException if {@code edge} is not incident to {@code node}]]>
+      </doc>
+    </method>
+    <method name="roots" return="java.util.Set&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Returns the subset of nodes in {@code graph} that have no predecessors.
+
+ <p>Note that in an undirected graph, this is equivalent to all isolated nodes.]]>
       </doc>
     </method>
     <method name="parallelEdges" return="java.util.Set&lt;E&gt;"
@@ -36112,7 +36420,6 @@
       <![CDATA[Returns an unmodifiable view of edges that are parallel to {@code edge}, i.e. the set of edges
  that connect the same nodes in the same direction (if any). An edge is not parallel to itself.
 
- @throws UnsupportedOperationException if {@code graph} is a {@link Hypergraph}
  @throws IllegalArgumentException if {@code edge} is not present in {@code graph}]]>
       </doc>
     </method>
@@ -36122,10 +36429,9 @@
       deprecated="not deprecated">
       <param name="graph" type="com.google.common.graph.MutableNetwork&lt;N, E&gt;"/>
       <param name="edge" type="E"/>
-      <param name="nodes" type="java.lang.Iterable&lt;N&gt;"/>
+      <param name="endpoints" type="com.google.common.graph.Endpoints&lt;N&gt;"/>
       <doc>
-      <![CDATA[Adds {@code edge} to {@code graph} with the specified incident {@code nodes}, in the order
- returned by {@code nodes}' iterator.]]>
+      <![CDATA[Adds {@code edge} to {@code graph} with the specified {@code endpoints}.]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.graph.MutableGraph&lt;N&gt;"
@@ -36137,36 +36443,14 @@
       <![CDATA[Creates a mutable copy of {@code graph}, using the same nodes.]]>
       </doc>
     </method>
-    <method name="copyOf" return="com.google.common.graph.MutableGraph&lt;N&gt;"
+    <method name="copyNodes"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
-      <param name="nodePredicate" type="com.google.common.base.Predicate&lt;? super N&gt;"/>
+      <param name="src" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <param name="dest" type="com.google.common.graph.MutableGraph&lt;N&gt;"/>
       <doc>
-      <![CDATA[Creates a mutable copy of {@code graph}, using all of its elements that satisfy
- {@code nodePredicate} and {@code edgePredicate}.]]>
-      </doc>
-    </method>
-    <method name="mergeNodesFrom"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="original" type="com.google.common.graph.Graph&lt;N&gt;"/>
-      <param name="copy" type="com.google.common.graph.MutableGraph&lt;N&gt;"/>
-      <doc>
-      <![CDATA[Copies all nodes from {@code original} into {@code copy}.]]>
-      </doc>
-    </method>
-    <method name="mergeNodesFrom"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="original" type="com.google.common.graph.Graph&lt;N&gt;"/>
-      <param name="copy" type="com.google.common.graph.MutableGraph&lt;N&gt;"/>
-      <param name="nodePredicate" type="com.google.common.base.Predicate&lt;? super N&gt;"/>
-      <doc>
-      <![CDATA[Copies all nodes from {@code original} into {@code copy} that satisfy {@code nodePredicate}.]]>
+      <![CDATA[Copies all nodes from {@code src} into {@code dest}.]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.graph.MutableNetwork&lt;N, E&gt;"
@@ -36178,60 +36462,26 @@
       <![CDATA[Creates a mutable copy of {@code graph}, using the same node and edge elements.]]>
       </doc>
     </method>
-    <method name="copyOf" return="com.google.common.graph.MutableNetwork&lt;N, E&gt;"
+    <method name="copyNodes"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Network&lt;N, E&gt;"/>
-      <param name="nodePredicate" type="com.google.common.base.Predicate&lt;? super N&gt;"/>
-      <param name="edgePredicate" type="com.google.common.base.Predicate&lt;? super E&gt;"/>
+      <param name="src" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <param name="dest" type="com.google.common.graph.MutableNetwork&lt;N, ?&gt;"/>
       <doc>
-      <![CDATA[Creates a mutable copy of {@code graph}, using all of its elements that satisfy
- {@code nodePredicate} and {@code edgePredicate}.]]>
+      <![CDATA[Copies all nodes from {@code src} into {@code dest}.]]>
       </doc>
     </method>
-    <method name="mergeNodesFrom"
+    <method name="copyEdges"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="original" type="com.google.common.graph.Graph&lt;N&gt;"/>
-      <param name="copy" type="com.google.common.graph.MutableNetwork&lt;N, ?&gt;"/>
+      <param name="src" type="com.google.common.graph.Network&lt;N, E&gt;"/>
+      <param name="dest" type="com.google.common.graph.MutableNetwork&lt;N, E&gt;"/>
       <doc>
-      <![CDATA[Copies all nodes from {@code original} into {@code copy}.]]>
-      </doc>
-    </method>
-    <method name="mergeNodesFrom"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="original" type="com.google.common.graph.Graph&lt;N&gt;"/>
-      <param name="copy" type="com.google.common.graph.MutableNetwork&lt;N, ?&gt;"/>
-      <param name="nodePredicate" type="com.google.common.base.Predicate&lt;? super N&gt;"/>
-      <doc>
-      <![CDATA[Copies all nodes from {@code original} into {@code copy} that satisfy {@code nodePredicate}.]]>
-      </doc>
-    </method>
-    <method name="mergeEdgesFrom"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="original" type="com.google.common.graph.Network&lt;N, E&gt;"/>
-      <param name="copy" type="com.google.common.graph.MutableNetwork&lt;N, E&gt;"/>
-      <doc>
-      <![CDATA[Copies all edges from {@code original} into {@code copy}. Also copies all nodes incident
- to these edges.]]>
-      </doc>
-    </method>
-    <method name="mergeEdgesFrom"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="original" type="com.google.common.graph.Network&lt;N, E&gt;"/>
-      <param name="copy" type="com.google.common.graph.MutableNetwork&lt;N, E&gt;"/>
-      <param name="edgePredicate" type="com.google.common.base.Predicate&lt;? super E&gt;"/>
-      <doc>
-      <![CDATA[Copies all edges from {@code original} into {@code copy} that satisfy {@code edgePredicate}.
- Also copies all nodes incident to these edges.]]>
+      <![CDATA[Copies edges from {@code src} into {@code dest}.
+ <p>
+ This method DOES NOT copy over edges if their incident nodes are not already in {@code dest}.]]>
       </doc>
     </method>
     <method name="equal" return="boolean"
@@ -36307,85 +36557,12 @@
     <doc>
     <![CDATA[Static utility methods for {@link Graph} instances.
 
+ @author James Sexton
  @author Joshua O'Madadhain
  @since 20.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.Graphs -->
-  <!-- start interface com.google.common.graph.Hypergraph -->
-  <interface name="Hypergraph"    abstract="true"
-    static="false" final="false" visibility="public"
-    deprecated="not deprecated">
-    <implements name="com.google.common.graph.Network&lt;N, E&gt;"/>
-    <method name="source" return="N"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="Unsupported operation. Call {@link #incidentNodes(Object)} instead.">
-      <param name="edge" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Source is not applicable to hypergraphs.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation. Call {@link #incidentNodes(Object)} instead.]]>
-      </doc>
-    </method>
-    <method name="target" return="N"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="Unsupported operation. Call {@link #incidentNodes(Object)} instead.">
-      <param name="edge" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Target is not applicable to hypergraphs.
-
- @throws UnsupportedOperationException always
- @deprecated Unsupported operation. Call {@link #incidentNodes(Object)} instead.]]>
-      </doc>
-    </method>
-    <method name="addEdge" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="E"/>
-      <param name="nodes" type="N[]"/>
-      <doc>
-      <![CDATA[Adds {@code edge} to this graph, connecting {@code nodes}.
-
- @return {@code true} iff the graph was modified as a result of this call
- @throws UnsupportedOperationException if the add operation is not supported by this graph]]>
-      </doc>
-    </method>
-    <method name="addEdge" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="E"/>
-      <param name="nodes" type="java.lang.Iterable&lt;N&gt;"/>
-      <doc>
-      <![CDATA[Adds {@code edge} to this graph, connecting {@code nodes}.
-
- @return {@code true} iff the graph was modified as a result of this call
- @throws UnsupportedOperationException if the add operation is not supported by this graph]]>
-      </doc>
-    </method>
-    <doc>
-    <![CDATA[A subinterface of {@link Network} which specifies that all edges are hyperedges, that is,
- they connect arbitrary sets of nodes rather than pairs of nodes.
-
- <p>A few notes about how hyperedges and connectivity:
- <ul>
- <li>Hyperedges, like undirected edges, are both incoming and outgoing edges.
- <li>Hyperedges incident to a single node {@code node} connect {@code node} to itself; such edges
-     are analogous to self-loops in graphs.  Hyperedges incident to > 1 nodes do not connect any
-     of their incident nodes to themselves.
- </ul>
-
- @author Joshua O'Madadhain
- @param <N> Node parameter type
- @param <E> Edge parameter type
- @since 20.0]]>
-    </doc>
-  </interface>
-  <!-- end interface com.google.common.graph.Hypergraph -->
   <!-- start class com.google.common.graph.ImmutableGraph -->
   <class name="ImmutableGraph" extends="com.google.common.graph.AbstractConfigurableGraph&lt;N&gt;"
     abstract="false"
@@ -36415,12 +36592,11 @@
     <![CDATA[A {@link Graph} whose relationships are constant. Instances of this class may be obtained
  with {@link #copyOf(Graph)}.
 
- <p>The time complexity of {@code edgesConnecting(node1, node2)} is O(min(outD_node1, inD_node2)).
-
  @author James Sexton
  @author Joshua O'Madadhain
  @author Omar Darwish
- @param <N> Node parameter type]]>
+ @param <N> Node parameter type
+ @since 20.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.ImmutableGraph -->
@@ -36453,20 +36629,19 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node1" type="java.lang.Object"/>
-      <param name="node2" type="java.lang.Object"/>
+      <param name="nodeA" type="java.lang.Object"/>
+      <param name="nodeB" type="java.lang.Object"/>
     </method>
     <doc>
     <![CDATA[A {@link Network} whose relationships are constant. Instances of this class may be obtained
  with {@link #copyOf(Network)}.
 
- <p>The time complexity of {@code edgesConnecting(node1, node2)} is O(min(outD_node1, inD_node2)).
-
  @author James Sexton
  @author Joshua O'Madadhain
  @author Omar Darwish
  @param <N> Node parameter type
- @param <E> Edge parameter type]]>
+ @param <E> Edge parameter type
+ @since 20.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.ImmutableNetwork -->
@@ -36493,21 +36668,21 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node1" type="N"/>
-      <param name="node2" type="N"/>
+      <param name="nodeA" type="N"/>
+      <param name="nodeB" type="N"/>
       <doc>
-      <![CDATA[Adds an (implicit) edge to this graph connecting {@code node1} to {@code node2}
+      <![CDATA[Adds an (implicit) edge to this graph connecting {@code nodeA} to {@code nodeB}
  (optional operation).
 
- <p>Behavior if {@code node1} and {@code node2} are not already elements of the graph is
- unspecified. Suggested behaviors include (a) silently adding {@code node1} and {@code node2}
+ <p>Behavior if {@code nodeA} and {@code nodeB} are not already elements of the graph is
+ unspecified. Suggested behaviors include (a) silently adding {@code nodeA} and {@code nodeB}
  to the graph or (b) throwing {@code IllegalArgumentException}.
 
- <p>Currently, this type does not support parallel edges.  {@code addEdge(node1, node2)} will
+ <p>Currently, this type does not support parallel edges.  {@code addEdge(nodeA, nodeB)} will
  simply return false on any future calls with the same arguments (analogous to the behavior of
- {@code Network.addEdge(e, node1, node2)}).  A hypothetical instance that supported parallel
- edges would add a new edge between {@code node1} and {@code node2} for every call to
- {@code addEdge(node1, node2)}, and return {@code true} every time.
+ {@code Network.addEdge(e, nodeA, nodeB)}).  A hypothetical instance that supported parallel
+ edges would add a new edge between {@code nodeA} and {@code nodeB} for every call to
+ {@code addEdge(nodeA, nodeB)}, and return {@code true} every time.
 
  @return {@code true} iff the graph was modified as a result of this call
  @throws UnsupportedOperationException if the add operation is not supported by this graph]]>
@@ -36520,8 +36695,7 @@
       <param name="node" type="java.lang.Object"/>
       <doc>
       <![CDATA[Removes {@code node} from this graph, if it is present (optional operation).
- In general, all edges incident to {@code node} in this graph will also be removed.
- (This is not true for hyperedges.)
+ All edges incident to {@code node} in this graph will also be removed.
 
  @return {@code true} iff the graph was modified as a result of this call
  @throws UnsupportedOperationException if the remove operation is not supported by this graph]]>
@@ -36531,10 +36705,10 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node1" type="java.lang.Object"/>
-      <param name="node2" type="java.lang.Object"/>
+      <param name="nodeA" type="java.lang.Object"/>
+      <param name="nodeB" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Removes an edge connecting {@code node1} to {@code node2} from this graph, if one is present
+      <![CDATA[Removes an edge connecting {@code nodeA} to {@code nodeB} from this graph, if one is present
  (optional operation).
 
  <p>In general, the input nodes are unaffected (although implementations may choose
@@ -36548,6 +36722,7 @@
     <![CDATA[A subtype of {@link Graph} which permits mutations.
  Users should generally use the {@link Graph} interface where possible.
 
+ @author James Sexton
  @author Joshua O'Madadhain
  @param <N> Node parameter type
  @since 20.0]]>
@@ -36578,26 +36753,26 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="edge" type="E"/>
-      <param name="node1" type="N"/>
-      <param name="node2" type="N"/>
+      <param name="nodeA" type="N"/>
+      <param name="nodeB" type="N"/>
       <doc>
-      <![CDATA[Adds {@code edge} to this graph, connecting {@code node1} to {@code node2}
+      <![CDATA[Adds {@code edge} to this graph, connecting {@code nodeA} to {@code nodeB}
  (optional operation).
 
  <p><b>Edges must be unique</b>, just as {@code Map} keys must be; they must also be non-null.
 
- <p>If {@code edge} already connects {@code node1} to {@code node2} in this graph
+ <p>If {@code edge} already connects {@code nodeA} to {@code nodeB} in this graph
  (in the specified order if order is significant, as for directed graphs, else in any order),
  then this method will have no effect and will return {@code false}.
 
- <p>Behavior if {@code node1} and {@code node2} are not already elements of the graph is
- unspecified. Suggested behaviors include (a) silently adding {@code node1} and {@code node2}
+ <p>Behavior if {@code nodeA} and {@code nodeB} are not already elements of the graph is
+ unspecified. Suggested behaviors include (a) silently adding {@code nodeA} and {@code nodeB}
  to the graph or (b) throwing {@code IllegalArgumentException}.
 
  @return {@code true} iff the graph was modified as a result of this call
  @throws IllegalArgumentException if {@code edge} already exists and connects nodes other than
-     {@code node1} and {@code node2}, or if the graph is not a multigraph and {@code node1} is
-     already connected to {@code node2}
+     {@code nodeA} and {@code nodeB}, or if the graph is not a multigraph and {@code nodeA} is
+     already connected to {@code nodeB}
  @throws UnsupportedOperationException if the add operation is not supported by this graph]]>
       </doc>
     </method>
@@ -36608,8 +36783,7 @@
       <param name="node" type="java.lang.Object"/>
       <doc>
       <![CDATA[Removes {@code node} from this graph, if it is present (optional operation).
- In general, all edges incident to {@code node} in this graph will also be removed.
- (This is not true for hyperedges.)
+ All edges incident to {@code node} in this graph will also be removed.
 
  @return {@code true} iff the graph was modified as a result of this call
  @throws UnsupportedOperationException if the remove operation is not supported by this graph]]>
@@ -36633,6 +36807,7 @@
     <![CDATA[A subtype of {@link Network} which permits mutations.
  Users should generally use the {@link Network} interface where possible.
 
+ @author James Sexton
  @author Joshua O'Madadhain
  @param <N> Node parameter type
  @param <E> Edge parameter type
@@ -36650,7 +36825,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns all edges in this network.]]>
+      <![CDATA[Returns all edges in this network, in the order specified by {@link #edgeOrder()}.]]>
       </doc>
     </method>
     <method name="isDirected" return="boolean"
@@ -36658,11 +36833,11 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns true if each edge in this graph is directed.
+      <![CDATA[{@inheritDoc}
 
  <p>A directed edge is an {@linkplain #outEdges(Object) outgoing edge} of its
- {@linkplain #source(Object) source}, and an {@linkplain #inEdges(Object) incoming edge} of its
- {@linkplain #target(Object) target}. An undirected edge connects its
+ {@linkplain Endpoints#source() source}, and an {@linkplain #inEdges(Object) incoming edge}
+ of its {@linkplain Endpoints#target() target}. An undirected edge connects its
  {@linkplain #incidentNodes(Object) incident nodes} to each other, and is both an
  {@linkplain #outEdges(Object) outgoing edge} and {@linkplain #inEdges(Object) incoming edge}
  of each incident node.]]>
@@ -36677,6 +36852,14 @@
  that does not allow them will throw an {@link UnsupportedOperationException}.]]>
       </doc>
     </method>
+    <method name="edgeOrder" return="com.google.common.graph.ElementOrder&lt;? super E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns the order of iteration for the elements of {@link #edges()}.]]>
+      </doc>
+    </method>
     <method name="incidentEdges" return="java.util.Set&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -36688,31 +36871,15 @@
  @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
-    <method name="incidentNodes" return="java.util.Set&lt;N&gt;"
+    <method name="incidentNodes" return="com.google.common.graph.Endpoints&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="edge" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns the nodes which are the endpoints of {@code edge} in this graph.
-
- <p>For self-loop edges, the returned set's size will be 1. If the graph is
- {@linkplain #isDirected() directed} and {@code edge} is not a self-loop, the
- iteration order will be {@code [source(edge), target(edge)]}.
+      <![CDATA[Returns the nodes which are the endpoints of {@code edge} in this graph as {@link Endpoints}.
 
  @throws IllegalArgumentException if {@code edge} is not an element of this graph]]>
-      </doc>
-    </method>
-    <method name="adjacentNodes" return="java.util.Set&lt;N&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Returns the nodes which have an {@linkplain #incidentEdges(Object) incident edge}
- in common with {@code node} in this graph.
-
- @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
     <method name="adjacentEdges" return="java.util.Set&lt;E&gt;"
@@ -36725,7 +36892,7 @@
  in common with {@code edge} in this graph.
 
  <p>Whether an edge is considered adjacent to itself is not defined by this interface, but
- generally for non-hypergraphs, edges are not considered to be self-adjacent.
+ generally edges are not considered to be self-adjacent.
 
  @throws IllegalArgumentException if {@code edge} is not an element of this graph]]>
       </doc>
@@ -36734,15 +36901,15 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="node1" type="java.lang.Object"/>
-      <param name="node2" type="java.lang.Object"/>
+      <param name="nodeA" type="java.lang.Object"/>
+      <param name="nodeB" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns the set of edges that connect {@code node1} to {@code node2}.
+      <![CDATA[Returns the set of edges that connect {@code nodeA} to {@code nodeB}.
 
- <p>This set is the intersection of {@code outEdges(node1)} and {@code inEdges(node2)}. If
- {@code node1} is equal to {@code node2}, then it is the set of self-loop edges for that node.
+ <p>This set is the intersection of {@code outEdges(nodeA)} and {@code inEdges(nodeB)}. If
+ {@code nodeA} is equal to {@code nodeB}, then it is the set of self-loop edges for that node.
 
- @throws IllegalArgumentException if {@code node1} or {@code node2} is not an element
+ @throws IllegalArgumentException if {@code nodeA} or {@code nodeB} is not an element
      of this graph]]>
       </doc>
     </method>
@@ -36770,71 +36937,15 @@
  @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
-    <method name="predecessors" return="java.util.Set&lt;N&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
- {@code node}'s {@linkplain #inEdges(Object) incoming edges} <i>against</i> the direction
- (if any) of the edge.
-
- @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
-      </doc>
-    </method>
-    <method name="successors" return="java.util.Set&lt;N&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
- {@code node}'s {@linkplain #outEdges(Object) outgoing edges} in the direction (if any) of the
- edge.
-
- <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
- edges" (also known as {@code node}'s transitive closure).
-
- @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
-      </doc>
-    </method>
-    <method name="source" return="N"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[For a directed graph, returns the node for which {@code edge} is an outgoing edge.
- For an undirected graph, throws an {@link UnsupportedOperationException}.]]>
-      </doc>
-    </method>
-    <method name="target" return="N"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="edge" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[For a directed graph, returns the node for which {@code edge} is an incoming edge.
- For an undirected graph, throws an {@link UnsupportedOperationException}.]]>
-      </doc>
-    </method>
     <method name="degree" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="node" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns the number of edges {@linkplain #incidentEdges(Object) incident} in this graph
- to {@code node}.  If this node has more than {@code Integer.MAX_VALUE} incident edges
- in this graph, returns {@code Integer.MAX_VALUE}.
+      <![CDATA[{@inheritDoc}
 
- <p>Equivalent to {@code incidentEdges(node).size()}.
-
- <p>Note that self-loops only count once towards a node's degree.
- This is consistent with the definition of {@link #incidentEdges(Object)}.
-
- @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+ <p>Equivalent to {@code incidentEdges(node).size()}.]]>
       </doc>
     </method>
     <method name="inDegree" return="int"
@@ -36843,13 +36954,9 @@
       deprecated="not deprecated">
       <param name="node" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns the number of {@linkplain #inEdges(Object) incoming edges} in this graph
- of {@code node}.  If this node has more than {@code Integer.MAX_VALUE} incoming edges
- in this graph, returns {@code Integer.MAX_VALUE}.
+      <![CDATA[{@inheritDoc}
 
- <p>Equivalent to {@code inEdges(node).size()}.
-
- @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+ <p>Equivalent to {@code inEdges(node).size()}.]]>
       </doc>
     </method>
     <method name="outDegree" return="int"
@@ -36858,13 +36965,9 @@
       deprecated="not deprecated">
       <param name="node" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns the number of {@linkplain #outEdges(Object) outgoing edges} in this graph
- of {@code node}.  If this node has more than {@code Integer.MAX_VALUE} outgoing edges
- in this graph, returns {@code Integer.MAX_VALUE}.
+      <![CDATA[{@inheritDoc}
 
- <p>Equivalent to {@code outEdges(node).size()}.
-
- @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
+ <p>Equivalent to {@code outEdges(node).size()}.]]>
       </doc>
     </method>
     <method name="equals" return="boolean"
@@ -36890,7 +36993,8 @@
  order in which edges or nodes are added to the graph, and the order in which they are iterated
  over, are irrelevant.
 
- <p>A reference implementation of this is provided by {@link Graphs#equal(Graph, Graph)}.]]>
+ <p>A reference implementation of this is provided by
+ {@link Graphs#equal(Network, Network)}.]]>
       </doc>
     </method>
     <method name="hashCode" return="int"
@@ -36904,7 +37008,8 @@
  <p>A reference implementation of this is provided by {@link Graphs#hashCode(Graph)}.
 
  <p>Note that by this definition, two graphs that are equal in every aspect except edge
- direction will have the same hash code (but can still be differentiated by {@link #equals}.]]>
+ direction will have the same hash code (but can still be differentiated by
+ {@link #equals(Object)}).]]>
       </doc>
     </method>
     <doc>
@@ -36919,7 +37024,6 @@
  <p>This interface permits, but does not enforce, any of the following variations of graphs:
  <ul>
  <li>directed and undirected edges
- <li>hyperedges (edges which are incident to arbitrary sets of nodes)
  <li>nodes and edges with attributes (for example, weighted edges)
  <li>nodes and edges of different types (for example, bipartite or multimodal graphs)
  <li>parallel edges (multiple edges which connect a single set of nodes)
@@ -36932,7 +37036,7 @@
  <ul>
  <li>{@code edge} and {@code node} are <b>incident</b> to each other if the set of
      {@code edge}'s endpoints includes {@code node}.
- <li>{@code node1} and {@code node2} are mutually <b>adjacent</b> if both are incident
+ <li>{@code nodeA} and {@code nodeB} are mutually <b>adjacent</b> if both are incident
      to a common {@code edge}.
      <br>Similarly, {@code edge1} and {@code edge2} are mutually adjacent if both are
      incident to a common {@code node}.
@@ -36946,11 +37050,11 @@
    <li>Note: <b>undirected</b> edges are both incoming and outgoing edges of a {@code node},
        while <b>directed</b> edges are either incoming or outgoing edges of {@code node}
        (and not both, unless the edge is a self-loop).
-       <br>Thus, in the following example {@code edge1} is an incoming edge of {@code node2} and
-       an outgoing edge of {@code node1}, while {@code edge2} is both an incoming and an outgoing
+       <br>Thus, in the following example {@code edge1} is an incoming edge of {@code nodeB} and
+       an outgoing edge of {@code nodeA}, while {@code edge2} is both an incoming and an outgoing
        edge of both {@code node3} and {@code node4}:
        <br><pre><code>
-         directedGraph.addEdge(edge1, node1, node2);
+         directedGraph.addEdge(edge1, nodeA, nodeB);
          undirectedGraph.addEdge(edge2, node3, node4);
        </pre></code>
    </ul>
@@ -36973,8 +37077,8 @@
  <ul>
  <li><b>Nodes/edges must be useable as {@code Map} keys</b>:
    <ul>
-   <li>They must be unique in a graph: nodes {@code node1} and {@code node2} are considered
-       different if and only if {@code node1.equals(node2) == false}, and the same for edges.
+   <li>They must be unique in a graph: nodes {@code nodeA} and {@code nodeB} are considered
+       different if and only if {@code nodeA.equals(nodeB) == false}, and the same for edges.
    <li>If you would otherwise have duplicate edges (e.g. weighted edges represented by a Double),
        you can instead wrap the edges in a custom class that defers to {@link Object} for its
        {@code equals()} and {@code hashCode()} implementations.
@@ -36993,15 +37097,6 @@
  store mutable per-element state in a separate data structure (e.g. an element-to-state map).
  <li>There are no Node or Edge classes built in.  So you can have a {@code Graph<Integer, String>}
      or a {@code Graph<Author,Publication>} or a {@code Graph<Webpage,Link>}.
- <li>This framework supports multiple mechanisms for storing the topology of a graph, including:
-   <ul>
-   <li>the Graph implementation stores the topology (for example, by storing a {@code Map<N, E>}
-       that maps nodes onto their incident edges); this implies that the nodes and edges
-       are just keys, and can be shared among graphs
-   <li>the nodes store the topology (for example, by storing a {@code List<E>} of incident edges);
-       this (usually) implies that nodes are graph-specific
-   <li>a separate data repository (for example, a database) stores the topology
-   </ul>
  </ul>
 
  <p>Notes on accessors:
@@ -37042,7 +37137,9 @@
      Note that (1) and (2) are generally preferred. (5) is generally a hazardous design choice
      and should be avoided, because keeping the internal data structures consistent can be tricky.
  <li>Prefer extending {@link AbstractGraph} over implementing {@link Graph} directly. This will
-     ensure consistent {@link #equals(Object)} and {@link #hashCode()} across implementations.
+     ensure that the implementations of {@link #equals(Object)} and
+     {@link #hashCode()} are mutually consistent, and consistent across
+     implementations.
  <li>{@code Multimap}s are not sufficient internal data structures for Graph implementations
      that support isolated nodes (nodes that have no incident edges), due to their restriction
      that a key either maps to at least one value, or is not present in the {@code Multimap}.
@@ -37058,10 +37155,10 @@
  <pre><code>
    // Visit nodes reachable from {@code node}.
    void depthFirstTraverse(N node) {
-     for (N neighbor : graph.adjacentNodes(node)) {
-       if (!isVisited(neighbor)) {
-         visit(neighbor);
-         depthFirstTraverse(neighbor);
+     if (!isVisited(node)) {
+       visit(node);
+       for (N successor : graph.successors(node)) {
+         depthFirstTraverse(successor);
        }
      }
    }
@@ -37083,6 +37180,7 @@
  </code></pre>
  </ul>
 
+ @author James Sexton
  @author Joshua O'Madadhain
  @param <N> Node parameter type
  @param <E> Edge parameter type
@@ -37167,6 +37265,24 @@
  @throws IllegalArgumentException if {@code expectedEdgeCount} is negative]]>
       </doc>
     </method>
+    <method name="nodeOrder" return="com.google.common.graph.NetworkBuilder&lt;N1, E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeOrder" type="com.google.common.graph.ElementOrder&lt;N1&gt;"/>
+      <doc>
+      <![CDATA[Specifies the order of iteration for the elements of {@link Network#nodes()}.]]>
+      </doc>
+    </method>
+    <method name="edgeOrder" return="com.google.common.graph.NetworkBuilder&lt;N, E1&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="edgeOrder" type="com.google.common.graph.ElementOrder&lt;E1&gt;"/>
+      <doc>
+      <![CDATA[Specifies the order of iteration for the elements of {@link Network#edges()}.]]>
+      </doc>
+    </method>
     <method name="build" return="com.google.common.graph.MutableNetwork&lt;N1, E1&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -37182,6 +37298,7 @@
  <ul>
  <li>does not allow parallel edges
  <li>allows self-loops
+ <li>orders {@code nodes()} and {@code edges()} in the order in which the elements were added
  </ul>
 
  @author James Sexton
@@ -42233,7 +42350,7 @@
     </method>
     <doc>
     <![CDATA[An implementation of {@link DataInput} that uses little-endian byte ordering for reading
- {@code short}, {@code int}, {@code float}, {@code double}, and {@code long} values. 
+ {@code short}, {@code int}, {@code float}, {@code double}, and {@code long} values.
 
  <p><b>Note:</b> This class intentionally violates the specification of its supertype
  {@code DataInput}, which explicitly requires big-endian byte order.
@@ -52758,7 +52875,7 @@
    Invokable<List<String>, ?> invokable = new TypeToken<List<String>>() {}.method(getMethod);
    assertEquals(TypeToken.of(String.class), invokable.getReturnType()); // Not Object.class!
    assertEquals(new TypeToken<List<String>>() {}, invokable.getOwnerType());}</pre>
- 
+
  @param <T> the type that owns this method or constructor.
  @param <R> the return type of (or supertype thereof) the method or the declaring type of the
      constructor.
@@ -56254,6 +56371,10 @@
  as desired per the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator
  pattern</a>.
 
+ <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ default} methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the {@code ForwardingBlockingQueue}.
+
  @author Raimundo Mirisola
 
  @param <E> the type of elements held in this collection
@@ -58016,7 +58137,7 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A {@link FutureTask} that also implements the {@link ListenableFuture} interface. Unlike 
+    <![CDATA[A {@link FutureTask} that also implements the {@link ListenableFuture} interface. Unlike
  {@code FutureTask}, {@code ListenableFutureTask} does not provide an overrideable {@link
  FutureTask#done() done()} method. For similar functionality, call {@link #addListener}.
 

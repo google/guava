@@ -114,7 +114,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.49">ForwardingSet</a>&lt;E&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.53">ForwardingSet</a>&lt;E&gt;
 extends <a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;E&gt;
 implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;</pre>
 <div class="block">A set which forwards all its method calls to another set. Subclasses should
@@ -127,6 +127,9 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
  overriding <a href="../../../../com/google/common/collect/ForwardingCollection.html#add(E)"><code>ForwardingCollection.add(E)</code></a> alone <b>will not</b> change the behavior of <a href="../../../../com/google/common/collect/ForwardingCollection.html#addAll(java.util.Collection)"><code>ForwardingCollection.addAll(java.util.Collection&lt;? extends E&gt;)</code></a>, which can lead to unexpected behavior. In this case, you should
  override <code>addAll</code> as well, either providing your own implementation, or
  delegating to the provided <code>standardAddAll</code> method.
+
+ <p><b><code>default</code> method warning:</b> This class does <i>not</i> forward calls to <code>default</code> methods. Instead, it inherits their default implementations. When those implementations
+ invoke methods, they invoke methods on the <code>ForwardingSet</code>.
 
  <p>The <code>standard</code> methods are not guaranteed to be thread-safe, even
  when all of the methods that they depend on are thread-safe.</div>
@@ -256,7 +259,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingSet</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.53">ForwardingSet</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.57">ForwardingSet</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -274,7 +277,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre>protected abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSet.html" title="type parameter in ForwardingSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.56">delegate</a>()</pre>
+<pre>protected abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSet.html" title="type parameter in ForwardingSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.60">delegate</a>()</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></strong></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to.
  Abstract subclasses generally override this method with an abstract method
@@ -292,7 +295,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.59">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.63">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -310,7 +313,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.64">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.68">hashCode</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#hashCode()" title="class or interface in java.util">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/ForwardingSet.html" title="type parameter in ForwardingSet">E</a>&gt;</code></dd>
@@ -327,7 +330,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>standardRemoveAll</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.77">standardRemoveAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.81">standardRemoveAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;collection)</pre>
 <div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingCollection.html#removeAll(java.util.Collection)"><code>ForwardingCollection.removeAll(java.util.Collection&lt;?&gt;)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator()"><code>ForwardingCollection.iterator()</code></a>
  and <a href="../../../../com/google/common/collect/ForwardingCollection.html#remove(java.lang.Object)"><code>ForwardingCollection.remove(java.lang.Object)</code></a>.  If you override <code>iterator</code> or <code>remove</code>,
  you may wish to override <a href="../../../../com/google/common/collect/ForwardingCollection.html#removeAll(java.util.Collection)"><code>ForwardingCollection.removeAll(java.util.Collection&lt;?&gt;)</code></a> to forward to this
@@ -345,7 +348,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>standardEquals</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.88">standardEquals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.92">standardEquals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                      <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingSet.html#equals(java.lang.Object)"><code>equals(java.lang.Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#size()"><code>ForwardingCollection.size()</code></a> and
  <a href="../../../../com/google/common/collect/ForwardingCollection.html#containsAll(java.util.Collection)"><code>ForwardingCollection.containsAll(java.util.Collection&lt;?&gt;)</code></a>. If you override either of those methods, you may wish
@@ -360,7 +363,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>standardHashCode</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.99">standardHashCode</a>()</pre>
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingSet.html#line.103">standardHashCode</a>()</pre>
 <div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingSet.html#hashCode()"><code>hashCode()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator()"><code>ForwardingCollection.iterator()</code></a>.
  If you override <a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator()"><code>ForwardingCollection.iterator()</code></a>, you may wish to override <a href="../../../../com/google/common/collect/ForwardingSet.html#equals(java.lang.Object)"><code>equals(java.lang.Object)</code></a>
  to forward to this implementation.</div>

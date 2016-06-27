@@ -43,95 +43,99 @@
 <span class="sourceLineNo">035</span> * override {@code offer} as well, either providing your own implementation, or<a name="line.35"></a>
 <span class="sourceLineNo">036</span> * delegating to the provided {@code standardOffer} method.<a name="line.36"></a>
 <span class="sourceLineNo">037</span> *<a name="line.37"></a>
-<span class="sourceLineNo">038</span> * &lt;p&gt;The {@code standard} methods are not guaranteed to be thread-safe, even<a name="line.38"></a>
-<span class="sourceLineNo">039</span> * when all of the methods that they depend on are thread-safe.<a name="line.39"></a>
-<span class="sourceLineNo">040</span> *<a name="line.40"></a>
-<span class="sourceLineNo">041</span> * @author Mike Bostock<a name="line.41"></a>
-<span class="sourceLineNo">042</span> * @author Louis Wasserman<a name="line.42"></a>
-<span class="sourceLineNo">043</span> * @since 2.0<a name="line.43"></a>
-<span class="sourceLineNo">044</span> */<a name="line.44"></a>
-<span class="sourceLineNo">045</span>@GwtCompatible<a name="line.45"></a>
-<span class="sourceLineNo">046</span>public abstract class ForwardingQueue&lt;E&gt; extends ForwardingCollection&lt;E&gt; implements Queue&lt;E&gt; {<a name="line.46"></a>
-<span class="sourceLineNo">047</span><a name="line.47"></a>
-<span class="sourceLineNo">048</span>  /** Constructor for use by subclasses. */<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  protected ForwardingQueue() {}<a name="line.49"></a>
-<span class="sourceLineNo">050</span><a name="line.50"></a>
-<span class="sourceLineNo">051</span>  @Override<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  protected abstract Queue&lt;E&gt; delegate();<a name="line.52"></a>
-<span class="sourceLineNo">053</span><a name="line.53"></a>
-<span class="sourceLineNo">054</span>  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?<a name="line.54"></a>
+<span class="sourceLineNo">038</span> * &lt;p&gt;&lt;b&gt;{@code default} method warning:&lt;/b&gt; This class does &lt;i&gt;not&lt;/i&gt; forward calls to {@code<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * default} methods. Instead, it inherits their default implementations. When those implementations<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * invoke methods, they invoke methods on the {@code ForwardingQueue}.<a name="line.40"></a>
+<span class="sourceLineNo">041</span> *<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * &lt;p&gt;The {@code standard} methods are not guaranteed to be thread-safe, even<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * when all of the methods that they depend on are thread-safe.<a name="line.43"></a>
+<span class="sourceLineNo">044</span> *<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * @author Mike Bostock<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * @author Louis Wasserman<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * @since 2.0<a name="line.47"></a>
+<span class="sourceLineNo">048</span> */<a name="line.48"></a>
+<span class="sourceLineNo">049</span>@GwtCompatible<a name="line.49"></a>
+<span class="sourceLineNo">050</span>public abstract class ForwardingQueue&lt;E&gt; extends ForwardingCollection&lt;E&gt; implements Queue&lt;E&gt; {<a name="line.50"></a>
+<span class="sourceLineNo">051</span><a name="line.51"></a>
+<span class="sourceLineNo">052</span>  /** Constructor for use by subclasses. */<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  protected ForwardingQueue() {}<a name="line.53"></a>
+<span class="sourceLineNo">054</span><a name="line.54"></a>
 <span class="sourceLineNo">055</span>  @Override<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  public boolean offer(E o) {<a name="line.56"></a>
-<span class="sourceLineNo">057</span>    return delegate().offer(o);<a name="line.57"></a>
-<span class="sourceLineNo">058</span>  }<a name="line.58"></a>
-<span class="sourceLineNo">059</span><a name="line.59"></a>
-<span class="sourceLineNo">060</span>  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  @Override<a name="line.61"></a>
-<span class="sourceLineNo">062</span>  public E poll() {<a name="line.62"></a>
-<span class="sourceLineNo">063</span>    return delegate().poll();<a name="line.63"></a>
-<span class="sourceLineNo">064</span>  }<a name="line.64"></a>
-<span class="sourceLineNo">065</span><a name="line.65"></a>
-<span class="sourceLineNo">066</span>  @CanIgnoreReturnValue<a name="line.66"></a>
-<span class="sourceLineNo">067</span>  @Override<a name="line.67"></a>
-<span class="sourceLineNo">068</span>  public E remove() {<a name="line.68"></a>
-<span class="sourceLineNo">069</span>    return delegate().remove();<a name="line.69"></a>
-<span class="sourceLineNo">070</span>  }<a name="line.70"></a>
-<span class="sourceLineNo">071</span><a name="line.71"></a>
-<span class="sourceLineNo">072</span>  @Override<a name="line.72"></a>
-<span class="sourceLineNo">073</span>  public E peek() {<a name="line.73"></a>
-<span class="sourceLineNo">074</span>    return delegate().peek();<a name="line.74"></a>
-<span class="sourceLineNo">075</span>  }<a name="line.75"></a>
-<span class="sourceLineNo">076</span><a name="line.76"></a>
-<span class="sourceLineNo">077</span>  @Override<a name="line.77"></a>
-<span class="sourceLineNo">078</span>  public E element() {<a name="line.78"></a>
-<span class="sourceLineNo">079</span>    return delegate().element();<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  }<a name="line.80"></a>
-<span class="sourceLineNo">081</span><a name="line.81"></a>
-<span class="sourceLineNo">082</span>  /**<a name="line.82"></a>
-<span class="sourceLineNo">083</span>   * A sensible definition of {@link #offer} in terms of {@link #add}. If you<a name="line.83"></a>
-<span class="sourceLineNo">084</span>   * override {@link #add}, you may wish to override {@link #offer} to forward<a name="line.84"></a>
-<span class="sourceLineNo">085</span>   * to this implementation.<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   *<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   * @since 7.0<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   */<a name="line.88"></a>
-<span class="sourceLineNo">089</span>  protected boolean standardOffer(E e) {<a name="line.89"></a>
-<span class="sourceLineNo">090</span>    try {<a name="line.90"></a>
-<span class="sourceLineNo">091</span>      return add(e);<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    } catch (IllegalStateException caught) {<a name="line.92"></a>
-<span class="sourceLineNo">093</span>      return false;<a name="line.93"></a>
-<span class="sourceLineNo">094</span>    }<a name="line.94"></a>
-<span class="sourceLineNo">095</span>  }<a name="line.95"></a>
-<span class="sourceLineNo">096</span><a name="line.96"></a>
-<span class="sourceLineNo">097</span>  /**<a name="line.97"></a>
-<span class="sourceLineNo">098</span>   * A sensible definition of {@link #peek} in terms of {@link #element}. If you<a name="line.98"></a>
-<span class="sourceLineNo">099</span>   * override {@link #element}, you may wish to override {@link #peek} to<a name="line.99"></a>
-<span class="sourceLineNo">100</span>   * forward to this implementation.<a name="line.100"></a>
-<span class="sourceLineNo">101</span>   *<a name="line.101"></a>
-<span class="sourceLineNo">102</span>   * @since 7.0<a name="line.102"></a>
-<span class="sourceLineNo">103</span>   */<a name="line.103"></a>
-<span class="sourceLineNo">104</span>  protected E standardPeek() {<a name="line.104"></a>
-<span class="sourceLineNo">105</span>    try {<a name="line.105"></a>
-<span class="sourceLineNo">106</span>      return element();<a name="line.106"></a>
-<span class="sourceLineNo">107</span>    } catch (NoSuchElementException caught) {<a name="line.107"></a>
-<span class="sourceLineNo">108</span>      return null;<a name="line.108"></a>
-<span class="sourceLineNo">109</span>    }<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  }<a name="line.110"></a>
-<span class="sourceLineNo">111</span><a name="line.111"></a>
-<span class="sourceLineNo">112</span>  /**<a name="line.112"></a>
-<span class="sourceLineNo">113</span>   * A sensible definition of {@link #poll} in terms of {@link #remove}. If you<a name="line.113"></a>
-<span class="sourceLineNo">114</span>   * override {@link #remove}, you may wish to override {@link #poll} to forward<a name="line.114"></a>
-<span class="sourceLineNo">115</span>   * to this implementation.<a name="line.115"></a>
-<span class="sourceLineNo">116</span>   *<a name="line.116"></a>
-<span class="sourceLineNo">117</span>   * @since 7.0<a name="line.117"></a>
-<span class="sourceLineNo">118</span>   */<a name="line.118"></a>
-<span class="sourceLineNo">119</span>  protected E standardPoll() {<a name="line.119"></a>
-<span class="sourceLineNo">120</span>    try {<a name="line.120"></a>
-<span class="sourceLineNo">121</span>      return remove();<a name="line.121"></a>
-<span class="sourceLineNo">122</span>    } catch (NoSuchElementException caught) {<a name="line.122"></a>
-<span class="sourceLineNo">123</span>      return null;<a name="line.123"></a>
-<span class="sourceLineNo">124</span>    }<a name="line.124"></a>
-<span class="sourceLineNo">125</span>  }<a name="line.125"></a>
-<span class="sourceLineNo">126</span>}<a name="line.126"></a>
+<span class="sourceLineNo">056</span>  protected abstract Queue&lt;E&gt; delegate();<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  @Override<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  public boolean offer(E o) {<a name="line.60"></a>
+<span class="sourceLineNo">061</span>    return delegate().offer(o);<a name="line.61"></a>
+<span class="sourceLineNo">062</span>  }<a name="line.62"></a>
+<span class="sourceLineNo">063</span><a name="line.63"></a>
+<span class="sourceLineNo">064</span>  @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  @Override<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  public E poll() {<a name="line.66"></a>
+<span class="sourceLineNo">067</span>    return delegate().poll();<a name="line.67"></a>
+<span class="sourceLineNo">068</span>  }<a name="line.68"></a>
+<span class="sourceLineNo">069</span><a name="line.69"></a>
+<span class="sourceLineNo">070</span>  @CanIgnoreReturnValue<a name="line.70"></a>
+<span class="sourceLineNo">071</span>  @Override<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  public E remove() {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    return delegate().remove();<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  }<a name="line.74"></a>
+<span class="sourceLineNo">075</span><a name="line.75"></a>
+<span class="sourceLineNo">076</span>  @Override<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  public E peek() {<a name="line.77"></a>
+<span class="sourceLineNo">078</span>    return delegate().peek();<a name="line.78"></a>
+<span class="sourceLineNo">079</span>  }<a name="line.79"></a>
+<span class="sourceLineNo">080</span><a name="line.80"></a>
+<span class="sourceLineNo">081</span>  @Override<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  public E element() {<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    return delegate().element();<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  }<a name="line.84"></a>
+<span class="sourceLineNo">085</span><a name="line.85"></a>
+<span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * A sensible definition of {@link #offer} in terms of {@link #add}. If you<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * override {@link #add}, you may wish to override {@link #offer} to forward<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * to this implementation.<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   *<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * @since 7.0<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   */<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  protected boolean standardOffer(E e) {<a name="line.93"></a>
+<span class="sourceLineNo">094</span>    try {<a name="line.94"></a>
+<span class="sourceLineNo">095</span>      return add(e);<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    } catch (IllegalStateException caught) {<a name="line.96"></a>
+<span class="sourceLineNo">097</span>      return false;<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    }<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  }<a name="line.99"></a>
+<span class="sourceLineNo">100</span><a name="line.100"></a>
+<span class="sourceLineNo">101</span>  /**<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * A sensible definition of {@link #peek} in terms of {@link #element}. If you<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * override {@link #element}, you may wish to override {@link #peek} to<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * forward to this implementation.<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   *<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * @since 7.0<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   */<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  protected E standardPeek() {<a name="line.108"></a>
+<span class="sourceLineNo">109</span>    try {<a name="line.109"></a>
+<span class="sourceLineNo">110</span>      return element();<a name="line.110"></a>
+<span class="sourceLineNo">111</span>    } catch (NoSuchElementException caught) {<a name="line.111"></a>
+<span class="sourceLineNo">112</span>      return null;<a name="line.112"></a>
+<span class="sourceLineNo">113</span>    }<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  }<a name="line.114"></a>
+<span class="sourceLineNo">115</span><a name="line.115"></a>
+<span class="sourceLineNo">116</span>  /**<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * A sensible definition of {@link #poll} in terms of {@link #remove}. If you<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   * override {@link #remove}, you may wish to override {@link #poll} to forward<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   * to this implementation.<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   *<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   * @since 7.0<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   */<a name="line.122"></a>
+<span class="sourceLineNo">123</span>  protected E standardPoll() {<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    try {<a name="line.124"></a>
+<span class="sourceLineNo">125</span>      return remove();<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    } catch (NoSuchElementException caught) {<a name="line.126"></a>
+<span class="sourceLineNo">127</span>      return null;<a name="line.127"></a>
+<span class="sourceLineNo">128</span>    }<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  }<a name="line.129"></a>
+<span class="sourceLineNo">130</span>}<a name="line.130"></a>
 
 
 

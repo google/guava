@@ -113,7 +113,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
  backing map entry as desired per the <a
  href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
- <p><i>Warning:</i> The methods of <code>ForwardingMapEntry</code> forward
+ <p><b>Warning:</b> The methods of <code>ForwardingMapEntry</code> forward
  <i>indiscriminately</i> to the methods of the delegate. For example,
  overriding <a href="../../../../com/google/common/collect/ForwardingMapEntry.html#getValue()"><code>getValue()</code></a> alone <i>will not</i> change the behavior of
  <a href="../../../../com/google/common/collect/ForwardingMapEntry.html#equals(java.lang.Object)"><code>equals(java.lang.Object)</code></a>, which can lead to unexpected behavior. In this case, you
