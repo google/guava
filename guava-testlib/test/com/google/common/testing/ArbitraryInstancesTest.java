@@ -261,6 +261,7 @@ public class ArbitraryInstancesTest extends TestCase {
     assertFalse(ArbitraryInstances.get(Equivalence.class).equivalent(1, 2));
   }
 
+  @SuppressWarnings("SelfComparison")
   public void testGet_comparable() {
     @SuppressWarnings("unchecked") // The null value can compare with any Object
     Comparable<Object> comparable = ArbitraryInstances.get(Comparable.class);
