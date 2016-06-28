@@ -737,13 +737,15 @@ public final class Iterables {
   }
 
   /**
-   * Returns the first element in {@code iterable} or {@code defaultValue} if
-   * the iterable is empty.  The {@link Iterators} analog to this method is
-   * {@link Iterators#getNext}.
+   * Returns the first element in {@code iterable} or {@code defaultValue} if the iterable is empty.
+   * The {@link Iterators} analog to this method is {@link Iterators#getNext}.
    *
-   * <p>If no default value is desired (and the caller instead wants a
-   * {@link NoSuchElementException} to be thrown), it is recommended that
-   * {@code iterable.iterator().next()} is used instead.
+   * <p>If no default value is desired (and the caller instead wants a {@link
+   * NoSuchElementException} to be thrown), it is recommended that {@code
+   * iterable.iterator().next()} is used instead.
+   *
+   * <p>To get the only element in a single-element {@code Iterable}, consider using {@link
+   * #getOnlyElement(Iterable)} or {@link #getOnlyElement(Iterable, Object)} instead.
    *
    * @param defaultValue the default value to return if the iterable is empty
    * @return the first element of {@code iterable} or the default value
