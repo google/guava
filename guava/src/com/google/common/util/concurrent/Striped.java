@@ -194,14 +194,27 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<Lock>}
    */
   public static Striped<Lock> lock(int stripes) {
-    return new CompactStriped<Lock>(
-        stripes,
-        new Supplier<Lock>() {
-          @Override
-          public Lock get() {
-            return new PaddedLock();
-          }
-        });
+    return new CompactStriped<Lock>(stripes, paddedLockSupplier(false));
+  }
+
+  /**
+   * Creates a {@code Striped<Lock>} with eagerly initialized, strongly referenced locks. Every lock
+   * is reentrant and created with 'fair ordering policy' = true.
+   *
+   * @param stripes the minimum number of stripes (locks) required
+   * @return a new {@code Striped<Lock>}
+   */
+  public static Striped<Lock> fairLock(int stripes) {
+    return new CompactStriped<Lock>(stripes, paddedLockSupplier(true));
+  }
+
+  private static Supplier<Lock> paddedLockSupplier(final boolean fair) {
+    return new Supplier<Lock>() {
+      @Override
+      public Lock get() {
+        return new PaddedLock(fair);
+      }
+    };
   }
 
   /**
@@ -212,14 +225,27 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<Lock>}
    */
   public static Striped<Lock> lazyWeakLock(int stripes) {
-    return lazy(
-        stripes,
-        new Supplier<Lock>() {
-          @Override
-          public Lock get() {
-            return new ReentrantLock(false);
-          }
-        });
+    return lazy(stripes, reentrantLockSupplier(false));
+  }
+
+  /**
+   * Creates a {@code Striped<Lock>} with lazily initialized, weakly referenced locks. Every lock is
+   * reentrant and created with 'fair ordering policy' = true.
+   *
+   * @param stripes the minimum number of stripes (locks) required
+   * @return a new {@code Striped<Lock>}
+   */
+  public static Striped<Lock> lazyWeakFairLock(int stripes) {
+    return lazy(stripes, reentrantLockSupplier(true));
+  }
+
+  private static Supplier<Lock> reentrantLockSupplier(final boolean fair) {
+    return new Supplier<Lock>() {
+      @Override
+      public Lock get() {
+        return new ReentrantLock(fair);
+      }
+    };
   }
 
   private static <L> Striped<L> lazy(int stripes, Supplier<L> supplier) {
@@ -237,14 +263,28 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<Semaphore>}
    */
   public static Striped<Semaphore> semaphore(int stripes, final int permits) {
-    return new CompactStriped<Semaphore>(
-        stripes,
-        new Supplier<Semaphore>() {
-          @Override
-          public Semaphore get() {
-            return new PaddedSemaphore(permits);
-          }
-        });
+    return new CompactStriped<Semaphore>(stripes, paddedSemaphoreSupplier(permits, false));
+  }
+
+  /**
+     * Creates a {@code Striped<Semaphore>} with eagerly initialized, strongly referenced semaphores created with 'fair ordering policy' = true
+     * and with the specified number of permits
+     *
+     * @param stripes the minimum number of stripes (semaphores) required
+     * @param permits the number of permits in each semaphore
+     * @return a new {@code Striped<Semaphore>}
+     */
+    public static Striped<Semaphore> fairSemaphore(int stripes, final int permits) {
+      return new CompactStriped<Semaphore>(stripes, paddedSemaphoreSupplier(permits, true));
+    }
+
+  private static Supplier<Semaphore> paddedSemaphoreSupplier(final int permits, final boolean fair) {
+    return new Supplier<Semaphore>() {
+      @Override
+      public Semaphore get() {
+        return new PaddedSemaphore(permits, fair);
+      }
+    };
   }
 
   /**
@@ -256,14 +296,28 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<Semaphore>}
    */
   public static Striped<Semaphore> lazyWeakSemaphore(int stripes, final int permits) {
-    return lazy(
-        stripes,
-        new Supplier<Semaphore>() {
-          @Override
-          public Semaphore get() {
-            return new Semaphore(permits, false);
-          }
-        });
+    return lazy(stripes, semaphoreSupplier(permits, false));
+  }
+
+  /**
+   * Creates a {@code Striped<Semaphore>} with lazily initialized, weakly referenced semaphores created with 'fair ordering policy' = true
+   * and with the specified number of permits.
+   *
+   * @param stripes the minimum number of stripes (semaphores) required
+   * @param permits the number of permits in each semaphore
+   * @return a new {@code Striped<Semaphore>}
+   */
+  public static Striped<Semaphore> lazyWeakFairSemaphore(int stripes, final int permits) {
+    return lazy(stripes, semaphoreSupplier(permits, true));
+  }
+
+  private static Supplier<Semaphore> semaphoreSupplier(final int permits, final boolean fair) {
+    return new Supplier<Semaphore>() {
+      @Override
+      public Semaphore get() {
+        return new Semaphore(permits, fair);
+      }
+    };
   }
 
   /**
@@ -274,8 +328,19 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<ReadWriteLock>}
    */
   public static Striped<ReadWriteLock> readWriteLock(int stripes) {
-    return new CompactStriped<ReadWriteLock>(stripes, READ_WRITE_LOCK_SUPPLIER);
+    return new CompactStriped<ReadWriteLock>(stripes, readWriteLockSupplier(false));
   }
+
+  /**
+     * Creates a {@code Striped<ReadWriteLock>} with eagerly initialized, strongly referenced
+     * read-write locks. Every lock is reentrant and created with 'fair ordering policy' = true.
+     *
+     * @param stripes the minimum number of stripes (locks) required
+     * @return a new {@code Striped<ReadWriteLock>}
+     */
+    public static Striped<ReadWriteLock> readWriteFairLock(int stripes) {
+      return new CompactStriped<ReadWriteLock>(stripes, readWriteLockSupplier(true));
+    }
 
   /**
    * Creates a {@code Striped<ReadWriteLock>} with lazily initialized, weakly referenced read-write
@@ -285,17 +350,29 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<ReadWriteLock>}
    */
   public static Striped<ReadWriteLock> lazyWeakReadWriteLock(int stripes) {
-    return lazy(stripes, READ_WRITE_LOCK_SUPPLIER);
+    return lazy(stripes, readWriteLockSupplier(false));
+  }
+
+  /**
+   * Creates a {@code Striped<ReadWriteLock>} with lazily initialized, weakly referenced read-write
+   * locks. Every lock is reentrant and created with 'fair ordering policy' = true.
+   *
+   * @param stripes the minimum number of stripes (locks) required
+   * @return a new {@code Striped<ReadWriteLock>}
+   */
+  public static Striped<ReadWriteLock> lazyWeakReadWriteFairLock(int stripes) {
+    return lazy(stripes, readWriteLockSupplier(true));
   }
 
   // ReentrantReadWriteLock is large enough to make padding probably unnecessary
-  private static final Supplier<ReadWriteLock> READ_WRITE_LOCK_SUPPLIER =
-      new Supplier<ReadWriteLock>() {
-        @Override
-        public ReadWriteLock get() {
-          return new ReentrantReadWriteLock();
-        }
-      };
+  private static Supplier<ReadWriteLock> readWriteLockSupplier(final boolean fair) {
+    return new Supplier<ReadWriteLock>() {
+      @Override
+      public ReadWriteLock get() {
+        return new ReentrantReadWriteLock(fair);
+      }
+    };
+  }
 
   private abstract static class PowerOfTwoStriped<L> extends Striped<L> {
     /** Capacity (power of two) minus one, for fast mod evaluation */
@@ -491,8 +568,8 @@ public abstract class Striped<L> {
     long unused2;
     long unused3;
 
-    PaddedLock() {
-      super(false);
+    PaddedLock(boolean fair) {
+      super(fair);
     }
   }
 
@@ -502,8 +579,8 @@ public abstract class Striped<L> {
     long unused2;
     long unused3;
 
-    PaddedSemaphore(int permits) {
-      super(permits, false);
+    PaddedSemaphore(int permits, boolean fair) {
+      super(permits, fair);
     }
   }
 }

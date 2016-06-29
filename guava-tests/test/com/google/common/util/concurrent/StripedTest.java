@@ -205,4 +205,59 @@ public class StripedTest extends TestCase {
       }
     }
   }
+
+  public void testFairnessForLock() {
+    assertFalse("Lock should be created with 'fair ordering policy' = false",
+      ((ReentrantLock) Striped.lock(1).get("LOCK_KEY")).isFair()
+    );
+    assertTrue("Lock should be created with 'fair ordering policy' = true",
+      ((ReentrantLock) Striped.fairLock(1).get("LOCK_KEY")).isFair()
+    );
+  }
+
+  public void testFairnessForLazyWeakLock() {
+    assertFalse("Lock should be created with 'fair ordering policy' = false",
+      ((ReentrantLock) Striped.lazyWeakLock(1).get("LOCK_KEY")).isFair()
+    );
+    assertTrue("Lock should be created with 'fair ordering policy' = true",
+      ((ReentrantLock) Striped.lazyWeakFairLock(1).get("LOCK_KEY")).isFair()
+    );
+  }
+
+  public void testFairnessForReadWriteLock() {
+    assertFalse("Lock should be created with 'fair ordering policy' = false",
+      ((ReentrantReadWriteLock) Striped.readWriteLock(1).get("LOCK_KEY")).isFair()
+    );
+    assertTrue("Lock should be created with 'fair ordering policy' = true",
+      ((ReentrantReadWriteLock) Striped.readWriteFairLock(1).get("LOCK_KEY")).isFair()
+    );
+  }
+
+  public void testFairnessForLazyWeakReadWriteLock() {
+    assertFalse("Lock should be created with 'fair ordering policy' = false",
+      ((ReentrantReadWriteLock) Striped.lazyWeakReadWriteLock(1).get("LOCK_KEY")).isFair()
+    );
+    assertTrue("Lock should be created with 'fair ordering policy' = true",
+      ((ReentrantReadWriteLock) Striped.lazyWeakReadWriteFairLock(1).get("LOCK_KEY")).isFair()
+    );
+  }
+
+  public void testFairnessForSemaphore() {
+    assertFalse("Lock should be created with 'fair ordering policy' = false",
+      Striped.semaphore(1, 1).get("LOCK_KEY").isFair()
+    );
+    assertTrue("Lock should be created with 'fair ordering policy' = true",
+      Striped.fairSemaphore(1, 1).get("LOCK_KEY").isFair()
+    );
+  }
+
+  public void testFairnessForLazyWeakSemaphore() {
+    assertFalse("Lock should be created with 'fair ordering policy' = false",
+      Striped.lazyWeakSemaphore(1, 1).get("LOCK_KEY").isFair()
+    );
+    assertTrue("Lock should be created with 'fair ordering policy' = true",
+      Striped.lazyWeakFairSemaphore(1, 1).get("LOCK_KEY").isFair()
+    );
+  }
+
 }
