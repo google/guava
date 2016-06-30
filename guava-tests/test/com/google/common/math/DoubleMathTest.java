@@ -106,7 +106,10 @@ public class DoubleMathTest extends TestCase {
             & expected.compareTo(MIN_INT_AS_BIG_DECIMAL) >= 0;
 
         try {
-          assertEquals(expected.intValue(), DoubleMath.roundToInt(d, mode));
+          assertEquals(
+              "Rounding " + d + " with mode " + mode,
+              expected.intValue(),
+              DoubleMath.roundToInt(d, mode));
           assertTrue(isInBounds);
         } catch (ArithmeticException e) {
           assertFalse(isInBounds);
