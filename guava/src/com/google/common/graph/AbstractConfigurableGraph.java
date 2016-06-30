@@ -67,8 +67,8 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
     this(builder, AbstractConfigurableGraph.<N>getNodeMapforBuilder(builder));
   }
 
-  private static <S> Map<S, NodeAdjacencies<S>> getNodeMapforBuilder(
-      GraphBuilder<? super S> builder) {
+  private static <N> Map<N, NodeAdjacencies<N>> getNodeMapforBuilder(
+      GraphBuilder<? super N> builder) {
     int expectedNodeSize = builder.expectedNodeCount.or(DEFAULT_NODE_COUNT);
     switch (builder.nodeOrder.type()) {
         case UNORDERED:

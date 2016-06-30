@@ -83,8 +83,8 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
         AbstractConfigurableNetwork.<N, E>getEdgeMapForBuilder(builder));
   }
 
-  private static <S, T> Map<S, NodeConnections<S, T>> getNodeMapForBuilder(
-      NetworkBuilder<? super S, ? super T> builder) {
+  private static <N, E> Map<N, NodeConnections<N, E>> getNodeMapForBuilder(
+      NetworkBuilder<? super N, ? super E> builder) {
     int expectedNodeSize = builder.expectedNodeCount.or(DEFAULT_NODE_COUNT);
     switch (builder.nodeOrder.type()) {
         case UNORDERED:
@@ -98,8 +98,8 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     }
   }
 
-  private static <S, T> Map<T, S> getEdgeMapForBuilder(
-      NetworkBuilder<? super S, ? super T> builder) {
+  private static <N, E> Map<E, N> getEdgeMapForBuilder(
+      NetworkBuilder<? super N, ? super E> builder) {
     int expectedEdgeSize = builder.expectedEdgeCount.or(DEFAULT_EDGE_COUNT);
     switch (builder.edgeOrder.type()) {
         case UNORDERED:
