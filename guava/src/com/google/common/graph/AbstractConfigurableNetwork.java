@@ -69,8 +69,8 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
 
   protected final Map<N, NodeConnections<N, E>> nodeConnections;
 
-  // We could make this a Map<E, Endpoints<N>>. Although it would make incidentNodes(edge)
-  // slightly faster, it would also make Networks consume approximately 20% more memory.
+  // We could make this a Map<E, Endpoints<N>>. It would make incidentNodes(edge) slightly faster,
+  // but it would also make Networks consume 5 to 20+% (increasing with average degree) more memory.
   protected final Map<E, N> edgeToReferenceNode; // reference node == source on directed networks
 
   /**
