@@ -241,6 +241,9 @@ public class MathTesting {
         fractionalBuilder.add(x);
       }
     }
+    for (double d = 0.99999999999999984; d <= 0.99999999999999994; d = Math.nextUp(d)) {
+      fractionalBuilder.add(d).add(-d);
+    }
     FRACTIONAL_DOUBLE_CANDIDATES = fractionalBuilder.build();
     FINITE_DOUBLE_CANDIDATES =
         Iterables.concat(FRACTIONAL_DOUBLE_CANDIDATES, INTEGRAL_DOUBLE_CANDIDATES);
