@@ -37,6 +37,7 @@ import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nullable;
@@ -306,18 +307,24 @@ public abstract class Ordering<T> implements Comparator<T> {
   @VisibleForTesting
   static class ArbitraryOrdering extends Ordering<Object> {
 
-    @SuppressWarnings("deprecation") // TODO(kevinb): ?
-    private final Map<Object, Integer> uids =
-        Platform.tryWeakKeys(new MapMaker())
-            .makeComputingMap(
-                new Function<Object, Integer>() {
-                  final AtomicInteger counter = new AtomicInteger(0);
+    private final AtomicInteger counter = new AtomicInteger(0);
+    private final ConcurrentMap<Object, Integer> uids =
+        Platform.tryWeakKeys(new MapMaker()).makeMap();
 
-                  @Override
-                  public Integer apply(Object from) {
-                    return counter.getAndIncrement();
-                  }
-                });
+    private Integer getUid(Object obj) {
+      Integer uid = uids.get(obj);
+      if (uid == null) {
+        // One or more integer values could be skipped in the event of a race
+        // to generate a UID for the same object from multiple threads, but
+        // that shouldn't be a problem.
+        uid = counter.getAndIncrement();
+        Integer alreadySet = uids.putIfAbsent(obj, uid);
+        if (alreadySet != null) {
+          uid = alreadySet;
+        }
+      }
+      return uid;
+    }
 
     @Override
     public int compare(Object left, Object right) {
@@ -335,7 +342,7 @@ public abstract class Ordering<T> implements Comparator<T> {
       }
 
       // identityHashCode collision (rare, but not as rare as you'd think)
-      int result = uids.get(left).compareTo(uids.get(right));
+      int result = getUid(left).compareTo(getUid(right));
       if (result == 0) {
         throw new AssertionError(); // extremely, extremely unlikely.
       }
