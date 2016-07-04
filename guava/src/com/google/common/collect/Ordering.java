@@ -202,7 +202,36 @@ public abstract class Ordering<T> implements Comparator<T> {
    */
   @GwtCompatible(serializable = true)
   public static <T> Ordering<T> explicit(List<T> valuesInOrder) {
-    return new ExplicitOrdering<T>(valuesInOrder);
+    return explicit(null, valuesInOrder);
+  }
+
+  /**
+   * Returns an ordering that compares objects according to the order in
+   * which they appear in the given list. Objects which are not present in the
+   * argument list (according to {@link Object#equals}) will be moved to the
+   * position specified by the unknown ordering enumeration. This comparator
+   * imposes a "partial ordering" over the type {@code T}. Subsequent changes
+   * to the {@code valuesInOrder} list will have no effect on the returned
+   * comparator. Null values in the list are not supported.
+   *
+   * <p>The returned comparator throws an {@link ClassCastException} when it
+   * receives an input parameter that isn't among the provided values.
+   *
+   * <p>The generated comparator is serializable if all the provided values are
+   * serializable.
+   *
+   * @param unknownOrdering the enumeration which specifies the position of
+   *     unknown values
+   * @param valuesInOrder the values that the returned comparator will be able
+   *     to compare, in the order the comparator should induce
+   * @return the comparator described above
+   * @throws NullPointerException if any of the provided values is null
+   * @throws IllegalArgumentException if {@code valuesInOrder} contains any
+   *     duplicate values (according to {@link Object#equals})
+   */
+  @GwtCompatible(serializable = true)
+  public static <T> Ordering<T> explicit(@Nullable ExplicitOrdering.UnknownOrdering unknownOrdering, List<T> valuesInOrder) {
+    return new ExplicitOrdering<T>(valuesInOrder, unknownOrdering);
   }
 
   /**
@@ -230,7 +259,38 @@ public abstract class Ordering<T> implements Comparator<T> {
    */
   @GwtCompatible(serializable = true)
   public static <T> Ordering<T> explicit(T leastValue, T... remainingValuesInOrder) {
-    return explicit(Lists.asList(leastValue, remainingValuesInOrder));
+    return explicit(null, leastValue, remainingValuesInOrder);
+  }
+
+  /**
+   * Returns an ordering that compares objects according to the order in
+   * which they are given to this method. Objects which are not present in the
+   * argument list (according to {@link Object#equals}) will be moved to the
+   * position specified by the unknown ordering enumeration. This comparator
+   * imposes a "partial ordering" over the type {@code T}. Null values in the
+   * argument list are not supported.
+   *
+   * <p>The returned comparator throws a {@link ClassCastException} when it
+   * receives an input parameter that isn't among the provided values.
+   *
+   * <p>The generated comparator is serializable if all the provided values are
+   * serializable.
+   *
+   * @param unknownOrdering the enumeration which specifies the position of
+   *     unknown values
+   * @param leastValue the value which the returned comparator should consider
+   *     the "least" of all values
+   * @param remainingValuesInOrder the rest of the values that the returned
+   *     comparator will be able to compare, in the order the comparator should
+   *     follow
+   * @return the comparator described above
+   * @throws NullPointerException if any of the provided values is null
+   * @throws IllegalArgumentException if any duplicate values (according to
+   *     {@link Object#equals(Object)}) are present among the method arguments
+   */
+  @GwtCompatible(serializable = true)
+  public static <T> Ordering<T> explicit(@Nullable ExplicitOrdering.UnknownOrdering unknownOrdering, T leastValue, T... remainingValuesInOrder) {
+    return new ExplicitOrdering<T>(Lists.asList(leastValue, remainingValuesInOrder), unknownOrdering);
   }
 
   // Ordering<Object> singletons

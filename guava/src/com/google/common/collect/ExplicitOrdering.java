@@ -26,14 +26,29 @@ import javax.annotation.Nullable;
 /** An ordering that compares objects according to a given order. */
 @GwtCompatible(serializable = true)
 final class ExplicitOrdering<T> extends Ordering<T> implements Serializable {
+  static enum UnknownOrdering {
+	  UNKNOWN_FIRST,
+	  UNKNOWN_LAST
+  }
+
   final ImmutableMap<T, Integer> rankMap;
+  final UnknownOrdering unknownOrdering;
 
   ExplicitOrdering(List<T> valuesInOrder) {
-    this(Maps.indexMap(valuesInOrder));
+    this(valuesInOrder, null);
+  }
+
+  ExplicitOrdering(List<T> valuesInOrder, UnknownOrdering unknownOrdering) {
+	  this(Maps.indexMap(valuesInOrder), unknownOrdering);
   }
 
   ExplicitOrdering(ImmutableMap<T, Integer> rankMap) {
-    this.rankMap = rankMap;
+    this(rankMap, null);
+  }
+
+  ExplicitOrdering(ImmutableMap<T, Integer> rankMap, UnknownOrdering unknownOrdering) {
+	  this.rankMap = rankMap;
+	  this.unknownOrdering = unknownOrdering;
   }
 
   @Override
@@ -44,6 +59,14 @@ final class ExplicitOrdering<T> extends Ordering<T> implements Serializable {
   private int rank(T value) {
     Integer rank = rankMap.get(value);
     if (rank == null) {
+      if (unknownOrdering != null) {
+        switch (unknownOrdering) {
+          case UNKNOWN_FIRST:
+            return -1;
+          case UNKNOWN_LAST:
+            return rankMap.size();
+        }
+      }
       throw new IncomparableValueException(value);
     }
     return rank;

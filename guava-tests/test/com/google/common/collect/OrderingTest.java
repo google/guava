@@ -201,6 +201,26 @@ public class OrderingTest extends TestCase {
     }
   }
 
+  public void testExplicit_withUnknownFirst() {
+    Comparator<Integer> c
+        = Ordering.explicit(ExplicitOrdering.UnknownOrdering.UNKNOWN_FIRST,
+            2, 8, 6, 7, 5, 3, 0);
+    List<Integer> list = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    Collections.sort(list, c);
+    assertThat(list).containsExactly(1, 4, 9, 2, 8, 6, 7, 5, 3, 0).inOrder();
+    reserializeAndAssert(c);
+  }
+
+  public void testExplicit_withUnknownLast() {
+    Comparator<Integer> c
+        = Ordering.explicit(ExplicitOrdering.UnknownOrdering.UNKNOWN_LAST,
+            2, 8, 6, 7, 5, 3, 0);
+    List<Integer> list = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    Collections.sort(list, c);
+    assertThat(list).containsExactly(2, 8, 6, 7, 5, 3, 0, 1, 4, 9).inOrder();
+    reserializeAndAssert(c);
+  }
+
   // A more limited test than the one that follows, but this one uses the
   // actual public API.
   public void testArbitrary_withoutCollisions() {
