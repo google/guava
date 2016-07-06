@@ -41,7 +41,7 @@ public abstract class ForwardingFuture<V> extends ForwardingObject implements Fu
   protected ForwardingFuture() {}
 
   @Override
-  protected abstract Future<V> delegate();
+  protected abstract Future<? extends V> delegate();
 
   @Override
   public boolean cancel(boolean mayInterruptIfRunning) {
