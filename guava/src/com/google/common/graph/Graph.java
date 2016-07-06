@@ -62,7 +62,7 @@ import javax.annotation.Nullable;
  *   <li>{@code nodeA} and {@code nodeB} are mutually predecessors and successors
  *       in {@code graph}
  *   <li>{@code nodeA} has an (implicit) edge in {@code graph} that is both outgoing to
- *       to {@code nodeB} and incoming from {@code nodeB}, and vice versa.
+ *       {@code nodeB} and incoming from {@code nodeB}, and vice versa.
  *   </ul>
  * <li>A self-loop is an edge that connects a node to itself.
  * </ul>
