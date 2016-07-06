@@ -237,7 +237,10 @@ public interface Graph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  int degree(Object node);
+  default int degree(Object node) {
+    // only works for non-multigraphs; multigraphs not yet supported
+    return adjacentNodes(node).size();
+  }
 
   /**
    * Returns the number of incoming edges in this graph of {@code node}.  If this node has more than
@@ -245,7 +248,10 @@ public interface Graph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  int inDegree(Object node);
+  default int inDegree(Object node) {
+    // only works for non-multigraphs; multigraphs not yet supported
+    return predecessors(node).size();
+  }
 
   /**
    * Returns the number of outgoing edges in this graph of {@code node}.  If this node has more than
@@ -253,7 +259,10 @@ public interface Graph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  int outDegree(Object node);
+  default int outDegree(Object node) {
+    // only works for non-multigraphs; multigraphs not yet supported
+    return successors(node).size();
+  }
 
   /**
    * Returns {@code true} iff {@code object} is a graph that has the same node relationships

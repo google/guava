@@ -15,13 +15,8 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 
-import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutionException;
 
 /**
  * This class provides a skeletal implementation of the {@code Cache} interface to minimize the
@@ -42,90 +37,6 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
   /** Constructor for use by subclasses. */
   protected AbstractCache() {}
-
-  /**
-   * @since 11.0
-   */
-  @Override
-  public V get(K key, Callable<? extends V> valueLoader) throws ExecutionException {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * This implementation of {@code getAllPresent} lacks any insight into the internal cache data
-   * structure, and is thus forced to return the query keys instead of the cached keys. This is only
-   * possible with an unsafe cast which requires {@code keys} to actually be of type {@code K}.
-   *
-   * {@inheritDoc}
-   *
-   * @since 11.0
-   */
-  @Override
-  public ImmutableMap<K, V> getAllPresent(Iterable<?> keys) {
-    Map<K, V> result = Maps.newLinkedHashMap();
-    for (Object key : keys) {
-      if (!result.containsKey(key)) {
-        @SuppressWarnings("unchecked")
-        K castKey = (K) key;
-        V value = getIfPresent(key);
-        if (value != null) {
-          result.put(castKey, value);
-        }
-      }
-    }
-    return ImmutableMap.copyOf(result);
-  }
-
-  /**
-   * @since 11.0
-   */
-  @Override
-  public void put(K key, V value) {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * @since 12.0
-   */
-  @Override
-  public void putAll(Map<? extends K, ? extends V> m) {
-    for (Map.Entry<? extends K, ? extends V> entry : m.entrySet()) {
-      put(entry.getKey(), entry.getValue());
-    }
-  }
-
-  @Override
-  public void cleanUp() {}
-
-  @Override
-  public long size() {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public void invalidate(Object key) {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * @since 11.0
-   */
-  @Override
-  public void invalidateAll(Iterable<?> keys) {
-    for (Object key : keys) {
-      invalidate(key);
-    }
-  }
-
-  @Override
-  public void invalidateAll() {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public CacheStats stats() {
-    throw new UnsupportedOperationException();
-  }
 
   @Override
   public ConcurrentMap<K, V> asMap() {

@@ -68,7 +68,10 @@ public interface Table<R, C, V> {
    * @param rowKey key of row to search for
    * @param columnKey key of column to search for
    */
-  boolean contains(@Nullable Object rowKey, @Nullable Object columnKey);
+  default boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
+    Map<C, V> row = Maps.safeGet(rowMap(), rowKey);
+    return row != null && Maps.safeContainsKey(row, columnKey);
+  }
 
   /**
    * Returns {@code true} if the table contains a mapping with the specified
@@ -76,7 +79,9 @@ public interface Table<R, C, V> {
    *
    * @param rowKey key of row to search for
    */
-  boolean containsRow(@Nullable Object rowKey);
+  default boolean containsRow(@Nullable Object rowKey) {
+    return Maps.safeContainsKey(rowMap(), rowKey);
+  }
 
   /**
    * Returns {@code true} if the table contains a mapping with the specified
@@ -84,7 +89,9 @@ public interface Table<R, C, V> {
    *
    * @param columnKey key of column to search for
    */
-  boolean containsColumn(@Nullable Object columnKey);
+  default boolean containsColumn(@Nullable Object columnKey) {
+    return Maps.safeContainsKey(columnMap(), columnKey);
+  }
 
   /**
    * Returns {@code true} if the table contains a mapping with the specified
@@ -92,7 +99,14 @@ public interface Table<R, C, V> {
    *
    * @param value value to search for
    */
-  boolean containsValue(@Nullable Object value);
+  default boolean containsValue(@Nullable Object value) {
+    for (Map<C, V> row : rowMap().values()) {
+      if (row.containsValue(value)) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   /**
    * Returns the value corresponding to the given row and column keys, or
@@ -101,10 +115,15 @@ public interface Table<R, C, V> {
    * @param rowKey key of row to search for
    * @param columnKey key of column to search for
    */
-  V get(@Nullable Object rowKey, @Nullable Object columnKey);
+  default V get(@Nullable Object rowKey, @Nullable Object columnKey) {
+    Map<C, V> row = Maps.safeGet(rowMap(), rowKey);
+    return (row == null) ? null : Maps.safeGet(row, columnKey);
+  }
 
   /** Returns {@code true} if the table contains no mappings. */
-  boolean isEmpty();
+  default boolean isEmpty() {
+    return size() == 0;
+  }
 
   /**
    * Returns the number of row key / column key / value mappings in the table.
@@ -128,7 +147,9 @@ public interface Table<R, C, V> {
   // Mutators
 
   /** Removes all mappings from the table. */
-  void clear();
+  default void clear() {
+    Iterators.clear(cellSet().iterator());
+  }
 
   /**
    * Associates the specified value with the specified keys. If the table
@@ -152,7 +173,11 @@ public interface Table<R, C, V> {
    *
    * @param table the table to add to this table
    */
-  void putAll(Table<? extends R, ? extends C, ? extends V> table);
+  default void putAll(Table<? extends R, ? extends C, ? extends V> table) {
+    for (Table.Cell<? extends R, ? extends C, ? extends V> cell : table.cellSet()) {
+      put(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
+    }
+  }
 
   /**
    * Removes the mapping, if any, associated with the given keys.
@@ -212,7 +237,9 @@ public interface Table<R, C, V> {
    *
    * @return set of row keys
    */
-  Set<R> rowKeySet();
+  default Set<R> rowKeySet() {
+    return rowMap().keySet();
+  }
 
   /**
    * Returns a set of column keys that have one or more values in the table.
@@ -220,7 +247,9 @@ public interface Table<R, C, V> {
    *
    * @return set of column keys
    */
-  Set<C> columnKeySet();
+  default Set<C> columnKeySet() {
+    return columnMap().keySet();
+  }
 
   /**
    * Returns a collection of all values, which may contain duplicates. Changes

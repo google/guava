@@ -41,28 +41,8 @@ abstract class AbstractUndirectedNodeConnections<N, E> implements NodeConnection
   }
 
   @Override
-  public Set<N> predecessors() {
-    return adjacentNodes();
-  }
-
-  @Override
-  public Set<N> successors() {
-    return adjacentNodes();
-  }
-
-  @Override
   public Set<E> incidentEdges() {
     return Collections.unmodifiableSet(incidentEdgeMap.keySet());
-  }
-
-  @Override
-  public Set<E> inEdges() {
-    return incidentEdges();
-  }
-
-  @Override
-  public Set<E> outEdges() {
-    return incidentEdges();
   }
 
   @Override
@@ -83,13 +63,6 @@ abstract class AbstractUndirectedNodeConnections<N, E> implements NodeConnection
     checkNotNull(edge, "edge");
     N previousNode = incidentEdgeMap.remove(edge);
     return checkNotNull(previousNode);
-  }
-
-  @Override
-  public void addInEdge(E edge, N node, boolean isSelfLoop) {
-    if (!isSelfLoop) {
-      addOutEdge(edge, node);
-    }
   }
 
   @Override

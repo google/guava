@@ -35,6 +35,8 @@ import com.google.common.cache.CacheBuilder.NullListener;
 import com.google.common.cache.CacheBuilder.OneWeigher;
 import com.google.common.cache.CacheLoader.InvalidCacheLoadException;
 import com.google.common.cache.CacheLoader.UnsupportedLoadingOperationException;
+import com.google.common.cache.LocalCache.ReferenceEntry;
+import com.google.common.cache.LocalCache.ValueReference;
 import com.google.common.collect.AbstractSequentialIterator;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -763,12 +765,16 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     /**
      * Returns the value reference from this entry.
      */
-    ValueReference<K, V> getValueReference();
+    default ValueReference<K, V> getValueReference() {
+	  throw new UnsupportedOperationException();
+	}
 
     /**
      * Sets the value reference for this entry.
      */
-    void setValueReference(ValueReference<K, V> valueReference);
+    default void setValueReference(ValueReference<K, V> valueReference) {
+	  throw new UnsupportedOperationException();
+	}
 
     /**
      * Returns the next entry in the chain.
@@ -779,7 +785,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     /**
      * Returns the entry's hash.
      */
-    int getHash();
+    default int getHash() {
+	  throw new UnsupportedOperationException();
+	}
 
     /**
      * Returns the key for this entry.
@@ -796,32 +804,44 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     /**
      * Returns the time that this entry was last accessed, in ns.
      */
-    long getAccessTime();
+    default long getAccessTime() {
+	  throw new UnsupportedOperationException();
+	}
 
     /**
      * Sets the entry access time in ns.
      */
-    void setAccessTime(long time);
+    default void setAccessTime(long time) {
+	  throw new UnsupportedOperationException();
+	}
 
     /**
      * Returns the next entry in the access queue.
      */
-    ReferenceEntry<K, V> getNextInAccessQueue();
+    default ReferenceEntry<K, V> getNextInAccessQueue() {
+	  throw new UnsupportedOperationException();
+	}
 
     /**
      * Sets the next entry in the access queue.
      */
-    void setNextInAccessQueue(ReferenceEntry<K, V> next);
+    default void setNextInAccessQueue(ReferenceEntry<K, V> next) {
+	  throw new UnsupportedOperationException();
+	}
 
     /**
      * Returns the previous entry in the access queue.
      */
-    ReferenceEntry<K, V> getPreviousInAccessQueue();
+    default ReferenceEntry<K, V> getPreviousInAccessQueue() {
+	  throw new UnsupportedOperationException();
+	}
 
     /**
      * Sets the previous entry in the access queue.
      */
-    void setPreviousInAccessQueue(ReferenceEntry<K, V> previous);
+    default void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
+	  throw new UnsupportedOperationException();
+	}
 
     /*
      * Implemented by entries that use write order. Write entries are maintained in a doubly-linked
@@ -832,32 +852,44 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     /**
      * Returns the time that this entry was last written, in ns.
      */
-    long getWriteTime();
+    default long getWriteTime() {
+	  throw new UnsupportedOperationException();
+	}
 
     /**
      * Sets the entry write time in ns.
      */
-    void setWriteTime(long time);
+    default void setWriteTime(long time) {
+	  throw new UnsupportedOperationException();
+	}
 
     /**
      * Returns the next entry in the write queue.
      */
-    ReferenceEntry<K, V> getNextInWriteQueue();
+    default ReferenceEntry<K, V> getNextInWriteQueue() {
+	  throw new UnsupportedOperationException();
+	}
 
     /**
      * Sets the next entry in the write queue.
      */
-    void setNextInWriteQueue(ReferenceEntry<K, V> next);
+    default void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+	  throw new UnsupportedOperationException();
+	}
 
     /**
      * Returns the previous entry in the write queue.
      */
-    ReferenceEntry<K, V> getPreviousInWriteQueue();
+    default ReferenceEntry<K, V> getPreviousInWriteQueue() {
+	  throw new UnsupportedOperationException();
+	}
 
     /**
      * Sets the previous entry in the write queue.
      */
-    void setPreviousInWriteQueue(ReferenceEntry<K, V> previous);
+    default void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
+	  throw new UnsupportedOperationException();
+	}
   }
 
   private enum NullEntry implements ReferenceEntry<Object, Object> {
@@ -937,87 +969,12 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
   abstract static class AbstractReferenceEntry<K, V> implements ReferenceEntry<K, V> {
     @Override
-    public ValueReference<K, V> getValueReference() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setValueReference(ValueReference<K, V> valueReference) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
     public ReferenceEntry<K, V> getNext() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public int getHash() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
     public K getKey() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public long getAccessTime() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setAccessTime(long time) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getNextInAccessQueue() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public long getWriteTime() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setWriteTime(long time) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getNextInWriteQueue() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
       throw new UnsupportedOperationException();
     }
   }
