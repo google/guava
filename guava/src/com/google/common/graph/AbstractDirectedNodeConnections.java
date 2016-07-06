@@ -57,11 +57,6 @@ abstract class AbstractDirectedNodeConnections<N, E> implements NodeConnections<
   }
 
   @Override
-  public Set<N> adjacentNodes() {
-    return Sets.union(predecessors(), successors());
-  }
-
-  @Override
   public Set<E> incidentEdges() {
     return new AbstractSet<E>() {
       @Override

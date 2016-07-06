@@ -17,6 +17,8 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Objects;
+import com.google.common.collect.Multiset.Entry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Collection;
@@ -104,7 +106,14 @@ public interface Multiset<E> extends Collection<E> {
    * @return the number of occurrences of the element in this multiset; possibly
    *     zero but never negative
    */
-  int count(@Nullable Object element);
+  default int count(@Nullable Object element) {
+    for (Entry<E> entry : entrySet()) {
+      if (Objects.equal(entry.getElement(), element)) {
+        return entry.getCount();
+      }
+    }
+    return 0;
+  }
 
   // Bulk Operations
 
@@ -128,7 +137,10 @@ public interface Multiset<E> extends Collection<E> {
    *     occurrences} is zero, the implementation may opt to return normally.
    */
   @CanIgnoreReturnValue
-  int add(@Nullable E element, int occurrences);
+default
+  int add(@Nullable E element, int occurrences) {
+    throw new UnsupportedOperationException();
+  }
 
   /**
    * Removes a number of occurrences of the specified element from this
@@ -144,7 +156,10 @@ public interface Multiset<E> extends Collection<E> {
    * @throws IllegalArgumentException if {@code occurrences} is negative
    */
   @CanIgnoreReturnValue
-  int remove(@Nullable Object element, int occurrences);
+default
+  int remove(@Nullable Object element, int occurrences) {
+    throw new UnsupportedOperationException();
+  }
 
   /**
    * Adds or removes the necessary occurrences of an element such that the

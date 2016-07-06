@@ -35,58 +35,6 @@ import javax.annotation.Nullable;
 @GwtCompatible
 abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
 
-  @Override
-  public boolean containsRow(@Nullable Object rowKey) {
-    return Maps.safeContainsKey(rowMap(), rowKey);
-  }
-
-  @Override
-  public boolean containsColumn(@Nullable Object columnKey) {
-    return Maps.safeContainsKey(columnMap(), columnKey);
-  }
-
-  @Override
-  public Set<R> rowKeySet() {
-    return rowMap().keySet();
-  }
-
-  @Override
-  public Set<C> columnKeySet() {
-    return columnMap().keySet();
-  }
-
-  @Override
-  public boolean containsValue(@Nullable Object value) {
-    for (Map<C, V> row : rowMap().values()) {
-      if (row.containsValue(value)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  @Override
-  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
-    Map<C, V> row = Maps.safeGet(rowMap(), rowKey);
-    return row != null && Maps.safeContainsKey(row, columnKey);
-  }
-
-  @Override
-  public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
-    Map<C, V> row = Maps.safeGet(rowMap(), rowKey);
-    return (row == null) ? null : Maps.safeGet(row, columnKey);
-  }
-
-  @Override
-  public boolean isEmpty() {
-    return size() == 0;
-  }
-
-  @Override
-  public void clear() {
-    Iterators.clear(cellSet().iterator());
-  }
-
   @CanIgnoreReturnValue
   @Override
   public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
@@ -98,13 +46,6 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
   @Override
   public V put(R rowKey, C columnKey, V value) {
     return row(rowKey).put(columnKey, value);
-  }
-
-  @Override
-  public void putAll(Table<? extends R, ? extends C, ? extends V> table) {
-    for (Table.Cell<? extends R, ? extends C, ? extends V> cell : table.cellSet()) {
-      put(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
-    }
   }
 
   private transient Set<Cell<R, C, V>> cellSet;

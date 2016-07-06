@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.Set;
@@ -29,17 +30,27 @@ import java.util.Set;
  */
 interface NodeConnections<N, E> {
 
-  Set<N> adjacentNodes();
+  default Set<N> adjacentNodes() {
+    return Sets.union(predecessors(), successors());
+  }
 
-  Set<N> predecessors();
+  default Set<N> predecessors() {
+    return adjacentNodes();
+  }
 
-  Set<N> successors();
+  default Set<N> successors() {
+    return adjacentNodes();
+  }
 
   Set<E> incidentEdges();
 
-  Set<E> inEdges();
+  default Set<E> inEdges() {
+    return incidentEdges();
+  }
 
-  Set<E> outEdges();
+  default Set<E> outEdges() {
+    return incidentEdges();
+  }
 
   /**
    * Returns the node that is opposite the origin node along {@code edge}.
@@ -71,7 +82,11 @@ interface NodeConnections<N, E> {
   /**
    * Add {@code edge} to the set of incoming edges. Implicitly adds {@code node} as a predecessor.
    */
-  void addInEdge(E edge, N node, boolean isSelfLoop);
+  default void addInEdge(E edge, N node, boolean isSelfLoop) {
+    if (!isSelfLoop) {
+      addOutEdge(edge, node);
+    }
+  }
 
   /**
    * Add {@code edge} to the set of outgoing edges. Implicitly adds {@code node} as a successor.

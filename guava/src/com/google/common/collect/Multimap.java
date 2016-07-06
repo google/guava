@@ -19,7 +19,10 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -179,7 +182,9 @@ public interface Multimap<K, V> {
    * Returns {@code true} if this multimap contains no key-value pairs.
    * Equivalent to {@code size() == 0}, but can in some cases be more efficient.
    */
-  boolean isEmpty();
+  default boolean isEmpty() {
+    return size() == 0;
+  }
 
   /**
    * Returns {@code true} if this multimap contains at least one key-value pair
@@ -191,13 +196,24 @@ public interface Multimap<K, V> {
    * Returns {@code true} if this multimap contains at least one key-value pair
    * with the value {@code value}.
    */
-  boolean containsValue(@Nullable Object value);
+  default boolean containsValue(@Nullable Object value) {
+    for (Collection<V> collection : asMap().values()) {
+      if (collection.contains(value)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   /**
    * Returns {@code true} if this multimap contains at least one key-value pair
    * with the key {@code key} and the value {@code value}.
    */
-  boolean containsEntry(@Nullable Object key, @Nullable Object value);
+  default boolean containsEntry(@Nullable Object key, @Nullable Object value) {
+    Collection<V> collection = asMap().get(key);
+    return collection != null && collection.contains(value);
+  }
 
   // Modification Operations
 
@@ -214,7 +230,10 @@ public interface Multimap<K, V> {
    *     doesn't allow duplicates
    */
   @CanIgnoreReturnValue
-  boolean put(@Nullable K key, @Nullable V value);
+default
+  boolean put(@Nullable K key, @Nullable V value) {
+    return get(key).add(value);
+  }
 
   /**
    * Removes a single key-value pair with the key {@code key} and the value
@@ -225,7 +244,11 @@ public interface Multimap<K, V> {
    * @return {@code true} if the multimap changed
    */
   @CanIgnoreReturnValue
-  boolean remove(@Nullable Object key, @Nullable Object value);
+default
+  boolean remove(@Nullable Object key, @Nullable Object value) {
+    Collection<V> collection = asMap().get(key);
+    return collection != null && collection.remove(value);
+  }
 
   // Bulk Operations
 
@@ -243,7 +266,19 @@ public interface Multimap<K, V> {
    * @return {@code true} if the multimap changed
    */
   @CanIgnoreReturnValue
-  boolean putAll(@Nullable K key, Iterable<? extends V> values);
+default
+  boolean putAll(@Nullable K key, Iterable<? extends V> values) {
+    checkNotNull(values);
+    // make sure we only call values.iterator() once
+    // and we only call get(key) if values is nonempty
+    if (values instanceof Collection) {
+      Collection<? extends V> valueCollection = (Collection<? extends V>) values;
+      return !valueCollection.isEmpty() && get(key).addAll(valueCollection);
+    } else {
+      Iterator<? extends V> valueItr = values.iterator();
+      return valueItr.hasNext() && Iterators.addAll(get(key), valueItr);
+    }
+  }
 
   /**
    * Stores all key-value pairs of {@code multimap} in this multimap, in the
@@ -252,7 +287,14 @@ public interface Multimap<K, V> {
    * @return {@code true} if the multimap changed
    */
   @CanIgnoreReturnValue
-  boolean putAll(Multimap<? extends K, ? extends V> multimap);
+default
+  boolean putAll(Multimap<? extends K, ? extends V> multimap) {
+    boolean changed = false;
+    for (Map.Entry<? extends K, ? extends V> entry : multimap.entries()) {
+      changed |= put(entry.getKey(), entry.getValue());
+    }
+    return changed;
+  }
 
   /**
    * Stores a collection of values with the same key, replacing any existing
@@ -267,7 +309,13 @@ public interface Multimap<K, V> {
    *     multimap.
    */
   @CanIgnoreReturnValue
-  Collection<V> replaceValues(@Nullable K key, Iterable<? extends V> values);
+default
+  Collection<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
+    checkNotNull(values);
+    Collection<V> result = removeAll(key);
+    putAll(key, values);
+    return result;
+  }
 
   /**
    * Removes all values associated with the key {@code key}.

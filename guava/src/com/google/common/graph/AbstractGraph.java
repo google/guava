@@ -33,24 +33,6 @@ import javax.annotation.Nullable;
 public abstract class AbstractGraph<N> implements Graph<N> {
 
   @Override
-  public int degree(Object node) {
-    // only works for non-multigraphs; multigraphs not yet supported
-    return adjacentNodes(node).size();
-  }
-
-  @Override
-  public int inDegree(Object node) {
-    // only works for non-multigraphs; multigraphs not yet supported
-    return predecessors(node).size();
-  }
-
-  @Override
-  public int outDegree(Object node) {
-    // only works for non-multigraphs; multigraphs not yet supported
-    return successors(node).size();
-  }
-
-  @Override
   public boolean equals(@Nullable Object object) {
     if (!(object instanceof Graph)) {
       return false;

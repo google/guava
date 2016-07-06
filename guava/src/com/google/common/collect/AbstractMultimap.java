@@ -16,10 +16,7 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.util.AbstractCollection;
@@ -38,75 +35,6 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
-  @Override
-  public boolean isEmpty() {
-    return size() == 0;
-  }
-
-  @Override
-  public boolean containsValue(@Nullable Object value) {
-    for (Collection<V> collection : asMap().values()) {
-      if (collection.contains(value)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  @Override
-  public boolean containsEntry(@Nullable Object key, @Nullable Object value) {
-    Collection<V> collection = asMap().get(key);
-    return collection != null && collection.contains(value);
-  }
-
-  @CanIgnoreReturnValue
-  @Override
-  public boolean remove(@Nullable Object key, @Nullable Object value) {
-    Collection<V> collection = asMap().get(key);
-    return collection != null && collection.remove(value);
-  }
-
-  @CanIgnoreReturnValue
-  @Override
-  public boolean put(@Nullable K key, @Nullable V value) {
-    return get(key).add(value);
-  }
-
-  @CanIgnoreReturnValue
-  @Override
-  public boolean putAll(@Nullable K key, Iterable<? extends V> values) {
-    checkNotNull(values);
-    // make sure we only call values.iterator() once
-    // and we only call get(key) if values is nonempty
-    if (values instanceof Collection) {
-      Collection<? extends V> valueCollection = (Collection<? extends V>) values;
-      return !valueCollection.isEmpty() && get(key).addAll(valueCollection);
-    } else {
-      Iterator<? extends V> valueItr = values.iterator();
-      return valueItr.hasNext() && Iterators.addAll(get(key), valueItr);
-    }
-  }
-
-  @CanIgnoreReturnValue
-  @Override
-  public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
-    boolean changed = false;
-    for (Map.Entry<? extends K, ? extends V> entry : multimap.entries()) {
-      changed |= put(entry.getKey(), entry.getValue());
-    }
-    return changed;
-  }
-
-  @CanIgnoreReturnValue
-  @Override
-  public Collection<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
-    checkNotNull(values);
-    Collection<V> result = removeAll(key);
-    putAll(key, values);
-    return result;
-  }
-
   private transient Collection<Entry<K, V>> entries;
 
   @Override

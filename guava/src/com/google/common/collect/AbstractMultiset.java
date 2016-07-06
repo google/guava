@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.collect.Multisets.setCountImpl;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 
@@ -69,16 +68,6 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
     return Multisets.iteratorImpl(this);
   }
 
-  @Override
-  public int count(@Nullable Object element) {
-    for (Entry<E> entry : entrySet()) {
-      if (Objects.equal(entry.getElement(), element)) {
-        return entry.getCount();
-      }
-    }
-    return 0;
-  }
-
   // Modification Operations
   @CanIgnoreReturnValue
   @Override
@@ -89,20 +78,8 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
 
   @CanIgnoreReturnValue
   @Override
-  public int add(@Nullable E element, int occurrences) {
-    throw new UnsupportedOperationException();
-  }
-
-  @CanIgnoreReturnValue
-  @Override
   public boolean remove(@Nullable Object element) {
     return remove(element, 1) > 0;
-  }
-
-  @CanIgnoreReturnValue
-  @Override
-  public int remove(@Nullable Object element, int occurrences) {
-    throw new UnsupportedOperationException();
   }
 
   @CanIgnoreReturnValue
