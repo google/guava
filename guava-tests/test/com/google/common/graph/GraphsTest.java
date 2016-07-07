@@ -20,20 +20,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.Graphs.addEdge;
 import static com.google.common.graph.Graphs.copyOf;
 import static com.google.common.graph.Graphs.inducedSubgraph;
-import static com.google.common.graph.Graphs.oppositeNode;
 import static com.google.common.graph.Graphs.roots;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -130,60 +127,6 @@ public class GraphsTest {
     directedGraph.addNode(N1);
     directedGraph.addNode(N2);
     assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1, N2));
-  }
-
-  @Test
-  public void oppositeNode_basic() {
-    List<MutableNetwork<Integer, String>> testNetworks = ImmutableList.of(
-        NetworkBuilder.directed().<Integer, String>build(),
-        NetworkBuilder.undirected().<Integer, String>build());
-    for (MutableNetwork<Integer, String> graph : testNetworks) {
-      graph.addEdge(E12, N1, N2);
-      assertThat(oppositeNode(graph, E12, N1)).isEqualTo(N2);
-      assertThat(oppositeNode(graph, E12, N2)).isEqualTo(N1);
-    }
-  }
-
-  @Test
-  public void oppositeNode_parallelEdge() {
-    List<MutableNetwork<Integer, String>> testNetworks = ImmutableList.of(
-        NetworkBuilder.directed().allowsParallelEdges(true).<Integer, String>build(),
-        NetworkBuilder.undirected().allowsParallelEdges(true).<Integer, String>build());
-    for (MutableNetwork<Integer, String> graph : testNetworks) {
-      graph.addEdge(E12, N1, N2);
-      graph.addEdge(E12_A, N1, N2);
-      assertThat(oppositeNode(graph, E12, N1)).isEqualTo(N2);
-      assertThat(oppositeNode(graph, E12, N2)).isEqualTo(N1);
-      assertThat(oppositeNode(graph, E12_A, N1)).isEqualTo(N2);
-      assertThat(oppositeNode(graph, E12_A, N2)).isEqualTo(N1);
-    }
-  }
-
-  @Test
-  public void oppositeNode_selfLoop() {
-    List<MutableNetwork<Integer, String>> testNetworks = ImmutableList.of(
-        NetworkBuilder.directed().<Integer, String>build(),
-        NetworkBuilder.undirected().<Integer, String>build());
-    for (MutableNetwork<Integer, String> graph : testNetworks) {
-      graph.addEdge(E11, N1, N1);
-      assertThat(oppositeNode(graph, E11, N1)).isEqualTo(N1);
-    }
-  }
-
-  @Test
-  public void oppositeNode_nodeNotIncident() {
-    List<MutableNetwork<Integer, String>> testNetworks = ImmutableList.of(
-        NetworkBuilder.directed().<Integer, String>build(),
-        NetworkBuilder.undirected().<Integer, String>build());
-    for (MutableNetwork<Integer, String> graph : testNetworks) {
-      graph.addEdge(E12, N1, N2);
-      graph.addEdge(E13, N1, N3);
-      try {
-        oppositeNode(graph, E12, N3);
-        fail("Should have rejected oppositeNode() called without a node incident to edge");
-      } catch (IllegalArgumentException expected) {
-      }
-    }
   }
 
   @Test

@@ -54,7 +54,7 @@ public final class Graphs {
 
   private Graphs() {}
 
-  // Graph properties (methods that act solely on a Graph/Network)
+  // Graph query methods
 
   /**
    * Returns the subset of nodes in {@code graph} that have no predecessors.
@@ -69,27 +69,6 @@ public final class Graphs {
       }
     });
   }
-
-  // Node-based properties
-
-  /**
-   * Returns the node at the other end of {@code edge} from {@code node}.
-   *
-   * @throws IllegalArgumentException if {@code edge} is not incident to {@code node}
-   */
-  public static <N> N oppositeNode(Network<N, ?> graph, Object edge, Object node) {
-    checkNotNull(node, "node");
-    Endpoints<N> endpoints = graph.incidentNodes(edge);
-    if (node.equals(endpoints.nodeA())) {
-      return endpoints.nodeB();
-    } else {
-      checkArgument(node.equals(endpoints.nodeB()),
-          "Edge %s is not incident to node %s", edge, node);
-      return endpoints.nodeA();
-    }
-  }
-
-  // Edge-based properties
 
   /**
    * Returns an unmodifiable view of edges that are parallel to {@code edge}, i.e. the set of edges
@@ -142,9 +121,9 @@ public final class Graphs {
     }
     for (N node : subgraph.nodes()) {
       for (E edge : graph.outEdges(node)) {
-        N oppositeNode = Graphs.oppositeNode(graph, edge, node);
-        if (subgraph.nodes().contains(oppositeNode)) {
-          subgraph.addEdge(edge, node, oppositeNode);
+        N otherNode = graph.incidentNodes(edge).otherNode(node);
+        if (subgraph.nodes().contains(otherNode)) {
+          subgraph.addEdge(edge, node, otherNode);
         }
       }
     }

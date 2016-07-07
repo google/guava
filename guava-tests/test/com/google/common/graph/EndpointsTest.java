@@ -17,12 +17,16 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.testing.EqualsTester;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import java.util.List;
 
 /**
  * Tests for {@link Endpoints}.
@@ -35,6 +39,8 @@ public final class EndpointsTest {
     Endpoints<String> directed = Endpoints.ofDirected("source", "target");
     assertThat(directed.source()).isEqualTo("source");
     assertThat(directed.target()).isEqualTo("target");
+    assertThat(directed.otherNode("source")).isEqualTo("target");
+    assertThat(directed.otherNode("target")).isEqualTo("source");
     assertThat(directed).containsExactly("source", "target").inOrder();
     assertThat(directed.toString()).isEqualTo("<source -> target>");
   }
@@ -42,6 +48,8 @@ public final class EndpointsTest {
   @Test
   public void testUndirectedEndpoints() {
     Endpoints<String> undirected = Endpoints.ofUndirected("chicken", "egg");
+    assertThat(undirected.otherNode("chicken")).isEqualTo("egg");
+    assertThat(undirected.otherNode("egg")).isEqualTo("chicken");
     assertThat(undirected).containsExactly("chicken", "egg");
     assertThat(undirected.toString()).contains("chicken");
     assertThat(undirected.toString()).contains("egg");
@@ -50,8 +58,25 @@ public final class EndpointsTest {
   @Test
   public void testSelfLoop() {
     Endpoints<String> undirected = Endpoints.ofUndirected("node", "node");
+    assertThat(undirected.otherNode("node")).isEqualTo("node");
     assertThat(undirected).hasSize(2);
     assertThat(undirected.toString()).isEqualTo("[node, node]");
+  }
+
+  @Test
+  public void testOtherNode_nodeNotIncident() {
+    List<MutableNetwork<Integer, String>> testGraphs = ImmutableList.of(
+        NetworkBuilder.directed().<Integer, String>build(),
+        NetworkBuilder.undirected().<Integer, String>build());
+    for (MutableNetwork<Integer, String> graph : testGraphs) {
+      graph.addEdge("1-2", 1, 2);
+      Endpoints<Integer> endpoints = graph.incidentNodes("1-2");
+      try {
+        endpoints.otherNode(3);
+        fail("Should have rejected otherNode() called with a node not incident to edge.");
+      } catch (IllegalArgumentException expected) {
+      }
+    }
   }
 
   @Test

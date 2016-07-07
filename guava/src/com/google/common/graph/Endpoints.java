@@ -28,7 +28,8 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 
 /**
- * An immutable {@link Collection} to represent the endpoints of an edge in a graph.
+ * An immutable {@link Collection} to represent the two (possibly equal, in the case of a self-loop)
+ * endpoints of an edge in a graph.
  *
  * <p>If an {@link Endpoints} is directed, it is an ordered pair of nodes (source and target).
  * Otherwise, it is an unordered pair of nodes that can be accessed through the iterator.
@@ -71,36 +72,54 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
   public abstract boolean isDirected();
 
   /**
-   * If this {@link Endpoints} is directed, returns the node which is the source.
+   * If this {@link Endpoints} is directed, returns the node which is the source of the origin edge.
    *
    * @throws UnsupportedOperationException if this Endpoints is not directed
    */
   public abstract N source();
 
   /**
-   * If this {@link Endpoints} is directed, returns the node which is the target.
+   * If this {@link Endpoints} is directed, returns the node which is the target of the origin edge.
    *
    * @throws UnsupportedOperationException if this Endpoints is not directed
    */
   public abstract N target();
 
   /**
-   * If this {@link Endpoints} is directed, returns the node which is the source.
-   * Otherwise, returns an arbitrary (but consistent) endpoint of the edge.
+   * If this {@link Endpoints} is directed, returns the {@link #source()};
+   * otherwise, returns an arbitrary (but consistent) endpoint of the origin edge.
    */
   final N nodeA() {
     return nodeA;
   }
 
   /**
-   * Returns the node that is opposite {@link #nodeA()}. In the directed case, this is the target.
+   * Returns the node that is adjacent to {@link #nodeA()} via the origin edge.
+   * If this {@link Endpoints} is directed, this is equal to the {@link #target()}.
    */
   final N nodeB() {
     return nodeB;
   }
 
+  /**
+   * Returns the node that is adjacent to {@code node} via the origin edge.
+   *
+   * @throws IllegalArgumentException if the origin edge is not incident to {@code node}
+   */
+  public final N otherNode(Object node) {
+    checkNotNull(node, "node");
+    if (node.equals(nodeA())) {
+      return nodeB();
+    } else if (node.equals(nodeB())) {
+      return nodeA();
+    } else {
+      throw new IllegalArgumentException(
+          String.format("Endpoints %s does not contain node %s", this, node));
+    }
+  }
+
   @Override
-  public UnmodifiableIterator<N> iterator() {
+  public final UnmodifiableIterator<N> iterator() {
     return new UnmodifiableIterator<N>() {
       private int pos = 0;
 
@@ -125,12 +144,12 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
   }
 
   @Override
-  public int size() {
+  public final int size() {
     return 2;
   }
 
   @Override
-  public boolean contains(Object obj) {
+  public final boolean contains(Object obj) {
     return nodeA.equals(obj) || nodeB.equals(obj);
   }
 

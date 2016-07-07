@@ -105,8 +105,7 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
            ? DirectedMultiNodeConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount)
            : DirectedNodeConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount);
     } else {
-      Map<E, N> incidentEdgeMap =
-          Maps.asMap(graph.incidentEdges(node), oppositeNodeFn(graph, node));
+      Map<E, N> incidentEdgeMap = Maps.asMap(graph.incidentEdges(node), otherNodeFn(graph, node));
       return graph.allowsParallelEdges()
           ? UndirectedMultiNodeConnections.ofImmutable(incidentEdgeMap)
           : UndirectedNodeConnections.ofImmutable(incidentEdgeMap);
@@ -131,11 +130,11 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
     };
   }
 
-  private static <N, E> Function<E, N> oppositeNodeFn(final Network<N, E> graph, final N node) {
+  private static <N, E> Function<E, N> otherNodeFn(final Network<N, E> graph, final N node) {
     return new Function<E, N>() {
       @Override
       public N apply(E edge) {
-        return Graphs.oppositeNode(graph, edge, node);
+        return graph.incidentNodes(edge).otherNode(node);
       }
     };
   }

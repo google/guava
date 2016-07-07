@@ -50,7 +50,8 @@ final class GraphConstants {
       "Cannot add self-loop edge on node %s, as self-loops are not allowed. To construct a graph "
           + "that allows self-loops, call allowsSelfLoops(true) on the Builder.";
   static final String NOT_AVAILABLE_ON_UNDIRECTED =
-      "Cannot call source()/target() on undirected endpoints.";
+      "Cannot call source()/target() on undirected endpoints. Consider calling otherNode() to get "
+          + "a single node or using the endpoints' iterator to get both nodes.";
   static final String ENDPOINTS_GRAPH_DIRECTEDNESS =
       "The endpoints' directedness (isDirected = %s) does not match the graph's directedness "
           + "(isDirected = %s). A graph cannot have both directed and undirected edges.";
