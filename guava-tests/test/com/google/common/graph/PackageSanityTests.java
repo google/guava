@@ -16,7 +16,7 @@
 
 package com.google.common.graph;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.graph.testing.TestGraphBuilder;
 import com.google.common.graph.testing.TestNetworkBuilder;
@@ -71,10 +71,9 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
   public void testNulls() throws Exception {
     try {
       super.testNulls();
-      throw new Error("Should have thrown AssertionFailedError");
     } catch (AssertionFailedError e) {
-      assertThat(e.getCause().getMessage()).contains(
-          AbstractNetworkTest.ERROR_ELEMENT_NOT_IN_GRAPH);
+      assertWithMessage("Method did not throw null pointer OR element not in graph exception.")
+          .that(e.getCause().getMessage()).contains(AbstractNetworkTest.ERROR_ELEMENT_NOT_IN_GRAPH);
     }
   }
 }

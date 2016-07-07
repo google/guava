@@ -30,6 +30,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Set;
+
 /**
  * Abstract base class for testing implementations of {@link Graph} interface. Graph
  * instances created for testing should have Integer node and String edge objects.
@@ -68,13 +70,11 @@ public abstract class AbstractGraphTest {
   // here too.
   static final String ERROR_ELEMENT_NOT_IN_GRAPH = "not an element of this graph";
   static final String NODE_STRING = "Node";
-  static final String EDGE_STRING = "Edge";
   static final String ERROR_MODIFIABLE_SET = "Set returned is unexpectedly modifiable";
   static final String ERROR_SELF_LOOP = "self-loops are not allowed";
   static final String ERROR_NODE_NOT_IN_GRAPH =
       "Should not be allowed to pass a node that is not an element of the graph.";
   static final String ERROR_ADDED_SELF_LOOP = "Should not be allowed to add a self-loop edge.";
-  static final String ERROR_ADDED_PARALLEL_EDGE = "Should not be allowed to add a parallel edge.";
 
   /**
    * Creates and returns an instance of the graph to be tested.
@@ -340,6 +340,19 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
+  public void removeNode_queryAfterRemoval() {
+    addNode(N1);
+    Set<Integer> unused = graph.adjacentNodes(N1); // ensure cache (if any) is populated
+    assertTrue(graph.removeNode(N1));
+    try {
+      graph.adjacentNodes(N1);
+      fail(ERROR_NODE_NOT_IN_GRAPH);
+    } catch (IllegalArgumentException e) {
+      assertNodeNotInGraphErrorMessage(e);
+    }
+  }
+
+  @Test
   public void removeEdge_oneOfMany() {
     addEdge(N1, N2);
     addEdge(N1, N3);
@@ -350,11 +363,6 @@ public abstract class AbstractGraphTest {
 
   static void assertNodeNotInGraphErrorMessage(Throwable throwable) {
     assertThat(throwable.getMessage()).startsWith(NODE_STRING);
-    assertThat(throwable.getMessage()).contains(ERROR_ELEMENT_NOT_IN_GRAPH);
-  }
-
-  static void assertEdgeNotInGraphErrorMessage(Throwable throwable) {
-    assertThat(throwable.getMessage()).startsWith(EDGE_STRING);
     assertThat(throwable.getMessage()).contains(ERROR_ELEMENT_NOT_IN_GRAPH);
   }
 }

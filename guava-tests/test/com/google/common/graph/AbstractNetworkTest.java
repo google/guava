@@ -30,6 +30,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Set;
+
 /**
  * Abstract base class for testing implementations of {@link Network} interface. Network
  * instances created for testing should have Integer node and String edge objects.
@@ -602,6 +604,19 @@ public abstract class AbstractNetworkTest {
   }
 
   @Test
+  public void removeNode_queryAfterRemoval() {
+    addNode(N1);
+    Set<Integer> unused = graph.adjacentNodes(N1); // ensure cache (if any) is populated
+    assertTrue(graph.removeNode(N1));
+    try {
+      graph.adjacentNodes(N1);
+      fail(ERROR_NODE_NOT_IN_GRAPH);
+    } catch (IllegalArgumentException e) {
+      assertNodeNotInGraphErrorMessage(e);
+    }
+  }
+
+  @Test
   public void removeEdge_oneOfMany() {
     addEdge(E12, N1, N2);
     addEdge(E13, N1, N3);
@@ -616,6 +631,19 @@ public abstract class AbstractNetworkTest {
     ImmutableSet<String> edges = ImmutableSet.copyOf(graph.edges());
     assertFalse(graph.removeEdge(EDGE_NOT_IN_GRAPH));
     assertThat(graph.edges()).containsExactlyElementsIn(edges);
+  }
+
+  @Test
+  public void removeEdge_queryAfterRemoval() {
+    addEdge(E12, N1, N2);
+    Endpoints<Integer> unused = graph.incidentNodes(E12); // ensure cache (if any) is populated
+    assertTrue(graph.removeEdge(E12));
+    try {
+      graph.incidentNodes(E12);
+      fail(ERROR_EDGE_NOT_IN_GRAPH);
+    } catch (IllegalArgumentException e) {
+      assertEdgeNotInGraphErrorMessage(e);
+    }
   }
 
   static void assertNodeNotInGraphErrorMessage(Throwable throwable) {

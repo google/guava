@@ -27,7 +27,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -67,11 +66,11 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   private final ElementOrder<? super N> nodeOrder;
   private final ElementOrder<? super E> edgeOrder;
 
-  protected final Map<N, NodeConnections<N, E>> nodeConnections;
+  protected final MapIteratorCache<N, NodeConnections<N, E>> nodeConnections;
 
   // We could make this a Map<E, Endpoints<N>>. It would make incidentNodes(edge) slightly faster,
   // but it would also make Networks consume 5 to 20+% (increasing with average degree) more memory.
-  protected final Map<E, N> edgeToReferenceNode; // reference node == source on directed networks
+  protected final MapIteratorCache<E, N> edgeToReferenceNode; // referenceNode == source if directed
 
   /**
    * Constructs a graph with the properties specified in {@code builder}.
@@ -125,8 +124,10 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     this.allowsSelfLoops = builder.allowsSelfLoops;
     this.nodeOrder = builder.nodeOrder;
     this.edgeOrder = builder.edgeOrder;
-    this.nodeConnections = checkNotNull(nodeConnections);
-    this.edgeToReferenceNode = checkNotNull(edgeToReferenceNode);
+    // Prefer the heavier "MapRetrievalCache" for nodes to optimize for the case where methods
+    // accessing the same node(s) are called repeatedly, such as in Graphs.removeEdgesConnecting().
+    this.nodeConnections = new MapRetrievalCache<N, NodeConnections<N, E>>(nodeConnections);
+    this.edgeToReferenceNode = new MapIteratorCache<E, N>(edgeToReferenceNode);
   }
 
   /**
@@ -138,7 +139,7 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
    */
   @Override
   public Set<N> nodes() {
-    return Collections.unmodifiableSet(nodeConnections.keySet());
+    return nodeConnections.unmodifiableKeySet();
   }
 
   /**
@@ -150,7 +151,7 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
    */
   @Override
   public Set<E> edges() {
-    return Collections.unmodifiableSet(edgeToReferenceNode.keySet());
+    return edgeToReferenceNode.unmodifiableKeySet();
   }
 
   @Override

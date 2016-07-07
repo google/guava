@@ -49,9 +49,11 @@ final class ConfigurableMutableGraph<N>
   @CanIgnoreReturnValue
   public boolean addNode(N node) {
     checkNotNull(node, "node");
+
     if (containsNode(node)) {
       return false;
     }
+
     addNodeInternal(node);
     return true;
   }
@@ -97,7 +99,7 @@ final class ConfigurableMutableGraph<N>
       connectionsA = addNodeInternal(nodeA);
     }
     connectionsA.addSuccessor(nodeB);
-    NodeAdjacencies<N> connectionsB = isSelfLoop ? connectionsA : nodeConnections.get(nodeB);
+    NodeAdjacencies<N> connectionsB = nodeConnections.get(nodeB);
     if (connectionsB == null) {
       connectionsB = addNodeInternal(nodeB);
     }
@@ -109,20 +111,22 @@ final class ConfigurableMutableGraph<N>
   @CanIgnoreReturnValue
   public boolean removeNode(Object node) {
     checkNotNull(node, "node");
+
     NodeAdjacencies<N> connections = nodeConnections.get(node);
     if (connections == null) {
       return false;
     }
+
     if (allowsSelfLoops()) {
       // Remove any potential self-loop first so we won't get CME while removing incident edges.
       connections.removeSuccessor(node);
       connections.removePredecessor(node);
     }
     for (N successor : connections.successors()) {
-      nodeConnections.get(successor).removePredecessor(node);
+      nodeConnections.getWithoutCaching(successor).removePredecessor(node);
     }
     for (N predecessor : connections.predecessors()) {
-      nodeConnections.get(predecessor).removeSuccessor(node);
+      nodeConnections.getWithoutCaching(predecessor).removeSuccessor(node);
     }
     nodeConnections.remove(node);
     return true;
@@ -133,10 +137,12 @@ final class ConfigurableMutableGraph<N>
   public boolean removeEdge(Object nodeA, Object nodeB) {
     checkNotNull(nodeA, "nodeA");
     checkNotNull(nodeB, "nodeB");
+
     NodeAdjacencies<N> connectionsA = nodeConnections.get(nodeA);
     if (connectionsA == null || !connectionsA.successors().contains(nodeB)) {
       return false;
     }
+
     NodeAdjacencies<N> connectionsB = nodeConnections.get(nodeB);
     connectionsA.removeSuccessor(nodeB);
     connectionsB.removePredecessor(nodeA);

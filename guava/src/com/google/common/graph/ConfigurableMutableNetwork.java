@@ -53,9 +53,11 @@ final class ConfigurableMutableNetwork<N, E>
   @CanIgnoreReturnValue
   public boolean addNode(N node) {
     checkNotNull(node, "node");
+
     if (containsNode(node)) {
       return false;
     }
+
     addNodeInternal(node);
     return true;
   }
@@ -109,7 +111,7 @@ final class ConfigurableMutableNetwork<N, E>
       connectionsA = addNodeInternal(nodeA);
     }
     connectionsA.addOutEdge(edge, nodeB);
-    NodeConnections<N, E> connectionsB = isSelfLoop ? connectionsA : nodeConnections.get(nodeB);
+    NodeConnections<N, E> connectionsB = nodeConnections.get(nodeB);
     if (connectionsB == null) {
       connectionsB = addNodeInternal(nodeB);
     }
@@ -122,10 +124,12 @@ final class ConfigurableMutableNetwork<N, E>
   @CanIgnoreReturnValue
   public boolean removeNode(Object node) {
     checkNotNull(node, "node");
+
     NodeConnections<N, E> connections = nodeConnections.get(node);
     if (connections == null) {
       return false;
     }
+
     // Since views are returned, we need to copy the edges that will be removed.
     // Thus we avoid modifying the underlying view while iterating over it.
     for (E edge : ImmutableList.copyOf(connections.incidentEdges())) {
@@ -139,16 +143,17 @@ final class ConfigurableMutableNetwork<N, E>
   @CanIgnoreReturnValue
   public boolean removeEdge(Object edge) {
     checkNotNull(edge, "edge");
+
     N nodeA = edgeToReferenceNode.get(edge);
     if (nodeA == null) {
       return false;
     }
+
     NodeConnections<N, E> connectionsA = nodeConnections.get(nodeA);
     N nodeB = connectionsA.oppositeNode(edge);
-    boolean isSelfLoop = allowsSelfLoops() && nodeA.equals(nodeB);
-    NodeConnections<N, E> connectionsB = isSelfLoop ? connectionsA : nodeConnections.get(nodeB);
+    NodeConnections<N, E> connectionsB = nodeConnections.get(nodeB);
     connectionsA.removeOutEdge(edge);
-    connectionsB.removeInEdge(edge, isSelfLoop);
+    connectionsB.removeInEdge(edge, allowsSelfLoops() && nodeA.equals(nodeB));
     edgeToReferenceNode.remove(edge);
     return true;
   }

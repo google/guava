@@ -23,7 +23,6 @@ import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
 import com.google.common.collect.Maps;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -58,7 +57,7 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
   private final boolean allowsSelfLoops;
   private final ElementOrder<? super N> nodeOrder;
 
-  protected final Map<N, NodeAdjacencies<N>> nodeConnections;
+  protected final MapIteratorCache<N, NodeAdjacencies<N>> nodeConnections;
 
   /**
    * Constructs a graph with the properties specified in {@code builder}.
@@ -91,18 +90,19 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
     this.isDirected = builder.directed;
     this.allowsSelfLoops = builder.allowsSelfLoops;
     this.nodeOrder = builder.nodeOrder;
-    this.nodeConnections = checkNotNull(nodeConnections);
+    this.nodeConnections = new MapRetrievalCache<N, NodeAdjacencies<N>>(nodeConnections);
   }
 
   /**
    * {@inheritDoc}
+   *
    * <p>The order of iteration for this set is determined by the {@code ElementOrder<N>} provided
    * to the {@code GraphBuilder} that was used to create this instance.
    * By default, that order is the order in which the nodes were added to the graph.
    */
   @Override
   public Set<N> nodes() {
-    return Collections.unmodifiableSet(nodeConnections.keySet());
+    return nodeConnections.unmodifiableKeySet();
   }
 
   @Override
