@@ -100,7 +100,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/Ordering.html#line.133">Ordering</a>&lt;T&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/Ordering.html#line.134">Ordering</a>&lt;T&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;T&gt;</pre>
 <div class="block">A comparator, with additional methods to support common operations. This is an "enriched"
@@ -503,7 +503,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparato
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Ordering</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.369">Ordering</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.376">Ordering</a>()</pre>
 <div class="block">Constructs a new instance of this class (only invokable by the subclass
  constructor, typically implicit).</div>
 </li>
@@ -523,7 +523,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparato
 <li class="blockList">
 <h4>natural</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.147">natural</a>()</pre>
+public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.148">natural</a>()</pre>
 <div class="block">Returns a serializable ordering that uses the natural order of the values.
  The ordering throws a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang"><code>NullPointerException</code></a> when passed a null
  parameter.
@@ -540,7 +540,7 @@ public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/a
 <li class="blockList">
 <h4>from</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.165">from</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;T&gt;&nbsp;comparator)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.166">from</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns an ordering based on an <i>existing</i> comparator instance. Note
  that it is unnecessary to create a <i>new</i> anonymous inner class
  implementing <code>Comparator</code> just to pass it in here. Instead, simply
@@ -559,7 +559,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <h4>from</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
 <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.178">from</a>(<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;ordering)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.179">from</a>(<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;ordering)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>no need to use this</i></div>
 <div class="block">Simply returns its argument.</div>
 </li>
@@ -571,7 +571,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>explicit</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.204">explicit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&nbsp;valuesInOrder)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.205">explicit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&nbsp;valuesInOrder)</pre>
 <div class="block">Returns an ordering that compares objects according to the order in
  which they appear in the given list. Only objects present in the list
  (according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>) may be compared. This comparator
@@ -602,7 +602,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>explicit</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.232">explicit</a>(T&nbsp;leastValue,
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.233">explicit</a>(T&nbsp;leastValue,
                                                  T...&nbsp;remainingValuesInOrder)</pre>
 <div class="block">Returns an ordering that compares objects according to the order in
  which they are given to this method. Only objects present in the argument
@@ -633,7 +633,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>allEqual</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.266">allEqual</a>()</pre>
+public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.267">allEqual</a>()</pre>
 <div class="block">Returns an ordering which treats all values as equal, indicating "no
  ordering." Passing this ordering to any <i>stable</i> sort algorithm
  results in no change to the order of elements. Note especially that <a href="../../../../com/google/common/collect/Ordering.html#sortedCopy(java.lang.Iterable)"><code>sortedCopy(java.lang.Iterable&lt;E&gt;)</code></a> and <a href="../../../../com/google/common/collect/Ordering.html#immutableSortedCopy(java.lang.Iterable)"><code>immutableSortedCopy(java.lang.Iterable&lt;E&gt;)</code></a> are stable, and in the
@@ -663,7 +663,7 @@ public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html"
 <li class="blockList">
 <h4>usingToString</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.278">usingToString</a>()</pre>
+public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.279">usingToString</a>()</pre>
 <div class="block">Returns an ordering that compares objects by the natural ordering of their
  string representations as returned by <code>toString()</code>. It does not
  support null values.
@@ -677,7 +677,7 @@ public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>arbitrary</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.298">arbitrary</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.299">arbitrary</a>()</pre>
 <div class="block">Returns an arbitrary ordering over all objects, for which <code>compare(a,
  b) == 0</code> implies <code>a == b</code> (identity equality). There is no meaning
  whatsoever to the order imposed, but it is constant for the life of the VM.
@@ -701,7 +701,7 @@ public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html"
 <li class="blockList">
 <h4>reverse</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.380">reverse</a>()</pre>
+public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.387">reverse</a>()</pre>
 <div class="block">Returns the reverse of this ordering; the <code>Ordering</code> equivalent to
  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#reverseOrder(java.util.Comparator)" title="class or interface in java.util"><code>Collections.reverseOrder(Comparator)</code></a>.</div>
 </li>
@@ -713,7 +713,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <li class="blockList">
 <h4>nullsFirst</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.391">nullsFirst</a>()</pre>
+public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.398">nullsFirst</a>()</pre>
 <div class="block">Returns an ordering that treats <code>null</code> as less than all other values
  and uses <code>this</code> to compare non-null values.</div>
 </li>
@@ -725,7 +725,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <li class="blockList">
 <h4>nullsLast</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.402">nullsLast</a>()</pre>
+public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.409">nullsLast</a>()</pre>
 <div class="block">Returns an ordering that treats <code>null</code> as greater than all other
  values and uses this ordering to compare non-null values.</div>
 </li>
@@ -737,7 +737,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <li class="blockList">
 <h4>onResultOf</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public&nbsp;&lt;F&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;F&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.416">onResultOf</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;F,? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;function)</pre>
+public&nbsp;&lt;F&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;F&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.423">onResultOf</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;F,? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;function)</pre>
 <div class="block">Returns a new ordering on <code>F</code> which orders elements by first applying
  a function to them, then comparing those results using <code>this</code>. For
  example, to compare objects by their string forms, in a case-insensitive
@@ -752,7 +752,7 @@ public&nbsp;&lt;F&gt;&nbsp;<a href="../../../../com/google/common/collect/Orderi
 <li class="blockList">
 <h4>compound</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public&nbsp;&lt;U extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;U&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.436">compound</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super U&gt;&nbsp;secondaryComparator)</pre>
+public&nbsp;&lt;U extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;U&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.443">compound</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super U&gt;&nbsp;secondaryComparator)</pre>
 <div class="block">Returns an ordering which first uses the ordering <code>this</code>, but which
  in the event of a "tie", then delegates to <code>secondaryComparator</code>.
  For example, to sort a bug list first by status and second by priority, you
@@ -771,7 +771,7 @@ public&nbsp;&lt;U extends <a href="../../../../com/google/common/collect/Orderin
 <li class="blockList">
 <h4>compound</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.456">compound</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super T&gt;&gt;&nbsp;comparators)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.463">compound</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super T&gt;&gt;&nbsp;comparators)</pre>
 <div class="block">Returns an ordering which tries each given comparator in order until a
  non-zero result is found, returning that result, and returning zero only if
  all comparators return zero. The returned ordering is based on the state of
@@ -792,7 +792,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>lexicographical</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;S&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.478">lexicographical</a>()</pre>
+public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;S&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.485">lexicographical</a>()</pre>
 <div class="block">Returns a new ordering which sorts iterables by comparing corresponding
  elements pairwise until a nonzero result is found; imposes "dictionary
  order". If the end of one iterable is reached, but not the other, the
@@ -814,7 +814,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre>public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.494">compare</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.501">compare</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
           <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&nbsp;left,
           <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
           <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&nbsp;right)</pre>
@@ -830,7 +830,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.510">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator)</pre>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.517">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator)</pre>
 <div class="block">Returns the least of the specified values according to this ordering. If
  there are multiple least values, the first of those is returned. The
  iterator will be left exhausted: its <code>hasNext()</code> method will return
@@ -849,7 +849,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.531">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable)</pre>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.538">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable)</pre>
 <div class="block">Returns the least of the specified values according to this ordering. If
  there are multiple least values, the first of those is returned.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>iterable</code> - the iterable whose minimum element is to be determined</dd>
@@ -867,7 +867,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.549">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.556">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;a,
                   <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;b)</pre>
@@ -891,7 +891,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.565">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.572">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;a,
                   <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;b,
@@ -912,7 +912,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.589">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator)</pre>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.596">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator)</pre>
 <div class="block">Returns the greatest of the specified values according to this ordering. If
  there are multiple greatest values, the first of those is returned. The
  iterator will be left exhausted: its <code>hasNext()</code> method will return
@@ -931,7 +931,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.610">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable)</pre>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.617">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable)</pre>
 <div class="block">Returns the greatest of the specified values according to this ordering. If
  there are multiple greatest values, the first of those is returned.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>iterable</code> - the iterable whose maximum element is to be determined</dd>
@@ -949,7 +949,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.628">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.635">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;a,
                   <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;b)</pre>
@@ -973,7 +973,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.644">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.651">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;a,
                   <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;b,
@@ -994,7 +994,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>leastOf</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.668">leastOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable,
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.675">leastOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable,
                             int&nbsp;k)</pre>
 <div class="block">Returns the <code>k</code> least elements of the given iterable according to
  this ordering, in order from least to greatest.  If there are fewer than
@@ -1016,7 +1016,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>leastOf</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.702">leastOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;elements,
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.709">leastOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;elements,
                             int&nbsp;k)</pre>
 <div class="block">Returns the <code>k</code> least elements from the given iterator according to
  this ordering, in order from least to greatest.  If there are fewer than
@@ -1038,7 +1038,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>greatestOf</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.738">greatestOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable,
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.745">greatestOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable,
                                int&nbsp;k)</pre>
 <div class="block">Returns the <code>k</code> greatest elements of the given iterable according to
  this ordering, in order from greatest to least. If there are fewer than
@@ -1060,7 +1060,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>greatestOf</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.758">greatestOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator,
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.765">greatestOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator,
                                int&nbsp;k)</pre>
 <div class="block">Returns the <code>k</code> greatest elements from the given iterator according to
  this ordering, in order from greatest to least. If there are fewer than
@@ -1082,7 +1082,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>sortedCopy</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.781">sortedCopy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.788">sortedCopy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
 <div class="block">Returns a <b>mutable</b> list containing <code>elements</code> sorted by this
  ordering; use this only when the resulting list may need further
  modification, or may contain <code>null</code>. The input is not modified. The
@@ -1106,7 +1106,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>immutableSortedCopy</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.807">immutableSortedCopy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.814">immutableSortedCopy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
 <div class="block">Returns an <b>immutable</b> list containing <code>elements</code> sorted by this
  ordering. The input is not modified.
 
@@ -1130,7 +1130,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>isOrdered</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.823">isOrdered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.830">isOrdered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</pre>
 <div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is
  greater than or equal to the element that preceded it, according to this
  ordering. Note that this is always true when the iterable has fewer than
@@ -1143,7 +1143,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>isStrictlyOrdered</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.844">isStrictlyOrdered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.851">isStrictlyOrdered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</pre>
 <div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is
  <i>strictly</i> greater than the element that preceded it, according to
  this ordering. Note that this is always true when the iterable has fewer
@@ -1159,7 +1159,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <li class="blockList">
 <h4>binarySearch</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.870">binarySearch</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;sortedList,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.877">binarySearch</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;sortedList,
                           <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&nbsp;key)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Use <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#binarySearch(java.util.List,%20T,%20java.util.Comparator)" title="class or interface in java.util"><code>Collections.binarySearch(List, Object, Comparator)</code></a> directly. This

@@ -133,11 +133,11 @@ extends <a href="../../../../com/google/common/graph/AbstractNetwork.html" title
 <th class="colLast" scope="col">Field and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;E,N&gt;</code></td>
+<td class="colFirst"><code>protected com.google.common.graph.MapIteratorCache&lt;E,N&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/ImmutableNetwork.html#edgeToReferenceNode">edgeToReferenceNode</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;N,com.google.common.graph.NodeConnections&lt;N,E&gt;&gt;</code></td>
+<td class="colFirst"><code>protected com.google.common.graph.MapIteratorCache&lt;N,com.google.common.graph.NodeConnections&lt;N,E&gt;&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/ImmutableNetwork.html#nodeConnections">nodeConnections</a></strong></code>&nbsp;</td>
 </tr>
 </table>
@@ -322,7 +322,7 @@ extends <a href="../../../../com/google/common/graph/AbstractNetwork.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeConnections</h4>
-<pre>protected final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;N,com.google.common.graph.NodeConnections&lt;N,E&gt;&gt; <a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.70">nodeConnections</a></pre>
+<pre>protected final&nbsp;com.google.common.graph.MapIteratorCache&lt;N,com.google.common.graph.NodeConnections&lt;N,E&gt;&gt; <a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.70">nodeConnections</a></pre>
 </li>
 </ul>
 <a name="edgeToReferenceNode">
@@ -331,7 +331,7 @@ extends <a href="../../../../com/google/common/graph/AbstractNetwork.html" title
 <ul class="blockListLast">
 <li class="blockList">
 <h4>edgeToReferenceNode</h4>
-<pre>protected final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;E,N&gt; <a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.74">edgeToReferenceNode</a></pre>
+<pre>protected final&nbsp;com.google.common.graph.MapIteratorCache&lt;E,N&gt; <a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.74">edgeToReferenceNode</a></pre>
 </li>
 </ul>
 </li>
@@ -389,7 +389,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>nodes</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.140">nodes</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.144">nodes</a>()</pre>
 <div class="block">Returns all nodes in this graph, in the order specified by <a href="../../../../com/google/common/graph/Graph.html#nodeOrder()"><code>Graph.nodeOrder()</code></a>.
 
  <p>The order of iteration for this set is determined by the <code>ElementOrder&lt;N&gt;</code> provided
@@ -403,7 +403,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>edges</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.152">edges</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.156">edges</a>()</pre>
 <div class="block">Returns all edges in this network, in the order specified by <a href="../../../../com/google/common/graph/Network.html#edgeOrder()"><code>Network.edgeOrder()</code></a>.
 
  <p>The order of iteration for this set is determined by the <code>ElementOrder&lt;E&gt;</code> provided
@@ -417,7 +417,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>isDirected</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.157">isDirected</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.161">isDirected</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#isDirected()">Network</a></code></strong></div>
 <div class="block">Returns true if the edges in this graph have a direction associated with them.
 
@@ -435,7 +435,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>allowsParallelEdges</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.162">allowsParallelEdges</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.166">allowsParallelEdges</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#allowsParallelEdges()">Network</a></code></strong></div>
 <div class="block">Returns true if this graph allows parallel edges. Attempting to add a parallel edge to a graph
  that does not allow them will throw an <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a>.</div>
@@ -447,7 +447,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>allowsSelfLoops</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.167">allowsSelfLoops</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.171">allowsSelfLoops</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#allowsSelfLoops()">Graph</a></code></strong></div>
 <div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself).
  Attempting to add a self-loop to a graph that does not allow them will throw an
@@ -460,7 +460,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeOrder</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;? super N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.172">nodeOrder</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;? super N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.176">nodeOrder</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#nodeOrder()">Graph</a></code></strong></div>
 <div class="block">Returns the order of iteration for the elements of <a href="../../../../com/google/common/graph/Graph.html#nodes()"><code>Graph.nodes()</code></a>.</div>
 </li>
@@ -471,7 +471,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeOrder</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;? super E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.177">edgeOrder</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;? super E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.181">edgeOrder</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#edgeOrder()">Network</a></code></strong></div>
 <div class="block">Returns the order of iteration for the elements of <a href="../../../../com/google/common/graph/Network.html#edges()"><code>Network.edges()</code></a>.</div>
 </li>
@@ -482,7 +482,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentEdges</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.182">incidentEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.186">incidentEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#incidentEdges(java.lang.Object)">Network</a></code></strong></div>
 <div class="block">Returns the edges whose endpoints in this graph include <code>node</code>.</div>
 </li>
@@ -493,7 +493,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentNodes</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.187">incidentNodes</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.191">incidentNodes</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#incidentNodes(java.lang.Object)">Network</a></code></strong></div>
 <div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this graph as <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a>.</div>
 </li>
@@ -504,7 +504,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentNodes</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.194">adjacentNodes</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.198">adjacentNodes</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#adjacentNodes(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this graph.</div>
 </li>
@@ -515,7 +515,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentEdges</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.199">adjacentEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.203">adjacentEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#adjacentEdges(java.lang.Object)">Network</a></code></strong></div>
 <div class="block">Returns the edges which have an <a href="../../../../com/google/common/graph/Network.html#incidentNodes(java.lang.Object)">incident node</a>
  in common with <code>edge</code> in this graph.
@@ -530,7 +530,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>inEdges</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.217">inEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.221">inEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#inEdges(java.lang.Object)">Network</a></code></strong></div>
 <div class="block">Returns all edges in this graph which can be traversed in the direction (if any) of the edge
  to end at <code>node</code>.</div>
@@ -542,7 +542,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>outEdges</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.222">outEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.226">outEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#outEdges(java.lang.Object)">Network</a></code></strong></div>
 <div class="block">Returns all edges in this graph which can be traversed in the direction (if any) of the edge
  starting from <code>node</code>.</div>
@@ -554,7 +554,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>predecessors</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.227">predecessors</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.231">predecessors</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#predecessors(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
@@ -566,7 +566,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>successors</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.232">successors</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.236">successors</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#successors(java.lang.Object)">Graph</a></code></strong></div>
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s outgoing edges in the direction (if any) of the edge.
@@ -581,7 +581,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedConnections</h4>
-<pre>protected final&nbsp;com.google.common.graph.NodeConnections&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.236">checkedConnections</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>protected final&nbsp;com.google.common.graph.NodeConnections&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.240">checkedConnections</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 </li>
 </ul>
 <a name="checkedReferenceNode(java.lang.Object)">
@@ -590,7 +590,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedReferenceNode</h4>
-<pre>protected final&nbsp;N&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.243">checkedReferenceNode</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
+<pre>protected final&nbsp;N&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.247">checkedReferenceNode</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 </li>
 </ul>
 <a name="containsNode(java.lang.Object)">
@@ -599,7 +599,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockList">
 <li class="blockList">
 <h4>containsNode</h4>
-<pre>protected final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.250">containsNode</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.254">containsNode</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                    <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 </li>
 </ul>
@@ -609,7 +609,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <ul class="blockListLast">
 <li class="blockList">
 <h4>containsEdge</h4>
-<pre>protected final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.254">containsEdge</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractConfigurableNetwork.html#line.258">containsEdge</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                    <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 </li>
 </ul>

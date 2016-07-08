@@ -105,11 +105,12 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public abstract class <a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.40">Endpoints</a>&lt;N&gt;
+public abstract class <a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.41">Endpoints</a>&lt;N&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractCollection.html?is-external=true" title="class or interface in java.util">AbstractCollection</a>&lt;N&gt;</pre>
-<div class="block">An immutable <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> to represent the endpoints of an edge in a graph.
- <p>
- If an <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> is directed, it is an ordered pair of nodes (source and target).
+<div class="block">An immutable <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> to represent the two (possibly equal, in the case of a self-loop)
+ endpoints of an edge in a graph.
+
+ <p>If an <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> is directed, it is an ordered pair of nodes (source and target).
  Otherwise, it is an unordered pair of nodes that can be accessed through the iterator.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>20.0</dd>
@@ -173,19 +174,25 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractColl
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/Endpoints.html#otherNode(java.lang.Object)">otherNode</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
+<div class="block">Returns the node that is adjacent to <code>node</code> via the origin edge.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/Endpoints.html#size()">size</a></strong>()</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
-<td class="colFirst"><code>abstract <a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/Endpoints.html#source()">source</a></strong>()</code>
-<div class="block">If this <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> is directed, returns the node which is the source.</div>
-</td>
-</tr>
 <tr class="rowColor">
 <td class="colFirst"><code>abstract <a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/graph/Endpoints.html#source()">source</a></strong>()</code>
+<div class="block">If this <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> is directed, returns the node which is the source of the origin edge.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>abstract <a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/Endpoints.html#target()">target</a></strong>()</code>
-<div class="block">If this <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> is directed, returns the node which is the target.</div>
+<div class="block">If this <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> is directed, returns the node which is the target of the origin edge.</div>
 </td>
 </tr>
 </table>
@@ -225,7 +232,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractColl
 <ul class="blockList">
 <li class="blockList">
 <h4>ofDirected</h4>
-<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.56">ofDirected</a>(N&nbsp;source,
+<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.57">ofDirected</a>(N&nbsp;source,
                           N&nbsp;target)</pre>
 <div class="block">Returns an <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> representing the endpoints of a directed edge.</div>
 </li>
@@ -238,7 +245,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractColl
 <ul class="blockList">
 <li class="blockList">
 <h4>ofUndirected</h4>
-<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.63">ofUndirected</a>(N&nbsp;nodeA,
+<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.64">ofUndirected</a>(N&nbsp;nodeA,
                             N&nbsp;nodeB)</pre>
 <div class="block">Returns an <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> representing the endpoints of an undirected edge.</div>
 </li>
@@ -249,7 +256,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractColl
 <ul class="blockList">
 <li class="blockList">
 <h4>isDirected</h4>
-<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.71">isDirected</a>()</pre>
+<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.72">isDirected</a>()</pre>
 <div class="block">Returns whether the nodes of this <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> are ordered. Generally, this is equal to
  <a href="../../../../com/google/common/graph/Graph.html#isDirected()"><code>Graph.isDirected()</code></a> of the graph that generated this <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a>.</div>
 </li>
@@ -260,8 +267,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractColl
 <ul class="blockList">
 <li class="blockList">
 <h4>source</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.78">source</a>()</pre>
-<div class="block">If this <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> is directed, returns the node which is the source.</div>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.79">source</a>()</pre>
+<div class="block">If this <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> is directed, returns the node which is the source of the origin edge.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - if this Endpoints is not directed</dd></dl>
 </li>
@@ -272,10 +279,22 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractColl
 <ul class="blockList">
 <li class="blockList">
 <h4>target</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.85">target</a>()</pre>
-<div class="block">If this <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> is directed, returns the node which is the target.</div>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.86">target</a>()</pre>
+<div class="block">If this <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> is directed, returns the node which is the target of the origin edge.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - if this Endpoints is not directed</dd></dl>
+</li>
+</ul>
+<a name="otherNode(java.lang.Object)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>otherNode</h4>
+<pre>public final&nbsp;<a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.109">otherNode</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<div class="block">Returns the node that is adjacent to <code>node</code> via the origin edge.</div>
+<dl><dt><span class="strong">Throws:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if the origin edge is not incident to <code>node</code></dd></dl>
 </li>
 </ul>
 <a name="iterator()">
@@ -284,7 +303,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractColl
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.103">iterator</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.122">iterator</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true#iterator()" title="class or interface in java.lang">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a>&gt;</code></dd>
@@ -301,7 +320,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractColl
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.128">size</a>()</pre>
+<pre>public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.147">size</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#size()" title="class or interface in java.util">size</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a>&gt;</code></dd>
@@ -316,7 +335,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractColl
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.133">contains</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.152">contains</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#contains(java.lang.Object)" title="class or interface in java.util">contains</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a>&gt;</code></dd>
@@ -331,7 +350,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractColl
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.143">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
+<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.162">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <div class="block">If two <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a>s are directed, the source and target must be equal to be considered
  equal. If two <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a>s are undirected, the unordered set of nodes must be equal to be
  considered equal. Directed <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> are never equal to undirected <a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a>.</div>
@@ -349,7 +368,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/AbstractColl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.146">hashCode</a>()</pre>
+<pre>public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/Endpoints.html#line.165">hashCode</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#hashCode()" title="class or interface in java.util">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a>&gt;</code></dd>

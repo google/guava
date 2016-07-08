@@ -47,7 +47,7 @@
 <span class="sourceLineNo">039</span>  protected ForwardingListenableFuture() {}<a name="line.39"></a>
 <span class="sourceLineNo">040</span><a name="line.40"></a>
 <span class="sourceLineNo">041</span>  @Override<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  protected abstract ListenableFuture&lt;V&gt; delegate();<a name="line.42"></a>
+<span class="sourceLineNo">042</span>  protected abstract ListenableFuture&lt;? extends V&gt; delegate();<a name="line.42"></a>
 <span class="sourceLineNo">043</span><a name="line.43"></a>
 <span class="sourceLineNo">044</span>  @Override<a name="line.44"></a>
 <span class="sourceLineNo">045</span>  public void addListener(Runnable listener, Executor exec) {<a name="line.45"></a>

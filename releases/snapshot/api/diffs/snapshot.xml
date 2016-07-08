@@ -10586,28 +10586,51 @@
     <method name="create" return="com.google.common.collect.ConcurrentHashMultiset&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #create(ConcurrentMap)} instead. This method is scheduled for deletion
+     in October 2016.">
       <param name="mapMaker" type="com.google.common.collect.MapMaker"/>
       <doc>
-      <![CDATA[Creates a new, empty {@code ConcurrentHashMultiset} using {@code mapMaker}
- to construct the internal backing map.
+      <![CDATA[Creates a new, empty {@code ConcurrentHashMultiset} using {@code mapMaker} to construct the
+ internal backing map.
 
  <p>If this {@link MapMaker} is configured to use entry eviction of any kind, this eviction
  applies to all occurrences of a given element as a single unit. However, most updates to the
- multiset do not count as map updates at all, since we're usually just mutating the value
- stored in the map, so {@link MapMaker#expireAfterAccess} makes sense (evict the entry that
- was queried or updated longest ago), but {@link MapMaker#expireAfterWrite} doesn't, because
- the eviction time is measured from when we saw the first occurrence of the object.
+ multiset do not count as map updates at all, since we're usually just mutating the value stored
+ in the map, so {@link MapMaker#expireAfterAccess} makes sense (evict the entry that was queried
+ or updated longest ago), but {@link MapMaker#expireAfterWrite} doesn't, because the eviction
+ time is measured from when we saw the first occurrence of the object.
 
- <p>The returned multiset is serializable but any serialization caveats
- given in {@code MapMaker} apply.
+ <p>The returned multiset is serializable but any serialization caveats given in {@code
+ MapMaker} apply.
 
  <p>Finally, soft/weak values can be used but are not very useful: the values are created
  internally and not exposed externally, so no one else will have a strong reference to the
  values. Weak keys on the other hand can be useful in some scenarios.
 
  @since 15.0 (source compatible (accepting the since removed {@code GenericMapMaker} class)
-     since 7.0)]]>
+     since 7.0)
+ @deprecated Use {@link #create(ConcurrentMap)} instead. This method is scheduled for deletion
+     in October 2016.]]>
+      </doc>
+    </method>
+    <method name="create" return="com.google.common.collect.ConcurrentHashMultiset&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="countMap" type="java.util.concurrent.ConcurrentMap&lt;E, java.util.concurrent.atomic.AtomicInteger&gt;"/>
+      <doc>
+      <![CDATA[Creates a new, empty {@code ConcurrentHashMultiset} using {@code countMap} as the internal
+ backing map.
+
+ <p>This instance will assume ownership of {@code countMap}, and other code should not maintain
+ references to the map or modify it in any way.
+
+ <p>The returned multiset is serializable if the input map is.
+
+ @param countMap backing map for storing the elements in the multiset and their counts. It must
+     be empty.
+ @throws IllegalArgumentException if {@code countMap} is not empty
+ @since 20.0]]>
       </doc>
     </method>
     <method name="count" return="int"
@@ -22588,13 +22611,15 @@
       <param name="iterable" type="java.lang.Iterable&lt;? extends T&gt;"/>
       <param name="defaultValue" type="T"/>
       <doc>
-      <![CDATA[Returns the first element in {@code iterable} or {@code defaultValue} if
- the iterable is empty.  The {@link Iterators} analog to this method is
- {@link Iterators#getNext}.
+      <![CDATA[Returns the first element in {@code iterable} or {@code defaultValue} if the iterable is empty.
+ The {@link Iterators} analog to this method is {@link Iterators#getNext}.
 
- <p>If no default value is desired (and the caller instead wants a
- {@link NoSuchElementException} to be thrown), it is recommended that
- {@code iterable.iterator().next()} is used instead.
+ <p>If no default value is desired (and the caller instead wants a {@link
+ NoSuchElementException} to be thrown), it is recommended that {@code
+ iterable.iterator().next()} is used instead.
+
+ <p>To get the only element in a single-element {@code Iterable}, consider using {@link
+ #getOnlyElement(Iterable)} or {@link #getOnlyElement(Iterable, Object)} instead.
 
  @param defaultValue the default value to return if the iterable is empty
  @return the first element of {@code iterable} or the default value
@@ -35920,7 +35945,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[If this {@link Endpoints} is directed, returns the node which is the source.
+      <![CDATA[If this {@link Endpoints} is directed, returns the node which is the source of the origin edge.
 
  @throws UnsupportedOperationException if this Endpoints is not directed]]>
       </doc>
@@ -35930,24 +35955,35 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[If this {@link Endpoints} is directed, returns the node which is the target.
+      <![CDATA[If this {@link Endpoints} is directed, returns the node which is the target of the origin edge.
 
  @throws UnsupportedOperationException if this Endpoints is not directed]]>
       </doc>
     </method>
+    <method name="otherNode" return="N"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Returns the node that is adjacent to {@code node} via the origin edge.
+
+ @throws IllegalArgumentException if the origin edge is not incident to {@code node}]]>
+      </doc>
+    </method>
     <method name="iterator" return="com.google.common.collect.UnmodifiableIterator&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="size" return="int"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="contains" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="java.lang.Object"/>
     </method>
@@ -35968,9 +36004,10 @@
       deprecated="not deprecated">
     </method>
     <doc>
-    <![CDATA[An immutable {@link Collection} to represent the endpoints of an edge in a graph.
- <p>
- If an {@link Endpoints} is directed, it is an ordered pair of nodes (source and target).
+    <![CDATA[An immutable {@link Collection} to represent the two (possibly equal, in the case of a self-loop)
+ endpoints of an edge in a graph.
+
+ <p>If an {@link Endpoints} is directed, it is an ordered pair of nodes (source and target).
  Otherwise, it is an unordered pair of nodes that can be accessed through the iterator.
 
  @author James Sexton
@@ -36173,7 +36210,7 @@
    <li>{@code nodeA} and {@code nodeB} are mutually predecessors and successors
        in {@code graph}
    <li>{@code nodeA} has an (implicit) edge in {@code graph} that is both outgoing to
-       to {@code nodeB} and incoming from {@code nodeB}, and vice versa.
+       {@code nodeB} and incoming from {@code nodeB}, and vice versa.
    </ul>
  <li>A self-loop is an edge that connects a node to itself.
  </ul>
@@ -36199,6 +36236,16 @@
  store mutable per-element state in a separate data structure (e.g. an element-to-state map).
  <li>There are no Node classes built in.  So you can have a {@code Graph<Integer>}
      or a {@code Graph<Author>} or a {@code Graph<Webpage>}.
+ <li>This framework supports multiple mechanisms for storing the topology of a graph,
+      including:
+   <ul>
+   <li>the Graph implementation stores the topology (for example, by storing a
+       {@code Map<N, N>} that maps nodes onto their adjacent nodes); this implies that the nodes
+       are just keys, and can be shared among graphs
+   <li>the nodes store the topology (for example, by storing a {@code List<E>} of adjacent nodes);
+       this (usually) implies that nodes are graph-specific
+   <li>a separate data repository (for example, a database) stores the topology
+   </ul>
  </ul>
 
  <p>Notes on accessors:
@@ -36386,19 +36433,6 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
-    <method name="oppositeNode" return="N"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Network&lt;N, ?&gt;"/>
-      <param name="edge" type="java.lang.Object"/>
-      <param name="node" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Returns the node at the other end of {@code edge} from {@code node}.
-
- @throws IllegalArgumentException if {@code edge} is not incident to {@code node}]]>
-      </doc>
-    </method>
     <method name="roots" return="java.util.Set&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -36434,23 +36468,27 @@
       <![CDATA[Adds {@code edge} to {@code graph} with the specified {@code endpoints}.]]>
       </doc>
     </method>
+    <method name="inducedSubgraph" return="com.google.common.graph.MutableNetwork&lt;N, E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Network&lt;N, E&gt;"/>
+      <param name="nodes" type="java.lang.Iterable&lt;? extends N&gt;"/>
+      <doc>
+      <![CDATA[Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
+ all of the nodes in {@code nodes}, and all of the edges from {@code graph} for which the
+ edge's incident nodes are both contained by {@code nodes}.
+
+ @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph]]>
+      </doc>
+    </method>
     <method name="copyOf" return="com.google.common.graph.MutableGraph&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
       <doc>
-      <![CDATA[Creates a mutable copy of {@code graph}, using the same nodes.]]>
-      </doc>
-    </method>
-    <method name="copyNodes"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="src" type="com.google.common.graph.Graph&lt;N&gt;"/>
-      <param name="dest" type="com.google.common.graph.MutableGraph&lt;N&gt;"/>
-      <doc>
-      <![CDATA[Copies all nodes from {@code src} into {@code dest}.]]>
+      <![CDATA[Creates a mutable copy of {@code graph}, using the same nodes and edges.]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.graph.MutableNetwork&lt;N, E&gt;"
@@ -36460,28 +36498,6 @@
       <param name="graph" type="com.google.common.graph.Network&lt;N, E&gt;"/>
       <doc>
       <![CDATA[Creates a mutable copy of {@code graph}, using the same node and edge elements.]]>
-      </doc>
-    </method>
-    <method name="copyNodes"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="src" type="com.google.common.graph.Graph&lt;N&gt;"/>
-      <param name="dest" type="com.google.common.graph.MutableNetwork&lt;N, ?&gt;"/>
-      <doc>
-      <![CDATA[Copies all nodes from {@code src} into {@code dest}.]]>
-      </doc>
-    </method>
-    <method name="copyEdges"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="src" type="com.google.common.graph.Network&lt;N, E&gt;"/>
-      <param name="dest" type="com.google.common.graph.MutableNetwork&lt;N, E&gt;"/>
-      <doc>
-      <![CDATA[Copies edges from {@code src} into {@code dest}.
- <p>
- This method DOES NOT copy over edges if their incident nodes are not already in {@code dest}.]]>
       </doc>
     </method>
     <method name="equal" return="boolean"
@@ -36497,7 +36513,7 @@
  In particular, {@link Graph}s that are not also {@link Network}s cannot be equal
  to {@link Network}s.
 
- @see Network#equals(Object)]]>
+ @see Graph#equals(Object)]]>
       </doc>
     </method>
     <method name="equal" return="boolean"
@@ -37097,6 +37113,15 @@
  store mutable per-element state in a separate data structure (e.g. an element-to-state map).
  <li>There are no Node or Edge classes built in.  So you can have a {@code Graph<Integer, String>}
      or a {@code Graph<Author,Publication>} or a {@code Graph<Webpage,Link>}.
+ <li>This framework supports multiple mechanisms for storing the topology of a graph, including:
+   <ul>
+   <li>the Graph implementation stores the topology (for example, by storing a {@code Map<N, E>}
+       that maps nodes onto their incident edges); this implies that the nodes and edges
+       are just keys, and can be shared among graphs
+   <li>the nodes store the topology (for example, by storing a {@code List<E>} of incident edges);
+       this (usually) implies that nodes are graph-specific
+   <li>a separate data repository (for example, a database) stores the topology
+   </ul>
  </ul>
 
  <p>Notes on accessors:
@@ -56578,7 +56603,7 @@
       <![CDATA[Constructor for use by subclasses.]]>
       </doc>
     </constructor>
-    <method name="delegate" return="java.util.concurrent.Future&lt;V&gt;"
+    <method name="delegate" return="java.util.concurrent.Future&lt;? extends V&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
@@ -56663,7 +56688,7 @@
       <![CDATA[Constructor for use by subclasses.]]>
       </doc>
     </constructor>
-    <method name="delegate" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
+    <method name="delegate" return="com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
