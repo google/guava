@@ -31,6 +31,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -39,6 +40,7 @@ import java.util.Set;
  */
 @RunWith(JUnit4.class)
 public class GraphsTest {
+  private static final Integer N0 = 0;
   private static final Integer N1 = 1;
   private static final Integer N2 = 2;
   private static final Integer N3 = 3;
@@ -129,7 +131,6 @@ public class GraphsTest {
     assertThat(roots(directedGraph)).isEqualTo(ImmutableSet.of(N1, N2));
   }
 
-  @Test
   public void parallelEdges_directed() {
     MutableNetwork<Integer, String> directedGraph =
         NetworkBuilder.directed().allowsParallelEdges(true).build();
@@ -479,5 +480,13 @@ public class GraphsTest {
     undirectedGraph.addEdge(E21, N2, N1);
 
     return undirectedGraph;
+  }
+
+  private static void containsExactlySanityCheck(Collection<?> collection, Object... varargs) {
+    assertThat(collection).hasSize(varargs.length);
+    for (Object obj : varargs) {
+      assertThat(collection).contains(obj);
+    }
+    assertThat(collection).containsExactly(varargs);
   }
 }

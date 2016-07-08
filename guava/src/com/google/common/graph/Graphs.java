@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.ENDPOINTS_GRAPH_DIRECTEDNESS;
 import static com.google.common.graph.GraphConstants.NETWORK_WITH_PARALLEL_EDGE;
 
@@ -25,14 +26,17 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
+import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
-import java.util.ArrayList;
+import java.util.AbstractSet;
 import java.util.Collection;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -49,8 +53,6 @@ import javax.annotation.Nullable;
 public final class Graphs {
 
   private static final String GRAPH_FORMAT = "%s, nodes: %s, edges: %s";
-  private static final String DIRECTED_FORMAT = "<%s -> %s>";
-  private static final String UNDIRECTED_FORMAT = "[%s, %s]";
 
   private Graphs() {}
 
@@ -68,6 +70,85 @@ public final class Graphs {
         return graph.predecessors(node).isEmpty();
       }
     });
+  }
+
+  private static <N> Set<Endpoints<N>> endpointsInternal(final Graph<N> graph) {
+    if (graph instanceof Network && !allowsParallelEdges(graph)) {
+      // Use an optimized implementation for networks without parallel edges.
+      return endpointsSimpleNetwork(castToNetwork(graph));
+    }
+
+    return new AbstractSet<Endpoints<N>>() {
+      @Override
+      public Iterator<Endpoints<N>> iterator() {
+        return graph.isDirected()
+            ? new DirectedEndpointsIterator<N>(graph)
+            : new UndirectedEndpointsIterator<N>(graph);
+      }
+
+      @Override
+      public int size() {
+        boolean directed = graph.isDirected();
+        long endpointsCount = 0L;
+        for (N node : graph.nodes()) {
+          Set<N> successors = graph.successors(node);
+          endpointsCount += successors.size();
+          if (!directed && successors.contains(node)) {
+            endpointsCount++; // count self-loops twice in the undirected case
+          }
+        }
+        if (!directed) {
+          // In undirected graphs, every pair of adjacent nodes has been counted twice.
+          checkState((endpointsCount & 1) == 0);
+          endpointsCount >>>= 1;
+        }
+        return Ints.saturatedCast(endpointsCount);
+      }
+
+      @Override
+      public boolean contains(Object obj) {
+        if (!(obj instanceof Endpoints)) {
+          return false;
+        }
+        return containsEndpoints(graph, (Endpoints<?>) obj);
+      }
+    };
+  }
+
+  private static <N> Set<Endpoints<N>> endpointsSimpleNetwork(final Network<N, ?> graph) {
+    checkState(!graph.allowsParallelEdges());
+    return new AbstractSet<Endpoints<N>>() {
+      @Override
+      public Iterator<Endpoints<N>> iterator() {
+        return Iterators.transform(
+            graph.edges().iterator(),
+            new Function<Object, Endpoints<N>>() {
+              @Override
+              public Endpoints<N> apply(Object edge) {
+                return graph.incidentNodes(edge);
+              }
+            });
+      }
+
+      @Override
+      public int size() {
+        return graph.edges().size();
+      }
+
+      @Override
+      public boolean contains(Object obj) {
+        if (!(obj instanceof Endpoints)) {
+          return false;
+        }
+        return containsEndpoints(graph, (Endpoints<?>) obj);
+      }
+    };
+  }
+
+  private static boolean containsEndpoints(Graph<?> graph, Endpoints<?> endpoints) {
+    return graph.isDirected() == endpoints.isDirected()
+        && graph.nodes().contains(endpoints.nodeA())
+        && graph.successors(endpoints.nodeA()).contains(endpoints.nodeB());
   }
 
   /**
@@ -133,22 +214,19 @@ public final class Graphs {
   /**
    * Creates a mutable copy of {@code graph}, using the same nodes and edges.
    */
-  @SuppressWarnings("unchecked")
   public static <N> MutableGraph<N> copyOf(Graph<N> graph) {
     checkNotNull(graph, "graph");
     // TODO(b/28087289): we can remove this restriction when Graph supports parallel edges
-    checkArgument(!((graph instanceof Network) && ((Network<N, ?>) graph).allowsParallelEdges()),
-        NETWORK_WITH_PARALLEL_EDGE);
+    checkArgument(!allowsParallelEdges(graph), NETWORK_WITH_PARALLEL_EDGE);
     MutableGraph<N> copy = GraphBuilder.from(graph)
         .expectedNodeCount(graph.nodes().size())
         .build();
 
     for (N node : graph.nodes()) {
-      copy.addNode(node);
-      for (N successor : graph.successors(node)) {
-        // TODO(b/28087289): Ensure that multiplicity is preserved if parallel edges are supported.
-        copy.addEdge(node, successor);
-      }
+      checkState(copy.addNode(node));
+    }
+    for (Endpoints<N> endpoints : endpointsInternal(graph)) {
+      checkState(copy.addEdge(endpoints.nodeA(), endpoints.nodeB()));
     }
 
     return copy;
@@ -165,10 +243,10 @@ public final class Graphs {
         .build();
 
     for (N node : graph.nodes()) {
-      copy.addNode(node);
+      checkState(copy.addNode(node));
     }
     for (E edge : graph.edges()) {
-      addEdge(copy, edge, graph.incidentNodes(edge));
+      checkState(addEdge(copy, edge, graph.incidentNodes(edge)));
     }
 
     return copy;
@@ -186,7 +264,7 @@ public final class Graphs {
   public static boolean equal(@Nullable Graph<?> graph1, @Nullable Graph<?> graph2) {
     // If both graphs are Network instances, use equal(Network, Network) instead
     if (graph1 instanceof Network && graph2 instanceof Network) {
-      return equal((Network<?, ?>) graph1, (Network<?, ?>) graph2);
+      return equal(castToNetwork(graph1), castToNetwork(graph2));
     }
 
     // Otherwise, if either graph is a Network (but not both), they can't be equal.
@@ -261,7 +339,7 @@ public final class Graphs {
    */
   public static int hashCode(Graph<?> graph) {
     if (graph instanceof Network) {
-      return hashCode((Network<?, ?>) graph);
+      return hashCode(castToNetwork(graph));
     }
     return nodeToAdjacentNodes(graph).hashCode();
   }
@@ -281,12 +359,12 @@ public final class Graphs {
    */
   public static String toString(Graph<?> graph) {
     if (graph instanceof Network) {
-      return toString((Network<?, ?>) graph);
+      return toString(castToNetwork(graph));
     }
     return String.format(GRAPH_FORMAT,
         getPropertiesString(graph),
         graph.nodes(),
-        adjacentNodesString(graph));
+        endpointsString(graph));
   }
 
   /**
@@ -297,26 +375,15 @@ public final class Graphs {
     return String.format(GRAPH_FORMAT,
         getPropertiesString(graph),
         graph.nodes(),
-        Maps.asMap(graph.edges(), edgeToIncidentNodesString(graph)));
+        Maps.asMap(graph.edges(), edgeToEndpointsString(graph)));
   }
 
   /**
-   * Returns a String of the adjacent node relationships for {@code graph}.
+   * Returns a String of the endpoints for {@code graph}.
    */
-  private static <N> String adjacentNodesString(final Graph<N> graph) {
+  private static <N> String endpointsString(final Graph<N> graph) {
     checkNotNull(graph, "graph");
-    List<String> adjacencies = new ArrayList<String>();
-    // This will list each undirected edge twice (once as [n1, n2] and once as [n2, n1]); this is OK
-    for (N node : graph.nodes()) {
-      for (N successor : graph.successors(node)) {
-        adjacencies.add(
-            String.format(
-                graph.isDirected() ? DIRECTED_FORMAT : UNDIRECTED_FORMAT,
-                node, successor));
-      }
-    }
-
-    return String.format("{%s}", Joiner.on(", ").join(adjacencies));
+    return String.format("{%s}", Joiner.on(", ").join(endpointsInternal(graph)));
   }
 
   /**
@@ -348,11 +415,11 @@ public final class Graphs {
   }
 
   /**
-   * Returns a function that transforms an edge into a string representation of its incident nodes
+   * Returns a function that transforms an edge into a string representation of its endpoints
    * in {@code graph}. The function's {@code apply} method will throw an
    * {@link IllegalArgumentException} if {@code graph} does not contain {@code edge}.
    */
-  private static Function<Object, String> edgeToIncidentNodesString(final Network<?, ?> graph) {
+  private static Function<Object, String> edgeToEndpointsString(final Network<?, ?> graph) {
     checkNotNull(graph, "graph");
     return new Function<Object, String>() {
       @Override
@@ -368,7 +435,7 @@ public final class Graphs {
   // TODO(b/28087289): add allowsParallelEdges() once that's supported
   private static String getPropertiesString(Graph<?> graph) {
     if (graph instanceof Network) {
-      return getPropertiesString((Network<?, ?>) graph);
+      return getPropertiesString(castToNetwork(graph));
     }
     return String.format("isDirected: %s, allowsSelfLoops: %s",
         graph.isDirected(), graph.allowsSelfLoops());
@@ -380,5 +447,115 @@ public final class Graphs {
   private static String getPropertiesString(Network<?, ?> graph) {
     return String.format("isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",
         graph.isDirected(), graph.allowsParallelEdges(), graph.allowsSelfLoops());
+  }
+
+  private static boolean allowsParallelEdges(Graph<?> graph) {
+    return (graph instanceof Network) && castToNetwork(graph).allowsParallelEdges();
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <N> Network<N, ?> castToNetwork(Graph<N> graph) {
+    return (Network<N, ?>) graph;
+  }
+
+  private abstract static class AbstractEndpointsIterator<N>
+      extends AbstractIterator<Endpoints<N>> {
+    private final Graph<N> graph;
+    private final Iterator<N> nodeIterator;
+
+    N node = null; // null is safe as an initial value because graphs do not allow null nodes
+    Iterator<N> successorIterator = ImmutableSet.<N>of().iterator();
+
+    AbstractEndpointsIterator(Graph<N> graph) {
+      this.graph = graph;
+      this.nodeIterator = graph.nodes().iterator();
+    }
+
+    /**
+     * Called after {@link #successorIterator} is exhausted. Advances {@link #node} to the next node
+     * and updates {@link #successorIterator} to iterate through the successors of {@link #node}.
+     */
+    final boolean advance() {
+      checkState(!successorIterator.hasNext());
+      if (!nodeIterator.hasNext()) {
+        return false;
+      }
+      node = nodeIterator.next();
+      successorIterator = graph.successors(node).iterator();
+      return true;
+    }
+  }
+
+  /**
+   * If the graph is directed, each ordered [source, target] pair will be visited once if there is
+   * one or more edge connecting them.
+   */
+  private static final class DirectedEndpointsIterator<N> extends AbstractEndpointsIterator<N> {
+    DirectedEndpointsIterator(Graph<N> graph){
+      super(graph);
+    }
+
+    @Override
+    protected Endpoints<N> computeNext() {
+      while (true) {
+        if (successorIterator.hasNext()) {
+          return Endpoints.ofDirected(node, successorIterator.next());
+        }
+        if (!advance()) {
+          return endOfData();
+        }
+      }
+    }
+  }
+
+  /**
+   * If the graph is undirected, each unordered [node, otherNode] pair (except self-loops) will be
+   * visited twice if there is one or more edge connecting them. To avoid returning duplicate
+   * {@link Endpoints}, we keep track of the nodes that we have visited. When processing node pairs,
+   * we skip if the "other node" is in the visited set, as shown below:
+   *
+   * Nodes = {N1, N2, N3, N4}
+   *    N2           __
+   *   /  \         |  |
+   * N1----N3      N4__|
+   *
+   * Visited Nodes = {}
+   * Endpoints [N1, N2] - return
+   * Endpoints [N1, N3] - return
+   * Visited Nodess = {N1}
+   * Endpoints [N2, N1] - skip
+   * Endpoints [N2, N3] - return
+   * Visited Nodes = {N1, N2}
+   * Endpoints [N3, N1] - skip
+   * Endpoints [N3, N2] - skip
+   * Visited Nodes = {N1, N2, N3}
+   * Endpoints [N4, N4] - return
+   * Visited Nodes = {N1, N2, N3, N4}
+   */
+  private static final class UndirectedEndpointsIterator<N> extends AbstractEndpointsIterator<N> {
+    private Set<N> visitedNodes;
+
+    UndirectedEndpointsIterator(Graph<N> graph) {
+      super(graph);
+      this.visitedNodes = Sets.newHashSetWithExpectedSize(graph.nodes().size());
+    }
+
+    @Override
+    protected Endpoints<N> computeNext() {
+      while (true) {
+        while (successorIterator.hasNext()) {
+          N otherNode = successorIterator.next();
+          if (!visitedNodes.contains(otherNode)) {
+            return Endpoints.ofUndirected(node, otherNode);
+          }
+        }
+        // Add to visited set *after* processing neighbors so we still include self-loops.
+        visitedNodes.add(node);
+        if (!advance()) {
+          visitedNodes = null;
+          return endOfData();
+        }
+      }
+    }
   }
 }
