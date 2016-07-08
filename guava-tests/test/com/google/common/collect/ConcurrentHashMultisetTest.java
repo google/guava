@@ -369,12 +369,10 @@ public class ConcurrentHashMultisetTest extends TestCase {
   private void testIdentityKeyEquality(
       MapMakerInternalMap.Strength keyStrength) {
 
-    MapMaker mapMaker = new MapMaker()
-        .setKeyStrength(keyStrength)
-        .keyEquivalence(Equivalence.identity());
+    ConcurrentMap<String, AtomicInteger> map =
+        new MapMaker().setKeyStrength(keyStrength).keyEquivalence(Equivalence.identity()).makeMap();
 
-    ConcurrentHashMultiset<String> multiset =
-        ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(map);
 
     String s1 = new String("a");
     String s2 = new String("a");
@@ -408,12 +406,10 @@ public class ConcurrentHashMultisetTest extends TestCase {
   private void testLogicalKeyEquality(
       MapMakerInternalMap.Strength keyStrength) {
 
-    MapMaker mapMaker = new MapMaker()
-        .setKeyStrength(keyStrength)
-        .keyEquivalence(Equivalence.equals());
+    ConcurrentMap<String, AtomicInteger> map =
+        new MapMaker().setKeyStrength(keyStrength).keyEquivalence(Equivalence.equals()).makeMap();
 
-    ConcurrentHashMultiset<String> multiset =
-        ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(map);
 
     String s1 = new String("a");
     String s2 = new String("a");
@@ -435,31 +431,30 @@ public class ConcurrentHashMultisetTest extends TestCase {
   }
 
   public void testSerializationWithMapMaker1() {
-    MapMaker mapMaker = new MapMaker();
-    multiset = ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentMap<String, AtomicInteger> map = new MapMaker().makeMap();
+    multiset = ConcurrentHashMultiset.create(map);
     reserializeAndAssert(multiset);
   }
 
   public void testSerializationWithMapMaker2() {
-    MapMaker mapMaker = new MapMaker();
-    multiset = ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentMap<String, AtomicInteger> map = new MapMaker().makeMap();
+    multiset = ConcurrentHashMultiset.create(map);
     multiset.addAll(ImmutableList.of("a", "a", "b", "c", "d", "b"));
     reserializeAndAssert(multiset);
   }
 
   public void testSerializationWithMapMaker3() {
-    MapMaker mapMaker = new MapMaker();
-    multiset = ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentMap<String, AtomicInteger> map = new MapMaker().makeMap();
+    multiset = ConcurrentHashMultiset.create(map);
     multiset.addAll(ImmutableList.of("a", "a", "b", "c", "d", "b"));
     reserializeAndAssert(multiset);
   }
 
   public void testSerializationWithMapMaker_preservesIdentityKeyEquivalence() {
-    MapMaker mapMaker = new MapMaker()
-        .keyEquivalence(Equivalence.identity());
+    ConcurrentMap<String, AtomicInteger> map =
+        new MapMaker().keyEquivalence(Equivalence.identity()).makeMap();
 
-    ConcurrentHashMultiset<String> multiset =
-        ConcurrentHashMultiset.create(mapMaker);
+    ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(map);
     multiset = reserializeAndAssert(multiset);
 
     String s1 = new String("a");
