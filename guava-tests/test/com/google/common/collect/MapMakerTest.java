@@ -27,7 +27,6 @@ import junit.framework.TestCase;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -40,45 +39,6 @@ public class MapMakerTest extends TestCase {
   public void testNullParameters() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(new MapMaker());
-  }
-
-  @GwtIncompatible // threads
-
-  public void testRemovalNotification_clear() throws InterruptedException {
-    // If a clear() happens while a computation is pending, we should not get a removal
-    // notification.
-
-    final CountDownLatch computingLatch = new CountDownLatch(1);
-    Function<String, String> computingFunction = new DelayingIdentityLoader<String>(computingLatch);
-
-    @SuppressWarnings("deprecation") // test of deprecated code
-    final ConcurrentMap<String, String> map = new MapMaker()
-        .concurrencyLevel(1)
-        .makeComputingMap(computingFunction);
-
-    // seed the map, so its segment's count > 0
-    map.put("a", "a");
-
-    final CountDownLatch computationStarted = new CountDownLatch(1);
-    final CountDownLatch computationComplete = new CountDownLatch(1);
-    new Thread(new Runnable() {
-      @Override public void run() {
-        computationStarted.countDown();
-        map.get("b");
-        computationComplete.countDown();
-      }
-    }).start();
-
-    // wait for the computingEntry to be created
-    computationStarted.await();
-    map.clear();
-    // let the computation proceed
-    computingLatch.countDown();
-    // don't check map.size() until we know the get("b") call is complete
-    computationComplete.await();
-
-    assertEquals(1, map.size());
-    assertEquals("b", map.get("b"));
   }
 
   @GwtIncompatible // threads
@@ -127,66 +87,6 @@ public class MapMakerTest extends TestCase {
           .initialCapacity(5)
           .makeMap();
       assertTrue(map instanceof ConcurrentHashMap);
-    }
-  }
-
-  /** Tests for recursive computation. */
-  public static class RecursiveComputationTest extends TestCase {
-    Function<Integer, String> recursiveComputer
-        = new Function<Integer, String>() {
-      @Override
-      public String apply(Integer key) {
-        if (key > 0) {
-          return key + ", " + recursiveMap.get(key - 1);
-        } else {
-          return "0";
-        }
-      }
-    };
-
-    ConcurrentMap<Integer, String> recursiveMap = new MapMaker()
-        .makeComputingMap(recursiveComputer);
-
-    public void testRecursiveComputation() {
-      assertEquals("3, 2, 1, 0", recursiveMap.get(3));
-    }
-  }
-
-  /**
-   * Tests for computing functionality.
-   */
-  public static class ComputingTest extends TestCase {
-    public void testComputerThatReturnsNull() {
-      ConcurrentMap<Integer, String> map = new MapMaker()
-          .makeComputingMap(new Function<Integer, String>() {
-            @Override
-            public String apply(Integer key) {
-              return null;
-            }
-          });
-      try {
-        map.get(1);
-        fail();
-      } catch (NullPointerException e) { /* expected */ }
-    }
-
-    public void testRuntimeException() {
-      final RuntimeException e = new RuntimeException();
-
-      ConcurrentMap<Object, Object> map = new MapMaker().makeComputingMap(
-          new Function<Object, Object>() {
-        @Override
-        public Object apply(Object from) {
-          throw e;
-        }
-      });
-
-      try {
-        map.get(new Object());
-        fail();
-      } catch (ComputationException ce) {
-        assertSame(e, ce.getCause());
-      }
     }
   }
 }

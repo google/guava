@@ -22,19 +22,15 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
-import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Throwables;
 import com.google.common.collect.MapMakerInternalMap.Strength;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
-import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutionException;
 
 /**
  * <p>A builder of {@link ConcurrentMap} instances that can have keys or values automatically
@@ -286,68 +282,6 @@ public final class MapMaker {
   }
 
   /**
-   * Builds a map that supports atomic, on-demand computation of values. {@link Map#get} either
-   * returns an already-computed value for the given key, atomically computes it using the supplied
-   * function, or, if another thread is currently computing the value for this key, simply waits for
-   * that thread to finish and returns its computed value. Note that the function may be executed
-   * concurrently by multiple threads, but only for distinct keys.
-   *
-   * <p>New code should use {@link com.google.common.cache.CacheBuilder}, which supports
-   * {@linkplain com.google.common.cache.CacheStats statistics} collection, introduces the
-   * {@link com.google.common.cache.CacheLoader} interface for loading entries into the cache
-   * (allowing checked exceptions to be thrown in the process), and more cleanly separates
-   * computation from the cache's {@code Map} view.
-   *
-   * <p>If an entry's value has not finished computing yet, query methods besides {@code get} return
-   * immediately as if an entry doesn't exist. In other words, an entry isn't externally visible
-   * until the value's computation completes.
-   *
-   * <p>{@link Map#get} on the returned map will never return {@code null}. It may throw:
-   *
-   * <ul>
-   * <li>{@link NullPointerException} if the key is null or the computing function returns a null
-   * result
-   * <li>{@link ComputationException} if an exception was thrown by the computing function. If that
-   * exception is already of type {@link ComputationException} it is propagated directly; otherwise
-   * it is wrapped.
-   * </ul>
-   *
-   * <p><b>Note:</b> Callers of {@code get} <i>must</i> ensure that the key argument is of type
-   * {@code K}. The {@code get} method accepts {@code Object}, so the key type is not checked at
-   * compile time. Passing an object of a type other than {@code K} can result in that object being
-   * unsafely passed to the computing function as type {@code K}, and unsafely stored in the map.
-   *
-   * <p>If {@link Map#put} is called before a computation completes, other threads waiting on the
-   * computation will wake up and return the stored value.
-   *
-   * <p>This method does not alter the state of this {@code MapMaker} instance, so it can be invoked
-   * again to create multiple independent maps.
-   *
-   * <p>Insertion, removal, update, and access operations on the returned map safely execute
-   * concurrently by multiple threads. Iterators on the returned map are weakly consistent,
-   * returning elements reflecting the state of the map at some point at or since the creation of
-   * the iterator. They do not throw {@link ConcurrentModificationException}, and may proceed
-   * concurrently with other operations.
-   *
-   * <p>The bulk operations {@code putAll}, {@code equals}, and {@code clear} are not guaranteed to
-   * be performed atomically on the returned map. Additionally, {@code size} and
-   * {@code containsValue} are implemented as bulk read operations, and thus may fail to observe
-   * concurrent writes.
-   *
-   * @param computingFunction the function used to compute new values
-   * @return a serializable concurrent map having the requested features
-   * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #makeComputingMap} being replaced
-   *     by {@link com.google.common.cache.CacheBuilder#build}. See the
-   *     <a href="https://github.com/google/guava/wiki/MapMakerMigration">MapMaker Migration
-   *     Guide</a> for more details.
-   */
-  @Deprecated
-  <K, V> ConcurrentMap<K, V> makeComputingMap(Function<? super K, ? extends V> computingFunction) {
-    return new MapMaker.ComputingMapAdapter<K, V>(this, computingFunction);
-  }
-
-  /**
    * Returns a string representation for this MapMaker instance. The exact form of the returned
    * string is not specificed.
    */
@@ -370,40 +304,5 @@ public final class MapMaker {
       s.addValue("keyEquivalence");
     }
     return s.toString();
-  }
-
-  /**
-   * Overrides get() to compute on demand. Also throws an exception when {@code null} is returned
-   * from a computation.
-   */
-  /*
-   * This might make more sense in ComputingConcurrentHashMap, but it causes a javac crash in some
-   * cases there: http://code.google.com/p/guava-libraries/issues/detail?id=950
-   */
-  static final class ComputingMapAdapter<K, V> extends ComputingConcurrentHashMap<K, V>
-      implements Serializable {
-    private static final long serialVersionUID = 0;
-
-    ComputingMapAdapter(MapMaker mapMaker, Function<? super K, ? extends V> computingFunction) {
-      super(mapMaker, computingFunction);
-    }
-
-    @SuppressWarnings("unchecked") // unsafe, which is one advantage of Cache over Map
-    @Override
-    public V get(Object key) {
-      V value;
-      try {
-        value = getOrCompute((K) key);
-      } catch (ExecutionException e) {
-        Throwable cause = e.getCause();
-        Throwables.propagateIfInstanceOf(cause, ComputationException.class);
-        throw new ComputationException(cause);
-      }
-
-      if (value == null) {
-        throw new NullPointerException(computingFunction + " returned null for key " + key + ".");
-      }
-      return value;
-    }
   }
 }
