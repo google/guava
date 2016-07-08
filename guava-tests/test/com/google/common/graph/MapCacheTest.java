@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Ordering;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -53,6 +54,11 @@ public final class MapCacheTest {
       {new MapIteratorCache<String, String>(new TreeMap<String, String>(nullsLast))},
       {new MapRetrievalCache<String, String>(new HashMap<String, String>())},
       {new MapRetrievalCache<String, String>(new TreeMap<String, String>(nullsLast))}});
+  }
+
+  @Before
+  public void init() {
+    mapCache.clear();
   }
 
   @Test

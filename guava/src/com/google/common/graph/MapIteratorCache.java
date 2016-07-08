@@ -67,6 +67,11 @@ class MapIteratorCache<K, V> {
     return backingMap.remove(key);
   }
 
+  public void clear() {
+    clearCache();
+    backingMap.clear();
+  }
+
   public V get(@Nullable Object key) {
     V value = getIfCached(key);
     return (value != null) ? value : getWithoutCaching(key);
