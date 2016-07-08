@@ -29,6 +29,7 @@ import com.google.common.collect.Sets;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.annotation.Nullable;
 
@@ -124,9 +125,11 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     this.allowsSelfLoops = builder.allowsSelfLoops;
     this.nodeOrder = builder.nodeOrder;
     this.edgeOrder = builder.edgeOrder;
-    // Prefer the heavier "MapRetrievalCache" for nodes to optimize for the case where methods
-    // accessing the same node(s) are called repeatedly, such as in Graphs.removeEdgesConnecting().
-    this.nodeConnections = new MapRetrievalCache<N, NodeConnections<N, E>>(nodeConnections);
+    // Prefer the heavier "MapRetrievalCache" for nodes if lookup is expensive. This optimizes
+    // methods that access the same node(s) repeatedly, such as Graphs.removeEdgesConnecting().
+    this.nodeConnections = (nodeConnections instanceof TreeMap)
+        ? new MapRetrievalCache<N, NodeConnections<N, E>>(nodeConnections)
+        : new MapIteratorCache<N, NodeConnections<N, E>>(nodeConnections);
     this.edgeToReferenceNode = new MapIteratorCache<E, N>(edgeToReferenceNode);
   }
 

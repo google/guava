@@ -25,6 +25,7 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.annotation.Nullable;
 
@@ -90,7 +91,10 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
     this.isDirected = builder.directed;
     this.allowsSelfLoops = builder.allowsSelfLoops;
     this.nodeOrder = builder.nodeOrder;
-    this.nodeConnections = new MapRetrievalCache<N, NodeAdjacencies<N>>(nodeConnections);
+    // Prefer the heavier "MapRetrievalCache" for nodes if lookup is expensive.
+    this.nodeConnections = (nodeConnections instanceof TreeMap)
+        ? new MapRetrievalCache<N, NodeAdjacencies<N>>(nodeConnections)
+        : new MapIteratorCache<N, NodeAdjacencies<N>>(nodeConnections);
   }
 
   /**
