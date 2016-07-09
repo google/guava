@@ -16,11 +16,9 @@
 
 package com.google.common.io;
 
-import static org.easymock.EasyMock.createStrictMock;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.reset;
-import static org.easymock.EasyMock.verify;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import junit.framework.TestCase;
 
@@ -72,31 +70,21 @@ public class FlushablesTest extends TestCase {
     Flushables.flushQuietly(mockFlushable);
   }
 
-  @Override protected void setUp() throws Exception {
-    mockFlushable = createStrictMock(Flushable.class);
-  }
-
-  private void expectThrown() {
-    expectLastCall().andThrow(new IOException("This should only appear in the "
-        + "logs. It should not be rethrown."));
-  }
-
   // Set up a flushable to expect to be flushed, and optionally to
   // throw an exception.
   private void setupFlushable(boolean shouldThrowOnFlush) throws IOException {
-    reset(mockFlushable);
-    mockFlushable.flush();
+    mockFlushable = mock(Flushable.class);
     if (shouldThrowOnFlush) {
-      expectThrown();
+      doThrow(new IOException("This should only appear in the "
+          + "logs. It should not be rethrown.")).when(mockFlushable).flush();
     }
-    replay(mockFlushable);
   }
 
   // Flush the flushable using the Flushables, passing in the swallowException
   // parameter. expectThrown determines whether we expect an exception to
   // be thrown by Flushables.flush;
   private void doFlush(Flushable flushable, boolean swallowException,
-      boolean expectThrown) {
+      boolean expectThrown) throws IOException {
     try {
       Flushables.flush(flushable, swallowException);
       if (expectThrown) {
@@ -107,6 +95,6 @@ public class FlushablesTest extends TestCase {
         fail("Threw exception");
       }
     }
-    verify(flushable);
+    verify(flushable).flush();
   }
 }
