@@ -97,8 +97,7 @@ public final class GraphEqualsTest {
     new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
   }
 
-  // Node/edge sets and node/edge connections are the same, but types differ.
-  // (In this case the graphs are considered equal; the type differences are irrelevant.)
+  // Node/edge sets and node/edge connections are the same, but directedness differs.
   @Test
   public void equals_selfLoop_directedVsUndirected() {
     graph.addEdge(N1, N1);
@@ -106,7 +105,7 @@ public final class GraphEqualsTest {
     MutableGraph<Integer> g2 = createGraph(oppositeType(graphType));
     g2.addEdge(N1, N1);
 
-    new EqualsTester().addEqualityGroup(graph, g2).testEquals();
+    new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
   }
 
   // Node/edge sets and node/edge connections are the same, but graph properties differ.

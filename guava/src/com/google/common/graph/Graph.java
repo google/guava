@@ -256,22 +256,25 @@ public interface Graph<N> {
   int outDegree(Object node);
 
   /**
-   * Returns {@code true} iff {@code object} is a graph that has the same node relationships
+   * Returns {@code true} iff {@code object} is a graph that has the same structural relationships
    * as those in this graph.
    *
    * <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
    * <ul>
-   * <li>A and B have the same node set
-   * <li>A and B have the same adjacency relationships, e.g., for each {@code node} the sets of
-   *     successor and predecessor nodes are the same in both graphs.
-   *     <br>This implies that every edge in A and B connects the same nodes in the same
-   *     direction (if any).
+   * <li>A and B have the same {@link #isDirected() directedness}.
+   * <li>A and B have the same node set.
+   * <li>A and B have the same adjacency relationships, i.e., for each node, the sets of successor
+   *     and predecessor nodes are the same in both graphs.
    * </ul>
    *
    * <p>Graph properties are <b>not</b> respected by this method. For example, two relations may
    * be considered equal even if one allows self-loops and the other doesn't. Additionally, the
    * order in which edges or nodes are added to the graph, and the order in which they are
    * iterated over, are irrelevant.
+   *
+   * <p>Note: {@link Network} instances can only be equal to other {@link Network} instances.
+   * In particular, {@link Graph}s that are not also {@link Network}s cannot be equal to
+   * {@link Network}s.
    *
    * <p>A reference implementation of this is provided by {@link Graphs#equal(Graph, Graph)}.
    */
@@ -280,13 +283,9 @@ public interface Graph<N> {
 
   /**
    * Returns the hash code for this graph. The hash code of a graph is defined as the hash code
-   * of a map from each of the graph's nodes to their adjacent nodes.
+   * of a map from each of the graph's nodes to its successor nodes.
    *
    * <p>A reference implementation of this is provided by {@link Graphs#hashCode(Graph)}.
-   *
-   * <p>Note that by this definition, two graphs that are equal in every aspect except edge
-   * direction will have the same hash code (but can still be differentiated by
-   * {@link #equals(Object)}.
    */
   @Override
   int hashCode();

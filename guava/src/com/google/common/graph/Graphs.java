@@ -253,13 +253,8 @@ public final class Graphs {
   }
 
   /**
-   * Returns true iff {@code graph1} and {@code graph2} have the same node connections.
-   *
-   * <p>Note: {@link Network} instances can only be equal to other {@link Network} instances.
-   * In particular, {@link Graph}s that are not also {@link Network}s cannot be equal
-   * to {@link Network}s.
-   *
-   * @see Graph#equals(Object)
+   * Returns true iff {@code graph1} and {@code graph2} are equal as defined by
+   * {@link Graph#equals(Object)}.
    */
   public static boolean equal(@Nullable Graph<?> graph1, @Nullable Graph<?> graph2) {
     // If both graphs are Network instances, use equal(Network, Network) instead
@@ -280,6 +275,10 @@ public final class Graphs {
       return false;
     }
 
+    if (graph1.isDirected() != graph2.isDirected()) {
+      return false;
+    }
+
     if (!graph1.nodes().equals(graph2.nodes())) {
       return false;
     }
@@ -288,19 +287,14 @@ public final class Graphs {
       if (!graph1.successors(node).equals(graph2.successors(node))) {
         return false;
       }
-      boolean bothUndirected = !graph1.isDirected() && !graph2.isDirected();
-      if (!bothUndirected && !graph1.predecessors(node).equals(graph2.predecessors(node))) {
-        return false;
-      }
     }
 
     return true;
   }
 
   /**
-   * Returns true iff {@code graph1} and {@code graph2} have the same node/edge relationships.
-   *
-   * @see Network#equals(Object)
+   * Returns true iff {@code graph1} and {@code graph2} are equal as defined by
+   * {@link Network#equals(Object)}.
    */
   public static boolean equal(@Nullable Network<?, ?> graph1, @Nullable Network<?, ?> graph2) {
     if (graph1 == graph2) {
@@ -311,20 +305,16 @@ public final class Graphs {
       return false;
     }
 
-    if (graph1.edges().size() != graph2.edges().size()) {
+    if (graph1.isDirected() != graph2.isDirected()) {
       return false;
     }
 
-    if (!graph1.nodes().equals(graph2.nodes())) {
+    if (!graph1.nodes().equals(graph2.nodes()) || !graph1.edges().equals(graph2.edges())) {
       return false;
     }
 
-    for (Object node : graph1.nodes()) {
-      if (!graph1.inEdges(node).equals(graph2.inEdges(node))) {
-        return false;
-      }
-      boolean bothUndirected = !graph1.isDirected() && !graph2.isDirected();
-      if (!bothUndirected && !graph1.outEdges(node).equals(graph2.outEdges(node))) {
+    for (Object edge : graph1.edges()) {
+      if (!graph1.incidentNodes(edge).equals(graph2.incidentNodes(edge))) {
         return false;
       }
     }
@@ -333,24 +323,20 @@ public final class Graphs {
   }
 
   /**
-   * Returns the hash code of {@code graph}.
-   *
-   * @see Graph#hashCode()
+   * Returns the hash code of {@code graph} as defined by {@link Graph#hashCode()}.
    */
   public static int hashCode(Graph<?> graph) {
     if (graph instanceof Network) {
       return hashCode(castToNetwork(graph));
     }
-    return nodeToAdjacentNodes(graph).hashCode();
+    return nodeToSuccessorNodes(graph).hashCode();
   }
 
   /**
-   * Returns the hash code of {@code graph}.
-   *
-   * @see Network#hashCode()
+   * Returns the hash code of {@code graph} as defined by {@link Network#hashCode()}.
    */
   public static int hashCode(Network<?, ?> graph) {
-    return nodeToIncidentEdges(graph).hashCode();
+    return nodeToOutEdges(graph).hashCode();
   }
 
   /**
@@ -388,28 +374,28 @@ public final class Graphs {
 
   /**
    * Returns a map that is a live view of {@code graph}, with nodes as keys
-   * and the set of incident edges as values.
+   * and the set of outgoing edges as values.
    */
-  private static <N, E> Map<N, Set<E>> nodeToIncidentEdges(final Network<N, E> graph) {
+  private static <N, E> Map<N, Set<E>> nodeToOutEdges(final Network<N, E> graph) {
     checkNotNull(graph, "graph");
     return Maps.asMap(graph.nodes(), new Function<N, Set<E>>() {
       @Override
       public Set<E> apply(N node) {
-        return graph.incidentEdges(node);
+        return graph.outEdges(node);
       }
     });
   }
 
   /**
    * Returns a map that is a live view of {@code graph}, with nodes as keys
-   * and the set of adjacent nodes as values.
+   * and the set of successor nodes as values.
    */
-  private static <N> Map<N, Set<N>> nodeToAdjacentNodes(final Graph<N> graph) {
+  private static <N> Map<N, Set<N>> nodeToSuccessorNodes(final Graph<N> graph) {
     checkNotNull(graph, "graph");
     return Maps.asMap(graph.nodes(), new Function<N, Set<N>>() {
       @Override
       public Set<N> apply(N node) {
-        return graph.adjacentNodes(node);
+        return graph.successors(node);
       }
     });
   }
