@@ -302,9 +302,10 @@
               <logLevel>${gwt.logLevel}</logLevel>
               <mode>htmlunit</mode>
               <productionMode>true</productionMode>
-              <testTimeOut>600</testTimeOut>
+              <testTimeOut>600 <!-- seconds --></testTimeOut>
               <extraJvmArgs>-Xms3500m -Xmx3500m -Xss1024k</extraJvmArgs>
               <sourceLevel>1.7</sourceLevel>
+              <testMethodTimeout>10 <!-- minutes --></testMethodTimeout>
             </configuration>
           </execution>
         </executions>
