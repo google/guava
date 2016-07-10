@@ -42,17 +42,17 @@ interface NodeConnections<N, E> {
   Set<E> outEdges();
 
   /**
+   * Returns the set of edges connecting the origin node to {@code node}.
+   * For networks without parallel edges, this set cannot be of size greater than one.
+   */
+  Set<E> edgesConnecting(Object node);
+
+  /**
    * Returns the node that is opposite the origin node along {@code edge}.
    *
    * <p>In the directed case, {@code edge} is assumed to be an outgoing edge.
    */
   N oppositeNode(Object edge);
-
-  /**
-   * Returns the set of edges connecting the origin node to {@code node}.
-   * For networks without parallel edges, this set cannot be of size greater than one.
-   */
-  Set<E> edgesConnecting(Object node);
 
   /**
    * Remove {@code edge} from the set of incoming edges. Returns the former predecessor node.

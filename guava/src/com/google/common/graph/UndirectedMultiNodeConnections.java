@@ -59,17 +59,6 @@ final class UndirectedMultiNodeConnections<N, E> extends AbstractUndirectedNodeC
     return new UndirectedMultiNodeConnections<N, E>(ImmutableMap.copyOf(incidentEdges));
   }
 
-  @Override
-  public Set<E> edgesConnecting(final Object node) {
-    return Collections.unmodifiableSet(
-        Maps.filterEntries(incidentEdgeMap, new Predicate<Entry<E, N>>() {
-          @Override
-          public boolean apply(Entry<E, N> entry) {
-            return entry.getValue().equals(node);
-          }
-        }).keySet());
-  }
-
   private transient Reference<Multiset<N>> adjacentNodesReference;
 
   @Override
@@ -80,6 +69,17 @@ final class UndirectedMultiNodeConnections<N, E> extends AbstractUndirectedNodeC
       adjacentNodesReference = new SoftReference<Multiset<N>>(adjacentNodes);
     }
     return Collections.unmodifiableSet(adjacentNodes.elementSet());
+  }
+
+  @Override
+  public Set<E> edgesConnecting(final Object node) {
+    return Collections.unmodifiableSet(
+        Maps.filterEntries(incidentEdgeMap, new Predicate<Entry<E, N>>() {
+          @Override
+          public boolean apply(Entry<E, N> entry) {
+            return entry.getValue().equals(node);
+          }
+        }).keySet());
   }
 
   @Override
