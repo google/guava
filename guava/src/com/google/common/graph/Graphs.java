@@ -25,7 +25,6 @@ import static com.google.common.graph.GraphConstants.NETWORK_WITH_PARALLEL_EDGE;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.base.Predicate;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
@@ -57,20 +56,6 @@ public final class Graphs {
   private Graphs() {}
 
   // Graph query methods
-
-  /**
-   * Returns the subset of nodes in {@code graph} that have no predecessors.
-   *
-   * <p>Note that in an undirected graph, this is equivalent to all isolated nodes.
-   */
-  public static <N> Set<N> roots(final Graph<N> graph) {
-    return Sets.filter(graph.nodes(), new Predicate<N>() {
-      @Override
-      public boolean apply(N node) {
-        return graph.predecessors(node).isEmpty();
-      }
-    });
-  }
 
   private static <N> Set<Endpoints<N>> endpointsInternal(final Graph<N> graph) {
     if (graph instanceof Network && !allowsParallelEdges(graph)) {
