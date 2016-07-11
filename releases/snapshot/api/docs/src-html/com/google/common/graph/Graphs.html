@@ -261,312 +261,298 @@
 <span class="sourceLineNo">253</span>  }<a name="line.253"></a>
 <span class="sourceLineNo">254</span><a name="line.254"></a>
 <span class="sourceLineNo">255</span>  /**<a name="line.255"></a>
-<span class="sourceLineNo">256</span>   * Returns true iff {@code graph1} and {@code graph2} have the same node connections.<a name="line.256"></a>
-<span class="sourceLineNo">257</span>   *<a name="line.257"></a>
-<span class="sourceLineNo">258</span>   * &lt;p&gt;Note: {@link Network} instances can only be equal to other {@link Network} instances.<a name="line.258"></a>
-<span class="sourceLineNo">259</span>   * In particular, {@link Graph}s that are not also {@link Network}s cannot be equal<a name="line.259"></a>
-<span class="sourceLineNo">260</span>   * to {@link Network}s.<a name="line.260"></a>
-<span class="sourceLineNo">261</span>   *<a name="line.261"></a>
-<span class="sourceLineNo">262</span>   * @see Graph#equals(Object)<a name="line.262"></a>
-<span class="sourceLineNo">263</span>   */<a name="line.263"></a>
-<span class="sourceLineNo">264</span>  public static boolean equal(@Nullable Graph&lt;?&gt; graph1, @Nullable Graph&lt;?&gt; graph2) {<a name="line.264"></a>
-<span class="sourceLineNo">265</span>    // If both graphs are Network instances, use equal(Network, Network) instead<a name="line.265"></a>
-<span class="sourceLineNo">266</span>    if (graph1 instanceof Network &amp;&amp; graph2 instanceof Network) {<a name="line.266"></a>
-<span class="sourceLineNo">267</span>      return equal(castToNetwork(graph1), castToNetwork(graph2));<a name="line.267"></a>
+<span class="sourceLineNo">256</span>   * Returns true iff {@code graph1} and {@code graph2} are equal as defined by<a name="line.256"></a>
+<span class="sourceLineNo">257</span>   * {@link Graph#equals(Object)}.<a name="line.257"></a>
+<span class="sourceLineNo">258</span>   */<a name="line.258"></a>
+<span class="sourceLineNo">259</span>  public static boolean equal(@Nullable Graph&lt;?&gt; graph1, @Nullable Graph&lt;?&gt; graph2) {<a name="line.259"></a>
+<span class="sourceLineNo">260</span>    // If both graphs are Network instances, use equal(Network, Network) instead<a name="line.260"></a>
+<span class="sourceLineNo">261</span>    if (graph1 instanceof Network &amp;&amp; graph2 instanceof Network) {<a name="line.261"></a>
+<span class="sourceLineNo">262</span>      return equal(castToNetwork(graph1), castToNetwork(graph2));<a name="line.262"></a>
+<span class="sourceLineNo">263</span>    }<a name="line.263"></a>
+<span class="sourceLineNo">264</span><a name="line.264"></a>
+<span class="sourceLineNo">265</span>    // Otherwise, if either graph is a Network (but not both), they can't be equal.<a name="line.265"></a>
+<span class="sourceLineNo">266</span>    if (graph1 instanceof Network || graph2 instanceof Network) {<a name="line.266"></a>
+<span class="sourceLineNo">267</span>      return false;<a name="line.267"></a>
 <span class="sourceLineNo">268</span>    }<a name="line.268"></a>
 <span class="sourceLineNo">269</span><a name="line.269"></a>
-<span class="sourceLineNo">270</span>    // Otherwise, if either graph is a Network (but not both), they can't be equal.<a name="line.270"></a>
-<span class="sourceLineNo">271</span>    if (graph1 instanceof Network || graph2 instanceof Network) {<a name="line.271"></a>
-<span class="sourceLineNo">272</span>      return false;<a name="line.272"></a>
-<span class="sourceLineNo">273</span>    }<a name="line.273"></a>
-<span class="sourceLineNo">274</span><a name="line.274"></a>
-<span class="sourceLineNo">275</span>    if (graph1 == graph2) {<a name="line.275"></a>
-<span class="sourceLineNo">276</span>      return true;<a name="line.276"></a>
-<span class="sourceLineNo">277</span>    }<a name="line.277"></a>
-<span class="sourceLineNo">278</span><a name="line.278"></a>
-<span class="sourceLineNo">279</span>    if (graph1 == null || graph2 == null) {<a name="line.279"></a>
-<span class="sourceLineNo">280</span>      return false;<a name="line.280"></a>
-<span class="sourceLineNo">281</span>    }<a name="line.281"></a>
-<span class="sourceLineNo">282</span><a name="line.282"></a>
-<span class="sourceLineNo">283</span>    if (!graph1.nodes().equals(graph2.nodes())) {<a name="line.283"></a>
-<span class="sourceLineNo">284</span>      return false;<a name="line.284"></a>
-<span class="sourceLineNo">285</span>    }<a name="line.285"></a>
-<span class="sourceLineNo">286</span><a name="line.286"></a>
-<span class="sourceLineNo">287</span>    for (Object node : graph1.nodes()) {<a name="line.287"></a>
-<span class="sourceLineNo">288</span>      if (!graph1.successors(node).equals(graph2.successors(node))) {<a name="line.288"></a>
-<span class="sourceLineNo">289</span>        return false;<a name="line.289"></a>
-<span class="sourceLineNo">290</span>      }<a name="line.290"></a>
-<span class="sourceLineNo">291</span>      boolean bothUndirected = !graph1.isDirected() &amp;&amp; !graph2.isDirected();<a name="line.291"></a>
-<span class="sourceLineNo">292</span>      if (!bothUndirected &amp;&amp; !graph1.predecessors(node).equals(graph2.predecessors(node))) {<a name="line.292"></a>
-<span class="sourceLineNo">293</span>        return false;<a name="line.293"></a>
-<span class="sourceLineNo">294</span>      }<a name="line.294"></a>
-<span class="sourceLineNo">295</span>    }<a name="line.295"></a>
-<span class="sourceLineNo">296</span><a name="line.296"></a>
-<span class="sourceLineNo">297</span>    return true;<a name="line.297"></a>
-<span class="sourceLineNo">298</span>  }<a name="line.298"></a>
-<span class="sourceLineNo">299</span><a name="line.299"></a>
-<span class="sourceLineNo">300</span>  /**<a name="line.300"></a>
-<span class="sourceLineNo">301</span>   * Returns true iff {@code graph1} and {@code graph2} have the same node/edge relationships.<a name="line.301"></a>
-<span class="sourceLineNo">302</span>   *<a name="line.302"></a>
-<span class="sourceLineNo">303</span>   * @see Network#equals(Object)<a name="line.303"></a>
-<span class="sourceLineNo">304</span>   */<a name="line.304"></a>
-<span class="sourceLineNo">305</span>  public static boolean equal(@Nullable Network&lt;?, ?&gt; graph1, @Nullable Network&lt;?, ?&gt; graph2) {<a name="line.305"></a>
-<span class="sourceLineNo">306</span>    if (graph1 == graph2) {<a name="line.306"></a>
-<span class="sourceLineNo">307</span>      return true;<a name="line.307"></a>
-<span class="sourceLineNo">308</span>    }<a name="line.308"></a>
-<span class="sourceLineNo">309</span><a name="line.309"></a>
-<span class="sourceLineNo">310</span>    if (graph1 == null || graph2 == null) {<a name="line.310"></a>
-<span class="sourceLineNo">311</span>      return false;<a name="line.311"></a>
-<span class="sourceLineNo">312</span>    }<a name="line.312"></a>
-<span class="sourceLineNo">313</span><a name="line.313"></a>
-<span class="sourceLineNo">314</span>    if (graph1.edges().size() != graph2.edges().size()) {<a name="line.314"></a>
-<span class="sourceLineNo">315</span>      return false;<a name="line.315"></a>
-<span class="sourceLineNo">316</span>    }<a name="line.316"></a>
-<span class="sourceLineNo">317</span><a name="line.317"></a>
-<span class="sourceLineNo">318</span>    if (!graph1.nodes().equals(graph2.nodes())) {<a name="line.318"></a>
-<span class="sourceLineNo">319</span>      return false;<a name="line.319"></a>
+<span class="sourceLineNo">270</span>    if (graph1 == graph2) {<a name="line.270"></a>
+<span class="sourceLineNo">271</span>      return true;<a name="line.271"></a>
+<span class="sourceLineNo">272</span>    }<a name="line.272"></a>
+<span class="sourceLineNo">273</span><a name="line.273"></a>
+<span class="sourceLineNo">274</span>    if (graph1 == null || graph2 == null) {<a name="line.274"></a>
+<span class="sourceLineNo">275</span>      return false;<a name="line.275"></a>
+<span class="sourceLineNo">276</span>    }<a name="line.276"></a>
+<span class="sourceLineNo">277</span><a name="line.277"></a>
+<span class="sourceLineNo">278</span>    if (graph1.isDirected() != graph2.isDirected()) {<a name="line.278"></a>
+<span class="sourceLineNo">279</span>      return false;<a name="line.279"></a>
+<span class="sourceLineNo">280</span>    }<a name="line.280"></a>
+<span class="sourceLineNo">281</span><a name="line.281"></a>
+<span class="sourceLineNo">282</span>    if (!graph1.nodes().equals(graph2.nodes())) {<a name="line.282"></a>
+<span class="sourceLineNo">283</span>      return false;<a name="line.283"></a>
+<span class="sourceLineNo">284</span>    }<a name="line.284"></a>
+<span class="sourceLineNo">285</span><a name="line.285"></a>
+<span class="sourceLineNo">286</span>    for (Object node : graph1.nodes()) {<a name="line.286"></a>
+<span class="sourceLineNo">287</span>      if (!graph1.successors(node).equals(graph2.successors(node))) {<a name="line.287"></a>
+<span class="sourceLineNo">288</span>        return false;<a name="line.288"></a>
+<span class="sourceLineNo">289</span>      }<a name="line.289"></a>
+<span class="sourceLineNo">290</span>    }<a name="line.290"></a>
+<span class="sourceLineNo">291</span><a name="line.291"></a>
+<span class="sourceLineNo">292</span>    return true;<a name="line.292"></a>
+<span class="sourceLineNo">293</span>  }<a name="line.293"></a>
+<span class="sourceLineNo">294</span><a name="line.294"></a>
+<span class="sourceLineNo">295</span>  /**<a name="line.295"></a>
+<span class="sourceLineNo">296</span>   * Returns true iff {@code graph1} and {@code graph2} are equal as defined by<a name="line.296"></a>
+<span class="sourceLineNo">297</span>   * {@link Network#equals(Object)}.<a name="line.297"></a>
+<span class="sourceLineNo">298</span>   */<a name="line.298"></a>
+<span class="sourceLineNo">299</span>  public static boolean equal(@Nullable Network&lt;?, ?&gt; graph1, @Nullable Network&lt;?, ?&gt; graph2) {<a name="line.299"></a>
+<span class="sourceLineNo">300</span>    if (graph1 == graph2) {<a name="line.300"></a>
+<span class="sourceLineNo">301</span>      return true;<a name="line.301"></a>
+<span class="sourceLineNo">302</span>    }<a name="line.302"></a>
+<span class="sourceLineNo">303</span><a name="line.303"></a>
+<span class="sourceLineNo">304</span>    if (graph1 == null || graph2 == null) {<a name="line.304"></a>
+<span class="sourceLineNo">305</span>      return false;<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    }<a name="line.306"></a>
+<span class="sourceLineNo">307</span><a name="line.307"></a>
+<span class="sourceLineNo">308</span>    if (graph1.isDirected() != graph2.isDirected()) {<a name="line.308"></a>
+<span class="sourceLineNo">309</span>      return false;<a name="line.309"></a>
+<span class="sourceLineNo">310</span>    }<a name="line.310"></a>
+<span class="sourceLineNo">311</span><a name="line.311"></a>
+<span class="sourceLineNo">312</span>    if (!graph1.nodes().equals(graph2.nodes()) || !graph1.edges().equals(graph2.edges())) {<a name="line.312"></a>
+<span class="sourceLineNo">313</span>      return false;<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    }<a name="line.314"></a>
+<span class="sourceLineNo">315</span><a name="line.315"></a>
+<span class="sourceLineNo">316</span>    for (Object edge : graph1.edges()) {<a name="line.316"></a>
+<span class="sourceLineNo">317</span>      if (!graph1.incidentNodes(edge).equals(graph2.incidentNodes(edge))) {<a name="line.317"></a>
+<span class="sourceLineNo">318</span>        return false;<a name="line.318"></a>
+<span class="sourceLineNo">319</span>      }<a name="line.319"></a>
 <span class="sourceLineNo">320</span>    }<a name="line.320"></a>
 <span class="sourceLineNo">321</span><a name="line.321"></a>
-<span class="sourceLineNo">322</span>    for (Object node : graph1.nodes()) {<a name="line.322"></a>
-<span class="sourceLineNo">323</span>      if (!graph1.inEdges(node).equals(graph2.inEdges(node))) {<a name="line.323"></a>
-<span class="sourceLineNo">324</span>        return false;<a name="line.324"></a>
-<span class="sourceLineNo">325</span>      }<a name="line.325"></a>
-<span class="sourceLineNo">326</span>      boolean bothUndirected = !graph1.isDirected() &amp;&amp; !graph2.isDirected();<a name="line.326"></a>
-<span class="sourceLineNo">327</span>      if (!bothUndirected &amp;&amp; !graph1.outEdges(node).equals(graph2.outEdges(node))) {<a name="line.327"></a>
-<span class="sourceLineNo">328</span>        return false;<a name="line.328"></a>
-<span class="sourceLineNo">329</span>      }<a name="line.329"></a>
-<span class="sourceLineNo">330</span>    }<a name="line.330"></a>
-<span class="sourceLineNo">331</span><a name="line.331"></a>
-<span class="sourceLineNo">332</span>    return true;<a name="line.332"></a>
+<span class="sourceLineNo">322</span>    return true;<a name="line.322"></a>
+<span class="sourceLineNo">323</span>  }<a name="line.323"></a>
+<span class="sourceLineNo">324</span><a name="line.324"></a>
+<span class="sourceLineNo">325</span>  /**<a name="line.325"></a>
+<span class="sourceLineNo">326</span>   * Returns the hash code of {@code graph} as defined by {@link Graph#hashCode()}.<a name="line.326"></a>
+<span class="sourceLineNo">327</span>   */<a name="line.327"></a>
+<span class="sourceLineNo">328</span>  public static int hashCode(Graph&lt;?&gt; graph) {<a name="line.328"></a>
+<span class="sourceLineNo">329</span>    if (graph instanceof Network) {<a name="line.329"></a>
+<span class="sourceLineNo">330</span>      return hashCode(castToNetwork(graph));<a name="line.330"></a>
+<span class="sourceLineNo">331</span>    }<a name="line.331"></a>
+<span class="sourceLineNo">332</span>    return nodeToSuccessorNodes(graph).hashCode();<a name="line.332"></a>
 <span class="sourceLineNo">333</span>  }<a name="line.333"></a>
 <span class="sourceLineNo">334</span><a name="line.334"></a>
 <span class="sourceLineNo">335</span>  /**<a name="line.335"></a>
-<span class="sourceLineNo">336</span>   * Returns the hash code of {@code graph}.<a name="line.336"></a>
-<span class="sourceLineNo">337</span>   *<a name="line.337"></a>
-<span class="sourceLineNo">338</span>   * @see Graph#hashCode()<a name="line.338"></a>
-<span class="sourceLineNo">339</span>   */<a name="line.339"></a>
-<span class="sourceLineNo">340</span>  public static int hashCode(Graph&lt;?&gt; graph) {<a name="line.340"></a>
-<span class="sourceLineNo">341</span>    if (graph instanceof Network) {<a name="line.341"></a>
-<span class="sourceLineNo">342</span>      return hashCode(castToNetwork(graph));<a name="line.342"></a>
-<span class="sourceLineNo">343</span>    }<a name="line.343"></a>
-<span class="sourceLineNo">344</span>    return nodeToAdjacentNodes(graph).hashCode();<a name="line.344"></a>
-<span class="sourceLineNo">345</span>  }<a name="line.345"></a>
-<span class="sourceLineNo">346</span><a name="line.346"></a>
-<span class="sourceLineNo">347</span>  /**<a name="line.347"></a>
-<span class="sourceLineNo">348</span>   * Returns the hash code of {@code graph}.<a name="line.348"></a>
-<span class="sourceLineNo">349</span>   *<a name="line.349"></a>
-<span class="sourceLineNo">350</span>   * @see Network#hashCode()<a name="line.350"></a>
-<span class="sourceLineNo">351</span>   */<a name="line.351"></a>
-<span class="sourceLineNo">352</span>  public static int hashCode(Network&lt;?, ?&gt; graph) {<a name="line.352"></a>
-<span class="sourceLineNo">353</span>    return nodeToIncidentEdges(graph).hashCode();<a name="line.353"></a>
+<span class="sourceLineNo">336</span>   * Returns the hash code of {@code graph} as defined by {@link Network#hashCode()}.<a name="line.336"></a>
+<span class="sourceLineNo">337</span>   */<a name="line.337"></a>
+<span class="sourceLineNo">338</span>  public static int hashCode(Network&lt;?, ?&gt; graph) {<a name="line.338"></a>
+<span class="sourceLineNo">339</span>    return nodeToOutEdges(graph).hashCode();<a name="line.339"></a>
+<span class="sourceLineNo">340</span>  }<a name="line.340"></a>
+<span class="sourceLineNo">341</span><a name="line.341"></a>
+<span class="sourceLineNo">342</span>  /**<a name="line.342"></a>
+<span class="sourceLineNo">343</span>   * Returns a string representation of {@code graph}. Encodes edge direction if {@code graph}<a name="line.343"></a>
+<span class="sourceLineNo">344</span>   * is directed.<a name="line.344"></a>
+<span class="sourceLineNo">345</span>   */<a name="line.345"></a>
+<span class="sourceLineNo">346</span>  public static String toString(Graph&lt;?&gt; graph) {<a name="line.346"></a>
+<span class="sourceLineNo">347</span>    if (graph instanceof Network) {<a name="line.347"></a>
+<span class="sourceLineNo">348</span>      return toString(castToNetwork(graph));<a name="line.348"></a>
+<span class="sourceLineNo">349</span>    }<a name="line.349"></a>
+<span class="sourceLineNo">350</span>    return String.format(GRAPH_FORMAT,<a name="line.350"></a>
+<span class="sourceLineNo">351</span>        getPropertiesString(graph),<a name="line.351"></a>
+<span class="sourceLineNo">352</span>        graph.nodes(),<a name="line.352"></a>
+<span class="sourceLineNo">353</span>        endpointsString(graph));<a name="line.353"></a>
 <span class="sourceLineNo">354</span>  }<a name="line.354"></a>
 <span class="sourceLineNo">355</span><a name="line.355"></a>
 <span class="sourceLineNo">356</span>  /**<a name="line.356"></a>
 <span class="sourceLineNo">357</span>   * Returns a string representation of {@code graph}. Encodes edge direction if {@code graph}<a name="line.357"></a>
 <span class="sourceLineNo">358</span>   * is directed.<a name="line.358"></a>
 <span class="sourceLineNo">359</span>   */<a name="line.359"></a>
-<span class="sourceLineNo">360</span>  public static String toString(Graph&lt;?&gt; graph) {<a name="line.360"></a>
-<span class="sourceLineNo">361</span>    if (graph instanceof Network) {<a name="line.361"></a>
-<span class="sourceLineNo">362</span>      return toString(castToNetwork(graph));<a name="line.362"></a>
-<span class="sourceLineNo">363</span>    }<a name="line.363"></a>
-<span class="sourceLineNo">364</span>    return String.format(GRAPH_FORMAT,<a name="line.364"></a>
-<span class="sourceLineNo">365</span>        getPropertiesString(graph),<a name="line.365"></a>
-<span class="sourceLineNo">366</span>        graph.nodes(),<a name="line.366"></a>
-<span class="sourceLineNo">367</span>        endpointsString(graph));<a name="line.367"></a>
-<span class="sourceLineNo">368</span>  }<a name="line.368"></a>
-<span class="sourceLineNo">369</span><a name="line.369"></a>
-<span class="sourceLineNo">370</span>  /**<a name="line.370"></a>
-<span class="sourceLineNo">371</span>   * Returns a string representation of {@code graph}. Encodes edge direction if {@code graph}<a name="line.371"></a>
-<span class="sourceLineNo">372</span>   * is directed.<a name="line.372"></a>
-<span class="sourceLineNo">373</span>   */<a name="line.373"></a>
-<span class="sourceLineNo">374</span>  public static String toString(Network&lt;?, ?&gt; graph) {<a name="line.374"></a>
-<span class="sourceLineNo">375</span>    return String.format(GRAPH_FORMAT,<a name="line.375"></a>
-<span class="sourceLineNo">376</span>        getPropertiesString(graph),<a name="line.376"></a>
-<span class="sourceLineNo">377</span>        graph.nodes(),<a name="line.377"></a>
-<span class="sourceLineNo">378</span>        Maps.asMap(graph.edges(), edgeToEndpointsString(graph)));<a name="line.378"></a>
-<span class="sourceLineNo">379</span>  }<a name="line.379"></a>
-<span class="sourceLineNo">380</span><a name="line.380"></a>
-<span class="sourceLineNo">381</span>  /**<a name="line.381"></a>
-<span class="sourceLineNo">382</span>   * Returns a String of the endpoints for {@code graph}.<a name="line.382"></a>
-<span class="sourceLineNo">383</span>   */<a name="line.383"></a>
-<span class="sourceLineNo">384</span>  private static &lt;N&gt; String endpointsString(final Graph&lt;N&gt; graph) {<a name="line.384"></a>
-<span class="sourceLineNo">385</span>    checkNotNull(graph, "graph");<a name="line.385"></a>
-<span class="sourceLineNo">386</span>    return String.format("{%s}", Joiner.on(", ").join(endpointsInternal(graph)));<a name="line.386"></a>
+<span class="sourceLineNo">360</span>  public static String toString(Network&lt;?, ?&gt; graph) {<a name="line.360"></a>
+<span class="sourceLineNo">361</span>    return String.format(GRAPH_FORMAT,<a name="line.361"></a>
+<span class="sourceLineNo">362</span>        getPropertiesString(graph),<a name="line.362"></a>
+<span class="sourceLineNo">363</span>        graph.nodes(),<a name="line.363"></a>
+<span class="sourceLineNo">364</span>        Maps.asMap(graph.edges(), edgeToEndpointsString(graph)));<a name="line.364"></a>
+<span class="sourceLineNo">365</span>  }<a name="line.365"></a>
+<span class="sourceLineNo">366</span><a name="line.366"></a>
+<span class="sourceLineNo">367</span>  /**<a name="line.367"></a>
+<span class="sourceLineNo">368</span>   * Returns a String of the endpoints for {@code graph}.<a name="line.368"></a>
+<span class="sourceLineNo">369</span>   */<a name="line.369"></a>
+<span class="sourceLineNo">370</span>  private static &lt;N&gt; String endpointsString(final Graph&lt;N&gt; graph) {<a name="line.370"></a>
+<span class="sourceLineNo">371</span>    checkNotNull(graph, "graph");<a name="line.371"></a>
+<span class="sourceLineNo">372</span>    return String.format("{%s}", Joiner.on(", ").join(endpointsInternal(graph)));<a name="line.372"></a>
+<span class="sourceLineNo">373</span>  }<a name="line.373"></a>
+<span class="sourceLineNo">374</span><a name="line.374"></a>
+<span class="sourceLineNo">375</span>  /**<a name="line.375"></a>
+<span class="sourceLineNo">376</span>   * Returns a map that is a live view of {@code graph}, with nodes as keys<a name="line.376"></a>
+<span class="sourceLineNo">377</span>   * and the set of outgoing edges as values.<a name="line.377"></a>
+<span class="sourceLineNo">378</span>   */<a name="line.378"></a>
+<span class="sourceLineNo">379</span>  private static &lt;N, E&gt; Map&lt;N, Set&lt;E&gt;&gt; nodeToOutEdges(final Network&lt;N, E&gt; graph) {<a name="line.379"></a>
+<span class="sourceLineNo">380</span>    checkNotNull(graph, "graph");<a name="line.380"></a>
+<span class="sourceLineNo">381</span>    return Maps.asMap(graph.nodes(), new Function&lt;N, Set&lt;E&gt;&gt;() {<a name="line.381"></a>
+<span class="sourceLineNo">382</span>      @Override<a name="line.382"></a>
+<span class="sourceLineNo">383</span>      public Set&lt;E&gt; apply(N node) {<a name="line.383"></a>
+<span class="sourceLineNo">384</span>        return graph.outEdges(node);<a name="line.384"></a>
+<span class="sourceLineNo">385</span>      }<a name="line.385"></a>
+<span class="sourceLineNo">386</span>    });<a name="line.386"></a>
 <span class="sourceLineNo">387</span>  }<a name="line.387"></a>
 <span class="sourceLineNo">388</span><a name="line.388"></a>
 <span class="sourceLineNo">389</span>  /**<a name="line.389"></a>
 <span class="sourceLineNo">390</span>   * Returns a map that is a live view of {@code graph}, with nodes as keys<a name="line.390"></a>
-<span class="sourceLineNo">391</span>   * and the set of incident edges as values.<a name="line.391"></a>
+<span class="sourceLineNo">391</span>   * and the set of successor nodes as values.<a name="line.391"></a>
 <span class="sourceLineNo">392</span>   */<a name="line.392"></a>
-<span class="sourceLineNo">393</span>  private static &lt;N, E&gt; Map&lt;N, Set&lt;E&gt;&gt; nodeToIncidentEdges(final Network&lt;N, E&gt; graph) {<a name="line.393"></a>
+<span class="sourceLineNo">393</span>  private static &lt;N&gt; Map&lt;N, Set&lt;N&gt;&gt; nodeToSuccessorNodes(final Graph&lt;N&gt; graph) {<a name="line.393"></a>
 <span class="sourceLineNo">394</span>    checkNotNull(graph, "graph");<a name="line.394"></a>
-<span class="sourceLineNo">395</span>    return Maps.asMap(graph.nodes(), new Function&lt;N, Set&lt;E&gt;&gt;() {<a name="line.395"></a>
+<span class="sourceLineNo">395</span>    return Maps.asMap(graph.nodes(), new Function&lt;N, Set&lt;N&gt;&gt;() {<a name="line.395"></a>
 <span class="sourceLineNo">396</span>      @Override<a name="line.396"></a>
-<span class="sourceLineNo">397</span>      public Set&lt;E&gt; apply(N node) {<a name="line.397"></a>
-<span class="sourceLineNo">398</span>        return graph.incidentEdges(node);<a name="line.398"></a>
+<span class="sourceLineNo">397</span>      public Set&lt;N&gt; apply(N node) {<a name="line.397"></a>
+<span class="sourceLineNo">398</span>        return graph.successors(node);<a name="line.398"></a>
 <span class="sourceLineNo">399</span>      }<a name="line.399"></a>
 <span class="sourceLineNo">400</span>    });<a name="line.400"></a>
 <span class="sourceLineNo">401</span>  }<a name="line.401"></a>
 <span class="sourceLineNo">402</span><a name="line.402"></a>
 <span class="sourceLineNo">403</span>  /**<a name="line.403"></a>
-<span class="sourceLineNo">404</span>   * Returns a map that is a live view of {@code graph}, with nodes as keys<a name="line.404"></a>
-<span class="sourceLineNo">405</span>   * and the set of adjacent nodes as values.<a name="line.405"></a>
-<span class="sourceLineNo">406</span>   */<a name="line.406"></a>
-<span class="sourceLineNo">407</span>  private static &lt;N&gt; Map&lt;N, Set&lt;N&gt;&gt; nodeToAdjacentNodes(final Graph&lt;N&gt; graph) {<a name="line.407"></a>
-<span class="sourceLineNo">408</span>    checkNotNull(graph, "graph");<a name="line.408"></a>
-<span class="sourceLineNo">409</span>    return Maps.asMap(graph.nodes(), new Function&lt;N, Set&lt;N&gt;&gt;() {<a name="line.409"></a>
-<span class="sourceLineNo">410</span>      @Override<a name="line.410"></a>
-<span class="sourceLineNo">411</span>      public Set&lt;N&gt; apply(N node) {<a name="line.411"></a>
-<span class="sourceLineNo">412</span>        return graph.adjacentNodes(node);<a name="line.412"></a>
-<span class="sourceLineNo">413</span>      }<a name="line.413"></a>
-<span class="sourceLineNo">414</span>    });<a name="line.414"></a>
-<span class="sourceLineNo">415</span>  }<a name="line.415"></a>
-<span class="sourceLineNo">416</span><a name="line.416"></a>
-<span class="sourceLineNo">417</span>  /**<a name="line.417"></a>
-<span class="sourceLineNo">418</span>   * Returns a function that transforms an edge into a string representation of its endpoints<a name="line.418"></a>
-<span class="sourceLineNo">419</span>   * in {@code graph}. The function's {@code apply} method will throw an<a name="line.419"></a>
-<span class="sourceLineNo">420</span>   * {@link IllegalArgumentException} if {@code graph} does not contain {@code edge}.<a name="line.420"></a>
-<span class="sourceLineNo">421</span>   */<a name="line.421"></a>
-<span class="sourceLineNo">422</span>  private static Function&lt;Object, String&gt; edgeToEndpointsString(final Network&lt;?, ?&gt; graph) {<a name="line.422"></a>
-<span class="sourceLineNo">423</span>    checkNotNull(graph, "graph");<a name="line.423"></a>
-<span class="sourceLineNo">424</span>    return new Function&lt;Object, String&gt;() {<a name="line.424"></a>
-<span class="sourceLineNo">425</span>      @Override<a name="line.425"></a>
-<span class="sourceLineNo">426</span>      public String apply(Object edge) {<a name="line.426"></a>
-<span class="sourceLineNo">427</span>        return graph.incidentNodes(edge).toString();<a name="line.427"></a>
-<span class="sourceLineNo">428</span>      }<a name="line.428"></a>
-<span class="sourceLineNo">429</span>    };<a name="line.429"></a>
-<span class="sourceLineNo">430</span> }<a name="line.430"></a>
-<span class="sourceLineNo">431</span><a name="line.431"></a>
-<span class="sourceLineNo">432</span>  /**<a name="line.432"></a>
-<span class="sourceLineNo">433</span>   * Returns a string representation of the properties of {@code graph}.<a name="line.433"></a>
-<span class="sourceLineNo">434</span>   */<a name="line.434"></a>
-<span class="sourceLineNo">435</span>  // TODO(b/28087289): add allowsParallelEdges() once that's supported<a name="line.435"></a>
-<span class="sourceLineNo">436</span>  private static String getPropertiesString(Graph&lt;?&gt; graph) {<a name="line.436"></a>
-<span class="sourceLineNo">437</span>    if (graph instanceof Network) {<a name="line.437"></a>
-<span class="sourceLineNo">438</span>      return getPropertiesString(castToNetwork(graph));<a name="line.438"></a>
-<span class="sourceLineNo">439</span>    }<a name="line.439"></a>
-<span class="sourceLineNo">440</span>    return String.format("isDirected: %s, allowsSelfLoops: %s",<a name="line.440"></a>
-<span class="sourceLineNo">441</span>        graph.isDirected(), graph.allowsSelfLoops());<a name="line.441"></a>
-<span class="sourceLineNo">442</span>  }<a name="line.442"></a>
-<span class="sourceLineNo">443</span><a name="line.443"></a>
-<span class="sourceLineNo">444</span>  /**<a name="line.444"></a>
-<span class="sourceLineNo">445</span>   * Returns a string representation of the properties of {@code graph}.<a name="line.445"></a>
-<span class="sourceLineNo">446</span>   */<a name="line.446"></a>
-<span class="sourceLineNo">447</span>  private static String getPropertiesString(Network&lt;?, ?&gt; graph) {<a name="line.447"></a>
-<span class="sourceLineNo">448</span>    return String.format("isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",<a name="line.448"></a>
-<span class="sourceLineNo">449</span>        graph.isDirected(), graph.allowsParallelEdges(), graph.allowsSelfLoops());<a name="line.449"></a>
-<span class="sourceLineNo">450</span>  }<a name="line.450"></a>
+<span class="sourceLineNo">404</span>   * Returns a function that transforms an edge into a string representation of its endpoints<a name="line.404"></a>
+<span class="sourceLineNo">405</span>   * in {@code graph}. The function's {@code apply} method will throw an<a name="line.405"></a>
+<span class="sourceLineNo">406</span>   * {@link IllegalArgumentException} if {@code graph} does not contain {@code edge}.<a name="line.406"></a>
+<span class="sourceLineNo">407</span>   */<a name="line.407"></a>
+<span class="sourceLineNo">408</span>  private static Function&lt;Object, String&gt; edgeToEndpointsString(final Network&lt;?, ?&gt; graph) {<a name="line.408"></a>
+<span class="sourceLineNo">409</span>    checkNotNull(graph, "graph");<a name="line.409"></a>
+<span class="sourceLineNo">410</span>    return new Function&lt;Object, String&gt;() {<a name="line.410"></a>
+<span class="sourceLineNo">411</span>      @Override<a name="line.411"></a>
+<span class="sourceLineNo">412</span>      public String apply(Object edge) {<a name="line.412"></a>
+<span class="sourceLineNo">413</span>        return graph.incidentNodes(edge).toString();<a name="line.413"></a>
+<span class="sourceLineNo">414</span>      }<a name="line.414"></a>
+<span class="sourceLineNo">415</span>    };<a name="line.415"></a>
+<span class="sourceLineNo">416</span> }<a name="line.416"></a>
+<span class="sourceLineNo">417</span><a name="line.417"></a>
+<span class="sourceLineNo">418</span>  /**<a name="line.418"></a>
+<span class="sourceLineNo">419</span>   * Returns a string representation of the properties of {@code graph}.<a name="line.419"></a>
+<span class="sourceLineNo">420</span>   */<a name="line.420"></a>
+<span class="sourceLineNo">421</span>  // TODO(b/28087289): add allowsParallelEdges() once that's supported<a name="line.421"></a>
+<span class="sourceLineNo">422</span>  private static String getPropertiesString(Graph&lt;?&gt; graph) {<a name="line.422"></a>
+<span class="sourceLineNo">423</span>    if (graph instanceof Network) {<a name="line.423"></a>
+<span class="sourceLineNo">424</span>      return getPropertiesString(castToNetwork(graph));<a name="line.424"></a>
+<span class="sourceLineNo">425</span>    }<a name="line.425"></a>
+<span class="sourceLineNo">426</span>    return String.format("isDirected: %s, allowsSelfLoops: %s",<a name="line.426"></a>
+<span class="sourceLineNo">427</span>        graph.isDirected(), graph.allowsSelfLoops());<a name="line.427"></a>
+<span class="sourceLineNo">428</span>  }<a name="line.428"></a>
+<span class="sourceLineNo">429</span><a name="line.429"></a>
+<span class="sourceLineNo">430</span>  /**<a name="line.430"></a>
+<span class="sourceLineNo">431</span>   * Returns a string representation of the properties of {@code graph}.<a name="line.431"></a>
+<span class="sourceLineNo">432</span>   */<a name="line.432"></a>
+<span class="sourceLineNo">433</span>  private static String getPropertiesString(Network&lt;?, ?&gt; graph) {<a name="line.433"></a>
+<span class="sourceLineNo">434</span>    return String.format("isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",<a name="line.434"></a>
+<span class="sourceLineNo">435</span>        graph.isDirected(), graph.allowsParallelEdges(), graph.allowsSelfLoops());<a name="line.435"></a>
+<span class="sourceLineNo">436</span>  }<a name="line.436"></a>
+<span class="sourceLineNo">437</span><a name="line.437"></a>
+<span class="sourceLineNo">438</span>  private static boolean allowsParallelEdges(Graph&lt;?&gt; graph) {<a name="line.438"></a>
+<span class="sourceLineNo">439</span>    return (graph instanceof Network) &amp;&amp; castToNetwork(graph).allowsParallelEdges();<a name="line.439"></a>
+<span class="sourceLineNo">440</span>  }<a name="line.440"></a>
+<span class="sourceLineNo">441</span><a name="line.441"></a>
+<span class="sourceLineNo">442</span>  @SuppressWarnings("unchecked")<a name="line.442"></a>
+<span class="sourceLineNo">443</span>  private static &lt;N&gt; Network&lt;N, ?&gt; castToNetwork(Graph&lt;N&gt; graph) {<a name="line.443"></a>
+<span class="sourceLineNo">444</span>    return (Network&lt;N, ?&gt;) graph;<a name="line.444"></a>
+<span class="sourceLineNo">445</span>  }<a name="line.445"></a>
+<span class="sourceLineNo">446</span><a name="line.446"></a>
+<span class="sourceLineNo">447</span>  private abstract static class AbstractEndpointsIterator&lt;N&gt;<a name="line.447"></a>
+<span class="sourceLineNo">448</span>      extends AbstractIterator&lt;Endpoints&lt;N&gt;&gt; {<a name="line.448"></a>
+<span class="sourceLineNo">449</span>    private final Graph&lt;N&gt; graph;<a name="line.449"></a>
+<span class="sourceLineNo">450</span>    private final Iterator&lt;N&gt; nodeIterator;<a name="line.450"></a>
 <span class="sourceLineNo">451</span><a name="line.451"></a>
-<span class="sourceLineNo">452</span>  private static boolean allowsParallelEdges(Graph&lt;?&gt; graph) {<a name="line.452"></a>
-<span class="sourceLineNo">453</span>    return (graph instanceof Network) &amp;&amp; castToNetwork(graph).allowsParallelEdges();<a name="line.453"></a>
-<span class="sourceLineNo">454</span>  }<a name="line.454"></a>
-<span class="sourceLineNo">455</span><a name="line.455"></a>
-<span class="sourceLineNo">456</span>  @SuppressWarnings("unchecked")<a name="line.456"></a>
-<span class="sourceLineNo">457</span>  private static &lt;N&gt; Network&lt;N, ?&gt; castToNetwork(Graph&lt;N&gt; graph) {<a name="line.457"></a>
-<span class="sourceLineNo">458</span>    return (Network&lt;N, ?&gt;) graph;<a name="line.458"></a>
-<span class="sourceLineNo">459</span>  }<a name="line.459"></a>
-<span class="sourceLineNo">460</span><a name="line.460"></a>
-<span class="sourceLineNo">461</span>  private abstract static class AbstractEndpointsIterator&lt;N&gt;<a name="line.461"></a>
-<span class="sourceLineNo">462</span>      extends AbstractIterator&lt;Endpoints&lt;N&gt;&gt; {<a name="line.462"></a>
-<span class="sourceLineNo">463</span>    private final Graph&lt;N&gt; graph;<a name="line.463"></a>
-<span class="sourceLineNo">464</span>    private final Iterator&lt;N&gt; nodeIterator;<a name="line.464"></a>
-<span class="sourceLineNo">465</span><a name="line.465"></a>
-<span class="sourceLineNo">466</span>    N node = null; // null is safe as an initial value because graphs do not allow null nodes<a name="line.466"></a>
-<span class="sourceLineNo">467</span>    Iterator&lt;N&gt; successorIterator = ImmutableSet.&lt;N&gt;of().iterator();<a name="line.467"></a>
-<span class="sourceLineNo">468</span><a name="line.468"></a>
-<span class="sourceLineNo">469</span>    AbstractEndpointsIterator(Graph&lt;N&gt; graph) {<a name="line.469"></a>
-<span class="sourceLineNo">470</span>      this.graph = graph;<a name="line.470"></a>
-<span class="sourceLineNo">471</span>      this.nodeIterator = graph.nodes().iterator();<a name="line.471"></a>
+<span class="sourceLineNo">452</span>    N node = null; // null is safe as an initial value because graphs do not allow null nodes<a name="line.452"></a>
+<span class="sourceLineNo">453</span>    Iterator&lt;N&gt; successorIterator = ImmutableSet.&lt;N&gt;of().iterator();<a name="line.453"></a>
+<span class="sourceLineNo">454</span><a name="line.454"></a>
+<span class="sourceLineNo">455</span>    AbstractEndpointsIterator(Graph&lt;N&gt; graph) {<a name="line.455"></a>
+<span class="sourceLineNo">456</span>      this.graph = graph;<a name="line.456"></a>
+<span class="sourceLineNo">457</span>      this.nodeIterator = graph.nodes().iterator();<a name="line.457"></a>
+<span class="sourceLineNo">458</span>    }<a name="line.458"></a>
+<span class="sourceLineNo">459</span><a name="line.459"></a>
+<span class="sourceLineNo">460</span>    /**<a name="line.460"></a>
+<span class="sourceLineNo">461</span>     * Called after {@link #successorIterator} is exhausted. Advances {@link #node} to the next node<a name="line.461"></a>
+<span class="sourceLineNo">462</span>     * and updates {@link #successorIterator} to iterate through the successors of {@link #node}.<a name="line.462"></a>
+<span class="sourceLineNo">463</span>     */<a name="line.463"></a>
+<span class="sourceLineNo">464</span>    final boolean advance() {<a name="line.464"></a>
+<span class="sourceLineNo">465</span>      checkState(!successorIterator.hasNext());<a name="line.465"></a>
+<span class="sourceLineNo">466</span>      if (!nodeIterator.hasNext()) {<a name="line.466"></a>
+<span class="sourceLineNo">467</span>        return false;<a name="line.467"></a>
+<span class="sourceLineNo">468</span>      }<a name="line.468"></a>
+<span class="sourceLineNo">469</span>      node = nodeIterator.next();<a name="line.469"></a>
+<span class="sourceLineNo">470</span>      successorIterator = graph.successors(node).iterator();<a name="line.470"></a>
+<span class="sourceLineNo">471</span>      return true;<a name="line.471"></a>
 <span class="sourceLineNo">472</span>    }<a name="line.472"></a>
-<span class="sourceLineNo">473</span><a name="line.473"></a>
-<span class="sourceLineNo">474</span>    /**<a name="line.474"></a>
-<span class="sourceLineNo">475</span>     * Called after {@link #successorIterator} is exhausted. Advances {@link #node} to the next node<a name="line.475"></a>
-<span class="sourceLineNo">476</span>     * and updates {@link #successorIterator} to iterate through the successors of {@link #node}.<a name="line.476"></a>
-<span class="sourceLineNo">477</span>     */<a name="line.477"></a>
-<span class="sourceLineNo">478</span>    final boolean advance() {<a name="line.478"></a>
-<span class="sourceLineNo">479</span>      checkState(!successorIterator.hasNext());<a name="line.479"></a>
-<span class="sourceLineNo">480</span>      if (!nodeIterator.hasNext()) {<a name="line.480"></a>
-<span class="sourceLineNo">481</span>        return false;<a name="line.481"></a>
-<span class="sourceLineNo">482</span>      }<a name="line.482"></a>
-<span class="sourceLineNo">483</span>      node = nodeIterator.next();<a name="line.483"></a>
-<span class="sourceLineNo">484</span>      successorIterator = graph.successors(node).iterator();<a name="line.484"></a>
-<span class="sourceLineNo">485</span>      return true;<a name="line.485"></a>
-<span class="sourceLineNo">486</span>    }<a name="line.486"></a>
-<span class="sourceLineNo">487</span>  }<a name="line.487"></a>
-<span class="sourceLineNo">488</span><a name="line.488"></a>
-<span class="sourceLineNo">489</span>  /**<a name="line.489"></a>
-<span class="sourceLineNo">490</span>   * If the graph is directed, each ordered [source, target] pair will be visited once if there is<a name="line.490"></a>
-<span class="sourceLineNo">491</span>   * one or more edge connecting them.<a name="line.491"></a>
-<span class="sourceLineNo">492</span>   */<a name="line.492"></a>
-<span class="sourceLineNo">493</span>  private static final class DirectedEndpointsIterator&lt;N&gt; extends AbstractEndpointsIterator&lt;N&gt; {<a name="line.493"></a>
-<span class="sourceLineNo">494</span>    DirectedEndpointsIterator(Graph&lt;N&gt; graph){<a name="line.494"></a>
-<span class="sourceLineNo">495</span>      super(graph);<a name="line.495"></a>
-<span class="sourceLineNo">496</span>    }<a name="line.496"></a>
-<span class="sourceLineNo">497</span><a name="line.497"></a>
-<span class="sourceLineNo">498</span>    @Override<a name="line.498"></a>
-<span class="sourceLineNo">499</span>    protected Endpoints&lt;N&gt; computeNext() {<a name="line.499"></a>
-<span class="sourceLineNo">500</span>      while (true) {<a name="line.500"></a>
-<span class="sourceLineNo">501</span>        if (successorIterator.hasNext()) {<a name="line.501"></a>
-<span class="sourceLineNo">502</span>          return Endpoints.ofDirected(node, successorIterator.next());<a name="line.502"></a>
-<span class="sourceLineNo">503</span>        }<a name="line.503"></a>
-<span class="sourceLineNo">504</span>        if (!advance()) {<a name="line.504"></a>
-<span class="sourceLineNo">505</span>          return endOfData();<a name="line.505"></a>
-<span class="sourceLineNo">506</span>        }<a name="line.506"></a>
-<span class="sourceLineNo">507</span>      }<a name="line.507"></a>
-<span class="sourceLineNo">508</span>    }<a name="line.508"></a>
-<span class="sourceLineNo">509</span>  }<a name="line.509"></a>
-<span class="sourceLineNo">510</span><a name="line.510"></a>
-<span class="sourceLineNo">511</span>  /**<a name="line.511"></a>
-<span class="sourceLineNo">512</span>   * If the graph is undirected, each unordered [node, otherNode] pair (except self-loops) will be<a name="line.512"></a>
-<span class="sourceLineNo">513</span>   * visited twice if there is one or more edge connecting them. To avoid returning duplicate<a name="line.513"></a>
-<span class="sourceLineNo">514</span>   * {@link Endpoints}, we keep track of the nodes that we have visited. When processing node pairs,<a name="line.514"></a>
-<span class="sourceLineNo">515</span>   * we skip if the "other node" is in the visited set, as shown below:<a name="line.515"></a>
-<span class="sourceLineNo">516</span>   *<a name="line.516"></a>
-<span class="sourceLineNo">517</span>   * Nodes = {N1, N2, N3, N4}<a name="line.517"></a>
-<span class="sourceLineNo">518</span>   *    N2           __<a name="line.518"></a>
-<span class="sourceLineNo">519</span>   *   /  \         |  |<a name="line.519"></a>
-<span class="sourceLineNo">520</span>   * N1----N3      N4__|<a name="line.520"></a>
-<span class="sourceLineNo">521</span>   *<a name="line.521"></a>
-<span class="sourceLineNo">522</span>   * Visited Nodes = {}<a name="line.522"></a>
-<span class="sourceLineNo">523</span>   * Endpoints [N1, N2] - return<a name="line.523"></a>
-<span class="sourceLineNo">524</span>   * Endpoints [N1, N3] - return<a name="line.524"></a>
-<span class="sourceLineNo">525</span>   * Visited Nodess = {N1}<a name="line.525"></a>
-<span class="sourceLineNo">526</span>   * Endpoints [N2, N1] - skip<a name="line.526"></a>
-<span class="sourceLineNo">527</span>   * Endpoints [N2, N3] - return<a name="line.527"></a>
-<span class="sourceLineNo">528</span>   * Visited Nodes = {N1, N2}<a name="line.528"></a>
-<span class="sourceLineNo">529</span>   * Endpoints [N3, N1] - skip<a name="line.529"></a>
-<span class="sourceLineNo">530</span>   * Endpoints [N3, N2] - skip<a name="line.530"></a>
-<span class="sourceLineNo">531</span>   * Visited Nodes = {N1, N2, N3}<a name="line.531"></a>
-<span class="sourceLineNo">532</span>   * Endpoints [N4, N4] - return<a name="line.532"></a>
-<span class="sourceLineNo">533</span>   * Visited Nodes = {N1, N2, N3, N4}<a name="line.533"></a>
-<span class="sourceLineNo">534</span>   */<a name="line.534"></a>
-<span class="sourceLineNo">535</span>  private static final class UndirectedEndpointsIterator&lt;N&gt; extends AbstractEndpointsIterator&lt;N&gt; {<a name="line.535"></a>
-<span class="sourceLineNo">536</span>    private Set&lt;N&gt; visitedNodes;<a name="line.536"></a>
-<span class="sourceLineNo">537</span><a name="line.537"></a>
-<span class="sourceLineNo">538</span>    UndirectedEndpointsIterator(Graph&lt;N&gt; graph) {<a name="line.538"></a>
-<span class="sourceLineNo">539</span>      super(graph);<a name="line.539"></a>
-<span class="sourceLineNo">540</span>      this.visitedNodes = Sets.newHashSetWithExpectedSize(graph.nodes().size());<a name="line.540"></a>
-<span class="sourceLineNo">541</span>    }<a name="line.541"></a>
-<span class="sourceLineNo">542</span><a name="line.542"></a>
-<span class="sourceLineNo">543</span>    @Override<a name="line.543"></a>
-<span class="sourceLineNo">544</span>    protected Endpoints&lt;N&gt; computeNext() {<a name="line.544"></a>
-<span class="sourceLineNo">545</span>      while (true) {<a name="line.545"></a>
-<span class="sourceLineNo">546</span>        while (successorIterator.hasNext()) {<a name="line.546"></a>
-<span class="sourceLineNo">547</span>          N otherNode = successorIterator.next();<a name="line.547"></a>
-<span class="sourceLineNo">548</span>          if (!visitedNodes.contains(otherNode)) {<a name="line.548"></a>
-<span class="sourceLineNo">549</span>            return Endpoints.ofUndirected(node, otherNode);<a name="line.549"></a>
-<span class="sourceLineNo">550</span>          }<a name="line.550"></a>
-<span class="sourceLineNo">551</span>        }<a name="line.551"></a>
-<span class="sourceLineNo">552</span>        // Add to visited set *after* processing neighbors so we still include self-loops.<a name="line.552"></a>
-<span class="sourceLineNo">553</span>        visitedNodes.add(node);<a name="line.553"></a>
-<span class="sourceLineNo">554</span>        if (!advance()) {<a name="line.554"></a>
-<span class="sourceLineNo">555</span>          visitedNodes = null;<a name="line.555"></a>
-<span class="sourceLineNo">556</span>          return endOfData();<a name="line.556"></a>
-<span class="sourceLineNo">557</span>        }<a name="line.557"></a>
-<span class="sourceLineNo">558</span>      }<a name="line.558"></a>
-<span class="sourceLineNo">559</span>    }<a name="line.559"></a>
-<span class="sourceLineNo">560</span>  }<a name="line.560"></a>
-<span class="sourceLineNo">561</span>}<a name="line.561"></a>
+<span class="sourceLineNo">473</span>  }<a name="line.473"></a>
+<span class="sourceLineNo">474</span><a name="line.474"></a>
+<span class="sourceLineNo">475</span>  /**<a name="line.475"></a>
+<span class="sourceLineNo">476</span>   * If the graph is directed, each ordered [source, target] pair will be visited once if there is<a name="line.476"></a>
+<span class="sourceLineNo">477</span>   * one or more edge connecting them.<a name="line.477"></a>
+<span class="sourceLineNo">478</span>   */<a name="line.478"></a>
+<span class="sourceLineNo">479</span>  private static final class DirectedEndpointsIterator&lt;N&gt; extends AbstractEndpointsIterator&lt;N&gt; {<a name="line.479"></a>
+<span class="sourceLineNo">480</span>    DirectedEndpointsIterator(Graph&lt;N&gt; graph){<a name="line.480"></a>
+<span class="sourceLineNo">481</span>      super(graph);<a name="line.481"></a>
+<span class="sourceLineNo">482</span>    }<a name="line.482"></a>
+<span class="sourceLineNo">483</span><a name="line.483"></a>
+<span class="sourceLineNo">484</span>    @Override<a name="line.484"></a>
+<span class="sourceLineNo">485</span>    protected Endpoints&lt;N&gt; computeNext() {<a name="line.485"></a>
+<span class="sourceLineNo">486</span>      while (true) {<a name="line.486"></a>
+<span class="sourceLineNo">487</span>        if (successorIterator.hasNext()) {<a name="line.487"></a>
+<span class="sourceLineNo">488</span>          return Endpoints.ofDirected(node, successorIterator.next());<a name="line.488"></a>
+<span class="sourceLineNo">489</span>        }<a name="line.489"></a>
+<span class="sourceLineNo">490</span>        if (!advance()) {<a name="line.490"></a>
+<span class="sourceLineNo">491</span>          return endOfData();<a name="line.491"></a>
+<span class="sourceLineNo">492</span>        }<a name="line.492"></a>
+<span class="sourceLineNo">493</span>      }<a name="line.493"></a>
+<span class="sourceLineNo">494</span>    }<a name="line.494"></a>
+<span class="sourceLineNo">495</span>  }<a name="line.495"></a>
+<span class="sourceLineNo">496</span><a name="line.496"></a>
+<span class="sourceLineNo">497</span>  /**<a name="line.497"></a>
+<span class="sourceLineNo">498</span>   * If the graph is undirected, each unordered [node, otherNode] pair (except self-loops) will be<a name="line.498"></a>
+<span class="sourceLineNo">499</span>   * visited twice if there is one or more edge connecting them. To avoid returning duplicate<a name="line.499"></a>
+<span class="sourceLineNo">500</span>   * {@link Endpoints}, we keep track of the nodes that we have visited. When processing node pairs,<a name="line.500"></a>
+<span class="sourceLineNo">501</span>   * we skip if the "other node" is in the visited set, as shown below:<a name="line.501"></a>
+<span class="sourceLineNo">502</span>   *<a name="line.502"></a>
+<span class="sourceLineNo">503</span>   * Nodes = {N1, N2, N3, N4}<a name="line.503"></a>
+<span class="sourceLineNo">504</span>   *    N2           __<a name="line.504"></a>
+<span class="sourceLineNo">505</span>   *   /  \         |  |<a name="line.505"></a>
+<span class="sourceLineNo">506</span>   * N1----N3      N4__|<a name="line.506"></a>
+<span class="sourceLineNo">507</span>   *<a name="line.507"></a>
+<span class="sourceLineNo">508</span>   * Visited Nodes = {}<a name="line.508"></a>
+<span class="sourceLineNo">509</span>   * Endpoints [N1, N2] - return<a name="line.509"></a>
+<span class="sourceLineNo">510</span>   * Endpoints [N1, N3] - return<a name="line.510"></a>
+<span class="sourceLineNo">511</span>   * Visited Nodess = {N1}<a name="line.511"></a>
+<span class="sourceLineNo">512</span>   * Endpoints [N2, N1] - skip<a name="line.512"></a>
+<span class="sourceLineNo">513</span>   * Endpoints [N2, N3] - return<a name="line.513"></a>
+<span class="sourceLineNo">514</span>   * Visited Nodes = {N1, N2}<a name="line.514"></a>
+<span class="sourceLineNo">515</span>   * Endpoints [N3, N1] - skip<a name="line.515"></a>
+<span class="sourceLineNo">516</span>   * Endpoints [N3, N2] - skip<a name="line.516"></a>
+<span class="sourceLineNo">517</span>   * Visited Nodes = {N1, N2, N3}<a name="line.517"></a>
+<span class="sourceLineNo">518</span>   * Endpoints [N4, N4] - return<a name="line.518"></a>
+<span class="sourceLineNo">519</span>   * Visited Nodes = {N1, N2, N3, N4}<a name="line.519"></a>
+<span class="sourceLineNo">520</span>   */<a name="line.520"></a>
+<span class="sourceLineNo">521</span>  private static final class UndirectedEndpointsIterator&lt;N&gt; extends AbstractEndpointsIterator&lt;N&gt; {<a name="line.521"></a>
+<span class="sourceLineNo">522</span>    private Set&lt;N&gt; visitedNodes;<a name="line.522"></a>
+<span class="sourceLineNo">523</span><a name="line.523"></a>
+<span class="sourceLineNo">524</span>    UndirectedEndpointsIterator(Graph&lt;N&gt; graph) {<a name="line.524"></a>
+<span class="sourceLineNo">525</span>      super(graph);<a name="line.525"></a>
+<span class="sourceLineNo">526</span>      this.visitedNodes = Sets.newHashSetWithExpectedSize(graph.nodes().size());<a name="line.526"></a>
+<span class="sourceLineNo">527</span>    }<a name="line.527"></a>
+<span class="sourceLineNo">528</span><a name="line.528"></a>
+<span class="sourceLineNo">529</span>    @Override<a name="line.529"></a>
+<span class="sourceLineNo">530</span>    protected Endpoints&lt;N&gt; computeNext() {<a name="line.530"></a>
+<span class="sourceLineNo">531</span>      while (true) {<a name="line.531"></a>
+<span class="sourceLineNo">532</span>        while (successorIterator.hasNext()) {<a name="line.532"></a>
+<span class="sourceLineNo">533</span>          N otherNode = successorIterator.next();<a name="line.533"></a>
+<span class="sourceLineNo">534</span>          if (!visitedNodes.contains(otherNode)) {<a name="line.534"></a>
+<span class="sourceLineNo">535</span>            return Endpoints.ofUndirected(node, otherNode);<a name="line.535"></a>
+<span class="sourceLineNo">536</span>          }<a name="line.536"></a>
+<span class="sourceLineNo">537</span>        }<a name="line.537"></a>
+<span class="sourceLineNo">538</span>        // Add to visited set *after* processing neighbors so we still include self-loops.<a name="line.538"></a>
+<span class="sourceLineNo">539</span>        visitedNodes.add(node);<a name="line.539"></a>
+<span class="sourceLineNo">540</span>        if (!advance()) {<a name="line.540"></a>
+<span class="sourceLineNo">541</span>          visitedNodes = null;<a name="line.541"></a>
+<span class="sourceLineNo">542</span>          return endOfData();<a name="line.542"></a>
+<span class="sourceLineNo">543</span>        }<a name="line.543"></a>
+<span class="sourceLineNo">544</span>      }<a name="line.544"></a>
+<span class="sourceLineNo">545</span>    }<a name="line.545"></a>
+<span class="sourceLineNo">546</span>  }<a name="line.546"></a>
+<span class="sourceLineNo">547</span>}<a name="line.547"></a>
 
 
 

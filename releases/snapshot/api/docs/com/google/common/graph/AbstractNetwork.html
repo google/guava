@@ -159,7 +159,7 @@ implements <a href="../../../../com/google/common/graph/Network.html" title="int
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/AbstractNetwork.html#equals(java.lang.Object)">equals</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
-<div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same node/edge relationships
+<div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same structural relationships
  as those in this graph.</div>
 </td>
 </tr>
@@ -309,16 +309,15 @@ implements <a href="../../../../com/google/common/graph/Network.html" title="int
 <pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.52">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#equals(java.lang.Object)">Network</a></code></strong></div>
-<div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same node/edge relationships
+<div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same structural relationships
  as those in this graph.
 
  <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
  <ul>
- <li>A and B have the same node set
- <li>A and B have the same edge set
- <li>A and B have the same incidence relationships, e.g., for each node/edge in A and in B
-     its incident edge/node set in A is the same as its incident edge/node set in B.
-     <br>Thus, every edge in A and B connect the same nodes in the same direction (if any).
+ <li>A and B have the same <a href="../../../../com/google/common/graph/Network.html#isDirected()"><code>directedness</code></a>.
+ <li>A and B have the same node set.
+ <li>A and B have the same edge set.
+ <li>Every edge in A and B connects the same nodes in the same direction (if any).
  </ul>
 
  <p>Graph properties are <b>not</b> respected by this method. For example, two graphs may be
@@ -326,8 +325,11 @@ implements <a href="../../../../com/google/common/graph/Network.html" title="int
  order in which edges or nodes are added to the graph, and the order in which they are iterated
  over, are irrelevant.
 
- <p>A reference implementation of this is provided by
- <a href="../../../../com/google/common/graph/Graphs.html#equal(com.google.common.graph.Network,%20com.google.common.graph.Network)"><code>Graphs.equal(Network, Network)</code></a>.</div>
+ <p>Note: <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> instances can only be equal to other <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> instances.
+ In particular, <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>s that are not also <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a>s cannot be equal to
+ <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a>s.
+
+ <p>A reference implementation of this is provided by <a href="../../../../com/google/common/graph/Graphs.html#equal(com.google.common.graph.Network,%20com.google.common.graph.Network)"><code>Graphs.equal(Network, Network)</code></a>.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../com/google/common/graph/Graph.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../com/google/common/graph/AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&gt;</code></dd>
@@ -347,13 +349,9 @@ implements <a href="../../../../com/google/common/graph/Network.html" title="int
 <pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.60">hashCode</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#hashCode()">Network</a></code></strong></div>
 <div class="block">Returns the hash code for this graph. The hash code of a graph is defined as the hash code
- of a map from each of the graph's nodes to their incident edges.
+ of a map from each of the graph's nodes to its outgoing edges.
 
- <p>A reference implementation of this is provided by <a href="../../../../com/google/common/graph/Graphs.html#hashCode(com.google.common.graph.Graph)"><code>Graphs.hashCode(Graph)</code></a>.
-
- <p>Note that by this definition, two graphs that are equal in every aspect except edge
- direction will have the same hash code (but can still be differentiated by
- <a href="../../../../com/google/common/graph/Network.html#equals(java.lang.Object)"><code>Network.equals(Object)</code></a>).</div>
+ <p>A reference implementation of this is provided by <a href="../../../../com/google/common/graph/Graphs.html#hashCode(com.google.common.graph.Graph)"><code>Graphs.hashCode(Graph)</code></a>.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../com/google/common/graph/Graph.html#hashCode()">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../com/google/common/graph/AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&gt;</code></dd>

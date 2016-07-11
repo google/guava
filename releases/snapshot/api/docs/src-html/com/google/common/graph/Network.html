@@ -333,42 +333,40 @@
 <span class="sourceLineNo">325</span>  int outDegree(Object node);<a name="line.325"></a>
 <span class="sourceLineNo">326</span><a name="line.326"></a>
 <span class="sourceLineNo">327</span>  /**<a name="line.327"></a>
-<span class="sourceLineNo">328</span>   * Returns {@code true} iff {@code object} is a graph that has the same node/edge relationships<a name="line.328"></a>
+<span class="sourceLineNo">328</span>   * Returns {@code true} iff {@code object} is a graph that has the same structural relationships<a name="line.328"></a>
 <span class="sourceLineNo">329</span>   * as those in this graph.<a name="line.329"></a>
 <span class="sourceLineNo">330</span>   *<a name="line.330"></a>
 <span class="sourceLineNo">331</span>   * &lt;p&gt;Thus, two graphs A and B are equal if &lt;b&gt;all&lt;/b&gt; of the following are true:<a name="line.331"></a>
 <span class="sourceLineNo">332</span>   * &lt;ul&gt;<a name="line.332"></a>
-<span class="sourceLineNo">333</span>   * &lt;li&gt;A and B have the same node set<a name="line.333"></a>
-<span class="sourceLineNo">334</span>   * &lt;li&gt;A and B have the same edge set<a name="line.334"></a>
-<span class="sourceLineNo">335</span>   * &lt;li&gt;A and B have the same incidence relationships, e.g., for each node/edge in A and in B<a name="line.335"></a>
-<span class="sourceLineNo">336</span>   *     its incident edge/node set in A is the same as its incident edge/node set in B.<a name="line.336"></a>
-<span class="sourceLineNo">337</span>   *     &lt;br&gt;Thus, every edge in A and B connect the same nodes in the same direction (if any).<a name="line.337"></a>
-<span class="sourceLineNo">338</span>   * &lt;/ul&gt;<a name="line.338"></a>
-<span class="sourceLineNo">339</span>   *<a name="line.339"></a>
-<span class="sourceLineNo">340</span>   * &lt;p&gt;Graph properties are &lt;b&gt;not&lt;/b&gt; respected by this method. For example, two graphs may be<a name="line.340"></a>
-<span class="sourceLineNo">341</span>   * considered equal even if one allows parallel edges and the other doesn't. Additionally, the<a name="line.341"></a>
-<span class="sourceLineNo">342</span>   * order in which edges or nodes are added to the graph, and the order in which they are iterated<a name="line.342"></a>
-<span class="sourceLineNo">343</span>   * over, are irrelevant.<a name="line.343"></a>
-<span class="sourceLineNo">344</span>   *<a name="line.344"></a>
-<span class="sourceLineNo">345</span>   * &lt;p&gt;A reference implementation of this is provided by<a name="line.345"></a>
-<span class="sourceLineNo">346</span>   * {@link Graphs#equal(Network, Network)}.<a name="line.346"></a>
-<span class="sourceLineNo">347</span>   */<a name="line.347"></a>
-<span class="sourceLineNo">348</span>  @Override<a name="line.348"></a>
-<span class="sourceLineNo">349</span>  boolean equals(@Nullable Object object);<a name="line.349"></a>
-<span class="sourceLineNo">350</span><a name="line.350"></a>
-<span class="sourceLineNo">351</span>  /**<a name="line.351"></a>
-<span class="sourceLineNo">352</span>   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code<a name="line.352"></a>
-<span class="sourceLineNo">353</span>   * of a map from each of the graph's nodes to their incident edges.<a name="line.353"></a>
-<span class="sourceLineNo">354</span>   *<a name="line.354"></a>
-<span class="sourceLineNo">355</span>   * &lt;p&gt;A reference implementation of this is provided by {@link Graphs#hashCode(Graph)}.<a name="line.355"></a>
+<span class="sourceLineNo">333</span>   * &lt;li&gt;A and B have the same {@link #isDirected() directedness}.<a name="line.333"></a>
+<span class="sourceLineNo">334</span>   * &lt;li&gt;A and B have the same node set.<a name="line.334"></a>
+<span class="sourceLineNo">335</span>   * &lt;li&gt;A and B have the same edge set.<a name="line.335"></a>
+<span class="sourceLineNo">336</span>   * &lt;li&gt;Every edge in A and B connects the same nodes in the same direction (if any).<a name="line.336"></a>
+<span class="sourceLineNo">337</span>   * &lt;/ul&gt;<a name="line.337"></a>
+<span class="sourceLineNo">338</span>   *<a name="line.338"></a>
+<span class="sourceLineNo">339</span>   * &lt;p&gt;Graph properties are &lt;b&gt;not&lt;/b&gt; respected by this method. For example, two graphs may be<a name="line.339"></a>
+<span class="sourceLineNo">340</span>   * considered equal even if one allows parallel edges and the other doesn't. Additionally, the<a name="line.340"></a>
+<span class="sourceLineNo">341</span>   * order in which edges or nodes are added to the graph, and the order in which they are iterated<a name="line.341"></a>
+<span class="sourceLineNo">342</span>   * over, are irrelevant.<a name="line.342"></a>
+<span class="sourceLineNo">343</span>   *<a name="line.343"></a>
+<span class="sourceLineNo">344</span>   * &lt;p&gt;Note: {@link Network} instances can only be equal to other {@link Network} instances.<a name="line.344"></a>
+<span class="sourceLineNo">345</span>   * In particular, {@link Graph}s that are not also {@link Network}s cannot be equal to<a name="line.345"></a>
+<span class="sourceLineNo">346</span>   * {@link Network}s.<a name="line.346"></a>
+<span class="sourceLineNo">347</span>   *<a name="line.347"></a>
+<span class="sourceLineNo">348</span>   * &lt;p&gt;A reference implementation of this is provided by {@link Graphs#equal(Network, Network)}.<a name="line.348"></a>
+<span class="sourceLineNo">349</span>   */<a name="line.349"></a>
+<span class="sourceLineNo">350</span>  @Override<a name="line.350"></a>
+<span class="sourceLineNo">351</span>  boolean equals(@Nullable Object object);<a name="line.351"></a>
+<span class="sourceLineNo">352</span><a name="line.352"></a>
+<span class="sourceLineNo">353</span>  /**<a name="line.353"></a>
+<span class="sourceLineNo">354</span>   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code<a name="line.354"></a>
+<span class="sourceLineNo">355</span>   * of a map from each of the graph's nodes to its outgoing edges.<a name="line.355"></a>
 <span class="sourceLineNo">356</span>   *<a name="line.356"></a>
-<span class="sourceLineNo">357</span>   * &lt;p&gt;Note that by this definition, two graphs that are equal in every aspect except edge<a name="line.357"></a>
-<span class="sourceLineNo">358</span>   * direction will have the same hash code (but can still be differentiated by<a name="line.358"></a>
-<span class="sourceLineNo">359</span>   * {@link #equals(Object)}).<a name="line.359"></a>
-<span class="sourceLineNo">360</span>   */<a name="line.360"></a>
-<span class="sourceLineNo">361</span>  @Override<a name="line.361"></a>
-<span class="sourceLineNo">362</span>  int hashCode();<a name="line.362"></a>
-<span class="sourceLineNo">363</span>}<a name="line.363"></a>
+<span class="sourceLineNo">357</span>   * &lt;p&gt;A reference implementation of this is provided by {@link Graphs#hashCode(Graph)}.<a name="line.357"></a>
+<span class="sourceLineNo">358</span>   */<a name="line.358"></a>
+<span class="sourceLineNo">359</span>  @Override<a name="line.359"></a>
+<span class="sourceLineNo">360</span>  int hashCode();<a name="line.360"></a>
+<span class="sourceLineNo">361</span>}<a name="line.361"></a>
 
 
 

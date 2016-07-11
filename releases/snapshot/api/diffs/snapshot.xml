@@ -13983,9 +13983,9 @@
       deprecated="not deprecated">
       <param name="object" type="java.lang.Object"/>
       <doc>
-      <![CDATA[A sensible, albeit inefficient, definition of {@link #size} in terms of
+      <![CDATA[A sensible, albeit inefficient, definition of {@link #equals} in terms of
  {@code entrySet().size()} and {@link #count}. If you override either of
- these methods, you may wish to override {@link #size} to forward to this
+ these methods, you may wish to override {@link #equals} to forward to this
  implementation.
 
  @since 7.0]]>
@@ -32918,6 +32918,16 @@
  @return a reference to {@code set}, for convenience]]>
       </doc>
     </method>
+    <method name="iterator" return="com.google.common.collect.UnmodifiableIterator&lt;E&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Scope the return type to {@link UnmodifiableIterator} to ensure this is an unmodifiable view.
+
+ @since 20.0 (present with return type {@link Iterator} since 2.0)]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[An unmodifiable view of a set which may be backed by other sets; this view
  will change as the backing sets do. Contains methods to copy the data into
@@ -36135,22 +36145,25 @@
       deprecated="not deprecated">
       <param name="object" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns {@code true} iff {@code object} is a graph that has the same node relationships
+      <![CDATA[Returns {@code true} iff {@code object} is a graph that has the same structural relationships
  as those in this graph.
 
  <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
  <ul>
- <li>A and B have the same node set
- <li>A and B have the same adjacency relationships, e.g., for each {@code node} the sets of
-     successor and predecessor nodes are the same in both graphs.
-     <br>This implies that every edge in A and B connects the same nodes in the same
-     direction (if any).
+ <li>A and B have the same {@link #isDirected() directedness}.
+ <li>A and B have the same node set.
+ <li>A and B have the same adjacency relationships, i.e., for each node, the sets of successor
+     and predecessor nodes are the same in both graphs.
  </ul>
 
  <p>Graph properties are <b>not</b> respected by this method. For example, two relations may
  be considered equal even if one allows self-loops and the other doesn't. Additionally, the
  order in which edges or nodes are added to the graph, and the order in which they are
  iterated over, are irrelevant.
+
+ <p>Note: {@link Network} instances can only be equal to other {@link Network} instances.
+ In particular, {@link Graph}s that are not also {@link Network}s cannot be equal to
+ {@link Network}s.
 
  <p>A reference implementation of this is provided by {@link Graphs#equal(Graph, Graph)}.]]>
       </doc>
@@ -36161,13 +36174,9 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the hash code for this graph. The hash code of a graph is defined as the hash code
- of a map from each of the graph's nodes to their adjacent nodes.
+ of a map from each of the graph's nodes to its successor nodes.
 
- <p>A reference implementation of this is provided by {@link Graphs#hashCode(Graph)}.
-
- <p>Note that by this definition, two graphs that are equal in every aspect except edge
- direction will have the same hash code (but can still be differentiated by
- {@link #equals(Object)}.]]>
+ <p>A reference implementation of this is provided by {@link Graphs#hashCode(Graph)}.]]>
       </doc>
     </method>
     <doc>
@@ -36507,13 +36516,8 @@
       <param name="graph1" type="com.google.common.graph.Graph&lt;?&gt;"/>
       <param name="graph2" type="com.google.common.graph.Graph&lt;?&gt;"/>
       <doc>
-      <![CDATA[Returns true iff {@code graph1} and {@code graph2} have the same node connections.
-
- <p>Note: {@link Network} instances can only be equal to other {@link Network} instances.
- In particular, {@link Graph}s that are not also {@link Network}s cannot be equal
- to {@link Network}s.
-
- @see Graph#equals(Object)]]>
+      <![CDATA[Returns true iff {@code graph1} and {@code graph2} are equal as defined by
+ {@link Graph#equals(Object)}.]]>
       </doc>
     </method>
     <method name="equal" return="boolean"
@@ -36523,9 +36527,8 @@
       <param name="graph1" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
       <param name="graph2" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
       <doc>
-      <![CDATA[Returns true iff {@code graph1} and {@code graph2} have the same node/edge relationships.
-
- @see Network#equals(Object)]]>
+      <![CDATA[Returns true iff {@code graph1} and {@code graph2} are equal as defined by
+ {@link Network#equals(Object)}.]]>
       </doc>
     </method>
     <method name="hashCode" return="int"
@@ -36534,9 +36537,7 @@
       deprecated="not deprecated">
       <param name="graph" type="com.google.common.graph.Graph&lt;?&gt;"/>
       <doc>
-      <![CDATA[Returns the hash code of {@code graph}.
-
- @see Graph#hashCode()]]>
+      <![CDATA[Returns the hash code of {@code graph} as defined by {@link Graph#hashCode()}.]]>
       </doc>
     </method>
     <method name="hashCode" return="int"
@@ -36545,9 +36546,7 @@
       deprecated="not deprecated">
       <param name="graph" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
       <doc>
-      <![CDATA[Returns the hash code of {@code graph}.
-
- @see Network#hashCode()]]>
+      <![CDATA[Returns the hash code of {@code graph} as defined by {@link Network#hashCode()}.]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
@@ -36992,16 +36991,15 @@
       deprecated="not deprecated">
       <param name="object" type="java.lang.Object"/>
       <doc>
-      <![CDATA[Returns {@code true} iff {@code object} is a graph that has the same node/edge relationships
+      <![CDATA[Returns {@code true} iff {@code object} is a graph that has the same structural relationships
  as those in this graph.
 
  <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
  <ul>
- <li>A and B have the same node set
- <li>A and B have the same edge set
- <li>A and B have the same incidence relationships, e.g., for each node/edge in A and in B
-     its incident edge/node set in A is the same as its incident edge/node set in B.
-     <br>Thus, every edge in A and B connect the same nodes in the same direction (if any).
+ <li>A and B have the same {@link #isDirected() directedness}.
+ <li>A and B have the same node set.
+ <li>A and B have the same edge set.
+ <li>Every edge in A and B connects the same nodes in the same direction (if any).
  </ul>
 
  <p>Graph properties are <b>not</b> respected by this method. For example, two graphs may be
@@ -37009,8 +37007,11 @@
  order in which edges or nodes are added to the graph, and the order in which they are iterated
  over, are irrelevant.
 
- <p>A reference implementation of this is provided by
- {@link Graphs#equal(Network, Network)}.]]>
+ <p>Note: {@link Network} instances can only be equal to other {@link Network} instances.
+ In particular, {@link Graph}s that are not also {@link Network}s cannot be equal to
+ {@link Network}s.
+
+ <p>A reference implementation of this is provided by {@link Graphs#equal(Network, Network)}.]]>
       </doc>
     </method>
     <method name="hashCode" return="int"
@@ -37019,13 +37020,9 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the hash code for this graph. The hash code of a graph is defined as the hash code
- of a map from each of the graph's nodes to their incident edges.
+ of a map from each of the graph's nodes to its outgoing edges.
 
- <p>A reference implementation of this is provided by {@link Graphs#hashCode(Graph)}.
-
- <p>Note that by this definition, two graphs that are equal in every aspect except edge
- direction will have the same hash code (but can still be differentiated by
- {@link #equals(Object)}).]]>
+ <p>A reference implementation of this is provided by {@link Graphs#hashCode(Graph)}.]]>
       </doc>
     </method>
     <doc>
@@ -44862,7 +44859,7 @@
       <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Variance#Population_variance">population
  variance</a> of the values. The count must be non-zero.
 
- <p>This is guaranteed to return zero if the the dataset contains only exactly one finite value.
+ <p>This is guaranteed to return zero if the dataset contains only exactly one finite value.
  It is not guaranteed to return zero when the dataset consists of the same value multiple times,
  due to numerical errors. However, it is guaranteed never to return a negative result.
 
@@ -44883,7 +44880,7 @@
  <a href="http://en.wikipedia.org/wiki/Standard_deviation#Definition_of_population_values">
  population standard deviation</a> of the values. The count must be non-zero.
 
- <p>This is guaranteed to return zero if the the dataset contains only exactly one finite value.
+ <p>This is guaranteed to return zero if the dataset contains only exactly one finite value.
  It is not guaranteed to return zero when the dataset consists of the same value multiple times,
  due to numerical errors. However, it is guaranteed never to return a negative result.
 
@@ -45284,7 +45281,7 @@
       <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Variance#Population_variance">population
  variance</a> of the values. The count must be non-zero.
 
- <p>This is guaranteed to return zero if the the dataset contains only exactly one finite value.
+ <p>This is guaranteed to return zero if the dataset contains only exactly one finite value.
  It is not guaranteed to return zero when the dataset consists of the same value multiple times,
  due to numerical errors. However, it is guaranteed never to return a negative result.
 
@@ -45305,7 +45302,7 @@
  <a href="http://en.wikipedia.org/wiki/Standard_deviation#Definition_of_population_values">
  population standard deviation</a> of the values. The count must be non-zero.
 
- <p>This is guaranteed to return zero if the the dataset contains only exactly one finite value.
+ <p>This is guaranteed to return zero if the dataset contains only exactly one finite value.
  It is not guaranteed to return zero when the dataset consists of the same value multiple times,
  due to numerical errors. However, it is guaranteed never to return a negative result.
 

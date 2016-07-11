@@ -5406,11 +5406,13 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#equal(com.google.common.graph.Graph,%20com.google.common.graph.Graph)">equal(Graph&lt;?&gt;, Graph&lt;?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
-<div class="block">Returns true iff <code>graph1</code> and <code>graph2</code> have the same node connections.</div>
+<div class="block">Returns true iff <code>graph1</code> and <code>graph2</code> are equal as defined by
+ <a href="./com/google/common/graph/Graph.html#equals(java.lang.Object)"><code>Graph.equals(Object)</code></a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#equal(com.google.common.graph.Network,%20com.google.common.graph.Network)">equal(Network&lt;?, ?&gt;, Network&lt;?, ?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
-<div class="block">Returns true iff <code>graph1</code> and <code>graph2</code> have the same node/edge relationships.</div>
+<div class="block">Returns true iff <code>graph1</code> and <code>graph2</code> are equal as defined by
+ <a href="./com/google/common/graph/Network.html#equals(java.lang.Object)"><code>Network.equals(Object)</code></a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/io/Files.html#equal(java.io.File,%20java.io.File)">equal(File, File)</a></span> - Static method in class com.google.common.io.<a href="./com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
@@ -5537,12 +5539,12 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graph.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same node relationships
+<div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same structural relationships
  as those in this graph.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Network.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same node/edge relationships
+<div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same structural relationships
  as those in this graph.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/BloomFilter.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.hash.<a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
@@ -7835,11 +7837,11 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#hashCode(com.google.common.graph.Graph)">hashCode(Graph&lt;?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
-<div class="block">Returns the hash code of <code>graph</code>.</div>
+<div class="block">Returns the hash code of <code>graph</code> as defined by <a href="./com/google/common/graph/Graph.html#hashCode()"><code>Graph.hashCode()</code></a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#hashCode(com.google.common.graph.Network)">hashCode(Network&lt;?, ?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
-<div class="block">Returns the hash code of <code>graph</code>.</div>
+<div class="block">Returns the hash code of <code>graph</code> as defined by <a href="./com/google/common/graph/Network.html#hashCode()"><code>Network.hashCode()</code></a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Network.html#hashCode()">hashCode()</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
@@ -9296,6 +9298,10 @@
  <i>in no particular order</i>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Multiset.html#iterator()">iterator()</a></span> - Method in interface com.google.common.collect.<a href="./com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a></dt>
+<dt><span class="strong"><a href="./com/google/common/collect/Sets.SetView.html#iterator()">iterator()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/Sets.SetView.html" title="class in com.google.common.collect">Sets.SetView</a></dt>
+<dd>
+<div class="block">Scope the return type to <a href="./com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect"><code>UnmodifiableIterator</code></a> to ensure this is an unmodifiable view.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/SortedMultiset.html#iterator()">iterator()</a></span> - Method in interface com.google.common.collect.<a href="./com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a></dt>
 <dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#iterator()">iterator()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
 <dd>&nbsp;</dd>
@@ -14910,7 +14916,7 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingMultiset.html#standardEquals(java.lang.Object)">standardEquals(Object)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingMultiset.html" title="class in com.google.common.collect">ForwardingMultiset</a></dt>
 <dd>
-<div class="block">A sensible, albeit inefficient, definition of <a href="./com/google/common/collect/ForwardingCollection.html#size()"><code>ForwardingCollection.size()</code></a> in terms of
+<div class="block">A sensible, albeit inefficient, definition of <a href="./com/google/common/collect/ForwardingMultiset.html#equals(java.lang.Object)"><code>ForwardingMultiset.equals(java.lang.Object)</code></a> in terms of
  <code>entrySet().size()</code> and <a href="./com/google/common/collect/ForwardingMultiset.html#count(java.lang.Object)"><code>ForwardingMultiset.count(java.lang.Object)</code></a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingSet.html#standardEquals(java.lang.Object)">standardEquals(Object)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingSet.html" title="class in com.google.common.collect">ForwardingSet</a></dt>

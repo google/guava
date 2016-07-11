@@ -279,7 +279,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/Graph.html#equals(java.lang.Object)">equals</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
-<div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same node relationships
+<div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same structural relationships
  as those in this graph.</div>
 </td>
 </tr>
@@ -478,24 +478,27 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.279">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.282">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
-<div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same node relationships
+<div class="block">Returns <code>true</code> iff <code>object</code> is a graph that has the same structural relationships
  as those in this graph.
 
  <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
  <ul>
- <li>A and B have the same node set
- <li>A and B have the same adjacency relationships, e.g., for each <code>node</code> the sets of
-     successor and predecessor nodes are the same in both graphs.
-     <br>This implies that every edge in A and B connects the same nodes in the same
-     direction (if any).
+ <li>A and B have the same <a href="../../../../com/google/common/graph/Graph.html#isDirected()"><code>directedness</code></a>.
+ <li>A and B have the same node set.
+ <li>A and B have the same adjacency relationships, i.e., for each node, the sets of successor
+     and predecessor nodes are the same in both graphs.
  </ul>
 
  <p>Graph properties are <b>not</b> respected by this method. For example, two relations may
  be considered equal even if one allows self-loops and the other doesn't. Additionally, the
  order in which edges or nodes are added to the graph, and the order in which they are
  iterated over, are irrelevant.
+
+ <p>Note: <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> instances can only be equal to other <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> instances.
+ In particular, <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>s that are not also <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a>s cannot be equal to
+ <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a>s.
 
  <p>A reference implementation of this is provided by <a href="../../../../com/google/common/graph/Graphs.html#equal(com.google.common.graph.Graph,%20com.google.common.graph.Graph)"><code>Graphs.equal(Graph, Graph)</code></a>.</div>
 <dl>
@@ -510,15 +513,11 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.292">hashCode</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.291">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this graph. The hash code of a graph is defined as the hash code
- of a map from each of the graph's nodes to their adjacent nodes.
+ of a map from each of the graph's nodes to its successor nodes.
 
- <p>A reference implementation of this is provided by <a href="../../../../com/google/common/graph/Graphs.html#hashCode(com.google.common.graph.Graph)"><code>Graphs.hashCode(Graph)</code></a>.
-
- <p>Note that by this definition, two graphs that are equal in every aspect except edge
- direction will have the same hash code (but can still be differentiated by
- <a href="../../../../com/google/common/graph/Graph.html#equals(java.lang.Object)"><code>equals(Object)</code></a>.</div>
+ <p>A reference implementation of this is provided by <a href="../../../../com/google/common/graph/Graphs.html#hashCode(com.google.common.graph.Graph)"><code>Graphs.hashCode(Graph)</code></a>.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
