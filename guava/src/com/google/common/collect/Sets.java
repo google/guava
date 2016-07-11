@@ -574,6 +574,14 @@ public final class Sets {
       set.addAll(this);
       return set;
     }
+
+    /**
+     * Scope the return type to {@link UnmodifiableIterator} to ensure this is an unmodifiable view.
+     *
+     * @since 20.0 (present with return type {@link Iterator} since 2.0)
+     */
+    @Override
+    public abstract UnmodifiableIterator<E> iterator();
   }
 
   /**
@@ -605,7 +613,7 @@ public final class Sets {
       }
 
       @Override
-      public Iterator<E> iterator() {
+      public UnmodifiableIterator<E> iterator() {
         return Iterators.unmodifiableIterator(
             Iterators.concat(set1.iterator(), set2minus1.iterator()));
       }
@@ -662,7 +670,7 @@ public final class Sets {
     final Predicate<Object> inSet2 = Predicates.in(set2);
     return new SetView<E>() {
       @Override
-      public Iterator<E> iterator() {
+      public UnmodifiableIterator<E> iterator() {
         return Iterators.filter(set1.iterator(), inSet2);
       }
 
@@ -706,7 +714,7 @@ public final class Sets {
     final Predicate<Object> notInSet2 = Predicates.not(Predicates.in(set2));
     return new SetView<E>() {
       @Override
-      public Iterator<E> iterator() {
+      public UnmodifiableIterator<E> iterator() {
         return Iterators.filter(set1.iterator(), notInSet2);
       }
 
@@ -746,7 +754,7 @@ public final class Sets {
 
     return new SetView<E>() {
       @Override
-      public Iterator<E> iterator() {
+      public UnmodifiableIterator<E> iterator() {
         final Iterator<? extends E> itr1 = set1.iterator();
         final Iterator<? extends E> itr2 = set2.iterator();
         return new AbstractIterator<E>() {

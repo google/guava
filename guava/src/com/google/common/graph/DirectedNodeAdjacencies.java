@@ -23,6 +23,7 @@ import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.UnmodifiableIterator;
 
 import java.util.AbstractSet;
 import java.util.Collections;
@@ -81,7 +82,7 @@ final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
   public Set<N> predecessors() {
     return new AbstractSet<N>() {
       @Override
-      public Iterator<N> iterator() {
+      public UnmodifiableIterator<N> iterator() {
         final Iterator<Entry<N, Adjacency>> entries = adjacentNodes.entrySet().iterator();
         return new AbstractIterator<N>() {
           @Override
@@ -113,7 +114,7 @@ final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
   public Set<N> successors() {
     return new AbstractSet<N>() {
       @Override
-      public Iterator<N> iterator() {
+      public UnmodifiableIterator<N> iterator() {
         final Iterator<Entry<N, Adjacency>> entries = adjacentNodes.entrySet().iterator();
         return new AbstractIterator<N>() {
           @Override

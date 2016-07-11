@@ -20,9 +20,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
+import com.google.common.collect.UnmodifiableIterator;
 
 import java.util.AbstractSet;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -46,7 +46,7 @@ final class SimpleEdgesConnecting<E> extends AbstractSet<E> {
   }
 
   @Override
-  public Iterator<E> iterator() {
+  public UnmodifiableIterator<E> iterator() {
     E connectingEdge = getConnectingEdge();
     return (connectingEdge == null)
         ? ImmutableSet.<E>of().iterator()

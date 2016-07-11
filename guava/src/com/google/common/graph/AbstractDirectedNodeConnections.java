@@ -19,13 +19,13 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
+import com.google.common.collect.UnmodifiableIterator;
 import com.google.common.math.IntMath;
 
 import java.util.AbstractSet;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -65,10 +65,11 @@ abstract class AbstractDirectedNodeConnections<N, E> implements NodeConnections<
   public Set<E> incidentEdges() {
     return new AbstractSet<E>() {
       @Override
-      public Iterator<E> iterator() {
+      public UnmodifiableIterator<E> iterator() {
         return selfLoopCount == 0
-            ? Iterables.concat(inEdges(), outEdges()).iterator()
-            : Sets.union(inEdges(), outEdges()).iterator();
+            ? Iterators.unmodifiableIterator(
+                Iterators.concat(inEdgeMap.keySet().iterator(), outEdgeMap.keySet().iterator()))
+            : Sets.union(inEdgeMap.keySet(), outEdgeMap.keySet()).iterator();
       }
 
       @Override
