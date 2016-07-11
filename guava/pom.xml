@@ -162,7 +162,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
             <configuration>
-              <additionalparam>-XDignore.symbol.file -Xdoclint:none</additionalparam>
+              <additionalparam>-XDignore.symbol.file -Xdoclint:-html</additionalparam>
             </configuration>
           </plugin>
         </plugins>
@@ -173,7 +173,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
             <configuration>
-              <additionalparam>-XDignore.symbol.file -Xdoclint:none</additionalparam>
+              <additionalparam>-XDignore.symbol.file -Xdoclint:-html</additionalparam>
             </configuration>
           </plugin>
         </plugins>
