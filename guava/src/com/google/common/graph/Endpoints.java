@@ -31,8 +31,10 @@ import java.util.NoSuchElementException;
  * An immutable {@link Collection} to represent the two (possibly equal, in the case of a self-loop)
  * endpoints of an edge in a graph.
  *
- * <p>If an {@link Endpoints} is directed, it is an ordered pair of nodes (source and target).
- * Otherwise, it is an unordered pair of nodes that can be accessed through the iterator.
+ * <p>The {@link Endpoints} of a directed edge are an ordered pair of nodes (source and target).
+ * The {@link Endpoints} of an undirected edge are an unordered pair of nodes. The nodes can be
+ * accessed through the {@link #iterator()}, and in the directed case, will iterate in the order
+ * {@link #source()}, {@link #target()}.
  *
  * @author James Sexton
  * @since 20.0
@@ -47,46 +49,45 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
     this.nodeB = checkNotNull(nodeB);
   }
 
-  static <N> Endpoints<N> of(N nodeA, N nodeB, boolean isDirected) {
-    return isDirected ? ofDirected(nodeA, nodeB) : ofUndirected(nodeA, nodeB);
+  /**
+   * Returns {@link Endpoints} representing the endpoints of an edge in {@code graph}.
+   */
+  public static <N> Endpoints<N> of(Graph<?> graph, N nodeA, N nodeB) {
+    return graph.isDirected() ? ofDirected(nodeA, nodeB) : ofUndirected(nodeA, nodeB);
   }
 
   /**
-   * Returns an {@link Endpoints} representing the endpoints of a directed edge.
+   * Returns {@link Endpoints} representing the endpoints of a directed edge.
    */
   public static <N> Endpoints<N> ofDirected(N source, N target) {
     return new Directed<N>(source, target);
   }
 
   /**
-   * Returns an {@link Endpoints} representing the endpoints of an undirected edge.
+   * Returns {@link Endpoints} representing the endpoints of an undirected edge.
    */
   public static <N> Endpoints<N> ofUndirected(N nodeA, N nodeB) {
     return new Undirected<N>(nodeA, nodeB);
   }
 
   /**
-   * Returns whether the nodes of this {@link Endpoints} are ordered. Generally, this is equal to
-   * {@link Graph#isDirected()} of the graph that generated this {@link Endpoints}.
-   */
-  public abstract boolean isDirected();
-
-  /**
-   * If this {@link Endpoints} is directed, returns the node which is the source of the origin edge.
+   * If these are the {@link Endpoints} of a directed edge, returns the node which is the source of
+   * that edge.
    *
-   * @throws UnsupportedOperationException if this Endpoints is not directed
+   * @throws UnsupportedOperationException if these are the {@link Endpoints} of a undirected edge
    */
   public abstract N source();
 
   /**
-   * If this {@link Endpoints} is directed, returns the node which is the target of the origin edge.
+   * If these are the {@link Endpoints} of a directed edge, returns the node which is the target of
+   * that edge.
    *
-   * @throws UnsupportedOperationException if this Endpoints is not directed
+   * @throws UnsupportedOperationException if these are the {@link Endpoints} of a undirected edge
    */
   public abstract N target();
 
   /**
-   * If this {@link Endpoints} is directed, returns the {@link #source()};
+   * If these are the {@link Endpoints} of a directed edge, returns the {@link #source()};
    * otherwise, returns an arbitrary (but consistent) endpoint of the origin edge.
    */
   final N nodeA() {
@@ -95,7 +96,7 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
 
   /**
    * Returns the node that is adjacent to {@link #nodeA()} via the origin edge.
-   * If this {@link Endpoints} is directed, this is equal to the {@link #target()}.
+   * If these are the {@link Endpoints} of a directed edge, it is equal to the {@link #target()}.
    */
   final N nodeB() {
     return nodeB;
@@ -154,9 +155,10 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
   }
 
   /**
-   * If two {@link Endpoints}s are directed, the source and target must be equal to be considered
-   * equal. If two {@link Endpoints}s are undirected, the unordered set of nodes must be equal to be
-   * considered equal. Directed {@link Endpoints} are never equal to undirected {@link Endpoints}.
+   * The {@link Endpoints} of two directed edges are equal if their {@link #source()} and
+   * {@link #target()} are equal. The {@link Endpoints} of two undirected edges are equal if they
+   * contain the same nodes. The {@link Endpoints} of a directed edge are never equal to the
+   * {@link Endpoints} of an undirected edge.
    */
   @Override
   public abstract boolean equals(Object obj);
@@ -164,14 +166,13 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
   @Override
   public abstract int hashCode();
 
-  private static final class Directed<N> extends Endpoints<N> {
+  /**
+   * The {@link Endpoints} of a directed edge. It is guaranteed that all {@link Endpoints} of
+   * directed edges will be an instance of this class.
+   */
+  static final class Directed<N> extends Endpoints<N> {
     private Directed(N source, N target) {
       super(source, target);
-    }
-
-    @Override
-    public boolean isDirected() {
-      return true;
     }
 
     @Override
@@ -208,14 +209,13 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
     }
   }
 
-  private static final class Undirected<N> extends Endpoints<N> {
+  /**
+   * The {@link Endpoints} of an undirected edge. It is guaranteed that all {@link Endpoints} of
+   * undirected edges will be an instance of this class.
+   */
+  static final class Undirected<N> extends Endpoints<N> {
     private Undirected(N nodeA, N nodeB) {
       super(nodeA, nodeB);
-    }
-
-    @Override
-    public boolean isDirected() {
-      return false;
     }
 
     @Override

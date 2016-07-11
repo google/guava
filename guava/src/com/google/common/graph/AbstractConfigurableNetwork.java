@@ -191,7 +191,7 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   public Endpoints<N> incidentNodes(Object edge) {
     N nodeA = checkedReferenceNode(edge);
     N nodeB = nodeConnections.get(nodeA).oppositeNode(edge);
-    return Endpoints.of(nodeA, nodeB, isDirected);
+    return Endpoints.of(this, nodeA, nodeB);
   }
 
   @Override

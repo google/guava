@@ -19,7 +19,6 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.graph.GraphConstants.ENDPOINTS_GRAPH_DIRECTEDNESS;
 import static com.google.common.graph.GraphConstants.NETWORK_WITH_PARALLEL_EDGE;
 
 import com.google.common.annotations.Beta;
@@ -31,7 +30,6 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -131,7 +129,7 @@ public final class Graphs {
   }
 
   private static boolean containsEndpoints(Graph<?> graph, Endpoints<?> endpoints) {
-    return graph.isDirected() == endpoints.isDirected()
+    return graph.isDirected() == (endpoints instanceof Endpoints.Directed)
         && graph.nodes().contains(endpoints.nodeA())
         && graph.successors(endpoints.nodeA()).contains(endpoints.nodeB());
   }
@@ -152,19 +150,6 @@ public final class Graphs {
   }
 
   // Graph mutation methods
-
-  /**
-   * Adds {@code edge} to {@code graph} with the specified {@code endpoints}.
-   */
-  @CanIgnoreReturnValue
-  public static <N, E> boolean addEdge(MutableNetwork<N, E> graph, E edge, Endpoints<N> endpoints) {
-    checkNotNull(graph, "graph");
-    checkNotNull(edge, "edge");
-    checkNotNull(endpoints, "endpoints");
-    checkArgument(endpoints.isDirected() == graph.isDirected(),
-        ENDPOINTS_GRAPH_DIRECTEDNESS, endpoints.isDirected(), graph.isDirected());
-    return graph.addEdge(edge, endpoints.nodeA(), endpoints.nodeB());
-  }
 
   // Graph transformation methods
 
@@ -231,7 +216,8 @@ public final class Graphs {
       checkState(copy.addNode(node));
     }
     for (E edge : graph.edges()) {
-      checkState(addEdge(copy, edge, graph.incidentNodes(edge)));
+      Endpoints<N> endpoints = graph.incidentNodes(edge);
+      checkState(copy.addEdge(edge, endpoints.nodeA(), endpoints.nodeB()));
     }
 
     return copy;

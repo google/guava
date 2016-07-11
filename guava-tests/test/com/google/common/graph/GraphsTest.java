@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.graph.Graphs.addEdge;
 import static com.google.common.graph.Graphs.copyOf;
 import static com.google.common.graph.Graphs.inducedSubgraph;
 import static com.google.common.truth.Truth.assertThat;
@@ -143,31 +142,6 @@ public class GraphsTest {
       fail("Set returned by parallelEdges() should be unmodifiable");
     } catch (UnsupportedOperationException expected) {
     }
-  }
-
-  @Test
-  public void addEdge_mismatchedDirectedness() {
-    try {
-      addEdge(NetworkBuilder.undirected().<Integer, String>build(), E12,
-          Endpoints.ofDirected(N1, N2));
-      fail("Should have rejected adding an edge with directed endpoints to a undirected graph.");
-    } catch (IllegalArgumentException expected) {
-    }
-  }
-
-  @Test
-  public void addEdge_selfLoop() {
-    MutableNetwork<Integer, String> undirectedGraph = NetworkBuilder.undirected().build();
-    assertThat(addEdge(undirectedGraph, E11, Endpoints.ofUndirected(N1, N1))).isTrue();
-    assertThat(undirectedGraph.edgesConnecting(N1, N1)).containsExactly(E11);
-  }
-
-  @Test
-  public void addEdge_basic() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    assertThat(addEdge(directedGraph, E12, Endpoints.ofDirected(N1, N2))).isTrue();
-    assertThat(directedGraph.edgesConnecting(N1, N2)).containsExactly(E12);
-    assertThat(directedGraph.edgesConnecting(N2, N1)).isEmpty();
   }
 
   @Test

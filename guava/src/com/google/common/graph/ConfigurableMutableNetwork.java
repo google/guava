@@ -92,7 +92,7 @@ final class ConfigurableMutableNetwork<N, E>
 
     if (containsEdge(edge)) {
       Endpoints<N> existingEndpoints = incidentNodes(edge);
-      Endpoints<N> newEndpoints = Endpoints.of(nodeA, nodeB, isDirected());
+      Endpoints<N> newEndpoints = Endpoints.of(this, nodeA, nodeB);
       checkArgument(existingEndpoints.equals(newEndpoints),
           REUSING_EDGE, edge, existingEndpoints, newEndpoints);
       return false;
