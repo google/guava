@@ -16,6 +16,8 @@
 
 package com.google.common.math;
 
+import static com.google.common.collect.Iterables.get;
+import static com.google.common.collect.Iterables.size;
 import static com.google.common.math.MathTesting.ALL_DOUBLE_CANDIDATES;
 import static com.google.common.math.MathTesting.ALL_ROUNDING_MODES;
 import static com.google.common.math.MathTesting.ALL_SAFE_ROUNDING_MODES;
@@ -624,14 +626,50 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
-  public void testFuzzyCompare() {
+  /*
+   * We've split testFuzzyCompare() into multiple tests so that our internal Android test runner has
+   * a better chance of completing each within its per-test-method timeout.
+   */
+
+  public void testFuzzyCompare0() {
+    runTestFuzzyCompare(0);
+  }
+
+  public void testFuzzyCompare1() {
+    runTestFuzzyCompare(1);
+  }
+
+  public void testFuzzyCompare2() {
+    runTestFuzzyCompare(2);
+  }
+
+  public void testFuzzyCompare3() {
+    runTestFuzzyCompare(3);
+  }
+
+  public void testFuzzyCompare4() {
+    runTestFuzzyCompare(4);
+  }
+
+  public void testFuzzyCompare5() {
+    runTestFuzzyCompare(5);
+  }
+
+  public void testFuzzyCompare6() {
+    runTestFuzzyCompare(6);
+  }
+
+  public void testFuzzyCompare7() {
+    assertEquals(7, size(TOLERANCE_CANDIDATES));
+  }
+
+  private static void runTestFuzzyCompare(int toleranceIndex) {
+    double tolerance = get(TOLERANCE_CANDIDATES, toleranceIndex);
     for (double a : ALL_DOUBLE_CANDIDATES) {
       for (double b : ALL_DOUBLE_CANDIDATES) {
-        for (double tolerance : TOLERANCE_CANDIDATES) {
-          int expected = DoubleMath.fuzzyEquals(a, b, tolerance) ? 0 : Double.compare(a, b);
-          int actual = DoubleMath.fuzzyCompare(a, b, tolerance);
-          assertEquals(Integer.signum(expected), Integer.signum(actual));
-        }
+        int expected = DoubleMath.fuzzyEquals(a, b, tolerance) ? 0 : Double.compare(a, b);
+        int actual = DoubleMath.fuzzyCompare(a, b, tolerance);
+        assertEquals(Integer.signum(expected), Integer.signum(actual));
       }
     }
   }
