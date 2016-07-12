@@ -188,7 +188,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * to the {@code valuesInOrder} list will have no effect on the returned
    * comparator. Null values in the list are not supported.
    *
-   * <p>The returned comparator throws an {@link ClassCastException} when it
+   * <p>The returned comparator throws a {@link ClassCastException} when it
    * receives an input parameter that isn't among the provided values.
    *
    * <p>The generated comparator is serializable if all the provided values are
