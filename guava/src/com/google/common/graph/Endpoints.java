@@ -59,14 +59,14 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
   /**
    * Returns {@link Endpoints} representing the endpoints of a directed edge.
    */
-  public static <N> Endpoints<N> ofDirected(N source, N target) {
+  static <N> Endpoints.Directed<N> ofDirected(N source, N target) {
     return new Directed<N>(source, target);
   }
 
   /**
    * Returns {@link Endpoints} representing the endpoints of an undirected edge.
    */
-  public static <N> Endpoints<N> ofUndirected(N nodeA, N nodeB) {
+  static <N> Endpoints.Undirected<N> ofUndirected(N nodeA, N nodeB) {
     return new Undirected<N>(nodeA, nodeB);
   }
 
