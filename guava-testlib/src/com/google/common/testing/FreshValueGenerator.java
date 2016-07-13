@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.throwIfUnchecked;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.CharMatcher;
@@ -25,7 +26,6 @@ import com.google.common.base.Equivalence;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
-import com.google.common.base.Throwables;
 import com.google.common.base.Ticker;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.BiMap;
@@ -71,7 +71,6 @@ import com.google.common.reflect.Invokable;
 import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
@@ -120,7 +119,6 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
-
 import javax.annotation.Nullable;
 
 /**
@@ -272,9 +270,11 @@ class FreshValueGenerator {
     try {
       return generator.invoke(this, args);
     } catch (InvocationTargetException e) {
-      throw Throwables.propagate(e.getCause());
+      throwIfUnchecked(e.getCause());
+      throw new RuntimeException(e.getCause());
     } catch (Exception e) {
-      throw Throwables.propagate(e);
+      throwIfUnchecked(e);
+      throw new RuntimeException(e);
     }
   }
 

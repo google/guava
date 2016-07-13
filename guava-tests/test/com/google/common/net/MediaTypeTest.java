@@ -38,7 +38,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
-import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
@@ -99,15 +98,17 @@ public class MediaTypeTest extends TestCase {
   @GwtIncompatible // reflection
   private static FluentIterable<MediaType> getConstants() {
     return getConstantFields()
-        .transform(new Function<Field, MediaType>() {
-          @Override public MediaType apply(Field input) {
-            try {
-              return (MediaType) input.get(null);
-            } catch (Exception e) {
-              throw Throwables.propagate(e);
-            }
-          }
-        });
+        .transform(
+            new Function<Field, MediaType>() {
+              @Override
+              public MediaType apply(Field input) {
+                try {
+                  return (MediaType) input.get(null);
+                } catch (Exception e) {
+                  throw new RuntimeException(e);
+                }
+              }
+            });
   }
 
   public void testCreate_invalidType() {
