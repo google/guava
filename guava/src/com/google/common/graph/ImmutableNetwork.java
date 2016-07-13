@@ -23,8 +23,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-
+import com.google.common.math.IntMath;
 import java.util.Map;
 import java.util.Set;
 
@@ -99,8 +98,8 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
       Map<E, N> inEdgeMap = Maps.asMap(graph.inEdges(node), sourceNodeFn(graph));
       Map<E, N> outEdgeMap = Maps.asMap(graph.outEdges(node), targetNodeFn(graph));
       int selfLoopCount = graph.allowsSelfLoops()
-          ? Sets.intersection(inEdgeMap.keySet(), outEdgeMap.keySet()).size()
-          : 0;
+          // Self-loops count once as incident edges, but twice as (incoming+outgoing) edges.
+          ? IntMath.saturatedAdd(inEdgeMap.size() - graph.degree(node), outEdgeMap.size()) : 0;
       return graph.allowsParallelEdges()
            ? DirectedMultiNodeConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount)
            : DirectedNodeConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount);
