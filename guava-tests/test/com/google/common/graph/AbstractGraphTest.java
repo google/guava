@@ -25,21 +25,14 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
+import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Set;
-
 /**
  * Abstract base class for testing implementations of {@link Graph} interface. Graph
  * instances created for testing should have Integer node and String edge objects.
- *
- * <p>Tests assume the following about the graph implementation:
- * <ul>
- * <li>Parallel edges are not allowed.
- * </ul>
  *
  * <p>Test cases that should be handled similarly in any graph implementation are
  * included in this class. For example, testing that {@code nodes()} method returns
@@ -143,6 +136,11 @@ public abstract class AbstractGraphTest {
 
     for (Integer node : graph.nodes()) {
       assertThat(nodeString).contains(node.toString());
+
+      // TODO(b/28087289): update if support for parallel edges added
+      assertThat(graph.adjacentNodes(node)).hasSize(graph.degree(node));
+      assertThat(graph.predecessors(node)).hasSize(graph.inDegree(node));
+      assertThat(graph.successors(node)).hasSize(graph.outDegree(node));
 
       for (Integer adjacentNode : graph.adjacentNodes(node)) {
         assertTrue(graph.predecessors(node).contains(adjacentNode)

@@ -23,23 +23,18 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.common.testing.EqualsTester;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
+import java.util.Iterator;
+import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Set;
-
 /**
  * Abstract base class for testing implementations of {@link Network} interface. Network
  * instances created for testing should have Integer node and String edge objects.
- *
- * <p>Tests assume the following about the graph implementation:
- * <ul>
- * <li>Parallel edges are not allowed.
- * </ul>
  *
  * <p>Test cases that should be handled similarly in any graph implementation are
  * included in this class. For example, testing that {@code nodes()} method returns
@@ -167,9 +162,9 @@ public abstract class AbstractNetworkTest {
       // TODO(b/27817069): Consider verifying the edge's incident nodes in the string.
       assertThat(edgeString).contains(edge);
 
-      Endpoints<Integer> endpoints = graph.incidentNodes(edge);
-      Integer nodeA = endpoints.nodeA();
-      Integer nodeB = endpoints.nodeB();
+      Iterator<Integer> endpointsIterator = graph.incidentNodes(edge).iterator();
+      Integer nodeA = endpointsIterator.next();
+      Integer nodeB = endpointsIterator.next();
       assertThat(graph.edgesConnecting(nodeA, nodeB)).contains(edge);
       assertThat(graph.successors(nodeA)).contains(nodeB);
       assertThat(graph.adjacentNodes(nodeA)).contains(nodeB);
@@ -190,6 +185,31 @@ public abstract class AbstractNetworkTest {
 
     for (Integer node : graph.nodes()) {
       assertThat(nodeString).contains(node.toString());
+
+      assertThat(graph.incidentEdges(node)).hasSize(graph.degree(node));
+      assertThat(graph.degree(node)).isAtLeast(graph.adjacentNodes(node).size());
+      assertThat(graph.inEdges(node)).hasSize(graph.inDegree(node));
+      assertThat(graph.inDegree(node)).isAtLeast(graph.predecessors(node).size());
+      assertThat(graph.outEdges(node)).hasSize(graph.outDegree(node));
+      assertThat(graph.outDegree(node)).isAtLeast(graph.successors(node).size());
+
+      for (Integer otherNode : graph.nodes()) {
+        Set<String> edgesConnecting = graph.edgesConnecting(node, otherNode);
+        boolean isSelfLoop = node.equals(otherNode);
+        if (graph.isDirected() || !isSelfLoop) {
+          assertThat(edgesConnecting).isEqualTo(
+              Sets.intersection(graph.outEdges(node), graph.inEdges(otherNode)));
+        }
+        if (!graph.allowsParallelEdges()) {
+          assertThat(edgesConnecting.size()).isAtMost(1);
+        }
+        if (!graph.allowsSelfLoops() && isSelfLoop) {
+          assertThat(edgesConnecting).isEmpty();
+        }
+        for (String edge : edgesConnecting) {
+          assertThat(graph.incidentNodes(edge)).isEqualTo(Endpoints.of(graph, node, otherNode));
+        }
+      }
 
       for (String incidentEdge : graph.incidentEdges(node)) {
         assertTrue(graph.inEdges(node).contains(incidentEdge)
@@ -213,22 +233,16 @@ public abstract class AbstractNetworkTest {
             || graph.successors(node).contains(adjacentNode));
         assertTrue(!graph.edgesConnecting(node, adjacentNode).isEmpty()
             || !graph.edgesConnecting(adjacentNode, node).isEmpty());
-        assertThat(graph.incidentEdges(node)).isNotEmpty();
-        assertThat(graph.incidentEdges(node)).hasSize(graph.degree(node));
       }
 
       for (Integer predecessor : graph.predecessors(node)) {
         assertThat(graph.successors(predecessor)).contains(node);
         assertThat(graph.edgesConnecting(predecessor, node)).isNotEmpty();
-        assertThat(graph.inEdges(node)).isNotEmpty();
-        assertThat(graph.inEdges(node)).hasSize(graph.inDegree(node));
       }
 
       for (Integer successor : graph.successors(node)) {
         assertThat(graph.predecessors(successor)).contains(node);
         assertThat(graph.edgesConnecting(node, successor)).isNotEmpty();
-        assertThat(graph.outEdges(node)).isNotEmpty();
-        assertThat(graph.outEdges(node)).hasSize(graph.outDegree(node));
       }
     }
   }
