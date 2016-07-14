@@ -106,7 +106,7 @@ public final class GraphBuilder<N> {
   }
 
   /**
-   * Specifies the order of iteration for the elements of {@link Network#nodes()}.
+   * Specifies the order of iteration for the elements of {@link Graph#nodes()}.
    */
   public <N1 extends N> GraphBuilder<N1> nodeOrder(ElementOrder<N1> nodeOrder) {
     checkNotNull(nodeOrder);
