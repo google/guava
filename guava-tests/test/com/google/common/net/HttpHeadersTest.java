@@ -17,16 +17,10 @@
 package com.google.common.net;
 
 import com.google.common.base.Ascii;
-import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-
-import junit.framework.TestCase;
-
 import java.lang.reflect.Field;
-import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Tests for the HttpHeaders class.
@@ -39,18 +33,15 @@ public class HttpHeadersTest extends TestCase {
     // Special case some of the weird HTTP Header names...
     ImmutableBiMap<String, String> specialCases = ImmutableBiMap.of("ETAG", "ETag",
         "X_WEBKIT_CSP", "X-WebKit-CSP", "X_WEBKIT_CSP_REPORT_ONLY", "X-WebKit-CSP-Report-Only");
-    ImmutableSet<String> uppercaseAcronyms = ImmutableSet.of(
-        "ID", "DNT", "IP", "MD5", "P3P", "TE", "UID", "URL", "WWW", "XSS");
-    assertConstantNameMatchesString(HttpHeaders.class, specialCases, uppercaseAcronyms);
+    assertConstantNameMatchesString(HttpHeaders.class, specialCases);
   }
 
   // Visible for other tests to use
-  static void assertConstantNameMatchesString(Class<?> clazz,
-      ImmutableBiMap<String, String> specialCases, ImmutableSet<String> uppercaseAcronyms)
+  static void assertConstantNameMatchesString(
+      Class<?> clazz, ImmutableBiMap<String, String> specialCases)
       throws IllegalAccessException {
     for (Field field : relevantFields(clazz)) {
-      assertEquals(upperToHttpHeaderName(field.getName(), specialCases, uppercaseAcronyms),
-          field.get(null));
+      assertEquals(upperToHttpHeaderName(field.getName(), specialCases), field.get(null));
     }
   }
 
@@ -70,21 +61,11 @@ public class HttpHeadersTest extends TestCase {
     return builder.build();
   }
 
-  private static final Splitter SPLITTER = Splitter.on('_');
-  private static final Joiner JOINER = Joiner.on('-');
-
-  private static String upperToHttpHeaderName(String constantName,
-      ImmutableBiMap<String, String> specialCases, ImmutableSet<String> uppercaseAcronyms) {
+  private static String upperToHttpHeaderName(
+      String constantName, ImmutableBiMap<String, String> specialCases) {
     if (specialCases.containsKey(constantName)) {
-      return specialCases.get(constantName);
+      return Ascii.toLowerCase(specialCases.get(constantName));
     }
-    List<String> parts = Lists.newArrayList();
-    for (String part : SPLITTER.split(constantName)) {
-      if (!uppercaseAcronyms.contains(part)) {
-        part = part.charAt(0) + Ascii.toLowerCase(part.substring(1));
-      }
-      parts.add(part);
-    }
-    return JOINER.join(parts);
+    return Ascii.toLowerCase(constantName).replace('_', '-');
   }
 }
