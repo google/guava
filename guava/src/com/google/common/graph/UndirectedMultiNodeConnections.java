@@ -21,20 +21,15 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
 import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multiset;
-
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -63,23 +58,26 @@ final class UndirectedMultiNodeConnections<N, E> extends AbstractUndirectedNodeC
 
   @Override
   public Set<N> adjacentNodes() {
+    return Collections.unmodifiableSet(adjacentNodesMultiset().elementSet());
+  }
+
+  private Multiset<N> adjacentNodesMultiset() {
     Multiset<N> adjacentNodes = getReference(adjacentNodesReference);
     if (adjacentNodes == null) {
       adjacentNodes = HashMultiset.create(incidentEdgeMap.values());
       adjacentNodesReference = new SoftReference<Multiset<N>>(adjacentNodes);
     }
-    return Collections.unmodifiableSet(adjacentNodes.elementSet());
+    return adjacentNodes;
   }
 
   @Override
   public Set<E> edgesConnecting(final Object node) {
-    return Collections.unmodifiableSet(
-        Maps.filterEntries(incidentEdgeMap, new Predicate<Entry<E, N>>() {
-          @Override
-          public boolean apply(Entry<E, N> entry) {
-            return entry.getValue().equals(node);
-          }
-        }).keySet());
+    return new MultiEdgesConnecting<E>(incidentEdgeMap, node) {
+      @Override
+      public int size() {
+        return adjacentNodesMultiset().count(node);
+      }
+    };
   }
 
   @Override

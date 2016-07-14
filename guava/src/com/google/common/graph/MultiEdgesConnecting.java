@@ -18,52 +18,52 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterators;
+import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.UnmodifiableIterator;
 import java.util.AbstractSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import javax.annotation.Nullable;
 
 /**
  * A class to represent the set of edges connecting an (implicit) origin node to a target node.
  *
- * <p>The {@link #nodeToOutEdge} map means this class only works on networks without parallel edges.
- * See {@link MultiEdgesConnecting} for a class that works with parallel edges.
+ * <p>The {@link #outEdgeToNode} map allows this class to work on networks with parallel edges.
+ * See {@link SimpleEdgesConnecting} for a class that is more efficient but forbids parallel edges.
  *
  * @author James Sexton
  * @param <E> Edge parameter type
  */
-final class SimpleEdgesConnecting<E> extends AbstractSet<E> {
+abstract class MultiEdgesConnecting<E> extends AbstractSet<E> {
 
-  private final Map<?, E> nodeToOutEdge;
+  private final Map<E, ?> outEdgeToNode;
   private final Object targetNode;
 
-  SimpleEdgesConnecting(Map<?, E> nodeToEdgeMap, Object targetNode) {
-    this.nodeToOutEdge = checkNotNull(nodeToEdgeMap);
+  MultiEdgesConnecting(Map<E, ?> outEdgeToNode, Object targetNode) {
+    this.outEdgeToNode = checkNotNull(outEdgeToNode);
     this.targetNode = checkNotNull(targetNode);
   }
 
   @Override
   public UnmodifiableIterator<E> iterator() {
-    E connectingEdge = getConnectingEdge();
-    return (connectingEdge == null)
-        ? ImmutableSet.<E>of().iterator()
-        : Iterators.singletonIterator(connectingEdge);
-  }
-
-  @Override
-  public int size() {
-    return getConnectingEdge() == null ? 0 : 1;
+    final Iterator<? extends Entry<E, ?>> entries = outEdgeToNode.entrySet().iterator();
+    return new AbstractIterator<E>() {
+      @Override
+      protected E computeNext() {
+        while (entries.hasNext()) {
+          Entry<E, ?> entry = entries.next();
+          if (targetNode.equals(entry.getValue())) {
+            return entry.getKey();
+          }
+        }
+        return endOfData();
+      }
+    };
   }
 
   @Override
   public boolean contains(@Nullable Object edge) {
-    E connectingEdge = getConnectingEdge();
-    return (connectingEdge != null && connectingEdge.equals(edge));
-  }
-
-  @Nullable private E getConnectingEdge() {
-    return nodeToOutEdge.get(targetNode);
+    return targetNode.equals(outEdgeToNode.get(edge));
   }
 }

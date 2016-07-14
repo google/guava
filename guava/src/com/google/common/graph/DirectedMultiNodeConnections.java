@@ -21,20 +21,15 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
 import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multiset;
-
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -67,35 +62,42 @@ final class DirectedMultiNodeConnections<N, E> extends AbstractDirectedNodeConne
 
   @Override
   public Set<N> predecessors() {
+    return Collections.unmodifiableSet(predecessorsMultiset().elementSet());
+  }
+
+  private Multiset<N> predecessorsMultiset() {
     Multiset<N> predecessors = getReference(predecessorsReference);
     if (predecessors == null) {
       predecessors = HashMultiset.create(inEdgeMap.values());
       predecessorsReference = new SoftReference<Multiset<N>>(predecessors);
     }
-    return Collections.unmodifiableSet(predecessors.elementSet());
+    return predecessors;
   }
 
   private transient Reference<Multiset<N>> successorsReference;
 
   @Override
   public Set<N> successors() {
+    return Collections.unmodifiableSet(successorsMultiset().elementSet());
+  }
+
+  private Multiset<N> successorsMultiset() {
     Multiset<N> successors = getReference(successorsReference);
     if (successors == null) {
       successors = HashMultiset.create(outEdgeMap.values());
       successorsReference = new SoftReference<Multiset<N>>(successors);
     }
-    return Collections.unmodifiableSet(successors.elementSet());
+    return successors;
   }
 
   @Override
   public Set<E> edgesConnecting(final Object node) {
-    return Collections.unmodifiableSet(
-        Maps.filterEntries(outEdgeMap, new Predicate<Entry<E, N>>() {
-          @Override
-          public boolean apply(Entry<E, N> entry) {
-            return entry.getValue().equals(node);
-          }
-        }).keySet());
+    return new MultiEdgesConnecting<E>(outEdgeMap, node) {
+      @Override
+      public int size() {
+        return successorsMultiset().count(node);
+      }
+    };
   }
 
   @Override
