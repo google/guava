@@ -21,11 +21,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.math.IntMath;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * A {@link Network} whose relationships are constant. Instances of this class may be obtained
@@ -62,13 +60,6 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
   @Deprecated
   public static <N, E> ImmutableNetwork<N, E> copyOf(ImmutableNetwork<N, E> graph) {
     return checkNotNull(graph);
-  }
-
-  @Override
-  public Set<E> edgesConnecting(Object nodeA, Object nodeB) {
-    // This set is calculated as the intersection of two sets, and is likely to be small.
-    // As an optimization, copy it to an ImmutableSet so re-iterating is fast.
-    return ImmutableSet.copyOf(super.edgesConnecting(nodeA, nodeB));
   }
 
   private static <N, E> Map<N, NodeConnections<N, E>> getNodeConnections(Network<N, E> graph) {
