@@ -74,15 +74,6 @@ final class ConfigurableMutableNetwork<N, E>
     return connections;
   }
 
-  /**
-   * Add nodes that are not elements of the graph, then add {@code edge} between them.
-   * Return {@code false} if {@code edge} already exists between {@code nodeA} and {@code nodeB},
-   * and in the same direction.
-   *
-   * @throws IllegalArgumentException if an edge (other than {@code edge}) already
-   *         exists from {@code nodeA} to {@code nodeB}, and this is not a multigraph.
-   *         Also, if self-loops are not allowed, and {@code nodeA} is equal to {@code nodeB}.
-   */
   @Override
   @CanIgnoreReturnValue
   public boolean addEdge(E edge, N nodeA, N nodeB) {
