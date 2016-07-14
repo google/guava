@@ -29872,7 +29872,7 @@
  to the {@code valuesInOrder} list will have no effect on the returned
  comparator. Null values in the list are not supported.
 
- <p>The returned comparator throws an {@link ClassCastException} when it
+ <p>The returned comparator throws a {@link ClassCastException} when it
  receives an input parameter that isn't among the provided values.
 
  <p>The generated comparator is serializable if all the provided values are
@@ -35921,33 +35921,15 @@
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <method name="ofDirected" return="com.google.common.graph.Endpoints&lt;N&gt;"
+    <method name="of" return="com.google.common.graph.Endpoints&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="source" type="N"/>
-      <param name="target" type="N"/>
-      <doc>
-      <![CDATA[Returns an {@link Endpoints} representing the endpoints of a directed edge.]]>
-      </doc>
-    </method>
-    <method name="ofUndirected" return="com.google.common.graph.Endpoints&lt;N&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
+      <param name="graph" type="com.google.common.graph.Graph&lt;?&gt;"/>
       <param name="nodeA" type="N"/>
       <param name="nodeB" type="N"/>
       <doc>
-      <![CDATA[Returns an {@link Endpoints} representing the endpoints of an undirected edge.]]>
-      </doc>
-    </method>
-    <method name="isDirected" return="boolean"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns whether the nodes of this {@link Endpoints} are ordered. Generally, this is equal to
- {@link Graph#isDirected()} of the graph that generated this {@link Endpoints}.]]>
+      <![CDATA[Returns {@link Endpoints} representing the endpoints of an edge in {@code graph}.]]>
       </doc>
     </method>
     <method name="source" return="N"
@@ -35955,9 +35937,10 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[If this {@link Endpoints} is directed, returns the node which is the source of the origin edge.
+      <![CDATA[If these are the {@link Endpoints} of a directed edge, returns the node which is the source of
+ that edge.
 
- @throws UnsupportedOperationException if this Endpoints is not directed]]>
+ @throws UnsupportedOperationException if these are the {@link Endpoints} of a undirected edge]]>
       </doc>
     </method>
     <method name="target" return="N"
@@ -35965,9 +35948,10 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[If this {@link Endpoints} is directed, returns the node which is the target of the origin edge.
+      <![CDATA[If these are the {@link Endpoints} of a directed edge, returns the node which is the target of
+ that edge.
 
- @throws UnsupportedOperationException if this Endpoints is not directed]]>
+ @throws UnsupportedOperationException if these are the {@link Endpoints} of a undirected edge]]>
       </doc>
     </method>
     <method name="otherNode" return="N"
@@ -36003,9 +35987,10 @@
       deprecated="not deprecated">
       <param name="obj" type="java.lang.Object"/>
       <doc>
-      <![CDATA[If two {@link Endpoints}s are directed, the source and target must be equal to be considered
- equal. If two {@link Endpoints}s are undirected, the unordered set of nodes must be equal to be
- considered equal. Directed {@link Endpoints} are never equal to undirected {@link Endpoints}.]]>
+      <![CDATA[The {@link Endpoints} of two directed edges are equal if their {@link #source()} and
+ {@link #target()} are equal. The {@link Endpoints} of two undirected edges are equal if they
+ contain the same nodes. The {@link Endpoints} of a directed edge are never equal to the
+ {@link Endpoints} of an undirected edge.]]>
       </doc>
     </method>
     <method name="hashCode" return="int"
@@ -36017,8 +36002,10 @@
     <![CDATA[An immutable {@link Collection} to represent the two (possibly equal, in the case of a self-loop)
  endpoints of an edge in a graph.
 
- <p>If an {@link Endpoints} is directed, it is an ordered pair of nodes (source and target).
- Otherwise, it is an unordered pair of nodes that can be accessed through the iterator.
+ <p>The {@link Endpoints} of a directed edge are an ordered pair of nodes (source and target).
+ The {@link Endpoints} of an undirected edge are an unordered pair of nodes. The nodes can be
+ accessed through the {@link #iterator()}, and in the directed case, will iterate in the order
+ {@link #source()}, {@link #target()}.
 
  @author James Sexton
  @since 20.0]]>
@@ -36442,17 +36429,6 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
-    <method name="roots" return="java.util.Set&lt;N&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
-      <doc>
-      <![CDATA[Returns the subset of nodes in {@code graph} that have no predecessors.
-
- <p>Note that in an undirected graph, this is equivalent to all isolated nodes.]]>
-      </doc>
-    </method>
     <method name="parallelEdges" return="java.util.Set&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -36464,17 +36440,6 @@
  that connect the same nodes in the same direction (if any). An edge is not parallel to itself.
 
  @throws IllegalArgumentException if {@code edge} is not present in {@code graph}]]>
-      </doc>
-    </method>
-    <method name="addEdge" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="graph" type="com.google.common.graph.MutableNetwork&lt;N, E&gt;"/>
-      <param name="edge" type="E"/>
-      <param name="endpoints" type="com.google.common.graph.Endpoints&lt;N&gt;"/>
-      <doc>
-      <![CDATA[Adds {@code edge} to {@code graph} with the specified {@code endpoints}.]]>
       </doc>
     </method>
     <method name="inducedSubgraph" return="com.google.common.graph.MutableNetwork&lt;N, E&gt;"
@@ -45835,12 +45800,22 @@
       <![CDATA[The HTTP {@code From} header field name.]]>
       </doc>
     </field>
+    <field name="FORWARDED" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc7239">{@code Forwarded}</a> header field name.
+
+ @since 20.0]]>
+      </doc>
+    </field>
     <field name="FOLLOW_ONLY_WHEN_PRERENDER_SHOWN" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP {@code Follow-Only-When-Prerender-Shown}</a> header field name.
+      <![CDATA[The HTTP {@code Follow-Only-When-Prerender-Shown} header field name.
 
  @since 17.0]]>
       </doc>
@@ -46357,7 +46332,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP {@code X-Forwarded-For} header field name.]]>
+      <![CDATA[The HTTP {@code X-Forwarded-For} header field name (supersed by {@code Forwarded}).]]>
       </doc>
     </field>
     <field name="X_FORWARDED_PROTO" type="java.lang.String"

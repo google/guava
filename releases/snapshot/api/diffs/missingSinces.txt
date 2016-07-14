@@ -142,6 +142,7 @@ OK: com.google.common.base.Joiner Method withKeyValueSeparator(char)
 OK: com.google.common.net.MediaType Field AAC_AUDIO
 OK: com.google.common.net.MediaType Field BASIC_AUDIO
 OK: com.google.common.net.MediaType Field FLV_VIDEO
+OK: com.google.common.net.HttpHeaders Field FORWARDED
 OK: com.google.common.net.MediaType Field L24_AUDIO
 OK: com.google.common.net.MediaType Field NACL_APPLICATION
 OK: com.google.common.net.MediaType Field NACL_PORTABLE_APPLICATION

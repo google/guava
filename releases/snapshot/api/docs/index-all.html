@@ -651,10 +651,6 @@
 <dd>
 <div class="block">Add a shutdown hook to wait for thread completion in the given <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>service</code></a>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#addEdge(com.google.common.graph.MutableNetwork,%20E,%20com.google.common.graph.Endpoints)">addEdge(MutableNetwork&lt;N, E&gt;, E, Endpoints&lt;N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
-<dd>
-<div class="block">Adds <code>edge</code> to <code>graph</code> with the specified <code>endpoints</code>.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/MutableGraph.html#addEdge(N,%20N)">addEdge(N, N)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a></dt>
 <dd>
 <div class="block">Adds an (implicit) edge to this graph connecting <code>nodeA</code> to <code>nodeB</code>
@@ -5534,8 +5530,8 @@
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
 <dd>
-<div class="block">If two <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a>s are directed, the source and target must be equal to be considered
- equal.</div>
+<div class="block">The <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> of two directed edges are equal if their <a href="./com/google/common/graph/Endpoints.html#source()"><code>Endpoints.source()</code></a> and
+ <a href="./com/google/common/graph/Endpoints.html#target()"><code>Endpoints.target()</code></a> are equal.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graph.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
@@ -6277,7 +6273,7 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/HttpHeaders.html#FOLLOW_ONLY_WHEN_PRERENDER_SHOWN">FOLLOW_ONLY_WHEN_PRERENDER_SHOWN</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
-<div class="block">The HTTP <code>Follow-Only-When-Prerender-Shown</code></a> header field name.</div>
+<div class="block">The HTTP <code>Follow-Only-When-Prerender-Shown</code> header field name.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Iterators.html#forArray(T...)">forArray(T...)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Iterators.html" title="class in com.google.common.collect">Iterators</a></dt>
 <dd>
@@ -6342,6 +6338,10 @@
 <dd>
 <div class="block">Returns an InetAddress representing the literal IPv4 or IPv6 host portion of a URL, encoded in
  the format specified by RFC 3986 section 3.2.2.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/net/HttpHeaders.html#FORWARDED">FORWARDED</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
+<dd>
+<div class="block">The HTTP <a href="https://tools.ietf.org/html/rfc7239"><code>Forwarded</code></a> header field name.</div>
 </dd>
 <dt><a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect"><span class="strong">ForwardingBlockingDeque</span></a>&lt;<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt; - Class in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
@@ -8964,10 +8964,6 @@
 <dt><span class="strong"><a href="./com/google/common/graph/GraphProperties.html#isCyclic(com.google.common.graph.Graph)">isCyclic(Graph&lt;?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/GraphProperties.html" title="class in com.google.common.graph">GraphProperties</a></dt>
 <dd>
 <div class="block">Returns true iff <code>graph</code> has at least one cycle.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#isDirected()">isDirected()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
-<dd>
-<div class="block">Returns whether the nodes of this <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> are ordered.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graph.html#isDirected()">isDirected()</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
@@ -11788,6 +11784,10 @@
 <dd>
 <div class="block">Returns an immutable table containing a single cell.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#of(com.google.common.graph.Graph,%20N,%20N)">of(Graph&lt;?&gt;, N, N)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
+<dd>
+<div class="block">Returns <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> representing the endpoints of an edge in <code>graph</code>.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/math/Stats.html#of(java.lang.Iterable)">of(Iterable&lt;? extends Number&gt;)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a></dt>
 <dd>
 <div class="block">Returns statistics over a dataset containing the given values.</div>
@@ -11820,10 +11820,6 @@
 <dd>
 <div class="block">Returns an instance of type token that wraps <code>type</code>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#ofDirected(N,%20N)">ofDirected(N, N)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
-<dd>
-<div class="block">Returns an <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> representing the endpoints of a directed edge.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/EvictingQueue.html#offer(E)">offer(E)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/EvictingQueue.html" title="class in com.google.common.collect">EvictingQueue</a></dt>
 <dd>
 <div class="block">Adds the given element to this queue.</div>
@@ -11849,10 +11845,6 @@
 <dt><span class="strong"><a href="./com/google/common/base/Suppliers.html#ofInstance(T)">ofInstance(T)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Suppliers.html" title="class in com.google.common.base">Suppliers</a></dt>
 <dd>
 <div class="block">Returns a supplier that always supplies <code>instance</code>.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#ofUndirected(N,%20N)">ofUndirected(N, N)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
-<dd>
-<div class="block">Returns an <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> representing the endpoints of an undirected edge.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/MediaType.html#OGG_AUDIO">OGG_AUDIO</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>&nbsp;</dd>
@@ -13984,10 +13976,6 @@
 <dd>
 <div class="block">Returns the value from the right map (possibly null).</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#roots(com.google.common.graph.Graph)">roots(Graph&lt;N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
-<dd>
-<div class="block">Returns the subset of nodes in <code>graph</code> that have no predecessors.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/math/DoubleMath.html#roundToBigInteger(double,%20java.math.RoundingMode)">roundToBigInteger(double, RoundingMode)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/DoubleMath.html" title="class in com.google.common.math">DoubleMath</a></dt>
 <dd>
 <div class="block">Returns the <code>BigInteger</code> value that is equal to <code>x</code> rounded with the specified
@@ -14741,7 +14729,8 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#source()">source()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
 <dd>
-<div class="block">If this <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> is directed, returns the node which is the source of the origin edge.</div>
+<div class="block">If these are the <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> of a directed edge, returns the node which is the source of
+ that edge.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Ascii.html#SP">SP</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
 <dd>
@@ -15711,7 +15700,8 @@
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#target()">target()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
 <dd>
-<div class="block">If this <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> is directed, returns the node which is the target of the origin edge.</div>
+<div class="block">If these are the <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> of a directed edge, returns the node which is the target of
+ that edge.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/HttpHeaders.html#TE">TE</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
@@ -17651,7 +17641,7 @@ the order they are declared.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/HttpHeaders.html#X_FORWARDED_FOR">X_FORWARDED_FOR</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
-<div class="block">The HTTP <code>X-Forwarded-For</code> header field name.</div>
+<div class="block">The HTTP <code>X-Forwarded-For</code> header field name (supersed by <code>Forwarded</code>).</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/HttpHeaders.html#X_FORWARDED_HOST">X_FORWARDED_HOST</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
