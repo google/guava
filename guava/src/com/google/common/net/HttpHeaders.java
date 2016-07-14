@@ -76,9 +76,14 @@ public final class HttpHeaders {
   public static final String EXPECT = "Expect";
   /** The HTTP {@code From} header field name. */
   public static final String FROM = "From";
-
   /**
-   * The HTTP {@code Follow-Only-When-Prerender-Shown}</a> header field name.
+   * The HTTP <a href="https://tools.ietf.org/html/rfc7239">{@code Forwarded}</a> header field name.
+   *
+   * @since 20.0
+   */
+  public static final String FORWARDED = "Forwarded";
+  /**
+   * The HTTP {@code Follow-Only-When-Prerender-Shown} header field name.
    *
    * @since 17.0
    */
@@ -265,7 +270,7 @@ public final class HttpHeaders {
   public static final String X_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";
   /** The HTTP {@code X-Do-Not-Track} header field name. */
   public static final String X_DO_NOT_TRACK = "X-Do-Not-Track";
-  /** The HTTP {@code X-Forwarded-For} header field name. */
+  /** The HTTP {@code X-Forwarded-For} header field name (supersed by {@code Forwarded}). */
   public static final String X_FORWARDED_FOR = "X-Forwarded-For";
   /** The HTTP {@code X-Forwarded-Proto} header field name. */
   public static final String X_FORWARDED_PROTO = "X-Forwarded-Proto";
