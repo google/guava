@@ -21,10 +21,10 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
-
 import java.util.Comparator;
-
+import java.util.Map;
 import javax.annotation.Nullable;
 
 /**
@@ -140,5 +140,21 @@ public final class ElementOrder<T> {
       helper.add("comparator", this.comparator);
     }
     return helper.toString();
+  }
+
+  /**
+   * Returns an empty mutable map whose keys will respect this {@link ElementOrder}.
+   */
+  <K extends T, V> Map<K, V> createMap(int expectedSize) {
+    switch (type) {
+      case UNORDERED:
+        return Maps.newHashMapWithExpectedSize(expectedSize);
+      case INSERTION:
+        return Maps.newLinkedHashMapWithExpectedSize(expectedSize);
+      case SORTED:
+        return Maps.newTreeMap(comparator());
+      default:
+        throw new IllegalArgumentException("Unrecognized ElementOrder type");
+    }
   }
 }

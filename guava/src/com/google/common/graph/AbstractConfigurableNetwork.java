@@ -24,13 +24,10 @@ import static com.google.common.graph.GraphConstants.EDGE_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
 import javax.annotation.Nullable;
 
 /**
@@ -79,38 +76,10 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   AbstractConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder) {
     this(
         builder,
-        AbstractConfigurableNetwork.<N, E>getNodeMapForBuilder(builder),
-        AbstractConfigurableNetwork.<N, E>getEdgeMapForBuilder(builder));
-  }
-
-  private static <N, E> Map<N, NodeConnections<N, E>> getNodeMapForBuilder(
-      NetworkBuilder<? super N, ? super E> builder) {
-    int expectedNodeSize = builder.expectedNodeCount.or(DEFAULT_NODE_COUNT);
-    switch (builder.nodeOrder.type()) {
-        case UNORDERED:
-          return Maps.newHashMapWithExpectedSize(expectedNodeSize);
-        case INSERTION:
-          return Maps.newLinkedHashMapWithExpectedSize(expectedNodeSize);
-        case SORTED:
-          return Maps.newTreeMap(builder.nodeOrder.comparator());
-        default:
-          throw new IllegalArgumentException("Unrecognized node ElementOrder type");
-    }
-  }
-
-  private static <N, E> Map<E, N> getEdgeMapForBuilder(
-      NetworkBuilder<? super N, ? super E> builder) {
-    int expectedEdgeSize = builder.expectedEdgeCount.or(DEFAULT_EDGE_COUNT);
-    switch (builder.edgeOrder.type()) {
-        case UNORDERED:
-          return Maps.newHashMapWithExpectedSize(expectedEdgeSize);
-        case INSERTION:
-          return Maps.newLinkedHashMapWithExpectedSize(expectedEdgeSize);
-        case SORTED:
-          return Maps.newTreeMap(builder.edgeOrder.comparator());
-        default:
-          throw new IllegalArgumentException("Unrecognized edge ElementOrder type");
-    }
+        builder.nodeOrder.<N, NodeConnections<N, E>>createMap(
+            builder.expectedNodeCount.or(DEFAULT_NODE_COUNT)),
+        builder.edgeOrder.<E, N>createMap(
+            builder.expectedEdgeCount.or(DEFAULT_EDGE_COUNT)));
   }
 
   /**

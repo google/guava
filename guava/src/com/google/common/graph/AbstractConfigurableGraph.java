@@ -21,12 +21,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
-import com.google.common.collect.Maps;
-
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
 import javax.annotation.Nullable;
 
 /**
@@ -64,22 +61,10 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
    * Constructs a graph with the properties specified in {@code builder}.
    */
   AbstractConfigurableGraph(GraphBuilder<? super N> builder) {
-    this(builder, AbstractConfigurableGraph.<N>getNodeMapforBuilder(builder));
-  }
-
-  private static <N> Map<N, NodeAdjacencies<N>> getNodeMapforBuilder(
-      GraphBuilder<? super N> builder) {
-    int expectedNodeSize = builder.expectedNodeCount.or(DEFAULT_NODE_COUNT);
-    switch (builder.nodeOrder.type()) {
-        case UNORDERED:
-          return Maps.newHashMapWithExpectedSize(expectedNodeSize);
-        case INSERTION:
-          return Maps.newLinkedHashMapWithExpectedSize(expectedNodeSize);
-        case SORTED:
-          return Maps.newTreeMap(builder.nodeOrder.comparator());
-        default:
-          throw new IllegalArgumentException("Unrecognized node ElementOrder type");
-    }
+    this(
+        builder,
+        builder.nodeOrder.<N, NodeAdjacencies<N>>createMap(
+            builder.expectedNodeCount.or(DEFAULT_NODE_COUNT)));
   }
 
   /**
