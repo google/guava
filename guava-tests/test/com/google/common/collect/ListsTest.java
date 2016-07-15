@@ -896,4 +896,19 @@ public class ListsTest extends TestCase {
   public void testPartitionSize_2() {
     assertEquals(2, Lists.partition(Collections.nCopies(0x40000001, 1), 0x40000000).size());
   }
+
+  public void testIsNullOrEmptyWhenNull() {
+	    List<Integer> list = null;
+	    assertTrue(Lists.isNullOrEmpty(list));
+  }
+
+  public void testIsNullOrEmptyWhenEmpty() {
+	    List<Integer> list = new ArrayList<Integer>();
+	    assertTrue(Lists.isNullOrEmpty(list));
+  }
+
+  public void testIsNullOrEmptyWhenNotEmpty() {
+	    List<Integer> list = Lists.newArrayList(SOME_LIST);
+	    assertFalse(Lists.isNullOrEmpty(list));
+  }
 }
