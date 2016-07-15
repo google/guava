@@ -62,13 +62,13 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
     return checkNotNull(graph);
   }
 
-  private static <N, E> Map<N, NodeConnections<N, E>> getNodeConnections(Network<N, E> graph) {
+  private static <N, E> Map<N, NetworkConnections<N, E>> getNodeConnections(Network<N, E> graph) {
     // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will
     // have whatever ordering the graph's nodes do, so ImmutableSortedMap is unnecessary even if the
     // input nodes are sorted.
-    ImmutableMap.Builder<N, NodeConnections<N, E>> nodeConnections = ImmutableMap.builder();
+    ImmutableMap.Builder<N, NetworkConnections<N, E>> nodeConnections = ImmutableMap.builder();
     for (N node : graph.nodes()) {
-      nodeConnections.put(node, nodeConnectionsOf(graph, node));
+      nodeConnections.put(node, connectionsOf(graph, node));
     }
     return nodeConnections.build();
   }
@@ -84,7 +84,7 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
     return edgeToReferenceNode.build();
   }
 
-  private static <N, E> NodeConnections<N, E> nodeConnectionsOf(Network<N, E> graph, N node) {
+  private static <N, E> NetworkConnections<N, E> connectionsOf(Network<N, E> graph, N node) {
     if (graph.isDirected()) {
       Map<E, N> inEdgeMap = Maps.asMap(graph.inEdges(node), sourceNodeFn(graph));
       Map<E, N> outEdgeMap = Maps.asMap(graph.outEdges(node), targetNodeFn(graph));
@@ -92,13 +92,13 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
           // Self-loops count once as incident edges, but twice as (incoming+outgoing) edges.
           ? IntMath.saturatedAdd(inEdgeMap.size() - graph.degree(node), outEdgeMap.size()) : 0;
       return graph.allowsParallelEdges()
-           ? DirectedMultiNodeConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount)
-           : DirectedNodeConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount);
+           ? DirectedMultiNetworkConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount)
+           : DirectedNetworkConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount);
     } else {
       Map<E, N> incidentEdgeMap = Maps.asMap(graph.incidentEdges(node), otherNodeFn(graph, node));
       return graph.allowsParallelEdges()
-          ? UndirectedMultiNodeConnections.ofImmutable(incidentEdgeMap)
-          : UndirectedNodeConnections.ofImmutable(incidentEdgeMap);
+          ? UndirectedMultiNetworkConnections.ofImmutable(incidentEdgeMap)
+          : UndirectedNetworkConnections.ofImmutable(incidentEdgeMap);
     }
   }
 

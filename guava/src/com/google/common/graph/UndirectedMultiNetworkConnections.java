@@ -33,25 +33,26 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * An implementation of {@link NodeConnections} for undirected networks with parallel edges.
+ * An implementation of {@link NetworkConnections} for undirected networks with parallel edges.
  *
  * @author James Sexton
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-final class UndirectedMultiNodeConnections<N, E> extends AbstractUndirectedNodeConnections<N, E> {
+final class UndirectedMultiNetworkConnections<N, E>
+    extends AbstractUndirectedNetworkConnections<N, E> {
 
-  private UndirectedMultiNodeConnections(Map<E, N> incidentEdges) {
+  private UndirectedMultiNetworkConnections(Map<E, N> incidentEdges) {
     super(incidentEdges);
   }
 
-  static <N, E> UndirectedMultiNodeConnections<N, E> of() {
-    return new UndirectedMultiNodeConnections<N, E>(
+  static <N, E> UndirectedMultiNetworkConnections<N, E> of() {
+    return new UndirectedMultiNetworkConnections<N, E>(
         new HashMap<E, N>(INNER_CAPACITY, INNER_LOAD_FACTOR));
   }
 
-  static <N, E> UndirectedMultiNodeConnections<N, E> ofImmutable(Map<E, N> incidentEdges) {
-    return new UndirectedMultiNodeConnections<N, E>(ImmutableMap.copyOf(incidentEdges));
+  static <N, E> UndirectedMultiNetworkConnections<N, E> ofImmutable(Map<E, N> incidentEdges) {
+    return new UndirectedMultiNetworkConnections<N, E>(ImmutableMap.copyOf(incidentEdges));
   }
 
   private transient Reference<Multiset<N>> adjacentNodesReference;

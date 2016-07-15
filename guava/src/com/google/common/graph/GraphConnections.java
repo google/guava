@@ -16,21 +16,14 @@
 
 package com.google.common.graph;
 
-import java.util.Set;
-
 /**
- * An interface for representing an origin node's adjacent nodes in a graph.
+ * An interface for representing and manipulating an origin node's adjacent nodes in a
+ * {@link Graph}.
  *
  * @author James Sexton
  * @param <N> Node parameter type
  */
-interface NodeAdjacencies<N> {
-
-  Set<N> adjacentNodes();
-
-  Set<N> predecessors();
-
-  Set<N> successors();
+interface GraphConnections<N> extends NodeConnections<N> {
 
   /**
    * Remove {@code node} from the set of predecessors.

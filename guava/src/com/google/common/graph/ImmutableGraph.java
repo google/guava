@@ -22,8 +22,7 @@ import static com.google.common.graph.GraphConstants.NETWORK_WITH_PARALLEL_EDGE;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.graph.DirectedNodeAdjacencies.Adjacency;
-
+import com.google.common.graph.DirectedGraphConnections.Adjacency;
 import java.util.Set;
 
 /**
@@ -66,22 +65,22 @@ public final class ImmutableGraph<N> extends AbstractConfigurableGraph<N> {
     return checkNotNull(graph);
   }
 
-  private static <N> ImmutableMap<N, NodeAdjacencies<N>> getNodeConnections(Graph<N> graph) {
+  private static <N> ImmutableMap<N, GraphConnections<N>> getNodeConnections(Graph<N> graph) {
     // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will
     // have whatever ordering the graph's nodes do, so ImmutableSortedMap is unnecessary even if the
     // input nodes are sorted.
-    ImmutableMap.Builder<N, NodeAdjacencies<N>> nodeConnections = ImmutableMap.builder();
+    ImmutableMap.Builder<N, GraphConnections<N>> nodeConnections = ImmutableMap.builder();
     for (N node : graph.nodes()) {
-      nodeConnections.put(node, nodeConnectionsOf(graph, node));
+      nodeConnections.put(node, connectionsOf(graph, node));
     }
     return nodeConnections.build();
   }
 
-  private static <N> NodeAdjacencies<N> nodeConnectionsOf(Graph<N> graph, N node) {
+  private static <N> GraphConnections<N> connectionsOf(Graph<N> graph, N node) {
     return graph.isDirected()
-        ? DirectedNodeAdjacencies.ofImmutable(createAdjacencyMap(
-            graph, node), graph.predecessors(node).size(), graph.successors(node).size())
-        : UndirectedNodeAdjacencies.ofImmutable(graph.adjacentNodes(node));
+        ? DirectedGraphConnections.ofImmutable(createAdjacencyMap(graph, node),
+            graph.predecessors(node).size(), graph.successors(node).size())
+        : UndirectedGraphConnections.ofImmutable(graph.adjacentNodes(node));
   }
 
   private static <N> ImmutableMap<N, Adjacency> createAdjacencyMap(Graph<N> graph, N node) {

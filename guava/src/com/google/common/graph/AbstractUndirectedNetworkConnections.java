@@ -24,19 +24,19 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A base implementation of {@link NodeConnections} for undirected networks.
+ * A base implementation of {@link NetworkConnections} for undirected networks.
  *
  * @author James Sexton
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-abstract class AbstractUndirectedNodeConnections<N, E> implements NodeConnections<N, E> {
+abstract class AbstractUndirectedNetworkConnections<N, E> implements NetworkConnections<N, E> {
   /**
    * Keys are edges incident to the origin node, values are the node at the other end.
    */
   protected final Map<E, N> incidentEdgeMap;
 
-  protected AbstractUndirectedNodeConnections(Map<E, N> incidentEdgeMap) {
+  protected AbstractUndirectedNetworkConnections(Map<E, N> incidentEdgeMap) {
     this.incidentEdgeMap = checkNotNull(incidentEdgeMap, "incidentEdgeMap");
   }
 

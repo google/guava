@@ -21,7 +21,6 @@ import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
 import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 
 import com.google.common.collect.ImmutableSet;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,19 +31,19 @@ import java.util.Set;
  * @author James Sexton
  * @param <N> Node parameter type
  */
-final class UndirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
+final class UndirectedGraphConnections<N> implements GraphConnections<N> {
   private final Set<N> adjacentNodes;
 
-  private UndirectedNodeAdjacencies(Set<N> adjacentNodes) {
+  private UndirectedGraphConnections(Set<N> adjacentNodes) {
     this.adjacentNodes = checkNotNull(adjacentNodes, "adjacentNodes");
   }
 
-  static <N> UndirectedNodeAdjacencies<N> of() {
-    return new UndirectedNodeAdjacencies<N>(new HashSet<N>(INNER_CAPACITY, INNER_LOAD_FACTOR));
+  static <N> UndirectedGraphConnections<N> of() {
+    return new UndirectedGraphConnections<N>(new HashSet<N>(INNER_CAPACITY, INNER_LOAD_FACTOR));
   }
 
-  static <N> UndirectedNodeAdjacencies<N> ofImmutable(Set<N> adjacentNodes) {
-    return new UndirectedNodeAdjacencies<N>(ImmutableSet.copyOf(adjacentNodes));
+  static <N> UndirectedGraphConnections<N> ofImmutable(Set<N> adjacentNodes) {
+    return new UndirectedGraphConnections<N>(ImmutableSet.copyOf(adjacentNodes));
   }
 
   @Override

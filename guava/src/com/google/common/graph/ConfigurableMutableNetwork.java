@@ -63,13 +63,13 @@ final class ConfigurableMutableNetwork<N, E>
   }
 
   /**
-   * Adds {@code node} to the graph and returns the associated {@link NodeConnections}.
+   * Adds {@code node} to the graph and returns the associated {@link NetworkConnections}.
    *
    * @throws IllegalStateException if {@code node} is already present
    */
   @CanIgnoreReturnValue
-  private NodeConnections<N, E> addNodeInternal(N node) {
-    NodeConnections<N, E> connections = newNodeConnections();
+  private NetworkConnections<N, E> addNodeInternal(N node) {
+    NetworkConnections<N, E> connections = newConnections();
     checkState(nodeConnections.put(node, connections) == null);
     return connections;
   }
@@ -88,7 +88,7 @@ final class ConfigurableMutableNetwork<N, E>
           REUSING_EDGE, edge, existingEndpoints, newEndpoints);
       return false;
     }
-    NodeConnections<N, E> connectionsA = nodeConnections.get(nodeA);
+    NetworkConnections<N, E> connectionsA = nodeConnections.get(nodeA);
     if (!allowsParallelEdges()) {
       checkArgument(!(connectionsA != null && connectionsA.successors().contains(nodeB)),
           PARALLEL_EDGES_NOT_ALLOWED, nodeA, nodeB);
@@ -102,7 +102,7 @@ final class ConfigurableMutableNetwork<N, E>
       connectionsA = addNodeInternal(nodeA);
     }
     connectionsA.addOutEdge(edge, nodeB);
-    NodeConnections<N, E> connectionsB = nodeConnections.get(nodeB);
+    NetworkConnections<N, E> connectionsB = nodeConnections.get(nodeB);
     if (connectionsB == null) {
       connectionsB = addNodeInternal(nodeB);
     }
@@ -116,7 +116,7 @@ final class ConfigurableMutableNetwork<N, E>
   public boolean removeNode(Object node) {
     checkNotNull(node, "node");
 
-    NodeConnections<N, E> connections = nodeConnections.get(node);
+    NetworkConnections<N, E> connections = nodeConnections.get(node);
     if (connections == null) {
       return false;
     }
@@ -140,22 +140,22 @@ final class ConfigurableMutableNetwork<N, E>
       return false;
     }
 
-    NodeConnections<N, E> connectionsA = nodeConnections.get(nodeA);
+    NetworkConnections<N, E> connectionsA = nodeConnections.get(nodeA);
     N nodeB = connectionsA.oppositeNode(edge);
-    NodeConnections<N, E> connectionsB = nodeConnections.get(nodeB);
+    NetworkConnections<N, E> connectionsB = nodeConnections.get(nodeB);
     connectionsA.removeOutEdge(edge);
     connectionsB.removeInEdge(edge, allowsSelfLoops() && nodeA.equals(nodeB));
     edgeToReferenceNode.remove(edge);
     return true;
   }
 
-  private NodeConnections<N, E> newNodeConnections() {
+  private NetworkConnections<N, E> newConnections() {
     return isDirected()
         ? allowsParallelEdges()
-            ? DirectedMultiNodeConnections.<N, E>of()
-            : DirectedNodeConnections.<N, E>of()
+            ? DirectedMultiNetworkConnections.<N, E>of()
+            : DirectedNetworkConnections.<N, E>of()
         : allowsParallelEdges()
-            ? UndirectedMultiNodeConnections.<N, E>of()
-            : UndirectedNodeConnections.<N, E>of();
+            ? UndirectedMultiNetworkConnections.<N, E>of()
+            : UndirectedNetworkConnections.<N, E>of();
   }
 }

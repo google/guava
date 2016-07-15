@@ -23,20 +23,19 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.common.math.IntMath;
-
 import java.util.AbstractSet;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * A base implementation of {@link NodeConnections} for directed networks.
+ * A base implementation of {@link NetworkConnections} for directed networks.
  *
  * @author James Sexton
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-abstract class AbstractDirectedNodeConnections<N, E> implements NodeConnections<N, E> {
+abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnections<N, E> {
   /**
    * Keys are edges incoming to the origin node, values are the source node.
    */
@@ -49,7 +48,7 @@ abstract class AbstractDirectedNodeConnections<N, E> implements NodeConnections<
 
   private int selfLoopCount;
 
-  protected AbstractDirectedNodeConnections(Map<E, N> inEdgeMap, Map<E, N> outEdgeMap,
+  protected AbstractDirectedNetworkConnections(Map<E, N> inEdgeMap, Map<E, N> outEdgeMap,
       int selfLoopCount) {
     this.inEdgeMap = checkNotNull(inEdgeMap, "inEdgeMap");
     this.outEdgeMap = checkNotNull(outEdgeMap, "outEdgeMap");

@@ -16,65 +16,19 @@
 
 package com.google.common.graph;
 
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Set;
 
 /**
- * An interface for representing an origin node's adjacent nodes and incident edges in a network.
+ * An interface for representing an origin node's adjacent nodes.
  *
  * @author James Sexton
  * @param <N> Node parameter type
- * @param <E> Edge parameter type
  */
-interface NodeConnections<N, E> {
+interface NodeConnections<N> {
 
   Set<N> adjacentNodes();
 
   Set<N> predecessors();
 
   Set<N> successors();
-
-  Set<E> incidentEdges();
-
-  Set<E> inEdges();
-
-  Set<E> outEdges();
-
-  /**
-   * Returns the set of edges connecting the origin node to {@code node}.
-   * For networks without parallel edges, this set cannot be of size greater than one.
-   */
-  Set<E> edgesConnecting(Object node);
-
-  /**
-   * Returns the node that is opposite the origin node along {@code edge}.
-   *
-   * <p>In the directed case, {@code edge} is assumed to be an outgoing edge.
-   */
-  N oppositeNode(Object edge);
-
-  /**
-   * Remove {@code edge} from the set of incoming edges. Returns the former predecessor node.
-   *
-   * <p>In the undirected case, returns {@code null} if {@code isSelfLoop} is true.
-   */
-  @CanIgnoreReturnValue
-  N removeInEdge(Object edge, boolean isSelfLoop);
-
-  /**
-   * Remove {@code edge} from the set of outgoing edges. Returns the former successor node.
-   */
-  @CanIgnoreReturnValue
-  N removeOutEdge(Object edge);
-
-  /**
-   * Add {@code edge} to the set of incoming edges. Implicitly adds {@code node} as a predecessor.
-   */
-  void addInEdge(E edge, N node, boolean isSelfLoop);
-
-  /**
-   * Add {@code edge} to the set of outgoing edges. Implicitly adds {@code node} as a successor.
-   */
-  void addOutEdge(E edge, N node);
 }

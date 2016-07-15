@@ -24,7 +24,6 @@ import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.UnmodifiableIterator;
-
 import java.util.AbstractSet;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,7 +31,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -41,7 +39,7 @@ import javax.annotation.Nullable;
  * @author James Sexton
  * @param <N> Node parameter type
  */
-final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
+final class DirectedGraphConnections<N> implements GraphConnections<N> {
   enum Adjacency {
     PRED,
     SUCC,
@@ -53,23 +51,23 @@ final class DirectedNodeAdjacencies<N> implements NodeAdjacencies<N> {
   private int predecessorCount;
   private int successorCount;
 
-  private DirectedNodeAdjacencies(
+  private DirectedGraphConnections(
       Map<N, Adjacency> adjacentNodes, int predecessorCount, int successorCount) {
     this.adjacentNodes = checkNotNull(adjacentNodes, "adjacentNodes");
     this.predecessorCount = predecessorCount;
     this.successorCount = successorCount;
   }
 
-  static <N> DirectedNodeAdjacencies<N> of() {
+  static <N> DirectedGraphConnections<N> of() {
     // We store predecessors and successors in the same map, so double the initial capacity.
     int initialCapacity = INNER_CAPACITY * 2;
-    return new DirectedNodeAdjacencies<N>(
+    return new DirectedGraphConnections<N>(
         new HashMap<N, Adjacency>(initialCapacity, INNER_LOAD_FACTOR), 0, 0);
   }
 
-  static <N> DirectedNodeAdjacencies<N> ofImmutable(
+  static <N> DirectedGraphConnections<N> ofImmutable(
       Map<N, Adjacency> adjacentNodes, int predecessorCount, int successorCount) {
-    return new DirectedNodeAdjacencies<N>(
+    return new DirectedGraphConnections<N>(
         ImmutableMap.copyOf(adjacentNodes), predecessorCount, successorCount);
   }
 

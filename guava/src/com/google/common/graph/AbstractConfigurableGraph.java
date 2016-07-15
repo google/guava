@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
  * Abstract configurable implementation of {@link Graph} that supports the options supplied
  * by {@link GraphBuilder}.
  *
- * <p>This class maintains a map of nodes to {@link NodeAdjacencies}.
+ * <p>This class maintains a map of nodes to {@link GraphConnections}.
  *
  * <p>{@code Set}-returning accessors return unmodifiable views: the view returned will reflect
  * changes to the graph (if the graph is mutable) but may not be modified by the user.
@@ -55,7 +55,7 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
   private final boolean allowsSelfLoops;
   private final ElementOrder<? super N> nodeOrder;
 
-  protected final MapIteratorCache<N, NodeAdjacencies<N>> nodeConnections;
+  protected final MapIteratorCache<N, GraphConnections<N>> nodeConnections;
 
   /**
    * Constructs a graph with the properties specified in {@code builder}.
@@ -63,7 +63,7 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
   AbstractConfigurableGraph(GraphBuilder<? super N> builder) {
     this(
         builder,
-        builder.nodeOrder.<N, NodeAdjacencies<N>>createMap(
+        builder.nodeOrder.<N, GraphConnections<N>>createMap(
             builder.expectedNodeCount.or(DEFAULT_NODE_COUNT)));
   }
 
@@ -72,14 +72,14 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
    * the given node map.
    */
   AbstractConfigurableGraph(GraphBuilder<? super N> builder,
-      Map<N, NodeAdjacencies<N>> nodeConnections) {
+      Map<N, GraphConnections<N>> nodeConnections) {
     this.isDirected = builder.directed;
     this.allowsSelfLoops = builder.allowsSelfLoops;
     this.nodeOrder = builder.nodeOrder;
     // Prefer the heavier "MapRetrievalCache" for nodes if lookup is expensive.
     this.nodeConnections = (nodeConnections instanceof TreeMap)
-        ? new MapRetrievalCache<N, NodeAdjacencies<N>>(nodeConnections)
-        : new MapIteratorCache<N, NodeAdjacencies<N>>(nodeConnections);
+        ? new MapRetrievalCache<N, GraphConnections<N>>(nodeConnections)
+        : new MapIteratorCache<N, GraphConnections<N>>(nodeConnections);
   }
 
   /**
@@ -124,9 +124,9 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
     return checkedConnections(node).successors();
   }
 
-  protected final NodeAdjacencies<N> checkedConnections(Object node) {
+  protected final GraphConnections<N> checkedConnections(Object node) {
     checkNotNull(node, "node");
-    NodeAdjacencies<N> connections = nodeConnections.get(node);
+    GraphConnections<N> connections = nodeConnections.get(node);
     checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);
     return connections;
   }

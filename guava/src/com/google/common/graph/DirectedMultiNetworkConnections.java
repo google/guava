@@ -33,28 +33,30 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * An implementation of {@link NodeConnections} for directed networks with parallel edges.
+ * An implementation of {@link NetworkConnections} for directed networks with parallel edges.
  *
  * @author James Sexton
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-final class DirectedMultiNodeConnections<N, E> extends AbstractDirectedNodeConnections<N, E> {
+final class DirectedMultiNetworkConnections<N, E>
+    extends AbstractDirectedNetworkConnections<N, E> {
 
-  private DirectedMultiNodeConnections(Map<E, N> inEdges, Map<E, N> outEdges, int selfLoopCount) {
+  private DirectedMultiNetworkConnections(
+      Map<E, N> inEdges, Map<E, N> outEdges, int selfLoopCount) {
     super(inEdges, outEdges, selfLoopCount);
   }
 
-  static <N, E> DirectedMultiNodeConnections<N, E> of() {
-    return new DirectedMultiNodeConnections<N, E>(
+  static <N, E> DirectedMultiNetworkConnections<N, E> of() {
+    return new DirectedMultiNetworkConnections<N, E>(
         new HashMap<E, N>(INNER_CAPACITY, INNER_LOAD_FACTOR),
         new HashMap<E, N>(INNER_CAPACITY, INNER_LOAD_FACTOR),
         0);
   }
 
-  static <N, E> DirectedMultiNodeConnections<N, E> ofImmutable(
+  static <N, E> DirectedMultiNetworkConnections<N, E> ofImmutable(
       Map<E, N> inEdges, Map<E, N> outEdges, int selfLoopCount) {
-    return new DirectedMultiNodeConnections<N, E>(
+    return new DirectedMultiNetworkConnections<N, E>(
         ImmutableMap.copyOf(inEdges), ImmutableMap.copyOf(outEdges), selfLoopCount);
   }
 

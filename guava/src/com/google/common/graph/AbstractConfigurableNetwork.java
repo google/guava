@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
  * Abstract configurable implementation of {@link Network} that supports the options supplied
  * by {@link NetworkBuilder}.
  *
- * <p>This class maintains a map of nodes to {@link NodeConnections}. This class also maintains
+ * <p>This class maintains a map of nodes to {@link NetworkConnections}. This class also maintains
  * a map of edges to reference nodes. The reference node is defined to be the edge's source node
  * on directed graphs, and an arbitrary endpoint of the edge on undirected graphs.
  *
@@ -64,7 +64,7 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   private final ElementOrder<? super N> nodeOrder;
   private final ElementOrder<? super E> edgeOrder;
 
-  protected final MapIteratorCache<N, NodeConnections<N, E>> nodeConnections;
+  protected final MapIteratorCache<N, NetworkConnections<N, E>> nodeConnections;
 
   // We could make this a Map<E, Endpoints<N>>. It would make incidentNodes(edge) slightly faster,
   // but it would also make Networks consume 5 to 20+% (increasing with average degree) more memory.
@@ -76,7 +76,7 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   AbstractConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder) {
     this(
         builder,
-        builder.nodeOrder.<N, NodeConnections<N, E>>createMap(
+        builder.nodeOrder.<N, NetworkConnections<N, E>>createMap(
             builder.expectedNodeCount.or(DEFAULT_NODE_COUNT)),
         builder.edgeOrder.<E, N>createMap(
             builder.expectedEdgeCount.or(DEFAULT_EDGE_COUNT)));
@@ -87,7 +87,7 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
    * the given node and edge maps.
    */
   AbstractConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder,
-      Map<N, NodeConnections<N, E>> nodeConnections,
+      Map<N, NetworkConnections<N, E>> nodeConnections,
       Map<E, N> edgeToReferenceNode) {
     this.isDirected = builder.directed;
     this.allowsParallelEdges = builder.allowsParallelEdges;
@@ -97,8 +97,8 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     // Prefer the heavier "MapRetrievalCache" for nodes if lookup is expensive. This optimizes
     // methods that access the same node(s) repeatedly, such as Graphs.removeEdgesConnecting().
     this.nodeConnections = (nodeConnections instanceof TreeMap)
-        ? new MapRetrievalCache<N, NodeConnections<N, E>>(nodeConnections)
-        : new MapIteratorCache<N, NodeConnections<N, E>>(nodeConnections);
+        ? new MapRetrievalCache<N, NetworkConnections<N, E>>(nodeConnections)
+        : new MapIteratorCache<N, NetworkConnections<N, E>>(nodeConnections);
     this.edgeToReferenceNode = new MapIteratorCache<E, N>(edgeToReferenceNode);
   }
 
@@ -178,7 +178,7 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
 
   @Override
   public Set<E> edgesConnecting(Object nodeA, Object nodeB) {
-    NodeConnections<N, E> connectionsA = checkedConnections(nodeA);
+    NetworkConnections<N, E> connectionsA = checkedConnections(nodeA);
     if (!allowsSelfLoops && nodeA.equals(nodeB)) {
       return ImmutableSet.of();
     }
@@ -206,9 +206,9 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     return checkedConnections(node).successors();
   }
 
-  protected final NodeConnections<N, E> checkedConnections(Object node) {
+  protected final NetworkConnections<N, E> checkedConnections(Object node) {
     checkNotNull(node, "node");
-    NodeConnections<N, E> connections = nodeConnections.get(node);
+    NetworkConnections<N, E> connections = nodeConnections.get(node);
     checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);
     return connections;
   }

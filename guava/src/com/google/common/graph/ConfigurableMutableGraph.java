@@ -59,13 +59,13 @@ final class ConfigurableMutableGraph<N>
   }
 
   /**
-   * Adds {@code node} to the graph and returns the associated {@link NodeAdjacencies}.
+   * Adds {@code node} to the graph and returns the associated {@link GraphConnections}.
    *
    * @throws IllegalStateException if {@code node} is already present
    */
   @CanIgnoreReturnValue
-  private NodeAdjacencies<N> addNodeInternal(N node) {
-    NodeAdjacencies<N> connections = newNodeConnections();
+  private GraphConnections<N> addNodeInternal(N node) {
+    GraphConnections<N> connections = newConnections();
     checkState(nodeConnections.put(node, connections) == null);
     return connections;
   }
@@ -76,7 +76,7 @@ final class ConfigurableMutableGraph<N>
     checkNotNull(nodeA, "nodeA");
     checkNotNull(nodeB, "nodeB");
 
-    NodeAdjacencies<N> connectionsA = nodeConnections.get(nodeA);
+    GraphConnections<N> connectionsA = nodeConnections.get(nodeA);
     // TODO(b/28087289): does not support parallel edges
     if (connectionsA != null && connectionsA.successors().contains(nodeB)) {
       return false;
@@ -90,7 +90,7 @@ final class ConfigurableMutableGraph<N>
       connectionsA = addNodeInternal(nodeA);
     }
     connectionsA.addSuccessor(nodeB);
-    NodeAdjacencies<N> connectionsB = nodeConnections.get(nodeB);
+    GraphConnections<N> connectionsB = nodeConnections.get(nodeB);
     if (connectionsB == null) {
       connectionsB = addNodeInternal(nodeB);
     }
@@ -103,7 +103,7 @@ final class ConfigurableMutableGraph<N>
   public boolean removeNode(Object node) {
     checkNotNull(node, "node");
 
-    NodeAdjacencies<N> connections = nodeConnections.get(node);
+    GraphConnections<N> connections = nodeConnections.get(node);
     if (connections == null) {
       return false;
     }
@@ -129,20 +129,20 @@ final class ConfigurableMutableGraph<N>
     checkNotNull(nodeA, "nodeA");
     checkNotNull(nodeB, "nodeB");
 
-    NodeAdjacencies<N> connectionsA = nodeConnections.get(nodeA);
+    GraphConnections<N> connectionsA = nodeConnections.get(nodeA);
     if (connectionsA == null || !connectionsA.successors().contains(nodeB)) {
       return false;
     }
 
-    NodeAdjacencies<N> connectionsB = nodeConnections.get(nodeB);
+    GraphConnections<N> connectionsB = nodeConnections.get(nodeB);
     connectionsA.removeSuccessor(nodeB);
     connectionsB.removePredecessor(nodeA);
     return true;
   }
 
-  private NodeAdjacencies<N> newNodeConnections() {
+  private GraphConnections<N> newConnections() {
     return isDirected()
-        ? DirectedNodeAdjacencies.<N>of()
-        : UndirectedNodeAdjacencies.<N>of();
+        ? DirectedGraphConnections.<N>of()
+        : UndirectedGraphConnections.<N>of();
   }
 }

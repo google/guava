@@ -21,39 +21,47 @@ import static com.google.common.graph.GraphConstants.EXPECTED_DEGREE;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableBiMap;
-
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * An implementation of {@link NodeConnections} for undirected networks.
+ * An implementation of {@link NetworkConnections} for directed networks.
  *
  * @author James Sexton
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-final class UndirectedNodeConnections<N, E> extends AbstractUndirectedNodeConnections<N, E> {
+final class DirectedNetworkConnections<N, E> extends AbstractDirectedNetworkConnections<N, E> {
 
-  protected UndirectedNodeConnections(Map<E, N> incidentEdgeMap) {
-    super(incidentEdgeMap);
+  protected DirectedNetworkConnections(
+      Map<E, N> inEdgeMap, Map<E, N> outEdgeMap, int selfLoopCount) {
+    super(inEdgeMap, outEdgeMap, selfLoopCount);
   }
 
-  static <N, E> UndirectedNodeConnections<N, E> of() {
-    return new UndirectedNodeConnections<N, E>(HashBiMap.<E, N>create(EXPECTED_DEGREE));
+  static <N, E> DirectedNetworkConnections<N, E> of() {
+    return new DirectedNetworkConnections<N, E>(
+        HashBiMap.<E, N>create(EXPECTED_DEGREE), HashBiMap.<E, N>create(EXPECTED_DEGREE), 0);
   }
 
-  static <N, E> UndirectedNodeConnections<N, E> ofImmutable(Map<E, N> incidentEdges) {
-    return new UndirectedNodeConnections<N, E>(ImmutableBiMap.copyOf(incidentEdges));
+  static <N, E> DirectedNetworkConnections<N, E> ofImmutable(
+      Map<E, N> inEdges, Map<E, N> outEdges, int selfLoopCount) {
+    return new DirectedNetworkConnections<N, E>(
+        ImmutableBiMap.copyOf(inEdges), ImmutableBiMap.copyOf(outEdges), selfLoopCount);
   }
 
   @Override
-  public Set<N> adjacentNodes() {
-    return Collections.unmodifiableSet(((BiMap<E, N>) incidentEdgeMap).values());
+  public Set<N> predecessors() {
+    return Collections.unmodifiableSet(((BiMap<E, N>) inEdgeMap).values());
+  }
+
+  @Override
+  public Set<N> successors() {
+    return Collections.unmodifiableSet(((BiMap<E, N>) outEdgeMap).values());
   }
 
   @Override
   public Set<E> edgesConnecting(Object node) {
-    return new SimpleEdgesConnecting<E>(((BiMap<E, N>) incidentEdgeMap).inverse(), node);
+    return new SimpleEdgesConnecting<E>(((BiMap<E, N>) outEdgeMap).inverse(), node);
   }
 }
