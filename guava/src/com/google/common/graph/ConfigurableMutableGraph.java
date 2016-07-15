@@ -116,8 +116,10 @@ final class ConfigurableMutableGraph<N>
     for (N successor : connections.successors()) {
       nodeConnections.getWithoutCaching(successor).removePredecessor(node);
     }
-    for (N predecessor : connections.predecessors()) {
-      nodeConnections.getWithoutCaching(predecessor).removeSuccessor(node);
+    if (isDirected()) { // In undirected graphs, the successor and predecessor sets are equal.
+      for (N predecessor : connections.predecessors()) {
+        nodeConnections.getWithoutCaching(predecessor).removeSuccessor(node);
+      }
     }
     nodeConnections.remove(node);
     return true;
