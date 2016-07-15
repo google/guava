@@ -20,15 +20,13 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.FeatureUtil;
-
-import junit.framework.TestSuite;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+import junit.framework.TestSuite;
 
 /**
  * This builder creates a composite test suite, containing a separate test suite

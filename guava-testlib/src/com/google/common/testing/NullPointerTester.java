@@ -32,10 +32,6 @@ import com.google.common.reflect.Invokable;
 import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
-
-import junit.framework.Assert;
-import junit.framework.AssertionFailedError;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -46,8 +42,9 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
-
 import javax.annotation.Nullable;
+import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
 
 /**
  * A test utility that verifies that your methods and constructors throw {@link

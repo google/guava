@@ -31,9 +31,6 @@ import com.google.common.collect.testing.google.DerivedGoogleCollectionGenerator
 import com.google.common.collect.testing.google.DerivedGoogleCollectionGenerators.InverseBiMapGenerator;
 import com.google.common.collect.testing.google.DerivedGoogleCollectionGenerators.MapGenerator;
 import com.google.common.collect.testing.testers.SetCreationTester;
-
-import junit.framework.TestSuite;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -41,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import junit.framework.TestSuite;
 
 /**
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests a {@code BiMap}

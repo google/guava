@@ -20,10 +20,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.SetFeature;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.AbstractSet;
@@ -39,6 +35,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.CopyOnWriteArraySet;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Generates a test suite covering the {@link Set} implementations in the

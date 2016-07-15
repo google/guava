@@ -22,14 +22,12 @@ import static com.google.common.collect.testing.features.CollectionFeature.SERIA
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestSuite;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import junit.framework.TestSuite;
 
 /**
  * Concrete instantiation of {@link AbstractCollectionTestSuiteBuilder} for

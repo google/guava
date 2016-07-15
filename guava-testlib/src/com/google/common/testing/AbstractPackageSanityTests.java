@@ -35,12 +35,6 @@ import com.google.common.collect.Sets;
 import com.google.common.reflect.ClassPath;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
-import org.junit.Test;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
@@ -49,6 +43,9 @@ import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Automatically runs sanity checks against top level classes in the same package of the test that

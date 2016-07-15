@@ -15,10 +15,8 @@
 package com.google.common.hash;
 
 import com.google.common.primitives.Longs;
-
-import sun.misc.Unsafe;
-
 import java.nio.ByteOrder;
+import sun.misc.Unsafe;
 
 /**
  * Utility functions for loading and storing values from a byte array.

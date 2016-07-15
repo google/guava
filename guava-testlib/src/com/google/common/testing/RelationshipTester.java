@@ -22,10 +22,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-
-import junit.framework.AssertionFailedError;
-
 import java.util.List;
+import junit.framework.AssertionFailedError;
 
 /**
  * Implementation helper for {@link EqualsTester} and {@link EquivalenceTester} that tests for

@@ -40,10 +40,6 @@ import com.google.common.reflect.TypeToken;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.testing.RelationshipTester.Item;
 import com.google.common.testing.RelationshipTester.ItemReporter;
-
-import junit.framework.Assert;
-import junit.framework.AssertionFailedError;
-
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -53,8 +49,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Nullable;
+import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
 
 /**
  * Tester that runs automated sanity tests for any given class. A typical use case is to test static

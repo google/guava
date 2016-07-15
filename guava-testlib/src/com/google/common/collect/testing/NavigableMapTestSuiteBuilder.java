@@ -25,15 +25,13 @@ import com.google.common.collect.testing.DerivedCollectionGenerators.ForwardingT
 import com.google.common.collect.testing.DerivedCollectionGenerators.SortedMapSubmapTestMapGenerator;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.testers.NavigableMapNavigationTester;
-
-import junit.framework.TestSuite;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.SortedMap;
+import junit.framework.TestSuite;
 
 /**
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
