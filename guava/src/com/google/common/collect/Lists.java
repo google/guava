@@ -661,6 +661,16 @@ public final class Lists {
   }
 
   /**
+   * Returns {@code true} if the given List is null or is the empty List.
+   *
+   * @param List a List reference to check
+   * @return {@code true} if the List is null or is the empty List
+   */
+  public static boolean isNullOrEmpty(List list){
+	  return list == null || list.isEmpty();
+  }
+
+  /**
    * Returns consecutive {@linkplain List#subList(int, int) sublists} of a list,
    * each of the same size (the final list may be smaller). For example,
    * partitioning a list containing {@code [a, b, c, d, e]} with a partition
