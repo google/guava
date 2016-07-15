@@ -666,7 +666,7 @@ public final class Lists {
    * @param List a List reference to check
    * @return {@code true} if the List is null or is the empty List
    */
-  public static boolean isNullOrEmpty(List list){
+  public static <T> boolean isNullOrEmpty(List<T> list){
 	  return list == null || list.isEmpty();
   }
 
