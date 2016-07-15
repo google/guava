@@ -611,7 +611,8 @@ public abstract class AbstractNetworkTest {
   }
 
   @Test
-  public void removeNode_invalidArgument() {
+  public void removeNode_nodeNotPresent() {
+    addNode(N1);
     ImmutableSet<Integer> nodes = ImmutableSet.copyOf(graph.nodes());
     assertFalse(graph.removeNode(NODE_NOT_IN_GRAPH));
     assertThat(graph.nodes()).containsExactlyElementsIn(nodes);
@@ -641,7 +642,8 @@ public abstract class AbstractNetworkTest {
   }
 
   @Test
-  public void removeEdge_invalidArgument() {
+  public void removeEdge_edgeNotPresent() {
+    addEdge(E12, N1, N2);
     ImmutableSet<String> edges = ImmutableSet.copyOf(graph.edges());
     assertFalse(graph.removeEdge(EDGE_NOT_IN_GRAPH));
     assertThat(graph.edges()).containsExactlyElementsIn(edges);

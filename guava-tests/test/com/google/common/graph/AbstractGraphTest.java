@@ -331,7 +331,8 @@ public abstract class AbstractGraphTest {
   }
 
   @Test
-  public void removeNode_invalidArgument() {
+  public void removeNode_nodeNotPresent() {
+    addNode(N1);
     ImmutableSet<Integer> nodes = ImmutableSet.copyOf(graph.nodes());
     assertFalse(graph.removeNode(NODE_NOT_IN_GRAPH));
     assertThat(graph.nodes()).containsExactlyElementsIn(nodes);
@@ -357,6 +358,21 @@ public abstract class AbstractGraphTest {
     addEdge(N1, N4);
     assertTrue(graph.removeEdge(N1, N3));
     assertThat(graph.adjacentNodes(N1)).containsExactly(N2, N4);
+  }
+
+  @Test
+  public void removeEdge_nodeNotPresent() {
+    addEdge(N1, N2);
+    assertFalse(graph.removeEdge(N1, NODE_NOT_IN_GRAPH));
+    assertThat(graph.successors(N1)).contains(N2);
+  }
+
+  @Test
+  public void removeEdge_edgeNotPresent() {
+    addEdge(N1, N2);
+    addNode(N3);
+    assertFalse(graph.removeEdge(N1, N3));
+    assertThat(graph.successors(N1)).contains(N2);
   }
 
   static void assertNodeNotInGraphErrorMessage(Throwable throwable) {
