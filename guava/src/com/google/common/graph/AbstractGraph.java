@@ -16,8 +16,13 @@
 
 package com.google.common.graph;
 
-import com.google.common.annotations.Beta;
+import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 
+import com.google.common.annotations.Beta;
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Maps;
+import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
@@ -51,20 +56,64 @@ public abstract class AbstractGraph<N> implements Graph<N> {
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
-    if (!(object instanceof Graph)) {
+  public boolean equals(@Nullable Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof Graph)) {
       return false;
     }
-    return Graphs.equal(this, (Graph<?>) object);
+    Graph<?> other = (Graph<?>) obj;
+
+    // Needed to enforce a symmetric equality relationship.
+    if (other instanceof Network) {
+      return false;
+    }
+
+    if (isDirected() != other.isDirected()) {
+      return false;
+    }
+
+    if (!nodes().equals(other.nodes())) {
+      return false;
+    }
+
+    for (Object node : nodes()) {
+      if (!successors(node).equals(other.successors(node))) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   @Override
   public int hashCode() {
-    return Graphs.hashCode(this);
+    return Maps.asMap(nodes(), new Function<N, Set<N>>() {
+      @Override
+      public Set<N> apply(N node) {
+        return successors(node);
+      }
+    }).hashCode();
   }
 
+  /**
+   * Returns a string representation of this graph. Encodes edge direction if any.
+   */
   @Override
   public String toString() {
-    return Graphs.toString(this);
+    return String.format(GRAPH_STRING_FORMAT,
+        getPropertiesString(),
+        nodes(),
+        endpointsString());
+  }
+
+  // TODO(b/28087289): add allowsParallelEdges() once that's supported
+  private String getPropertiesString() {
+    return String.format("isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
+  }
+
+  private String endpointsString() {
+    return String.format("{%s}", Joiner.on(", ").join(Graphs.endpointsInternal(this)));
   }
 }

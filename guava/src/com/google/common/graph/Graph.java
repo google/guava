@@ -17,9 +17,7 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
-
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -276,7 +274,7 @@ public interface Graph<N> {
    * In particular, {@link Graph}s that are not also {@link Network}s cannot be equal to
    * {@link Network}s.
    *
-   * <p>A reference implementation of this is provided by {@link Graphs#equal(Graph, Graph)}.
+   * <p>A reference implementation of this is provided by {@link AbstractGraph#equals(Object)}.
    */
   @Override
   boolean equals(@Nullable Object object);
@@ -285,7 +283,7 @@ public interface Graph<N> {
    * Returns the hash code for this graph. The hash code of a graph is defined as the hash code
    * of a map from each of the graph's nodes to its successor nodes.
    *
-   * <p>A reference implementation of this is provided by {@link Graphs#hashCode(Graph)}.
+   * <p>A reference implementation of this is provided by {@link AbstractGraph#hashCode()}.
    */
   @Override
   int hashCode();

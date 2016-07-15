@@ -23,21 +23,15 @@ import static com.google.common.graph.GraphConstants.NETWORK_WITH_PARALLEL_EDGE;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
-import com.google.common.base.Joiner;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
-
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
-
-import javax.annotation.Nullable;
 
 /**
  * Static utility methods for {@link Graph} instances.
@@ -49,13 +43,11 @@ import javax.annotation.Nullable;
 @Beta
 public final class Graphs {
 
-  private static final String GRAPH_FORMAT = "%s, nodes: %s, edges: %s";
-
   private Graphs() {}
 
   // Graph query methods
 
-  private static <N> Set<Endpoints<N>> endpointsInternal(final Graph<N> graph) {
+  static <N> Set<Endpoints<N>> endpointsInternal(final Graph<N> graph) {
     if (graph instanceof Network && !allowsParallelEdges(graph)) {
       // Use an optimized implementation for networks without parallel edges.
       return endpointsSimpleNetwork(castToNetwork(graph));
@@ -223,189 +215,6 @@ public final class Graphs {
     return copy;
   }
 
-  /**
-   * Returns true iff {@code graph1} and {@code graph2} are equal as defined by
-   * {@link Graph#equals(Object)}.
-   */
-  public static boolean equal(@Nullable Graph<?> graph1, @Nullable Graph<?> graph2) {
-    // If both graphs are Network instances, use equal(Network, Network) instead
-    if (graph1 instanceof Network && graph2 instanceof Network) {
-      return equal(castToNetwork(graph1), castToNetwork(graph2));
-    }
-
-    // Otherwise, if either graph is a Network (but not both), they can't be equal.
-    if (graph1 instanceof Network || graph2 instanceof Network) {
-      return false;
-    }
-
-    if (graph1 == graph2) {
-      return true;
-    }
-
-    if (graph1 == null || graph2 == null) {
-      return false;
-    }
-
-    if (graph1.isDirected() != graph2.isDirected()) {
-      return false;
-    }
-
-    if (!graph1.nodes().equals(graph2.nodes())) {
-      return false;
-    }
-
-    for (Object node : graph1.nodes()) {
-      if (!graph1.successors(node).equals(graph2.successors(node))) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  /**
-   * Returns true iff {@code graph1} and {@code graph2} are equal as defined by
-   * {@link Network#equals(Object)}.
-   */
-  public static boolean equal(@Nullable Network<?, ?> graph1, @Nullable Network<?, ?> graph2) {
-    if (graph1 == graph2) {
-      return true;
-    }
-
-    if (graph1 == null || graph2 == null) {
-      return false;
-    }
-
-    if (graph1.isDirected() != graph2.isDirected()) {
-      return false;
-    }
-
-    if (!graph1.nodes().equals(graph2.nodes()) || !graph1.edges().equals(graph2.edges())) {
-      return false;
-    }
-
-    for (Object edge : graph1.edges()) {
-      if (!graph1.incidentNodes(edge).equals(graph2.incidentNodes(edge))) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  /**
-   * Returns the hash code of {@code graph} as defined by {@link Graph#hashCode()}.
-   */
-  public static int hashCode(Graph<?> graph) {
-    if (graph instanceof Network) {
-      return hashCode(castToNetwork(graph));
-    }
-    return nodeToSuccessorNodes(graph).hashCode();
-  }
-
-  /**
-   * Returns the hash code of {@code graph} as defined by {@link Network#hashCode()}.
-   */
-  public static int hashCode(Network<?, ?> graph) {
-    return nodeToOutEdges(graph).hashCode();
-  }
-
-  /**
-   * Returns a string representation of {@code graph}. Encodes edge direction if {@code graph}
-   * is directed.
-   */
-  public static String toString(Graph<?> graph) {
-    if (graph instanceof Network) {
-      return toString(castToNetwork(graph));
-    }
-    return String.format(GRAPH_FORMAT,
-        getPropertiesString(graph),
-        graph.nodes(),
-        endpointsString(graph));
-  }
-
-  /**
-   * Returns a string representation of {@code graph}. Encodes edge direction if {@code graph}
-   * is directed.
-   */
-  public static String toString(Network<?, ?> graph) {
-    return String.format(GRAPH_FORMAT,
-        getPropertiesString(graph),
-        graph.nodes(),
-        Maps.asMap(graph.edges(), edgeToEndpointsString(graph)));
-  }
-
-  /**
-   * Returns a String of the endpoints for {@code graph}.
-   */
-  private static <N> String endpointsString(final Graph<N> graph) {
-    checkNotNull(graph, "graph");
-    return String.format("{%s}", Joiner.on(", ").join(endpointsInternal(graph)));
-  }
-
-  /**
-   * Returns a map that is a live view of {@code graph}, with nodes as keys
-   * and the set of outgoing edges as values.
-   */
-  private static <N, E> Map<N, Set<E>> nodeToOutEdges(final Network<N, E> graph) {
-    checkNotNull(graph, "graph");
-    return Maps.asMap(graph.nodes(), new Function<N, Set<E>>() {
-      @Override
-      public Set<E> apply(N node) {
-        return graph.outEdges(node);
-      }
-    });
-  }
-
-  /**
-   * Returns a map that is a live view of {@code graph}, with nodes as keys
-   * and the set of successor nodes as values.
-   */
-  private static <N> Map<N, Set<N>> nodeToSuccessorNodes(final Graph<N> graph) {
-    checkNotNull(graph, "graph");
-    return Maps.asMap(graph.nodes(), new Function<N, Set<N>>() {
-      @Override
-      public Set<N> apply(N node) {
-        return graph.successors(node);
-      }
-    });
-  }
-
-  /**
-   * Returns a function that transforms an edge into a string representation of its endpoints
-   * in {@code graph}. The function's {@code apply} method will throw an
-   * {@link IllegalArgumentException} if {@code graph} does not contain {@code edge}.
-   */
-  private static Function<Object, String> edgeToEndpointsString(final Network<?, ?> graph) {
-    checkNotNull(graph, "graph");
-    return new Function<Object, String>() {
-      @Override
-      public String apply(Object edge) {
-        return graph.incidentNodes(edge).toString();
-      }
-    };
- }
-
-  /**
-   * Returns a string representation of the properties of {@code graph}.
-   */
-  // TODO(b/28087289): add allowsParallelEdges() once that's supported
-  private static String getPropertiesString(Graph<?> graph) {
-    if (graph instanceof Network) {
-      return getPropertiesString(castToNetwork(graph));
-    }
-    return String.format("isDirected: %s, allowsSelfLoops: %s",
-        graph.isDirected(), graph.allowsSelfLoops());
-  }
-
-  /**
-   * Returns a string representation of the properties of {@code graph}.
-   */
-  private static String getPropertiesString(Network<?, ?> graph) {
-    return String.format("isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",
-        graph.isDirected(), graph.allowsParallelEdges(), graph.allowsSelfLoops());
-  }
-
   private static boolean allowsParallelEdges(Graph<?> graph) {
     return (graph instanceof Network) && castToNetwork(graph).allowsParallelEdges();
   }
@@ -479,7 +288,7 @@ public final class Graphs {
    * Visited Nodes = {}
    * Endpoints [N1, N2] - return
    * Endpoints [N1, N3] - return
-   * Visited Nodess = {N1}
+   * Visited Nodes = {N1}
    * Endpoints [N2, N1] - skip
    * Endpoints [N2, N3] - return
    * Visited Nodes = {N1, N2}

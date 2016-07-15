@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import com.google.common.math.DoubleMath;
-
 import java.math.RoundingMode;
 
 /**
@@ -55,4 +54,6 @@ final class GraphConstants {
   static final String EDGE_ALREADY_EXISTS = "Edge %s already exists in the graph.";
   static final String NETWORK_WITH_PARALLEL_EDGE =
       "Cannot make a Graph copy of a Network that allows parallel edges.";
+
+  static final String GRAPH_STRING_FORMAT = "%s, nodes: %s, edges: %s";
 }

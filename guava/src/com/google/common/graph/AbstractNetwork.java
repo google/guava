@@ -16,8 +16,12 @@
 
 package com.google.common.graph;
 
-import com.google.common.annotations.Beta;
+import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 
+import com.google.common.annotations.Beta;
+import com.google.common.base.Function;
+import com.google.common.collect.Maps;
+import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
@@ -49,20 +53,64 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
-    if (!(object instanceof Network)) {
+  public boolean equals(@Nullable Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof Network)) {
       return false;
     }
-    return Graphs.equal(this, (Network<?, ?>) object);
+    Network<?, ?> other = (Network<?, ?>) obj;
+
+    if (isDirected() != other.isDirected()) {
+      return false;
+    }
+
+    if (!nodes().equals(other.nodes()) || !edges().equals(other.edges())) {
+      return false;
+    }
+
+    for (Object edge : edges()) {
+      if (!incidentNodes(edge).equals(other.incidentNodes(edge))) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   @Override
   public int hashCode() {
-    return Graphs.hashCode(this);
+    return Maps.asMap(nodes(), new Function<N, Set<E>>() {
+      @Override
+      public Set<E> apply(N node) {
+        return outEdges(node);
+      }
+    }).hashCode();
   }
 
+  /**
+   * Returns a string representation of this graph. Encodes edge direction if any.
+   */
   @Override
   public String toString() {
-    return Graphs.toString(this);
+    return String.format(GRAPH_STRING_FORMAT,
+        getPropertiesString(),
+        nodes(),
+        Maps.asMap(edges(), edgeToEndpointsString()));
   }
+
+  private String getPropertiesString() {
+    return String.format("isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",
+        isDirected(), allowsParallelEdges(), allowsSelfLoops());
+  }
+
+  private Function<Object, String> edgeToEndpointsString() {
+    return new Function<Object, String>() {
+      @Override
+      public String apply(Object edge) {
+        return incidentNodes(edge).toString();
+      }
+    };
+ }
 }
