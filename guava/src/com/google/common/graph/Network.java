@@ -323,10 +323,10 @@ public interface Network<N, E> extends Graph<N> {
   int outDegree(Object node);
 
   /**
-   * Returns {@code true} iff {@code object} is a graph that has the same structural relationships
-   * as those in this graph.
+   * Returns {@code true} iff {@code object} is a {@link Network} that has the same structural
+   * relationships as those in this network.
    *
-   * <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
+   * <p>Thus, two networks A and B are equal if <b>all</b> of the following are true:
    * <ul>
    * <li>A and B have the same {@link #isDirected() directedness}.
    * <li>A and B have the same node set.
@@ -334,14 +334,10 @@ public interface Network<N, E> extends Graph<N> {
    * <li>Every edge in A and B connects the same nodes in the same direction (if any).
    * </ul>
    *
-   * <p>Graph properties are <b>not</b> respected by this method. For example, two graphs may be
+   * <p>Network properties are <b>not</b> respected by this method. For example, two networks may be
    * considered equal even if one allows parallel edges and the other doesn't. Additionally, the
-   * order in which edges or nodes are added to the graph, and the order in which they are iterated
-   * over, are irrelevant.
-   *
-   * <p>Note: {@link Network} instances can only be equal to other {@link Network} instances.
-   * In particular, {@link Graph}s that are not also {@link Network}s cannot be equal to
-   * {@link Network}s.
+   * order in which edges or nodes are added to the network, and the order in which they are
+   * iterated over, are irrelevant.
    *
    * <p>A reference implementation of this is provided by {@link AbstractNetwork#equals(Object)}.
    */
@@ -349,8 +345,8 @@ public interface Network<N, E> extends Graph<N> {
   boolean equals(@Nullable Object object);
 
   /**
-   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code
-   * of a map from each of the graph's nodes to its outgoing edges.
+   * Returns the hash code for this network. The hash code of a network is defined as the hash code
+   * of a map from each of the network's nodes to its outgoing edges.
    *
    * <p>A reference implementation of this is provided by {@link AbstractNetwork#hashCode()}.
    */

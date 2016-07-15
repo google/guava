@@ -254,8 +254,8 @@ public interface Graph<N> {
   int outDegree(Object node);
 
   /**
-   * Returns {@code true} iff {@code object} is a graph that has the same structural relationships
-   * as those in this graph.
+   * Returns {@code true} iff {@code object} is a {@link Graph} that has the same structural
+   * relationships as those in this graph.
    *
    * <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
    * <ul>
@@ -265,14 +265,14 @@ public interface Graph<N> {
    *     and predecessor nodes are the same in both graphs.
    * </ul>
    *
-   * <p>Graph properties are <b>not</b> respected by this method. For example, two relations may
+   * <p>Graph properties are <b>not</b> respected by this method. For example, two graphs may
    * be considered equal even if one allows self-loops and the other doesn't. Additionally, the
    * order in which edges or nodes are added to the graph, and the order in which they are
    * iterated over, are irrelevant.
    *
-   * <p>Note: {@link Network} instances can only be equal to other {@link Network} instances.
-   * In particular, {@link Graph}s that are not also {@link Network}s cannot be equal to
-   * {@link Network}s.
+   * <p>A {@link Graph} cannot be equal to an instance of a subinterface of {@link Graph} that
+   * redefines the definition of equality, such as {@link Network}, even if by this definition they
+   * would otherwise be equal.
    *
    * <p>A reference implementation of this is provided by {@link AbstractGraph#equals(Object)}.
    */
