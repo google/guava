@@ -70,7 +70,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
       return false;
     }
 
-    for (Object edge : edges()) {
+    for (E edge : edges()) {
       if (!incidentNodes(edge).equals(other.incidentNodes(edge))) {
         return false;
       }
@@ -81,36 +81,32 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
   @Override
   public int hashCode() {
-    return Maps.asMap(nodes(), new Function<N, Set<E>>() {
+    Function<N, Set<E>> nodeToOutEdges = new Function<N, Set<E>>() {
       @Override
       public Set<E> apply(N node) {
         return outEdges(node);
       }
-    }).hashCode();
+    };
+    return Maps.asMap(nodes(), nodeToOutEdges).hashCode();
   }
 
   /**
-   * Returns a string representation of this graph. Encodes edge direction if any.
+   * Returns a string representation of this graph.
    */
   @Override
   public String toString() {
-    return String.format(GRAPH_STRING_FORMAT,
-        getPropertiesString(),
-        nodes(),
-        Maps.asMap(edges(), edgeToEndpointsString()));
-  }
-
-  private String getPropertiesString() {
-    return String.format("isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",
+    String propertiesString = String.format(
+        "isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",
         isDirected(), allowsParallelEdges(), allowsSelfLoops());
-  }
-
-  private Function<Object, String> edgeToEndpointsString() {
-    return new Function<Object, String>() {
+    Function<Object, String> edgeToEndpointsString = new Function<Object, String>() {
       @Override
       public String apply(Object edge) {
         return incidentNodes(edge).toString();
       }
     };
- }
+    return String.format(GRAPH_STRING_FORMAT,
+        propertiesString,
+        nodes(),
+        Maps.asMap(edges(), edgeToEndpointsString));
+  }
 }

@@ -78,7 +78,7 @@ public abstract class AbstractGraph<N> implements Graph<N> {
       return false;
     }
 
-    for (Object node : nodes()) {
+    for (N node : nodes()) {
       if (!successors(node).equals(other.successors(node))) {
         return false;
       }
@@ -89,31 +89,28 @@ public abstract class AbstractGraph<N> implements Graph<N> {
 
   @Override
   public int hashCode() {
-    return Maps.asMap(nodes(), new Function<N, Set<N>>() {
+    Function<N, Set<N>> nodeToSuccessors = new Function<N, Set<N>>() {
       @Override
       public Set<N> apply(N node) {
         return successors(node);
       }
-    }).hashCode();
+    };
+    return Maps.asMap(nodes(), nodeToSuccessors).hashCode();
   }
 
   /**
-   * Returns a string representation of this graph. Encodes edge direction if any.
+   * Returns a string representation of this graph.
    */
   @Override
   public String toString() {
+    // TODO(b/28087289): add allowsParallelEdges() once that's supported
+    String propertiesString = String.format(
+        "isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
+    String endpointsString = String.format(
+        "{%s}", Joiner.on(", ").join(Graphs.endpointsInternal(this)));
     return String.format(GRAPH_STRING_FORMAT,
-        getPropertiesString(),
+        propertiesString,
         nodes(),
-        endpointsString());
-  }
-
-  // TODO(b/28087289): add allowsParallelEdges() once that's supported
-  private String getPropertiesString() {
-    return String.format("isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
-  }
-
-  private String endpointsString() {
-    return String.format("{%s}", Joiner.on(", ").join(Graphs.endpointsInternal(this)));
+        endpointsString);
   }
 }
