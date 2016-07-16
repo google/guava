@@ -23,13 +23,14 @@ import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.annotation.Nullable;
 
 /**
- * Implementation of {@link Table} using hash tables.
+ * Implementation of {@link Table} using linked hash tables. This guarantees predictable iteration
+ * order of the various views.
  *
  * <p>The views returned by {@link #column}, {@link #columnKeySet()}, and {@link
  * #columnMap()} have iterators that don't support {@code remove()}. Otherwise,
@@ -64,7 +65,7 @@ public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
 
     @Override
     public Map<C, V> get() {
-      return Maps.newHashMapWithExpectedSize(expectedSize);
+      return Maps.newLinkedHashMapWithExpectedSize(expectedSize);
     }
 
     private static final long serialVersionUID = 0;
@@ -74,7 +75,7 @@ public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
    * Creates an empty {@code HashBasedTable}.
    */
   public static <R, C, V> HashBasedTable<R, C, V> create() {
-    return new HashBasedTable<R, C, V>(new HashMap<R, Map<C, V>>(), new Factory<C, V>(0));
+    return new HashBasedTable<R, C, V>(new LinkedHashMap<R, Map<C, V>>(), new Factory<C, V>(0));
   }
 
   /**
@@ -89,7 +90,7 @@ public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
   public static <R, C, V> HashBasedTable<R, C, V> create(
       int expectedRows, int expectedCellsPerRow) {
     checkNonnegative(expectedCellsPerRow, "expectedCellsPerRow");
-    Map<R, Map<C, V>> backingMap = Maps.newHashMapWithExpectedSize(expectedRows);
+    Map<R, Map<C, V>> backingMap = Maps.newLinkedHashMapWithExpectedSize(expectedRows);
     return new HashBasedTable<R, C, V>(backingMap, new Factory<C, V>(expectedCellsPerRow));
   }
 
