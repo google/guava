@@ -17,150 +17,79 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import java.util.ConcurrentModificationException;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * TODO(b/30133524): Rewrite the top-level javadoc from scratch.
+ * An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
+ * data structures. A graph is composed of a set of nodes (sometimes called vertices) and a set of
+ * edges connecting pairs of nodes. Graphs are useful for modeling many kinds of relations. If the
+ * relation to be modeled is symmetric (such as "distance between cities"), that can be represented
+ * with an undirected graph, where an edge that connects node A to node B also connects node B to
+ * node A. If the relation to be modeled is asymmetric (such as "employees managed"), that can be
+ * represented with a directed graph, where edges are strictly one-way.
  *
- * A graph consisting of a set of nodes of type N and a set of (implicit) edges.
- * Users that want edges to be first-class objects or support for parallel edges should use the
- * {@link Network} interface instead.
+ * <p>There are three main interfaces provided to represent graphs. In order of increasing
+ * complexity they are: {@link BasicGraph}, {@link Graph}, and {@link Network}. You should generally
+ * prefer the simplest interface that satisfies your use case.
  *
- * <p>For convenience, we may use the term 'graph' refer to {@link BasicGraph}s and/or
- * {@link Network}s.
+ * <p>To choose the right interface, answer these questions:
  *
- * <p>Users that wish to modify a {@code Graph} must work with its subinterface,
- * {@link MutableBasicGraph}.
+ * <ol>
+ * <li>Do you have data (objects) that you wish to associate with edges?
+ *     <p>Yes: Go to question 2. No: Use {@link BasicGraph}.
+ * <li>Are the objects you wish to associate with edges unique within the scope of a graph? That is,
+ *     no two objects would be {@link Object#equals(Object)} to each other. A common example where
+ *     this would <i>not</i> be the case is with weighted graphs.
+ *     <p>Yes: Go to question 3. No: Use {@link Graph}.
+ * <li>Do you need to be able to query the graph for an edge associated with a particular object
+ *     (not just the edge connecting a given pair of nodes)?
+ *     <p>Yes: Use {@link Network}. No: Go to question 4.
+ * <li>Do you need explicit support for parallel edges? Do you need to be able to remove one edge
+ *     connecting a pair of nodes while leaving other edges connecting those same nodes?
+ *     <p>Yes: Use {@link Network}. No: Use {@link Graph}.
+ * </ol>
  *
- * <p>This interface permits, but does not enforce, any of the following variations of graphs:
- * <ul>
- * <li>directed and undirected edges
- * <li>nodes and edges with attributes (for example, weighted edges)
- * <li>nodes and edges of different types (for example, bipartite or multimodal graphs)
- * <li>internal representations as matrices, adjacency lists, adjacency maps, etc.
- * </ul>
+ * <p>In all three interfaces, nodes have all the same requirements as keys in a {@link Map}.
  *
- * <p>Extensions or implementations of this interface may enforce or disallow any or all
- * of these variations.
+ * <p>All mutation methods live on the subinterface {@link MutableBasicGraph}. If you do not need to
+ * mutate a graph (e.g. if you write a method than runs a read-only algorithm on the graph), you
+ * should prefer the non-mutating {@link BasicGraph} interface.
  *
- * <p>Definitions:
- * <ul>
- * <li>{@code nodeA} and {@code nodeB} are mutually <b>adjacent</b> (or <b>connected</b>) in
- *     {@code graph} if an edge has been added between them:
- *     <br><pre><code>
- *       graph.addEdge(nodeA, nodeB);  // after this returns, nodeA and nodeB are adjacent
- *     </pre></code>
- *   In this example, if {@code graph} is <b>directed</b>, then:
- *   <ul>
- *   <li>{@code nodeA} is a <b>predecessor</b> of {code nodeB} in {@code graph}
- *   <li>{@code nodeB} is a <b>successor</b> of {@code nodeA} in {@code graph}
- *   <li>{@code nodeA} has an (implicit) outgoing edge to {@code nodeB} in {@code graph}
- *   <li>{@code nodeB} has an (implicit) incoming edge from {@code nodeA} in {@code graph}
- *   </ul>
- *   If {@code graph} is <b>undirected</b>, then:
- *   <ul>
- *   <li>{@code nodeA} and {@code nodeB} are mutually predecessors and successors
- *       in {@code graph}
- *   <li>{@code nodeA} has an (implicit) edge in {@code graph} that is both outgoing to
- *       {@code nodeB} and incoming from {@code nodeB}, and vice versa.
- *   </ul>
- * <li>A self-loop is an edge that connects a node to itself.
- * </ul>
+ * <p>The {@link BasicGraph} interface extends {@link Graph}. When storing references, it is
+ * preferable to store them as {@link BasicGraph}s so you do not have to worry about the value type.
+ * However, when writing methods that operate on graphs but do not care about edge values, it is
+ * preferable to accept {@code Graph<N, ?>} to allow the widest variety of valid input.
  *
- * <p>General notes:
- * <ul>
- * <li><b>Nodes must be useable as {@code Map} keys</b>:
- *   <ul>
- *   <li>They must be unique in a graph: nodes {@code nodeA} and {@code nodeB} are considered
- *       different if and only if {@code nodeA.equals(nodeB) == false}.
- *   <li>If graph elements have mutable state:
- *     <ul>
- *     <li>the mutable state must not be reflected in the {@code equals/hashCode} methods
- *         (this is discussed in the {@code Map} documentation in detail)
- *     <li>don't construct multiple elements that are equal to each other and expect them to be
- *         interchangeable.  In particular, when adding such elements to a graph, you should
- *         create them once and store the reference if you will need to refer to those elements
- *         more than once during creation (rather than passing {@code new MyMutableNode(id)}
- *         to each {@code add*()} call).
- *     </ul>
- *   </ul>
- *   <br>Generally speaking, your design may be more robust if you use immutable nodes and
- * store mutable per-element state in a separate data structure (e.g. an element-to-state map).
- * <li>There are no Node classes built in.  So you can have a {@code BasicGraph<Integer>}
- *     or a {@code BasicGraph<Author>} or a {@code BasicGraph<Webpage>}.
- * <li>This framework supports multiple mechanisms for storing the topology of a graph,
- *      including:
- *   <ul>
- *   <li>the Graph implementation stores the topology (for example, by storing a
- *       {@code Map<N, N>} that maps nodes onto their adjacent nodes); this implies that the nodes
- *       are just keys, and can be shared among graphs
- *   <li>the nodes store the topology (for example, by storing a {@code List<E>} of adjacent nodes);
- *       this (usually) implies that nodes are graph-specific
- *   <li>a separate data repository (for example, a database) stores the topology
- *   </ul>
- * </ul>
+ * <p>We provide an efficient implementation of this interface via {@link BasicGraphBuilder}. When
+ * using the implementation provided, all {@link Set}-returning methods provide live, unmodifiable
+ * views of the graph. In other words, you cannot add an element to the {@link Set}, but if an
+ * element is added to the {@link BasicGraph} that would affect the result of that set, it will be
+ * updated automatically. This also means that you cannot modify a {@link BasicGraph} in a way that
+ * would affect a {#link Set} while iterating over that set. For example, you cannot remove the
+ * nodes from a {@link BasicGraph} while iterating over {@link #nodes} (unless you first make a copy
+ * of the nodes), just as you could not remove the keys from a {@Map} while iterating over its
+ * {@link Map#keySet()}. This will either throw a {@link ConcurrentModificationException} or risk
+ * undefined behavior.
  *
- * <p>Notes on accessors:
- * <ul>
- * <li>Accessors which return collections may return views of the Graph. Modifications to the graph
- *     which affect a view (e.g. calling {@code addNode(n)} or {@code removeNode(n)} while iterating
- *     through {@code nodes()}) are not supported and may result in ConcurrentModificationException.
- * <li>Accessors which return collections will return empty collections if their inputs are valid
- *     but no elements satisfy the request (for example: {@code adjacentNodes(node)} will return an
- *     empty collection if {@code node} has no adjacent nodes).
- * <li>Accessors will throw {@code IllegalArgumentException} if passed an element
- *     that is not in the graph.
- * <li>Accessors take Object parameters rather than generic type specifiers to match the pattern
- *     set by the Java Collections Framework.
- * </ul>
+ * <p>Example of use:
  *
- * <p>Notes for implementors:
- * <ul>
- * <li>For accessors that return a {@code Set}, there are several options for the set behavior,
- *     including:
- *     <ol>
- *     <li>Set is an immutable copy (e.g. {@code ImmutableSet}): attempts to modify the set in any
- *         way will throw an exception, and modifications to the graph will <b>not</b> be reflected
- *         in the set.
- *     <li>Set is an unmodifiable view (e.g. {@code Collections.unmodifiableSet()}): attempts to
- *         modify the set in any way will throw an exception, and modifications to the graph will be
- *         reflected in the set.
- *     <li>Set is a mutable copy: it may be modified, but modifications to the graph will <b>not</b>
- *         be reflected in the set, and vice versa.
- *     <li>Set is a modifiable view: it may be modified, and modifications to the graph will be
- *         reflected in the set (but modifications to the set will <b>not</b> be reflected in the
- *         graph).
- *     <li>Set exposes the internal data directly: it may be modified, and modifications to the
- *         graph will be reflected in the set, and vice versa.
- *     </ol>
- *     Note that (1) and (2) are generally preferred. (5) is generally a hazardous design choice
- *     and should be avoided, because keeping the internal data structures consistent can be tricky.
- * <li>Prefer extending {@link AbstractBasicGraph} over implementing {@link BasicGraph} directly.
- *     This will ensure consistent {@link #equals(Object)} and {@link #hashCode()} across
- *     implementations.
- * <li>{@code Multimap}s are not sufficient internal data structures for Graph implementations
- *     that support isolated nodes (nodes that have no incident edges), due to their restriction
- *     that a key either maps to at least one value, or is not present in the {@code Multimap}.
- * </ul>
- *
- * <p>Examples of use:
- * <ul>
- * <li>Is {@code node} in the graph?
  * <pre><code>
- *   graph.nodes().contains(node)
- * </code></pre>
- * <li>Traversing an undirected graph node-wise:
- * <pre><code>
- *   // Visit nodes reachable from {@code node}.
- *   void depthFirstTraverse(N node) {
- *     if (!isVisited(node)) {
- *       visit(node);
- *       for (N successor : graph.successors(node)) {
- *         depthFirstTraverse(successor);
- *       }
- *     }
+ * MutableBasicGraph<String> managementGraph = BasicGraphBuilder.directed().build();
+ * managementGraph.putEdge("Big Boss", "Middle Manager Jack");
+ * managementGraph.putEdge("Big Boss", "Middle Manager Jill");
+ * managementGraph.putEdge("Middle Manager Jack", "Joe");
+ * managementGraph.putEdge("Middle Manager Jack", "Schmoe");
+ * managementGraph.putEdge("Middle Manager Jill", "Jane");
+ * managementGraph.putEdge("Middle Manager Jill", "Doe");
+ * for (String employee : managementGraph.nodes()) {
+ *   Set<String> reports = managementGraph.successors(employee);
+ *   if (!reports.isEmpty()) {
+ *     System.out.format("%s has the following direct reports: %s%n", employee, reports);
  *   }
+ * }
  * </code></pre>
- * </ul>
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
@@ -171,7 +100,7 @@ import com.google.common.annotations.Beta;
 public interface BasicGraph<N> extends Graph<N, BasicGraph.Presence> {
 
   /**
-   * A placeholder for the (generally ignored) Value type of a {@link BasicGraph}. Users shouldn't
+   * A placeholder for the (generally ignored) value type of a {@link BasicGraph}. Users shouldn't
    * have to reference this enum unless they are implementing the {@link BasicGraph} interface.
    */
   public enum Presence {

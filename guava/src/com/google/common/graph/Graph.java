@@ -17,22 +17,80 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import java.util.ConcurrentModificationException;
+import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * An interface to represent a graph data structure. Graphs can be either directed or undirected
- * (but cannot have both directed edges and undirected edges). Every edge is associated with an
- * arbitrary user-provided value. Parallel edges are not supported (although the Value type may be,
- * for example, a collection).
+ * An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
+ * data structures. A graph is composed of a set of nodes (sometimes called vertices) and a set of
+ * edges connecting pairs of nodes. Graphs are useful for modeling many kinds of relations. If the
+ * relation to be modeled is symmetric (such as "distance between cities"), that can be represented
+ * with an undirected graph, where an edge that connects node A to node B also connects node B to
+ * node A. If the relation to be modeled is asymmetric (such as "employees managed"), that can be
+ * represented with a directed graph, where edges are strictly one-way.
  *
- * <p>Nodes in a graph are analogous to keys in a Map - they must be unique within a graph.
- * Values in a graph are analogous to values in a Map - they may be any arbitrary object.
+ * <p>There are three main interfaces provided to represent graphs. In order of increasing
+ * complexity they are: {@link BasicGraph}, {@link Graph}, and {@link Network}. You should generally
+ * prefer the simplest interface that satisfies your use case.
  *
- * <p>If you don't need to associate value objects with edges (e.g. you're modeling a binary
- * relation where an edge either exists or doesn't), see the {@link BasicGraph} interface.
+ * <p>To choose the right interface, answer these questions:
  *
- * TODO(b/30133524): Rewrite the top-level javadoc from scratch.
+ * <ol>
+ * <li>Do you have data (objects) that you wish to associate with edges?
+ *     <p>Yes: Go to question 2. No: Use {@link BasicGraph}.
+ * <li>Are the objects you wish to associate with edges unique within the scope of a graph? That is,
+ *     no two objects would be {@link Object#equals(Object)} to each other. A common example where
+ *     this would <i>not</i> be the case is with weighted graphs.
+ *     <p>Yes: Go to question 3. No: Use {@link Graph}.
+ * <li>Do you need to be able to query the graph for an edge associated with a particular object
+ *     (not just the edge connecting a given pair of nodes)?
+ *     <p>Yes: Use {@link Network}. No: Go to question 4.
+ * <li>Do you need explicit support for parallel edges? Do you need to be able to remove one edge
+ *     connecting a pair of nodes while leaving other edges connecting those same nodes?
+ *     <p>Yes: Use {@link Network}. No: Use {@link Graph}.
+ * </ol>
+ *
+ * <p>Although {@link Graph}s and {@link Network}s both require users to provide objects when adding
+ * edges to the graph, the differentiating factor is that in {@link Graph}s, these objects can be
+ * any arbitrary data. Like the values in a {@link Map}, they do not have to be unique, and can be
+ * mutated while in the graph. In a {@link Network}, these objects serve as keys into internal data
+ * structures. Like the keys in a {@link Map}, they must be unique, and cannot be mutated in a way
+ * that affects their equals/hashcode or the data structure will become corrupted.
+ *
+ * <p>In all three interfaces, nodes have all the same requirements as keys in a {@link Map}.
+ *
+ * <p>All mutation methods live on the subinterface {@link MutableGraph}. If you do not need to
+ * mutate a graph (e.g. if you write a method than runs a read-only algorithm on the graph), you
+ * should prefer the non-mutating {@link Graph} interface.
+ *
+ * <p>We provide an efficient implementation of this interface via {@link GraphBuilder}. When using
+ * the implementation provided, all {@link Set}-returning methods provide live, unmodifiable views
+ * of the graph. In other words, you cannot add an element to the {@link Set}, but if an element is
+ * added to the {@link Graph} that would affect the result of that set, it will be updated
+ * automatically. This also means that you cannot modify a {@link Graph} in a way that would affect
+ * a {#link Set} while iterating over that set. For example, you cannot remove the nodes from a
+ * {@link Graph} while iterating over {@link #nodes} (unless you first make a copy of the nodes),
+ * just as you could not remove the keys from a {@Map} while iterating over its {@link
+ * Map#keySet()}. This will either throw a {@link ConcurrentModificationException} or risk undefined
+ * behavior.
+ *
+ * <p>Example of use:
+ *
+ * <pre><code>
+ * MutableGraph<String, Double> synonymGraph = GraphBuilder.undirected().build();
+ * synonymGraph.putEdgeValue("large", "big", 0.9);
+ * synonymGraph.putEdgeValue("large", "huge", 0.9);
+ * synonymGraph.putEdgeValue("large", "grand", 0.6);
+ * synonymGraph.putEdgeValue("large", "cold", 0.0);
+ * synonymGraph.putEdgeValue("large", "small", -1.0);
+ * for (String word : synonymGraph.adjacentNodes("large")) {
+ *   if (synonymGraph.edgeValue(word, "large") > 0.5) {
+ *     System.out.println(word + " is a synonym for large");
+ *   }
+ * }
+ * </code></pre>
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -45,35 +103,27 @@ public interface Graph<N, V> {
   // Graph-level accessors
   //
 
-  /**
-   * Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}.
-   */
+  /** Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}. */
   Set<N> nodes();
 
-  /**
-   * Returns all edges in this graph.
-   */
+  /** Returns all edges in this graph. */
   Set<Endpoints<N>> edges();
 
   //
   // Graph properties
   //
 
-  /**
-   * Returns true if the edges in this graph have a direction associated with them.
-   */
+  /** Returns true if the edges in this graph have a direction associated with them. */
   boolean isDirected();
 
   /**
-   * Returns true if this graph allows self-loops (edges that connect a node to itself).
-   * Attempting to add a self-loop to a graph that does not allow them will throw an
-   * {@link UnsupportedOperationException}.
+   * Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
+   * to add a self-loop to a graph that does not allow them will throw an {@link
+   * UnsupportedOperationException}.
    */
   boolean allowsSelfLoops();
 
-  /**
-   * Returns the order of iteration for the elements of {@link #nodes()}.
-   */
+  /** Returns the order of iteration for the elements of {@link #nodes()}. */
   ElementOrder<N> nodeOrder();
 
   //
@@ -154,8 +204,8 @@ public interface Graph<N, V> {
    * If there is an edge connecting {@code nodeA} to {@code nodeB}, returns the non-null value
    * associated with that edge; otherwise, returns {@code defaultValue}.
    *
-   * @throws IllegalArgumentException if {@code nodeA} or {@code nodeB} is not an element of
-   *     this graph
+   * @throws IllegalArgumentException if {@code nodeA} or {@code nodeB} is not an element of this
+   *     graph
    */
   V edgeValueOrDefault(Object nodeA, Object nodeB, @Nullable V defaultValue);
 
@@ -168,6 +218,7 @@ public interface Graph<N, V> {
    * same structural relationships as those in this graph.
    *
    * <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
+   *
    * <ul>
    * <li>A and B have equal {@link #isDirected() directedness}.
    * <li>A and B have equal {@link #nodes() node sets}.
@@ -186,9 +237,9 @@ public interface Graph<N, V> {
   boolean equals(@Nullable Object object);
 
   /**
-   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code
-   * of a map from each of its {@link #edges() edges} to the associated {@link #edgeValue(Object,
-   * Object) edge value}.
+   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a
+   * map from each of its {@link #edges() edges} to the associated {@link #edgeValue(Object, Object)
+   * edge value}.
    *
    * <p>A reference implementation of this is provided by {@link AbstractGraph#hashCode()}.
    */

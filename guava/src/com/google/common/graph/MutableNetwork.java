@@ -20,8 +20,8 @@ import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
- * A subtype of {@link Network} which permits mutations.
- * Users should generally use the {@link Network} interface where possible.
+ * A subinterface of {@link Network} which adds mutation methods. When mutation is not required,
+ * users should prefer the {@link Network} interface.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
@@ -56,9 +56,9 @@ public interface MutableNetwork<N, E> extends Network<N, E> {
    * this graph {@link #isDirected()}, else in any order), then this method will have no effect.
    *
    * @return {@code true} iff the graph was modified as a result of this call
-   * @throws IllegalArgumentException if {@code edge} already exists and does not connect
-   *     {@code nodeA} to {@code nodeB}, or if the introduction of the edge would violate
-   *     {@link #allowsParallelEdges()} or {@link #allowsSelfLoops()}
+   * @throws IllegalArgumentException if {@code edge} already exists and does not connect {@code
+   *     nodeA} to {@code nodeB}, or if the introduction of the edge would violate {@link
+   *     #allowsParallelEdges()} or {@link #allowsSelfLoops()}
    */
   @CanIgnoreReturnValue
   boolean addEdge(N nodeA, N nodeB, E edge);

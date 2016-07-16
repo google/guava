@@ -20,8 +20,8 @@ import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
- * A subtype of {@link BasicGraph} which permits mutations.
- * Users should generally use the {@link BasicGraph} interface where possible.
+ * A subinterface of {@link BasicGraph} which adds mutation methods. When mutation is not required,
+ * users should prefer the {@link BasicGraph} interface.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
@@ -50,8 +50,8 @@ public interface MutableBasicGraph<N> extends BasicGraph<N> {
    * implementations) or (b) throwing {@code IllegalArgumentException}.
    *
    * @return {@code true} iff the graph was modified as a result of this call
-   * @throws IllegalArgumentException if the introduction of the edge would violate
-   *     {@link #allowsSelfLoops()}
+   * @throws IllegalArgumentException if the introduction of the edge would violate {@link
+   *     #allowsSelfLoops()}
    */
   @CanIgnoreReturnValue
   boolean putEdge(N nodeA, N nodeB);

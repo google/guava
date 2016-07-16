@@ -20,8 +20,8 @@ import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
- * A subtype of {@link Graph} which permits mutations.
- * Users should generally use the {@link Graph} interface where possible.
+ * A subinterface of {@link Graph} which adds mutation methods. When mutation is not required, users
+ * should prefer the {@link Graph} interface.
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -52,10 +52,10 @@ public interface MutableGraph<N, V> extends Graph<N, V> {
    * adding} {@code nodeA} and {@code nodeB} to the graph (this is the behavior of the default
    * implementations) or (b) throwing {@code IllegalArgumentException}.
    *
-   * @return the value previously associated with the edge connecting {@code nodeA} to
-   *     {@code nodeB}, or null if there was no edge.
-   * @throws IllegalArgumentException if the introduction of the edge would violate
-   *     {@link #allowsSelfLoops()}
+   * @return the value previously associated with the edge connecting {@code nodeA} to {@code
+   *     nodeB}, or null if there was no such edge.
+   * @throws IllegalArgumentException if the introduction of the edge would violate {@link
+   *     #allowsSelfLoops()}
    */
   @CanIgnoreReturnValue
   V putEdgeValue(N nodeA, N nodeB, V value);
@@ -71,8 +71,8 @@ public interface MutableGraph<N, V> extends Graph<N, V> {
   /**
    * Removes the edge connecting {@code nodeA} to {@code nodeB}, if it is present.
    *
-   * @return the value previously associated with the edge connecting {@code nodeA} to
-   *     {@code nodeB}, or null if there was no edge.
+   * @return the value previously associated with the edge connecting {@code nodeA} to {@code
+   *     nodeB}, or null if there was no such edge.
    */
   @CanIgnoreReturnValue
   V removeEdge(Object nodeA, Object nodeB);
