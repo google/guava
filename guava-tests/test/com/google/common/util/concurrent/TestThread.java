@@ -23,16 +23,13 @@ import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertSame;
 
 import com.google.common.testing.TearDown;
-
-import junit.framework.AssertionFailedError;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
 import javax.annotation.Nullable;
+import junit.framework.AssertionFailedError;
 
 /**
  * A helper for concurrency testing. One or more {@code TestThread} instances are instantiated

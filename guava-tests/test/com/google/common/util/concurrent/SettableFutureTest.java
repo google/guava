@@ -16,12 +16,11 @@
 
 package com.google.common.util.concurrent;
 
-import junit.framework.TestCase;
-
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import junit.framework.TestCase;
 
 /**
  * Test cases for {@link SettableFuture}.

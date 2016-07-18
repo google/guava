@@ -65,10 +65,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.TestLogHandler;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -86,8 +82,9 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-
 import javax.annotation.Nullable;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Futures}.

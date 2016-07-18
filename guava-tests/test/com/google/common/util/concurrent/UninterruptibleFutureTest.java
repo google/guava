@@ -23,9 +23,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownStack;
-
-import junit.framework.TestCase;
-
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -34,6 +31,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import junit.framework.TestCase;
 
 // TODO(azana/cpovirk): Should this be merged into UninterruptiblesTest?
 /**

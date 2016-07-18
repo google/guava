@@ -20,11 +20,9 @@ import static com.google.common.math.MathTesting.ALL_BIGINTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.FINITE_DOUBLE_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_FINITE_DOUBLE_CANDIDATES;
 
-import junit.framework.TestCase;
-
-import sun.misc.FpUtils;
-
 import java.math.BigInteger;
+import junit.framework.TestCase;
+import sun.misc.FpUtils;
 
 /**
  * Tests for {@link DoubleUtils}.

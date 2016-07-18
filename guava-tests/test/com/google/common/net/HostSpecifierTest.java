@@ -21,11 +21,9 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.text.ParseException;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * {@link TestCase} for {@link HostSpecifier}.  This is a relatively

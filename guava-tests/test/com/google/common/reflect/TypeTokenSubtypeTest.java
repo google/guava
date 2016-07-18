@@ -16,10 +16,9 @@
 
 package com.google.common.reflect;
 
-import junit.framework.TestCase;
-
 import java.util.Comparator;
 import java.util.List;
+import junit.framework.TestCase;
 
 @AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
 public class TypeTokenSubtypeTest extends TestCase {

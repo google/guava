@@ -28,13 +28,11 @@ import com.google.common.base.Stopwatch;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownStack;
-
-import junit.framework.TestCase;
-
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Uninterruptibles}.

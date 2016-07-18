@@ -23,9 +23,8 @@ import static com.google.common.util.concurrent.Service.State.STARTING;
 import static com.google.common.util.concurrent.Service.State.STOPPING;
 import static com.google.common.util.concurrent.Service.State.TERMINATED;
 
-import junit.framework.TestCase;
-
 import java.util.Locale;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Service}

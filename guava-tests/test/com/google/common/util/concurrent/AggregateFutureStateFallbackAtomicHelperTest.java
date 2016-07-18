@@ -15,10 +15,6 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.collect.ImmutableSet;
-
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -26,6 +22,8 @@ import java.net.URLClassLoader;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests our AtomicHelper fallback strategy in AggregateFutureState.

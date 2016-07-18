@@ -49,10 +49,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.util.concurrent.MoreExecutors.Application;
-
-import org.mockito.InOrder;
-import org.mockito.Mockito;
-
 import java.lang.Thread.State;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,6 +72,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import org.mockito.InOrder;
+import org.mockito.Mockito;
 
 /**
  * Tests for MoreExecutors.

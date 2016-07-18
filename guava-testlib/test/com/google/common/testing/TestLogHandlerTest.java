@@ -16,11 +16,10 @@
 
 package com.google.common.testing;
 
-import junit.framework.TestCase;
-
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link TestLogHandler}.

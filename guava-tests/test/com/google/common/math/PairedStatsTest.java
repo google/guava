@@ -52,11 +52,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.math.StatsTesting.ManyValues;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link PairedStats}. This tests instances created by

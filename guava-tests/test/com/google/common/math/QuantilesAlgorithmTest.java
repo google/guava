@@ -21,12 +21,10 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
-import junit.framework.TestCase;
-
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import junit.framework.TestCase;
 
 /**
  * Tests that the different algorithms benchmarked in {@link QuantilesBenchmark} are actually all

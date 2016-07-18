@@ -22,11 +22,9 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-
-import junit.framework.TestCase;
-
 import java.lang.reflect.Field;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Tests for the HttpHeaders class.

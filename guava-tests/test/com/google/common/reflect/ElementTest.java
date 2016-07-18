@@ -18,12 +18,10 @@ package com.google.common.reflect;
 
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Constructor;
+import junit.framework.TestCase;
 
 /**
  * Unit tests of {@link Element}.

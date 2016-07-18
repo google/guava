@@ -18,11 +18,9 @@ package com.google.common.util.concurrent;
 
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TearDownStack;
-
-import junit.framework.TestCase;
-
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Monitor}, either interruptible or uninterruptible.

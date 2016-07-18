@@ -34,15 +34,13 @@ import com.google.common.math.Quantiles.ScaleAndIndexes;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
-
-import junit.framework.TestCase;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Quantiles}.

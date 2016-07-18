@@ -21,9 +21,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownStack;
 import com.google.common.util.concurrent.testing.TestingExecutors;
-
-import junit.framework.TestCase;
-
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
@@ -32,6 +29,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link AbstractExecutionThreadService}.

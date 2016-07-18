@@ -28,18 +28,15 @@ import com.google.common.collect.Lists;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.util.concurrent.RateLimiter.SleepingStopwatch;
-
-import junit.framework.TestCase;
-
-import org.easymock.EasyMock;
-import org.mockito.Mockito;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import junit.framework.TestCase;
+import org.easymock.EasyMock;
+import org.mockito.Mockito;
 
 /**
  * Tests for RateLimiter.

@@ -28,10 +28,9 @@ import static com.google.common.util.concurrent.FuturesGetCheckedInputs.RUNTIME_
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.RUNTIME_EXCEPTION_FUTURE;
 import static com.google.common.util.concurrent.FuturesGetCheckedInputs.UNCHECKED_EXCEPTION;
 
-import junit.framework.TestCase;
-
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Futures#getUnchecked(Future)}.

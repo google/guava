@@ -75,11 +75,9 @@ import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Stats}. This tests instances created by both {@link Stats#of} and

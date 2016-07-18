@@ -19,12 +19,10 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
-
-import junit.framework.TestCase;
-
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link AbstractListeningExecutorService}.

@@ -16,12 +16,11 @@
 
 package com.google.common.reflect;
 
-import junit.framework.TestCase;
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import junit.framework.TestCase;
 
 /**
  * Unit tests of {@link TypeResolver}.

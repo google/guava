@@ -20,15 +20,11 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
-import junit.framework.TestCase;
-
-import org.mockito.Mockito;
-
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
-
 import javax.annotation.Nullable;
+import junit.framework.TestCase;
+import org.mockito.Mockito;
 
 /**
  * Test for {@link FutureCallback}.
