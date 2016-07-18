@@ -38,13 +38,11 @@ import com.google.common.collect.testing.google.SetGenerators.ContiguousSetHeads
 import com.google.common.collect.testing.google.SetGenerators.ContiguousSetSubsetGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ContiguousSetTailsetGenerator;
 import com.google.common.testing.EqualsTester;
-
+import java.util.Collection;
+import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import java.util.Collection;
-import java.util.Set;
 
 /**
  * @author Gregory Kick

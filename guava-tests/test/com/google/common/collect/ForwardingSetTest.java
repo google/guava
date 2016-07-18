@@ -23,14 +23,12 @@ import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@code ForwardingSet}.

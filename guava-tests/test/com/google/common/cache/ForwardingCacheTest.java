@@ -22,10 +22,8 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
-import junit.framework.TestCase;
-
 import java.util.concurrent.ExecutionException;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link ForwardingCache}.

@@ -18,13 +18,12 @@ package com.google.common.collect.testing;
 
 import static com.google.common.collect.testing.testers.CollectionCreationTester.getCreateWithNullUnsupportedMethod;
 
-import junit.framework.Test;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Queue;
+import junit.framework.Test;
 
 /**
  * Tests the {@link Queue} implementations of {@link java.util}, suppressing

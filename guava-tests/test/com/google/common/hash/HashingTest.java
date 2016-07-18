@@ -27,9 +27,6 @@ import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.util.concurrent.AtomicLongMap;
-
-import junit.framework.TestCase;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
@@ -37,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Hashing}.

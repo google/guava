@@ -18,11 +18,9 @@ import static com.google.common.base.Charsets.UTF_16LE;
 import static org.junit.Assert.assertArrayEquals;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
-import junit.framework.TestCase;
-
 import java.io.ByteArrayOutputStream;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Tests for AbstractByteHasher.

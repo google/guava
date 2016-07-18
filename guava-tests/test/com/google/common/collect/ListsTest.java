@@ -39,11 +39,6 @@ import com.google.common.collect.testing.google.ListGenerators.CharactersOfCharS
 import com.google.common.collect.testing.google.ListGenerators.CharactersOfStringGenerator;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,6 +50,9 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 import java.util.concurrent.CopyOnWriteArrayList;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Unit test for {@code Lists}.

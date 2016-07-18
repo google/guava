@@ -24,9 +24,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.GcFinalization;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
@@ -34,6 +31,7 @@ import java.lang.reflect.Field;
 import java.net.URLClassLoader;
 import java.util.HashSet;
 import java.util.Set;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Enums}.

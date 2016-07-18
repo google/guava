@@ -29,13 +29,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Iterables;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.security.Permission;
 import java.security.Policy;
 import java.security.ProtectionDomain;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Throwables}.

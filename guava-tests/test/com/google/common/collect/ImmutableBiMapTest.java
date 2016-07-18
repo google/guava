@@ -32,16 +32,14 @@ import com.google.common.collect.testing.google.BiMapGenerators.ImmutableBiMapGe
 import com.google.common.collect.testing.google.BiMapInverseTester;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@link ImmutableBiMap}.

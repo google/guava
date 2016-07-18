@@ -23,12 +23,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
-
-import org.junit.After;
-import org.junit.Test;
-
 import java.util.Collections;
 import java.util.Set;
+import org.junit.After;
+import org.junit.Test;
 
 /**
  * Abstract base class for testing implementations of {@link Network} interface.

@@ -23,13 +23,11 @@ import static java.util.Collections.emptyList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Unit test for IteratorTester.

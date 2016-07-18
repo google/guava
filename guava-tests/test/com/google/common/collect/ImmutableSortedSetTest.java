@@ -37,10 +37,6 @@ import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSet
 import com.google.common.collect.testing.testers.SetHashCodeTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -50,6 +46,8 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Unit tests for {@link ImmutableSortedSet}.

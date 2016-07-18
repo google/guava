@@ -19,15 +19,13 @@ package com.google.common.io;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.primitives.Bytes;
-
-import junit.framework.TestCase;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import junit.framework.TestCase;
 
 /**
  * Test class for {@link LittleEndianDataInputStream}.

@@ -17,14 +17,12 @@
 package com.google.common.graph;
 
 import com.google.common.testing.EqualsTester;
-
+import java.util.Arrays;
+import java.util.Collection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-
-import java.util.Arrays;
-import java.util.Collection;
 
 @AndroidIncompatible
 // TODO(cpovirk): Figure out Android JUnit 4 support. Does it work with Gingerbread? @RunWith?

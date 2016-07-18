@@ -20,13 +20,11 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
-
-import junit.framework.TestCase;
-
 import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@code TopKSelector}.

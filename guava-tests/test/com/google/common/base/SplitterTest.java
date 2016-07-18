@@ -22,13 +22,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import junit.framework.TestCase;
 
 /**
  * @author Julien Silland

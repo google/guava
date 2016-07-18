@@ -22,12 +22,10 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
+import junit.framework.TestCase;
 
 /**
  * @author Charles Fry

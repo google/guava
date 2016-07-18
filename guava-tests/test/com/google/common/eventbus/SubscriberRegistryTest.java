@@ -18,10 +18,8 @@ package com.google.common.eventbus;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
-
-import junit.framework.TestCase;
-
 import java.util.Iterator;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link SubscriberRegistry}.

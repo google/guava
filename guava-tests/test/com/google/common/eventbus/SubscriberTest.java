@@ -19,11 +19,9 @@ package com.google.common.eventbus;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.testing.EqualsTester;
-
-import junit.framework.TestCase;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Subscriber}.

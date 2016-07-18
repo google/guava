@@ -35,9 +35,6 @@ import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -56,8 +53,8 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import javax.annotation.Nullable;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@code Multimaps}.

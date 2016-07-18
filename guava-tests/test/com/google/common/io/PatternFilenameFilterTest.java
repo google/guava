@@ -16,11 +16,10 @@
 
 package com.google.common.io;
 
-import junit.framework.TestCase;
-
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.regex.PatternSyntaxException;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link PatternFilenameFilter}.

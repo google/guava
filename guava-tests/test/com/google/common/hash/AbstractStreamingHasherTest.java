@@ -22,9 +22,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.hash.AbstractStreamingHashFunction.AbstractStreamingHasher;
 import com.google.common.hash.HashTestUtils.RandomHasherAction;
-
-import junit.framework.TestCase;
-
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -33,6 +30,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Tests for AbstractStreamingHasher.

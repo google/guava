@@ -24,11 +24,6 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -36,6 +31,9 @@ import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedSet;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 public class SafeTreeSetTest extends TestCase {
   public static Test suite() {

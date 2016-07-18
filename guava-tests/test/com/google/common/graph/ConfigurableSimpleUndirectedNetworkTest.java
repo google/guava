@@ -20,11 +20,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import java.util.Set;
 
 /**
  * Tests for an undirected {@link ConfigurableMutableNetwork}, creating a simple undirected graph

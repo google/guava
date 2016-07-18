@@ -30,11 +30,6 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetFeature;
 import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,6 +37,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Unit test for {@link TreeMultiset}.

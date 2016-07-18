@@ -20,11 +20,9 @@ import static com.google.common.hash.Hashing.murmur3_128;
 
 import com.google.common.base.Charsets;
 import com.google.common.hash.HashTestUtils.HashFn;
-
-import junit.framework.TestCase;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Murmur3_128HashFunction}.

@@ -21,11 +21,9 @@ import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-
-import junit.framework.TestCase;
-
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link AbstractCache}.

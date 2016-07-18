@@ -23,9 +23,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Arrays;
@@ -41,6 +38,7 @@ import java.util.Queue;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.SortedSet;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@code MapConstraints}.

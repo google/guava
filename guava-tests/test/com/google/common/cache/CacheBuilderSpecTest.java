@@ -22,10 +22,8 @@ import static com.google.common.cache.TestingWeighers.constantWeigher;
 import com.google.common.base.Suppliers;
 import com.google.common.cache.LocalCache.Strength;
 import com.google.common.testing.EqualsTester;
-
-import junit.framework.TestCase;
-
 import java.util.concurrent.TimeUnit;
+import junit.framework.TestCase;
 
 /**
  * Tests CacheBuilderSpec.

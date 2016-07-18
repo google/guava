@@ -20,10 +20,9 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import junit.framework.TestCase;
-
 import java.io.Flushable;
 import java.io.IOException;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Flushables}.

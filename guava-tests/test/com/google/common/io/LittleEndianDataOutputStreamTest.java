@@ -18,14 +18,12 @@ package com.google.common.io;
 
 import com.google.common.base.Charsets;
 import com.google.common.primitives.Bytes;
-
-import junit.framework.TestCase;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.IOException;
+import junit.framework.TestCase;
 
 /**
  * Test class for {@link LittleEndianDataOutputStream}.

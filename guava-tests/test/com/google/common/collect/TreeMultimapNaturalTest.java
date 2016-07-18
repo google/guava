@@ -35,11 +35,6 @@ import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.SortedSetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
@@ -53,6 +48,9 @@ import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Unit tests for {@code TreeMultimap} with natural ordering.

@@ -22,9 +22,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.testing.FakeTicker;
-
-import junit.framework.TestCase;
-
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,6 +30,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import junit.framework.TestCase;
 
 /**
  * Test suite for {@link CacheBuilder}.

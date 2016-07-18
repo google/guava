@@ -24,13 +24,11 @@ import static org.junit.Assert.fail;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
-
+import java.util.Collection;
+import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import java.util.Collection;
-import java.util.Set;
 
 /**
  * Tests for {@link Graphs}. Tests assume that the implementation of the method

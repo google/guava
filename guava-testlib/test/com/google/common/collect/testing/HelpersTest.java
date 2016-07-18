@@ -20,15 +20,13 @@ import static com.google.common.collect.testing.Helpers.NullsBeforeB;
 import static com.google.common.collect.testing.Helpers.testComparator;
 
 import com.google.common.annotations.GwtCompatible;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Helpers}.

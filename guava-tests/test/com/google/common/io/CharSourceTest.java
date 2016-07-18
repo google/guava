@@ -26,9 +26,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.testing.TestLogHandler;
-
-import junit.framework.TestSuite;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -36,6 +33,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.EnumSet;
 import java.util.List;
+import junit.framework.TestSuite;
 
 /**
  * Tests for the default implementations of {@code CharSource} methods.

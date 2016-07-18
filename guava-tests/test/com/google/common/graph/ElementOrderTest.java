@@ -22,12 +22,10 @@ import static com.google.common.graph.ElementOrder.unordered;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Ordering;
-
+import java.util.Comparator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import java.util.Comparator;
 
 /**
  * Tests for ordering the elements of graphs.

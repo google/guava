@@ -20,10 +20,8 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.io.ByteArrayOutputStream;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link HashingOutputStream}.

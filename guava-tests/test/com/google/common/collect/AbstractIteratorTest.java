@@ -19,12 +19,10 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.GcFinalization;
-
-import junit.framework.TestCase;
-
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@code AbstractIterator}.
