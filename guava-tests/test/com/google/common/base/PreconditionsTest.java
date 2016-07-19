@@ -17,7 +17,22 @@
 package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Throwables.catchException;
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -26,15 +41,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.testing.ArbitraryInstances;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Unit test for {@link Preconditions}.
@@ -531,5 +537,180 @@ public class PreconditionsTest extends TestCase {
 
   private static void verifyComplexMessage(Exception e) {
     assertThat(e).hasMessage("I ate 5 pies.");
+  }
+
+  @GwtIncompatible
+  public void testThatArgumentExceptionIsThrownWithMessageFromCallback() {
+    // given
+    final boolean falseExpression = false;
+    @SuppressWarnings("unchecked")
+    final Supplier<Object> errorMessageCallback = mock(Supplier.class);
+    String errorMessage = "error";
+    when(errorMessageCallback.get()).thenReturn(errorMessage);
+
+    // when
+    Throwable caughtException = catchException(new ThrowableAction() {
+      @Override
+      public void call() {
+        Preconditions.checkArgument(falseExpression, errorMessageCallback);
+      }
+    });
+
+    // then
+    assertThat(caughtException).isNotNull();
+    assertThat(caughtException).isInstanceOf(IllegalArgumentException.class);
+    assertThat(caughtException).hasMessage(errorMessage);
+  }
+
+  @GwtIncompatible
+  public void testThatErrorMessageCallbackIsNotCalledWhenArgumentExceptionIsNotThrown() {
+    // given
+    final boolean trueExpression = true;
+    @SuppressWarnings("unchecked")
+    final Supplier<Object> errorMessageCallback = mock(Supplier.class);
+
+    // when
+    Throwable caughtException = catchException(new ThrowableAction() {
+      @Override
+      public void call() {
+        Preconditions.checkArgument(trueExpression, errorMessageCallback);
+      }
+    });
+
+    // then
+    assertThat(caughtException).isNull();
+    verify(errorMessageCallback, never()).get();
+  }
+
+  @GwtIncompatible
+  public void testThatStateExceptionIsThrownWithMessageFromCallback() {
+    // given
+    final boolean falseExpression = false;
+    @SuppressWarnings("unchecked")
+    final Supplier<Object> errorMessageCallback = mock(Supplier.class);
+    String errorMessage = "error";
+    when(errorMessageCallback.get()).thenReturn(errorMessage);
+
+    // when
+    Throwable caughtException = catchException(new ThrowableAction() {
+      @Override
+      public void call() {
+        Preconditions.checkState(falseExpression, errorMessageCallback);
+      }
+    });
+
+    // then
+    assertThat(caughtException).isNotNull();
+    assertThat(caughtException).isInstanceOf(IllegalStateException.class);
+    assertThat(caughtException).hasMessage(errorMessage);
+  }
+
+  @GwtIncompatible
+  public void testThatErrorMessageCallbackIsNotCalledWhenStateExceptionIsNotThrown() {
+    // given
+    final boolean trueExpression = true;
+    @SuppressWarnings("unchecked")
+    final Supplier<Object> errorMessageCallback = mock(Supplier.class);
+
+    // when
+    Throwable caughtException = catchException(new ThrowableAction() {
+      @Override
+      public void call() {
+        Preconditions.checkState(trueExpression, errorMessageCallback);
+      }
+    });
+
+    // then
+    assertThat(caughtException).isNull();
+    verify(errorMessageCallback, never()).get();
+  }
+
+  @GwtIncompatible
+  public void testThatNullExceptionIsThrownWithMessageFromCallback() {
+    // given
+    final Object nullReference = null;
+    @SuppressWarnings("unchecked")
+    final Supplier<Object> errorMessageCallback = mock(Supplier.class);
+    String errorMessage = "error";
+    when(errorMessageCallback.get()).thenReturn(errorMessage);
+
+    // when
+    Throwable caughtException = catchException(new ThrowableAction() {
+      @Override
+      public void call() {
+        Preconditions.checkNotNull(nullReference, errorMessageCallback);
+       }
+    });
+
+    // then
+    assertThat(caughtException).isNotNull();
+    assertThat(caughtException).isInstanceOf(NullPointerException.class);
+    assertThat(caughtException).hasMessage(errorMessage);
+  }
+
+  @GwtIncompatible
+  public void testThatErrorMessageCallbackIsNotCalledWhenNullExceptionIsNotThrown() {
+    // given
+    final Object notNullReference = new Object();
+    @SuppressWarnings("unchecked")
+    final Supplier<Object> errorMessageCallback = mock(Supplier.class);
+    @SuppressWarnings("unchecked")
+    final Function<Object, Void> result = mock(Function.class);
+
+    // when
+    Throwable caughtException = catchException(new ThrowableAction() {
+      @Override
+      public void call() {
+        Object checkResult = Preconditions.checkNotNull(
+          notNullReference, errorMessageCallback);
+          result.apply(checkResult);
+      }
+    });
+
+    // then
+    assertThat(caughtException).isNull();
+    verify(errorMessageCallback, never()).get();
+    verify(result).apply(notNullReference);
+  }
+
+  @GwtIncompatible
+  public void testThatExceptionFromCallbackIsThrownWhenGivenExpressionIfFalse()
+    throws IOException {
+    // given
+    final boolean falseExpression = false;
+    final IOException exception = new IOException();
+    @SuppressWarnings("unchecked")
+    final Supplier<IOException> exceptionCallback = mock(Supplier.class);
+    when(exceptionCallback.get()).thenReturn(exception);
+
+    // when
+    Throwable caughtException = catchException(new ThrowableAction() {
+      @Override
+      public void call() throws IOException {
+        Preconditions.check(falseExpression, exceptionCallback);
+      }});
+
+    // then
+    assertThat(caughtException).isEqualTo(exception);
+  }
+
+  @GwtIncompatible
+  public void testThatExceptionCallbackIsNotCalledWhenExpressionIsTrue()
+    throws IOException {
+    // given
+    final boolean trueExpression = true;
+    @SuppressWarnings("unchecked")
+    final Supplier<IOException> exceptionCallback = mock(Supplier.class);
+
+    // when
+    Throwable caughtException = catchException(new ThrowableAction() {
+      @Override
+      public void call() throws IOException {
+        Preconditions.check(trueExpression, exceptionCallback);
+      }});
+
+    // then
+    assertThat(caughtException).isNull();
+    verify(exceptionCallback, never()).get();
   }
 }
