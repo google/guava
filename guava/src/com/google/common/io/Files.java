@@ -386,7 +386,7 @@ public final class Files {
 
   /**
    * Atomically creates a new directory somewhere beneath the system's temporary directory (as
-   * defined by the {@code java.io.tmpdir} system property), and returns its name.
+   * defined by the {@code java.io.tmpdir} system property), and returns it.
    *
    * <p>Use this method instead of {@link File#createTempFile(String, String)} when you wish to
    * create a directory, not a regular file. A common pitfall is to call {@code createTempFile},
@@ -401,7 +401,26 @@ public final class Files {
    * @throws IllegalStateException if the directory could not be created
    */
   public static File createTempDir() {
-    File baseDir = new File(System.getProperty("java.io.tmpdir"));
+    return createTempDir(new File(System.getProperty("java.io.tmpdir")));
+  }
+
+  /**
+   * Atomically creates a new directory beneath a parent directory and returns it.
+   *
+   * <p>Use this method instead of {@link File#createTempFile(String, String, File)} when you wish
+   * to create a directory, not a regular file. A common pitfall is to call {@code createTempFile},
+   * delete the file and create a directory in its place, but this leads a race condition which can
+   * be exploited to create security vulnerabilities, especially when executable files are to be
+   * written into the directory.
+   *
+   * <p>This method assumes that the temporary volume is writable, has free inodes and free blocks,
+   * and that it will not be called thousands of times per second.
+   *
+   * @param baseDir the parent directory
+   * @return the newly-created directory
+   * @throws IllegalStateException if the directory could not be created
+   */
+  public static File createTempDir(File baseDir) {
     String baseName = System.currentTimeMillis() + "-";
 
     for (int counter = 0; counter < TEMP_DIR_ATTEMPTS; counter++) {
