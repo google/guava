@@ -428,12 +428,11 @@ public final class Ascii {
     if (chars instanceof String) {
       return toLowerCase((String) chars);
     }
-    int length = chars.length();
-    StringBuilder builder = new StringBuilder(length);
-    for (int i = 0; i < length; i++) {
-      builder.append(toLowerCase(chars.charAt(i)));
+    char[] newChars = new char[chars.length()];
+    for (int i = 0; i < newChars.length; i++) {
+      newChars[i] = toLowerCase(chars.charAt(i));
     }
-    return builder.toString();
+    return String.valueOf(newChars);
   }
 
   /**
@@ -477,12 +476,11 @@ public final class Ascii {
     if (chars instanceof String) {
       return toUpperCase((String) chars);
     }
-    int length = chars.length();
-    StringBuilder builder = new StringBuilder(length);
-    for (int i = 0; i < length; i++) {
-      builder.append(toUpperCase(chars.charAt(i)));
+    char[] newChars = new char[chars.length()];
+    for (int i = 0; i < newChars.length; i++) {
+      newChars[i] = toUpperCase(chars.charAt(i));
     }
-    return builder.toString();
+    return String.valueOf(newChars);
   }
 
   /**

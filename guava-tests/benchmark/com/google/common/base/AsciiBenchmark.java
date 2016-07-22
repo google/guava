@@ -19,7 +19,6 @@ package com.google.common.base;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.common.base.Ascii;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
 
@@ -34,9 +33,9 @@ import java.util.Random;
  * @author Kevin Bourrillion
  */
 public class AsciiBenchmark {
-  private static String ALPHA =
+  private static final String ALPHA =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  private static String NONALPHA =
+  private static final String NONALPHA =
       "0123456789`~-_=+[]{}|;:',.<>/?!@#$%^&*()\"\\";
 
   @Param({"20", "2000"}) int size;
@@ -47,7 +46,7 @@ public class AsciiBenchmark {
   String testString;
 
   @BeforeExperiment void setUp() {
-    random = new Random();
+    random = new Random(0xdeadbeef);  // fix the seed so results are comparable across runs
 
     int nonAlpha = size / nonAlphaRatio;
     int alpha = size - nonAlpha;
@@ -161,11 +160,10 @@ public class AsciiBenchmark {
   }
 
   static String charSequenceToUpperCase(CharSequence chars) {
-    int length = chars.length();
-    StringBuilder builder = new StringBuilder(length);
-    for (int i = 0; i < length; i++) {
-      builder.append(Ascii.toUpperCase(chars.charAt(i)));
+    char[] newChars = new char[chars.length()];
+    for (int i = 0; i < newChars.length; i++) {
+      newChars[i] = Ascii.toUpperCase(chars.charAt(i));
     }
-    return builder.toString();
+    return String.valueOf(newChars);
   }
 }
