@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public final class Objects {
+public final class Objects extends ExtraObjectsMethodsForWeb {
   private Objects() {}
 
   /**
