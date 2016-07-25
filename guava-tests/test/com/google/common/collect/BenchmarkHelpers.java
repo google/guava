@@ -16,6 +16,10 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkState;
+
+import com.google.common.base.Equivalence;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -26,6 +30,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
@@ -158,6 +163,43 @@ final class BenchmarkHelpers {
       @Override
       <K, V> Map<K, V> create(Map<K, V> map) {
         return ImmutableMap.copyOf(map);
+      }
+    },
+    MapMakerStrongKeysStrongValues {
+      @Override
+      <K, V> Map<K, V> create(Map<K, V> map) {
+        // We use a "custom" equivalence to force MapMaker to make a MapMakerInternalMap.
+        ConcurrentMap<K, V> newMap = new MapMaker().keyEquivalence(Equivalence.equals()).makeMap();
+        checkState(newMap instanceof MapMakerInternalMap);
+        newMap.putAll(map);
+        return newMap;
+      }
+    },
+    MapMakerStrongKeysWeakValues {
+      @Override
+      <K, V> Map<K, V> create(Map<K, V> map) {
+        ConcurrentMap<K, V> newMap = new MapMaker().weakValues().makeMap();
+        checkState(newMap instanceof MapMakerInternalMap);
+        newMap.putAll(map);
+        return newMap;
+      }
+    },
+    MapMakerWeakKeysStrongValues {
+      @Override
+      <K, V> Map<K, V> create(Map<K, V> map) {
+        ConcurrentMap<K, V> newMap = new MapMaker().weakKeys().makeMap();
+        checkState(newMap instanceof MapMakerInternalMap);
+        newMap.putAll(map);
+        return newMap;
+      }
+    },
+    MapMakerWeakKeysWeakValues {
+      @Override
+      <K, V> Map<K, V> create(Map<K, V> map) {
+        ConcurrentMap<K, V> newMap = new MapMaker().weakKeys().weakValues().makeMap();
+        checkState(newMap instanceof MapMakerInternalMap);
+        newMap.putAll(map);
+        return newMap;
       }
     };
 
