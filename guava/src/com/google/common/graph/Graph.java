@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  * including {@link Network}.
  *
  * <p>Users that wish to modify a {@code Graph} must work with its subinterface,
- * {@link MutableNetwork}.
+ * {@link MutableGraph}.
  *
  * <p>This interface permits, but does not enforce, any of the following variations of graphs:
  * <ul>
