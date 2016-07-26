@@ -33,8 +33,11 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
 
   private final ImmutableMap<R, Map<C, V>> rowMap;
   private final ImmutableMap<C, Map<R, V>> columnMap;
+  // For each cell in iteration order, the index of that cell's row key in the row key list.
   private final int[] cellRowIndices;
-  private final int[] cellColumnIndices;
+  // For each cell in iteration order, the index of that cell's column key in the list of column
+  // keys present in that row.
+  private final int[] cellColumnInRowIndices;
 
   SparseImmutableTable(
       ImmutableList<Cell<R, C, V>> cellList,
@@ -50,7 +53,7 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
       columns.put(col, new LinkedHashMap<R, V>());
     }
     int[] cellRowIndices = new int[cellList.size()];
-    int[] cellColumnIndices = new int[cellList.size()];
+    int[] cellColumnInRowIndices = new int[cellList.size()];
     for (int i = 0; i < cellList.size(); i++) {
       Cell<R, C, V> cell = cellList.get(i);
       R rowKey = cell.getRowKey();
@@ -59,7 +62,7 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
 
       cellRowIndices[i] = rowIndex.get(rowKey);
       Map<C, V> thisRow = rows.get(rowKey);
-      cellColumnIndices[i] = thisRow.size();
+      cellColumnInRowIndices[i] = thisRow.size();
       V oldValue = thisRow.put(columnKey, value);
       if (oldValue != null) {
         throw new IllegalArgumentException(
@@ -75,7 +78,7 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
       columns.get(columnKey).put(rowKey, value);
     }
     this.cellRowIndices = cellRowIndices;
-    this.cellColumnIndices = cellColumnIndices;
+    this.cellColumnInRowIndices = cellColumnInRowIndices;
     ImmutableMap.Builder<R, Map<C, V>> rowBuilder =
         new ImmutableMap.Builder<R, Map<C, V>>(rows.size());
     for (Map.Entry<R, Map<C, V>> row : rows.entrySet()) {
@@ -111,7 +114,7 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
     int rowIndex = cellRowIndices[index];
     Map.Entry<R, Map<C, V>> rowEntry = rowMap.entrySet().asList().get(rowIndex);
     ImmutableMap<C, V> row = (ImmutableMap<C, V>) rowEntry.getValue();
-    int columnIndex = cellColumnIndices[index];
+    int columnIndex = cellColumnInRowIndices[index];
     Map.Entry<C, V> colEntry = row.entrySet().asList().get(columnIndex);
     return cellOf(rowEntry.getKey(), colEntry.getKey(), colEntry.getValue());
   }
@@ -120,12 +123,18 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
   V getValue(int index) {
     int rowIndex = cellRowIndices[index];
     ImmutableMap<C, V> row = (ImmutableMap<C, V>) rowMap.values().asList().get(rowIndex);
-    int columnIndex = cellColumnIndices[index];
+    int columnIndex = cellColumnInRowIndices[index];
     return row.values().asList().get(columnIndex);
   }
 
   @Override
   SerializedForm createSerializedForm() {
+    Map<C, Integer> columnKeyToIndex = Maps.indexMap(columnKeySet());
+    int[] cellColumnIndices = new int[cellSet().size()];
+    int i = 0;
+    for (Cell<R, C, V> cell : cellSet()) {
+      cellColumnIndices[i++] = columnKeyToIndex.get(cell.getColumnKey());
+    }
     return SerializedForm.create(this, cellRowIndices, cellColumnIndices);
   }
 }

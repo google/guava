@@ -358,40 +358,100 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     validateReserialization(ImmutableTable.of('a', 2, "foo"));
   }
 
-  public void testSerialization_manualOrder() {
+  public void testDenseSerialization_manualOrder() {
     ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
     builder.put('b', 2, "foo");
     builder.put('b', 1, "bar");
     builder.put('a', 2, "baz");
-    validateReserialization(builder.build());
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(DenseImmutableTable.class);
+    validateReserialization(table);
   }
 
-  public void testSerialization_rowOrder() {
+  public void testDenseSerialization_rowOrder() {
     ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
     builder.orderRowsBy(Ordering.<Character>natural());
     builder.put('b', 2, "foo");
     builder.put('b', 1, "bar");
     builder.put('a', 2, "baz");
-    validateReserialization(builder.build());
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(DenseImmutableTable.class);
+    validateReserialization(table);
   }
 
-  public void testSerialization_columnOrder() {
+  public void testDenseSerialization_columnOrder() {
     ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
     builder.orderColumnsBy(Ordering.<Integer>natural());
     builder.put('b', 2, "foo");
     builder.put('b', 1, "bar");
     builder.put('a', 2, "baz");
-    validateReserialization(builder.build());
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(DenseImmutableTable.class);
+    validateReserialization(table);
   }
 
-  public void testSerialization_bothOrders() {
+  public void testDenseSerialization_bothOrders() {
     ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
     builder.orderRowsBy(Ordering.<Character>natural());
     builder.orderColumnsBy(Ordering.<Integer>natural());
     builder.put('b', 2, "foo");
     builder.put('b', 1, "bar");
     builder.put('a', 2, "baz");
-    validateReserialization(builder.build());
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(DenseImmutableTable.class);
+    validateReserialization(table);
+  }
+
+  public void testSparseSerialization_manualOrder() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    builder.put('c', 3, "cat");
+    builder.put('d', 4, "dog");
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(SparseImmutableTable.class);
+    validateReserialization(table);
+  }
+
+  public void testSparseSerialization_rowOrder() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.orderRowsBy(Ordering.<Character>natural());
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    builder.put('c', 3, "cat");
+    builder.put('d', 4, "dog");
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(SparseImmutableTable.class);
+    validateReserialization(table);
+  }
+
+  public void testSparseSerialization_columnOrder() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.orderColumnsBy(Ordering.<Integer>natural());
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    builder.put('c', 3, "cat");
+    builder.put('d', 4, "dog");
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(SparseImmutableTable.class);
+    validateReserialization(table);
+  }
+
+  public void testSparseSerialization_bothOrders() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.orderRowsBy(Ordering.<Character>natural());
+    builder.orderColumnsBy(Ordering.<Integer>natural());
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    builder.put('c', 3, "cat");
+    builder.put('d', 4, "dog");
+    Table<Character, Integer, String> table = builder.build();
+    assertThat(table).isInstanceOf(SparseImmutableTable.class);
+    validateReserialization(table);
   }
 
   private static <R, C, V> void validateReserialization(Table<R, C, V> original) {
