@@ -19,8 +19,6 @@ import com.google.common.annotations.GwtCompatible;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
 
-import javax.annotation.Nullable;
-
 /**
  * Methods factored out so that they can be emulated differently in GWT.
  *
@@ -48,9 +46,5 @@ final class Platform {
 
   static String formatCompact4Digits(double value) {
     return String.format(Locale.ROOT, "%.4g", value);
-  }
-
-  static boolean stringIsNullOrEmpty(@Nullable String string) {
-    return string == null || string.isEmpty();
   }
 }
