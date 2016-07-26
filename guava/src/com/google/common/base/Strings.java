@@ -65,7 +65,7 @@ public final class Strings {
    * @return {@code true} if the string is null or is the empty string
    */
   public static boolean isNullOrEmpty(@Nullable String string) {
-    return string == null || string.isEmpty();
+    return Platform.stringIsNullOrEmpty(string);
   }
 
   /**

@@ -18,9 +18,12 @@ package com.google.common.base;
 
 import static jsinterop.annotations.JsPackage.GLOBAL;
 
+import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsType;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Nullable;
 
 /**
  * @author Jesse Wilson
@@ -51,6 +54,11 @@ final class Platform {
   static String formatCompact4Digits(double value) {
     return "" + ((Number) (Object) value).toPrecision(4);
   }
+
+  @JsMethod
+  static native boolean stringIsNullOrEmpty(@Nullable String string) /*-{
+    return !string;
+  }-*/;
 
   @JsType(isNative = true, name = "Number", namespace = GLOBAL)
   private static class Number {
