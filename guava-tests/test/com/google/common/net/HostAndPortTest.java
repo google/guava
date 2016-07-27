@@ -17,8 +17,8 @@
 package com.google.common.net;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
-
 import junit.framework.TestCase;
 
 /**
@@ -198,18 +198,11 @@ public class HostAndPortTest extends TestCase {
     HostAndPort hp3 = HostAndPort.fromString("[foo::123]");
     HostAndPort hp4 = HostAndPort.fromParts("[foo::123]", 80);
     HostAndPort hp5 = HostAndPort.fromString("[foo::123]:80");
-    assertEquals(hp1.hashCode(), hp1.hashCode());
-    assertEquals(hp1.hashCode(), hp2.hashCode());
-    assertFalse(hp1.hashCode() == hp3.hashCode());
-    assertFalse(hp3.hashCode() == hp4.hashCode());
-    assertEquals(hp4.hashCode(), hp5.hashCode());
-
-    assertTrue(hp1.equals(hp1));
-    assertTrue(hp1.equals(hp2));
-    assertFalse(hp1.equals(hp3));
-    assertFalse(hp3.equals(hp4));
-    assertTrue(hp4.equals(hp5));
-    assertFalse(hp1.equals(null));
+    new EqualsTester()
+        .addEqualityGroup(hp1, hp2)
+        .addEqualityGroup(hp3)
+        .addEqualityGroup(hp4, hp5)
+        .testEquals();
   }
 
   public void testRequireBracketsForIPv6() {
