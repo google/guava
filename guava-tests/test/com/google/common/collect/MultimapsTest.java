@@ -33,6 +33,7 @@ import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
+import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.io.Serializable;
@@ -399,10 +400,10 @@ public class MultimapsTest extends TestCase {
     multimap.put("foo", 1);
     multimap.put("bar", 2);
     Multimap<String, Integer> multimapView = Multimaps.forMap(map);
-    assertTrue(multimap.equals(multimapView));
-    assertTrue(multimapView.equals(multimap));
-    assertTrue(multimapView.equals(multimapView));
-    assertFalse(multimapView.equals(map));
+    new EqualsTester()
+        .addEqualityGroup(multimap, multimapView)
+        .addEqualityGroup(map)
+        .testEquals();
     Multimap<String, Integer> multimap2 = HashMultimap.create();
     multimap2.put("foo", 1);
     assertFalse(multimapView.equals(multimap2));
