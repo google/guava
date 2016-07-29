@@ -37,8 +37,8 @@ public final class EndpointsTest {
     Endpoints<String> directed = Endpoints.ofDirected("source", "target");
     assertThat(directed.source()).isEqualTo("source");
     assertThat(directed.target()).isEqualTo("target");
-    assertThat(directed.otherNode("source")).isEqualTo("target");
-    assertThat(directed.otherNode("target")).isEqualTo("source");
+    assertThat(directed.adjacentNode("source")).isEqualTo("target");
+    assertThat(directed.adjacentNode("target")).isEqualTo("source");
     assertThat(directed).containsExactly("source", "target").inOrder();
     assertThat(directed.toString()).isEqualTo("<source -> target>");
   }
@@ -46,8 +46,8 @@ public final class EndpointsTest {
   @Test
   public void testUndirectedEndpoints() {
     Endpoints<String> undirected = Endpoints.ofUndirected("chicken", "egg");
-    assertThat(undirected.otherNode("chicken")).isEqualTo("egg");
-    assertThat(undirected.otherNode("egg")).isEqualTo("chicken");
+    assertThat(undirected.adjacentNode("chicken")).isEqualTo("egg");
+    assertThat(undirected.adjacentNode("egg")).isEqualTo("chicken");
     assertThat(undirected).containsExactly("chicken", "egg");
     assertThat(undirected.toString()).contains("chicken");
     assertThat(undirected.toString()).contains("egg");
@@ -56,13 +56,13 @@ public final class EndpointsTest {
   @Test
   public void testSelfLoop() {
     Endpoints<String> undirected = Endpoints.ofUndirected("node", "node");
-    assertThat(undirected.otherNode("node")).isEqualTo("node");
+    assertThat(undirected.adjacentNode("node")).isEqualTo("node");
     assertThat(undirected).hasSize(2);
     assertThat(undirected.toString()).isEqualTo("[node, node]");
   }
 
   @Test
-  public void testOtherNode_nodeNotIncident() {
+  public void testAdjacentNode_nodeNotIncident() {
     List<MutableNetwork<Integer, String>> testGraphs = ImmutableList.of(
         NetworkBuilder.directed().<Integer, String>build(),
         NetworkBuilder.undirected().<Integer, String>build());
@@ -70,8 +70,8 @@ public final class EndpointsTest {
       graph.addEdge("1-2", 1, 2);
       Endpoints<Integer> endpoints = graph.incidentNodes("1-2");
       try {
-        endpoints.otherNode(3);
-        fail("Should have rejected otherNode() called with a node not incident to edge.");
+        endpoints.adjacentNode(3);
+        fail("Should have rejected adjacentNode() called with a node not incident to edge.");
       } catch (IllegalArgumentException expected) {
       }
     }

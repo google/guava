@@ -22,7 +22,6 @@ import static com.google.common.graph.GraphConstants.NOT_AVAILABLE_ON_UNDIRECTED
 import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
 import com.google.common.collect.UnmodifiableIterator;
-
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.NoSuchElementException;
@@ -107,7 +106,7 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
    *
    * @throws IllegalArgumentException if the origin edge is not incident to {@code node}
    */
-  public final N otherNode(Object node) {
+  public final N adjacentNode(Object node) {
     checkNotNull(node, "node");
     if (node.equals(nodeA())) {
       return nodeB();

@@ -43,14 +43,14 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
     for (Integer node : graph.nodes()) {
       for (String inEdge : graph.inEdges(node)) {
         Endpoints<Integer> endpoints = graph.incidentNodes(inEdge);
-        assertThat(endpoints.source()).isEqualTo(endpoints.otherNode(node));
+        assertThat(endpoints.source()).isEqualTo(endpoints.adjacentNode(node));
         assertThat(endpoints.target()).isEqualTo(node);
       }
 
       for (String outEdge : graph.outEdges(node)) {
         Endpoints<Integer> endpoints = graph.incidentNodes(outEdge);
         assertThat(endpoints.source()).isEqualTo(node);
-        assertThat(endpoints.target()).isEqualTo(endpoints.otherNode(node));
+        assertThat(endpoints.target()).isEqualTo(endpoints.adjacentNode(node));
       }
 
       for (Integer adjacentNode : graph.adjacentNodes(node)) {

@@ -164,9 +164,9 @@ public final class Graphs {
     }
     for (N node : subgraph.nodes()) {
       for (E edge : graph.outEdges(node)) {
-        N otherNode = graph.incidentNodes(edge).otherNode(node);
-        if (subgraph.nodes().contains(otherNode)) {
-          subgraph.addEdge(edge, node, otherNode);
+        N adjacentNode = graph.incidentNodes(edge).adjacentNode(node);
+        if (subgraph.nodes().contains(adjacentNode)) {
+          subgraph.addEdge(edge, node, adjacentNode);
         }
       }
     }

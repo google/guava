@@ -220,12 +220,13 @@ public abstract class AbstractNetworkTest {
 
       for (String inEdge : graph.inEdges(node)) {
         assertThat(graph.incidentEdges(node)).contains(inEdge);
-        assertThat(graph.outEdges(graph.incidentNodes(inEdge).otherNode(node))).contains(inEdge);
+        assertThat(graph.outEdges(graph.incidentNodes(inEdge).adjacentNode(node))).contains(inEdge);
       }
 
       for (String outEdge : graph.outEdges(node)) {
         assertThat(graph.incidentEdges(node)).contains(outEdge);
-        assertThat(graph.inEdges(graph.incidentNodes(outEdge).otherNode(node))).contains(outEdge);
+        assertThat(graph.inEdges(graph.incidentNodes(outEdge).adjacentNode(node)))
+            .contains(outEdge);
       }
 
       for (Integer adjacentNode : graph.adjacentNodes(node)) {
