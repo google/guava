@@ -76,7 +76,6 @@ public final class GraphBuilder<N> {
    */
   public static <N> GraphBuilder<N> from(Graph<N> graph) {
     checkNotNull(graph);
-    // TODO(b/28087289): add allowsParallelEdges() once we support them
     return new GraphBuilder<Object>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
         .nodeOrder(graph.nodeOrder())

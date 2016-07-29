@@ -39,19 +39,16 @@ public abstract class AbstractGraph<N> implements Graph<N> {
 
   @Override
   public int degree(Object node) {
-    // TODO(b/28087289): only works for non-multigraphs; multigraphs not yet supported
     return adjacentNodes(node).size();
   }
 
   @Override
   public int inDegree(Object node) {
-    // TODO(b/28087289): only works for non-multigraphs; multigraphs not yet supported
     return predecessors(node).size();
   }
 
   @Override
   public int outDegree(Object node) {
-    // TODO(b/28087289): only works for non-multigraphs; multigraphs not yet supported
     return successors(node).size();
   }
 

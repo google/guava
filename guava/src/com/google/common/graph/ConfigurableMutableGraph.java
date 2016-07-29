@@ -77,7 +77,6 @@ final class ConfigurableMutableGraph<N>
     checkNotNull(nodeB, "nodeB");
 
     GraphConnections<N> connectionsA = nodeConnections.get(nodeA);
-    // TODO(b/28087289): does not support parallel edges
     if (connectionsA != null && connectionsA.successors().contains(nodeB)) {
       return false;
     }

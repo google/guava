@@ -47,7 +47,7 @@ public final class ImmutableGraph<N> extends AbstractConfigurableGraph<N> {
    */
   @SuppressWarnings("unchecked")
   public static <N> ImmutableGraph<N> copyOf(Graph<N> graph) {
-    // TODO(b/28087289): we can remove this restriction when Graph supports parallel edges
+    // TODO(user): Consider dropping this restriction. Would this do what users expect?
     checkArgument(!((graph instanceof Network) && ((Network<N, ?>) graph).allowsParallelEdges()),
         NETWORK_WITH_PARALLEL_EDGE);
     return (graph instanceof ImmutableGraph)

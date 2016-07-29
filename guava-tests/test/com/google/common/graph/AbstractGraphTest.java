@@ -127,7 +127,6 @@ public abstract class AbstractGraphTest {
 
     String graphString = graph.toString();
     assertThat(graphString).contains("isDirected: " + graph.isDirected());
-    // TODO(b/28087289): add test for allowsParallelEdges when supported
     assertThat(graphString).contains("allowsSelfLoops: " + graph.allowsSelfLoops());
 
     int nodeStart = graphString.indexOf("nodes:");
@@ -137,7 +136,6 @@ public abstract class AbstractGraphTest {
     for (Integer node : graph.nodes()) {
       assertThat(nodeString).contains(node.toString());
 
-      // TODO(b/28087289): update if support for parallel edges added
       assertThat(graph.adjacentNodes(node)).hasSize(graph.degree(node));
       assertThat(graph.predecessors(node)).hasSize(graph.inDegree(node));
       assertThat(graph.successors(node)).hasSize(graph.outDegree(node));

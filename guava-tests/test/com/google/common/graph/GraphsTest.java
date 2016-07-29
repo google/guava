@@ -368,7 +368,6 @@ public class GraphsTest {
     MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
     directedGraph.addEdge(N1, N1);
     directedGraph.addEdge(N1, N2);
-    // TODO(b/28087289): add parallel edges to test
     directedGraph.addEdge(N2, N1);
 
     return directedGraph;
@@ -378,7 +377,6 @@ public class GraphsTest {
     MutableGraph<Integer> undirectedGraph = GraphBuilder.undirected().build();
     undirectedGraph.addEdge(N1, N1);
     undirectedGraph.addEdge(N1, N2);
-    // TODO(b/28087289): add parallel edges to test
     undirectedGraph.addEdge(N2, N1);
 
     return undirectedGraph;

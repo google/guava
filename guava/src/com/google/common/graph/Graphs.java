@@ -178,7 +178,7 @@ public final class Graphs {
    */
   public static <N> MutableGraph<N> copyOf(Graph<N> graph) {
     checkNotNull(graph, "graph");
-    // TODO(b/28087289): we can remove this restriction when Graph supports parallel edges
+    // TODO(user): Consider dropping this restriction. Would this do what users expect?
     checkArgument(!allowsParallelEdges(graph), NETWORK_WITH_PARALLEL_EDGE);
     MutableGraph<N> copy = GraphBuilder.from(graph)
         .expectedNodeCount(graph.nodes().size())
