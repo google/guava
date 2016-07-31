@@ -25,6 +25,7 @@ import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.util.AbstractSet;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link Graph}. It is recommended to extend
@@ -70,7 +71,7 @@ public abstract class AbstractGraph<N> implements Graph<N> {
       }
 
       @Override
-      public boolean contains(Object obj) {
+      public boolean contains(@Nullable Object obj) {
         if (!(obj instanceof EndpointPair)) {
           return false;
         }

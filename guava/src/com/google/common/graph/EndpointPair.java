@@ -23,6 +23,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
+import javax.annotation.Nullable;
 
 /**
  * An immutable pair representing the two (possibly equal, in the case of a self-loop) endpoints of
@@ -128,7 +129,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
    * ordered {@link EndpointPair} is never equal to an unordered {@link EndpointPair}.
    */
   @Override
-  public abstract boolean equals(Object obj);
+  public abstract boolean equals(@Nullable Object obj);
 
   /**
    * The hashcode of an ordered {@link EndpointPair} is equal to {@code Objects.hashCode(source(),
@@ -159,7 +160,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj == this) {
         return true;
       }
@@ -207,7 +208,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj == this) {
         return true;
       }

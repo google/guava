@@ -29,6 +29,7 @@ import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link Network}. It is recommended to extend
@@ -76,7 +77,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
           }
 
           @Override
-          public boolean contains(Object obj) {
+          public boolean contains(@Nullable Object obj) {
             if (!(obj instanceof EndpointPair)) {
               return false;
             }
