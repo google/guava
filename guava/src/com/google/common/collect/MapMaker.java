@@ -269,7 +269,7 @@ public final class MapMaker {
     if (!useCustomMap) {
       return new ConcurrentHashMap<K, V>(getInitialCapacity(), 0.75f, getConcurrencyLevel());
     }
-    return new MapMakerInternalMap<K, V>(this);
+    return MapMakerInternalMap.create(this);
   }
 
   /**
@@ -277,8 +277,8 @@ public final class MapMaker {
    * class not exposed through ConcurrentMap.
    */
   @GwtIncompatible // MapMakerInternalMap
-  <K, V> MapMakerInternalMap<K, V> makeCustomMap() {
-    return new MapMakerInternalMap<K, V>(this);
+  <K, V> MapMakerInternalMap<K, V, ?, ?> makeCustomMap() {
+    return MapMakerInternalMap.create(this);
   }
 
   /**

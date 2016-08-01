@@ -20,7 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
-import com.google.common.collect.MapMakerInternalMap.ReferenceEntry;
+import com.google.common.collect.MapMakerInternalMap.InternalEntry;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -64,14 +64,14 @@ public final class Interners {
 
   private static class WeakInterner<E> implements Interner<E> {
     // MapMaker is our friend, we know about this type
-    private final MapMakerInternalMap<E, Dummy> map =
+    private final MapMakerInternalMap<E, Dummy, ?, ?> map =
         new MapMaker().weakKeys().keyEquivalence(Equivalence.equals()).makeCustomMap();
 
     @Override
     public E intern(E sample) {
       while (true) {
         // trying to read the canonical...
-        ReferenceEntry<E, Dummy> entry = map.getEntry(sample);
+        InternalEntry<E, Dummy, ?> entry = map.getEntry(sample);
         if (entry != null) {
           E canonical = entry.getKey();
           if (canonical != null) { // only matters if weak/soft keys are used
