@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.Maps;
-
 import java.util.Map;
 
 /**
@@ -55,6 +54,14 @@ public final class GraphProperties {
       }
     }
     return false;
+  }
+
+  /**
+   * See {@link #isCyclic(Graph)}.
+   */
+  // TODO(b/27628622): When migrating to Graphs, remove this method and make clients call asGraph().
+  public static boolean isCyclic(Network<?, ?> network) {
+    return isCyclic(network.asGraph());
   }
 
   /**

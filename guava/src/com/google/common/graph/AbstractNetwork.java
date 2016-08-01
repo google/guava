@@ -25,9 +25,9 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * This class provides a skeletal implementation of {@link Graph}. It is recommended to extend this
- * class rather than implement {@link Graph} directly, to ensure consistent {@link #equals(Object)}
- * and {@link #hashCode()} results across different graph implementations.
+ * This class provides a skeletal implementation of {@link Network}. It is recommended to extend
+ * this class rather than implement {@link Network} directly, to ensure consistent
+ * {@link #equals(Object)} and {@link #hashCode()} results across different graph implementations.
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -36,6 +36,46 @@ import javax.annotation.Nullable;
  */
 @Beta
 public abstract class AbstractNetwork<N, E> implements Network<N, E> {
+
+  @Override
+  public Graph<N> asGraph() {
+    return new AbstractGraph<N>() {
+      @Override
+      public Set<N> nodes() {
+        return AbstractNetwork.this.nodes();
+      }
+
+      @Override
+      public ElementOrder<? super N> nodeOrder() {
+        return AbstractNetwork.this.nodeOrder();
+      }
+
+      @Override
+      public boolean isDirected() {
+        return AbstractNetwork.this.isDirected();
+      }
+
+      @Override
+      public boolean allowsSelfLoops() {
+        return AbstractNetwork.this.allowsSelfLoops();
+      }
+
+      @Override
+      public Set<N> adjacentNodes(Object node) {
+        return AbstractNetwork.this.adjacentNodes(node);
+      }
+
+      @Override
+      public Set<N> predecessors(Object node) {
+        return AbstractNetwork.this.predecessors(node);
+      }
+
+      @Override
+      public Set<N> successors(Object node) {
+        return AbstractNetwork.this.successors(node);
+      }
+    };
+  }
 
   @Override
   public int degree(Object node) {

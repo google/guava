@@ -22,9 +22,11 @@ import javax.annotation.Nullable;
 
 /**
  * A network consisting of a set of nodes of type N and a set of edges of type E.
- * That is, a subtype of {@link Graph} that represents edges as explicit first-class objects.
- * Users that are not interested in edges as first-class objects should use a {@link Graph}
- * instead.
+ * Unlike {@link Graph}, {@link Network} represents edges as explicit first-class objects.
+ * Users that are not interested in edges as first-class objects should use the {@link Graph}
+ * interface instead.
+ *
+ * <p>For convenience, we may use the term 'graph' refer to {@link Graph}s and/or {@link Network}s.
  *
  * <p>Users that wish to modify a {@code Network} must work with its subinterface,
  * {@code MutableNetwork}.
@@ -204,18 +206,43 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
-public interface Network<N, E> extends Graph<N> {
+public interface Network<N, E> {
+  //
+  // Network-level accessors
+  //
+  
+  /**
+   * Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}.
+   */
+  Set<N> nodes();
+
   /**
    * Returns all edges in this network, in the order specified by {@link #edgeOrder()}.
    */
   Set<E> edges();
+  
+  /**
+   * Returns the order of iteration for the elements of {@link #nodes()}.
+   */
+  ElementOrder<? super N> nodeOrder();
+
+  /**
+   * Returns the order of iteration for the elements of {@link #edges()}.
+   */
+  ElementOrder<? super E> edgeOrder();
+  
+  /**
+   * Returns a live view of this graph as a {@link Graph}. The resulting {@link Graph} will have an
+   * edge connecting node A to node B iff this {@link Network} has an edge connecting A to B.
+   */
+  Graph<N> asGraph();
 
   //
-  // Graph properties
+  // Network properties
   //
 
   /**
-   * {@inheritDoc}
+   * Returns true if the edges in this graph have a direction associated with them.
    *
    * <p>A directed edge is an {@linkplain #outEdges(Object) outgoing edge} of its
    * {@linkplain Endpoints#source() source}, and an {@linkplain #inEdges(Object) incoming edge}
@@ -224,8 +251,14 @@ public interface Network<N, E> extends Graph<N> {
    * {@linkplain #outEdges(Object) outgoing edge} and {@linkplain #inEdges(Object) incoming edge}
    * of each incident node.
    */
-  @Override
   boolean isDirected();
+
+  /**
+   * Returns true if this graph allows self-loops (edges that connect a node to itself).
+   * Attempting to add a self-loop to a graph that does not allow them will throw an
+   * {@link UnsupportedOperationException}.
+   */
+  boolean allowsSelfLoops();
 
   /**
    * Returns true if this graph allows parallel edges. Attempting to add a parallel edge to a graph
@@ -233,14 +266,35 @@ public interface Network<N, E> extends Graph<N> {
    */
   boolean allowsParallelEdges();
 
-  /**
-   * Returns the order of iteration for the elements of {@link #edges()}.
-   */
-  ElementOrder<? super E> edgeOrder();
-
   //
   // Element-level accessors
   //
+
+  /**
+   * Returns the nodes which have an incident edge in common with {@code node} in this graph.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  Set<N> adjacentNodes(Object node);
+
+  /**
+   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+   * {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  Set<N> predecessors(Object node);
+
+  /**
+   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+   * {@code node}'s outgoing edges in the direction (if any) of the edge.
+   *
+   * <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
+   * edges" (also known as {@code node}'s transitive closure).
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  Set<N> successors(Object node);
 
   /**
    * Returns the edges whose endpoints in this graph include {@code node}.
@@ -248,6 +302,22 @@ public interface Network<N, E> extends Graph<N> {
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   Set<E> incidentEdges(Object node);
+
+  /**
+   * Returns all edges in this graph which can be traversed in the direction (if any) of the edge
+   * to end at {@code node}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  Set<E> inEdges(Object node);
+
+  /**
+   * Returns all edges in this graph which can be traversed in the direction (if any) of the edge
+   * starting from {@code node}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  Set<E> outEdges(Object node);
 
   /**
    * Returns the nodes which are the endpoints of {@code edge} in this graph as {@link Endpoints}.
@@ -278,48 +348,40 @@ public interface Network<N, E> extends Graph<N> {
    */
   Set<E> edgesConnecting(Object nodeA, Object nodeB);
 
-  /**
-   * Returns all edges in this graph which can be traversed in the direction (if any) of the edge
-   * to end at {@code node}.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
-   */
-  Set<E> inEdges(Object node);
-
-  /**
-   * Returns all edges in this graph which can be traversed in the direction (if any) of the edge
-   * starting from {@code node}.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
-   */
-  Set<E> outEdges(Object node);
-
   //
   // Element-level queries
   //
 
   /**
-   * {@inheritDoc}
+   * Returns the number of edges incident in this graph to {@code node}.  If this node has more than
+   * {@code Integer.MAX_VALUE} incident edges in this graph, returns {@code Integer.MAX_VALUE}.
+   *
+   * <p>Note that self-loops only count once towards a node's degree.
    *
    * <p>Equivalent to {@code incidentEdges(node).size()}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  @Override
   int degree(Object node);
 
   /**
-   * {@inheritDoc}
+   * Returns the number of incoming edges in this graph of {@code node}.  If this node has more than
+   * {@code Integer.MAX_VALUE} incoming edges in this graph, returns {@code Integer.MAX_VALUE}.
    *
    * <p>Equivalent to {@code inEdges(node).size()}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  @Override
   int inDegree(Object node);
 
   /**
-   * {@inheritDoc}
+   * Returns the number of outgoing edges in this graph of {@code node}.  If this node has more than
+   * {@code Integer.MAX_VALUE} outgoing edges in this graph, returns {@code Integer.MAX_VALUE}.
    *
    * <p>Equivalent to {@code outEdges(node).size()}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
-  @Override
   int outDegree(Object node);
 
   /**

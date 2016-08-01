@@ -16,16 +16,12 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.graph.GraphConstants.NETWORK_WITH_PARALLEL_EDGE;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Function;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import java.util.AbstractSet;
@@ -48,11 +44,6 @@ public final class Graphs {
   // Graph query methods
 
   static <N> Set<Endpoints<N>> endpointsInternal(final Graph<N> graph) {
-    if (graph instanceof Network && !allowsParallelEdges(graph)) {
-      // Use an optimized implementation for networks without parallel edges.
-      return endpointsSimpleNetwork(castToNetwork(graph));
-    }
-
     return new AbstractSet<Endpoints<N>>() {
       @Override
       public Iterator<Endpoints<N>> iterator() {
@@ -78,36 +69,6 @@ public final class Graphs {
           endpointsCount >>>= 1;
         }
         return Ints.saturatedCast(endpointsCount);
-      }
-
-      @Override
-      public boolean contains(Object obj) {
-        if (!(obj instanceof Endpoints)) {
-          return false;
-        }
-        return containsEndpoints(graph, (Endpoints<?>) obj);
-      }
-    };
-  }
-
-  private static <N> Set<Endpoints<N>> endpointsSimpleNetwork(final Network<N, ?> graph) {
-    checkState(!graph.allowsParallelEdges());
-    return new AbstractSet<Endpoints<N>>() {
-      @Override
-      public Iterator<Endpoints<N>> iterator() {
-        return Iterators.transform(
-            graph.edges().iterator(),
-            new Function<Object, Endpoints<N>>() {
-              @Override
-              public Endpoints<N> apply(Object edge) {
-                return graph.incidentNodes(edge);
-              }
-            });
-      }
-
-      @Override
-      public int size() {
-        return graph.edges().size();
       }
 
       @Override
@@ -178,8 +139,6 @@ public final class Graphs {
    */
   public static <N> MutableGraph<N> copyOf(Graph<N> graph) {
     checkNotNull(graph, "graph");
-    // TODO(user): Consider dropping this restriction. Would this do what users expect?
-    checkArgument(!allowsParallelEdges(graph), NETWORK_WITH_PARALLEL_EDGE);
     MutableGraph<N> copy = GraphBuilder.from(graph)
         .expectedNodeCount(graph.nodes().size())
         .build();
@@ -213,15 +172,6 @@ public final class Graphs {
     }
 
     return copy;
-  }
-
-  private static boolean allowsParallelEdges(Graph<?> graph) {
-    return (graph instanceof Network) && castToNetwork(graph).allowsParallelEdges();
-  }
-
-  @SuppressWarnings("unchecked")
-  private static <N> Network<N, ?> castToNetwork(Graph<N> graph) {
-    return (Network<N, ?>) graph;
   }
 
   private abstract static class AbstractEndpointsIterator<N>

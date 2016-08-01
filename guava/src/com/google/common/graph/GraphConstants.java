@@ -52,8 +52,6 @@ final class GraphConstants {
       "Cannot call source()/target() on the endpoints of an undirected edge. Consider calling "
           + "otherNode() to get a single node or using the endpoints' iterator to get both nodes.";
   static final String EDGE_ALREADY_EXISTS = "Edge %s already exists in the graph.";
-  static final String NETWORK_WITH_PARALLEL_EDGE =
-      "Cannot make a Graph copy of a Network that allows parallel edges.";
 
   static final String GRAPH_STRING_FORMAT = "%s, nodes: %s, edges: %s";
 }

@@ -16,9 +16,7 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.graph.GraphConstants.NETWORK_WITH_PARALLEL_EDGE;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableMap;
@@ -47,9 +45,6 @@ public final class ImmutableGraph<N> extends AbstractConfigurableGraph<N> {
    */
   @SuppressWarnings("unchecked")
   public static <N> ImmutableGraph<N> copyOf(Graph<N> graph) {
-    // TODO(user): Consider dropping this restriction. Would this do what users expect?
-    checkArgument(!((graph instanceof Network) && ((Network<N, ?>) graph).allowsParallelEdges()),
-        NETWORK_WITH_PARALLEL_EDGE);
     return (graph instanceof ImmutableGraph)
         ? (ImmutableGraph<N>) graph
         : new ImmutableGraph<N>(graph);

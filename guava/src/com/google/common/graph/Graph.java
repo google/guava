@@ -22,10 +22,10 @@ import javax.annotation.Nullable;
 
 /**
  * A graph consisting of a set of nodes of type N and a set of (implicit) edges.
- * Users that want edges to be first-class objects should use the subtype {@link Network} instead.
+ * Users that want edges to be first-class objects or support for parallel edges should use the
+ * {@link Network} interface instead.
  *
- * <p>For convenience, we may use the term 'graph' to refer to any subtype of {@link Graph},
- * including {@link Network}.
+ * <p>For convenience, we may use the term 'graph' refer to {@link Graph}s and/or {@link Network}s.
  *
  * <p>Users that wish to modify a {@code Graph} must work with its subinterface,
  * {@link MutableGraph}.
@@ -167,10 +167,19 @@ import javax.annotation.Nullable;
  */
 @Beta
 public interface Graph<N> {
+  //
+  // Graph-level accessors
+  //
+  
   /**
    * Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}.
    */
   Set<N> nodes();
+  
+  /**
+   * Returns the order of iteration for the elements of {@link #nodes()}.
+   */
+  ElementOrder<? super N> nodeOrder();
 
   //
   // Graph properties
@@ -187,11 +196,6 @@ public interface Graph<N> {
    * {@link UnsupportedOperationException}.
    */
   boolean allowsSelfLoops();
-
-  /**
-   * Returns the order of iteration for the elements of {@link #nodes()}.
-   */
-  ElementOrder<? super N> nodeOrder();
 
   //
   // Element-level accessors
@@ -269,10 +273,6 @@ public interface Graph<N> {
    * be considered equal even if one allows self-loops and the other doesn't. Additionally, the
    * order in which edges or nodes are added to the graph, and the order in which they are
    * iterated over, are irrelevant.
-   *
-   * <p>A {@link Graph} cannot be equal to an instance of a subinterface of {@link Graph} that
-   * redefines the definition of equality, such as {@link Network}, even if by this definition they
-   * would otherwise be equal.
    *
    * <p>A reference implementation of this is provided by {@link AbstractGraph#equals(Object)}.
    */

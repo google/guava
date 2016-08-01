@@ -28,117 +28,86 @@ import org.junit.runners.JUnit4;
  */
 @RunWith(JUnit4.class)
 public class GraphPropertiesTest {
-  private static final Integer N1 = 1;
-  private static final Integer N2 = 2;
-  private static final Integer N3 = 3;
-  private static final String E11 = "1-1";
-  private static final String E12 = "1-2";
-  private static final String E12_A = "1-2a";
-  private static final String E13 = "1-3";
-  private static final String E21 = "2-1";
-  private static final String E23 = "2-3";
-  private static final String E31 = "3-1";
 
   @Test
   public void isCyclic_emptyGraph() {
-    Network<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    Graph<Integer> directedGraph = GraphBuilder.directed().build();
     assertThat(isCyclic(directedGraph)).isFalse();
   }
 
   @Test
   public void isCyclic_isolatedNodes() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addNode(N1);
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    directedGraph.addNode(1);
     assertThat(isCyclic(directedGraph)).isFalse();
-    directedGraph.addNode(N2);
+    directedGraph.addNode(2);
     assertThat(isCyclic(directedGraph)).isFalse();
   }
 
   @Test
   public void isCyclic_oneEdge() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addEdge(E12, N1, N2);
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    directedGraph.addEdge(1, 2);
     assertThat(isCyclic(directedGraph)).isFalse();
   }
 
   @Test
   public void isCyclic_selfLoopEdge() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addEdge(E11, N1, N1);
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    directedGraph.addEdge(1, 1);
     assertThat(isCyclic(directedGraph)).isTrue();
   }
 
   @Test
-  public void isCyclic_twoParallelEdges() {
-    MutableNetwork<Integer, String> directedGraph =
-        NetworkBuilder.directed().allowsParallelEdges(true).build();
-    directedGraph.addEdge(E12, N1, N2);
-    directedGraph.addEdge(E12_A, N1, N2);
-    assertThat(isCyclic(directedGraph)).isFalse();
-  }
-
-  @Test
   public void isCyclic_twoAcyclicEdges() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addEdge(E12, N1, N2);
-    directedGraph.addEdge(E13, N1, N3);
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    directedGraph.addEdge(1, 2);
+    directedGraph.addEdge(1, 3);
     assertThat(isCyclic(directedGraph)).isFalse();
   }
 
   @Test
   public void isCyclic_twoCyclicEdges() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addEdge(E12, N1, N2);
-    directedGraph.addEdge(E21, N2, N1);
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    directedGraph.addEdge(1, 2);
+    directedGraph.addEdge(2, 1);
     assertThat(isCyclic(directedGraph)).isTrue();
   }
 
   @Test
   public void isCyclic_threeAcyclicEdges() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addEdge(E12, N1, N2);
-    directedGraph.addEdge(E23, N2, N3);
-    directedGraph.addEdge(E13, N1, N3);
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    directedGraph.addEdge(1, 2);
+    directedGraph.addEdge(2, 3);
+    directedGraph.addEdge(1, 3);
     assertThat(isCyclic(directedGraph)).isFalse();
   }
 
   @Test
   public void isCyclic_threeCyclicEdges() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addEdge(E12, N1, N2);
-    directedGraph.addEdge(E23, N2, N3);
-    directedGraph.addEdge(E31, N3, N1);
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    directedGraph.addEdge(1, 2);
+    directedGraph.addEdge(2, 3);
+    directedGraph.addEdge(3, 1);
     assertThat(isCyclic(directedGraph)).isTrue();
   }
 
   @Test
   public void isCyclic_disconnectedCyclicGraph() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addEdge(E12, N1, N2);
-    directedGraph.addEdge(E21, N2, N1);
-    directedGraph.addNode(N3);
-    assertThat(isCyclic(directedGraph)).isTrue();
-  }
-
-  @Test
-  public void isCyclic_cyclicMultigraph() {
-    MutableNetwork<Integer, String> directedGraph =
-        NetworkBuilder.directed().allowsParallelEdges(true).build();
-    directedGraph.addEdge(E12, N1, N2);
-    directedGraph.addEdge(E12_A, N1, N2);
-    directedGraph.addEdge(E23, N2, N3);
-    directedGraph.addEdge(E31, N3, N1);
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    directedGraph.addEdge(1, 2);
+    directedGraph.addEdge(2, 1);
+    directedGraph.addNode(3);
     assertThat(isCyclic(directedGraph)).isTrue();
   }
 
   @Test
   public void isCyclic_multipleCycles() {
-    MutableNetwork<Integer, String> directedGraph =
-        NetworkBuilder.directed().allowsParallelEdges(true).build();
-    directedGraph.addEdge(E12, N1, N2);
-    directedGraph.addEdge(E21, N2, N1);
-    directedGraph.addEdge(E23, N2, N3);
-    directedGraph.addEdge(E31, N3, N1);
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    directedGraph.addEdge(1, 2);
+    directedGraph.addEdge(2, 1);
+    directedGraph.addEdge(2, 3);
+    directedGraph.addEdge(3, 1);
     assertThat(isCyclic(directedGraph)).isTrue();
   }
 }

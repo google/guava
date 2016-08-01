@@ -56,6 +56,13 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
   }
 
   /**
+   * Returns {@link Endpoints} representing the endpoints of an edge in {@code network}.
+   */
+  public static <N> Endpoints<N> of(Network<?, ?> network, N nodeA, N nodeB) {
+    return network.isDirected() ? ofDirected(nodeA, nodeB) : ofUndirected(nodeA, nodeB);
+  }
+
+  /**
    * Returns {@link Endpoints} representing the endpoints of a directed edge.
    */
   static <N> Endpoints.Directed<N> ofDirected(N source, N target) {

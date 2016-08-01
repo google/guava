@@ -62,11 +62,6 @@ public abstract class AbstractGraph<N> implements Graph<N> {
     }
     Graph<?> other = (Graph<?>) obj;
 
-    // Needed to enforce a symmetric equality relationship.
-    if (other instanceof Network) {
-      return false;
-    }
-
     if (isDirected() != other.isDirected()) {
       return false;
     }

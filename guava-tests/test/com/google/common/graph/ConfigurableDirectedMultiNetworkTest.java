@@ -37,17 +37,17 @@ public class ConfigurableDirectedMultiNetworkTest extends ConfigurableDirectedNe
   public void edgesConnecting_parallelEdges() {
     assertTrue(addEdge(E12, N1, N2));
     assertTrue(addEdge(E12_A, N1, N2));
-    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12, E12_A);
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E12_A);
     // Passed nodes should be in the correct edge direction, first is the
     // source node and the second is the target node
-    assertThat(graph.edgesConnecting(N2, N1)).isEmpty();
+    assertThat(network.edgesConnecting(N2, N1)).isEmpty();
   }
 
   @Test
   public void edgesConnecting_parallelSelfLoopEdges() {
     assertTrue(addEdge(E11, N1, N1));
     assertTrue(addEdge(E11_A, N1, N1));
-    assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
+    assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
   }
 
   @Override
@@ -55,7 +55,7 @@ public class ConfigurableDirectedMultiNetworkTest extends ConfigurableDirectedNe
   public void addEdge_parallelEdge() {
     assertTrue(addEdge(E12, N1, N2));
     assertTrue(addEdge(E12_A, N1, N2));
-    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12, E12_A);
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E12_A);
   }
 
   @Override
@@ -63,15 +63,15 @@ public class ConfigurableDirectedMultiNetworkTest extends ConfigurableDirectedNe
   public void addEdge_parallelSelfLoopEdge() {
     assertTrue(addEdge(E11, N1, N1));
     assertTrue(addEdge(E11_A, N1, N1));
-    assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
+    assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
   }
 
   @Test
   public void removeEdge_parallelEdge() {
     addEdge(E12, N1, N2);
     addEdge(E12_A, N1, N2);
-    assertTrue(graph.removeEdge(E12_A));
-    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertTrue(network.removeEdge(E12_A));
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
   }
 
   @Test
@@ -79,11 +79,11 @@ public class ConfigurableDirectedMultiNetworkTest extends ConfigurableDirectedNe
     addEdge(E11, N1, N1);
     addEdge(E11_A, N1, N1);
     addEdge(E12, N1, N2);
-    assertTrue(graph.removeEdge(E11_A));
-    assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11);
-    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
-    assertTrue(graph.removeEdge(E11));
-    assertThat(graph.edgesConnecting(N1, N1)).isEmpty();
-    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertTrue(network.removeEdge(E11_A));
+    assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11);
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertTrue(network.removeEdge(E11));
+    assertThat(network.edgesConnecting(N1, N1)).isEmpty();
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
   }
 }

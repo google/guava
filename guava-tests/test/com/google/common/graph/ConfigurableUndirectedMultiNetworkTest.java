@@ -38,15 +38,15 @@ public class ConfigurableUndirectedMultiNetworkTest extends ConfigurableUndirect
     assertTrue(addEdge(E12, N1, N2));
     assertTrue(addEdge(E12_A, N1, N2));
     assertTrue(addEdge(E21, N2, N1));
-    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12, E12_A, E21);
-    assertThat(graph.edgesConnecting(N2, N1)).containsExactly(E12, E12_A, E21);
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E12_A, E21);
+    assertThat(network.edgesConnecting(N2, N1)).containsExactly(E12, E12_A, E21);
   }
 
   @Test
   public void edgesConnecting_parallelSelfLoopEdges() {
     assertTrue(addEdge(E11, N1, N1));
     assertTrue(addEdge(E11_A, N1, N1));
-    assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
+    assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
   }
 
   @Override
@@ -55,7 +55,7 @@ public class ConfigurableUndirectedMultiNetworkTest extends ConfigurableUndirect
     assertTrue(addEdge(E12, N1, N2));
     assertTrue(addEdge(E12_A, N1, N2));
     assertTrue(addEdge(E21, N2, N1));
-    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12, E12_A, E21);
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E12_A, E21);
   }
 
   @Override
@@ -63,7 +63,7 @@ public class ConfigurableUndirectedMultiNetworkTest extends ConfigurableUndirect
   public void addEdge_parallelSelfLoopEdge() {
     assertTrue(addEdge(E11, N1, N1));
     assertTrue(addEdge(E11_A, N1, N1));
-    assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
+    assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
   }
 
   @Test
@@ -71,8 +71,8 @@ public class ConfigurableUndirectedMultiNetworkTest extends ConfigurableUndirect
     addEdge(E12, N1, N2);
     addEdge(E12_A, N1, N2);
     addEdge(E21, N2, N1);
-    assertTrue(graph.removeEdge(E12_A));
-    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12, E21);
+    assertTrue(network.removeEdge(E12_A));
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E21);
   }
 
   @Test
@@ -80,11 +80,11 @@ public class ConfigurableUndirectedMultiNetworkTest extends ConfigurableUndirect
     addEdge(E11, N1, N1);
     addEdge(E11_A, N1, N1);
     addEdge(E12, N1, N2);
-    assertTrue(graph.removeEdge(E11_A));
-    assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11);
-    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
-    assertTrue(graph.removeEdge(E11));
-    assertThat(graph.edgesConnecting(N1, N1)).isEmpty();
-    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertTrue(network.removeEdge(E11_A));
+    assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11);
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertTrue(network.removeEdge(E11));
+    assertThat(network.edgesConnecting(N1, N1)).isEmpty();
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
   }
 }
