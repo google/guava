@@ -17,12 +17,10 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.testing.EqualsTester;
-
 import org.junit.After;
 import org.junit.Test;
 
@@ -57,20 +55,6 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
     addEdge(N1, N2);
     assertThat(graph.successors(N1)).containsExactly(N2);
     assertThat(graph.successors(N2)).containsExactly(N1);
-  }
-
-  @Test
-  public void inDegree_oneEdge() {
-    addEdge(N1, N2);
-    assertEquals(1, graph.inDegree(N2));
-    assertEquals(1, graph.inDegree(N1));
-  }
-
-  @Test
-  public void outDegree_oneEdge() {
-    addEdge(N1, N2);
-    assertEquals(1, graph.outDegree(N1));
-    assertEquals(1, graph.outDegree(N2));
   }
 
   // Element Mutation

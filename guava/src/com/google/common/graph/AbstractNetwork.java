@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 /**
  * This class provides a skeletal implementation of {@link Network}. It is recommended to extend
  * this class rather than implement {@link Network} directly, to ensure consistent
- * {@link #equals(Object)} and {@link #hashCode()} results across different graph implementations.
+ * {@link #equals(Object)} and {@link #hashCode()} results across different network implementations.
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -78,21 +78,6 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
-  public int degree(Object node) {
-    return incidentEdges(node).size();
-  }
-
-  @Override
-  public int inDegree(Object node) {
-    return inEdges(node).size();
-  }
-
-  @Override
-  public int outDegree(Object node) {
-    return outEdges(node).size();
-  }
-
-  @Override
   public boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
@@ -131,7 +116,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   /**
-   * Returns a string representation of this graph.
+   * Returns a string representation of this network.
    */
   @Override
   public String toString() {

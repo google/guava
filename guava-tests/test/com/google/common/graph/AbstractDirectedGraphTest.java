@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -46,22 +45,6 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
     assertThat(graph.successors(N1)).containsExactly(N2);
     // Edge direction handled correctly
     assertThat(graph.successors(N2)).isEmpty();
-  }
-
-  @Test
-  public void inDegree_oneEdge() {
-    addEdge(N1, N2);
-    assertEquals(1, graph.inDegree(N2));
-    // Edge direction handled correctly
-    assertEquals(0, graph.inDegree(N1));
-  }
-
-  @Test
-  public void outDegree_oneEdge() {
-    addEdge(N1, N2);
-    assertEquals(1, graph.outDegree(N1));
-    // Edge direction handled correctly
-    assertEquals(0, graph.outDegree(N2));
   }
 
   // Element Mutation

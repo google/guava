@@ -114,30 +114,6 @@ public class ConfigurableDirectedNetworkTest extends ConfigurableSimpleDirectedN
   }
 
   @Test
-  public void degree_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertEquals(1, network.degree(N1));
-    addEdge(E12, N1, N2);
-    assertEquals(2, network.degree(N1));
-  }
-
-  @Test
-  public void inDegree_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertEquals(1, network.inDegree(N1));
-    addEdge(E41, N4, N1);
-    assertEquals(2, network.inDegree(N1));
-  }
-
-  @Test
-  public void outDegree_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertEquals(1, network.outDegree(N1));
-    addEdge(E12, N1, N2);
-    assertEquals(2, network.outDegree(N1));
-  }
-
-  @Test
   public void source_selfLoop() {
     addEdge(E11, N1, N1);
     assertEquals(N1, network.incidentNodes(E11).source());

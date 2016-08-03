@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -136,10 +135,6 @@ public abstract class AbstractGraphTest {
     for (Integer node : graph.nodes()) {
       assertThat(nodeString).contains(node.toString());
 
-      assertThat(graph.adjacentNodes(node)).hasSize(graph.degree(node));
-      assertThat(graph.predecessors(node)).hasSize(graph.inDegree(node));
-      assertThat(graph.successors(node)).hasSize(graph.outDegree(node));
-
       for (Integer adjacentNode : graph.adjacentNodes(node)) {
         assertTrue(graph.predecessors(node).contains(adjacentNode)
             || graph.successors(node).contains(adjacentNode));
@@ -243,61 +238,6 @@ public abstract class AbstractGraphTest {
   public void successors_nodeNotInGraph() {
     try {
       graph.successors(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-  }
-
-  @Test
-  public void degree_oneEdge() {
-    addEdge(N1, N2);
-    assertEquals(1, graph.degree(N1));
-    assertEquals(1, graph.degree(N2));
-  }
-
-  @Test
-  public void degree_isolatedNode() {
-    addNode(N1);
-    assertEquals(0, graph.degree(N1));
-  }
-
-  @Test
-  public void degree_nodeNotInGraph() {
-    try {
-      graph.degree(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-  }
-
-  @Test
-  public void inDegree_isolatedNode() {
-    addNode(N1);
-    assertEquals(0, graph.inDegree(N1));
-  }
-
-  @Test
-  public void inDegree_nodeNotInGraph() {
-    try {
-      graph.inDegree(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-  }
-
-  @Test
-  public void outDegree_isolatedNode() {
-    addNode(N1);
-    assertEquals(0, graph.outDegree(N1));
-  }
-
-  @Test
-  public void outDegree_nodeNotInGraph() {
-    try {
-      graph.outDegree(NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);

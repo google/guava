@@ -110,22 +110,6 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
   }
 
   @Test
-  public void inDegree_oneEdge() {
-    addEdge(E12, N1, N2);
-    assertEquals(1, network.inDegree(N2));
-    // Edge direction handled correctly
-    assertEquals(0, network.inDegree(N1));
-  }
-
-  @Test
-  public void outDegree_oneEdge() {
-    addEdge(E12, N1, N2);
-    assertEquals(1, network.outDegree(N1));
-    // Edge direction handled correctly
-    assertEquals(0, network.outDegree(N2));
-  }
-
-  @Test
   public void source_oneEdge() {
     addEdge(E12, N1, N2);
     assertEquals(N1, network.incidentNodes(E12).source());

@@ -38,21 +38,6 @@ import javax.annotation.Nullable;
 public abstract class AbstractGraph<N> implements Graph<N> {
 
   @Override
-  public int degree(Object node) {
-    return adjacentNodes(node).size();
-  }
-
-  @Override
-  public int inDegree(Object node) {
-    return predecessors(node).size();
-  }
-
-  @Override
-  public int outDegree(Object node) {
-    return successors(node).size();
-  }
-
-  @Override
   public boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;

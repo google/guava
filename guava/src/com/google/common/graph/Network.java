@@ -210,7 +210,7 @@ public interface Network<N, E> {
   //
   // Network-level accessors
   //
-  
+
   /**
    * Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}.
    */
@@ -220,7 +220,7 @@ public interface Network<N, E> {
    * Returns all edges in this network, in the order specified by {@link #edgeOrder()}.
    */
   Set<E> edges();
-  
+
   /**
    * Returns the order of iteration for the elements of {@link #nodes()}.
    */
@@ -230,7 +230,7 @@ public interface Network<N, E> {
    * Returns the order of iteration for the elements of {@link #edges()}.
    */
   ElementOrder<? super E> edgeOrder();
-  
+
   /**
    * Returns a live view of this graph as a {@link Graph}. The resulting {@link Graph} will have an
    * edge connecting node A to node B iff this {@link Network} has an edge connecting A to B.
@@ -349,40 +349,8 @@ public interface Network<N, E> {
   Set<E> edgesConnecting(Object nodeA, Object nodeB);
 
   //
-  // Element-level queries
+  // Network identity
   //
-
-  /**
-   * Returns the number of edges incident in this graph to {@code node}.  If this node has more than
-   * {@code Integer.MAX_VALUE} incident edges in this graph, returns {@code Integer.MAX_VALUE}.
-   *
-   * <p>Note that self-loops only count once towards a node's degree.
-   *
-   * <p>Equivalent to {@code incidentEdges(node).size()}.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
-   */
-  int degree(Object node);
-
-  /**
-   * Returns the number of incoming edges in this graph of {@code node}.  If this node has more than
-   * {@code Integer.MAX_VALUE} incoming edges in this graph, returns {@code Integer.MAX_VALUE}.
-   *
-   * <p>Equivalent to {@code inEdges(node).size()}.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
-   */
-  int inDegree(Object node);
-
-  /**
-   * Returns the number of outgoing edges in this graph of {@code node}.  If this node has more than
-   * {@code Integer.MAX_VALUE} outgoing edges in this graph, returns {@code Integer.MAX_VALUE}.
-   *
-   * <p>Equivalent to {@code outEdges(node).size()}.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
-   */
-  int outDegree(Object node);
 
   /**
    * Returns {@code true} iff {@code object} is a {@link Network} that has the same structural

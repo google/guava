@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -112,30 +111,6 @@ public class ConfigurableUndirectedNetworkTest extends ConfigurableSimpleUndirec
     assertThat(network.successors(N1)).containsExactly(N1);
     addEdge(E12, N2, N1);
     assertThat(network.successors(N1)).containsExactly(N1, N2);
-  }
-
-  @Test
-  public void degree_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertEquals(1, network.degree(N1));
-    addEdge(E12, N1, N2);
-    assertEquals(2, network.degree(N1));
-  }
-
-  @Test
-  public void inDegree_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertEquals(1, network.inDegree(N1));
-    addEdge(E12, N1, N2);
-    assertEquals(2, network.inDegree(N1));
-  }
-
-  @Test
-  public void outDegree_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertEquals(1, network.outDegree(N1));
-    addEdge(E12, N2, N1);
-    assertEquals(2, network.outDegree(N1));
   }
 
   @Override

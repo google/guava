@@ -22,7 +22,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.common.math.IntMath;
 import java.util.Map;
 
 /**
@@ -88,9 +87,7 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
     if (graph.isDirected()) {
       Map<E, N> inEdgeMap = Maps.asMap(graph.inEdges(node), sourceNodeFn(graph));
       Map<E, N> outEdgeMap = Maps.asMap(graph.outEdges(node), targetNodeFn(graph));
-      int selfLoopCount = graph.allowsSelfLoops()
-          // Self-loops count once as incident edges, but twice as (incoming+outgoing) edges.
-          ? IntMath.saturatedAdd(inEdgeMap.size() - graph.degree(node), outEdgeMap.size()) : 0;
+      int selfLoopCount = graph.edgesConnecting(node, node).size();
       return graph.allowsParallelEdges()
            ? DirectedMultiNetworkConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount)
            : DirectedNetworkConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount);

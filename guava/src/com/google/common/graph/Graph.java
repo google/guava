@@ -170,12 +170,12 @@ public interface Graph<N> {
   //
   // Graph-level accessors
   //
-  
+
   /**
    * Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}.
    */
   Set<N> nodes();
-  
+
   /**
    * Returns the order of iteration for the elements of {@link #nodes()}.
    */
@@ -228,34 +228,8 @@ public interface Graph<N> {
   Set<N> successors(Object node);
 
   //
-  // Element-level queries
+  // Graph identity
   //
-
-  /**
-   * Returns the number of edges incident in this graph to {@code node}.  If this node has more than
-   * {@code Integer.MAX_VALUE} incident edges in this graph, returns {@code Integer.MAX_VALUE}.
-   *
-   * <p>Note that self-loops only count once towards a node's degree.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
-   */
-  int degree(Object node);
-
-  /**
-   * Returns the number of incoming edges in this graph of {@code node}.  If this node has more than
-   * {@code Integer.MAX_VALUE} incoming edges in this graph, returns {@code Integer.MAX_VALUE}.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
-   */
-  int inDegree(Object node);
-
-  /**
-   * Returns the number of outgoing edges in this graph of {@code node}.  If this node has more than
-   * {@code Integer.MAX_VALUE} outgoing edges in this graph, returns {@code Integer.MAX_VALUE}.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
-   */
-  int outDegree(Object node);
 
   /**
    * Returns {@code true} iff {@code object} is a {@link Graph} that has the same structural

@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -57,30 +56,6 @@ public class ConfigurableDirectedGraphTest extends ConfigurableSimpleDirectedGra
     assertThat(graph.successors(N1)).containsExactly(N1);
     addEdge(N1, N2);
     assertThat(graph.successors(N1)).containsExactly(N1, N2);
-  }
-
-  @Test
-  public void degree_selfLoop() {
-    addEdge(N1, N1);
-    assertEquals(1, graph.degree(N1));
-    addEdge(N1, N2);
-    assertEquals(2, graph.degree(N1));
-  }
-
-  @Test
-  public void inDegree_selfLoop() {
-    addEdge(N1, N1);
-    assertEquals(1, graph.inDegree(N1));
-    addEdge(N4, N1);
-    assertEquals(2, graph.inDegree(N1));
-  }
-
-  @Test
-  public void outDegree_selfLoop() {
-    addEdge(N1, N1);
-    assertEquals(1, graph.outDegree(N1));
-    addEdge(N1, N2);
-    assertEquals(2, graph.outDegree(N1));
   }
 
   @Override

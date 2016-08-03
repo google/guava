@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -92,20 +91,6 @@ public abstract class AbstractUndirectedNetworkTest extends AbstractNetworkTest 
     addEdge(E12, N1, N2);
     assertThat(network.successors(N1)).containsExactly(N2);
     assertThat(network.successors(N2)).containsExactly(N1);
-  }
-
-  @Test
-  public void inDegree_oneEdge() {
-    addEdge(E12, N1, N2);
-    assertEquals(1, network.inDegree(N2));
-    assertEquals(1, network.inDegree(N1));
-  }
-
-  @Test
-  public void outDegree_oneEdge() {
-    addEdge(E12, N1, N2);
-    assertEquals(1, network.outDegree(N1));
-    assertEquals(1, network.outDegree(N2));
   }
 
   // Element Mutation
