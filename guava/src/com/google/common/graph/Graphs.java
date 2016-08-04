@@ -82,7 +82,7 @@ public final class Graphs {
   }
 
   private static boolean containsEndpoints(Graph<?> graph, Endpoints<?> endpoints) {
-    return graph.isDirected() == (endpoints instanceof Endpoints.Directed)
+    return graph.isDirected() == endpoints.isDirected()
         && graph.nodes().contains(endpoints.nodeA())
         && graph.successors(endpoints.nodeA()).contains(endpoints.nodeB());
   }
