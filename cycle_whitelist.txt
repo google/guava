@@ -15,16 +15,6 @@ NAMESPACE org.junit
 # ***** REAL CYCLES *****
 # Inverses (currently not solvable by weakening a reference)
 FIELD com.google.common.base.Converter.reverse
-FIELD com.google.common.collect.AbstractBiMap.inverse
-FIELD com.google.common.collect.HashBiMap.inverse
-FIELD com.google.common.collect.ImmutableListMultimap.inverse
-FIELD com.google.common.collect.ImmutableSetMultimap.inverse
-FIELD com.google.common.collect.MapConstraints.ConstrainedBiMap.inverse
-FIELD com.google.common.collect.Maps.FilteredEntryBiMap.inverse
-FIELD com.google.common.collect.Maps.UnmodifiableBiMap.inverse
-FIELD com.google.common.collect.RegularImmutableBiMap.inverse
-FIELD com.google.common.collect.SingletonImmutableBiMap.inverse
-FIELD com.google.common.collect.Synchronized.SynchronizedBiMap.inverse
 
 # ***** FALSE POSITIVES *****
 

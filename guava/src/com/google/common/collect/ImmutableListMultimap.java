@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.RetainedWith;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -308,6 +309,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     return (list == null) ? ImmutableList.<V>of() : list;
   }
 
+  @RetainedWith
   private transient ImmutableListMultimap<V, K> inverse;
 
   /**

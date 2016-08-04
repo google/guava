@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.RetainedWith;
 
 import javax.annotation.Nullable;
 
@@ -82,6 +83,7 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     return ImmutableSet.of(singleKey);
   }
 
+  @RetainedWith
   transient ImmutableBiMap<V, K> inverse;
 
   @Override

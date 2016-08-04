@@ -38,6 +38,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 
@@ -1513,6 +1514,7 @@ public final class Maps {
       implements BiMap<K, V>, Serializable {
     final Map<K, V> unmodifiableMap;
     final BiMap<? extends K, ? extends V> delegate;
+    @RetainedWith
     BiMap<V, K> inverse;
     transient Set<V> values;
 
@@ -3138,6 +3140,7 @@ public final class Maps {
 
   static final class FilteredEntryBiMap<K, V> extends FilteredEntryMap<K, V>
       implements BiMap<K, V> {
+    @RetainedWith
     private final BiMap<V, K> inverse;
 
     private static <K, V> Predicate<Entry<V, K>> inversePredicate(

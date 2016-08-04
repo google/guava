@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
@@ -363,6 +364,7 @@ public final class MapConstraints {
      * Note that UnmodifiableBiMap *does* use racy single-check lazy init.
      * TODO(cpovirk): pick one and standardize
      */
+    @RetainedWith
     volatile BiMap<V, K> inverse;
 
     ConstrainedBiMap(

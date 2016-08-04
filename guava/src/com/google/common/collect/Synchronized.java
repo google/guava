@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.j2objc.annotations.RetainedWith;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -1160,6 +1161,7 @@ final class Synchronized {
   static class SynchronizedBiMap<K, V> extends SynchronizedMap<K, V>
       implements BiMap<K, V>, Serializable {
     private transient Set<V> valueSet;
+    @RetainedWith
     private transient BiMap<V, K> inverse;
 
     private SynchronizedBiMap(

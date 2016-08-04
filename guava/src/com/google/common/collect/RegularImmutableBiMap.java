@@ -23,6 +23,7 @@ import static com.google.common.collect.RegularImmutableMap.checkNoConflictInKey
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableBiMapEntry;
+import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
@@ -162,6 +163,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     return entries.length;
   }
 
+  @RetainedWith
   private transient ImmutableBiMap<V, K> inverse;
 
   @Override
