@@ -184,7 +184,7 @@ public abstract class AbstractNetworkTest {
         assertThat(network.nodes()).contains(incidentNode);
         for (String adjacentEdge : network.incidentEdges(incidentNode)) {
           assertTrue(edge.equals(adjacentEdge)
-              || network.adjacentEdges(edge).contains(adjacentEdge));
+              || Graphs.adjacentEdges(network, edge).contains(adjacentEdge));
         }
       }
     }
@@ -286,13 +286,6 @@ public abstract class AbstractNetworkTest {
    */
   @Test
   public abstract void adjacentNodes_checkReturnedSetMutability();
-
-  /**
-   * Verifies that the {@code Set} returned by {@code adjacentEdges} has the expected
-   * mutability property (see the {@code Network} documentation for more information).
-   */
-  @Test
-  public abstract void adjacentEdges_checkReturnedSetMutability();
 
   /**
    * Verifies that the {@code Set} returned by {@code edgesConnecting} has the expected
@@ -414,30 +407,6 @@ public abstract class AbstractNetworkTest {
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
-    }
-  }
-
-  @Test
-  public void adjacentEdges_addEdges() {
-    addEdge(E12, N1, N2);
-    addEdge(E13, N1, N3);
-    addEdge(E23, N2, N3);
-    assertThat(network.adjacentEdges(E12)).containsExactly(E13, E23);
-  }
-
-  @Test
-  public void adjacentEdges_noAdjacentEdges() {
-    addEdge(E12, N1, N2);
-    assertThat(network.adjacentEdges(E12)).isEmpty();
-  }
-
-  @Test
-  public void adjacentEdges_nodeNotInGraph() {
-    try {
-      network.adjacentEdges(EDGE_NOT_IN_GRAPH);
-      fail(ERROR_EDGE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertEdgeNotInGraphErrorMessage(e);
     }
   }
 

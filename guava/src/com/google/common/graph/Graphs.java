@@ -93,13 +93,26 @@ public final class Graphs {
    *
    * @throws IllegalArgumentException if {@code edge} is not present in {@code graph}
    */
-  public static <N, E> Set<E> parallelEdges(Network<N, E> graph, Object edge) {
-    Endpoints<N> endpoints = graph.incidentNodes(edge); // Verifies that edge is in graph
+  public static <E> Set<E> parallelEdges(Network<?, E> graph, Object edge) {
+    Endpoints<?> endpoints = graph.incidentNodes(edge); // Verifies that edge is in graph
     if (!graph.allowsParallelEdges()) {
       return ImmutableSet.of();
     }
     return Sets.difference(graph.edgesConnecting(endpoints.nodeA(), endpoints.nodeB()),
         ImmutableSet.of(edge)); // An edge is not parallel to itself.
+  }
+
+  /**
+   * Returns an unmodifiable view of the edges which have an {@link Network#incidentNodes(Object)
+   * incident node} in common with {@code edge}. An edge is not considered adjacent to itself.
+   *
+   * @throws IllegalArgumentException if {@code edge} is not present in {@code graph}
+   */
+  public static <E> Set<E> adjacentEdges(Network<?, E> graph, Object edge) {
+    Endpoints<?> endpoints = graph.incidentNodes(edge); // Verifies that edge is in graph
+    Set<E> endpointsIncidentEdges =
+        Sets.union(graph.incidentEdges(endpoints.nodeA()), graph.incidentEdges(endpoints.nodeB()));
+    return Sets.difference(endpointsIncidentEdges, ImmutableSet.of(edge));
   }
 
   // Graph mutation methods

@@ -327,17 +327,6 @@ public interface Network<N, E> {
   Endpoints<N> incidentNodes(Object edge);
 
   /**
-   * Returns the edges which have an {@linkplain #incidentNodes(Object) incident node}
-   * in common with {@code edge} in this graph.
-   *
-   * <p>Whether an edge is considered adjacent to itself is not defined by this interface, but
-   * generally edges are not considered to be self-adjacent.
-   *
-   * @throws IllegalArgumentException if {@code edge} is not an element of this graph
-   */
-  Set<E> adjacentEdges(Object edge);
-
-  /**
    * Returns the set of edges that connect {@code nodeA} to {@code nodeB}.
    *
    * <p>This set is the intersection of {@code outEdges(nodeA)} and {@code inEdges(nodeB)}. If

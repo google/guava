@@ -24,7 +24,6 @@ import static com.google.common.graph.GraphConstants.EDGE_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -166,14 +165,6 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   @Override
   public Set<N> adjacentNodes(Object node) {
     return checkedConnections(node).adjacentNodes();
-  }
-
-  @Override
-  public Set<E> adjacentEdges(Object edge) {
-    Endpoints<N> endpoints = incidentNodes(edge);
-    Set<E> endpointsIncidentEdges =
-        Sets.union(incidentEdges(endpoints.nodeA()), incidentEdges(endpoints.nodeB()));
-    return Sets.difference(endpointsIncidentEdges, ImmutableSet.of(edge));
   }
 
   @Override

@@ -64,15 +64,6 @@ public class ConfigurableDirectedNetworkTest extends ConfigurableSimpleDirectedN
   }
 
   @Test
-  public void adjacentEdges_selfLoop() {
-    // An edge is never adjacent to itself
-    addEdge(E11, N1, N1);
-    assertThat(network.adjacentEdges(E11)).isEmpty();
-    addEdge(E12, N1, N2);
-    assertThat(network.adjacentEdges(E11)).containsExactly(E12);
-  }
-
-  @Test
   public void edgesConnecting_selfLoop() {
     addEdge(E11, N1, N1);
     assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11);
