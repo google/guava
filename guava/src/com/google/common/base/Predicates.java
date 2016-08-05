@@ -19,14 +19,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
-
 import javax.annotation.Nullable;
 
 /**
@@ -255,10 +253,10 @@ public final class Predicates {
    * contains any match for the given regular expression pattern. The test used is equivalent to
    * {@code Pattern.compile(pattern).matcher(arg).find()}
    *
-   * @throws java.util.regex.PatternSyntaxException if the pattern is invalid
+   * @throws IllegalArgumentException if the pattern is invalid
    * @since 3.0
    */
-  @GwtIncompatible(value = "java.util.regex.Pattern")
+  @GwtIncompatible // Only used by other GWT-incompatible code.
   public static Predicate<CharSequence> containsPattern(String pattern) {
     return new ContainsPatternFromStringPredicate(pattern);
   }
@@ -272,7 +270,7 @@ public final class Predicates {
    */
   @GwtIncompatible(value = "java.util.regex.Pattern")
   public static Predicate<CharSequence> contains(Pattern pattern) {
-    return new ContainsPatternPredicate(pattern);
+    return new ContainsPatternPredicate(new JdkPattern(pattern));
   }
 
   // End public API, begin private implementation classes.
@@ -644,9 +642,9 @@ public final class Predicates {
   /** @see Predicates#contains(Pattern) */
   @GwtIncompatible // Only used by other GWT-incompatible code.
   private static class ContainsPatternPredicate implements Predicate<CharSequence>, Serializable {
-    final Pattern pattern;
+    final CommonPattern pattern;
 
-    ContainsPatternPredicate(Pattern pattern) {
+    ContainsPatternPredicate(CommonPattern pattern) {
       this.pattern = checkNotNull(pattern);
     }
 
@@ -694,7 +692,7 @@ public final class Predicates {
   private static class ContainsPatternFromStringPredicate extends ContainsPatternPredicate {
 
     ContainsPatternFromStringPredicate(String string) {
-      super(Pattern.compile(string));
+      super(Platform.compilePattern(string));
     }
 
     @Override

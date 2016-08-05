@@ -15,10 +15,14 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.lang.ref.WeakReference;
+import java.util.Iterator;
 import java.util.Locale;
-
+import java.util.ServiceConfigurationError;
+import java.util.ServiceLoader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 
 /**
@@ -28,6 +32,15 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 final class Platform {
+  private static final Logger logger = Logger.getLogger(Platform.class.getName());
+  private static final PatternCompiler patternCompiler;
+
+  static {
+    patternCompiler = loadPatternCompiler();
+    logger.log(patternCompiler instanceof JdkPatternCompiler ? Level.FINE : Level.INFO,
+        "Using regex compiler: %s", patternCompiler.getClass().getName());
+  }
+
   private Platform() {}
 
   /** Calls {@link System#nanoTime()}. */
@@ -52,5 +65,43 @@ final class Platform {
 
   static boolean stringIsNullOrEmpty(@Nullable String string) {
     return string == null || string.isEmpty();
+  }
+
+  static CommonPattern compilePattern(String pattern) {
+    Preconditions.checkNotNull(pattern);
+    return patternCompiler.compile(pattern);
+  }
+
+  static boolean usingJdkPatternCompiler() {
+    return patternCompiler instanceof JdkPatternCompiler;
+  }
+
+  private static PatternCompiler loadPatternCompiler() {
+    ServiceLoader<PatternCompiler> loader = ServiceLoader.load(PatternCompiler.class);
+    // Returns the first PatternCompiler that loads successfully.
+    try {
+      for (Iterator<PatternCompiler> it = loader.iterator(); it.hasNext();) {
+        try {
+          return it.next();
+        } catch (ServiceConfigurationError e) {
+          logPatternCompilerError(e);
+        }
+      }
+    } catch (ServiceConfigurationError e) { // from hasNext()
+      logPatternCompilerError(e);
+    }
+    // Fall back to the JDK regex library.
+    return new JdkPatternCompiler();
+  }
+
+  private static void logPatternCompilerError(ServiceConfigurationError e) {
+    logger.log(Level.WARNING, "Error loading regex compiler, falling back to next option", e);
+  }
+
+  private static final class JdkPatternCompiler implements PatternCompiler {
+    @Override
+    public CommonPattern compile(String pattern) {
+      return new JdkPattern(Pattern.compile(pattern));
+    }
   }
 }
