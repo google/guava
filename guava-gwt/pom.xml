@@ -18,7 +18,8 @@
   </description>
   <properties>
     <gwt.test.include>**/GwtTestSuite.java</gwt.test.include>
-    <gwt.version>2.8.0-beta1</gwt.version>
+    <gwt.version>2.8.0-rc1</gwt.version>
+    <gwt.plugin.version>2.8.0-beta1</gwt.plugin.version>
     <gwt.logLevel>WARN</gwt.logLevel>
   </properties>
   <repositories>
@@ -243,7 +244,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>${gwt.version}</version>
+        <version>${gwt.plugin.version}</version>
         <executions>
           <execution>
             <id>gwt-compile</id>
@@ -255,7 +256,7 @@
               <failOnError>true</failOnError>
               <logLevel>${gwt.logLevel}</logLevel>
               <validateOnly>true</validateOnly>
-              <sourceLevel>1.7</sourceLevel>
+              <sourceLevel>1.8</sourceLevel>
             </configuration>
           </execution>
           <!--
@@ -301,10 +302,11 @@
               <includes>${gwt.test.include}</includes>
               <logLevel>${gwt.logLevel}</logLevel>
               <mode>htmlunit</mode>
+              <htmlunit>FF38</htmlunit>
               <productionMode>true</productionMode>
               <testTimeOut>600 <!-- seconds --></testTimeOut>
               <extraJvmArgs>-Xms3500m -Xmx3500m -Xss1024k</extraJvmArgs>
-              <sourceLevel>1.7</sourceLevel>
+              <sourceLevel>1.8</sourceLevel>
               <testMethodTimeout>10 <!-- minutes --></testMethodTimeout>
             </configuration>
           </execution>
