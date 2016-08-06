@@ -47,56 +47,56 @@ public class GraphPropertiesTest {
   @Test
   public void isCyclic_oneEdge() {
     MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
-    directedGraph.addEdge(1, 2);
+    directedGraph.putEdge(1, 2);
     assertThat(isCyclic(directedGraph)).isFalse();
   }
 
   @Test
   public void isCyclic_selfLoopEdge() {
     MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
-    directedGraph.addEdge(1, 1);
+    directedGraph.putEdge(1, 1);
     assertThat(isCyclic(directedGraph)).isTrue();
   }
 
   @Test
   public void isCyclic_twoAcyclicEdges() {
     MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
-    directedGraph.addEdge(1, 2);
-    directedGraph.addEdge(1, 3);
+    directedGraph.putEdge(1, 2);
+    directedGraph.putEdge(1, 3);
     assertThat(isCyclic(directedGraph)).isFalse();
   }
 
   @Test
   public void isCyclic_twoCyclicEdges() {
     MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
-    directedGraph.addEdge(1, 2);
-    directedGraph.addEdge(2, 1);
+    directedGraph.putEdge(1, 2);
+    directedGraph.putEdge(2, 1);
     assertThat(isCyclic(directedGraph)).isTrue();
   }
 
   @Test
   public void isCyclic_threeAcyclicEdges() {
     MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
-    directedGraph.addEdge(1, 2);
-    directedGraph.addEdge(2, 3);
-    directedGraph.addEdge(1, 3);
+    directedGraph.putEdge(1, 2);
+    directedGraph.putEdge(2, 3);
+    directedGraph.putEdge(1, 3);
     assertThat(isCyclic(directedGraph)).isFalse();
   }
 
   @Test
   public void isCyclic_threeCyclicEdges() {
     MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
-    directedGraph.addEdge(1, 2);
-    directedGraph.addEdge(2, 3);
-    directedGraph.addEdge(3, 1);
+    directedGraph.putEdge(1, 2);
+    directedGraph.putEdge(2, 3);
+    directedGraph.putEdge(3, 1);
     assertThat(isCyclic(directedGraph)).isTrue();
   }
 
   @Test
   public void isCyclic_disconnectedCyclicGraph() {
     MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
-    directedGraph.addEdge(1, 2);
-    directedGraph.addEdge(2, 1);
+    directedGraph.putEdge(1, 2);
+    directedGraph.putEdge(2, 1);
     directedGraph.addNode(3);
     assertThat(isCyclic(directedGraph)).isTrue();
   }
@@ -104,10 +104,10 @@ public class GraphPropertiesTest {
   @Test
   public void isCyclic_multipleCycles() {
     MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
-    directedGraph.addEdge(1, 2);
-    directedGraph.addEdge(2, 1);
-    directedGraph.addEdge(2, 3);
-    directedGraph.addEdge(3, 1);
+    directedGraph.putEdge(1, 2);
+    directedGraph.putEdge(2, 1);
+    directedGraph.putEdge(2, 3);
+    directedGraph.putEdge(3, 1);
     assertThat(isCyclic(directedGraph)).isTrue();
   }
 }

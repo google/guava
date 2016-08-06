@@ -55,7 +55,7 @@ public interface MutableGraph<N> extends Graph<N> {
    *     {@link #allowsSelfLoops()}
    */
   @CanIgnoreReturnValue
-  boolean addEdge(N nodeA, N nodeB);
+  boolean putEdge(N nodeA, N nodeB);
 
   /**
    * Removes {@code node} from this graph, if it is present.

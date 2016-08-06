@@ -50,7 +50,7 @@ public final class TestNetworkBuilder<N, E> {
   }
 
   public TestNetworkBuilder<N, E> addEdge(E edge, N nodeA, N nodeB) {
-    graph.addEdge(edge, nodeA, nodeB);
+    graph.addEdgeV2(nodeA, nodeB, edge);
     return this;
   }
 

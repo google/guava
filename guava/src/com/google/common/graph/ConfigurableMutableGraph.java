@@ -72,7 +72,7 @@ final class ConfigurableMutableGraph<N>
 
   @Override
   @CanIgnoreReturnValue
-  public boolean addEdge(N nodeA, N nodeB) {
+  public boolean putEdge(N nodeA, N nodeB) {
     checkNotNull(nodeA, "nodeA");
     checkNotNull(nodeB, "nodeB");
 

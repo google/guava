@@ -76,7 +76,7 @@ final class ConfigurableMutableNetwork<N, E>
 
   @Override
   @CanIgnoreReturnValue
-  public boolean addEdge(E edge, N nodeA, N nodeB) {
+  public boolean addEdgeV2(N nodeA, N nodeB, E edge) {
     checkNotNull(edge, "edge");
     checkNotNull(nodeA, "nodeA");
     checkNotNull(nodeB, "nodeB");

@@ -67,7 +67,7 @@ public final class EndpointsTest {
         NetworkBuilder.directed().<Integer, String>build(),
         NetworkBuilder.undirected().<Integer, String>build());
     for (MutableNetwork<Integer, String> graph : testGraphs) {
-      graph.addEdge("1-2", 1, 2);
+      graph.addEdgeV2(1, 2, "1-2");
       Endpoints<Integer> endpoints = graph.incidentNodes("1-2");
       try {
         endpoints.adjacentNode(3);

@@ -140,7 +140,7 @@ public final class Graphs {
       for (E edge : graph.outEdges(node)) {
         N adjacentNode = graph.incidentNodes(edge).adjacentNode(node);
         if (subgraph.nodes().contains(adjacentNode)) {
-          subgraph.addEdge(edge, node, adjacentNode);
+          subgraph.addEdgeV2(node, adjacentNode, edge);
         }
       }
     }
@@ -160,7 +160,7 @@ public final class Graphs {
       checkState(copy.addNode(node));
     }
     for (Endpoints<N> endpoints : endpointsInternal(graph)) {
-      checkState(copy.addEdge(endpoints.nodeA(), endpoints.nodeB()));
+      checkState(copy.putEdge(endpoints.nodeA(), endpoints.nodeB()));
     }
 
     return copy;
@@ -181,7 +181,7 @@ public final class Graphs {
     }
     for (E edge : graph.edges()) {
       Endpoints<N> endpoints = graph.incidentNodes(edge);
-      checkState(copy.addEdge(edge, endpoints.nodeA(), endpoints.nodeB()));
+      checkState(copy.addEdgeV2(endpoints.nodeA(), endpoints.nodeB(), edge));
     }
 
     return copy;

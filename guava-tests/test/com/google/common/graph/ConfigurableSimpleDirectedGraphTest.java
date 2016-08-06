@@ -114,9 +114,9 @@ public class ConfigurableSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   @Test
   public void addEdge_nodesNotInGraph() {
     graph.addNode(N1);
-    assertTrue(graph.addEdge(N1, N5));
-    assertTrue(graph.addEdge(N4, N1));
-    assertTrue(graph.addEdge(N2, N3));
+    assertTrue(graph.putEdge(N1, N5));
+    assertTrue(graph.putEdge(N4, N1));
+    assertTrue(graph.putEdge(N2, N3));
     assertThat(graph.nodes()).containsExactly(N1, N5, N4, N2, N3).inOrder();
     assertThat(graph.successors(N1)).containsExactly(N5);
     assertThat(graph.successors(N2)).containsExactly(N3);

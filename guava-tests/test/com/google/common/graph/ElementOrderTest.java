@@ -242,9 +242,9 @@ public final class ElementOrderTest {
   }
 
   private static void addEdges(MutableNetwork<Integer, String> graph) {
-    graph.addEdge("i", 3, 1);
-    graph.addEdge("e", 1, 4);
-    graph.addEdge("p", 4, 3);
+    graph.addEdgeV2(3, 1, "i");
+    graph.addEdgeV2(1, 4, "e");
+    graph.addEdgeV2(4, 3, "p");
   }
 
   private static class NonComparableSuperClass {

@@ -87,10 +87,10 @@ public final class GraphEqualsTest {
   // Node/edge sets are the same, but node/edge connections differ due to graph type.
   @Test
   public void equals_directedVsUndirected() {
-    graph.addEdge(N1, N2);
+    graph.putEdge(N1, N2);
 
     MutableGraph<Integer> g2 = createGraph(oppositeType(graphType));
-    g2.addEdge(N1, N2);
+    g2.putEdge(N1, N2);
 
     new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
   }
@@ -98,10 +98,10 @@ public final class GraphEqualsTest {
   // Node/edge sets and node/edge connections are the same, but directedness differs.
   @Test
   public void equals_selfLoop_directedVsUndirected() {
-    graph.addEdge(N1, N1);
+    graph.putEdge(N1, N1);
 
     MutableGraph<Integer> g2 = createGraph(oppositeType(graphType));
-    g2.addEdge(N1, N1);
+    g2.putEdge(N1, N1);
 
     new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
   }
@@ -110,12 +110,12 @@ public final class GraphEqualsTest {
   // (In this case the graphs are considered equal; the property differences are irrelevant.)
   @Test
   public void equals_propertiesDiffer() {
-    graph.addEdge(N1, N2);
+    graph.putEdge(N1, N2);
 
     MutableGraph<Integer> g2 = GraphBuilder.from(graph)
         .allowsSelfLoops(!graph.allowsSelfLoops())
         .build();
-    g2.addEdge(N1, N2);
+    g2.putEdge(N1, N2);
 
     new EqualsTester().addEqualityGroup(graph, g2).testEquals();
   }
@@ -129,22 +129,22 @@ public final class GraphEqualsTest {
     MutableGraph<Integer> g2 = builder.build();
 
     // for g1, add 1->2 first, then 3->1
-    g1.addEdge(N1, N2);
-    g1.addEdge(N3, N1);
+    g1.putEdge(N1, N2);
+    g1.putEdge(N3, N1);
 
     // for g2, add 3->1 first, then 1->2
-    g2.addEdge(N3, N1);
-    g2.addEdge(N1, N2);
+    g2.putEdge(N3, N1);
+    g2.putEdge(N1, N2);
 
     new EqualsTester().addEqualityGroup(g1, g2).testEquals();
   }
 
   @Test
   public void equals_edgeDirectionsDiffer() {
-    graph.addEdge(N1, N2);
+    graph.putEdge(N1, N2);
 
     MutableGraph<Integer> g2 = createGraph(graphType);
-    g2.addEdge(N2, N1);
+    g2.putEdge(N2, N1);
 
     switch (graphType) {
       case UNDIRECTED:

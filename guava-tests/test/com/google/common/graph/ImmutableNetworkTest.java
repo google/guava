@@ -40,8 +40,8 @@ public class ImmutableNetworkTest {
   @Test
   public void edgesConnecting_directed() {
     MutableNetwork<String, String> mutableGraph = NetworkBuilder.directed().build();
-    mutableGraph.addEdge("AA", "A", "A");
-    mutableGraph.addEdge("AB", "A", "B");
+    mutableGraph.addEdgeV2("A", "A", "AA");
+    mutableGraph.addEdgeV2("A", "B", "AB");
     Network<String, String> graph = ImmutableNetwork.copyOf(mutableGraph);
 
     assertThat(graph.edgesConnecting("A", "A")).containsExactly("AA");
@@ -52,8 +52,8 @@ public class ImmutableNetworkTest {
   @Test
   public void edgesConnecting_undirected() {
     MutableNetwork<String, String> mutableGraph = NetworkBuilder.undirected().build();
-    mutableGraph.addEdge("AA", "A", "A");
-    mutableGraph.addEdge("AB", "A", "B");
+    mutableGraph.addEdgeV2("A", "A", "AA");
+    mutableGraph.addEdgeV2("A", "B", "AB");
     Network<String, String> graph = ImmutableNetwork.copyOf(mutableGraph);
 
     assertThat(graph.edgesConnecting("A", "A")).containsExactly("AA");
