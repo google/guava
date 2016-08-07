@@ -16,8 +16,8 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.MoreObjects;
@@ -36,8 +36,8 @@ import javax.annotation.Nullable;
  * <p>Example usage:
  *
  * <pre><code>
- *   MutableGraph<Integer> graph
- *       = GraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
+ * MutableGraph<Integer> graph =
+ *     GraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
  * </code></pre>
  *
  * @author Joshua O'Madadhain
@@ -67,10 +67,8 @@ public final class ElementOrder<T> {
 
   private ElementOrder(Type type, @Nullable Comparator<T> comparator) {
     this.type = checkNotNull(type);
-    checkArgument(
-        (type == Type.SORTED) == (comparator != null),
-        "if the type is SORTED, the comparator should be non-null; otherwise, it should be null");
     this.comparator = comparator;
+    checkState((type == Type.SORTED) == (comparator != null));
   }
 
   /** Returns an instance which specifies that no ordering is guaranteed. */
@@ -106,13 +104,13 @@ public final class ElementOrder<T> {
   /**
    * Returns the {@link Comparator} used.
    *
-   * @throws IllegalStateException if no comparator is defined
+   * @throws UnsupportedOperationException if comparator is not defined
    */
   public Comparator<T> comparator() {
     if (comparator != null) {
       return comparator;
     }
-    throw new IllegalStateException("This ordering does not define a comparator");
+    throw new UnsupportedOperationException("This ordering does not define a comparator.");
   }
 
   @Override
@@ -152,7 +150,7 @@ public final class ElementOrder<T> {
       case SORTED:
         return Maps.newTreeMap(comparator());
       default:
-        throw new IllegalArgumentException("Unrecognized ElementOrder type");
+        throw new IllegalStateException(type.toString());
     }
   }
 

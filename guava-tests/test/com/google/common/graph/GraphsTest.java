@@ -55,10 +55,7 @@ public class GraphsTest {
   // TODO(user): Consider adding both error messages from here and {@link AbstractNetworkTest}
   // in one class (may be a utility class for error messages).
   private static final String ERROR_PARALLEL_EDGE = "connected by a different edge";
-  private static final String ERROR_NEGATIVE_NODE_COUNT =
-      "expected number of nodes can't be negative";
-  private static final String ERROR_NEGATIVE_EDGE_COUNT =
-      "expected number of edges can't be negative";
+  private static final String ERROR_NEGATIVE_COUNT = "is non-negative";
   private static final String ERROR_ADDED_PARALLEL_EDGE =
       "Should not be allowed to add a parallel edge.";
   private static final String ERROR_ADDED_SELF_LOOP =
@@ -381,7 +378,7 @@ public class GraphsTest {
 
     try {
       inducedSubgraph(undirectedGraph, ImmutableSet.of(N1));
-      fail("Should have rejected getting induced subgraph with node not in original graph");
+      fail("Should have rejected getting induced subgraph with node not in original graph.");
     } catch (IllegalArgumentException expected) {
     }
   }
@@ -390,7 +387,7 @@ public class GraphsTest {
   public void copyOf_nullArgument() {
     try {
       copyOf((Graph<?>) null);
-      fail("Should have rejected a null graph");
+      fail("Should have rejected a null graph.");
     } catch (NullPointerException expected) {
     }
   }
@@ -546,9 +543,9 @@ public class GraphsTest {
   public void builder_expectedNodeCount_negative() {
     try {
       NetworkBuilder.directed().expectedNodeCount(-1);
-      fail(ERROR_NEGATIVE_NODE_COUNT);
+      fail("Should have rejected negative expected node count.");
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_NEGATIVE_NODE_COUNT);
+      assertThat(e.getMessage()).contains(ERROR_NEGATIVE_COUNT);
     }
   }
 
@@ -574,9 +571,9 @@ public class GraphsTest {
   public void builder_expectedEdgeCount_negative() {
     try {
       NetworkBuilder.directed().expectedEdgeCount(-1);
-      fail(ERROR_NEGATIVE_EDGE_COUNT);
+      fail("Should have rejected negative expected edge count.");
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_NEGATIVE_EDGE_COUNT);
+      assertThat(e.getMessage()).contains(ERROR_NEGATIVE_COUNT);
     }
   }
 

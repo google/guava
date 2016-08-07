@@ -16,8 +16,8 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
@@ -110,11 +110,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    * @throws IllegalArgumentException if {@code expectedNodeCount} is negative
    */
   public NetworkBuilder<N, E> expectedNodeCount(int expectedNodeCount) {
-    checkArgument(
-        expectedNodeCount >= 0,
-        "The expected number of nodes can't be negative: %s",
-        expectedNodeCount);
-    this.expectedNodeCount = Optional.of(expectedNodeCount);
+    this.expectedNodeCount = Optional.of(checkNonNegative(expectedNodeCount));
     return this;
   }
 
@@ -124,11 +120,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    * @throws IllegalArgumentException if {@code expectedEdgeCount} is negative
    */
   public NetworkBuilder<N, E> expectedEdgeCount(int expectedEdgeCount) {
-    checkArgument(
-        expectedEdgeCount >= 0,
-        "The expected number of edges can't be negative: %s",
-        expectedEdgeCount);
-    this.expectedEdgeCount = Optional.of(expectedEdgeCount);
+    this.expectedEdgeCount = Optional.of(checkNonNegative(expectedEdgeCount));
     return this;
   }
 

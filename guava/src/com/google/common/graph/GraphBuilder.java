@@ -16,8 +16,8 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
@@ -92,11 +92,7 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
    * @throws IllegalArgumentException if {@code expectedNodeCount} is negative
    */
   public GraphBuilder<N> expectedNodeCount(int expectedNodeCount) {
-    checkArgument(
-        expectedNodeCount >= 0,
-        "The expected number of nodes can't be negative: %s",
-        expectedNodeCount);
-    this.expectedNodeCount = Optional.of(expectedNodeCount);
+    this.expectedNodeCount = Optional.of(checkNonNegative(expectedNodeCount));
     return this;
   }
 

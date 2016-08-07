@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
 import com.google.common.annotations.Beta;
@@ -687,25 +686,25 @@ public final class Graphs {
 
   @CanIgnoreReturnValue
   static int checkNonNegative(int value) {
-    checkState(value >= 0, "Not true that %s is non-negative.", value);
+    checkArgument(value >= 0, "Not true that %s is non-negative.", value);
     return value;
   }
 
   @CanIgnoreReturnValue
   static int checkPositive(int value) {
-    checkState(value > 0, "Not true that %s is positive.", value);
+    checkArgument(value > 0, "Not true that %s is positive.", value);
     return value;
   }
 
   @CanIgnoreReturnValue
   static long checkNonNegative(long value) {
-    checkState(value >= 0, "Not true that %s is non-negative.", value);
+    checkArgument(value >= 0, "Not true that %s is non-negative.", value);
     return value;
   }
 
   @CanIgnoreReturnValue
   static long checkPositive(long value) {
-    checkState(value > 0, "Not true that %s is positive.", value);
+    checkArgument(value > 0, "Not true that %s is positive.", value);
     return value;
   }
 
