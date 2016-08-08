@@ -17,8 +17,6 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
@@ -136,8 +134,8 @@ public abstract class AbstractGraphTest {
       assertThat(nodeString).contains(node.toString());
 
       for (Integer adjacentNode : graph.adjacentNodes(node)) {
-        assertTrue(graph.predecessors(node).contains(adjacentNode)
-            || graph.successors(node).contains(adjacentNode));
+        assertThat(graph.predecessors(node).contains(adjacentNode)
+            || graph.successors(node).contains(adjacentNode)).isTrue();
       }
 
       for (Integer predecessor : graph.predecessors(node)) {
@@ -246,7 +244,7 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void addNode_newNode() {
-    assertTrue(addNode(N1));
+    assertThat(addNode(N1)).isTrue();
     assertThat(graph.nodes()).contains(N1);
   }
 
@@ -254,7 +252,7 @@ public abstract class AbstractGraphTest {
   public void addNode_existingNode() {
     addNode(N1);
     ImmutableSet<Integer> nodes = ImmutableSet.copyOf(graph.nodes());
-    assertFalse(addNode(N1));
+    assertThat(addNode(N1)).isFalse();
     assertThat(graph.nodes()).containsExactlyElementsIn(nodes);
   }
 
@@ -262,7 +260,7 @@ public abstract class AbstractGraphTest {
   public void removeNode_existingNode() {
     addEdge(N1, N2);
     addEdge(N4, N1);
-    assertTrue(graph.removeNode(N1));
+    assertThat(graph.removeNode(N1)).isTrue();
     assertThat(graph.nodes()).containsExactly(N2, N4);
     assertThat(graph.adjacentNodes(N2)).isEmpty();
     assertThat(graph.adjacentNodes(N4)).isEmpty();
@@ -272,7 +270,7 @@ public abstract class AbstractGraphTest {
   public void removeNode_nodeNotPresent() {
     addNode(N1);
     ImmutableSet<Integer> nodes = ImmutableSet.copyOf(graph.nodes());
-    assertFalse(graph.removeNode(NODE_NOT_IN_GRAPH));
+    assertThat(graph.removeNode(NODE_NOT_IN_GRAPH)).isFalse();
     assertThat(graph.nodes()).containsExactlyElementsIn(nodes);
   }
 
@@ -280,7 +278,7 @@ public abstract class AbstractGraphTest {
   public void removeNode_queryAfterRemoval() {
     addNode(N1);
     Set<Integer> unused = graph.adjacentNodes(N1); // ensure cache (if any) is populated
-    assertTrue(graph.removeNode(N1));
+    assertThat(graph.removeNode(N1)).isTrue();
     try {
       graph.adjacentNodes(N1);
       fail(ERROR_NODE_NOT_IN_GRAPH);
@@ -294,14 +292,14 @@ public abstract class AbstractGraphTest {
     addEdge(N1, N2);
     addEdge(N1, N3);
     addEdge(N1, N4);
-    assertTrue(graph.removeEdge(N1, N3));
+    assertThat(graph.removeEdge(N1, N3)).isTrue();
     assertThat(graph.adjacentNodes(N1)).containsExactly(N2, N4);
   }
 
   @Test
   public void removeEdge_nodeNotPresent() {
     addEdge(N1, N2);
-    assertFalse(graph.removeEdge(N1, NODE_NOT_IN_GRAPH));
+    assertThat(graph.removeEdge(N1, NODE_NOT_IN_GRAPH)).isFalse();
     assertThat(graph.successors(N1)).contains(N2);
   }
 
@@ -309,7 +307,7 @@ public abstract class AbstractGraphTest {
   public void removeEdge_edgeNotPresent() {
     addEdge(N1, N2);
     addNode(N3);
-    assertFalse(graph.removeEdge(N1, N3));
+    assertThat(graph.removeEdge(N1, N3)).isFalse();
     assertThat(graph.successors(N1)).contains(N2);
   }
 
