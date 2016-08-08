@@ -71,6 +71,27 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
+  public int indexOf(Object o) {
+    if (!(o instanceof List)) {
+      return -1;
+    }
+    List<?> list = (List<?>) o;
+    if (list.size() != axes.size()) {
+      return -1;
+    }
+    ListIterator<?> itr = list.listIterator();
+    int computedIndex = 0;
+    while (itr.hasNext()) {
+      int axeIndex = itr.nextIndex(), elemIndex;
+      if ((elemIndex = axes.get(axeIndex).indexOf(itr.next())) == -1) {
+        return elemIndex;
+      }
+      computedIndex += elemIndex * axesSizeProduct[axeIndex + 1];
+    }
+    return computedIndex;
+  }
+
+  @Override
   public ImmutableList<E> get(final int index) {
     checkElementIndex(index, size());
     return new ImmutableList<E>() {
@@ -101,20 +122,6 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
 
   @Override
   public boolean contains(@Nullable Object o) {
-    if (!(o instanceof List)) {
-      return false;
-    }
-    List<?> list = (List<?>) o;
-    if (list.size() != axes.size()) {
-      return false;
-    }
-    ListIterator<?> itr = list.listIterator();
-    while (itr.hasNext()) {
-      int index = itr.nextIndex();
-      if (!axes.get(index).contains(itr.next())) {
-        return false;
-      }
-    }
-    return true;
+    return indexOf(o) != -1;
   }
 }
