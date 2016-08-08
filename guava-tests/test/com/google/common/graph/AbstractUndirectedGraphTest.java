@@ -83,4 +83,15 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
     assertThat(graph.successors(N1)).isEmpty();
     assertThat(graph.predecessors(N2)).isEmpty();
   }
+
+  @Test
+  public void removeEdge_antiparallelEdges() {
+    addEdge(N1, N2);
+    addEdge(N2, N1); // no-op
+
+    assertTrue(graph.removeEdge(N1, N2));
+    assertThat(graph.adjacentNodes(N1)).isEmpty();
+    assertThat(graph.edges()).isEmpty();
+    assertFalse(graph.removeEdge(N2, N1));
+  }
 }

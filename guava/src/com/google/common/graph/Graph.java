@@ -177,6 +177,11 @@ public interface Graph<N> {
   Set<N> nodes();
 
   /**
+   * Returns all edges in this graph.
+   */
+  Set<Endpoints<N>> edges();
+
+  /**
    * Returns the order of iteration for the elements of {@link #nodes()}.
    */
   ElementOrder<? super N> nodeOrder();

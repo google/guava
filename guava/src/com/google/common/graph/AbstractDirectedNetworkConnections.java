@@ -18,6 +18,8 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.graph.Graphs.checkNonNegative;
+import static com.google.common.graph.Graphs.checkPositive;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
@@ -53,7 +55,8 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
       int selfLoopCount) {
     this.inEdgeMap = checkNotNull(inEdgeMap, "inEdgeMap");
     this.outEdgeMap = checkNotNull(outEdgeMap, "outEdgeMap");
-    this.selfLoopCount = selfLoopCount;
+    this.selfLoopCount = checkNonNegative(selfLoopCount);
+    checkState(selfLoopCount <= inEdgeMap.size() && selfLoopCount <= outEdgeMap.size());
   }
 
   @Override
@@ -105,8 +108,7 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
   public N removeInEdge(Object edge, boolean isSelfLoop) {
     checkNotNull(edge, "edge");
     if (isSelfLoop) {
-      selfLoopCount--;
-      checkState(selfLoopCount >= 0);
+      checkNonNegative(--selfLoopCount);
     }
     N previousNode = inEdgeMap.remove(edge);
     return checkNotNull(previousNode);
@@ -124,8 +126,7 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
     checkNotNull(edge, "edge");
     checkNotNull(node, "node");
     if (isSelfLoop) {
-      selfLoopCount++;
-      checkState(selfLoopCount >= 1);
+      checkPositive(++selfLoopCount);
     }
     N previousNode = inEdgeMap.put(edge, node);
     checkState(previousNode == null);

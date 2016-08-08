@@ -21,16 +21,29 @@ import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.EqualsTester;
+import java.util.Collection;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for {@link Endpoints}.
+ * Tests for {@link Endpoints} and {@link Graph#edges()}.
  */
 @RunWith(JUnit4.class)
 public final class EndpointsTest {
+  private static final Integer N0 = 0;
+  private static final Integer N1 = 1;
+  private static final Integer N2 = 2;
+  private static final Integer N3 = 3;
+  private static final Integer N4 = 4;
+  private static final String E12 = "1-2";
+  private static final String E12_A = "1-2a";
+  private static final String E21 = "2-1";
+  private static final String E13 = "1-3";
+  private static final String E44 = "4-4";
+
+  // Test for Endpoints class
 
   @Test
   public void testDirectedEndpoints() {
@@ -89,5 +102,121 @@ public final class EndpointsTest {
         .addEqualityGroup(directedMirror)
         .addEqualityGroup(undirected, undirectedMirror)
         .testEquals();
+  }
+
+  // Tests for Graph.edges() and Network.asGraph().edges() methods
+  // TODO(user): Move these to a more appropiate location in the test suite.
+
+  @Test
+  public void endpoints_directedGraph() {
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    directedGraph.addNode(N0);
+    directedGraph.putEdge(N1, N2);
+    directedGraph.putEdge(N2, N1);
+    directedGraph.putEdge(N1, N3);
+    directedGraph.putEdge(N4, N4);
+    containsExactlySanityCheck(
+        directedGraph.edges(),
+        Endpoints.ofDirected(N1, N2),
+        Endpoints.ofDirected(N2, N1),
+        Endpoints.ofDirected(N1, N3),
+        Endpoints.ofDirected(N4, N4));
+  }
+
+  @Test
+  public void endpoints_undirectedGraph() {
+    MutableGraph<Integer> undirectedGraph = GraphBuilder.undirected().build();
+    undirectedGraph.addNode(N0);
+    undirectedGraph.putEdge(N1, N2);
+    undirectedGraph.putEdge(N2, N1); // does nothing
+    undirectedGraph.putEdge(N1, N3);
+    undirectedGraph.putEdge(N4, N4);
+    containsExactlySanityCheck(
+        undirectedGraph.edges(),
+        Endpoints.ofUndirected(N1, N2),
+        Endpoints.ofUndirected(N1, N3),
+        Endpoints.ofUndirected(N4, N4));
+  }
+
+  @Test
+  public void endpoints_directedNetwork() {
+    MutableNetwork<Integer, String> directedNetwork = NetworkBuilder.directed().build();
+    directedNetwork.addNode(N0);
+    directedNetwork.addEdgeV2(N1, N2, E12);
+    directedNetwork.addEdgeV2(N2, N1, E21);
+    directedNetwork.addEdgeV2(N1, N3, E13);
+    directedNetwork.addEdgeV2(N4, N4, E44);
+    containsExactlySanityCheck(
+        directedNetwork.asGraph().edges(),
+        Endpoints.ofDirected(N1, N2),
+        Endpoints.ofDirected(N2, N1),
+        Endpoints.ofDirected(N1, N3),
+        Endpoints.ofDirected(N4, N4));
+  }
+
+  @Test
+  public void endpoints_undirectedNetwork() {
+    MutableNetwork<Integer, String> undirectedNetwork =
+        NetworkBuilder.undirected().allowsParallelEdges(true).build();
+    undirectedNetwork.addNode(N0);
+    undirectedNetwork.addEdgeV2(N1, N2, E12);
+    undirectedNetwork.addEdgeV2(N2, N1, E12_A); // adds parallel edge, won't be in Graph edges
+    undirectedNetwork.addEdgeV2(N1, N3, E13);
+    undirectedNetwork.addEdgeV2(N4, N4, E44);
+    containsExactlySanityCheck(
+        undirectedNetwork.asGraph().edges(),
+        Endpoints.ofUndirected(N1, N2),
+        Endpoints.ofUndirected(N1, N3),
+        Endpoints.ofUndirected(N4, N4));
+  }
+
+  @Test
+  public void endpoints_unmodifiableView() {
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    Collection<Endpoints<Integer>> endpoints = directedGraph.edges();
+
+    directedGraph.putEdge(N1, N2);
+    containsExactlySanityCheck(endpoints, Endpoints.ofDirected(N1, N2));
+
+    directedGraph.putEdge(N2, N1);
+    containsExactlySanityCheck(
+        endpoints,
+        Endpoints.ofDirected(N1, N2),
+        Endpoints.ofDirected(N2, N1));
+
+    directedGraph.removeEdge(N1, N2);
+    directedGraph.removeEdge(N2, N1);
+    containsExactlySanityCheck(endpoints);
+
+    try {
+      endpoints.add(Endpoints.ofDirected(N1, N2));
+      fail("Collection returned by endpoints() should be unmodifiable");
+    } catch (UnsupportedOperationException expected) {
+    }
+  }
+
+  @Test
+  public void endpoints_containment() {
+    MutableGraph<Integer> undirectedGraph = GraphBuilder.undirected().build();
+    undirectedGraph.putEdge(N1, N1);
+    undirectedGraph.putEdge(N1, N2);
+    Collection<Endpoints<Integer>> endpoints = undirectedGraph.edges();
+
+    assertThat(endpoints).hasSize(2);
+    assertThat(endpoints).contains(Endpoints.ofUndirected(N1, N1));
+    assertThat(endpoints).contains(Endpoints.ofUndirected(N1, N2));
+    assertThat(endpoints).contains(Endpoints.ofUndirected(N2, N1)); // equal to ofUndirected(N1, N2)
+
+    assertThat(endpoints).doesNotContain(Endpoints.ofUndirected(N2, N2));
+    assertThat(endpoints).doesNotContain(Endpoints.ofDirected(N1, N2)); // graph not directed
+    assertThat(endpoints).doesNotContain(Endpoints.ofUndirected(N3, N4)); // nodes not in graph
+  }
+
+  private static void containsExactlySanityCheck(Collection<?> collection, Object... varargs) {
+    assertThat(collection).hasSize(varargs.length);
+    for (Object obj : varargs) {
+      assertThat(collection).contains(obj);
+    }
+    assertThat(collection).containsExactly(varargs);
   }
 }

@@ -20,7 +20,10 @@ import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
+import java.util.AbstractSet;
+import java.util.Iterator;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -43,6 +46,43 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
       @Override
       public Set<N> nodes() {
         return AbstractNetwork.this.nodes();
+      }
+
+      @Override
+      public Set<Endpoints<N>> edges() {
+        if (allowsParallelEdges()) {
+          return super.edges(); // Defer to AbstractGraph implementation.
+        }
+
+        // Optimized implementation assumes no parallel edges (1:1 edge to Endpoints mapping).
+        return new AbstractSet<Endpoints<N>>() {
+          @Override
+          public Iterator<Endpoints<N>> iterator() {
+            return Iterators.transform(
+                AbstractNetwork.this.edges().iterator(),
+                new Function<E, Endpoints<N>>() {
+                  @Override
+                  public Endpoints<N> apply(E edge) {
+                    return incidentNodes(edge);
+                  }
+                });
+          }
+
+          @Override
+          public int size() {
+            return AbstractNetwork.this.edges().size();
+          }
+
+          @Override
+          public boolean contains(Object obj) {
+            if (!(obj instanceof Endpoints)) {
+              return false;
+            }
+            Endpoints<?> endpoints = (Endpoints<?>) obj;
+            return isDirected() == endpoints.isDirected()
+                && !edgesConnecting(endpoints.nodeA(), endpoints.nodeB()).isEmpty();
+          }
+        };
       }
 
       @Override

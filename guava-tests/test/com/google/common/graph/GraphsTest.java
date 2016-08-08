@@ -25,7 +25,6 @@ import static org.junit.Assert.fail;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
-import java.util.Collection;
 import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +36,6 @@ import org.junit.runners.JUnit4;
  */
 @RunWith(JUnit4.class)
 public class GraphsTest {
-  private static final Integer N0 = 0;
   private static final Integer N1 = 1;
   private static final Integer N2 = 2;
   private static final Integer N3 = 3;
@@ -469,13 +467,5 @@ public class GraphsTest {
     undirectedGraph.addEdgeV2(N2, N1, E21);
 
     return undirectedGraph;
-  }
-
-  private static void containsExactlySanityCheck(Collection<?> collection, Object... varargs) {
-    assertThat(collection).hasSize(varargs.length);
-    for (Object obj : varargs) {
-      assertThat(collection).contains(obj);
-    }
-    assertThat(collection).containsExactly(varargs);
   }
 }

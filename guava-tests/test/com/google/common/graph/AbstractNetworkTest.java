@@ -159,6 +159,7 @@ public abstract class AbstractNetworkTest {
 
     Graph<Integer> asGraph = network.asGraph();
     assertThat(network.nodes()).isEqualTo(asGraph.nodes());
+    assertThat(network.edges().size()).isAtLeast(asGraph.edges().size());
     assertThat(network.nodeOrder()).isEqualTo(asGraph.nodeOrder());
     assertThat(network.isDirected()).isEqualTo(asGraph.isDirected());
     assertThat(network.allowsSelfLoops()).isEqualTo(asGraph.allowsSelfLoops());
@@ -170,6 +171,7 @@ public abstract class AbstractNetworkTest {
       Iterator<Integer> endpointsIterator = network.incidentNodes(edge).iterator();
       Integer nodeA = endpointsIterator.next();
       Integer nodeB = endpointsIterator.next();
+      assertThat(asGraph.edges()).contains(Endpoints.of(network, nodeA, nodeB));
       assertThat(network.edgesConnecting(nodeA, nodeB)).contains(edge);
       assertThat(network.successors(nodeA)).contains(nodeB);
       assertThat(network.adjacentNodes(nodeA)).contains(nodeB);

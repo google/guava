@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.SELF_LOOPS_NOT_ALLOWED;
+import static com.google.common.graph.Graphs.checkNonNegative;
+import static com.google.common.graph.Graphs.checkPositive;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
@@ -94,6 +96,7 @@ final class ConfigurableMutableGraph<N>
       connectionsB = addNodeInternal(nodeB);
     }
     connectionsB.addPredecessor(nodeA);
+    checkPositive(++edgeCount);
     return true;
   }
 
@@ -108,19 +111,26 @@ final class ConfigurableMutableGraph<N>
     }
 
     if (allowsSelfLoops()) {
-      // Remove any potential self-loop first so we won't get CME while removing incident edges.
-      connections.removeSuccessor(node);
-      connections.removePredecessor(node);
+      // Remove self-loop (if any) first, so we don't get CME while removing incident edges.
+      if (connections.successors().contains(node)) {
+        connections.removeSuccessor(node);
+        connections.removePredecessor(node);
+        --edgeCount;
+      }
     }
+
     for (N successor : connections.successors()) {
       nodeConnections.getWithoutCaching(successor).removePredecessor(node);
+      --edgeCount;
     }
     if (isDirected()) { // In undirected graphs, the successor and predecessor sets are equal.
       for (N predecessor : connections.predecessors()) {
         nodeConnections.getWithoutCaching(predecessor).removeSuccessor(node);
+        --edgeCount;
       }
     }
     nodeConnections.remove(node);
+    checkNonNegative(edgeCount);
     return true;
   }
 
@@ -138,6 +148,7 @@ final class ConfigurableMutableGraph<N>
     GraphConnections<N> connectionsB = nodeConnections.get(nodeB);
     connectionsA.removeSuccessor(nodeB);
     connectionsB.removePredecessor(nodeA);
+    checkNonNegative(--edgeCount);
     return true;
   }
 

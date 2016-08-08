@@ -20,13 +20,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
-import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.google.common.primitives.Ints;
-import java.util.AbstractSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -42,50 +39,6 @@ public final class Graphs {
   private Graphs() {}
 
   // Graph query methods
-
-  static <N> Set<Endpoints<N>> endpointsInternal(final Graph<N> graph) {
-    return new AbstractSet<Endpoints<N>>() {
-      @Override
-      public Iterator<Endpoints<N>> iterator() {
-        return graph.isDirected()
-            ? new DirectedEndpointsIterator<N>(graph)
-            : new UndirectedEndpointsIterator<N>(graph);
-      }
-
-      @Override
-      public int size() {
-        boolean directed = graph.isDirected();
-        long endpointsCount = 0L;
-        for (N node : graph.nodes()) {
-          Set<N> successors = graph.successors(node);
-          endpointsCount += successors.size();
-          if (!directed && successors.contains(node)) {
-            endpointsCount++; // count self-loops twice in the undirected case
-          }
-        }
-        if (!directed) {
-          // In undirected graphs, every pair of adjacent nodes has been counted twice.
-          checkState((endpointsCount & 1) == 0);
-          endpointsCount >>>= 1;
-        }
-        return Ints.saturatedCast(endpointsCount);
-      }
-
-      @Override
-      public boolean contains(Object obj) {
-        if (!(obj instanceof Endpoints)) {
-          return false;
-        }
-        return containsEndpoints(graph, (Endpoints<?>) obj);
-      }
-    };
-  }
-
-  private static boolean containsEndpoints(Graph<?> graph, Endpoints<?> endpoints) {
-    return graph.isDirected() == endpoints.isDirected()
-        && graph.nodes().contains(endpoints.nodeA())
-        && graph.successors(endpoints.nodeA()).contains(endpoints.nodeB());
-  }
 
   /**
    * Returns an unmodifiable view of edges that are parallel to {@code edge}, i.e. the set of edges
@@ -159,7 +112,7 @@ public final class Graphs {
     for (N node : graph.nodes()) {
       checkState(copy.addNode(node));
     }
-    for (Endpoints<N> endpoints : endpointsInternal(graph)) {
+    for (Endpoints<N> endpoints : graph.edges()) {
       checkState(copy.putEdge(endpoints.nodeA(), endpoints.nodeB()));
     }
 
@@ -187,104 +140,27 @@ public final class Graphs {
     return copy;
   }
 
-  private abstract static class AbstractEndpointsIterator<N>
-      extends AbstractIterator<Endpoints<N>> {
-    private final Graph<N> graph;
-    private final Iterator<N> nodeIterator;
-
-    N node = null; // null is safe as an initial value because graphs do not allow null nodes
-    Iterator<N> successorIterator = ImmutableSet.<N>of().iterator();
-
-    AbstractEndpointsIterator(Graph<N> graph) {
-      this.graph = graph;
-      this.nodeIterator = graph.nodes().iterator();
-    }
-
-    /**
-     * Called after {@link #successorIterator} is exhausted. Advances {@link #node} to the next node
-     * and updates {@link #successorIterator} to iterate through the successors of {@link #node}.
-     */
-    final boolean advance() {
-      checkState(!successorIterator.hasNext());
-      if (!nodeIterator.hasNext()) {
-        return false;
-      }
-      node = nodeIterator.next();
-      successorIterator = graph.successors(node).iterator();
-      return true;
-    }
+  @CanIgnoreReturnValue
+  static int checkNonNegative(int value) {
+    checkState(value >= 0, "Not true that %s is non-negative.", value);
+    return value;
   }
 
-  /**
-   * If the graph is directed, each ordered [source, target] pair will be visited once if there is
-   * one or more edge connecting them.
-   */
-  private static final class DirectedEndpointsIterator<N> extends AbstractEndpointsIterator<N> {
-    DirectedEndpointsIterator(Graph<N> graph){
-      super(graph);
-    }
-
-    @Override
-    protected Endpoints<N> computeNext() {
-      while (true) {
-        if (successorIterator.hasNext()) {
-          return Endpoints.ofDirected(node, successorIterator.next());
-        }
-        if (!advance()) {
-          return endOfData();
-        }
-      }
-    }
+  @CanIgnoreReturnValue
+  static int checkPositive(int value) {
+    checkState(value > 0, "Not true that %s is positive.", value);
+    return value;
   }
 
-  /**
-   * If the graph is undirected, each unordered [node, otherNode] pair (except self-loops) will be
-   * visited twice if there is one or more edge connecting them. To avoid returning duplicate
-   * {@link Endpoints}, we keep track of the nodes that we have visited. When processing node pairs,
-   * we skip if the "other node" is in the visited set, as shown below:
-   *
-   * Nodes = {N1, N2, N3, N4}
-   *    N2           __
-   *   /  \         |  |
-   * N1----N3      N4__|
-   *
-   * Visited Nodes = {}
-   * Endpoints [N1, N2] - return
-   * Endpoints [N1, N3] - return
-   * Visited Nodes = {N1}
-   * Endpoints [N2, N1] - skip
-   * Endpoints [N2, N3] - return
-   * Visited Nodes = {N1, N2}
-   * Endpoints [N3, N1] - skip
-   * Endpoints [N3, N2] - skip
-   * Visited Nodes = {N1, N2, N3}
-   * Endpoints [N4, N4] - return
-   * Visited Nodes = {N1, N2, N3, N4}
-   */
-  private static final class UndirectedEndpointsIterator<N> extends AbstractEndpointsIterator<N> {
-    private Set<N> visitedNodes;
+  @CanIgnoreReturnValue
+  static long checkNonNegative(long value) {
+    checkState(value >= 0, "Not true that %s is non-negative.", value);
+    return value;
+  }
 
-    UndirectedEndpointsIterator(Graph<N> graph) {
-      super(graph);
-      this.visitedNodes = Sets.newHashSetWithExpectedSize(graph.nodes().size());
-    }
-
-    @Override
-    protected Endpoints<N> computeNext() {
-      while (true) {
-        while (successorIterator.hasNext()) {
-          N otherNode = successorIterator.next();
-          if (!visitedNodes.contains(otherNode)) {
-            return Endpoints.ofUndirected(node, otherNode);
-          }
-        }
-        // Add to visited set *after* processing neighbors so we still include self-loops.
-        visitedNodes.add(node);
-        if (!advance()) {
-          visitedNodes = null;
-          return endOfData();
-        }
-      }
-    }
+  @CanIgnoreReturnValue
+  static long checkPositive(long value) {
+    checkState(value > 0, "Not true that %s is positive.", value);
+    return value;
   }
 }

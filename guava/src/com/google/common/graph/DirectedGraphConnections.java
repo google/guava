@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
 import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
+import static com.google.common.graph.Graphs.checkNonNegative;
+import static com.google.common.graph.Graphs.checkPositive;
 
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableMap;
@@ -54,8 +56,9 @@ final class DirectedGraphConnections<N> implements GraphConnections<N> {
   private DirectedGraphConnections(
       Map<N, Adjacency> adjacentNodes, int predecessorCount, int successorCount) {
     this.adjacentNodes = checkNotNull(adjacentNodes, "adjacentNodes");
-    this.predecessorCount = predecessorCount;
-    this.successorCount = successorCount;
+    this.predecessorCount = checkNonNegative(predecessorCount);
+    this.successorCount = checkNonNegative(successorCount);
+    checkState(predecessorCount <= adjacentNodes.size() && successorCount <= adjacentNodes.size());
   }
 
   static <N> DirectedGraphConnections<N> of() {
@@ -147,12 +150,12 @@ final class DirectedGraphConnections<N> implements GraphConnections<N> {
     Adjacency adjacency = adjacentNodes.get(node);
     if (adjacency == Adjacency.BOTH) {
       adjacentNodes.put((N) node, Adjacency.SUCC);
-      predecessorCount--;
+      --predecessorCount;
     } else if (adjacency == Adjacency.PRED) {
       adjacentNodes.remove(node);
-      predecessorCount--;
+      --predecessorCount;
     }
-    checkState(predecessorCount >= 0);
+    checkNonNegative(predecessorCount);
   }
 
   @SuppressWarnings("unchecked") // Safe because we only cast if node is a key of Map<N, Adjacency>
@@ -162,12 +165,12 @@ final class DirectedGraphConnections<N> implements GraphConnections<N> {
     Adjacency adjacency = adjacentNodes.get(node);
     if (adjacency == Adjacency.BOTH) {
       adjacentNodes.put((N) node, Adjacency.PRED);
-      successorCount--;
+      --successorCount;
     } else if (adjacency == Adjacency.SUCC) {
       adjacentNodes.remove(node);
-      successorCount--;
+      --successorCount;
     }
-    checkState(successorCount >= 0);
+    checkNonNegative(successorCount);
   }
 
   @Override
@@ -176,12 +179,12 @@ final class DirectedGraphConnections<N> implements GraphConnections<N> {
     Adjacency adjacency = adjacentNodes.get(node);
     if (adjacency == null) {
       adjacentNodes.put(node, Adjacency.PRED);
-      predecessorCount++;
+      ++predecessorCount;
     } else if (adjacency == Adjacency.SUCC) {
       adjacentNodes.put(node, Adjacency.BOTH);
-      predecessorCount++;
+      ++predecessorCount;
     }
-    checkState(predecessorCount >= 1);
+    checkPositive(predecessorCount);
   }
 
   @Override
@@ -190,12 +193,12 @@ final class DirectedGraphConnections<N> implements GraphConnections<N> {
     Adjacency adjacency = adjacentNodes.get(node);
     if (adjacency == null) {
       adjacentNodes.put(node, Adjacency.SUCC);
-      successorCount++;
+      ++successorCount;
     } else if (adjacency == Adjacency.PRED) {
       adjacentNodes.put(node, Adjacency.BOTH);
-      successorCount++;
+      ++successorCount;
     }
-    checkState(successorCount >= 1);
+    checkPositive(successorCount);
   }
 
   private static boolean isPredecessor(@Nullable Adjacency adjacency) {

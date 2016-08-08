@@ -22,6 +22,7 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.HashSet;
 import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
@@ -130,6 +131,8 @@ public abstract class AbstractGraphTest {
     int edgeStart = graphString.indexOf("edges:");
     String nodeString = graphString.substring(nodeStart, edgeStart);
 
+    Set<Endpoints<Integer>> allEndpoints = new HashSet<Endpoints<Integer>>();
+
     for (Integer node : graph.nodes()) {
       assertThat(nodeString).contains(node.toString());
 
@@ -143,9 +146,14 @@ public abstract class AbstractGraphTest {
       }
 
       for (Integer successor : graph.successors(node)) {
+        Endpoints<Integer> endpoints = Endpoints.of(graph, node, successor);
+        allEndpoints.add(endpoints);
+        assertThat(graph.edges()).contains(endpoints);
         assertThat(graph.predecessors(successor)).contains(node);
       }
     }
+
+    assertThat(graph.edges()).isEqualTo(allEndpoints);
   }
 
   /**
@@ -264,6 +272,20 @@ public abstract class AbstractGraphTest {
     assertThat(graph.nodes()).containsExactly(N2, N4);
     assertThat(graph.adjacentNodes(N2)).isEmpty();
     assertThat(graph.adjacentNodes(N4)).isEmpty();
+  }
+
+  @Test
+  public void removeNode_antiparallelEdges() {
+    addEdge(N1, N2);
+    addEdge(N2, N1);
+
+    assertThat(graph.removeNode(N1)).isTrue();
+    assertThat(graph.nodes()).containsExactly(N2);
+    assertThat(graph.edges()).isEmpty();
+
+    assertThat(graph.removeNode(N2)).isTrue();
+    assertThat(graph.nodes()).isEmpty();
+    assertThat(graph.edges()).isEmpty();
   }
 
   @Test

@@ -37,7 +37,7 @@ import java.util.Set;
 public final class ImmutableGraph<N> extends AbstractConfigurableGraph<N> {
 
   private ImmutableGraph(Graph<N> graph) {
-    super(GraphBuilder.from(graph), getNodeConnections(graph));
+    super(GraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
   }
 
   /**
