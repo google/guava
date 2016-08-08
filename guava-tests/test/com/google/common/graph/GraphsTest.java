@@ -86,6 +86,7 @@ public class GraphsTest {
     };
   }
 
+  @Test
   public void parallelEdges_directed() {
     MutableNetwork<Integer, String> directedGraph =
         NetworkBuilder.directed().allowsParallelEdges(true).build();
