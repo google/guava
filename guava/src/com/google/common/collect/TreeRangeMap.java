@@ -448,7 +448,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
             @Override
             protected Entry<Range<K>, V> computeNext() {
-              while (backingItr.hasNext()) {
+              if (backingItr.hasNext()) {
                 RangeMapEntry<K, V> entry = backingItr.next();
                 if (entry.getUpperBound().compareTo(subRange.lowerBound) <= 0) {
                   return endOfData();
