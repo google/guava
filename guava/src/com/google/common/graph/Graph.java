@@ -184,7 +184,7 @@ public interface Graph<N> {
   /**
    * Returns the order of iteration for the elements of {@link #nodes()}.
    */
-  ElementOrder<? super N> nodeOrder();
+  ElementOrder<N> nodeOrder();
 
   //
   // Graph properties

@@ -224,12 +224,12 @@ public interface Network<N, E> {
   /**
    * Returns the order of iteration for the elements of {@link #nodes()}.
    */
-  ElementOrder<? super N> nodeOrder();
+  ElementOrder<N> nodeOrder();
 
   /**
    * Returns the order of iteration for the elements of {@link #edges()}.
    */
-  ElementOrder<? super E> edgeOrder();
+  ElementOrder<E> edgeOrder();
 
   /**
    * Returns a live view of this graph as a {@link Graph}. The resulting {@link Graph} will have an

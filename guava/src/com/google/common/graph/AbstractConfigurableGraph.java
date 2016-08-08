@@ -54,7 +54,7 @@ import javax.annotation.Nullable;
 abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
   private final boolean isDirected;
   private final boolean allowsSelfLoops;
-  private final ElementOrder<? super N> nodeOrder;
+  private final ElementOrder<N> nodeOrder;
 
   protected final MapIteratorCache<N, GraphConnections<N>> nodeConnections;
 
@@ -79,7 +79,7 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
       Map<N, GraphConnections<N>> nodeConnections, long edgeCount) {
     this.isDirected = builder.directed;
     this.allowsSelfLoops = builder.allowsSelfLoops;
-    this.nodeOrder = builder.nodeOrder;
+    this.nodeOrder = builder.nodeOrder.cast();
     // Prefer the heavier "MapRetrievalCache" for nodes if lookup is expensive.
     this.nodeConnections = (nodeConnections instanceof TreeMap)
         ? new MapRetrievalCache<N, GraphConnections<N>>(nodeConnections)
@@ -110,7 +110,7 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
   }
 
   @Override
-  public ElementOrder<? super N> nodeOrder() {
+  public ElementOrder<N> nodeOrder() {
     return nodeOrder;
   }
 

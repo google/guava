@@ -60,8 +60,8 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   private final boolean isDirected;
   private final boolean allowsParallelEdges;
   private final boolean allowsSelfLoops;
-  private final ElementOrder<? super N> nodeOrder;
-  private final ElementOrder<? super E> edgeOrder;
+  private final ElementOrder<N> nodeOrder;
+  private final ElementOrder<E> edgeOrder;
 
   protected final MapIteratorCache<N, NetworkConnections<N, E>> nodeConnections;
 
@@ -91,8 +91,8 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     this.isDirected = builder.directed;
     this.allowsParallelEdges = builder.allowsParallelEdges;
     this.allowsSelfLoops = builder.allowsSelfLoops;
-    this.nodeOrder = builder.nodeOrder;
-    this.edgeOrder = builder.edgeOrder;
+    this.nodeOrder = builder.nodeOrder.cast();
+    this.edgeOrder = builder.edgeOrder.cast();
     // Prefer the heavier "MapRetrievalCache" for nodes if lookup is expensive. This optimizes
     // methods that access the same node(s) repeatedly, such as Graphs.removeEdgesConnecting().
     this.nodeConnections = (nodeConnections instanceof TreeMap)
@@ -141,12 +141,12 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   }
 
   @Override
-  public ElementOrder<? super N> nodeOrder() {
+  public ElementOrder<N> nodeOrder() {
     return nodeOrder;
   }
 
   @Override
-  public ElementOrder<? super E> edgeOrder() {
+  public ElementOrder<E> edgeOrder() {
     return edgeOrder;
   }
 

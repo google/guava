@@ -86,7 +86,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
       }
 
       @Override
-      public ElementOrder<? super N> nodeOrder() {
+      public ElementOrder<N> nodeOrder() {
         return AbstractNetwork.this.nodeOrder();
       }
 

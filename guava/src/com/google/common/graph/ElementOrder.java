@@ -157,4 +157,9 @@ public final class ElementOrder<T> {
         throw new IllegalArgumentException("Unrecognized ElementOrder type");
     }
   }
+
+  @SuppressWarnings("unchecked")
+  <T1 extends T> ElementOrder<T1> cast() {
+    return (ElementOrder<T1>) this;
+  }
 }
