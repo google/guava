@@ -33,13 +33,7 @@ import javax.annotation.Nullable;
 @GwtCompatible(emulated = true)
 final class Platform {
   private static final Logger logger = Logger.getLogger(Platform.class.getName());
-  private static final PatternCompiler patternCompiler;
-
-  static {
-    patternCompiler = loadPatternCompiler();
-    logger.log(patternCompiler instanceof JdkPatternCompiler ? Level.FINE : Level.INFO,
-        "Using regex compiler: %s", patternCompiler.getClass().getName());
-  }
+  private static final PatternCompiler patternCompiler = loadPatternCompiler();
 
   private Platform() {}
 
