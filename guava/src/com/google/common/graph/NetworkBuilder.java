@@ -83,8 +83,7 @@ public final class NetworkBuilder<N, E> {
         .allowsParallelEdges(graph.allowsParallelEdges())
         .allowsSelfLoops(graph.allowsSelfLoops())
         .nodeOrder(graph.nodeOrder())
-        .edgeOrder(graph.edgeOrder())
-        .cast();
+        .edgeOrder(graph.edgeOrder());
   }
 
   /**

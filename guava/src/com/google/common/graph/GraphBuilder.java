@@ -78,8 +78,7 @@ public final class GraphBuilder<N> {
     checkNotNull(graph);
     return new GraphBuilder<Object>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
-        .nodeOrder(graph.nodeOrder())
-        .cast();
+        .nodeOrder(graph.nodeOrder());
   }
 
   /**

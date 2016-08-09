@@ -163,15 +163,15 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
     String propertiesString = String.format(
         "isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",
         isDirected(), allowsParallelEdges(), allowsSelfLoops());
-    Function<Object, String> edgeToEndpointsString = new Function<Object, String>() {
+    Function<E, Endpoints<N>> edgeToEndpointsFn = new Function<E, Endpoints<N>>() {
       @Override
-      public String apply(Object edge) {
-        return incidentNodes(edge).toString();
+      public Endpoints<N> apply(E edge) {
+        return incidentNodes(edge);
       }
     };
     return String.format(GRAPH_STRING_FORMAT,
         propertiesString,
         nodes(),
-        Maps.asMap(edges(), edgeToEndpointsString));
+        Maps.asMap(edges(), edgeToEndpointsFn));
   }
 }
