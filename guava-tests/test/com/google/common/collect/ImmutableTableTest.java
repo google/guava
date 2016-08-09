@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.testing.SerializableTester;
 
 /**
  * Tests common methods in {@link ImmutableTable}
@@ -170,9 +171,9 @@ public class ImmutableTableTest extends AbstractTableReadTest {
 
   private static <R, C, V> void validateViewOrdering(
       Table<R, C, V> original, Table<R, C, V> copy) {
-    assertTrue(Iterables.elementsEqual(original.cellSet(), copy.cellSet()));
-    assertTrue(Iterables.elementsEqual(original.rowKeySet(), copy.rowKeySet()));
-    assertTrue(Iterables.elementsEqual(original.values(), copy.values()));
+    assertThat(copy.cellSet()).containsExactlyElementsIn(original.cellSet()).inOrder();
+    assertThat(copy.rowKeySet()).containsExactlyElementsIn(original.rowKeySet()).inOrder();
+    assertThat(copy.values()).containsExactlyElementsIn(original.values()).inOrder();
   }
 
   public void testCopyOf() {
@@ -347,6 +348,57 @@ public class ImmutableTableTest extends AbstractTableReadTest {
     Table<Character, Integer, String> table = builder.build();
     assertThat(table.columnKeySet()).containsExactly(1, 2, 3).inOrder();
     assertThat(table.row('c').keySet()).containsExactly(1, 2, 3).inOrder();
+  }
+
+  public void testSerialization_empty() {
+    validateReserialization(ImmutableTable.of());
+  }
+
+  public void testSerialization_singleElement() {
+    validateReserialization(ImmutableTable.of('a', 2, "foo"));
+  }
+
+  public void testSerialization_manualOrder() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    validateReserialization(builder.build());
+  }
+
+  public void testSerialization_rowOrder() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.orderRowsBy(Ordering.<Character>natural());
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    validateReserialization(builder.build());
+  }
+
+  public void testSerialization_columnOrder() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.orderColumnsBy(Ordering.<Integer>natural());
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    validateReserialization(builder.build());
+  }
+
+  public void testSerialization_bothOrders() {
+    ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
+    builder.orderRowsBy(Ordering.<Character>natural());
+    builder.orderColumnsBy(Ordering.<Integer>natural());
+    builder.put('b', 2, "foo");
+    builder.put('b', 1, "bar");
+    builder.put('a', 2, "baz");
+    validateReserialization(builder.build());
+  }
+
+  private static <R, C, V> void validateReserialization(Table<R, C, V> original) {
+    Table<R, C, V> copy = SerializableTester.reserializeAndAssert(original);
+    assertThat(copy.cellSet()).containsExactlyElementsIn(original.cellSet()).inOrder();
+    assertThat(copy.rowKeySet()).containsExactlyElementsIn(original.rowKeySet()).inOrder();
+    assertThat(copy.columnKeySet()).containsExactlyElementsIn(original.columnKeySet()).inOrder();
   }
 
   @GwtIncompatible // Mind-bogglingly slow in GWT

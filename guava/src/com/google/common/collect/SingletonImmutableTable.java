@@ -75,4 +75,9 @@ class SingletonImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   ImmutableCollection<V> createValues() {
     return ImmutableSet.of(singleValue);
   }
+
+  @Override
+  SerializedForm createSerializedForm() {
+    return SerializedForm.create(this, new int[] {0}, new int[] {0});
+  }
 }

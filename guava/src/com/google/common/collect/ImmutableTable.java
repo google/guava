@@ -21,12 +21,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 
 /**
@@ -41,8 +40,8 @@ import javax.annotation.Nullable;
  * @since 11.0
  */
 @GwtCompatible
-// TODO(gak): make serializable
-public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
+public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
+    implements Serializable {
   /** Returns an empty immutable table. */
   @SuppressWarnings("unchecked")
   public static <R, C, V> ImmutableTable<R, C, V> of() {
@@ -373,5 +372,67 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V> {
   @Override
   public final V remove(Object rowKey, Object columnKey) {
     throw new UnsupportedOperationException();
+  }
+
+  /** Creates the common serialized form for this table. */
+  abstract SerializedForm createSerializedForm();
+
+  /**
+   * Serialized type for all ImmutableTable instances. It captures the logical contents and
+   * preserves iteration order of all views.
+   */
+  static final class SerializedForm implements Serializable {
+    private final Object[] rowKeys;
+    private final Object[] columnKeys;
+
+    private final Object[] cellValues;
+    private final int[] cellRowIndices;
+    private final int[] cellColumnIndices;
+
+    private SerializedForm(
+        Object[] rowKeys,
+        Object[] columnKeys,
+        Object[] cellValues,
+        int[] cellRowIndices,
+        int[] cellColumnIndices) {
+      this.rowKeys = rowKeys;
+      this.columnKeys = columnKeys;
+      this.cellValues = cellValues;
+      this.cellRowIndices = cellRowIndices;
+      this.cellColumnIndices = cellColumnIndices;
+    }
+
+    static SerializedForm create(
+        ImmutableTable<?, ?, ?> table, int[] cellRowIndices, int[] cellColumnIndices) {
+      return new SerializedForm(
+          table.rowKeySet().toArray(),
+          table.columnKeySet().toArray(),
+          table.values().toArray(),
+          cellRowIndices,
+          cellColumnIndices);
+    }
+
+    Object readResolve() {
+      if (cellValues.length == 0) {
+        return of();
+      }
+      if (cellValues.length == 1) {
+        return of(rowKeys[0], columnKeys[0], cellValues[0]);
+      }
+      ImmutableList.Builder<Cell<Object, Object, Object>> cellListBuilder =
+          new ImmutableList.Builder<Cell<Object, Object, Object>>(cellValues.length);
+      for (int i = 0; i < cellValues.length; i++) {
+        cellListBuilder.add(
+            cellOf(rowKeys[cellRowIndices[i]], columnKeys[cellColumnIndices[i]], cellValues[i]));
+      }
+      return RegularImmutableTable.forOrderedComponents(
+          cellListBuilder.build(), ImmutableSet.copyOf(rowKeys), ImmutableSet.copyOf(columnKeys));
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+
+  final Object writeReplace() {
+    return createSerializedForm();
   }
 }

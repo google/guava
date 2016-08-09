@@ -192,6 +192,42 @@ public void testRowNull() throws Exception {
   testCase.testRowNull();
 }
 
+public void testSerialization_bothOrders() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testSerialization_bothOrders();
+}
+
+public void testSerialization_columnOrder() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testSerialization_columnOrder();
+}
+
+public void testSerialization_empty() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testSerialization_empty();
+}
+
+public void testSerialization_manualOrder() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testSerialization_manualOrder();
+}
+
+public void testSerialization_rowOrder() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testSerialization_rowOrder();
+}
+
+public void testSerialization_singleElement() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testSerialization_singleElement();
+}
+
 public void testSize() throws Exception {
   com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
   testCase.setUp();
