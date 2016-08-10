@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -258,7 +259,7 @@ public class ServiceManagerTest extends TestCase {
       fail();
     } catch (TimeoutException expected) {
     }
-    manager.awaitHealthy(100, TimeUnit.MILLISECONDS); // no exception thrown
+    manager.awaitHealthy(5, SECONDS); // no exception thrown
 
     manager.stopAsync();
     try {
@@ -266,7 +267,7 @@ public class ServiceManagerTest extends TestCase {
       fail();
     } catch (TimeoutException expected) {
     }
-    manager.awaitStopped(100, TimeUnit.MILLISECONDS);  // no exception thrown
+    manager.awaitStopped(5, SECONDS);  // no exception thrown
   }
 
   /**
