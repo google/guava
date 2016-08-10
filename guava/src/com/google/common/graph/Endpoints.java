@@ -103,7 +103,8 @@ public abstract class Endpoints<N> {
   /**
    * Returns the node that is adjacent to {@code node} along the origin edge.
    *
-   * @throws IllegalArgumentException if the origin edge is not incident to {@code node}
+   * @throws IllegalArgumentException if this instance does not contain {@code node}, that is, the
+   *     origin edge is not incident to {@code}
    */
   public final N adjacentNode(Object node) {
     checkNotNull(node, "node");
@@ -113,7 +114,7 @@ public abstract class Endpoints<N> {
       return nodeA;
     } else {
       throw new IllegalArgumentException(
-          String.format("Endpoints %s is not incident to node %s", this, node));
+          String.format("Endpoints %s does not contain node %s", this, node));
     }
   }
 
