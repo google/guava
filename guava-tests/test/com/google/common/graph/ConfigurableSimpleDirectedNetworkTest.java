@@ -79,18 +79,6 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
 
   @Override
   @Test
-  public void incidentNodes_checkReturnedSetMutability() {
-    addEdge(E12, N1, N2);
-    Endpoints<Integer> incidentNodes = network.incidentNodes(E12);
-    try {
-      incidentNodes.add(N3);
-      fail(ERROR_MODIFIABLE_COLLECTION);
-    } catch (UnsupportedOperationException expected) {
-    }
-  }
-
-  @Override
-  @Test
   public void adjacentNodes_checkReturnedSetMutability() {
     addNode(N1);
     Set<Integer> adjacentNodes = network.adjacentNodes(N1);

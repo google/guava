@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.testing.EqualsTester;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.util.Iterator;
 import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
@@ -168,9 +167,9 @@ public abstract class AbstractNetworkTest {
       // TODO(b/27817069): Consider verifying the edge's incident nodes in the string.
       assertThat(edgeString).contains(edge);
 
-      Iterator<Integer> endpointsIterator = network.incidentNodes(edge).iterator();
-      Integer nodeA = endpointsIterator.next();
-      Integer nodeB = endpointsIterator.next();
+      Endpoints<Integer> endpoints = network.incidentNodes(edge);
+      Integer nodeA = endpoints.nodeA();
+      Integer nodeB = endpoints.nodeB();
       assertThat(asGraph.edges()).contains(Endpoints.of(network, nodeA, nodeB));
       assertThat(network.edgesConnecting(nodeA, nodeB)).contains(edge);
       assertThat(network.successors(nodeA)).contains(nodeB);
@@ -182,7 +181,8 @@ public abstract class AbstractNetworkTest {
       assertThat(network.inEdges(nodeB)).contains(edge);
       assertThat(network.incidentEdges(nodeB)).contains(edge);
 
-      for (Integer incidentNode : network.incidentNodes(edge)) {
+      for (Integer incidentNode : ImmutableSet.of(
+          network.incidentNodes(edge).nodeA(), network.incidentNodes(edge).nodeB())) {
         assertThat(network.nodes()).contains(incidentNode);
         for (String adjacentEdge : network.incidentEdges(incidentNode)) {
           assertTrue(edge.equals(adjacentEdge)
@@ -220,7 +220,8 @@ public abstract class AbstractNetworkTest {
         assertTrue(network.inEdges(node).contains(incidentEdge)
             || network.outEdges(node).contains(incidentEdge));
         assertThat(network.edges()).contains(incidentEdge);
-        assertThat(network.incidentNodes(incidentEdge)).contains(node);
+        assertTrue(network.incidentNodes(incidentEdge).nodeA().equals(node)
+            || network.incidentNodes(incidentEdge).nodeB().equals(node));
       }
 
       for (String inEdge : network.inEdges(node)) {
@@ -274,13 +275,6 @@ public abstract class AbstractNetworkTest {
    */
   @Test
   public abstract void incidentEdges_checkReturnedSetMutability();
-
-  /**
-   * Verifies that the {@code Set} returned by {@code incidentNodes} has the expected
-   * mutability property (see the {@code Network} documentation for more information).
-   */
-  @Test
-  public abstract void incidentNodes_checkReturnedSetMutability();
 
   /**
    * Verifies that the {@code Set} returned by {@code adjacentNodes} has the expected
@@ -376,7 +370,9 @@ public abstract class AbstractNetworkTest {
   @Test
   public void incidentNodes_oneEdge() {
     addEdge(E12, N1, N2);
-    assertThat(network.incidentNodes(E12)).containsExactly(N1, N2);
+    Endpoints<Integer> incidentNodes = network.incidentNodes(E12);
+    assertThat(ImmutableSet.of(incidentNodes.nodeA(), incidentNodes.nodeB()))
+        .containsExactly(N1, N2);
   }
 
   @Test

@@ -53,7 +53,8 @@ public class ConfigurableDirectedNetworkTest extends ConfigurableSimpleDirectedN
   @Test
   public void incidentNodes_selfLoop() {
     addEdge(E11, N1, N1);
-    assertThat(network.incidentNodes(E11)).containsExactly(N1, N1);
+    assertThat(network.incidentNodes(E11).source()).isEqualTo(N1);
+    assertThat(network.incidentNodes(E11).target()).isEqualTo(N1);
   }
 
   @Test

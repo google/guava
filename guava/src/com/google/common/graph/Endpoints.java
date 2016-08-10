@@ -21,25 +21,17 @@ import static com.google.common.graph.GraphConstants.NOT_AVAILABLE_ON_UNDIRECTED
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
-import com.google.common.collect.UnmodifiableIterator;
-import java.util.AbstractCollection;
-import java.util.Collection;
-import java.util.NoSuchElementException;
 
 /**
- * An immutable {@link Collection} to represent the two (possibly equal, in the case of a self-loop)
- * endpoints of an edge in a graph.
- *
- * <p>The {@link Endpoints} of a directed edge are an ordered pair of nodes (source and target).
- * The {@link Endpoints} of an undirected edge are an unordered pair of nodes. The nodes can be
- * accessed through the {@link #iterator()}, and in the directed case, will iterate in the order
- * {@link #source()}, {@link #target()}.
+ * An immutable pair representing the two (possibly equal, in the case of a self-loop) endpoints
+ * of an edge in a graph. The {@link Endpoints} of a directed edge are an ordered pair of nodes
+ * (source and target). The {@link Endpoints} of an undirected edge are an unordered pair of nodes.
  *
  * @author James Sexton
  * @since 20.0
  */
 @Beta
-public abstract class Endpoints<N> extends AbstractCollection<N> {
+public abstract class Endpoints<N> {
   private final N nodeA;
   private final N nodeB;
 
@@ -96,7 +88,7 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
    * If these are the {@link Endpoints} of a directed edge, returns the {@link #source()};
    * otherwise, returns an arbitrary (but consistent) endpoint of the origin edge.
    */
-  final N nodeA() {
+  public final N nodeA() {
     return nodeA;
   }
 
@@ -104,7 +96,7 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
    * Returns the node {@link #adjacentNode(Object) adjacent} to {@link #nodeA()} along the origin
    * edge. If these are the {@link Endpoints} of a directed edge, it is equal to {@link #target()}.
    */
-  final N nodeB() {
+  public final N nodeB() {
     return nodeB;
   }
 
@@ -115,49 +107,14 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
    */
   public final N adjacentNode(Object node) {
     checkNotNull(node, "node");
-    if (node.equals(nodeA())) {
-      return nodeB();
-    } else if (node.equals(nodeB())) {
-      return nodeA();
+    if (node.equals(nodeA)) {
+      return nodeB;
+    } else if (node.equals(nodeB)) {
+      return nodeA;
     } else {
       throw new IllegalArgumentException(
-          String.format("Endpoints %s does not contain node %s", this, node));
+          String.format("Endpoints %s is not incident to node %s", this, node));
     }
-  }
-
-  @Override
-  public final UnmodifiableIterator<N> iterator() {
-    return new UnmodifiableIterator<N>() {
-      private int pos = 0;
-
-      @Override
-      public boolean hasNext() {
-        return pos < 2;
-      }
-
-      @Override
-      public N next() {
-        switch (pos++) {
-          case 0:
-            return nodeA;
-          case 1:
-            return nodeB;
-          default:
-            pos = 2;
-            throw new NoSuchElementException();
-        }
-      }
-    };
-  }
-
-  @Override
-  public final int size() {
-    return 2;
-  }
-
-  @Override
-  public final boolean contains(Object obj) {
-    return nodeA.equals(obj) || nodeB.equals(obj);
   }
 
   abstract boolean isDirected();
@@ -285,6 +242,11 @@ public abstract class Endpoints<N> extends AbstractCollection<N> {
     @Override
     public int hashCode() {
       return nodeA().hashCode() ^ nodeB().hashCode();
+    }
+
+    @Override
+    public String toString() {
+      return String.format("[%s, %s]", nodeA(), nodeB());
     }
   }
 }

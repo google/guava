@@ -65,7 +65,8 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
   @Test
   public void incidentNodes_oneEdge() {
     addEdge(E12, N1, N2);
-    assertThat(network.incidentNodes(E12)).containsExactly(N1, N2).inOrder();
+    assertThat(network.incidentNodes(E12).source()).isEqualTo(N1);
+    assertThat(network.incidentNodes(E12).target()).isEqualTo(N2);
   }
 
   @Test

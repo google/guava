@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 import java.util.Collection;
 import java.util.List;
@@ -50,18 +51,20 @@ public final class EndpointsTest {
     Endpoints<String> directed = Endpoints.ofDirected("source", "target");
     assertThat(directed.source()).isEqualTo("source");
     assertThat(directed.target()).isEqualTo("target");
+    assertThat(directed.nodeA()).isEqualTo("source");
+    assertThat(directed.nodeB()).isEqualTo("target");
     assertThat(directed.adjacentNode("source")).isEqualTo("target");
     assertThat(directed.adjacentNode("target")).isEqualTo("source");
-    assertThat(directed).containsExactly("source", "target").inOrder();
     assertThat(directed.toString()).isEqualTo("<source -> target>");
   }
 
   @Test
   public void testUndirectedEndpoints() {
     Endpoints<String> undirected = Endpoints.ofUndirected("chicken", "egg");
-    assertThat(undirected.adjacentNode("chicken")).isEqualTo("egg");
-    assertThat(undirected.adjacentNode("egg")).isEqualTo("chicken");
-    assertThat(undirected).containsExactly("chicken", "egg");
+    assertThat(ImmutableSet.of(undirected.nodeA(), undirected.nodeB()))
+        .containsExactly("chicken", "egg");
+    assertThat(undirected.adjacentNode(undirected.nodeA())).isEqualTo(undirected.nodeB());
+    assertThat(undirected.adjacentNode(undirected.nodeB())).isEqualTo(undirected.nodeA());
     assertThat(undirected.toString()).contains("chicken");
     assertThat(undirected.toString()).contains("egg");
   }
@@ -69,8 +72,9 @@ public final class EndpointsTest {
   @Test
   public void testSelfLoop() {
     Endpoints<String> undirected = Endpoints.ofUndirected("node", "node");
+    assertThat(undirected.nodeA()).isEqualTo("node");
+    assertThat(undirected.nodeB()).isEqualTo("node");
     assertThat(undirected.adjacentNode("node")).isEqualTo("node");
-    assertThat(undirected).hasSize(2);
     assertThat(undirected.toString()).isEqualTo("[node, node]");
   }
 
