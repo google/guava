@@ -25,6 +25,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 import java.io.Serializable;
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Queue;
 
@@ -52,7 +53,7 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
 
   private EvictingQueue(int maxSize) {
     checkArgument(maxSize >= 0, "maxSize (%s) must >= 0", maxSize);
-    this.delegate = Platform.newFastestDeque(maxSize);
+    this.delegate = new ArrayDeque<E>(maxSize);
     this.maxSize = maxSize;
   }
 
