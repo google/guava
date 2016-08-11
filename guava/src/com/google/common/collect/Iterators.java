@@ -312,10 +312,9 @@ public final class Iterators {
       return first;
     }
 
-    StringBuilder sb = new StringBuilder();
-    sb.append("expected one element but was: <" + first);
+    StringBuilder sb = new StringBuilder().append("expected one element but was: <").append(first);
     for (int i = 0; i < 4 && iterator.hasNext(); i++) {
-      sb.append(", " + iterator.next());
+      sb.append(", ").append(iterator.next());
     }
     if (iterator.hasNext()) {
       sb.append(", ...");
