@@ -45,6 +45,7 @@ import junit.framework.TestCase;
  */
 @GwtCompatible(emulated = true)
 public class LongMathTest extends TestCase {
+  @SuppressWarnings("ConstantOverflow")
   public void testMaxSignedPowerOfTwo() {
     assertTrue(LongMath.isPowerOfTwo(LongMath.MAX_SIGNED_POWER_OF_TWO));
     assertFalse(LongMath.isPowerOfTwo(LongMath.MAX_SIGNED_POWER_OF_TWO * 2));
