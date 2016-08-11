@@ -107,7 +107,6 @@ public class CharMatcherTest extends TestCase {
   // method, but by overall "scenario". Also, the variety of actual tests we
   // do borders on absurd overkill. Better safe than sorry, though?
 
-  @GwtIncompatible // java.util.BitSet
   public void testSetBits() {
     doTestSetBits(CharMatcher.any());
     doTestSetBits(CharMatcher.none());
@@ -127,7 +126,6 @@ public class CharMatcherTest extends TestCase {
     doTestSetBits(inRange('A', 'Z').and(inRange('F', 'K').negate()));
   }
 
-  @GwtIncompatible // java.util.BitSet
   private void doTestSetBits(CharMatcher matcher) {
     BitSet bitset = new BitSet();
     matcher.setBits(bitset);
@@ -666,12 +664,10 @@ public class CharMatcherTest extends TestCase {
     assertSame(CharMatcher.any(), CharMatcher.any().precomputed());
   }
 
-  @GwtIncompatible // java.util.BitSet
   private static BitSet bitSet(String chars) {
     return bitSet(chars.toCharArray());
   }
 
-  @GwtIncompatible // java.util.BitSet
   private static BitSet bitSet(char[] chars) {
     BitSet tmp = new BitSet();
     for (char c : chars) {
@@ -680,7 +676,7 @@ public class CharMatcherTest extends TestCase {
     return tmp;
   }
 
-  @GwtIncompatible // java.util.Random, java.util.BitSet
+  @GwtIncompatible // SmallCharMatcher
   public void testSmallCharMatcher() {
     CharMatcher len1 = SmallCharMatcher.from(bitSet("#"), "#");
     CharMatcher len2 = SmallCharMatcher.from(bitSet("ab"), "ab");

@@ -34,9 +34,8 @@ import java.util.Iterator;
  * @since 15.0
  */
 @Beta
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
-  // TODO(lowasser): make this GWT-compatible when we've checked in BitSet emulation
 
   /**
    * Returns the left child of the specified node, or {@link Optional#absent()} if the specified
