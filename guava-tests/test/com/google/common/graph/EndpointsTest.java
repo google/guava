@@ -84,7 +84,7 @@ public final class EndpointsTest {
         NetworkBuilder.directed().<Integer, String>build(),
         NetworkBuilder.undirected().<Integer, String>build());
     for (MutableNetwork<Integer, String> graph : testGraphs) {
-      graph.addEdgeV2(1, 2, "1-2");
+      graph.addEdge(1, 2, "1-2");
       Endpoints<Integer> endpoints = graph.incidentNodes("1-2");
       try {
         endpoints.adjacentNode(3);
@@ -146,10 +146,10 @@ public final class EndpointsTest {
   public void endpoints_directedNetwork() {
     MutableNetwork<Integer, String> directedNetwork = NetworkBuilder.directed().build();
     directedNetwork.addNode(N0);
-    directedNetwork.addEdgeV2(N1, N2, E12);
-    directedNetwork.addEdgeV2(N2, N1, E21);
-    directedNetwork.addEdgeV2(N1, N3, E13);
-    directedNetwork.addEdgeV2(N4, N4, E44);
+    directedNetwork.addEdge(N1, N2, E12);
+    directedNetwork.addEdge(N2, N1, E21);
+    directedNetwork.addEdge(N1, N3, E13);
+    directedNetwork.addEdge(N4, N4, E44);
     containsExactlySanityCheck(
         directedNetwork.asGraph().edges(),
         Endpoints.ofDirected(N1, N2),
@@ -163,10 +163,10 @@ public final class EndpointsTest {
     MutableNetwork<Integer, String> undirectedNetwork =
         NetworkBuilder.undirected().allowsParallelEdges(true).build();
     undirectedNetwork.addNode(N0);
-    undirectedNetwork.addEdgeV2(N1, N2, E12);
-    undirectedNetwork.addEdgeV2(N2, N1, E12_A); // adds parallel edge, won't be in Graph edges
-    undirectedNetwork.addEdgeV2(N1, N3, E13);
-    undirectedNetwork.addEdgeV2(N4, N4, E44);
+    undirectedNetwork.addEdge(N1, N2, E12);
+    undirectedNetwork.addEdge(N2, N1, E12_A); // adds parallel edge, won't be in Graph edges
+    undirectedNetwork.addEdge(N1, N3, E13);
+    undirectedNetwork.addEdge(N4, N4, E44);
     containsExactlySanityCheck(
         undirectedNetwork.asGraph().edges(),
         Endpoints.ofUndirected(N1, N2),

@@ -62,9 +62,7 @@ public interface MutableNetwork<N, E> extends Network<N, E> {
    *     {@link #allowsParallelEdges()} or {@link #allowsSelfLoops()}
    */
   @CanIgnoreReturnValue
-  // TODO(user): Temporarily named addEdgeV2. Will be renamed to addEdge Wednesday (8/10) ~11pm.
-  // In the mean time, feel free to use this method. Everyone will be migrated automatically.
-  boolean addEdgeV2(N nodeA, N nodeB, E edge);
+  boolean addEdge(N nodeA, N nodeB, E edge);
 
   /**
    * Removes {@code node} from this graph, if it is present.
