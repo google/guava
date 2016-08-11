@@ -63,6 +63,11 @@ public void testReplaceFrom() throws Exception {
   testCase.testReplaceFrom();
 }
 
+public void testSetBits() throws Exception {
+  com.google.common.base.CharMatcherTest testCase = new com.google.common.base.CharMatcherTest();
+  testCase.testSetBits();
+}
+
 public void testToString() throws Exception {
   com.google.common.base.CharMatcherTest testCase = new com.google.common.base.CharMatcherTest();
   testCase.testToString();
