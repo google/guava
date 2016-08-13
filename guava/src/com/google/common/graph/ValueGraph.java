@@ -17,11 +17,10 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import javax.annotation.Nullable;
 
 /**
- * A subtype of {@link Graph} that additionally associates a value with each edge.
- *
- * TODO(b/30647395): Write implementation.
+ * A subtype of {@link Graph} that associates a value with each edge.
  *
  * TODO(b/30133524) Flesh out class-level javadoc.
  *
@@ -39,4 +38,10 @@ public interface ValueGraph<N, V> extends Graph<N> {
    * @throws IllegalArgumentException if there is no edge connecting {@code nodeA} to {@code nodeB}
    */
   V edgeValue(Object nodeA, Object nodeB);
+
+  /**
+   * If there is an edge connecting {@code nodeA} to {@code nodeB}, returns the non-null value
+   * associated with that edge. Otherwise, returns {@code defaultValue}.
+   */
+  V edgeValueOrDefault(Object nodeA, Object nodeB, @Nullable V defaultValue);
 }

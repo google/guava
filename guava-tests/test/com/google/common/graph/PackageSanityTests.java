@@ -21,7 +21,6 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import com.google.common.graph.testing.TestGraphBuilder;
 import com.google.common.graph.testing.TestNetworkBuilder;
 import com.google.common.testing.AbstractPackageSanityTests;
-
 import junit.framework.AssertionFailedError;
 
 /**
@@ -32,10 +31,10 @@ import junit.framework.AssertionFailedError;
 
 public class PackageSanityTests extends AbstractPackageSanityTests {
 
-  private static final GraphBuilder<?> GRAPH_BUILDER_A =
+  private static final AbstractGraphBuilder<?> GRAPH_BUILDER_A =
       GraphBuilder.directed().expectedNodeCount(10);
-  private static final GraphBuilder<?> GRAPH_BUILDER_B =
-      GraphBuilder.directed().allowsSelfLoops(false).expectedNodeCount(16);
+  private static final AbstractGraphBuilder<?> GRAPH_BUILDER_B =
+      ValueGraphBuilder.directed().allowsSelfLoops(false).expectedNodeCount(16);
 
   private static final ImmutableGraph<String> IMMUTABLE_GRAPH_A =
       TestGraphBuilder.<String>init(GraphBuilder.directed())
@@ -61,7 +60,7 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
           .toImmutableNetwork();
 
   public PackageSanityTests() {
-    setDistinctValues(GraphBuilder.class, GRAPH_BUILDER_A, GRAPH_BUILDER_B);
+    setDistinctValues(AbstractGraphBuilder.class, GRAPH_BUILDER_A, GRAPH_BUILDER_B);
     setDistinctValues(Graph.class, IMMUTABLE_GRAPH_A, IMMUTABLE_GRAPH_B);
     setDistinctValues(NetworkBuilder.class, NETWORK_BUILDER_A, NETWORK_BUILDER_B);
     setDistinctValues(Network.class, IMMUTABLE_NETWORK_A, IMMUTABLE_NETWORK_B);

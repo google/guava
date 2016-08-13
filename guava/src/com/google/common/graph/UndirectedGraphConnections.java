@@ -20,35 +20,38 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
 import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableMap;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
- * A class representing an origin node's adjacent nodes in an undirected graph.
+ * An implementation of {@link GraphConnections} for undirected graphs.
  *
  * @author James Sexton
  * @param <N> Node parameter type
+ * @param <V> Value parameter type
  */
-final class UndirectedGraphConnections<N> implements GraphConnections<N> {
-  private final Set<N> adjacentNodes;
+final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
+  private final Map<N, V> adjacentNodeValues;
 
-  private UndirectedGraphConnections(Set<N> adjacentNodes) {
-    this.adjacentNodes = checkNotNull(adjacentNodes, "adjacentNodes");
+  private UndirectedGraphConnections(Map<N, V> adjacentNodeValues) {
+    this.adjacentNodeValues = checkNotNull(adjacentNodeValues, "adjacentNodeValues");
   }
 
-  static <N> UndirectedGraphConnections<N> of() {
-    return new UndirectedGraphConnections<N>(new HashSet<N>(INNER_CAPACITY, INNER_LOAD_FACTOR));
+  static <N, V> UndirectedGraphConnections<N, V> of() {
+    return new UndirectedGraphConnections<N, V>(
+      new HashMap<N, V>(INNER_CAPACITY, INNER_LOAD_FACTOR));
   }
 
-  static <N> UndirectedGraphConnections<N> ofImmutable(Set<N> adjacentNodes) {
-    return new UndirectedGraphConnections<N>(ImmutableSet.copyOf(adjacentNodes));
+  static <N, V> UndirectedGraphConnections<N, V> ofImmutable(Map<N, V> adjacentNodeValues) {
+    return new UndirectedGraphConnections<N, V>(ImmutableMap.copyOf(adjacentNodeValues));
   }
 
   @Override
   public Set<N> adjacentNodes() {
-    return Collections.unmodifiableSet(adjacentNodes);
+    return Collections.unmodifiableSet(adjacentNodeValues.keySet());
   }
 
   @Override
@@ -62,24 +65,29 @@ final class UndirectedGraphConnections<N> implements GraphConnections<N> {
   }
 
   @Override
+  public V value(Object node) {
+    return adjacentNodeValues.get(node);
+  }
+
+  @Override
   public void removePredecessor(Object node) {
-    removeSuccessor(node);
+    @SuppressWarnings("unused")
+    V unused = removeSuccessor(node);
   }
 
   @Override
-  public void removeSuccessor(Object node) {
-    checkNotNull(node, "node");
-    adjacentNodes.remove(node);
+  public V removeSuccessor(Object node) {
+    return adjacentNodeValues.remove(node);
   }
 
   @Override
-  public void addPredecessor(N node) {
-    addSuccessor(node);
+  public void addPredecessor(N node, V value) {
+    @SuppressWarnings("unused")
+    V unused = addSuccessor(node, value);
   }
 
   @Override
-  public void addSuccessor(N node) {
-    checkNotNull(node, "node");
-    adjacentNodes.add(node);
+  public V addSuccessor(N node, V value) {
+    return adjacentNodeValues.put(node, value);
   }
 }

@@ -28,8 +28,8 @@ import java.util.TreeMap;
 import javax.annotation.Nullable;
 
 /**
- * Abstract configurable implementation of {@link Graph} that supports the options supplied
- * by {@link GraphBuilder}.
+ * Abstract configurable implementation of {@link Graph} that supports the options supplied by
+ * {@link AbstractGraphBuilder}.
  *
  * <p>This class maintains a map of nodes to {@link GraphConnections}.
  *
@@ -50,23 +50,24 @@ import javax.annotation.Nullable;
  * @author Joshua O'Madadhain
  * @author Omar Darwish
  * @param <N> Node parameter type
+ * @param <V> Value parameter type (allows this class to be easily extended to implement ValueGraph)
  */
-abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
+abstract class AbstractConfigurableGraph<N, V> extends AbstractGraph<N> {
   private final boolean isDirected;
   private final boolean allowsSelfLoops;
   private final ElementOrder<N> nodeOrder;
 
-  protected final MapIteratorCache<N, GraphConnections<N>> nodeConnections;
+  protected final MapIteratorCache<N, GraphConnections<N, V>> nodeConnections;
 
   protected long edgeCount; // must be updated when edges are added or removed
 
   /**
    * Constructs a graph with the properties specified in {@code builder}.
    */
-  AbstractConfigurableGraph(GraphBuilder<? super N> builder) {
+  AbstractConfigurableGraph(AbstractGraphBuilder<? super N> builder) {
     this(
         builder,
-        builder.nodeOrder.<N, GraphConnections<N>>createMap(
+        builder.nodeOrder.<N, GraphConnections<N, V>>createMap(
             builder.expectedNodeCount.or(DEFAULT_NODE_COUNT)),
         0L /* edgeCount */);
   }
@@ -75,15 +76,15 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
    * Constructs a graph with the properties specified in {@code builder}, initialized with
    * the given node map.
    */
-  AbstractConfigurableGraph(GraphBuilder<? super N> builder,
-      Map<N, GraphConnections<N>> nodeConnections, long edgeCount) {
+  AbstractConfigurableGraph(AbstractGraphBuilder<? super N> builder,
+      Map<N, GraphConnections<N, V>> nodeConnections, long edgeCount) {
     this.isDirected = builder.directed;
     this.allowsSelfLoops = builder.allowsSelfLoops;
     this.nodeOrder = builder.nodeOrder.cast();
     // Prefer the heavier "MapRetrievalCache" for nodes if lookup is expensive.
     this.nodeConnections = (nodeConnections instanceof TreeMap)
-        ? new MapRetrievalCache<N, GraphConnections<N>>(nodeConnections)
-        : new MapIteratorCache<N, GraphConnections<N>>(nodeConnections);
+        ? new MapRetrievalCache<N, GraphConnections<N, V>>(nodeConnections)
+        : new MapIteratorCache<N, GraphConnections<N, V>>(nodeConnections);
     this.edgeCount = checkNonNegative(edgeCount);
   }
 
@@ -134,9 +135,9 @@ abstract class AbstractConfigurableGraph<N> extends AbstractGraph<N> {
     return edgeCount;
   }
 
-  protected final GraphConnections<N> checkedConnections(Object node) {
+  protected final GraphConnections<N, V> checkedConnections(Object node) {
     checkNotNull(node, "node");
-    GraphConnections<N> connections = nodeConnections.get(node);
+    GraphConnections<N, V> connections = nodeConnections.get(node);
     checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);
     return connections;
   }

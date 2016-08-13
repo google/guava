@@ -62,8 +62,8 @@ public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N,
   }
 
   private static <N, E> Map<N, NetworkConnections<N, E>> getNodeConnections(Network<N, E> graph) {
-    // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will
-    // have whatever ordering the graph's nodes do, so ImmutableSortedMap is unnecessary even if the
+    // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will have
+    // whatever ordering the graph's nodes do, so ImmutableSortedMap is unnecessary even if the
     // input nodes are sorted.
     ImmutableMap.Builder<N, NetworkConnections<N, E>> nodeConnections = ImmutableMap.builder();
     for (N node : graph.nodes()) {

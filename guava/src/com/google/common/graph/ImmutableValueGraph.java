@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 The Guava Authors
+ * Copyright (C) 2016 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,25 +19,23 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Functions;
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 /**
- * A {@link Graph} whose relationships are constant. Instances of this class may be obtained
- * with {@link #copyOf(Graph)}.
+ * A {@link ValueGraph} whose relationships and edge values are constant. Instances of this class
+ * may be obtained with {@link #copyOf(ValueGraph)}.
  *
  * @author James Sexton
- * @author Joshua O'Madadhain
- * @author Omar Darwish
  * @param <N> Node parameter type
+ * @param <V> Value parameter type
  * @since 20.0
  */
 @Beta
-public final class ImmutableGraph<N> extends AbstractConfigurableGraph<N, Object> {
-  private static final Object DUMMY_EDGE_VALUE = new Object();
+public final class ImmutableValueGraph<N, V> extends AbstractConfigurableValueGraph<N, V> {
 
-  private ImmutableGraph(Graph<N> graph) {
+  private ImmutableValueGraph(ValueGraph<N, V> graph) {
     super(GraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
   }
 
@@ -45,10 +43,10 @@ public final class ImmutableGraph<N> extends AbstractConfigurableGraph<N, Object
    * Returns an immutable copy of {@code graph}.
    */
   @SuppressWarnings("unchecked")
-  public static <N> ImmutableGraph<N> copyOf(Graph<N> graph) {
-    return (graph instanceof ImmutableGraph)
-        ? (ImmutableGraph<N>) graph
-        : new ImmutableGraph<N>(graph);
+  public static <N, V> ImmutableValueGraph<N, V> copyOf(ValueGraph<N, V> graph) {
+    return (graph instanceof ImmutableValueGraph)
+        ? (ImmutableValueGraph<N, V>) graph
+        : new ImmutableValueGraph<N, V>(graph);
   }
 
   /**
@@ -57,28 +55,35 @@ public final class ImmutableGraph<N> extends AbstractConfigurableGraph<N, Object
    * @deprecated no need to use this
    */
   @Deprecated
-  public static <N> ImmutableGraph<N> copyOf(ImmutableGraph<N> graph) {
+  public static <N, V> ImmutableValueGraph<N, V> copyOf(ImmutableValueGraph<N, V> graph) {
     return checkNotNull(graph);
   }
 
-  private static <N> ImmutableMap<N, GraphConnections<N, Object>> getNodeConnections(
-      Graph<N> graph) {
+  private static <N, V> ImmutableMap<N, GraphConnections<N, V>> getNodeConnections(
+      ValueGraph<N, V> graph) {
     // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will have
     // whatever ordering the graph's nodes do, so ImmutableSortedMap is unnecessary even if the
     // input nodes are sorted.
-    ImmutableMap.Builder<N, GraphConnections<N, Object>> nodeConnections = ImmutableMap.builder();
+    ImmutableMap.Builder<N, GraphConnections<N, V>> nodeConnections = ImmutableMap.builder();
     for (N node : graph.nodes()) {
       nodeConnections.put(node, connectionsOf(graph, node));
     }
     return nodeConnections.build();
   }
 
-  private static <N> GraphConnections<N, Object> connectionsOf(Graph<N> graph, N node) {
+  private static <N, V> GraphConnections<N, V> connectionsOf(final ValueGraph<N, V> graph,
+      final N node) {
+    Function<N, V> successorNodeToValueFn = new Function<N, V>() {
+      @Override
+      public V apply(N successorNode) {
+        return graph.edgeValue(node, successorNode);
+      }
+    };
     return graph.isDirected()
         ? DirectedGraphConnections.ofImmutable(
             graph.predecessors(node),
-            Maps.asMap(graph.successors(node), Functions.constant(DUMMY_EDGE_VALUE)))
+            Maps.asMap(graph.successors(node), successorNodeToValueFn))
         : UndirectedGraphConnections.ofImmutable(
-            Maps.asMap(graph.adjacentNodes(node), Functions.constant(DUMMY_EDGE_VALUE)));
+            Maps.asMap(graph.adjacentNodes(node), successorNodeToValueFn));
   }
 }

@@ -39,6 +39,8 @@ final class GraphConstants {
   // Error messages
   static final String NODE_NOT_IN_GRAPH = "Node %s is not an element of this graph.";
   static final String EDGE_NOT_IN_GRAPH = "Edge %s is not an element of this graph.";
+  static final String EDGE_CONNECTING_NOT_IN_GRAPH =
+      "Edge connecting %s to %s is not present in this graph.";
   static final String REUSING_EDGE =
       "Edge %s already exists between the following nodes: %s, "
           + "so it cannot be reused to connect the following nodes: %s.";

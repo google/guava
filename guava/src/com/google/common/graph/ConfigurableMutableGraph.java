@@ -16,14 +16,7 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.graph.GraphConstants.SELF_LOOPS_NOT_ALLOWED;
-import static com.google.common.graph.Graphs.checkNonNegative;
-import static com.google.common.graph.Graphs.checkPositive;
-
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.Set;
 
 /**
  * Configurable implementation of {@link MutableGraph} that supports both directed and undirected
@@ -33,128 +26,77 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * which is in O(d_node) where d_node is the degree of {@code node}.
  *
  * @author James Sexton
- * @author Joshua O'Madadhain
- * @author Omar Darwish
  * @param <N> Node parameter type
  */
-final class ConfigurableMutableGraph<N>
-    extends AbstractConfigurableGraph<N> implements MutableGraph<N> {
+final class ConfigurableMutableGraph<N> extends AbstractGraph<N> implements MutableGraph<N> {
+  private static final Object DUMMY_EDGE_VALUE = new Object();
+
+  private final MutableValueGraph<N, Object> backingGraph;
 
   /**
-   * Constructs a mutable graph with the properties specified in {@code builder}.
+   * Constructs a {@link MutableGraph} with the properties specified in {@code builder}.
    */
-  ConfigurableMutableGraph(GraphBuilder<? super N> builder) {
-    super(builder);
+  ConfigurableMutableGraph(AbstractGraphBuilder<? super N> builder) {
+    this.backingGraph = new ConfigurableMutableValueGraph<N, Object>(builder);
   }
 
   @Override
-  @CanIgnoreReturnValue
+  public Set<N> nodes() {
+    return backingGraph.nodes();
+  }
+
+  @Override
+  public Set<Endpoints<N>> edges() {
+    return backingGraph.edges();
+  }
+
+  @Override
+  public ElementOrder<N> nodeOrder() {
+    return backingGraph.nodeOrder();
+  }
+
+  @Override
+  public boolean isDirected() {
+    return backingGraph.isDirected();
+  }
+
+  @Override
+  public boolean allowsSelfLoops() {
+    return backingGraph.allowsSelfLoops();
+  }
+
+  @Override
+  public Set<N> adjacentNodes(Object node) {
+    return backingGraph.adjacentNodes(node);
+  }
+
+  @Override
+  public Set<N> predecessors(Object node) {
+    return backingGraph.predecessors(node);
+  }
+
+  @Override
+  public Set<N> successors(Object node) {
+    return backingGraph.successors(node);
+  }
+
+  @Override
   public boolean addNode(N node) {
-    checkNotNull(node, "node");
-
-    if (containsNode(node)) {
-      return false;
-    }
-
-    addNodeInternal(node);
-    return true;
-  }
-
-  /**
-   * Adds {@code node} to the graph and returns the associated {@link GraphConnections}.
-   *
-   * @throws IllegalStateException if {@code node} is already present
-   */
-  @CanIgnoreReturnValue
-  private GraphConnections<N> addNodeInternal(N node) {
-    GraphConnections<N> connections = newConnections();
-    checkState(nodeConnections.put(node, connections) == null);
-    return connections;
+    return backingGraph.addNode(node);
   }
 
   @Override
-  @CanIgnoreReturnValue
   public boolean putEdge(N nodeA, N nodeB) {
-    checkNotNull(nodeA, "nodeA");
-    checkNotNull(nodeB, "nodeB");
-
-    GraphConnections<N> connectionsA = nodeConnections.get(nodeA);
-    if (connectionsA != null && connectionsA.successors().contains(nodeB)) {
-      return false;
-    }
-    boolean isSelfLoop = nodeA.equals(nodeB);
-    if (!allowsSelfLoops()) {
-      checkArgument(!isSelfLoop, SELF_LOOPS_NOT_ALLOWED, nodeA);
-    }
-
-    if (connectionsA == null) {
-      connectionsA = addNodeInternal(nodeA);
-    }
-    connectionsA.addSuccessor(nodeB);
-    GraphConnections<N> connectionsB = nodeConnections.get(nodeB);
-    if (connectionsB == null) {
-      connectionsB = addNodeInternal(nodeB);
-    }
-    connectionsB.addPredecessor(nodeA);
-    checkPositive(++edgeCount);
-    return true;
+    return backingGraph.putEdgeValue(nodeA, nodeB, DUMMY_EDGE_VALUE) == null;
   }
 
   @Override
-  @CanIgnoreReturnValue
   public boolean removeNode(Object node) {
-    checkNotNull(node, "node");
-
-    GraphConnections<N> connections = nodeConnections.get(node);
-    if (connections == null) {
-      return false;
-    }
-
-    if (allowsSelfLoops()) {
-      // Remove self-loop (if any) first, so we don't get CME while removing incident edges.
-      if (connections.successors().contains(node)) {
-        connections.removeSuccessor(node);
-        connections.removePredecessor(node);
-        --edgeCount;
-      }
-    }
-
-    for (N successor : connections.successors()) {
-      nodeConnections.getWithoutCaching(successor).removePredecessor(node);
-      --edgeCount;
-    }
-    if (isDirected()) { // In undirected graphs, the successor and predecessor sets are equal.
-      for (N predecessor : connections.predecessors()) {
-        nodeConnections.getWithoutCaching(predecessor).removeSuccessor(node);
-        --edgeCount;
-      }
-    }
-    nodeConnections.remove(node);
-    checkNonNegative(edgeCount);
-    return true;
+    return backingGraph.removeNode(node);
   }
 
   @Override
-  @CanIgnoreReturnValue
   public boolean removeEdge(Object nodeA, Object nodeB) {
-    checkNotNull(nodeA, "nodeA");
-    checkNotNull(nodeB, "nodeB");
-
-    GraphConnections<N> connectionsA = nodeConnections.get(nodeA);
-    if (connectionsA == null || !connectionsA.successors().contains(nodeB)) {
-      return false;
-    }
-
-    GraphConnections<N> connectionsB = nodeConnections.get(nodeB);
-    connectionsA.removeSuccessor(nodeB);
-    connectionsB.removePredecessor(nodeA);
-    checkNonNegative(--edgeCount);
-    return true;
-  }
-
-  private GraphConnections<N> newConnections() {
-    return isDirected()
-        ? DirectedGraphConnections.<N>of()
-        : UndirectedGraphConnections.<N>of();
+    return backingGraph.removeEdge(nodeA, nodeB) != null;
   }
 }

@@ -37,13 +37,9 @@ import com.google.common.base.Optional;
  * @since 20.0
  */
 @Beta
-public final class NetworkBuilder<N, E> {
-  final boolean directed;
+public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
   boolean allowsParallelEdges = false;
-  boolean allowsSelfLoops = true;
-  ElementOrder<? super N> nodeOrder = ElementOrder.insertion();
   ElementOrder<? super E> edgeOrder = ElementOrder.insertion();
-  Optional<Integer> expectedNodeCount = Optional.absent();
   Optional<Integer> expectedEdgeCount = Optional.absent();
 
   /**
@@ -53,7 +49,7 @@ public final class NetworkBuilder<N, E> {
    *      if false, creates an instance for graphs whose edges are each undirected.
    */
   private NetworkBuilder(boolean directed) {
-    this.directed = directed;
+    super(directed);
   }
 
   /**

@@ -16,14 +16,24 @@
 
 package com.google.common.graph;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import javax.annotation.Nullable;
+
 /**
- * An interface for representing and manipulating an origin node's adjacent nodes in a
- * {@link Graph}.
+ * An interface for representing and manipulating an origin node's adjacent nodes and edge values
+ * in a {@link Graph}.
  *
  * @author James Sexton
  * @param <N> Node parameter type
+ * @param <V> Value parameter type
  */
-interface GraphConnections<N> extends NodeConnections<N> {
+interface GraphConnections<N, V> extends NodeConnections<N> {
+
+  /**
+   * Returns the value associated with the edge connecting the origin node to {@code node}, or null
+   * if there is no such edge.
+   */
+  @Nullable V value(Object node);
 
   /**
    * Remove {@code node} from the set of predecessors.
@@ -31,19 +41,23 @@ interface GraphConnections<N> extends NodeConnections<N> {
   void removePredecessor(Object node);
 
   /**
-   * Remove {@code node} from the set of successors.
+   * Remove {@code node} from the set of successors. Returns the value previously associated with
+   * the edge connecting the two nodes.
    */
-  void removeSuccessor(Object node);
+  @CanIgnoreReturnValue
+  V removeSuccessor(Object node);
 
   /**
-   * Add {@code node} as a predecessor to the origin node.
-   * In the case of an undirected graph, it also becomes a successor.
+   * Add {@code node} as a predecessor to the origin node. In the case of an undirected graph, it
+   * also becomes a successor. Associates {@code value} with the edge connecting the two nodes.
    */
-  void addPredecessor(N node);
+  void addPredecessor(N node, V value);
 
   /**
-   * Add {@code node} as a successor to the origin node.
-   * In the case of an undirected graph, it also becomes a predecessor.
+   * Add {@code node} as a successor to the origin node. In the case of an undirected graph, it
+   * also becomes a predecessor. Associates {@code value} with the edge connecting the two nodes.
+   * Returns the value previously associated with the edge connecting the two nodes.
    */
-  void addSuccessor(N node);
+  @CanIgnoreReturnValue
+  V addSuccessor(N node, V value);
 }
