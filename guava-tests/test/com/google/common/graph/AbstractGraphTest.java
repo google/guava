@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.TestUtil.sanityCheckCollection;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
@@ -118,6 +119,10 @@ public abstract class AbstractGraphTest {
 
   @After
   public void validateGraphState() {
+    validateGraph(graph);
+  }
+
+  static <N> void validateGraph(Graph<N> graph) {
     new EqualsTester().addEqualityGroup(
         graph,
         Graphs.copyOf(graph),
@@ -131,24 +136,29 @@ public abstract class AbstractGraphTest {
     int edgeStart = graphString.indexOf("edges:");
     String nodeString = graphString.substring(nodeStart, edgeStart);
 
-    Set<Endpoints<Integer>> allEndpoints = new HashSet<Endpoints<Integer>>();
+    sanityCheckCollection(graph.nodes());
+    sanityCheckCollection(graph.edges());
 
-    for (Integer node : graph.nodes()) {
+    Set<Endpoints<N>> allEndpoints = new HashSet<Endpoints<N>>();
+
+    for (N node : graph.nodes()) {
       assertThat(nodeString).contains(node.toString());
 
-      for (Integer adjacentNode : graph.adjacentNodes(node)) {
+      sanityCheckCollection(graph.adjacentNodes(node));
+      sanityCheckCollection(graph.predecessors(node));
+      sanityCheckCollection(graph.successors(node));
+
+      for (N adjacentNode : graph.adjacentNodes(node)) {
         assertThat(graph.predecessors(node).contains(adjacentNode)
             || graph.successors(node).contains(adjacentNode)).isTrue();
       }
 
-      for (Integer predecessor : graph.predecessors(node)) {
+      for (N predecessor : graph.predecessors(node)) {
         assertThat(graph.successors(predecessor)).contains(node);
       }
 
-      for (Integer successor : graph.successors(node)) {
-        Endpoints<Integer> endpoints = Endpoints.of(graph, node, successor);
-        allEndpoints.add(endpoints);
-        assertThat(graph.edges()).contains(endpoints);
+      for (N successor : graph.successors(node)) {
+        allEndpoints.add(Endpoints.of(graph, node, successor));
         assertThat(graph.predecessors(successor)).contains(node);
       }
     }
@@ -269,6 +279,7 @@ public abstract class AbstractGraphTest {
     addEdge(N1, N2);
     addEdge(N4, N1);
     assertThat(graph.removeNode(N1)).isTrue();
+    assertThat(graph.removeNode(N1)).isFalse();
     assertThat(graph.nodes()).containsExactly(N2, N4);
     assertThat(graph.adjacentNodes(N2)).isEmpty();
     assertThat(graph.adjacentNodes(N4)).isEmpty();
@@ -307,6 +318,17 @@ public abstract class AbstractGraphTest {
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
     }
+  }
+
+  @Test
+  public void removeEdge_existingEdge() {
+    addEdge(N1, N2);
+    assertThat(graph.successors(N1)).containsExactly(N2);
+    assertThat(graph.predecessors(N2)).containsExactly(N1);
+    assertThat(graph.removeEdge(N1, N2)).isTrue();
+    assertThat(graph.removeEdge(N1, N2)).isFalse();
+    assertThat(graph.successors(N1)).isEmpty();
+    assertThat(graph.predecessors(N2)).isEmpty();
   }
 
   @Test

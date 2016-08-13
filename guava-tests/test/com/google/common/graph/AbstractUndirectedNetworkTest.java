@@ -145,13 +145,4 @@ public abstract class AbstractUndirectedNetworkTest extends AbstractNetworkTest 
       assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
     }
   }
-
-  @Test
-  public void removeEdge_existingEdge() {
-    addEdge(E12, N1, N2);
-    assertTrue(network.removeEdge(E12));
-    assertThat(network.edges()).doesNotContain(E12);
-    assertThat(network.edgesConnecting(N1, N2)).isEmpty();
-    assertThat(network.edgesConnecting(N2, N1)).isEmpty();
-  }
 }

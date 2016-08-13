@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.TestUtil.sanityCheckCollection;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -163,6 +164,10 @@ public abstract class AbstractNetworkTest {
     assertThat(network.isDirected()).isEqualTo(asGraph.isDirected());
     assertThat(network.allowsSelfLoops()).isEqualTo(asGraph.allowsSelfLoops());
 
+    sanityCheckCollection(network.nodes());
+    sanityCheckCollection(network.edges());
+    sanityCheckCollection(asGraph.edges());
+
     for (String edge : network.edges()) {
       // TODO(b/27817069): Consider verifying the edge's incident nodes in the string.
       assertThat(edgeString).contains(edge);
@@ -197,6 +202,13 @@ public abstract class AbstractNetworkTest {
       assertThat(network.adjacentNodes(node)).isEqualTo(asGraph.adjacentNodes(node));
       assertThat(network.predecessors(node)).isEqualTo(asGraph.predecessors(node));
       assertThat(network.successors(node)).isEqualTo(asGraph.successors(node));
+
+      sanityCheckCollection(network.adjacentNodes(node));
+      sanityCheckCollection(network.predecessors(node));
+      sanityCheckCollection(network.successors(node));
+      sanityCheckCollection(network.incidentEdges(node));
+      sanityCheckCollection(network.inEdges(node));
+      sanityCheckCollection(network.outEdges(node));
 
       for (Integer otherNode : network.nodes()) {
         Set<String> edgesConnecting = network.edgesConnecting(node, otherNode);
@@ -522,6 +534,7 @@ public abstract class AbstractNetworkTest {
     addEdge(E12, N1, N2);
     addEdge(E41, N4, N1);
     assertTrue(network.removeNode(N1));
+    assertFalse(network.removeNode(N1));
     assertThat(network.nodes()).containsExactly(N2, N4);
     assertThat(network.edges()).doesNotContain(E12);
     assertThat(network.edges()).doesNotContain(E41);
@@ -546,6 +559,15 @@ public abstract class AbstractNetworkTest {
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
     }
+  }
+
+  @Test
+  public void removeEdge_existingEdge() {
+    addEdge(E12, N1, N2);
+    assertTrue(network.removeEdge(E12));
+    assertFalse(network.removeEdge(E12));
+    assertThat(network.edges()).doesNotContain(E12);
+    assertThat(network.edgesConnecting(N1, N2)).isEmpty();
   }
 
   @Test

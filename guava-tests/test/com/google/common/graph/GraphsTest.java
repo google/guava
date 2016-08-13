@@ -427,6 +427,12 @@ public class GraphsTest {
     }
   }
 
+  @Test
+  public void defaultImplementations_notValueGraph() {
+    assertThat(buildDirectedTestGraph()).isNotInstanceOf(ValueGraph.class);
+    assertThat(buildUndirectedTestGraph()).isNotInstanceOf(ValueGraph.class);
+  }
+
   private static MutableGraph<Integer> buildDirectedTestGraph() {
     MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
     directedGraph.putEdge(N1, N1);
