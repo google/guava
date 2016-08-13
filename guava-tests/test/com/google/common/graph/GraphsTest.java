@@ -431,6 +431,8 @@ public class GraphsTest {
   public void defaultImplementations_notValueGraph() {
     assertThat(buildDirectedTestGraph()).isNotInstanceOf(ValueGraph.class);
     assertThat(buildUndirectedTestGraph()).isNotInstanceOf(ValueGraph.class);
+    assertThat(ImmutableGraph.copyOf(buildDirectedTestGraph())).isNotInstanceOf(ValueGraph.class);
+    assertThat(ImmutableGraph.copyOf(buildUndirectedTestGraph())).isNotInstanceOf(ValueGraph.class);
   }
 
   private static MutableGraph<Integer> buildDirectedTestGraph() {

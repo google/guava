@@ -158,6 +158,7 @@ public abstract class AbstractNetworkTest {
     String edgeString = networkString.substring(edgeStart);
 
     Graph<Integer> asGraph = network.asGraph();
+    AbstractGraphTest.validateGraph(asGraph);
     assertThat(network.nodes()).isEqualTo(asGraph.nodes());
     assertThat(network.edges().size()).isAtLeast(asGraph.edges().size());
     assertThat(network.nodeOrder()).isEqualTo(asGraph.nodeOrder());
