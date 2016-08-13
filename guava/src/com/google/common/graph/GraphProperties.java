@@ -16,11 +16,11 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.annotations.Beta;
+import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import java.util.Map;
+import javax.annotation.Nullable;
 
 /**
  * Static utility methods for calculating properties of {@link Graph} instances.
@@ -36,52 +36,89 @@ public final class GraphProperties {
   private GraphProperties() {}
 
   /**
-   * Returns true iff {@code graph} has at least one cycle.
+   * Returns true iff {@code graph} has at least one cycle. A cycle is defined as a non-empty
+   * subset of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges)
+   * starting and ending with the same node.
+   *
+   * <p>This method will detect any non-empty cycle, including self-loops (a cycle of length 1).
    */
   public static boolean isCyclic(Graph<?> graph) {
-    // TODO(user): Implement an algorithm that also works on undirected graphs.
-    // For instance, we should keep track of the edge used to reach a node to avoid
-    // reusing it (making a cycle by getting back to that node). Also, parallel edges
-    // will need to be carefully handled for undirected graphs.
-    checkArgument(graph.isDirected(), "isCyclic() currently only works on directed graphs");
+    int numEdges = graph.edges().size();
+    if (numEdges == 0) {
+      return false; // An edge-free graph is acyclic by definition.
+    }
+    if (!graph.isDirected() && numEdges >= graph.nodes().size()) {
+      return true; // Optimization for the undirected case: at least one cycle must exist.
+    }
 
-    Map<Object, NodeVisitState> nodeToVisitState = Maps.newHashMap();
+    Map<Object, NodeState> visitedNodes = Maps.newHashMapWithExpectedSize(graph.nodes().size());
     for (Object node : graph.nodes()) {
-      if (nodeToVisitState.get(node) == null) {
-        if (isSubgraphCyclic(graph, nodeToVisitState, node)) {
-          return true;
-        }
+      if (isSubgraphCyclic(graph, visitedNodes, node, null)) {
+        return true;
       }
     }
     return false;
   }
 
   /**
-   * See {@link #isCyclic(Graph)}.
+   * Returns true iff {@code network} has at least one cycle. A cycle is defined as a non-empty
+   * subset of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges)
+   * starting and ending with the same node.
+   *
+   * <p>This method will detect any non-empty cycle, including self-loops (a cycle of length 1).
    */
-  // TODO(b/27628622): When migrating to Graphs, remove this method and make clients call asGraph().
   public static boolean isCyclic(Network<?, ?> network) {
+    // In a directed graph, parallel edges cannot introduce a cycle in an acyclic graph.
+    // However, in an undirected graph, any parallel edge induces a cycle in the graph.
+    if (!network.isDirected() && network.allowsParallelEdges()
+        && network.edges().size() > network.asGraph().edges().size()) {
+      return true;
+    }
     return isCyclic(network.asGraph());
   }
 
   /**
-   * Returns true iff there is a cycle in the subgraph of {@code graph} reachable from
-   * {@code node}.
+   * Performs a traversal of the nodes reachable from {@code node}. If we ever reach a node we've
+   * already visited (following only outgoing edges and without reusing edges), we know there's a
+   * cycle in the graph.
    */
   private static boolean isSubgraphCyclic(
-      Graph<?> graph, Map<Object, NodeVisitState> nodeToVisitState, Object node) {
-    nodeToVisitState.put(node, NodeVisitState.PENDING);
-    for (Object successor : graph.successors(node)) {
-      NodeVisitState nodeVisitState = nodeToVisitState.get(successor);
-      if (nodeVisitState == NodeVisitState.PENDING) {
-        return true;
-      } else if (nodeVisitState == null) {
-        if (isSubgraphCyclic(graph, nodeToVisitState, successor)) {
-          return true;
-        }
-      } // otherwise the state is COMPLETE, nothing to do
+      Graph<?> graph,
+      Map<Object, NodeState> visitedNodes,
+      Object node,
+      @Nullable Object previousNode) {
+    NodeState state = visitedNodes.get(node);
+    if (state == NodeState.COMPLETE) {
+      return false;
     }
-    nodeToVisitState.put(node, NodeVisitState.COMPLETE);
+    if (state == NodeState.PENDING) {
+      return true;
+    }
+
+    visitedNodes.put(node, NodeState.PENDING);
+    for (Object nextNode : graph.successors(node)) {
+      if (canTraverseWithoutReusingEdge(graph, nextNode, previousNode)
+          && isSubgraphCyclic(graph, visitedNodes, nextNode, node)) {
+        return true;
+      }
+    }
+    visitedNodes.put(node, NodeState.COMPLETE);
+    return false;
+  }
+
+  /**
+   * Determines whether an edge has already been used during traversal. In the directed case a cycle
+   * is always detected before reusing an edge, so no special logic is required. In the undirected
+   * case, we must take care not to "backtrack" over an edge (i.e. going from A to B and then going
+   * from B to A).
+   */
+  private static boolean canTraverseWithoutReusingEdge(
+      Graph<?> graph, Object nextNode, @Nullable Object previousNode) {
+    if (graph.isDirected() || !Objects.equal(previousNode, nextNode)) {
+      return true;
+    }
+    // This falls into the undirected A->B->A case. The Graph interface does not support parallel
+    // edges, so this traversal would require reusing the undirected AB edge.
     return false;
   }
 
@@ -91,7 +128,7 @@ public final class GraphProperties {
    * the node and all its successors have been already explored. Any node that
    * has not been explored will not have a state at all.
    */
-  private enum NodeVisitState {
+  private enum NodeState {
     PENDING,
     COMPLETE
   }
