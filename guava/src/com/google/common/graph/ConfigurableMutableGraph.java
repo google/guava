@@ -51,11 +51,6 @@ final class ConfigurableMutableGraph<N> extends AbstractGraph<N> implements Muta
   }
 
   @Override
-  public ElementOrder<N> nodeOrder() {
-    return backingGraph.nodeOrder();
-  }
-
-  @Override
   public boolean isDirected() {
     return backingGraph.isDirected();
   }
@@ -63,6 +58,11 @@ final class ConfigurableMutableGraph<N> extends AbstractGraph<N> implements Muta
   @Override
   public boolean allowsSelfLoops() {
     return backingGraph.allowsSelfLoops();
+  }
+
+  @Override
+  public ElementOrder<N> nodeOrder() {
+    return backingGraph.nodeOrder();
   }
 
   @Override

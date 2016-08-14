@@ -222,16 +222,6 @@ public interface Network<N, E> {
   Set<E> edges();
 
   /**
-   * Returns the order of iteration for the elements of {@link #nodes()}.
-   */
-  ElementOrder<N> nodeOrder();
-
-  /**
-   * Returns the order of iteration for the elements of {@link #edges()}.
-   */
-  ElementOrder<E> edgeOrder();
-
-  /**
    * Returns a live view of this graph as a {@link Graph}. The resulting {@link Graph} will have an
    * edge connecting node A to node B iff this {@link Network} has an edge connecting A to B.
    */
@@ -265,6 +255,16 @@ public interface Network<N, E> {
    * that does not allow them will throw an {@link UnsupportedOperationException}.
    */
   boolean allowsParallelEdges();
+
+  /**
+   * Returns the order of iteration for the elements of {@link #nodes()}.
+   */
+  ElementOrder<N> nodeOrder();
+
+  /**
+   * Returns the order of iteration for the elements of {@link #edges()}.
+   */
+  ElementOrder<E> edgeOrder();
 
   //
   // Element-level accessors

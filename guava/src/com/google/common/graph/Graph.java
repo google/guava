@@ -181,11 +181,6 @@ public interface Graph<N> {
    */
   Set<Endpoints<N>> edges();
 
-  /**
-   * Returns the order of iteration for the elements of {@link #nodes()}.
-   */
-  ElementOrder<N> nodeOrder();
-
   //
   // Graph properties
   //
@@ -201,6 +196,11 @@ public interface Graph<N> {
    * {@link UnsupportedOperationException}.
    */
   boolean allowsSelfLoops();
+
+  /**
+   * Returns the order of iteration for the elements of {@link #nodes()}.
+   */
+  ElementOrder<N> nodeOrder();
 
   //
   // Element-level accessors
