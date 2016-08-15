@@ -141,7 +141,7 @@ public abstract class AbstractNetworkTest {
   }
 
   @After
-  public void validateGraphState() {
+  public void validateNetworkState() {
     new EqualsTester().addEqualityGroup(
         network,
         Graphs.copyOf(network),
