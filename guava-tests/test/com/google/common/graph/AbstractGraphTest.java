@@ -123,10 +123,12 @@ public abstract class AbstractGraphTest {
   }
 
   static <N> void validateGraph(Graph<N> graph) {
-    new EqualsTester().addEqualityGroup(
-        graph,
-        Graphs.copyOf(graph),
-        ImmutableGraph.copyOf(graph)).testEquals();
+    if (!(graph instanceof ValueGraph)) {
+      new EqualsTester().addEqualityGroup(
+          graph,
+          Graphs.copyOf(graph),
+          ImmutableGraph.copyOf(graph)).testEquals();
+    }
 
     String graphString = graph.toString();
     assertThat(graphString).contains("isDirected: " + graph.isDirected());

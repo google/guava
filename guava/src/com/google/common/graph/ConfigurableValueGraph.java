@@ -19,6 +19,7 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
+import static com.google.common.graph.GraphConstants.EDGE_CONNECTING_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 import static com.google.common.graph.Graphs.checkNonNegative;
 
@@ -28,7 +29,7 @@ import java.util.TreeMap;
 import javax.annotation.Nullable;
 
 /**
- * Abstract configurable implementation of {@link Graph} that supports the options supplied by
+ * Configurable implementation of {@link ValueGraph} that supports the options supplied by
  * {@link AbstractGraphBuilder}.
  *
  * <p>This class maintains a map of nodes to {@link GraphConnections}.
@@ -50,9 +51,9 @@ import javax.annotation.Nullable;
  * @author Joshua O'Madadhain
  * @author Omar Darwish
  * @param <N> Node parameter type
- * @param <V> Value parameter type (allows this class to be easily extended to implement ValueGraph)
+ * @param <V> Value parameter type
  */
-abstract class AbstractConfigurableGraph<N, V> extends AbstractGraph<N> {
+class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   private final boolean isDirected;
   private final boolean allowsSelfLoops;
   private final ElementOrder<N> nodeOrder;
@@ -64,7 +65,7 @@ abstract class AbstractConfigurableGraph<N, V> extends AbstractGraph<N> {
   /**
    * Constructs a graph with the properties specified in {@code builder}.
    */
-  AbstractConfigurableGraph(AbstractGraphBuilder<? super N> builder) {
+  ConfigurableValueGraph(AbstractGraphBuilder<? super N> builder) {
     this(
         builder,
         builder.nodeOrder.<N, GraphConnections<N, V>>createMap(
@@ -76,7 +77,7 @@ abstract class AbstractConfigurableGraph<N, V> extends AbstractGraph<N> {
    * Constructs a graph with the properties specified in {@code builder}, initialized with
    * the given node map.
    */
-  AbstractConfigurableGraph(AbstractGraphBuilder<? super N> builder,
+  ConfigurableValueGraph(AbstractGraphBuilder<? super N> builder,
       Map<N, GraphConnections<N, V>> nodeConnections, long edgeCount) {
     this.isDirected = builder.directed;
     this.allowsSelfLoops = builder.allowsSelfLoops;
@@ -128,6 +129,23 @@ abstract class AbstractConfigurableGraph<N, V> extends AbstractGraph<N> {
   @Override
   public Set<N> successors(Object node) {
     return checkedConnections(node).successors();
+  }
+
+  @Override
+  public V edgeValue(Object nodeA, Object nodeB) {
+    V value = edgeValueOrDefault(nodeA, nodeB, null);
+    checkArgument(value != null, EDGE_CONNECTING_NOT_IN_GRAPH, nodeA, nodeB);
+    return value;
+  }
+
+  @Override
+  public V edgeValueOrDefault(Object nodeA, Object nodeB, @Nullable V defaultValue) {
+    V value = checkedConnections(nodeA).value(nodeB);
+    if (value == null) {
+      checkArgument(containsNode(nodeB), NODE_NOT_IN_GRAPH, nodeB);
+      return defaultValue;
+    }
+    return value;
   }
 
   @Override

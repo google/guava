@@ -36,7 +36,7 @@ import java.util.Map;
  * @since 20.0
  */
 @Beta
-public final class ImmutableNetwork<N, E> extends AbstractConfigurableNetwork<N, E> {
+public final class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
 
   private ImmutableNetwork(Network<N, E> graph) {
     super(NetworkBuilder.from(graph), getNodeConnections(graph), getEdgeToReferenceNode(graph));

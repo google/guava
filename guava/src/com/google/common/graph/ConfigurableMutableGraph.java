@@ -16,8 +16,6 @@
 
 package com.google.common.graph;
 
-import java.util.Set;
-
 /**
  * Configurable implementation of {@link MutableGraph} that supports both directed and undirected
  * graphs. Instances of this class should be constructed with {@link GraphBuilder}.
@@ -28,7 +26,7 @@ import java.util.Set;
  * @author James Sexton
  * @param <N> Node parameter type
  */
-final class ConfigurableMutableGraph<N> extends AbstractGraph<N> implements MutableGraph<N> {
+final class ConfigurableMutableGraph<N> extends ForwardingGraph<N> implements MutableGraph<N> {
   private static final Object DUMMY_EDGE_VALUE = new Object();
 
   private final MutableValueGraph<N, Object> backingGraph;
@@ -38,46 +36,6 @@ final class ConfigurableMutableGraph<N> extends AbstractGraph<N> implements Muta
    */
   ConfigurableMutableGraph(AbstractGraphBuilder<? super N> builder) {
     this.backingGraph = new ConfigurableMutableValueGraph<N, Object>(builder);
-  }
-
-  @Override
-  public Set<N> nodes() {
-    return backingGraph.nodes();
-  }
-
-  @Override
-  public Set<Endpoints<N>> edges() {
-    return backingGraph.edges();
-  }
-
-  @Override
-  public boolean isDirected() {
-    return backingGraph.isDirected();
-  }
-
-  @Override
-  public boolean allowsSelfLoops() {
-    return backingGraph.allowsSelfLoops();
-  }
-
-  @Override
-  public ElementOrder<N> nodeOrder() {
-    return backingGraph.nodeOrder();
-  }
-
-  @Override
-  public Set<N> adjacentNodes(Object node) {
-    return backingGraph.adjacentNodes(node);
-  }
-
-  @Override
-  public Set<N> predecessors(Object node) {
-    return backingGraph.predecessors(node);
-  }
-
-  @Override
-  public Set<N> successors(Object node) {
-    return backingGraph.successors(node);
   }
 
   @Override
@@ -98,5 +56,10 @@ final class ConfigurableMutableGraph<N> extends AbstractGraph<N> implements Muta
   @Override
   public boolean removeEdge(Object nodeA, Object nodeB) {
     return backingGraph.removeEdge(nodeA, nodeB) != null;
+  }
+
+  @Override
+  protected Graph<N> delegate() {
+    return backingGraph;
   }
 }

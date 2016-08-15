@@ -19,6 +19,7 @@ package com.google.common.graph;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
+import com.google.common.testing.EqualsTester;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +35,15 @@ public final class ValueGraphTest {
 
   @After
   public void validateGraphState() {
+    new EqualsTester().addEqualityGroup(
+        graph,
+        Graphs.copyOf(graph),
+        ImmutableValueGraph.copyOf(graph)).testEquals();
+
+    for (Endpoints<Integer> edge : graph.edges()) {
+      assertThat(graph.edgeValue(edge.nodeA(), edge.nodeB())).isNotNull();
+    }
+
     AbstractGraphTest.validateGraph(graph);
   }
 
@@ -49,7 +59,12 @@ public final class ValueGraphTest {
     assertThat(graph.edgeValue(2, 1)).isEqualTo("valueB");
     assertThat(graph.edgeValue(2, 3)).isEqualTo("valueC");
     assertThat(graph.edgeValue(4, 4)).isEqualTo("valueD");
-    assertThat(graph).isEqualTo(ImmutableValueGraph.copyOf(graph));
+
+    String toString = graph.toString();
+    assertThat(toString).contains("valueA");
+    assertThat(toString).contains("valueB");
+    assertThat(toString).contains("valueC");
+    assertThat(toString).contains("valueD");
   }
 
   @Test
@@ -64,7 +79,12 @@ public final class ValueGraphTest {
     assertThat(graph.edgeValue(2, 1)).isEqualTo("valueB");
     assertThat(graph.edgeValue(2, 3)).isEqualTo("valueC");
     assertThat(graph.edgeValue(4, 4)).isEqualTo("valueD");
-    assertThat(graph).isEqualTo(ImmutableValueGraph.copyOf(graph));
+
+    String toString = graph.toString();
+    assertThat(toString).doesNotContain("valueA");
+    assertThat(toString).contains("valueB");
+    assertThat(toString).contains("valueC");
+    assertThat(toString).contains("valueD");
   }
 
   @Test
@@ -75,7 +95,6 @@ public final class ValueGraphTest {
     assertThat(graph.putEdgeValue(2, 1, "valueB")).isNull();
     assertThat(graph.putEdgeValue(1, 2, "valueC")).isEqualTo("valueA");
     assertThat(graph.putEdgeValue(2, 1, "valueD")).isEqualTo("valueB");
-    assertThat(graph).isEqualTo(ImmutableValueGraph.copyOf(graph));
   }
 
   @Test
@@ -86,7 +105,6 @@ public final class ValueGraphTest {
     assertThat(graph.putEdgeValue(2, 1, "valueB")).isEqualTo("valueA");
     assertThat(graph.putEdgeValue(1, 2, "valueC")).isEqualTo("valueB");
     assertThat(graph.putEdgeValue(2, 1, "valueD")).isEqualTo("valueC");
-    assertThat(graph).isEqualTo(ImmutableValueGraph.copyOf(graph));
   }
 
   @Test
@@ -102,7 +120,6 @@ public final class ValueGraphTest {
     assertThat(graph.removeEdge(2, 1)).isNull();
     assertThat(graph.removeEdge(2, 3)).isEqualTo("valueC");
     assertThat(graph.removeEdge(2, 3)).isNull();
-    assertThat(graph).isEqualTo(ImmutableValueGraph.copyOf(graph));
   }
 
   @Test
@@ -117,7 +134,6 @@ public final class ValueGraphTest {
     assertThat(graph.removeEdge(2, 1)).isNull();
     assertThat(graph.removeEdge(2, 3)).isEqualTo("valueC");
     assertThat(graph.removeEdge(2, 3)).isNull();
-    assertThat(graph).isEqualTo(ImmutableValueGraph.copyOf(graph));
   }
 
   @Test

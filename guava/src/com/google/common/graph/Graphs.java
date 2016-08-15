@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
@@ -28,7 +27,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayDeque;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -245,26 +243,20 @@ public final class Graphs {
 
   /**
    * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
-   * all of the nodes in {@code nodes}, and all of the edges from {@code graph} for which the
-   * edge's incident nodes are both contained by {@code nodes}.
+   * all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} from {@code
+   * graph} for which the endpoints are both contained by {@code nodes}.
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
-  public static <N, E> MutableNetwork<N, E> inducedSubgraph(Network<N, E> graph,
-      Iterable<? extends N> nodes) {
-    NetworkBuilder<N, E> builder = NetworkBuilder.from(graph);
-    if (nodes instanceof Collection) {
-      builder = builder.expectedNodeCount(((Collection<?>) nodes).size());
-    }
-    MutableNetwork<N, E> subgraph = builder.build();
+  public static <N> MutableGraph<N> inducedSubgraph(Graph<N> graph, Iterable<? extends N> nodes) {
+    MutableGraph<N> subgraph = GraphBuilder.from(graph).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }
     for (N node : subgraph.nodes()) {
-      for (E edge : graph.outEdges(node)) {
-        N adjacentNode = graph.incidentNodes(edge).adjacentNode(node);
-        if (subgraph.nodes().contains(adjacentNode)) {
-          subgraph.addEdge(node, adjacentNode, edge);
+      for (N successorNode : graph.successors(node)) {
+        if (subgraph.nodes().contains(successorNode)) {
+          subgraph.putEdge(node, successorNode);
         }
       }
     }
@@ -272,44 +264,103 @@ public final class Graphs {
   }
 
   /**
-   * Creates a mutable copy of {@code graph}, using the same nodes and edges.
+   * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
+   * all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} (and associated
+   * edge values) from {@code graph} for which the endpoints are both contained by {@code nodes}.
+   *
+   * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
+   */
+  public static <N, V> MutableValueGraph<N, V> inducedSubgraph(ValueGraph<N, V> graph,
+      Iterable<? extends N> nodes) {
+    MutableValueGraph<N, V> subgraph = ValueGraphBuilder.from(graph).build();
+    for (N node : nodes) {
+      subgraph.addNode(node);
+    }
+    for (N node : subgraph.nodes()) {
+      for (N successorNode : graph.successors(node)) {
+        if (subgraph.nodes().contains(successorNode)) {
+          subgraph.putEdgeValue(node, successorNode, graph.edgeValue(node, successorNode));
+        }
+      }
+    }
+    return subgraph;
+  }
+
+  /**
+   * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
+   * all of the nodes in {@code nodes}, and all of the {@link Network#edges() edges} from {@code
+   * graph} for which the endpoints are both contained by {@code nodes}.
+   *
+   * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
+   */
+  public static <N, E> MutableNetwork<N, E> inducedSubgraph(Network<N, E> graph,
+      Iterable<? extends N> nodes) {
+    MutableNetwork<N, E> subgraph = NetworkBuilder.from(graph).build();
+    for (N node : nodes) {
+      subgraph.addNode(node);
+    }
+    for (N node : subgraph.nodes()) {
+      for (E edge : graph.outEdges(node)) {
+        N successorNode = graph.incidentNodes(edge).adjacentNode(node);
+        if (subgraph.nodes().contains(successorNode)) {
+          subgraph.addEdge(node, successorNode, edge);
+        }
+      }
+    }
+    return subgraph;
+  }
+
+  /**
+   * Creates a mutable copy of {@code graph} with the same nodes and edges.
    */
   public static <N> MutableGraph<N> copyOf(Graph<N> graph) {
-    checkNotNull(graph, "graph");
     MutableGraph<N> copy = GraphBuilder.from(graph)
         .expectedNodeCount(graph.nodes().size())
         .build();
-
     for (N node : graph.nodes()) {
-      checkState(copy.addNode(node));
+      copy.addNode(node);
     }
     for (Endpoints<N> endpoints : graph.edges()) {
-      checkState(copy.putEdge(endpoints.nodeA(), endpoints.nodeB()));
+      copy.putEdge(endpoints.nodeA(), endpoints.nodeB());
     }
-
     return copy;
   }
 
   /**
-   * Creates a mutable copy of {@code graph}, using the same node and edge elements.
+   * Creates a mutable copy of {@code graph} with the same nodes, edges, and edge values.
+   */
+  public static <N, V> MutableValueGraph<N, V> copyOf(ValueGraph<N, V> graph) {
+    MutableValueGraph<N, V> copy = ValueGraphBuilder.from(graph)
+        .expectedNodeCount(graph.nodes().size())
+        .build();
+    for (N node : graph.nodes()) {
+      copy.addNode(node);
+    }
+    for (Endpoints<N> edge : graph.edges()) {
+      copy.putEdgeValue(edge.nodeA(), edge.nodeB(), graph.edgeValue(edge.nodeA(), edge.nodeB()));
+    }
+    return copy;
+  }
+
+  /**
+   * Creates a mutable copy of {@code graph} with the same nodes and edges.
    */
   public static <N, E> MutableNetwork<N, E> copyOf(Network<N, E> graph) {
-    checkNotNull(graph, "graph");
     MutableNetwork<N, E> copy = NetworkBuilder.from(graph)
         .expectedNodeCount(graph.nodes().size())
         .expectedEdgeCount(graph.edges().size())
         .build();
-
     for (N node : graph.nodes()) {
-      checkState(copy.addNode(node));
+      copy.addNode(node);
     }
     for (E edge : graph.edges()) {
       Endpoints<N> endpoints = graph.incidentNodes(edge);
-      checkState(copy.addEdge(endpoints.nodeA(), endpoints.nodeB(), edge));
+      copy.addEdge(endpoints.nodeA(), endpoints.nodeB(), edge);
     }
-
     return copy;
   }
+
+  // TODO(user): delete the @GI copy*() methods below this comment.
 
   @CanIgnoreReturnValue
   static int checkNonNegative(int value) {

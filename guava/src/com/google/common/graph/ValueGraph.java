@@ -44,4 +44,40 @@ public interface ValueGraph<N, V> extends Graph<N> {
    * associated with that edge. Otherwise, returns {@code defaultValue}.
    */
   V edgeValueOrDefault(Object nodeA, Object nodeB, @Nullable V defaultValue);
+
+  //
+  // ValueGraph identity
+  //
+
+  /**
+   * Returns {@code true} iff {@code object} is a {@link ValueGraph} that has the same structural
+   * relationships as those in this graph.
+   *
+   * <p>Thus, two value graphs A and B are equal if <b>all</b> of the following are true:
+   * <ul>
+   * <li>A and B have equal {@link #isDirected() directedness}.
+   * <li>A and B have equal {@link #nodes() node sets}.
+   * <li>A and B have equal {@link #edges() edge sets}.
+   * <li>Every edge in A and B are associated with equal {@link #edgeValue(Object, Object) values}.
+   * </ul>
+   *
+   * <p>Graph properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.
+   * For example, two graphs may be considered equal even if one allows self-loops and the other
+   * doesn't. Additionally, the order in which nodes or edges are added to the graph, and the order
+   * in which they are iterated over, are irrelevant.
+   *
+   * <p>A reference implementation of this is provided by {@link AbstractValueGraph#equals(Object)}.
+   */
+  @Override
+  boolean equals(@Nullable Object object);
+
+  /**
+   * Returns the hash code for this value graph. The hash code of a value graph is defined as
+   * the hash code of a map from each of its {@link #edges() edges} to the associated {@link
+   * #edgeValue(Object, Object) edge value}.
+   *
+   * <p>A reference implementation of this is provided by {@link AbstractValueGraph#hashCode()}.
+   */
+  @Override
+  int hashCode();
 }

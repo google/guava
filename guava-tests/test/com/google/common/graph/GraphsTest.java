@@ -347,7 +347,45 @@ public class GraphsTest {
   }
 
   @Test
-  public void inducedSubgraph_partialEdgeIncidence() {
+  public void inducedSubgraph_Graph() {
+    Set<Integer> nodeSubset = ImmutableSet.of(N1, N2, N4);
+
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    directedGraph.putEdge(N1, N2);
+    directedGraph.putEdge(N2, N1);
+    directedGraph.putEdge(N1, N3); // only incident to one node in nodeSubset
+    directedGraph.putEdge(N4, N4);
+    directedGraph.putEdge(5, 6); // not incident to any node in nodeSubset
+
+    MutableGraph<Integer> expectedSubgraph = GraphBuilder.directed().build();
+    expectedSubgraph.putEdge(N1, N2);
+    expectedSubgraph.putEdge(N2, N1);
+    expectedSubgraph.putEdge(N4, N4);
+
+    assertThat(inducedSubgraph(directedGraph, nodeSubset)).isEqualTo(expectedSubgraph);
+  }
+
+  @Test
+  public void inducedSubgraph_ValueGraph() {
+    Set<Integer> nodeSubset = ImmutableSet.of(N1, N2, N4);
+
+    MutableValueGraph<Integer, String> directedGraph = ValueGraphBuilder.directed().build();
+    directedGraph.putEdgeValue(N1, N2, E12);
+    directedGraph.putEdgeValue(N2, N1, E21);
+    directedGraph.putEdgeValue(N1, N3, E13); // only incident to one node in nodeSubset
+    directedGraph.putEdgeValue(N4, N4, E44);
+    directedGraph.putEdgeValue(5, 6, "5-6"); // not incident to any node in nodeSubset
+
+    MutableValueGraph<Integer, String> expectedSubgraph = ValueGraphBuilder.directed().build();
+    expectedSubgraph.putEdgeValue(N1, N2, E12);
+    expectedSubgraph.putEdgeValue(N2, N1, E21);
+    expectedSubgraph.putEdgeValue(N4, N4, E44);
+
+    assertThat(inducedSubgraph(directedGraph, nodeSubset)).isEqualTo(expectedSubgraph);
+  }
+
+  @Test
+  public void inducedSubgraph_Network() {
     Set<Integer> nodeSubset = ImmutableSet.of(N1, N2, N4);
 
     MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();

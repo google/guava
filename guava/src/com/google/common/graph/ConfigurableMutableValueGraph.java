@@ -39,7 +39,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @param <V> Value parameter type
  */
 final class ConfigurableMutableValueGraph<N, V>
-    extends AbstractConfigurableValueGraph<N, V> implements MutableValueGraph<N, V> {
+    extends ConfigurableValueGraph<N, V> implements MutableValueGraph<N, V> {
 
   /**
    * Constructs a mutable graph with the properties specified in {@code builder}.

@@ -30,8 +30,8 @@ import java.util.TreeMap;
 import javax.annotation.Nullable;
 
 /**
- * Abstract configurable implementation of {@link Network} that supports the options supplied
- * by {@link NetworkBuilder}.
+ * Configurable implementation of {@link Network} that supports the options supplied by
+ * {@link NetworkBuilder}.
  *
  * <p>This class maintains a map of nodes to {@link NetworkConnections}. This class also maintains
  * a map of edges to reference nodes. The reference node is defined to be the edge's source node
@@ -56,7 +56,7 @@ import javax.annotation.Nullable;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
+class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   private final boolean isDirected;
   private final boolean allowsParallelEdges;
   private final boolean allowsSelfLoops;
@@ -72,7 +72,7 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   /**
    * Constructs a graph with the properties specified in {@code builder}.
    */
-  AbstractConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder) {
+  ConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder) {
     this(
         builder,
         builder.nodeOrder.<N, NetworkConnections<N, E>>createMap(
@@ -85,7 +85,7 @@ abstract class AbstractConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
    * Constructs a graph with the properties specified in {@code builder}, initialized with
    * the given node and edge maps.
    */
-  AbstractConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder,
+  ConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder,
       Map<N, NetworkConnections<N, E>> nodeConnections,
       Map<E, N> edgeToReferenceNode) {
     this.isDirected = builder.directed;

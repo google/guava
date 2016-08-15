@@ -34,11 +34,14 @@ import com.google.common.collect.Maps;
  * @since 20.0
  */
 @Beta
-public final class ImmutableGraph<N> extends AbstractConfigurableGraph<N, Object> {
+public final class ImmutableGraph<N> extends ForwardingGraph<N> {
   private static final Object DUMMY_EDGE_VALUE = new Object();
 
+  private final ValueGraph<N, Object> backingGraph;
+
   private ImmutableGraph(Graph<N> graph) {
-    super(GraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
+    this.backingGraph = new ConfigurableValueGraph<N, Object>(
+        GraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
   }
 
   /**
@@ -80,5 +83,10 @@ public final class ImmutableGraph<N> extends AbstractConfigurableGraph<N, Object
             Maps.asMap(graph.successors(node), Functions.constant(DUMMY_EDGE_VALUE)))
         : UndirectedGraphConnections.ofImmutable(
             Maps.asMap(graph.adjacentNodes(node), Functions.constant(DUMMY_EDGE_VALUE)));
+  }
+
+  @Override
+  protected Graph<N> delegate() {
+    return backingGraph;
   }
 }

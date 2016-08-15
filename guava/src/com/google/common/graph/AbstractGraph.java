@@ -96,21 +96,10 @@ public abstract class AbstractGraph<N> implements Graph<N> {
     }
     Graph<?> other = (Graph<?>) obj;
 
-    if (isDirected() != other.isDirected()) {
-      return false;
-    }
-
-    if (!nodes().equals(other.nodes())) {
-      return false;
-    }
-
-    for (N node : nodes()) {
-      if (!successors(node).equals(other.successors(node))) {
-        return false;
-      }
-    }
-
-    return true;
+    return (this instanceof ValueGraph) == (other instanceof ValueGraph)
+        && isDirected() == other.isDirected()
+        && nodes().equals(other.nodes())
+        && edges().equals(other.edges());
   }
 
   @Override

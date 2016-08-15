@@ -29,8 +29,8 @@ import javax.annotation.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link Network}. It is recommended to extend
- * this class rather than implement {@link Network} directly, to ensure consistent
- * {@link #equals(Object)} and {@link #hashCode()} results across different network implementations.
+ * this class rather than implement {@link Network} directly, to ensure consistent {@link
+ * #equals(Object)} and {@link #hashCode()} results across different network implementations.
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -127,11 +127,9 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
     }
     Network<?, ?> other = (Network<?, ?>) obj;
 
-    if (isDirected() != other.isDirected()) {
-      return false;
-    }
-
-    if (!nodes().equals(other.nodes()) || !edges().equals(other.edges())) {
+    if (isDirected() != other.isDirected()
+        || !nodes().equals(other.nodes())
+        || !edges().equals(other.edges())) {
       return false;
     }
 

@@ -347,16 +347,16 @@ public interface Network<N, E> {
    *
    * <p>Thus, two networks A and B are equal if <b>all</b> of the following are true:
    * <ul>
-   * <li>A and B have the same {@link #isDirected() directedness}.
-   * <li>A and B have the same node set.
-   * <li>A and B have the same edge set.
+   * <li>A and B have equal {@link #isDirected() directedness}.
+   * <li>A and B have equal {@link #nodes() node sets}.
+   * <li>A and B have equal {@link #edges() edge sets}.
    * <li>Every edge in A and B connects the same nodes in the same direction (if any).
    * </ul>
    *
-   * <p>Network properties are <b>not</b> respected by this method. For example, two networks may be
-   * considered equal even if one allows parallel edges and the other doesn't. Additionally, the
-   * order in which edges or nodes are added to the network, and the order in which they are
-   * iterated over, are irrelevant.
+   * <p>Network properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.
+   * For example, two networks may be considered equal even if one allows parallel edges and the
+   * other doesn't. Additionally, the order in which nodes or edges are added to the network, and
+   * the order in which they are iterated over, are irrelevant.
    *
    * <p>A reference implementation of this is provided by {@link AbstractNetwork#equals(Object)}.
    */
@@ -365,7 +365,7 @@ public interface Network<N, E> {
 
   /**
    * Returns the hash code for this network. The hash code of a network is defined as the hash code
-   * of a map from each of the network's nodes to its outgoing edges.
+   * of a map from each of its {@link #nodes() nodes} to {@link #outEdges(Object) outgoing edges}.
    *
    * <p>A reference implementation of this is provided by {@link AbstractNetwork#hashCode()}.
    */
