@@ -360,8 +360,6 @@ public final class Graphs {
     return copy;
   }
 
-  // TODO(user): delete the @GI copy*() methods below this comment.
-
   @CanIgnoreReturnValue
   static int checkNonNegative(int value) {
     checkState(value >= 0, "Not true that %s is non-negative.", value);
