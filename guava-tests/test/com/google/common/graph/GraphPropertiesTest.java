@@ -16,7 +16,7 @@
 
 package com.google.common.graph;
 
-import static com.google.common.graph.GraphProperties.isCyclic;
+import static com.google.common.graph.Graphs.hasCycle;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
@@ -26,8 +26,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for {@link GraphProperties}.
+ * Tests for {@link Graphs#hasCycle(Graph)} and {@link Graphs#hasCycle(Network)}.
  */
+// TODO(user): Consider moving this to GraphsTest.
 @RunWith(JUnit4.class)
 public class GraphPropertiesTest {
   ImmutableList<MutableGraph<Integer>> graphsToTest;
@@ -54,123 +55,123 @@ public class GraphPropertiesTest {
   }
 
   @Test
-  public void isCyclic_emptyGraph() {
-    assertThat(isCyclic(directedGraph)).isFalse();
-    assertThat(isCyclic(undirectedGraph)).isFalse();
+  public void hasCycle_emptyGraph() {
+    assertThat(hasCycle(directedGraph)).isFalse();
+    assertThat(hasCycle(undirectedGraph)).isFalse();
   }
 
   @Test
-  public void isCyclic_isolatedNodes() {
+  public void hasCycle_isolatedNodes() {
     for (MutableGraph<Integer> graph : graphsToTest) {
       graph.addNode(1);
       graph.addNode(2);
     }
-    assertThat(isCyclic(directedGraph)).isFalse();
-    assertThat(isCyclic(undirectedGraph)).isFalse();
+    assertThat(hasCycle(directedGraph)).isFalse();
+    assertThat(hasCycle(undirectedGraph)).isFalse();
   }
 
   @Test
-  public void isCyclic_oneEdge() {
+  public void hasCycle_oneEdge() {
     for (MutableGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
     }
-    assertThat(isCyclic(directedGraph)).isFalse();
-    assertThat(isCyclic(undirectedGraph)).isFalse();
+    assertThat(hasCycle(directedGraph)).isFalse();
+    assertThat(hasCycle(undirectedGraph)).isFalse();
   }
 
   @Test
-  public void isCyclic_selfLoopEdge() {
+  public void hasCycle_selfLoopEdge() {
     for (MutableGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 1);
     }
-    assertThat(isCyclic(directedGraph)).isTrue();
-    assertThat(isCyclic(undirectedGraph)).isTrue();
+    assertThat(hasCycle(directedGraph)).isTrue();
+    assertThat(hasCycle(undirectedGraph)).isTrue();
   }
 
   @Test
-  public void isCyclic_twoAcyclicEdges() {
+  public void hasCycle_twoAcyclicEdges() {
     for (MutableGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
       graph.putEdge(1, 3);
     }
-    assertThat(isCyclic(directedGraph)).isFalse();
-    assertThat(isCyclic(undirectedGraph)).isFalse();
+    assertThat(hasCycle(directedGraph)).isFalse();
+    assertThat(hasCycle(undirectedGraph)).isFalse();
   }
 
   @Test
-  public void isCyclic_twoCyclicEdges() {
+  public void hasCycle_twoCyclicEdges() {
     for (MutableGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
       graph.putEdge(2, 1); // no-op in undirected case
     }
-    assertThat(isCyclic(directedGraph)).isTrue();
-    assertThat(isCyclic(undirectedGraph)).isFalse();
+    assertThat(hasCycle(directedGraph)).isTrue();
+    assertThat(hasCycle(undirectedGraph)).isFalse();
   }
 
   @Test
-  public void isCyclic_threeAcyclicEdges() {
+  public void hasCycle_threeAcyclicEdges() {
     for (MutableGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
       graph.putEdge(2, 3);
       graph.putEdge(1, 3);
     }
-    assertThat(isCyclic(directedGraph)).isFalse();
-    assertThat(isCyclic(undirectedGraph)).isTrue(); // cyclic in undirected case
+    assertThat(hasCycle(directedGraph)).isFalse();
+    assertThat(hasCycle(undirectedGraph)).isTrue(); // cyclic in undirected case
   }
 
   @Test
-  public void isCyclic_threeCyclicEdges() {
+  public void hasCycle_threeCyclicEdges() {
     for (MutableGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
       graph.putEdge(2, 3);
       graph.putEdge(3, 1);
     }
-    assertThat(isCyclic(directedGraph)).isTrue();
-    assertThat(isCyclic(undirectedGraph)).isTrue();
+    assertThat(hasCycle(directedGraph)).isTrue();
+    assertThat(hasCycle(undirectedGraph)).isTrue();
   }
 
   @Test
-  public void isCyclic_disconnectedCyclicGraph() {
+  public void hasCycle_disconnectedCyclicGraph() {
     for (MutableGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
       graph.putEdge(2, 1); // no-op in undirected case
       graph.addNode(3);
     }
-    assertThat(isCyclic(directedGraph)).isTrue();
-    assertThat(isCyclic(undirectedGraph)).isFalse();
+    assertThat(hasCycle(directedGraph)).isTrue();
+    assertThat(hasCycle(undirectedGraph)).isFalse();
   }
 
   @Test
-  public void isCyclic_multipleCycles() {
+  public void hasCycle_multipleCycles() {
     for (MutableGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
       graph.putEdge(2, 1);
       graph.putEdge(2, 3);
       graph.putEdge(3, 1);
     }
-    assertThat(isCyclic(directedGraph)).isTrue();
-    assertThat(isCyclic(undirectedGraph)).isTrue();
+    assertThat(hasCycle(directedGraph)).isTrue();
+    assertThat(hasCycle(undirectedGraph)).isTrue();
   }
 
   @Test
-  public void isCyclic_twoParallelEdges() {
+  public void hasCycle_twoParallelEdges() {
     for (MutableNetwork<Integer, String> network : networksToTest) {
       network.addEdge(1, 2, "1-2a");
       network.addEdge(1, 2, "1-2b");
     }
-    assertThat(isCyclic(directedNetwork)).isFalse();
-    assertThat(isCyclic(undirectedNetwork)).isTrue(); // cyclic in undirected case
+    assertThat(hasCycle(directedNetwork)).isFalse();
+    assertThat(hasCycle(undirectedNetwork)).isTrue(); // cyclic in undirected case
   }
 
   @Test
-  public void isCyclic_cyclicMultigraph() {
+  public void hasCycle_cyclicMultigraph() {
     for (MutableNetwork<Integer, String> network : networksToTest) {
       network.addEdge(1, 2, "1-2a");
       network.addEdge(1, 2, "1-2b");
       network.addEdge(2, 3, "2-3");
       network.addEdge(3, 1, "3-1");
     }
-    assertThat(isCyclic(directedNetwork)).isTrue();
-    assertThat(isCyclic(undirectedNetwork)).isTrue();
+    assertThat(hasCycle(directedNetwork)).isTrue();
+    assertThat(hasCycle(undirectedNetwork)).isTrue();
   }
 }

@@ -21,16 +21,20 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 /**
  * Static utility methods for {@link Graph} instances.
@@ -45,6 +49,94 @@ public final class Graphs {
   private Graphs() {}
 
   // Graph query methods
+
+  /**
+   * Returns true iff {@code graph} has at least one cycle. A cycle is defined as a non-empty
+   * subset of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges)
+   * starting and ending with the same node.
+   *
+   * <p>This method will detect any non-empty cycle, including self-loops (a cycle of length 1).
+   */
+  public static boolean hasCycle(Graph<?> graph) {
+    int numEdges = graph.edges().size();
+    if (numEdges == 0) {
+      return false; // An edge-free graph is acyclic by definition.
+    }
+    if (!graph.isDirected() && numEdges >= graph.nodes().size()) {
+      return true; // Optimization for the undirected case: at least one cycle must exist.
+    }
+
+    Map<Object, NodeVisitState> visitedNodes =
+        Maps.newHashMapWithExpectedSize(graph.nodes().size());
+    for (Object node : graph.nodes()) {
+      if (subgraphHasCycle(graph, visitedNodes, node, null)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Returns true iff {@code network} has at least one cycle. A cycle is defined as a non-empty
+   * subset of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges)
+   * starting and ending with the same node.
+   *
+   * <p>This method will detect any non-empty cycle, including self-loops (a cycle of length 1).
+   */
+  public static boolean hasCycle(Network<?, ?> network) {
+    // In a directed graph, parallel edges cannot introduce a cycle in an acyclic graph.
+    // However, in an undirected graph, any parallel edge induces a cycle in the graph.
+    if (!network.isDirected() && network.allowsParallelEdges()
+        && network.edges().size() > network.asGraph().edges().size()) {
+      return true;
+    }
+    return hasCycle(network.asGraph());
+  }
+
+  /**
+   * Performs a traversal of the nodes reachable from {@code node}. If we ever reach a node we've
+   * already visited (following only outgoing edges and without reusing edges), we know there's a
+   * cycle in the graph.
+   */
+  private static boolean subgraphHasCycle(
+      Graph<?> graph,
+      Map<Object, NodeVisitState> visitedNodes,
+      Object node,
+      @Nullable Object previousNode) {
+    NodeVisitState state = visitedNodes.get(node);
+    if (state == NodeVisitState.COMPLETE) {
+      return false;
+    }
+    if (state == NodeVisitState.PENDING) {
+      return true;
+    }
+
+    visitedNodes.put(node, NodeVisitState.PENDING);
+    for (Object nextNode : graph.successors(node)) {
+      if (canTraverseWithoutReusingEdge(graph, nextNode, previousNode)
+          && subgraphHasCycle(graph, visitedNodes, nextNode, node)) {
+        return true;
+      }
+    }
+    visitedNodes.put(node, NodeVisitState.COMPLETE);
+    return false;
+  }
+
+  /**
+   * Determines whether an edge has already been used during traversal. In the directed case a cycle
+   * is always detected before reusing an edge, so no special logic is required. In the undirected
+   * case, we must take care not to "backtrack" over an edge (i.e. going from A to B and then going
+   * from B to A).
+   */
+  private static boolean canTraverseWithoutReusingEdge(
+      Graph<?> graph, Object nextNode, @Nullable Object previousNode) {
+    if (graph.isDirected() || !Objects.equal(previousNode, nextNode)) {
+      return true;
+    }
+    // This falls into the undirected A->B->A case. The Graph interface does not support parallel
+    // edges, so this traversal would require reusing the undirected AB edge.
+    return false;
+  }
 
   /**
    * Returns the transitive closure of {@code graph}. The transitive closure of a graph is another
@@ -241,5 +333,16 @@ public final class Graphs {
   static long checkPositive(long value) {
     checkState(value > 0, "Not true that %s is positive.", value);
     return value;
+  }
+
+  /**
+   * An enum representing the state of a node during DFS. {@code PENDING} means that
+   * the node is on the stack of the DFS, while {@code COMPLETE} means that
+   * the node and all its successors have been already explored. Any node that
+   * has not been explored will not have a state at all.
+   */
+  private enum NodeVisitState {
+    PENDING,
+    COMPLETE
   }
 }
