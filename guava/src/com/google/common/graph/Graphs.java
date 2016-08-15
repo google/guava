@@ -16,14 +16,20 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Queue;
 import java.util.Set;
 
 /**
@@ -39,6 +45,79 @@ public final class Graphs {
   private Graphs() {}
 
   // Graph query methods
+
+  /**
+   * Returns the transitive closure of {@code graph}. The transitive closure of a graph is another
+   * graph with an edge connecting node A to node B iff node B is {@link #reachableNodes(Graph,
+   * Object) reachable} from node A.
+   *
+   * <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live
+   * view of the transitive closure of {@code graph}. In other words, the returned {@link Graph}
+   * will not be updated after modifications to {@code graph}.
+   */
+  public static <N> Graph<N> transitiveClosure(Graph<N> graph) {
+    MutableGraph<N> transitiveClosure = GraphBuilder.from(graph).allowsSelfLoops(true).build();
+    // Every node is, at a minimum, reachable from itself. Since the resulting transitive closure
+    // will have no isolated nodes, we can skip adding nodes explicitly and let putEdge() do it.
+
+    if (graph.isDirected()) {
+      // Note: works for both directed and undirected graphs, but we only use in the directed case.
+      for (N node : graph.nodes()) {
+        for (N reachableNode : reachableNodes(graph, node)) {
+          transitiveClosure.putEdge(node, reachableNode);
+        }
+      }
+    } else {
+      // An optimization for the undirected case: for every node B reachable from node A,
+      // node A and node B have the same reachability set.
+      Set<N> visitedNodes = new HashSet<N>();
+      for (N node : graph.nodes()) {
+        if (!visitedNodes.contains(node)) {
+          ImmutableList<N> reachableNodes = ImmutableList.copyOf(reachableNodes(graph, node));
+          visitedNodes.addAll(reachableNodes);
+          for (int a = 0; a < reachableNodes.size(); ++a) {
+            N nodeA = reachableNodes.get(a);
+            for (int b = a; b < reachableNodes.size(); ++b) {
+              N nodeB = reachableNodes.get(b);
+              transitiveClosure.putEdge(nodeA, nodeB);
+            }
+          }
+        }
+      }
+    }
+
+    return transitiveClosure;
+  }
+
+  /**
+   * Returns the set of nodes that are reachable from {@code node}. Node B is defined as reachable
+   * from node A if there exists a path (a sequence of adjacent outgoing edges) starting at node A
+   * and ending at node B. Note that a node is always reachable from itself via a zero-length path.
+   *
+   * <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live
+   * view of the set of nodes reachable from {@code node}. In other words, the returned {@link Set}
+   * will not be updated after modifications to {@code graph}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not present in {@code graph}
+   */
+  @SuppressWarnings("unchecked") // Throws an exception if node is not an element of graph.
+  public static <N> Set<N> reachableNodes(Graph<N> graph, Object node) {
+    checkArgument(graph.nodes().contains(node));
+    Set<N> visitedNodes = new HashSet<N>();
+    Queue<N> queuedNodes = new ArrayDeque<N>();
+    visitedNodes.add((N) node);
+    queuedNodes.add((N) node);
+    // Perform a breadth-first traversal rooted at the input node.
+    while (!queuedNodes.isEmpty()) {
+      N currentNode = queuedNodes.remove();
+      for (N successor : graph.successors(currentNode)) {
+        if (visitedNodes.add(successor)) {
+          queuedNodes.add(successor);
+        }
+      }
+    }
+    return Collections.unmodifiableSet(visitedNodes);
+  }
 
   /**
    * Returns an unmodifiable view of edges that are parallel to {@code edge}, i.e. the set of edges

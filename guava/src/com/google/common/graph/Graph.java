@@ -226,7 +226,8 @@ public interface Graph<N> {
    * {@code node}'s outgoing edges in the direction (if any) of the edge.
    *
    * <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
-   * edges" (also known as {@code node}'s transitive closure).
+   * edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)} and
+   * {@link Graphs#transitiveClosure(Graph)}.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
