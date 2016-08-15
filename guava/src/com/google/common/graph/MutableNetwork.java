@@ -33,9 +33,9 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 public interface MutableNetwork<N, E> extends Network<N, E> {
 
   /**
-   * Adds {@code node} to this graph if it is not already present.
+   * Adds {@code node} if it is not already present.
    *
-   * <p><b>Nodes must be unique</b>, just as {@code Map} keys must be; they must also be non-null.
+   * <p><b>Nodes must be unique</b>, just as {@code Map} keys must be. They must also be non-null.
    *
    * @return {@code true} iff the graph was modified as a result of this call
    */
@@ -43,18 +43,17 @@ public interface MutableNetwork<N, E> extends Network<N, E> {
   boolean addNode(N node);
 
   /**
-   * Adds {@code edge} to this graph, connecting {@code nodeA} to {@code nodeB}.
+   * Adds {@code edge} connecting {@code nodeA} to {@code nodeB}.
    *
-   * <p><b>Edges must be unique</b>, just as {@code Map} keys must be; they must also be non-null.
+   * <p><b>Edges must be unique</b>, just as {@code Map} keys must be. They must also be non-null.
    *
-   * <p>Behavior if {@code nodeA} and {@code nodeB} are not already elements of the graph is
-   * unspecified. Suggested behaviors include (a) silently adding {@code nodeA} and {@code nodeB}
-   * to the graph (this is the behavior of the default graph implementations) or (b) throwing
-   * {@code IllegalArgumentException}.
+   * <p>Behavior if {@code nodeA} and {@code nodeB} are not already present in this graph is
+   * implementation-dependent. Suggested behaviors include (a) silently {@link #addNode(Object)
+   * adding} {@code nodeA} and {@code nodeB} to the graph (this is the behavior of the default
+   * implementations) or (b) throwing {@code IllegalArgumentException}.
    *
-   * <p>If {@code edge} already connects {@code nodeA} to {@code nodeB} in this graph
-   * (in the specified order if order is significant, as for directed graphs, else in any order),
-   * then this method will have no effect and will return {@code false}.
+   * <p>If {@code edge} already connects {@code nodeA} to {@code nodeB} (in the specified order if
+   * this graph {@link #isDirected()}, else in any order), then this method will have no effect.
    *
    * @return {@code true} iff the graph was modified as a result of this call
    * @throws IllegalArgumentException if {@code edge} already exists and does not connect
@@ -65,8 +64,7 @@ public interface MutableNetwork<N, E> extends Network<N, E> {
   boolean addEdge(N nodeA, N nodeB, E edge);
 
   /**
-   * Removes {@code node} from this graph, if it is present.
-   * All edges incident to {@code node} in this graph will also be removed.
+   * Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.
    *
    * @return {@code true} iff the graph was modified as a result of this call
    */
@@ -75,8 +73,6 @@ public interface MutableNetwork<N, E> extends Network<N, E> {
 
   /**
    * Removes {@code edge} from this graph, if it is present.
-   * In general, nodes incident to {@code edge} are unaffected (although implementations may choose
-   * to disallow certain configurations, e.g., isolated nodes).
    *
    * @return {@code true} iff the graph was modified as a result of this call
    */
