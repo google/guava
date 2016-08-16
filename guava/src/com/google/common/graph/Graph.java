@@ -239,17 +239,16 @@ public interface Graph<N> {
 
   /**
    * Returns {@code true} iff {@code object} is a {@link Graph} that has the same structural
-   * relationships as those in this graph.
+   * relationships as those in this graph. Additionally, a {@link Graph} is defined to never be
+   * equal to a {@link ValueGraph} (and vice versa).
    *
    * <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
    * <ul>
+   * <li>'A instanceof ValueGraph' and 'B instanceof ValueGraph' are equal.
    * <li>A and B have equal {@link #isDirected() directedness}.
    * <li>A and B have equal {@link #nodes() node sets}.
    * <li>A and B have equal {@link #edges() edge sets}.
    * </ul>
-   *
-   * <p>Additionally, a {@link Graph} is defined to never be equal to a {@link ValueGraph} (and
-   * vice versa), even if they would otherwise be equal by the above definition.
    *
    * <p>Graph properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.
    * For example, two graphs may be considered equal even if one allows self-loops and the other
