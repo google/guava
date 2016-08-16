@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -59,6 +60,7 @@ public class TestsForMapsInJavaUtil {
     suite.addTest(testsForEmptyMap());
     suite.addTest(testsForSingletonMap());
     suite.addTest(testsForHashMap());
+    suite.addTest(testsForHashtable());
     suite.addTest(testsForLinkedHashMap());
     suite.addTest(testsForTreeMapNatural());
     suite.addTest(testsForTreeMapWithComparator());
@@ -78,6 +80,10 @@ public class TestsForMapsInJavaUtil {
   }
 
   protected Collection<Method> suppressForHashMap() {
+    return Collections.emptySet();
+  }
+
+  protected Collection<Method> suppressForHashtable() {
     return Collections.emptySet();
   }
 
@@ -158,6 +164,30 @@ public class TestsForMapsInJavaUtil {
             CollectionSize.ANY)
         .suppressing(suppressForHashMap())
         .createTestSuite();
+  }
+
+  public Test testsForHashtable() {
+      return MapTestSuiteBuilder.using(
+          new TestStringMapGenerator() {
+            @Override
+            protected Map<String, String> create(Entry<String, String>[] entries) {
+              return populate(new Hashtable<String, String>(), entries);
+            }
+          })
+          .withFeatures(
+              MapFeature.GENERAL_PURPOSE,
+              MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+              MapFeature.RESTRICTS_KEYS,
+              MapFeature.SUPPORTS_REMOVE,
+              CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+              CollectionFeature.SERIALIZABLE,
+              CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+              CollectionFeature.SUPPORTS_REMOVE,
+              CollectionSize.ANY
+          )
+          .named("Hashtable")
+          .suppressing(suppressForHashtable())
+          .createTestSuite();
   }
 
   public Test testsForLinkedHashMap() {
