@@ -17,17 +17,24 @@
 package com.google.common.graph;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
  * An interface for representing and manipulating an origin node's adjacent nodes and edge values
- * in a {@link Graph}.
+ * in a {@link ValueGraph}.
  *
  * @author James Sexton
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-interface GraphConnections<N, V> extends NodeConnections<N> {
+interface GraphConnections<N, V> {
+
+  Set<N> adjacentNodes();
+
+  Set<N> predecessors();
+
+  Set<N> successors();
 
   /**
    * Returns the value associated with the edge connecting the origin node to {@code node}, or null

@@ -27,7 +27,13 @@ import java.util.Set;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-interface NetworkConnections<N, E> extends NodeConnections<N> {
+interface NetworkConnections<N, E> {
+
+  Set<N> adjacentNodes();
+
+  Set<N> predecessors();
+
+  Set<N> successors();
 
   Set<E> incidentEdges();
 
