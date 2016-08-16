@@ -13,7 +13,7 @@
   <entry-point class="com.google.common.net.TestModuleEntryPoint"/>
    
   <source path=""/>
-   
+    
   <super-source path="super"/>
    
 </module>
