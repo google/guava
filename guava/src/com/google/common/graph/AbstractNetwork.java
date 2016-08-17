@@ -129,7 +129,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public final boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
     }
@@ -154,7 +154,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     Function<N, Set<E>> nodeToOutEdges = new Function<N, Set<E>>() {
       @Override
       public Set<E> apply(N node) {

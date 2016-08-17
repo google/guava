@@ -90,7 +90,7 @@ public abstract class AbstractGraph<N, V> implements Graph<N, V> {
 
   @SuppressWarnings({"unchecked", "rawtypes"})
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public final boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
     }
@@ -116,7 +116,7 @@ public abstract class AbstractGraph<N, V> implements Graph<N, V> {
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     return edgeValueMap().hashCode();
   }
 
