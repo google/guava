@@ -30,12 +30,12 @@ import junit.framework.AssertionFailedError;
 public class PackageSanityTests extends AbstractPackageSanityTests {
 
   private static final AbstractGraphBuilder<?> GRAPH_BUILDER_A =
-      GraphBuilder.directed().expectedNodeCount(10);
+      BasicGraphBuilder.directed().expectedNodeCount(10);
   private static final AbstractGraphBuilder<?> GRAPH_BUILDER_B =
       ValueGraphBuilder.directed().allowsSelfLoops(false).expectedNodeCount(16);
 
-  private static final ImmutableGraph<String> IMMUTABLE_GRAPH_A = graphWithNode("A");
-  private static final ImmutableGraph<String> IMMUTABLE_GRAPH_B = graphWithNode("B");
+  private static final ImmutableBasicGraph<String> IMMUTABLE_GRAPH_A = graphWithNode("A");
+  private static final ImmutableBasicGraph<String> IMMUTABLE_GRAPH_B = graphWithNode("B");
 
   private static final NetworkBuilder<?, ?> NETWORK_BUILDER_A =
       NetworkBuilder.directed().allowsParallelEdges(true).expectedNodeCount(10);
@@ -47,7 +47,7 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
 
   public PackageSanityTests() {
     setDistinctValues(AbstractGraphBuilder.class, GRAPH_BUILDER_A, GRAPH_BUILDER_B);
-    setDistinctValues(Graph.class, IMMUTABLE_GRAPH_A, IMMUTABLE_GRAPH_B);
+    setDistinctValues(BasicGraph.class, IMMUTABLE_GRAPH_A, IMMUTABLE_GRAPH_B);
     setDistinctValues(NetworkBuilder.class, NETWORK_BUILDER_A, NETWORK_BUILDER_B);
     setDistinctValues(Network.class, IMMUTABLE_NETWORK_A, IMMUTABLE_NETWORK_B);
   }
@@ -62,10 +62,10 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
     }
   }
 
-  private static <N> ImmutableGraph<N> graphWithNode(N node) {
-    MutableGraph<N> graph = GraphBuilder.directed().build();
+  private static <N> ImmutableBasicGraph<N> graphWithNode(N node) {
+    MutableBasicGraph<N> graph = BasicGraphBuilder.directed().build();
     graph.addNode(node);
-    return ImmutableGraph.copyOf(graph);
+    return ImmutableBasicGraph.copyOf(graph);
   }
 
   private static <N> ImmutableNetwork<N, N> networkWithNode(N node) {

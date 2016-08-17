@@ -26,14 +26,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for {@link Graphs#hasCycle(Graph)} and {@link Graphs#hasCycle(Network)}.
+ * Tests for {@link Graphs#hasCycle(ValueGraph)} and {@link Graphs#hasCycle(Network)}.
  */
 // TODO(user): Consider moving this to GraphsTest.
 @RunWith(JUnit4.class)
 public class GraphPropertiesTest {
-  ImmutableList<MutableGraph<Integer>> graphsToTest;
-  Graph<Integer> directedGraph;
-  Graph<Integer> undirectedGraph;
+  ImmutableList<MutableBasicGraph<Integer>> graphsToTest;
+  BasicGraph<Integer> directedGraph;
+  BasicGraph<Integer> undirectedGraph;
 
   ImmutableList<MutableNetwork<Integer, String>> networksToTest;
   Network<Integer, String> directedNetwork;
@@ -42,8 +42,8 @@ public class GraphPropertiesTest {
   @Before
   public void init() {
     graphsToTest = ImmutableList.of(
-        GraphBuilder.directed().<Integer>build(),
-        GraphBuilder.undirected().<Integer>build());
+        BasicGraphBuilder.directed().<Integer>build(),
+        BasicGraphBuilder.undirected().<Integer>build());
     directedGraph = graphsToTest.get(0);
     undirectedGraph = graphsToTest.get(1);
 
@@ -62,7 +62,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void hasCycle_isolatedNodes() {
-    for (MutableGraph<Integer> graph : graphsToTest) {
+    for (MutableBasicGraph<Integer> graph : graphsToTest) {
       graph.addNode(1);
       graph.addNode(2);
     }
@@ -72,7 +72,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void hasCycle_oneEdge() {
-    for (MutableGraph<Integer> graph : graphsToTest) {
+    for (MutableBasicGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
     }
     assertThat(hasCycle(directedGraph)).isFalse();
@@ -81,7 +81,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void hasCycle_selfLoopEdge() {
-    for (MutableGraph<Integer> graph : graphsToTest) {
+    for (MutableBasicGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 1);
     }
     assertThat(hasCycle(directedGraph)).isTrue();
@@ -90,7 +90,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void hasCycle_twoAcyclicEdges() {
-    for (MutableGraph<Integer> graph : graphsToTest) {
+    for (MutableBasicGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
       graph.putEdge(1, 3);
     }
@@ -100,7 +100,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void hasCycle_twoCyclicEdges() {
-    for (MutableGraph<Integer> graph : graphsToTest) {
+    for (MutableBasicGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
       graph.putEdge(2, 1); // no-op in undirected case
     }
@@ -110,7 +110,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void hasCycle_threeAcyclicEdges() {
-    for (MutableGraph<Integer> graph : graphsToTest) {
+    for (MutableBasicGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
       graph.putEdge(2, 3);
       graph.putEdge(1, 3);
@@ -121,7 +121,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void hasCycle_threeCyclicEdges() {
-    for (MutableGraph<Integer> graph : graphsToTest) {
+    for (MutableBasicGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
       graph.putEdge(2, 3);
       graph.putEdge(3, 1);
@@ -132,7 +132,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void hasCycle_disconnectedCyclicGraph() {
-    for (MutableGraph<Integer> graph : graphsToTest) {
+    for (MutableBasicGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
       graph.putEdge(2, 1); // no-op in undirected case
       graph.addNode(3);
@@ -143,7 +143,7 @@ public class GraphPropertiesTest {
 
   @Test
   public void hasCycle_multipleCycles() {
-    for (MutableGraph<Integer> graph : graphsToTest) {
+    for (MutableBasicGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
       graph.putEdge(2, 1);
       graph.putEdge(2, 3);

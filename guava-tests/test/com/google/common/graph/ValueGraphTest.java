@@ -35,15 +35,10 @@ public final class ValueGraphTest {
 
   @After
   public void validateGraphState() {
-    new EqualsTester()
-        .addEqualityGroup(
-            graph,
-            Graphs.copyOf(graph),
-            ImmutableValueGraph.copyOf(graph))
-        .addEqualityGroup(
-            Graphs.copyOf((Graph<Integer>) graph),
-            ImmutableGraph.copyOf(graph))
-        .testEquals();
+    new EqualsTester().addEqualityGroup(
+        graph,
+        Graphs.copyOf(graph),
+        ImmutableValueGraph.copyOf(graph)).testEquals();
 
     for (Endpoints<Integer> edge : graph.edges()) {
       assertThat(graph.edgeValue(edge.nodeA(), edge.nodeB())).isNotNull();

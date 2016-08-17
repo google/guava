@@ -22,11 +22,12 @@ import javax.annotation.Nullable;
 
 /**
  * A network consisting of a set of nodes of type N and a set of edges of type E.
- * Unlike {@link Graph}, {@link Network} represents edges as explicit first-class objects.
- * Users that are not interested in edges as first-class objects should use the {@link Graph}
+ * Unlike {@link BasicGraph}, {@link Network} represents edges as explicit first-class objects.
+ * Users that are not interested in edges as first-class objects should use the {@link BasicGraph}
  * interface instead.
  *
- * <p>For convenience, we may use the term 'graph' refer to {@link Graph}s and/or {@link Network}s.
+ * <p>For convenience, we may use the term 'graph' refer to {@link BasicGraph}s and/or
+ * {@link Network}s.
  *
  * <p>Users that wish to modify a {@code Network} must work with its subinterface,
  * {@code MutableNetwork}.
@@ -105,8 +106,9 @@ import javax.annotation.Nullable;
  *   </ul>
  *   <br>Generally speaking, your design may be more robust if you use immutable nodes/edges and
  * store mutable per-element state in a separate data structure (e.g. an element-to-state map).
- * <li>There are no Node or Edge classes built in.  So you can have a {@code Graph<Integer, String>}
- *     or a {@code Graph<Author,Publication>} or a {@code Graph<Webpage,Link>}.
+ * <li>There are no Node or Edge classes built in.  So you can have a
+ *     {@code Network<Integer, String>} or a {@code Network<Author,Publication>} or a
+ *     {@code Network<Webpage,Link>}.
  * <li>This framework supports multiple mechanisms for storing the topology of a graph, including:
  *   <ul>
  *   <li>the Graph implementation stores the topology (for example, by storing a {@code Map<N, E>}
@@ -155,8 +157,8 @@ import javax.annotation.Nullable;
  *     </ol>
  *     Note that (1) and (2) are generally preferred. (5) is generally a hazardous design choice
  *     and should be avoided, because keeping the internal data structures consistent can be tricky.
- * <li>Prefer extending {@link AbstractGraph} over implementing {@link Graph} directly. This will
- *     ensure that the implementations of {@link #equals(Object)} and
+ * <li>Prefer extending {@link AbstractBasicGraph} over implementing {@link BasicGraph} directly.
+ *     This will ensure that the implementations of {@link #equals(Object)} and
  *     {@link #hashCode()} are mutually consistent, and consistent across
  *     implementations.
  * <li>{@code Multimap}s are not sufficient internal data structures for Graph implementations
@@ -222,10 +224,14 @@ public interface Network<N, E> {
   Set<E> edges();
 
   /**
-   * Returns a live view of this graph as a {@link Graph}. The resulting {@link Graph} will have an
-   * edge connecting node A to node B iff this {@link Network} has an edge connecting A to B.
+   * Returns a live view of this graph as a {@link ValueGraph}. The resulting {@link ValueGraph}
+   * will have an edge connecting node A to node B iff this {@link Network} has an edge connecting
+   * A to B.
+   *
+   * <p>{@link ValueGraph#edgeValue(Object, Object)} will return the set of edges connecting node A
+   * to node B. It will return the empty set if there are no edges connecting A to B.
    */
-  Graph<N> asGraph();
+  ValueGraph<N, Set<E>> asGraph();
 
   //
   // Network properties

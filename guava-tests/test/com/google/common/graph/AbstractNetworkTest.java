@@ -157,7 +157,7 @@ public abstract class AbstractNetworkTest {
     String nodeString = networkString.substring(nodeStart, edgeStart);
     String edgeString = networkString.substring(edgeStart);
 
-    Graph<Integer> asGraph = network.asGraph();
+    ValueGraph<Integer, Set<String>> asGraph = network.asGraph();
     AbstractGraphTest.validateGraph(asGraph);
     assertThat(network.nodes()).isEqualTo(asGraph.nodes());
     assertThat(network.edges().size()).isAtLeast(asGraph.edges().size());
@@ -215,6 +215,7 @@ public abstract class AbstractNetworkTest {
         Set<String> edgesConnecting = network.edgesConnecting(node, otherNode);
         boolean isSelfLoop = node.equals(otherNode);
         if (network.isDirected() || !isSelfLoop) {
+          assertThat(edgesConnecting).isEqualTo(asGraph.edgeValue(node, otherNode));
           assertThat(edgesConnecting).isEqualTo(
               Sets.intersection(network.outEdges(node), network.inEdges(otherNode)));
         }

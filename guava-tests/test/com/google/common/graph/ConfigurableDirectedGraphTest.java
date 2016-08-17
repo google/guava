@@ -25,14 +25,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for a directed {@link ConfigurableMutableGraph} with default graph properties.
+ * Tests for a directed {@link ConfigurableMutableBasicGraph} with default graph properties.
  */
 @RunWith(JUnit4.class)
 public class ConfigurableDirectedGraphTest extends ConfigurableSimpleDirectedGraphTest {
 
   @Override
-  public MutableGraph<Integer> createGraph() {
-    return GraphBuilder.directed().build();
+  public MutableBasicGraph<Integer> createGraph() {
+    return BasicGraphBuilder.directed().build();
   }
 
   @Test

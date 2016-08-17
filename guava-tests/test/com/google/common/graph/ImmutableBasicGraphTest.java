@@ -23,15 +23,16 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for {@link ImmutableGraph}.
+ * Tests for {@link ImmutableBasicGraph}.
  */
 @RunWith(JUnit4.class)
-public class ImmutableGraphTest {
+public class ImmutableBasicGraphTest {
 
   @Test
   public void copyOfImmutableGraph_optimized() {
-    Graph<String> graph1 = ImmutableGraph.copyOf(GraphBuilder.directed().<String>build());
-    Graph<String> graph2 = ImmutableGraph.copyOf(graph1);
+    BasicGraph<String> graph1 =
+        ImmutableBasicGraph.copyOf(BasicGraphBuilder.directed().<String>build());
+    BasicGraph<String> graph2 = ImmutableBasicGraph.copyOf(graph1);
 
     assertThat(graph2).isSameAs(graph1);
   }

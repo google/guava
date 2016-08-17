@@ -17,18 +17,19 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
-import java.util.Set;
-import javax.annotation.Nullable;
 
 /**
+ * TODO(b/30133524): Rewrite the top-level javadoc from scratch.
+ *
  * A graph consisting of a set of nodes of type N and a set of (implicit) edges.
  * Users that want edges to be first-class objects or support for parallel edges should use the
  * {@link Network} interface instead.
  *
- * <p>For convenience, we may use the term 'graph' refer to {@link Graph}s and/or {@link Network}s.
+ * <p>For convenience, we may use the term 'graph' refer to {@link BasicGraph}s and/or
+ * {@link Network}s.
  *
  * <p>Users that wish to modify a {@code Graph} must work with its subinterface,
- * {@link MutableGraph}.
+ * {@link MutableBasicGraph}.
  *
  * <p>This interface permits, but does not enforce, any of the following variations of graphs:
  * <ul>
@@ -84,8 +85,8 @@ import javax.annotation.Nullable;
  *   </ul>
  *   <br>Generally speaking, your design may be more robust if you use immutable nodes and
  * store mutable per-element state in a separate data structure (e.g. an element-to-state map).
- * <li>There are no Node classes built in.  So you can have a {@code Graph<Integer>}
- *     or a {@code Graph<Author>} or a {@code Graph<Webpage>}.
+ * <li>There are no Node classes built in.  So you can have a {@code BasicGraph<Integer>}
+ *     or a {@code BasicGraph<Author>} or a {@code BasicGraph<Webpage>}.
  * <li>This framework supports multiple mechanisms for storing the topology of a graph,
  *      including:
  *   <ul>
@@ -133,8 +134,9 @@ import javax.annotation.Nullable;
  *     </ol>
  *     Note that (1) and (2) are generally preferred. (5) is generally a hazardous design choice
  *     and should be avoided, because keeping the internal data structures consistent can be tricky.
- * <li>Prefer extending {@link AbstractGraph} over implementing {@link Graph} directly. This will
- *     ensure consistent {@link #equals(Object)} and {@link #hashCode()} across implementations.
+ * <li>Prefer extending {@link AbstractBasicGraph} over implementing {@link BasicGraph} directly.
+ *     This will ensure consistent {@link #equals(Object)} and {@link #hashCode()} across
+ *     implementations.
  * <li>{@code Multimap}s are not sufficient internal data structures for Graph implementations
  *     that support isolated nodes (nodes that have no incident edges), due to their restriction
  *     that a key either maps to at least one value, or is not present in the {@code Multimap}.
@@ -166,106 +168,13 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
-public interface Graph<N> {
-  //
-  // Graph-level accessors
-  //
+public interface BasicGraph<N> extends ValueGraph<N, BasicGraph.Presence> {
 
   /**
-   * Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}.
+   * A placeholder for the (generally ignored) Value type of a {@link BasicGraph}. Users shouldn't
+   * have to reference this enum unless they are implementing the {@link BasicGraph} interface.
    */
-  Set<N> nodes();
-
-  /**
-   * Returns all edges in this graph.
-   */
-  Set<Endpoints<N>> edges();
-
-  //
-  // Graph properties
-  //
-
-  /**
-   * Returns true if the edges in this graph have a direction associated with them.
-   */
-  boolean isDirected();
-
-  /**
-   * Returns true if this graph allows self-loops (edges that connect a node to itself).
-   * Attempting to add a self-loop to a graph that does not allow them will throw an
-   * {@link UnsupportedOperationException}.
-   */
-  boolean allowsSelfLoops();
-
-  /**
-   * Returns the order of iteration for the elements of {@link #nodes()}.
-   */
-  ElementOrder<N> nodeOrder();
-
-  //
-  // Element-level accessors
-  //
-
-  /**
-   * Returns the nodes which have an incident edge in common with {@code node} in this graph.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
-   */
-  Set<N> adjacentNodes(Object node);
-
-  /**
-   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
-   * {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
-   */
-  Set<N> predecessors(Object node);
-
-  /**
-   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
-   * {@code node}'s outgoing edges in the direction (if any) of the edge.
-   *
-   * <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
-   * edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)} and
-   * {@link Graphs#transitiveClosure(Graph)}.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
-   */
-  Set<N> successors(Object node);
-
-  //
-  // Graph identity
-  //
-
-  /**
-   * Returns {@code true} iff {@code object} is a {@link Graph} that has the same structural
-   * relationships as those in this graph. Additionally, a {@link Graph} is defined to never be
-   * equal to a {@link ValueGraph} (and vice versa).
-   *
-   * <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
-   * <ul>
-   * <li>'A instanceof ValueGraph' and 'B instanceof ValueGraph' are equal.
-   * <li>A and B have equal {@link #isDirected() directedness}.
-   * <li>A and B have equal {@link #nodes() node sets}.
-   * <li>A and B have equal {@link #edges() edge sets}.
-   * </ul>
-   *
-   * <p>Graph properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.
-   * For example, two graphs may be considered equal even if one allows self-loops and the other
-   * doesn't. Additionally, the order in which nodes or edges are added to the graph, and the order
-   * in which they are iterated over, are irrelevant.
-   *
-   * <p>A reference implementation of this is provided by {@link AbstractGraph#equals(Object)}.
-   */
-  @Override
-  boolean equals(@Nullable Object object);
-
-  /**
-   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a
-   * map from each of its {@link #nodes() nodes} to {@link #successors(Object) successor nodes}.
-   *
-   * <p>A reference implementation of this is provided by {@link AbstractGraph#hashCode()}.
-   */
-  @Override
-  int hashCode();
+  public enum Presence {
+    EDGE_EXISTS
+  }
 }

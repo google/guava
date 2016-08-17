@@ -25,9 +25,9 @@ import org.junit.After;
 import org.junit.Test;
 
 /**
- * Abstract base class for testing undirected implementations of the {@link Graph} interface.
+ * Abstract base class for testing undirected implementations of the {@link BasicGraph} interface.
  *
- * <p>This class is responsible for testing that an undirected implementation of {@link Graph}
+ * <p>This class is responsible for testing that an undirected implementation of {@link BasicGraph}
  * is correctly handling undirected edges.  Implementation-dependent test cases are left to
  * subclasses. Test cases that do not require the graph to be undirected are found in superclasses.
  */

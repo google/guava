@@ -49,14 +49,14 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
   }
 
   /**
-   * Returns a {@link ValueGraphBuilder} for building directed value graphs.
+   * Returns a {@link ValueGraphBuilder} for building directed graphs.
    */
   public static ValueGraphBuilder<Object, Object> directed() {
     return new ValueGraphBuilder<Object, Object>(true);
   }
 
   /**
-   * Returns a {@link ValueGraphBuilder} for building undirected value graphs.
+   * Returns a {@link ValueGraphBuilder} for building undirected graphs.
    */
   public static ValueGraphBuilder<Object, Object> undirected() {
     return new ValueGraphBuilder<Object, Object>(false);
@@ -66,11 +66,11 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    * Returns a {@link ValueGraphBuilder} initialized with all properties queryable from
    * {@code graph}.
    *
-   * <p>The "queryable" properties are those that are exposed through the {@link Graph} interface,
-   * such as {@link Graph#isDirected()}. Other properties, such as {@link #expectedNodeCount(int)},
-   * are not set in the new builder.
+   * <p>The "queryable" properties are those that are exposed through the {@link ValueGraph}
+   * interface, such as {@link ValueGraph#isDirected()}. Other properties, such as
+   * {@link #expectedNodeCount(int)}, are not set in the new builder.
    */
-  public static <N> ValueGraphBuilder<N, Object> from(Graph<N> graph) {
+  public static <N> ValueGraphBuilder<N, Object> from(ValueGraph<N, ?> graph) {
     checkNotNull(graph);
     return new ValueGraphBuilder<N, Object>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
@@ -100,7 +100,7 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
   }
 
   /**
-   * Specifies the order of iteration for the elements of {@link Graph#nodes()}.
+   * Specifies the order of iteration for the elements of {@link BasicGraph#nodes()}.
    */
   public <N1 extends N> ValueGraphBuilder<N1, V> nodeOrder(ElementOrder<N1> nodeOrder) {
     checkNotNull(nodeOrder);

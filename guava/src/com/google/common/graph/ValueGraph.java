@@ -17,12 +17,21 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * A subtype of {@link Graph} that associates a value with each edge.
+ * An interface to represent a graph data structure. Graphs can be either directed or undirected
+ * (but cannot have both directed edges and undirected edges). Every edge is associated with an
+ * arbitrary user-provided value. Parallel edges are not supported (although the Value type may be,
+ * for example, a collection).
  *
- * TODO(b/30133524) Flesh out class-level javadoc.
+ * <p>Nodes in a graph are analogous to keys in a Map - they must be unique within a graph.
+ * Values in a graph are analogous to values in a Map - they may be any arbitrary object.
+ *
+ * TODO(b/30133524): Rewrite the top-level javadoc from scratch.
+ *
+ * TODO(jasexton): Rename interface (and various other classes) to "Graph".
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -30,7 +39,73 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
-public interface ValueGraph<N, V> extends Graph<N> {
+public interface ValueGraph<N, V> {
+  //
+  // Graph-level accessors
+  //
+
+  /**
+   * Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}.
+   */
+  Set<N> nodes();
+
+  /**
+   * Returns all edges in this graph.
+   */
+  Set<Endpoints<N>> edges();
+
+  //
+  // Graph properties
+  //
+
+  /**
+   * Returns true if the edges in this graph have a direction associated with them.
+   */
+  boolean isDirected();
+
+  /**
+   * Returns true if this graph allows self-loops (edges that connect a node to itself).
+   * Attempting to add a self-loop to a graph that does not allow them will throw an
+   * {@link UnsupportedOperationException}.
+   */
+  boolean allowsSelfLoops();
+
+  /**
+   * Returns the order of iteration for the elements of {@link #nodes()}.
+   */
+  ElementOrder<N> nodeOrder();
+
+  //
+  // Element-level accessors
+  //
+
+  /**
+   * Returns the nodes which have an incident edge in common with {@code node} in this graph.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  Set<N> adjacentNodes(Object node);
+
+  /**
+   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+   * {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  Set<N> predecessors(Object node);
+
+  /**
+   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+   * {@code node}'s outgoing edges in the direction (if any) of the edge.
+   *
+   * <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
+   * edges". For that functionality, see {@link Graphs#reachableNodes(ValueGraph, Object)} and
+   * {@link Graphs#transitiveClosure(ValueGraph)}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  Set<N> successors(Object node);
+
   /**
    * If there is an edge connecting {@code nodeA} to {@code nodeB}, returns the non-null value
    * associated with that edge.
@@ -41,19 +116,22 @@ public interface ValueGraph<N, V> extends Graph<N> {
 
   /**
    * If there is an edge connecting {@code nodeA} to {@code nodeB}, returns the non-null value
-   * associated with that edge. Otherwise, returns {@code defaultValue}.
+   * associated with that edge; otherwise, returns {@code defaultValue}.
+   *
+   * @throws IllegalArgumentException if {@code nodeA} or {@code nodeB} is not an element of
+   *     this graph
    */
   V edgeValueOrDefault(Object nodeA, Object nodeB, @Nullable V defaultValue);
 
   //
-  // ValueGraph identity
+  // Graph identity
   //
 
   /**
    * Returns {@code true} iff {@code object} is a {@link ValueGraph} that has the same structural
    * relationships as those in this graph.
    *
-   * <p>Thus, two value graphs A and B are equal if <b>all</b> of the following are true:
+   * <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
    * <ul>
    * <li>A and B have equal {@link #isDirected() directedness}.
    * <li>A and B have equal {@link #nodes() node sets}.
@@ -72,9 +150,9 @@ public interface ValueGraph<N, V> extends Graph<N> {
   boolean equals(@Nullable Object object);
 
   /**
-   * Returns the hash code for this value graph. The hash code of a value graph is defined as
-   * the hash code of a map from each of its {@link #edges() edges} to the associated {@link
-   * #edgeValue(Object, Object) edge value}.
+   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code
+   * of a map from each of its {@link #edges() edges} to the associated {@link #edgeValue(Object,
+   * Object) edge value}.
    *
    * <p>A reference implementation of this is provided by {@link AbstractValueGraph#hashCode()}.
    */

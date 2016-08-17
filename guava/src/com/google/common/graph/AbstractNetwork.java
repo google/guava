@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 
 import com.google.common.annotations.Beta;
@@ -41,8 +42,8 @@ import javax.annotation.Nullable;
 public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
   @Override
-  public Graph<N> asGraph() {
-    return new AbstractGraph<N>() {
+  public ValueGraph<N, Set<E>> asGraph() {
+    return new AbstractValueGraph<N, Set<E>>() {
       @Override
       public Set<N> nodes() {
         return AbstractNetwork.this.nodes();
@@ -113,6 +114,16 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
       @Override
       public Set<N> successors(Object node) {
         return AbstractNetwork.this.successors(node);
+      }
+
+      @Override
+      public Set<E> edgeValue(Object nodeA, Object nodeB) {
+        return checkNotNull(edgesConnecting(nodeA, nodeB));
+      }
+
+      @Override
+      public Set<E> edgeValueOrDefault(Object nodeA, Object nodeB, Set<E> defaultValue) {
+        return checkNotNull(edgesConnecting(nodeA, nodeB));
       }
     };
   }

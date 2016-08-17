@@ -101,25 +101,11 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     this.edgeToReferenceNode = new MapIteratorCache<E, N>(edgeToReferenceNode);
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * <p>The order of iteration for this set is determined by the {@code ElementOrder<N>} provided
-   * to the {@code GraphBuilder} that was used to create this instance.
-   * By default, that order is the order in which the nodes were added to the graph.
-   */
   @Override
   public Set<N> nodes() {
     return nodeConnections.unmodifiableKeySet();
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * <p>The order of iteration for this set is determined by the {@code ElementOrder<E>} provided
-   * to the {@code GraphBuilder} that was used to create this instance.
-   * By default, that order is the order in which the edges were added to the graph.
-   */
   @Override
   public Set<E> edges() {
     return edgeToReferenceNode.unmodifiableKeySet();

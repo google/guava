@@ -16,18 +16,24 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
+import com.google.common.math.IntMath;
+import com.google.common.primitives.Ints;
+import java.util.AbstractSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link ValueGraph}. It is recommended to extend
  * this class rather than implement {@link ValueGraph} directly, to ensure consistent {@link
- * #equals(Object)} and {@link #hashCode()} results across different value graph implementations.
+ * #equals(Object)} and {@link #hashCode()} results across different graph implementations.
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -35,9 +41,54 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
-public abstract class AbstractValueGraph<N, V>
-    extends AbstractGraph<N> implements ValueGraph<N, V> {
+public abstract class AbstractValueGraph<N, V> implements ValueGraph<N, V> {
 
+  /**
+   * Returns the number of edges in this graph; used to calculate the size of {@link #edges()}.
+   * The default implementation is O(|N|). You can manually keep track of the number of edges and
+   * override this method for better performance.
+   */
+  protected long edgeCount() {
+    long degreeSum = 0L;
+    for (N node : nodes()) {
+      degreeSum += degree(this, node);
+    }
+    // According to the degree sum formula, this is equal to twice the number of edges.
+    checkState((degreeSum & 1) == 0);
+    return degreeSum >>> 1;
+  }
+
+  /**
+   * A reasonable default implementation of {@link ValueGraph#edges()} defined in terms of
+   * {@link #nodes()} and {@link #successors(Object)}.
+   */
+  @Override
+  public Set<Endpoints<N>> edges() {
+    return new AbstractSet<Endpoints<N>>() {
+      @Override
+      public Iterator<Endpoints<N>> iterator() {
+        return EndpointsIterator.of(AbstractValueGraph.this);
+      }
+
+      @Override
+      public int size() {
+        return Ints.saturatedCast(edgeCount());
+      }
+
+      @Override
+      public boolean contains(Object obj) {
+        if (!(obj instanceof Endpoints)) {
+          return false;
+        }
+        Endpoints<?> endpoints = (Endpoints<?>) obj;
+        return isDirected() == endpoints.isDirected()
+            && nodes().contains(endpoints.nodeA())
+            && successors(endpoints.nodeA()).contains(endpoints.nodeB());
+      }
+    };
+  }
+
+  @SuppressWarnings({"unchecked", "rawtypes"})
   @Override
   public boolean equals(@Nullable Object obj) {
     if (obj == this) {
@@ -54,7 +105,7 @@ public abstract class AbstractValueGraph<N, V>
       return false;
     }
 
-    for (Endpoints<?> edge : edges()) {
+    for (Endpoints<N> edge : edges()) {
       if (!edgeValue(edge.nodeA(), edge.nodeB()).equals(
           other.edgeValue(edge.nodeA(), edge.nodeB()))) {
         return false;
@@ -70,7 +121,7 @@ public abstract class AbstractValueGraph<N, V>
   }
 
   /**
-   * Returns a string representation of this value graph.
+   * Returns a string representation of this graph.
    */
   @Override
   public String toString() {
@@ -90,5 +141,23 @@ public abstract class AbstractValueGraph<N, V>
       }
     };
     return Maps.asMap(edges(), edgeToValueFn);
+  }
+
+  /**
+   * Returns the number of times an edge touches {@code node} in {@code graph}. This is equivalent
+   * to the number of edges incident to {@code node} in the graph, with self-loops counting twice.
+   *
+   * <p>If this number is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  // TODO(b/30649235): What to do with this? Move to Graphs or interfaces? Provide in/outDegree?
+  private static int degree(ValueGraph<?, ?> graph, Object node) {
+    if (graph.isDirected()) {
+      return IntMath.saturatedAdd(graph.predecessors(node).size(), graph.successors(node).size());
+    } else {
+      int selfLoops = (graph.allowsSelfLoops() && graph.adjacentNodes(node).contains(node)) ? 1 : 0;
+      return IntMath.saturatedAdd(graph.adjacentNodes(node).size(), selfLoops);
+    }
   }
 }

@@ -33,10 +33,10 @@ import com.google.common.collect.Maps;
  * @since 20.0
  */
 @Beta
-public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V> {
+public class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V> {
 
-  private ImmutableValueGraph(ValueGraph<N, V> graph) {
-    super(GraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
+  ImmutableValueGraph(ValueGraph<N, V> graph) {
+    super(ValueGraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
   }
 
   /**

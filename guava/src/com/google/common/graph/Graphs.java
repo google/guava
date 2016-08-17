@@ -35,7 +35,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * Static utility methods for {@link Graph} instances.
+ * Static utility methods for {@link ValueGraph} and {@link Network} instances.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
@@ -55,7 +55,7 @@ public final class Graphs {
    *
    * <p>This method will detect any non-empty cycle, including self-loops (a cycle of length 1).
    */
-  public static boolean hasCycle(Graph<?> graph) {
+  public static boolean hasCycle(ValueGraph<?, ?> graph) {
     int numEdges = graph.edges().size();
     if (numEdges == 0) {
       return false; // An edge-free graph is acyclic by definition.
@@ -97,7 +97,7 @@ public final class Graphs {
    * cycle in the graph.
    */
   private static boolean subgraphHasCycle(
-      Graph<?> graph,
+      ValueGraph<?, ?> graph,
       Map<Object, NodeVisitState> visitedNodes,
       Object node,
       @Nullable Object previousNode) {
@@ -127,7 +127,7 @@ public final class Graphs {
    * from B to A).
    */
   private static boolean canTraverseWithoutReusingEdge(
-      Graph<?> graph, Object nextNode, @Nullable Object previousNode) {
+      ValueGraph<?, ?> graph, Object nextNode, @Nullable Object previousNode) {
     if (graph.isDirected() || !Objects.equal(previousNode, nextNode)) {
       return true;
     }
@@ -138,15 +138,16 @@ public final class Graphs {
 
   /**
    * Returns the transitive closure of {@code graph}. The transitive closure of a graph is another
-   * graph with an edge connecting node A to node B iff node B is {@link #reachableNodes(Graph,
+   * graph with an edge connecting node A to node B iff node B is {@link #reachableNodes(ValueGraph,
    * Object) reachable} from node A.
    *
-   * <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live
-   * view of the transitive closure of {@code graph}. In other words, the returned {@link Graph}
+   * <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live view
+   * of the transitive closure of {@code graph}. In other words, the returned {@link BasicGraph}
    * will not be updated after modifications to {@code graph}.
    */
-  public static <N> Graph<N> transitiveClosure(Graph<N> graph) {
-    MutableGraph<N> transitiveClosure = GraphBuilder.from(graph).allowsSelfLoops(true).build();
+  public static <N> BasicGraph<N> transitiveClosure(ValueGraph<N, ?> graph) {
+    MutableBasicGraph<N> transitiveClosure =
+        BasicGraphBuilder.from(graph).allowsSelfLoops(true).build();
     // Every node is, at a minimum, reachable from itself. Since the resulting transitive closure
     // will have no isolated nodes, we can skip adding nodes explicitly and let putEdge() do it.
 
@@ -184,14 +185,14 @@ public final class Graphs {
    * from node A if there exists a path (a sequence of adjacent outgoing edges) starting at node A
    * and ending at node B. Note that a node is always reachable from itself via a zero-length path.
    *
-   * <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live
-   * view of the set of nodes reachable from {@code node}. In other words, the returned {@link Set}
-   * will not be updated after modifications to {@code graph}.
+   * <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live view
+   * of the set of nodes reachable from {@code node}. In other words, the returned {@link Set} will
+   * not be updated after modifications to {@code graph}.
    *
    * @throws IllegalArgumentException if {@code node} is not present in {@code graph}
    */
   @SuppressWarnings("unchecked") // Throws an exception if node is not an element of graph.
-  public static <N> Set<N> reachableNodes(Graph<N> graph, Object node) {
+  public static <N> Set<N> reachableNodes(ValueGraph<N, ?> graph, Object node) {
     checkArgument(graph.nodes().contains(node));
     Set<N> visitedNodes = new HashSet<N>();
     Queue<N> queuedNodes = new ArrayDeque<N>();
@@ -243,13 +244,14 @@ public final class Graphs {
 
   /**
    * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
-   * all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} from {@code
+   * all of the nodes in {@code nodes}, and all of the {@link ValueGraph#edges() edges} from {@code
    * graph} for which the endpoints are both contained by {@code nodes}.
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
-  public static <N> MutableGraph<N> inducedSubgraph(Graph<N> graph, Iterable<? extends N> nodes) {
-    MutableGraph<N> subgraph = GraphBuilder.from(graph).build();
+  public static <N> MutableBasicGraph<N> inducedSubgraph(BasicGraph<N> graph,
+      Iterable<? extends N> nodes) {
+    MutableBasicGraph<N> subgraph = BasicGraphBuilder.from(graph).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }
@@ -265,8 +267,9 @@ public final class Graphs {
 
   /**
    * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
-   * all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} (and associated
-   * edge values) from {@code graph} for which the endpoints are both contained by {@code nodes}.
+   * all of the nodes in {@code nodes}, and all of the {@link ValueGraph#edges() edges} (and
+   * associated edge values) from {@code graph} for which the endpoints are both contained by
+   * {@code nodes}.
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
@@ -313,8 +316,8 @@ public final class Graphs {
   /**
    * Creates a mutable copy of {@code graph} with the same nodes and edges.
    */
-  public static <N> MutableGraph<N> copyOf(Graph<N> graph) {
-    MutableGraph<N> copy = GraphBuilder.from(graph)
+  public static <N> MutableBasicGraph<N> copyOf(BasicGraph<N> graph) {
+    MutableBasicGraph<N> copy = BasicGraphBuilder.from(graph)
         .expectedNodeCount(graph.nodes().size())
         .build();
     for (N node : graph.nodes()) {

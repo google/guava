@@ -33,8 +33,8 @@ import javax.annotation.Nullable;
  *
  * <p>Example usage:
  * <pre><code>
- *   MutableGraph<Integer> graph
- *       = GraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
+ *   MutableBasicGraph<Integer> graph
+ *       = BasicGraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
  * </code></pre>
  *
  * @author Joshua O'Madadhain

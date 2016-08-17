@@ -30,7 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Abstract base class for testing implementations of {@link Graph} interface. Graph
+ * Abstract base class for testing implementations of {@link BasicGraph} interface. Graph
  * instances created for testing should have Integer node and String edge objects.
  *
  * <p>Test cases that should be handled similarly in any graph implementation are
@@ -40,14 +40,14 @@ import org.junit.Test;
  * <ul>
  * <li>Test cases related to whether the graph is directed, undirected, mutable,
  *     or immutable.
- * <li>Test cases related to the specific implementation of the {@link Graph} interface.
+ * <li>Test cases related to the specific implementation of the {@link BasicGraph} interface.
  * </ul>
  *
  * TODO(user): Make this class generic (using <N, E>) for all node and edge types.
  * TODO(user): Differentiate between directed and undirected edge strings.
  */
 public abstract class AbstractGraphTest {
-  MutableGraph<Integer> graph;
+  MutableBasicGraph<Integer> graph;
   static final Integer N1 = 1;
   static final Integer N2 = 2;
   static final Integer N3 = 3;
@@ -71,7 +71,7 @@ public abstract class AbstractGraphTest {
   /**
    * Creates and returns an instance of the graph to be tested.
    */
-  public abstract MutableGraph<Integer> createGraph();
+  public abstract MutableBasicGraph<Integer> createGraph();
 
   /**
    * A proxy method that adds the node {@code n} to the graph being tested.
@@ -122,12 +122,14 @@ public abstract class AbstractGraphTest {
     validateGraph(graph);
   }
 
-  static <N> void validateGraph(Graph<N> graph) {
-    if (!(graph instanceof ValueGraph)) {
+  static <N> void validateGraph(ValueGraph<N, ?> graph) {
+    if (graph instanceof BasicGraph) {
+      @SuppressWarnings("unchecked")
+      BasicGraph<N> basicGraph = (BasicGraph<N>) graph;
       new EqualsTester().addEqualityGroup(
-          graph,
-          Graphs.copyOf(graph),
-          ImmutableGraph.copyOf(graph)).testEquals();
+          basicGraph,
+          Graphs.copyOf(basicGraph),
+          ImmutableBasicGraph.copyOf(basicGraph)).testEquals();
     }
 
     String graphString = graph.toString();

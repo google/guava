@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for {@link Endpoints} and {@link Graph#edges()}.
+ * Tests for {@link Endpoints} and {@link BasicGraph#edges()}.
  */
 @RunWith(JUnit4.class)
 public final class EndpointsTest {
@@ -113,7 +113,7 @@ public final class EndpointsTest {
 
   @Test
   public void endpoints_directedGraph() {
-    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    MutableBasicGraph<Integer> directedGraph = BasicGraphBuilder.directed().build();
     directedGraph.addNode(N0);
     directedGraph.putEdge(N1, N2);
     directedGraph.putEdge(N2, N1);
@@ -129,7 +129,7 @@ public final class EndpointsTest {
 
   @Test
   public void endpoints_undirectedGraph() {
-    MutableGraph<Integer> undirectedGraph = GraphBuilder.undirected().build();
+    MutableBasicGraph<Integer> undirectedGraph = BasicGraphBuilder.undirected().build();
     undirectedGraph.addNode(N0);
     undirectedGraph.putEdge(N1, N2);
     undirectedGraph.putEdge(N2, N1); // does nothing
@@ -176,7 +176,7 @@ public final class EndpointsTest {
 
   @Test
   public void endpoints_unmodifiableView() {
-    MutableGraph<Integer> directedGraph = GraphBuilder.directed().build();
+    MutableBasicGraph<Integer> directedGraph = BasicGraphBuilder.directed().build();
     Collection<Endpoints<Integer>> endpoints = directedGraph.edges();
 
     directedGraph.putEdge(N1, N2);
@@ -201,7 +201,7 @@ public final class EndpointsTest {
 
   @Test
   public void endpoints_containment() {
-    MutableGraph<Integer> undirectedGraph = GraphBuilder.undirected().build();
+    MutableBasicGraph<Integer> undirectedGraph = BasicGraphBuilder.undirected().build();
     undirectedGraph.putEdge(N1, N1);
     undirectedGraph.putEdge(N1, N2);
     Collection<Endpoints<Integer>> endpoints = undirectedGraph.edges();

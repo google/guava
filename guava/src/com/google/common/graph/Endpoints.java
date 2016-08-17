@@ -43,7 +43,7 @@ public abstract class Endpoints<N> {
   /**
    * Returns {@link Endpoints} representing the endpoints of an edge in {@code graph}.
    */
-  public static <N> Endpoints<N> of(Graph<?> graph, N nodeA, N nodeB) {
+  public static <N> Endpoints<N> of(ValueGraph<?, ?> graph, N nodeA, N nodeB) {
     return graph.isDirected() ? ofDirected(nodeA, nodeB) : ofUndirected(nodeA, nodeB);
   }
 
