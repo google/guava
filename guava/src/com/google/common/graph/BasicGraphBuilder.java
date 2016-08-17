@@ -66,11 +66,11 @@ public final class BasicGraphBuilder<N> extends AbstractGraphBuilder<N> {
    * Returns a {@link BasicGraphBuilder} initialized with all properties queryable from
    * {@code graph}.
    *
-   * <p>The "queryable" properties are those that are exposed through the {@link ValueGraph}
-   * interface, such as {@link ValueGraph#isDirected()}. Other properties, such as
-   * {@link #expectedNodeCount(int)}, are not set in the new builder.
+   * <p>The "queryable" properties are those that are exposed through the {@link Graph} interface,
+   * such as {@link Graph#isDirected()}. Other properties, such as {@link #expectedNodeCount(int)},
+   * are not set in the new builder.
    */
-  public static <N> BasicGraphBuilder<N> from(ValueGraph<N, ?> graph) {
+  public static <N> BasicGraphBuilder<N> from(Graph<N, ?> graph) {
     checkNotNull(graph);
     return new BasicGraphBuilder<Object>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
@@ -100,7 +100,7 @@ public final class BasicGraphBuilder<N> extends AbstractGraphBuilder<N> {
   }
 
   /**
-   * Specifies the order of iteration for the elements of {@link ValueGraph#nodes()}.
+   * Specifies the order of iteration for the elements of {@link Graph#nodes()}.
    */
   public <N1 extends N> BasicGraphBuilder<N1> nodeOrder(ElementOrder<N1> nodeOrder) {
     checkNotNull(nodeOrder);

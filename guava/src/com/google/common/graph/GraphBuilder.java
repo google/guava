@@ -23,7 +23,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
 
 /**
- * A builder for constructing instances of {@link ValueGraph} with user-defined properties.
+ * A builder for constructing instances of {@link Graph} with user-defined properties.
  *
  * <p>A graph built by this class will have the following properties by default:
  * <ul>
@@ -36,7 +36,7 @@ import com.google.common.base.Optional;
  * @since 20.0
  */
 @Beta
-public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
+public final class GraphBuilder<N, V> extends AbstractGraphBuilder<N> {
 
   /**
    * Creates a new instance with the specified edge directionality.
@@ -44,35 +44,35 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    * @param directed if true, creates an instance for graphs whose edges are each directed;
    *      if false, creates an instance for graphs whose edges are each undirected.
    */
-  private ValueGraphBuilder(boolean directed) {
+  private GraphBuilder(boolean directed) {
     super(directed);
   }
 
   /**
-   * Returns a {@link ValueGraphBuilder} for building directed graphs.
+   * Returns a {@link GraphBuilder} for building directed graphs.
    */
-  public static ValueGraphBuilder<Object, Object> directed() {
-    return new ValueGraphBuilder<Object, Object>(true);
+  public static GraphBuilder<Object, Object> directed() {
+    return new GraphBuilder<Object, Object>(true);
   }
 
   /**
-   * Returns a {@link ValueGraphBuilder} for building undirected graphs.
+   * Returns a {@link GraphBuilder} for building undirected graphs.
    */
-  public static ValueGraphBuilder<Object, Object> undirected() {
-    return new ValueGraphBuilder<Object, Object>(false);
+  public static GraphBuilder<Object, Object> undirected() {
+    return new GraphBuilder<Object, Object>(false);
   }
 
   /**
-   * Returns a {@link ValueGraphBuilder} initialized with all properties queryable from
+   * Returns a {@link GraphBuilder} initialized with all properties queryable from
    * {@code graph}.
    *
-   * <p>The "queryable" properties are those that are exposed through the {@link ValueGraph}
-   * interface, such as {@link ValueGraph#isDirected()}. Other properties, such as
-   * {@link #expectedNodeCount(int)}, are not set in the new builder.
+   * <p>The "queryable" properties are those that are exposed through the {@link Graph} interface,
+   * such as {@link Graph#isDirected()}. Other properties, such as {@link #expectedNodeCount(int)},
+   * are not set in the new builder.
    */
-  public static <N> ValueGraphBuilder<N, Object> from(ValueGraph<N, ?> graph) {
+  public static <N> GraphBuilder<N, Object> from(Graph<N, ?> graph) {
     checkNotNull(graph);
-    return new ValueGraphBuilder<N, Object>(graph.isDirected())
+    return new GraphBuilder<N, Object>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
         .nodeOrder(graph.nodeOrder());
   }
@@ -82,7 +82,7 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    * Attempting to add a self-loop to a graph that does not allow them will throw an
    * {@link UnsupportedOperationException}.
    */
-  public ValueGraphBuilder<N, V> allowsSelfLoops(boolean allowsSelfLoops) {
+  public GraphBuilder<N, V> allowsSelfLoops(boolean allowsSelfLoops) {
     this.allowsSelfLoops = allowsSelfLoops;
     return this;
   }
@@ -92,7 +92,7 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    *
    * @throws IllegalArgumentException if {@code expectedNodeCount} is negative
    */
-  public ValueGraphBuilder<N, V> expectedNodeCount(int expectedNodeCount) {
+  public GraphBuilder<N, V> expectedNodeCount(int expectedNodeCount) {
     checkArgument(expectedNodeCount >= 0, "The expected number of nodes can't be negative: %s",
         expectedNodeCount);
     this.expectedNodeCount = Optional.of(expectedNodeCount);
@@ -102,23 +102,22 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
   /**
    * Specifies the order of iteration for the elements of {@link BasicGraph#nodes()}.
    */
-  public <N1 extends N> ValueGraphBuilder<N1, V> nodeOrder(ElementOrder<N1> nodeOrder) {
+  public <N1 extends N> GraphBuilder<N1, V> nodeOrder(ElementOrder<N1> nodeOrder) {
     checkNotNull(nodeOrder);
-    ValueGraphBuilder<N1, V> newBuilder = cast();
+    GraphBuilder<N1, V> newBuilder = cast();
     newBuilder.nodeOrder = nodeOrder;
     return newBuilder;
   }
 
   /**
-   * Returns an empty {@link MutableValueGraph} with the properties of this
-   * {@link ValueGraphBuilder}.
+   * Returns an empty {@link MutableGraph} with the properties of this {@link GraphBuilder}.
    */
-  public <N1 extends N, V1 extends V> MutableValueGraph<N1, V1> build() {
-    return new ConfigurableMutableValueGraph<N1, V1>(this);
+  public <N1 extends N, V1 extends V> MutableGraph<N1, V1> build() {
+    return new ConfigurableMutableGraph<N1, V1>(this);
   }
 
   @SuppressWarnings("unchecked")
-  private <N1 extends N, V1 extends V> ValueGraphBuilder<N1, V1> cast() {
-    return (ValueGraphBuilder<N1, V1>) this;
+  private <N1 extends N, V1 extends V> GraphBuilder<N1, V1> cast() {
+    return (GraphBuilder<N1, V1>) this;
   }
 }

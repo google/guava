@@ -336,7 +336,7 @@ public class GraphsTest {
   }
 
   @Test
-  public void inducedSubgraph_Graph() {
+  public void inducedSubgraph_BasicGraph() {
     Set<Integer> nodeSubset = ImmutableSet.of(N1, N2, N4);
 
     MutableBasicGraph<Integer> directedGraph = BasicGraphBuilder.directed().build();
@@ -355,17 +355,17 @@ public class GraphsTest {
   }
 
   @Test
-  public void inducedSubgraph_ValueGraph() {
+  public void inducedSubgraph_Graph() {
     Set<Integer> nodeSubset = ImmutableSet.of(N1, N2, N4);
 
-    MutableValueGraph<Integer, String> directedGraph = ValueGraphBuilder.directed().build();
+    MutableGraph<Integer, String> directedGraph = GraphBuilder.directed().build();
     directedGraph.putEdgeValue(N1, N2, E12);
     directedGraph.putEdgeValue(N2, N1, E21);
     directedGraph.putEdgeValue(N1, N3, E13); // only incident to one node in nodeSubset
     directedGraph.putEdgeValue(N4, N4, E44);
     directedGraph.putEdgeValue(5, 6, "5-6"); // not incident to any node in nodeSubset
 
-    MutableValueGraph<Integer, String> expectedSubgraph = ValueGraphBuilder.directed().build();
+    MutableGraph<Integer, String> expectedSubgraph = GraphBuilder.directed().build();
     expectedSubgraph.putEdgeValue(N1, N2, E12);
     expectedSubgraph.putEdgeValue(N2, N1, E21);
     expectedSubgraph.putEdgeValue(N4, N4, E44);
@@ -413,40 +413,40 @@ public class GraphsTest {
   }
 
   @Test
-  public void copyOf_directedGraph() {
-    BasicGraph<Integer> directedGraph = buildDirectedTestGraph();
+  public void copyOf_directedBasicGraph() {
+    BasicGraph<Integer> directedGraph = buildDirectedBasicGraph();
 
     BasicGraph<Integer> copy = copyOf(directedGraph);
     assertThat(copy).isEqualTo(directedGraph);
   }
 
   @Test
-  public void copyOf_undirectedGraph() {
-    BasicGraph<Integer> undirectedGraph = buildUndirectedTestGraph();
+  public void copyOf_undirectedBasicGraph() {
+    BasicGraph<Integer> undirectedGraph = buildUndirectedBasicGraph();
 
     BasicGraph<Integer> copy = copyOf(undirectedGraph);
     assertThat(copy).isEqualTo(undirectedGraph);
   }
 
   @Test
-  public void copyOf_directedValueGraph() {
-    ValueGraph<Integer, String> directedGraph = buildDirectedTestValueGraph();
+  public void copyOf_directedGraph() {
+    Graph<Integer, String> directedGraph = buildDirectedGraph();
 
-    ValueGraph<Integer, String> copy = copyOf(directedGraph);
+    Graph<Integer, String> copy = copyOf(directedGraph);
     assertThat(copy).isEqualTo(directedGraph);
   }
 
   @Test
-  public void copyOf_undirectedValueGraph() {
-    ValueGraph<Integer, String> undirectedGraph = buildUndirectedTestValueGraph();
+  public void copyOf_undirectedGraph() {
+    Graph<Integer, String> undirectedGraph = buildUndirectedGraph();
 
-    ValueGraph<Integer, String> copy = copyOf(undirectedGraph);
+    Graph<Integer, String> copy = copyOf(undirectedGraph);
     assertThat(copy).isEqualTo(undirectedGraph);
   }
 
   @Test
   public void copyOf_directedNetwork() {
-    Network<Integer, String> directedGraph = buildDirectedTestNetwork();
+    Network<Integer, String> directedGraph = buildDirectedNetwork();
 
     Network<Integer, String> copy = copyOf(directedGraph);
     assertThat(copy).isEqualTo(directedGraph);
@@ -454,7 +454,7 @@ public class GraphsTest {
 
   @Test
   public void copyOf_undirectedNetwork() {
-    Network<Integer, String> undirectedGraph = buildUndirectedTestNetwork();
+    Network<Integer, String> undirectedGraph = buildUndirectedNetwork();
 
     Network<Integer, String> copy = copyOf(undirectedGraph);
     assertThat(copy).isEqualTo(undirectedGraph);
@@ -619,7 +619,7 @@ public class GraphsTest {
     assertThat(transitiveClosure(originalGraph)).isEqualTo(expectedClosure);
   }
 
-  private static MutableBasicGraph<Integer> buildDirectedTestGraph() {
+  private static MutableBasicGraph<Integer> buildDirectedBasicGraph() {
     MutableBasicGraph<Integer> directedGraph =
         BasicGraphBuilder.directed().allowsSelfLoops(true).build();
     directedGraph.putEdge(N1, N1);
@@ -629,7 +629,7 @@ public class GraphsTest {
     return directedGraph;
   }
 
-  private static MutableBasicGraph<Integer> buildUndirectedTestGraph() {
+  private static MutableBasicGraph<Integer> buildUndirectedBasicGraph() {
     MutableBasicGraph<Integer> undirectedGraph =
         BasicGraphBuilder.undirected().allowsSelfLoops(true).build();
     undirectedGraph.putEdge(N1, N1);
@@ -639,9 +639,9 @@ public class GraphsTest {
     return undirectedGraph;
   }
 
-  private static MutableValueGraph<Integer, String> buildDirectedTestValueGraph() {
-    MutableValueGraph<Integer, String> directedGraph =
-        ValueGraphBuilder.directed().allowsSelfLoops(true).build();
+  private static MutableGraph<Integer, String> buildDirectedGraph() {
+    MutableGraph<Integer, String> directedGraph =
+        GraphBuilder.directed().allowsSelfLoops(true).build();
     directedGraph.putEdgeValue(N1, N1, E11);
     directedGraph.putEdgeValue(N1, N2, E12);
     directedGraph.putEdgeValue(N2, N1, E21);
@@ -649,9 +649,9 @@ public class GraphsTest {
     return directedGraph;
   }
 
-  private static MutableValueGraph<Integer, String> buildUndirectedTestValueGraph() {
-    MutableValueGraph<Integer, String> undirectedGraph =
-        ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
+  private static MutableGraph<Integer, String> buildUndirectedGraph() {
+    MutableGraph<Integer, String> undirectedGraph =
+        GraphBuilder.undirected().allowsSelfLoops(true).build();
     undirectedGraph.putEdgeValue(N1, N1, E11);
     undirectedGraph.putEdgeValue(N1, N2, E12);
     undirectedGraph.putEdgeValue(N2, N1, E21); // overwrites E12
@@ -659,7 +659,7 @@ public class GraphsTest {
     return undirectedGraph;
   }
 
-  private static MutableNetwork<Integer, String> buildDirectedTestNetwork() {
+  private static MutableNetwork<Integer, String> buildDirectedNetwork() {
     MutableNetwork<Integer, String> directedGraph =
         NetworkBuilder.directed().allowsSelfLoops(true).allowsParallelEdges(true).build();
     directedGraph.addEdge(N1, N1, E11);
@@ -671,7 +671,7 @@ public class GraphsTest {
     return directedGraph;
   }
 
-  private static MutableNetwork<Integer, String> buildUndirectedTestNetwork() {
+  private static MutableNetwork<Integer, String> buildUndirectedNetwork() {
     MutableNetwork<Integer, String> undirectedGraph =
         NetworkBuilder.undirected().allowsSelfLoops(true).allowsParallelEdges(true).build();
     undirectedGraph.addEdge(N1, N1, E11);

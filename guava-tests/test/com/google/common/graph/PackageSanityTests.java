@@ -32,7 +32,7 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
   private static final AbstractGraphBuilder<?> GRAPH_BUILDER_A =
       BasicGraphBuilder.directed().expectedNodeCount(10);
   private static final AbstractGraphBuilder<?> GRAPH_BUILDER_B =
-      ValueGraphBuilder.directed().allowsSelfLoops(false).expectedNodeCount(16);
+      GraphBuilder.directed().allowsSelfLoops(false).expectedNodeCount(16);
 
   private static final ImmutableBasicGraph<String> IMMUTABLE_GRAPH_A = graphWithNode("A");
   private static final ImmutableBasicGraph<String> IMMUTABLE_GRAPH_B = graphWithNode("B");

@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 
 /**
  * An interface for representing and manipulating an origin node's adjacent nodes and edge values
- * in a {@link ValueGraph}.
+ * in a {@link Graph}.
  *
  * @author James Sexton
  * @param <N> Node parameter type

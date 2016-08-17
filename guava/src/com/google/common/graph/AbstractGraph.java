@@ -31,8 +31,8 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * This class provides a skeletal implementation of {@link ValueGraph}. It is recommended to extend
- * this class rather than implement {@link ValueGraph} directly, to ensure consistent {@link
+ * This class provides a skeletal implementation of {@link Graph}. It is recommended to extend
+ * this class rather than implement {@link Graph} directly, to ensure consistent {@link
  * #equals(Object)} and {@link #hashCode()} results across different graph implementations.
  *
  * @author James Sexton
@@ -41,7 +41,7 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
-public abstract class AbstractValueGraph<N, V> implements ValueGraph<N, V> {
+public abstract class AbstractGraph<N, V> implements Graph<N, V> {
 
   /**
    * Returns the number of edges in this graph; used to calculate the size of {@link #edges()}.
@@ -59,7 +59,7 @@ public abstract class AbstractValueGraph<N, V> implements ValueGraph<N, V> {
   }
 
   /**
-   * A reasonable default implementation of {@link ValueGraph#edges()} defined in terms of
+   * A reasonable default implementation of {@link Graph#edges()} defined in terms of
    * {@link #nodes()} and {@link #successors(Object)}.
    */
   @Override
@@ -67,7 +67,7 @@ public abstract class AbstractValueGraph<N, V> implements ValueGraph<N, V> {
     return new AbstractSet<Endpoints<N>>() {
       @Override
       public Iterator<Endpoints<N>> iterator() {
-        return EndpointsIterator.of(AbstractValueGraph.this);
+        return EndpointsIterator.of(AbstractGraph.this);
       }
 
       @Override
@@ -94,10 +94,10 @@ public abstract class AbstractValueGraph<N, V> implements ValueGraph<N, V> {
     if (obj == this) {
       return true;
     }
-    if (!(obj instanceof ValueGraph)) {
+    if (!(obj instanceof Graph)) {
       return false;
     }
-    ValueGraph<?, ?> other = (ValueGraph<?, ?>) obj;
+    Graph<?, ?> other = (Graph<?, ?>) obj;
 
     if (isDirected() != other.isDirected()
         || !nodes().equals(other.nodes())
@@ -152,7 +152,7 @@ public abstract class AbstractValueGraph<N, V> implements ValueGraph<N, V> {
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   // TODO(b/30649235): What to do with this? Move to Graphs or interfaces? Provide in/outDegree?
-  private static int degree(ValueGraph<?, ?> graph, Object node) {
+  private static int degree(Graph<?, ?> graph, Object node) {
     if (graph.isDirected()) {
       return IntMath.saturatedAdd(graph.predecessors(node).size(), graph.successors(node).size());
     } else {

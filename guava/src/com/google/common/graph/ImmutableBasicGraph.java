@@ -33,7 +33,7 @@ import com.google.common.graph.BasicGraph.Presence;
  */
 @Beta
 public class ImmutableBasicGraph<N>
-    extends ImmutableValueGraph<N, Presence> implements BasicGraph<N> {
+    extends ImmutableGraph<N, Presence> implements BasicGraph<N> {
 
   private ImmutableBasicGraph(BasicGraph<N> graph) {
     super(graph);

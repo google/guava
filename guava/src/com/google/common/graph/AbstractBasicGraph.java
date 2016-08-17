@@ -32,7 +32,7 @@ import com.google.common.graph.BasicGraph.Presence;
  */
 @Beta
 public abstract class AbstractBasicGraph<N>
-    extends AbstractValueGraph<N, Presence> implements BasicGraph<N> {
+    extends AbstractGraph<N, Presence> implements BasicGraph<N> {
 
   /**
    * Returns a string representation of this graph.

@@ -20,8 +20,8 @@ import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
- * A subtype of {@link ValueGraph} which permits mutations.
- * Users should generally use the {@link ValueGraph} interface where possible.
+ * A subtype of {@link Graph} which permits mutations.
+ * Users should generally use the {@link Graph} interface where possible.
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -29,7 +29,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @since 20.0
  */
 @Beta
-public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
+public interface MutableGraph<N, V> extends Graph<N, V> {
 
   /**
    * Adds {@code node} if it is not already present.

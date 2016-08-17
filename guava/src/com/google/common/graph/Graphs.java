@@ -35,7 +35,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * Static utility methods for {@link ValueGraph} and {@link Network} instances.
+ * Static utility methods for {@link Graph} and {@link Network} instances.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
@@ -55,7 +55,7 @@ public final class Graphs {
    *
    * <p>This method will detect any non-empty cycle, including self-loops (a cycle of length 1).
    */
-  public static boolean hasCycle(ValueGraph<?, ?> graph) {
+  public static boolean hasCycle(Graph<?, ?> graph) {
     int numEdges = graph.edges().size();
     if (numEdges == 0) {
       return false; // An edge-free graph is acyclic by definition.
@@ -97,7 +97,7 @@ public final class Graphs {
    * cycle in the graph.
    */
   private static boolean subgraphHasCycle(
-      ValueGraph<?, ?> graph,
+      Graph<?, ?> graph,
       Map<Object, NodeVisitState> visitedNodes,
       Object node,
       @Nullable Object previousNode) {
@@ -127,7 +127,7 @@ public final class Graphs {
    * from B to A).
    */
   private static boolean canTraverseWithoutReusingEdge(
-      ValueGraph<?, ?> graph, Object nextNode, @Nullable Object previousNode) {
+      Graph<?, ?> graph, Object nextNode, @Nullable Object previousNode) {
     if (graph.isDirected() || !Objects.equal(previousNode, nextNode)) {
       return true;
     }
@@ -138,14 +138,14 @@ public final class Graphs {
 
   /**
    * Returns the transitive closure of {@code graph}. The transitive closure of a graph is another
-   * graph with an edge connecting node A to node B iff node B is {@link #reachableNodes(ValueGraph,
+   * graph with an edge connecting node A to node B iff node B is {@link #reachableNodes(Graph,
    * Object) reachable} from node A.
    *
    * <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live view
    * of the transitive closure of {@code graph}. In other words, the returned {@link BasicGraph}
    * will not be updated after modifications to {@code graph}.
    */
-  public static <N> BasicGraph<N> transitiveClosure(ValueGraph<N, ?> graph) {
+  public static <N> BasicGraph<N> transitiveClosure(Graph<N, ?> graph) {
     MutableBasicGraph<N> transitiveClosure =
         BasicGraphBuilder.from(graph).allowsSelfLoops(true).build();
     // Every node is, at a minimum, reachable from itself. Since the resulting transitive closure
@@ -192,7 +192,7 @@ public final class Graphs {
    * @throws IllegalArgumentException if {@code node} is not present in {@code graph}
    */
   @SuppressWarnings("unchecked") // Throws an exception if node is not an element of graph.
-  public static <N> Set<N> reachableNodes(ValueGraph<N, ?> graph, Object node) {
+  public static <N> Set<N> reachableNodes(Graph<N, ?> graph, Object node) {
     checkArgument(graph.nodes().contains(node));
     Set<N> visitedNodes = new HashSet<N>();
     Queue<N> queuedNodes = new ArrayDeque<N>();
@@ -244,7 +244,7 @@ public final class Graphs {
 
   /**
    * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
-   * all of the nodes in {@code nodes}, and all of the {@link ValueGraph#edges() edges} from {@code
+   * all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} from {@code
    * graph} for which the endpoints are both contained by {@code nodes}.
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
@@ -267,15 +267,15 @@ public final class Graphs {
 
   /**
    * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
-   * all of the nodes in {@code nodes}, and all of the {@link ValueGraph#edges() edges} (and
+   * all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} (and
    * associated edge values) from {@code graph} for which the endpoints are both contained by
    * {@code nodes}.
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
-  public static <N, V> MutableValueGraph<N, V> inducedSubgraph(ValueGraph<N, V> graph,
+  public static <N, V> MutableGraph<N, V> inducedSubgraph(Graph<N, V> graph,
       Iterable<? extends N> nodes) {
-    MutableValueGraph<N, V> subgraph = ValueGraphBuilder.from(graph).build();
+    MutableGraph<N, V> subgraph = GraphBuilder.from(graph).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }
@@ -332,8 +332,8 @@ public final class Graphs {
   /**
    * Creates a mutable copy of {@code graph} with the same nodes, edges, and edge values.
    */
-  public static <N, V> MutableValueGraph<N, V> copyOf(ValueGraph<N, V> graph) {
-    MutableValueGraph<N, V> copy = ValueGraphBuilder.from(graph)
+  public static <N, V> MutableGraph<N, V> copyOf(Graph<N, V> graph) {
+    MutableGraph<N, V> copy = GraphBuilder.from(graph)
         .expectedNodeCount(graph.nodes().size())
         .build();
     for (N node : graph.nodes()) {

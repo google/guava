@@ -122,7 +122,7 @@ public abstract class AbstractGraphTest {
     validateGraph(graph);
   }
 
-  static <N> void validateGraph(ValueGraph<N, ?> graph) {
+  static <N> void validateGraph(Graph<N, ?> graph) {
     if (graph instanceof BasicGraph) {
       @SuppressWarnings("unchecked")
       BasicGraph<N> basicGraph = (BasicGraph<N>) graph;

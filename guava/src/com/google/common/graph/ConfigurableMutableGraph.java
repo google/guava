@@ -26,8 +26,8 @@ import static com.google.common.graph.Graphs.checkPositive;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
- * Configurable implementation of {@link MutableValueGraph} that supports both directed and
- * undirected graphs. Instances of this class should be constructed with {@link ValueGraphBuilder}.
+ * Configurable implementation of {@link MutableGraph} that supports both directed and undirected
+ * graphs. Instances of this class should be constructed with {@link GraphBuilder}.
  *
  * <p>Time complexities for mutation methods are all O(1) except for {@code removeNode(N node)},
  * which is in O(d_node) where d_node is the degree of {@code node}.
@@ -38,13 +38,13 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-final class ConfigurableMutableValueGraph<N, V>
-    extends ConfigurableValueGraph<N, V> implements MutableValueGraph<N, V> {
+final class ConfigurableMutableGraph<N, V>
+    extends ConfigurableGraph<N, V> implements MutableGraph<N, V> {
 
   /**
    * Constructs a mutable graph with the properties specified in {@code builder}.
    */
-  ConfigurableMutableValueGraph(AbstractGraphBuilder<? super N> builder) {
+  ConfigurableMutableGraph(AbstractGraphBuilder<? super N> builder) {
     super(builder);
   }
 

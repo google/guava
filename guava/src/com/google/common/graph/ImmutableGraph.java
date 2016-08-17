@@ -24,8 +24,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 /**
- * A {@link ValueGraph} whose relationships and edge values are constant. Instances of this class
- * may be obtained with {@link #copyOf(ValueGraph)}.
+ * A {@link Graph} whose relationships and edge values are constant. Instances of this class may be
+ * obtained with {@link #copyOf(Graph)}.
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -33,20 +33,20 @@ import com.google.common.collect.Maps;
  * @since 20.0
  */
 @Beta
-public class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V> {
+public class ImmutableGraph<N, V> extends ConfigurableGraph<N, V> {
 
-  ImmutableValueGraph(ValueGraph<N, V> graph) {
-    super(ValueGraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
+  ImmutableGraph(Graph<N, V> graph) {
+    super(GraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
   }
 
   /**
    * Returns an immutable copy of {@code graph}.
    */
   @SuppressWarnings("unchecked")
-  public static <N, V> ImmutableValueGraph<N, V> copyOf(ValueGraph<N, V> graph) {
-    return (graph instanceof ImmutableValueGraph)
-        ? (ImmutableValueGraph<N, V>) graph
-        : new ImmutableValueGraph<N, V>(graph);
+  public static <N, V> ImmutableGraph<N, V> copyOf(Graph<N, V> graph) {
+    return (graph instanceof ImmutableGraph)
+        ? (ImmutableGraph<N, V>) graph
+        : new ImmutableGraph<N, V>(graph);
   }
 
   /**
@@ -55,12 +55,12 @@ public class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V> {
    * @deprecated no need to use this
    */
   @Deprecated
-  public static <N, V> ImmutableValueGraph<N, V> copyOf(ImmutableValueGraph<N, V> graph) {
+  public static <N, V> ImmutableGraph<N, V> copyOf(ImmutableGraph<N, V> graph) {
     return checkNotNull(graph);
   }
 
   private static <N, V> ImmutableMap<N, GraphConnections<N, V>> getNodeConnections(
-      ValueGraph<N, V> graph) {
+      Graph<N, V> graph) {
     // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will have
     // whatever ordering the graph's nodes do, so ImmutableSortedMap is unnecessary even if the
     // input nodes are sorted.
@@ -71,7 +71,7 @@ public class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V> {
     return nodeConnections.build();
   }
 
-  private static <N, V> GraphConnections<N, V> connectionsOf(final ValueGraph<N, V> graph,
+  private static <N, V> GraphConnections<N, V> connectionsOf(final Graph<N, V> graph,
       final N node) {
     Function<N, V> successorNodeToValueFn = new Function<N, V>() {
       @Override

@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for {@link Graphs#hasCycle(ValueGraph)} and {@link Graphs#hasCycle(Network)}.
+ * Tests for {@link Graphs#hasCycle(Graph)} and {@link Graphs#hasCycle(Network)}.
  */
 // TODO(user): Consider moving this to GraphsTest.
 @RunWith(JUnit4.class)

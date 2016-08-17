@@ -39,7 +39,7 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
-public interface ValueGraph<N, V> {
+public interface Graph<N, V> {
   //
   // Graph-level accessors
   //
@@ -99,8 +99,8 @@ public interface ValueGraph<N, V> {
    * {@code node}'s outgoing edges in the direction (if any) of the edge.
    *
    * <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
-   * edges". For that functionality, see {@link Graphs#reachableNodes(ValueGraph, Object)} and
-   * {@link Graphs#transitiveClosure(ValueGraph)}.
+   * edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)} and {@link
+   * Graphs#transitiveClosure(Graph)}.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
@@ -128,7 +128,7 @@ public interface ValueGraph<N, V> {
   //
 
   /**
-   * Returns {@code true} iff {@code object} is a {@link ValueGraph} that has the same structural
+   * Returns {@code true} iff {@code object} is a {@link Graph} that has the same structural
    * relationships as those in this graph.
    *
    * <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
@@ -144,7 +144,7 @@ public interface ValueGraph<N, V> {
    * doesn't. Additionally, the order in which nodes or edges are added to the graph, and the order
    * in which they are iterated over, are irrelevant.
    *
-   * <p>A reference implementation of this is provided by {@link AbstractValueGraph#equals(Object)}.
+   * <p>A reference implementation of this is provided by {@link AbstractGraph#equals(Object)}.
    */
   @Override
   boolean equals(@Nullable Object object);
@@ -154,7 +154,7 @@ public interface ValueGraph<N, V> {
    * of a map from each of its {@link #edges() edges} to the associated {@link #edgeValue(Object,
    * Object) edge value}.
    *
-   * <p>A reference implementation of this is provided by {@link AbstractValueGraph#hashCode()}.
+   * <p>A reference implementation of this is provided by {@link AbstractGraph#hashCode()}.
    */
   @Override
   int hashCode();

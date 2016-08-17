@@ -25,23 +25,23 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * A class to facilitate the set returned by {@link ValueGraph#edges()}.
+ * A class to facilitate the set returned by {@link Graph#edges()}.
  *
  * @author James Sexton
  * @since 20.0
  */
 abstract class EndpointsIterator<N> extends AbstractIterator<Endpoints<N>> {
-  private final ValueGraph<N, ?> graph;
+  private final Graph<N, ?> graph;
   private final Iterator<N> nodeIterator;
 
   N node = null; // null is safe as an initial value because graphs do not allow null nodes
   Iterator<N> successorIterator = ImmutableSet.<N>of().iterator();
 
-  static <N> EndpointsIterator<N> of(ValueGraph<N, ?> graph) {
+  static <N> EndpointsIterator<N> of(Graph<N, ?> graph) {
     return graph.isDirected() ? new Directed<N>(graph) : new Undirected<N>(graph);
   }
 
-  EndpointsIterator(ValueGraph<N, ?> graph) {
+  EndpointsIterator(Graph<N, ?> graph) {
     this.graph = graph;
     this.nodeIterator = graph.nodes().iterator();
   }
@@ -65,7 +65,7 @@ abstract class EndpointsIterator<N> extends AbstractIterator<Endpoints<N>> {
    * one or more edge connecting them.
    */
   private static final class Directed<N> extends EndpointsIterator<N> {
-    Directed(ValueGraph<N, ?> graph){
+    Directed(Graph<N, ?> graph){
       super(graph);
     }
 
@@ -109,7 +109,7 @@ abstract class EndpointsIterator<N> extends AbstractIterator<Endpoints<N>> {
   private static final class Undirected<N> extends EndpointsIterator<N> {
     private Set<N> visitedNodes;
 
-    Undirected(ValueGraph<N, ?> graph) {
+    Undirected(Graph<N, ?> graph) {
       super(graph);
       this.visitedNodes = Sets.newHashSetWithExpectedSize(graph.nodes().size());
     }

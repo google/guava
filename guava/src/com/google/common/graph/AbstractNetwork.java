@@ -42,8 +42,8 @@ import javax.annotation.Nullable;
 public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
   @Override
-  public ValueGraph<N, Set<E>> asGraph() {
-    return new AbstractValueGraph<N, Set<E>>() {
+  public Graph<N, Set<E>> asGraph() {
+    return new AbstractGraph<N, Set<E>>() {
       @Override
       public Set<N> nodes() {
         return AbstractNetwork.this.nodes();

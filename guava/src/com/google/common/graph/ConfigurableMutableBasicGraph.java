@@ -30,13 +30,13 @@ import java.util.Set;
  */
 final class ConfigurableMutableBasicGraph<N>
     extends AbstractBasicGraph<N> implements MutableBasicGraph<N> {
-  private final MutableValueGraph<N, Presence> backingGraph;
+  private final MutableGraph<N, Presence> backingGraph;
 
   /**
    * Constructs a {@link MutableBasicGraph} with the properties specified in {@code builder}.
    */
   ConfigurableMutableBasicGraph(AbstractGraphBuilder<? super N> builder) {
-    this.backingGraph = new ConfigurableMutableValueGraph<N, Presence>(builder);
+    this.backingGraph = new ConfigurableMutableGraph<N, Presence>(builder);
   }
 
   @Override

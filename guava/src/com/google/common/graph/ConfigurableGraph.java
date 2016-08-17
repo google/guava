@@ -29,7 +29,7 @@ import java.util.TreeMap;
 import javax.annotation.Nullable;
 
 /**
- * Configurable implementation of {@link ValueGraph} that supports the options supplied by
+ * Configurable implementation of {@link Graph} that supports the options supplied by
  * {@link AbstractGraphBuilder}.
  *
  * <p>This class maintains a map of nodes to {@link GraphConnections}.
@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
+class ConfigurableGraph<N, V> extends AbstractGraph<N, V> {
   private final boolean isDirected;
   private final boolean allowsSelfLoops;
   private final ElementOrder<N> nodeOrder;
@@ -65,7 +65,7 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   /**
    * Constructs a graph with the properties specified in {@code builder}.
    */
-  ConfigurableValueGraph(AbstractGraphBuilder<? super N> builder) {
+  ConfigurableGraph(AbstractGraphBuilder<? super N> builder) {
     this(
         builder,
         builder.nodeOrder.<N, GraphConnections<N, V>>createMap(
@@ -77,7 +77,7 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
    * Constructs a graph with the properties specified in {@code builder}, initialized with
    * the given node map.
    */
-  ConfigurableValueGraph(AbstractGraphBuilder<? super N> builder,
+  ConfigurableGraph(AbstractGraphBuilder<? super N> builder,
       Map<N, GraphConnections<N, V>> nodeConnections, long edgeCount) {
     this.isDirected = builder.directed;
     this.allowsSelfLoops = builder.allowsSelfLoops;

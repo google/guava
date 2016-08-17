@@ -168,7 +168,7 @@ import com.google.common.annotations.Beta;
  * @since 20.0
  */
 @Beta
-public interface BasicGraph<N> extends ValueGraph<N, BasicGraph.Presence> {
+public interface BasicGraph<N> extends Graph<N, BasicGraph.Presence> {
 
   /**
    * A placeholder for the (generally ignored) Value type of a {@link BasicGraph}. Users shouldn't
