@@ -52,7 +52,7 @@ final class GraphConstants {
           + "that allows self-loops, call allowsSelfLoops(true) on the Builder.";
   static final String NOT_AVAILABLE_ON_UNDIRECTED =
       "Cannot call source()/target() on the endpoints of an undirected edge. Consider calling "
-          + "otherNode() to get a single node or using the endpoints' iterator to get both nodes.";
+          + "adjacentNode(node) if you already have a node, or nodeA()/nodeB() if you don't.";
   static final String EDGE_ALREADY_EXISTS = "Edge %s already exists in the graph.";
 
   static final String GRAPH_STRING_FORMAT = "%s, nodes: %s, edges: %s";
