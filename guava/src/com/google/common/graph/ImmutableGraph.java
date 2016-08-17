@@ -24,8 +24,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 /**
- * A {@link Graph} whose relationships and edge values are constant. Instances of this class may be
- * obtained with {@link #copyOf(Graph)}.
+ * A {@link Graph} whose elements and structural relationships will never change. Instances of
+ * this class may be obtained with {@link #copyOf(Graph)}.
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -35,6 +35,9 @@ import com.google.common.collect.Maps;
 @Beta
 public class ImmutableGraph<N, V> extends ConfigurableGraph<N, V> {
 
+  /**
+   * To ensure the immutability contract is maintained, there must be no public constructors.
+   */
   ImmutableGraph(Graph<N, V> graph) {
     super(GraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
   }
@@ -42,7 +45,6 @@ public class ImmutableGraph<N, V> extends ConfigurableGraph<N, V> {
   /**
    * Returns an immutable copy of {@code graph}.
    */
-  @SuppressWarnings("unchecked")
   public static <N, V> ImmutableGraph<N, V> copyOf(Graph<N, V> graph) {
     return (graph instanceof ImmutableGraph)
         ? (ImmutableGraph<N, V>) graph

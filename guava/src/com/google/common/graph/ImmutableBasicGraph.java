@@ -22,8 +22,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.graph.BasicGraph.Presence;
 
 /**
- * A {@link BasicGraph} whose relationships are constant. Instances of this class may be obtained
- * with {@link #copyOf(BasicGraph)}.
+ * A {@link BasicGraph} whose elements and structural relationships will never change. Instances of
+ * this class may be obtained with {@link #copyOf(BasicGraph)}.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
@@ -32,9 +32,11 @@ import com.google.common.graph.BasicGraph.Presence;
  * @since 20.0
  */
 @Beta
-public class ImmutableBasicGraph<N>
-    extends ImmutableGraph<N, Presence> implements BasicGraph<N> {
+public class ImmutableBasicGraph<N> extends ImmutableGraph<N, Presence> implements BasicGraph<N> {
 
+  /**
+   * To ensure the immutability contract is maintained, there must be no public constructors.
+   */
   private ImmutableBasicGraph(BasicGraph<N> graph) {
     super(graph);
   }
@@ -42,7 +44,6 @@ public class ImmutableBasicGraph<N>
   /**
    * Returns an immutable copy of {@code graph}.
    */
-  @SuppressWarnings("unchecked")
   public static <N> ImmutableBasicGraph<N> copyOf(BasicGraph<N> graph) {
     return (graph instanceof ImmutableBasicGraph)
         ? (ImmutableBasicGraph<N>) graph

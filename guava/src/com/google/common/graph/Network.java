@@ -347,8 +347,8 @@ public interface Network<N, E> {
   //
 
   /**
-   * Returns {@code true} iff {@code object} is a {@link Network} that has the same structural
-   * relationships as those in this network.
+   * Returns {@code true} iff {@code object} is a {@link Network} that has the same elements and the
+   * same structural relationships as those in this network.
    *
    * <p>Thus, two networks A and B are equal if <b>all</b> of the following are true:
    * <ul>

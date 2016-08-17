@@ -29,9 +29,10 @@ import javax.annotation.Nullable;
  * <p>Nodes in a graph are analogous to keys in a Map - they must be unique within a graph.
  * Values in a graph are analogous to values in a Map - they may be any arbitrary object.
  *
- * TODO(b/30133524): Rewrite the top-level javadoc from scratch.
+ * <p>If you don't need to associate value objects with edges (e.g. you're modeling a binary
+ * relation where an edge either exists or doesn't), see the {@link BasicGraph} interface.
  *
- * TODO(jasexton): Rename interface (and various other classes) to "Graph".
+ * TODO(b/30133524): Rewrite the top-level javadoc from scratch.
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -128,8 +129,8 @@ public interface Graph<N, V> {
   //
 
   /**
-   * Returns {@code true} iff {@code object} is a {@link Graph} that has the same structural
-   * relationships as those in this graph.
+   * Returns {@code true} iff {@code object} is a {@link Graph} that has the same elements and the
+   * same structural relationships as those in this graph.
    *
    * <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
    * <ul>

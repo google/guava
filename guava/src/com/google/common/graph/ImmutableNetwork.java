@@ -25,8 +25,8 @@ import com.google.common.collect.Maps;
 import java.util.Map;
 
 /**
- * A {@link Network} whose relationships are constant. Instances of this class may be obtained
- * with {@link #copyOf(Network)}.
+ * A {@link Network} whose elements and structural relationships will never change. Instances of
+ * this class may be obtained with {@link #copyOf(Network)}.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
@@ -38,6 +38,9 @@ import java.util.Map;
 @Beta
 public class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
 
+  /**
+   * To ensure the immutability contract is maintained, there must be no public constructors.
+   */
   private ImmutableNetwork(Network<N, E> graph) {
     super(NetworkBuilder.from(graph), getNodeConnections(graph), getEdgeToReferenceNode(graph));
   }
