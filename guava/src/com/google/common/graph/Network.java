@@ -370,7 +370,8 @@ public interface Network<N, E> {
 
   /**
    * Returns the hash code for this network. The hash code of a network is defined as the hash code
-   * of a map from each of its {@link #nodes() nodes} to {@link #outEdges(Object) outgoing edges}.
+   * of a map from each of its {@link #edges() edges} to their {@link #incidentNodes(Object)
+   * incident nodes}.
    *
    * <p>A reference implementation of this is provided by {@link AbstractNetwork#hashCode()}.
    */

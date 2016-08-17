@@ -25,6 +25,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import java.util.AbstractSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -155,13 +156,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
   @Override
   public final int hashCode() {
-    Function<N, Set<E>> nodeToOutEdges = new Function<N, Set<E>>() {
-      @Override
-      public Set<E> apply(N node) {
-        return outEdges(node);
-      }
-    };
-    return Maps.asMap(nodes(), nodeToOutEdges).hashCode();
+    return edgeEndpointsMap().hashCode();
   }
 
   /**
@@ -172,15 +167,19 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
     String propertiesString = String.format(
         "isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",
         isDirected(), allowsParallelEdges(), allowsSelfLoops());
+    return String.format(GRAPH_STRING_FORMAT,
+        propertiesString,
+        nodes(),
+        edgeEndpointsMap());
+  }
+
+  private Map<E, Endpoints<N>> edgeEndpointsMap() {
     Function<E, Endpoints<N>> edgeToEndpointsFn = new Function<E, Endpoints<N>>() {
       @Override
       public Endpoints<N> apply(E edge) {
         return incidentNodes(edge);
       }
     };
-    return String.format(GRAPH_STRING_FORMAT,
-        propertiesString,
-        nodes(),
-        Maps.asMap(edges(), edgeToEndpointsFn));
+    return Maps.asMap(edges(), edgeToEndpointsFn);
   }
 }
