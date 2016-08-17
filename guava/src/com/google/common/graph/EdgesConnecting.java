@@ -34,12 +34,12 @@ import javax.annotation.Nullable;
  * @author James Sexton
  * @param <E> Edge parameter type
  */
-final class SimpleEdgesConnecting<E> extends AbstractSet<E> {
+final class EdgesConnecting<E> extends AbstractSet<E> {
 
   private final Map<?, E> nodeToOutEdge;
   private final Object targetNode;
 
-  SimpleEdgesConnecting(Map<?, E> nodeToEdgeMap, Object targetNode) {
+  EdgesConnecting(Map<?, E> nodeToEdgeMap, Object targetNode) {
     this.nodeToOutEdge = checkNotNull(nodeToEdgeMap);
     this.targetNode = checkNotNull(targetNode);
   }
