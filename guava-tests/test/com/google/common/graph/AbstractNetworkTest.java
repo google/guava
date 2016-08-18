@@ -231,7 +231,6 @@ public abstract class AbstractNetworkTest {
         Set<E> edgesConnecting = network.edgesConnecting(node, otherNode);
         boolean isSelfLoop = node.equals(otherNode);
         if (network.isDirected() || !isSelfLoop) {
-          assertThat(edgesConnecting).isEqualTo(asGraph.edgeValue(node, otherNode));
           assertThat(edgesConnecting).isEqualTo(
               Sets.intersection(network.outEdges(node), network.inEdges(otherNode)));
         }
@@ -279,8 +278,10 @@ public abstract class AbstractNetworkTest {
       }
 
       for (N successor : network.successors(node)) {
+        Set<E> edgesConnecting = network.edgesConnecting(node, successor);
         assertThat(network.predecessors(successor)).contains(node);
-        assertThat(network.edgesConnecting(node, successor)).isNotEmpty();
+        assertThat(edgesConnecting).isNotEmpty();
+        assertThat(edgesConnecting).isEqualTo(asGraph.edgeValue(node, successor));
       }
     }
   }

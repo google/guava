@@ -165,6 +165,14 @@ public abstract class AbstractGraphTest {
         assertThat(graph.outDegree(node)).isEqualTo(graph.degree(node));
       }
 
+      for (N otherNode : graph.nodes()) {
+        if (graph.successors(node).contains(otherNode)) {
+          assertThat(graph.edgeValue(node, otherNode)).isNotNull();
+        } else {
+          assertThat(graph.edgeValueOrDefault(node, otherNode, null)).isNull();
+        }
+      }
+
       for (N adjacentNode : graph.adjacentNodes(node)) {
         if (!graph.allowsSelfLoops()) {
           assertThat(node).isNotEqualTo(adjacentNode);

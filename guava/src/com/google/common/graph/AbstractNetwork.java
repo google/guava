@@ -16,7 +16,8 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.graph.GraphConstants.EDGE_CONNECTING_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 
 import com.google.common.annotations.Beta;
@@ -120,12 +121,15 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
       @Override
       public Set<E> edgeValue(Object nodeA, Object nodeB) {
-        return checkNotNull(edgesConnecting(nodeA, nodeB));
+        Set<E> edges = edgesConnecting(nodeA, nodeB);
+        checkArgument(!edges.isEmpty(), EDGE_CONNECTING_NOT_IN_GRAPH, nodeA, nodeB);
+        return edges;
       }
 
       @Override
       public Set<E> edgeValueOrDefault(Object nodeA, Object nodeB, Set<E> defaultValue) {
-        return checkNotNull(edgesConnecting(nodeA, nodeB));
+        Set<E> edges = edgesConnecting(nodeA, nodeB);
+        return edges.isEmpty() ? defaultValue : edges;
       }
     };
   }
