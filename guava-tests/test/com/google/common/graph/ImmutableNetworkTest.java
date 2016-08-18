@@ -29,35 +29,48 @@ import org.junit.runners.JUnit4;
 public class ImmutableNetworkTest {
 
   @Test
-  public void copyOfImmutableNetwork_optimized() {
-    Network<String, String> graph1 = ImmutableNetwork.copyOf(
-        NetworkBuilder.directed().<String, String>build());
-    Network<String, String> graph2 = ImmutableNetwork.copyOf(graph1);
+  public void immutableNetwork() {
+    MutableNetwork<String, Integer> mutableNetwork = NetworkBuilder.directed().build();
+    mutableNetwork.addNode("A");
+    Network<String, Integer> immutableNetwork = ImmutableNetwork.copyOf(mutableNetwork);
 
-    assertThat(graph2).isSameAs(graph1);
+    assertThat(immutableNetwork).isNotInstanceOf(MutableNetwork.class);
+    assertThat(immutableNetwork).isEqualTo(mutableNetwork);
+
+    mutableNetwork.addNode("B");
+    assertThat(immutableNetwork).isNotEqualTo(mutableNetwork);
+  }
+
+  @Test
+  public void copyOfImmutableNetwork_optimized() {
+    Network<String, String> network1 = ImmutableNetwork.copyOf(
+        NetworkBuilder.directed().<String, String>build());
+    Network<String, String> network2 = ImmutableNetwork.copyOf(network1);
+
+    assertThat(network2).isSameAs(network1);
   }
 
   @Test
   public void edgesConnecting_directed() {
-    MutableNetwork<String, String> mutableGraph = NetworkBuilder.directed().build();
-    mutableGraph.addEdge("A", "A", "AA");
-    mutableGraph.addEdge("A", "B", "AB");
-    Network<String, String> graph = ImmutableNetwork.copyOf(mutableGraph);
+    MutableNetwork<String, String> mutableNetwork = NetworkBuilder.directed().build();
+    mutableNetwork.addEdge("A", "A", "AA");
+    mutableNetwork.addEdge("A", "B", "AB");
+    Network<String, String> network = ImmutableNetwork.copyOf(mutableNetwork);
 
-    assertThat(graph.edgesConnecting("A", "A")).containsExactly("AA");
-    assertThat(graph.edgesConnecting("A", "B")).containsExactly("AB");
-    assertThat(graph.edgesConnecting("B", "A")).isEmpty();
+    assertThat(network.edgesConnecting("A", "A")).containsExactly("AA");
+    assertThat(network.edgesConnecting("A", "B")).containsExactly("AB");
+    assertThat(network.edgesConnecting("B", "A")).isEmpty();
   }
 
   @Test
   public void edgesConnecting_undirected() {
-    MutableNetwork<String, String> mutableGraph = NetworkBuilder.undirected().build();
-    mutableGraph.addEdge("A", "A", "AA");
-    mutableGraph.addEdge("A", "B", "AB");
-    Network<String, String> graph = ImmutableNetwork.copyOf(mutableGraph);
+    MutableNetwork<String, String> mutableNetwork = NetworkBuilder.undirected().build();
+    mutableNetwork.addEdge("A", "A", "AA");
+    mutableNetwork.addEdge("A", "B", "AB");
+    Network<String, String> network = ImmutableNetwork.copyOf(mutableNetwork);
 
-    assertThat(graph.edgesConnecting("A", "A")).containsExactly("AA");
-    assertThat(graph.edgesConnecting("A", "B")).containsExactly("AB");
-    assertThat(graph.edgesConnecting("B", "A")).containsExactly("AB");
+    assertThat(network.edgesConnecting("A", "A")).containsExactly("AA");
+    assertThat(network.edgesConnecting("A", "B")).containsExactly("AB");
+    assertThat(network.edgesConnecting("B", "A")).containsExactly("AB");
   }
 }
