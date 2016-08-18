@@ -51,7 +51,7 @@ public abstract class AbstractGraph<N, V> implements Graph<N, V> {
   protected long edgeCount() {
     long degreeSum = 0L;
     for (N node : nodes()) {
-      degreeSum += degree(this, node);
+      degreeSum += degree(node);
     }
     // According to the degree sum formula, this is equal to twice the number of edges.
     checkState((degreeSum & 1) == 0);
@@ -88,7 +88,27 @@ public abstract class AbstractGraph<N, V> implements Graph<N, V> {
     };
   }
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
+  @Override
+  public int degree(Object node) {
+    if (isDirected()) {
+      return IntMath.saturatedAdd(predecessors(node).size(), successors(node).size());
+    } else {
+      Set<N> neighbors = adjacentNodes(node);
+      int selfLoop = (allowsSelfLoops() && neighbors.contains(node)) ? 1 : 0;
+      return IntMath.saturatedAdd(neighbors.size(), selfLoop);
+    }
+  }
+
+  @Override
+  public int inDegree(Object node) {
+    return isDirected() ? predecessors(node).size() : degree(node);
+  }
+
+  @Override
+  public int outDegree(Object node) {
+    return isDirected() ? successors(node).size() : degree(node);
+  }
+
   @Override
   public final boolean equals(@Nullable Object obj) {
     if (obj == this) {
@@ -141,23 +161,5 @@ public abstract class AbstractGraph<N, V> implements Graph<N, V> {
       }
     };
     return Maps.asMap(edges(), edgeToValueFn);
-  }
-
-  /**
-   * Returns the number of times an edge touches {@code node} in {@code graph}. This is equivalent
-   * to the number of edges incident to {@code node} in the graph, with self-loops counting twice.
-   *
-   * <p>If this number is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
-   *
-   * @throws IllegalArgumentException if {@code node} is not an element of this graph
-   */
-  // TODO(b/30649235): What to do with this? Move to Graphs or interfaces? Provide in/outDegree?
-  private static int degree(Graph<?, ?> graph, Object node) {
-    if (graph.isDirected()) {
-      return IntMath.saturatedAdd(graph.predecessors(node).size(), graph.successors(node).size());
-    } else {
-      int selfLoops = (graph.allowsSelfLoops() && graph.adjacentNodes(node).contains(node)) ? 1 : 0;
-      return IntMath.saturatedAdd(graph.adjacentNodes(node).size(), selfLoops);
-    }
   }
 }

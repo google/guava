@@ -152,7 +152,23 @@ public abstract class AbstractGraphTest {
       sanityCheckCollection(graph.predecessors(node));
       sanityCheckCollection(graph.successors(node));
 
+      if (graph.isDirected()) {
+        assertThat(graph.degree(node)).isEqualTo(
+            graph.predecessors(node).size() + graph.successors(node).size());
+        assertThat(graph.predecessors(node)).hasSize(graph.inDegree(node));
+        assertThat(graph.successors(node)).hasSize(graph.outDegree(node));
+      } else {
+        Set<N> neighbors = graph.adjacentNodes(node);
+        assertThat(graph.degree(node)).isEqualTo(
+            neighbors.size() + (neighbors.contains(node) ? 1 : 0));
+        assertThat(graph.inDegree(node)).isEqualTo(graph.degree(node));
+        assertThat(graph.outDegree(node)).isEqualTo(graph.degree(node));
+      }
+
       for (N adjacentNode : graph.adjacentNodes(node)) {
+        if (!graph.allowsSelfLoops()) {
+          assertThat(node).isNotEqualTo(adjacentNode);
+        }
         assertThat(graph.predecessors(node).contains(adjacentNode)
             || graph.successors(node).contains(adjacentNode)).isTrue();
       }
@@ -258,6 +274,61 @@ public abstract class AbstractGraphTest {
   public void successors_nodeNotInGraph() {
     try {
       graph.successors(NODE_NOT_IN_GRAPH);
+      fail(ERROR_NODE_NOT_IN_GRAPH);
+    } catch (IllegalArgumentException e) {
+      assertNodeNotInGraphErrorMessage(e);
+    }
+  }
+
+  @Test
+  public void degree_oneEdge() {
+    addEdge(N1, N2);
+    assertThat(graph.degree(N1)).isEqualTo(1);
+    assertThat(graph.degree(N2)).isEqualTo(1);
+  }
+
+  @Test
+  public void degree_isolatedNode() {
+    addNode(N1);
+    assertThat(graph.degree(N1)).isEqualTo(0);
+  }
+
+  @Test
+  public void degree_nodeNotInGraph() {
+    try {
+      graph.degree(NODE_NOT_IN_GRAPH);
+      fail(ERROR_NODE_NOT_IN_GRAPH);
+    } catch (IllegalArgumentException e) {
+      assertNodeNotInGraphErrorMessage(e);
+    }
+  }
+
+  @Test
+  public void inDegree_isolatedNode() {
+    addNode(N1);
+    assertThat(graph.inDegree(N1)).isEqualTo(0);
+  }
+
+  @Test
+  public void inDegree_nodeNotInGraph() {
+    try {
+      graph.inDegree(NODE_NOT_IN_GRAPH);
+      fail(ERROR_NODE_NOT_IN_GRAPH);
+    } catch (IllegalArgumentException e) {
+      assertNodeNotInGraphErrorMessage(e);
+    }
+  }
+
+  @Test
+  public void outDegree_isolatedNode() {
+    addNode(N1);
+    assertThat(graph.outDegree(N1)).isEqualTo(0);
+  }
+
+  @Test
+  public void outDegree_nodeNotInGraph() {
+    try {
+      graph.outDegree(NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);

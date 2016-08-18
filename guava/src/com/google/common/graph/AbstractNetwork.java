@@ -23,6 +23,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
+import com.google.common.math.IntMath;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -127,6 +128,25 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
         return checkNotNull(edgesConnecting(nodeA, nodeB));
       }
     };
+  }
+
+  @Override
+  public int degree(Object node) {
+    if (isDirected()) {
+      return IntMath.saturatedAdd(inEdges(node).size(), outEdges(node).size());
+    } else {
+      return IntMath.saturatedAdd(incidentEdges(node).size(), edgesConnecting(node, node).size());
+    }
+  }
+
+  @Override
+  public int inDegree(Object node) {
+    return isDirected() ? inEdges(node).size() : degree(node);
+  }
+
+  @Override
+  public int outDegree(Object node) {
+    return isDirected() ? outEdges(node).size() : degree(node);
   }
 
   @Override

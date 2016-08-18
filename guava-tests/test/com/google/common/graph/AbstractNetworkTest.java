@@ -215,6 +215,18 @@ public abstract class AbstractNetworkTest {
       sanityCheckCollection(network.inEdges(node));
       sanityCheckCollection(network.outEdges(node));
 
+      if (network.isDirected()) {
+        assertThat(network.degree(node)).isEqualTo(
+            network.inEdges(node).size() + network.outEdges(node).size());
+        assertThat(network.inDegree(node)).isEqualTo(network.inEdges(node).size());
+        assertThat(network.outDegree(node)).isEqualTo(network.outEdges(node).size());
+      } else {
+        assertThat(network.degree(node)).isEqualTo(
+            network.incidentEdges(node).size() + network.edgesConnecting(node, node).size());
+        assertThat(network.inDegree(node)).isEqualTo(network.degree(node));
+        assertThat(network.outDegree(node)).isEqualTo(network.degree(node));
+      }
+
       for (N otherNode : network.nodes()) {
         Set<E> edgesConnecting = network.edgesConnecting(node, otherNode);
         boolean isSelfLoop = node.equals(otherNode);

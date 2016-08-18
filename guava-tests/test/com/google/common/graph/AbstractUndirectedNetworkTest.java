@@ -17,8 +17,6 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
@@ -93,6 +91,20 @@ public abstract class AbstractUndirectedNetworkTest extends AbstractNetworkTest 
     assertThat(network.successors(N2)).containsExactly(N1);
   }
 
+  @Test
+  public void inDegree_oneEdge() {
+    addEdge(E12, N1, N2);
+    assertThat(network.inDegree(N2)).isEqualTo(1);
+    assertThat(network.inDegree(N1)).isEqualTo(1);
+  }
+
+  @Test
+  public void outDegree_oneEdge() {
+    addEdge(E12, N1, N2);
+    assertThat(network.outDegree(N1)).isEqualTo(1);
+    assertThat(network.outDegree(N2)).isEqualTo(1);
+  }
+
   // Element Mutation
 
   @Test
@@ -101,7 +113,7 @@ public abstract class AbstractUndirectedNetworkTest extends AbstractNetworkTest 
     // modifications to proxy methods)
     addNode(N1);
     addNode(N2);
-    assertTrue(addEdge(E12, N1, N2));
+    assertThat(addEdge(E12, N1, N2)).isTrue();
     assertThat(network.edges()).contains(E12);
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
     assertThat(network.edgesConnecting(N2, N1)).containsExactly(E12);
@@ -111,9 +123,9 @@ public abstract class AbstractUndirectedNetworkTest extends AbstractNetworkTest 
   public void addEdge_existingEdgeBetweenSameNodes() {
     addEdge(E12, N1, N2);
     ImmutableSet<String> edges = ImmutableSet.copyOf(network.edges());
-    assertFalse(addEdge(E12, N1, N2));
+    assertThat(addEdge(E12, N1, N2)).isFalse();
     assertThat(network.edges()).containsExactlyElementsIn(edges);
-    assertFalse(addEdge(E12, N2, N1));
+    assertThat(addEdge(E12, N2, N1)).isFalse();
     assertThat(network.edges()).containsExactlyElementsIn(edges);
   }
 

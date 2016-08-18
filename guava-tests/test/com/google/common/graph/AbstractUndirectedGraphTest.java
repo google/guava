@@ -17,8 +17,6 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import com.google.common.testing.EqualsTester;
 import org.junit.After;
@@ -57,6 +55,20 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
     assertThat(graph.successors(N2)).containsExactly(N1);
   }
 
+  @Test
+  public void inDegree_oneEdge() {
+    addEdge(N1, N2);
+    assertThat(graph.inDegree(N2)).isEqualTo(1);
+    assertThat(graph.inDegree(N1)).isEqualTo(1);
+  }
+
+  @Test
+  public void outDegree_oneEdge() {
+    addEdge(N1, N2);
+    assertThat(graph.outDegree(N1)).isEqualTo(1);
+    assertThat(graph.outDegree(N2)).isEqualTo(1);
+  }
+
   // Element Mutation
 
   @Test
@@ -65,13 +77,13 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
     // modifications to proxy methods)
     addNode(N1);
     addNode(N2);
-    assertTrue(addEdge(N1, N2));
+    assertThat(addEdge(N1, N2)).isTrue();
   }
 
   @Test
   public void addEdge_existingEdgeBetweenSameNodes() {
     addEdge(N1, N2);
-    assertFalse(addEdge(N2, N1));
+    assertThat(addEdge(N2, N1)).isFalse();
   }
 
   @Test
@@ -79,9 +91,9 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
     addEdge(N1, N2);
     addEdge(N2, N1); // no-op
 
-    assertTrue(graph.removeEdge(N1, N2));
+    assertThat(graph.removeEdge(N1, N2)).isTrue();
     assertThat(graph.adjacentNodes(N1)).isEmpty();
     assertThat(graph.edges()).isEmpty();
-    assertFalse(graph.removeEdge(N2, N1));
+    assertThat(graph.removeEdge(N2, N1)).isFalse();
   }
 }

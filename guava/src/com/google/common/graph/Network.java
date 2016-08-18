@@ -229,6 +229,10 @@ public interface Network<N, E> {
    *
    * <p>{@link Graph#edgeValue(Object, Object)} will return the set of edges connecting node A to
    * node B. It will return the empty set if there are no edges connecting A to B.
+   *
+   * <p>If this network {@link #allowsParallelEdges()}, parallel edges will treated as if collapsed
+   * into a single edge. For example, the {@link #degree(Object)} of a node in the {@link Graph}
+   * view may be less than the degree of the same node in this {@link Network}.
    */
   Graph<N, Set<E>> asGraph();
 
@@ -323,6 +327,41 @@ public interface Network<N, E> {
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   Set<E> outEdges(Object node);
+
+  /**
+   * Returns the count of {@code node}'s {@link #incidentEdges(Object) incident edges}, counting
+   * self-loops twice (equivalently, the number of times an edge touches {@code node}).
+   *
+   * <p>For directed graphs, this is equivalent to {@code inDegree(node) + outDegree(node)}.
+   *
+   * <p>For undirected graphs, this is equivalent to {@code incidentEdges(node).size()} + (number
+   * of self-loops incident to {@code node}).
+   *
+   * <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  int degree(Object node);
+
+  /**
+   * Returns the count of {@code node}'s {@link #inEdges(Object) incoming edges} in a directed
+   * graph. In an undirected graph, returns the {@link #degree(Object)}.
+   *
+   * <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  int inDegree(Object node);
+
+  /**
+   * Returns the count of {@code node}'s {@link #outEdges(Object) outgoing edges} in a directed
+   * graph. In an undirected graph, returns the {@link #degree(Object)}.
+   *
+   * <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  int outDegree(Object node);
 
   /**
    * Returns the nodes which are the endpoints of {@code edge} in this graph as {@link Endpoints}.
