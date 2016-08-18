@@ -39,8 +39,7 @@ public final class NetworkEqualsTest {
 
   enum GraphType {
     UNDIRECTED,
-    DIRECTED,
-    HYPER // not yet used because we don't yet have a Hypergraph implementation
+    DIRECTED
   }
 
   private final GraphType graphType;
