@@ -42,8 +42,9 @@ public interface MutableGraph<N, V> extends Graph<N, V> {
   boolean addNode(N node);
 
   /**
-   * Adds an edge connecting {@code nodeA} to {@code nodeB} if one is not already present.
-   * Associates {@code value} with that edge (as returned by {@link #edgeValue(Object, Object)}).
+   * Adds an edge connecting {@code nodeA} to {@code nodeB} if one is not already present; associate
+   * that edge with {@code value}. In an undirected graph, the edge will also connect {@code nodeB}
+   * to {@code nodeA}.
    *
    * <p>Values do not have to be unique. However, values must be non-null.
    *

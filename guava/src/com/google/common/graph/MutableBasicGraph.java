@@ -42,7 +42,8 @@ public interface MutableBasicGraph<N> extends BasicGraph<N> {
   boolean addNode(N node);
 
   /**
-   * Adds an edge connecting {@code nodeA} to {@code nodeB} if one is not already present.
+   * Adds an edge connecting {@code nodeA} to {@code nodeB} if one is not already present. In an
+   * undirected graph, the edge will also connect {@code nodeB} to {@code nodeA}.
    *
    * <p>Behavior if {@code nodeA} and {@code nodeB} are not already present in this graph is
    * implementation-dependent. Suggested behaviors include (a) silently {@link #addNode(Object)

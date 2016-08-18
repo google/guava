@@ -113,7 +113,11 @@ public interface Graph<N, V> {
   // Graph properties
   //
 
-  /** Returns true if the edges in this graph have a direction associated with them. */
+  /**
+   * Returns true if the edges in this graph are directed. Directed edges connect a {@link
+   * Endpoints#source() source node} to a {@link Endpoints#source() target node}, while undirected
+   * edges connect a pair of nodes to each other.
+   */
   boolean isDirected();
 
   /**
@@ -141,6 +145,8 @@ public interface Graph<N, V> {
    * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
    * {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
    *
+   * <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
+   *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   Set<N> predecessors(Object node);
@@ -149,9 +155,10 @@ public interface Graph<N, V> {
    * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
    * {@code node}'s outgoing edges in the direction (if any) of the edge.
    *
+   * <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
+   *
    * <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
-   * edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)} and {@link
-   * Graphs#transitiveClosure(Graph)}.
+   * edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
@@ -161,10 +168,10 @@ public interface Graph<N, V> {
    * Returns the count of {@code node}'s incident edges, counting self-loops twice (equivalently,
    * the number of times an edge touches {@code node}).
    *
-   * <p>For directed graphs, this is equivalent to {@code inDegree(node) + outDegree(node)}.
+   * <p>For directed graphs, this is equal to {@code inDegree(node) + outDegree(node)}.
    *
-   * <p>For undirected graphs, this is equivalent to {@code adjacentNodes(node).size()} + (1 if
-   * {@code node} has an incident self-loop, 0 otherwise).
+   * <p>For undirected graphs, this is equal to {@code adjacentNodes(node).size()} + (1 if {@code
+   * node} has an incident self-loop, 0 otherwise).
    *
    * <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
    *
@@ -196,6 +203,8 @@ public interface Graph<N, V> {
    * If there is an edge connecting {@code nodeA} to {@code nodeB}, returns the non-null value
    * associated with that edge.
    *
+   * <p>In an undirected graph, this is equal to {@code edgeValue(nodeB, nodeA)}.
+   *
    * @throws IllegalArgumentException if there is no edge connecting {@code nodeA} to {@code nodeB}
    */
   V edgeValue(Object nodeA, Object nodeB);
@@ -203,6 +212,9 @@ public interface Graph<N, V> {
   /**
    * If there is an edge connecting {@code nodeA} to {@code nodeB}, returns the non-null value
    * associated with that edge; otherwise, returns {@code defaultValue}.
+   *
+   * <p>In an undirected graph, this is equal to {@code edgeValueOrDefault(nodeB, nodeA,
+   * defaultValue)}.
    *
    * @throws IllegalArgumentException if {@code nodeA} or {@code nodeB} is not an element of this
    *     graph

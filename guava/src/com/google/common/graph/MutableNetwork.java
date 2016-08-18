@@ -37,25 +37,26 @@ public interface MutableNetwork<N, E> extends Network<N, E> {
    *
    * <p><b>Nodes must be unique</b>, just as {@code Map} keys must be. They must also be non-null.
    *
-   * @return {@code true} iff the graph was modified as a result of this call
+   * @return {@code true} iff the network was modified as a result of this call
    */
   @CanIgnoreReturnValue
   boolean addNode(N node);
 
   /**
-   * Adds {@code edge} connecting {@code nodeA} to {@code nodeB}.
+   * Adds {@code edge} connecting {@code nodeA} to {@code nodeB}. In an undirected network, the edge
+   * will also connect {@code nodeB} to {@code nodeA}.
    *
    * <p><b>Edges must be unique</b>, just as {@code Map} keys must be. They must also be non-null.
    *
-   * <p>Behavior if {@code nodeA} and {@code nodeB} are not already present in this graph is
+   * <p>Behavior if {@code nodeA} and {@code nodeB} are not already present in this network is
    * implementation-dependent. Suggested behaviors include (a) silently {@link #addNode(Object)
-   * adding} {@code nodeA} and {@code nodeB} to the graph (this is the behavior of the default
+   * adding} {@code nodeA} and {@code nodeB} to the network (this is the behavior of the default
    * implementations) or (b) throwing {@code IllegalArgumentException}.
    *
    * <p>If {@code edge} already connects {@code nodeA} to {@code nodeB} (in the specified order if
-   * this graph {@link #isDirected()}, else in any order), then this method will have no effect.
+   * this network {@link #isDirected()}, else in any order), then this method will have no effect.
    *
-   * @return {@code true} iff the graph was modified as a result of this call
+   * @return {@code true} iff the network was modified as a result of this call
    * @throws IllegalArgumentException if {@code edge} already exists and does not connect {@code
    *     nodeA} to {@code nodeB}, or if the introduction of the edge would violate {@link
    *     #allowsParallelEdges()} or {@link #allowsSelfLoops()}
@@ -66,15 +67,15 @@ public interface MutableNetwork<N, E> extends Network<N, E> {
   /**
    * Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.
    *
-   * @return {@code true} iff the graph was modified as a result of this call
+   * @return {@code true} iff the network was modified as a result of this call
    */
   @CanIgnoreReturnValue
   boolean removeNode(Object node);
 
   /**
-   * Removes {@code edge} from this graph, if it is present.
+   * Removes {@code edge} from this network, if it is present.
    *
-   * @return {@code true} iff the graph was modified as a result of this call
+   * @return {@code true} iff the network was modified as a result of this call
    */
   @CanIgnoreReturnValue
   boolean removeEdge(Object edge);
