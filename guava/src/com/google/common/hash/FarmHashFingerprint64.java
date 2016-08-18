@@ -171,6 +171,7 @@ final class FarmHashFingerprint64 extends AbstractNonStreamingHashFunction {
     final int seed = 81;
     // For strings over 64 bytes we loop. Internal state consists of 56 bytes: v, w, x, y, and z.
     long x = seed;
+    @SuppressWarnings("ConstantOverflow")
     long y = seed * K1 + 113;
     long z = shiftMix(y * K2 + 113) * K2;
     long[] v = new long[2], w = new long[2];
