@@ -131,17 +131,17 @@ public interface Network<N, E> {
   boolean isDirected();
 
   /**
+   * Returns true if this network allows parallel edges. Attempting to add a parallel edge to a
+   * network that does not allow them will throw an {@link UnsupportedOperationException}.
+   */
+  boolean allowsParallelEdges();
+
+  /**
    * Returns true if this network allows self-loops (edges that connect a node to itself).
    * Attempting to add a self-loop to a network that does not allow them will throw an {@link
    * UnsupportedOperationException}.
    */
   boolean allowsSelfLoops();
-
-  /**
-   * Returns true if this network allows parallel edges. Attempting to add a parallel edge to a
-   * network that does not allow them will throw an {@link UnsupportedOperationException}.
-   */
-  boolean allowsParallelEdges();
 
   /** Returns the order of iteration for the elements of {@link #nodes()}. */
   ElementOrder<N> nodeOrder();
