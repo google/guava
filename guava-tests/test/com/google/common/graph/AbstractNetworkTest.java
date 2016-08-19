@@ -401,9 +401,7 @@ public abstract class AbstractNetworkTest {
   @Test
   public void incidentNodes_oneEdge() {
     addEdge(E12, N1, N2);
-    Endpoints<Integer> incidentNodes = network.incidentNodes(E12);
-    assertThat(ImmutableSet.of(incidentNodes.nodeA(), incidentNodes.nodeB()))
-        .containsExactly(N1, N2);
+    assertThat(network.incidentNodes(E12)).containsExactly(N1, N2);
   }
 
   @Test

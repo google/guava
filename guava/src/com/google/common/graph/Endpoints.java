@@ -21,6 +21,8 @@ import static com.google.common.graph.GraphConstants.NOT_AVAILABLE_ON_UNDIRECTED
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.UnmodifiableIterator;
 
 /**
  * An immutable pair representing the two (possibly equal, in the case of a self-loop) endpoints
@@ -31,7 +33,7 @@ import com.google.common.base.Objects;
  * @since 20.0
  */
 @Beta
-public abstract class Endpoints<N> {
+public abstract class Endpoints<N> implements Iterable<N> {
   private final N nodeA;
   private final N nodeB;
 
@@ -119,6 +121,14 @@ public abstract class Endpoints<N> {
   }
 
   abstract boolean isDirected();
+
+  /**
+   * Iterates in the order {@link #nodeA()}, {@link #nodeB()}.
+   */
+  @Override
+  public final UnmodifiableIterator<N> iterator() {
+    return Iterators.forArray(nodeA, nodeB);
+  }
 
   /**
    * The {@link Endpoints} of two directed edges are equal if their {@link #source()} and
