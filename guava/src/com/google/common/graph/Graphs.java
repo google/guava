@@ -22,9 +22,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayDeque;
 import java.util.Collections;
@@ -208,34 +206,6 @@ public final class Graphs {
       }
     }
     return Collections.unmodifiableSet(visitedNodes);
-  }
-
-  /**
-   * Returns an unmodifiable view of edges that are parallel to {@code edge}, i.e. the set of edges
-   * that connect the same nodes in the same direction (if any). An edge is not parallel to itself.
-   *
-   * @throws IllegalArgumentException if {@code edge} is not present in {@code graph}
-   */
-  public static <E> Set<E> parallelEdges(Network<?, E> graph, Object edge) {
-    Endpoints<?> endpoints = graph.incidentNodes(edge); // Verifies that edge is in graph
-    if (!graph.allowsParallelEdges()) {
-      return ImmutableSet.of();
-    }
-    return Sets.difference(graph.edgesConnecting(endpoints.nodeA(), endpoints.nodeB()),
-        ImmutableSet.of(edge)); // An edge is not parallel to itself.
-  }
-
-  /**
-   * Returns an unmodifiable view of the edges which have an {@link Network#incidentNodes(Object)
-   * incident node} in common with {@code edge}. An edge is not considered adjacent to itself.
-   *
-   * @throws IllegalArgumentException if {@code edge} is not present in {@code graph}
-   */
-  public static <E> Set<E> adjacentEdges(Network<?, E> graph, Object edge) {
-    Endpoints<?> endpoints = graph.incidentNodes(edge); // Verifies that edge is in graph
-    Set<E> endpointsIncidentEdges =
-        Sets.union(graph.incidentEdges(endpoints.nodeA()), graph.incidentEdges(endpoints.nodeB()));
-    return Sets.difference(endpointsIncidentEdges, ImmutableSet.of(edge));
   }
 
   // Graph mutation methods

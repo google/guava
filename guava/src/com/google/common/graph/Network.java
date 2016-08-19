@@ -255,6 +255,14 @@ public interface Network<N, E> {
   Endpoints<N> incidentNodes(Object edge);
 
   /**
+   * Returns the edges which have an {@link #incidentNodes(Object) incident node} in common with
+   * {@code edge}. An edge is not considered adjacent to itself.
+   *
+   * @throws IllegalArgumentException if {@code edge} is not an element of this network
+   */
+  Set<E> adjacentEdges(Object edge);
+
+  /**
    * Returns the set of edges that connect {@code nodeA} to {@code nodeB}.
    *
    * <p>In an undirected network, this is equal to {@code edgesConnecting(nodeB, nodeA)}.

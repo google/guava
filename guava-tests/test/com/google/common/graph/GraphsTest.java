@@ -16,7 +16,6 @@
 
 package com.google.common.graph;
 
-import static com.google.common.graph.Graphs.adjacentEdges;
 import static com.google.common.graph.Graphs.copyOf;
 import static com.google.common.graph.Graphs.inducedSubgraph;
 import static com.google.common.graph.Graphs.reachableNodes;
@@ -46,10 +45,7 @@ public class GraphsTest {
   private static final String E12_A = "1-2a";
   private static final String E12_B = "1-2b";
   private static final String E21 = "2-1";
-  private static final String E23 = "2-2";
   private static final String E13 = "1-3";
-  private static final String E31 = "3-1";
-  private static final String E34 = "3-4";
   private static final String E44 = "4-4";
   private static final int NODE_COUNT = 20;
   private static final int EDGE_COUNT = 20;
@@ -212,127 +208,6 @@ public class GraphsTest {
     expectedClosure.putEdge(N4, N4);
 
     checkTransitiveClosure(undirectedGraph, expectedClosure);
-  }
-
-  @Test
-  public void parallelEdges_directed() {
-    MutableNetwork<Integer, String> directedGraph =
-        NetworkBuilder.directed().allowsParallelEdges(true).build();
-    directedGraph.addEdge(N1, N2, E12);
-    directedGraph.addEdge(N1, N2, E12_A);
-    directedGraph.addEdge(N2, N1, E21);
-    assertThat(Graphs.parallelEdges(directedGraph, E12)).containsExactly(E12_A);
-    assertThat(Graphs.parallelEdges(directedGraph, E12_A)).containsExactly(E12);
-    assertThat(Graphs.parallelEdges(directedGraph, E21)).isEmpty();
-  }
-
-  @Test
-  public void parallelEdges_selfLoop_directed() {
-    MutableNetwork<Integer, String> directedGraph =
-        NetworkBuilder.directed().allowsParallelEdges(true).build();
-    directedGraph.addEdge(N1, N1, E11);
-    directedGraph.addEdge(N1, N1, E11_A);
-    assertThat(Graphs.parallelEdges(directedGraph, E11)).containsExactly(E11_A);
-    assertThat(Graphs.parallelEdges(directedGraph, E11_A)).containsExactly(E11);
-  }
-
-  @Test
-  public void parallelEdges_undirected() {
-    MutableNetwork<Integer, String> undirectedGraph =
-        NetworkBuilder.undirected().allowsParallelEdges(true).build();
-    undirectedGraph.addEdge(N1, N2, E12);
-    undirectedGraph.addEdge(N1, N2, E12_A);
-    undirectedGraph.addEdge(N2, N1, E21);
-    assertThat(Graphs.parallelEdges(undirectedGraph, E12)).containsExactly(E12_A, E21);
-    assertThat(Graphs.parallelEdges(undirectedGraph, E12_A)).containsExactly(E12, E21);
-    assertThat(Graphs.parallelEdges(undirectedGraph, E21)).containsExactly(E12, E12_A);
-  }
-
-  @Test
-  public void parallelEdges_selfLoop_undirected() {
-    MutableNetwork<Integer, String> undirectedGraph =
-        NetworkBuilder.undirected().allowsParallelEdges(true).build();
-    undirectedGraph.addEdge(N1, N1, E11);
-    undirectedGraph.addEdge(N1, N1, E11_A);
-    assertThat(Graphs.parallelEdges(undirectedGraph, E11)).containsExactly(E11_A);
-    assertThat(Graphs.parallelEdges(undirectedGraph, E11_A)).containsExactly(E11);
-  }
-
-  @Test
-  public void parallelEdges_unmodifiableView() {
-    MutableNetwork<Integer, String> undirectedGraph =
-        NetworkBuilder.undirected().allowsParallelEdges(true).build();
-    undirectedGraph.addEdge(N1, N2, E12);
-    undirectedGraph.addEdge(N1, N2, E12_A);
-    Set<String> parallelEdges = Graphs.parallelEdges(undirectedGraph, E12);
-    assertThat(parallelEdges).containsExactly(E12_A);
-    undirectedGraph.addEdge(N1, N2, E12_B);
-    assertThat(parallelEdges).containsExactly(E12_A, E12_B);
-    try {
-      parallelEdges.add(E21);
-      fail("Set returned by parallelEdges() should be unmodifiable");
-    } catch (UnsupportedOperationException expected) {
-    }
-  }
-
-  @Test
-  public void adjacentEdges_bothEndpoints() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addEdge(N1, N2, E12);
-    directedGraph.addEdge(N2, N3, E23);
-    directedGraph.addEdge(N3, N1, E31);
-    directedGraph.addEdge(N3, N4, E34);
-    assertThat(adjacentEdges(directedGraph, E12)).containsExactly(E31, E23);
-  }
-
-  @Test
-  public void adjacentEdges_selfLoop() {
-    MutableNetwork<Integer, String> undirectedGraph =
-        NetworkBuilder.undirected().allowsSelfLoops(true).allowsParallelEdges(true).build();
-    undirectedGraph.addEdge(N1, N1, E11);
-    undirectedGraph.addEdge(N1, N1, E11_A);
-    undirectedGraph.addEdge(N2, N3, E23);
-    assertThat(adjacentEdges(undirectedGraph, E11)).containsExactly(E11_A);
-  }
-
-  @Test
-  public void adjacentEdges_parallelEdges() {
-    MutableNetwork<Integer, String> undirectedGraph =
-        NetworkBuilder.undirected().allowsSelfLoops(true).allowsParallelEdges(true).build();
-    undirectedGraph.addEdge(N1, N2, E12);
-    undirectedGraph.addEdge(N1, N2, E12_A);
-    undirectedGraph.addEdge(N1, N2, E12_B);
-    undirectedGraph.addEdge(N3, N4, E34);
-    assertThat(adjacentEdges(undirectedGraph, E12)).containsExactly(E12_A, E12_B);
-  }
-
-  @Test
-  public void adjacentEdges_noAdjacentEdges() {
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
-    directedGraph.addEdge(N1, N2, E12);
-    directedGraph.addEdge(N3, N4, E34);
-    assertThat(adjacentEdges(directedGraph, E12)).isEmpty();
-  }
-
-  @Test
-  public void adjacentEdges_unmodifiableView() {
-    MutableNetwork<Integer, String> undirectedGraph = NetworkBuilder.undirected().build();
-    undirectedGraph.addEdge(N1, N2, E12);
-
-    Set<String> adjacentEdges = adjacentEdges(undirectedGraph, E12);
-    assertThat(adjacentEdges).isEmpty();
-
-    undirectedGraph.addEdge(N2, N3, E23);
-    assertThat(adjacentEdges).containsExactly(E23);
-
-    undirectedGraph.addEdge(N3, N1, E31);
-    assertThat(adjacentEdges).containsExactly(E23, E31);
-
-    try {
-      adjacentEdges.add(E34);
-      fail("Set returned by adjacentEdges() should be unmodifiable");
-    } catch (UnsupportedOperationException expected) {
-    }
   }
 
   @Test

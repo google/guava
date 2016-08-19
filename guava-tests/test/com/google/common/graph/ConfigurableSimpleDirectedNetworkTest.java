@@ -92,6 +92,19 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
   }
 
   @Override
+  public void adjacentEdges_checkReturnedSetMutability() {
+    addEdge(E12, N1, N2);
+    Set<String> adjacentEdges = network.adjacentEdges(E12);
+    try {
+      adjacentEdges.add(E23);
+      fail(ERROR_MODIFIABLE_COLLECTION);
+    } catch (UnsupportedOperationException e) {
+      addEdge(E23, N2, N3);
+      assertThat(network.adjacentEdges(E12)).containsExactlyElementsIn(adjacentEdges);
+    }
+  }
+
+  @Override
   @Test
   public void edgesConnecting_checkReturnedSetMutability() {
     addNode(N1);

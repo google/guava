@@ -34,6 +34,15 @@ public class ConfigurableUndirectedMultiNetworkTest extends ConfigurableUndirect
   }
 
   @Test
+  public void adjacentEdges_parallelEdges() {
+    addEdge(E12, N1, N2);
+    addEdge(E12_A, N1, N2);
+    addEdge(E12_B, N1, N2);
+    addEdge(E34, N3, N4);
+    assertThat(network.adjacentEdges(E12)).containsExactly(E12_A, E12_B);
+  }
+
+  @Test
   public void edgesConnecting_parallelEdges() {
     assertTrue(addEdge(E12, N1, N2));
     assertTrue(addEdge(E12_A, N1, N2));

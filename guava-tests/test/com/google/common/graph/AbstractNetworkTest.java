@@ -61,10 +61,13 @@ public abstract class AbstractNetworkTest {
   static final String E11_A = "1-1a";
   static final String E12 = "1-2";
   static final String E12_A = "1-2a";
+  static final String E12_B = "1-2b";
   static final String E21 = "2-1";
   static final String E13 = "1-3";
   static final String E14 = "1-4";
   static final String E23 = "2-3";
+  static final String E31 = "3-1";
+  static final String E34 = "3-4";
   static final String E41 = "4-1";
   static final String E15 = "1-5";
   static final String EDGE_NOT_IN_GRAPH = "edgeNotInGraph";
@@ -196,7 +199,7 @@ public abstract class AbstractNetworkTest {
         assertThat(network.nodes()).contains(incidentNode);
         for (E adjacentEdge : network.incidentEdges(incidentNode)) {
           assertTrue(edge.equals(adjacentEdge)
-              || Graphs.adjacentEdges(network, edge).contains(adjacentEdge));
+              || network.adjacentEdges(edge).contains(adjacentEdge));
         }
       }
     }
@@ -313,6 +316,13 @@ public abstract class AbstractNetworkTest {
    */
   @Test
   public abstract void adjacentNodes_checkReturnedSetMutability();
+
+  /**
+   * Verifies that the {@code Set} returned by {@code adjacentEdges} has the expected
+   * mutability property (see the {@code Network} documentation for more information).
+   */
+  @Test
+  public abstract void adjacentEdges_checkReturnedSetMutability();
 
   /**
    * Verifies that the {@code Set} returned by {@code edgesConnecting} has the expected
@@ -434,6 +444,32 @@ public abstract class AbstractNetworkTest {
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
+    }
+  }
+
+  @Test
+  public void adjacentEdges_bothEndpoints() {
+    addEdge(E12, N1, N2);
+    addEdge(E23, N2, N3);
+    addEdge(E31, N3, N1);
+    addEdge(E34, N3, N4);
+    assertThat(network.adjacentEdges(E12)).containsExactly(E31, E23);
+  }
+
+  @Test
+  public void adjacentEdges_noAdjacentEdges() {
+    addEdge(E12, N1, N2);
+    addEdge(E34, N3, N4);
+    assertThat(network.adjacentEdges(E12)).isEmpty();
+  }
+
+  @Test
+  public void adjacentEdges_edgeNotInGraph() {
+    try {
+      network.adjacentEdges(EDGE_NOT_IN_GRAPH);
+      fail(ERROR_EDGE_NOT_IN_GRAPH);
+    } catch (IllegalArgumentException e) {
+      assertEdgeNotInGraphErrorMessage(e);
     }
   }
 

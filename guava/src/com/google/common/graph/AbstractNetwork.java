@@ -22,8 +22,10 @@ import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.math.IntMath;
 import java.util.AbstractSet;
 import java.util.Iterator;
@@ -151,6 +153,14 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   @Override
   public int outDegree(Object node) {
     return isDirected() ? outEdges(node).size() : degree(node);
+  }
+
+  @Override
+  public Set<E> adjacentEdges(Object edge) {
+    Endpoints<?> endpoints = incidentNodes(edge); // Verifies that edge is in this network.
+    Set<E> endpointsIncidentEdges =
+        Sets.union(incidentEdges(endpoints.nodeA()), incidentEdges(endpoints.nodeB()));
+    return Sets.difference(endpointsIncidentEdges, ImmutableSet.of(edge));
   }
 
   @Override
