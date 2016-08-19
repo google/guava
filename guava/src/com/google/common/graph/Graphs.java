@@ -245,7 +245,7 @@ public final class Graphs {
   /**
    * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
    * all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} from {@code
-   * graph} for which the endpoints are both contained by {@code nodes}.
+   * graph} for which for which both nodes are contained by {@code nodes}.
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
@@ -267,9 +267,8 @@ public final class Graphs {
 
   /**
    * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
-   * all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} (and
-   * associated edge values) from {@code graph} for which the endpoints are both contained by
-   * {@code nodes}.
+   * all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} (and associated
+   * edge values) from {@code graph} for which for which both nodes are contained by {@code nodes}.
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
@@ -292,7 +291,7 @@ public final class Graphs {
   /**
    * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
    * all of the nodes in {@code nodes}, and all of the {@link Network#edges() edges} from {@code
-   * graph} for which the endpoints are both contained by {@code nodes}.
+   * graph} for which the {@link Network#incidentNodes(Object)} are both contained by {@code nodes}.
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */

@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for {@link Endpoints} and {@link BasicGraph#edges()}.
+ * Tests for {@link Endpoints} and {@link Graph#edges()}.
  */
 @RunWith(JUnit4.class)
 public final class EndpointsTest {
