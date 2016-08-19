@@ -51,12 +51,12 @@ import javax.annotation.Nullable;
  *     <p>Yes: Use {@link Network}. No: Use {@link Graph}.
  * </ol>
  *
- * <p>Although {@link Graph}s and {@link Network}s both require users to provide objects when adding
- * edges to the graph, the differentiating factor is that in {@link Graph}s, these objects can be
- * any arbitrary data. Like the values in a {@link Map}, they do not have to be unique, and can be
- * mutated while in the graph. In a {@link Network}, these objects serve as keys into the data
- * structure. Like the keys in a {@link Map}, they must be unique, and cannot be mutated in a way
- * that affects their equals/hashcode or the data structure will become corrupted.
+ * <p>Although {@link MutableGraph} and {@link MutableNetwork} both require users to provide objects
+ * to associate with edges when adding them, the differentiating factor is that in {@link Graph}s,
+ * these objects can be any arbitrary data. Like the values in a {@link Map}, they do not have to be
+ * unique, and can be mutated while in the graph. In a {@link Network}, these objects serve as keys
+ * into the data structure. Like the keys in a {@link Map}, they must be unique, and cannot be
+ * mutated in a way that affects their equals/hashcode or the data structure will become corrupted.
  *
  * <p>In all three interfaces, nodes have all the same requirements as keys in a {@link Map}.
  *
@@ -185,8 +185,8 @@ public interface Network<N, E> {
   Set<N> successors(Object node);
 
   /**
-   * Returns the edges whose {@link #incidentNodes(Object) endpoints} in this network include {@code
-   * node}.
+   * Returns the edges whose {@link #incidentNodes(Object) incident nodes} in this network include
+   * {@code node}.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
