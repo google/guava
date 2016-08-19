@@ -42,8 +42,9 @@ import javax.annotation.Nullable;
  *     no two objects would be {@link Object#equals(Object)} to each other. A common example where
  *     this would <i>not</i> be the case is with weighted graphs.
  *     <p>Yes: Go to question 3. No: Use {@link Graph}.
- * <li>Do you need to be able to query the graph for an edge associated with a particular object
- *     (not just the edge connecting a given pair of nodes)?
+ * <li>Do you need to be able to query the graph for an edge associated with a particular object?
+ *     For example, do you need to query what nodes an edge associated with a particular object
+ *     connects, or whether an edge associated with that object exists in the graph?
  *     <p>Yes: Use {@link Network}. No: Go to question 4.
  * <li>Do you need explicit support for parallel edges? Do you need to be able to remove one edge
  *     connecting a pair of nodes while leaving other edges connecting those same nodes?
@@ -53,8 +54,8 @@ import javax.annotation.Nullable;
  * <p>Although {@link Graph}s and {@link Network}s both require users to provide objects when adding
  * edges to the graph, the differentiating factor is that in {@link Graph}s, these objects can be
  * any arbitrary data. Like the values in a {@link Map}, they do not have to be unique, and can be
- * mutated while in the graph. In a {@link Network}, these objects serve as keys into internal data
- * structures. Like the keys in a {@link Map}, they must be unique, and cannot be mutated in a way
+ * mutated while in the graph. In a {@link Network}, these objects serve as keys into the data
+ * structure. Like the keys in a {@link Map}, they must be unique, and cannot be mutated in a way
  * that affects their equals/hashcode or the data structure will become corrupted.
  *
  * <p>In all three interfaces, nodes have all the same requirements as keys in a {@link Map}.
@@ -70,9 +71,9 @@ import javax.annotation.Nullable;
  * updated automatically. This also means that you cannot modify a {@link Network} in a way that
  * would affect a {#link Set} while iterating over that set. For example, you cannot remove the
  * nodes from a {@link Network} while iterating over {@link #nodes} (unless you first make a copy of
- * the nodes), just as you could not remove the keys from a {@Map} while iterating over its {@link
- * Map#keySet()}. This will either throw a {@link ConcurrentModificationException} or risk undefined
- * behavior.
+ * the nodes), just as you could not remove the keys from a {@link Map} while iterating over its
+ * {@link Map#keySet()}. This will either throw a {@link ConcurrentModificationException} or risk
+ * undefined behavior.
  *
  * <p>Example of use:
  *

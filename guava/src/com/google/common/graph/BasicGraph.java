@@ -43,8 +43,9 @@ import java.util.Set;
  *     no two objects would be {@link Object#equals(Object)} to each other. A common example where
  *     this would <i>not</i> be the case is with weighted graphs.
  *     <p>Yes: Go to question 3. No: Use {@link Graph}.
- * <li>Do you need to be able to query the graph for an edge associated with a particular object
- *     (not just the edge connecting a given pair of nodes)?
+ * <li>Do you need to be able to query the graph for an edge associated with a particular object?
+ *     For example, do you need to query what nodes an edge associated with a particular object
+ *     connects, or whether an edge associated with that object exists in the graph?
  *     <p>Yes: Use {@link Network}. No: Go to question 4.
  * <li>Do you need explicit support for parallel edges? Do you need to be able to remove one edge
  *     connecting a pair of nodes while leaving other edges connecting those same nodes?
@@ -69,7 +70,7 @@ import java.util.Set;
  * updated automatically. This also means that you cannot modify a {@link BasicGraph} in a way that
  * would affect a {#link Set} while iterating over that set. For example, you cannot remove the
  * nodes from a {@link BasicGraph} while iterating over {@link #nodes} (unless you first make a copy
- * of the nodes), just as you could not remove the keys from a {@Map} while iterating over its
+ * of the nodes), just as you could not remove the keys from a {@link Map} while iterating over its
  * {@link Map#keySet()}. This will either throw a {@link ConcurrentModificationException} or risk
  * undefined behavior.
  *
