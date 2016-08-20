@@ -59,9 +59,9 @@ public final class NetworkEqualsTest {
   private static MutableNetwork<Integer, String> createGraph(GraphType graphType) {
     switch (graphType) {
       case UNDIRECTED:
-        return NetworkBuilder.undirected().build();
+        return NetworkBuilder.undirected().allowsSelfLoops(true).build();
       case DIRECTED:
-        return NetworkBuilder.directed().build();
+        return NetworkBuilder.directed().allowsSelfLoops(true).build();
       default:
         throw new IllegalStateException("Unexpected graph type: " + graphType);
     }

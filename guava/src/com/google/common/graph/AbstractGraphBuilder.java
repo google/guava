@@ -25,7 +25,7 @@ import com.google.common.base.Optional;
  */
 abstract class AbstractGraphBuilder<N> {
   final boolean directed;
-  boolean allowsSelfLoops = true;
+  boolean allowsSelfLoops = false;
   ElementOrder<N> nodeOrder = ElementOrder.insertion();
   Optional<Integer> expectedNodeCount = Optional.absent();
 

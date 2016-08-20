@@ -52,7 +52,8 @@ public class ImmutableNetworkTest {
 
   @Test
   public void edgesConnecting_directed() {
-    MutableNetwork<String, String> mutableNetwork = NetworkBuilder.directed().build();
+    MutableNetwork<String, String> mutableNetwork =
+        NetworkBuilder.directed().allowsSelfLoops(true).build();
     mutableNetwork.addEdge("A", "A", "AA");
     mutableNetwork.addEdge("A", "B", "AB");
     Network<String, String> network = ImmutableNetwork.copyOf(mutableNetwork);
@@ -64,7 +65,8 @@ public class ImmutableNetworkTest {
 
   @Test
   public void edgesConnecting_undirected() {
-    MutableNetwork<String, String> mutableNetwork = NetworkBuilder.undirected().build();
+    MutableNetwork<String, String> mutableNetwork =
+        NetworkBuilder.undirected().allowsSelfLoops(true).build();
     mutableNetwork.addEdge("A", "A", "AA");
     mutableNetwork.addEdge("A", "B", "AB");
     Network<String, String> network = ImmutableNetwork.copyOf(mutableNetwork);

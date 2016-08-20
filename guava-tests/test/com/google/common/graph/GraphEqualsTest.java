@@ -54,9 +54,9 @@ public final class GraphEqualsTest {
   private static MutableBasicGraph<Integer> createGraph(GraphType graphType) {
     switch (graphType) {
       case UNDIRECTED:
-        return BasicGraphBuilder.undirected().build();
+        return BasicGraphBuilder.undirected().allowsSelfLoops(true).build();
       case DIRECTED:
-        return BasicGraphBuilder.directed().build();
+        return BasicGraphBuilder.directed().allowsSelfLoops(true).build();
       default:
         throw new IllegalStateException("Unexpected graph type: " + graphType);
     }

@@ -41,17 +41,21 @@ public class GraphPropertiesTest {
 
   @Before
   public void init() {
-    graphsToTest = ImmutableList.of(
-        BasicGraphBuilder.directed().<Integer>build(),
-        BasicGraphBuilder.undirected().<Integer>build());
-    directedGraph = graphsToTest.get(0);
-    undirectedGraph = graphsToTest.get(1);
+    MutableBasicGraph<Integer> mutableDirectedGraph =
+        BasicGraphBuilder.directed().allowsSelfLoops(true).build();
+    MutableBasicGraph<Integer> mutableUndirectedGraph =
+        BasicGraphBuilder.undirected().allowsSelfLoops(true).build();
+    graphsToTest = ImmutableList.of(mutableDirectedGraph, mutableUndirectedGraph);
+    directedGraph = mutableDirectedGraph;
+    undirectedGraph = mutableUndirectedGraph;
 
-    networksToTest = ImmutableList.of(
-        NetworkBuilder.directed().allowsParallelEdges(true).<Integer, String>build(),
-        NetworkBuilder.undirected().allowsParallelEdges(true).<Integer, String>build());
-    directedNetwork = networksToTest.get(0);
-    undirectedNetwork = networksToTest.get(1);
+    MutableNetwork<Integer, String> mutableDirectedNetwork =
+        NetworkBuilder.directed().allowsParallelEdges(true).allowsSelfLoops(true).build();
+    MutableNetwork<Integer, String> mutableUndirectedNetwork =
+        NetworkBuilder.undirected().allowsParallelEdges(true).allowsSelfLoops(true).build();
+    networksToTest = ImmutableList.of(mutableDirectedNetwork, mutableUndirectedNetwork);
+    directedNetwork = mutableDirectedNetwork;
+    undirectedNetwork = mutableUndirectedNetwork;
   }
 
   @Test

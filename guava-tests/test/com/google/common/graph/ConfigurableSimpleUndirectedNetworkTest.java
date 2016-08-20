@@ -34,7 +34,7 @@ public class ConfigurableSimpleUndirectedNetworkTest extends AbstractUndirectedN
 
   @Override
   public MutableNetwork<Integer, String> createGraph() {
-    return NetworkBuilder.undirected().allowsSelfLoops(false).build();
+    return NetworkBuilder.undirected().allowsParallelEdges(false).allowsSelfLoops(false).build();
   }
 
   @Override

@@ -29,7 +29,7 @@ import com.google.common.base.Optional;
  *
  * <ul>
  * <li>does not allow parallel edges
- * <li>allows self-loops
+ * <li>does not allow self-loops
  * <li>orders {@link Network#nodes()} and {@link Network#edges()} in the order in which the elements
  *     were added
  * </ul>

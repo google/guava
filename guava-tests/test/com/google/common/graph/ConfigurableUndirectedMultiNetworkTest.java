@@ -24,13 +24,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for an undirected {@link ConfigurableMutableNetwork} allowing parallel edges.
+ * Tests for an undirected {@link ConfigurableMutableNetwork} allowing parallel edges and
+ * self-loops.
  */
 @RunWith(JUnit4.class)
 public class ConfigurableUndirectedMultiNetworkTest extends ConfigurableUndirectedNetworkTest {
   @Override
   public MutableNetwork<Integer, String> createGraph() {
-    return NetworkBuilder.undirected().allowsParallelEdges(true).build();
+    return NetworkBuilder.undirected().allowsParallelEdges(true).allowsSelfLoops(true).build();
   }
 
   @Test

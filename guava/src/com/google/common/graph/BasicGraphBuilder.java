@@ -28,14 +28,15 @@ import com.google.common.base.Optional;
  * <p>A graph built by this class will have the following properties by default:
  *
  * <ul>
- * <li>allows self-loops
+ * <li>does not allow self-loops
  * <li>orders {@link Graph#nodes()} in the order in which the elements were added
  * </ul>
  *
  * <p>Example of use:
  *
  * <pre><code>
- * MutableBasicGraph<String> graph = BasicGraphBuilder.undirected().build();
+ * MutableBasicGraph<String> graph = BasicGraphBuilder.undirected().allowsSelfLoops(true).build();
+ * graph.putEdge("bread", "bread");
  * graph.putEdge("chocolate", "peanut butter");
  * graph.putEdge("peanut butter", "jelly");
  * </code></pre>

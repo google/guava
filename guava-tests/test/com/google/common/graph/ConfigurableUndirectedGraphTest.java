@@ -23,14 +23,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for an undirected {@link ConfigurableMutableBasicGraph} with default graph properties.
+ * Tests for an undirected {@link ConfigurableMutableBasicGraph} allowing self-loops.
  */
 @RunWith(JUnit4.class)
 public class ConfigurableUndirectedGraphTest extends ConfigurableSimpleUndirectedGraphTest {
 
   @Override
   public MutableBasicGraph<Integer> createGraph() {
-    return BasicGraphBuilder.undirected().build();
+    return BasicGraphBuilder.undirected().allowsSelfLoops(true).build();
   }
 
   @Test

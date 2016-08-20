@@ -32,7 +32,7 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
   private static final AbstractGraphBuilder<?> GRAPH_BUILDER_A =
       BasicGraphBuilder.directed().expectedNodeCount(10);
   private static final AbstractGraphBuilder<?> GRAPH_BUILDER_B =
-      GraphBuilder.directed().allowsSelfLoops(false).expectedNodeCount(16);
+      GraphBuilder.directed().allowsSelfLoops(true).expectedNodeCount(16);
 
   private static final ImmutableBasicGraph<String> IMMUTABLE_GRAPH_A = graphWithNode("A");
   private static final ImmutableBasicGraph<String> IMMUTABLE_GRAPH_B = graphWithNode("B");
@@ -40,7 +40,7 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
   private static final NetworkBuilder<?, ?> NETWORK_BUILDER_A =
       NetworkBuilder.directed().allowsParallelEdges(true).expectedNodeCount(10);
   private static final NetworkBuilder<?, ?> NETWORK_BUILDER_B =
-      NetworkBuilder.directed().allowsSelfLoops(false).expectedNodeCount(16);
+      NetworkBuilder.directed().allowsSelfLoops(true).expectedNodeCount(16);
 
   private static final ImmutableNetwork<String, String> IMMUTABLE_NETWORK_A = networkWithNode("A");
   private static final ImmutableNetwork<String, String> IMMUTABLE_NETWORK_B = networkWithNode("B");

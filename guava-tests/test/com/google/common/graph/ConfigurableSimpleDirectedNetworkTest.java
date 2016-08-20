@@ -34,7 +34,7 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
 
   @Override
   public MutableNetwork<Integer, String> createGraph() {
-    return NetworkBuilder.directed().allowsSelfLoops(false).build();
+    return NetworkBuilder.directed().allowsParallelEdges(false).allowsSelfLoops(false).build();
   }
 
   @Override

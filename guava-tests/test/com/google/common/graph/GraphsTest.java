@@ -214,14 +214,16 @@ public class GraphsTest {
   public void inducedSubgraph_BasicGraph() {
     Set<Integer> nodeSubset = ImmutableSet.of(N1, N2, N4);
 
-    MutableBasicGraph<Integer> directedGraph = BasicGraphBuilder.directed().build();
+    MutableBasicGraph<Integer> directedGraph =
+        BasicGraphBuilder.directed().allowsSelfLoops(true).build();
     directedGraph.putEdge(N1, N2);
     directedGraph.putEdge(N2, N1);
     directedGraph.putEdge(N1, N3); // only incident to one node in nodeSubset
     directedGraph.putEdge(N4, N4);
     directedGraph.putEdge(5, 6); // not incident to any node in nodeSubset
 
-    MutableBasicGraph<Integer> expectedSubgraph = BasicGraphBuilder.directed().build();
+    MutableBasicGraph<Integer> expectedSubgraph =
+        BasicGraphBuilder.directed().allowsSelfLoops(true).build();
     expectedSubgraph.putEdge(N1, N2);
     expectedSubgraph.putEdge(N2, N1);
     expectedSubgraph.putEdge(N4, N4);
@@ -233,14 +235,16 @@ public class GraphsTest {
   public void inducedSubgraph_Graph() {
     Set<Integer> nodeSubset = ImmutableSet.of(N1, N2, N4);
 
-    MutableGraph<Integer, String> directedGraph = GraphBuilder.directed().build();
+    MutableGraph<Integer, String> directedGraph =
+        GraphBuilder.directed().allowsSelfLoops(true).build();
     directedGraph.putEdgeValue(N1, N2, E12);
     directedGraph.putEdgeValue(N2, N1, E21);
     directedGraph.putEdgeValue(N1, N3, E13); // only incident to one node in nodeSubset
     directedGraph.putEdgeValue(N4, N4, E44);
     directedGraph.putEdgeValue(5, 6, "5-6"); // not incident to any node in nodeSubset
 
-    MutableGraph<Integer, String> expectedSubgraph = GraphBuilder.directed().build();
+    MutableGraph<Integer, String> expectedSubgraph =
+        GraphBuilder.directed().allowsSelfLoops(true).build();
     expectedSubgraph.putEdgeValue(N1, N2, E12);
     expectedSubgraph.putEdgeValue(N2, N1, E21);
     expectedSubgraph.putEdgeValue(N4, N4, E44);
@@ -252,14 +256,16 @@ public class GraphsTest {
   public void inducedSubgraph_Network() {
     Set<Integer> nodeSubset = ImmutableSet.of(N1, N2, N4);
 
-    MutableNetwork<Integer, String> directedGraph = NetworkBuilder.directed().build();
+    MutableNetwork<Integer, String> directedGraph =
+        NetworkBuilder.directed().allowsSelfLoops(true).build();
     directedGraph.addEdge(N1, N2, E12);
     directedGraph.addEdge(N2, N1, E21);
     directedGraph.addEdge(N1, N3, E13); // only incident to one node in nodeSubset
     directedGraph.addEdge(N4, N4, E44);
     directedGraph.addEdge(5, 6, "5-6"); // not incident to any node in nodeSubset
 
-    MutableNetwork<Integer, String> expectedSubgraph = NetworkBuilder.directed().build();
+    MutableNetwork<Integer, String> expectedSubgraph =
+        NetworkBuilder.directed().allowsSelfLoops(true).build();
     expectedSubgraph.addEdge(N1, N2, E12);
     expectedSubgraph.addEdge(N2, N1, E21);
     expectedSubgraph.addEdge(N4, N4, E44);
@@ -345,6 +351,7 @@ public class GraphsTest {
     assertThat(directedGraph.addEdge(N1, N2, E12)).isTrue();
     assertThat(directedGraph.edgesConnecting(N1, N2)).isEqualTo(ImmutableSet.of(E12));
     assertThat(directedGraph.edgesConnecting(N2, N1)).isEmpty();
+
     // By default, parallel edges are not allowed.
     try {
       directedGraph.addEdge(N1, N2, E12_A);
@@ -352,8 +359,14 @@ public class GraphsTest {
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
     }
-    // By default, self-loop edges are allowed.
-    assertThat(directedGraph.addEdge(N1, N1, E11)).isTrue();
+
+    // By default, self-loop edges are not allowed.
+    try {
+      directedGraph.addEdge(N1, N1, E11);
+      fail(ERROR_ADDED_SELF_LOOP);
+    } catch (IllegalArgumentException e) {
+      assertThat(e.getMessage()).contains(ERROR_SELF_LOOP);
+    }
   }
 
   @Test
@@ -364,6 +377,7 @@ public class GraphsTest {
     assertThat(undirectedGraph.addEdge(N1, N2, E12)).isTrue();
     assertThat(undirectedGraph.edgesConnecting(N1, N2)).isEqualTo(ImmutableSet.of(E12));
     assertThat(undirectedGraph.edgesConnecting(N2, N1)).isEqualTo(ImmutableSet.of(E12));
+
     // By default, parallel edges are not allowed.
     try {
       undirectedGraph.addEdge(N1, N2, E12_A);
@@ -377,8 +391,14 @@ public class GraphsTest {
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
     }
-    // By default, self-loop edges are allowed.
-    assertThat(undirectedGraph.addEdge(N1, N1, E11)).isTrue();
+
+    // By default, self-loop edges are not allowed.
+    try {
+      undirectedGraph.addEdge(N1, N1, E11);
+      fail(ERROR_ADDED_SELF_LOOP);
+    } catch (IllegalArgumentException e) {
+      assertThat(e.getMessage()).contains(ERROR_SELF_LOOP);
+    }
   }
 
   @Test
@@ -462,30 +482,6 @@ public class GraphsTest {
     }
   }
 
-  @Test
-  public void createDirected_noSelfLoops() {
-    MutableNetwork<Integer, String> directedGraph
-        = NetworkBuilder.directed().allowsSelfLoops(false).build();
-    try {
-      directedGraph.addEdge(N1, N1, E11);
-      fail(ERROR_ADDED_SELF_LOOP);
-    } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_SELF_LOOP);
-    }
-  }
-
-  @Test
-  public void createUndirected_noSelfLoops() {
-    MutableNetwork<Integer, String> undirectedGraph =
-        NetworkBuilder.undirected().allowsSelfLoops(false).build();
-    try {
-      undirectedGraph.addEdge(N1, N1, E11);
-      fail(ERROR_ADDED_SELF_LOOP);
-    } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_SELF_LOOP);
-    }
-  }
-
   private static <N> void checkTransitiveClosure(
       BasicGraph<N> originalGraph, BasicGraph<N> expectedClosure) {
     for (N node : originalGraph.nodes()) {
@@ -536,7 +532,7 @@ public class GraphsTest {
 
   private static MutableNetwork<Integer, String> buildDirectedNetwork() {
     MutableNetwork<Integer, String> directedGraph =
-        NetworkBuilder.directed().allowsSelfLoops(true).allowsParallelEdges(true).build();
+        NetworkBuilder.directed().allowsParallelEdges(true).allowsSelfLoops(true).build();
     directedGraph.addEdge(N1, N1, E11);
     directedGraph.addEdge(N1, N2, E12);
     directedGraph.addEdge(N1, N1, E11_A);
@@ -548,7 +544,7 @@ public class GraphsTest {
 
   private static MutableNetwork<Integer, String> buildUndirectedNetwork() {
     MutableNetwork<Integer, String> undirectedGraph =
-        NetworkBuilder.undirected().allowsSelfLoops(true).allowsParallelEdges(true).build();
+        NetworkBuilder.undirected().allowsParallelEdges(true).allowsSelfLoops(true).build();
     undirectedGraph.addEdge(N1, N1, E11);
     undirectedGraph.addEdge(N1, N2, E12);
     undirectedGraph.addEdge(N1, N1, E11_A);

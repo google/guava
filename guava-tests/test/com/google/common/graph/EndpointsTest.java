@@ -117,7 +117,8 @@ public final class EndpointsTest {
 
   @Test
   public void edges_directedGraph() {
-    MutableBasicGraph<Integer> directedGraph = BasicGraphBuilder.directed().build();
+    MutableBasicGraph<Integer> directedGraph =
+        BasicGraphBuilder.directed().allowsSelfLoops(true).build();
     directedGraph.addNode(N0);
     directedGraph.putEdge(N1, N2);
     directedGraph.putEdge(N2, N1);
@@ -133,7 +134,8 @@ public final class EndpointsTest {
 
   @Test
   public void edges_undirectedGraph() {
-    MutableBasicGraph<Integer> undirectedGraph = BasicGraphBuilder.undirected().build();
+    MutableBasicGraph<Integer> undirectedGraph =
+        BasicGraphBuilder.undirected().allowsSelfLoops(true).build();
     undirectedGraph.addNode(N0);
     undirectedGraph.putEdge(N1, N2);
     undirectedGraph.putEdge(N2, N1); // does nothing
@@ -148,7 +150,8 @@ public final class EndpointsTest {
 
   @Test
   public void edges_directedNetwork() {
-    MutableNetwork<Integer, String> directedNetwork = NetworkBuilder.directed().build();
+    MutableNetwork<Integer, String> directedNetwork =
+        NetworkBuilder.directed().allowsSelfLoops(true).build();
     directedNetwork.addNode(N0);
     directedNetwork.addEdge(N1, N2, E12);
     directedNetwork.addEdge(N2, N1, E21);
@@ -165,7 +168,7 @@ public final class EndpointsTest {
   @Test
   public void edges_undirectedNetwork() {
     MutableNetwork<Integer, String> undirectedNetwork =
-        NetworkBuilder.undirected().allowsParallelEdges(true).build();
+        NetworkBuilder.undirected().allowsParallelEdges(true).allowsSelfLoops(true).build();
     undirectedNetwork.addNode(N0);
     undirectedNetwork.addEdge(N1, N2, E12);
     undirectedNetwork.addEdge(N2, N1, E12_A); // adds parallel edge, won't be in Graph edges
@@ -205,7 +208,8 @@ public final class EndpointsTest {
 
   @Test
   public void edges_containment() {
-    MutableBasicGraph<Integer> undirectedGraph = BasicGraphBuilder.undirected().build();
+    MutableBasicGraph<Integer> undirectedGraph =
+        BasicGraphBuilder.undirected().allowsSelfLoops(true).build();
     undirectedGraph.putEdge(N1, N1);
     undirectedGraph.putEdge(N1, N2);
     Set<Endpoints<Integer>> edges = undirectedGraph.edges();

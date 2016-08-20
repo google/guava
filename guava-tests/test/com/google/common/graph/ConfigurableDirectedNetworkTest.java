@@ -25,14 +25,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for a directed {@link ConfigurableMutableNetwork} with default graph properties.
+ * Tests for a directed {@link ConfigurableMutableNetwork} allowing self-loops.
  */
 @RunWith(JUnit4.class)
 public class ConfigurableDirectedNetworkTest extends ConfigurableSimpleDirectedNetworkTest {
 
   @Override
   public MutableNetwork<Integer, String> createGraph() {
-    return NetworkBuilder.directed().build();
+    return NetworkBuilder.directed().allowsSelfLoops(true).build();
   }
 
   @Test

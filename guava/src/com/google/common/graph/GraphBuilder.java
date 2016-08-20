@@ -28,15 +28,17 @@ import com.google.common.base.Optional;
  * <p>A graph built by this class will have the following properties by default:
  *
  * <ul>
- * <li>allows self-loops
+ * <li>does not allow self-loops
  * <li>orders {@link Graph#nodes()} in the order in which the elements were added
  * </ul>
  *
  * <p>Example of use:
  *
  * <pre><code>
- * MutableGraph<String, Double> graph = GraphBuilder.undirected().build();
- * graph.putEdgeValue("Miami", "Denver", 5280.0);
+ * MutableGraph<String, Double> graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
+ * graph.putEdgeValue("San Francisco", "San Francisco", 0.0);
+ * graph.putEdgeValue("San Jose", "San Jose", 0.0);
+ * graph.putEdgeValue("San Francisco", "San Jose", 48.4);
  * </code></pre>
  *
  * @author James Sexton
