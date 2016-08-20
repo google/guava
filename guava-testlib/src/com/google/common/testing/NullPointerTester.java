@@ -74,6 +74,15 @@ public final class NullPointerTester {
   private ExceptionTypePolicy policy = ExceptionTypePolicy.NPE_OR_UOE;
 
   /**
+   * Accept {@link java.lang.IllegalArgumentException} instead of
+   * {@link java.lang.NullPointerException}
+   */
+  public NullPointerTester allowIllegalArgumentExceptionOnNullViolations() {
+    policy = ExceptionTypePolicy.NPE_IAE_OR_UOE;
+    return this;
+  }
+
+  /**
    * Sets a default value that can be used for any parameter of type
    * {@code type}. Returns this object.
    */
