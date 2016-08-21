@@ -510,10 +510,8 @@ public class ImmutableBiMapTest extends TestCase {
 
   public static class BiMapSpecificTests extends TestCase {
 
-    @SuppressWarnings("deprecation")
     public void testForcePut() {
-      ImmutableBiMap<String, Integer> bimap = ImmutableBiMap.copyOf(
-          ImmutableMap.of("one", 1, "two", 2));
+      BiMap<String, Integer> bimap = ImmutableBiMap.copyOf(ImmutableMap.of("one", 1, "two", 2));
       try {
         bimap.forcePut("three", 3);
         fail();

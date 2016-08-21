@@ -30,9 +30,8 @@ public abstract class AbstractImmutableTableTest extends TestCase {
   abstract Iterable<ImmutableTable<Character, Integer, String>>
       getTestInstances();
 
-  @SuppressWarnings("deprecation")
   public final void testClear() {
-    for (ImmutableTable<Character, Integer, String> testInstance : getTestInstances()) {
+    for (Table<Character, Integer, String> testInstance : getTestInstances()) {
       try {
         testInstance.clear();
         fail();
@@ -42,9 +41,8 @@ public abstract class AbstractImmutableTableTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("deprecation")
   public final void testPut() {
-    for (ImmutableTable<Character, Integer, String> testInstance : getTestInstances()) {
+    for (Table<Character, Integer, String> testInstance : getTestInstances()) {
       try {
         testInstance.put('a', 1, "blah");
         fail();
@@ -54,9 +52,8 @@ public abstract class AbstractImmutableTableTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("deprecation")
   public final void testPutAll() {
-    for (ImmutableTable<Character, Integer, String> testInstance : getTestInstances()) {
+    for (Table<Character, Integer, String> testInstance : getTestInstances()) {
       try {
         testInstance.putAll(ImmutableTable.of('a', 1, "blah"));
         fail();
@@ -66,9 +63,8 @@ public abstract class AbstractImmutableTableTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("deprecation")
   public final void testRemove() {
-    for (ImmutableTable<Character, Integer, String> testInstance : getTestInstances()) {
+    for (Table<Character, Integer, String> testInstance : getTestInstances()) {
       try {
         testInstance.remove('a', 1);
         fail();

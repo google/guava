@@ -303,8 +303,11 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   }
 
   public void testAddUnsupported() {
-    ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
-        .add(Range.closed(5, 8)).add(Range.closedOpen(1, 3)).build();
+    RangeSet<Integer> rangeSet =
+        ImmutableRangeSet.<Integer>builder()
+            .add(Range.closed(5, 8))
+            .add(Range.closedOpen(1, 3))
+            .build();
 
     try {
       rangeSet.add(Range.open(3, 4));
@@ -315,8 +318,11 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   }
 
   public void testAddAllUnsupported() {
-    ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
-        .add(Range.closed(5, 8)).add(Range.closedOpen(1, 3)).build();
+    RangeSet<Integer> rangeSet =
+        ImmutableRangeSet.<Integer>builder()
+            .add(Range.closed(5, 8))
+            .add(Range.closedOpen(1, 3))
+            .build();
 
     try {
       rangeSet.addAll(ImmutableRangeSet.<Integer>of());
@@ -327,8 +333,11 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   }
 
   public void testRemoveUnsupported() {
-    ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
-        .add(Range.closed(5, 8)).add(Range.closedOpen(1, 3)).build();
+    RangeSet<Integer> rangeSet =
+        ImmutableRangeSet.<Integer>builder()
+            .add(Range.closed(5, 8))
+            .add(Range.closedOpen(1, 3))
+            .build();
 
     try {
       rangeSet.remove(Range.closed(6, 7));
@@ -339,8 +348,11 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   }
 
   public void testRemoveAllUnsupported() {
-    ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
-        .add(Range.closed(5, 8)).add(Range.closedOpen(1, 3)).build();
+    RangeSet<Integer> rangeSet =
+        ImmutableRangeSet.<Integer>builder()
+            .add(Range.closed(5, 8))
+            .add(Range.closedOpen(1, 3))
+            .build();
 
     try {
       rangeSet.removeAll(ImmutableRangeSet.<Integer>of());
