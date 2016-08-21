@@ -16,7 +16,6 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
 import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
@@ -104,7 +103,7 @@ final class DirectedMultiNetworkConnections<N, E>
 
   @Override
   public N removeInEdge(Object edge, boolean isSelfLoop) {
-    N node = checkNotNull(super.removeInEdge(edge, isSelfLoop));
+    N node = super.removeInEdge(edge, isSelfLoop);
     Multiset<N> predecessors = getReference(predecessorsReference);
     if (predecessors != null) {
       checkState(predecessors.remove(node));
@@ -114,7 +113,7 @@ final class DirectedMultiNetworkConnections<N, E>
 
   @Override
   public N removeOutEdge(Object edge) {
-    N node = checkNotNull(super.removeOutEdge(edge));
+    N node = super.removeOutEdge(edge);
     Multiset<N> successors = getReference(successorsReference);
     if (successors != null) {
       checkState(successors.remove(node));

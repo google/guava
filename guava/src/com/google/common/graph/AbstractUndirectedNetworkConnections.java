@@ -80,7 +80,6 @@ abstract class AbstractUndirectedNetworkConnections<N, E> implements NetworkConn
 
   @Override
   public N removeOutEdge(Object edge) {
-    checkNotNull(edge, "edge");
     N previousNode = incidentEdgeMap.remove(edge);
     return checkNotNull(previousNode);
   }
@@ -94,8 +93,6 @@ abstract class AbstractUndirectedNetworkConnections<N, E> implements NetworkConn
 
   @Override
   public void addOutEdge(E edge, N node) {
-    checkNotNull(edge, "edge");
-    checkNotNull(node, "node");
     N previousNode = incidentEdgeMap.put(edge, node);
     checkState(previousNode == null);
   }

@@ -16,7 +16,6 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
 import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
@@ -91,7 +90,7 @@ final class UndirectedMultiNetworkConnections<N, E>
 
   @Override
   public N removeOutEdge(Object edge) {
-    N node = checkNotNull(super.removeOutEdge(edge));
+    N node = super.removeOutEdge(edge);
     Multiset<N> adjacentNodes = getReference(adjacentNodesReference);
     if (adjacentNodes != null) {
       checkState(adjacentNodes.remove(node));

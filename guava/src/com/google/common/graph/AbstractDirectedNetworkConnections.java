@@ -106,7 +106,6 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
 
   @Override
   public N removeInEdge(Object edge, boolean isSelfLoop) {
-    checkNotNull(edge, "edge");
     if (isSelfLoop) {
       checkNonNegative(--selfLoopCount);
     }
@@ -116,15 +115,12 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
 
   @Override
   public N removeOutEdge(Object edge) {
-    checkNotNull(edge, "edge");
     N previousNode = outEdgeMap.remove(edge);
     return checkNotNull(previousNode);
   }
 
   @Override
   public void addInEdge(E edge, N node, boolean isSelfLoop) {
-    checkNotNull(edge, "edge");
-    checkNotNull(node, "node");
     if (isSelfLoop) {
       checkPositive(++selfLoopCount);
     }
@@ -134,8 +130,6 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
 
   @Override
   public void addOutEdge(E edge, N node) {
-    checkNotNull(edge, "edge");
-    checkNotNull(node, "node");
     N previousNode = outEdgeMap.put(edge, node);
     checkState(previousNode == null);
   }
