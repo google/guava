@@ -42,7 +42,7 @@ final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
 
   static <N, V> UndirectedGraphConnections<N, V> of() {
     return new UndirectedGraphConnections<N, V>(
-      new HashMap<N, V>(INNER_CAPACITY, INNER_LOAD_FACTOR));
+        new HashMap<N, V>(INNER_CAPACITY, INNER_LOAD_FACTOR));
   }
 
   static <N, V> UndirectedGraphConnections<N, V> ofImmutable(Map<N, V> adjacentNodeValues) {
