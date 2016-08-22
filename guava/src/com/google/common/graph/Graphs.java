@@ -17,12 +17,15 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
+import com.google.common.graph.BasicGraph.Presence;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayDeque;
 import java.util.Collections;
@@ -191,7 +194,7 @@ public final class Graphs {
    */
   @SuppressWarnings("unchecked") // Throws an exception if node is not an element of graph.
   public static <N> Set<N> reachableNodes(Graph<N, ?> graph, Object node) {
-    checkArgument(graph.nodes().contains(node));
+    checkArgument(graph.nodes().contains(node), NODE_NOT_IN_GRAPH, node);
     Set<N> visitedNodes = new HashSet<N>();
     Queue<N> queuedNodes = new ArrayDeque<N>();
     visitedNodes.add((N) node);
@@ -210,7 +213,251 @@ public final class Graphs {
 
   // Graph mutation methods
 
-  // Graph transformation methods
+  // Graph view methods
+
+  /**
+   * Returns a view of {@code graph} as a {@link BasicGraph}. If {@code graph} is already a basic
+   * graph, it will be {@link Graph#equals(Object) equal} to the returned graph.
+   */
+  public static <N> BasicGraph<N> asBasicGraph(final Graph<N, ?> graph) {
+    if (graph instanceof BasicGraph) {
+      @SuppressWarnings("unchecked")
+      BasicGraph<N> basicGraph = (BasicGraph<N>) graph;
+      return basicGraph;
+    }
+
+    checkNotNull(graph);
+    return new AbstractBasicGraph<N>() {
+      @Override
+      public Set<N> nodes() {
+        return graph.nodes();
+      }
+
+      @Override
+      public Set<Endpoints<N>> edges() {
+        return graph.edges();
+      }
+
+      @Override
+      public boolean isDirected() {
+        return graph.isDirected();
+      }
+
+      @Override
+      public boolean allowsSelfLoops() {
+        return graph.allowsSelfLoops();
+      }
+
+      @Override
+      public ElementOrder<N> nodeOrder() {
+        return graph.nodeOrder();
+      }
+
+      @Override
+      public Set<N> adjacentNodes(Object node) {
+        return graph.adjacentNodes(node);
+      }
+
+      @Override
+      public Set<N> predecessors(Object node) {
+        return graph.predecessors(node);
+      }
+
+      @Override
+      public Set<N> successors(Object node) {
+        return graph.successors(node);
+      }
+
+      @Override
+      public Presence edgeValue(Object nodeA, Object nodeB) {
+        checkNotNull(graph.edgeValue(nodeA, nodeB));
+        return Presence.EDGE_EXISTS;
+      }
+
+      @Override
+      public Presence edgeValueOrDefault(Object nodeA, Object nodeB, Presence defaultValue) {
+        Object value = graph.edgeValueOrDefault(nodeA, nodeB, null);
+        return (value == null) ? defaultValue : Presence.EDGE_EXISTS;
+      }
+    };
+  }
+
+  /**
+   * Simply returns its argument.
+   *
+   * @deprecated no need to use this
+   */
+  @Deprecated
+  public static <N> BasicGraph<N> asBasicGraph(BasicGraph<N> graph) {
+    return checkNotNull(graph);
+  }
+
+  /**
+   * Returns a view of {@code graph} with the direction (if any) of every edge reversed. All other
+   * properties remain intact, and further updates to {@code graph} will be reflected in the view.
+   */
+  public static <N> BasicGraph<N> transpose(BasicGraph<N> graph) {
+    return asBasicGraph(transpose((Graph<N, Presence>) graph));
+  }
+
+  /**
+   * Returns a view of {@code graph} with the direction (if any) of every edge reversed. All other
+   * properties remain intact, and further updates to {@code graph} will be reflected in the view.
+   */
+  public static <N, V> Graph<N, V> transpose(final Graph<N, V> graph) {
+    if (!graph.isDirected()) {
+      return graph; // the transpose of an undirected graph is an identical graph
+    }
+
+    return new AbstractGraph<N, V>() {
+      @Override
+      public Set<N> nodes() {
+        return graph.nodes();
+      }
+
+      // Defer to AbstractGraph's implementation of edges(), which is based of successors().
+
+      @Override
+      public boolean isDirected() {
+        return graph.isDirected();
+      }
+
+      @Override
+      public boolean allowsSelfLoops() {
+        return graph.allowsSelfLoops();
+      }
+
+      @Override
+      public ElementOrder<N> nodeOrder() {
+        return graph.nodeOrder();
+      }
+
+      @Override
+      public Set<N> adjacentNodes(Object node) {
+        return graph.adjacentNodes(node);
+      }
+
+      @Override
+      public Set<N> predecessors(Object node) {
+        return graph.successors(node); // transpose
+      }
+
+      @Override
+      public Set<N> successors(Object node) {
+        return graph.predecessors(node); // transpose
+      }
+
+      @Override
+      public V edgeValue(Object nodeA, Object nodeB) {
+        return graph.edgeValue(nodeB, nodeA); // transpose
+      }
+
+      @Override
+      public V edgeValueOrDefault(Object nodeA, Object nodeB, V defaultValue) {
+        return graph.edgeValueOrDefault(nodeB, nodeA, defaultValue); // transpose
+      }
+
+      @Override
+      protected long edgeCount() {
+        return graph.edges().size();
+      }
+    };
+  }
+
+  /**
+   * Returns a view of {@code network} with the direction (if any) of every edge reversed. All other
+   * properties remain intact, and further updates to {@code network} will be reflected in the view.
+   */
+  public static <N, E> Network<N, E> transpose(final Network<N, E> network) {
+    if (!network.isDirected()) {
+      return network; // the transpose of an undirected network is an identical network
+    }
+
+    return new AbstractNetwork<N, E>() {
+      @Override
+      public Set<N> nodes() {
+        return network.nodes();
+      }
+
+      @Override
+      public Set<E> edges() {
+        return network.edges();
+      }
+
+      @Override
+      public boolean isDirected() {
+        return network.isDirected();
+      }
+
+      @Override
+      public boolean allowsParallelEdges() {
+        return network.allowsParallelEdges();
+      }
+
+      @Override
+      public boolean allowsSelfLoops() {
+        return network.allowsSelfLoops();
+      }
+
+      @Override
+      public ElementOrder<N> nodeOrder() {
+        return network.nodeOrder();
+      }
+
+      @Override
+      public ElementOrder<E> edgeOrder() {
+        return network.edgeOrder();
+      }
+
+      @Override
+      public Set<N> adjacentNodes(Object node) {
+        return network.adjacentNodes(node);
+      }
+
+      @Override
+      public Set<N> predecessors(Object node) {
+        return network.successors(node); // transpose
+      }
+
+      @Override
+      public Set<N> successors(Object node) {
+        return network.predecessors(node); // transpose
+      }
+
+      @Override
+      public Set<E> incidentEdges(Object node) {
+        return network.incidentEdges(node);
+      }
+
+      @Override
+      public Set<E> inEdges(Object node) {
+        return network.outEdges(node); // transpose
+      }
+
+      @Override
+      public Set<E> outEdges(Object node) {
+        return network.inEdges(node); // transpose
+      }
+
+      @Override
+      public Endpoints<N> incidentNodes(Object edge) {
+        Endpoints<N> endpoints = network.incidentNodes(edge);
+        return Endpoints.of(network, endpoints.nodeB(), endpoints.nodeA()); // transpose
+      }
+
+      @Override
+      public Set<E> adjacentEdges(Object edge) {
+        return network.adjacentEdges(edge);
+      }
+
+      @Override
+      public Set<E> edgesConnecting(Object nodeA, Object nodeB) {
+        return network.edgesConnecting(nodeB, nodeA); // transpose
+      }
+    };
+  }
+
+  // Graph copy methods
 
   /**
    * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
