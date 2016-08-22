@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -64,6 +65,7 @@ public class TestsForListsInJavaUtil {
     suite.addTest(testsForCheckedList());
     suite.addTest(testsForAbstractList());
     suite.addTest(testsForAbstractSequentialList());
+    suite.addTest(testsForVector());
     return suite;
   }
 
@@ -108,6 +110,10 @@ public class TestsForListsInJavaUtil {
   }
 
   protected Collection<Method> suppressForAbstractSequentialList() {
+    return Collections.emptySet();
+  }
+
+  protected Collection<Method> suppressForVector() {
     return Collections.emptySet();
   }
 
@@ -312,4 +318,23 @@ public class TestsForListsInJavaUtil {
         .suppressing(suppressForAbstractSequentialList())
         .createTestSuite();
   }
+
+  private Test testsForVector() {
+    return ListTestSuiteBuilder
+        .using(new TestStringListGenerator() {
+          @Override
+          protected List<String> create(String[] elements) {
+            return new Vector<String>(MinimalCollection.of(elements));
+          }
+        })
+        .named("Vector")
+        .withFeatures(
+            ListFeature.GENERAL_PURPOSE,
+            CollectionFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+            CollectionFeature.SERIALIZABLE,
+            CollectionSize.ANY)
+        .createTestSuite();
+  }
+
 }
