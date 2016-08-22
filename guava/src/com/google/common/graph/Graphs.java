@@ -304,157 +304,181 @@ public final class Graphs {
    * Returns a view of {@code graph} with the direction (if any) of every edge reversed. All other
    * properties remain intact, and further updates to {@code graph} will be reflected in the view.
    */
-  public static <N, V> Graph<N, V> transpose(final Graph<N, V> graph) {
+  public static <N, V> Graph<N, V> transpose(Graph<N, V> graph) {
     if (!graph.isDirected()) {
       return graph; // the transpose of an undirected graph is an identical graph
     }
 
-    return new AbstractGraph<N, V>() {
-      @Override
-      public Set<N> nodes() {
-        return graph.nodes();
-      }
+    if (graph instanceof TransposedGraph) {
+      return ((TransposedGraph<N, V>) graph).graph;
+    }
 
-      // Defer to AbstractGraph's implementation of edges(), which is based of successors().
+    return new TransposedGraph<N, V>(graph);
+  }
 
-      @Override
-      public boolean isDirected() {
-        return graph.isDirected();
-      }
+  private static class TransposedGraph<N, V> extends AbstractGraph<N, V> {
+    private final Graph<N, V> graph;
 
-      @Override
-      public boolean allowsSelfLoops() {
-        return graph.allowsSelfLoops();
-      }
+    TransposedGraph(Graph<N, V> graph) {
+      this.graph = graph;
+    }
 
-      @Override
-      public ElementOrder<N> nodeOrder() {
-        return graph.nodeOrder();
-      }
+    @Override
+    public Set<N> nodes() {
+      return graph.nodes();
+    }
 
-      @Override
-      public Set<N> adjacentNodes(Object node) {
-        return graph.adjacentNodes(node);
-      }
+    // Defer to AbstractGraph's implementation of edges(), which is based of successors().
 
-      @Override
-      public Set<N> predecessors(Object node) {
-        return graph.successors(node); // transpose
-      }
+    @Override
+    public boolean isDirected() {
+      return graph.isDirected();
+    }
 
-      @Override
-      public Set<N> successors(Object node) {
-        return graph.predecessors(node); // transpose
-      }
+    @Override
+    public boolean allowsSelfLoops() {
+      return graph.allowsSelfLoops();
+    }
 
-      @Override
-      public V edgeValue(Object nodeA, Object nodeB) {
-        return graph.edgeValue(nodeB, nodeA); // transpose
-      }
+    @Override
+    public ElementOrder<N> nodeOrder() {
+      return graph.nodeOrder();
+    }
 
-      @Override
-      public V edgeValueOrDefault(Object nodeA, Object nodeB, V defaultValue) {
-        return graph.edgeValueOrDefault(nodeB, nodeA, defaultValue); // transpose
-      }
+    @Override
+    public Set<N> adjacentNodes(Object node) {
+      return graph.adjacentNodes(node);
+    }
 
-      @Override
-      protected long edgeCount() {
-        return graph.edges().size();
-      }
-    };
+    @Override
+    public Set<N> predecessors(Object node) {
+      return graph.successors(node); // transpose
+    }
+
+    @Override
+    public Set<N> successors(Object node) {
+      return graph.predecessors(node); // transpose
+    }
+
+    @Override
+    public V edgeValue(Object nodeA, Object nodeB) {
+      return graph.edgeValue(nodeB, nodeA); // transpose
+    }
+
+    @Override
+    public V edgeValueOrDefault(Object nodeA, Object nodeB, V defaultValue) {
+      return graph.edgeValueOrDefault(nodeB, nodeA, defaultValue); // transpose
+    }
+
+    @Override
+    protected long edgeCount() {
+      return graph.edges().size();
+    }
   }
 
   /**
    * Returns a view of {@code network} with the direction (if any) of every edge reversed. All other
    * properties remain intact, and further updates to {@code network} will be reflected in the view.
    */
-  public static <N, E> Network<N, E> transpose(final Network<N, E> network) {
+  public static <N, E> Network<N, E> transpose(Network<N, E> network) {
     if (!network.isDirected()) {
       return network; // the transpose of an undirected network is an identical network
     }
 
-    return new AbstractNetwork<N, E>() {
-      @Override
-      public Set<N> nodes() {
-        return network.nodes();
-      }
+    if (network instanceof TransposedNetwork) {
+      return ((TransposedNetwork<N, E>) network).network;
+    }
 
-      @Override
-      public Set<E> edges() {
-        return network.edges();
-      }
+    return new TransposedNetwork<N, E>(network);
+  }
 
-      @Override
-      public boolean isDirected() {
-        return network.isDirected();
-      }
+  private static class TransposedNetwork<N, E> extends AbstractNetwork<N, E> {
+    private final Network<N, E> network;
 
-      @Override
-      public boolean allowsParallelEdges() {
-        return network.allowsParallelEdges();
-      }
+    TransposedNetwork(Network<N, E> network) {
+      this.network = network;
+    }
 
-      @Override
-      public boolean allowsSelfLoops() {
-        return network.allowsSelfLoops();
-      }
+    @Override
+    public Set<N> nodes() {
+      return network.nodes();
+    }
 
-      @Override
-      public ElementOrder<N> nodeOrder() {
-        return network.nodeOrder();
-      }
+    @Override
+    public Set<E> edges() {
+      return network.edges();
+    }
 
-      @Override
-      public ElementOrder<E> edgeOrder() {
-        return network.edgeOrder();
-      }
+    @Override
+    public boolean isDirected() {
+      return network.isDirected();
+    }
 
-      @Override
-      public Set<N> adjacentNodes(Object node) {
-        return network.adjacentNodes(node);
-      }
+    @Override
+    public boolean allowsParallelEdges() {
+      return network.allowsParallelEdges();
+    }
 
-      @Override
-      public Set<N> predecessors(Object node) {
-        return network.successors(node); // transpose
-      }
+    @Override
+    public boolean allowsSelfLoops() {
+      return network.allowsSelfLoops();
+    }
 
-      @Override
-      public Set<N> successors(Object node) {
-        return network.predecessors(node); // transpose
-      }
+    @Override
+    public ElementOrder<N> nodeOrder() {
+      return network.nodeOrder();
+    }
 
-      @Override
-      public Set<E> incidentEdges(Object node) {
-        return network.incidentEdges(node);
-      }
+    @Override
+    public ElementOrder<E> edgeOrder() {
+      return network.edgeOrder();
+    }
 
-      @Override
-      public Set<E> inEdges(Object node) {
-        return network.outEdges(node); // transpose
-      }
+    @Override
+    public Set<N> adjacentNodes(Object node) {
+      return network.adjacentNodes(node);
+    }
 
-      @Override
-      public Set<E> outEdges(Object node) {
-        return network.inEdges(node); // transpose
-      }
+    @Override
+    public Set<N> predecessors(Object node) {
+      return network.successors(node); // transpose
+    }
 
-      @Override
-      public Endpoints<N> incidentNodes(Object edge) {
-        Endpoints<N> endpoints = network.incidentNodes(edge);
-        return Endpoints.of(network, endpoints.nodeB(), endpoints.nodeA()); // transpose
-      }
+    @Override
+    public Set<N> successors(Object node) {
+      return network.predecessors(node); // transpose
+    }
 
-      @Override
-      public Set<E> adjacentEdges(Object edge) {
-        return network.adjacentEdges(edge);
-      }
+    @Override
+    public Set<E> incidentEdges(Object node) {
+      return network.incidentEdges(node);
+    }
 
-      @Override
-      public Set<E> edgesConnecting(Object nodeA, Object nodeB) {
-        return network.edgesConnecting(nodeB, nodeA); // transpose
-      }
-    };
+    @Override
+    public Set<E> inEdges(Object node) {
+      return network.outEdges(node); // transpose
+    }
+
+    @Override
+    public Set<E> outEdges(Object node) {
+      return network.inEdges(node); // transpose
+    }
+
+    @Override
+    public Endpoints<N> incidentNodes(Object edge) {
+      Endpoints<N> endpoints = network.incidentNodes(edge);
+      return Endpoints.of(network, endpoints.nodeB(), endpoints.nodeA()); // transpose
+    }
+
+    @Override
+    public Set<E> adjacentEdges(Object edge) {
+      return network.adjacentEdges(edge);
+    }
+
+    @Override
+    public Set<E> edgesConnecting(Object nodeA, Object nodeB) {
+      return network.edgesConnecting(nodeB, nodeA); // transpose
+    }
   }
 
   // Graph copy methods
