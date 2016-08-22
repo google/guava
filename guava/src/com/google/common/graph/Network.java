@@ -39,15 +39,15 @@ import javax.annotation.Nullable;
  * <li>Do you have data (objects) that you wish to associate with edges?
  *     <p>Yes: Go to question 2. No: Use {@link BasicGraph}.
  * <li>Are the objects you wish to associate with edges unique within the scope of a graph? That is,
- *     no two objects would be {@link Object#equals(Object)} to each other. A common example where
- *     this would <i>not</i> be the case is with weighted graphs.
+ *     no two objects would be {@link Object#equals(Object) equal} to each other. A common example
+ *     where this would <i>not</i> be the case is with weighted graphs.
  *     <p>Yes: Go to question 3. No: Use {@link Graph}.
  * <li>Do you need to be able to query the graph for an edge associated with a particular object?
  *     For example, do you need to query what nodes an edge associated with a particular object
  *     connects, or whether an edge associated with that object exists in the graph?
  *     <p>Yes: Use {@link Network}. No: Go to question 4.
- * <li>Do you need explicit support for parallel edges? Do you need to be able to remove one edge
- *     connecting a pair of nodes while leaving other edges connecting those same nodes?
+ * <li>Do you need explicit support for parallel edges? For example, do you need to remove one edge
+ *     connecting a pair of nodes while leaving other edges connecting those same nodes intact?
  *     <p>Yes: Use {@link Network}. No: Use {@link Graph}.
  * </ol>
  *
