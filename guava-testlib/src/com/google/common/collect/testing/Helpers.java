@@ -77,7 +77,7 @@ public class Helpers {
   private static boolean isEmpty(Iterable<?> iterable) {
     return iterable instanceof Collection
         ? ((Collection<?>) iterable).isEmpty()
-        : iterable.iterator().hasNext();
+        : !iterable.iterator().hasNext();
   }
 
   public static void assertEmpty(Iterable<?> iterable) {
