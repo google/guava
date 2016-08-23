@@ -455,6 +455,24 @@ public class AtomicLongMapTest extends TestCase {
     assertFalse(map.containsKey(key));
   }
 
+  public void testRemoveIfZero() {
+    AtomicLongMap<String> map = AtomicLongMap.create();
+    String key = "key";
+    assertEquals(0, map.size());
+    assertTrue(map.isEmpty());
+    assertFalse(map.removeIfZero(key));
+
+    assertEquals(1, map.incrementAndGet(key));
+    assertFalse(map.removeIfZero(key));
+    assertEquals(2, map.incrementAndGet(key));
+    assertFalse(map.removeIfZero(key));
+    assertEquals(1, map.decrementAndGet(key));
+    assertFalse(map.removeIfZero(key));
+    assertEquals(0, map.decrementAndGet(key));
+    assertTrue(map.removeIfZero(key));
+    assertFalse(map.containsKey(key));
+  }
+
   public void testRemoveValue() {
     AtomicLongMap<String> map = AtomicLongMap.create();
     String key = "key";
