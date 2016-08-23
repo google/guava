@@ -100,9 +100,10 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public class <a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.57">HashBasedTable</a>&lt;R,C,V&gt;
+public class <a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.58">HashBasedTable</a>&lt;R,C,V&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block">Implementation of <a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a> using hash tables.
+<div class="block">Implementation of <a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect"><code>Table</code></a> using linked hash tables. This guarantees predictable iteration
+ order of the various views.
 
  <p>The views returned by <a href="../../../../com/google/common/collect/HashBasedTable.html#column(C)"><code>column(C)</code></a>, <a href="../../../../com/google/common/collect/HashBasedTable.html#columnKeySet()"><code>columnKeySet()</code></a>, and <a href="../../../../com/google/common/collect/HashBasedTable.html#columnMap()"><code>columnMap()</code></a> have iterators that don't support <code>remove()</code>. Otherwise,
  all optional operations are supported. Null row keys, columns keys, and
@@ -350,7 +351,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect">HashBasedTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.76">create</a>()</pre>
+<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect">HashBasedTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.77">create</a>()</pre>
 <div class="block">Creates an empty <code>HashBasedTable</code>.</div>
 </li>
 </ul>
@@ -360,7 +361,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect">HashBasedTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.89">create</a>(int&nbsp;expectedRows,
+<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect">HashBasedTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.90">create</a>(int&nbsp;expectedRows,
                                    int&nbsp;expectedCellsPerRow)</pre>
 <div class="block">Creates an empty <code>HashBasedTable</code> with the specified map sizes.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>expectedRows</code> - the expected number of distinct row keys</dd><dd><code>expectedCellsPerRow</code> - the expected number of column key / value
@@ -375,7 +376,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect">HashBasedTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.104">create</a>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends R,? extends C,? extends V&gt;&nbsp;table)</pre>
+<pre>public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect">HashBasedTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.105">create</a>(<a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends R,? extends C,? extends V&gt;&nbsp;table)</pre>
 <div class="block">Creates a <code>HashBasedTable</code> with the same mappings as the specified
  table.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>table</code> - the table to copy</dd>
@@ -390,7 +391,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.118">contains</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.119">contains</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;rowKey,
                <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;columnKey)</pre>
@@ -409,7 +410,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>containsColumn</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.123">containsColumn</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.124">containsColumn</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                      <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;columnKey)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#containsColumn(java.lang.Object)">Table</a></code></strong></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified
@@ -426,7 +427,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>containsRow</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.128">containsRow</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.129">containsRow</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;rowKey)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#containsRow(java.lang.Object)">Table</a></code></strong></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified
@@ -443,7 +444,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>containsValue</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.133">containsValue</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.134">containsValue</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#containsValue(java.lang.Object)">Table</a></code></strong></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified
@@ -460,7 +461,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/HashBasedTable.html" title="type parameter in HashBasedTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.138">get</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/HashBasedTable.html" title="type parameter in HashBasedTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.139">get</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;rowKey,
     <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;columnKey)</pre>
@@ -479,7 +480,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.143">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.144">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Table.html#equals(java.lang.Object)">Table</a></code></strong></div>
 <div class="block">Compares the specified object with this table for equality. Two tables are
@@ -496,7 +497,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/HashBasedTable.html" title="type parameter in HashBasedTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.149">remove</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/HashBasedTable.html" title="type parameter in HashBasedTable">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBasedTable.html#line.150">remove</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
        <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;rowKey,
        <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
        <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;columnKey)</pre>

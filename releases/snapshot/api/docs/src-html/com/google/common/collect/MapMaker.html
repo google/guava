@@ -277,7 +277,7 @@
 <span class="sourceLineNo">269</span>    if (!useCustomMap) {<a name="line.269"></a>
 <span class="sourceLineNo">270</span>      return new ConcurrentHashMap&lt;K, V&gt;(getInitialCapacity(), 0.75f, getConcurrencyLevel());<a name="line.270"></a>
 <span class="sourceLineNo">271</span>    }<a name="line.271"></a>
-<span class="sourceLineNo">272</span>    return new MapMakerInternalMap&lt;K, V&gt;(this);<a name="line.272"></a>
+<span class="sourceLineNo">272</span>    return MapMakerInternalMap.create(this);<a name="line.272"></a>
 <span class="sourceLineNo">273</span>  }<a name="line.273"></a>
 <span class="sourceLineNo">274</span><a name="line.274"></a>
 <span class="sourceLineNo">275</span>  /**<a name="line.275"></a>
@@ -285,8 +285,8 @@
 <span class="sourceLineNo">277</span>   * class not exposed through ConcurrentMap.<a name="line.277"></a>
 <span class="sourceLineNo">278</span>   */<a name="line.278"></a>
 <span class="sourceLineNo">279</span>  @GwtIncompatible // MapMakerInternalMap<a name="line.279"></a>
-<span class="sourceLineNo">280</span>  &lt;K, V&gt; MapMakerInternalMap&lt;K, V&gt; makeCustomMap() {<a name="line.280"></a>
-<span class="sourceLineNo">281</span>    return new MapMakerInternalMap&lt;K, V&gt;(this);<a name="line.281"></a>
+<span class="sourceLineNo">280</span>  &lt;K, V&gt; MapMakerInternalMap&lt;K, V, ?, ?&gt; makeCustomMap() {<a name="line.280"></a>
+<span class="sourceLineNo">281</span>    return MapMakerInternalMap.create(this);<a name="line.281"></a>
 <span class="sourceLineNo">282</span>  }<a name="line.282"></a>
 <span class="sourceLineNo">283</span><a name="line.283"></a>
 <span class="sourceLineNo">284</span>  /**<a name="line.284"></a>

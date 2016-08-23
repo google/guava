@@ -113,7 +113,6 @@
 </ul>
 </li>
 <li type="circle">com.google.common.collect.<a href="com/google/common/collect/ConcurrentHashMultiset.html" title="class in com.google.common.collect"><span class="strong">ConcurrentHashMultiset</span></a>&lt;E&gt; (implements java.io.<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a>)</li>
-<li type="circle">com.google.common.graph.<a href="com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><span class="strong">Endpoints</span></a>&lt;N&gt;</li>
 <li type="circle">com.google.common.collect.<a href="com/google/common/collect/EnumMultiset.html" title="class in com.google.common.collect"><span class="strong">EnumMultiset</span></a>&lt;E&gt;</li>
 <li type="circle">com.google.common.collect.<a href="com/google/common/collect/ForwardingMap.StandardValues.html" title="class in com.google.common.collect"><span class="strong">ForwardingMap.StandardValues</span></a></li>
 <li type="circle">com.google.common.collect.<a href="com/google/common/collect/HashMultiset.html" title="class in com.google.common.collect"><span class="strong">HashMultiset</span></a>&lt;E&gt;</li>
@@ -151,9 +150,14 @@
 <li type="circle">com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/SettableFuture.html" title="class in com.google.common.util.concurrent"><span class="strong">SettableFuture</span></a>&lt;V&gt;</li>
 </ul>
 </li>
-<li type="circle">com.google.common.graph.<a href="com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph"><span class="strong">AbstractGraph</span></a>&lt;N&gt; (implements com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;)
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph"><span class="strong">AbstractGraph</span></a>&lt;N,V&gt; (implements com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,V&gt;)
 <ul>
-<li type="circle">com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph"><span class="strong">ImmutableGraph</span></a>&lt;N&gt;</li>
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/AbstractBasicGraph.html" title="class in com.google.common.graph"><span class="strong">AbstractBasicGraph</span></a>&lt;N&gt; (implements com.google.common.graph.<a href="com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph">BasicGraph</a>&lt;N&gt;)</li>
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph"><span class="strong">ImmutableGraph</span></a>&lt;N,V&gt;
+<ul>
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/ImmutableBasicGraph.html" title="class in com.google.common.graph"><span class="strong">ImmutableBasicGraph</span></a>&lt;N&gt; (implements com.google.common.graph.<a href="com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph">BasicGraph</a>&lt;N&gt;)</li>
+</ul>
+</li>
 </ul>
 </li>
 <li type="circle">com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractIdleService.html" title="class in com.google.common.util.concurrent"><span class="strong">AbstractIdleService</span></a> (implements com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a>)</li>
@@ -194,6 +198,7 @@
 <li type="circle">com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AtomicLongMap.html" title="class in com.google.common.util.concurrent"><span class="strong">AtomicLongMap</span></a>&lt;K&gt;</li>
 <li type="circle">com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Atomics.html" title="class in com.google.common.util.concurrent"><span class="strong">Atomics</span></a></li>
 <li type="circle">com.google.common.io.<a href="com/google/common/io/BaseEncoding.html" title="class in com.google.common.io"><span class="strong">BaseEncoding</span></a></li>
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph"><span class="strong">BasicGraphBuilder</span></a>&lt;N&gt;</li>
 <li type="circle">com.google.common.math.<a href="com/google/common/math/BigIntegerMath.html" title="class in com.google.common.math"><span class="strong">BigIntegerMath</span></a></li>
 <li type="circle">com.google.common.hash.<a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><span class="strong">BloomFilter</span></a>&lt;T&gt; (implements com.google.common.base.<a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;, java.io.<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a>)</li>
 <li type="circle">com.google.common.primitives.<a href="com/google/common/primitives/Booleans.html" title="class in com.google.common.primitives"><span class="strong">Booleans</span></a></li>
@@ -235,6 +240,7 @@
 <li type="circle">com.google.common.math.<a href="com/google/common/math/DoubleMath.html" title="class in com.google.common.math"><span class="strong">DoubleMath</span></a></li>
 <li type="circle">com.google.common.primitives.<a href="com/google/common/primitives/Doubles.html" title="class in com.google.common.primitives"><span class="strong">Doubles</span></a></li>
 <li type="circle">com.google.common.graph.<a href="com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph"><span class="strong">ElementOrder</span></a>&lt;T&gt;</li>
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><span class="strong">Endpoints</span></a>&lt;N&gt; (implements java.lang.<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;)</li>
 <li type="circle">com.google.common.base.<a href="com/google/common/base/Enums.html" title="class in com.google.common.base"><span class="strong">Enums</span></a></li>
 <li type="circle">com.google.common.base.<a href="com/google/common/base/Equivalence.html" title="class in com.google.common.base"><span class="strong">Equivalence</span></a>&lt;T&gt;</li>
 <li type="circle">com.google.common.base.<a href="com/google/common/base/Equivalence.Wrapper.html" title="class in com.google.common.base"><span class="strong">Equivalence.Wrapper</span></a>&lt;T&gt; (implements java.io.<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a>)</li>
@@ -384,8 +390,7 @@
 <li type="circle">com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><span class="strong">ListenableFutureTask</span></a>&lt;V&gt; (implements com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;)</li>
 </ul>
 </li>
-<li type="circle">com.google.common.graph.<a href="com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><span class="strong">GraphBuilder</span></a>&lt;N&gt;</li>
-<li type="circle">com.google.common.graph.<a href="com/google/common/graph/GraphProperties.html" title="class in com.google.common.graph"><span class="strong">GraphProperties</span></a></li>
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><span class="strong">GraphBuilder</span></a>&lt;N,V&gt;</li>
 <li type="circle">com.google.common.graph.<a href="com/google/common/graph/Graphs.html" title="class in com.google.common.graph"><span class="strong">Graphs</span></a></li>
 <li type="circle">com.google.common.collect.<a href="com/google/common/collect/HashBasedTable.html" title="class in com.google.common.collect"><span class="strong">HashBasedTable</span></a>&lt;R,C,V&gt;</li>
 <li type="circle">com.google.common.hash.<a href="com/google/common/hash/HashCode.html" title="class in com.google.common.hash"><span class="strong">HashCode</span></a></li>
@@ -439,7 +444,7 @@
 <li type="circle">com.google.common.collect.<a href="com/google/common/collect/ImmutableRangeMap.Builder.html" title="class in com.google.common.collect"><span class="strong">ImmutableRangeMap.Builder</span></a>&lt;K,V&gt;</li>
 <li type="circle">com.google.common.collect.<a href="com/google/common/collect/ImmutableRangeSet.html" title="class in com.google.common.collect"><span class="strong">ImmutableRangeSet</span></a>&lt;C&gt; (implements java.io.<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a>)</li>
 <li type="circle">com.google.common.collect.<a href="com/google/common/collect/ImmutableRangeSet.Builder.html" title="class in com.google.common.collect"><span class="strong">ImmutableRangeSet.Builder</span></a>&lt;C&gt;</li>
-<li type="circle">com.google.common.collect.<a href="com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect"><span class="strong">ImmutableTable</span></a>&lt;R,C,V&gt;</li>
+<li type="circle">com.google.common.collect.<a href="com/google/common/collect/ImmutableTable.html" title="class in com.google.common.collect"><span class="strong">ImmutableTable</span></a>&lt;R,C,V&gt; (implements java.io.<a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a>)</li>
 <li type="circle">com.google.common.collect.<a href="com/google/common/collect/ImmutableTable.Builder.html" title="class in com.google.common.collect"><span class="strong">ImmutableTable.Builder</span></a>&lt;R,C,V&gt;</li>
 <li type="circle">com.google.common.reflect.<a href="com/google/common/reflect/ImmutableTypeToInstanceMap.Builder.html" title="class in com.google.common.reflect"><span class="strong">ImmutableTypeToInstanceMap.Builder</span></a>&lt;B&gt;</li>
 <li type="circle">com.google.common.net.<a href="com/google/common/net/InetAddresses.html" title="class in com.google.common.net"><span class="strong">InetAddresses</span></a></li>
@@ -741,15 +746,15 @@
 </ul>
 </li>
 <li type="circle">com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FutureCallback.html" title="interface in com.google.common.util.concurrent"><span class="strong">FutureCallback</span></a>&lt;V&gt;</li>
-<li type="circle">com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><span class="strong">Graph</span></a>&lt;N&gt;
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><span class="strong">Graph</span></a>&lt;N,V&gt;
 <ul>
-<li type="circle">com.google.common.graph.<a href="com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph"><span class="strong">MutableGraph</span></a>&lt;N&gt;</li>
-<li type="circle">com.google.common.graph.<a href="com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph"><span class="strong">MutableNetwork</span></a>&lt;N,E&gt;</li>
-<li type="circle">com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph"><span class="strong">Network</span></a>&lt;N,E&gt;
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><span class="strong">BasicGraph</span></a>&lt;N&gt;
 <ul>
-<li type="circle">com.google.common.graph.<a href="com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph"><span class="strong">MutableNetwork</span></a>&lt;N,E&gt;</li>
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/MutableBasicGraph.html" title="interface in com.google.common.graph"><span class="strong">MutableBasicGraph</span></a>&lt;N&gt;</li>
 </ul>
 </li>
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/MutableBasicGraph.html" title="interface in com.google.common.graph"><span class="strong">MutableBasicGraph</span></a>&lt;N&gt;</li>
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph"><span class="strong">MutableGraph</span></a>&lt;N,V&gt;</li>
 </ul>
 </li>
 <li type="circle">com.google.common.hash.<a href="com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash"><span class="strong">HashFunction</span></a></li>
@@ -832,6 +837,11 @@
 </ul>
 </li>
 <li type="circle">com.google.common.collect.<a href="com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect"><span class="strong">Multiset.Entry</span></a>&lt;E&gt;</li>
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph"><span class="strong">Network</span></a>&lt;N,E&gt;
+<ul>
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph"><span class="strong">MutableNetwork</span></a>&lt;N,E&gt;</li>
+</ul>
+</li>
 <li type="circle">com.google.common.base.<a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base"><span class="strong">Predicate</span></a>&lt;T&gt;</li>
 <li type="circle">com.google.common.hash.<a href="com/google/common/hash/PrimitiveSink.html" title="interface in com.google.common.hash"><span class="strong">PrimitiveSink</span></a>
 <ul>
@@ -877,6 +887,7 @@
 <li type="circle">com.google.common.base.<a href="com/google/common/base/CaseFormat.html" title="enum in com.google.common.base"><span class="strong">CaseFormat</span></a></li>
 <li type="circle">com.google.common.cache.<a href="com/google/common/cache/RemovalCause.html" title="enum in com.google.common.cache"><span class="strong">RemovalCause</span></a></li>
 <li type="circle">com.google.common.collect.<a href="com/google/common/collect/BoundType.html" title="enum in com.google.common.collect"><span class="strong">BoundType</span></a></li>
+<li type="circle">com.google.common.graph.<a href="com/google/common/graph/BasicGraph.Presence.html" title="enum in com.google.common.graph"><span class="strong">BasicGraph.Presence</span></a></li>
 <li type="circle">com.google.common.graph.<a href="com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph"><span class="strong">ElementOrder.Type</span></a></li>
 <li type="circle">com.google.common.io.<a href="com/google/common/io/FileWriteMode.html" title="enum in com.google.common.io"><span class="strong">FileWriteMode</span></a></li>
 <li type="circle">com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/CycleDetectingLockFactory.Policies.html" title="enum in com.google.common.util.concurrent"><span class="strong">CycleDetectingLockFactory.Policies</span></a> (implements com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/CycleDetectingLockFactory.Policy.html" title="interface in com.google.common.util.concurrent">CycleDetectingLockFactory.Policy</a>)</li>

@@ -98,20 +98,21 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;</strong></code>
-<div class="block">A subtype of <a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> which permits mutations.</div>
+<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph">BasicGraph</a>&lt;N&gt;</strong></code>
+<div class="block">An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
+ data structures.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,E&gt;</strong></code>
-<div class="block">A subtype of <a href="../../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> which permits mutations.</div>
+<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/MutableBasicGraph.html" title="interface in com.google.common.graph">MutableBasicGraph</a>&lt;N&gt;</strong></code>
+<div class="block">A subinterface of <a href="../../../../../com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><code>BasicGraph</code></a> which adds mutation methods.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;</strong></code>
-<div class="block">A network consisting of a set of nodes of type N and a set of edges of type E.</div>
+<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N,V&gt;</strong></code>
+<div class="block">A subinterface of <a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> which adds mutation methods.</div>
 </td>
 </tr>
 </tbody>
@@ -125,26 +126,51 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph">AbstractGraph</a>&lt;N&gt;</strong></code>
-<div class="block">This class provides a skeletal implementation of <a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>.</div>
+<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/AbstractBasicGraph.html" title="class in com.google.common.graph">AbstractBasicGraph</a>&lt;N&gt;</strong></code>
+<div class="block">This class provides a skeletal implementation of <a href="../../../../../com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><code>BasicGraph</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a>&lt;N,E&gt;</strong></code>
+<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph">AbstractGraph</a>&lt;N,V&gt;</strong></code>
 <div class="block">This class provides a skeletal implementation of <a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</strong></code>
-<div class="block">A <a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> whose relationships are constant.</div>
+<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/ImmutableBasicGraph.html" title="class in com.google.common.graph">ImmutableBasicGraph</a>&lt;N&gt;</strong></code>
+<div class="block">A <a href="../../../../../com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><code>BasicGraph</code></a> whose elements and structural relationships will never change.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a>&lt;N,E&gt;</strong></code>
-<div class="block">A <a href="../../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose relationships are constant.</div>
+<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N,V&gt;</strong></code>
+<div class="block">A <a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> whose elements and structural relationships will never change.</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
+<caption><span>Methods in <a href="../../../../../com/google/common/graph/package-summary.html">com.google.common.graph</a> that return <a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../../com/google/common/graph/AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../../com/google/common/graph/AbstractNetwork.html" title="type parameter in AbstractNetwork">E</a>&gt;&gt;</code></td>
+<td class="colLast"><span class="strong">AbstractNetwork.</span><code><strong><a href="../../../../../com/google/common/graph/AbstractNetwork.html#asGraph()">asGraph</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="../../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&gt;</code></td>
+<td class="colLast"><span class="strong">Network.</span><code><strong><a href="../../../../../com/google/common/graph/Network.html#asGraph()">asGraph</a></strong>()</code>
+<div class="block">Returns a live view of this network as a <a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;N,V&gt;&nbsp;<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,V&gt;</code></td>
+<td class="colLast"><span class="strong">Graphs.</span><code><strong><a href="../../../../../com/google/common/graph/Graphs.html#transpose(com.google.common.graph.Graph)">transpose</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,V&gt;&nbsp;graph)</code>
+<div class="block">Returns a view of <code>graph</code> with the direction (if any) of every edge reversed.</div>
 </td>
 </tr>
 </tbody>
@@ -157,63 +183,73 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="../../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;</code></td>
-<td class="colLast"><span class="strong">Graphs.</span><code><strong><a href="../../../../../com/google/common/graph/Graphs.html#copyOf(com.google.common.graph.Graph)">copyOf</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</code>
-<div class="block">Creates a mutable copy of <code>graph</code>, using the same nodes and edges.</div>
+<td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="../../../../../com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph">BasicGraph</a>&lt;N&gt;</code></td>
+<td class="colLast"><span class="strong">Graphs.</span><code><strong><a href="../../../../../com/google/common/graph/Graphs.html#asBasicGraph(com.google.common.graph.Graph)">asBasicGraph</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,?&gt;&nbsp;graph)</code>
+<div class="block">Returns a view of <code>graph</code> as a <a href="../../../../../com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><code>BasicGraph</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</code></td>
-<td class="colLast"><span class="strong">ImmutableGraph.</span><code><strong><a href="../../../../../com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.Graph)">copyOf</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</code>
+<td class="colFirst"><code>static &lt;N,V&gt;&nbsp;<a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N,V&gt;</code></td>
+<td class="colLast"><span class="strong">ImmutableGraph.</span><code><strong><a href="../../../../../com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.Graph)">copyOf</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,V&gt;&nbsp;graph)</code>
 <div class="block">Returns an immutable copy of <code>graph</code>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><span class="strong">Graphs.</span><code><strong><a href="../../../../../com/google/common/graph/Graphs.html#equal(com.google.common.graph.Graph,%20com.google.common.graph.Graph)">equal</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?&gt;&nbsp;graph1,
-          <a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?&gt;&nbsp;graph2)</code>
-<div class="block">Returns true iff <code>graph1</code> and <code>graph2</code> are equal as defined by
- <a href="../../../../../com/google/common/graph/Graph.html#equals(java.lang.Object)"><code>equals(Object)</code></a>.</div>
+<td class="colFirst"><code>static &lt;N,V&gt;&nbsp;<a href="../../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N,V&gt;</code></td>
+<td class="colLast"><span class="strong">Graphs.</span><code><strong><a href="../../../../../com/google/common/graph/Graphs.html#copyOf(com.google.common.graph.Graph)">copyOf</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,V&gt;&nbsp;graph)</code>
+<div class="block">Creates a mutable copy of <code>graph</code> with the same nodes, edges, and edge values.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><span class="strong">Graphs.</span><code><strong><a href="../../../../../com/google/common/graph/Graphs.html#equal(com.google.common.graph.Graph,%20com.google.common.graph.Graph)">equal</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?&gt;&nbsp;graph1,
-          <a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?&gt;&nbsp;graph2)</code>
-<div class="block">Returns true iff <code>graph1</code> and <code>graph2</code> are equal as defined by
- <a href="../../../../../com/google/common/graph/Graph.html#equals(java.lang.Object)"><code>equals(Object)</code></a>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="../../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N&gt;</code></td>
-<td class="colLast"><span class="strong">GraphBuilder.</span><code><strong><a href="../../../../../com/google/common/graph/GraphBuilder.html#from(com.google.common.graph.Graph)">from</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</code>
+<td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="../../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;</code></td>
+<td class="colLast"><span class="strong">GraphBuilder.</span><code><strong><a href="../../../../../com/google/common/graph/GraphBuilder.html#from(com.google.common.graph.Graph)">from</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,?&gt;&nbsp;graph)</code>
 <div class="block">Returns a <a href="../../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> initialized with all properties queryable from <code>graph</code>.</div>
 </td>
 </tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="../../../../../com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph">BasicGraphBuilder</a>&lt;N&gt;</code></td>
+<td class="colLast"><span class="strong">BasicGraphBuilder.</span><code><strong><a href="../../../../../com/google/common/graph/BasicGraphBuilder.html#from(com.google.common.graph.Graph)">from</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,?&gt;&nbsp;graph)</code>
+<div class="block">Returns a <a href="../../../../../com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph"><code>BasicGraphBuilder</code></a> initialized with all properties queryable from <code>graph</code>.</div>
+</td>
+</tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static int</code></td>
-<td class="colLast"><span class="strong">Graphs.</span><code><strong><a href="../../../../../com/google/common/graph/Graphs.html#hashCode(com.google.common.graph.Graph)">hashCode</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?&gt;&nbsp;graph)</code>
-<div class="block">Returns the hash code of <code>graph</code> as defined by <a href="../../../../../com/google/common/graph/Graph.html#hashCode()"><code>hashCode()</code></a>.</div>
+<td class="colFirst"><code>static boolean</code></td>
+<td class="colLast"><span class="strong">Graphs.</span><code><strong><a href="../../../../../com/google/common/graph/Graphs.html#hasCycle(com.google.common.graph.Graph)">hasCycle</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?,?&gt;&nbsp;graph)</code>
+<div class="block">Returns true iff <code>graph</code> has at least one cycle.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><span class="strong">GraphProperties.</span><code><strong><a href="../../../../../com/google/common/graph/GraphProperties.html#isCyclic(com.google.common.graph.Graph)">isCyclic</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?&gt;&nbsp;graph)</code>
-<div class="block">Returns true iff <code>graph</code> has at least one cycle.</div>
+<td class="colFirst"><code>static &lt;N,V&gt;&nbsp;<a href="../../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N,V&gt;</code></td>
+<td class="colLast"><span class="strong">Graphs.</span><code><strong><a href="../../../../../com/google/common/graph/Graphs.html#inducedSubgraph(com.google.common.graph.Graph,%20java.lang.Iterable)">inducedSubgraph</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,V&gt;&nbsp;graph,
+                              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends N&gt;&nbsp;nodes)</code>
+<div class="block">Returns an induced subgraph of <code>graph</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="../../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a>&lt;N&gt;</code></td>
-<td class="colLast"><span class="strong">Endpoints.</span><code><strong><a href="../../../../../com/google/common/graph/Endpoints.html#of(com.google.common.graph.Graph,%20N,%20N)">of</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?&gt;&nbsp;graph,
+<td class="colLast"><span class="strong">Endpoints.</span><code><strong><a href="../../../../../com/google/common/graph/Endpoints.html#of(com.google.common.graph.Graph,%20N,%20N)">of</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?,?&gt;&nbsp;graph,
     N&nbsp;nodeA,
     N&nbsp;nodeB)</code>
 <div class="block">Returns <a href="../../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> representing the endpoints of an edge in <code>graph</code>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><span class="strong">Graphs.</span><code><strong><a href="../../../../../com/google/common/graph/Graphs.html#toString(com.google.common.graph.Graph)">toString</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;?&gt;&nbsp;graph)</code>
-<div class="block">Returns a string representation of <code>graph</code>.</div>
+<td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;N&gt;</code></td>
+<td class="colLast"><span class="strong">Graphs.</span><code><strong><a href="../../../../../com/google/common/graph/Graphs.html#reachableNodes(com.google.common.graph.Graph,%20java.lang.Object)">reachableNodes</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,?&gt;&nbsp;graph,
+                            <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</code>
+<div class="block">Returns the set of nodes that are reachable from <code>node</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="../../../../../com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph">BasicGraph</a>&lt;N&gt;</code></td>
+<td class="colLast"><span class="strong">Graphs.</span><code><strong><a href="../../../../../com/google/common/graph/Graphs.html#transitiveClosure(com.google.common.graph.Graph)">transitiveClosure</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,?&gt;&nbsp;graph)</code>
+<div class="block">Returns the transitive closure of <code>graph</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;N,V&gt;&nbsp;<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,V&gt;</code></td>
+<td class="colLast"><span class="strong">Graphs.</span><code><strong><a href="../../../../../com/google/common/graph/Graphs.html#transpose(com.google.common.graph.Graph)">transpose</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,V&gt;&nbsp;graph)</code>
+<div class="block">Returns a view of <code>graph</code> with the direction (if any) of every edge reversed.</div>
 </td>
 </tr>
 </tbody>

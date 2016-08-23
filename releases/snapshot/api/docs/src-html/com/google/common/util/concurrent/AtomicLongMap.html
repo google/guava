@@ -268,189 +268,199 @@
 <span class="sourceLineNo">260</span>  }<a name="line.260"></a>
 <span class="sourceLineNo">261</span><a name="line.261"></a>
 <span class="sourceLineNo">262</span>  /**<a name="line.262"></a>
-<span class="sourceLineNo">263</span>   * Removes all mappings from this map whose values are zero.<a name="line.263"></a>
+<span class="sourceLineNo">263</span>   * Atomically remove {@code key} from the map iff its associated value is 0.<a name="line.263"></a>
 <span class="sourceLineNo">264</span>   *<a name="line.264"></a>
-<span class="sourceLineNo">265</span>   * &lt;p&gt;This method is not atomic: the map may be visible in intermediate states, where some of the<a name="line.265"></a>
-<span class="sourceLineNo">266</span>   * zero values have been removed and others have not.<a name="line.266"></a>
-<span class="sourceLineNo">267</span>   */<a name="line.267"></a>
-<span class="sourceLineNo">268</span>  public void removeAllZeros() {<a name="line.268"></a>
-<span class="sourceLineNo">269</span>    Iterator&lt;Map.Entry&lt;K, AtomicLong&gt;&gt; entryIterator = map.entrySet().iterator();<a name="line.269"></a>
-<span class="sourceLineNo">270</span>    while (entryIterator.hasNext()) {<a name="line.270"></a>
-<span class="sourceLineNo">271</span>      Map.Entry&lt;K, AtomicLong&gt; entry = entryIterator.next();<a name="line.271"></a>
-<span class="sourceLineNo">272</span>      AtomicLong atomic = entry.getValue();<a name="line.272"></a>
-<span class="sourceLineNo">273</span>      if (atomic != null &amp;&amp; atomic.get() == 0L) {<a name="line.273"></a>
-<span class="sourceLineNo">274</span>        entryIterator.remove();<a name="line.274"></a>
-<span class="sourceLineNo">275</span>      }<a name="line.275"></a>
-<span class="sourceLineNo">276</span>    }<a name="line.276"></a>
-<span class="sourceLineNo">277</span>  }<a name="line.277"></a>
-<span class="sourceLineNo">278</span><a name="line.278"></a>
-<span class="sourceLineNo">279</span>  /**<a name="line.279"></a>
-<span class="sourceLineNo">280</span>   * Returns the sum of all values in this map.<a name="line.280"></a>
-<span class="sourceLineNo">281</span>   *<a name="line.281"></a>
-<span class="sourceLineNo">282</span>   * &lt;p&gt;This method is not atomic: the sum may or may not include other concurrent operations.<a name="line.282"></a>
-<span class="sourceLineNo">283</span>   */<a name="line.283"></a>
-<span class="sourceLineNo">284</span>  public long sum() {<a name="line.284"></a>
-<span class="sourceLineNo">285</span>    long sum = 0L;<a name="line.285"></a>
-<span class="sourceLineNo">286</span>    for (AtomicLong value : map.values()) {<a name="line.286"></a>
-<span class="sourceLineNo">287</span>      sum = sum + value.get();<a name="line.287"></a>
-<span class="sourceLineNo">288</span>    }<a name="line.288"></a>
-<span class="sourceLineNo">289</span>    return sum;<a name="line.289"></a>
-<span class="sourceLineNo">290</span>  }<a name="line.290"></a>
-<span class="sourceLineNo">291</span><a name="line.291"></a>
-<span class="sourceLineNo">292</span>  private transient Map&lt;K, Long&gt; asMap;<a name="line.292"></a>
-<span class="sourceLineNo">293</span><a name="line.293"></a>
-<span class="sourceLineNo">294</span>  /**<a name="line.294"></a>
-<span class="sourceLineNo">295</span>   * Returns a live, read-only view of the map backing this {@code AtomicLongMap}.<a name="line.295"></a>
-<span class="sourceLineNo">296</span>   */<a name="line.296"></a>
-<span class="sourceLineNo">297</span>  public Map&lt;K, Long&gt; asMap() {<a name="line.297"></a>
-<span class="sourceLineNo">298</span>    Map&lt;K, Long&gt; result = asMap;<a name="line.298"></a>
-<span class="sourceLineNo">299</span>    return (result == null) ? asMap = createAsMap() : result;<a name="line.299"></a>
+<span class="sourceLineNo">265</span>   * @since 20.0<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   */<a name="line.266"></a>
+<span class="sourceLineNo">267</span>  @CanIgnoreReturnValue<a name="line.267"></a>
+<span class="sourceLineNo">268</span>  public boolean removeIfZero(K key) {<a name="line.268"></a>
+<span class="sourceLineNo">269</span>    return remove(key, 0);<a name="line.269"></a>
+<span class="sourceLineNo">270</span>  }<a name="line.270"></a>
+<span class="sourceLineNo">271</span><a name="line.271"></a>
+<span class="sourceLineNo">272</span>  /**<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   * Removes all mappings from this map whose values are zero.<a name="line.273"></a>
+<span class="sourceLineNo">274</span>   *<a name="line.274"></a>
+<span class="sourceLineNo">275</span>   * &lt;p&gt;This method is not atomic: the map may be visible in intermediate states, where some of the<a name="line.275"></a>
+<span class="sourceLineNo">276</span>   * zero values have been removed and others have not.<a name="line.276"></a>
+<span class="sourceLineNo">277</span>   */<a name="line.277"></a>
+<span class="sourceLineNo">278</span>  public void removeAllZeros() {<a name="line.278"></a>
+<span class="sourceLineNo">279</span>    Iterator&lt;Map.Entry&lt;K, AtomicLong&gt;&gt; entryIterator = map.entrySet().iterator();<a name="line.279"></a>
+<span class="sourceLineNo">280</span>    while (entryIterator.hasNext()) {<a name="line.280"></a>
+<span class="sourceLineNo">281</span>      Map.Entry&lt;K, AtomicLong&gt; entry = entryIterator.next();<a name="line.281"></a>
+<span class="sourceLineNo">282</span>      AtomicLong atomic = entry.getValue();<a name="line.282"></a>
+<span class="sourceLineNo">283</span>      if (atomic != null &amp;&amp; atomic.get() == 0L) {<a name="line.283"></a>
+<span class="sourceLineNo">284</span>        entryIterator.remove();<a name="line.284"></a>
+<span class="sourceLineNo">285</span>      }<a name="line.285"></a>
+<span class="sourceLineNo">286</span>    }<a name="line.286"></a>
+<span class="sourceLineNo">287</span>  }<a name="line.287"></a>
+<span class="sourceLineNo">288</span><a name="line.288"></a>
+<span class="sourceLineNo">289</span>  /**<a name="line.289"></a>
+<span class="sourceLineNo">290</span>   * Returns the sum of all values in this map.<a name="line.290"></a>
+<span class="sourceLineNo">291</span>   *<a name="line.291"></a>
+<span class="sourceLineNo">292</span>   * &lt;p&gt;This method is not atomic: the sum may or may not include other concurrent operations.<a name="line.292"></a>
+<span class="sourceLineNo">293</span>   */<a name="line.293"></a>
+<span class="sourceLineNo">294</span>  public long sum() {<a name="line.294"></a>
+<span class="sourceLineNo">295</span>    long sum = 0L;<a name="line.295"></a>
+<span class="sourceLineNo">296</span>    for (AtomicLong value : map.values()) {<a name="line.296"></a>
+<span class="sourceLineNo">297</span>      sum = sum + value.get();<a name="line.297"></a>
+<span class="sourceLineNo">298</span>    }<a name="line.298"></a>
+<span class="sourceLineNo">299</span>    return sum;<a name="line.299"></a>
 <span class="sourceLineNo">300</span>  }<a name="line.300"></a>
 <span class="sourceLineNo">301</span><a name="line.301"></a>
-<span class="sourceLineNo">302</span>  private Map&lt;K, Long&gt; createAsMap() {<a name="line.302"></a>
-<span class="sourceLineNo">303</span>    return Collections.unmodifiableMap(<a name="line.303"></a>
-<span class="sourceLineNo">304</span>        Maps.transformValues(<a name="line.304"></a>
-<span class="sourceLineNo">305</span>            map,<a name="line.305"></a>
-<span class="sourceLineNo">306</span>            new Function&lt;AtomicLong, Long&gt;() {<a name="line.306"></a>
-<span class="sourceLineNo">307</span>              @Override<a name="line.307"></a>
-<span class="sourceLineNo">308</span>              public Long apply(AtomicLong atomic) {<a name="line.308"></a>
-<span class="sourceLineNo">309</span>                return atomic.get();<a name="line.309"></a>
-<span class="sourceLineNo">310</span>              }<a name="line.310"></a>
-<span class="sourceLineNo">311</span>            }));<a name="line.311"></a>
-<span class="sourceLineNo">312</span>  }<a name="line.312"></a>
-<span class="sourceLineNo">313</span><a name="line.313"></a>
-<span class="sourceLineNo">314</span>  /**<a name="line.314"></a>
-<span class="sourceLineNo">315</span>   * Returns true if this map contains a mapping for the specified key.<a name="line.315"></a>
-<span class="sourceLineNo">316</span>   */<a name="line.316"></a>
-<span class="sourceLineNo">317</span>  public boolean containsKey(Object key) {<a name="line.317"></a>
-<span class="sourceLineNo">318</span>    return map.containsKey(key);<a name="line.318"></a>
-<span class="sourceLineNo">319</span>  }<a name="line.319"></a>
-<span class="sourceLineNo">320</span><a name="line.320"></a>
-<span class="sourceLineNo">321</span>  /**<a name="line.321"></a>
-<span class="sourceLineNo">322</span>   * Returns the number of key-value mappings in this map. If the map contains more than {@code<a name="line.322"></a>
-<span class="sourceLineNo">323</span>   * Integer.MAX_VALUE} elements, returns {@code Integer.MAX_VALUE}.<a name="line.323"></a>
-<span class="sourceLineNo">324</span>   */<a name="line.324"></a>
-<span class="sourceLineNo">325</span>  public int size() {<a name="line.325"></a>
-<span class="sourceLineNo">326</span>    return map.size();<a name="line.326"></a>
-<span class="sourceLineNo">327</span>  }<a name="line.327"></a>
-<span class="sourceLineNo">328</span><a name="line.328"></a>
-<span class="sourceLineNo">329</span>  /**<a name="line.329"></a>
-<span class="sourceLineNo">330</span>   * Returns {@code true} if this map contains no key-value mappings.<a name="line.330"></a>
-<span class="sourceLineNo">331</span>   */<a name="line.331"></a>
-<span class="sourceLineNo">332</span>  public boolean isEmpty() {<a name="line.332"></a>
-<span class="sourceLineNo">333</span>    return map.isEmpty();<a name="line.333"></a>
-<span class="sourceLineNo">334</span>  }<a name="line.334"></a>
-<span class="sourceLineNo">335</span><a name="line.335"></a>
-<span class="sourceLineNo">336</span>  /**<a name="line.336"></a>
-<span class="sourceLineNo">337</span>   * Removes all of the mappings from this map. The map will be empty after this call returns.<a name="line.337"></a>
-<span class="sourceLineNo">338</span>   *<a name="line.338"></a>
-<span class="sourceLineNo">339</span>   * &lt;p&gt;This method is not atomic: the map may not be empty after returning if there were concurrent<a name="line.339"></a>
-<span class="sourceLineNo">340</span>   * writes.<a name="line.340"></a>
+<span class="sourceLineNo">302</span>  private transient Map&lt;K, Long&gt; asMap;<a name="line.302"></a>
+<span class="sourceLineNo">303</span><a name="line.303"></a>
+<span class="sourceLineNo">304</span>  /**<a name="line.304"></a>
+<span class="sourceLineNo">305</span>   * Returns a live, read-only view of the map backing this {@code AtomicLongMap}.<a name="line.305"></a>
+<span class="sourceLineNo">306</span>   */<a name="line.306"></a>
+<span class="sourceLineNo">307</span>  public Map&lt;K, Long&gt; asMap() {<a name="line.307"></a>
+<span class="sourceLineNo">308</span>    Map&lt;K, Long&gt; result = asMap;<a name="line.308"></a>
+<span class="sourceLineNo">309</span>    return (result == null) ? asMap = createAsMap() : result;<a name="line.309"></a>
+<span class="sourceLineNo">310</span>  }<a name="line.310"></a>
+<span class="sourceLineNo">311</span><a name="line.311"></a>
+<span class="sourceLineNo">312</span>  private Map&lt;K, Long&gt; createAsMap() {<a name="line.312"></a>
+<span class="sourceLineNo">313</span>    return Collections.unmodifiableMap(<a name="line.313"></a>
+<span class="sourceLineNo">314</span>        Maps.transformValues(<a name="line.314"></a>
+<span class="sourceLineNo">315</span>            map,<a name="line.315"></a>
+<span class="sourceLineNo">316</span>            new Function&lt;AtomicLong, Long&gt;() {<a name="line.316"></a>
+<span class="sourceLineNo">317</span>              @Override<a name="line.317"></a>
+<span class="sourceLineNo">318</span>              public Long apply(AtomicLong atomic) {<a name="line.318"></a>
+<span class="sourceLineNo">319</span>                return atomic.get();<a name="line.319"></a>
+<span class="sourceLineNo">320</span>              }<a name="line.320"></a>
+<span class="sourceLineNo">321</span>            }));<a name="line.321"></a>
+<span class="sourceLineNo">322</span>  }<a name="line.322"></a>
+<span class="sourceLineNo">323</span><a name="line.323"></a>
+<span class="sourceLineNo">324</span>  /**<a name="line.324"></a>
+<span class="sourceLineNo">325</span>   * Returns true if this map contains a mapping for the specified key.<a name="line.325"></a>
+<span class="sourceLineNo">326</span>   */<a name="line.326"></a>
+<span class="sourceLineNo">327</span>  public boolean containsKey(Object key) {<a name="line.327"></a>
+<span class="sourceLineNo">328</span>    return map.containsKey(key);<a name="line.328"></a>
+<span class="sourceLineNo">329</span>  }<a name="line.329"></a>
+<span class="sourceLineNo">330</span><a name="line.330"></a>
+<span class="sourceLineNo">331</span>  /**<a name="line.331"></a>
+<span class="sourceLineNo">332</span>   * Returns the number of key-value mappings in this map. If the map contains more than {@code<a name="line.332"></a>
+<span class="sourceLineNo">333</span>   * Integer.MAX_VALUE} elements, returns {@code Integer.MAX_VALUE}.<a name="line.333"></a>
+<span class="sourceLineNo">334</span>   */<a name="line.334"></a>
+<span class="sourceLineNo">335</span>  public int size() {<a name="line.335"></a>
+<span class="sourceLineNo">336</span>    return map.size();<a name="line.336"></a>
+<span class="sourceLineNo">337</span>  }<a name="line.337"></a>
+<span class="sourceLineNo">338</span><a name="line.338"></a>
+<span class="sourceLineNo">339</span>  /**<a name="line.339"></a>
+<span class="sourceLineNo">340</span>   * Returns {@code true} if this map contains no key-value mappings.<a name="line.340"></a>
 <span class="sourceLineNo">341</span>   */<a name="line.341"></a>
-<span class="sourceLineNo">342</span>  public void clear() {<a name="line.342"></a>
-<span class="sourceLineNo">343</span>    map.clear();<a name="line.343"></a>
+<span class="sourceLineNo">342</span>  public boolean isEmpty() {<a name="line.342"></a>
+<span class="sourceLineNo">343</span>    return map.isEmpty();<a name="line.343"></a>
 <span class="sourceLineNo">344</span>  }<a name="line.344"></a>
 <span class="sourceLineNo">345</span><a name="line.345"></a>
-<span class="sourceLineNo">346</span>  @Override<a name="line.346"></a>
-<span class="sourceLineNo">347</span>  public String toString() {<a name="line.347"></a>
-<span class="sourceLineNo">348</span>    return map.toString();<a name="line.348"></a>
-<span class="sourceLineNo">349</span>  }<a name="line.349"></a>
-<span class="sourceLineNo">350</span><a name="line.350"></a>
-<span class="sourceLineNo">351</span>  /*<a name="line.351"></a>
-<span class="sourceLineNo">352</span>   * ConcurrentMap operations which we may eventually add.<a name="line.352"></a>
-<span class="sourceLineNo">353</span>   *<a name="line.353"></a>
-<span class="sourceLineNo">354</span>   * The problem with these is that remove(K, long) has to be done in two phases by definition ---<a name="line.354"></a>
-<span class="sourceLineNo">355</span>   * first decrementing to zero, and then removing. putIfAbsent or replace could observe the<a name="line.355"></a>
-<span class="sourceLineNo">356</span>   * intermediate zero-state. Ways we could deal with this are:<a name="line.356"></a>
-<span class="sourceLineNo">357</span>   *<a name="line.357"></a>
-<span class="sourceLineNo">358</span>   * - Don't define any of the ConcurrentMap operations. This is the current state of affairs.<a name="line.358"></a>
-<span class="sourceLineNo">359</span>   *<a name="line.359"></a>
-<span class="sourceLineNo">360</span>   * - Define putIfAbsent and replace as treating zero and absent identically (as currently<a name="line.360"></a>
-<span class="sourceLineNo">361</span>   *   implemented below). This is a bit surprising with putIfAbsent, which really becomes<a name="line.361"></a>
-<span class="sourceLineNo">362</span>   *   putIfZero.<a name="line.362"></a>
+<span class="sourceLineNo">346</span>  /**<a name="line.346"></a>
+<span class="sourceLineNo">347</span>   * Removes all of the mappings from this map. The map will be empty after this call returns.<a name="line.347"></a>
+<span class="sourceLineNo">348</span>   *<a name="line.348"></a>
+<span class="sourceLineNo">349</span>   * &lt;p&gt;This method is not atomic: the map may not be empty after returning if there were concurrent<a name="line.349"></a>
+<span class="sourceLineNo">350</span>   * writes.<a name="line.350"></a>
+<span class="sourceLineNo">351</span>   */<a name="line.351"></a>
+<span class="sourceLineNo">352</span>  public void clear() {<a name="line.352"></a>
+<span class="sourceLineNo">353</span>    map.clear();<a name="line.353"></a>
+<span class="sourceLineNo">354</span>  }<a name="line.354"></a>
+<span class="sourceLineNo">355</span><a name="line.355"></a>
+<span class="sourceLineNo">356</span>  @Override<a name="line.356"></a>
+<span class="sourceLineNo">357</span>  public String toString() {<a name="line.357"></a>
+<span class="sourceLineNo">358</span>    return map.toString();<a name="line.358"></a>
+<span class="sourceLineNo">359</span>  }<a name="line.359"></a>
+<span class="sourceLineNo">360</span><a name="line.360"></a>
+<span class="sourceLineNo">361</span>  /*<a name="line.361"></a>
+<span class="sourceLineNo">362</span>   * ConcurrentMap operations which we may eventually add.<a name="line.362"></a>
 <span class="sourceLineNo">363</span>   *<a name="line.363"></a>
-<span class="sourceLineNo">364</span>   * - Allow putIfAbsent and replace to distinguish between zero and absent, but don't implement<a name="line.364"></a>
-<span class="sourceLineNo">365</span>   *   remove(K, long). Without any two-phase operations it becomes feasible for all remaining<a name="line.365"></a>
-<span class="sourceLineNo">366</span>   *   operations to distinguish between zero and absent. If we do this, then perhaps we should add<a name="line.366"></a>
-<span class="sourceLineNo">367</span>   *   replace(key, long).<a name="line.367"></a>
-<span class="sourceLineNo">368</span>   *<a name="line.368"></a>
-<span class="sourceLineNo">369</span>   * - Introduce a special-value private static final AtomicLong that would have the meaning of<a name="line.369"></a>
-<span class="sourceLineNo">370</span>   *   removal-in-progress, and rework all operations to properly distinguish between zero and<a name="line.370"></a>
-<span class="sourceLineNo">371</span>   *   absent.<a name="line.371"></a>
-<span class="sourceLineNo">372</span>   */<a name="line.372"></a>
-<span class="sourceLineNo">373</span><a name="line.373"></a>
-<span class="sourceLineNo">374</span>  /**<a name="line.374"></a>
-<span class="sourceLineNo">375</span>   * If {@code key} is not already associated with a value or if {@code key} is associated with<a name="line.375"></a>
-<span class="sourceLineNo">376</span>   * zero, associate it with {@code newValue}. Returns the previous value associated with {@code<a name="line.376"></a>
-<span class="sourceLineNo">377</span>   * key}, or zero if there was no mapping for {@code key}.<a name="line.377"></a>
-<span class="sourceLineNo">378</span>   */<a name="line.378"></a>
-<span class="sourceLineNo">379</span>  long putIfAbsent(K key, long newValue) {<a name="line.379"></a>
-<span class="sourceLineNo">380</span>    while (true) {<a name="line.380"></a>
-<span class="sourceLineNo">381</span>      AtomicLong atomic = map.get(key);<a name="line.381"></a>
-<span class="sourceLineNo">382</span>      if (atomic == null) {<a name="line.382"></a>
-<span class="sourceLineNo">383</span>        atomic = map.putIfAbsent(key, new AtomicLong(newValue));<a name="line.383"></a>
-<span class="sourceLineNo">384</span>        if (atomic == null) {<a name="line.384"></a>
-<span class="sourceLineNo">385</span>          return 0L;<a name="line.385"></a>
-<span class="sourceLineNo">386</span>        }<a name="line.386"></a>
-<span class="sourceLineNo">387</span>        // atomic is now non-null; fall through<a name="line.387"></a>
-<span class="sourceLineNo">388</span>      }<a name="line.388"></a>
-<span class="sourceLineNo">389</span><a name="line.389"></a>
-<span class="sourceLineNo">390</span>      long oldValue = atomic.get();<a name="line.390"></a>
-<span class="sourceLineNo">391</span>      if (oldValue == 0L) {<a name="line.391"></a>
-<span class="sourceLineNo">392</span>        // don't compareAndSet a zero<a name="line.392"></a>
-<span class="sourceLineNo">393</span>        if (map.replace(key, atomic, new AtomicLong(newValue))) {<a name="line.393"></a>
-<span class="sourceLineNo">394</span>          return 0L;<a name="line.394"></a>
-<span class="sourceLineNo">395</span>        }<a name="line.395"></a>
-<span class="sourceLineNo">396</span>        // atomic replaced<a name="line.396"></a>
-<span class="sourceLineNo">397</span>        continue;<a name="line.397"></a>
+<span class="sourceLineNo">364</span>   * The problem with these is that remove(K, long) has to be done in two phases by definition ---<a name="line.364"></a>
+<span class="sourceLineNo">365</span>   * first decrementing to zero, and then removing. putIfAbsent or replace could observe the<a name="line.365"></a>
+<span class="sourceLineNo">366</span>   * intermediate zero-state. Ways we could deal with this are:<a name="line.366"></a>
+<span class="sourceLineNo">367</span>   *<a name="line.367"></a>
+<span class="sourceLineNo">368</span>   * - Don't define any of the ConcurrentMap operations. This is the current state of affairs.<a name="line.368"></a>
+<span class="sourceLineNo">369</span>   *<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   * - Define putIfAbsent and replace as treating zero and absent identically (as currently<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   *   implemented below). This is a bit surprising with putIfAbsent, which really becomes<a name="line.371"></a>
+<span class="sourceLineNo">372</span>   *   putIfZero.<a name="line.372"></a>
+<span class="sourceLineNo">373</span>   *<a name="line.373"></a>
+<span class="sourceLineNo">374</span>   * - Allow putIfAbsent and replace to distinguish between zero and absent, but don't implement<a name="line.374"></a>
+<span class="sourceLineNo">375</span>   *   remove(K, long). Without any two-phase operations it becomes feasible for all remaining<a name="line.375"></a>
+<span class="sourceLineNo">376</span>   *   operations to distinguish between zero and absent. If we do this, then perhaps we should add<a name="line.376"></a>
+<span class="sourceLineNo">377</span>   *   replace(key, long).<a name="line.377"></a>
+<span class="sourceLineNo">378</span>   *<a name="line.378"></a>
+<span class="sourceLineNo">379</span>   * - Introduce a special-value private static final AtomicLong that would have the meaning of<a name="line.379"></a>
+<span class="sourceLineNo">380</span>   *   removal-in-progress, and rework all operations to properly distinguish between zero and<a name="line.380"></a>
+<span class="sourceLineNo">381</span>   *   absent.<a name="line.381"></a>
+<span class="sourceLineNo">382</span>   */<a name="line.382"></a>
+<span class="sourceLineNo">383</span><a name="line.383"></a>
+<span class="sourceLineNo">384</span>  /**<a name="line.384"></a>
+<span class="sourceLineNo">385</span>   * If {@code key} is not already associated with a value or if {@code key} is associated with<a name="line.385"></a>
+<span class="sourceLineNo">386</span>   * zero, associate it with {@code newValue}. Returns the previous value associated with {@code<a name="line.386"></a>
+<span class="sourceLineNo">387</span>   * key}, or zero if there was no mapping for {@code key}.<a name="line.387"></a>
+<span class="sourceLineNo">388</span>   */<a name="line.388"></a>
+<span class="sourceLineNo">389</span>  long putIfAbsent(K key, long newValue) {<a name="line.389"></a>
+<span class="sourceLineNo">390</span>    while (true) {<a name="line.390"></a>
+<span class="sourceLineNo">391</span>      AtomicLong atomic = map.get(key);<a name="line.391"></a>
+<span class="sourceLineNo">392</span>      if (atomic == null) {<a name="line.392"></a>
+<span class="sourceLineNo">393</span>        atomic = map.putIfAbsent(key, new AtomicLong(newValue));<a name="line.393"></a>
+<span class="sourceLineNo">394</span>        if (atomic == null) {<a name="line.394"></a>
+<span class="sourceLineNo">395</span>          return 0L;<a name="line.395"></a>
+<span class="sourceLineNo">396</span>        }<a name="line.396"></a>
+<span class="sourceLineNo">397</span>        // atomic is now non-null; fall through<a name="line.397"></a>
 <span class="sourceLineNo">398</span>      }<a name="line.398"></a>
 <span class="sourceLineNo">399</span><a name="line.399"></a>
-<span class="sourceLineNo">400</span>      return oldValue;<a name="line.400"></a>
-<span class="sourceLineNo">401</span>    }<a name="line.401"></a>
-<span class="sourceLineNo">402</span>  }<a name="line.402"></a>
-<span class="sourceLineNo">403</span><a name="line.403"></a>
-<span class="sourceLineNo">404</span>  /**<a name="line.404"></a>
-<span class="sourceLineNo">405</span>   * If {@code (key, expectedOldValue)} is currently in the map, this method replaces {@code<a name="line.405"></a>
-<span class="sourceLineNo">406</span>   * expectedOldValue} with {@code newValue} and returns true; otherwise, this method returns false.<a name="line.406"></a>
-<span class="sourceLineNo">407</span>   *<a name="line.407"></a>
-<span class="sourceLineNo">408</span>   * &lt;p&gt;If {@code expectedOldValue} is zero, this method will succeed if {@code (key, zero)} is<a name="line.408"></a>
-<span class="sourceLineNo">409</span>   * currently in the map, or if {@code key} is not in the map at all.<a name="line.409"></a>
-<span class="sourceLineNo">410</span>   */<a name="line.410"></a>
-<span class="sourceLineNo">411</span>  boolean replace(K key, long expectedOldValue, long newValue) {<a name="line.411"></a>
-<span class="sourceLineNo">412</span>    if (expectedOldValue == 0L) {<a name="line.412"></a>
-<span class="sourceLineNo">413</span>      return putIfAbsent(key, newValue) == 0L;<a name="line.413"></a>
-<span class="sourceLineNo">414</span>    } else {<a name="line.414"></a>
-<span class="sourceLineNo">415</span>      AtomicLong atomic = map.get(key);<a name="line.415"></a>
-<span class="sourceLineNo">416</span>      return (atomic == null) ? false : atomic.compareAndSet(expectedOldValue, newValue);<a name="line.416"></a>
-<span class="sourceLineNo">417</span>    }<a name="line.417"></a>
-<span class="sourceLineNo">418</span>  }<a name="line.418"></a>
-<span class="sourceLineNo">419</span><a name="line.419"></a>
-<span class="sourceLineNo">420</span>  /**<a name="line.420"></a>
-<span class="sourceLineNo">421</span>   * If {@code (key, value)} is currently in the map, this method removes it and returns true;<a name="line.421"></a>
-<span class="sourceLineNo">422</span>   * otherwise, this method returns false.<a name="line.422"></a>
-<span class="sourceLineNo">423</span>   */<a name="line.423"></a>
-<span class="sourceLineNo">424</span>  boolean remove(K key, long value) {<a name="line.424"></a>
-<span class="sourceLineNo">425</span>    AtomicLong atomic = map.get(key);<a name="line.425"></a>
-<span class="sourceLineNo">426</span>    if (atomic == null) {<a name="line.426"></a>
-<span class="sourceLineNo">427</span>      return false;<a name="line.427"></a>
-<span class="sourceLineNo">428</span>    }<a name="line.428"></a>
+<span class="sourceLineNo">400</span>      long oldValue = atomic.get();<a name="line.400"></a>
+<span class="sourceLineNo">401</span>      if (oldValue == 0L) {<a name="line.401"></a>
+<span class="sourceLineNo">402</span>        // don't compareAndSet a zero<a name="line.402"></a>
+<span class="sourceLineNo">403</span>        if (map.replace(key, atomic, new AtomicLong(newValue))) {<a name="line.403"></a>
+<span class="sourceLineNo">404</span>          return 0L;<a name="line.404"></a>
+<span class="sourceLineNo">405</span>        }<a name="line.405"></a>
+<span class="sourceLineNo">406</span>        // atomic replaced<a name="line.406"></a>
+<span class="sourceLineNo">407</span>        continue;<a name="line.407"></a>
+<span class="sourceLineNo">408</span>      }<a name="line.408"></a>
+<span class="sourceLineNo">409</span><a name="line.409"></a>
+<span class="sourceLineNo">410</span>      return oldValue;<a name="line.410"></a>
+<span class="sourceLineNo">411</span>    }<a name="line.411"></a>
+<span class="sourceLineNo">412</span>  }<a name="line.412"></a>
+<span class="sourceLineNo">413</span><a name="line.413"></a>
+<span class="sourceLineNo">414</span>  /**<a name="line.414"></a>
+<span class="sourceLineNo">415</span>   * If {@code (key, expectedOldValue)} is currently in the map, this method replaces {@code<a name="line.415"></a>
+<span class="sourceLineNo">416</span>   * expectedOldValue} with {@code newValue} and returns true; otherwise, this method returns false.<a name="line.416"></a>
+<span class="sourceLineNo">417</span>   *<a name="line.417"></a>
+<span class="sourceLineNo">418</span>   * &lt;p&gt;If {@code expectedOldValue} is zero, this method will succeed if {@code (key, zero)} is<a name="line.418"></a>
+<span class="sourceLineNo">419</span>   * currently in the map, or if {@code key} is not in the map at all.<a name="line.419"></a>
+<span class="sourceLineNo">420</span>   */<a name="line.420"></a>
+<span class="sourceLineNo">421</span>  boolean replace(K key, long expectedOldValue, long newValue) {<a name="line.421"></a>
+<span class="sourceLineNo">422</span>    if (expectedOldValue == 0L) {<a name="line.422"></a>
+<span class="sourceLineNo">423</span>      return putIfAbsent(key, newValue) == 0L;<a name="line.423"></a>
+<span class="sourceLineNo">424</span>    } else {<a name="line.424"></a>
+<span class="sourceLineNo">425</span>      AtomicLong atomic = map.get(key);<a name="line.425"></a>
+<span class="sourceLineNo">426</span>      return (atomic == null) ? false : atomic.compareAndSet(expectedOldValue, newValue);<a name="line.426"></a>
+<span class="sourceLineNo">427</span>    }<a name="line.427"></a>
+<span class="sourceLineNo">428</span>  }<a name="line.428"></a>
 <span class="sourceLineNo">429</span><a name="line.429"></a>
-<span class="sourceLineNo">430</span>    long oldValue = atomic.get();<a name="line.430"></a>
-<span class="sourceLineNo">431</span>    if (oldValue != value) {<a name="line.431"></a>
-<span class="sourceLineNo">432</span>      return false;<a name="line.432"></a>
-<span class="sourceLineNo">433</span>    }<a name="line.433"></a>
-<span class="sourceLineNo">434</span><a name="line.434"></a>
-<span class="sourceLineNo">435</span>    if (oldValue == 0L || atomic.compareAndSet(oldValue, 0L)) {<a name="line.435"></a>
-<span class="sourceLineNo">436</span>      // only remove after setting to zero, to avoid concurrent updates<a name="line.436"></a>
-<span class="sourceLineNo">437</span>      map.remove(key, atomic);<a name="line.437"></a>
-<span class="sourceLineNo">438</span>      // succeed even if the remove fails, since the value was already adjusted<a name="line.438"></a>
-<span class="sourceLineNo">439</span>      return true;<a name="line.439"></a>
-<span class="sourceLineNo">440</span>    }<a name="line.440"></a>
-<span class="sourceLineNo">441</span><a name="line.441"></a>
-<span class="sourceLineNo">442</span>    // value changed<a name="line.442"></a>
-<span class="sourceLineNo">443</span>    return false;<a name="line.443"></a>
-<span class="sourceLineNo">444</span>  }<a name="line.444"></a>
-<span class="sourceLineNo">445</span>}<a name="line.445"></a>
+<span class="sourceLineNo">430</span>  /**<a name="line.430"></a>
+<span class="sourceLineNo">431</span>   * If {@code (key, value)} is currently in the map, this method removes it and returns true;<a name="line.431"></a>
+<span class="sourceLineNo">432</span>   * otherwise, this method returns false.<a name="line.432"></a>
+<span class="sourceLineNo">433</span>   */<a name="line.433"></a>
+<span class="sourceLineNo">434</span>  boolean remove(K key, long value) {<a name="line.434"></a>
+<span class="sourceLineNo">435</span>    AtomicLong atomic = map.get(key);<a name="line.435"></a>
+<span class="sourceLineNo">436</span>    if (atomic == null) {<a name="line.436"></a>
+<span class="sourceLineNo">437</span>      return false;<a name="line.437"></a>
+<span class="sourceLineNo">438</span>    }<a name="line.438"></a>
+<span class="sourceLineNo">439</span><a name="line.439"></a>
+<span class="sourceLineNo">440</span>    long oldValue = atomic.get();<a name="line.440"></a>
+<span class="sourceLineNo">441</span>    if (oldValue != value) {<a name="line.441"></a>
+<span class="sourceLineNo">442</span>      return false;<a name="line.442"></a>
+<span class="sourceLineNo">443</span>    }<a name="line.443"></a>
+<span class="sourceLineNo">444</span><a name="line.444"></a>
+<span class="sourceLineNo">445</span>    if (oldValue == 0L || atomic.compareAndSet(oldValue, 0L)) {<a name="line.445"></a>
+<span class="sourceLineNo">446</span>      // only remove after setting to zero, to avoid concurrent updates<a name="line.446"></a>
+<span class="sourceLineNo">447</span>      map.remove(key, atomic);<a name="line.447"></a>
+<span class="sourceLineNo">448</span>      // succeed even if the remove fails, since the value was already adjusted<a name="line.448"></a>
+<span class="sourceLineNo">449</span>      return true;<a name="line.449"></a>
+<span class="sourceLineNo">450</span>    }<a name="line.450"></a>
+<span class="sourceLineNo">451</span><a name="line.451"></a>
+<span class="sourceLineNo">452</span>    // value changed<a name="line.452"></a>
+<span class="sourceLineNo">453</span>    return false;<a name="line.453"></a>
+<span class="sourceLineNo">454</span>  }<a name="line.454"></a>
+<span class="sourceLineNo">455</span>}<a name="line.455"></a>
 
 
 

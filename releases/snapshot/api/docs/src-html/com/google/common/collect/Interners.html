@@ -28,7 +28,7 @@
 <span class="sourceLineNo">020</span>import com.google.common.annotations.GwtIncompatible;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>import com.google.common.base.Equivalence;<a name="line.21"></a>
 <span class="sourceLineNo">022</span>import com.google.common.base.Function;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>import com.google.common.collect.MapMakerInternalMap.ReferenceEntry;<a name="line.23"></a>
+<span class="sourceLineNo">023</span>import com.google.common.collect.MapMakerInternalMap.InternalEntry;<a name="line.23"></a>
 <span class="sourceLineNo">024</span><a name="line.24"></a>
 <span class="sourceLineNo">025</span>import java.util.concurrent.ConcurrentMap;<a name="line.25"></a>
 <span class="sourceLineNo">026</span><a name="line.26"></a>
@@ -72,14 +72,14 @@
 <span class="sourceLineNo">064</span><a name="line.64"></a>
 <span class="sourceLineNo">065</span>  private static class WeakInterner&lt;E&gt; implements Interner&lt;E&gt; {<a name="line.65"></a>
 <span class="sourceLineNo">066</span>    // MapMaker is our friend, we know about this type<a name="line.66"></a>
-<span class="sourceLineNo">067</span>    private final MapMakerInternalMap&lt;E, Dummy&gt; map =<a name="line.67"></a>
+<span class="sourceLineNo">067</span>    private final MapMakerInternalMap&lt;E, Dummy, ?, ?&gt; map =<a name="line.67"></a>
 <span class="sourceLineNo">068</span>        new MapMaker().weakKeys().keyEquivalence(Equivalence.equals()).makeCustomMap();<a name="line.68"></a>
 <span class="sourceLineNo">069</span><a name="line.69"></a>
 <span class="sourceLineNo">070</span>    @Override<a name="line.70"></a>
 <span class="sourceLineNo">071</span>    public E intern(E sample) {<a name="line.71"></a>
 <span class="sourceLineNo">072</span>      while (true) {<a name="line.72"></a>
 <span class="sourceLineNo">073</span>        // trying to read the canonical...<a name="line.73"></a>
-<span class="sourceLineNo">074</span>        ReferenceEntry&lt;E, Dummy&gt; entry = map.getEntry(sample);<a name="line.74"></a>
+<span class="sourceLineNo">074</span>        InternalEntry&lt;E, Dummy, ?&gt; entry = map.getEntry(sample);<a name="line.74"></a>
 <span class="sourceLineNo">075</span>        if (entry != null) {<a name="line.75"></a>
 <span class="sourceLineNo">076</span>          E canonical = entry.getKey();<a name="line.76"></a>
 <span class="sourceLineNo">077</span>          if (canonical != null) { // only matters if weak/soft keys are used<a name="line.77"></a>

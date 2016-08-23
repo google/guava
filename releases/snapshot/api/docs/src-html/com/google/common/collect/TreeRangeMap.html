@@ -456,7 +456,7 @@
 <span class="sourceLineNo">448</span><a name="line.448"></a>
 <span class="sourceLineNo">449</span>            @Override<a name="line.449"></a>
 <span class="sourceLineNo">450</span>            protected Entry&lt;Range&lt;K&gt;, V&gt; computeNext() {<a name="line.450"></a>
-<span class="sourceLineNo">451</span>              while (backingItr.hasNext()) {<a name="line.451"></a>
+<span class="sourceLineNo">451</span>              if (backingItr.hasNext()) {<a name="line.451"></a>
 <span class="sourceLineNo">452</span>                RangeMapEntry&lt;K, V&gt; entry = backingItr.next();<a name="line.452"></a>
 <span class="sourceLineNo">453</span>                if (entry.getUpperBound().compareTo(subRange.lowerBound) &lt;= 0) {<a name="line.453"></a>
 <span class="sourceLineNo">454</span>                  return endOfData();<a name="line.454"></a>

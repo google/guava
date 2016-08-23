@@ -100,12 +100,12 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/Ordering.html#line.134">Ordering</a>&lt;T&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/Ordering.html#line.146">Ordering</a>&lt;T&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;T&gt;</pre>
-<div class="block">A comparator, with additional methods to support common operations. This is an "enriched"
- version of <code>Comparator</code>, in the same sense that <a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect"><code>FluentIterable</code></a> is an enriched
- <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang"><code>Iterable</code></a>.
+<div class="block">A comparator, with additional methods to support common operations. This is an "enriched" version
+ of <code>Comparator</code> for pre-Java-8 users, in the same sense that <a href="../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect"><code>FluentIterable</code></a> is an
+ enriched <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang"><code>Iterable</code></a> for pre-Java-8 users.
 
  <h3>Three types of methods</h3>
 
@@ -137,7 +137,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparato
  <h4>Using</h4>
 
  <p>Finally, use the resulting <code>Ordering</code> anywhere a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> is required, or use
- any of its special operations, such as:</p>
+ any of its special operations, such as:
 
  <ul>
  <li><a href="../../../../com/google/common/collect/Ordering.html#immutableSortedCopy(java.lang.Iterable)"><code>immutableSortedCopy(java.lang.Iterable&lt;E&gt;)</code></a>
@@ -148,40 +148,53 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparato
  <h3>Understanding complex orderings</h3>
 
  <p>Complex chained orderings like the following example can be challenging to understand.
- <pre>   <code>Ordering&lt;Foo&gt; ordering =
-       Ordering.natural()
-           .nullsFirst()
-           .onResultOf(getBarFunction)
-           .nullsLast();</code></pre>
+
+ <pre><code>Ordering&lt;Foo&gt; ordering =
+     Ordering.natural()
+         .nullsFirst()
+         .onResultOf(getBarFunction)
+         .nullsLast();
+ </code></pre>
 
  Note that each chaining method returns a new ordering instance which is backed by the previous
- instance, but has the chance to act on values <i>before</i> handing off to that backing
- instance. As a result, it usually helps to read chained ordering expressions <i>backwards</i>.
- For example, when <code>compare</code> is called on the above ordering:
+ instance, but has the chance to act on values <i>before</i> handing off to that backing instance.
+ As a result, it usually helps to read chained ordering expressions <i>backwards</i>. For example,
+ when <code>compare</code> is called on the above ordering:
 
  <ol>
  <li>First, if only one <code>Foo</code> is null, that null value is treated as <i>greater</i>
- <li>Next, non-null <code>Foo</code> values are passed to <code>getBarFunction</code> (we will be
-     comparing <code>Bar</code> values from now on)
+ <li>Next, non-null <code>Foo</code> values are passed to <code>getBarFunction</code> (we will be comparing
+     <code>Bar</code> values from now on)
  <li>Next, if only one <code>Bar</code> is null, that null value is treated as <i>lesser</i>
- <li>Finally, natural ordering is used (i.e. the result of <code>Bar.compareTo(Bar)</code> is
-     returned)
+ <li>Finally, natural ordering is used (i.e. the result of <code>Bar.compareTo(Bar)</code> is returned)
  </ol>
 
  <p>Alas, <a href="../../../../com/google/common/collect/Ordering.html#reverse()"><code>reverse()</code></a> is a little different. As you read backwards through a chain and
- encounter a call to <code>reverse</code>, continue working backwards until a result is determined,
- and then reverse that result.
+ encounter a call to <code>reverse</code>, continue working backwards until a result is determined, and
+ then reverse that result.
 
  <h3>Additional notes</h3>
 
- <p>Except as noted, the orderings returned by the factory methods of this
- class are serializable if and only if the provided instances that back them
- are. For example, if <code>ordering</code> and <code>function</code> can themselves be
- serialized, then <code>ordering.onResultOf(function)</code> can as well.
+ <p>Except as noted, the orderings returned by the factory methods of this class are serializable
+ if and only if the provided instances that back them are. For example, if <code>ordering</code> and
+ <code>function</code> can themselves be serialized, then <code>ordering.onResultOf(function)</code> can as
+ well.
+
+ <h3>For Java 8 users</h3>
+
+ <p>If you are using Java 8, this class is now obsolete <i>(pending a few August 2016
+ updates)</i>. Most of its functionality is now provided by <code>Stream</code> and by <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> itself, and the rest can now be found as static methods in our new <code>Comparators</code> class. See each method below for further instructions. Whenever possible, you should
+ change any references of type <code>Ordering</code> to be of type <code>Comparator</code> instead. However,
+ at this time we have no plan to <i>deprecate</i> this class.
+
+ <p>Many replacements involve adopting <code>Stream</code>, and these changes can sometimes make your
+ code verbose. Whenever following this advice, you should check whether <code>Stream</code> could be
+ adopted more comprehensively in your code; the end result may be quite a bit simpler.
+
+ <h3>See also</h3>
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/OrderingExplained">
- <code>Ordering</code></a>.</div>
+ "https://github.com/google/guava/wiki/OrderingExplained"><code>Ordering</code></a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>2.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -229,16 +242,15 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparato
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#allEqual()">allEqual</a></strong>()</code>
-<div class="block">Returns an ordering which treats all values as equal, indicating "no
- ordering." Passing this ordering to any <i>stable</i> sort algorithm
- results in no change to the order of elements.</div>
+<div class="block">Returns an ordering which treats all values as equal, indicating "no ordering." Passing this
+ ordering to any <i>stable</i> sort algorithm results in no change to the order of elements.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#arbitrary()">arbitrary</a></strong>()</code>
-<div class="block">Returns an arbitrary ordering over all objects, for which <code>compare(a,
- b) == 0</code> implies <code>a == b</code> (identity equality).</div>
+<div class="block">Returns an arbitrary ordering over all objects, for which <code>compare(a, b) == 0</code> implies
+ <code>a == b</code> (identity equality).</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -259,31 +271,30 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparato
 <tr class="altColor">
 <td class="colFirst"><code>&lt;U extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<br><a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;U&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#compound(java.util.Comparator)">compound</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super U&gt;&nbsp;secondaryComparator)</code>
-<div class="block">Returns an ordering which first uses the ordering <code>this</code>, but which
- in the event of a "tie", then delegates to <code>secondaryComparator</code>.</div>
+<div class="block">Returns an ordering which first uses the ordering <code>this</code>, but which in the event of a
+ "tie", then delegates to <code>secondaryComparator</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#compound(java.lang.Iterable)">compound</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super T&gt;&gt;&nbsp;comparators)</code>
-<div class="block">Returns an ordering which tries each given comparator in order until a
- non-zero result is found, returning that result, and returning zero only if
- all comparators return zero.</div>
+<div class="block">Returns an ordering which tries each given comparator in order until a non-zero result is
+ found, returning that result, and returning zero only if all comparators return zero.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#explicit(java.util.List)">explicit</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&nbsp;valuesInOrder)</code>
-<div class="block">Returns an ordering that compares objects according to the order in
- which they appear in the given list.</div>
+<div class="block">Returns an ordering that compares objects according to the order in which they appear in the
+ given list.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#explicit(T,%20T...)">explicit</a></strong>(T&nbsp;leastValue,
                 T...&nbsp;remainingValuesInOrder)</code>
-<div class="block">Returns an ordering that compares objects according to the order in
- which they are given to this method.</div>
+<div class="block">Returns an ordering that compares objects according to the order in which they are given to
+ this method.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -304,63 +315,59 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparato
 <td class="colFirst"><code>&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<br><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#greatestOf(java.lang.Iterable,%20int)">greatestOf</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable,
                     int&nbsp;k)</code>
-<div class="block">Returns the <code>k</code> greatest elements of the given iterable according to
- this ordering, in order from greatest to least.</div>
+<div class="block">Returns the <code>k</code> greatest elements of the given iterable according to this ordering, in
+ order from greatest to least.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<br><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#greatestOf(java.util.Iterator,%20int)">greatestOf</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator,
                     int&nbsp;k)</code>
-<div class="block">Returns the <code>k</code> greatest elements from the given iterator according to
- this ordering, in order from greatest to least.</div>
+<div class="block">Returns the <code>k</code> greatest elements from the given iterator according to this ordering, in
+ order from greatest to least.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<br><a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#immutableSortedCopy(java.lang.Iterable)">immutableSortedCopy</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</code>
-<div class="block">Returns an <b>immutable</b> list containing <code>elements</code> sorted by this
- ordering.</div>
+<div class="block">Returns an <b>immutable</b> list containing <code>elements</code> sorted by this ordering.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#isOrdered(java.lang.Iterable)">isOrdered</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</code>
-<div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is
- greater than or equal to the element that preceded it, according to this
- ordering.</div>
+<div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is greater than or
+ equal to the element that preceded it, according to this ordering.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#isStrictlyOrdered(java.lang.Iterable)">isStrictlyOrdered</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</code>
-<div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is
- <i>strictly</i> greater than the element that preceded it, according to
- this ordering.</div>
+<div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is <i>strictly</i>
+ greater than the element that preceded it, according to this ordering.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<br><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#leastOf(java.lang.Iterable,%20int)">leastOf</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable,
               int&nbsp;k)</code>
-<div class="block">Returns the <code>k</code> least elements of the given iterable according to
- this ordering, in order from least to greatest.</div>
+<div class="block">Returns the <code>k</code> least elements of the given iterable according to this ordering, in order
+ from least to greatest.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<br><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#leastOf(java.util.Iterator,%20int)">leastOf</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;elements,
+<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#leastOf(java.util.Iterator,%20int)">leastOf</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator,
               int&nbsp;k)</code>
-<div class="block">Returns the <code>k</code> least elements from the given iterator according to
- this ordering, in order from least to greatest.</div>
+<div class="block">Returns the <code>k</code> least elements from the given iterator according to this ordering, in
+ order from least to greatest.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<br><a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;S&gt;&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#lexicographical()">lexicographical</a></strong>()</code>
-<div class="block">Returns a new ordering which sorts iterables by comparing corresponding
- elements pairwise until a nonzero result is found; imposes "dictionary
- order".</div>
+<div class="block">Returns a new ordering which sorts iterables by comparing corresponding elements pairwise until
+ a nonzero result is found; imposes "dictionary order".</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -428,44 +435,41 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparato
 <tr class="rowColor">
 <td class="colFirst"><code>&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<br><a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#nullsFirst()">nullsFirst</a></strong>()</code>
-<div class="block">Returns an ordering that treats <code>null</code> as less than all other values
- and uses <code>this</code> to compare non-null values.</div>
+<div class="block">Returns an ordering that treats <code>null</code> as less than all other values and uses <code>this</code> to compare non-null values.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<br><a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#nullsLast()">nullsLast</a></strong>()</code>
-<div class="block">Returns an ordering that treats <code>null</code> as greater than all other
- values and uses this ordering to compare non-null values.</div>
+<div class="block">Returns an ordering that treats <code>null</code> as greater than all other values and uses this
+ ordering to compare non-null values.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>&lt;F&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;F&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#onResultOf(com.google.common.base.Function)">onResultOf</a></strong>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;F,? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;function)</code>
-<div class="block">Returns a new ordering on <code>F</code> which orders elements by first applying
- a function to them, then comparing those results using <code>this</code>.</div>
+<div class="block">Returns a new ordering on <code>F</code> which orders elements by first applying a function to them,
+ then comparing those results using <code>this</code>.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<br><a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#reverse()">reverse</a></strong>()</code>
-<div class="block">Returns the reverse of this ordering; the <code>Ordering</code> equivalent to
- <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#reverseOrder(java.util.Comparator)" title="class or interface in java.util"><code>Collections.reverseOrder(Comparator)</code></a>.</div>
+<div class="block">Returns the reverse of this ordering; the <code>Ordering</code> equivalent to <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#reverseOrder(java.util.Comparator)" title="class or interface in java.util"><code>Collections.reverseOrder(Comparator)</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<br><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#sortedCopy(java.lang.Iterable)">sortedCopy</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</code>
-<div class="block">Returns a <b>mutable</b> list containing <code>elements</code> sorted by this
- ordering; use this only when the resulting list may need further
- modification, or may contain <code>null</code>.</div>
+<div class="block">Returns a <b>mutable</b> list containing <code>elements</code> sorted by this ordering; use this
+ only when the resulting list may need further modification, or may contain <code>null</code>.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/Ordering.html#usingToString()">usingToString</a></strong>()</code>
-<div class="block">Returns an ordering that compares objects by the natural ordering of their
- string representations as returned by <code>toString()</code>.</div>
+<div class="block">Returns an ordering that compares objects by the natural ordering of their string
+ representations as returned by <code>toString()</code>.</div>
 </td>
 </tr>
 </table>
@@ -503,7 +507,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparato
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Ordering</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.376">Ordering</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.390">Ordering</a>()</pre>
 <div class="block">Constructs a new instance of this class (only invokable by the subclass
  constructor, typically implicit).</div>
 </li>
@@ -523,14 +527,14 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparato
 <li class="blockList">
 <h4>natural</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.148">natural</a>()</pre>
-<div class="block">Returns a serializable ordering that uses the natural order of the values.
- The ordering throws a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang"><code>NullPointerException</code></a> when passed a null
- parameter.
+public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;C&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.160">natural</a>()</pre>
+<div class="block">Returns a serializable ordering that uses the natural order of the values. The ordering throws
+ a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang"><code>NullPointerException</code></a> when passed a null parameter.
 
- <p>The type specification is <code>&lt;C extends Comparable&gt;</code>, instead of
- the technically correct <code>&lt;C extends Comparable&lt;? super C&gt;&gt;</code>, to
- support legacy types from before Java 5.</div>
+ <p>The type specification is <code>&lt;C extends Comparable&gt;</code>, instead of the technically correct
+ <code>&lt;C extends Comparable&lt;? super C&gt;&gt;</code>, to support legacy types from before Java 5.
+
+ <p><b>Java 8 users:</b> use <code>Comparator#naturalOrder</code> instead.</div>
 </li>
 </ul>
 <a name="from(java.util.Comparator)">
@@ -540,15 +544,17 @@ public static&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/a
 <li class="blockList">
 <h4>from</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.166">from</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;T&gt;&nbsp;comparator)</pre>
-<div class="block">Returns an ordering based on an <i>existing</i> comparator instance. Note
- that it is unnecessary to create a <i>new</i> anonymous inner class
- implementing <code>Comparator</code> just to pass it in here. Instead, simply
- subclass <code>Ordering</code> and implement its <code>compare</code> method
- directly.</div>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.180">from</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;T&gt;&nbsp;comparator)</pre>
+<div class="block">Returns an ordering based on an <i>existing</i> comparator instance. Note that it is
+ unnecessary to create a <i>new</i> anonymous inner class implementing <code>Comparator</code> just
+ to pass it in here. Instead, simply subclass <code>Ordering</code> and implement its <code>compare</code>
+ method directly.
+
+ <p><b>Java 8 users:</b> this class is now obsolete as explained in the class documentation, so
+ there is no need to use this method.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>comparator</code> - the comparator that defines the order</dd>
-<dt><span class="strong">Returns:</span></dt><dd>comparator itself if it is already an <code>Ordering</code>; otherwise
-     an ordering that wraps that comparator</dd></dl>
+<dt><span class="strong">Returns:</span></dt><dd>comparator itself if it is already an <code>Ordering</code>; otherwise an ordering that
+     wraps that comparator</dd></dl>
 </li>
 </ul>
 <a name="from(com.google.common.collect.Ordering)">
@@ -559,7 +565,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <h4>from</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
 <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.179">from</a>(<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;ordering)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.193">from</a>(<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;ordering)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>no need to use this</i></div>
 <div class="block">Simply returns its argument.</div>
 </li>
@@ -571,26 +577,24 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>explicit</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.205">explicit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&nbsp;valuesInOrder)</pre>
-<div class="block">Returns an ordering that compares objects according to the order in
- which they appear in the given list. Only objects present in the list
- (according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>) may be compared. This comparator
- imposes a "partial ordering" over the type <code>T</code>. Subsequent changes
- to the <code>valuesInOrder</code> list will have no effect on the returned
- comparator. Null values in the list are not supported.
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.218">explicit</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;T&gt;&nbsp;valuesInOrder)</pre>
+<div class="block">Returns an ordering that compares objects according to the order in which they appear in the
+ given list. Only objects present in the list (according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>) may be
+ compared. This comparator imposes a "partial ordering" over the type <code>T</code>. Subsequent
+ changes to the <code>valuesInOrder</code> list will have no effect on the returned comparator. Null
+ values in the list are not supported.
 
- <p>The returned comparator throws a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang"><code>ClassCastException</code></a> when it
- receives an input parameter that isn't among the provided values.
+ <p>The returned comparator throws a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang"><code>ClassCastException</code></a> when it receives an input
+ parameter that isn't among the provided values.
 
- <p>The generated comparator is serializable if all the provided values are
- serializable.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>valuesInOrder</code> - the values that the returned comparator will be able
-     to compare, in the order the comparator should induce</dd>
+ <p>The generated comparator is serializable if all the provided values are serializable.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>valuesInOrder</code> - the values that the returned comparator will be able to compare, in the
+     order the comparator should induce</dd>
 <dt><span class="strong">Returns:</span></dt><dd>the comparator described above</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any of the provided values is null</dd>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>valuesInOrder</code> contains any
-     duplicate values (according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>)</dd></dl>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>valuesInOrder</code> contains any duplicate values
+     (according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>)</dd></dl>
 </li>
 </ul>
 <a name="explicit(java.lang.Object,java.lang.Object[])">
@@ -602,28 +606,24 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>explicit</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.233">explicit</a>(T&nbsp;leastValue,
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.244">explicit</a>(T&nbsp;leastValue,
                                                  T...&nbsp;remainingValuesInOrder)</pre>
-<div class="block">Returns an ordering that compares objects according to the order in
- which they are given to this method. Only objects present in the argument
- list (according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>) may be compared. This comparator
- imposes a "partial ordering" over the type <code>T</code>. Null values in the
- argument list are not supported.
+<div class="block">Returns an ordering that compares objects according to the order in which they are given to
+ this method. Only objects present in the argument list (according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>) may
+ be compared. This comparator imposes a "partial ordering" over the type <code>T</code>. Null values
+ in the argument list are not supported.
 
- <p>The returned comparator throws a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang"><code>ClassCastException</code></a> when it
- receives an input parameter that isn't among the provided values.
+ <p>The returned comparator throws a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang"><code>ClassCastException</code></a> when it receives an input
+ parameter that isn't among the provided values.
 
- <p>The generated comparator is serializable if all the provided values are
- serializable.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>leastValue</code> - the value which the returned comparator should consider
-     the "least" of all values</dd><dd><code>remainingValuesInOrder</code> - the rest of the values that the returned
-     comparator will be able to compare, in the order the comparator should
-     follow</dd>
+ <p>The generated comparator is serializable if all the provided values are serializable.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>leastValue</code> - the value which the returned comparator should consider the "least" of all
+     values</dd><dd><code>remainingValuesInOrder</code> - the rest of the values that the returned comparator will be able
+     to compare, in the order the comparator should follow</dd>
 <dt><span class="strong">Returns:</span></dt><dd>the comparator described above</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any of the provided values is null</dd>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if any duplicate values (according to
-     <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(Object)</code></a>) are present among the method arguments</dd></dl>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if any duplicate values (according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(Object)</code></a>) are present among the method arguments</dd></dl>
 </li>
 </ul>
 <a name="allEqual()">
@@ -633,25 +633,29 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>allEqual</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.267">allEqual</a>()</pre>
-<div class="block">Returns an ordering which treats all values as equal, indicating "no
- ordering." Passing this ordering to any <i>stable</i> sort algorithm
- results in no change to the order of elements. Note especially that <a href="../../../../com/google/common/collect/Ordering.html#sortedCopy(java.lang.Iterable)"><code>sortedCopy(java.lang.Iterable&lt;E&gt;)</code></a> and <a href="../../../../com/google/common/collect/Ordering.html#immutableSortedCopy(java.lang.Iterable)"><code>immutableSortedCopy(java.lang.Iterable&lt;E&gt;)</code></a> are stable, and in the
- returned instance these are implemented by simply copying the source list.
+public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.280">allEqual</a>()</pre>
+<div class="block">Returns an ordering which treats all values as equal, indicating "no ordering." Passing this
+ ordering to any <i>stable</i> sort algorithm results in no change to the order of elements.
+ Note especially that <a href="../../../../com/google/common/collect/Ordering.html#sortedCopy(java.lang.Iterable)"><code>sortedCopy(java.lang.Iterable&lt;E&gt;)</code></a> and <a href="../../../../com/google/common/collect/Ordering.html#immutableSortedCopy(java.lang.Iterable)"><code>immutableSortedCopy(java.lang.Iterable&lt;E&gt;)</code></a> are stable, and in
+ the returned instance these are implemented by simply copying the source list.
 
- <p>Example: <pre>   <code>Ordering.allEqual().nullsLast().sortedCopy(
-       asList(t, null, e, s, null, t, null))</code></pre>
+ <p>Example:
 
- <p>Assuming <code>t</code>, <code>e</code> and <code>s</code> are non-null, this returns
- <code>[t, e, s, t, null, null, null]</code> regardlesss of the true comparison
- order of those three values (which might not even implement <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang"><code>Comparable</code></a> at all).
+ <pre><code>Ordering.allEqual().nullsLast().sortedCopy(
+     asList(t, null, e, s, null, t, null))
+ </code></pre>
 
- <p><b>Warning:</b> by definition, this comparator is not <i>consistent with
- equals</i> (as defined <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">here</a>). Avoid its use in
- APIs, such as <a href="http://docs.oracle.com/javase/7/docs/api/java/util/TreeSet.html?is-external=true#TreeSet(java.util.Comparator)" title="class or interface in java.util"><code>TreeSet.TreeSet(Comparator)</code></a>, where such consistency
- is expected.
+ <p>Assuming <code>t</code>, <code>e</code> and <code>s</code> are non-null, this returns <code>[t, e, s, t,
+ null, null, null]</code> regardlesss of the true comparison order of those three values (which might
+ not even implement <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang"><code>Comparable</code></a> at all).
 
- <p>The returned comparator is serializable.</div>
+ <p><b>Warning:</b> by definition, this comparator is not <i>consistent with equals</i> (as
+ defined <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">here</a>). Avoid its use in APIs, such as <a href="http://docs.oracle.com/javase/7/docs/api/java/util/TreeSet.html?is-external=true#TreeSet(java.util.Comparator)" title="class or interface in java.util"><code>TreeSet.TreeSet(Comparator)</code></a>, where such consistency is expected.
+
+ <p>The returned comparator is serializable.
+
+ <p><b>Java 8 users:</b> Use the lambda expression <code>(a, b) -&gt; 0</code> instead (in certain cases
+ you may need to cast that to <code>Comparator&lt;YourType&gt;</code>).</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>13.0</dd></dl>
 </li>
@@ -663,12 +667,13 @@ public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html"
 <li class="blockList">
 <h4>usingToString</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.279">usingToString</a>()</pre>
-<div class="block">Returns an ordering that compares objects by the natural ordering of their
- string representations as returned by <code>toString()</code>. It does not
- support null values.
+public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.293">usingToString</a>()</pre>
+<div class="block">Returns an ordering that compares objects by the natural ordering of their string
+ representations as returned by <code>toString()</code>. It does not support null values.
 
- <p>The comparator is serializable.</div>
+ <p>The comparator is serializable.
+
+ <p><b>Java 8 users:</b> Use <code>Comparator.comparing(Object::toString)</code> instead.</div>
 </li>
 </ul>
 <a name="arbitrary()">
@@ -677,19 +682,15 @@ public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>arbitrary</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.299">arbitrary</a>()</pre>
-<div class="block">Returns an arbitrary ordering over all objects, for which <code>compare(a,
- b) == 0</code> implies <code>a == b</code> (identity equality). There is no meaning
- whatsoever to the order imposed, but it is constant for the life of the VM.
+<pre>public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.313">arbitrary</a>()</pre>
+<div class="block">Returns an arbitrary ordering over all objects, for which <code>compare(a, b) == 0</code> implies
+ <code>a == b</code> (identity equality). There is no meaning whatsoever to the order imposed, but it
+ is constant for the life of the VM.
 
- <p>Because the ordering is identity-based, it is not "consistent with
- <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(Object)</code></a>" as defined by <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a>. Use
- caution when building a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util"><code>SortedSet</code></a> or <a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util"><code>SortedMap</code></a> from it, as
- the resulting collection will not behave exactly according to spec.
+ <p>Because the ordering is identity-based, it is not "consistent with <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(Object)</code></a>" as defined by <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a>. Use caution when building a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util"><code>SortedSet</code></a> or <a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util"><code>SortedMap</code></a> from it, as the resulting collection will not behave exactly
+ according to spec.
 
- <p>This ordering is not serializable, as its implementation relies on
- <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/System.html?is-external=true#identityHashCode(java.lang.Object)" title="class or interface in java.lang"><code>System.identityHashCode(Object)</code></a>, so its behavior cannot be
- preserved across serialization.</div>
+ <p>This ordering is not serializable, as its implementation relies on <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/System.html?is-external=true#identityHashCode(java.lang.Object)" title="class or interface in java.lang"><code>System.identityHashCode(Object)</code></a>, so its behavior cannot be preserved across serialization.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>2.0</dd></dl>
 </li>
@@ -701,9 +702,10 @@ public static&nbsp;<a href="../../../../com/google/common/collect/Ordering.html"
 <li class="blockList">
 <h4>reverse</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.387">reverse</a>()</pre>
-<div class="block">Returns the reverse of this ordering; the <code>Ordering</code> equivalent to
- <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#reverseOrder(java.util.Comparator)" title="class or interface in java.util"><code>Collections.reverseOrder(Comparator)</code></a>.</div>
+public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.403">reverse</a>()</pre>
+<div class="block">Returns the reverse of this ordering; the <code>Ordering</code> equivalent to <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#reverseOrder(java.util.Comparator)" title="class or interface in java.util"><code>Collections.reverseOrder(Comparator)</code></a>.
+
+ <p><b>Java 8 users:</b> Use <code>thisComparator.reversed()</code> instead.</div>
 </li>
 </ul>
 <a name="nullsFirst()">
@@ -713,9 +715,10 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <li class="blockList">
 <h4>nullsFirst</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.398">nullsFirst</a>()</pre>
-<div class="block">Returns an ordering that treats <code>null</code> as less than all other values
- and uses <code>this</code> to compare non-null values.</div>
+public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.416">nullsFirst</a>()</pre>
+<div class="block">Returns an ordering that treats <code>null</code> as less than all other values and uses <code>this</code> to compare non-null values.
+
+ <p><b>Java 8 users:</b> Use <code>Comparator.nullsFirst(thisComparator)</code> instead.</div>
 </li>
 </ul>
 <a name="nullsLast()">
@@ -725,9 +728,11 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <li class="blockList">
 <h4>nullsLast</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.409">nullsLast</a>()</pre>
-<div class="block">Returns an ordering that treats <code>null</code> as greater than all other
- values and uses this ordering to compare non-null values.</div>
+public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.429">nullsLast</a>()</pre>
+<div class="block">Returns an ordering that treats <code>null</code> as greater than all other values and uses this
+ ordering to compare non-null values.
+
+ <p><b>Java 8 users:</b> Use <code>Comparator.nullsLast(thisComparator)</code> instead.</div>
 </li>
 </ul>
 <a name="onResultOf(com.google.common.base.Function)">
@@ -737,12 +742,17 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <li class="blockList">
 <h4>onResultOf</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public&nbsp;&lt;F&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;F&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.423">onResultOf</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;F,? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;function)</pre>
-<div class="block">Returns a new ordering on <code>F</code> which orders elements by first applying
- a function to them, then comparing those results using <code>this</code>. For
- example, to compare objects by their string forms, in a case-insensitive
- manner, use: <pre>   <code>Ordering.from(String.CASE_INSENSITIVE_ORDER)
-       .onResultOf(Functions.toStringFunction())</code></pre></div>
+public&nbsp;&lt;F&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;F&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.447">onResultOf</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;F,? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;function)</pre>
+<div class="block">Returns a new ordering on <code>F</code> which orders elements by first applying a function to them,
+ then comparing those results using <code>this</code>. For example, to compare objects by their
+ string forms, in a case-insensitive manner, use:
+
+ <pre><code>Ordering.from(String.CASE_INSENSITIVE_ORDER)
+     .onResultOf(Functions.toStringFunction())
+ </code></pre>
+
+ <p><b>Java 8 users:</b> Use <code>Comparator.comparing(function, thisComparator)</code> instead (you
+ can omit the comparator if it is the natural order).</div>
 </li>
 </ul>
 <a name="compound(java.util.Comparator)">
@@ -752,16 +762,17 @@ public&nbsp;&lt;F&gt;&nbsp;<a href="../../../../com/google/common/collect/Orderi
 <li class="blockList">
 <h4>compound</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public&nbsp;&lt;U extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;U&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.443">compound</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super U&gt;&nbsp;secondaryComparator)</pre>
-<div class="block">Returns an ordering which first uses the ordering <code>this</code>, but which
- in the event of a "tie", then delegates to <code>secondaryComparator</code>.
- For example, to sort a bug list first by status and second by priority, you
- might use <code>byStatus.compound(byPriority)</code>. For a compound ordering
- with three or more components, simply chain multiple calls to this method.
+public&nbsp;&lt;U extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;U&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.469">compound</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super U&gt;&nbsp;secondaryComparator)</pre>
+<div class="block">Returns an ordering which first uses the ordering <code>this</code>, but which in the event of a
+ "tie", then delegates to <code>secondaryComparator</code>. For example, to sort a bug list first by
+ status and second by priority, you might use <code>byStatus.compound(byPriority)</code>. For a
+ compound ordering with three or more components, simply chain multiple calls to this method.
 
- <p>An ordering produced by this method, or a chain of calls to this method,
- is equivalent to one created using <a href="../../../../com/google/common/collect/Ordering.html#compound(java.lang.Iterable)"><code>compound(Iterable)</code></a> on
- the same component comparators.</div>
+ <p>An ordering produced by this method, or a chain of calls to this method, is equivalent to
+ one created using <a href="../../../../com/google/common/collect/Ordering.html#compound(java.lang.Iterable)"><code>compound(Iterable)</code></a> on the same component comparators.
+
+ <p><b>Java 8 users:</b> Use <code>thisComparator.thenComparing(secondaryComparator)</code> instead.
+ Depending on what <code>secondaryComparator</code> is, one of the other overloads of <code>thenComparing</code> may be even more useful.</div>
 </li>
 </ul>
 <a name="compound(java.lang.Iterable)">
@@ -771,17 +782,20 @@ public&nbsp;&lt;U extends <a href="../../../../com/google/common/collect/Orderin
 <li class="blockList">
 <h4>compound</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.463">compound</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super T&gt;&gt;&nbsp;comparators)</pre>
-<div class="block">Returns an ordering which tries each given comparator in order until a
- non-zero result is found, returning that result, and returning zero only if
- all comparators return zero. The returned ordering is based on the state of
- the <code>comparators</code> iterable at the time it was provided to this
- method.
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.493">compound</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super T&gt;&gt;&nbsp;comparators)</pre>
+<div class="block">Returns an ordering which tries each given comparator in order until a non-zero result is
+ found, returning that result, and returning zero only if all comparators return zero. The
+ returned ordering is based on the state of the <code>comparators</code> iterable at the time it was
+ provided to this method.
 
  <p>The returned ordering is equivalent to that produced using <code>Ordering.from(comp1).compound(comp2).compound(comp3) . . .</code>.
 
- <p><b>Warning:</b> Supplying an argument with undefined iteration order,
- such as a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util"><code>HashSet</code></a>, will produce non-deterministic results.</div>
+ <p><b>Warning:</b> Supplying an argument with undefined iteration order, such as a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/HashSet.html?is-external=true" title="class or interface in java.util"><code>HashSet</code></a>, will produce non-deterministic results.
+
+ <p><b>Java 8 users:</b> Use a chain of calls to <code>Comparator#thenComparing(Comparator)</code>,
+ or <code>comparatorCollection.stream().reduce(Comparator::thenComparing).get()</code> (if the
+ collection might be empty, also provide a default comparator as the <code>identity</code> parameter
+ to <code>reduce</code>).</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>comparators</code> - the comparators to try in order</dd></dl>
 </li>
 </ul>
@@ -792,16 +806,17 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>lexicographical</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;S&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.485">lexicographical</a>()</pre>
-<div class="block">Returns a new ordering which sorts iterables by comparing corresponding
- elements pairwise until a nonzero result is found; imposes "dictionary
- order". If the end of one iterable is reached, but not the other, the
- shorter iterable is considered to be less than the longer one. For example,
- a lexicographical natural ordering over integers considers <code>[] &lt; [1] &lt; [1, 1] &lt; [1, 2] &lt; [2]</code>.
+public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;S&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.516">lexicographical</a>()</pre>
+<div class="block">Returns a new ordering which sorts iterables by comparing corresponding elements pairwise until
+ a nonzero result is found; imposes "dictionary order". If the end of one iterable is reached,
+ but not the other, the shorter iterable is considered to be less than the longer one. For
+ example, a lexicographical natural ordering over integers considers <code>[] &lt; [1] &lt; [1, 1] &lt;
+ [1, 2] &lt; [2]</code>.
 
- <p>Note that <code>ordering.lexicographical().reverse()</code> is not
- equivalent to <code>ordering.reverse().lexicographical()</code> (consider how
- each would order <code>[1]</code> and <code>[1, 1]</code>).</div>
+ <p>Note that <code>ordering.lexicographical().reverse()</code> is not equivalent to <code>ordering.reverse().lexicographical()</code> (consider how each would order <code>[1]</code> and <code>[1,
+ 1]</code>).
+
+ <p><b>Java 8 users:</b> Use <code>Comparators#lexicographical(Comparator)</code> instead.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>2.0</dd></dl>
 </li>
@@ -814,7 +829,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre>public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.501">compare</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.532">compare</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
           <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&nbsp;left,
           <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
           <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&nbsp;right)</pre>
@@ -830,16 +845,18 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.517">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator)</pre>
-<div class="block">Returns the least of the specified values according to this ordering. If
- there are multiple least values, the first of those is returned. The
- iterator will be left exhausted: its <code>hasNext()</code> method will return
- <code>false</code>.</div>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.550">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator)</pre>
+<div class="block">Returns the least of the specified values according to this ordering. If there are multiple
+ least values, the first of those is returned. The iterator will be left exhausted: its <code>hasNext()</code> method will return <code>false</code>.
+
+ <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
+ use <code>Streams.stream(iterator).min(thisComparator).get()</code> instead (but note that it does
+ not guarantee which tied minimum element is returned).</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>iterator</code> - the iterator whose minimum element is to be determined</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util">NoSuchElementException</a></code> - if <code>iterator</code> is empty</dd>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the parameters are not <i>mutually
-     comparable</i> under this ordering.</dd><dt><span class="strong">Since:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the parameters are not <i>mutually comparable</i> under this
+     ordering.</dd><dt><span class="strong">Since:</span></dt>
   <dd>11.0</dd></dl>
 </li>
 </ul>
@@ -849,14 +866,18 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.538">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable)</pre>
-<div class="block">Returns the least of the specified values according to this ordering. If
- there are multiple least values, the first of those is returned.</div>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.577">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable)</pre>
+<div class="block">Returns the least of the specified values according to this ordering. If there are multiple
+ least values, the first of those is returned.
+
+ <p><b>Java 8 users:</b> If <code>iterable</code> is a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a>, use <code>Collections.min(collection, thisComparator)</code> instead. Otherwise, continue to use this method
+ for now. After the next release of Guava, use <code>Streams.stream(iterable).min(thisComparator).get()</code> instead. Note that these alternatives do
+ not guarantee which tied minimum element is returned)</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>iterable</code> - the iterable whose minimum element is to be determined</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util">NoSuchElementException</a></code> - if <code>iterable</code> is empty</dd>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the parameters are not <i>mutually
-     comparable</i> under this ordering.</dd></dl>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the parameters are not <i>mutually comparable</i> under this
+     ordering.</dd></dl>
 </li>
 </ul>
 <a name="min(java.lang.Object,java.lang.Object)">
@@ -867,20 +888,22 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.556">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.597">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;a,
                   <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;b)</pre>
-<div class="block">Returns the lesser of the two values according to this ordering. If the
- values compare as 0, the first is returned.
+<div class="block">Returns the lesser of the two values according to this ordering. If the values compare as 0,
+ the first is returned.
 
- <p><b>Implementation note:</b> this method is invoked by the default
- implementations of the other <code>min</code> overloads, so overriding it will
- affect their behavior.</div>
+ <p><b>Implementation note:</b> this method is invoked by the default implementations of the
+ other <code>min</code> overloads, so overriding it will affect their behavior.
+
+ <p><b>Java 8 users:</b> Use <code>Stream.of(a, b).min(thisComparator).get()</code> instead (but note
+ that it does not guarantee which tied minimum element is returned).</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - value to compare, returned if less than or equal to b.</dd><dd><code>b</code> - value to compare.</dd>
 <dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the parameters are not <i>mutually
-     comparable</i> under this ordering.</dd></dl>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the parameters are not <i>mutually comparable</i> under this
+     ordering.</dd></dl>
 </li>
 </ul>
 <a name="min(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object[])">
@@ -891,19 +914,22 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.572">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.616">min</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;a,
                   <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;b,
                   <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;c,
                   E...&nbsp;rest)</pre>
-<div class="block">Returns the least of the specified values according to this ordering. If
- there are multiple least values, the first of those is returned.</div>
+<div class="block">Returns the least of the specified values according to this ordering. If there are multiple
+ least values, the first of those is returned.
+
+ <p><b>Java 8 users:</b> Use <code>Stream.of(a, b, c...).min(thisComparator).get()</code> instead
+ (but note that it does not guarantee which tied minimum element is returned).</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - value to compare, returned if less than or equal to the rest.</dd><dd><code>b</code> - value to compare</dd><dd><code>c</code> - value to compare</dd><dd><code>rest</code> - values to compare</dd>
 <dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the parameters are not <i>mutually
-     comparable</i> under this ordering.</dd></dl>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the parameters are not <i>mutually comparable</i> under this
+     ordering.</dd></dl>
 </li>
 </ul>
 <a name="max(java.util.Iterator)">
@@ -912,16 +938,19 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.596">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator)</pre>
-<div class="block">Returns the greatest of the specified values according to this ordering. If
- there are multiple greatest values, the first of those is returned. The
- iterator will be left exhausted: its <code>hasNext()</code> method will return
- <code>false</code>.</div>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.642">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator)</pre>
+<div class="block">Returns the greatest of the specified values according to this ordering. If there are multiple
+ greatest values, the first of those is returned. The iterator will be left exhausted: its
+ <code>hasNext()</code> method will return <code>false</code>.
+
+ <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
+ use <code>Streams.stream(iterator).max(thisComparator).get()</code> instead (but note that it does
+ not guarantee which tied maximum element is returned).</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>iterator</code> - the iterator whose maximum element is to be determined</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util">NoSuchElementException</a></code> - if <code>iterator</code> is empty</dd>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the parameters are not <i>mutually
-     comparable</i> under this ordering.</dd><dt><span class="strong">Since:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the parameters are not <i>mutually comparable</i> under this
+     ordering.</dd><dt><span class="strong">Since:</span></dt>
   <dd>11.0</dd></dl>
 </li>
 </ul>
@@ -931,9 +960,13 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.617">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable)</pre>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.669">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable)</pre>
 <div class="block">Returns the greatest of the specified values according to this ordering. If
- there are multiple greatest values, the first of those is returned.</div>
+ there are multiple greatest values, the first of those is returned.
+
+ <p><b>Java 8 users:</b> If <code>iterable</code> is a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a>, use <code>Collections.max(collection, thisComparator)</code> instead. Otherwise, continue to use this method
+ for now. After the next release of Guava, use <code>Streams.stream(iterable).max(thisComparator).get()</code> instead. Note that these alternatives do
+ not guarantee which tied maximum element is returned)</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>iterable</code> - the iterable whose maximum element is to be determined</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/NoSuchElementException.html?is-external=true" title="class or interface in java.util">NoSuchElementException</a></code> - if <code>iterable</code> is empty</dd>
@@ -949,7 +982,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.635">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.690">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;a,
                   <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;b)</pre>
@@ -958,7 +991,10 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 
  <p><b>Implementation note:</b> this method is invoked by the default
  implementations of the other <code>max</code> overloads, so overriding it will
- affect their behavior.</div>
+ affect their behavior.
+
+ <p><b>Java 8 users:</b> Use <code>Stream.of(a, b).max(thisComparator).get()</code> instead (but note
+ that it does not guarantee which tied maximum element is returned).</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - value to compare, returned if greater than or equal to b.</dd><dd><code>b</code> - value to compare.</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the parameters are not <i>mutually
@@ -973,7 +1009,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.651">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.709">max</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;a,
                   <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                   E&nbsp;b,
@@ -981,7 +1017,10 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
                   E&nbsp;c,
                   E...&nbsp;rest)</pre>
 <div class="block">Returns the greatest of the specified values according to this ordering. If
- there are multiple greatest values, the first of those is returned.</div>
+ there are multiple greatest values, the first of those is returned.
+
+ <p><b>Java 8 users:</b> Use <code>Stream.of(a, b, c...).max(thisComparator).get()</code> instead
+ (but note that it does not guarantee which tied maximum element is returned).</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - value to compare, returned if greater than or equal to the rest.</dd><dd><code>b</code> - value to compare</dd><dd><code>c</code> - value to compare</dd><dd><code>rest</code> - values to compare</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ClassCastException.html?is-external=true" title="class or interface in java.lang">ClassCastException</a></code> - if the parameters are not <i>mutually
@@ -994,17 +1033,19 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>leastOf</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.675">leastOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable,
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.735">leastOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable,
                             int&nbsp;k)</pre>
-<div class="block">Returns the <code>k</code> least elements of the given iterable according to
- this ordering, in order from least to greatest.  If there are fewer than
- <code>k</code> elements present, all will be included.
+<div class="block">Returns the <code>k</code> least elements of the given iterable according to this ordering, in order
+ from least to greatest. If there are fewer than <code>k</code> elements present, all will be
+ included.
 
- <p>The implementation does not necessarily use a <i>stable</i> sorting
- algorithm; when multiple elements are equivalent, it is undefined which
- will come first.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd>an immutable <code>RandomAccess</code> list of the <code>k</code> least
-     elements in ascending order</dd>
+ <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
+ elements are equivalent, it is undefined which will come first.
+
+ <p><b>Java 8 users:</b> Use <code>Streams.stream(iterable).collect(Comparators.least(k,
+ thisComparator))</code> instead.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>an immutable <code>RandomAccess</code> list of the <code>k</code> least elements in ascending
+     order</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>k</code> is negative</dd><dt><span class="strong">Since:</span></dt>
   <dd>8.0</dd></dl>
@@ -1016,17 +1057,19 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>leastOf</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.709">leastOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;elements,
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.771">leastOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator,
                             int&nbsp;k)</pre>
-<div class="block">Returns the <code>k</code> least elements from the given iterator according to
- this ordering, in order from least to greatest.  If there are fewer than
- <code>k</code> elements present, all will be included.
+<div class="block">Returns the <code>k</code> least elements from the given iterator according to this ordering, in
+ order from least to greatest. If there are fewer than <code>k</code> elements present, all will be
+ included.
 
- <p>The implementation does not necessarily use a <i>stable</i> sorting
- algorithm; when multiple elements are equivalent, it is undefined which
- will come first.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd>an immutable <code>RandomAccess</code> list of the <code>k</code> least
-     elements in ascending order</dd>
+ <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
+ elements are equivalent, it is undefined which will come first.
+
+ <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
+ use <code>Streams.stream(iterator).collect(Comparators.least(k, thisComparator))</code> instead.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>an immutable <code>RandomAccess</code> list of the <code>k</code> least elements in ascending
+     order</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>k</code> is negative</dd><dt><span class="strong">Since:</span></dt>
   <dd>14.0</dd></dl>
@@ -1038,17 +1081,19 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>greatestOf</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.745">greatestOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable,
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.809">greatestOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;iterable,
                                int&nbsp;k)</pre>
-<div class="block">Returns the <code>k</code> greatest elements of the given iterable according to
- this ordering, in order from greatest to least. If there are fewer than
- <code>k</code> elements present, all will be included.
+<div class="block">Returns the <code>k</code> greatest elements of the given iterable according to this ordering, in
+ order from greatest to least. If there are fewer than <code>k</code> elements present, all will be
+ included.
 
- <p>The implementation does not necessarily use a <i>stable</i> sorting
- algorithm; when multiple elements are equivalent, it is undefined which
- will come first.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd>an immutable <code>RandomAccess</code> list of the <code>k</code> greatest
-     elements in <i>descending order</i></dd>
+ <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
+ elements are equivalent, it is undefined which will come first.
+
+ <p><b>Java 8 users:</b> Use <code>Streams.stream(iterable).collect(Comparators.greatest(k,
+ thisComparator))</code> instead.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>an immutable <code>RandomAccess</code> list of the <code>k</code> greatest elements in
+     <i>descending order</i></dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>k</code> is negative</dd><dt><span class="strong">Since:</span></dt>
   <dd>8.0</dd></dl>
@@ -1060,17 +1105,19 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>greatestOf</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.765">greatestOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator,
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.831">greatestOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;iterator,
                                int&nbsp;k)</pre>
-<div class="block">Returns the <code>k</code> greatest elements from the given iterator according to
- this ordering, in order from greatest to least. If there are fewer than
- <code>k</code> elements present, all will be included.
+<div class="block">Returns the <code>k</code> greatest elements from the given iterator according to this ordering, in
+ order from greatest to least. If there are fewer than <code>k</code> elements present, all will be
+ included.
 
- <p>The implementation does not necessarily use a <i>stable</i> sorting
- algorithm; when multiple elements are equivalent, it is undefined which
- will come first.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd>an immutable <code>RandomAccess</code> list of the <code>k</code> greatest
-     elements in <i>descending order</i></dd>
+ <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
+ elements are equivalent, it is undefined which will come first.
+
+ <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
+ use <code>Streams.stream(iterator).collect(Comparators.greatest(k, thisComparator))</code> instead.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>an immutable <code>RandomAccess</code> list of the <code>k</code> greatest elements in
+     <i>descending order</i></dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>k</code> is negative</dd><dt><span class="strong">Since:</span></dt>
   <dd>14.0</dd></dl>
@@ -1082,22 +1129,20 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>sortedCopy</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.788">sortedCopy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
-<div class="block">Returns a <b>mutable</b> list containing <code>elements</code> sorted by this
- ordering; use this only when the resulting list may need further
- modification, or may contain <code>null</code>. The input is not modified. The
- returned list is serializable and has random access.
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.852">sortedCopy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
+<div class="block">Returns a <b>mutable</b> list containing <code>elements</code> sorted by this ordering; use this
+ only when the resulting list may need further modification, or may contain <code>null</code>. The
+ input is not modified. The returned list is serializable and has random access.
 
- <p>Unlike <a href="../../../../com/google/common/collect/Sets.html#newTreeSet(java.lang.Iterable)"><code>Sets.newTreeSet(Iterable)</code></a>, this method does not discard
- elements that are duplicates according to the comparator. The sort
- performed is <i>stable</i>, meaning that such elements will appear in the
- returned list in the same order they appeared in <code>elements</code>.
+ <p>Unlike <a href="../../../../com/google/common/collect/Sets.html#newTreeSet(java.lang.Iterable)"><code>Sets.newTreeSet(Iterable)</code></a>, this method does not discard elements that are
+ duplicates according to the comparator. The sort performed is <i>stable</i>, meaning that such
+ elements will appear in the returned list in the same order they appeared in <code>elements</code>.
 
  <p><b>Performance note:</b> According to our
  benchmarking
- on Open JDK 7, <a href="../../../../com/google/common/collect/Ordering.html#immutableSortedCopy(java.lang.Iterable)"><code>immutableSortedCopy(java.lang.Iterable&lt;E&gt;)</code></a> generally performs better (in
- both time and space) than this method, and this method in turn generally
- performs better than copying the list and calling <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#sort(java.util.List)" title="class or interface in java.util"><code>Collections.sort(List)</code></a>.</div>
+ on Open JDK 7, <a href="../../../../com/google/common/collect/Ordering.html#immutableSortedCopy(java.lang.Iterable)"><code>immutableSortedCopy(java.lang.Iterable&lt;E&gt;)</code></a> generally performs better (in both time and space)
+ than this method, and this method in turn generally performs better than copying the list and
+ calling <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#sort(java.util.List)" title="class or interface in java.util"><code>Collections.sort(List)</code></a>.</div>
 </li>
 </ul>
 <a name="immutableSortedCopy(java.lang.Iterable)">
@@ -1106,19 +1151,17 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>immutableSortedCopy</h4>
-<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.814">immutableSortedCopy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
-<div class="block">Returns an <b>immutable</b> list containing <code>elements</code> sorted by this
- ordering. The input is not modified.
+<pre>public&nbsp;&lt;E extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.876">immutableSortedCopy</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</pre>
+<div class="block">Returns an <b>immutable</b> list containing <code>elements</code> sorted by this ordering. The input
+ is not modified.
 
- <p>Unlike <a href="../../../../com/google/common/collect/Sets.html#newTreeSet(java.lang.Iterable)"><code>Sets.newTreeSet(Iterable)</code></a>, this method does not discard
- elements that are duplicates according to the comparator. The sort
- performed is <i>stable</i>, meaning that such elements will appear in the
- returned list in the same order they appeared in <code>elements</code>.
+ <p>Unlike <a href="../../../../com/google/common/collect/Sets.html#newTreeSet(java.lang.Iterable)"><code>Sets.newTreeSet(Iterable)</code></a>, this method does not discard elements that are
+ duplicates according to the comparator. The sort performed is <i>stable</i>, meaning that such
+ elements will appear in the returned list in the same order they appeared in <code>elements</code>.
 
  <p><b>Performance note:</b> According to our
  benchmarking
- on Open JDK 7, this method is the most efficient way to make a sorted copy
- of a collection.</div>
+ on Open JDK 7, this method is the most efficient way to make a sorted copy of a collection.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any of <code>elements</code> (or <code>elements</code> itself) is null</dd><dt><span class="strong">Since:</span></dt>
   <dd>3.0</dd></dl>
@@ -1130,11 +1173,14 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>isOrdered</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.830">isOrdered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</pre>
-<div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is
- greater than or equal to the element that preceded it, according to this
- ordering. Note that this is always true when the iterable has fewer than
- two elements.</div>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.895">isOrdered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</pre>
+<div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is greater than or
+ equal to the element that preceded it, according to this ordering. Note that this is always
+ true when the iterable has fewer than two elements.
+
+ <p><b>Java 8 users:</b> Use the equivalent <code>Comparators#isInOrder(Iterable)</code> instead,
+ since the rest of <code>Ordering</code> is mostly obsolete (as explained in the class
+ documentation).</div>
 </li>
 </ul>
 <a name="isStrictlyOrdered(java.lang.Iterable)">
@@ -1143,11 +1189,14 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <ul class="blockList">
 <li class="blockList">
 <h4>isStrictlyOrdered</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.851">isStrictlyOrdered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</pre>
-<div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is
- <i>strictly</i> greater than the element that preceded it, according to
- this ordering. Note that this is always true when the iterable has fewer
- than two elements.</div>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.919">isStrictlyOrdered</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</pre>
+<div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is <i>strictly</i>
+ greater than the element that preceded it, according to this ordering. Note that this is always
+ true when the iterable has fewer than two elements.
+
+ <p><b>Java 8 users:</b> Use the equivalent <code>Comparators#isInStrictOrder(Iterable)</code>
+ instead, since the rest of <code>Ordering</code> is mostly obsolete (as explained in the class
+ documentation).</div>
 </li>
 </ul>
 <a name="binarySearch(java.util.List,java.lang.Object)">
@@ -1159,7 +1208,7 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
 <li class="blockList">
 <h4>binarySearch</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.877">binarySearch</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;sortedList,
+public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/Ordering.html#line.945">binarySearch</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;? extends <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;sortedList,
                           <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                           <a href="../../../../com/google/common/collect/Ordering.html" title="type parameter in Ordering">T</a>&nbsp;key)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Use <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collections.html?is-external=true#binarySearch(java.util.List,%20T,%20java.util.Comparator)" title="class or interface in java.util"><code>Collections.binarySearch(List, Object, Comparator)</code></a> directly. This
