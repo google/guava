@@ -23,10 +23,8 @@ import static com.google.common.util.concurrent.Platform.isInstanceOfThrowableCl
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.ForOverride;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-
 import javax.annotation.Nullable;
 
 /**
@@ -138,11 +136,12 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
 
   /** Template method for subtypes to actually run the fallback. */
   @ForOverride
+  @Nullable
   abstract T doFallback(F fallback, X throwable) throws Exception;
 
   /** Template method for subtypes to actually set the result. */
   @ForOverride
-  abstract void setResult(T result);
+  abstract void setResult(@Nullable T result);
 
   @Override
   protected final void afterDone() {
@@ -197,12 +196,13 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
     }
 
     @Override
+    @Nullable
     V doFallback(Function<? super X, ? extends V> fallback, X cause) throws Exception {
       return fallback.apply(cause);
     }
 
     @Override
-    void setResult(V result) {
+    void setResult(@Nullable V result) {
       set(result);
     }
   }

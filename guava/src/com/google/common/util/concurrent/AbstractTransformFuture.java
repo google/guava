@@ -22,12 +22,10 @@ import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagati
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.ForOverride;
-
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-
 import javax.annotation.Nullable;
 
 /**
@@ -179,11 +177,12 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
 
   /** Template method for subtypes to actually run the transform. */
   @ForOverride
-  abstract T doTransform(F function, I result) throws Exception;
+  @Nullable
+  abstract T doTransform(F function, @Nullable I result) throws Exception;
 
   /** Template method for subtypes to actually set the result. */
   @ForOverride
-  abstract void setResult(T result);
+  abstract void setResult(@Nullable T result);
 
   @Override
   protected final void afterDone() {
@@ -206,7 +205,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
 
     @Override
     ListenableFuture<? extends O> doTransform(
-        AsyncFunction<? super I, ? extends O> function, I input) throws Exception {
+        AsyncFunction<? super I, ? extends O> function, @Nullable I input) throws Exception {
       ListenableFuture<? extends O> outputFuture = function.apply(input);
       checkNotNull(
           outputFuture,
@@ -233,13 +232,14 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
     }
 
     @Override
-    O doTransform(Function<? super I, ? extends O> function, I input) {
+    @Nullable
+    O doTransform(Function<? super I, ? extends O> function, @Nullable I input) {
       return function.apply(input);
       // TODO(lukes): move the UndeclaredThrowable catch block here?
     }
 
     @Override
-    void setResult(O result) {
+    void setResult(@Nullable O result) {
       set(result);
     }
   }
