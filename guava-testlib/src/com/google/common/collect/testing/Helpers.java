@@ -312,7 +312,7 @@ public class Helpers {
     }
   }
 
-  @SuppressWarnings("SelfComparison")
+  @SuppressWarnings({"SelfComparison", "SelfEquals"})
   public static <T extends Comparable<? super T>> void testCompareToAndEquals(
       List<T> valuesInExpectedOrder) {
     // This does an O(n^2) test of all pairs of values in both orders
