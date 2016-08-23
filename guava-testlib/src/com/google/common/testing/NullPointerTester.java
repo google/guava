@@ -469,7 +469,37 @@ public final class NullPointerTester {
   }
 
   private boolean isIgnored(Member member) {
-    return member.isSynthetic() || ignoredMembers.contains(member);
+    return member.isSynthetic() || ignoredMembers.contains(member) || isEquals(member);
+  }
+
+  /**
+   * Returns true if the the given member is a method that overrides {@link Object#equals(Object)}.
+   *
+   * <p>The documentation for {@link Object#equals} says it should accept null, so don't require an
+   * explicit {@link @Nullable} annotation (see <a
+   * href="https://github.com/google/guava/issues/1819">#1819</a>).
+   *
+   * <p>It is not necessary to consider visibility, return type, or type parameter declarations. The
+   * declaration of a method with the same name and formal parameters as {@link Object#equals} that
+   * is not public and boolean-returning, or that declares any type parameters, would be rejected at
+   * compile-time.
+   */
+  private static boolean isEquals(Member member) {
+    if (!(member instanceof Method)) {
+      return false;
+    }
+    Method method = (Method) member;
+    if (!method.getName().contentEquals("equals")) {
+      return false;
+    }
+    Class<?>[] parameters = method.getParameterTypes();
+    if (parameters.length != 1) {
+      return false;
+    }
+    if (!parameters[0].equals(Object.class)) {
+      return false;
+    }
+    return true;
   }
 
   /**

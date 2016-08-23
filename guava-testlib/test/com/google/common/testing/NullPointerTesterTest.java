@@ -1300,4 +1300,22 @@ public class NullPointerTesterTest extends TestCase {
   private static String rootLocaleFormat(String format, Object... args) {
     return String.format(Locale.ROOT, format, args);
   }
+
+  static class OverridesEquals {
+    @Override
+    public boolean equals(Object o) {
+      return true;
+    }
+  }
+
+  static class DoesNotOverrideEquals {
+    public boolean equals(Object a, Object b) {
+      return true;
+    }
+  }
+
+  public void testEqualsMethod() {
+    shouldPass(new OverridesEquals());
+    shouldFail(new DoesNotOverrideEquals());
+  }
 }
