@@ -397,6 +397,11 @@ public class NullPointerTesterTest extends TestCase {
     }
   }
 
+  public void testAcceptIae() {
+    NullPointerTester tester = new NullPointerTester().acceptIllegalArgumentEceptions();
+    tester.testAllPublicStaticMethods(ThrowsIae.class);
+  }
+
   /*
    * This next part consists of several sample classes that provide
    * demonstrations of conditions that cause NullPointerTester

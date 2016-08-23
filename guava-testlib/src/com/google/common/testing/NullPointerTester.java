@@ -93,6 +93,17 @@ public final class NullPointerTester {
   }
 
   /**
+   * Accept {@link IllegalArgumentException}'s being thrown by the invoked methods. Returns this
+   * object.
+   *
+   * @since 20.0
+   */
+  public NullPointerTester acceptIllegalArgumentEceptions() {
+    policy = ExceptionTypePolicy.NPE_IAE_OR_UOE;
+    return this;
+  }
+
+  /**
    * Runs {@link #testConstructor} on every constructor in class {@code c} that
    * has at least {@code minimalVisibility}.
    */
