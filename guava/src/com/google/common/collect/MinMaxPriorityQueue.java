@@ -23,7 +23,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -102,8 +102,9 @@ import java.util.Queue;
  * @author Torbjorn Gannholm
  * @since 8.0
  */
+// TODO(kevinb): GWT compatibility
 @Beta
-@GwtCompatible
+@GwtIncompatible
 public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   /**
@@ -489,7 +490,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   @VisibleForTesting
   static boolean isEvenLevel(int index) {
-    int oneBased = ~~(index + 1); // for GWT
+    int oneBased = index + 1;
     checkState(oneBased > 0, "negative index");
     return (oneBased & EVEN_POWERS_OF_TWO) > (oneBased & ODD_POWERS_OF_TWO);
   }

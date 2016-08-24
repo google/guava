@@ -21,6 +21,8 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 import java.util.Arrays;
+import java.util.Deque;
+import java.util.LinkedList;
 
 /**
  * Minimal GWT emulation of {@code com.google.common.collect.Platform}.
@@ -50,6 +52,10 @@ final class Platform {
 
   static MapMaker tryWeakKeys(MapMaker mapMaker) {
     return mapMaker;
+  }
+
+  static <E> Deque<E> newFastestDeque(int ignored) {
+    return new LinkedList<E>();
   }
 
   private Platform() {}

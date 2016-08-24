@@ -1697,10 +1697,12 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
+  @GwtIncompatible // Deque
   static <E> Deque<E> deque(Deque<E> deque, @Nullable Object mutex) {
     return new SynchronizedDeque<E>(deque, mutex);
   }
 
+  @GwtIncompatible // Deque
   private static final class SynchronizedDeque<E> extends SynchronizedQueue<E> implements Deque<E> {
 
     SynchronizedDeque(Deque<E> delegate, @Nullable Object mutex) {

@@ -18,8 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.testing.NullPointerTester;
@@ -44,7 +42,6 @@ import junit.framework.TestCase;
  * @author Alexei Stolboushkin
  * @author Sverre Sundsdal
  */
-@GwtCompatible(emulated = true)
 public class MinMaxPriorityQueueTest extends TestCase {
   private Ordering<Integer> SOME_COMPARATOR = Ordering.natural().reverse();
 
@@ -818,7 +815,6 @@ public class MinMaxPriorityQueueTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicConstructors(MinMaxPriorityQueue.class);
