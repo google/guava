@@ -50,9 +50,8 @@ import java.util.Queue;
  * @since 15.0
  */
 @Beta
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public abstract class TreeTraverser<T> {
-  // TODO(lowasser): make this GWT-compatible when we've checked in ArrayDeque emulation
 
   /**
    * Returns the children of the specified node.  Must not contain null.

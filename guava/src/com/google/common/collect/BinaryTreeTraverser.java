@@ -22,6 +22,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Optional;
 
+import java.util.ArrayDeque;
 import java.util.BitSet;
 import java.util.Deque;
 import java.util.Iterator;
@@ -98,7 +99,7 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
     private final Deque<T> stack;
 
     PreOrderIterator(T root) {
-      this.stack = Platform.newFastestDeque(8);
+      this.stack = new ArrayDeque<T>(8);
       stack.addLast(root);
     }
 
@@ -134,7 +135,7 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
     private final BitSet hasExpanded;
 
     PostOrderIterator(T root) {
-      this.stack = Platform.newFastestDeque(8);
+      this.stack = new ArrayDeque<T>(8);
       stack.addLast(root);
       this.hasExpanded = new BitSet();
     }
@@ -179,7 +180,7 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
     private final BitSet hasExpandedLeft;
 
     InOrderIterator(T root) {
-      this.stack = Platform.newFastestDeque(8);
+      this.stack = new ArrayDeque<T>(8);
       this.hasExpandedLeft = new BitSet();
       stack.addLast(root);
     }
