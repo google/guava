@@ -929,7 +929,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * @since 15.0
    */
-  @GwtIncompatible // TODO
   public static <V> ListenableFuture<V> nonCancellationPropagating(ListenableFuture<V> future) {
     return new NonCancellationPropagatingFuture<V>(future);
   }
@@ -937,7 +936,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   /**
    * A wrapped future that does not propagate cancellation to its delegate.
    */
-  @GwtIncompatible // TODO
   private static final class NonCancellationPropagatingFuture<V>
       extends AbstractFuture.TrustedFuture<V> {
     NonCancellationPropagatingFuture(final ListenableFuture<V> delegate) {

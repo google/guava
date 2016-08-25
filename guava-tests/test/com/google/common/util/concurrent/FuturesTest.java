@@ -3002,7 +3002,6 @@ public class FuturesTest extends TestCase {
     assertThat(logged.get(0).getThrown()).isInstanceOf(MyError.class);
   }
 
-  @GwtIncompatible // nonCancellationPropagating
   public void testNonCancellationPropagating_successful() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     ListenableFuture<Foo> wrapper = nonCancellationPropagating(input);
@@ -3014,7 +3013,6 @@ public class FuturesTest extends TestCase {
     assertSame(foo, getDone(wrapper));
   }
 
-  @GwtIncompatible // nonCancellationPropagating
   public void testNonCancellationPropagating_failure() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     ListenableFuture<Foo> wrapper = nonCancellationPropagating(input);
@@ -3030,7 +3028,6 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // nonCancellationPropagating
   public void testNonCancellationPropagating_delegateCancelled() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     ListenableFuture<Foo> wrapper = nonCancellationPropagating(input);
@@ -3040,7 +3037,6 @@ public class FuturesTest extends TestCase {
     assertTrue(wrapper.isCancelled());
   }
 
-  @GwtIncompatible // nonCancellationPropagating
   public void testNonCancellationPropagating_doesNotPropagate() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     ListenableFuture<Foo> wrapper = nonCancellationPropagating(input);
