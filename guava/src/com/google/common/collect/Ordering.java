@@ -261,7 +261,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * }</pre>
    *
    * <p>Assuming {@code t}, {@code e} and {@code s} are non-null, this returns {@code [t, e, s, t,
-   * null, null, null]} regardlesss of the true comparison order of those three values (which might
+   * null, null, null]} regardless of the true comparison order of those three values (which might
    * not even implement {@link Comparable} at all).
    *
    * <p><b>Warning:</b> by definition, this comparator is not <i>consistent with equals</i> (as
