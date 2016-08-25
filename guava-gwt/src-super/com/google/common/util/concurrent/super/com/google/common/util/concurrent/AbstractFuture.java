@@ -40,10 +40,10 @@ import javax.annotation.Nullable;
 public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
   abstract static class TrustedFuture<V> extends AbstractFuture<V> {
-    /*
-     * We don't need to override any of methods that we override in the prod version (and in fact we
-     * can't) because they are already final.
-     */
+    @Override public final boolean cancel(boolean mayInterruptIfRunning) {
+      return super.cancel(mayInterruptIfRunning);
+    }
+    // Most other methods are already final in AbstractFuture itself under GWT.
   }
 
   private static final Logger log = Logger.getLogger(AbstractFuture.class.getName());
@@ -75,6 +75,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     notifyAndClearListeners();
 
     if (delegate != null) {
+      // TODO(lukes): consider adding the StackOverflowError protection from the server version
       delegate.cancel(mayInterruptIfRunning);
     }
 
@@ -175,12 +176,13 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   private void notifyAndClearListeners() {
+    afterDone();
+    // TODO(lukes): consider adding the StackOverflowError protection from the server version
     // TODO(cpovirk): consider clearing this.delegate
     for (Listener listener : listeners) {
       listener.execute();
     }
     listeners = null;
-    afterDone();
   }
 
   protected void afterDone() {}

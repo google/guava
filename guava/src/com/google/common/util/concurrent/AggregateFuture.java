@@ -22,14 +22,11 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableCollection;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.annotation.Nullable;
 
 /**
@@ -47,28 +44,20 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
   @Override
   protected final void afterDone() {
     super.afterDone();
-
-    // Let go of the memory held by the running state
-    this.runningState = null;
-  }
-
-  // TODO(cpovirk): Use maybePropagateCancellation() if the performance is OK and the code is clean.
-  @CanIgnoreReturnValue
-  @Override
-  public final boolean cancel(boolean mayInterruptIfRunning) {
     // Must get a reference to the futures before we cancel, as they'll be cleared out.
     RunningState localRunningState = runningState;
-    ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures =
-        (localRunningState != null) ? localRunningState.futures : null;
-    // Cancel all the component futures.
-    boolean cancelled = super.cancel(mayInterruptIfRunning);
-    // & is faster than the branch required for &&
-    if (cancelled & futures != null) {
-      for (ListenableFuture<?> future : futures) {
-        future.cancel(mayInterruptIfRunning);
+    if (localRunningState != null) {
+      // Let go of the memory held by the running state
+      this.runningState = null;
+      ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures =
+          localRunningState.futures;
+      if (isCancelled() & futures != null) {
+        boolean mayInterruptIfRunning = wasInterrupted();
+        for (ListenableFuture<?> future : futures) {
+          future.cancel(mayInterruptIfRunning);
+        }
       }
     }
-    return cancelled;
   }
 
   @GwtIncompatible // Interruption not supported
@@ -217,10 +206,10 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
         checkState(future.isDone(), "Tried to set value from future which is not done");
         if (allMustSucceed) {
           if (future.isCancelled()) {
-            // this.cancel propagates the cancellation to children; we use super.cancel to set our
-            // own state but let the input futures keep running as some of them may be used
-            // elsewhere.
-            AggregateFuture.super.cancel(false);
+            // clear running state prior to cancelling children, this sets our own state but lets
+            // the input futures keep running as some of them may be used elsewhere.
+            runningState = null;
+            cancel(false);
           } else {
             // We always get the result so that we can have fail-fast, even if we don't collect
             InputT result = getDone(future);

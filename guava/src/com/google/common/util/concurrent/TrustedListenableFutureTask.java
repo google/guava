@@ -76,7 +76,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
   }
 
   @Override
-  protected final void afterDone() {
+  protected void afterDone() {
     super.afterDone();
 
     // Free all resources associated with the running task
