@@ -19,11 +19,15 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.graph.BasicGraph.Presence;
 
 /**
  * A {@link BasicGraph} whose elements and structural relationships will never change. Instances of
  * this class may be obtained with {@link #copyOf(BasicGraph)}.
+ *
+ * <p>This class generally provides all of the same guarantees as {@link ImmutableCollection}
+ * (despite not extending {@link ImmutableCollection} itself), including guaranteed thread-safety.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
@@ -34,16 +38,12 @@ import com.google.common.graph.BasicGraph.Presence;
 @Beta
 public class ImmutableBasicGraph<N> extends ImmutableGraph<N, Presence> implements BasicGraph<N> {
 
-  /**
-   * To ensure the immutability contract is maintained, there must be no public constructors.
-   */
+  /** To ensure the immutability contract is maintained, there must be no public constructors. */
   private ImmutableBasicGraph(BasicGraph<N> graph) {
     super(graph);
   }
 
-  /**
-   * Returns an immutable copy of {@code graph}.
-   */
+  /** Returns an immutable copy of {@code graph}. */
   public static <N> ImmutableBasicGraph<N> copyOf(BasicGraph<N> graph) {
     return (graph instanceof ImmutableBasicGraph)
         ? (ImmutableBasicGraph<N>) graph

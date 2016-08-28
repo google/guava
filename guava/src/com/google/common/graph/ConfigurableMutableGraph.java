@@ -40,12 +40,18 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  */
 final class ConfigurableMutableGraph<N, V>
     extends ConfigurableGraph<N, V> implements MutableGraph<N, V> {
+  private long edgeCount = 0L; // must be updated when edges are added or removed
 
   /**
    * Constructs a mutable graph with the properties specified in {@code builder}.
    */
   ConfigurableMutableGraph(AbstractGraphBuilder<? super N> builder) {
     super(builder);
+  }
+
+  @Override
+  protected long edgeCount() {
+    return edgeCount;
   }
 
   @Override

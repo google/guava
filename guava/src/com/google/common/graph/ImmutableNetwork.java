@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import java.util.Map;
@@ -27,6 +28,9 @@ import java.util.Map;
 /**
  * A {@link Network} whose elements and structural relationships will never change. Instances of
  * this class may be obtained with {@link #copyOf(Network)}.
+ *
+ * <p>This class generally provides all of the same guarantees as {@link ImmutableCollection}
+ * (despite not extending {@link ImmutableCollection} itself), including guaranteed thread-safety.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
@@ -38,16 +42,12 @@ import java.util.Map;
 @Beta
 public class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
 
-  /**
-   * To ensure the immutability contract is maintained, there must be no public constructors.
-   */
+  /** To ensure the immutability contract is maintained, there must be no public constructors. */
   private ImmutableNetwork(Network<N, E> graph) {
     super(NetworkBuilder.from(graph), getNodeConnections(graph), getEdgeToReferenceNode(graph));
   }
 
-  /**
-   * Returns an immutable copy of {@code graph}.
-   */
+  /** Returns an immutable copy of {@code graph}. */
   public static <N, E> ImmutableNetwork<N, E> copyOf(Network<N, E> graph) {
     return (graph instanceof ImmutableNetwork)
         ? (ImmutableNetwork<N, E>) graph
@@ -92,8 +92,8 @@ public class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
       Map<E, N> outEdgeMap = Maps.asMap(graph.outEdges(node), targetNodeFn(graph));
       int selfLoopCount = graph.edgesConnecting(node, node).size();
       return graph.allowsParallelEdges()
-           ? DirectedMultiNetworkConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount)
-           : DirectedNetworkConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount);
+          ? DirectedMultiNetworkConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount)
+          : DirectedNetworkConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount);
     } else {
       Map<E, N> incidentEdgeMap =
           Maps.asMap(graph.incidentEdges(node), adjacentNodeFn(graph, node));

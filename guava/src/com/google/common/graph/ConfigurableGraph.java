@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
 import static com.google.common.graph.GraphConstants.EDGE_CONNECTING_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
-import static com.google.common.graph.Graphs.checkNonNegative;
 
 import java.util.Map;
 import java.util.Set;
@@ -60,8 +59,6 @@ class ConfigurableGraph<N, V> extends AbstractGraph<N, V> {
 
   protected final MapIteratorCache<N, GraphConnections<N, V>> nodeConnections;
 
-  protected long edgeCount; // must be updated when edges are added or removed
-
   /**
    * Constructs a graph with the properties specified in {@code builder}.
    */
@@ -69,8 +66,7 @@ class ConfigurableGraph<N, V> extends AbstractGraph<N, V> {
     this(
         builder,
         builder.nodeOrder.<N, GraphConnections<N, V>>createMap(
-            builder.expectedNodeCount.or(DEFAULT_NODE_COUNT)),
-        0L /* edgeCount */);
+            builder.expectedNodeCount.or(DEFAULT_NODE_COUNT)));
   }
 
   /**
@@ -78,7 +74,7 @@ class ConfigurableGraph<N, V> extends AbstractGraph<N, V> {
    * the given node map.
    */
   ConfigurableGraph(AbstractGraphBuilder<? super N> builder,
-      Map<N, GraphConnections<N, V>> nodeConnections, long edgeCount) {
+      Map<N, GraphConnections<N, V>> nodeConnections) {
     this.isDirected = builder.directed;
     this.allowsSelfLoops = builder.allowsSelfLoops;
     this.nodeOrder = builder.nodeOrder.cast();
@@ -86,7 +82,6 @@ class ConfigurableGraph<N, V> extends AbstractGraph<N, V> {
     this.nodeConnections = (nodeConnections instanceof TreeMap)
         ? new MapRetrievalCache<N, GraphConnections<N, V>>(nodeConnections)
         : new MapIteratorCache<N, GraphConnections<N, V>>(nodeConnections);
-    this.edgeCount = checkNonNegative(edgeCount);
   }
 
   @Override
@@ -139,11 +134,6 @@ class ConfigurableGraph<N, V> extends AbstractGraph<N, V> {
       return defaultValue;
     }
     return value;
-  }
-
-  @Override
-  protected long edgeCount() {
-    return edgeCount;
   }
 
   protected final GraphConnections<N, V> checkedConnections(Object node) {
