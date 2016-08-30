@@ -42,6 +42,7 @@ import com.google.errorprone.annotations.Immutable;
  * @since 20.0
  */
 @Beta
+@Immutable(containerOf = {"N"})
 public abstract class ImmutableGraph<N> extends ForwardingGraph<N> {
 
   /** To ensure the immutability contract is maintained, there must be no public constructors. */
@@ -87,6 +88,7 @@ public abstract class ImmutableGraph<N> extends ForwardingGraph<N> {
   }
 
   static class ValueBackedImpl<N, V> extends ImmutableGraph<N> {
+    @SuppressWarnings("Immutable") // Uses ImmutableMaps in the backing graph.
     protected final ValueGraph<N, V> backingValueGraph;
 
     ValueBackedImpl(

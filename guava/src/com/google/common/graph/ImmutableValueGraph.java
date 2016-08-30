@@ -40,6 +40,7 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
+@Immutable(containerOf = {"N", "V"})
 public final class ImmutableValueGraph<N, V> extends ImmutableGraph.ValueBackedImpl<N, V>
     implements ValueGraph<N, V> {
 

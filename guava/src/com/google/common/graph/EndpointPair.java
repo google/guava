@@ -23,6 +23,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
+import com.google.errorprone.annotations.Immutable;
 import javax.annotation.Nullable;
 
 /**
@@ -37,6 +38,7 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
+@Immutable(containerOf = {"N"})
 public abstract class EndpointPair<N> implements Iterable<N> {
   private final N nodeU;
   private final N nodeV;
