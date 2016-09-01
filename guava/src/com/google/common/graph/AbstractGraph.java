@@ -20,10 +20,10 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 
 import com.google.common.annotations.Beta;
+import com.google.common.collect.UnmodifiableIterator;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.util.AbstractSet;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -60,7 +60,7 @@ public abstract class AbstractGraph<N> implements Graph<N> {
   public Set<EndpointPair<N>> edges() {
     return new AbstractSet<EndpointPair<N>>() {
       @Override
-      public Iterator<EndpointPair<N>> iterator() {
+      public UnmodifiableIterator<EndpointPair<N>> iterator() {
         return EndpointPairIterator.of(AbstractGraph.this);
       }
 
