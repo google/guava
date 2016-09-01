@@ -40,9 +40,8 @@ import java.util.Map;
  * @since 20.0
  */
 @Beta
-public class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
+public final class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
 
-  /** To ensure the immutability contract is maintained, there must be no public constructors. */
   private ImmutableNetwork(Network<N, E> graph) {
     super(NetworkBuilder.from(graph), getNodeConnections(graph), getEdgeToReferenceNode(graph));
   }
@@ -64,6 +63,17 @@ public class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
     return checkNotNull(graph);
   }
 
+  @Override
+  public ImmutableGraph<N> asGraph() {
+    final Graph<N> asGraph = super.asGraph();
+    return new ImmutableGraph<N>() {
+      @Override
+      protected Graph<N> delegate() {
+        return asGraph; // safe because the graph view is effectively immutable
+      }
+    };
+  }
+
   private static <N, E> Map<N, NetworkConnections<N, E>> getNodeConnections(Network<N, E> graph) {
     // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will have
     // whatever ordering the graph's nodes do, so ImmutableSortedMap is unnecessary even if the
@@ -81,7 +91,7 @@ public class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
     // input edges are sorted.
     ImmutableMap.Builder<E, N> edgeToReferenceNode = ImmutableMap.builder();
     for (E edge : graph.edges()) {
-      edgeToReferenceNode.put(edge, graph.incidentNodes(edge).nodeA());
+      edgeToReferenceNode.put(edge, graph.incidentNodes(edge).nodeU());
     }
     return edgeToReferenceNode.build();
   }

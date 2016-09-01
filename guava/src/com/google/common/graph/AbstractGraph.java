@@ -20,28 +20,22 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Function;
-import com.google.common.collect.Maps;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.util.AbstractSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link Graph}. It is recommended to extend
- * this class rather than implement {@link Graph} directly, to ensure consistent {@link
- * #equals(Object)} and {@link #hashCode()} results across different graph implementations.
+ * this class rather than implement {@link Graph} directly.
  *
  * @author James Sexton
  * @param <N> Node parameter type
- * @param <V> Value parameter type
  * @since 20.0
  */
 @Beta
-public abstract class AbstractGraph<N, V> implements Graph<N, V> {
+public abstract class AbstractGraph<N> implements Graph<N> {
 
   /**
    * Returns the number of edges in this graph; used to calculate the size of {@link #edges()}.
@@ -63,11 +57,11 @@ public abstract class AbstractGraph<N, V> implements Graph<N, V> {
    * {@link #nodes()} and {@link #successors(Object)}.
    */
   @Override
-  public Set<Endpoints<N>> edges() {
-    return new AbstractSet<Endpoints<N>>() {
+  public Set<EndpointPair<N>> edges() {
+    return new AbstractSet<EndpointPair<N>>() {
       @Override
-      public Iterator<Endpoints<N>> iterator() {
-        return EndpointsIterator.of(AbstractGraph.this);
+      public Iterator<EndpointPair<N>> iterator() {
+        return EndpointPairIterator.of(AbstractGraph.this);
       }
 
       @Override
@@ -77,13 +71,13 @@ public abstract class AbstractGraph<N, V> implements Graph<N, V> {
 
       @Override
       public boolean contains(Object obj) {
-        if (!(obj instanceof Endpoints)) {
+        if (!(obj instanceof EndpointPair)) {
           return false;
         }
-        Endpoints<?> endpoints = (Endpoints<?>) obj;
-        return isDirected() == endpoints.isDirected()
-            && nodes().contains(endpoints.nodeA())
-            && successors(endpoints.nodeA()).contains(endpoints.nodeB());
+        EndpointPair<?> endpointPair = (EndpointPair<?>) obj;
+        return isDirected() == endpointPair.isOrdered()
+            && nodes().contains(endpointPair.nodeU())
+            && successors(endpointPair.nodeU()).contains(endpointPair.nodeV());
       }
     };
   }
@@ -109,57 +103,20 @@ public abstract class AbstractGraph<N, V> implements Graph<N, V> {
     return isDirected() ? successors(node).size() : degree(node);
   }
 
-  @Override
-  public final boolean equals(@Nullable Object obj) {
-    if (obj == this) {
-      return true;
-    }
-    if (!(obj instanceof Graph)) {
-      return false;
-    }
-    Graph<?, ?> other = (Graph<?, ?>) obj;
-
-    if (isDirected() != other.isDirected()
-        || !nodes().equals(other.nodes())
-        || !edges().equals(other.edges())) {
-      return false;
-    }
-
-    for (Endpoints<N> edge : edges()) {
-      if (!edgeValue(edge.nodeA(), edge.nodeB()).equals(
-          other.edgeValue(edge.nodeA(), edge.nodeB()))) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  @Override
-  public final int hashCode() {
-    return edgeValueMap().hashCode();
-  }
-
   /**
    * Returns a string representation of this graph.
    */
   @Override
   public String toString() {
-    String propertiesString = String.format(
-        "isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
-    return String.format(GRAPH_STRING_FORMAT,
-        propertiesString,
-        nodes(),
-        edgeValueMap());
+    return toString(this);
   }
 
-  private Map<Endpoints<N>, V> edgeValueMap() {
-    Function<Endpoints<N>, V> edgeToValueFn = new Function<Endpoints<N>, V>() {
-      @Override
-      public V apply(Endpoints<N> edge) {
-        return edgeValue(edge.nodeA(), edge.nodeB());
-      }
-    };
-    return Maps.asMap(edges(), edgeToValueFn);
+  static String toString(Graph<?> graph) {
+    String propertiesString = String.format(
+        "isDirected: %s, allowsSelfLoops: %s", graph.isDirected(), graph.allowsSelfLoops());
+    return String.format(GRAPH_STRING_FORMAT,
+        propertiesString,
+        graph.nodes(),
+        graph.edges());
   }
 }

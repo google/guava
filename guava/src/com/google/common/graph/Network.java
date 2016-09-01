@@ -32,31 +32,32 @@ import javax.annotation.Nullable;
  * represented with a directed graph, where edges are strictly one-way.
  *
  * <p>There are three main interfaces provided to represent graphs. In order of increasing
- * complexity they are: {@link BasicGraph}, {@link Graph}, and {@link Network}. You should generally
+ * complexity they are: {@link Graph}, {@link ValueGraph}, and {@link Network}. You should generally
  * prefer the simplest interface that satisfies your use case.
  *
  * <ol>
  * <li>Do you have data (objects) that you wish to associate with edges?
- *     <p>Yes: Go to question 2. No: Use {@link BasicGraph}.
+ *     <p>Yes: Go to question 2. No: Use {@link Graph}.
  * <li>Are the objects you wish to associate with edges unique within the scope of a graph? That is,
  *     no two objects would be {@link Object#equals(Object) equal} to each other. A common example
  *     where this would <i>not</i> be the case is with weighted graphs.
- *     <p>Yes: Go to question 3. No: Use {@link Graph}.
+ *     <p>Yes: Go to question 3. No: Use {@link ValueGraph}.
  * <li>Do you need to be able to query the graph for an edge associated with a particular object?
  *     For example, do you need to query what nodes an edge associated with a particular object
  *     connects, or whether an edge associated with that object exists in the graph?
  *     <p>Yes: Use {@link Network}. No: Go to question 4.
  * <li>Do you need explicit support for parallel edges? For example, do you need to remove one edge
  *     connecting a pair of nodes while leaving other edges connecting those same nodes intact?
- *     <p>Yes: Use {@link Network}. No: Use {@link Graph}.
+ *     <p>Yes: Use {@link Network}. No: Use {@link ValueGraph}.
  * </ol>
  *
- * <p>Although {@link MutableGraph} and {@link MutableNetwork} both require users to provide objects
- * to associate with edges when adding them, the differentiating factor is that in {@link Graph}s,
- * these objects can be any arbitrary data. Like the values in a {@link Map}, they do not have to be
- * unique, and can be mutated while in the graph. In a {@link Network}, these objects serve as keys
- * into the data structure. Like the keys in a {@link Map}, they must be unique, and cannot be
- * mutated in a way that affects their equals/hashcode or the data structure will become corrupted.
+ * <p>Although {@link MutableValueGraph} and {@link MutableNetwork} both require users to provide
+ * objects to associate with edges when adding them, the differentiating factor is that in {@link
+ * ValueGraph}s, these objects can be any arbitrary data. Like the values in a {@link Map}, they do
+ * not have to be unique, and can be mutated while in the graph. In a {@link Network}, these objects
+ * serve as keys into the data structure. Like the keys in a {@link Map}, they must be unique, and
+ * cannot be mutated in a way that affects their equals/hashcode or the data structure will become
+ * corrupted.
  *
  * <p>In all three interfaces, nodes have all the same requirements as keys in a {@link Map}.
  *
@@ -84,8 +85,8 @@ import javax.annotation.Nullable;
  * roadNetwork.addEdge("Springfield", "New New York", "Secret Wormhole");
  * String roadToQuery = "Secret Wormhole";
  * if (roadNetwork.edges().contains(roadToQuery)) {
- *   Endpoints<String> cities = roadNetwork.incidentNodes(roadToQuery);
- *   System.out.format("%s and %s connected via %s", cities.nodeA(), cities.nodeB(), roadToQuery);
+ *   EndpointPair<String> cities = roadNetwork.incidentNodes(roadToQuery);
+ *   System.out.format("%s and %s connected via %s", cities.nodeU(), cities.nodeV(), roadToQuery);
  * }
  * </code></pre>
  *
@@ -111,14 +112,11 @@ public interface Network<N, E> {
    * Returns a live view of this network as a {@link Graph}. The resulting {@link Graph} will have
    * an edge connecting node A to node B iff this {@link Network} has an edge connecting A to B.
    *
-   * <p>{@link Graph#edgeValue(Object, Object)} will return the set of edges connecting node A to
-   * node B if the set is non-empty, otherwise, it will throw {@link IllegalArgumentException}.
-   *
    * <p>If this network {@link #allowsParallelEdges()}, parallel edges will treated as if collapsed
    * into a single edge. For example, the {@link #degree(Object)} of a node in the {@link Graph}
    * view may be less than the degree of the same node in this {@link Network}.
    */
-  Graph<N, Set<E>> asGraph();
+  Graph<N> asGraph();
 
   //
   // Network properties
@@ -126,8 +124,8 @@ public interface Network<N, E> {
 
   /**
    * Returns true if the edges in this network are directed. Directed edges connect a {@link
-   * Endpoints#source() source node} to a {@link Endpoints#target() target node}, while undirected
-   * edges connect a pair of nodes to each other.
+   * EndpointPair#source() source node} to a {@link EndpointPair#target() target node}, while
+   * undirected edges connect a pair of nodes to each other.
    */
   boolean isDirected();
 
@@ -252,7 +250,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this network
    */
-  Endpoints<N> incidentNodes(Object edge);
+  EndpointPair<N> incidentNodes(Object edge);
 
   /**
    * Returns the edges which have an {@link #incidentNodes(Object) incident node} in common with
@@ -263,48 +261,34 @@ public interface Network<N, E> {
   Set<E> adjacentEdges(Object edge);
 
   /**
-   * Returns the set of edges that connect {@code nodeA} to {@code nodeB}.
+   * Returns the set of edges that connect {@code nodeU} to {@code nodeV}.
    *
-   * <p>In an undirected network, this is equal to {@code edgesConnecting(nodeB, nodeA)}.
+   * <p>In an undirected network, this is equal to {@code edgesConnecting(nodeV, nodeU)}.
    *
-   * @throws IllegalArgumentException if {@code nodeA} or {@code nodeB} is not an element of this
+   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     network
    */
-  Set<E> edgesConnecting(Object nodeA, Object nodeB);
+  Set<E> edgesConnecting(Object nodeU, Object nodeV);
 
   //
   // Network identity
   //
 
   /**
-   * Returns {@code true} iff {@code object} is a {@link Network} that has the same elements and the
-   * same structural relationships as those in this network.
+   * For the default {@link Network} implementations, returns true iff {@code this == object} (i.e.
+   * reference equality). External implementations are free to define this method as they see fit,
+   * as long as they satisfy the {@link Object#equals(Object)} contract.
    *
-   * <p>Thus, two networks A and B are equal if <b>all</b> of the following are true:
-   *
-   * <ul>
-   * <li>A and B have equal {@link #isDirected() directedness}.
-   * <li>A and B have equal {@link #nodes() node sets}.
-   * <li>A and B have equal {@link #edges() edge sets}.
-   * <li>Every edge in A and B connects the same nodes in the same direction (if any).
-   * </ul>
-   *
-   * <p>Network properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.
-   * For example, two networks may be considered equal even if one allows parallel edges and the
-   * other doesn't. Additionally, the order in which nodes or edges are added to the network, and
-   * the order in which they are iterated over, are irrelevant.
-   *
-   * <p>A reference implementation of this is provided by {@link AbstractNetwork#equals(Object)}.
+   * <p>To compare two {@link Network}s based on their contents rather than their references, see
+   * {@link Graphs#equivalent(Network, Network)}.
    */
   @Override
   boolean equals(@Nullable Object object);
 
   /**
-   * Returns the hash code for this network. The hash code of a network is defined as the hash code
-   * of a map from each of its {@link #edges() edges} to their {@link #incidentNodes(Object)
-   * incident nodes}.
-   *
-   * <p>A reference implementation of this is provided by {@link AbstractNetwork#hashCode()}.
+   * For the default {@link Network} implementations, returns {@code System.identityHashCode(this)}.
+   * External implementations are free to define this method as they see fit, as long as they
+   * satisfy the {@link Object#hashCode()} contract.
    */
   @Override
   int hashCode();

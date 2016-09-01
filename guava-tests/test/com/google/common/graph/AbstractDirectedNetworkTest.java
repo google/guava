@@ -39,15 +39,15 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
   public void validateSourceAndTarget() {
     for (Integer node : network.nodes()) {
       for (String inEdge : network.inEdges(node)) {
-        Endpoints<Integer> endpoints = network.incidentNodes(inEdge);
-        assertThat(endpoints.source()).isEqualTo(endpoints.adjacentNode(node));
-        assertThat(endpoints.target()).isEqualTo(node);
+        EndpointPair<Integer> endpointPair = network.incidentNodes(inEdge);
+        assertThat(endpointPair.source()).isEqualTo(endpointPair.adjacentNode(node));
+        assertThat(endpointPair.target()).isEqualTo(node);
       }
 
       for (String outEdge : network.outEdges(node)) {
-        Endpoints<Integer> endpoints = network.incidentNodes(outEdge);
-        assertThat(endpoints.source()).isEqualTo(node);
-        assertThat(endpoints.target()).isEqualTo(endpoints.adjacentNode(node));
+        EndpointPair<Integer> endpointPair = network.incidentNodes(outEdge);
+        assertThat(endpointPair.source()).isEqualTo(node);
+        assertThat(endpointPair.target()).isEqualTo(endpointPair.adjacentNode(node));
       }
 
       for (Integer adjacentNode : network.adjacentNodes(node)) {

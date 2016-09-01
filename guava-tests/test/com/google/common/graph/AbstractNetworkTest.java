@@ -24,7 +24,6 @@ import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.google.common.testing.EqualsTester;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Set;
 import org.junit.After;
@@ -149,10 +148,8 @@ public abstract class AbstractNetworkTest {
   }
 
   static <N, E> void validateNetwork(Network<N, E> network) {
-    new EqualsTester().addEqualityGroup(
-        network,
-        Graphs.copyOf(network),
-        ImmutableNetwork.copyOf(network)).testEquals();
+    assertThat(Graphs.equivalent(network, Graphs.copyOf(network))).isTrue();
+    assertThat(Graphs.equivalent(network, ImmutableNetwork.copyOf(network))).isTrue();
 
     String networkString = network.toString();
     assertThat(networkString).contains("isDirected: " + network.isDirected());
@@ -164,7 +161,7 @@ public abstract class AbstractNetworkTest {
     String nodeString = networkString.substring(nodeStart, edgeStart);
     String edgeString = networkString.substring(edgeStart);
 
-    Graph<N, Set<E>> asGraph = network.asGraph();
+    Graph<N> asGraph = network.asGraph();
     AbstractGraphTest.validateGraph(asGraph);
     assertThat(network.nodes()).isEqualTo(asGraph.nodes());
     assertThat(network.edges().size()).isAtLeast(asGraph.edges().size());
@@ -180,22 +177,22 @@ public abstract class AbstractNetworkTest {
       // TODO(b/27817069): Consider verifying the edge's incident nodes in the string.
       assertThat(edgeString).contains(edge.toString());
 
-      Endpoints<N> endpoints = network.incidentNodes(edge);
-      N nodeA = endpoints.nodeA();
-      N nodeB = endpoints.nodeB();
-      assertThat(asGraph.edges()).contains(Endpoints.of(network, nodeA, nodeB));
-      assertThat(network.edgesConnecting(nodeA, nodeB)).contains(edge);
-      assertThat(network.successors(nodeA)).contains(nodeB);
-      assertThat(network.adjacentNodes(nodeA)).contains(nodeB);
-      assertThat(network.outEdges(nodeA)).contains(edge);
-      assertThat(network.incidentEdges(nodeA)).contains(edge);
-      assertThat(network.predecessors(nodeB)).contains(nodeA);
-      assertThat(network.adjacentNodes(nodeB)).contains(nodeA);
-      assertThat(network.inEdges(nodeB)).contains(edge);
-      assertThat(network.incidentEdges(nodeB)).contains(edge);
+      EndpointPair<N> endpointPair = network.incidentNodes(edge);
+      N nodeU = endpointPair.nodeU();
+      N nodeV = endpointPair.nodeV();
+      assertThat(asGraph.edges()).contains(EndpointPair.of(network, nodeU, nodeV));
+      assertThat(network.edgesConnecting(nodeU, nodeV)).contains(edge);
+      assertThat(network.successors(nodeU)).contains(nodeV);
+      assertThat(network.adjacentNodes(nodeU)).contains(nodeV);
+      assertThat(network.outEdges(nodeU)).contains(edge);
+      assertThat(network.incidentEdges(nodeU)).contains(edge);
+      assertThat(network.predecessors(nodeV)).contains(nodeU);
+      assertThat(network.adjacentNodes(nodeV)).contains(nodeU);
+      assertThat(network.inEdges(nodeV)).contains(edge);
+      assertThat(network.incidentEdges(nodeV)).contains(edge);
 
       for (N incidentNode : ImmutableSet.of(
-          network.incidentNodes(edge).nodeA(), network.incidentNodes(edge).nodeB())) {
+          network.incidentNodes(edge).nodeU(), network.incidentNodes(edge).nodeV())) {
         assertThat(network.nodes()).contains(incidentNode);
         for (E adjacentEdge : network.incidentEdges(incidentNode)) {
           assertTrue(edge.equals(adjacentEdge)
@@ -244,7 +241,8 @@ public abstract class AbstractNetworkTest {
           assertThat(edgesConnecting).isEmpty();
         }
         for (E edge : edgesConnecting) {
-          assertThat(network.incidentNodes(edge)).isEqualTo(Endpoints.of(network, node, otherNode));
+          assertThat(network.incidentNodes(edge))
+              .isEqualTo(EndpointPair.of(network, node, otherNode));
         }
       }
 
@@ -252,8 +250,8 @@ public abstract class AbstractNetworkTest {
         assertTrue(network.inEdges(node).contains(incidentEdge)
             || network.outEdges(node).contains(incidentEdge));
         assertThat(network.edges()).contains(incidentEdge);
-        assertTrue(network.incidentNodes(incidentEdge).nodeA().equals(node)
-            || network.incidentNodes(incidentEdge).nodeB().equals(node));
+        assertTrue(network.incidentNodes(incidentEdge).nodeU().equals(node)
+            || network.incidentNodes(incidentEdge).nodeV().equals(node));
       }
 
       for (E inEdge : network.inEdges(node)) {
@@ -281,10 +279,8 @@ public abstract class AbstractNetworkTest {
       }
 
       for (N successor : network.successors(node)) {
-        Set<E> edgesConnecting = network.edgesConnecting(node, successor);
         assertThat(network.predecessors(successor)).contains(node);
-        assertThat(edgesConnecting).isNotEmpty();
-        assertThat(edgesConnecting).isEqualTo(asGraph.edgeValue(node, successor));
+        assertThat(network.edgesConnecting(node, successor)).isNotEmpty();
       }
     }
   }
@@ -644,7 +640,7 @@ public abstract class AbstractNetworkTest {
   @Test
   public void removeEdge_queryAfterRemoval() {
     addEdge(E12, N1, N2);
-    Endpoints<Integer> unused = network.incidentNodes(E12); // ensure cache (if any) is populated
+    EndpointPair<Integer> unused = network.incidentNodes(E12); // ensure cache (if any) is populated
     assertTrue(network.removeEdge(E12));
     try {
       network.incidentNodes(E12);

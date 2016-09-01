@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 The Guava Authors
+ * Copyright (C) 2016 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,16 +20,16 @@ import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
- * A subinterface of {@link BasicGraph} which adds mutation methods. When mutation is not required,
- * users should prefer the {@link BasicGraph} interface.
+ * A subinterface of {@link ValueGraph} which adds mutation methods. When mutation is not required,
+ * users should prefer the {@link ValueGraph} interface.
  *
  * @author James Sexton
- * @author Joshua O'Madadhain
  * @param <N> Node parameter type
+ * @param <V> Value parameter type
  * @since 20.0
  */
 @Beta
-public interface MutableBasicGraph<N> extends BasicGraph<N> {
+public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
 
   /**
    * Adds {@code node} if it is not already present.
@@ -42,20 +42,24 @@ public interface MutableBasicGraph<N> extends BasicGraph<N> {
   boolean addNode(N node);
 
   /**
-   * Adds an edge connecting {@code nodeA} to {@code nodeB} if one is not already present. In an
-   * undirected graph, the edge will also connect {@code nodeB} to {@code nodeA}.
+   * Adds an edge connecting {@code nodeU} to {@code nodeV} if one is not already present; associate
+   * that edge with {@code value}. In an undirected graph, the edge will also connect {@code nodeV}
+   * to {@code nodeU}.
    *
-   * <p>Behavior if {@code nodeA} and {@code nodeB} are not already present in this graph is
+   * <p>Values do not have to be unique. However, values must be non-null.
+   *
+   * <p>Behavior if {@code nodeU} and {@code nodeV} are not already present in this graph is
    * implementation-dependent. Suggested behaviors include (a) silently {@link #addNode(Object)
-   * adding} {@code nodeA} and {@code nodeB} to the graph (this is the behavior of the default
+   * adding} {@code nodeU} and {@code nodeV} to the graph (this is the behavior of the default
    * implementations) or (b) throwing {@code IllegalArgumentException}.
    *
-   * @return {@code true} iff the graph was modified as a result of this call
+   * @return the value previously associated with the edge connecting {@code nodeU} to {@code
+   *     nodeV}, or null if there was no such edge.
    * @throws IllegalArgumentException if the introduction of the edge would violate {@link
    *     #allowsSelfLoops()}
    */
   @CanIgnoreReturnValue
-  boolean putEdge(N nodeA, N nodeB);
+  V putEdgeValue(N nodeU, N nodeV, V value);
 
   /**
    * Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.
@@ -66,10 +70,11 @@ public interface MutableBasicGraph<N> extends BasicGraph<N> {
   boolean removeNode(Object node);
 
   /**
-   * Removes the edge connecting {@code nodeA} to {@code nodeB}, if it is present.
+   * Removes the edge connecting {@code nodeU} to {@code nodeV}, if it is present.
    *
-   * @return {@code true} iff the graph was modified as a result of this call
+   * @return the value previously associated with the edge connecting {@code nodeU} to {@code
+   *     nodeV}, or null if there was no such edge.
    */
   @CanIgnoreReturnValue
-  boolean removeEdge(Object nodeA, Object nodeB);
+  V removeEdge(Object nodeU, Object nodeV);
 }

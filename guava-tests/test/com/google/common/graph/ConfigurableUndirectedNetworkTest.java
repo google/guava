@@ -50,8 +50,8 @@ public class ConfigurableUndirectedNetworkTest extends ConfigurableSimpleUndirec
   @Test
   public void incidentNodes_selfLoop() {
     addEdge(E11, N1, N1);
-    assertThat(network.incidentNodes(E11).nodeA()).isEqualTo(N1);
-    assertThat(network.incidentNodes(E11).nodeB()).isEqualTo(N1);
+    assertThat(network.incidentNodes(E11).nodeU()).isEqualTo(N1);
+    assertThat(network.incidentNodes(E11).nodeV()).isEqualTo(N1);
   }
 
   @Test

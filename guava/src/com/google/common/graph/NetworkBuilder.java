@@ -37,10 +37,11 @@ import com.google.common.base.Optional;
  * <p>Example of use:
  *
  * <pre><code>
- * MutableNetwork<Integer, String> network =
+ * MutableNetwork<String, Integer> flightNetwork =
  *     NetworkBuilder.directed().allowsParallelEdges(true).build();
- * network.addEdge(1, 2, "1->2");
- * network.addEdge(1, 2, "1->2 other");
+ * flightNetwork.addEdge("LAX", "ATL", 3025);
+ * flightNetwork.addEdge("LAX", "ATL", 1598);
+ * flightNetwork.addEdge("ATL", "LAX", 2450);
  * </code></pre>
  *
  * @author James Sexton

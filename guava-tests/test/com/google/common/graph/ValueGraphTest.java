@@ -19,29 +19,32 @@ package com.google.common.graph;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
-import com.google.common.testing.EqualsTester;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for {@link ConfigurableMutableGraph} and related functionality.
+ * Tests for {@link ConfigurableMutableValueGraph} and related functionality.
  */
 // TODO(user): Expand coverage and move to proper test suite.
 @RunWith(JUnit4.class)
-public final class GraphTest {
-  MutableGraph<Integer, String> graph;
+public final class ValueGraphTest {
+  MutableValueGraph<Integer, String> graph;
 
   @After
   public void validateGraphState() {
-    new EqualsTester().addEqualityGroup(
-        graph,
-        Graphs.copyOf(graph),
-        ImmutableGraph.copyOf(graph)).testEquals();
+    assertThat(Graphs.equivalent(graph, Graphs.copyOf(graph))).isTrue();
+    assertThat(Graphs.equivalent(graph, ImmutableValueGraph.copyOf(graph))).isTrue();
 
-    for (Endpoints<Integer> edge : graph.edges()) {
-      assertThat(graph.edgeValue(edge.nodeA(), edge.nodeB())).isNotNull();
+    for (Integer node : graph.nodes()) {
+      for (Integer otherNode : graph.nodes()) {
+        if (graph.successors(node).contains(otherNode)) {
+          assertThat(graph.edgeValue(node, otherNode)).isNotNull();
+        } else {
+          assertThat(graph.edgeValueOrDefault(node, otherNode, null)).isNull();
+        }
+      }
     }
 
     AbstractGraphTest.validateGraph(graph);
@@ -49,7 +52,7 @@ public final class GraphTest {
 
   @Test
   public void directedGraph() {
-    graph = GraphBuilder.directed().allowsSelfLoops(true).build();
+    graph = ValueGraphBuilder.directed().allowsSelfLoops(true).build();
     graph.putEdgeValue(1, 2, "valueA");
     graph.putEdgeValue(2, 1, "valueB");
     graph.putEdgeValue(2, 3, "valueC");
@@ -69,7 +72,7 @@ public final class GraphTest {
 
   @Test
   public void undirectedGraph() {
-    graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
+    graph = ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
     graph.putEdgeValue(1, 2, "valueA");
     graph.putEdgeValue(2, 1, "valueB"); // overwrites valueA in undirected case
     graph.putEdgeValue(2, 3, "valueC");
@@ -89,7 +92,7 @@ public final class GraphTest {
 
   @Test
   public void putEdgeValue_directed() {
-    graph = GraphBuilder.directed().build();
+    graph = ValueGraphBuilder.directed().build();
 
     assertThat(graph.putEdgeValue(1, 2, "valueA")).isNull();
     assertThat(graph.putEdgeValue(2, 1, "valueB")).isNull();
@@ -99,7 +102,7 @@ public final class GraphTest {
 
   @Test
   public void putEdgeValue_undirected() {
-    graph = GraphBuilder.undirected().build();
+    graph = ValueGraphBuilder.undirected().build();
 
     assertThat(graph.putEdgeValue(1, 2, "valueA")).isNull();
     assertThat(graph.putEdgeValue(2, 1, "valueB")).isEqualTo("valueA");
@@ -109,7 +112,7 @@ public final class GraphTest {
 
   @Test
   public void removeEdge_directed() {
-    graph = GraphBuilder.directed().build();
+    graph = ValueGraphBuilder.directed().build();
     graph.putEdgeValue(1, 2, "valueA");
     graph.putEdgeValue(2, 1, "valueB");
     graph.putEdgeValue(2, 3, "valueC");
@@ -124,7 +127,7 @@ public final class GraphTest {
 
   @Test
   public void removeEdge_undirected() {
-    graph = GraphBuilder.undirected().build();
+    graph = ValueGraphBuilder.undirected().build();
     graph.putEdgeValue(1, 2, "valueA");
     graph.putEdgeValue(2, 1, "valueB");
     graph.putEdgeValue(2, 3, "valueC");
@@ -138,7 +141,7 @@ public final class GraphTest {
 
   @Test
   public void edgeValue_edgeNotPresent() {
-    graph = GraphBuilder.directed().build();
+    graph = ValueGraphBuilder.directed().build();
     graph.addNode(1);
     graph.addNode(2);
 
@@ -152,7 +155,7 @@ public final class GraphTest {
 
   @Test
   public void edgeValue_nodeNotPresent() {
-    graph = GraphBuilder.undirected().build();
+    graph = ValueGraphBuilder.undirected().build();
     graph.putEdgeValue(1, 2, "value");
 
     try {
@@ -165,7 +168,7 @@ public final class GraphTest {
 
   @Test
   public void edgeValueOrDefault() {
-    graph = GraphBuilder.directed().build();
+    graph = ValueGraphBuilder.directed().build();
 
     graph.addNode(1);
     graph.addNode(2);
@@ -181,5 +184,22 @@ public final class GraphTest {
     graph.putEdgeValue(2, 1, "valueC");
     assertThat(graph.edgeValueOrDefault(1, 2, "default")).isEqualTo("default");
     assertThat(graph.edgeValueOrDefault(2, 1, "default")).isEqualTo("valueC");
+  }
+
+  @Test
+  public void equivalence_considersEdgeValue() {
+    graph = ValueGraphBuilder.undirected().build();
+    graph.putEdgeValue(1, 2, "valueA");
+
+    MutableValueGraph<Integer, String> otherGraph = ValueGraphBuilder.undirected().build();
+    otherGraph.putEdgeValue(1, 2, "valueA");
+
+    assertThat(Graphs.equivalent(graph, otherGraph)).isTrue();
+    assertThat(Graphs.equivalent((Graph<Integer>) graph, otherGraph)).isTrue();
+
+    otherGraph.putEdgeValue(1, 2, "valueB");
+
+    assertThat(Graphs.equivalent(graph, otherGraph)).isFalse(); // values differ
+    assertThat(Graphs.equivalent((Graph<Integer>) graph, otherGraph)).isTrue();
   }
 }

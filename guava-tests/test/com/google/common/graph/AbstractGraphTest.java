@@ -21,7 +21,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.testing.EqualsTester;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,7 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Abstract base class for testing implementations of {@link BasicGraph} interface. Graph
+ * Abstract base class for testing implementations of {@link Graph} interface. Graph
  * instances created for testing should have Integer node and String edge objects.
  *
  * <p>Test cases that should be handled similarly in any graph implementation are
@@ -40,14 +39,14 @@ import org.junit.Test;
  * <ul>
  * <li>Test cases related to whether the graph is directed, undirected, mutable,
  *     or immutable.
- * <li>Test cases related to the specific implementation of the {@link BasicGraph} interface.
+ * <li>Test cases related to the specific implementation of the {@link Graph} interface.
  * </ul>
  *
  * TODO(user): Make this class generic (using <N, E>) for all node and edge types.
  * TODO(user): Differentiate between directed and undirected edge strings.
  */
 public abstract class AbstractGraphTest {
-  MutableBasicGraph<Integer> graph;
+  MutableGraph<Integer> graph;
   static final Integer N1 = 1;
   static final Integer N2 = 2;
   static final Integer N3 = 3;
@@ -71,7 +70,7 @@ public abstract class AbstractGraphTest {
   /**
    * Creates and returns an instance of the graph to be tested.
    */
-  public abstract MutableBasicGraph<Integer> createGraph();
+  public abstract MutableGraph<Integer> createGraph();
 
   /**
    * A proxy method that adds the node {@code n} to the graph being tested.
@@ -122,15 +121,9 @@ public abstract class AbstractGraphTest {
     validateGraph(graph);
   }
 
-  static <N> void validateGraph(Graph<N, ?> graph) {
-    if (graph instanceof BasicGraph) {
-      @SuppressWarnings("unchecked")
-      BasicGraph<N> basicGraph = (BasicGraph<N>) graph;
-      new EqualsTester().addEqualityGroup(
-          basicGraph,
-          Graphs.copyOf(basicGraph),
-          ImmutableBasicGraph.copyOf(basicGraph)).testEquals();
-    }
+  static <N> void validateGraph(Graph<N> graph) {
+    assertThat(Graphs.equivalent(graph, Graphs.copyOf(graph))).isTrue();
+    assertThat(Graphs.equivalent(graph, ImmutableGraph.copyOf(graph))).isTrue();
 
     String graphString = graph.toString();
     assertThat(graphString).contains("isDirected: " + graph.isDirected());
@@ -142,8 +135,9 @@ public abstract class AbstractGraphTest {
 
     sanityCheckCollection(graph.nodes());
     sanityCheckCollection(graph.edges());
+    assertThat(graph.edges()).doesNotContain(EndpointPair.of(graph, new Object(), new Object()));
 
-    Set<Endpoints<N>> allEndpoints = new HashSet<Endpoints<N>>();
+    Set<EndpointPair<N>> allEndpointPairs = new HashSet<EndpointPair<N>>();
 
     for (N node : graph.nodes()) {
       assertThat(nodeString).contains(node.toString());
@@ -165,14 +159,6 @@ public abstract class AbstractGraphTest {
         assertThat(graph.outDegree(node)).isEqualTo(graph.degree(node));
       }
 
-      for (N otherNode : graph.nodes()) {
-        if (graph.successors(node).contains(otherNode)) {
-          assertThat(graph.edgeValue(node, otherNode)).isNotNull();
-        } else {
-          assertThat(graph.edgeValueOrDefault(node, otherNode, null)).isNull();
-        }
-      }
-
       for (N adjacentNode : graph.adjacentNodes(node)) {
         if (!graph.allowsSelfLoops()) {
           assertThat(node).isNotEqualTo(adjacentNode);
@@ -186,12 +172,12 @@ public abstract class AbstractGraphTest {
       }
 
       for (N successor : graph.successors(node)) {
-        allEndpoints.add(Endpoints.of(graph, node, successor));
+        allEndpointPairs.add(EndpointPair.of(graph, node, successor));
         assertThat(graph.predecessors(successor)).contains(node);
       }
     }
 
-    assertThat(graph.edges()).isEqualTo(allEndpoints);
+    assertThat(graph.edges()).isEqualTo(allEndpointPairs);
   }
 
   /**

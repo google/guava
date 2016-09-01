@@ -23,52 +23,52 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for {@link ImmutableGraph} and {@link ImmutableBasicGraph}.
+ * Tests for {@link ImmutableGraph} and {@link ImmutableValueGraph} .
  */
 @RunWith(JUnit4.class)
 public class ImmutableGraphTest {
 
   @Test
   public void immutableGraph() {
-    MutableGraph<String, Integer> mutableGraph = GraphBuilder.directed().build();
+    MutableGraph<String> mutableGraph = GraphBuilder.directed().build();
     mutableGraph.addNode("A");
-    Graph<String, Integer> immutableGraph = ImmutableGraph.copyOf(mutableGraph);
+    Graph<String> immutableGraph = ImmutableGraph.copyOf(mutableGraph);
 
     assertThat(immutableGraph).isNotInstanceOf(MutableGraph.class);
-    assertThat(immutableGraph).isEqualTo(mutableGraph);
+    assertThat(Graphs.equivalent(immutableGraph, mutableGraph)).isTrue();
 
     mutableGraph.addNode("B");
-    assertThat(immutableGraph).isNotEqualTo(mutableGraph);
+    assertThat(Graphs.equivalent(immutableGraph, mutableGraph)).isFalse();
   }
 
   @Test
-  public void immutableBasicGraph() {
-    MutableBasicGraph<String> mutableGraph = BasicGraphBuilder.directed().build();
+  public void immutableValueGraph() {
+    MutableValueGraph<String, Integer> mutableGraph = ValueGraphBuilder.directed().build();
     mutableGraph.addNode("A");
-    BasicGraph<String> immutableGraph = ImmutableBasicGraph.copyOf(mutableGraph);
+    ValueGraph<String, Integer> immutableGraph = ImmutableValueGraph.copyOf(mutableGraph);
 
     assertThat(immutableGraph).isInstanceOf(ImmutableGraph.class);
-    assertThat(immutableGraph).isNotInstanceOf(MutableBasicGraph.class);
-    assertThat(immutableGraph).isEqualTo(mutableGraph);
+    assertThat(immutableGraph).isNotInstanceOf(MutableValueGraph.class);
+    assertThat(Graphs.equivalent(immutableGraph, mutableGraph)).isTrue();
 
     mutableGraph.addNode("B");
-    assertThat(immutableGraph).isNotEqualTo(mutableGraph);
+    assertThat(Graphs.equivalent(immutableGraph, mutableGraph)).isFalse();
   }
 
   @Test
   public void copyOfImmutableGraph_optimized() {
-    Graph<String, Integer> graph1 =
-        ImmutableGraph.copyOf(GraphBuilder.directed().<String, Integer>build());
-    Graph<String, Integer> graph2 = ImmutableBasicGraph.copyOf(graph1);
+    Graph<String> graph1 =
+        ImmutableGraph.copyOf(GraphBuilder.directed().<String>build());
+    Graph<String> graph2 = ImmutableGraph.copyOf(graph1);
 
     assertThat(graph2).isSameAs(graph1);
   }
 
   @Test
-  public void copyOfImmutableBasicGraph_optimized() {
-    BasicGraph<String> graph1 =
-        ImmutableBasicGraph.copyOf(BasicGraphBuilder.directed().<String>build());
-    BasicGraph<String> graph2 = ImmutableBasicGraph.copyOf(graph1);
+  public void copyOfImmutableValueGraph_optimized() {
+    ValueGraph<String, Integer> graph1 =
+        ImmutableValueGraph.copyOf(ValueGraphBuilder.directed().<String, Integer>build());
+    ValueGraph<String, Integer> graph2 = ImmutableValueGraph.copyOf(graph1);
 
     assertThat(graph2).isSameAs(graph1);
   }

@@ -39,20 +39,20 @@ public final class GraphMutationTest {
   private static final int NODE_POOL_SIZE = 1000; // must be >> NUM_NODES
 
   @Test
-  public void directedBasicGraph() {
-    testBasicGraphMutation(BasicGraphBuilder.directed());
+  public void directedGraph() {
+    testGraphMutation(GraphBuilder.directed());
   }
 
   @Test
-  public void undirectedBasicGraph() {
-    testBasicGraphMutation(BasicGraphBuilder.undirected());
+  public void undirectedGraph() {
+    testGraphMutation(GraphBuilder.undirected());
   }
 
-  private static void testBasicGraphMutation(BasicGraphBuilder<? super Integer> graphBuilder) {
+  private static void testGraphMutation(GraphBuilder<? super Integer> graphBuilder) {
     Random gen = new Random(42); // Fixed seed so test results are deterministic.
 
     for (int trial = 0; trial < NUM_TRIALS; ++trial) {
-      MutableBasicGraph<Integer> graph = graphBuilder.allowsSelfLoops(true).build();
+      MutableGraph<Integer> graph = graphBuilder.allowsSelfLoops(true).build();
 
       assertThat(graph.nodes()).isEmpty();
       assertThat(graph.edges()).isEmpty();
@@ -65,7 +65,8 @@ public final class GraphMutationTest {
       while (graph.edges().size() < NUM_EDGES) {
         graph.putEdge(getRandomElement(nodeList, gen), getRandomElement(nodeList, gen));
       }
-      ArrayList<Endpoints<Integer>> edgeList = new ArrayList<Endpoints<Integer>>(graph.edges());
+      ArrayList<EndpointPair<Integer>> edgeList =
+          new ArrayList<EndpointPair<Integer>>(graph.edges());
 
       assertThat(graph.nodes()).hasSize(NUM_NODES);
       assertThat(graph.edges()).hasSize(NUM_EDGES);
@@ -74,8 +75,8 @@ public final class GraphMutationTest {
       Collections.shuffle(edgeList, gen);
       int numEdgesToRemove = gen.nextInt(NUM_EDGES);
       for (int i = 0; i < numEdgesToRemove; ++i) {
-        Endpoints<Integer> edge = edgeList.get(i);
-        assertThat(graph.removeEdge(edge.nodeA(), edge.nodeB())).isTrue();
+        EndpointPair<Integer> edge = edgeList.get(i);
+        assertThat(graph.removeEdge(edge.nodeU(), edge.nodeV())).isTrue();
       }
 
       assertThat(graph.nodes()).hasSize(NUM_NODES);
@@ -105,8 +106,8 @@ public final class GraphMutationTest {
         assertThat(graph.addNode(node)).isTrue();
       }
       Collections.shuffle(edgeList, gen);
-      for (Endpoints<Integer> edge : edgeList) {
-        assertThat(graph.putEdge(edge.nodeA(), edge.nodeB())).isTrue();
+      for (EndpointPair<Integer> edge : edgeList) {
+        assertThat(graph.putEdge(edge.nodeU(), edge.nodeV())).isTrue();
       }
 
       assertThat(graph.nodes()).hasSize(NUM_NODES);

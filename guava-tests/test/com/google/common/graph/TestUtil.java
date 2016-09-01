@@ -37,5 +37,6 @@ class TestUtil {
     for (Object element : collection) {
       assertThat(collection).contains(element);
     }
+    assertThat(collection).doesNotContain(new Object());
   }
 }

@@ -19,31 +19,47 @@ package com.google.common.graph;
 import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 
 import com.google.common.annotations.Beta;
-import com.google.common.graph.BasicGraph.Presence;
+import com.google.common.base.Function;
+import com.google.common.collect.Maps;
+import java.util.Map;
 
 /**
- * This class provides a skeletal implementation of {@link BasicGraph}. It is recommended to extend
- * this class rather than implement {@link BasicGraph} directly, to ensure consistent {@link
- * #equals(Object)} and {@link #hashCode()} results across different graph implementations.
+ * This class provides a skeletal implementation of {@link ValueGraph}. It is recommended to extend
+ * this class rather than implement {@link ValueGraph} directly.
  *
  * @author James Sexton
  * @param <N> Node parameter type
+ * @param <V> Value parameter type
  * @since 20.0
  */
 @Beta
-public abstract class AbstractBasicGraph<N>
-    extends AbstractGraph<N, Presence> implements BasicGraph<N> {
+public abstract class AbstractValueGraph<N, V>
+    extends AbstractGraph<N> implements ValueGraph<N, V> {
 
   /**
    * Returns a string representation of this graph.
    */
   @Override
   public String toString() {
+    return toString(this);
+  }
+
+  static String toString(ValueGraph<?, ?> graph) {
     String propertiesString = String.format(
-        "isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
+        "isDirected: %s, allowsSelfLoops: %s", graph.isDirected(), graph.allowsSelfLoops());
     return String.format(GRAPH_STRING_FORMAT,
         propertiesString,
-        nodes(),
-        edges());
+        graph.nodes(),
+        edgeValueMap(graph));
+  }
+
+  private static <N, V> Map<EndpointPair<N>, V> edgeValueMap(final ValueGraph<N, V> graph) {
+    Function<EndpointPair<N>, V> edgeToValueFn = new Function<EndpointPair<N>, V>() {
+      @Override
+      public V apply(EndpointPair<N> edge) {
+        return graph.edgeValue(edge.nodeU(), edge.nodeV());
+      }
+    };
+    return Maps.asMap(graph.edges(), edgeToValueFn);
   }
 }

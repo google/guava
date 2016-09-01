@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
@@ -25,7 +24,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
-import com.google.common.graph.BasicGraph.Presence;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayDeque;
 import java.util.Collections;
@@ -56,7 +54,7 @@ public final class Graphs {
    *
    * <p>This method will detect any non-empty cycle, including self-loops (a cycle of length 1).
    */
-  public static boolean hasCycle(Graph<?, ?> graph) {
+  public static boolean hasCycle(Graph<?> graph) {
     int numEdges = graph.edges().size();
     if (numEdges == 0) {
       return false; // An edge-free graph is acyclic by definition.
@@ -98,7 +96,7 @@ public final class Graphs {
    * cycle in the graph.
    */
   private static boolean subgraphHasCycle(
-      Graph<?, ?> graph,
+      Graph<?> graph,
       Map<Object, NodeVisitState> visitedNodes,
       Object node,
       @Nullable Object previousNode) {
@@ -128,7 +126,7 @@ public final class Graphs {
    * from B to A).
    */
   private static boolean canTraverseWithoutReusingEdge(
-      Graph<?, ?> graph, Object nextNode, @Nullable Object previousNode) {
+      Graph<?> graph, Object nextNode, @Nullable Object previousNode) {
     if (graph.isDirected() || !Objects.equal(previousNode, nextNode)) {
       return true;
     }
@@ -143,12 +141,11 @@ public final class Graphs {
    * Object) reachable} from node A.
    *
    * <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live view
-   * of the transitive closure of {@code graph}. In other words, the returned {@link BasicGraph}
-   * will not be updated after modifications to {@code graph}.
+   * of the transitive closure of {@code graph}. In other words, the returned {@link Graph} will not
+   * be updated after modifications to {@code graph}.
    */
-  public static <N> BasicGraph<N> transitiveClosure(Graph<N, ?> graph) {
-    MutableBasicGraph<N> transitiveClosure =
-        BasicGraphBuilder.from(graph).allowsSelfLoops(true).build();
+  public static <N> Graph<N> transitiveClosure(Graph<N> graph) {
+    MutableGraph<N> transitiveClosure = GraphBuilder.from(graph).allowsSelfLoops(true).build();
     // Every node is, at a minimum, reachable from itself. Since the resulting transitive closure
     // will have no isolated nodes, we can skip adding nodes explicitly and let putEdge() do it.
 
@@ -168,10 +165,10 @@ public final class Graphs {
           ImmutableList<N> reachableNodes = ImmutableList.copyOf(reachableNodes(graph, node));
           visitedNodes.addAll(reachableNodes);
           for (int a = 0; a < reachableNodes.size(); ++a) {
-            N nodeA = reachableNodes.get(a);
+            N nodeU = reachableNodes.get(a);
             for (int b = a; b < reachableNodes.size(); ++b) {
-              N nodeB = reachableNodes.get(b);
-              transitiveClosure.putEdge(nodeA, nodeB);
+              N nodeV = reachableNodes.get(b);
+              transitiveClosure.putEdge(nodeU, nodeV);
             }
           }
         }
@@ -193,7 +190,7 @@ public final class Graphs {
    * @throws IllegalArgumentException if {@code node} is not present in {@code graph}
    */
   @SuppressWarnings("unchecked") // Throws an exception if node is not an element of graph.
-  public static <N> Set<N> reachableNodes(Graph<N, ?> graph, Object node) {
+  public static <N> Set<N> reachableNodes(Graph<N> graph, Object node) {
     checkArgument(graph.nodes().contains(node), NODE_NOT_IN_GRAPH, node);
     Set<N> visitedNodes = new HashSet<N>();
     Queue<N> queuedNodes = new ArrayDeque<N>();
@@ -211,115 +208,149 @@ public final class Graphs {
     return Collections.unmodifiableSet(visitedNodes);
   }
 
+  /**
+   * Returns {@code true} iff {@code graphA} and {@code graphB} have the same elements and the same
+   * relationships between elements, as exposed via the {@link Graph} interface.
+   *
+   * <p>Thus, two graphs A and B are equivalent if <b>all</b> of the following are true:
+   *
+   * <ul>
+   * <li>A and B have equal {@link Graph#isDirected() directedness}.
+   * <li>A and B have equal {@link Graph#nodes() node sets}.
+   * <li>A and B have equal {@link Graph#edges() edge sets}.
+   * </ul>
+   *
+   * <p>Graph properties besides {@link Graph#isDirected() directedness} do <b>not</b> affect
+   * equivalence. For example, two graphs may be considered equivalent even if one allows self-loops
+   * and the other doesn't. Additionally, the order in which nodes or edges are added to the graph,
+   * and the order in which they are iterated over, are irrelevant.
+   */
+  public static boolean equivalent(@Nullable Graph<?> graphA, @Nullable Graph<?> graphB) {
+    if (graphA == graphB) {
+      return true;
+    }
+    if (graphA == null || graphB == null) {
+      return false;
+    }
+
+    return graphA.isDirected() == graphB.isDirected()
+        && graphA.nodes().equals(graphB.nodes())
+        && graphA.edges().equals(graphB.edges());
+  }
+
+  /**
+   * Returns {@code true} iff {@code graphA} and {@code graphB} have the same elements (including
+   * edge values) and the same relationships between elements, as exposed via the {@link ValueGraph}
+   * interface.
+   *
+   * <p>Thus, two value graphs A and B are equivalent if <b>all</b> of the following are true:
+   *
+   * <ul>
+   * <li>A and B have equal {@link Graph#isDirected() directedness}.
+   * <li>A and B have equal {@link Graph#nodes() node sets}.
+   * <li>A and B have equal {@link Graph#edges() edge sets}.
+   * <li>Each edge in A has a {@link ValueGraph#edgeValue(Object, Object) value} equal to the
+   *     {@link ValueGraph#edgeValue(Object, Object) value} of the corresponding edge in B.
+   * </ul>
+   *
+   * <p>Graph properties besides {@link Graph#isDirected() directedness} do <b>not</b> affect
+   * equivalence. For example, two graphs may be considered equivalent even if one allows self-loops
+   * and the other doesn't. Additionally, the order in which nodes or edges are added to the graph,
+   * and the order in which they are iterated over, are irrelevant.
+   */
+  public static boolean equivalent(
+      @Nullable ValueGraph<?, ?> graphA, @Nullable ValueGraph<?, ?> graphB) {
+    if (graphA == graphB) {
+      return true;
+    }
+    if (graphA == null || graphB == null) {
+      return false;
+    }
+
+    // TODO(b/31166974): If we add a Map of edgeValues, we can check against that for equality.
+    if (graphA.isDirected() != graphB.isDirected()
+        || !graphA.nodes().equals(graphB.nodes())
+        || !graphA.edges().equals(graphB.edges())) {
+      return false;
+    }
+
+    for (EndpointPair<?> edge : graphA.edges()) {
+      if (!graphA.edgeValue(edge.nodeU(), edge.nodeV()).equals(
+          graphB.edgeValue(edge.nodeU(), edge.nodeV()))) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * Returns {@code true} iff {@code networkA} and {@code networkB} have the same elements and the
+   * same relationships between elements, as exposed via the {@link Network} interface.
+   *
+   * <p>Thus, two networks A and B are equivalent if <b>all</b> of the following are true:
+   *
+   * <ul>
+   * <li>A and B have equal {@link Network#isDirected() directedness}.
+   * <li>A and B have equal {@link Network#nodes() node sets}.
+   * <li>A and B have equal {@link Network#edges() edge sets}.
+   * <li>Each edge in A connects the same nodes in the same direction (if any) as the corresponding
+   *     edge in B.
+   * </ul>
+   *
+   * <p>Network properties besides {@link Network#isDirected() directedness} do <b>not</b> affect
+   * equivalence. For example, two networks may be considered equal even if one allows parallel
+   * edges and the other doesn't. Additionally, the order in which nodes or edges are added to the
+   * network, and the order in which they are iterated over, are irrelevant.
+   */
+  public static boolean equivalent(
+      @Nullable Network<?, ?> networkA, @Nullable Network<?, ?> networkB) {
+    if (networkA == networkB) {
+      return true;
+    }
+    if (networkA == null || networkB == null) {
+      return false;
+    }
+
+    if (networkA.isDirected() != networkB.isDirected()
+        || !networkA.nodes().equals(networkB.nodes())
+        || !networkA.edges().equals(networkB.edges())) {
+      return false;
+    }
+
+    for (Object edge : networkA.edges()) {
+      if (!networkA.incidentNodes(edge).equals(networkB.incidentNodes(edge))) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   // Graph mutation methods
 
   // Graph view methods
 
   /**
-   * Returns a view of {@code graph} as a {@link BasicGraph}. If {@code graph} is already a basic
-   * graph, it will be {@link Graph#equals(Object) equal} to the returned graph.
-   */
-  public static <N> BasicGraph<N> asBasicGraph(final Graph<N, ?> graph) {
-    if (graph instanceof BasicGraph) {
-      @SuppressWarnings("unchecked")
-      BasicGraph<N> basicGraph = (BasicGraph<N>) graph;
-      return basicGraph;
-    }
-
-    checkNotNull(graph);
-    return new AbstractBasicGraph<N>() {
-      @Override
-      public Set<N> nodes() {
-        return graph.nodes();
-      }
-
-      @Override
-      public Set<Endpoints<N>> edges() {
-        return graph.edges();
-      }
-
-      @Override
-      public boolean isDirected() {
-        return graph.isDirected();
-      }
-
-      @Override
-      public boolean allowsSelfLoops() {
-        return graph.allowsSelfLoops();
-      }
-
-      @Override
-      public ElementOrder<N> nodeOrder() {
-        return graph.nodeOrder();
-      }
-
-      @Override
-      public Set<N> adjacentNodes(Object node) {
-        return graph.adjacentNodes(node);
-      }
-
-      @Override
-      public Set<N> predecessors(Object node) {
-        return graph.predecessors(node);
-      }
-
-      @Override
-      public Set<N> successors(Object node) {
-        return graph.successors(node);
-      }
-
-      @Override
-      public Presence edgeValue(Object nodeA, Object nodeB) {
-        checkNotNull(graph.edgeValue(nodeA, nodeB));
-        return Presence.EDGE_EXISTS;
-      }
-
-      @Override
-      public Presence edgeValueOrDefault(Object nodeA, Object nodeB, Presence defaultValue) {
-        Object value = graph.edgeValueOrDefault(nodeA, nodeB, null);
-        return (value == null) ? defaultValue : Presence.EDGE_EXISTS;
-      }
-    };
-  }
-
-  /**
-   * Simply returns its argument.
-   *
-   * @deprecated no need to use this
-   */
-  @Deprecated
-  public static <N> BasicGraph<N> asBasicGraph(BasicGraph<N> graph) {
-    return checkNotNull(graph);
-  }
-
-  /**
    * Returns a view of {@code graph} with the direction (if any) of every edge reversed. All other
    * properties remain intact, and further updates to {@code graph} will be reflected in the view.
    */
-  public static <N> BasicGraph<N> transpose(BasicGraph<N> graph) {
-    return asBasicGraph(transpose((Graph<N, Presence>) graph));
-  }
-
-  /**
-   * Returns a view of {@code graph} with the direction (if any) of every edge reversed. All other
-   * properties remain intact, and further updates to {@code graph} will be reflected in the view.
-   */
-  public static <N, V> Graph<N, V> transpose(Graph<N, V> graph) {
+  public static <N> Graph<N> transpose(Graph<N> graph) {
     if (!graph.isDirected()) {
       return graph; // the transpose of an undirected graph is an identical graph
     }
 
     if (graph instanceof TransposedGraph) {
-      return ((TransposedGraph<N, V>) graph).graph;
+      return ((TransposedGraph<N>) graph).graph;
     }
 
-    return new TransposedGraph<N, V>(graph);
+    return new TransposedGraph<N>(graph);
   }
 
-  private static class TransposedGraph<N, V> extends AbstractGraph<N, V> {
-    private final Graph<N, V> graph;
+  private static class TransposedGraph<N> extends AbstractGraph<N> {
+    private final Graph<N> graph;
 
-    TransposedGraph(Graph<N, V> graph) {
+    TransposedGraph(Graph<N> graph) {
       this.graph = graph;
     }
 
@@ -328,7 +359,82 @@ public final class Graphs {
       return graph.nodes();
     }
 
-    // Defer to AbstractGraph's implementation of edges(), which is based of successors().
+    /**
+     * Defer to {@link AbstractGraph#edges()} (based on {@link #successors(Object)}) for full
+     * edges() implementation.
+     */
+    @Override
+    protected long edgeCount() {
+      return graph.edges().size();
+    }
+
+    @Override
+    public boolean isDirected() {
+      return graph.isDirected();
+    }
+
+    @Override
+    public boolean allowsSelfLoops() {
+      return graph.allowsSelfLoops();
+    }
+
+    @Override
+    public ElementOrder<N> nodeOrder() {
+      return graph.nodeOrder();
+    }
+
+    @Override
+    public Set<N> adjacentNodes(Object node) {
+      return graph.adjacentNodes(node);
+    }
+
+    @Override
+    public Set<N> predecessors(Object node) {
+      return graph.successors(node); // transpose
+    }
+
+    @Override
+    public Set<N> successors(Object node) {
+      return graph.predecessors(node); // transpose
+    }
+  }
+
+  /**
+   * Returns a view of {@code graph} with the direction (if any) of every edge reversed. All other
+   * properties remain intact, and further updates to {@code graph} will be reflected in the view.
+   */
+  public static <N, V> ValueGraph<N, V> transpose(ValueGraph<N, V> graph) {
+    if (!graph.isDirected()) {
+      return graph; // the transpose of an undirected graph is an identical graph
+    }
+
+    if (graph instanceof TransposedValueGraph) {
+      return ((TransposedValueGraph<N, V>) graph).graph;
+    }
+
+    return new TransposedValueGraph<N, V>(graph);
+  }
+
+  private static class TransposedValueGraph<N, V> extends AbstractValueGraph<N, V> {
+    private final ValueGraph<N, V> graph;
+
+    TransposedValueGraph(ValueGraph<N, V> graph) {
+      this.graph = graph;
+    }
+
+    @Override
+    public Set<N> nodes() {
+      return graph.nodes();
+    }
+
+    /**
+     * Defer to {@link AbstractGraph#edges()} (based on {@link #successors(Object)}) for full
+     * edges() implementation.
+     */
+    @Override
+    protected long edgeCount() {
+      return graph.edges().size();
+    }
 
     @Override
     public boolean isDirected() {
@@ -361,18 +467,13 @@ public final class Graphs {
     }
 
     @Override
-    public V edgeValue(Object nodeA, Object nodeB) {
-      return graph.edgeValue(nodeB, nodeA); // transpose
+    public V edgeValue(Object nodeU, Object nodeV) {
+      return graph.edgeValue(nodeV, nodeU); // transpose
     }
 
     @Override
-    public V edgeValueOrDefault(Object nodeA, Object nodeB, V defaultValue) {
-      return graph.edgeValueOrDefault(nodeB, nodeA, defaultValue); // transpose
-    }
-
-    @Override
-    protected long edgeCount() {
-      return graph.edges().size();
+    public V edgeValueOrDefault(Object nodeU, Object nodeV, V defaultValue) {
+      return graph.edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
     }
   }
 
@@ -465,9 +566,9 @@ public final class Graphs {
     }
 
     @Override
-    public Endpoints<N> incidentNodes(Object edge) {
-      Endpoints<N> endpoints = network.incidentNodes(edge);
-      return Endpoints.of(network, endpoints.nodeB(), endpoints.nodeA()); // transpose
+    public EndpointPair<N> incidentNodes(Object edge) {
+      EndpointPair<N> endpointPair = network.incidentNodes(edge);
+      return EndpointPair.of(network, endpointPair.nodeV(), endpointPair.nodeU()); // transpose
     }
 
     @Override
@@ -476,8 +577,8 @@ public final class Graphs {
     }
 
     @Override
-    public Set<E> edgesConnecting(Object nodeA, Object nodeB) {
-      return network.edgesConnecting(nodeB, nodeA); // transpose
+    public Set<E> edgesConnecting(Object nodeU, Object nodeV) {
+      return network.edgesConnecting(nodeV, nodeU); // transpose
     }
   }
 
@@ -490,9 +591,9 @@ public final class Graphs {
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
-  public static <N> MutableBasicGraph<N> inducedSubgraph(BasicGraph<N> graph,
+  public static <N> MutableGraph<N> inducedSubgraph(Graph<N> graph,
       Iterable<? extends N> nodes) {
-    MutableBasicGraph<N> subgraph = BasicGraphBuilder.from(graph).build();
+    MutableGraph<N> subgraph = GraphBuilder.from(graph).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }
@@ -513,9 +614,9 @@ public final class Graphs {
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
-  public static <N, V> MutableGraph<N, V> inducedSubgraph(Graph<N, V> graph,
+  public static <N, V> MutableValueGraph<N, V> inducedSubgraph(ValueGraph<N, V> graph,
       Iterable<? extends N> nodes) {
-    MutableGraph<N, V> subgraph = GraphBuilder.from(graph).build();
+    MutableValueGraph<N, V> subgraph = ValueGraphBuilder.from(graph).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }
@@ -556,15 +657,15 @@ public final class Graphs {
   /**
    * Creates a mutable copy of {@code graph} with the same nodes and edges.
    */
-  public static <N> MutableBasicGraph<N> copyOf(BasicGraph<N> graph) {
-    MutableBasicGraph<N> copy = BasicGraphBuilder.from(graph)
+  public static <N> MutableGraph<N> copyOf(Graph<N> graph) {
+    MutableGraph<N> copy = GraphBuilder.from(graph)
         .expectedNodeCount(graph.nodes().size())
         .build();
     for (N node : graph.nodes()) {
       copy.addNode(node);
     }
-    for (Endpoints<N> endpoints : graph.edges()) {
-      copy.putEdge(endpoints.nodeA(), endpoints.nodeB());
+    for (EndpointPair<N> edge : graph.edges()) {
+      copy.putEdge(edge.nodeU(), edge.nodeV());
     }
     return copy;
   }
@@ -572,15 +673,15 @@ public final class Graphs {
   /**
    * Creates a mutable copy of {@code graph} with the same nodes, edges, and edge values.
    */
-  public static <N, V> MutableGraph<N, V> copyOf(Graph<N, V> graph) {
-    MutableGraph<N, V> copy = GraphBuilder.from(graph)
+  public static <N, V> MutableValueGraph<N, V> copyOf(ValueGraph<N, V> graph) {
+    MutableValueGraph<N, V> copy = ValueGraphBuilder.from(graph)
         .expectedNodeCount(graph.nodes().size())
         .build();
     for (N node : graph.nodes()) {
       copy.addNode(node);
     }
-    for (Endpoints<N> edge : graph.edges()) {
-      copy.putEdgeValue(edge.nodeA(), edge.nodeB(), graph.edgeValue(edge.nodeA(), edge.nodeB()));
+    for (EndpointPair<N> edge : graph.edges()) {
+      copy.putEdgeValue(edge.nodeU(), edge.nodeV(), graph.edgeValue(edge.nodeU(), edge.nodeV()));
     }
     return copy;
   }
@@ -597,8 +698,8 @@ public final class Graphs {
       copy.addNode(node);
     }
     for (E edge : graph.edges()) {
-      Endpoints<N> endpoints = graph.incidentNodes(edge);
-      copy.addEdge(endpoints.nodeA(), endpoints.nodeB(), edge);
+      EndpointPair<N> endpointPair = graph.incidentNodes(edge);
+      copy.addEdge(endpointPair.nodeU(), endpointPair.nodeV(), edge);
     }
     return copy;
   }

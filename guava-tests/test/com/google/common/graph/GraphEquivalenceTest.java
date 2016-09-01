@@ -16,7 +16,8 @@
 
 package com.google.common.graph;
 
-import com.google.common.testing.EqualsTester;
+import static com.google.common.truth.Truth.assertThat;
+
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.Test;
@@ -27,7 +28,7 @@ import org.junit.runners.Parameterized.Parameters;
 @AndroidIncompatible
 // TODO(cpovirk): Figure out Android JUnit 4 support. Does it work with Gingerbread? @RunWith?
 @RunWith(Parameterized.class)
-public final class GraphEqualsTest {
+public final class GraphEquivalenceTest {
   private static final Integer N1 = 1;
   private static final Integer N2 = 2;
   private static final Integer N3 = 3;
@@ -38,7 +39,7 @@ public final class GraphEqualsTest {
   }
 
   private final GraphType graphType;
-  private final MutableBasicGraph<Integer> graph;
+  private final MutableGraph<Integer> graph;
 
   // add parameters: directed/undirected
   @Parameters
@@ -46,17 +47,17 @@ public final class GraphEqualsTest {
     return Arrays.asList(new Object[][] {{GraphType.UNDIRECTED}, {GraphType.DIRECTED}});
   }
 
-  public GraphEqualsTest(GraphType graphType) {
+  public GraphEquivalenceTest(GraphType graphType) {
     this.graphType = graphType;
     this.graph = createGraph(graphType);
   }
 
-  private static MutableBasicGraph<Integer> createGraph(GraphType graphType) {
+  private static MutableGraph<Integer> createGraph(GraphType graphType) {
     switch (graphType) {
       case UNDIRECTED:
-        return BasicGraphBuilder.undirected().allowsSelfLoops(true).build();
+        return GraphBuilder.undirected().allowsSelfLoops(true).build();
       case DIRECTED:
-        return BasicGraphBuilder.directed().allowsSelfLoops(true).build();
+        return GraphBuilder.directed().allowsSelfLoops(true).build();
       default:
         throw new IllegalStateException("Unexpected graph type: " + graphType);
     }
@@ -74,58 +75,58 @@ public final class GraphEqualsTest {
   }
 
   @Test
-  public void equals_nodeSetsDiffer() {
+  public void equivalent_nodeSetsDiffer() {
     graph.addNode(N1);
 
-    MutableBasicGraph<Integer> g2 = createGraph(graphType);
+    MutableGraph<Integer> g2 = createGraph(graphType);
     g2.addNode(N2);
 
-    new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
+    assertThat(Graphs.equivalent(graph, g2)).isFalse();
   }
 
   // Node/edge sets are the same, but node/edge connections differ due to graph type.
   @Test
-  public void equals_directedVsUndirected() {
+  public void equivalent_directedVsUndirected() {
     graph.putEdge(N1, N2);
 
-    MutableBasicGraph<Integer> g2 = createGraph(oppositeType(graphType));
+    MutableGraph<Integer> g2 = createGraph(oppositeType(graphType));
     g2.putEdge(N1, N2);
 
-    new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
+    assertThat(Graphs.equivalent(graph, g2)).isFalse();
   }
 
   // Node/edge sets and node/edge connections are the same, but directedness differs.
   @Test
-  public void equals_selfLoop_directedVsUndirected() {
+  public void equivalent_selfLoop_directedVsUndirected() {
     graph.putEdge(N1, N1);
 
-    MutableBasicGraph<Integer> g2 = createGraph(oppositeType(graphType));
+    MutableGraph<Integer> g2 = createGraph(oppositeType(graphType));
     g2.putEdge(N1, N1);
 
-    new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
+    assertThat(Graphs.equivalent(graph, g2)).isFalse();
   }
 
   // Node/edge sets and node/edge connections are the same, but graph properties differ.
-  // (In this case the graphs are considered equal; the property differences are irrelevant.)
+  // In this case the graphs are considered equivalent; the property differences are irrelevant.
   @Test
-  public void equals_propertiesDiffer() {
+  public void equivalent_propertiesDiffer() {
     graph.putEdge(N1, N2);
 
-    MutableBasicGraph<Integer> g2 = BasicGraphBuilder.from(graph)
+    MutableGraph<Integer> g2 = GraphBuilder.from(graph)
         .allowsSelfLoops(!graph.allowsSelfLoops())
         .build();
     g2.putEdge(N1, N2);
 
-    new EqualsTester().addEqualityGroup(graph, g2).testEquals();
+    assertThat(Graphs.equivalent(graph, g2)).isTrue();
   }
 
   // Node/edge sets and node/edge connections are the same, but edge order differs.
-  // (In this case the graphs are considered equal; the edge add orderings are irrelevant.)
+  // In this case the graphs are considered equivalent; the edge add orderings are irrelevant.
   @Test
-  public void equals_edgeAddOrdersDiffer() {
-    BasicGraphBuilder<Integer> builder = BasicGraphBuilder.from(graph);
-    MutableBasicGraph<Integer> g1 = builder.build();
-    MutableBasicGraph<Integer> g2 = builder.build();
+  public void equivalent_edgeAddOrdersDiffer() {
+    GraphBuilder<Integer> builder = GraphBuilder.from(graph);
+    MutableGraph<Integer> g1 = builder.build();
+    MutableGraph<Integer> g2 = builder.build();
 
     // for g1, add 1->2 first, then 3->1
     g1.putEdge(N1, N2);
@@ -135,22 +136,22 @@ public final class GraphEqualsTest {
     g2.putEdge(N3, N1);
     g2.putEdge(N1, N2);
 
-    new EqualsTester().addEqualityGroup(g1, g2).testEquals();
+    assertThat(Graphs.equivalent(g1, g2)).isTrue();
   }
 
   @Test
-  public void equals_edgeDirectionsDiffer() {
+  public void equivalent_edgeDirectionsDiffer() {
     graph.putEdge(N1, N2);
 
-    MutableBasicGraph<Integer> g2 = createGraph(graphType);
+    MutableGraph<Integer> g2 = createGraph(graphType);
     g2.putEdge(N2, N1);
 
     switch (graphType) {
       case UNDIRECTED:
-        new EqualsTester().addEqualityGroup(graph, g2).testEquals();
+        assertThat(Graphs.equivalent(graph, g2)).isTrue();
         break;
       case DIRECTED:
-        new EqualsTester().addEqualityGroup(graph).addEqualityGroup(g2).testEquals();
+        assertThat(Graphs.equivalent(graph, g2)).isFalse();
         break;
       default:
         throw new IllegalStateException("Unexpected graph type: " + graphType);

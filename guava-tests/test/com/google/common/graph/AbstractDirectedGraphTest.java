@@ -21,9 +21,9 @@ import static com.google.common.truth.Truth.assertThat;
 import org.junit.Test;
 
 /**
- * Abstract base class for testing implementations of {@link BasicGraph} interface.
+ * Abstract base class for testing implementations of {@link Graph} interface.
  *
- * <p>This class is responsible for testing that a directed implementation of {@link BasicGraph}
+ * <p>This class is responsible for testing that a directed implementation of {@link Graph}
  * is correctly handling directed edges. Implementation-dependent test cases are left to
  * subclasses. Test cases that do not require the graph to be directed are found in superclasses.
  *

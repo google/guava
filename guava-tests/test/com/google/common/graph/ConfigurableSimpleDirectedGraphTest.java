@@ -26,15 +26,15 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for a directed {@link ConfigurableMutableBasicGraph}, creating a simple directed graph
+ * Tests for a directed {@link ConfigurableMutableGraph}, creating a simple directed graph
  * (self-loop edges are not allowed).
  */
 @RunWith(JUnit4.class)
 public class ConfigurableSimpleDirectedGraphTest extends AbstractDirectedGraphTest {
 
   @Override
-  public MutableBasicGraph<Integer> createGraph() {
-    return BasicGraphBuilder.directed().allowsSelfLoops(false).build();
+  public MutableGraph<Integer> createGraph() {
+    return GraphBuilder.directed().allowsSelfLoops(false).build();
   }
 
   @Override

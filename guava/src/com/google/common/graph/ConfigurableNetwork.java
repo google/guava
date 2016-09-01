@@ -65,8 +65,8 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
 
   protected final MapIteratorCache<N, NetworkConnections<N, E>> nodeConnections;
 
-  // We could make this a Map<E, Endpoints<N>>. It would make incidentNodes(edge) slightly faster,
-  // but it would also make Networks consume 5 to 20+% (increasing with average degree) more memory.
+  // We could make this a Map<E, EndpointPair<N>>. It would make incidentNodes(edge) slightly
+  // faster, but also make Networks consume 5 to 20+% (increasing with average degree) more memory.
   protected final MapIteratorCache<E, N> edgeToReferenceNode; // referenceNode == source if directed
 
   /**
@@ -142,10 +142,10 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   }
 
   @Override
-  public Endpoints<N> incidentNodes(Object edge) {
-    N nodeA = checkedReferenceNode(edge);
-    N nodeB = nodeConnections.get(nodeA).oppositeNode(edge);
-    return Endpoints.of(this, nodeA, nodeB);
+  public EndpointPair<N> incidentNodes(Object edge) {
+    N nodeU = checkedReferenceNode(edge);
+    N nodeV = nodeConnections.get(nodeU).oppositeNode(edge);
+    return EndpointPair.of(this, nodeU, nodeV);
   }
 
   @Override
@@ -154,13 +154,13 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   }
 
   @Override
-  public Set<E> edgesConnecting(Object nodeA, Object nodeB) {
-    NetworkConnections<N, E> connectionsA = checkedConnections(nodeA);
-    if (!allowsSelfLoops && nodeA.equals(nodeB)) {
+  public Set<E> edgesConnecting(Object nodeU, Object nodeV) {
+    NetworkConnections<N, E> connectionsU = checkedConnections(nodeU);
+    if (!allowsSelfLoops && nodeU.equals(nodeV)) {
       return ImmutableSet.of();
     }
-    checkArgument(containsNode(nodeB), NODE_NOT_IN_GRAPH, nodeB);
-    return connectionsA.edgesConnecting(nodeB);
+    checkArgument(containsNode(nodeV), NODE_NOT_IN_GRAPH, nodeV);
+    return connectionsU.edgesConnecting(nodeV);
   }
 
   @Override

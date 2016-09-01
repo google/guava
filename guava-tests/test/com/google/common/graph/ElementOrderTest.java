@@ -36,7 +36,7 @@ public final class ElementOrderTest {
 
   @Test
   public void nodeOrder_none() {
-    MutableBasicGraph<Integer> graph = BasicGraphBuilder
+    MutableGraph<Integer> graph = GraphBuilder
         .directed()
         .nodeOrder(unordered())
         .build();
@@ -46,7 +46,7 @@ public final class ElementOrderTest {
 
   @Test
   public void nodeOrder_insertion() {
-    MutableBasicGraph<Integer> graph = BasicGraphBuilder
+    MutableGraph<Integer> graph = GraphBuilder
         .directed()
         .nodeOrder(insertion())
         .build();
@@ -60,7 +60,7 @@ public final class ElementOrderTest {
   // The default ordering is INSERTION unless otherwise specified.
   @Test
   public void nodeOrder_default() {
-    MutableBasicGraph<Integer> graph = BasicGraphBuilder
+    MutableGraph<Integer> graph = GraphBuilder
         .directed()
         .build();
 
@@ -72,7 +72,7 @@ public final class ElementOrderTest {
 
   @Test
   public void nodeOrder_natural() {
-    MutableBasicGraph<Integer> graph = BasicGraphBuilder
+    MutableGraph<Integer> graph = GraphBuilder
         .directed()
         .nodeOrder(ElementOrder.<Integer>natural())
         .build();
@@ -85,7 +85,7 @@ public final class ElementOrderTest {
 
   @Test
   public void nodeOrder_sorted() {
-    MutableBasicGraph<Integer> graph = BasicGraphBuilder
+    MutableGraph<Integer> graph = GraphBuilder
         .directed()
         .nodeOrder(ElementOrder.sorted(Ordering.<Integer>natural().reverse()))
         .build();
@@ -197,7 +197,7 @@ public final class ElementOrderTest {
       }
     };
 
-    MutableBasicGraph<NonComparableSuperClass> graph = BasicGraphBuilder
+    MutableGraph<NonComparableSuperClass> graph = GraphBuilder
         .undirected()
         .nodeOrder(ElementOrder.sorted(comparator))
         .build();
@@ -217,7 +217,7 @@ public final class ElementOrderTest {
 
   @Test
   public void customComparable() {
-    MutableBasicGraph<ComparableSubClass> graph = BasicGraphBuilder
+    MutableGraph<ComparableSubClass> graph = GraphBuilder
         .undirected()
         .nodeOrder(ElementOrder.<ComparableSubClass>natural())
         .build();
@@ -235,7 +235,7 @@ public final class ElementOrderTest {
     assertThat(graph.nodes()).containsExactly(node2, node4, node6, node8).inOrder();
   }
 
-  private static void addNodes(MutableBasicGraph<Integer> graph) {
+  private static void addNodes(MutableGraph<Integer> graph) {
     graph.addNode(3);
     graph.addNode(1);
     graph.addNode(4);

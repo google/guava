@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
 import static com.google.common.graph.GraphConstants.EDGE_CONNECTING_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
+import static com.google.common.graph.Graphs.checkNonNegative;
 
 import java.util.Map;
 import java.util.Set;
@@ -28,7 +29,7 @@ import java.util.TreeMap;
 import javax.annotation.Nullable;
 
 /**
- * Configurable implementation of {@link Graph} that supports the options supplied by
+ * Configurable implementation of {@link ValueGraph} that supports the options supplied by
  * {@link AbstractGraphBuilder}.
  *
  * <p>This class maintains a map of nodes to {@link GraphConnections}.
@@ -52,29 +53,32 @@ import javax.annotation.Nullable;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-class ConfigurableGraph<N, V> extends AbstractGraph<N, V> {
+class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   private final boolean isDirected;
   private final boolean allowsSelfLoops;
   private final ElementOrder<N> nodeOrder;
 
   protected final MapIteratorCache<N, GraphConnections<N, V>> nodeConnections;
 
+  protected long edgeCount; // must be updated when edges are added or removed
+
   /**
    * Constructs a graph with the properties specified in {@code builder}.
    */
-  ConfigurableGraph(AbstractGraphBuilder<? super N> builder) {
+  ConfigurableValueGraph(AbstractGraphBuilder<? super N> builder) {
     this(
         builder,
         builder.nodeOrder.<N, GraphConnections<N, V>>createMap(
-            builder.expectedNodeCount.or(DEFAULT_NODE_COUNT)));
+            builder.expectedNodeCount.or(DEFAULT_NODE_COUNT)),
+        0L /* edgeCount */);
   }
 
   /**
    * Constructs a graph with the properties specified in {@code builder}, initialized with
    * the given node map.
    */
-  ConfigurableGraph(AbstractGraphBuilder<? super N> builder,
-      Map<N, GraphConnections<N, V>> nodeConnections) {
+  ConfigurableValueGraph(AbstractGraphBuilder<? super N> builder,
+      Map<N, GraphConnections<N, V>> nodeConnections, long edgeCount) {
     this.isDirected = builder.directed;
     this.allowsSelfLoops = builder.allowsSelfLoops;
     this.nodeOrder = builder.nodeOrder.cast();
@@ -82,6 +86,7 @@ class ConfigurableGraph<N, V> extends AbstractGraph<N, V> {
     this.nodeConnections = (nodeConnections instanceof TreeMap)
         ? new MapRetrievalCache<N, GraphConnections<N, V>>(nodeConnections)
         : new MapIteratorCache<N, GraphConnections<N, V>>(nodeConnections);
+    this.edgeCount = checkNonNegative(edgeCount);
   }
 
   @Override
@@ -120,20 +125,25 @@ class ConfigurableGraph<N, V> extends AbstractGraph<N, V> {
   }
 
   @Override
-  public V edgeValue(Object nodeA, Object nodeB) {
-    V value = edgeValueOrDefault(nodeA, nodeB, null);
-    checkArgument(value != null, EDGE_CONNECTING_NOT_IN_GRAPH, nodeA, nodeB);
+  public V edgeValue(Object nodeU, Object nodeV) {
+    V value = edgeValueOrDefault(nodeU, nodeV, null);
+    checkArgument(value != null, EDGE_CONNECTING_NOT_IN_GRAPH, nodeU, nodeV);
     return value;
   }
 
   @Override
-  public V edgeValueOrDefault(Object nodeA, Object nodeB, @Nullable V defaultValue) {
-    V value = checkedConnections(nodeA).value(nodeB);
+  public V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue) {
+    V value = checkedConnections(nodeU).value(nodeV);
     if (value == null) {
-      checkArgument(containsNode(nodeB), NODE_NOT_IN_GRAPH, nodeB);
+      checkArgument(containsNode(nodeV), NODE_NOT_IN_GRAPH, nodeV);
       return defaultValue;
     }
     return value;
+  }
+
+  @Override
+  protected long edgeCount() {
+    return edgeCount;
   }
 
   protected final GraphConnections<N, V> checkedConnections(Object node) {
