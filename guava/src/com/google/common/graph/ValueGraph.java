@@ -122,9 +122,9 @@ public interface ValueGraph<N, V> extends Graph<N> {
    * Returns a {@link Map} of all {@link #edges() edges} mapped to their associated {@link
    * #edgeValue(Object, Object) value}.
    *
-   * <p>Note: {@link Map#get(Object)} returns null if you supply an {@link EndpointPair}
-   * whose nodes are not connected in this graph.  This contrasts with the behavior of
-   * {@link edgeValue(Object, Object)}, which throws {@link IllegalArgumentException} in that case.
+   * <p>Note: {@link Map#get(Object)} returns null if you supply an {@link EndpointPair} whose nodes
+   * are not connected in this graph. This contrasts with the behavior of {@link #edgeValue(Object,
+   * Object)}, which throws {@link IllegalArgumentException} in that case.
    */
   Map<EndpointPair<N>, V> edgeValues();
 
