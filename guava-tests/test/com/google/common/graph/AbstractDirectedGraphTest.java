@@ -31,7 +31,7 @@ import org.junit.Test;
 public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
   @Test
   public void predecessors_oneEdge() {
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.predecessors(N2)).containsExactly(N1);
     // Edge direction handled correctly
     assertThat(graph.predecessors(N1)).isEmpty();
@@ -39,7 +39,7 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
 
   @Test
   public void successors_oneEdge() {
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.successors(N1)).containsExactly(N2);
     // Edge direction handled correctly
     assertThat(graph.successors(N2)).isEmpty();
@@ -47,7 +47,7 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
 
   @Test
   public void inDegree_oneEdge() {
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.inDegree(N2)).isEqualTo(1);
     // Edge direction handled correctly
     assertThat(graph.inDegree(N1)).isEqualTo(0);
@@ -55,7 +55,7 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
 
   @Test
   public void outDegree_oneEdge() {
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.outDegree(N1)).isEqualTo(1);
     // Edge direction handled correctly
     assertThat(graph.outDegree(N2)).isEqualTo(0);
@@ -69,18 +69,18 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
     // modifications to proxy methods)
     addNode(N1);
     addNode(N2);
-    assertThat(addEdge(N1, N2)).isTrue();
+    assertThat(putEdge(N1, N2)).isTrue();
   }
 
   @Test
   public void addEdge_existingEdgeBetweenSameNodes() {
-    addEdge(N1, N2);
-    assertThat(addEdge(N1, N2)).isFalse();
+    putEdge(N1, N2);
+    assertThat(putEdge(N1, N2)).isFalse();
   }
 
   public void removeEdge_antiparallelEdges() {
-    addEdge(N1, N2);
-    addEdge(N2, N1);
+    putEdge(N1, N2);
+    putEdge(N2, N1);
 
     assertThat(graph.removeEdge(N1, N2)).isTrue();
     assertThat(graph.successors(N1)).isEmpty();

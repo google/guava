@@ -59,7 +59,7 @@ public class ConfigurableSimpleDirectedGraphTest extends AbstractDirectedGraphTe
       adjacentNodes.add(N2);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
-      addEdge(N1, N2);
+      putEdge(N1, N2);
       assertThat(graph.adjacentNodes(N1)).containsExactlyElementsIn(adjacentNodes);
     }
   }
@@ -73,7 +73,7 @@ public class ConfigurableSimpleDirectedGraphTest extends AbstractDirectedGraphTe
       predecessors.add(N1);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
-      addEdge(N1, N2);
+      putEdge(N1, N2);
       assertThat(graph.predecessors(N2)).containsExactlyElementsIn(predecessors);
     }
   }
@@ -87,7 +87,7 @@ public class ConfigurableSimpleDirectedGraphTest extends AbstractDirectedGraphTe
       successors.add(N2);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
-      addEdge(N1, N2);
+      putEdge(N1, N2);
       assertThat(successors).containsExactlyElementsIn(graph.successors(N1));
     }
   }
@@ -97,7 +97,7 @@ public class ConfigurableSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   @Test
   public void addEdge_selfLoop() {
     try {
-      addEdge(N1, N1);
+      putEdge(N1, N1);
       fail(ERROR_ADDED_SELF_LOOP);
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_SELF_LOOP);

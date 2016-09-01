@@ -58,7 +58,7 @@ public class ConfigurableSimpleUndirectedNetworkTest extends AbstractUndirectedN
       edges.add(E12);
       fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
-      addEdge(E12, N1, N2);
+      addEdge(N1, N2, E12);
       assertThat(network.edges()).containsExactlyElementsIn(edges);
     }
   }
@@ -72,7 +72,7 @@ public class ConfigurableSimpleUndirectedNetworkTest extends AbstractUndirectedN
       incidentEdges.add(E12);
       fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
-      addEdge(E12, N1, N2);
+      addEdge(N1, N2, E12);
       assertThat(network.incidentEdges(N1)).containsExactlyElementsIn(incidentEdges);
     }
   }
@@ -86,20 +86,20 @@ public class ConfigurableSimpleUndirectedNetworkTest extends AbstractUndirectedN
       adjacentNodes.add(N2);
       fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
-      addEdge(E12, N1, N2);
+      addEdge(N1, N2, E12);
       assertThat(network.adjacentNodes(N1)).containsExactlyElementsIn(adjacentNodes);
     }
   }
 
   @Override
   public void adjacentEdges_checkReturnedSetMutability() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     Set<String> adjacentEdges = network.adjacentEdges(E12);
     try {
       adjacentEdges.add(E23);
       fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
-      addEdge(E23, N2, N3);
+      addEdge(N2, N3, E23);
       assertThat(network.adjacentEdges(E12)).containsExactlyElementsIn(adjacentEdges);
     }
   }
@@ -114,7 +114,7 @@ public class ConfigurableSimpleUndirectedNetworkTest extends AbstractUndirectedN
       edgesConnecting.add(E23);
       fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
-      addEdge(E12, N1, N2);
+      addEdge(N1, N2, E12);
       assertThat(network.edgesConnecting(N1, N2))
           .containsExactlyElementsIn(edgesConnecting);
     }
@@ -129,7 +129,7 @@ public class ConfigurableSimpleUndirectedNetworkTest extends AbstractUndirectedN
       inEdges.add(E12);
       fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
-      addEdge(E12, N1, N2);
+      addEdge(N1, N2, E12);
       assertThat(network.inEdges(N2)).containsExactlyElementsIn(inEdges);
     }
   }
@@ -143,7 +143,7 @@ public class ConfigurableSimpleUndirectedNetworkTest extends AbstractUndirectedN
       outEdges.add(E12);
       fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
-      addEdge(E12, N1, N2);
+      addEdge(N1, N2, E12);
       assertThat(network.outEdges(N1)).containsExactlyElementsIn(outEdges);
     }
   }
@@ -157,7 +157,7 @@ public class ConfigurableSimpleUndirectedNetworkTest extends AbstractUndirectedN
       predecessors.add(N1);
       fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
-      addEdge(E12, N1, N2);
+      addEdge(N1, N2, E12);
       assertThat(network.predecessors(N2)).containsExactlyElementsIn(predecessors);
     }
   }
@@ -171,7 +171,7 @@ public class ConfigurableSimpleUndirectedNetworkTest extends AbstractUndirectedN
       successors.add(N2);
       fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
-      addEdge(E12, N1, N2);
+      addEdge(N1, N2, E12);
       assertThat(network.successors(N1)).containsExactlyElementsIn(successors);
     }
   }
@@ -181,7 +181,7 @@ public class ConfigurableSimpleUndirectedNetworkTest extends AbstractUndirectedN
   @Test
   public void addEdge_selfLoop() {
     try {
-      addEdge(E11, N1, N1);
+      addEdge(N1, N1, E11);
       fail(ERROR_ADDED_SELF_LOOP);
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_SELF_LOOP);

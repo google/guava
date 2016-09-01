@@ -131,7 +131,7 @@ public abstract class AbstractNetworkTest {
    * TODO(user): Consider changing access modifier to be protected.
    */
   @CanIgnoreReturnValue
-  boolean addEdge(String e, Integer n1, Integer n2) {
+  boolean addEdge(Integer n1, Integer n2, String e) {
     network.addNode(n1);
     network.addNode(n2);
     return network.addEdge(n1, n2, e);
@@ -368,7 +368,7 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void edges_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.edges()).containsExactly(E12);
   }
 
@@ -383,7 +383,7 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void incidentEdges_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.incidentEdges(N2)).containsExactly(E12);
     assertThat(network.incidentEdges(N1)).containsExactly(E12);
   }
@@ -406,7 +406,7 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void incidentNodes_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.incidentNodes(E12)).containsExactly(N1, N2);
   }
 
@@ -422,7 +422,7 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void adjacentNodes_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.adjacentNodes(N1)).containsExactly(N2);
     assertThat(network.adjacentNodes(N2)).containsExactly(N1);
   }
@@ -445,17 +445,17 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void adjacentEdges_bothEndpoints() {
-    addEdge(E12, N1, N2);
-    addEdge(E23, N2, N3);
-    addEdge(E31, N3, N1);
-    addEdge(E34, N3, N4);
+    addEdge(N1, N2, E12);
+    addEdge(N2, N3, E23);
+    addEdge(N3, N1, E31);
+    addEdge(N3, N4, E34);
     assertThat(network.adjacentEdges(E12)).containsExactly(E31, E23);
   }
 
   @Test
   public void adjacentEdges_noAdjacentEdges() {
-    addEdge(E12, N1, N2);
-    addEdge(E34, N3, N4);
+    addEdge(N1, N2, E12);
+    addEdge(N3, N4, E34);
     assertThat(network.adjacentEdges(E12)).isEmpty();
   }
 
@@ -580,8 +580,8 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void removeNode_existingNode() {
-    addEdge(E12, N1, N2);
-    addEdge(E41, N4, N1);
+    addEdge(N1, N2, E12);
+    addEdge(N4, N1, E41);
     assertTrue(network.removeNode(N1));
     assertFalse(network.removeNode(N1));
     assertThat(network.nodes()).containsExactly(N2, N4);
@@ -612,7 +612,7 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void removeEdge_existingEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertTrue(network.removeEdge(E12));
     assertFalse(network.removeEdge(E12));
     assertThat(network.edges()).doesNotContain(E12);
@@ -621,9 +621,9 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void removeEdge_oneOfMany() {
-    addEdge(E12, N1, N2);
-    addEdge(E13, N1, N3);
-    addEdge(E14, N1, N4);
+    addEdge(N1, N2, E12);
+    addEdge(N1, N3, E13);
+    addEdge(N1, N4, E14);
     assertThat(network.edges()).containsExactly(E12, E13, E14);
     assertTrue(network.removeEdge(E13));
     assertThat(network.edges()).containsExactly(E12, E14);
@@ -631,7 +631,7 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void removeEdge_edgeNotPresent() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     ImmutableSet<String> edges = ImmutableSet.copyOf(network.edges());
     assertFalse(network.removeEdge(EDGE_NOT_IN_GRAPH));
     assertThat(network.edges()).containsExactlyElementsIn(edges);
@@ -639,7 +639,7 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void removeEdge_queryAfterRemoval() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     EndpointPair<Integer> unused = network.incidentNodes(E12); // ensure cache (if any) is populated
     assertTrue(network.removeEdge(E12));
     try {

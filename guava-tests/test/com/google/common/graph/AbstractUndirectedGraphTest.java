@@ -43,28 +43,28 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
 
   @Test
   public void predecessors_oneEdge() {
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.predecessors(N2)).containsExactly(N1);
     assertThat(graph.predecessors(N1)).containsExactly(N2);
   }
 
   @Test
   public void successors_oneEdge() {
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.successors(N1)).containsExactly(N2);
     assertThat(graph.successors(N2)).containsExactly(N1);
   }
 
   @Test
   public void inDegree_oneEdge() {
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.inDegree(N2)).isEqualTo(1);
     assertThat(graph.inDegree(N1)).isEqualTo(1);
   }
 
   @Test
   public void outDegree_oneEdge() {
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.outDegree(N1)).isEqualTo(1);
     assertThat(graph.outDegree(N2)).isEqualTo(1);
   }
@@ -77,19 +77,19 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
     // modifications to proxy methods)
     addNode(N1);
     addNode(N2);
-    assertThat(addEdge(N1, N2)).isTrue();
+    assertThat(putEdge(N1, N2)).isTrue();
   }
 
   @Test
   public void addEdge_existingEdgeBetweenSameNodes() {
-    addEdge(N1, N2);
-    assertThat(addEdge(N2, N1)).isFalse();
+    putEdge(N1, N2);
+    assertThat(putEdge(N2, N1)).isFalse();
   }
 
   @Test
   public void removeEdge_antiparallelEdges() {
-    addEdge(N1, N2);
-    addEdge(N2, N1); // no-op
+    putEdge(N1, N2);
+    putEdge(N2, N1); // no-op
 
     assertThat(graph.removeEdge(N1, N2)).isTrue();
     assertThat(graph.adjacentNodes(N1)).isEmpty();

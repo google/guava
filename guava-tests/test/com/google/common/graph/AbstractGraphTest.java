@@ -105,7 +105,7 @@ public abstract class AbstractGraphTest {
    * TODO(user): Consider changing access modifier to be protected.
    */
   @CanIgnoreReturnValue
-  boolean addEdge(Integer n1, Integer n2) {
+  boolean putEdge(Integer n1, Integer n2) {
     graph.addNode(n1);
     graph.addNode(n2);
     return graph.putEdge(n1, n2);
@@ -221,7 +221,7 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void adjacentNodes_oneEdge() {
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.adjacentNodes(N1)).containsExactly(N2);
     assertThat(graph.adjacentNodes(N2)).containsExactly(N1);
   }
@@ -276,7 +276,7 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void degree_oneEdge() {
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.degree(N1)).isEqualTo(1);
     assertThat(graph.degree(N2)).isEqualTo(1);
   }
@@ -345,8 +345,8 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void removeNode_existingNode() {
-    addEdge(N1, N2);
-    addEdge(N4, N1);
+    putEdge(N1, N2);
+    putEdge(N4, N1);
     assertThat(graph.removeNode(N1)).isTrue();
     assertThat(graph.removeNode(N1)).isFalse();
     assertThat(graph.nodes()).containsExactly(N2, N4);
@@ -356,8 +356,8 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void removeNode_antiparallelEdges() {
-    addEdge(N1, N2);
-    addEdge(N2, N1);
+    putEdge(N1, N2);
+    putEdge(N2, N1);
 
     assertThat(graph.removeNode(N1)).isTrue();
     assertThat(graph.nodes()).containsExactly(N2);
@@ -391,7 +391,7 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void removeEdge_existingEdge() {
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.successors(N1)).containsExactly(N2);
     assertThat(graph.predecessors(N2)).containsExactly(N1);
     assertThat(graph.removeEdge(N1, N2)).isTrue();
@@ -402,23 +402,23 @@ public abstract class AbstractGraphTest {
 
   @Test
   public void removeEdge_oneOfMany() {
-    addEdge(N1, N2);
-    addEdge(N1, N3);
-    addEdge(N1, N4);
+    putEdge(N1, N2);
+    putEdge(N1, N3);
+    putEdge(N1, N4);
     assertThat(graph.removeEdge(N1, N3)).isTrue();
     assertThat(graph.adjacentNodes(N1)).containsExactly(N2, N4);
   }
 
   @Test
   public void removeEdge_nodeNotPresent() {
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.removeEdge(N1, NODE_NOT_IN_GRAPH)).isFalse();
     assertThat(graph.successors(N1)).contains(N2);
   }
 
   @Test
   public void removeEdge_edgeNotPresent() {
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     addNode(N3);
     assertThat(graph.removeEdge(N1, N3)).isFalse();
     assertThat(graph.successors(N1)).contains(N2);

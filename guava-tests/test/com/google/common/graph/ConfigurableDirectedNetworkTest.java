@@ -37,148 +37,148 @@ public class ConfigurableDirectedNetworkTest extends ConfigurableSimpleDirectedN
 
   @Test
   public void edges_selfLoop() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.edges()).containsExactly(E11);
   }
 
   @Test
   public void incidentEdges_selfLoop() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.incidentEdges(N1)).containsExactly(E11);
   }
 
   @Test
   public void incidentNodes_selfLoop() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.incidentNodes(E11).source()).isEqualTo(N1);
     assertThat(network.incidentNodes(E11).target()).isEqualTo(N1);
   }
 
   @Test
   public void adjacentNodes_selfLoop() {
-    addEdge(E11, N1, N1);
-    addEdge(E12, N1, N2);
+    addEdge(N1, N1, E11);
+    addEdge(N1, N2, E12);
     assertThat(network.adjacentNodes(N1)).containsExactly(N1, N2);
   }
 
   @Test
   public void adjacentEdges_selfLoop() {
-    addEdge(E11, N1, N1);
-    addEdge(E12, N1, N2);
+    addEdge(N1, N1, E11);
+    addEdge(N1, N2, E12);
     assertThat(network.adjacentEdges(E11)).containsExactly(E12);
   }
 
   @Test
   public void edgesConnecting_selfLoop() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11);
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
     assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11);
   }
 
   @Test
   public void inEdges_selfLoop() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.inEdges(N1)).containsExactly(E11);
-    addEdge(E41, N4, N1);
+    addEdge(N4, N1, E41);
     assertThat(network.inEdges(N1)).containsExactly(E11, E41);
   }
 
   @Test
   public void outEdges_selfLoop() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.outEdges(N1)).containsExactly(E11);
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.outEdges(N1)).containsExactly(E11, E12);
   }
 
   @Test
   public void predecessors_selfLoop() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.predecessors(N1)).containsExactly(N1);
-    addEdge(E41, N4, N1);
+    addEdge(N4, N1, E41);
     assertThat(network.predecessors(N1)).containsExactly(N1, N4);
   }
 
   @Test
   public void successors_selfLoop() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.successors(N1)).containsExactly(N1);
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.successors(N1)).containsExactly(N1, N2);
   }
 
   @Test
   public void source_selfLoop() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.incidentNodes(E11).source()).isEqualTo(N1);
   }
 
   @Test
   public void target_selfLoop() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.incidentNodes(E11).target()).isEqualTo(N1);
   }
 
   @Test
   public void degree_selfLoop() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.degree(N1)).isEqualTo(2);
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.degree(N1)).isEqualTo(3);
   }
 
   @Test
   public void inDegree_selfLoop() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.inDegree(N1)).isEqualTo(1);
-    addEdge(E41, N4, N1);
+    addEdge(N4, N1, E41);
     assertThat(network.inDegree(N1)).isEqualTo(2);
   }
 
   @Test
   public void outDegree_selfLoop() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.outDegree(N1)).isEqualTo(1);
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.outDegree(N1)).isEqualTo(2);
   }
 
   @Override
   @Test
   public void addEdge_selfLoop() {
-    assertThat(addEdge(E11, N1, N1)).isTrue();
+    assertThat(addEdge(N1, N1, E11)).isTrue();
     assertThat(network.edges()).contains(E11);
     assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11);
   }
 
   @Test
   public void addEdge_existingSelfLoopEdgeBetweenSameNodes() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     ImmutableSet<String> edges = ImmutableSet.copyOf(network.edges());
-    assertThat(addEdge(E11, N1, N1)).isFalse();
+    assertThat(addEdge(N1, N1, E11)).isFalse();
     assertThat(network.edges()).containsExactlyElementsIn(edges);
   }
 
   @Test
   public void addEdge_existingEdgeBetweenDifferentNodes_selfLoops() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     try {
-      addEdge(E11, N1, N2);
+      addEdge(N1, N2, E11);
       fail("Reusing an existing self-loop edge to connect different nodes succeeded");
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
     }
     try {
-      addEdge(E11, N2, N2);
+      addEdge(N2, N2, E11);
       fail("Reusing an existing self-loop edge to make a different self-loop edge succeeded");
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
     }
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     try {
-      addEdge(E12, N1, N1);
+      addEdge(N1, N1, E12);
       fail("Reusing an existing edge to add a self-loop edge between different nodes succeeded");
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
@@ -187,9 +187,9 @@ public class ConfigurableDirectedNetworkTest extends ConfigurableSimpleDirectedN
 
   @Test
   public void addEdge_parallelSelfLoopEdge() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     try {
-      addEdge(EDGE_NOT_IN_GRAPH, N1, N1);
+      addEdge(N1, N1, EDGE_NOT_IN_GRAPH);
       fail("Adding a parallel self-loop edge succeeded");
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
@@ -199,7 +199,7 @@ public class ConfigurableDirectedNetworkTest extends ConfigurableSimpleDirectedN
   @Test
   public void removeNode_existingNodeWithSelfLoopEdge() {
     addNode(N1);
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.removeNode(N1)).isTrue();
     assertThat(network.nodes()).isEmpty();
     assertThat(network.edges()).doesNotContain(E11);
@@ -207,7 +207,7 @@ public class ConfigurableDirectedNetworkTest extends ConfigurableSimpleDirectedN
 
   @Test
   public void removeEdge_existingSelfLoopEdge() {
-    addEdge(E11, N1, N1);
+    addEdge(N1, N1, E11);
     assertThat(network.removeEdge(E11)).isTrue();
     assertThat(network.edges()).doesNotContain(E11);
     assertThat(network.edgesConnecting(N1, N1)).isEmpty();

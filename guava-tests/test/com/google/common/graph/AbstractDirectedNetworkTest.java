@@ -62,14 +62,14 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
   @Override
   @Test
   public void incidentNodes_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.incidentNodes(E12).source()).isEqualTo(N1);
     assertThat(network.incidentNodes(E12).target()).isEqualTo(N2);
   }
 
   @Test
   public void edgesConnecting_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
     // Passed nodes should be in the correct edge direction, first is the
     // source node and the second is the target node
@@ -78,7 +78,7 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
 
   @Test
   public void inEdges_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.inEdges(N2)).containsExactly(E12);
     // Edge direction handled correctly
     assertThat(network.inEdges(N1)).isEmpty();
@@ -86,7 +86,7 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
 
   @Test
   public void outEdges_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.outEdges(N1)).containsExactly(E12);
     // Edge direction handled correctly
     assertThat(network.outEdges(N2)).isEmpty();
@@ -94,7 +94,7 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
 
   @Test
   public void predecessors_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.predecessors(N2)).containsExactly(N1);
     // Edge direction handled correctly
     assertThat(network.predecessors(N1)).isEmpty();
@@ -102,7 +102,7 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
 
   @Test
   public void successors_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.successors(N1)).containsExactly(N2);
     // Edge direction handled correctly
     assertThat(network.successors(N2)).isEmpty();
@@ -110,7 +110,7 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
 
   @Test
   public void source_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.incidentNodes(E12).source()).isEqualTo(N1);
   }
 
@@ -126,7 +126,7 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
 
   @Test
   public void target_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.incidentNodes(E12).target()).isEqualTo(N2);
   }
 
@@ -142,7 +142,7 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
 
   @Test
   public void inDegree_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.inDegree(N2)).isEqualTo(1);
     // Edge direction handled correctly
     assertThat(network.inDegree(N1)).isEqualTo(0);
@@ -150,7 +150,7 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
 
   @Test
   public void outDegree_oneEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     assertThat(network.outDegree(N1)).isEqualTo(1);
     // Edge direction handled correctly
     assertThat(network.outDegree(N2)).isEqualTo(0);
@@ -164,7 +164,7 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
     // modifications to proxy methods)
     addNode(N1);
     addNode(N2);
-    assertThat(addEdge(E12, N1, N2)).isTrue();
+    assertThat(addEdge(N1, N2, E12)).isTrue();
     assertThat(network.edges()).contains(E12);
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
     // Direction of the added edge is correctly handled
@@ -173,25 +173,25 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
 
   @Test
   public void addEdge_existingEdgeBetweenSameNodes() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     ImmutableSet<String> edges = ImmutableSet.copyOf(network.edges());
-    assertThat(addEdge(E12, N1, N2)).isFalse();
+    assertThat(addEdge(N1, N2, E12)).isFalse();
     assertThat(network.edges()).containsExactlyElementsIn(edges);
   }
 
   @Test
   public void addEdge_existingEdgeBetweenDifferentNodes() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     try {
       // Edge between totally different nodes
-      addEdge(E12, N4, N5);
+      addEdge(N4, N5, E12);
       fail(ERROR_ADDED_EXISTING_EDGE);
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
     }
     try {
       // Edge between same nodes but in reverse direction
-      addEdge(E12, N2, N1);
+      addEdge(N2, N1, E12);
       fail(ERROR_ADDED_EXISTING_EDGE);
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
@@ -200,9 +200,9 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
 
   @Test
   public void addEdge_parallelEdge() {
-    addEdge(E12, N1, N2);
+    addEdge(N1, N2, E12);
     try {
-      addEdge(EDGE_NOT_IN_GRAPH, N1, N2);
+      addEdge(N1, N2, EDGE_NOT_IN_GRAPH);
       fail(ERROR_ADDED_PARALLEL_EDGE);
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
