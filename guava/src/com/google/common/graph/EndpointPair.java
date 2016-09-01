@@ -43,26 +43,24 @@ public abstract class EndpointPair<N> implements Iterable<N> {
     this.nodeV = checkNotNull(nodeV);
   }
 
-  // TODO(b/31167164): Decide which of these constructors to make public.
-
-  /** Returns an {@link EndpointPair} representing the endpoints of an edge in {@code graph}. */
-  public static <N> EndpointPair<N> of(Graph<?> graph, N nodeU, N nodeV) {
-    return graph.isDirected() ? ordered(nodeU, nodeV) : unordered(nodeU, nodeV);
-  }
-
-  /** Returns an {@link EndpointPair} representing the endpoints of an edge in {@code network}. */
-  public static <N> EndpointPair<N> of(Network<?, ?> network, N nodeU, N nodeV) {
-    return network.isDirected() ? ordered(nodeU, nodeV) : unordered(nodeU, nodeV);
-  }
-
   /** Returns an {@link EndpointPair} representing the endpoints of a directed edge. */
-  static <N> EndpointPair.Ordered<N> ordered(N source, N target) {
+  public static <N> EndpointPair<N> ordered(N source, N target) {
     return new Ordered<N>(source, target);
   }
 
   /** Returns an {@link EndpointPair} representing the endpoints of an undirected edge. */
-  static <N> EndpointPair.Unordered<N> unordered(N nodeU, N nodeV) {
+  public static <N> EndpointPair<N> unordered(N nodeU, N nodeV) {
     return new Unordered<N>(nodeU, nodeV);
+  }
+
+  /** Returns an {@link EndpointPair} representing the endpoints of an edge in {@code graph}. */
+  static <N> EndpointPair<N> of(Graph<?> graph, N nodeU, N nodeV) {
+    return graph.isDirected() ? ordered(nodeU, nodeV) : unordered(nodeU, nodeV);
+  }
+
+  /** Returns an {@link EndpointPair} representing the endpoints of an edge in {@code network}. */
+  static <N> EndpointPair<N> of(Network<?, ?> network, N nodeU, N nodeV) {
+    return network.isDirected() ? ordered(nodeU, nodeV) : unordered(nodeU, nodeV);
   }
 
   /**
