@@ -19,6 +19,7 @@ package com.google.common.graph;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
+import java.util.Map;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,12 +38,17 @@ public final class ValueGraphTest {
     assertThat(Graphs.equivalent(graph, Graphs.copyOf(graph))).isTrue();
     assertThat(Graphs.equivalent(graph, ImmutableValueGraph.copyOf(graph))).isTrue();
 
+    assertThat(graph.edgeValues().keySet()).isEqualTo(graph.edges());
+
     for (Integer node : graph.nodes()) {
       for (Integer otherNode : graph.nodes()) {
+        EndpointPair<Integer> endpointPair = EndpointPair.of(graph, node, otherNode);
         if (graph.successors(node).contains(otherNode)) {
-          assertThat(graph.edgeValue(node, otherNode)).isNotNull();
+          String value = graph.edgeValue(node, otherNode);
+          assertThat(value).isNotNull();
+          assertThat(value).isEqualTo(graph.edgeValues().get(endpointPair));
         } else {
-          assertThat(graph.edgeValueOrDefault(node, otherNode, null)).isNull();
+          assertThat(graph.edgeValues()).doesNotContainKey(endpointPair);
         }
       }
     }
@@ -167,23 +173,32 @@ public final class ValueGraphTest {
   }
 
   @Test
-  public void edgeValueOrDefault() {
+  public void edgeValues() {
     graph = ValueGraphBuilder.directed().build();
+    Map<EndpointPair<Integer>, String> edgeValues = graph.edgeValues();
+    EndpointPair<Integer> pair12 = EndpointPair.ordered(1, 2);
+    EndpointPair<Integer> pair21 = EndpointPair.ordered(2, 1);
 
     graph.addNode(1);
     graph.addNode(2);
-    assertThat(graph.edgeValueOrDefault(1, 2, "default")).isEqualTo("default");
-    assertThat(graph.edgeValueOrDefault(2, 1, "default")).isEqualTo("default");
+    assertThat(edgeValues).doesNotContainKey(pair12);
+    assertThat(edgeValues).doesNotContainKey(pair21);
 
     graph.putEdgeValue(1, 2, "valueA");
     graph.putEdgeValue(2, 1, "valueB");
-    assertThat(graph.edgeValueOrDefault(1, 2, "default")).isEqualTo("valueA");
-    assertThat(graph.edgeValueOrDefault(2, 1, "default")).isEqualTo("valueB");
+    assertThat(edgeValues.get(pair12)).isEqualTo("valueA");
+    assertThat(edgeValues.get(pair21)).isEqualTo("valueB");
 
     graph.removeEdge(1, 2);
     graph.putEdgeValue(2, 1, "valueC");
-    assertThat(graph.edgeValueOrDefault(1, 2, "default")).isEqualTo("default");
-    assertThat(graph.edgeValueOrDefault(2, 1, "default")).isEqualTo("valueC");
+    assertThat(edgeValues).doesNotContainKey(pair12);
+    assertThat(edgeValues.get(pair21)).isEqualTo("valueC");
+
+    try {
+      edgeValues.put(pair12, "valueA");
+      fail("Map returned by edgeValues() should be unmodifiable");
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   @Test

@@ -126,17 +126,10 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
 
   @Override
   public V edgeValue(Object nodeU, Object nodeV) {
-    V value = edgeValueOrDefault(nodeU, nodeV, null);
-    checkArgument(value != null, EDGE_CONNECTING_NOT_IN_GRAPH, nodeU, nodeV);
-    return value;
-  }
-
-  @Override
-  public V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue) {
     V value = checkedConnections(nodeU).value(nodeV);
     if (value == null) {
       checkArgument(containsNode(nodeV), NODE_NOT_IN_GRAPH, nodeV);
-      return defaultValue;
+      throw new IllegalArgumentException(String.format(EDGE_CONNECTING_NOT_IN_GRAPH, nodeU, nodeV));
     }
     return value;
   }

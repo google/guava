@@ -19,7 +19,6 @@ package com.google.common.graph;
 import com.google.common.annotations.Beta;
 import java.util.ConcurrentModificationException;
 import java.util.Map;
-import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
@@ -74,15 +73,15 @@ import javax.annotation.Nullable;
  * should prefer the non-mutating {@link ValueGraph} interface.
  *
  * <p>We provide an efficient implementation of this interface via {@link ValueGraphBuilder}. When
- * using the implementation provided, all {@link Set}-returning methods provide live, unmodifiable
- * views of the graph. In other words, you cannot add an element to the {@link Set}, but if an
- * element is added to the {@link ValueGraph} that would affect the result of that set, it will be
- * updated automatically. This also means that you cannot modify a {@link ValueGraph} in a way that
- * would affect a {#link Set} while iterating over that set. For example, you cannot remove the
- * nodes from a {@link ValueGraph} while iterating over {@link #nodes} (unless you first make a copy
- * of the nodes), just as you could not remove the keys from a {@link Map} while iterating over its
- * {@link Map#keySet()}. This will either throw a {@link ConcurrentModificationException} or risk
- * undefined behavior.
+ * using the implementation provided, all collection-returning methods provide live, unmodifiable
+ * views of the graph. In other words, you cannot add an element to the collection, but if an
+ * element is added to the {@link ValueGraph} that would affect the result of that collection, it
+ * will be updated automatically. This also means that you cannot modify a {@link ValueGraph} in a
+ * way that would affect a collection while iterating over that collection. For example, you cannot
+ * remove the nodes from a {@link ValueGraph} while iterating over {@link #nodes} (unless you first
+ * make a copy of the nodes), just as you could not remove the keys from a {@link Map} while
+ * iterating over its {@link Map#keySet()}. This will either throw a
+ * {@link ConcurrentModificationException} or risk undefined behavior.
  *
  * <p>Example of use:
  *
@@ -120,16 +119,10 @@ public interface ValueGraph<N, V> extends Graph<N> {
   V edgeValue(Object nodeU, Object nodeV);
 
   /**
-   * If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
-   * associated with that edge; otherwise, returns {@code defaultValue}.
-   *
-   * <p>In an undirected graph, this is equal to {@code edgeValueOrDefault(nodeV, nodeU,
-   * defaultValue)}.
-   *
-   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
-   *     graph
+   * Returns a {@link Map} of all {@link #edges() edges} mapped to their associated {@link
+   * #edgeValue(Object, Object) value}.
    */
-  V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue);
+  Map<EndpointPair<N>, V> edgeValues();
 
   //
   // ValueGraph identity

@@ -26,7 +26,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import javax.annotation.Nullable;
+import java.util.Map;
 
 /**
  * A {@link ValueGraph} whose elements and structural relationships will never change. Instances of
@@ -97,19 +97,17 @@ public final class ImmutableValueGraph<N, V> extends ImmutableGraph.ValueBackedI
 
   @Override
   public V edgeValue(Object nodeU, Object nodeV) {
-    V value = edgeValueOrDefault(nodeU, nodeV, null);
-    checkArgument(value != null, EDGE_CONNECTING_NOT_IN_GRAPH, nodeU, nodeV);
+    V value = backingGraph.checkedConnections(nodeU).value(nodeV);
+    if (value == null) {
+      checkArgument(backingGraph.containsNode(nodeV), NODE_NOT_IN_GRAPH, nodeV);
+      throw new IllegalArgumentException(String.format(EDGE_CONNECTING_NOT_IN_GRAPH, nodeU, nodeV));
+    }
     return value;
   }
 
   @Override
-  public V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue) {
-    V value = backingGraph.checkedConnections(nodeU).value(nodeV);
-    if (value == null) {
-      checkArgument(backingGraph.containsNode(nodeV), NODE_NOT_IN_GRAPH, nodeV);
-      return defaultValue;
-    }
-    return value;
+  public Map<EndpointPair<N>, V> edgeValues() {
+    return AbstractValueGraph.edgeValues(this);
   }
 
   @Override

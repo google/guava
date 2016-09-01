@@ -74,12 +74,12 @@ import javax.annotation.Nullable;
  * should prefer the non-mutating {@link Graph} interface.
  *
  * <p>We provide an efficient implementation of this interface via {@link GraphBuilder}. When using
- * the implementation provided, all {@link Set}-returning methods provide live, unmodifiable views
- * of the graph. In other words, you cannot add an element to the {@link Set}, but if an element is
- * added to the {@link Graph} that would affect the result of that set, it will be updated
+ * the implementation provided, all collection-returning methods provide live, unmodifiable views of
+ * the graph. In other words, you cannot add an element to the collection, but if an element is
+ * added to the {@link Graph} that would affect the result of that collection, it will be updated
  * automatically. This also means that you cannot modify a {@link Graph} in a way that would affect
- * a {#link Set} while iterating over that set. For example, you cannot remove the nodes from a
- * {@link Graph} while iterating over {@link #nodes} (unless you first make a copy of the nodes),
+ * a collection while iterating over that collection. For example, you cannot remove the nodes from
+ * a {@link Graph} while iterating over {@link #nodes} (unless you first make a copy of the nodes),
  * just as you could not remove the keys from a {@link Map} while iterating over its {@link
  * Map#keySet()}. This will either throw a {@link ConcurrentModificationException} or risk undefined
  * behavior.

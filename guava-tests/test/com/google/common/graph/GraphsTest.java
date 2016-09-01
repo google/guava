@@ -278,10 +278,11 @@ public class GraphsTest {
     assertThat(transpose(transpose)).isSameAs(directedGraph);
     AbstractGraphTest.validateGraph(transpose);
 
-    assertThat(transpose.edgeValueOrDefault(N1, N2, null)).isNull();
+    EndpointPair<Integer> pair12 = EndpointPair.ordered(N1, N2);
+    assertThat(transpose.edgeValues().get(pair12)).isNull();
     directedGraph.putEdgeValue(N2, N1, E21);
     // View should be updated.
-    assertThat(transpose.edgeValueOrDefault(N1, N2, null)).isEqualTo(E21);
+    assertThat(transpose.edgeValues().get(pair12)).isEqualTo(E21);
     AbstractGraphTest.validateGraph(transpose);
   }
 

@@ -267,21 +267,9 @@ public final class Graphs {
       return false;
     }
 
-    // TODO(b/31166974): If we add a Map of edgeValues, we can check against that for equality.
-    if (graphA.isDirected() != graphB.isDirected()
-        || !graphA.nodes().equals(graphB.nodes())
-        || !graphA.edges().equals(graphB.edges())) {
-      return false;
-    }
-
-    for (EndpointPair<?> edge : graphA.edges()) {
-      if (!graphA.edgeValue(edge.nodeU(), edge.nodeV()).equals(
-          graphB.edgeValue(edge.nodeU(), edge.nodeV()))) {
-        return false;
-      }
-    }
-
-    return true;
+    return graphA.isDirected() == graphB.isDirected()
+        && graphA.nodes().equals(graphB.nodes())
+        && graphA.edgeValues().equals(graphB.edgeValues());
   }
 
   /**
@@ -471,10 +459,7 @@ public final class Graphs {
       return graph.edgeValue(nodeV, nodeU); // transpose
     }
 
-    @Override
-    public V edgeValueOrDefault(Object nodeU, Object nodeV, V defaultValue) {
-      return graph.edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
-    }
+    // Defer to AbstractValueGraph for edgeValues() implementation based on edgeValue().
   }
 
   /**

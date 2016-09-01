@@ -36,6 +36,21 @@ import java.util.Map;
 public abstract class AbstractValueGraph<N, V>
     extends AbstractGraph<N> implements ValueGraph<N, V> {
 
+  @Override
+  public Map<EndpointPair<N>, V> edgeValues() {
+    return edgeValues(this);
+  }
+
+  static <N, V> Map<EndpointPair<N>, V> edgeValues(final ValueGraph<N, V> graph) {
+    Function<EndpointPair<N>, V> edgeToValueFn = new Function<EndpointPair<N>, V>() {
+      @Override
+      public V apply(EndpointPair<N> edge) {
+        return graph.edgeValue(edge.nodeU(), edge.nodeV());
+      }
+    };
+    return Maps.asMap(graph.edges(), edgeToValueFn);
+  }
+
   /**
    * Returns a string representation of this graph.
    */
@@ -50,16 +65,6 @@ public abstract class AbstractValueGraph<N, V>
     return String.format(GRAPH_STRING_FORMAT,
         propertiesString,
         graph.nodes(),
-        edgeValueMap(graph));
-  }
-
-  private static <N, V> Map<EndpointPair<N>, V> edgeValueMap(final ValueGraph<N, V> graph) {
-    Function<EndpointPair<N>, V> edgeToValueFn = new Function<EndpointPair<N>, V>() {
-      @Override
-      public V apply(EndpointPair<N> edge) {
-        return graph.edgeValue(edge.nodeU(), edge.nodeV());
-      }
-    };
-    return Maps.asMap(graph.edges(), edgeToValueFn);
+        graph.edgeValues());
   }
 }
