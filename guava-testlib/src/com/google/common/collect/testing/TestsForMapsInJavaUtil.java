@@ -67,6 +67,7 @@ public class TestsForMapsInJavaUtil {
     suite.addTest(testsForTreeMapNatural());
     suite.addTest(testsForTreeMapWithComparator());
     suite.addTest(testsForUnmodifiableMap());
+    suite.addTest(testsForUnmodifiableSortedMap());
     suite.addTest(testsForEnumMap());
     suite.addTest(testsForConcurrentHashMap());
     suite.addTest(testsForConcurrentSkipListMapNatural());
@@ -111,6 +112,10 @@ public class TestsForMapsInJavaUtil {
   }
 
   protected Collection<Method> suppressForUnmodifiableMap() {
+    return Collections.emptySet();
+  }
+
+  protected Collection<Method> suppressForUnmodifiableSortedMap() {
     return Collections.emptySet();
   }
 
@@ -342,6 +347,25 @@ public class TestsForMapsInJavaUtil {
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
         .suppressing(suppressForUnmodifiableMap())
+        .createTestSuite();
+  }
+
+  public Test testsForUnmodifiableSortedMap() {
+    return MapTestSuiteBuilder.using(
+        new TestStringSortedMapGenerator() {
+          @Override
+          protected SortedMap<String, String> create(Entry<String, String>[] entries) {
+            SortedMap<String, String> map = populate(new TreeMap<String, String>(), entries);
+            return Collections.unmodifiableSortedMap(map);
+          }
+        })
+        .named("unmodifiableSortedMap/TreeMap, natural")
+        .withFeatures(
+            MapFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
+            CollectionSize.ANY)
+        .suppressing(suppressForUnmodifiableSortedMap())
         .createTestSuite();
   }
 
