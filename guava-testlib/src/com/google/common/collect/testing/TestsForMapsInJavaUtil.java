@@ -64,6 +64,7 @@ public class TestsForMapsInJavaUtil {
     suite.addTest(testsForLinkedHashMap());
     suite.addTest(testsForTreeMapNatural());
     suite.addTest(testsForTreeMapWithComparator());
+    suite.addTest(testsForUnmodifiableMap());
     suite.addTest(testsForEnumMap());
     suite.addTest(testsForConcurrentHashMap());
     suite.addTest(testsForConcurrentSkipListMapNatural());
@@ -96,6 +97,10 @@ public class TestsForMapsInJavaUtil {
   }
 
   protected Collection<Method> suppressForTreeMapWithComparator() {
+    return Collections.emptySet();
+  }
+
+  protected Collection<Method> suppressForUnmodifiableMap() {
     return Collections.emptySet();
   }
 
@@ -259,6 +264,25 @@ public class TestsForMapsInJavaUtil {
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
         .suppressing(suppressForTreeMapWithComparator())
+        .createTestSuite();
+  }
+
+  public Test testsForUnmodifiableMap() {
+    return MapTestSuiteBuilder.using(
+        new TestStringMapGenerator() {
+          @Override
+          protected Map<String, String> create(Entry<String, String>[] entries) {
+            return Collections.unmodifiableMap(toHashMap(entries));
+          }
+        })
+        .named("unmodifiableMap/HashMap")
+        .withFeatures(
+            MapFeature.ALLOWS_NULL_KEYS,
+            MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.ALLOWS_ANY_NULL_QUERIES,
+            CollectionFeature.SERIALIZABLE,
+            CollectionSize.ANY)
+        .suppressing(suppressForUnmodifiableMap())
         .createTestSuite();
   }
 
