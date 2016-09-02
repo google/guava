@@ -48,9 +48,9 @@ public final class Graphs {
   // Graph query methods
 
   /**
-   * Returns true iff {@code graph} has at least one cycle. A cycle is defined as a non-empty
-   * subset of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges)
-   * starting and ending with the same node.
+   * Returns true iff {@code graph} has at least one cycle. A cycle is defined as a non-empty subset
+   * of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges) starting
+   * and ending with the same node.
    *
    * <p>This method will detect any non-empty cycle, including self-loops (a cycle of length 1).
    */
@@ -83,7 +83,8 @@ public final class Graphs {
   public static boolean hasCycle(Network<?, ?> network) {
     // In a directed graph, parallel edges cannot introduce a cycle in an acyclic graph.
     // However, in an undirected graph, any parallel edge induces a cycle in the graph.
-    if (!network.isDirected() && network.allowsParallelEdges()
+    if (!network.isDirected()
+        && network.allowsParallelEdges()
         && network.edges().size() > network.asGraph().edges().size()) {
       return true;
     }
@@ -212,7 +213,8 @@ public final class Graphs {
    * Returns {@code true} iff {@code graphA} and {@code graphB} have the same elements and the same
    * relationships between elements, as exposed via the {@link Graph} interface.
    *
-   * <p>Thus, two graphs A and B are equivalent if <b>all</b> of the following are true:
+   * <p>Thus, two graphs A and B are equivalent if both are null or <b>all</b> of the following are
+   * true:
    *
    * <ul>
    * <li>A and B have equal {@link Graph#isDirected() directedness}.
@@ -243,14 +245,15 @@ public final class Graphs {
    * edge values) and the same relationships between elements, as exposed via the {@link ValueGraph}
    * interface.
    *
-   * <p>Thus, two value graphs A and B are equivalent if <b>all</b> of the following are true:
+   * <p>Thus, two value graphs A and B are equivalent if both are null or <b>all</b> of the
+   * following are true:
    *
    * <ul>
    * <li>A and B have equal {@link Graph#isDirected() directedness}.
    * <li>A and B have equal {@link Graph#nodes() node sets}.
    * <li>A and B have equal {@link Graph#edges() edge sets}.
-   * <li>Each edge in A has a {@link ValueGraph#edgeValue(Object, Object) value} equal to the
-   *     {@link ValueGraph#edgeValue(Object, Object) value} of the corresponding edge in B.
+   * <li>Each edge in A has a {@link ValueGraph#edgeValue(Object, Object) value} equal to the {@link
+   *     ValueGraph#edgeValue(Object, Object) value} of the corresponding edge in B.
    * </ul>
    *
    * <p>Graph properties besides {@link Graph#isDirected() directedness} do <b>not</b> affect
@@ -276,7 +279,8 @@ public final class Graphs {
    * Returns {@code true} iff {@code networkA} and {@code networkB} have the same elements and the
    * same relationships between elements, as exposed via the {@link Network} interface.
    *
-   * <p>Thus, two networks A and B are equivalent if <b>all</b> of the following are true:
+   * <p>Thus, two networks A and B are equivalent if both are null or <b>all</b> of the following
+   * are true:
    *
    * <ul>
    * <li>A and B have equal {@link Network#isDirected() directedness}.
@@ -570,14 +574,13 @@ public final class Graphs {
   // Graph copy methods
 
   /**
-   * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
-   * all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} from {@code
-   * graph} for which both nodes are contained by {@code nodes}.
+   * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains all of
+   * the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} from {@code graph} for
+   * which both nodes are contained by {@code nodes}.
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
-  public static <N> MutableGraph<N> inducedSubgraph(Graph<N> graph,
-      Iterable<? extends N> nodes) {
+  public static <N> MutableGraph<N> inducedSubgraph(Graph<N> graph, Iterable<? extends N> nodes) {
     MutableGraph<N> subgraph = GraphBuilder.from(graph).build();
     for (N node : nodes) {
       subgraph.addNode(node);
@@ -593,14 +596,14 @@ public final class Graphs {
   }
 
   /**
-   * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
-   * all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} (and associated
-   * edge values) from {@code graph} for which both nodes are contained by {@code nodes}.
+   * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains all of
+   * the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} (and associated edge
+   * values) from {@code graph} for which both nodes are contained by {@code nodes}.
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
-  public static <N, V> MutableValueGraph<N, V> inducedSubgraph(ValueGraph<N, V> graph,
-      Iterable<? extends N> nodes) {
+  public static <N, V> MutableValueGraph<N, V> inducedSubgraph(
+      ValueGraph<N, V> graph, Iterable<? extends N> nodes) {
     MutableValueGraph<N, V> subgraph = ValueGraphBuilder.from(graph).build();
     for (N node : nodes) {
       subgraph.addNode(node);
@@ -616,14 +619,14 @@ public final class Graphs {
   }
 
   /**
-   * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains
-   * all of the nodes in {@code nodes}, and all of the {@link Network#edges() edges} from {@code
-   * graph} for which the {@link Network#incidentNodes(Object)} are both contained by {@code nodes}.
+   * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains all of
+   * the nodes in {@code nodes}, and all of the {@link Network#edges() edges} from {@code graph} for
+   * which the {@link Network#incidentNodes(Object)} are both contained by {@code nodes}.
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
-  public static <N, E> MutableNetwork<N, E> inducedSubgraph(Network<N, E> graph,
-      Iterable<? extends N> nodes) {
+  public static <N, E> MutableNetwork<N, E> inducedSubgraph(
+      Network<N, E> graph, Iterable<? extends N> nodes) {
     MutableNetwork<N, E> subgraph = NetworkBuilder.from(graph).build();
     for (N node : nodes) {
       subgraph.addNode(node);
@@ -639,13 +642,9 @@ public final class Graphs {
     return subgraph;
   }
 
-  /**
-   * Creates a mutable copy of {@code graph} with the same nodes and edges.
-   */
+  /** Creates a mutable copy of {@code graph} with the same nodes and edges. */
   public static <N> MutableGraph<N> copyOf(Graph<N> graph) {
-    MutableGraph<N> copy = GraphBuilder.from(graph)
-        .expectedNodeCount(graph.nodes().size())
-        .build();
+    MutableGraph<N> copy = GraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();
     for (N node : graph.nodes()) {
       copy.addNode(node);
     }
@@ -655,13 +654,10 @@ public final class Graphs {
     return copy;
   }
 
-  /**
-   * Creates a mutable copy of {@code graph} with the same nodes, edges, and edge values.
-   */
+  /** Creates a mutable copy of {@code graph} with the same nodes, edges, and edge values. */
   public static <N, V> MutableValueGraph<N, V> copyOf(ValueGraph<N, V> graph) {
-    MutableValueGraph<N, V> copy = ValueGraphBuilder.from(graph)
-        .expectedNodeCount(graph.nodes().size())
-        .build();
+    MutableValueGraph<N, V> copy =
+        ValueGraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();
     for (N node : graph.nodes()) {
       copy.addNode(node);
     }
@@ -671,14 +667,13 @@ public final class Graphs {
     return copy;
   }
 
-  /**
-   * Creates a mutable copy of {@code graph} with the same nodes and edges.
-   */
+  /** Creates a mutable copy of {@code graph} with the same nodes and edges. */
   public static <N, E> MutableNetwork<N, E> copyOf(Network<N, E> graph) {
-    MutableNetwork<N, E> copy = NetworkBuilder.from(graph)
-        .expectedNodeCount(graph.nodes().size())
-        .expectedEdgeCount(graph.edges().size())
-        .build();
+    MutableNetwork<N, E> copy =
+        NetworkBuilder.from(graph)
+            .expectedNodeCount(graph.nodes().size())
+            .expectedEdgeCount(graph.edges().size())
+            .build();
     for (N node : graph.nodes()) {
       copy.addNode(node);
     }
@@ -714,10 +709,9 @@ public final class Graphs {
   }
 
   /**
-   * An enum representing the state of a node during DFS. {@code PENDING} means that
-   * the node is on the stack of the DFS, while {@code COMPLETE} means that
-   * the node and all its successors have been already explored. Any node that
-   * has not been explored will not have a state at all.
+   * An enum representing the state of a node during DFS. {@code PENDING} means that the node is on
+   * the stack of the DFS, while {@code COMPLETE} means that the node and all its successors have
+   * been already explored. Any node that has not been explored will not have a state at all.
    */
   private enum NodeVisitState {
     PENDING,
