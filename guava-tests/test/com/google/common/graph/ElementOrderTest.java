@@ -101,89 +101,89 @@ public final class ElementOrderTest {
 
   @Test
   public void edgeOrder_none() {
-    MutableNetwork<Integer, String> graph = NetworkBuilder
+    MutableNetwork<Integer, String> network = NetworkBuilder
         .directed()
         .edgeOrder(unordered())
         .build();
 
-    assertThat(graph.edgeOrder()).isEqualTo(unordered());
-    assertThat(graph.nodeOrder()).isEqualTo(insertion()); // default
+    assertThat(network.edgeOrder()).isEqualTo(unordered());
+    assertThat(network.nodeOrder()).isEqualTo(insertion()); // default
   }
 
   @Test
   public void edgeOrder_insertion() {
-    MutableNetwork<Integer, String> graph = NetworkBuilder
+    MutableNetwork<Integer, String> network = NetworkBuilder
         .directed()
         .edgeOrder(insertion())
         .build();
 
-    addEdges(graph);
+    addEdges(network);
 
-    assertThat(graph.edgeOrder()).isEqualTo(ElementOrder.insertion());
-    assertThat(graph.edges()).containsExactly("i", "e", "p").inOrder();
-    assertThat(graph.nodeOrder()).isEqualTo(ElementOrder.insertion()); // default
+    assertThat(network.edgeOrder()).isEqualTo(ElementOrder.insertion());
+    assertThat(network.edges()).containsExactly("i", "e", "p").inOrder();
+    assertThat(network.nodeOrder()).isEqualTo(ElementOrder.insertion()); // default
   }
 
   // The default ordering is INSERTION unless otherwise specified.
   @Test
   public void edgeOrder_default() {
-    MutableNetwork<Integer, String> graph = NetworkBuilder
+    MutableNetwork<Integer, String> network = NetworkBuilder
         .directed()
         .build();
 
-    addEdges(graph);
+    addEdges(network);
 
-    assertThat(graph.edgeOrder()).isEqualTo(ElementOrder.insertion());
-    assertThat(graph.edges()).containsExactly("i", "e", "p").inOrder();
-    assertThat(graph.nodeOrder()).isEqualTo(ElementOrder.insertion()); // default
+    assertThat(network.edgeOrder()).isEqualTo(ElementOrder.insertion());
+    assertThat(network.edges()).containsExactly("i", "e", "p").inOrder();
+    assertThat(network.nodeOrder()).isEqualTo(ElementOrder.insertion()); // default
   }
 
   @Test
   public void edgeOrder_natural() {
-    MutableNetwork<Integer, String> graph = NetworkBuilder
+    MutableNetwork<Integer, String> network = NetworkBuilder
         .directed()
         .edgeOrder(ElementOrder.<String>natural())
         .build();
 
-    addEdges(graph);
+    addEdges(network);
 
-    assertThat(graph.edgeOrder()).isEqualTo(ElementOrder.sorted(Ordering.<String>natural()));
-    assertThat(graph.edges()).containsExactly("e", "i", "p").inOrder();
-    assertThat(graph.nodeOrder()).isEqualTo(insertion()); // default
+    assertThat(network.edgeOrder()).isEqualTo(ElementOrder.sorted(Ordering.<String>natural()));
+    assertThat(network.edges()).containsExactly("e", "i", "p").inOrder();
+    assertThat(network.nodeOrder()).isEqualTo(insertion()); // default
   }
 
   @Test
   public void edgeOrder_sorted() {
-    MutableNetwork<Integer, String> graph = NetworkBuilder
+    MutableNetwork<Integer, String> network = NetworkBuilder
         .directed()
         .edgeOrder(ElementOrder.sorted(Ordering.<String>natural().reverse()))
         .build();
 
-    addEdges(graph);
+    addEdges(network);
 
-    assertThat(graph.edgeOrder()).isEqualTo(
+    assertThat(network.edgeOrder()).isEqualTo(
         ElementOrder.sorted(Ordering.<String>natural().reverse()));
-    assertThat(graph.edges()).containsExactly("p", "i", "e").inOrder();
-    assertThat(graph.nodeOrder()).isEqualTo(ElementOrder.insertion()); // default
+    assertThat(network.edges()).containsExactly("p", "i", "e").inOrder();
+    assertThat(network.nodeOrder()).isEqualTo(ElementOrder.insertion()); // default
   }
 
   // Combined node and edge order tests
 
   @Test
   public void nodeOrderUnorderedandEdgesSorted() {
-    MutableNetwork<Integer, String> graph = NetworkBuilder
+    MutableNetwork<Integer, String> network = NetworkBuilder
         .directed()
         .nodeOrder(unordered())
         .edgeOrder(ElementOrder.sorted(Ordering.<String>natural().reverse()))
         .build();
 
-    addEdges(graph);
+    addEdges(network);
 
-    assertThat(graph.edgeOrder()).isEqualTo(
+    assertThat(network.edgeOrder()).isEqualTo(
         ElementOrder.sorted(Ordering.<String>natural().reverse()));
-    assertThat(graph.edges()).containsExactly("p", "i", "e").inOrder();
-    assertThat(graph.nodeOrder()).isEqualTo(unordered());
-    assertThat(graph.nodes()).containsExactly(4, 1, 3);
+    assertThat(network.edges()).containsExactly("p", "i", "e").inOrder();
+    assertThat(network.nodeOrder()).isEqualTo(unordered());
+    assertThat(network.nodes()).containsExactly(4, 1, 3);
   }
 
   // Sorting of user-defined classes
@@ -241,10 +241,10 @@ public final class ElementOrderTest {
     graph.addNode(4);
   }
 
-  private static void addEdges(MutableNetwork<Integer, String> graph) {
-    graph.addEdge(3, 1, "i");
-    graph.addEdge(1, 4, "e");
-    graph.addEdge(4, 3, "p");
+  private static void addEdges(MutableNetwork<Integer, String> network) {
+    network.addEdge(3, 1, "i");
+    network.addEdge(1, 4, "e");
+    network.addEdge(4, 3, "p");
   }
 
   private static class NonComparableSuperClass {

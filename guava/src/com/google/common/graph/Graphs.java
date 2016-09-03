@@ -619,21 +619,22 @@ public final class Graphs {
   }
 
   /**
-   * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains all of
-   * the nodes in {@code nodes}, and all of the {@link Network#edges() edges} from {@code graph} for
-   * which the {@link Network#incidentNodes(Object)} are both contained by {@code nodes}.
+   * Returns an induced subgraph of {@code network}. This subgraph is a new graph that contains all
+   * of the nodes in {@code nodes}, and all of the {@link Network#edges() edges} from {@code
+   * network} for which the {@link Network#incidentNodes(Object) incident nodes} are both contained
+   * by {@code nodes}.
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
   public static <N, E> MutableNetwork<N, E> inducedSubgraph(
-      Network<N, E> graph, Iterable<? extends N> nodes) {
-    MutableNetwork<N, E> subgraph = NetworkBuilder.from(graph).build();
+      Network<N, E> network, Iterable<? extends N> nodes) {
+    MutableNetwork<N, E> subgraph = NetworkBuilder.from(network).build();
     for (N node : nodes) {
       subgraph.addNode(node);
     }
     for (N node : subgraph.nodes()) {
-      for (E edge : graph.outEdges(node)) {
-        N successorNode = graph.incidentNodes(edge).adjacentNode(node);
+      for (E edge : network.outEdges(node)) {
+        N successorNode = network.incidentNodes(edge).adjacentNode(node);
         if (subgraph.nodes().contains(successorNode)) {
           subgraph.addEdge(node, successorNode, edge);
         }
@@ -667,18 +668,18 @@ public final class Graphs {
     return copy;
   }
 
-  /** Creates a mutable copy of {@code graph} with the same nodes and edges. */
-  public static <N, E> MutableNetwork<N, E> copyOf(Network<N, E> graph) {
+  /** Creates a mutable copy of {@code network} with the same nodes and edges. */
+  public static <N, E> MutableNetwork<N, E> copyOf(Network<N, E> network) {
     MutableNetwork<N, E> copy =
-        NetworkBuilder.from(graph)
-            .expectedNodeCount(graph.nodes().size())
-            .expectedEdgeCount(graph.edges().size())
+        NetworkBuilder.from(network)
+            .expectedNodeCount(network.nodes().size())
+            .expectedEdgeCount(network.edges().size())
             .build();
-    for (N node : graph.nodes()) {
+    for (N node : network.nodes()) {
       copy.addNode(node);
     }
-    for (E edge : graph.edges()) {
-      EndpointPair<N> endpointPair = graph.incidentNodes(edge);
+    for (E edge : network.edges()) {
+      EndpointPair<N> endpointPair = network.incidentNodes(edge);
       copy.addEdge(endpointPair.nodeU(), endpointPair.nodeV(), edge);
     }
     return copy;

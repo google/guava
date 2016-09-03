@@ -38,124 +38,125 @@ public final class NetworkEquivalenceTest {
   private static final String E12_A = "1-2a";
   private static final String E13 = "1-3";
 
-  enum GraphType {
+  enum EdgeType {
     UNDIRECTED,
     DIRECTED
   }
 
-  private final GraphType graphType;
-  private final MutableNetwork<Integer, String> graph;
+  private final EdgeType edgeType;
+  private final MutableNetwork<Integer, String> network;
 
   // add parameters: directed/undirected
   @Parameters
   public static Collection<Object[]> parameters() {
-    return Arrays.asList(new Object[][] {{GraphType.UNDIRECTED}, {GraphType.DIRECTED}});
+    return Arrays.asList(new Object[][] {{EdgeType.UNDIRECTED}, {EdgeType.DIRECTED}});
   }
 
-  public NetworkEquivalenceTest(GraphType graphType) {
-    this.graphType = graphType;
-    this.graph = createGraph(graphType);
+  public NetworkEquivalenceTest(EdgeType edgeType) {
+    this.edgeType = edgeType;
+    this.network = createNetwork(edgeType);
   }
 
-  private static MutableNetwork<Integer, String> createGraph(GraphType graphType) {
-    switch (graphType) {
+  private static MutableNetwork<Integer, String> createNetwork(EdgeType edgeType) {
+    switch (edgeType) {
       case UNDIRECTED:
         return NetworkBuilder.undirected().allowsSelfLoops(true).build();
       case DIRECTED:
         return NetworkBuilder.directed().allowsSelfLoops(true).build();
       default:
-        throw new IllegalStateException("Unexpected graph type: " + graphType);
+        throw new IllegalStateException("Unexpected edge type: " + edgeType);
     }
   }
 
-  private static GraphType oppositeType(GraphType graphType) {
-    switch (graphType) {
+  private static EdgeType oppositeType(EdgeType edgeType) {
+    switch (edgeType) {
       case UNDIRECTED:
-        return GraphType.DIRECTED;
+        return EdgeType.DIRECTED;
       case DIRECTED:
-        return GraphType.UNDIRECTED;
+        return EdgeType.UNDIRECTED;
       default:
-        throw new IllegalStateException("Unexpected graph type: " + graphType);
+        throw new IllegalStateException("Unexpected edge type: " + edgeType);
     }
   }
 
   @Test
   public void equivalent_nodeSetsDiffer() {
-    graph.addNode(N1);
+    network.addNode(N1);
 
-    MutableNetwork<Integer, String> g2 = createGraph(graphType);
+    MutableNetwork<Integer, String> g2 = createNetwork(edgeType);
     g2.addNode(N2);
 
-    assertThat(Graphs.equivalent(graph, g2)).isFalse();
+    assertThat(Graphs.equivalent(network, g2)).isFalse();
   }
 
   // Node sets are the same, but edge sets differ.
   @Test
   public void equivalent_edgeSetsDiffer() {
-    graph.addEdge(N1, N2, E12);
+    network.addEdge(N1, N2, E12);
 
-    MutableNetwork<Integer, String> g2 = createGraph(graphType);
+    MutableNetwork<Integer, String> g2 = createNetwork(edgeType);
     g2.addEdge(N1, N2, E13);
 
-    assertThat(Graphs.equivalent(graph, g2)).isFalse();
+    assertThat(Graphs.equivalent(network, g2)).isFalse();
   }
 
-  // Node/edge sets are the same, but node/edge connections differ due to graph type.
+  // Node/edge sets are the same, but node/edge connections differ due to edge type.
   @Test
   public void equivalent_directedVsUndirected() {
-    graph.addEdge(N1, N2, E12);
+    network.addEdge(N1, N2, E12);
 
-    MutableNetwork<Integer, String> g2 = createGraph(oppositeType(graphType));
+    MutableNetwork<Integer, String> g2 = createNetwork(oppositeType(edgeType));
     g2.addEdge(N1, N2, E12);
 
-    assertThat(Graphs.equivalent(graph, g2)).isFalse();
+    assertThat(Graphs.equivalent(network, g2)).isFalse();
   }
 
   // Node/edge sets and node/edge connections are the same, but directedness differs.
   @Test
   public void equivalent_selfLoop_directedVsUndirected() {
-    graph.addEdge(N1, N1, E11);
+    network.addEdge(N1, N1, E11);
 
-    MutableNetwork<Integer, String> g2 = createGraph(oppositeType(graphType));
+    MutableNetwork<Integer, String> g2 = createNetwork(oppositeType(edgeType));
     g2.addEdge(N1, N1, E11);
 
-    assertThat(Graphs.equivalent(graph, g2)).isFalse();
+    assertThat(Graphs.equivalent(network, g2)).isFalse();
   }
 
   // Node/edge sets are the same, but node/edge connections differ.
   @Test
   public void equivalent_connectionsDiffer() {
-    graph.addEdge(N1, N2, E12);
-    graph.addEdge(N1, N3, E13);
+    network.addEdge(N1, N2, E12);
+    network.addEdge(N1, N3, E13);
 
-    MutableNetwork<Integer, String> g2 = createGraph(graphType);
+    MutableNetwork<Integer, String> g2 = createNetwork(edgeType);
     // connect E13 to N1 and N2, and E12 to N1 and N3 => not equivalent
     g2.addEdge(N1, N2, E13);
     g2.addEdge(N1, N3, E12);
 
-    assertThat(Graphs.equivalent(graph, g2)).isFalse();
+    assertThat(Graphs.equivalent(network, g2)).isFalse();
   }
 
   // Node/edge sets and node/edge connections are the same, but network properties differ.
   // (In this case the networks are considered equivalent; the property differences are irrelevant.)
   @Test
   public void equivalent_propertiesDiffer() {
-    graph.addEdge(N1, N2, E12);
+    network.addEdge(N1, N2, E12);
 
-    MutableNetwork<Integer, String> g2 = NetworkBuilder.from(graph)
-        .allowsParallelEdges(!graph.allowsParallelEdges())
-        .allowsSelfLoops(!graph.allowsSelfLoops())
+    MutableNetwork<Integer, String> g2 = NetworkBuilder.from(network)
+        .allowsParallelEdges(!network.allowsParallelEdges())
+        .allowsSelfLoops(!network.allowsSelfLoops())
         .build();
     g2.addEdge(N1, N2, E12);
 
-    assertThat(Graphs.equivalent(graph, g2)).isTrue();
+    assertThat(Graphs.equivalent(network, g2)).isTrue();
   }
 
   // Node/edge sets and node/edge connections are the same, but edge order differs.
   // (In this case the networks are considered equivalent; the edge add orderings are irrelevant.)
   @Test
   public void equivalent_edgeAddOrdersDiffer() {
-    NetworkBuilder<Integer, String> builder = NetworkBuilder.from(graph).allowsParallelEdges(true);
+    NetworkBuilder<Integer, String> builder =
+        NetworkBuilder.from(network).allowsParallelEdges(true);
     MutableNetwork<Integer, String> g1 = builder.build();
     MutableNetwork<Integer, String> g2 = builder.build();
 
@@ -172,20 +173,20 @@ public final class NetworkEquivalenceTest {
 
   @Test
   public void equivalent_edgeDirectionsDiffer() {
-    graph.addEdge(N1, N2, E12);
+    network.addEdge(N1, N2, E12);
 
-    MutableNetwork<Integer, String> g2 = createGraph(graphType);
+    MutableNetwork<Integer, String> g2 = createNetwork(edgeType);
     g2.addEdge(N2, N1, E12);
 
-    switch (graphType) {
+    switch (edgeType) {
       case UNDIRECTED:
-        assertThat(Graphs.equivalent(graph, g2)).isTrue();
+        assertThat(Graphs.equivalent(network, g2)).isTrue();
         break;
       case DIRECTED:
-        assertThat(Graphs.equivalent(graph, g2)).isFalse();
+        assertThat(Graphs.equivalent(network, g2)).isFalse();
         break;
       default:
-        throw new IllegalStateException("Unexpected graph type: " + graphType);
+        throw new IllegalStateException("Unexpected edge type: " + edgeType);
     }
   }
 }

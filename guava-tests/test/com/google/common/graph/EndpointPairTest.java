@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -87,12 +86,12 @@ public final class EndpointPairTest {
 
   @Test
   public void testAdjacentNode_nodeNotIncident() {
-    List<MutableNetwork<Integer, String>> testGraphs = ImmutableList.of(
+    ImmutableList<MutableNetwork<Integer, String>> testNetworks = ImmutableList.of(
         NetworkBuilder.directed().<Integer, String>build(),
         NetworkBuilder.undirected().<Integer, String>build());
-    for (MutableNetwork<Integer, String> graph : testGraphs) {
-      graph.addEdge(1, 2, "1-2");
-      EndpointPair<Integer> endpointPair = graph.incidentNodes("1-2");
+    for (MutableNetwork<Integer, String> network : testNetworks) {
+      network.addEdge(1, 2, "1-2");
+      EndpointPair<Integer> endpointPair = network.incidentNodes("1-2");
       try {
         endpointPair.adjacentNode(3);
         fail("Should have rejected adjacentNode() called with a node not incident to edge.");
