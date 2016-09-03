@@ -71,7 +71,6 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
    * are not set in the new builder.
    */
   public static <N> GraphBuilder<N> from(Graph<N> graph) {
-    checkNotNull(graph);
     return new GraphBuilder<Object>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
         .nodeOrder(graph.nodeOrder());
@@ -103,9 +102,8 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
 
   /** Specifies the order of iteration for the elements of {@link Graph#nodes()}. */
   public <N1 extends N> GraphBuilder<N1> nodeOrder(ElementOrder<N1> nodeOrder) {
-    checkNotNull(nodeOrder);
     GraphBuilder<N1> newBuilder = cast();
-    newBuilder.nodeOrder = nodeOrder;
+    newBuilder.nodeOrder = checkNotNull(nodeOrder);
     return newBuilder;
   }
 

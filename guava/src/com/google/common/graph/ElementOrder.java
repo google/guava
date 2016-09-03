@@ -16,11 +16,13 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import java.util.Comparator;
@@ -60,8 +62,8 @@ public final class ElementOrder<T> {
   }
 
   private ElementOrder(Type type, @Nullable Comparator<T> comparator) {
-    this.type = Preconditions.checkNotNull(type);
-    Preconditions.checkArgument((type == Type.SORTED) == (comparator != null),
+    this.type = checkNotNull(type);
+    checkArgument((type == Type.SORTED) == (comparator != null),
         "if the type is SORTED, the comparator should be non-null; otherwise, it should be null");
     this.comparator = comparator;
   }

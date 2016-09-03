@@ -77,9 +77,9 @@ final class ConfigurableMutableNetwork<N, E>
   @Override
   @CanIgnoreReturnValue
   public boolean addEdge(N nodeU, N nodeV, E edge) {
-    checkNotNull(edge, "edge");
     checkNotNull(nodeU, "nodeU");
     checkNotNull(nodeV, "nodeV");
+    checkNotNull(edge, "edge");
 
     if (containsEdge(edge)) {
       EndpointPair<N> existingIncidentNodes = incidentNodes(edge);

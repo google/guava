@@ -54,8 +54,8 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
 
   protected AbstractDirectedNetworkConnections(Map<E, N> inEdgeMap, Map<E, N> outEdgeMap,
       int selfLoopCount) {
-    this.inEdgeMap = checkNotNull(inEdgeMap, "inEdgeMap");
-    this.outEdgeMap = checkNotNull(outEdgeMap, "outEdgeMap");
+    this.inEdgeMap = checkNotNull(inEdgeMap);
+    this.outEdgeMap = checkNotNull(outEdgeMap);
     this.selfLoopCount = checkNonNegative(selfLoopCount);
     checkState(selfLoopCount <= inEdgeMap.size() && selfLoopCount <= outEdgeMap.size());
   }

@@ -65,7 +65,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
 
   private DirectedGraphConnections(
       Map<N, Object> adjacentNodeValues, int predecessorCount, int successorCount) {
-    this.adjacentNodeValues = checkNotNull(adjacentNodeValues, "adjacentNodeValues");
+    this.adjacentNodeValues = checkNotNull(adjacentNodeValues);
     this.predecessorCount = checkNonNegative(predecessorCount);
     this.successorCount = checkNonNegative(successorCount);
     checkState(predecessorCount <= adjacentNodeValues.size()

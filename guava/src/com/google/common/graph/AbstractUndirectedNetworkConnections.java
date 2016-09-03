@@ -37,7 +37,7 @@ abstract class AbstractUndirectedNetworkConnections<N, E> implements NetworkConn
   protected final Map<E, N> incidentEdgeMap;
 
   protected AbstractUndirectedNetworkConnections(Map<E, N> incidentEdgeMap) {
-    this.incidentEdgeMap = checkNotNull(incidentEdgeMap, "incidentEdgeMap");
+    this.incidentEdgeMap = checkNotNull(incidentEdgeMap);
   }
 
   @Override

@@ -140,9 +140,11 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   protected final GraphConnections<N, V> checkedConnections(Object node) {
-    checkNotNull(node, "node");
     GraphConnections<N, V> connections = nodeConnections.get(node);
-    checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);
+    if (connections == null) {
+      checkNotNull(node);
+      throw new IllegalArgumentException(String.format(NODE_NOT_IN_GRAPH, node));
+    }
     return connections;
   }
 
