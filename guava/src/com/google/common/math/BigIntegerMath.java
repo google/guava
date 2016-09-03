@@ -57,6 +57,7 @@ public final class BigIntegerMath {
    */
   @Beta
   public static BigInteger ceilingPowerOfTwo(BigInteger x) {
+    checkPositive("x", checkNotNull(x));
     return BigInteger.ZERO.setBit(log2(x, RoundingMode.CEILING));
   }
 
@@ -69,6 +70,7 @@ public final class BigIntegerMath {
    */
   @Beta
   public static BigInteger floorPowerOfTwo(BigInteger x) {
+    checkPositive("x", checkNotNull(x));
     return BigInteger.ZERO.setBit(log2(x, RoundingMode.FLOOR));
   }
 
