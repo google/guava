@@ -600,6 +600,7 @@ public abstract class AbstractNetworkTest {
   @Test
   public void removeNode_queryAfterRemoval() {
     addNode(N1);
+    @SuppressWarnings("unused")
     Set<Integer> unused = network.adjacentNodes(N1); // ensure cache (if any) is populated
     assertTrue(network.removeNode(N1));
     try {
@@ -640,6 +641,7 @@ public abstract class AbstractNetworkTest {
   @Test
   public void removeEdge_queryAfterRemoval() {
     addEdge(N1, N2, E12);
+    @SuppressWarnings("unused")
     EndpointPair<Integer> unused = network.incidentNodes(E12); // ensure cache (if any) is populated
     assertTrue(network.removeEdge(E12));
     try {

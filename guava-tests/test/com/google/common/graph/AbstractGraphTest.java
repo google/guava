@@ -379,6 +379,7 @@ public abstract class AbstractGraphTest {
   @Test
   public void removeNode_queryAfterRemoval() {
     addNode(N1);
+    @SuppressWarnings("unused")
     Set<Integer> unused = graph.adjacentNodes(N1); // ensure cache (if any) is populated
     assertThat(graph.removeNode(N1)).isTrue();
     try {
