@@ -156,7 +156,7 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   @Override
   public Set<E> edgesConnecting(Object nodeU, Object nodeV) {
     NetworkConnections<N, E> connectionsU = checkedConnections(nodeU);
-    if (!allowsSelfLoops && nodeU.equals(nodeV)) {
+    if (!allowsSelfLoops && nodeU == nodeV) { // just an optimization, only check reference equality
       return ImmutableSet.of();
     }
     checkArgument(containsNode(nodeV), NODE_NOT_IN_GRAPH, nodeV);

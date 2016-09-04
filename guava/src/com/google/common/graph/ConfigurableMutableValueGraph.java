@@ -80,12 +80,11 @@ final class ConfigurableMutableValueGraph<N, V>
     checkNotNull(nodeV, "nodeV");
     checkNotNull(value, "value");
 
-    GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
-    boolean isSelfLoop = nodeU.equals(nodeV);
     if (!allowsSelfLoops()) {
-      checkArgument(!isSelfLoop, SELF_LOOPS_NOT_ALLOWED, nodeU);
+      checkArgument(!nodeU.equals(nodeV), SELF_LOOPS_NOT_ALLOWED, nodeU);
     }
 
+    GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
     if (connectionsU == null) {
       connectionsU = addNodeInternal(nodeU);
     }
