@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.TestUtil.assertStronglyEquivalent;
 import static com.google.common.graph.TestUtil.sanityCheckCollection;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertFalse;
@@ -148,8 +149,8 @@ public abstract class AbstractNetworkTest {
   }
 
   static <N, E> void validateNetwork(Network<N, E> network) {
-    assertThat(Graphs.equivalent(network, Graphs.copyOf(network))).isTrue();
-    assertThat(Graphs.equivalent(network, ImmutableNetwork.copyOf(network))).isTrue();
+    assertStronglyEquivalent(network, Graphs.copyOf(network));
+    assertStronglyEquivalent(network, ImmutableNetwork.copyOf(network));
 
     String networkString = network.toString();
     assertThat(networkString).contains("isDirected: " + network.isDirected());

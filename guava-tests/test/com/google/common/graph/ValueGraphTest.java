@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.TestUtil.assertStronglyEquivalent;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
@@ -35,8 +36,8 @@ public final class ValueGraphTest {
 
   @After
   public void validateGraphState() {
-    assertThat(Graphs.equivalent(graph, Graphs.copyOf(graph))).isTrue();
-    assertThat(Graphs.equivalent(graph, ImmutableValueGraph.copyOf(graph))).isTrue();
+    assertStronglyEquivalent(graph, Graphs.copyOf(graph));
+    assertStronglyEquivalent(graph, ImmutableValueGraph.copyOf(graph));
 
     assertThat(graph.edgeValues().keySet()).isEqualTo(graph.edges());
 

@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.TestUtil.assertStronglyEquivalent;
 import static com.google.common.graph.TestUtil.sanityCheckCollection;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
@@ -122,8 +123,8 @@ public abstract class AbstractGraphTest {
   }
 
   static <N> void validateGraph(Graph<N> graph) {
-    assertThat(Graphs.equivalent(graph, Graphs.copyOf(graph))).isTrue();
-    assertThat(Graphs.equivalent(graph, ImmutableGraph.copyOf(graph))).isTrue();
+    assertStronglyEquivalent(graph, Graphs.copyOf(graph));
+    assertStronglyEquivalent(graph, ImmutableGraph.copyOf(graph));
 
     String graphString = graph.toString();
     assertThat(graphString).contains("isDirected: " + graph.isDirected());

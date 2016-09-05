@@ -24,9 +24,35 @@ import java.util.Collection;
 /**
  * Utility methods used in various common.graph tests.
  */
-class TestUtil {
+final class TestUtil {
 
   private TestUtil() {}
+
+  static void assertStronglyEquivalent(Graph<?> graphA, Graph<?> graphB) {
+    // Properties not covered by Graphs.equivalent()
+    assertThat(graphA.allowsSelfLoops()).isEqualTo(graphB.allowsSelfLoops());
+    assertThat(graphA.nodeOrder()).isEqualTo(graphB.nodeOrder());
+
+    assertThat(Graphs.equivalent(graphA, graphB)).isTrue();
+  }
+
+  static void assertStronglyEquivalent(ValueGraph<?, ?> graphA, ValueGraph<?, ?> graphB) {
+    // Properties not covered by Graphs.equivalent()
+    assertThat(graphA.allowsSelfLoops()).isEqualTo(graphB.allowsSelfLoops());
+    assertThat(graphA.nodeOrder()).isEqualTo(graphB.nodeOrder());
+
+    assertThat(Graphs.equivalent(graphA, graphB)).isTrue();
+  }
+
+  static void assertStronglyEquivalent(Network<?, ?> networkA, Network<?, ?> networkB) {
+    // Properties not covered by Graphs.equivalent()
+    assertThat(networkA.allowsParallelEdges()).isEqualTo(networkB.allowsParallelEdges());
+    assertThat(networkA.allowsSelfLoops()).isEqualTo(networkB.allowsSelfLoops());
+    assertThat(networkA.nodeOrder()).isEqualTo(networkB.nodeOrder());
+    assertThat(networkA.edgeOrder()).isEqualTo(networkB.edgeOrder());
+
+    assertThat(Graphs.equivalent(networkA, networkB)).isTrue();
+  }
 
   /**
    * In some cases our graph implementations return custom collections that define their own size()
