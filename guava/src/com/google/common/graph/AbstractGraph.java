@@ -109,15 +109,11 @@ public abstract class AbstractGraph<N> implements Graph<N> {
    */
   @Override
   public String toString() {
-    return toString(this);
-  }
-
-  static String toString(Graph<?> graph) {
     String propertiesString = String.format(
-        "isDirected: %s, allowsSelfLoops: %s", graph.isDirected(), graph.allowsSelfLoops());
+        "isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
     return String.format(GRAPH_STRING_FORMAT,
         propertiesString,
-        graph.nodes(),
-        graph.edges());
+        nodes(),
+        edges());
   }
 }

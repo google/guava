@@ -85,18 +85,19 @@ public abstract class ImmutableGraph<N> extends ForwardingGraph<N> {
   }
 
   static class ValueBackedImpl<N, V> extends ImmutableGraph<N> {
-    protected final ConfigurableValueGraph<N, V> backingGraph;
+    protected final ValueGraph<N, V> backingValueGraph;
 
     ValueBackedImpl(
         AbstractGraphBuilder<? super N> builder,
         ImmutableMap<N, GraphConnections<N, V>> nodeConnections,
         long edgeCount) {
-      this.backingGraph = new ConfigurableValueGraph<N, V>(builder, nodeConnections, edgeCount);
+      this.backingValueGraph =
+          new ConfigurableValueGraph<N, V>(builder, nodeConnections, edgeCount);
     }
 
     @Override
     protected Graph<N> delegate() {
-      return backingGraph;
+      return backingValueGraph;
     }
   }
 }

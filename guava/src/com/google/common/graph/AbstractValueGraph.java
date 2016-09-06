@@ -36,19 +36,20 @@ import java.util.Map;
 public abstract class AbstractValueGraph<N, V>
     extends AbstractGraph<N> implements ValueGraph<N, V> {
 
+  private transient Map<EndpointPair<N>, V> edgeValueMap;
+
   @Override
   public Map<EndpointPair<N>, V> edgeValues() {
-    return edgeValues(this);
-  }
-
-  static <N, V> Map<EndpointPair<N>, V> edgeValues(final ValueGraph<N, V> graph) {
-    Function<EndpointPair<N>, V> edgeToValueFn = new Function<EndpointPair<N>, V>() {
-      @Override
-      public V apply(EndpointPair<N> edge) {
-        return graph.edgeValue(edge.nodeU(), edge.nodeV());
-      }
-    };
-    return Maps.asMap(graph.edges(), edgeToValueFn);
+    if (edgeValueMap == null) {
+      Function<EndpointPair<N>, V> edgeToValueFn = new Function<EndpointPair<N>, V>() {
+        @Override
+        public V apply(EndpointPair<N> edge) {
+          return edgeValue(edge.nodeU(), edge.nodeV());
+        }
+      };
+      edgeValueMap = Maps.asMap(edges(), edgeToValueFn);
+    }
+    return edgeValueMap;
   }
 
   /**
@@ -56,15 +57,11 @@ public abstract class AbstractValueGraph<N, V>
    */
   @Override
   public String toString() {
-    return toString(this);
-  }
-
-  static String toString(ValueGraph<?, ?> graph) {
     String propertiesString = String.format(
-        "isDirected: %s, allowsSelfLoops: %s", graph.isDirected(), graph.allowsSelfLoops());
+        "isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
     return String.format(GRAPH_STRING_FORMAT,
         propertiesString,
-        graph.nodes(),
-        graph.edgeValues());
+        nodes(),
+        edgeValues());
   }
 }

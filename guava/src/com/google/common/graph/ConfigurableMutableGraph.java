@@ -30,37 +30,37 @@ import com.google.common.graph.GraphConstants.Presence;
  */
 final class ConfigurableMutableGraph<N>
     extends ForwardingGraph<N> implements MutableGraph<N> {
-  private final MutableValueGraph<N, Presence> backingGraph;
+  private final MutableValueGraph<N, Presence> backingValueGraph;
 
   /**
    * Constructs a {@link MutableGraph} with the properties specified in {@code builder}.
    */
   ConfigurableMutableGraph(AbstractGraphBuilder<? super N> builder) {
-    this.backingGraph = new ConfigurableMutableValueGraph<N, Presence>(builder);
+    this.backingValueGraph = new ConfigurableMutableValueGraph<N, Presence>(builder);
   }
 
   @Override
   protected Graph<N> delegate() {
-    return backingGraph;
+    return backingValueGraph;
   }
 
   @Override
   public boolean addNode(N node) {
-    return backingGraph.addNode(node);
+    return backingValueGraph.addNode(node);
   }
 
   @Override
   public boolean putEdge(N nodeU, N nodeV) {
-    return backingGraph.putEdgeValue(nodeU, nodeV, Presence.EDGE_EXISTS) == null;
+    return backingValueGraph.putEdgeValue(nodeU, nodeV, Presence.EDGE_EXISTS) == null;
   }
 
   @Override
   public boolean removeNode(Object node) {
-    return backingGraph.removeNode(node);
+    return backingValueGraph.removeNode(node);
   }
 
   @Override
   public boolean removeEdge(Object nodeU, Object nodeV) {
-    return backingGraph.removeEdge(nodeU, nodeV) != null;
+    return backingValueGraph.removeEdge(nodeU, nodeV) != null;
   }
 }
