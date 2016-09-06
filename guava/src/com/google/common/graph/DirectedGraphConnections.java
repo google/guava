@@ -50,8 +50,8 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   private static final class PredAndSucc {
     private final Object successorValue;
 
-    PredAndSucc(Object userValue) {
-      this.successorValue = userValue;
+    PredAndSucc(Object successorValue) {
+      this.successorValue = successorValue;
     }
   }
   private static final Object PRED = new Object();
