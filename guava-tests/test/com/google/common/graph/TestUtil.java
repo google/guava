@@ -21,9 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.Iterators;
 import java.util.Collection;
 
-/**
- * Utility methods used in various common.graph tests.
- */
+/** Utility methods used in various common.graph tests. */
 final class TestUtil {
 
   private TestUtil() {}

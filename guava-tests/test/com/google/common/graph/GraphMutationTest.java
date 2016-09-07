@@ -27,9 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Tests for repeated node and edge addition and removal in a {@link Graph}.
- */
+/** Tests for repeated node and edge addition and removal in a {@link Graph}. */
 @RunWith(JUnit4.class)
 
 public final class GraphMutationTest {

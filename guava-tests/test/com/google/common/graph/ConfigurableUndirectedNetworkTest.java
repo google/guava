@@ -24,9 +24,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Tests for an undirected {@link ConfigurableMutableNetwork} allowing self-loops.
- */
+/** Tests for an undirected {@link ConfigurableMutableNetwork} allowing self-loops. */
 @RunWith(JUnit4.class)
 public class ConfigurableUndirectedNetworkTest extends ConfigurableSimpleUndirectedNetworkTest {
 

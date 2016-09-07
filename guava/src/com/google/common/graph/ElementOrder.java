@@ -30,10 +30,11 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 /**
- * Used to represent the order of elements in a data structure that supports different options
- * for iteration order guarantees.
+ * Used to represent the order of elements in a data structure that supports different options for
+ * iteration order guarantees.
  *
  * <p>Example usage:
+ *
  * <pre><code>
  *   MutableGraph<Integer> graph
  *       = GraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
@@ -45,10 +46,13 @@ import javax.annotation.Nullable;
 @Beta
 public final class ElementOrder<T> {
   private final Type type;
-  @Nullable private final Comparator<T> comparator;
+
+  @Nullable
+  private final Comparator<T> comparator;
 
   /**
    * The type of ordering that this object specifies.
+   *
    * <ul>
    * <li>UNORDERED: no order is guaranteed.
    * <li>INSERTION: insertion ordering is guaranteed.
@@ -63,21 +67,18 @@ public final class ElementOrder<T> {
 
   private ElementOrder(Type type, @Nullable Comparator<T> comparator) {
     this.type = checkNotNull(type);
-    checkArgument((type == Type.SORTED) == (comparator != null),
+    checkArgument(
+        (type == Type.SORTED) == (comparator != null),
         "if the type is SORTED, the comparator should be non-null; otherwise, it should be null");
     this.comparator = comparator;
   }
 
-  /**
-   * Returns an instance which specifies that no ordering is guaranteed.
-   */
+  /** Returns an instance which specifies that no ordering is guaranteed. */
   public static <S> ElementOrder<S> unordered() {
     return new ElementOrder<S>(Type.UNORDERED, null);
   }
 
-  /**
-   * Returns an instance which specifies that insertion ordering is guaranteed.
-   */
+  /** Returns an instance which specifies that insertion ordering is guaranteed. */
   public static <S> ElementOrder<S> insertion() {
     return new ElementOrder<S>(Type.INSERTION, null);
   }
@@ -97,9 +98,7 @@ public final class ElementOrder<T> {
     return new ElementOrder<S>(Type.SORTED, comparator);
   }
 
-  /**
-   * Returns the type of ordering used.
-   */
+  /** Returns the type of ordering used. */
   public Type type() {
     return type;
   }
@@ -126,8 +125,7 @@ public final class ElementOrder<T> {
     }
 
     ElementOrder<?> other = (ElementOrder<?>) obj;
-    return other.type == this.type
-        && Objects.equal(other.comparator, this.comparator);
+    return (type == other.type) && Objects.equal(comparator, other.comparator);
   }
 
   @Override
@@ -144,9 +142,7 @@ public final class ElementOrder<T> {
     return helper.toString();
   }
 
-  /**
-   * Returns an empty mutable map whose keys will respect this {@link ElementOrder}.
-   */
+  /** Returns an empty mutable map whose keys will respect this {@link ElementOrder}. */
   <K extends T, V> Map<K, V> createMap(int expectedSize) {
     switch (type) {
       case UNORDERED:

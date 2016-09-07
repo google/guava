@@ -142,10 +142,11 @@ public final class NetworkEquivalenceTest {
   public void equivalent_propertiesDiffer() {
     network.addEdge(N1, N2, E12);
 
-    MutableNetwork<Integer, String> g2 = NetworkBuilder.from(network)
-        .allowsParallelEdges(!network.allowsParallelEdges())
-        .allowsSelfLoops(!network.allowsSelfLoops())
-        .build();
+    MutableNetwork<Integer, String> g2 =
+        NetworkBuilder.from(network)
+            .allowsParallelEdges(!network.allowsParallelEdges())
+            .allowsSelfLoops(!network.allowsSelfLoops())
+            .build();
     g2.addEdge(N1, N2, E12);
 
     assertThat(Graphs.equivalent(network, g2)).isTrue();

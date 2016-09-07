@@ -28,9 +28,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Tests for {@link EndpointPair} and {@link ValueGraph#edges()}.
- */
+/** Tests for {@link EndpointPair} and {@link ValueGraph#edges()}. */
 @RunWith(JUnit4.class)
 public final class EndpointPairTest {
   private static final Integer N0 = 0;
@@ -86,9 +84,10 @@ public final class EndpointPairTest {
 
   @Test
   public void testAdjacentNode_nodeNotIncident() {
-    ImmutableList<MutableNetwork<Integer, String>> testNetworks = ImmutableList.of(
-        NetworkBuilder.directed().<Integer, String>build(),
-        NetworkBuilder.undirected().<Integer, String>build());
+    ImmutableList<MutableNetwork<Integer, String>> testNetworks =
+        ImmutableList.of(
+            NetworkBuilder.directed().<Integer, String>build(),
+            NetworkBuilder.undirected().<Integer, String>build());
     for (MutableNetwork<Integer, String> network : testNetworks) {
       network.addEdge(1, 2, "1-2");
       EndpointPair<Integer> endpointPair = network.incidentNodes("1-2");
@@ -190,10 +189,7 @@ public final class EndpointPairTest {
     containsExactlySanityCheck(edges, EndpointPair.ordered(N1, N2));
 
     directedGraph.putEdge(N2, N1);
-    containsExactlySanityCheck(
-        edges,
-        EndpointPair.ordered(N1, N2),
-        EndpointPair.ordered(N2, N1));
+    containsExactlySanityCheck(edges, EndpointPair.ordered(N1, N2), EndpointPair.ordered(N2, N1));
 
     directedGraph.removeEdge(N1, N2);
     directedGraph.removeEdge(N2, N1);

@@ -25,9 +25,9 @@ import org.junit.Test;
 /**
  * Abstract base class for testing undirected implementations of the {@link Graph} interface.
  *
- * <p>This class is responsible for testing that an undirected implementation of {@link Graph}
- * is correctly handling undirected edges.  Implementation-dependent test cases are left to
- * subclasses. Test cases that do not require the graph to be undirected are found in superclasses.
+ * <p>This class is responsible for testing that an undirected implementation of {@link Graph} is
+ * correctly handling undirected edges. Implementation-dependent test cases are left to subclasses.
+ * Test cases that do not require the graph to be undirected are found in superclasses.
  */
 public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
 
@@ -35,8 +35,8 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
   public void validateUndirectedEdges() {
     for (Integer node : graph.nodes()) {
       new EqualsTester()
-          .addEqualityGroup(graph.predecessors(node), graph.successors(node),
-              graph.adjacentNodes(node))
+          .addEqualityGroup(
+              graph.predecessors(node), graph.successors(node), graph.adjacentNodes(node))
           .testEquals();
     }
   }

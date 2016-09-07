@@ -30,12 +30,12 @@ import java.util.TreeMap;
 import javax.annotation.Nullable;
 
 /**
- * Configurable implementation of {@link Network} that supports the options supplied by
- * {@link NetworkBuilder}.
+ * Configurable implementation of {@link Network} that supports the options supplied by {@link
+ * NetworkBuilder}.
  *
- * <p>This class maintains a map of nodes to {@link NetworkConnections}. This class also maintains
- * a map of edges to reference nodes. The reference node is defined to be the edge's source node
- * on directed graphs, and an arbitrary endpoint of the edge on undirected graphs.
+ * <p>This class maintains a map of nodes to {@link NetworkConnections}. This class also maintains a
+ * map of edges to reference nodes. The reference node is defined to be the edge's source node on
+ * directed graphs, and an arbitrary endpoint of the edge on undirected graphs.
  *
  * <p>Collection-returning accessors return unmodifiable views: the view returned will reflect
  * changes to the graph (if the graph is mutable) but may not be modified by the user.
@@ -61,23 +61,21 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   // faster, but also make Networks consume 5 to 20+% (increasing with average degree) more memory.
   protected final MapIteratorCache<E, N> edgeToReferenceNode; // referenceNode == source if directed
 
-  /**
-   * Constructs a graph with the properties specified in {@code builder}.
-   */
+  /** Constructs a graph with the properties specified in {@code builder}. */
   ConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder) {
     this(
         builder,
         builder.nodeOrder.<N, NetworkConnections<N, E>>createMap(
             builder.expectedNodeCount.or(DEFAULT_NODE_COUNT)),
-        builder.edgeOrder.<E, N>createMap(
-            builder.expectedEdgeCount.or(DEFAULT_EDGE_COUNT)));
+        builder.edgeOrder.<E, N>createMap(builder.expectedEdgeCount.or(DEFAULT_EDGE_COUNT)));
   }
 
   /**
-   * Constructs a graph with the properties specified in {@code builder}, initialized with
-   * the given node and edge maps.
+   * Constructs a graph with the properties specified in {@code builder}, initialized with the given
+   * node and edge maps.
    */
-  ConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder,
+  ConfigurableNetwork(
+      NetworkBuilder<? super N, ? super E> builder,
       Map<N, NetworkConnections<N, E>> nodeConnections,
       Map<E, N> edgeToReferenceNode) {
     this.isDirected = builder.directed;
@@ -87,9 +85,10 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     this.edgeOrder = builder.edgeOrder.cast();
     // Prefer the heavier "MapRetrievalCache" for nodes if lookup is expensive. This optimizes
     // methods that access the same node(s) repeatedly, such as Graphs.removeEdgesConnecting().
-    this.nodeConnections = (nodeConnections instanceof TreeMap)
-        ? new MapRetrievalCache<N, NetworkConnections<N, E>>(nodeConnections)
-        : new MapIteratorCache<N, NetworkConnections<N, E>>(nodeConnections);
+    this.nodeConnections =
+        (nodeConnections instanceof TreeMap)
+            ? new MapRetrievalCache<N, NetworkConnections<N, E>>(nodeConnections)
+            : new MapIteratorCache<N, NetworkConnections<N, E>>(nodeConnections);
     this.edgeToReferenceNode = new MapIteratorCache<E, N>(edgeToReferenceNode);
   }
 

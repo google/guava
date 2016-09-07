@@ -27,29 +27,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Tests for ordering the elements of graphs.
- */
+/** Tests for ordering the elements of graphs. */
 @RunWith(JUnit4.class)
 public final class ElementOrderTest {
   // Node order tests
 
   @Test
   public void nodeOrder_none() {
-    MutableGraph<Integer> graph = GraphBuilder
-        .directed()
-        .nodeOrder(unordered())
-        .build();
+    MutableGraph<Integer> graph = GraphBuilder.directed().nodeOrder(unordered()).build();
 
     assertThat(graph.nodeOrder()).isEqualTo(unordered());
   }
 
   @Test
   public void nodeOrder_insertion() {
-    MutableGraph<Integer> graph = GraphBuilder
-        .directed()
-        .nodeOrder(insertion())
-        .build();
+    MutableGraph<Integer> graph = GraphBuilder.directed().nodeOrder(insertion()).build();
 
     addNodes(graph);
 
@@ -60,9 +52,7 @@ public final class ElementOrderTest {
   // The default ordering is INSERTION unless otherwise specified.
   @Test
   public void nodeOrder_default() {
-    MutableGraph<Integer> graph = GraphBuilder
-        .directed()
-        .build();
+    MutableGraph<Integer> graph = GraphBuilder.directed().build();
 
     addNodes(graph);
 
@@ -72,10 +62,8 @@ public final class ElementOrderTest {
 
   @Test
   public void nodeOrder_natural() {
-    MutableGraph<Integer> graph = GraphBuilder
-        .directed()
-        .nodeOrder(ElementOrder.<Integer>natural())
-        .build();
+    MutableGraph<Integer> graph =
+        GraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
 
     addNodes(graph);
 
@@ -85,15 +73,15 @@ public final class ElementOrderTest {
 
   @Test
   public void nodeOrder_sorted() {
-    MutableGraph<Integer> graph = GraphBuilder
-        .directed()
-        .nodeOrder(ElementOrder.sorted(Ordering.<Integer>natural().reverse()))
-        .build();
+    MutableGraph<Integer> graph =
+        GraphBuilder.directed()
+            .nodeOrder(ElementOrder.sorted(Ordering.<Integer>natural().reverse()))
+            .build();
 
     addNodes(graph);
 
-    assertThat(graph.nodeOrder()).isEqualTo(
-        ElementOrder.sorted(Ordering.<Integer>natural().reverse()));
+    assertThat(graph.nodeOrder())
+        .isEqualTo(ElementOrder.sorted(Ordering.<Integer>natural().reverse()));
     assertThat(graph.nodes()).containsExactly(4, 3, 1).inOrder();
   }
 
@@ -101,10 +89,8 @@ public final class ElementOrderTest {
 
   @Test
   public void edgeOrder_none() {
-    MutableNetwork<Integer, String> network = NetworkBuilder
-        .directed()
-        .edgeOrder(unordered())
-        .build();
+    MutableNetwork<Integer, String> network =
+        NetworkBuilder.directed().edgeOrder(unordered()).build();
 
     assertThat(network.edgeOrder()).isEqualTo(unordered());
     assertThat(network.nodeOrder()).isEqualTo(insertion()); // default
@@ -112,10 +98,8 @@ public final class ElementOrderTest {
 
   @Test
   public void edgeOrder_insertion() {
-    MutableNetwork<Integer, String> network = NetworkBuilder
-        .directed()
-        .edgeOrder(insertion())
-        .build();
+    MutableNetwork<Integer, String> network =
+        NetworkBuilder.directed().edgeOrder(insertion()).build();
 
     addEdges(network);
 
@@ -127,9 +111,7 @@ public final class ElementOrderTest {
   // The default ordering is INSERTION unless otherwise specified.
   @Test
   public void edgeOrder_default() {
-    MutableNetwork<Integer, String> network = NetworkBuilder
-        .directed()
-        .build();
+    MutableNetwork<Integer, String> network = NetworkBuilder.directed().build();
 
     addEdges(network);
 
@@ -140,10 +122,8 @@ public final class ElementOrderTest {
 
   @Test
   public void edgeOrder_natural() {
-    MutableNetwork<Integer, String> network = NetworkBuilder
-        .directed()
-        .edgeOrder(ElementOrder.<String>natural())
-        .build();
+    MutableNetwork<Integer, String> network =
+        NetworkBuilder.directed().edgeOrder(ElementOrder.<String>natural()).build();
 
     addEdges(network);
 
@@ -154,15 +134,15 @@ public final class ElementOrderTest {
 
   @Test
   public void edgeOrder_sorted() {
-    MutableNetwork<Integer, String> network = NetworkBuilder
-        .directed()
-        .edgeOrder(ElementOrder.sorted(Ordering.<String>natural().reverse()))
-        .build();
+    MutableNetwork<Integer, String> network =
+        NetworkBuilder.directed()
+            .edgeOrder(ElementOrder.sorted(Ordering.<String>natural().reverse()))
+            .build();
 
     addEdges(network);
 
-    assertThat(network.edgeOrder()).isEqualTo(
-        ElementOrder.sorted(Ordering.<String>natural().reverse()));
+    assertThat(network.edgeOrder())
+        .isEqualTo(ElementOrder.sorted(Ordering.<String>natural().reverse()));
     assertThat(network.edges()).containsExactly("p", "i", "e").inOrder();
     assertThat(network.nodeOrder()).isEqualTo(ElementOrder.insertion()); // default
   }
@@ -171,16 +151,16 @@ public final class ElementOrderTest {
 
   @Test
   public void nodeOrderUnorderedandEdgesSorted() {
-    MutableNetwork<Integer, String> network = NetworkBuilder
-        .directed()
-        .nodeOrder(unordered())
-        .edgeOrder(ElementOrder.sorted(Ordering.<String>natural().reverse()))
-        .build();
+    MutableNetwork<Integer, String> network =
+        NetworkBuilder.directed()
+            .nodeOrder(unordered())
+            .edgeOrder(ElementOrder.sorted(Ordering.<String>natural().reverse()))
+            .build();
 
     addEdges(network);
 
-    assertThat(network.edgeOrder()).isEqualTo(
-        ElementOrder.sorted(Ordering.<String>natural().reverse()));
+    assertThat(network.edgeOrder())
+        .isEqualTo(ElementOrder.sorted(Ordering.<String>natural().reverse()));
     assertThat(network.edges()).containsExactly("p", "i", "e").inOrder();
     assertThat(network.nodeOrder()).isEqualTo(unordered());
     assertThat(network.nodes()).containsExactly(4, 1, 3);
@@ -190,17 +170,16 @@ public final class ElementOrderTest {
 
   @Test
   public void customComparator() {
-    Comparator<NonComparableSuperClass> comparator = new Comparator<NonComparableSuperClass>() {
-      @Override
-      public int compare(NonComparableSuperClass left, NonComparableSuperClass right) {
-        return left.value.compareTo(right.value);
-      }
-    };
+    Comparator<NonComparableSuperClass> comparator =
+        new Comparator<NonComparableSuperClass>() {
+          @Override
+          public int compare(NonComparableSuperClass left, NonComparableSuperClass right) {
+            return left.value.compareTo(right.value);
+          }
+        };
 
-    MutableGraph<NonComparableSuperClass> graph = GraphBuilder
-        .undirected()
-        .nodeOrder(ElementOrder.sorted(comparator))
-        .build();
+    MutableGraph<NonComparableSuperClass> graph =
+        GraphBuilder.undirected().nodeOrder(ElementOrder.sorted(comparator)).build();
 
     NonComparableSuperClass node1 = new NonComparableSuperClass(1);
     NonComparableSuperClass node3 = new NonComparableSuperClass(3);
@@ -217,10 +196,8 @@ public final class ElementOrderTest {
 
   @Test
   public void customComparable() {
-    MutableGraph<ComparableSubClass> graph = GraphBuilder
-        .undirected()
-        .nodeOrder(ElementOrder.<ComparableSubClass>natural())
-        .build();
+    MutableGraph<ComparableSubClass> graph =
+        GraphBuilder.undirected().nodeOrder(ElementOrder.<ComparableSubClass>natural()).build();
 
     ComparableSubClass node2 = new ComparableSubClass(2);
     ComparableSubClass node4 = new ComparableSubClass(4);

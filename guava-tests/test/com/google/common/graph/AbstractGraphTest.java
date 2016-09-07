@@ -30,16 +30,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Abstract base class for testing implementations of {@link Graph} interface. Graph
- * instances created for testing should have Integer node and String edge objects.
+ * Abstract base class for testing implementations of {@link Graph} interface. Graph instances
+ * created for testing should have Integer node and String edge objects.
  *
- * <p>Test cases that should be handled similarly in any graph implementation are
- * included in this class. For example, testing that {@code nodes()} method returns
- * the set of the nodes in the graph. The following test cases are left for the subclasses
- * to handle:
+ * <p>Test cases that should be handled similarly in any graph implementation are included in this
+ * class. For example, testing that {@code nodes()} method returns the set of the nodes in the
+ * graph. The following test cases are left for the subclasses to handle:
+ *
  * <ul>
- * <li>Test cases related to whether the graph is directed, undirected, mutable,
- *     or immutable.
+ * <li>Test cases related to whether the graph is directed, undirected, mutable, or immutable.
  * <li>Test cases related to the specific implementation of the {@link Graph} interface.
  * </ul>
  *
@@ -68,45 +67,39 @@ public abstract class AbstractGraphTest {
       "Should not be allowed to pass a node that is not an element of the graph.";
   static final String ERROR_ADDED_SELF_LOOP = "Should not be allowed to add a self-loop edge.";
 
-  /**
-   * Creates and returns an instance of the graph to be tested.
-   */
+  /** Creates and returns an instance of the graph to be tested. */
   public abstract MutableGraph<Integer> createGraph();
 
   /**
-   * A proxy method that adds the node {@code n} to the graph being tested.
-   * In case of Immutable graph implementations, this method should add {@code n} to the graph
-   * builder and build a new graph with the current builder state.
+   * A proxy method that adds the node {@code n} to the graph being tested. In case of Immutable
+   * graph implementations, this method should add {@code n} to the graph builder and build a new
+   * graph with the current builder state.
    *
    * @return {@code true} iff the graph was modified as a result of this call
-   * TODO(user): Consider changing access modifier to be protected.
    */
   @CanIgnoreReturnValue
-  boolean addNode(Integer n) {
+  protected boolean addNode(Integer n) {
     return graph.addNode(n);
   }
 
   /**
-   * A proxy method that adds the edge {@code e} to the graph
-   * being tested. In case of Immutable graph implementations, this method
-   * should add {@code e} to the graph builder and build a new graph with the current
-   * builder state.
+   * A proxy method that adds the edge {@code e} to the graph being tested. In case of Immutable
+   * graph implementations, this method should add {@code e} to the graph builder and build a new
+   * graph with the current builder state.
    *
-   * <p>This method should be used in tests of specific implementations if you want to
-   * ensure uniform behavior (including side effects) with how edges are added elsewhere
-   * in the tests.  For example, the existing implementations of this method explicitly
-   * add the supplied nodes to the graph, and then call {@code graph.addEdge()} to connect
-   * the edge to the nodes; this is not part of the contract of {@code graph.addEdge()}
-   * and is done for convenience.  In cases where you want to avoid such side effects
-   * (e.g., if you're testing what happens in your implementation if you add an edge
-   * whose end-points don't already exist in the graph), you should <b>not</b> use this
+   * <p>This method should be used in tests of specific implementations if you want to ensure
+   * uniform behavior (including side effects) with how edges are added elsewhere in the tests. For
+   * example, the existing implementations of this method explicitly add the supplied nodes to the
+   * graph, and then call {@code graph.addEdge()} to connect the edge to the nodes; this is not part
+   * of the contract of {@code graph.addEdge()} and is done for convenience. In cases where you want
+   * to avoid such side effects (e.g., if you're testing what happens in your implementation if you
+   * add an edge whose end-points don't already exist in the graph), you should <b>not</b> use this
    * method.
    *
    * @return {@code true} iff the graph was modified as a result of this call
-   * TODO(user): Consider changing access modifier to be protected.
    */
   @CanIgnoreReturnValue
-  boolean putEdge(Integer n1, Integer n2) {
+  protected boolean putEdge(Integer n1, Integer n2) {
     graph.addNode(n1);
     graph.addNode(n2);
     return graph.putEdge(n1, n2);
@@ -148,14 +141,14 @@ public abstract class AbstractGraphTest {
       sanityCheckCollection(graph.successors(node));
 
       if (graph.isDirected()) {
-        assertThat(graph.degree(node)).isEqualTo(
-            graph.predecessors(node).size() + graph.successors(node).size());
+        assertThat(graph.degree(node))
+            .isEqualTo(graph.predecessors(node).size() + graph.successors(node).size());
         assertThat(graph.predecessors(node)).hasSize(graph.inDegree(node));
         assertThat(graph.successors(node)).hasSize(graph.outDegree(node));
       } else {
         Set<N> neighbors = graph.adjacentNodes(node);
-        assertThat(graph.degree(node)).isEqualTo(
-            neighbors.size() + (neighbors.contains(node) ? 1 : 0));
+        assertThat(graph.degree(node))
+            .isEqualTo(neighbors.size() + (neighbors.contains(node) ? 1 : 0));
         assertThat(graph.inDegree(node)).isEqualTo(graph.degree(node));
         assertThat(graph.outDegree(node)).isEqualTo(graph.degree(node));
       }
@@ -164,8 +157,10 @@ public abstract class AbstractGraphTest {
         if (!graph.allowsSelfLoops()) {
           assertThat(node).isNotEqualTo(adjacentNode);
         }
-        assertThat(graph.predecessors(node).contains(adjacentNode)
-            || graph.successors(node).contains(adjacentNode)).isTrue();
+        assertThat(
+                graph.predecessors(node).contains(adjacentNode)
+                    || graph.successors(node).contains(adjacentNode))
+            .isTrue();
       }
 
       for (N predecessor : graph.predecessors(node)) {
@@ -189,22 +184,22 @@ public abstract class AbstractGraphTest {
   public abstract void nodes_checkReturnedSetMutability();
 
   /**
-   * Verifies that the {@code Set} returned by {@code adjacentNodes} has the expected
-   * mutability property (see the {@code Graph} documentation for more information).
+   * Verifies that the {@code Set} returned by {@code adjacentNodes} has the expected mutability
+   * property (see the {@code Graph} documentation for more information).
    */
   @Test
   public abstract void adjacentNodes_checkReturnedSetMutability();
 
   /**
-   * Verifies that the {@code Set} returned by {@code predecessors} has the expected
-   * mutability property (see the {@code Graph} documentation for more information).
+   * Verifies that the {@code Set} returned by {@code predecessors} has the expected mutability
+   * property (see the {@code Graph} documentation for more information).
    */
   @Test
   public abstract void predecessors_checkReturnedSetMutability();
 
   /**
-   * Verifies that the {@code Set} returned by {@code successors} has the expected
-   * mutability property (see the {@code Graph} documentation for more information).
+   * Verifies that the {@code Set} returned by {@code successors} has the expected mutability
+   * property (see the {@code Graph} documentation for more information).
    */
   @Test
   public abstract void successors_checkReturnedSetMutability();

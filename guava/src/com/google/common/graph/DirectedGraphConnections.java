@@ -54,6 +54,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
       this.successorValue = successorValue;
     }
   }
+
   private static final Object PRED = new Object();
 
   // Every value in this map must either be an instance of PredAndSucc with a successorValue of
@@ -68,8 +69,9 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
     this.adjacentNodeValues = checkNotNull(adjacentNodeValues);
     this.predecessorCount = checkNonNegative(predecessorCount);
     this.successorCount = checkNonNegative(successorCount);
-    checkState(predecessorCount <= adjacentNodeValues.size()
-        && successorCount <= adjacentNodeValues.size());
+    checkState(
+        predecessorCount <= adjacentNodeValues.size()
+            && successorCount <= adjacentNodeValues.size());
   }
 
   static <N, V> DirectedGraphConnections<N, V> of() {
@@ -89,8 +91,8 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
         adjacentNodeValues.put(predecessor, new PredAndSucc(value));
       }
     }
-    return new DirectedGraphConnections<N, V>(ImmutableMap.copyOf(adjacentNodeValues),
-        predecessors.size(), successorValues.size());
+    return new DirectedGraphConnections<N, V>(
+        ImmutableMap.copyOf(adjacentNodeValues), predecessors.size(), successorValues.size());
   }
 
   @Override

@@ -115,8 +115,7 @@ public class ConfigurableSimpleUndirectedNetworkTest extends AbstractUndirectedN
       fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
       addEdge(N1, N2, E12);
-      assertThat(network.edgesConnecting(N1, N2))
-          .containsExactlyElementsIn(edgesConnecting);
+      assertThat(network.edgesConnecting(N1, N2)).containsExactlyElementsIn(edgesConnecting);
     }
   }
 
@@ -189,11 +188,10 @@ public class ConfigurableSimpleUndirectedNetworkTest extends AbstractUndirectedN
   }
 
   /**
-   * This test checks an implementation dependent feature. It tests that
-   * the method {@code addEdge} will silently add the missing nodes to the graph,
-   * then add the edge connecting them. We are not using the proxy methods here
-   * as we want to test {@code addEdge} when the end-points are not elements
-   * of the graph.
+   * This test checks an implementation dependent feature. It tests that the method {@code addEdge}
+   * will silently add the missing nodes to the graph, then add the edge connecting them. We are not
+   * using the proxy methods here as we want to test {@code addEdge} when the end-points are not
+   * elements of the graph.
    */
   @Test
   public void addEdge_nodesNotInGraph() {

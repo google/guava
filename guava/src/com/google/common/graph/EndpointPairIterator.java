@@ -64,7 +64,7 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
    * one or more edge connecting them.
    */
   private static final class Directed<N> extends EndpointPairIterator<N> {
-    Directed(Graph<N> graph){
+    Directed(Graph<N> graph) {
       super(graph);
     }
 
@@ -83,10 +83,11 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
 
   /**
    * If the graph is undirected, each unordered [node, otherNode] pair (except self-loops) will be
-   * visited twice if there is one or more edge connecting them. To avoid returning duplicate
-   * {@link EndpointPair}, we keep track of the nodes that we have visited. When processing endpoint
-   * pairs, we skip if the "other node" is in the visited set, as shown below:
+   * visited twice if there is one or more edge connecting them. To avoid returning duplicate {@link
+   * EndpointPair}, we keep track of the nodes that we have visited. When processing endpoint pairs,
+   * we skip if the "other node" is in the visited set, as shown below:
    *
+   * <pre>
    * Nodes = {N1, N2, N3, N4}
    *    N2           __
    *   /  \         |  |
@@ -104,6 +105,7 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
    * Visited Nodes = {N1, N2, N3}
    * EndpointPair [N4, N4] - return
    * Visited Nodes = {N1, N2, N3, N4}
+   * </pre>
    */
   private static final class Undirected<N> extends EndpointPairIterator<N> {
     private Set<N> visitedNodes;

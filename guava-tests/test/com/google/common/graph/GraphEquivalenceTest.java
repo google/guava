@@ -112,9 +112,8 @@ public final class GraphEquivalenceTest {
   public void equivalent_propertiesDiffer() {
     graph.putEdge(N1, N2);
 
-    MutableGraph<Integer> g2 = GraphBuilder.from(graph)
-        .allowsSelfLoops(!graph.allowsSelfLoops())
-        .build();
+    MutableGraph<Integer> g2 =
+        GraphBuilder.from(graph).allowsSelfLoops(!graph.allowsSelfLoops()).build();
     g2.putEdge(N1, N2);
 
     assertThat(Graphs.equivalent(graph, g2)).isTrue();

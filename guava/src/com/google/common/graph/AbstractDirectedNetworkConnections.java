@@ -40,20 +40,16 @@ import javax.annotation.Nullable;
  * @param <E> Edge parameter type
  */
 abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnections<N, E> {
-  /**
-   * Keys are edges incoming to the origin node, values are the source node.
-   */
+  /** Keys are edges incoming to the origin node, values are the source node. */
   protected final Map<E, N> inEdgeMap;
 
-  /**
-   * Keys are edges outgoing from the origin node, values are the target node.
-   */
+  /** Keys are edges outgoing from the origin node, values are the target node. */
   protected final Map<E, N> outEdgeMap;
 
   private int selfLoopCount;
 
-  protected AbstractDirectedNetworkConnections(Map<E, N> inEdgeMap, Map<E, N> outEdgeMap,
-      int selfLoopCount) {
+  protected AbstractDirectedNetworkConnections(
+      Map<E, N> inEdgeMap, Map<E, N> outEdgeMap, int selfLoopCount) {
     this.inEdgeMap = checkNotNull(inEdgeMap);
     this.outEdgeMap = checkNotNull(outEdgeMap);
     this.selfLoopCount = checkNonNegative(selfLoopCount);
@@ -70,9 +66,10 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
     return new AbstractSet<E>() {
       @Override
       public UnmodifiableIterator<E> iterator() {
-        Iterable<E> incidentEdges = (selfLoopCount == 0)
-            ? Iterables.concat(inEdgeMap.keySet(), outEdgeMap.keySet())
-            : Sets.union(inEdgeMap.keySet(), outEdgeMap.keySet());
+        Iterable<E> incidentEdges =
+            (selfLoopCount == 0)
+                ? Iterables.concat(inEdgeMap.keySet(), outEdgeMap.keySet())
+                : Sets.union(inEdgeMap.keySet(), outEdgeMap.keySet());
         return Iterators.unmodifiableIterator(incidentEdges.iterator());
       }
 

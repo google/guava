@@ -29,8 +29,8 @@ import java.util.TreeMap;
 import javax.annotation.Nullable;
 
 /**
- * Configurable implementation of {@link ValueGraph} that supports the options supplied by
- * {@link AbstractGraphBuilder}.
+ * Configurable implementation of {@link ValueGraph} that supports the options supplied by {@link
+ * AbstractGraphBuilder}.
  *
  * <p>This class maintains a map of nodes to {@link GraphConnections}.
  *
@@ -54,9 +54,7 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
 
   protected long edgeCount; // must be updated when edges are added or removed
 
-  /**
-   * Constructs a graph with the properties specified in {@code builder}.
-   */
+  /** Constructs a graph with the properties specified in {@code builder}. */
   ConfigurableValueGraph(AbstractGraphBuilder<? super N> builder) {
     this(
         builder,
@@ -66,18 +64,21 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   /**
-   * Constructs a graph with the properties specified in {@code builder}, initialized with
-   * the given node map.
+   * Constructs a graph with the properties specified in {@code builder}, initialized with the given
+   * node map.
    */
-  ConfigurableValueGraph(AbstractGraphBuilder<? super N> builder,
-      Map<N, GraphConnections<N, V>> nodeConnections, long edgeCount) {
+  ConfigurableValueGraph(
+      AbstractGraphBuilder<? super N> builder,
+      Map<N, GraphConnections<N, V>> nodeConnections,
+      long edgeCount) {
     this.isDirected = builder.directed;
     this.allowsSelfLoops = builder.allowsSelfLoops;
     this.nodeOrder = builder.nodeOrder.cast();
     // Prefer the heavier "MapRetrievalCache" for nodes if lookup is expensive.
-    this.nodeConnections = (nodeConnections instanceof TreeMap)
-        ? new MapRetrievalCache<N, GraphConnections<N, V>>(nodeConnections)
-        : new MapIteratorCache<N, GraphConnections<N, V>>(nodeConnections);
+    this.nodeConnections =
+        (nodeConnections instanceof TreeMap)
+            ? new MapRetrievalCache<N, GraphConnections<N, V>>(nodeConnections)
+            : new MapIteratorCache<N, GraphConnections<N, V>>(nodeConnections);
     this.edgeCount = checkNonNegative(edgeCount);
   }
 

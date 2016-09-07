@@ -150,27 +150,24 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
     return Sets.difference(endpointPairIncidentEdges, ImmutableSet.of(edge));
   }
 
-  /**
-   * Returns a string representation of this network.
-   */
+  /** Returns a string representation of this network. */
   @Override
   public String toString() {
-    String propertiesString = String.format(
-        "isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",
-        isDirected(), allowsParallelEdges(), allowsSelfLoops());
-    return String.format(GRAPH_STRING_FORMAT,
-        propertiesString,
-        nodes(),
-        edgeIncidentNodesMap());
+    String propertiesString =
+        String.format(
+            "isDirected: %s, allowsParallelEdges: %s, allowsSelfLoops: %s",
+            isDirected(), allowsParallelEdges(), allowsSelfLoops());
+    return String.format(GRAPH_STRING_FORMAT, propertiesString, nodes(), edgeIncidentNodesMap());
   }
 
   private Map<E, EndpointPair<N>> edgeIncidentNodesMap() {
-    Function<E, EndpointPair<N>> edgeToIncidentNodesFn = new Function<E, EndpointPair<N>>() {
-      @Override
-      public EndpointPair<N> apply(E edge) {
-        return incidentNodes(edge);
-      }
-    };
+    Function<E, EndpointPair<N>> edgeToIncidentNodesFn =
+        new Function<E, EndpointPair<N>>() {
+          @Override
+          public EndpointPair<N> apply(E edge) {
+            return incidentNodes(edge);
+          }
+        };
     return Maps.asMap(edges(), edgeToIncidentNodesFn);
   }
 }

@@ -22,9 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Tests for {@link ImmutableGraph} and {@link ImmutableValueGraph} .
- */
+/** Tests for {@link ImmutableGraph} and {@link ImmutableValueGraph} . */
 @RunWith(JUnit4.class)
 public class ImmutableGraphTest {
 
@@ -57,8 +55,7 @@ public class ImmutableGraphTest {
 
   @Test
   public void copyOfImmutableGraph_optimized() {
-    Graph<String> graph1 =
-        ImmutableGraph.copyOf(GraphBuilder.directed().<String>build());
+    Graph<String> graph1 = ImmutableGraph.copyOf(GraphBuilder.directed().<String>build());
     Graph<String> graph2 = ImmutableGraph.copyOf(graph1);
 
     assertThat(graph2).isSameAs(graph1);

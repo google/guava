@@ -38,12 +38,10 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-final class ConfigurableMutableValueGraph<N, V>
-    extends ConfigurableValueGraph<N, V> implements MutableValueGraph<N, V> {
+final class ConfigurableMutableValueGraph<N, V> extends ConfigurableValueGraph<N, V>
+    implements MutableValueGraph<N, V> {
 
-  /**
-   * Constructs a mutable graph with the properties specified in {@code builder}.
-   */
+  /** Constructs a mutable graph with the properties specified in {@code builder}. */
   ConfigurableMutableValueGraph(AbstractGraphBuilder<? super N> builder) {
     super(builder);
   }

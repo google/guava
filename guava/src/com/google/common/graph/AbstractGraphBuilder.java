@@ -32,8 +32,8 @@ abstract class AbstractGraphBuilder<N> {
   /**
    * Creates a new instance with the specified edge directionality.
    *
-   * @param directed if true, creates an instance for graphs whose edges are each directed;
-   *      if false, creates an instance for graphs whose edges are each undirected.
+   * @param directed if true, creates an instance for graphs whose edges are each directed; if
+   *     false, creates an instance for graphs whose edges are each undirected.
    */
   AbstractGraphBuilder(boolean directed) {
     this.directed = directed;

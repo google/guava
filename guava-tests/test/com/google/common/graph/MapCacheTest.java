@@ -30,9 +30,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-/**
- * Tests for {@link MapIteratorCache} and {@link MapRetrievalCache}.
- */
+/** Tests for {@link MapIteratorCache} and {@link MapRetrievalCache}. */
 @AndroidIncompatible
 //TODO(cpovirk): Figure out Android JUnit 4 support. Does it work with Gingerbread? @RunWith?
 @RunWith(Parameterized.class)
@@ -47,11 +45,13 @@ public final class MapCacheTest {
   public static Collection<Object[]> parameters() {
     Comparator<String> nullsLast = Ordering.natural().nullsLast();
 
-    return Arrays.asList(new Object[][] {
-      {new MapIteratorCache<String, String>(new HashMap<String, String>())},
-      {new MapIteratorCache<String, String>(new TreeMap<String, String>(nullsLast))},
-      {new MapRetrievalCache<String, String>(new HashMap<String, String>())},
-      {new MapRetrievalCache<String, String>(new TreeMap<String, String>(nullsLast))}});
+    return Arrays.asList(
+        new Object[][] {
+          {new MapIteratorCache<String, String>(new HashMap<String, String>())},
+          {new MapIteratorCache<String, String>(new TreeMap<String, String>(nullsLast))},
+          {new MapRetrievalCache<String, String>(new HashMap<String, String>())},
+          {new MapRetrievalCache<String, String>(new TreeMap<String, String>(nullsLast))}
+        });
   }
 
   @Before

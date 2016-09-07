@@ -42,8 +42,8 @@ interface NetworkConnections<N, E> {
   Set<E> outEdges();
 
   /**
-   * Returns the set of edges connecting the origin node to {@code node}.
-   * For networks without parallel edges, this set cannot be of size greater than one.
+   * Returns the set of edges connecting the origin node to {@code node}. For networks without
+   * parallel edges, this set cannot be of size greater than one.
    */
   Set<E> edgesConnecting(Object node);
 
@@ -62,9 +62,7 @@ interface NetworkConnections<N, E> {
   @CanIgnoreReturnValue
   N removeInEdge(Object edge, boolean isSelfLoop);
 
-  /**
-   * Remove {@code edge} from the set of outgoing edges. Returns the former successor node.
-   */
+  /** Remove {@code edge} from the set of outgoing edges. Returns the former successor node. */
   @CanIgnoreReturnValue
   N removeOutEdge(Object edge);
 
@@ -73,8 +71,6 @@ interface NetworkConnections<N, E> {
    */
   void addInEdge(E edge, N node, boolean isSelfLoop);
 
-  /**
-   * Add {@code edge} to the set of outgoing edges. Implicitly adds {@code node} as a successor.
-   */
+  /** Add {@code edge} to the set of outgoing edges. Implicitly adds {@code node} as a successor. */
   void addOutEdge(E edge, N node);
 }

@@ -31,9 +31,7 @@ import java.util.Set;
  * @param <E> Edge parameter type
  */
 abstract class AbstractUndirectedNetworkConnections<N, E> implements NetworkConnections<N, E> {
-  /**
-   * Keys are edges incident to the origin node, values are the node at the other end.
-   */
+  /** Keys are edges incident to the origin node, values are the node at the other end. */
   protected final Map<E, N> incidentEdgeMap;
 
   protected AbstractUndirectedNetworkConnections(Map<E, N> incidentEdgeMap) {

@@ -32,16 +32,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Abstract base class for testing implementations of {@link Network} interface. Network
- * instances created for testing should have Integer node and String edge objects.
+ * Abstract base class for testing implementations of {@link Network} interface. Network instances
+ * created for testing should have Integer node and String edge objects.
  *
- * <p>Test cases that should be handled similarly in any graph implementation are
- * included in this class. For example, testing that {@code nodes()} method returns
- * the set of the nodes in the graph. The following test cases are left for the subclasses
- * to handle:
+ * <p>Test cases that should be handled similarly in any graph implementation are included in this
+ * class. For example, testing that {@code nodes()} method returns the set of the nodes in the
+ * graph. The following test cases are left for the subclasses to handle:
+ *
  * <ul>
- * <li>Test cases related to whether the graph is directed, undirected, mutable,
- *     or immutable.
+ * <li>Test cases related to whether the graph is directed, undirected, mutable, or immutable.
  * <li>Test cases related to the specific implementation of the {@link Network} interface.
  * </ul>
  *
@@ -94,45 +93,39 @@ public abstract class AbstractNetworkTest {
   static final String ERROR_ADDED_EXISTING_EDGE =
       "Reusing an existing edge to connect different nodes succeeded";
 
-  /**
-   * Creates and returns an instance of the graph to be tested.
-   */
+  /** Creates and returns an instance of the graph to be tested. */
   public abstract MutableNetwork<Integer, String> createGraph();
 
   /**
-   * A proxy method that adds the node {@code n} to the graph being tested.
-   * In case of Immutable graph implementations, this method should add {@code n} to the graph
-   * builder and build a new graph with the current builder state.
+   * A proxy method that adds the node {@code n} to the graph being tested. In case of Immutable
+   * graph implementations, this method should add {@code n} to the graph builder and build a new
+   * graph with the current builder state.
    *
    * @return {@code true} iff the graph was modified as a result of this call
-   * TODO(user): Consider changing access modifier to be protected.
    */
   @CanIgnoreReturnValue
-  boolean addNode(Integer n) {
+  protected boolean addNode(Integer n) {
     return network.addNode(n);
   }
 
   /**
-   * A proxy method that adds the edge {@code e} to the graph
-   * being tested. In case of Immutable graph implementations, this method
-   * should add {@code e} to the graph builder and build a new graph with the current
-   * builder state.
+   * A proxy method that adds the edge {@code e} to the graph being tested. In case of Immutable
+   * graph implementations, this method should add {@code e} to the graph builder and build a new
+   * graph with the current builder state.
    *
-   * <p>This method should be used in tests of specific implementations if you want to
-   * ensure uniform behavior (including side effects) with how edges are added elsewhere
-   * in the tests.  For example, the existing implementations of this method explicitly
-   * add the supplied nodes to the graph, and then call {@code graph.addEdge()} to connect
-   * the edge to the nodes; this is not part of the contract of {@code graph.addEdge()}
-   * and is done for convenience.  In cases where you want to avoid such side effects
-   * (e.g., if you're testing what happens in your implementation if you add an edge
-   * whose end-points don't already exist in the graph), you should <b>not</b> use this
+   * <p>This method should be used in tests of specific implementations if you want to ensure
+   * uniform behavior (including side effects) with how edges are added elsewhere in the tests. For
+   * example, the existing implementations of this method explicitly add the supplied nodes to the
+   * graph, and then call {@code graph.addEdge()} to connect the edge to the nodes; this is not part
+   * of the contract of {@code graph.addEdge()} and is done for convenience. In cases where you want
+   * to avoid such side effects (e.g., if you're testing what happens in your implementation if you
+   * add an edge whose end-points don't already exist in the graph), you should <b>not</b> use this
    * method.
    *
    * @return {@code true} iff the graph was modified as a result of this call
-   * TODO(user): Consider changing access modifier to be protected.
    */
   @CanIgnoreReturnValue
-  boolean addEdge(Integer n1, Integer n2, String e) {
+  protected boolean addEdge(Integer n1, Integer n2, String e) {
     network.addNode(n1);
     network.addNode(n2);
     return network.addEdge(n1, n2, e);
@@ -192,12 +185,11 @@ public abstract class AbstractNetworkTest {
       assertThat(network.inEdges(nodeV)).contains(edge);
       assertThat(network.incidentEdges(nodeV)).contains(edge);
 
-      for (N incidentNode : ImmutableSet.of(
-          network.incidentNodes(edge).nodeU(), network.incidentNodes(edge).nodeV())) {
+      for (N incidentNode : network.incidentNodes(edge)) {
         assertThat(network.nodes()).contains(incidentNode);
         for (E adjacentEdge : network.incidentEdges(incidentNode)) {
-          assertTrue(edge.equals(adjacentEdge)
-              || network.adjacentEdges(edge).contains(adjacentEdge));
+          assertTrue(
+              edge.equals(adjacentEdge) || network.adjacentEdges(edge).contains(adjacentEdge));
         }
       }
     }
@@ -217,13 +209,14 @@ public abstract class AbstractNetworkTest {
       sanityCheckCollection(network.outEdges(node));
 
       if (network.isDirected()) {
-        assertThat(network.degree(node)).isEqualTo(
-            network.inEdges(node).size() + network.outEdges(node).size());
+        assertThat(network.degree(node))
+            .isEqualTo(network.inEdges(node).size() + network.outEdges(node).size());
         assertThat(network.inDegree(node)).isEqualTo(network.inEdges(node).size());
         assertThat(network.outDegree(node)).isEqualTo(network.outEdges(node).size());
       } else {
-        assertThat(network.degree(node)).isEqualTo(
-            network.incidentEdges(node).size() + network.edgesConnecting(node, node).size());
+        assertThat(network.degree(node))
+            .isEqualTo(
+                network.incidentEdges(node).size() + network.edgesConnecting(node, node).size());
         assertThat(network.inDegree(node)).isEqualTo(network.degree(node));
         assertThat(network.outDegree(node)).isEqualTo(network.degree(node));
       }
@@ -232,8 +225,8 @@ public abstract class AbstractNetworkTest {
         Set<E> edgesConnecting = network.edgesConnecting(node, otherNode);
         boolean isSelfLoop = node.equals(otherNode);
         if (network.isDirected() || !isSelfLoop) {
-          assertThat(edgesConnecting).isEqualTo(
-              Sets.intersection(network.outEdges(node), network.inEdges(otherNode)));
+          assertThat(edgesConnecting)
+              .isEqualTo(Sets.intersection(network.outEdges(node), network.inEdges(otherNode)));
         }
         if (!network.allowsParallelEdges()) {
           assertThat(edgesConnecting.size()).isAtMost(1);
@@ -248,11 +241,13 @@ public abstract class AbstractNetworkTest {
       }
 
       for (E incidentEdge : network.incidentEdges(node)) {
-        assertTrue(network.inEdges(node).contains(incidentEdge)
-            || network.outEdges(node).contains(incidentEdge));
+        assertTrue(
+            network.inEdges(node).contains(incidentEdge)
+                || network.outEdges(node).contains(incidentEdge));
         assertThat(network.edges()).contains(incidentEdge);
-        assertTrue(network.incidentNodes(incidentEdge).nodeU().equals(node)
-            || network.incidentNodes(incidentEdge).nodeV().equals(node));
+        assertTrue(
+            network.incidentNodes(incidentEdge).nodeU().equals(node)
+                || network.incidentNodes(incidentEdge).nodeV().equals(node));
       }
 
       for (E inEdge : network.inEdges(node)) {
@@ -268,10 +263,12 @@ public abstract class AbstractNetworkTest {
       }
 
       for (N adjacentNode : network.adjacentNodes(node)) {
-        assertTrue(network.predecessors(node).contains(adjacentNode)
-            || network.successors(node).contains(adjacentNode));
-        assertTrue(!network.edgesConnecting(node, adjacentNode).isEmpty()
-            || !network.edgesConnecting(adjacentNode, node).isEmpty());
+        assertTrue(
+            network.predecessors(node).contains(adjacentNode)
+                || network.successors(node).contains(adjacentNode));
+        assertTrue(
+            !network.edgesConnecting(node, adjacentNode).isEmpty()
+                || !network.edgesConnecting(adjacentNode, node).isEmpty());
       }
 
       for (N predecessor : network.predecessors(node)) {
@@ -301,57 +298,57 @@ public abstract class AbstractNetworkTest {
   public abstract void edges_checkReturnedSetMutability();
 
   /**
-   * Verifies that the {@code Set} returned by {@code incidentEdges} has the expected
-   * mutability property (see the {@code Network} documentation for more information).
+   * Verifies that the {@code Set} returned by {@code incidentEdges} has the expected mutability
+   * property (see the {@code Network} documentation for more information).
    */
   @Test
   public abstract void incidentEdges_checkReturnedSetMutability();
 
   /**
-   * Verifies that the {@code Set} returned by {@code adjacentNodes} has the expected
-   * mutability property (see the {@code Network} documentation for more information).
+   * Verifies that the {@code Set} returned by {@code adjacentNodes} has the expected mutability
+   * property (see the {@code Network} documentation for more information).
    */
   @Test
   public abstract void adjacentNodes_checkReturnedSetMutability();
 
   /**
-   * Verifies that the {@code Set} returned by {@code adjacentEdges} has the expected
-   * mutability property (see the {@code Network} documentation for more information).
+   * Verifies that the {@code Set} returned by {@code adjacentEdges} has the expected mutability
+   * property (see the {@code Network} documentation for more information).
    */
   @Test
   public abstract void adjacentEdges_checkReturnedSetMutability();
 
   /**
-   * Verifies that the {@code Set} returned by {@code edgesConnecting} has the expected
-   * mutability property (see the {@code Network} documentation for more information).
+   * Verifies that the {@code Set} returned by {@code edgesConnecting} has the expected mutability
+   * property (see the {@code Network} documentation for more information).
    */
   @Test
   public abstract void edgesConnecting_checkReturnedSetMutability();
 
   /**
-   * Verifies that the {@code Set} returned by {@code inEdges} has the expected
-   * mutability property (see the {@code Network} documentation for more information).
+   * Verifies that the {@code Set} returned by {@code inEdges} has the expected mutability property
+   * (see the {@code Network} documentation for more information).
    */
   @Test
   public abstract void inEdges_checkReturnedSetMutability();
 
   /**
-   * Verifies that the {@code Set} returned by {@code outEdges} has the expected
-   * mutability property (see the {@code Network} documentation for more information).
+   * Verifies that the {@code Set} returned by {@code outEdges} has the expected mutability property
+   * (see the {@code Network} documentation for more information).
    */
   @Test
   public abstract void outEdges_checkReturnedSetMutability();
 
   /**
-   * Verifies that the {@code Set} returned by {@code predecessors} has the expected
-   * mutability property (see the {@code Network} documentation for more information).
+   * Verifies that the {@code Set} returned by {@code predecessors} has the expected mutability
+   * property (see the {@code Network} documentation for more information).
    */
   @Test
   public abstract void predecessors_checkReturnedSetMutability();
 
   /**
-   * Verifies that the {@code Set} returned by {@code successors} has the expected
-   * mutability property (see the {@code Network} documentation for more information).
+   * Verifies that the {@code Set} returned by {@code successors} has the expected mutability
+   * property (see the {@code Network} documentation for more information).
    */
   @Test
   public abstract void successors_checkReturnedSetMutability();

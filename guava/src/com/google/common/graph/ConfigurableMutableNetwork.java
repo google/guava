@@ -39,12 +39,10 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-final class ConfigurableMutableNetwork<N, E>
-    extends ConfigurableNetwork<N, E> implements MutableNetwork<N, E> {
+final class ConfigurableMutableNetwork<N, E> extends ConfigurableNetwork<N, E>
+    implements MutableNetwork<N, E> {
 
-  /**
-   * Constructs a mutable graph with the properties specified in {@code builder}.
-   */
+  /** Constructs a mutable graph with the properties specified in {@code builder}. */
   ConfigurableMutableNetwork(NetworkBuilder<? super N, ? super E> builder) {
     super(builder);
   }
@@ -84,14 +82,21 @@ final class ConfigurableMutableNetwork<N, E>
     if (containsEdge(edge)) {
       EndpointPair<N> existingIncidentNodes = incidentNodes(edge);
       EndpointPair<N> newIncidentNodes = EndpointPair.of(this, nodeU, nodeV);
-      checkArgument(existingIncidentNodes.equals(newIncidentNodes),
-          REUSING_EDGE, edge, existingIncidentNodes, newIncidentNodes);
+      checkArgument(
+          existingIncidentNodes.equals(newIncidentNodes),
+          REUSING_EDGE,
+          edge,
+          existingIncidentNodes,
+          newIncidentNodes);
       return false;
     }
     NetworkConnections<N, E> connectionsU = nodeConnections.get(nodeU);
     if (!allowsParallelEdges()) {
-      checkArgument(!(connectionsU != null && connectionsU.successors().contains(nodeV)),
-          PARALLEL_EDGES_NOT_ALLOWED, nodeU, nodeV);
+      checkArgument(
+          !(connectionsU != null && connectionsU.successors().contains(nodeV)),
+          PARALLEL_EDGES_NOT_ALLOWED,
+          nodeU,
+          nodeV);
     }
     boolean isSelfLoop = nodeU.equals(nodeV);
     if (!allowsSelfLoops()) {

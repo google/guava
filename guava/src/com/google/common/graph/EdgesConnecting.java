@@ -63,7 +63,8 @@ final class EdgesConnecting<E> extends AbstractSet<E> {
     return (connectingEdge != null && connectingEdge.equals(edge));
   }
 
-  @Nullable private E getConnectingEdge() {
+  @Nullable
+  private E getConnectingEdge() {
     return nodeToOutEdge.get(targetNode);
   }
 }

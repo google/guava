@@ -28,10 +28,9 @@ import org.junit.Test;
 /**
  * Abstract base class for testing implementations of {@link Network} interface.
  *
- * <p>This class is responsible for testing that a directed implementation of {@link Network}
- * is correctly handling directed edges. Implementation-dependent test cases are left to
- * subclasses. Test cases that do not require the graph to be directed are found in superclasses.
- *
+ * <p>This class is responsible for testing that a directed implementation of {@link Network} is
+ * correctly handling directed edges. Implementation-dependent test cases are left to subclasses.
+ * Test cases that do not require the graph to be directed are found in superclasses.
  */
 public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
 
@@ -53,8 +52,8 @@ public abstract class AbstractDirectedNetworkTest extends AbstractNetworkTest {
       for (Integer adjacentNode : network.adjacentNodes(node)) {
         Set<String> edges = network.edgesConnecting(node, adjacentNode);
         Set<String> antiParallelEdges = network.edgesConnecting(adjacentNode, node);
-        assertThat(
-            node.equals(adjacentNode) || Collections.disjoint(edges, antiParallelEdges)).isTrue();
+        assertThat(node.equals(adjacentNode) || Collections.disjoint(edges, antiParallelEdges))
+            .isTrue();
       }
     }
   }
