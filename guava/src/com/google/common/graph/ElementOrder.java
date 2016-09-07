@@ -130,14 +130,14 @@ public final class ElementOrder<T> {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(this.type, this.comparator);
+    return Objects.hashCode(type, comparator);
   }
 
   @Override
   public String toString() {
-    ToStringHelper helper = MoreObjects.toStringHelper(this).add("type", this.type);
-    if (this.comparator != null) {
-      helper.add("comparator", this.comparator);
+    ToStringHelper helper = MoreObjects.toStringHelper(this).add("type", type);
+    if (comparator != null) {
+      helper.add("comparator", comparator);
     }
     return helper.toString();
   }
