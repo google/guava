@@ -34,18 +34,10 @@ import javax.annotation.Nullable;
  *
  * <p>This class maintains a map of nodes to {@link GraphConnections}.
  *
- * <p>{@code Set}-returning accessors return unmodifiable views: the view returned will reflect
+ * <p>Collection-returning accessors return unmodifiable views: the view returned will reflect
  * changes to the graph (if the graph is mutable) but may not be modified by the user.
- * The behavior of the returned view is undefined in the following cases:
- * <ul>
- * <li>Removing the element on which the accessor is called (e.g.:
- *     <pre>{@code
- *     Set<N> adjacentNodes = adjacentNodes(node);
- *     graph.removeNode(node);}</pre>
- *     At this point, the contents of {@code adjacentNodes} are undefined.
- * </ul>
  *
- * <p>The time complexity of all {@code Set}-returning accessors is O(1), since views are returned.
+ * <p>The time complexity of all collection-returning accessors is O(1), since views are returned.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
