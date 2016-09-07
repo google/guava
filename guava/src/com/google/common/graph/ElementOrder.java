@@ -150,7 +150,7 @@ public final class ElementOrder<T> {
       case SORTED:
         return Maps.newTreeMap(comparator());
       default:
-        throw new IllegalStateException(type.toString());
+        throw new AssertionError();
     }
   }
 
