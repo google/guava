@@ -98,8 +98,8 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/ImmutableBasicGraph.html" title="class in com.google.common.graph">ImmutableBasicGraph</a>&lt;N&gt;</strong></code>
-<div class="block">A <a href="../../../../../com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><code>BasicGraph</code></a> whose elements and structural relationships will never change.</div>
+<td class="colLast"><code><strong><a href="../../../../../com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a>&lt;N,V&gt;</strong></code>
+<div class="block">A <a href="../../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> whose elements and structural relationships will never change.</div>
 </td>
 </tr>
 </tbody>
@@ -112,14 +112,18 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;N,V&gt;&nbsp;<a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N,V&gt;</code></td>
-<td class="colLast"><span class="strong">ImmutableGraph.</span><code><strong><a href="../../../../../com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.Graph)">copyOf</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,V&gt;&nbsp;graph)</code>
+<td class="colFirst"><code><a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;<a href="../../../../../com/google/common/graph/ImmutableNetwork.html" title="type parameter in ImmutableNetwork">N</a>&gt;</code></td>
+<td class="colLast"><span class="strong">ImmutableNetwork.</span><code><strong><a href="../../../../../com/google/common/graph/ImmutableNetwork.html#asGraph()">asGraph</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</code></td>
+<td class="colLast"><span class="strong">ImmutableGraph.</span><code><strong><a href="../../../../../com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.Graph)">copyOf</a></strong>(<a href="../../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</code>
 <div class="block">Returns an immutable copy of <code>graph</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;N,V&gt;&nbsp;<a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N,V&gt;</code></td>
-<td class="colLast"><span class="strong">ImmutableGraph.</span><code><strong><a href="../../../../../com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.ImmutableGraph)">copyOf</a></strong>(<a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N,V&gt;&nbsp;graph)</code>
+<tr class="altColor">
+<td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</code></td>
+<td class="colLast"><span class="strong">ImmutableGraph.</span><code><strong><a href="../../../../../com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.ImmutableGraph)">copyOf</a></strong>(<a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;&nbsp;graph)</code>
 <div class="block"><strong>Deprecated.</strong>&nbsp;
 <div class="block"><i>no need to use this</i></div>
 </div>
@@ -135,8 +139,8 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;N,V&gt;&nbsp;<a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N,V&gt;</code></td>
-<td class="colLast"><span class="strong">ImmutableGraph.</span><code><strong><a href="../../../../../com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.ImmutableGraph)">copyOf</a></strong>(<a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N,V&gt;&nbsp;graph)</code>
+<td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</code></td>
+<td class="colLast"><span class="strong">ImmutableGraph.</span><code><strong><a href="../../../../../com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.ImmutableGraph)">copyOf</a></strong>(<a href="../../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;&nbsp;graph)</code>
 <div class="block"><strong>Deprecated.</strong>&nbsp;
 <div class="block"><i>no need to use this</i></div>
 </div>

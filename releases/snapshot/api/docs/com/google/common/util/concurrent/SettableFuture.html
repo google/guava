@@ -108,7 +108,7 @@
 public final class <a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.37">SettableFuture</a>&lt;V&gt;
 extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V&gt;</pre>
 <div class="block">A <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> whose result can be set by a <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#set(V)"><code>set(Object)</code></a>, <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#setException(java.lang.Throwable)"><code>setException(Throwable)</code></a> or <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)"><code>setFuture(ListenableFuture)</code></a> call. It can also, like any
- other <code>Future</code>, be <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel(boolean)">cancelled</a>.
+ other <code>Future</code>, be <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#cancel(boolean)">cancelled</a>.
 
  <p><code>SettableFuture</code> is the recommended <code>ListenableFuture</code> implementation when your
  task is not a good fit for a <a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent"><code>ListeningExecutorService</code></a> task. If your needs are more
@@ -144,43 +144,47 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#cancel(boolean)">cancel</a></strong>(boolean&nbsp;mayInterruptIfRunning)</code></td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a>&lt;V&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#create()">create</a></strong>()</code>
 <div class="block">Creates a new <code>SettableFuture</code> that can be completed or cancelled by a later method call.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>V</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#get()">get</a></strong>()</code></td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>V</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#get(long,%20java.util.concurrent.TimeUnit)">get</a></strong>(long&nbsp;timeout,
       <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code></td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#isCancelled()">isCancelled</a></strong>()</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#isDone()">isDone</a></strong>()</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#set(V)">set</a></strong>(<a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&nbsp;value)</code>
 <div class="block">Sets the result of this <code>Future</code> unless this <code>Future</code> has already been cancelled or
  set (including <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>).</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#setException(java.lang.Throwable)">setException</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</code>
 <div class="block">Sets the failed result of this <code>Future</code> unless this <code>Future</code> has already been
  cancelled or set (including <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>).</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/util/concurrent/SettableFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">setFuture</a></strong>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;&nbsp;future)</code>
 <div class="block">Sets the result of this <code>Future</code> to match the supplied input <code>Future</code> once the
@@ -194,7 +198,7 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.google.common.util.concurrent.<a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a></h3>
-<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#afterDone()">afterDone</a>, <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel(boolean)">cancel</a>, <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#interruptTask()">interruptTask</a>, <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#wasInterrupted()">wasInterrupted</a></code></li>
+<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#afterDone()">afterDone</a>, <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#interruptTask()">interruptTask</a>, <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#wasInterrupted()">wasInterrupted</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
@@ -309,7 +313,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.80">get</a>()
+<pre>public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.75">get</a>()
             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a>,
                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#get()">AbstractFuture</a></code></strong></div>
@@ -335,7 +339,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.86">get</a>(long&nbsp;timeout,
+<pre>public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.81">get</a>(long&nbsp;timeout,
     <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a>,
                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a>,
@@ -364,7 +368,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>isDone</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.92">isDone</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.87">isDone</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent">isDone</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</code></dd>
@@ -379,7 +383,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>isCancelled</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.97">isCancelled</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.92">isCancelled</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isCancelled()" title="class or interface in java.util.concurrent">isCancelled</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</code></dd>
@@ -391,10 +395,10 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <a name="addListener(java.lang.Runnable, java.util.concurrent.Executor)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>addListener</h4>
-<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.102">addListener</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
+<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.97">addListener</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;listener,
                <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#addListener(java.lang.Runnable,%20java.util.concurrent.Executor)">AbstractFuture</a></code></strong></div>
 <div class="block">Registers a listener to be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent">run</a> on the given executor.
@@ -434,6 +438,26 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#addListener(java.lang.Runnable,%20java.util.concurrent.Executor)">addListener</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V&gt;</code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>listener</code> - the listener to run when the computation is complete</dd><dd><code>executor</code> - the executor to run the listener in</dd></dl>
+</li>
+</ul>
+<a name="cancel(boolean)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>cancel</h4>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.103">cancel</a>(boolean&nbsp;mayInterruptIfRunning)</pre>
+<div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel(boolean)">AbstractFuture</a></code></strong></div>
+<div class="block">
+
+ <p>If a cancellation attempt succeeds on a <code>Future</code> that had previously been <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>, then the cancellation will also be propagated to the delegate
+ <code>Future</code> that was supplied in the <code>setFuture</code> call.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#cancel(boolean)" title="class or interface in java.util.concurrent">cancel</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;V&gt;</code></dd>
+<dt><strong>Overrides:</strong></dt>
+<dd><code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel(boolean)">cancel</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V&gt;</code></dd>
+</dl>
 </li>
 </ul>
 </li>

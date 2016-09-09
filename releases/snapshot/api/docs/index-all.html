@@ -74,12 +74,6 @@
 <dd>
 <div class="block">Returns an <code>Optional</code> instance with no contained reference.</div>
 </dd>
-<dt><a href="./com/google/common/graph/AbstractBasicGraph.html" title="class in com.google.common.graph"><span class="strong">AbstractBasicGraph</span></a>&lt;<a href="./com/google/common/graph/AbstractBasicGraph.html" title="type parameter in AbstractBasicGraph">N</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
-<dd>
-<div class="block">This class provides a skeletal implementation of <a href="./com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><code>BasicGraph</code></a>.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/AbstractBasicGraph.html#AbstractBasicGraph()">AbstractBasicGraph()</a></span> - Constructor for class com.google.common.graph.<a href="./com/google/common/graph/AbstractBasicGraph.html" title="class in com.google.common.graph">AbstractBasicGraph</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="./com/google/common/cache/AbstractCache.html" title="class in com.google.common.cache"><span class="strong">AbstractCache</span></a>&lt;<a href="./com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">K</a>,<a href="./com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt; - Class in <a href="./com/google/common/cache/package-summary.html">com.google.common.cache</a></dt>
 <dd>
 <div class="block">This class provides a skeletal implementation of the <code>Cache</code> interface to minimize the
@@ -127,7 +121,7 @@
 <dd>
 <div class="block">Constructor for use by subclasses.</div>
 </dd>
-<dt><a href="./com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph"><span class="strong">AbstractGraph</span></a>&lt;<a href="./com/google/common/graph/AbstractGraph.html" title="type parameter in AbstractGraph">N</a>,<a href="./com/google/common/graph/AbstractGraph.html" title="type parameter in AbstractGraph">V</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dt><a href="./com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph"><span class="strong">AbstractGraph</span></a>&lt;<a href="./com/google/common/graph/AbstractGraph.html" title="type parameter in AbstractGraph">N</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
 <div class="block">This class provides a skeletal implementation of <a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>.</div>
 </dd>
@@ -228,6 +222,12 @@
 <dd>
 <div class="block">Constructor for use by subclasses.</div>
 </dd>
+<dt><a href="./com/google/common/graph/AbstractValueGraph.html" title="class in com.google.common.graph"><span class="strong">AbstractValueGraph</span></a>&lt;<a href="./com/google/common/graph/AbstractValueGraph.html" title="type parameter in AbstractValueGraph">N</a>,<a href="./com/google/common/graph/AbstractValueGraph.html" title="type parameter in AbstractValueGraph">V</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dd>
+<div class="block">This class provides a skeletal implementation of <a href="./com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/AbstractValueGraph.html#AbstractValueGraph()">AbstractValueGraph()</a></span> - Constructor for class com.google.common.graph.<a href="./com/google/common/graph/AbstractValueGraph.html" title="class in com.google.common.graph">AbstractValueGraph</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/io/PatternFilenameFilter.html#accept(java.io.File,%20java.lang.String)">accept(File, String)</a></span> - Method in class com.google.common.io.<a href="./com/google/common/io/PatternFilenameFilter.html" title="class in com.google.common.io">PatternFilenameFilter</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/net/HttpHeaders.html#ACCEPT">ACCEPT</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
@@ -659,7 +659,7 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/MutableNetwork.html#addEdge(N,%20N,%20E)">addEdge(N, N, E)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a></dt>
 <dd>
-<div class="block">Adds <code>edge</code> connecting <code>nodeA</code> to <code>nodeB</code>.</div>
+<div class="block">Adds <code>edge</code> connecting <code>nodeU</code> to <code>nodeV</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/escape/CharEscaperBuilder.html#addEscape(char,%20java.lang.String)">addEscape(char, String)</a></span> - Method in class com.google.common.escape.<a href="./com/google/common/escape/CharEscaperBuilder.html" title="class in com.google.common.escape">CharEscaperBuilder</a></dt>
 <dd>
@@ -711,15 +711,15 @@
 <dd>
 <div class="block">Registers a <a href="./com/google/common/util/concurrent/ServiceManager.Listener.html" title="class in com.google.common.util.concurrent"><code>ServiceManager.Listener</code></a> to be run when this <a href="./com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent"><code>ServiceManager</code></a> changes state.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/MutableBasicGraph.html#addNode(N)">addNode(N)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableBasicGraph.html" title="interface in com.google.common.graph">MutableBasicGraph</a></dt>
-<dd>
-<div class="block">Adds <code>node</code> if it is not already present.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/MutableGraph.html#addNode(N)">addNode(N)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a></dt>
 <dd>
 <div class="block">Adds <code>node</code> if it is not already present.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/MutableNetwork.html#addNode(N)">addNode(N)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a></dt>
+<dd>
+<div class="block">Adds <code>node</code> if it is not already present.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/MutableValueGraph.html#addNode(N)">addNode(N)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a></dt>
 <dd>
 <div class="block">Adds <code>node</code> if it is not already present.</div>
 </dd>
@@ -793,7 +793,7 @@
 <div class="block">Returns the edges which have an <a href="./com/google/common/graph/Network.html#incidentNodes(java.lang.Object)"><code>incident node</code></a> in common with
  <code>edge</code>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#adjacentNode(java.lang.Object)">adjacentNode(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/EndpointPair.html#adjacentNode(java.lang.Object)">adjacentNode(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a></dt>
 <dd>
 <div class="block">Returns the node that is adjacent to <code>node</code> along the origin edge.</div>
 </dd>
@@ -872,10 +872,6 @@
 <dd>
 <div class="block">Specifies whether the network will allow parallel edges.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/BasicGraphBuilder.html#allowsSelfLoops(boolean)">allowsSelfLoops(boolean)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph">BasicGraphBuilder</a></dt>
-<dd>
-<div class="block">Specifies whether the graph will allow self-loops (edges that connect a node to itself).</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graph.html#allowsSelfLoops()">allowsSelfLoops()</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself).</div>
@@ -891,6 +887,10 @@
 <dt><span class="strong"><a href="./com/google/common/graph/NetworkBuilder.html#allowsSelfLoops(boolean)">allowsSelfLoops(boolean)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a></dt>
 <dd>
 <div class="block">Specifies whether the network will allow self-loops (edges that connect a node to itself).</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ValueGraphBuilder.html#allowsSelfLoops(boolean)">allowsSelfLoops(boolean)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a></dt>
+<dd>
+<div class="block">Specifies whether the graph will allow self-loops (edges that connect a node to itself).</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/primitives/Primitives.html#allPrimitiveTypes()">allPrimitiveTypes()</a></span> - Static method in class com.google.common.primitives.<a href="./com/google/common/primitives/Primitives.html" title="class in com.google.common.primitives">Primitives</a></dt>
 <dd>
@@ -1198,16 +1198,6 @@
 <dd>
 <div class="block">Creates an <a href="./com/google/common/util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent"><code>AsyncCallable</code></a> from a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent"><code>Callable</code></a>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#asBasicGraph(com.google.common.graph.Graph)">asBasicGraph(Graph&lt;N, ?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
-<dd>
-<div class="block">Returns a view of <code>graph</code> as a <a href="./com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><code>BasicGraph</code></a>.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#asBasicGraph(com.google.common.graph.BasicGraph)">asBasicGraph(BasicGraph&lt;N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>no need to use this</i></div>
-</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/hash/HashCode.html#asBytes()">asBytes()</a></span> - Method in class com.google.common.hash.<a href="./com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></dt>
 <dd>
 <div class="block">Returns the value of this hash code as a byte array.</div>
@@ -1318,6 +1308,8 @@
 <div class="block">Returns a <a href="./com/google/common/base/Function.html" title="interface in com.google.common.base"><code>Function</code></a> that invokes <a href="./com/google/common/escape/Escaper.html#escape(java.lang.String)"><code>Escaper.escape(String)</code></a> on this escaper.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/AbstractNetwork.html#asGraph()">asGraph()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ImmutableNetwork.html#asGraph()">asGraph()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Network.html#asGraph()">asGraph()</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
@@ -1745,19 +1737,6 @@
 <div class="block">Media type for Basic Audio, as defined by
  <a href="http://tools.ietf.org/html/rfc2046#section-4.3">RFC 2046</a>.</div>
 </dd>
-<dt><a href="./com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><span class="strong">BasicGraph</span></a>&lt;<a href="./com/google/common/graph/BasicGraph.html" title="type parameter in BasicGraph">N</a>&gt; - Interface in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
-<dd>
-<div class="block">An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
- data structures.</div>
-</dd>
-<dt><a href="./com/google/common/graph/BasicGraph.Presence.html" title="enum in com.google.common.graph"><span class="strong">BasicGraph.Presence</span></a> - Enum in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
-<dd>
-<div class="block">A placeholder for the (generally ignored) value type of a <a href="./com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><code>BasicGraph</code></a>.</div>
-</dd>
-<dt><a href="./com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph"><span class="strong">BasicGraphBuilder</span></a>&lt;<a href="./com/google/common/graph/BasicGraphBuilder.html" title="type parameter in BasicGraphBuilder">N</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
-<dd>
-<div class="block">A builder for constructing instances of <a href="./com/google/common/graph/MutableBasicGraph.html" title="interface in com.google.common.graph"><code>MutableBasicGraph</code></a> with user-defined properties.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/base/Ascii.html#BEL">BEL</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
 <dd>
 <div class="block">Bell ('\a'): A character for use when there is a need to call for human attention.</div>
@@ -1969,10 +1948,6 @@
 <dd>
 <div class="block">Returns a new escaper based on the current state of the builder.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/BasicGraphBuilder.html#build()">build()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph">BasicGraphBuilder</a></dt>
-<dd>
-<div class="block">Returns an empty <a href="./com/google/common/graph/MutableBasicGraph.html" title="interface in com.google.common.graph"><code>MutableBasicGraph</code></a> with the properties of this <a href="./com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph"><code>BasicGraphBuilder</code></a>.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/GraphBuilder.html#build()">build()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a></dt>
 <dd>
 <div class="block">Returns an empty <a href="./com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph"><code>MutableGraph</code></a> with the properties of this <a href="./com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a>.</div>
@@ -1980,6 +1955,10 @@
 <dt><span class="strong"><a href="./com/google/common/graph/NetworkBuilder.html#build()">build()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a></dt>
 <dd>
 <div class="block">Returns an empty <a href="./com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph"><code>MutableNetwork</code></a> with the properties of this <a href="./com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ValueGraphBuilder.html#build()">build()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a></dt>
+<dd>
+<div class="block">Returns an empty <a href="./com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph"><code>MutableValueGraph</code></a> with the properties of this <a href="./com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/ImmutableTypeToInstanceMap.Builder.html#build()">build()</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/ImmutableTypeToInstanceMap.Builder.html" title="class in com.google.common.reflect">ImmutableTypeToInstanceMap.Builder</a></dt>
 <dd>
@@ -4152,33 +4131,23 @@
 <dd>
 <div class="block">Returns an immutable copy of the provided table.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#copyOf(com.google.common.graph.BasicGraph)">copyOf(BasicGraph&lt;N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#copyOf(com.google.common.graph.Graph)">copyOf(Graph&lt;N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
 <div class="block">Creates a mutable copy of <code>graph</code> with the same nodes and edges.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#copyOf(com.google.common.graph.Graph)">copyOf(Graph&lt;N, V&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#copyOf(com.google.common.graph.ValueGraph)">copyOf(ValueGraph&lt;N, V&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
 <div class="block">Creates a mutable copy of <code>graph</code> with the same nodes, edges, and edge values.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#copyOf(com.google.common.graph.Network)">copyOf(Network&lt;N, E&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
-<div class="block">Creates a mutable copy of <code>graph</code> with the same nodes and edges.</div>
+<div class="block">Creates a mutable copy of <code>network</code> with the same nodes and edges.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableBasicGraph.html#copyOf(com.google.common.graph.BasicGraph)">copyOf(BasicGraph&lt;N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableBasicGraph.html" title="class in com.google.common.graph">ImmutableBasicGraph</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.Graph)">copyOf(Graph&lt;N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
 <dd>
 <div class="block">Returns an immutable copy of <code>graph</code>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableBasicGraph.html#copyOf(com.google.common.graph.ImmutableBasicGraph)">copyOf(ImmutableBasicGraph&lt;N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableBasicGraph.html" title="class in com.google.common.graph">ImmutableBasicGraph</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>no need to use this</i></div>
-</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.Graph)">copyOf(Graph&lt;N, V&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
-<dd>
-<div class="block">Returns an immutable copy of <code>graph</code>.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.ImmutableGraph)">copyOf(ImmutableGraph&lt;N, V&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.ImmutableGraph)">copyOf(ImmutableGraph&lt;N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
 <dd>
 <div class="block"><span class="strong">Deprecated.</span>
 <div class="block"><i>no need to use this</i></div>
@@ -4186,9 +4155,19 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/ImmutableNetwork.html#copyOf(com.google.common.graph.Network)">copyOf(Network&lt;N, E&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a></dt>
 <dd>
-<div class="block">Returns an immutable copy of <code>graph</code>.</div>
+<div class="block">Returns an immutable copy of <code>network</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/ImmutableNetwork.html#copyOf(com.google.common.graph.ImmutableNetwork)">copyOf(ImmutableNetwork&lt;N, E&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a></dt>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>no need to use this</i></div>
+</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ImmutableValueGraph.html#copyOf(com.google.common.graph.ValueGraph)">copyOf(ValueGraph&lt;N, V&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a></dt>
+<dd>
+<div class="block">Returns an immutable copy of <code>graph</code>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ImmutableValueGraph.html#copyOf(com.google.common.graph.ImmutableValueGraph)">copyOf(ImmutableValueGraph&lt;N, V&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a></dt>
 <dd>
 <div class="block"><span class="strong">Deprecated.</span>
 <div class="block"><i>no need to use this</i></div>
@@ -4953,10 +4932,6 @@
 <div class="block">Determines whether a character is a digit according to
  <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/BasicGraphBuilder.html#directed()">directed()</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph">BasicGraphBuilder</a></dt>
-<dd>
-<div class="block">Returns a <a href="./com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph"><code>BasicGraphBuilder</code></a> for building directed graphs.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/GraphBuilder.html#directed()">directed()</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a></dt>
 <dd>
 <div class="block">Returns a <a href="./com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> for building directed graphs.</div>
@@ -4964,6 +4939,10 @@
 <dt><span class="strong"><a href="./com/google/common/graph/NetworkBuilder.html#directed()">directed()</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a></dt>
 <dd>
 <div class="block">Returns a <a href="./com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a> for building directed networks.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ValueGraphBuilder.html#directed()">directed()</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a></dt>
+<dd>
+<div class="block">Returns a <a href="./com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a> for building directed graphs.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/MoreExecutors.html#directExecutor()">directExecutor()</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent">MoreExecutors</a></dt>
 <dd>
@@ -5129,8 +5108,7 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/AbstractGraph.html#edges()">edges()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph">AbstractGraph</a></dt>
 <dd>
-<div class="block">A reasonable default implementation of <a href="./com/google/common/graph/Graph.html#edges()"><code>Graph.edges()</code></a> defined in terms of
- <a href="./com/google/common/graph/Graph.html#nodes()"><code>Graph.nodes()</code></a> and <a href="./com/google/common/graph/Graph.html#successors(java.lang.Object)"><code>Graph.successors(Object)</code></a>.</div>
+<div class="block">A reasonable default implementation of <a href="./com/google/common/graph/Graph.html#edges()"><code>Graph.edges()</code></a> defined in terms of <a href="./com/google/common/graph/Graph.html#nodes()"><code>Graph.nodes()</code></a> and <a href="./com/google/common/graph/Graph.html#successors(java.lang.Object)"><code>Graph.successors(Object)</code></a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graph.html#edges()">edges()</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
@@ -5142,17 +5120,22 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Network.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting(Object, Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns the set of edges that connect <code>nodeA</code> to <code>nodeB</code>.</div>
+<div class="block">Returns the set of edges that connect <code>nodeU</code> to <code>nodeV</code>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graph.html#edgeValue(java.lang.Object,%20java.lang.Object)">edgeValue(Object, Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/ImmutableValueGraph.html#edgeValue(java.lang.Object,%20java.lang.Object)">edgeValue(Object, Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ValueGraph.html#edgeValue(java.lang.Object,%20java.lang.Object)">edgeValue(Object, Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
 <dd>
-<div class="block">If there is an edge connecting <code>nodeA</code> to <code>nodeB</code>, returns the non-null value
+<div class="block">If there is an edge connecting <code>nodeU</code> to <code>nodeV</code>, returns the non-null value
  associated with that edge.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graph.html#edgeValueOrDefault(java.lang.Object,%20java.lang.Object,%20V)">edgeValueOrDefault(Object, Object, V)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/AbstractValueGraph.html#edgeValues()">edgeValues()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/AbstractValueGraph.html" title="class in com.google.common.graph">AbstractValueGraph</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ImmutableValueGraph.html#edgeValues()">edgeValues()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ValueGraph.html#edgeValues()">edgeValues()</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
 <dd>
-<div class="block">If there is an edge connecting <code>nodeA</code> to <code>nodeB</code>, returns the non-null value
- associated with that edge; otherwise, returns <code>defaultValue</code>.</div>
+<div class="block">Returns a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a> of all <a href="./com/google/common/graph/Graph.html#edges()"><code>edges</code></a> mapped to their associated <a href="./com/google/common/graph/ValueGraph.html#edgeValue(java.lang.Object,%20java.lang.Object)"><code>value</code></a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Stopwatch.html#elapsed(java.util.concurrent.TimeUnit)">elapsed(TimeUnit)</a></span> - Method in class com.google.common.base.<a href="./com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></dt>
 <dd>
@@ -5163,8 +5146,8 @@
 <dd>&nbsp;</dd>
 <dt><a href="./com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph"><span class="strong">ElementOrder</span></a>&lt;<a href="./com/google/common/graph/ElementOrder.html" title="type parameter in ElementOrder">T</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
-<div class="block">Used to represent the order of elements in a data structure that supports different options
- for iteration order guarantees.</div>
+<div class="block">Used to represent the order of elements in a data structure that supports different options for
+ iteration order guarantees.</div>
 </dd>
 <dt><a href="./com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph"><span class="strong">ElementOrder.Type</span></a> - Enum in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
@@ -5261,10 +5244,10 @@
 <div class="block">Implementations of <a href="./com/google/common/collect/AbstractIterator.html#computeNext()"><code>AbstractIterator.computeNext()</code></a> <b>must</b> invoke this method when
  there are no elements left in the iteration.</div>
 </dd>
-<dt><a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><span class="strong">Endpoints</span></a>&lt;<a href="./com/google/common/graph/Endpoints.html" title="type parameter in Endpoints">N</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dt><a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph"><span class="strong">EndpointPair</span></a>&lt;<a href="./com/google/common/graph/EndpointPair.html" title="type parameter in EndpointPair">N</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
-<div class="block">An immutable pair representing the two (possibly equal, in the case of a self-loop) endpoints
- of an edge in a graph.</div>
+<div class="block">An immutable pair representing the two (possibly equal, in the case of a self-loop) endpoints of
+ an edge in a graph.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Ascii.html#ENQ">ENQ</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
 <dd>
@@ -5604,26 +5587,25 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/TreeRangeMap.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/TreeRangeMap.html" title="class in com.google.common.collect">TreeRangeMap</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/AbstractGraph.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph">AbstractGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/AbstractNetwork.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/ElementOrder.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/EndpointPair.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a></dt>
 <dd>
-<div class="block">The <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> of two directed edges are equal if their <a href="./com/google/common/graph/Endpoints.html#source()"><code>Endpoints.source()</code></a> and
- <a href="./com/google/common/graph/Endpoints.html#target()"><code>Endpoints.target()</code></a> are equal.</div>
+<div class="block">Two ordered <a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a>s are equal if their <a href="./com/google/common/graph/EndpointPair.html#source()"><code>EndpointPair.source()</code></a> and <a href="./com/google/common/graph/EndpointPair.html#target()"><code>EndpointPair.target()</code></a>
+ are equal.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graph.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> that has the same elements and the
- same structural relationships as those in this graph.</div>
+<div class="block">For the default <a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> implementations, returns true iff <code>this == object</code> (i.e.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Network.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="./com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> that has the same elements and the
- same structural relationships as those in this network.</div>
+<div class="block">For the default <a href="./com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> implementations, returns true iff <code>this == object</code> (i.e.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ValueGraph.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
+<dd>
+<div class="block">For the default <a href="./com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> implementations, returns true iff <code>this == object</code>
+ (i.e.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/BloomFilter.html#equals(java.lang.Object)">equals(Object)</a></span> - Method in class com.google.common.hash.<a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
 <dd>&nbsp;</dd>
@@ -5691,6 +5673,22 @@
 <dt><span class="strong"><a href="./com/google/common/base/Equivalence.html#equivalent(T,%20T)">equivalent(T, T)</a></span> - Method in class com.google.common.base.<a href="./com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a></dt>
 <dd>
 <div class="block">Returns <code>true</code> if the given objects are considered equivalent.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#equivalent(com.google.common.graph.Graph,%20com.google.common.graph.Graph)">equivalent(Graph&lt;?&gt;, Graph&lt;?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
+<dd>
+<div class="block">Returns <code>true</code> iff <code>graphA</code> and <code>graphB</code> have the same elements and the same
+ relationships between elements, as exposed via the <a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> interface.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#equivalent(com.google.common.graph.ValueGraph,%20com.google.common.graph.ValueGraph)">equivalent(ValueGraph&lt;?, ?&gt;, ValueGraph&lt;?, ?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
+<dd>
+<div class="block">Returns <code>true</code> iff <code>graphA</code> and <code>graphB</code> have the same elements (including
+ edge values) and the same relationships between elements, as exposed via the <a href="./com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>
+ interface.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#equivalent(com.google.common.graph.Network,%20com.google.common.graph.Network)">equivalent(Network&lt;?, ?&gt;, Network&lt;?, ?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
+<dd>
+<div class="block">Returns <code>true</code> iff <code>networkA</code> and <code>networkB</code> have the same elements and the
+ same relationships between elements, as exposed via the <a href="./com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> interface.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Equivalence.html#equivalentTo(T)">equivalentTo(T)</a></span> - Method in class com.google.common.base.<a href="./com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a></dt>
 <dd>
@@ -5896,10 +5894,6 @@
 <div class="block">Returns the probability that <a href="./com/google/common/hash/BloomFilter.html#mightContain(T)">BloomFilter.mightContain(Object)</a> will erroneously return
  <code>true</code> for an object that has not actually been put in the <code>BloomFilter</code>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/BasicGraphBuilder.html#expectedNodeCount(int)">expectedNodeCount(int)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph">BasicGraphBuilder</a></dt>
-<dd>
-<div class="block">Specifies the expected number of nodes in the graph.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/GraphBuilder.html#expectedNodeCount(int)">expectedNodeCount(int)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a></dt>
 <dd>
 <div class="block">Specifies the expected number of nodes in the graph.</div>
@@ -5907,6 +5901,10 @@
 <dt><span class="strong"><a href="./com/google/common/graph/NetworkBuilder.html#expectedNodeCount(int)">expectedNodeCount(int)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a></dt>
 <dd>
 <div class="block">Specifies the expected number of nodes in the network.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ValueGraphBuilder.html#expectedNodeCount(int)">expectedNodeCount(int)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a></dt>
+<dd>
+<div class="block">Specifies the expected number of nodes in the graph.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/MinMaxPriorityQueue.Builder.html#expectedSize(int)">expectedSize(int)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a></dt>
 <dd>
@@ -6867,17 +6865,17 @@
 <div class="block"><i>no need to use this</i></div>
 </div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/BasicGraphBuilder.html#from(com.google.common.graph.Graph)">from(Graph&lt;N, ?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph">BasicGraphBuilder</a></dt>
-<dd>
-<div class="block">Returns a <a href="./com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph"><code>BasicGraphBuilder</code></a> initialized with all properties queryable from <code>graph</code>.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/GraphBuilder.html#from(com.google.common.graph.Graph)">from(Graph&lt;N, ?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/GraphBuilder.html#from(com.google.common.graph.Graph)">from(Graph&lt;N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a></dt>
 <dd>
 <div class="block">Returns a <a href="./com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> initialized with all properties queryable from <code>graph</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/NetworkBuilder.html#from(com.google.common.graph.Network)">from(Network&lt;N, E&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a></dt>
 <dd>
 <div class="block">Returns a <a href="./com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a> initialized with all properties queryable from <code>network</code>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ValueGraphBuilder.html#from(com.google.common.graph.Graph)">from(Graph&lt;N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a></dt>
+<dd>
+<div class="block">Returns a <a href="./com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a> initialized with all properties queryable from <code>graph</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/HostSpecifier.html#from(java.lang.String)">from(String)</a></span> - Static method in class com.google.common.net.<a href="./com/google/common/net/HostSpecifier.html" title="class in com.google.common.net">HostSpecifier</a></dt>
 <dd>
@@ -6903,6 +6901,14 @@
 <dt><span class="strong"><a href="./com/google/common/reflect/Invokable.html#from(java.lang.reflect.Constructor)">from(Constructor&lt;T&gt;)</a></span> - Static method in class com.google.common.reflect.<a href="./com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a></dt>
 <dd>
 <div class="block">Returns <a href="./com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> of <code>constructor</code>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/base/CharMatcher.html#fromBitSet(java.util.BitSet)">fromBitSet(BitSet)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>Used only from <code>CharacterFilter</code>. To be removed when its users are migrated
+     to "normal" <code>CharMatcher</code> instances. This method will be removed before we release
+     Guava 20.0.</i></div>
+</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/math/PairedStats.html#fromByteArray(byte[])">fromByteArray(byte[])</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a></dt>
 <dd>
@@ -7721,12 +7727,12 @@
 <dd>
 <div class="block">Returns a general-purpose, <b>temporary-use</b>, non-cryptographic hash function.</div>
 </dd>
-<dt><a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><span class="strong">Graph</span></a>&lt;<a href="./com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>,<a href="./com/google/common/graph/Graph.html" title="type parameter in Graph">V</a>&gt; - Interface in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dt><a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><span class="strong">Graph</span></a>&lt;<a href="./com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt; - Interface in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
 <div class="block">An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
  data structures.</div>
 </dd>
-<dt><a href="./com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><span class="strong">GraphBuilder</span></a>&lt;<a href="./com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>,<a href="./com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">V</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dt><a href="./com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><span class="strong">GraphBuilder</span></a>&lt;<a href="./com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
 <div class="block">A builder for constructing instances of <a href="./com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph"><code>MutableGraph</code></a> with user-defined properties.</div>
 </dd>
@@ -7785,7 +7791,7 @@
 <dd>
 <div class="block">Called when a potential deadlock is encountered.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#hasCycle(com.google.common.graph.Graph)">hasCycle(Graph&lt;?, ?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#hasCycle(com.google.common.graph.Graph)">hasCycle(Graph&lt;?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
 <div class="block">Returns true iff <code>graph</code> has at least one cycle.</div>
 </dd>
@@ -7918,24 +7924,24 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/TreeRangeMap.html#hashCode()">hashCode()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/TreeRangeMap.html" title="class in com.google.common.collect">TreeRangeMap</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/AbstractGraph.html#hashCode()">hashCode()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph">AbstractGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/AbstractNetwork.html#hashCode()">hashCode()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/ElementOrder.html#hashCode()">hashCode()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#hashCode()">hashCode()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/EndpointPair.html#hashCode()">hashCode()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a></dt>
 <dd>
-<div class="block">The hashcode of the <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> of a directed edge is equal to
- <code>Objects.hashCode(source(), target())</code>.</div>
+<div class="block">The hashcode of an ordered <a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> is equal to <code>Objects.hashCode(source(),
+ target())</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graph.html#hashCode()">hashCode()</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
-<div class="block">Returns the hash code for this graph.</div>
+<div class="block">For the default <a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> implementations, returns <code>System.identityHashCode(this)</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Network.html#hashCode()">hashCode()</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns the hash code for this network.</div>
+<div class="block">For the default <a href="./com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> implementations, returns <code>System.identityHashCode(this)</code>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ValueGraph.html#hashCode()">hashCode()</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
+<dd>
+<div class="block">For the default <a href="./com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> implementations, returns <code>System.identityHashCode(this)</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/BloomFilter.html#hashCode()">hashCode()</a></span> - Method in class com.google.common.hash.<a href="./com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
 <dd>&nbsp;</dd>
@@ -8355,10 +8361,6 @@
 <dd>
 <div class="block">Creates a <code>ListenableFuture</code> which has its value set immediately upon construction.</div>
 </dd>
-<dt><a href="./com/google/common/graph/ImmutableBasicGraph.html" title="class in com.google.common.graph"><span class="strong">ImmutableBasicGraph</span></a>&lt;<a href="./com/google/common/graph/ImmutableBasicGraph.html" title="type parameter in ImmutableBasicGraph">N</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
-<dd>
-<div class="block">A <a href="./com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><code>BasicGraph</code></a> whose elements and structural relationships will never change.</div>
-</dd>
 <dt><a href="./com/google/common/collect/ImmutableBiMap.html" title="class in com.google.common.collect"><span class="strong">ImmutableBiMap</span></a>&lt;<a href="./com/google/common/collect/ImmutableBiMap.html" title="type parameter in ImmutableBiMap">K</a>,<a href="./com/google/common/collect/ImmutableBiMap.html" title="type parameter in ImmutableBiMap">V</a>&gt; - Class in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">A <a href="./com/google/common/collect/BiMap.html" title="interface in com.google.common.collect"><code>BiMap</code></a> whose contents will never change, with many other important properties detailed
@@ -8422,7 +8424,7 @@
 <dd>
 <div class="block">Returns an immutable set instance containing the given enum elements.</div>
 </dd>
-<dt><a href="./com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph"><span class="strong">ImmutableGraph</span></a>&lt;<a href="./com/google/common/graph/ImmutableGraph.html" title="type parameter in ImmutableGraph">N</a>,<a href="./com/google/common/graph/ImmutableGraph.html" title="type parameter in ImmutableGraph">V</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dt><a href="./com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph"><span class="strong">ImmutableGraph</span></a>&lt;<a href="./com/google/common/graph/ImmutableGraph.html" title="type parameter in ImmutableGraph">N</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
 <div class="block">A <a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> whose elements and structural relationships will never change.</div>
 </dd>
@@ -8614,6 +8616,10 @@
 <dd>
 <div class="block">A builder for creating immutable type-to-instance maps.</div>
 </dd>
+<dt><a href="./com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph"><span class="strong">ImmutableValueGraph</span></a>&lt;<a href="./com/google/common/graph/ImmutableValueGraph.html" title="type parameter in ImmutableValueGraph">N</a>,<a href="./com/google/common/graph/ImmutableValueGraph.html" title="type parameter in ImmutableValueGraph">V</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dd>
+<div class="block">A <a href="./com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> whose elements and structural relationships will never change.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/base/Predicates.html#in(java.util.Collection)">in(Collection&lt;? extends T&gt;)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Predicates.html" title="class in com.google.common.base">Predicates</a></dt>
 <dd>
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the object reference being tested is a
@@ -8780,17 +8786,17 @@
 <dd>
 <div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within <code>array</code>, or <code>-1</code> if there is no such occurrence.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#inducedSubgraph(com.google.common.graph.BasicGraph,%20java.lang.Iterable)">inducedSubgraph(BasicGraph&lt;N&gt;, Iterable&lt;? extends N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#inducedSubgraph(com.google.common.graph.Graph,%20java.lang.Iterable)">inducedSubgraph(Graph&lt;N&gt;, Iterable&lt;? extends N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
 <div class="block">Returns an induced subgraph of <code>graph</code>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#inducedSubgraph(com.google.common.graph.Graph,%20java.lang.Iterable)">inducedSubgraph(Graph&lt;N, V&gt;, Iterable&lt;? extends N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#inducedSubgraph(com.google.common.graph.ValueGraph,%20java.lang.Iterable)">inducedSubgraph(ValueGraph&lt;N, V&gt;, Iterable&lt;? extends N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
 <div class="block">Returns an induced subgraph of <code>graph</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#inducedSubgraph(com.google.common.graph.Network,%20java.lang.Iterable)">inducedSubgraph(Network&lt;N, E&gt;, Iterable&lt;? extends N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
-<div class="block">Returns an induced subgraph of <code>graph</code>.</div>
+<div class="block">Returns an induced subgraph of <code>network</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Network.html#inEdges(java.lang.Object)">inEdges(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
@@ -9219,6 +9225,10 @@
 <div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is greater than or
  equal to the element that preceded it, according to this ordering.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/graph/EndpointPair.html#isOrdered()">isOrdered()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a></dt>
+<dd>
+<div class="block">Returns <code>true</code> iff this <a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> is an ordered pair (i.e.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/Invokable.html#isOverridable()">isOverridable()</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a></dt>
 <dd>
 <div class="block">Returns <code>true</code> if this is an overridable method.</div>
@@ -9397,9 +9407,9 @@
 <div class="block">Scope the return type to <a href="./com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect"><code>UnmodifiableIterator</code></a> to ensure this is an unmodifiable view.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/SortedMultiset.html#iterator()">iterator()</a></span> - Method in interface com.google.common.collect.<a href="./com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a></dt>
-<dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#iterator()">iterator()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/EndpointPair.html#iterator()">iterator()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a></dt>
 <dd>
-<div class="block">Iterates in the order <a href="./com/google/common/graph/Endpoints.html#nodeA()"><code>Endpoints.nodeA()</code></a>, <a href="./com/google/common/graph/Endpoints.html#nodeB()"><code>Endpoints.nodeB()</code></a>.</div>
+<div class="block">Iterates in the order <a href="./com/google/common/graph/EndpointPair.html#nodeU()"><code>EndpointPair.nodeU()</code></a>, <a href="./com/google/common/graph/EndpointPair.html#nodeV()"><code>EndpointPair.nodeV()</code></a>.</div>
 </dd>
 <dt><a href="./com/google/common/collect/Iterators.html" title="class in com.google.common.collect"><span class="strong">Iterators</span></a> - Class in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
@@ -10823,15 +10833,11 @@
  <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">32-bit murmur3 algorithm,
  x86 variant</a> (little-endian variant), using a seed value of zero.</div>
 </dd>
-<dt><a href="./com/google/common/graph/MutableBasicGraph.html" title="interface in com.google.common.graph"><span class="strong">MutableBasicGraph</span></a>&lt;<a href="./com/google/common/graph/MutableBasicGraph.html" title="type parameter in MutableBasicGraph">N</a>&gt; - Interface in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
-<dd>
-<div class="block">A subinterface of <a href="./com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><code>BasicGraph</code></a> which adds mutation methods.</div>
-</dd>
 <dt><a href="./com/google/common/collect/MutableClassToInstanceMap.html" title="class in com.google.common.collect"><span class="strong">MutableClassToInstanceMap</span></a>&lt;<a href="./com/google/common/collect/MutableClassToInstanceMap.html" title="type parameter in MutableClassToInstanceMap">B</a>&gt; - Class in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">A mutable class-to-instance map backed by an arbitrary user-provided map.</div>
 </dd>
-<dt><a href="./com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph"><span class="strong">MutableGraph</span></a>&lt;<a href="./com/google/common/graph/MutableGraph.html" title="type parameter in MutableGraph">N</a>,<a href="./com/google/common/graph/MutableGraph.html" title="type parameter in MutableGraph">V</a>&gt; - Interface in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dt><a href="./com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph"><span class="strong">MutableGraph</span></a>&lt;<a href="./com/google/common/graph/MutableGraph.html" title="type parameter in MutableGraph">N</a>&gt; - Interface in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
 <div class="block">A subinterface of <a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> which adds mutation methods.</div>
 </dd>
@@ -10845,6 +10851,10 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/MutableTypeToInstanceMap.html#MutableTypeToInstanceMap()">MutableTypeToInstanceMap()</a></span> - Constructor for class com.google.common.reflect.<a href="./com/google/common/reflect/MutableTypeToInstanceMap.html" title="class in com.google.common.reflect">MutableTypeToInstanceMap</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="./com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph"><span class="strong">MutableValueGraph</span></a>&lt;<a href="./com/google/common/graph/MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>,<a href="./com/google/common/graph/MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a>&gt; - Interface in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dd>
+<div class="block">A subinterface of <a href="./com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> which adds mutation methods.</div>
+</dd>
 </dl>
 <a name="_N_">
 <!--   -->
@@ -11107,8 +11117,8 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Sets.html#newHashSetWithExpectedSize(int)">newHashSetWithExpectedSize(int)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Sets.html" title="class in com.google.common.collect">Sets</a></dt>
 <dd>
-<div class="block">Creates a <code>HashSet</code> instance, with a high enough initial table size that it <i>should</i>
- hold <code>expectedSize</code> elements without resizing.</div>
+<div class="block">Returns a new hash set using the smallest initial table size that can hold <code>expectedSize</code>
+ elements without resizing.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Maps.html#newIdentityHashMap()">newIdentityHashMap()</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Maps.html" title="class in com.google.common.collect">Maps</a></dt>
 <dd>
@@ -11382,20 +11392,6 @@
 <dd>
 <div class="block">Alternate name for <a href="./com/google/common/base/Ascii.html#LF"><code>Ascii.LF</code></a>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#nodeA()">nodeA()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
-<dd>
-<div class="block">If these are the <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> of a directed edge, returns the <a href="./com/google/common/graph/Endpoints.html#source()"><code>Endpoints.source()</code></a>;
- otherwise, returns an arbitrary (but consistent) endpoint of the origin edge.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#nodeB()">nodeB()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
-<dd>
-<div class="block">Returns the node <a href="./com/google/common/graph/Endpoints.html#adjacentNode(java.lang.Object)"><code>adjacent</code></a> to <a href="./com/google/common/graph/Endpoints.html#nodeA()"><code>Endpoints.nodeA()</code></a> along the origin
- edge.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/BasicGraphBuilder.html#nodeOrder(com.google.common.graph.ElementOrder)">nodeOrder(ElementOrder&lt;N1&gt;)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph">BasicGraphBuilder</a></dt>
-<dd>
-<div class="block">Specifies the order of iteration for the elements of <a href="./com/google/common/graph/Graph.html#nodes()"><code>Graph.nodes()</code></a>.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graph.html#nodeOrder()">nodeOrder()</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns the order of iteration for the elements of <a href="./com/google/common/graph/Graph.html#nodes()"><code>Graph.nodes()</code></a>.</div>
@@ -11412,6 +11408,10 @@
 <dd>
 <div class="block">Specifies the order of iteration for the elements of <a href="./com/google/common/graph/Network.html#nodes()"><code>Network.nodes()</code></a>.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ValueGraphBuilder.html#nodeOrder(com.google.common.graph.ElementOrder)">nodeOrder(ElementOrder&lt;N1&gt;)</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a></dt>
+<dd>
+<div class="block">Specifies the order of iteration for the elements of <a href="./com/google/common/graph/Graph.html#nodes()"><code>Graph.nodes()</code></a>.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/Graph.html#nodes()">nodes()</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns all nodes in this graph, in the order specified by <a href="./com/google/common/graph/Graph.html#nodeOrder()"><code>Graph.nodeOrder()</code></a>.</div>
@@ -11419,6 +11419,16 @@
 <dt><span class="strong"><a href="./com/google/common/graph/Network.html#nodes()">nodes()</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
 <div class="block">Returns all nodes in this network, in the order specified by <a href="./com/google/common/graph/Network.html#nodeOrder()"><code>Network.nodeOrder()</code></a>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/EndpointPair.html#nodeU()">nodeU()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a></dt>
+<dd>
+<div class="block">If this <a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> <a href="./com/google/common/graph/EndpointPair.html#isOrdered()"><code>EndpointPair.isOrdered()</code></a> returns the <a href="./com/google/common/graph/EndpointPair.html#source()"><code>EndpointPair.source()</code></a>; otherwise,
+ returns an arbitrary (but consistent) endpoint of the origin edge.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/EndpointPair.html#nodeV()">nodeV()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a></dt>
+<dd>
+<div class="block">Returns the node <a href="./com/google/common/graph/EndpointPair.html#adjacentNode(java.lang.Object)"><code>adjacent</code></a> to <a href="./com/google/common/graph/EndpointPair.html#nodeU()"><code>EndpointPair.nodeU()</code></a> along the origin
+ edge.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/Futures.html#nonCancellationPropagating(com.google.common.util.concurrent.ListenableFuture)">nonCancellationPropagating(ListenableFuture&lt;V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
@@ -11909,14 +11919,6 @@
 <dd>
 <div class="block">Returns an immutable table containing a single cell.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#of(com.google.common.graph.Graph,%20N,%20N)">of(Graph&lt;?, ?&gt;, N, N)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
-<dd>
-<div class="block">Returns <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> representing the endpoints of an edge in <code>graph</code>.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#of(com.google.common.graph.Network,%20N,%20N)">of(Network&lt;?, ?&gt;, N, N)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
-<dd>
-<div class="block">Returns <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> representing the endpoints of an edge in <code>network</code>.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/math/Stats.html#of(java.lang.Iterable)">of(Iterable&lt;? extends Number&gt;)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a></dt>
 <dd>
 <div class="block">Returns statistics over a dataset containing the given values.</div>
@@ -12151,6 +12153,10 @@
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableTable.Builder.html#orderColumnsBy(java.util.Comparator)">orderColumnsBy(Comparator&lt;? super C&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableTable.Builder.html" title="class in com.google.common.collect">ImmutableTable.Builder</a></dt>
 <dd>
 <div class="block">Specifies the ordering of the generated table's columns.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/EndpointPair.html#ordered(N,%20N)">ordered(N, N)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a></dt>
+<dd>
+<div class="block">Returns an <a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> representing the endpoints of a directed edge.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableSortedMap.html#orderedBy(java.util.Comparator)">orderedBy(Comparator&lt;K&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a></dt>
 <dd>
@@ -13133,13 +13139,13 @@
 <dd>
 <div class="block">Puts a double into this sink.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/MutableBasicGraph.html#putEdge(N,%20N)">putEdge(N, N)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableBasicGraph.html" title="interface in com.google.common.graph">MutableBasicGraph</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/MutableGraph.html#putEdge(N,%20N)">putEdge(N, N)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a></dt>
 <dd>
-<div class="block">Adds an edge connecting <code>nodeA</code> to <code>nodeB</code> if one is not already present.</div>
+<div class="block">Adds an edge connecting <code>nodeU</code> to <code>nodeV</code> if one is not already present.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/MutableGraph.html#putEdgeValue(N,%20N,%20V)">putEdgeValue(N, N, V)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/MutableValueGraph.html#putEdgeValue(N,%20N,%20V)">putEdgeValue(N, N, V)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a></dt>
 <dd>
-<div class="block">Adds an edge connecting <code>nodeA</code> to <code>nodeB</code> if one is not already present; associate
+<div class="block">Adds an edge connecting <code>nodeU</code> to <code>nodeV</code> if one is not already present; associate
  that edge with <code>value</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#putFirst(E)">putFirst(E)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
@@ -13328,7 +13334,7 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/MediaType.html#RDF_XML_UTF_8">RDF_XML_UTF_8</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#reachableNodes(com.google.common.graph.Graph,%20java.lang.Object)">reachableNodes(Graph&lt;N, ?&gt;, Object)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#reachableNodes(com.google.common.graph.Graph,%20java.lang.Object)">reachableNodes(Graph&lt;N&gt;, Object)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
 <div class="block">Returns the set of nodes that are reachable from <code>node</code>.</div>
 </dd>
@@ -13840,17 +13846,17 @@
 <dd>
 <div class="block">Removes all mappings from this map whose values are zero.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/MutableBasicGraph.html#removeEdge(java.lang.Object,%20java.lang.Object)">removeEdge(Object, Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableBasicGraph.html" title="interface in com.google.common.graph">MutableBasicGraph</a></dt>
-<dd>
-<div class="block">Removes the edge connecting <code>nodeA</code> to <code>nodeB</code>, if it is present.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/MutableGraph.html#removeEdge(java.lang.Object,%20java.lang.Object)">removeEdge(Object, Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a></dt>
 <dd>
-<div class="block">Removes the edge connecting <code>nodeA</code> to <code>nodeB</code>, if it is present.</div>
+<div class="block">Removes the edge connecting <code>nodeU</code> to <code>nodeV</code>, if it is present.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/MutableNetwork.html#removeEdge(java.lang.Object)">removeEdge(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a></dt>
 <dd>
 <div class="block">Removes <code>edge</code> from this network, if it is present.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/MutableValueGraph.html#removeEdge(java.lang.Object,%20java.lang.Object)">removeEdge(Object, Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a></dt>
+<dd>
+<div class="block">Removes the edge connecting <code>nodeU</code> to <code>nodeV</code>, if it is present.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ConcurrentHashMultiset.html#removeExactly(java.lang.Object,%20int)">removeExactly(Object, int)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a></dt>
 <dd>
@@ -13891,15 +13897,15 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingDeque.html#removeLastOccurrence(java.lang.Object)">removeLastOccurrence(Object)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingDeque.html" title="class in com.google.common.collect">ForwardingDeque</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/MutableBasicGraph.html#removeNode(java.lang.Object)">removeNode(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableBasicGraph.html" title="interface in com.google.common.graph">MutableBasicGraph</a></dt>
-<dd>
-<div class="block">Removes <code>node</code> if it is present; all edges incident to <code>node</code> will also be removed.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/MutableGraph.html#removeNode(java.lang.Object)">removeNode(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a></dt>
 <dd>
 <div class="block">Removes <code>node</code> if it is present; all edges incident to <code>node</code> will also be removed.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/MutableNetwork.html#removeNode(java.lang.Object)">removeNode(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a></dt>
+<dd>
+<div class="block">Removes <code>node</code> if it is present; all edges incident to <code>node</code> will also be removed.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/MutableValueGraph.html#removeNode(java.lang.Object)">removeNode(Object)</a></span> - Method in interface com.google.common.graph.<a href="./com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a></dt>
 <dd>
 <div class="block">Removes <code>node</code> if it is present; all edges incident to <code>node</code> will also be removed.</div>
 </dd>
@@ -14875,10 +14881,9 @@
 <div class="block">A <code>SetMultimap</code> whose set of values for a given key are kept sorted;
  that is, they comprise a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util"><code>SortedSet</code></a>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#source()">source()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/EndpointPair.html#source()">source()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a></dt>
 <dd>
-<div class="block">If these are the <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> of a directed edge, returns the node which is the source of
- that edge.</div>
+<div class="block">If this <a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> <a href="./com/google/common/graph/EndpointPair.html#isOrdered()"><code>EndpointPair.isOrdered()</code></a>, returns the node which is the source.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Ascii.html#SP">SP</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
 <dd>
@@ -15851,10 +15856,9 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/MediaType.html#TAR">TAR</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Endpoints.html#target()">target()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/EndpointPair.html#target()">target()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a></dt>
 <dd>
-<div class="block">If these are the <a href="./com/google/common/graph/Endpoints.html" title="class in com.google.common.graph"><code>Endpoints</code></a> of a directed edge, returns the node which is the target of
- that edge.</div>
+<div class="block">If this <a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> <a href="./com/google/common/graph/EndpointPair.html#isOrdered()"><code>EndpointPair.isOrdered()</code></a>, returns the node which is the target.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/HttpHeaders.html#TE">TE</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
@@ -16239,10 +16243,6 @@
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/eventbus/EventBus.html#toString()">toString()</a></span> - Method in class com.google.common.eventbus.<a href="./com/google/common/eventbus/EventBus.html" title="class in com.google.common.eventbus">EventBus</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/AbstractBasicGraph.html#toString()">toString()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/AbstractBasicGraph.html" title="class in com.google.common.graph">AbstractBasicGraph</a></dt>
-<dd>
-<div class="block">Returns a string representation of this graph.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/AbstractGraph.html#toString()">toString()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph">AbstractGraph</a></dt>
 <dd>
 <div class="block">Returns a string representation of this graph.</div>
@@ -16251,7 +16251,13 @@
 <dd>
 <div class="block">Returns a string representation of this network.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/graph/AbstractValueGraph.html#toString()">toString()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/AbstractValueGraph.html" title="class in com.google.common.graph">AbstractValueGraph</a></dt>
+<dd>
+<div class="block">Returns a string representation of this graph.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/ElementOrder.html#toString()">toString()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ImmutableValueGraph.html#toString()">toString()</a></span> - Method in class com.google.common.graph.<a href="./com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/hash/HashCode.html#toString()">toString()</a></span> - Method in class com.google.common.hash.<a href="./com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></dt>
 <dd>
@@ -16558,7 +16564,7 @@
 <dd>
 <div class="block">Returns a view of a table where each value is transformed by a function.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#transitiveClosure(com.google.common.graph.Graph)">transitiveClosure(Graph&lt;N, ?&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#transitiveClosure(com.google.common.graph.Graph)">transitiveClosure(Graph&lt;N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
 <div class="block">Returns the transitive closure of <code>graph</code>.</div>
 </dd>
@@ -16567,11 +16573,11 @@
 <div class="block">Creates a transposed view of a given table that flips its row and column
  keys.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#transpose(com.google.common.graph.BasicGraph)">transpose(BasicGraph&lt;N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#transpose(com.google.common.graph.Graph)">transpose(Graph&lt;N&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
 <div class="block">Returns a view of <code>graph</code> with the direction (if any) of every edge reversed.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#transpose(com.google.common.graph.Graph)">transpose(Graph&lt;N, V&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
+<dt><span class="strong"><a href="./com/google/common/graph/Graphs.html#transpose(com.google.common.graph.ValueGraph)">transpose(ValueGraph&lt;N, V&gt;)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
 <div class="block">Returns a view of <code>graph</code> with the direction (if any) of every edge reversed.</div>
 </dd>
@@ -16829,10 +16835,6 @@
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/UncheckedTimeoutException.html#UncheckedTimeoutException(java.lang.String,%20java.lang.Throwable)">UncheckedTimeoutException(String, Throwable)</a></span> - Constructor for exception com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/UncheckedTimeoutException.html" title="class in com.google.common.util.concurrent">UncheckedTimeoutException</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/BasicGraphBuilder.html#undirected()">undirected()</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph">BasicGraphBuilder</a></dt>
-<dd>
-<div class="block">Returns a <a href="./com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph"><code>BasicGraphBuilder</code></a> for building undirected graphs.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/graph/GraphBuilder.html#undirected()">undirected()</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a></dt>
 <dd>
 <div class="block">Returns a <a href="./com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> for building undirected graphs.</div>
@@ -16840,6 +16842,10 @@
 <dt><span class="strong"><a href="./com/google/common/graph/NetworkBuilder.html#undirected()">undirected()</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a></dt>
 <dd>
 <div class="block">Returns a <a href="./com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a> for building undirected networks.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/ValueGraphBuilder.html#undirected()">undirected()</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a></dt>
+<dd>
+<div class="block">Returns a <a href="./com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a> for building undirected graphs.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Funnels.html#unencodedCharsFunnel()">unencodedCharsFunnel()</a></span> - Static method in class com.google.common.hash.<a href="./com/google/common/hash/Funnels.html" title="class in com.google.common.hash">Funnels</a></dt>
 <dd>
@@ -16990,6 +16996,10 @@
 <dt><span class="strong"><a href="./com/google/common/graph/ElementOrder.html#unordered()">unordered()</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a></dt>
 <dd>
 <div class="block">Returns an instance which specifies that no ordering is guaranteed.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/graph/EndpointPair.html#unordered(N,%20N)">unordered(N, N)</a></span> - Static method in class com.google.common.graph.<a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a></dt>
+<dd>
+<div class="block">Returns an <a href="./com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> representing the endpoints of an undirected edge.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/eventbus/EventBus.html#unregister(java.lang.Object)">unregister(Object)</a></span> - Method in class com.google.common.eventbus.<a href="./com/google/common/eventbus/EventBus.html" title="class in com.google.common.eventbus">EventBus</a></dt>
 <dd>
@@ -17147,6 +17157,15 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/TreeMultimap.html#valueComparator()">valueComparator()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/TreeMultimap.html" title="class in com.google.common.collect">TreeMultimap</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="./com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><span class="strong">ValueGraph</span></a>&lt;<a href="./com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">N</a>,<a href="./com/google/common/graph/ValueGraph.html" title="type parameter in ValueGraph">V</a>&gt; - Interface in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dd>
+<div class="block">An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
+ data structures.</div>
+</dd>
+<dt><a href="./com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph"><span class="strong">ValueGraphBuilder</span></a>&lt;<a href="./com/google/common/graph/ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>,<a href="./com/google/common/graph/ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt; - Class in <a href="./com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dd>
+<div class="block">A builder for constructing instances of <a href="./com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph"><code>MutableValueGraph</code></a> with user-defined properties.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/base/CaseFormat.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in enum com.google.common.base.<a href="./com/google/common/base/CaseFormat.html" title="enum in com.google.common.base">CaseFormat</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
@@ -17160,10 +17179,6 @@
 <div class="block">Returns the enum constant of this type with the specified name.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/BoundType.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in enum com.google.common.collect.<a href="./com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a></dt>
-<dd>
-<div class="block">Returns the enum constant of this type with the specified name.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/BasicGraph.Presence.html#valueOf(java.lang.String)">valueOf(String)</a></span> - Static method in enum com.google.common.graph.<a href="./com/google/common/graph/BasicGraph.Presence.html" title="enum in com.google.common.graph">BasicGraph.Presence</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
 </dd>
@@ -17290,11 +17305,6 @@ the order they are declared.</div>
 <dt><span class="strong"><a href="./com/google/common/collect/Table.html#values()">values()</a></span> - Method in interface com.google.common.collect.<a href="./com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a></dt>
 <dd>
 <div class="block">Returns a collection of all values, which may contain duplicates.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/graph/BasicGraph.Presence.html#values()">values()</a></span> - Static method in enum com.google.common.graph.<a href="./com/google/common/graph/BasicGraph.Presence.html" title="enum in com.google.common.graph">BasicGraph.Presence</a></dt>
-<dd>
-<div class="block">Returns an array containing the constants of this enum type, in
-the order they are declared.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/graph/ElementOrder.Type.html#values()">values()</a></span> - Static method in enum com.google.common.graph.<a href="./com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a></dt>
 <dd>

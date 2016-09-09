@@ -82,27 +82,14 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><a href="../../../../com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph">BasicGraph</a>&lt;N&gt;</td>
+<td class="colFirst"><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;</td>
 <td class="colLast">
 <div class="block">An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
  data structures.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N,V&gt;</td>
-<td class="colLast">
-<div class="block">An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
- data structures.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><a href="../../../../com/google/common/graph/MutableBasicGraph.html" title="interface in com.google.common.graph">MutableBasicGraph</a>&lt;N&gt;</td>
-<td class="colLast">
-<div class="block">A subinterface of <a href="../../../../com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><code>BasicGraph</code></a> which adds mutation methods.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N,V&gt;</td>
+<td class="colFirst"><a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;</td>
 <td class="colLast">
 <div class="block">A subinterface of <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> which adds mutation methods.</div>
 </td>
@@ -114,7 +101,20 @@
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,V&gt;</td>
+<td class="colLast">
+<div class="block">A subinterface of <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> which adds mutation methods.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;</td>
+<td class="colLast">
+<div class="block">An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
+ data structures.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,V&gt;</td>
 <td class="colLast">
 <div class="block">An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
  data structures.</div>
@@ -132,63 +132,51 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><a href="../../../../com/google/common/graph/AbstractBasicGraph.html" title="class in com.google.common.graph">AbstractBasicGraph</a>&lt;N&gt;</td>
-<td class="colLast">
-<div class="block">This class provides a skeletal implementation of <a href="../../../../com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><code>BasicGraph</code></a>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><a href="../../../../com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph">AbstractGraph</a>&lt;N,V&gt;</td>
+<td class="colFirst"><a href="../../../../com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph">AbstractGraph</a>&lt;N&gt;</td>
 <td class="colLast">
 <div class="block">This class provides a skeletal implementation of <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a>&lt;N,E&gt;</td>
 <td class="colLast">
 <div class="block">This class provides a skeletal implementation of <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
-<td class="colFirst"><a href="../../../../com/google/common/graph/BasicGraphBuilder.html" title="class in com.google.common.graph">BasicGraphBuilder</a>&lt;N&gt;</td>
+<tr class="altColor">
+<td class="colFirst"><a href="../../../../com/google/common/graph/AbstractValueGraph.html" title="class in com.google.common.graph">AbstractValueGraph</a>&lt;N,V&gt;</td>
 <td class="colLast">
-<div class="block">A builder for constructing instances of <a href="../../../../com/google/common/graph/MutableBasicGraph.html" title="interface in com.google.common.graph"><code>MutableBasicGraph</code></a> with user-defined properties.</div>
+<div class="block">This class provides a skeletal implementation of <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;T&gt;</td>
 <td class="colLast">
-<div class="block">Used to represent the order of elements in a data structure that supports different options
- for iteration order guarantees.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><a href="../../../../com/google/common/graph/Endpoints.html" title="class in com.google.common.graph">Endpoints</a>&lt;N&gt;</td>
-<td class="colLast">
-<div class="block">An immutable pair representing the two (possibly equal, in the case of a self-loop) endpoints
- of an edge in a graph.</div>
+<div class="block">Used to represent the order of elements in a data structure that supports different options for
+ iteration order guarantees.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N,V&gt;</td>
+<td class="colFirst"><a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;</td>
+<td class="colLast">
+<div class="block">An immutable pair representing the two (possibly equal, in the case of a self-loop) endpoints of
+ an edge in a graph.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N&gt;</td>
 <td class="colLast">
 <div class="block">A builder for constructing instances of <a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph"><code>MutableGraph</code></a> with user-defined properties.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></td>
 <td class="colLast">
 <div class="block">Static utility methods for <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> and <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> instances.</div>
 </td>
 </tr>
-<tr class="altColor">
-<td class="colFirst"><a href="../../../../com/google/common/graph/ImmutableBasicGraph.html" title="class in com.google.common.graph">ImmutableBasicGraph</a>&lt;N&gt;</td>
-<td class="colLast">
-<div class="block">A <a href="../../../../com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><code>BasicGraph</code></a> whose elements and structural relationships will never change.</div>
-</td>
-</tr>
 <tr class="rowColor">
-<td class="colFirst"><a href="../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N,V&gt;</td>
+<td class="colFirst"><a href="../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</td>
 <td class="colLast">
 <div class="block">A <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> whose elements and structural relationships will never change.</div>
 </td>
@@ -200,9 +188,21 @@
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><a href="../../../../com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a>&lt;N,V&gt;</td>
+<td class="colLast">
+<div class="block">A <a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> whose elements and structural relationships will never change.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a>&lt;N,E&gt;</td>
 <td class="colLast">
 <div class="block">A builder for constructing instances of <a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph"><code>MutableNetwork</code></a> with user-defined properties.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a href="../../../../com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;N,V&gt;</td>
+<td class="colLast">
+<div class="block">A builder for constructing instances of <a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph"><code>MutableValueGraph</code></a> with user-defined properties.</div>
 </td>
 </tr>
 </tbody>
@@ -217,12 +217,6 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><a href="../../../../com/google/common/graph/BasicGraph.Presence.html" title="enum in com.google.common.graph">BasicGraph.Presence</a></td>
-<td class="colLast">
-<div class="block">A placeholder for the (generally ignored) value type of a <a href="../../../../com/google/common/graph/BasicGraph.html" title="interface in com.google.common.graph"><code>BasicGraph</code></a>.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a></td>
 <td class="colLast">
 <div class="block">The type of ordering that this object specifies.</div>

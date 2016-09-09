@@ -36,7 +36,7 @@
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><span class="strong">Prev Class</span></a></li>
-<li>Next Class</li>
+<li><a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?com/google/common/graph/NetworkBuilder.html" target="_top">Frames</a></li>
@@ -96,7 +96,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.51">NetworkBuilder</a>&lt;N,E&gt;
+public final class <a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.52">NetworkBuilder</a>&lt;N,E&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A builder for constructing instances of <a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph"><code>MutableNetwork</code></a> with user-defined properties.
 
@@ -112,10 +112,11 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  <p>Example of use:
 
  <pre><code>
- MutableNetwork<Integer, String> network =
+ MutableNetwork<String, Integer> flightNetwork =
      NetworkBuilder.directed().allowsParallelEdges(true).build();
- network.addEdge(1, 2, "1->2");
- network.addEdge(1, 2, "1->2 other");
+ flightNetwork.addEdge("LAX", "ATL", 3025);
+ flightNetwork.addEdge("LAX", "ATL", 1598);
+ flightNetwork.addEdge("ATL", "LAX", 2450);
  </code></pre></div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>20.0</dd>
@@ -227,7 +228,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>directed</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.62">directed</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.63">directed</a>()</pre>
 <div class="block">Returns a <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a> for building directed networks.</div>
 </li>
 </ul>
@@ -237,7 +238,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>undirected</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.67">undirected</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.68">undirected</a>()</pre>
 <div class="block">Returns a <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a> for building undirected networks.</div>
 </li>
 </ul>
@@ -247,7 +248,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.79">from</a>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;network)</pre>
+<pre>public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a>&lt;N,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.80">from</a>(<a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,E&gt;&nbsp;network)</pre>
 <div class="block">Returns a <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a> initialized with all properties queryable from <code>network</code>.
 
  <p>The "queryable" properties are those that are exposed through the <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> interface,
@@ -294,7 +295,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>expectedEdgeCount</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a>&lt;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">N</a>,<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.126">expectedEdgeCount</a>(int&nbsp;expectedEdgeCount)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a>&lt;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">N</a>,<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.122">expectedEdgeCount</a>(int&nbsp;expectedEdgeCount)</pre>
 <div class="block">Specifies the expected number of edges in the network.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>expectedEdgeCount</code> is negative</dd></dl>
@@ -306,7 +307,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeOrder</h4>
-<pre>public&nbsp;&lt;N1 extends <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">N</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a>&lt;N1,<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.136">nodeOrder</a>(<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;nodeOrder)</pre>
+<pre>public&nbsp;&lt;N1 extends <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">N</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a>&lt;N1,<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.128">nodeOrder</a>(<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;nodeOrder)</pre>
 <div class="block">Specifies the order of iteration for the elements of <a href="../../../../com/google/common/graph/Network.html#nodes()"><code>Network.nodes()</code></a>.</div>
 </li>
 </ul>
@@ -316,7 +317,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>edgeOrder</h4>
-<pre>public&nbsp;&lt;E1 extends <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">E</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a>&lt;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">N</a>,E1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.144">edgeOrder</a>(<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;E1&gt;&nbsp;edgeOrder)</pre>
+<pre>public&nbsp;&lt;E1 extends <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">E</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a>&lt;<a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">N</a>,E1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.135">edgeOrder</a>(<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;E1&gt;&nbsp;edgeOrder)</pre>
 <div class="block">Specifies the order of iteration for the elements of <a href="../../../../com/google/common/graph/Network.html#edges()"><code>Network.edges()</code></a>.</div>
 </li>
 </ul>
@@ -326,7 +327,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre>public&nbsp;&lt;N1 extends <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">N</a>,E1 extends <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">E</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N1,E1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.152">build</a>()</pre>
+<pre>public&nbsp;&lt;N1 extends <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">N</a>,E1 extends <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="type parameter in NetworkBuilder">E</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N1,E1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/NetworkBuilder.html#line.142">build</a>()</pre>
 <div class="block">Returns an empty <a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph"><code>MutableNetwork</code></a> with the properties of this <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a>.</div>
 </li>
 </ul>
@@ -357,7 +358,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><span class="strong">Prev Class</span></a></li>
-<li>Next Class</li>
+<li><a href="../../../../com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?com/google/common/graph/NetworkBuilder.html" target="_top">Frames</a></li>
