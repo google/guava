@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Function;
 import com.google.common.primitives.Booleans;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
@@ -24,6 +25,8 @@ import com.google.common.primitives.Longs;
 import java.util.Comparator;
 
 import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A utility for performing a chained comparison statement. For example:
@@ -84,6 +87,23 @@ public abstract class ComparisonChain {
         public <T> ComparisonChain compare(
             @Nullable T left, @Nullable T right, Comparator<T> comparator) {
           return classify(comparator.compare(left, right));
+        }
+
+        @Override
+        public <T, R extends Comparable<? super R>>
+        ComparisonChain compareOnResultOf(
+            T left, T right, Function<? super T, ? extends R> mapping) {
+          return classify(checkNotNull(mapping.apply(left)).compareTo(
+              checkNotNull(mapping.apply(right))));
+        }
+
+        @Override
+        public <T, R> ComparisonChain compareOnResultOf(
+                @Nullable T left, @Nullable T right,
+                Function<? super T, ? extends R> mapping,
+                Comparator<? super R> comparator) {
+          return classify(comparator.compare(
+              mapping.apply(left), mapping.apply(right)));
         }
 
         @Override
@@ -149,6 +169,20 @@ public abstract class ComparisonChain {
     }
 
     @Override
+    public <T, R extends Comparable<? super R>>
+    ComparisonChain compareOnResultOf(
+        T left, T right, Function<? super T, ? extends R> mapping) {
+      return this;
+    }
+
+    @Override
+    public <T, R> ComparisonChain compareOnResultOf(
+        T left, T right, Function<? super T, ? extends R> mapping,
+        Comparator<? super R> comparator) {
+      return this;
+    }
+
+      @Override
     public ComparisonChain compare(int left, int right) {
       return this;
     }
@@ -197,6 +231,24 @@ public abstract class ComparisonChain {
    */
   public abstract <T> ComparisonChain compare(
       @Nullable T left, @Nullable T right, Comparator<T> comparator);
+
+  /**
+   * Compares two objects by applying a function on them that produces a
+   * {@link Comparable} and comparing using {@link Comparable#compareTo},
+   * <i>if</i> the result of this comparison chain has not already been
+   * determined.
+   */
+  public abstract <T, R extends Comparable<? super R>> ComparisonChain
+  compareOnResultOf(T left, T right, Function<? super T, ? extends R> mapping);
+
+  /**
+   * Compares two objects by applying a function on them and comparing using
+   * {@code comparator}, <i>if</i> the result of this comparison chain has not
+   * already been determined.
+   */
+  public abstract <T, R> ComparisonChain compareOnResultOf(
+          T left,  T right, Function<? super T, ? extends R> mapping,
+          Comparator<? super R> comparator);
 
   /**
    * Compares two {@code int} values as specified by {@link Ints#compare},
