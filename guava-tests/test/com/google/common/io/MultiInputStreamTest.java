@@ -18,12 +18,15 @@ package com.google.common.io;
 
 import com.google.common.collect.Lists;
 
+import com.google.common.truth.Truth;
 import java.io.ByteArrayInputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
+
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * Test class for {@link MultiInputStream}.
@@ -110,6 +113,44 @@ public class MultiInputStreamTest extends IoTestCase {
     assertEquals(0, multi.skip(0));
     ByteStreams.skipFully(multi, 20);
     assertEquals(20, multi.read());
+  }
+
+  public void testReadIntoSmallerByteArray() throws Exception {
+    ByteSource source1 = newByteSource(0, 2);
+    ByteSource source2 = newByteSource(0, 0);
+    ByteSource source3 = newByteSource(0, 4);
+    ByteSource joined = ByteSource.concat(source1, source2, source3);
+
+    byte[] array = new byte[5];
+    int nbBytesRead = joined.openStream().read(array);
+
+    assertThat(array).isEqualTo(new byte[]{0, 1, 0, 1, 2});
+    assertThat(nbBytesRead).isEqualTo(5);
+  }
+
+  public void testReadIntoBiggerByteArray() throws Exception {
+    ByteSource source1 = newByteSource(0, 2);
+    ByteSource source2 = newByteSource(0, 0);
+    ByteSource source3 = newByteSource(0, 4);
+    ByteSource joined = ByteSource.concat(source1, source2, source3);
+
+    byte[] array = new byte[7];
+    int nbBytesRead = joined.openStream().read(array);
+
+    assertThat(array).isEqualTo(new byte[]{0, 1, 0, 1, 2, 3, 0});
+    assertThat(nbBytesRead).isEqualTo(6);
+  }
+
+  public void testReadEmptyIntoByteArray() throws Exception {
+    ByteSource source1 = newByteSource(0, 0);
+    ByteSource source2 = newByteSource(0, 0);
+    ByteSource joined = ByteSource.concat(source1, source2);
+
+    byte[] array = new byte[3];
+    int result = joined.openStream().read(array);
+
+    assertThat(array).isEqualTo(new byte[]{0, 0, 0});
+    assertThat(result).isEqualTo(-1);
   }
 
   private static ByteSource newByteSource(final int start, final int size) {

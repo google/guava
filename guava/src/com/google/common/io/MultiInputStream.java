@@ -96,15 +96,21 @@ final class MultiInputStream extends InputStream {
 
   @Override
   public int read(@Nullable byte[] b, int off, int len) throws IOException {
-    if (in == null) {
-      return -1;
+    int nbBytesRead = 0;
+    while (in != null) {
+      int r = in.read(b, off + nbBytesRead, len - nbBytesRead);
+      if (r != -1) {
+        nbBytesRead += r;
+      }
+      if (nbBytesRead < len) {
+        advance();
+      } else {
+        break;
+      }
     }
-    int result = in.read(b, off, len);
-    if (result == -1) {
-      advance();
-      return read(b, off, len);
-    }
-    return result;
+    return nbBytesRead == 0 && len > 0
+        ? -1
+        : nbBytesRead;
   }
 
   @Override
