@@ -241,7 +241,7 @@ public abstract class CharSource {
   }
 
   /**
-   * Reads the first link of this source as a string. Returns {@code null} if this source is empty.
+   * Reads the first line of this source as a string. Returns {@code null} if this source is empty.
    *
    * <p>Like {@link BufferedReader}, this method breaks lines on any of {@code \n}, {@code \r} or
    * {@code \r\n}, does not include the line separator in the returned line and does not consider
