@@ -52,6 +52,8 @@ public final class Ints {
 
   /**
    * The number of bytes required to represent a primitive {@code int} value.
+   *
+   * <p><b>Java 8 users:</b> use {@link Integer#BYTES} instead.
    */
   public static final int BYTES = Integer.SIZE / Byte.SIZE;
 
@@ -65,6 +67,8 @@ public final class Ints {
   /**
    * Returns a hash code for {@code value}; equal to the result of invoking
    * {@code ((Integer) value).hashCode()}.
+   *
+   * <p><b>Java 8 users:</b> use {@link Integer#hashCode(int)} instead.
    *
    * @param value a primitive {@code int} value
    * @return a hash code for the value

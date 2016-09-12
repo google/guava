@@ -49,6 +49,8 @@ public final class Shorts {
 
   /**
    * The number of bytes required to represent a primitive {@code short} value.
+   *
+   * <p><b>Java 8 users:</b> use {@link Short#BYTES} instead.
    */
   public static final int BYTES = Short.SIZE / Byte.SIZE;
 
@@ -62,6 +64,8 @@ public final class Shorts {
   /**
    * Returns a hash code for {@code value}; equal to the result of invoking
    * {@code ((Short) value).hashCode()}.
+   *
+   * <p><b>Java 8 users:</b> use {@link Short#hashCode(short)} instead.
    *
    * @param value a primitive {@code short} value
    * @return a hash code for the value

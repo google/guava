@@ -51,6 +51,8 @@ public final class Longs {
 
   /**
    * The number of bytes required to represent a primitive {@code long} value.
+   *
+   * <p><b>Java 8 users:</b> use {@link Long#BYTES} instead.
    */
   public static final int BYTES = Long.SIZE / Byte.SIZE;
 
@@ -68,6 +70,8 @@ public final class Longs {
    * <p>This method always return the value specified by {@link Long#hashCode()} in java, which
    * might be different from {@code ((Long) value).hashCode()} in GWT because
    * {@link Long#hashCode()} in GWT does not obey the JRE contract.
+   *
+   * <p><b>Java 8 users:</b> use {@link Long#hashCode(long)} instead.
    *
    * @param value a primitive {@code long} value
    * @return a hash code for the value
