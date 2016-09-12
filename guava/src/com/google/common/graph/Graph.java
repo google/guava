@@ -76,13 +76,13 @@ import javax.annotation.Nullable;
  * <p>We provide an efficient implementation of this interface via {@link GraphBuilder}. When using
  * the implementation provided, all collection-returning methods provide live, unmodifiable views of
  * the graph. In other words, you cannot add an element to the collection, but if an element is
- * added to the {@link Graph} that would affect the result of that collection, it will be updated
- * automatically. This also means that you cannot modify a {@link Graph} in a way that would affect
- * a collection while iterating over that collection. For example, you cannot remove the nodes from
- * a {@link Graph} while iterating over {@link #nodes} (unless you first make a copy of the nodes),
- * just as you could not remove the keys from a {@link Map} while iterating over its {@link
- * Map#keySet()}. This will either throw a {@link ConcurrentModificationException} or risk undefined
- * behavior.
+ * added to the {@link Graph} that would affect the collection, the collection will be updated
+ * automatically. This also means that you cannot mutate a {@link Graph} in a way that would affect
+ * a collection while iterating over that collection. For example, you cannot remove either {@code
+ * foo} or any successors of {@code foo} from the graph while iterating over {@code successors(foo)}
+ * (unless you first make a copy of the successors), just as you could not remove keys from a {@link
+ * Map} while iterating over its {@link Map#keySet()}. Behavior in such a case is undefined, and may
+ * result in {@link ConcurrentModificationException}.
  *
  * <p>Example of use:
  *

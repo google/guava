@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import java.util.Map;
-
 import javax.annotation.Nullable;
 
 /**

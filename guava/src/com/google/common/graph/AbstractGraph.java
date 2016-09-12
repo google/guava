@@ -25,10 +25,11 @@ import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.util.AbstractSet;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 /**
- * This class provides a skeletal implementation of {@link Graph}. It is recommended to extend
- * this class rather than implement {@link Graph} directly.
+ * This class provides a skeletal implementation of {@link Graph}. It is recommended to extend this
+ * class rather than implement {@link Graph} directly.
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -38,8 +39,8 @@ import java.util.Set;
 public abstract class AbstractGraph<N> implements Graph<N> {
 
   /**
-   * Returns the number of edges in this graph; used to calculate the size of {@link #edges()}.
-   * The default implementation is O(|N|). You can manually keep track of the number of edges and
+   * Returns the number of edges in this graph; used to calculate the size of {@link #edges()}. The
+   * default implementation is O(|N|). You can manually keep track of the number of edges and
    * override this method for better performance.
    */
   protected long edgeCount() {
@@ -53,8 +54,8 @@ public abstract class AbstractGraph<N> implements Graph<N> {
   }
 
   /**
-   * A reasonable default implementation of {@link Graph#edges()} defined in terms of
-   * {@link #nodes()} and {@link #successors(Object)}.
+   * A reasonable default implementation of {@link Graph#edges()} defined in terms of {@link
+   * #nodes()} and {@link #successors(Object)}.
    */
   @Override
   public Set<EndpointPair<N>> edges() {
@@ -70,7 +71,7 @@ public abstract class AbstractGraph<N> implements Graph<N> {
       }
 
       @Override
-      public boolean contains(Object obj) {
+      public boolean contains(@Nullable Object obj) {
         if (!(obj instanceof EndpointPair)) {
           return false;
         }
@@ -103,20 +104,11 @@ public abstract class AbstractGraph<N> implements Graph<N> {
     return isDirected() ? successors(node).size() : degree(node);
   }
 
-  /**
-   * Returns a string representation of this graph.
-   */
+  /** Returns a string representation of this graph. */
   @Override
   public String toString() {
-    return toString(this);
-  }
-
-  static String toString(Graph<?> graph) {
-    String propertiesString = String.format(
-        "isDirected: %s, allowsSelfLoops: %s", graph.isDirected(), graph.allowsSelfLoops());
-    return String.format(GRAPH_STRING_FORMAT,
-        propertiesString,
-        graph.nodes(),
-        graph.edges());
+    String propertiesString =
+        String.format("isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
+    return String.format(GRAPH_STRING_FORMAT, propertiesString, nodes(), edges());
   }
 }

@@ -16,7 +16,6 @@
 
 package com.google.common.graph;
 
-import com.google.common.collect.ForwardingObject;
 import java.util.Set;
 
 /**
@@ -25,9 +24,8 @@ import java.util.Set;
  *
  * @author James Sexton
  */
-abstract class ForwardingGraph<N> extends ForwardingObject implements Graph<N> {
+abstract class ForwardingGraph<N> extends AbstractGraph<N> {
 
-  @Override
   protected abstract Graph<N> delegate();
 
   @Override
@@ -83,10 +81,5 @@ abstract class ForwardingGraph<N> extends ForwardingObject implements Graph<N> {
   @Override
   public int outDegree(Object node) {
     return delegate().outDegree(node);
-  }
-
-  @Override
-  public String toString() {
-    return AbstractGraph.toString(delegate());
   }
 }

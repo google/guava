@@ -20,19 +20,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
  * A map-like data structure that wraps a backing map and caches values while iterating through
- * {@link #unmodifiableKeySet()}. By design, the cache is cleared when this structure is mutated.
- * If this structure is never mutated, it provides a thread-safe view of the backing map.
+ * {@link #unmodifiableKeySet()}. By design, the cache is cleared when this structure is mutated. If
+ * this structure is never mutated, it provides a thread-safe view of the backing map.
  *
  * <p>The {@link MapIteratorCache} assumes ownership of the backing map, and cannot guarantee
  * correctness in the face of external mutations to the backing map. As such, it is <b>strongly</b>

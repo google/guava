@@ -16,8 +16,8 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
@@ -71,7 +71,6 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
    * are not set in the new builder.
    */
   public static <N> GraphBuilder<N> from(Graph<N> graph) {
-    checkNotNull(graph);
     return new GraphBuilder<Object>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
         .nodeOrder(graph.nodeOrder());
@@ -93,19 +92,14 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
    * @throws IllegalArgumentException if {@code expectedNodeCount} is negative
    */
   public GraphBuilder<N> expectedNodeCount(int expectedNodeCount) {
-    checkArgument(
-        expectedNodeCount >= 0,
-        "The expected number of nodes can't be negative: %s",
-        expectedNodeCount);
-    this.expectedNodeCount = Optional.of(expectedNodeCount);
+    this.expectedNodeCount = Optional.of(checkNonNegative(expectedNodeCount));
     return this;
   }
 
   /** Specifies the order of iteration for the elements of {@link Graph#nodes()}. */
   public <N1 extends N> GraphBuilder<N1> nodeOrder(ElementOrder<N1> nodeOrder) {
-    checkNotNull(nodeOrder);
     GraphBuilder<N1> newBuilder = cast();
-    newBuilder.nodeOrder = nodeOrder;
+    newBuilder.nodeOrder = checkNotNull(nodeOrder);
     return newBuilder;
   }
 

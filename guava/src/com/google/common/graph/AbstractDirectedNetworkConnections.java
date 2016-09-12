@@ -30,6 +30,7 @@ import java.util.AbstractSet;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 /**
  * A base implementation of {@link NetworkConnections} for directed networks.
@@ -39,22 +40,18 @@ import java.util.Set;
  * @param <E> Edge parameter type
  */
 abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnections<N, E> {
-  /**
-   * Keys are edges incoming to the origin node, values are the source node.
-   */
+  /** Keys are edges incoming to the origin node, values are the source node. */
   protected final Map<E, N> inEdgeMap;
 
-  /**
-   * Keys are edges outgoing from the origin node, values are the target node.
-   */
+  /** Keys are edges outgoing from the origin node, values are the target node. */
   protected final Map<E, N> outEdgeMap;
 
   private int selfLoopCount;
 
-  protected AbstractDirectedNetworkConnections(Map<E, N> inEdgeMap, Map<E, N> outEdgeMap,
-      int selfLoopCount) {
-    this.inEdgeMap = checkNotNull(inEdgeMap, "inEdgeMap");
-    this.outEdgeMap = checkNotNull(outEdgeMap, "outEdgeMap");
+  protected AbstractDirectedNetworkConnections(
+      Map<E, N> inEdgeMap, Map<E, N> outEdgeMap, int selfLoopCount) {
+    this.inEdgeMap = checkNotNull(inEdgeMap);
+    this.outEdgeMap = checkNotNull(outEdgeMap);
     this.selfLoopCount = checkNonNegative(selfLoopCount);
     checkState(selfLoopCount <= inEdgeMap.size() && selfLoopCount <= outEdgeMap.size());
   }
@@ -69,9 +66,10 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
     return new AbstractSet<E>() {
       @Override
       public UnmodifiableIterator<E> iterator() {
-        Iterable<E> incidentEdges = (selfLoopCount == 0)
-            ? Iterables.concat(inEdgeMap.keySet(), outEdgeMap.keySet())
-            : Sets.union(inEdgeMap.keySet(), outEdgeMap.keySet());
+        Iterable<E> incidentEdges =
+            (selfLoopCount == 0)
+                ? Iterables.concat(inEdgeMap.keySet(), outEdgeMap.keySet())
+                : Sets.union(inEdgeMap.keySet(), outEdgeMap.keySet());
         return Iterators.unmodifiableIterator(incidentEdges.iterator());
       }
 
@@ -81,7 +79,7 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
       }
 
       @Override
-      public boolean contains(Object obj) {
+      public boolean contains(@Nullable Object obj) {
         return inEdgeMap.containsKey(obj) || outEdgeMap.containsKey(obj);
       }
     };

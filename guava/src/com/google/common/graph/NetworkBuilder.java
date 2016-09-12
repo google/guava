@@ -16,8 +16,8 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
@@ -78,7 +78,6 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    * #expectedNodeCount(int)}, are not set in the new builder.
    */
   public static <N, E> NetworkBuilder<N, E> from(Network<N, E> network) {
-    checkNotNull(network);
     return new NetworkBuilder<Object, Object>(network.isDirected())
         .allowsParallelEdges(network.allowsParallelEdges())
         .allowsSelfLoops(network.allowsSelfLoops())
@@ -111,11 +110,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    * @throws IllegalArgumentException if {@code expectedNodeCount} is negative
    */
   public NetworkBuilder<N, E> expectedNodeCount(int expectedNodeCount) {
-    checkArgument(
-        expectedNodeCount >= 0,
-        "The expected number of nodes can't be negative: %s",
-        expectedNodeCount);
-    this.expectedNodeCount = Optional.of(expectedNodeCount);
+    this.expectedNodeCount = Optional.of(checkNonNegative(expectedNodeCount));
     return this;
   }
 
@@ -125,27 +120,21 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    * @throws IllegalArgumentException if {@code expectedEdgeCount} is negative
    */
   public NetworkBuilder<N, E> expectedEdgeCount(int expectedEdgeCount) {
-    checkArgument(
-        expectedEdgeCount >= 0,
-        "The expected number of edges can't be negative: %s",
-        expectedEdgeCount);
-    this.expectedEdgeCount = Optional.of(expectedEdgeCount);
+    this.expectedEdgeCount = Optional.of(checkNonNegative(expectedEdgeCount));
     return this;
   }
 
   /** Specifies the order of iteration for the elements of {@link Network#nodes()}. */
   public <N1 extends N> NetworkBuilder<N1, E> nodeOrder(ElementOrder<N1> nodeOrder) {
-    checkNotNull(nodeOrder);
     NetworkBuilder<N1, E> newBuilder = cast();
-    newBuilder.nodeOrder = nodeOrder;
+    newBuilder.nodeOrder = checkNotNull(nodeOrder);
     return newBuilder;
   }
 
   /** Specifies the order of iteration for the elements of {@link Network#edges()}. */
   public <E1 extends E> NetworkBuilder<N, E1> edgeOrder(ElementOrder<E1> edgeOrder) {
-    checkNotNull(edgeOrder);
     NetworkBuilder<N, E1> newBuilder = cast();
-    newBuilder.edgeOrder = edgeOrder;
+    newBuilder.edgeOrder = checkNotNull(edgeOrder);
     return newBuilder;
   }
 

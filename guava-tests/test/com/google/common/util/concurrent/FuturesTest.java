@@ -2209,6 +2209,30 @@ public class FuturesTest extends TestCase {
     return "-" + i + "-" + b;
   }
 
+  public void testWhenAllComplete_wildcard() throws Exception {
+    ListenableFuture<?> futureA = immediateFuture("a");
+    ListenableFuture<?> futureB = immediateFuture("b");
+    ListenableFuture<?>[] futures = new ListenableFuture<?>[0];
+    Callable<String> combiner = new Callable<String>() {
+      @Override
+      public String call() throws Exception {
+        return "hi";
+      }
+    };
+
+    // We'd like for all the following to compile.
+    ListenableFuture<String> unused;
+
+    // Compiles:
+    unused = whenAllComplete(futureA, futureB).call(combiner);
+
+    // Does not compile:
+    // unused = whenAllComplete(futures).call(combiner);
+
+    // Workaround for the above:
+    unused = whenAllComplete(asList(futures)).call(combiner);
+  }
+
   public void testWhenAllComplete_asyncResult() throws Exception {
     final SettableFuture<Integer> futureInteger = SettableFuture.create();
     final SettableFuture<Boolean> futureBoolean = SettableFuture.create();

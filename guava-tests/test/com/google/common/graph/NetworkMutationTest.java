@@ -27,9 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Tests for repeated node and edge addition and removal in a {@link Network}.
- */
+/** Tests for repeated node and edge addition and removal in a {@link Network}. */
 @RunWith(JUnit4.class)
 
 public final class NetworkMutationTest {
@@ -65,10 +63,10 @@ public final class NetworkMutationTest {
       ArrayList<Integer> nodeList = new ArrayList<Integer>(network.nodes());
       for (int i = 0; i < NUM_EDGES; ++i) {
         // Parallel edges are allowed, so this should always succeed.
-        assertThat(network.addEdge(
-            getRandomElement(nodeList, gen),
-            getRandomElement(nodeList, gen),
-            new Object())).isTrue();
+        assertThat(
+                network.addEdge(
+                    getRandomElement(nodeList, gen), getRandomElement(nodeList, gen), new Object()))
+            .isTrue();
       }
       ArrayList<Object> edgeList = new ArrayList<Object>(network.edges());
 
@@ -111,10 +109,10 @@ public final class NetworkMutationTest {
       }
       Collections.shuffle(edgeList, gen);
       for (Object edge : edgeList) {
-        assertThat(network.addEdge(
-            getRandomElement(nodeList, gen),
-            getRandomElement(nodeList, gen),
-            edge)).isTrue();
+        assertThat(
+                network.addEdge(
+                    getRandomElement(nodeList, gen), getRandomElement(nodeList, gen), edge))
+            .isTrue();
       }
 
       assertThat(network.nodes()).hasSize(NUM_NODES);

@@ -37,7 +37,7 @@ final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   private final Map<N, V> adjacentNodeValues;
 
   private UndirectedGraphConnections(Map<N, V> adjacentNodeValues) {
-    this.adjacentNodeValues = checkNotNull(adjacentNodeValues, "adjacentNodeValues");
+    this.adjacentNodeValues = checkNotNull(adjacentNodeValues);
   }
 
   static <N, V> UndirectedGraphConnections<N, V> of() {

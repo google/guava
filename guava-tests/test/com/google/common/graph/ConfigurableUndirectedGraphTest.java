@@ -22,9 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Tests for an undirected {@link ConfigurableMutableGraph} allowing self-loops.
- */
+/** Tests for an undirected {@link ConfigurableMutableGraph} allowing self-loops. */
 @RunWith(JUnit4.class)
 public class ConfigurableUndirectedGraphTest extends ConfigurableSimpleUndirectedGraphTest {
 
@@ -35,75 +33,75 @@ public class ConfigurableUndirectedGraphTest extends ConfigurableSimpleUndirecte
 
   @Test
   public void adjacentNodes_selfLoop() {
-    addEdge(N1, N1);
-    addEdge(N1, N2);
+    putEdge(N1, N1);
+    putEdge(N1, N2);
     assertThat(graph.adjacentNodes(N1)).containsExactly(N1, N2);
   }
 
   @Test
   public void predecessors_selfLoop() {
-    addEdge(N1, N1);
+    putEdge(N1, N1);
     assertThat(graph.predecessors(N1)).containsExactly(N1);
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.predecessors(N1)).containsExactly(N1, N2);
   }
 
   @Test
   public void successors_selfLoop() {
-    addEdge(N1, N1);
+    putEdge(N1, N1);
     assertThat(graph.successors(N1)).containsExactly(N1);
-    addEdge(N2, N1);
+    putEdge(N2, N1);
     assertThat(graph.successors(N1)).containsExactly(N1, N2);
   }
 
   @Test
   public void degree_selfLoop() {
-    addEdge(N1, N1);
+    putEdge(N1, N1);
     assertThat(graph.degree(N1)).isEqualTo(2);
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.degree(N1)).isEqualTo(3);
   }
 
   @Test
   public void inDegree_selfLoop() {
-    addEdge(N1, N1);
+    putEdge(N1, N1);
     assertThat(graph.inDegree(N1)).isEqualTo(2);
-    addEdge(N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.inDegree(N1)).isEqualTo(3);
   }
 
   @Test
   public void outDegree_selfLoop() {
-    addEdge(N1, N1);
+    putEdge(N1, N1);
     assertThat(graph.outDegree(N1)).isEqualTo(2);
-    addEdge(N2, N1);
+    putEdge(N2, N1);
     assertThat(graph.outDegree(N1)).isEqualTo(3);
   }
 
   @Override
   @Test
   public void addEdge_selfLoop() {
-    assertThat(addEdge(N1, N1)).isTrue();
+    assertThat(putEdge(N1, N1)).isTrue();
     assertThat(graph.adjacentNodes(N1)).containsExactly(N1);
   }
 
   @Test
   public void addEdge_existingSelfLoopEdgeBetweenSameNodes() {
-    addEdge(N1, N1);
-    assertThat(addEdge(N1, N1)).isFalse();
+    putEdge(N1, N1);
+    assertThat(putEdge(N1, N1)).isFalse();
   }
 
   @Test
   public void removeNode_existingNodeWithSelfLoopEdge() {
     addNode(N1);
-    addEdge(N1, N1);
+    putEdge(N1, N1);
     assertThat(graph.removeNode(N1)).isTrue();
     assertThat(graph.nodes()).isEmpty();
   }
 
   @Test
   public void removeEdge_existingSelfLoopEdge() {
-    addEdge(N1, N1);
+    putEdge(N1, N1);
     assertThat(graph.removeEdge(N1, N1)).isTrue();
     assertThat(graph.nodes()).containsExactly(N1);
     assertThat(graph.adjacentNodes(N1)).isEmpty();

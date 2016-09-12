@@ -26,8 +26,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for an undirected {@link ConfigurableMutableGraph}, creating a simple undirected
- * graph (self-loop edges are not allowed).
+ * Tests for an undirected {@link ConfigurableMutableGraph}, creating a simple undirected graph
+ * (self-loop edges are not allowed).
  */
 @RunWith(JUnit4.class)
 public class ConfigurableSimpleUndirectedGraphTest extends AbstractUndirectedGraphTest {
@@ -59,7 +59,7 @@ public class ConfigurableSimpleUndirectedGraphTest extends AbstractUndirectedGra
       adjacentNodes.add(N2);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
-      addEdge(N1, N2);
+      putEdge(N1, N2);
       assertThat(graph.adjacentNodes(N1)).containsExactlyElementsIn(adjacentNodes);
     }
   }
@@ -73,7 +73,7 @@ public class ConfigurableSimpleUndirectedGraphTest extends AbstractUndirectedGra
       predecessors.add(N1);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
-      addEdge(N1, N2);
+      putEdge(N1, N2);
       assertThat(graph.predecessors(N2)).containsExactlyElementsIn(predecessors);
     }
   }
@@ -87,7 +87,7 @@ public class ConfigurableSimpleUndirectedGraphTest extends AbstractUndirectedGra
       successors.add(N2);
       fail(ERROR_MODIFIABLE_SET);
     } catch (UnsupportedOperationException e) {
-      addEdge(N1, N2);
+      putEdge(N1, N2);
       assertThat(graph.successors(N1)).containsExactlyElementsIn(successors);
     }
   }
@@ -97,7 +97,7 @@ public class ConfigurableSimpleUndirectedGraphTest extends AbstractUndirectedGra
   @Test
   public void addEdge_selfLoop() {
     try {
-      addEdge(N1, N1);
+      putEdge(N1, N1);
       fail(ERROR_ADDED_SELF_LOOP);
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_SELF_LOOP);
@@ -105,11 +105,10 @@ public class ConfigurableSimpleUndirectedGraphTest extends AbstractUndirectedGra
   }
 
   /**
-   * This test checks an implementation dependent feature. It tests that
-   * the method {@code addEdge} will silently add the missing nodes to the graph,
-   * then add the edge connecting them. We are not using the proxy methods here
-   * as we want to test {@code addEdge} when the end-points are not elements
-   * of the graph.
+   * This test checks an implementation dependent feature. It tests that the method {@code addEdge}
+   * will silently add the missing nodes to the graph, then add the edge connecting them. We are not
+   * using the proxy methods here as we want to test {@code addEdge} when the end-points are not
+   * elements of the graph.
    */
   @Test
   public void addEdge_nodesNotInGraph() {

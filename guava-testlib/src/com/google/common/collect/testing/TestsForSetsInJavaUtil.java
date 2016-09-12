@@ -63,6 +63,7 @@ public class TestsForSetsInJavaUtil {
     suite.addTest(testsForCopyOnWriteArraySet());
     suite.addTest(testsForUnmodifiableSet());
     suite.addTest(testsForCheckedSet());
+    suite.addTest(testsForCheckedSortedSet());
     suite.addTest(testsForAbstractSet());
     suite.addTest(testsForBadlyCollidingHashSet());
     suite.addTest(testsForConcurrentSkipListSetNatural());
@@ -108,6 +109,9 @@ public class TestsForSetsInJavaUtil {
   }
 
   protected Collection<Method> suppressForCheckedSet() {
+    return Collections.emptySet();
+  }
+  protected Collection<Method> suppressForCheckedSortedSet() {
     return Collections.emptySet();
   }
 
@@ -313,6 +317,28 @@ public class TestsForSetsInJavaUtil {
             CollectionFeature.RESTRICTS_ELEMENTS,
             CollectionSize.ANY)
         .suppressing(suppressForCheckedSet())
+        .createTestSuite();
+  }
+
+  public Test testsForCheckedSortedSet() {
+    return SortedSetTestSuiteBuilder.using(
+        new TestStringSortedSetGenerator() {
+          @Override
+          public SortedSet<String> create(String[] elements) {
+            SortedSet<String> innerSet = new TreeSet<String>();
+            Collections.addAll(innerSet, elements);
+            return Collections.checkedSortedSet(innerSet, String.class);
+          }
+        })
+        .named("checkedSortedSet/TreeSet, natural")
+        .withFeatures(
+            SetFeature.GENERAL_PURPOSE,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+            CollectionFeature.RESTRICTS_ELEMENTS,
+            CollectionSize.ANY)
+        .suppressing(suppressForCheckedSortedSet())
         .createTestSuite();
   }
 

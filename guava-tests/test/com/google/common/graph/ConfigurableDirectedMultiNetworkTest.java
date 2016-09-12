@@ -35,17 +35,17 @@ public class ConfigurableDirectedMultiNetworkTest extends ConfigurableDirectedNe
 
   @Test
   public void adjacentEdges_parallelEdges() {
-    addEdge(E12, N1, N2);
-    addEdge(E12_A, N1, N2);
-    addEdge(E12_B, N1, N2);
-    addEdge(E34, N3, N4);
+    addEdge(N1, N2, E12);
+    addEdge(N1, N2, E12_A);
+    addEdge(N1, N2, E12_B);
+    addEdge(N3, N4, E34);
     assertThat(network.adjacentEdges(E12)).containsExactly(E12_A, E12_B);
   }
 
   @Test
   public void edgesConnecting_parallelEdges() {
-    assertTrue(addEdge(E12, N1, N2));
-    assertTrue(addEdge(E12_A, N1, N2));
+    assertTrue(addEdge(N1, N2, E12));
+    assertTrue(addEdge(N1, N2, E12_A));
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E12_A);
     // Passed nodes should be in the correct edge direction, first is the
     // source node and the second is the target node
@@ -54,40 +54,40 @@ public class ConfigurableDirectedMultiNetworkTest extends ConfigurableDirectedNe
 
   @Test
   public void edgesConnecting_parallelSelfLoopEdges() {
-    assertTrue(addEdge(E11, N1, N1));
-    assertTrue(addEdge(E11_A, N1, N1));
+    assertTrue(addEdge(N1, N1, E11));
+    assertTrue(addEdge(N1, N1, E11_A));
     assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
   }
 
   @Override
   @Test
   public void addEdge_parallelEdge() {
-    assertTrue(addEdge(E12, N1, N2));
-    assertTrue(addEdge(E12_A, N1, N2));
+    assertTrue(addEdge(N1, N2, E12));
+    assertTrue(addEdge(N1, N2, E12_A));
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E12_A);
   }
 
   @Override
   @Test
   public void addEdge_parallelSelfLoopEdge() {
-    assertTrue(addEdge(E11, N1, N1));
-    assertTrue(addEdge(E11_A, N1, N1));
+    assertTrue(addEdge(N1, N1, E11));
+    assertTrue(addEdge(N1, N1, E11_A));
     assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
   }
 
   @Test
   public void removeEdge_parallelEdge() {
-    addEdge(E12, N1, N2);
-    addEdge(E12_A, N1, N2);
+    addEdge(N1, N2, E12);
+    addEdge(N1, N2, E12_A);
     assertTrue(network.removeEdge(E12_A));
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
   }
 
   @Test
   public void removeEdge_parallelSelfLoopEdge() {
-    addEdge(E11, N1, N1);
-    addEdge(E11_A, N1, N1);
-    addEdge(E12, N1, N2);
+    addEdge(N1, N1, E11);
+    addEdge(N1, N1, E11_A);
+    addEdge(N1, N2, E12);
     assertTrue(network.removeEdge(E11_A));
     assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11);
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);

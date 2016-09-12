@@ -16,9 +16,7 @@
 
 package com.google.common.graph;
 
-/**
- * A utility class to hold various constants used by the Guava Graph library.
- */
+/** A utility class to hold various constants used by the Guava Graph library. */
 final class GraphConstants {
 
   private GraphConstants() {}
@@ -53,9 +51,7 @@ final class GraphConstants {
 
   static final String GRAPH_STRING_FORMAT = "%s, nodes: %s, edges: %s";
 
-  /**
-   * Singleton edge value for {@link Graph} implementations backed by {@link ValueGraph}s.
-   */
+  /** Singleton edge value for {@link Graph} implementations backed by {@link ValueGraph}s. */
   enum Presence {
     EDGE_EXISTS
   }

@@ -23,6 +23,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
+import javax.annotation.Nullable;
 
 /**
  * An immutable pair representing the two (possibly equal, in the case of a self-loop) endpoints of
@@ -50,7 +51,8 @@ public abstract class EndpointPair<N> implements Iterable<N> {
 
   /** Returns an {@link EndpointPair} representing the endpoints of an undirected edge. */
   public static <N> EndpointPair<N> unordered(N nodeU, N nodeV) {
-    return new Unordered<N>(nodeU, nodeV);
+    // Swap nodes on purpose to prevent callers from relying on the "ordering" of an unordered pair.
+    return new Unordered<N>(nodeV, nodeU);
   }
 
   /** Returns an {@link EndpointPair} representing the endpoints of an edge in {@code graph}. */
@@ -99,7 +101,6 @@ public abstract class EndpointPair<N> implements Iterable<N> {
    * @throws IllegalArgumentException if this {@link EndpointPair} does not contain {@code node}
    */
   public final N adjacentNode(Object node) {
-    checkNotNull(node, "node");
     if (node.equals(nodeU)) {
       return nodeV;
     } else if (node.equals(nodeV)) {
@@ -128,7 +129,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
    * ordered {@link EndpointPair} is never equal to an unordered {@link EndpointPair}.
    */
   @Override
-  public abstract boolean equals(Object obj);
+  public abstract boolean equals(@Nullable Object obj);
 
   /**
    * The hashcode of an ordered {@link EndpointPair} is equal to {@code Objects.hashCode(source(),
@@ -159,7 +160,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj == this) {
         return true;
       }
@@ -207,7 +208,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj == this) {
         return true;
       }

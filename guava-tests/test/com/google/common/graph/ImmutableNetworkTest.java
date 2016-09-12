@@ -22,9 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Tests for {@link ImmutableNetwork}.
- */
+/** Tests for {@link ImmutableNetwork}. */
 @RunWith(JUnit4.class)
 public class ImmutableNetworkTest {
 
@@ -44,8 +42,8 @@ public class ImmutableNetworkTest {
 
   @Test
   public void copyOfImmutableNetwork_optimized() {
-    Network<String, String> network1 = ImmutableNetwork.copyOf(
-        NetworkBuilder.directed().<String, String>build());
+    Network<String, String> network1 =
+        ImmutableNetwork.copyOf(NetworkBuilder.directed().<String, String>build());
     Network<String, String> network2 = ImmutableNetwork.copyOf(network1);
 
     assertThat(network2).isSameAs(network1);

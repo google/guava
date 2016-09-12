@@ -38,8 +38,7 @@ import javax.annotation.Nullable;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-final class DirectedMultiNetworkConnections<N, E>
-    extends AbstractDirectedNetworkConnections<N, E> {
+final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetworkConnections<N, E> {
 
   private DirectedMultiNetworkConnections(
       Map<E, N> inEdges, Map<E, N> outEdges, int selfLoopCount) {
@@ -139,7 +138,8 @@ final class DirectedMultiNetworkConnections<N, E>
     }
   }
 
-  @Nullable private static <T> T getReference(@Nullable Reference<T> reference) {
+  @Nullable
+  private static <T> T getReference(@Nullable Reference<T> reference) {
     return (reference == null) ? null : reference.get();
   }
 }

@@ -16,10 +16,7 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.graph.GraphConstants.EDGE_CONNECTING_NOT_IN_GRAPH;
-import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
@@ -93,25 +90,18 @@ public final class ImmutableValueGraph<N, V> extends ImmutableGraph.ValueBackedI
             Maps.asMap(graph.adjacentNodes(node), successorNodeToValueFn));
   }
 
-  // We can't extend ImmutableGraph AND AbstractValueGraph, so the following code is duplicated ;(
-
   @Override
   public V edgeValue(Object nodeU, Object nodeV) {
-    V value = backingGraph.checkedConnections(nodeU).value(nodeV);
-    if (value == null) {
-      checkArgument(backingGraph.containsNode(nodeV), NODE_NOT_IN_GRAPH, nodeV);
-      throw new IllegalArgumentException(String.format(EDGE_CONNECTING_NOT_IN_GRAPH, nodeU, nodeV));
-    }
-    return value;
+    return backingValueGraph.edgeValue(nodeU, nodeV);
   }
 
   @Override
   public Map<EndpointPair<N>, V> edgeValues() {
-    return AbstractValueGraph.edgeValues(this);
+    return backingValueGraph.edgeValues();
   }
 
   @Override
   public String toString() {
-    return AbstractValueGraph.toString(this);
+    return backingValueGraph.toString();
   }
 }
