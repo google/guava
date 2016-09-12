@@ -21,12 +21,13 @@ import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
@@ -144,6 +145,7 @@ public final class Graphs {
    * of the transitive closure of {@code graph}. In other words, the returned {@link Graph} will not
    * be updated after modifications to {@code graph}.
    */
+  // TODO(b/31438252): Consider potential optimizations for this algorithm.
   public static <N> Graph<N> transitiveClosure(Graph<N> graph) {
     MutableGraph<N> transitiveClosure = GraphBuilder.from(graph).allowsSelfLoops(true).build();
     // Every node is, at a minimum, reachable from itself. Since the resulting transitive closure
@@ -162,12 +164,11 @@ public final class Graphs {
       Set<N> visitedNodes = new HashSet<N>();
       for (N node : graph.nodes()) {
         if (!visitedNodes.contains(node)) {
-          ImmutableList<N> reachableNodes = ImmutableList.copyOf(reachableNodes(graph, node));
+          Set<N> reachableNodes = reachableNodes(graph, node);
           visitedNodes.addAll(reachableNodes);
-          for (int a = 0; a < reachableNodes.size(); ++a) {
-            N nodeU = reachableNodes.get(a);
-            for (int b = a; b < reachableNodes.size(); ++b) {
-              N nodeV = reachableNodes.get(b);
+          int pairwiseMatch = 1; // start at 1 to include self-loops
+          for (N nodeU : reachableNodes) {
+            for (N nodeV : Iterables.limit(reachableNodes, pairwiseMatch++)) {
               transitiveClosure.putEdge(nodeU, nodeV);
             }
           }
@@ -189,10 +190,10 @@ public final class Graphs {
    *
    * @throws IllegalArgumentException if {@code node} is not present in {@code graph}
    */
-  @SuppressWarnings("unchecked") // Throws an exception if node is not an element of graph.
+  @SuppressWarnings("unchecked") // Safe because we only cast if node is an element of the graph.
   public static <N> Set<N> reachableNodes(Graph<N> graph, Object node) {
     checkArgument(graph.nodes().contains(node), NODE_NOT_IN_GRAPH, node);
-    Set<N> visitedNodes = new HashSet<N>();
+    Set<N> visitedNodes = new LinkedHashSet<N>();
     Queue<N> queuedNodes = new ArrayDeque<N>();
     visitedNodes.add((N) node);
     queuedNodes.add((N) node);
