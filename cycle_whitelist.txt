@@ -43,6 +43,6 @@ FIELD com.google.common.util.concurrent.AggregateFuture.runningState
 FIELD java.util.AbstractMap.keySet com.google.common.collect.AbstractMapBasedMultimap.NavigableKeySet
 FIELD java.util.AbstractMap.keySet com.google.common.collect.Maps.FilteredEntryNavigableMap.navigableKeySet.$
 FIELD java.util.AbstractMap.keySet com.google.common.collect.TreeRangeMap.SubRangeMap.SubRangeMapAsMap.keySet.$
-FIELD java.util.AbstractMap.valuesCollection com.google.common.collect.TreeRangeMap.SubRangeMap.SubRangeMapAsMap.values.$
+FIELD java.util.AbstractMap.values com.google.common.collect.TreeRangeMap.SubRangeMap.SubRangeMapAsMap.values.$
 OUTER com.google.common.collect.StandardTable.Row
 OUTER com.google.common.collect.TreeBasedTable.TreeRow
