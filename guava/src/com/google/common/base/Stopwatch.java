@@ -41,26 +41,34 @@ import java.util.concurrent.TimeUnit;
  * not the absolute ones.
  * </ul>
  *
- * <p>Basic usage:
+ * <p>Basic usage: <pre>   {@code
  *
- * <pre>
- *   Stopwatch stopwatch = Stopwatch.{@link #createStarted createStarted}();
+ *   Stopwatch stopwatch = Stopwatch.createStarted();
  *   doSomething();
- *   stopwatch.{@link #stop stop}(); // optional
+ *   stopwatch.stop(); // optional
  *
  *   long millis = stopwatch.elapsed(MILLISECONDS);
  *
- *   log.info("time: " + stopwatch); // formatted string like "12.3 ms"
- * </pre>
+ *   log.info("time: " + stopwatch); // formatted string like "12.3 ms"}</pre>
  *
  * <p>Stopwatch methods are not idempotent; it is an error to start or stop a stopwatch that is
  * already in the desired state.
  *
  * <p>When testing code that uses this class, use {@link #createUnstarted(Ticker)} or
- * {@link #createStarted(Ticker)} to supply a fake or mock ticker. <!-- TODO(kevinb): restore the
- * "such as" --> This allows you to simulate any valid behavior of the stopwatch.
+ * {@link #createStarted(Ticker)} to supply a fake or mock ticker. This allows you to simulate any
+ * valid behavior of the stopwatch.
  *
  * <p><b>Note:</b> This class is not thread-safe.
+ *
+ * <p><b>Warning for Android users:</b> a stopwatch with default behavior may not continue to keep
+ * time while the device is asleep. Instead, create one like this: <pre>   {@code
+ *
+ *    Stopwatch.createStarted(
+ *         new Ticker() {
+ *           public long read() {
+ *             return android.os.SystemClock.elapsedRealtime();
+ *           }
+ *         });}</pre>
  *
  * @author Kevin Bourrillion
  * @since 10.0
