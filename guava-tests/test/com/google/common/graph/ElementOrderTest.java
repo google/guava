@@ -191,6 +191,7 @@ public final class ElementOrderTest {
     graph.addNode(node5);
     graph.addNode(node3);
 
+    assertThat(graph.nodeOrder().comparator()).isEqualTo(comparator);
     assertThat(graph.nodes()).containsExactly(node1, node3, node5, node7).inOrder();
   }
 
@@ -209,6 +210,7 @@ public final class ElementOrderTest {
     graph.addNode(node6);
     graph.addNode(node8);
 
+    assertThat(graph.nodeOrder().comparator()).isEqualTo(Ordering.natural());
     assertThat(graph.nodes()).containsExactly(node2, node4, node6, node8).inOrder();
   }
 
