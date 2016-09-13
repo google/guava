@@ -1042,8 +1042,8 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
  <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
  elements are equivalent, it is undefined which will come first.
 
- <p><b>Java 8 users:</b> Use <code>Streams.stream(iterable).collect(Comparators.least(k,
- thisComparator))</code> instead.</div>
+ <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
+ use <code>Streams.stream(iterable).collect(Comparators.least(k, thisComparator))</code> instead.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>an immutable <code>RandomAccess</code> list of the <code>k</code> least elements in ascending
      order</dd>
 <dt><span class="strong">Throws:</span></dt>
@@ -1090,8 +1090,8 @@ public&nbsp;&lt;S extends <a href="../../../../com/google/common/collect/Orderin
  <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
  elements are equivalent, it is undefined which will come first.
 
- <p><b>Java 8 users:</b> Use <code>Streams.stream(iterable).collect(Comparators.greatest(k,
- thisComparator))</code> instead.</div>
+ <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
+ use <code>Streams.stream(iterable).collect(Comparators.greatest(k, thisComparator))</code> instead.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>an immutable <code>RandomAccess</code> list of the <code>k</code> greatest elements in
      <i>descending order</i></dd>
 <dt><span class="strong">Throws:</span></dt>

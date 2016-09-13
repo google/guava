@@ -156,6 +156,7 @@ OK: com.google.common.net.MediaType Field THREE_GPP_VIDEO
 OK: com.google.common.net.MediaType Field VND_REAL_AUDIO
 OK: com.google.common.net.MediaType Field VND_WAVE_AUDIO
 OK: com.google.common.net.MediaType Field VORBIS_AUDIO
+OK: com.google.common.net.MediaType Field VTT_UTF_8
 OK: com.google.common.net.MediaType Field WAX_AUDIO
 OK: com.google.common.net.MediaType Field WMA_AUDIO
 OK: com.google.common.net.MediaType Field WOFF2

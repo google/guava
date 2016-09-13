@@ -96,7 +96,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.69">Stopwatch</a>
+public final class <a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.77">Stopwatch</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">An object that measures elapsed time in nanoseconds. It is useful to measure elapsed time using
  this class instead of direct calls to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/System.html?is-external=true#nanoTime()" title="class or interface in java.lang"><code>System.nanoTime()</code></a> for a few reasons:
@@ -109,26 +109,30 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  not the absolute ones.
  </ul>
 
- <p>Basic usage:
-
- <pre>
-   Stopwatch stopwatch = Stopwatch.<a href="../../../../com/google/common/base/Stopwatch.html#createStarted()"><code>createStarted</code></a>();
+ <p>Basic usage: <pre>   <code>Stopwatch stopwatch = Stopwatch.createStarted();
    doSomething();
-   stopwatch.<a href="../../../../com/google/common/base/Stopwatch.html#stop()"><code>stop</code></a>(); // optional
+   stopwatch.stop(); // optional
 
    long millis = stopwatch.elapsed(MILLISECONDS);
 
-   log.info("time: " + stopwatch); // formatted string like "12.3 ms"
- </pre>
+   log.info("time: " + stopwatch); // formatted string like "12.3 ms"</code></pre>
 
  <p>Stopwatch methods are not idempotent; it is an error to start or stop a stopwatch that is
  already in the desired state.
 
  <p>When testing code that uses this class, use <a href="../../../../com/google/common/base/Stopwatch.html#createUnstarted(com.google.common.base.Ticker)"><code>createUnstarted(Ticker)</code></a> or
- <a href="../../../../com/google/common/base/Stopwatch.html#createStarted(com.google.common.base.Ticker)"><code>createStarted(Ticker)</code></a> to supply a fake or mock ticker. <!-- TODO(kevinb): restore the
- "such as" --> This allows you to simulate any valid behavior of the stopwatch.
+ <a href="../../../../com/google/common/base/Stopwatch.html#createStarted(com.google.common.base.Ticker)"><code>createStarted(Ticker)</code></a> to supply a fake or mock ticker. This allows you to simulate any
+ valid behavior of the stopwatch.
 
- <p><b>Note:</b> This class is not thread-safe.</div>
+ <p><b>Note:</b> This class is not thread-safe.
+
+ <p><b>Warning for Android users:</b> a stopwatch with default behavior may not continue to keep
+ time while the device is asleep. Instead, create one like this: <pre>   <code>Stopwatch.createStarted(
+         new Ticker() {
+           public long read() {
+             return android.os.SystemClock.elapsedRealtime();
+           }
+         });</code></pre></div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>10.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -241,7 +245,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>createUnstarted</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.80">createUnstarted</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.88">createUnstarted</a>()</pre>
 <div class="block">Creates (but does not start) a new stopwatch using <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/System.html?is-external=true#nanoTime()" title="class or interface in java.lang"><code>System.nanoTime()</code></a> as its time source.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>15.0</dd></dl>
@@ -253,7 +257,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>createUnstarted</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.89">createUnstarted</a>(<a href="../../../../com/google/common/base/Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;ticker)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.97">createUnstarted</a>(<a href="../../../../com/google/common/base/Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;ticker)</pre>
 <div class="block">Creates (but does not start) a new stopwatch, using the specified time source.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>15.0</dd></dl>
@@ -265,7 +269,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>createStarted</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.98">createStarted</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.106">createStarted</a>()</pre>
 <div class="block">Creates (and starts) a new stopwatch using <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/System.html?is-external=true#nanoTime()" title="class or interface in java.lang"><code>System.nanoTime()</code></a> as its time source.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>15.0</dd></dl>
@@ -277,7 +281,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>createStarted</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.107">createStarted</a>(<a href="../../../../com/google/common/base/Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;ticker)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.115">createStarted</a>(<a href="../../../../com/google/common/base/Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;ticker)</pre>
 <div class="block">Creates (and starts) a new stopwatch, using the specified time source.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>15.0</dd></dl>
@@ -289,7 +293,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>isRunning</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.124">isRunning</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.132">isRunning</a>()</pre>
 <div class="block">Returns <code>true</code> if <a href="../../../../com/google/common/base/Stopwatch.html#start()"><code>start()</code></a> has been called on this stopwatch, and <a href="../../../../com/google/common/base/Stopwatch.html#stop()"><code>stop()</code></a>
  has not been called since the last call to <code>start()</code>.</div>
 </li>
@@ -300,7 +304,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>start</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.135">start</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.143">start</a>()</pre>
 <div class="block">Starts the stopwatch.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>this <code>Stopwatch</code> instance</dd>
 <dt><span class="strong">Throws:</span></dt>
@@ -313,7 +317,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>stop</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.150">stop</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.158">stop</a>()</pre>
 <div class="block">Stops the stopwatch. Future reads will return the fixed duration that had elapsed up to this
  point.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>this <code>Stopwatch</code> instance</dd>
@@ -327,7 +331,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>reset</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.164">reset</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.172">reset</a>()</pre>
 <div class="block">Sets the elapsed time for this stopwatch to zero, and places it in a stopped state.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>this <code>Stopwatch</code> instance</dd></dl>
 </li>
@@ -338,7 +342,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>elapsed</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.183">elapsed</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;desiredUnit)</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.191">elapsed</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;desiredUnit)</pre>
 <div class="block">Returns the current elapsed time shown on this stopwatch, expressed in the desired time unit,
  with any fraction rounded down.
 
@@ -354,7 +358,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.191">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Stopwatch.html#line.199">toString</a>()</pre>
 <div class="block">Returns a string representation of the current elapsed time.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>

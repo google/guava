@@ -493,9 +493,11 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
 <ul class="blockList">
 <li class="blockList">
 <h4>inEdges</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.201">inEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.203">inEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
  to end at <code>node</code>.
+
+ <p>In a directed network, an incoming edge's <a href="../../../../com/google/common/graph/EndpointPair.html#target()"><code>EndpointPair.target()</code></a> equals <code>node</code>.
 
  <p>In an undirected network, this is equivalent to <a href="../../../../com/google/common/graph/Network.html#incidentEdges(java.lang.Object)"><code>incidentEdges(Object)</code></a>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -508,9 +510,11 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
 <ul class="blockList">
 <li class="blockList">
 <h4>outEdges</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.211">outEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.215">outEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
  starting from <code>node</code>.
+
+ <p>In a directed network, an outgoing edge's <a href="../../../../com/google/common/graph/EndpointPair.html#source()"><code>EndpointPair.source()</code></a> equals <code>node</code>.
 
  <p>In an undirected network, this is equivalent to <a href="../../../../com/google/common/graph/Network.html#incidentEdges(java.lang.Object)"><code>incidentEdges(Object)</code></a>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -523,7 +527,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
 <ul class="blockList">
 <li class="blockList">
 <h4>degree</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.226">degree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.230">degree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#incidentEdges(java.lang.Object)"><code>incident edges</code></a>, counting
  self-loops twice (equivalently, the number of times an edge touches <code>node</code>).
 
@@ -543,7 +547,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
 <ul class="blockList">
 <li class="blockList">
 <h4>inDegree</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.236">inDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.240">inDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#inEdges(java.lang.Object)"><code>incoming edges</code></a> in a directed
  network. In an undirected network, returns the <a href="../../../../com/google/common/graph/Network.html#degree(java.lang.Object)"><code>degree(Object)</code></a>.
 
@@ -558,7 +562,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
 <ul class="blockList">
 <li class="blockList">
 <h4>outDegree</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.246">outDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.250">outDegree</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s <a href="../../../../com/google/common/graph/Network.html#outEdges(java.lang.Object)"><code>outgoing edges</code></a> in a directed
  network. In an undirected network, returns the <a href="../../../../com/google/common/graph/Network.html#degree(java.lang.Object)"><code>degree(Object)</code></a>.
 
@@ -573,7 +577,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentNodes</h4>
-<pre><a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.253">incidentNodes</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
+<pre><a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.257">incidentNodes</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 <div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this network.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>edge</code> is not an element of this network</dd></dl>
@@ -585,7 +589,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentEdges</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.261">adjacentEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.265">adjacentEdges</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 <div class="block">Returns the edges which have an <a href="../../../../com/google/common/graph/Network.html#incidentNodes(java.lang.Object)"><code>incident node</code></a> in common with
  <code>edge</code>. An edge is not considered adjacent to itself.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -598,7 +602,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
 <ul class="blockList">
 <li class="blockList">
 <h4>edgesConnecting</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.271">edgesConnecting</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeU,
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Network.html" title="type parameter in Network">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.275">edgesConnecting</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeU,
                      <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeV)</pre>
 <div class="block">Returns the set of edges that connect <code>nodeU</code> to <code>nodeV</code>.
 
@@ -614,7 +618,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.286">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.290">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">For the default <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> implementations, returns true iff <code>this == object</code> (i.e.
  reference equality). External implementations are free to define this method as they see fit,
@@ -634,7 +638,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.294">hashCode</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Network.html#line.298">hashCode</a>()</pre>
 <div class="block">For the default <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> implementations, returns <code>System.identityHashCode(this)</code>.
  External implementations are free to define this method as they see fit, as long as they
  satisfy the <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang"><code>Object.hashCode()</code></a> contract.</div>

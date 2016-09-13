@@ -6235,26 +6235,34 @@
  not the absolute ones.
  </ul>
 
- <p>Basic usage:
+ <p>Basic usage: <pre>   {@code
 
- <pre>
-   Stopwatch stopwatch = Stopwatch.{@link #createStarted createStarted}();
+   Stopwatch stopwatch = Stopwatch.createStarted();
    doSomething();
-   stopwatch.{@link #stop stop}(); // optional
+   stopwatch.stop(); // optional
 
    long millis = stopwatch.elapsed(MILLISECONDS);
 
-   log.info("time: " + stopwatch); // formatted string like "12.3 ms"
- </pre>
+   log.info("time: " + stopwatch); // formatted string like "12.3 ms"}</pre>
 
  <p>Stopwatch methods are not idempotent; it is an error to start or stop a stopwatch that is
  already in the desired state.
 
  <p>When testing code that uses this class, use {@link #createUnstarted(Ticker)} or
- {@link #createStarted(Ticker)} to supply a fake or mock ticker. <!-- TODO(kevinb): restore the
- "such as" --> This allows you to simulate any valid behavior of the stopwatch.
+ {@link #createStarted(Ticker)} to supply a fake or mock ticker. This allows you to simulate any
+ valid behavior of the stopwatch.
 
  <p><b>Note:</b> This class is not thread-safe.
+
+ <p><b>Warning for Android users:</b> a stopwatch with default behavior may not continue to keep
+ time while the device is asleep. Instead, create one like this: <pre>   {@code
+
+    Stopwatch.createStarted(
+         new Ticker() {
+           public long read() {
+             return android.os.SystemClock.elapsedRealtime();
+           }
+         });}</pre>
 
  @author Kevin Bourrillion
  @since 10.0]]>
@@ -30306,8 +30314,8 @@
  <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
  elements are equivalent, it is undefined which will come first.
 
- <p><b>Java 8 users:</b> Use {@code Streams.stream(iterable).collect(Comparators.least(k,
- thisComparator))} instead.
+ <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
+ use {@code Streams.stream(iterable).collect(Comparators.least(k, thisComparator))} instead.
 
  @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending
      order
@@ -30352,8 +30360,8 @@
  <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
  elements are equivalent, it is undefined which will come first.
 
- <p><b>Java 8 users:</b> Use {@code Streams.stream(iterable).collect(Comparators.greatest(k,
- thisComparator))} instead.
+ <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
+ use {@code Streams.stream(iterable).collect(Comparators.greatest(k, thisComparator))} instead.
 
  @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in
      <i>descending order</i>
@@ -37280,6 +37288,8 @@
       <![CDATA[Returns all edges in this network which can be traversed in the direction (if any) of the edge
  to end at {@code node}.
 
+ <p>In a directed network, an incoming edge's {@link EndpointPair#target()} equals {@code node}.
+
  <p>In an undirected network, this is equivalent to {@link #incidentEdges(Object)}.
 
  @throws IllegalArgumentException if {@code node} is not an element of this network]]>
@@ -37293,6 +37303,8 @@
       <doc>
       <![CDATA[Returns all edges in this network which can be traversed in the direction (if any) of the edge
  starting from {@code node}.
+
+ <p>In a directed network, an outgoing edge's {@link EndpointPair#source()} equals {@code node}.
 
  <p>In an undirected network, this is equivalent to {@link #incidentEdges(Object)}.
 
@@ -41218,7 +41230,7 @@
       deprecated="not deprecated">
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Reads the first link of this source as a string. Returns {@code null} if this source is empty.
+      <![CDATA[Reads the first line of this source as a string. Returns {@code null} if this source is empty.
 
  <p>Like {@link BufferedReader}, this method breaks lines on any of {@code \n}, {@code \r} or
  {@code \r\n}, does not include the line separator in the returned line and does not consider
@@ -48119,6 +48131,17 @@
  {@link #APPLICATION_XML_UTF_8} is provided for documents that are intended for applications.]]>
       </doc>
     </field>
+    <field name="VTT_UTF_8" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[As described in <a href="https://w3c.github.io/webvtt/#iana-text-vtt">the VTT spec</a>, this is
+ used for Web Video Text Tracks (WebVTT) files, used with the HTML5 track element.
+
+ @since 20.0]]>
+      </doc>
+    </field>
     <field name="BMP" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -48962,6 +48985,8 @@
       <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking
  {@code ((Boolean) value).hashCode()}.
 
+ <p><b>Java 8 users:</b> use {@link Boolean#hashCode(boolean)} instead.
+
  @param value a primitive {@code boolean} value
  @return a hash code for the value]]>
       </doc>
@@ -49200,6 +49225,8 @@
       <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking
  {@code ((Byte) value).hashCode()}.
 
+ <p><b>Java 8 users:</b> use {@link Byte#hashCode(byte)} instead.
+
  @param value a primitive {@code byte} value
  @return a hash code for the value]]>
       </doc>
@@ -49366,6 +49393,8 @@
       <doc>
       <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking
  {@code ((Character) value).hashCode()}.
+
+ <p><b>Java 8 users:</b> use {@link Character#hashCode(char)} instead.
 
  @param value a primitive {@code char} value
  @return a hash code for the value]]>
@@ -49662,7 +49691,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The number of bytes required to represent a primitive {@code char} value.]]>
+      <![CDATA[The number of bytes required to represent a primitive {@code char} value.
+
+ <p><b>Java 8 users:</b> use {@link Character#BYTES} instead.]]>
       </doc>
     </field>
     <doc>
@@ -49693,6 +49724,8 @@
       <doc>
       <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking
  {@code ((Double) value).hashCode()}.
+
+ <p><b>Java 8 users:</b> use {@link Double#hashCode(double)} instead.
 
  @param value a primitive {@code double} value
  @return a hash code for the value]]>
@@ -49727,6 +49760,8 @@
       <doc>
       <![CDATA[Returns {@code true} if {@code value} represents a real number. This is equivalent to, but not
  necessarily implemented as, {@code !(Double.isInfinite(value) || Double.isNaN(value))}.
+
+ <p><b>Java 8 users:</b> use {@link Double#isFinite(double)} instead.
 
  @since 10.0]]>
       </doc>
@@ -49981,6 +50016,8 @@
       <doc>
       <![CDATA[The number of bytes required to represent a primitive {@code double} value.
 
+ <p><b>Java 8 users:</b> use {@link Double#BYTES} instead.
+
  @since 10.0]]>
       </doc>
     </field>
@@ -50009,6 +50046,8 @@
       <doc>
       <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking
  {@code ((Float) value).hashCode()}.
+
+ <p><b>Java 8 users:</b> use {@link Float#hashCode(float)} instead.
 
  @param value a primitive {@code float} value
  @return a hash code for the value]]>
@@ -50042,6 +50081,8 @@
       <doc>
       <![CDATA[Returns {@code true} if {@code value} represents a real number. This is equivalent to, but not
  necessarily implemented as, {@code !(Float.isInfinite(value) || Float.isNaN(value))}.
+
+ <p><b>Java 8 users:</b> use {@link Float#isFinite(float)} instead.
 
  @since 10.0]]>
       </doc>
@@ -50298,6 +50339,8 @@
       <doc>
       <![CDATA[The number of bytes required to represent a primitive {@code float} value.
 
+ <p><b>Java 8 users:</b> use {@link Float#BYTES} instead.
+
  @since 10.0]]>
       </doc>
     </field>
@@ -50326,6 +50369,8 @@
       <doc>
       <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking
  {@code ((Integer) value).hashCode()}.
+
+ <p><b>Java 8 users:</b> use {@link Integer#hashCode(int)} instead.
 
  @param value a primitive {@code int} value
  @return a hash code for the value]]>
@@ -50689,7 +50734,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The number of bytes required to represent a primitive {@code int} value.]]>
+      <![CDATA[The number of bytes required to represent a primitive {@code int} value.
+
+ <p><b>Java 8 users:</b> use {@link Integer#BYTES} instead.]]>
       </doc>
     </field>
     <field name="MAX_POWER_OF_TWO" type="int"
@@ -50731,6 +50778,8 @@
  <p>This method always return the value specified by {@link Long#hashCode()} in java, which
  might be different from {@code ((Long) value).hashCode()} in GWT because
  {@link Long#hashCode()} in GWT does not obey the JRE contract.
+
+ <p><b>Java 8 users:</b> use {@link Long#hashCode(long)} instead.
 
  @param value a primitive {@code long} value
  @return a hash code for the value]]>
@@ -51072,7 +51121,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The number of bytes required to represent a primitive {@code long} value.]]>
+      <![CDATA[The number of bytes required to represent a primitive {@code long} value.
+
+ <p><b>Java 8 users:</b> use {@link Long#BYTES} instead.]]>
       </doc>
     </field>
     <field name="MAX_POWER_OF_TWO" type="long"
@@ -51190,6 +51241,8 @@
       <doc>
       <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking
  {@code ((Short) value).hashCode()}.
+
+ <p><b>Java 8 users:</b> use {@link Short#hashCode(short)} instead.
 
  @param value a primitive {@code short} value
  @return a hash code for the value]]>
@@ -51503,7 +51556,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The number of bytes required to represent a primitive {@code short} value.]]>
+      <![CDATA[The number of bytes required to represent a primitive {@code short} value.
+
+ <p><b>Java 8 users:</b> use {@link Short#BYTES} instead.]]>
       </doc>
     </field>
     <field name="MAX_POWER_OF_TWO" type="short"

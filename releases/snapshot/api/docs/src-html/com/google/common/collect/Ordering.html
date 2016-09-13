@@ -732,8 +732,8 @@
 <span class="sourceLineNo">724</span>   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple<a name="line.724"></a>
 <span class="sourceLineNo">725</span>   * elements are equivalent, it is undefined which will come first.<a name="line.725"></a>
 <span class="sourceLineNo">726</span>   *<a name="line.726"></a>
-<span class="sourceLineNo">727</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; Use {@code Streams.stream(iterable).collect(Comparators.least(k,<a name="line.727"></a>
-<span class="sourceLineNo">728</span>   * thisComparator))} instead.<a name="line.728"></a>
+<span class="sourceLineNo">727</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; Continue to use this method for now. After the next release of Guava,<a name="line.727"></a>
+<span class="sourceLineNo">728</span>   * use {@code Streams.stream(iterable).collect(Comparators.least(k, thisComparator))} instead.<a name="line.728"></a>
 <span class="sourceLineNo">729</span>   *<a name="line.729"></a>
 <span class="sourceLineNo">730</span>   * @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending<a name="line.730"></a>
 <span class="sourceLineNo">731</span>   *     order<a name="line.731"></a>
@@ -806,8 +806,8 @@
 <span class="sourceLineNo">798</span>   * &lt;p&gt;The implementation does not necessarily use a &lt;i&gt;stable&lt;/i&gt; sorting algorithm; when multiple<a name="line.798"></a>
 <span class="sourceLineNo">799</span>   * elements are equivalent, it is undefined which will come first.<a name="line.799"></a>
 <span class="sourceLineNo">800</span>   *<a name="line.800"></a>
-<span class="sourceLineNo">801</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; Use {@code Streams.stream(iterable).collect(Comparators.greatest(k,<a name="line.801"></a>
-<span class="sourceLineNo">802</span>   * thisComparator))} instead.<a name="line.802"></a>
+<span class="sourceLineNo">801</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; Continue to use this method for now. After the next release of Guava,<a name="line.801"></a>
+<span class="sourceLineNo">802</span>   * use {@code Streams.stream(iterable).collect(Comparators.greatest(k, thisComparator))} instead.<a name="line.802"></a>
 <span class="sourceLineNo">803</span>   *<a name="line.803"></a>
 <span class="sourceLineNo">804</span>   * @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in<a name="line.804"></a>
 <span class="sourceLineNo">805</span>   *     &lt;i&gt;descending order&lt;/i&gt;<a name="line.805"></a>

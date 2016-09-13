@@ -535,6 +535,8 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
  to end at <code>node</code>.
 
+ <p>In a directed network, an incoming edge's <a href="../../../../com/google/common/graph/EndpointPair.html#target()"><code>EndpointPair.target()</code></a> equals <code>node</code>.
+
  <p>In an undirected network, this is equivalent to <a href="../../../../com/google/common/graph/Network.html#incidentEdges(java.lang.Object)"><code>Network.incidentEdges(Object)</code></a>.</div>
 </li>
 </ul>
@@ -548,6 +550,8 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#outEdges(java.lang.Object)">Network</a></code></strong></div>
 <div class="block">Returns all edges in this network which can be traversed in the direction (if any) of the edge
  starting from <code>node</code>.
+
+ <p>In a directed network, an outgoing edge's <a href="../../../../com/google/common/graph/EndpointPair.html#source()"><code>EndpointPair.source()</code></a> equals <code>node</code>.
 
  <p>In an undirected network, this is equivalent to <a href="../../../../com/google/common/graph/Network.html#incidentEdges(java.lang.Object)"><code>Network.incidentEdges(Object)</code></a>.</div>
 </li>
