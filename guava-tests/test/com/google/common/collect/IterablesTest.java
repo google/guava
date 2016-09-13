@@ -1114,6 +1114,37 @@ public class IterablesTest extends TestCase {
     assertEquals(newArrayList("a", "c", "e"), list);
   }
 
+  public void testRemoveIf_iterable() {
+    final List<String> list = Lists.newLinkedList(asList("a", "b", "c", "d", "e"));
+    Iterable<String> iterable =
+        new Iterable<String>() {
+          @Override
+          public Iterator<String> iterator() {
+            return list.iterator();
+          }
+        };
+    assertTrue(
+        Iterables.removeIf(
+            iterable,
+            new Predicate<String>() {
+              @Override
+              public boolean apply(String s) {
+                return s.equals("b") || s.equals("d") || s.equals("f");
+              }
+            }));
+    assertEquals(newArrayList("a", "c", "e"), list);
+    assertFalse(
+        Iterables.removeIf(
+            iterable,
+            new Predicate<String>() {
+              @Override
+              public boolean apply(String s) {
+                return s.equals("x") || s.equals("y") || s.equals("z");
+              }
+            }));
+    assertEquals(newArrayList("a", "c", "e"), list);
+  }
+
   // The Maps returned by Maps.filterEntries(), Maps.filterKeys(), and
   // Maps.filterValues() are not tested with removeIf() since Maps are not
   // Iterable.  Those returned by Iterators.filter() and Iterables.filter()
