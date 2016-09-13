@@ -17,7 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.graph.TestUtil.assertStronglyEquivalent;
-import static com.google.common.graph.TestUtil.sanityCheckCollection;
+import static com.google.common.graph.TestUtil.sanityCheckSet;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
@@ -127,18 +127,10 @@ public abstract class AbstractGraphTest {
     int edgeStart = graphString.indexOf("edges:");
     String nodeString = graphString.substring(nodeStart, edgeStart);
 
-    sanityCheckCollection(graph.nodes());
-    sanityCheckCollection(graph.edges());
-    assertThat(graph.edges()).doesNotContain(EndpointPair.of(graph, new Object(), new Object()));
-
     Set<EndpointPair<N>> allEndpointPairs = new HashSet<EndpointPair<N>>();
 
-    for (N node : graph.nodes()) {
+    for (N node : sanityCheckSet(graph.nodes())) {
       assertThat(nodeString).contains(node.toString());
-
-      sanityCheckCollection(graph.adjacentNodes(node));
-      sanityCheckCollection(graph.predecessors(node));
-      sanityCheckCollection(graph.successors(node));
 
       if (graph.isDirected()) {
         assertThat(graph.degree(node))
@@ -153,7 +145,7 @@ public abstract class AbstractGraphTest {
         assertThat(graph.outDegree(node)).isEqualTo(graph.degree(node));
       }
 
-      for (N adjacentNode : graph.adjacentNodes(node)) {
+      for (N adjacentNode : sanityCheckSet(graph.adjacentNodes(node))) {
         if (!graph.allowsSelfLoops()) {
           assertThat(node).isNotEqualTo(adjacentNode);
         }
@@ -163,16 +155,18 @@ public abstract class AbstractGraphTest {
             .isTrue();
       }
 
-      for (N predecessor : graph.predecessors(node)) {
+      for (N predecessor : sanityCheckSet(graph.predecessors(node))) {
         assertThat(graph.successors(predecessor)).contains(node);
       }
 
-      for (N successor : graph.successors(node)) {
+      for (N successor : sanityCheckSet(graph.successors(node))) {
         allEndpointPairs.add(EndpointPair.of(graph, node, successor));
         assertThat(graph.predecessors(successor)).contains(node);
       }
     }
 
+    sanityCheckSet(graph.edges());
+    assertThat(graph.edges()).doesNotContain(EndpointPair.of(graph, new Object(), new Object()));
     assertThat(graph.edges()).isEqualTo(allEndpointPairs);
   }
 

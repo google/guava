@@ -194,6 +194,8 @@ public interface Network<N, E> {
    * Returns all edges in this network which can be traversed in the direction (if any) of the edge
    * to end at {@code node}.
    *
+   * <p>In a directed network, an incoming edge's {@link EndpointPair#target()} equals {@code node}.
+   *
    * <p>In an undirected network, this is equivalent to {@link #incidentEdges(Object)}.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
@@ -203,6 +205,8 @@ public interface Network<N, E> {
   /**
    * Returns all edges in this network which can be traversed in the direction (if any) of the edge
    * starting from {@code node}.
+   *
+   * <p>In a directed network, an outgoing edge's {@link EndpointPair#source()} equals {@code node}.
    *
    * <p>In an undirected network, this is equivalent to {@link #incidentEdges(Object)}.
    *
