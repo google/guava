@@ -28,7 +28,6 @@ import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -37,7 +36,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.RandomAccess;
 import java.util.Set;
-import java.util.SortedSet;
 import junit.framework.TestCase;
 
 /**
@@ -220,32 +218,6 @@ public class MapConstraintsTest extends TestCase {
     assertTrue(entry.getValue() instanceof List);
     assertFalse(multimap.entries() instanceof Set);
     assertTrue(multimap.get("foo") instanceof RandomAccess);
-  }
-
-  public void testConstrainedTypePreservingSet() {
-    SetMultimap<String, Integer> multimap
-        = MapConstraints.constrainedSetMultimap(
-            LinkedHashMultimap.<String, Integer>create(),
-            TEST_CONSTRAINT);
-    multimap.put("foo", 1);
-    Map.Entry<String, Collection<Integer>> entry
-        = multimap.asMap().entrySet().iterator().next();
-    assertTrue(entry.getValue() instanceof Set);
-  }
-
-  public void testConstrainedTypePreservingSortedSet() {
-    Comparator<Integer> comparator = Collections.reverseOrder();
-    SortedSetMultimap<String, Integer> delegate
-        = TreeMultimap.create(Ordering.<String>natural(), comparator);
-    SortedSetMultimap<String, Integer> multimap
-        = MapConstraints.constrainedSortedSetMultimap(delegate,
-            TEST_CONSTRAINT);
-    multimap.put("foo", 1);
-    Map.Entry<String, Collection<Integer>> entry
-        = multimap.asMap().entrySet().iterator().next();
-    assertTrue(entry.getValue() instanceof SortedSet);
-    assertSame(comparator, multimap.valueComparator());
-    assertSame(comparator, multimap.get("foo").comparator());
   }
 
   @SuppressWarnings("unchecked")

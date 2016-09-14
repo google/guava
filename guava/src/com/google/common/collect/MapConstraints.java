@@ -22,18 +22,14 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.SortedSet;
-
 import javax.annotation.Nullable;
 
 /**
@@ -135,46 +131,6 @@ public final class MapConstraints {
   public static <K, V> ListMultimap<K, V> constrainedListMultimap(
       ListMultimap<K, V> multimap, MapConstraint<? super K, ? super V> constraint) {
     return new ConstrainedListMultimap<K, V>(multimap, constraint);
-  }
-
-  /**
-   * Returns a constrained view of the specified set multimap, using the
-   * specified constraint. Any operations that add new mappings will call the
-   * provided constraint. However, this method does not verify that existing
-   * mappings satisfy the constraint.
-   *
-   * <p>Note that the generated multimap's {@link Multimap#removeAll} and
-   * {@link Multimap#replaceValues} methods return collections that are not
-   * constrained.
-   * <p>The returned multimap is not serializable.
-   *
-   * @param multimap the multimap to constrain
-   * @param constraint the constraint that validates added entries
-   * @return a constrained view of the specified multimap
-   */
-  public static <K, V> SetMultimap<K, V> constrainedSetMultimap(
-      SetMultimap<K, V> multimap, MapConstraint<? super K, ? super V> constraint) {
-    return new ConstrainedSetMultimap<K, V>(multimap, constraint);
-  }
-
-  /**
-   * Returns a constrained view of the specified sorted-set multimap, using the
-   * specified constraint. Any operations that add new mappings will call the
-   * provided constraint. However, this method does not verify that existing
-   * mappings satisfy the constraint.
-   *
-   * <p>Note that the generated multimap's {@link Multimap#removeAll} and
-   * {@link Multimap#replaceValues} methods return collections that are not
-   * constrained.
-   * <p>The returned multimap is not serializable.
-   *
-   * @param multimap the multimap to constrain
-   * @param constraint the constraint that validates added entries
-   * @return a constrained view of the specified multimap
-   */
-  public static <K, V> SortedSetMultimap<K, V> constrainedSortedSetMultimap(
-      SortedSetMultimap<K, V> multimap, MapConstraint<? super K, ? super V> constraint) {
-    return new ConstrainedSortedSetMultimap<K, V>(multimap, constraint);
   }
 
   /**
@@ -713,62 +669,6 @@ public final class MapConstraints {
     @Override
     public List<V> replaceValues(K key, Iterable<? extends V> values) {
       return (List<V>) super.replaceValues(key, values);
-    }
-  }
-
-  private static class ConstrainedSetMultimap<K, V> extends ConstrainedMultimap<K, V>
-      implements SetMultimap<K, V> {
-    ConstrainedSetMultimap(
-        SetMultimap<K, V> delegate, MapConstraint<? super K, ? super V> constraint) {
-      super(delegate, constraint);
-    }
-
-    @Override
-    public Set<V> get(K key) {
-      return (Set<V>) super.get(key);
-    }
-
-    @Override
-    public Set<Map.Entry<K, V>> entries() {
-      return (Set<Map.Entry<K, V>>) super.entries();
-    }
-
-    @Override
-    public Set<V> removeAll(Object key) {
-      return (Set<V>) super.removeAll(key);
-    }
-
-    @Override
-    public Set<V> replaceValues(K key, Iterable<? extends V> values) {
-      return (Set<V>) super.replaceValues(key, values);
-    }
-  }
-
-  private static class ConstrainedSortedSetMultimap<K, V> extends ConstrainedSetMultimap<K, V>
-      implements SortedSetMultimap<K, V> {
-    ConstrainedSortedSetMultimap(
-        SortedSetMultimap<K, V> delegate, MapConstraint<? super K, ? super V> constraint) {
-      super(delegate, constraint);
-    }
-
-    @Override
-    public SortedSet<V> get(K key) {
-      return (SortedSet<V>) super.get(key);
-    }
-
-    @Override
-    public SortedSet<V> removeAll(Object key) {
-      return (SortedSet<V>) super.removeAll(key);
-    }
-
-    @Override
-    public SortedSet<V> replaceValues(K key, Iterable<? extends V> values) {
-      return (SortedSet<V>) super.replaceValues(key, values);
-    }
-
-    @Override
-    public Comparator<? super V> valueComparator() {
-      return ((SortedSetMultimap<K, V>) delegate()).valueComparator();
     }
   }
 

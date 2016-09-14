@@ -53,16 +53,6 @@ public void testConstrainedTypePreservingRandomAccessList() throws Exception {
   testCase.testConstrainedTypePreservingRandomAccessList();
 }
 
-public void testConstrainedTypePreservingSet() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testConstrainedTypePreservingSet();
-}
-
-public void testConstrainedTypePreservingSortedSet() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testConstrainedTypePreservingSortedSet();
-}
-
 public void testMapEntrySetContainsNefariousEntry() throws Exception {
   com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
   testCase.testMapEntrySetContainsNefariousEntry();
