@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-final class RegularImmutableSet<E> extends ImmutableSet<E> {
+final class RegularImmutableSet<E> extends ImmutableSet.Indexed<E> {
   static final RegularImmutableSet<Object> EMPTY =
       new RegularImmutableSet<Object>(ObjectArrays.EMPTY_ARRAY, 0, null, 0);
 
@@ -68,10 +68,8 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
     return elements.length;
   }
 
-  @SuppressWarnings("unchecked") // all elements are E's
-  @Override
-  public UnmodifiableIterator<E> iterator() {
-    return (UnmodifiableIterator<E>) Iterators.forArray(elements);
+  @Override E get(int i) {
+    return (E) elements[i];
   }
 
   @Override
