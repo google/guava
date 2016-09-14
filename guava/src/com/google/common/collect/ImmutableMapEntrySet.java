@@ -49,7 +49,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
 
     @Override
     public UnmodifiableIterator<Entry<K, V>> iterator() {
-      return asList().iterator();
+      return Iterators.forArray(entries);
     }
 
     @Override

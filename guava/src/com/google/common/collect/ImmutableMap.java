@@ -518,7 +518,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Override
   public ImmutableCollection<V> values() {
     ImmutableCollection<V> result = values;
-    return (result == null) ? values = new ImmutableMapValues<K, V>(this) : result;
+    return (result == null) ? values = createValues() : result;
+  }
+
+  ImmutableCollection<V> createValues() {
+    return new ImmutableMapValues<K, V>(this);
   }
 
   // cached so that this.multimapView().inverse() only computes inverse once

@@ -241,4 +241,19 @@ public class MapBenchmark {
     return dummy;
 
   }
+
+  @Benchmark boolean iterateValuesAndGet(int reps) {
+    Map<Element, Element> map = mapToTest;
+
+    boolean dummy = false;
+    for (int i = 0; i < reps; i++) {
+      for (Element key : map.values()) {
+        // This normally wouldn't make sense, but because our keys are our values it kind of does
+        Element value = map.get(key);
+        dummy ^= key != value;
+      }
+    }
+    return dummy;
+
+  }
 }
