@@ -20,7 +20,6 @@ import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REM
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.testing.features.MapFeature;
-
 import java.util.Arrays;
 import java.util.List;
 

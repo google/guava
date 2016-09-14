@@ -29,7 +29,6 @@ import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.AbstractQueue;
 import java.util.ArrayDeque;
 import java.util.ArrayList;

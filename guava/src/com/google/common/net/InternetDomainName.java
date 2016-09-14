@@ -26,9 +26,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.thirdparty.publicsuffix.PublicSuffixPatterns;
-
 import java.util.List;
-
 import javax.annotation.Nullable;
 
 /**

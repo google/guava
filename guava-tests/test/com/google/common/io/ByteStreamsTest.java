@@ -19,7 +19,6 @@ package com.google.common.io;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Charsets;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;

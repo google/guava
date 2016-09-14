@@ -17,10 +17,8 @@ package com.google.common.reflect;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.Beta;
-
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-
 import javax.annotation.Nullable;
 
 /**

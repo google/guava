@@ -18,7 +18,6 @@ package com.google.common.util.concurrent;
 
 import com.google.common.testing.AbstractPackageSanityTests;
 import com.google.common.util.concurrent.RateLimiter.SleepingStopwatch;
-
 import java.io.IOException;
 
 /**

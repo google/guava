@@ -19,7 +19,6 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.base.Optional;
 import com.google.common.primitives.Ints;
-
 import java.util.List;
 import java.util.Random;
 

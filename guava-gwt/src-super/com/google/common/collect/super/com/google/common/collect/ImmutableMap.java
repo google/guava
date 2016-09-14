@@ -30,18 +30,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.annotation.Nullable;
 
 /**
- * GWT emulation of {@link ImmutableMap}.  For non sorted maps, it is a thin
- * wrapper around {@link java.util.Collections#emptyMap()}, {@link
- * Collections#singletonMap(Object, Object)} and {@link java.util.LinkedHashMap}
- * for empty, singleton and regular maps respectively.  For sorted maps, it's
- * a thin wrapper around {@link java.util.TreeMap}.
+ * GWT emulation of {@link com.google.common.collect.ImmutableMap}. For non sorted maps, it is a
+ * thin wrapper around {@link java.util.Collections#emptyMap()}, {@link
+ * Collections#singletonMap(Object, Object)} and {@link java.util.LinkedHashMap} for empty,
+ * singleton and regular maps respectively. For sorted maps, it's a thin wrapper around {@link
+ * java.util.TreeMap}.
  *
  * @see ImmutableSortedMap
- *
  * @author Hayward Chan
  */
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {

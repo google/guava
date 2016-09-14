@@ -16,13 +16,12 @@
 
 package com.google.common.collect;
 
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
-import jsinterop.annotations.JsType;
-
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsType;
 
 /**
  * Minimal GWT emulation of {@code com.google.common.collect.Platform}.

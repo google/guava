@@ -32,7 +32,6 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
 import com.google.common.testing.SerializableTester;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;

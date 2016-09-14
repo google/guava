@@ -19,7 +19,6 @@ import static com.google.common.base.Verify.verifyNotNull;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
-
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 

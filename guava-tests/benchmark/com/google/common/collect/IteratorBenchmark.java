@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 

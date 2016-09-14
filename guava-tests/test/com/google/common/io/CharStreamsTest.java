@@ -18,7 +18,6 @@ package com.google.common.io;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-
 import java.io.EOFException;
 import java.io.FilterReader;
 import java.io.IOException;

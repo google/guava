@@ -21,7 +21,6 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.base.BenchmarkHelpers.SampleMatcherConfig;
 import com.google.common.collect.Lists;
-
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;

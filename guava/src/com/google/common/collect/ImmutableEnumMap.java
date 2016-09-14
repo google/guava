@@ -19,10 +19,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap.IteratorBasedImmutableMap;
-
 import java.io.Serializable;
 import java.util.EnumMap;
-
 import javax.annotation.Nullable;
 
 /**

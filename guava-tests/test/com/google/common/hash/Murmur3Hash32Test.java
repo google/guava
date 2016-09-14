@@ -19,7 +19,6 @@ package com.google.common.hash;
 import static com.google.common.hash.Hashing.murmur3_32;
 
 import com.google.common.hash.HashTestUtils.HashFn;
-
 import junit.framework.TestCase;
 
 /**

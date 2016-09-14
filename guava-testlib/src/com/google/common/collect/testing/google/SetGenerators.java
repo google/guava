@@ -44,7 +44,6 @@ import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.TestStringSortedSetGenerator;
 import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
 import com.google.common.collect.testing.UnhashableObject;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;

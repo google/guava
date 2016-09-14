@@ -23,7 +23,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MinimalSet;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
 import java.util.Collection;
 import java.util.Set;
 

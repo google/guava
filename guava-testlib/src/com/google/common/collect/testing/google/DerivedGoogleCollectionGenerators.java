@@ -25,7 +25,6 @@ import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestMapGenerator;
 import com.google.common.collect.testing.TestSetGenerator;
 import com.google.common.collect.testing.TestSubjectGenerator;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

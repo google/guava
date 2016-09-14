@@ -19,10 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.j2objc.annotations.Weak;
-
 import java.io.Serializable;
 import java.util.Map.Entry;
-
 import javax.annotation.Nullable;
 
 /**

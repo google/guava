@@ -31,7 +31,6 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.FuturesGetChecked.GetCheckedTypeValidator;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
@@ -45,7 +44,6 @@ import java.util.concurrent.TimeoutException;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.zip.DataFormatException;
-
 import javax.security.auth.RefreshFailedException;
 
 /**

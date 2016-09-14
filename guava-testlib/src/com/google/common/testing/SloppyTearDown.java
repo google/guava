@@ -18,7 +18,6 @@ package com.google.common.testing;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

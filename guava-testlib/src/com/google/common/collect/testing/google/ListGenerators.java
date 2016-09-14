@@ -27,7 +27,6 @@ import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
 import com.google.common.collect.testing.UnhashableObject;
 import com.google.common.primitives.Chars;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

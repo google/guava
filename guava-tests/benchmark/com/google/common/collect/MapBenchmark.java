@@ -22,7 +22,6 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

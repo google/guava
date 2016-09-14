@@ -20,9 +20,7 @@ import static com.google.common.collect.BoundType.CLOSED;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Ints;
-
 import java.util.Comparator;
-
 import javax.annotation.Nullable;
 
 /**

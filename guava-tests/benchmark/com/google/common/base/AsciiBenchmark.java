@@ -21,7 +21,6 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;

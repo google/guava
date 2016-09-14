@@ -20,9 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Booleans;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
-
 import java.util.Comparator;
-
 import javax.annotation.Nullable;
 
 /**

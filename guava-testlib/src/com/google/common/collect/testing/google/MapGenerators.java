@@ -30,7 +30,6 @@ import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
 import com.google.common.collect.testing.UnhashableObject;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumMap;

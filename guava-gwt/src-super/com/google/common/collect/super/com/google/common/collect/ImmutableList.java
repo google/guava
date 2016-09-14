@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,12 +27,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
-
 import javax.annotation.Nullable;
 
 /**
- * GWT emulated version of {@link ImmutableList}.
- * TODO(cpovirk): more doc
+ * GWT emulated version of {@link com.google.common.collect.ImmutableList}. TODO(cpovirk): more doc
  *
  * @author Hayward Chan
  */

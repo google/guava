@@ -35,7 +35,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -47,7 +46,6 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
-
 import javax.annotation.Nullable;
 
 /**

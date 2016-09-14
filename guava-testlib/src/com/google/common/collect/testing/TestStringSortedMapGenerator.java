@@ -19,7 +19,6 @@ package com.google.common.collect.testing;
 import static com.google.common.collect.testing.Helpers.orderEntriesByKey;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.SortedMap;

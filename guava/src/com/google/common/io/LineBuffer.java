@@ -16,7 +16,6 @@ package com.google.common.io;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.IOException;
 
 /**

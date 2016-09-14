@@ -15,12 +15,10 @@
 package com.google.common.reflect;
 
 import com.google.common.annotations.Beta;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
-
 import javax.annotation.Nullable;
 
 /**

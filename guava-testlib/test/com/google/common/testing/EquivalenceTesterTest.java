@@ -24,7 +24,6 @@ import com.google.common.base.Equivalence;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
-
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 

@@ -20,7 +20,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.EOFException;

@@ -23,7 +23,6 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;

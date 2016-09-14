@@ -30,7 +30,6 @@ import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;

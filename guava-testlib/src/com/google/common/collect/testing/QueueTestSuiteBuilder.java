@@ -22,7 +22,6 @@ import com.google.common.collect.testing.testers.QueueOfferTester;
 import com.google.common.collect.testing.testers.QueuePeekTester;
 import com.google.common.collect.testing.testers.QueuePollTester;
 import com.google.common.collect.testing.testers.QueueRemoveTester;
-
 import java.util.ArrayList;
 import java.util.List;
 

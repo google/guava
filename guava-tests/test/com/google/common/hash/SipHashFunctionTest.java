@@ -17,7 +17,6 @@ package com.google.common.hash;
 import static com.google.common.base.Charsets.UTF_8;
 
 import com.google.common.collect.ImmutableSet;
-
 import junit.framework.TestCase;
 
 /**

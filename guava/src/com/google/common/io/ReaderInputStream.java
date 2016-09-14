@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.UnsignedBytes;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;

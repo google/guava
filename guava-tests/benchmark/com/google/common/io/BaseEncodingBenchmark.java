@@ -17,7 +17,6 @@ package com.google.common.io;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

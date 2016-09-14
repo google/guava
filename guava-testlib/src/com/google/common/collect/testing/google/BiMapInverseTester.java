@@ -24,7 +24,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.testing.SerializableTester;
-
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Collections;

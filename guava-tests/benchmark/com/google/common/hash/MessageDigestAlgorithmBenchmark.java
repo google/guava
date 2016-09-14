@@ -19,18 +19,16 @@ package com.google.common.hash;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hashing;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 /**
- * Benchmarks for comparing {@link MessageDigest}s and {@link HashFunction}s that wrap
- * {@link MessageDigest}s.
+ * Benchmarks for comparing {@link MessageDigest}s and {@link com.google.common.hash.HashFunction}s
+ * that wrap {@link MessageDigest}s.
  *
  * <p>Parameters for the benchmark are:
+ *
  * <ul>
  * <li>size: The length of the byte array to hash.
  * <li>algorithm: the algorithm to hash with (e.g. MD5, SHA1, etc.).

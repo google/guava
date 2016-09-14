@@ -19,7 +19,6 @@ package com.google.common.collect.testing.testers;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
-
 import java.lang.reflect.Method;
 
 /**

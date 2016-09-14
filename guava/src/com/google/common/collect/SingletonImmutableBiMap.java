@@ -20,7 +20,6 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.j2objc.annotations.RetainedWith;
-
 import javax.annotation.Nullable;
 
 /**

@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-
 import java.util.List;
 
 /**

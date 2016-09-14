@@ -24,7 +24,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.testing.EqualsTester;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;

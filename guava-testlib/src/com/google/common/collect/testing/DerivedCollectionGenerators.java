@@ -22,7 +22,6 @@ import static com.google.common.collect.testing.Helpers.mapEntry;
 import static java.util.Collections.sort;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

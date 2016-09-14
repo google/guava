@@ -18,7 +18,6 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.SampleElements.Colliders;
-
 import java.util.List;
 
 /**

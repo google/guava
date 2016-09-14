@@ -17,7 +17,6 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.collect.ForwardingObject;
-
 import junit.framework.TestCase;
 
 /**

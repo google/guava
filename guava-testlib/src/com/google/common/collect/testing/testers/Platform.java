@@ -17,7 +17,6 @@
 package com.google.common.collect.testing.testers;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Locale;
 
 /**

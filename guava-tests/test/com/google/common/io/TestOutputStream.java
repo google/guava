@@ -22,7 +22,6 @@ import static com.google.common.io.TestOption.OPEN_THROWS;
 import static com.google.common.io.TestOption.WRITE_THROWS;
 
 import com.google.common.collect.ImmutableSet;
-
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;

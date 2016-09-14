@@ -25,9 +25,6 @@ import static com.google.common.math.MathBenchmarking.randomNonNegativeBigIntege
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.common.math.DoubleMath;
-import com.google.common.math.IntMath;
-import com.google.common.math.LongMath;
 
 /**
  * Benchmarks against the Apache Commons Math utilities.

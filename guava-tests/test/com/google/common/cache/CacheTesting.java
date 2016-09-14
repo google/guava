@@ -36,7 +36,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.FakeTicker;
-
 import java.lang.ref.Reference;
 import java.util.Collection;
 import java.util.List;
@@ -46,7 +45,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReferenceArray;
-
 import javax.annotation.Nullable;
 
 /**

@@ -19,7 +19,6 @@ package com.google.common.testing;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
-
 import junit.framework.TestCase;
 
 /**

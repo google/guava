@@ -20,7 +20,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Supplier;
-
 import java.util.Map;
 import java.util.TreeMap;
 

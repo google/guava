@@ -17,7 +17,6 @@ package com.google.common.hash;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;

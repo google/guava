@@ -24,7 +24,6 @@ import com.google.caliper.api.Footprint;
 import com.google.caliper.api.SkipThisScenarioException;
 import com.google.common.util.concurrent.AbstractFutureBenchmarks.Facade;
 import com.google.common.util.concurrent.AbstractFutureBenchmarks.Impl;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executor;

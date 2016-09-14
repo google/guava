@@ -24,7 +24,6 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.EquivalenceTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
 import junit.framework.TestCase;
 
 /**

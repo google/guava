@@ -20,7 +20,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import com.google.common.util.concurrent.UncaughtExceptionHandlers.Exiter;
-
 import junit.framework.TestCase;
 
 /**

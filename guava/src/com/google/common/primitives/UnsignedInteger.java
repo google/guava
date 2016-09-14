@@ -22,9 +22,7 @@ import static com.google.common.primitives.UnsignedInts.toLong;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.math.BigInteger;
-
 import javax.annotation.Nullable;
 
 /**

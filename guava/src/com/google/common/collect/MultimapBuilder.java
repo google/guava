@@ -23,7 +23,6 @@ import static com.google.common.collect.Maps.newLinkedHashMapWithExpectedSize;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Supplier;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;

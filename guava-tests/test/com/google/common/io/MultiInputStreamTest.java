@@ -17,7 +17,6 @@
 package com.google.common.io;
 
 import com.google.common.collect.Lists;
-
 import java.io.ByteArrayInputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;

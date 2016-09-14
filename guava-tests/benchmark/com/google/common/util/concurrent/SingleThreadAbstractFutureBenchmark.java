@@ -22,7 +22,6 @@ import com.google.caliper.Param;
 import com.google.caliper.api.VmOptions;
 import com.google.common.util.concurrent.AbstractFutureBenchmarks.Facade;
 import com.google.common.util.concurrent.AbstractFutureBenchmarks.Impl;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;

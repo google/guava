@@ -17,10 +17,8 @@ package com.google.common.net;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
-
 import java.net.InetAddress;
 import java.text.ParseException;
-
 import javax.annotation.Nullable;
 
 /**

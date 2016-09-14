@@ -17,7 +17,6 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtIncompatible;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;

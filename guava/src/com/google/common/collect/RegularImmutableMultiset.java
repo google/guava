@@ -21,9 +21,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Multisets.ImmutableEntry;
 import com.google.common.primitives.Ints;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.Collection;
-
 import javax.annotation.Nullable;
 
 /**

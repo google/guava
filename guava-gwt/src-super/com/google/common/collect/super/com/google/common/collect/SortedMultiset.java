@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
-
 import java.util.Comparator;
 import java.util.SortedSet;
 

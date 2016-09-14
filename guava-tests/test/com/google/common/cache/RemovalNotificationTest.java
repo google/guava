@@ -17,7 +17,6 @@
 package com.google.common.cache;
 
 import com.google.common.testing.EqualsTester;
-
 import junit.framework.TestCase;
 
 /**

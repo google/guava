@@ -30,7 +30,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;

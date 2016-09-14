@@ -18,12 +18,10 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.math.IntMath;
-
 import java.util.AbstractList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-
 import javax.annotation.Nullable;
 
 /**

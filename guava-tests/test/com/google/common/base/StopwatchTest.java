@@ -22,7 +22,6 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.testing.FakeTicker;
-
 import junit.framework.TestCase;
 
 /**

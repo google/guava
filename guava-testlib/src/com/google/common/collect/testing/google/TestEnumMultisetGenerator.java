@@ -21,7 +21,6 @@ import com.google.common.collect.Multiset;
 import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SampleElements.Enums;
-
 import java.util.Collections;
 import java.util.List;
 

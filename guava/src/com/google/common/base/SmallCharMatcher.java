@@ -17,7 +17,6 @@ package com.google.common.base;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher.NamedFastMatcher;
-
 import java.util.BitSet;
 
 /**

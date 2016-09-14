@@ -23,7 +23,6 @@ import com.google.common.base.Supplier;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
-
 import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.Callable;

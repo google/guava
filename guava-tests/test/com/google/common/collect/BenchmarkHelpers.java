@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Equivalence;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;

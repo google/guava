@@ -30,10 +30,8 @@ import static com.google.common.primitives.UnsignedBytes.toInt;
 import com.google.common.primitives.Chars;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
-
 import java.io.Serializable;
 import java.nio.ByteBuffer;
-
 import javax.annotation.Nullable;
 
 /**

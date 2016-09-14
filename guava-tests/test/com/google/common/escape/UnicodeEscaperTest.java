@@ -17,7 +17,6 @@
 package com.google.common.escape;
 
 import com.google.common.annotations.GwtCompatible;
-
 import junit.framework.TestCase;
 
 /**

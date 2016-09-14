@@ -19,7 +19,6 @@ package com.google.common.collect.testing.testers;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
-
 import java.util.Collection;
 import java.util.List;
 

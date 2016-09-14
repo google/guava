@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;

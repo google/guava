@@ -23,7 +23,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
-
 import junit.framework.TestCase;
 
 /**

@@ -17,10 +17,8 @@ package com.google.common.base;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
-
 import javax.annotation.Nullable;
 
 /**

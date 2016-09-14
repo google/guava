@@ -17,7 +17,6 @@
 package com.google.common.math;
 
 import com.google.common.collect.ImmutableMap;
-
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Collection;

@@ -18,10 +18,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Booleans;
-
 import java.io.Serializable;
 import java.util.NoSuchElementException;
-
 import javax.annotation.Nullable;
 
 /**

@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * GWT emulation of {@link ImmutableBiMap}.
+ * GWT emulation of {@link com.google.common.collect.ImmutableBiMap}.
  *
  * @author Hayward Chan
  */

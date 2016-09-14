@@ -18,7 +18,6 @@ package com.google.common.collect.testing.features;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;

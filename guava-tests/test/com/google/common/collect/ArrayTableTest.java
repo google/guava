@@ -26,7 +26,6 @@ import com.google.common.collect.Table.Cell;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
 import java.util.Arrays;
 import java.util.Map;
 

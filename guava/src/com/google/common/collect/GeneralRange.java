@@ -21,10 +21,8 @@ import static com.google.common.collect.BoundType.OPEN;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
-
 import java.io.Serializable;
 import java.util.Comparator;
-
 import javax.annotation.Nullable;
 
 /**

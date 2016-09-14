@@ -21,7 +21,6 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.api.SkipThisScenarioException;
 import com.google.common.primitives.Doubles;
-
 import java.util.Random;
 
 /**

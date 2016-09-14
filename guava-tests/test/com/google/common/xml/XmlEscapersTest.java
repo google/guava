@@ -21,7 +21,6 @@ import static com.google.common.escape.testing.EscaperAsserts.assertUnescaped;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.CharEscaper;
-
 import junit.framework.TestCase;
 
 /**

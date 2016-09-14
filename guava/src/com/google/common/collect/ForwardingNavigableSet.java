@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;

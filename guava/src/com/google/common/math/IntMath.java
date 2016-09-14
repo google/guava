@@ -30,7 +30,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
-
 import java.math.BigInteger;
 import java.math.RoundingMode;
 

@@ -25,9 +25,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableBiMapEntry;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.io.Serializable;
-
 import javax.annotation.Nullable;
 
 /**

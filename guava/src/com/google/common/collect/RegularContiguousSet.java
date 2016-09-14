@@ -20,10 +20,8 @@ import static com.google.common.collect.BoundType.CLOSED;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.io.Serializable;
 import java.util.Collection;
-
 import javax.annotation.Nullable;
 
 /**

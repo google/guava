@@ -20,7 +20,6 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
-
 import java.util.Arrays;
 import java.util.Collections;
 

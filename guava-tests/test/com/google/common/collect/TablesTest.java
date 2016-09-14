@@ -21,7 +21,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Table.Cell;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
-
 import junit.framework.TestCase;
 
 /**

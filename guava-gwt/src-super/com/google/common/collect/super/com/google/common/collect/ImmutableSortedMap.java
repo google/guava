@@ -23,20 +23,19 @@ import static java.util.Collections.singletonMap;
 import static java.util.Collections.unmodifiableSortedMap;
 
 import com.google.common.collect.ImmutableSortedMap.Builder;
-
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 
 /**
- * GWT emulated version of {@link ImmutableSortedMap}.  It's a thin wrapper
+ * GWT emulated version of {@link com.google.common.collect.ImmutableSortedMap}. It's a thin wrapper
  * around a {@link java.util.TreeMap}.
  *
  * @author Hayward Chan
  */
-public final class ImmutableSortedMap<K, V>
-    extends ForwardingImmutableMap<K, V> implements SortedMap<K, V> {
+public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
+    implements SortedMap<K, V> {
 
   @SuppressWarnings("unchecked")
   static final Comparator NATURAL_ORDER = Ordering.natural();

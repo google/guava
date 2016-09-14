@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SampleElements;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;

@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.base.Function;
-
 import java.util.LinkedHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

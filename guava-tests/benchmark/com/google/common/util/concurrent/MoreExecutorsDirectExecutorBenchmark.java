@@ -25,7 +25,6 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.api.Footprint;
 import com.google.caliper.api.VmOptions;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executor;

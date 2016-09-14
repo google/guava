@@ -31,7 +31,6 @@ import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.ListIteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.ListFeature;
-
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.ListIterator;

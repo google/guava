@@ -21,7 +21,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.collect.MapMakerInternalMap.InternalEntry;
-
 import java.util.concurrent.ConcurrentMap;
 
 /**
