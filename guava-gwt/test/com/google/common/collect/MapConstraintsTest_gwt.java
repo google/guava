@@ -18,16 +18,6 @@ public class MapConstraintsTest_gwt extends com.google.gwt.junit.client.GWTTestC
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
-public void testConstrainedBiMapIllegal() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testConstrainedBiMapIllegal();
-}
-
-public void testConstrainedBiMapLegal() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testConstrainedBiMapLegal();
-}
-
 public void testConstrainedMapIllegal() throws Exception {
   com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
   testCase.testConstrainedMapIllegal();

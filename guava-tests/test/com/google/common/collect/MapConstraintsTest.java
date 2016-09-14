@@ -144,68 +144,6 @@ public class MapConstraintsTest extends TestCase {
     assertEquals(Collections.emptySet(), constrained.entrySet());
   }
 
-  public void testConstrainedBiMapLegal() {
-    BiMap<String, Integer> map = new AbstractBiMap<String, Integer>(
-        Maps.<String, Integer>newLinkedHashMap(),
-        Maps.<Integer, String>newLinkedHashMap()) {};
-    BiMap<String, Integer> constrained = MapConstraints.constrainedBiMap(
-        map, TEST_CONSTRAINT);
-    map.put(TEST_KEY, TEST_VALUE);
-    constrained.put("foo", 1);
-    map.putAll(ImmutableMap.of("bar", 2));
-    constrained.putAll(ImmutableMap.of("baz", 3));
-    assertTrue(map.equals(constrained));
-    assertTrue(constrained.equals(map));
-    assertEquals(map.entrySet(), constrained.entrySet());
-    assertEquals(map.keySet(), constrained.keySet());
-    assertEquals(map.values(), constrained.values());
-    assertEquals(map.toString(), constrained.toString());
-    assertEquals(map.hashCode(), constrained.hashCode());
-    assertThat(map.entrySet()).containsExactly(
-        Maps.immutableEntry(TEST_KEY, TEST_VALUE),
-        Maps.immutableEntry("foo", 1),
-        Maps.immutableEntry("bar", 2),
-        Maps.immutableEntry("baz", 3)).inOrder();
-  }
-
-  public void testConstrainedBiMapIllegal() {
-    BiMap<String, Integer> map = new AbstractBiMap<String, Integer>(
-        Maps.<String, Integer>newLinkedHashMap(),
-        Maps.<Integer, String>newLinkedHashMap()) {};
-    BiMap<String, Integer> constrained = MapConstraints.constrainedBiMap(
-        map, TEST_CONSTRAINT);
-    try {
-      constrained.put(TEST_KEY, TEST_VALUE);
-      fail("TestKeyException expected");
-    } catch (TestKeyException expected) {}
-    try {
-      constrained.put("baz", TEST_VALUE);
-      fail("TestValueException expected");
-    } catch (TestValueException expected) {}
-    try {
-      constrained.put(TEST_KEY, 3);
-      fail("TestKeyException expected");
-    } catch (TestKeyException expected) {}
-    try {
-      constrained.putAll(ImmutableMap.of("baz", 3, TEST_KEY, 4));
-      fail("TestKeyException expected");
-    } catch (TestKeyException expected) {}
-    try {
-      constrained.forcePut(TEST_KEY, 3);
-      fail("TestKeyException expected");
-    } catch (TestKeyException expected) {}
-    try {
-      constrained.inverse().forcePut(TEST_VALUE, "baz");
-      fail("TestValueException expected");
-    } catch (TestValueException expected) {}
-    try {
-      constrained.inverse().forcePut(3, TEST_KEY);
-      fail("TestKeyException expected");
-    } catch (TestKeyException expected) {}
-    assertEquals(Collections.emptySet(), map.entrySet());
-    assertEquals(Collections.emptySet(), constrained.entrySet());
-  }
-
   public void testConstrainedMultimapLegal() {
     Multimap<String, Integer> multimap = LinkedListMultimap.create();
     Multimap<String, Integer> constrained = MapConstraints.constrainedMultimap(

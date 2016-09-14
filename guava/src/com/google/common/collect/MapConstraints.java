@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 
 import java.io.Serializable;
@@ -331,88 +330,6 @@ public final class MapConstraints {
     @Override
     public void putAll(Map<? extends K, ? extends V> map) {
       delegate.putAll(checkMap(map, constraint));
-    }
-  }
-
-  /**
-   * Returns a constrained view of the specified bimap, using the specified
-   * constraint. Any operations that modify the bimap will have the associated
-   * keys and values verified with the constraint.
-   *
-   * <p>The returned bimap is not serializable.
-   *
-   * @param map the bimap to constrain
-   * @param constraint the constraint that validates added entries
-   * @return a constrained view of the specified bimap
-   */
-  public static <K, V> BiMap<K, V> constrainedBiMap(
-      BiMap<K, V> map, MapConstraint<? super K, ? super V> constraint) {
-    return new ConstrainedBiMap<K, V>(map, null, constraint);
-  }
-
-  /** @see MapConstraints#constrainedBiMap */
-  private static class ConstrainedBiMap<K, V> extends ConstrainedMap<K, V> implements BiMap<K, V> {
-    /*
-     * We could switch to racy single-check lazy init and remove volatile, but
-     * there's a downside. That's because this field is also written in the
-     * constructor. Without volatile, the constructor's write of the existing
-     * inverse BiMap could occur after inverse()'s read of the field's initial
-     * null value, leading inverse() to overwrite the existing inverse with a
-     * doubly indirect version. This wouldn't be catastrophic, but it's
-     * something to keep in mind if we make the change.
-     *
-     * Note that UnmodifiableBiMap *does* use racy single-check lazy init.
-     * TODO(cpovirk): pick one and standardize
-     */
-    @RetainedWith
-    volatile BiMap<V, K> inverse;
-
-    ConstrainedBiMap(
-        BiMap<K, V> delegate,
-        @Nullable BiMap<V, K> inverse,
-        MapConstraint<? super K, ? super V> constraint) {
-      super(delegate, constraint);
-      this.inverse = inverse;
-    }
-
-    @Override
-    protected BiMap<K, V> delegate() {
-      return (BiMap<K, V>) super.delegate();
-    }
-
-    @Override
-    public V forcePut(K key, V value) {
-      constraint.checkKeyValue(key, value);
-      return delegate().forcePut(key, value);
-    }
-
-    @Override
-    public BiMap<V, K> inverse() {
-      if (inverse == null) {
-        inverse =
-            new ConstrainedBiMap<V, K>(
-                delegate().inverse(), this, new InverseConstraint<V, K>(constraint));
-      }
-      return inverse;
-    }
-
-    @Override
-    public Set<V> values() {
-      return delegate().values();
-    }
-  }
-
-  /** @see MapConstraints#constrainedBiMap */
-  private static class InverseConstraint<K, V> implements MapConstraint<K, V> {
-    final MapConstraint<? super V, ? super K> constraint;
-
-    public InverseConstraint(MapConstraint<? super V, ? super K> constraint) {
-      this.constraint = checkNotNull(constraint);
-    }
-
-    @Override
-    public void checkKeyValue(K key, V value) {
-      constraint.checkKeyValue(value, key);
     }
   }
 
