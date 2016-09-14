@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/** Tests for {@link EndpointPair} and {@link ValueGraph#edges()}. */
+/** Tests for {@link EndpointPair} and {@link Graph#edges()}. */
 @RunWith(JUnit4.class)
 public final class EndpointPairTest {
   private static final Integer N0 = 0;
