@@ -101,7 +101,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public class <a href="../../../../src-html/com/google/common/eventbus/AsyncEventBus.html#line.29">AsyncEventBus</a>
+public class <a href="../../../../src-html/com/google/common/eventbus/AsyncEventBus.html#line.28">AsyncEventBus</a>
 extends <a href="../../../../com/google/common/eventbus/EventBus.html" title="class in com.google.common.eventbus">EventBus</a></pre>
 <div class="block">An <a href="../../../../com/google/common/eventbus/EventBus.html" title="class in com.google.common.eventbus"><code>EventBus</code></a> that takes the Executor of your choice and uses it to dispatch events,
  allowing dispatch to occur asynchronously.</div>
@@ -186,7 +186,7 @@ extends <a href="../../../../com/google/common/eventbus/EventBus.html" title="cl
 <ul class="blockList">
 <li class="blockList">
 <h4>AsyncEventBus</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/eventbus/AsyncEventBus.html#line.39">AsyncEventBus</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;identifier,
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/eventbus/AsyncEventBus.html#line.38">AsyncEventBus</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;identifier,
              <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Creates a new AsyncEventBus that will use <code>executor</code> to dispatch events. Assigns
  <code>identifier</code> as the bus's name for logging purposes.</div>
@@ -200,7 +200,7 @@ extends <a href="../../../../com/google/common/eventbus/EventBus.html" title="cl
 <ul class="blockList">
 <li class="blockList">
 <h4>AsyncEventBus</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/eventbus/AsyncEventBus.html#line.52">AsyncEventBus</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor,
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/eventbus/AsyncEventBus.html#line.51">AsyncEventBus</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor,
              <a href="../../../../com/google/common/eventbus/SubscriberExceptionHandler.html" title="interface in com.google.common.eventbus">SubscriberExceptionHandler</a>&nbsp;subscriberExceptionHandler)</pre>
 <div class="block">Creates a new AsyncEventBus that will use <code>executor</code> to dispatch events.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>executor</code> - Executor to use to dispatch events. It is the caller's responsibility to shut
@@ -215,7 +215,7 @@ extends <a href="../../../../com/google/common/eventbus/EventBus.html" title="cl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AsyncEventBus</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/eventbus/AsyncEventBus.html#line.62">AsyncEventBus</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/eventbus/AsyncEventBus.html#line.61">AsyncEventBus</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Creates a new AsyncEventBus that will use <code>executor</code> to dispatch events.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>executor</code> - Executor to use to dispatch events. It is the caller's responsibility to shut
      down the executor after the last event has been posted to this event bus.</dd></dl>

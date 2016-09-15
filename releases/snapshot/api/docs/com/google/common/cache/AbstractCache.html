@@ -104,7 +104,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.41">AbstractCache</a>&lt;K,V&gt;
+public abstract class <a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.40">AbstractCache</a>&lt;K,V&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache">Cache</a>&lt;K,V&gt;</pre>
 <div class="block">This class provides a skeletal implementation of the <code>Cache</code> interface to minimize the
@@ -292,7 +292,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractCache</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.44">AbstractCache</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.43">AbstractCache</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -312,7 +312,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.50">get</a>(<a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">K</a>&nbsp;key,
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.49">get</a>(<a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">K</a>&nbsp;key,
     <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;? extends <a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;&nbsp;valueLoader)
       throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#get(K,%20java.util.concurrent.Callable)">Cache</a></code></strong></div>
@@ -365,7 +365,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllPresent</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">K</a>,<a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.64">getAllPresent</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">K</a>,<a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.63">getAllPresent</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</pre>
 <div class="block">This implementation of <code>getAllPresent</code> lacks any insight into the internal cache data
  structure, and is thus forced to return the query keys instead of the cached keys. This is only
  possible with an unsafe cast which requires <code>keys</code> to actually be of type <code>K</code>.
@@ -387,7 +387,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.83">put</a>(<a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">K</a>&nbsp;key,
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.82">put</a>(<a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">K</a>&nbsp;key,
        <a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">V</a>&nbsp;value)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#put(K,%20V)">Cache</a></code></strong></div>
 <div class="block">Associates <code>value</code> with <code>key</code> in this cache. If the cache previously contained a
@@ -408,7 +408,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.91">putAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">K</a>,? extends <a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;&nbsp;m)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.90">putAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends <a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">K</a>,? extends <a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;&nbsp;m)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#putAll(java.util.Map)">Cache</a></code></strong></div>
 <div class="block">Copies all of the mappings from the specified map to the cache. The effect of this call is
  equivalent to that of calling <code>put(k, v)</code> on this map once for each mapping from key
@@ -427,7 +427,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>cleanUp</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.98">cleanUp</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.97">cleanUp</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#cleanUp()">Cache</a></code></strong></div>
 <div class="block">Performs any pending maintenance operations needed by the cache. Exactly which activities are
  performed -- if any -- is implementation-dependent.</div>
@@ -443,7 +443,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.101">size</a>()</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.100">size</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#size()">Cache</a></code></strong></div>
 <div class="block">Returns the approximate number of entries in this cache.</div>
 <dl>
@@ -458,7 +458,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>invalidate</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.106">invalidate</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.105">invalidate</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#invalidate(java.lang.Object)">Cache</a></code></strong></div>
 <div class="block">Discards any cached value for key <code>key</code>.</div>
 <dl>
@@ -473,7 +473,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>invalidateAll</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.114">invalidateAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.113">invalidateAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;?&gt;&nbsp;keys)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#invalidateAll(java.lang.Iterable)">Cache</a></code></strong></div>
 <div class="block">Discards any cached values for keys <code>keys</code>.</div>
 <dl>
@@ -489,7 +489,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>invalidateAll</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.121">invalidateAll</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.120">invalidateAll</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#invalidateAll()">Cache</a></code></strong></div>
 <div class="block">Discards all entries in the cache.</div>
 <dl>
@@ -504,7 +504,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <ul class="blockList">
 <li class="blockList">
 <h4>stats</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.126">stats</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.125">stats</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#stats()">Cache</a></code></strong></div>
 <div class="block">Returns a current snapshot of this cache's cumulative statistics, or a set of default values if
  the cache is not recording statistics. All statistics begin at zero and never decrease over the
@@ -526,7 +526,7 @@ implements <a href="../../../../com/google/common/cache/Cache.html" title="inter
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asMap</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">K</a>,<a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.131">asMap</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">K</a>,<a href="../../../../com/google/common/cache/AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.130">asMap</a>()</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/cache/Cache.html#asMap()">Cache</a></code></strong></div>
 <div class="block">Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to
  the map directly affect the cache.

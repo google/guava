@@ -96,7 +96,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/primitives/Floats.html#line.52">Floats</a>
+public final class <a href="../../../../src-html/com/google/common/primitives/Floats.html#line.50">Floats</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Static utility methods pertaining to <code>float</code> primitives, that are not already found in
  either <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang"><code>Float</code></a> or <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html?is-external=true" title="class or interface in java.util"><code>Arrays</code></a>.
@@ -293,7 +293,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>BYTES</h4>
-<pre>public static final&nbsp;int <a href="../../../../src-html/com/google/common/primitives/Floats.html#line.62">BYTES</a></pre>
+<pre>public static final&nbsp;int <a href="../../../../src-html/com/google/common/primitives/Floats.html#line.60">BYTES</a></pre>
 <div class="block">The number of bytes required to represent a primitive <code>float</code> value.
 
  <p><b>Java 8 users:</b> use <code>Float#BYTES</code> instead.</div>
@@ -316,7 +316,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.73">hashCode</a>(float&nbsp;value)</pre>
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.71">hashCode</a>(float&nbsp;value)</pre>
 <div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking
  <code>((Float) value).hashCode()</code>.
 
@@ -331,7 +331,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>compare</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.91">compare</a>(float&nbsp;a,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.89">compare</a>(float&nbsp;a,
           float&nbsp;b)</pre>
 <div class="block">Compares the two specified <code>float</code> values using <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Float.html?is-external=true#compare(float,%20float)" title="class or interface in java.lang"><code>Float.compare(float, float)</code></a>. You
  may prefer to invoke that method directly; this method exists only for consistency with the
@@ -350,7 +350,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>isFinite</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.103">isFinite</a>(float&nbsp;value)</pre>
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.101">isFinite</a>(float&nbsp;value)</pre>
 <div class="block">Returns <code>true</code> if <code>value</code> represents a real number. This is equivalent to, but not
  necessarily implemented as, <code>!(Float.isInfinite(value) || Float.isNaN(value))</code>.
 
@@ -365,7 +365,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>contains</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.117">contains</a>(float[]&nbsp;array,
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.115">contains</a>(float[]&nbsp;array,
                float&nbsp;target)</pre>
 <div class="block">Returns <code>true</code> if <code>target</code> is present as an element anywhere in <code>array</code>. Note
  that this always returns <code>false</code> when <code>target</code> is <code>NaN</code>.</div>
@@ -379,7 +379,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.135">indexOf</a>(float[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.133">indexOf</a>(float[]&nbsp;array,
           float&nbsp;target)</pre>
 <div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code>. Note
  that this always returns <code>-1</code> when <code>target</code> is <code>NaN</code>.</div>
@@ -394,7 +394,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>indexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.162">indexOf</a>(float[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.160">indexOf</a>(float[]&nbsp;array,
           float[]&nbsp;target)</pre>
 <div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within <code>array</code>, or <code>-1</code> if there is no such occurrence.
 
@@ -412,7 +412,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>lastIndexOf</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.190">lastIndexOf</a>(float[]&nbsp;array,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.188">lastIndexOf</a>(float[]&nbsp;array,
               float&nbsp;target)</pre>
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code>. Note
  that this always returns <code>-1</code> when <code>target</code> is <code>NaN</code>.</div>
@@ -427,7 +427,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public static&nbsp;float&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.213">min</a>(float...&nbsp;array)</pre>
+<pre>public static&nbsp;float&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.211">min</a>(float...&nbsp;array)</pre>
 <div class="block">Returns the least value present in <code>array</code>, using the same rules of comparison as
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Math.html?is-external=true#min(float,%20float)" title="class or interface in java.lang"><code>Math.min(float, float)</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - a <i>nonempty</i> array of <code>float</code> values</dd>
@@ -443,7 +443,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public static&nbsp;float&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.231">max</a>(float...&nbsp;array)</pre>
+<pre>public static&nbsp;float&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.229">max</a>(float...&nbsp;array)</pre>
 <div class="block">Returns the greatest value present in <code>array</code>, using the same rules of comparison as
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Math.html?is-external=true#max(float,%20float)" title="class or interface in java.lang"><code>Math.max(float, float)</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - a <i>nonempty</i> array of <code>float</code> values</dd>
@@ -459,7 +459,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;float[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.248">concat</a>(float[]...&nbsp;arrays)</pre>
+<pre>public static&nbsp;float[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.246">concat</a>(float[]...&nbsp;arrays)</pre>
 <div class="block">Returns the values from each provided array combined into a single array. For example,
  <code>concat(new float[] {a, b}, new float[] {}, new float[] {c}</code> returns the array <code>{a,
  b, c}</code>.</div>
@@ -474,7 +474,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>stringConverter</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang">Float</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.295">stringConverter</a>()</pre>
+public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang">Float</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.293">stringConverter</a>()</pre>
 <div class="block">Returns a serializable converter object that converts between strings and floats using
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Float.html?is-external=true#valueOf(java.lang.String)" title="class or interface in java.lang"><code>Float.valueOf(java.lang.String)</code></a> and <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Float.html?is-external=true#toString()" title="class or interface in java.lang"><code>Float.toString()</code></a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -487,7 +487,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>ensureCapacity</h4>
-<pre>public static&nbsp;float[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.312">ensureCapacity</a>(float[]&nbsp;array,
+<pre>public static&nbsp;float[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.310">ensureCapacity</a>(float[]&nbsp;array,
                      int&nbsp;minLength,
                      int&nbsp;padding)</pre>
 <div class="block">Returns an array containing the same values as <code>array</code>, but guaranteed to be of a
@@ -507,7 +507,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>join</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.331">join</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.329">join</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator,
           float...&nbsp;array)</pre>
 <div class="block">Returns a string containing the supplied <code>float</code> values, converted to strings as
  specified by <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Float.html?is-external=true#toString(float)" title="class or interface in java.lang"><code>Float.toString(float)</code></a>, and separated by <code>separator</code>. For example,
@@ -525,7 +525,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>lexicographicalComparator</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;float[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.359">lexicographicalComparator</a>()</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;float[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.357">lexicographicalComparator</a>()</pre>
 <div class="block">Returns a comparator that compares two <code>float</code> arrays <a
  href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>. That is, it
  compares, using <a href="../../../../com/google/common/primitives/Floats.html#compare(float,%20float)"><code>compare(float, float)</code></a>), the first pair of values that follow any
@@ -545,7 +545,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>toArray</h4>
-<pre>public static&nbsp;float[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.397">toArray</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;collection)</pre>
+<pre>public static&nbsp;float[]&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.395">toArray</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;collection)</pre>
 <div class="block">Returns an array containing each value of <code>collection</code>, converted to a <code>float</code>
  value in the manner of <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Number.html?is-external=true#floatValue()" title="class or interface in java.lang"><code>Number.floatValue()</code></a>.
 
@@ -564,7 +564,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>asList</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang">Float</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.427">asList</a>(float...&nbsp;backingArray)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang">Float</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.425">asList</a>(float...&nbsp;backingArray)</pre>
 <div class="block">Returns a fixed-size list backed by the specified array, similar to
  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Arrays.html?is-external=true#asList(T...)" title="class or interface in java.util"><code>Arrays.asList(Object[])</code></a>. The list supports <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true#set(int,%20E)" title="class or interface in java.util"><code>List.set(int, Object)</code></a>, but any
  attempt to set a value to <code>null</code> will result in a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang"><code>NullPointerException</code></a>.
@@ -588,7 +588,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Converter.html" t
 <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
 <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/CheckForNull.html?is-external=true" title="class or interface in javax.annotation">@CheckForNull</a>
 <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang">Float</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.587">tryParse</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
+public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Float.html?is-external=true" title="class or interface in java.lang">Float</a>&nbsp;<a href="../../../../src-html/com/google/common/primitives/Floats.html#line.585">tryParse</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</pre>
 <div class="block">Parses the specified string as a single-precision floating point value. The ASCII character
  <code>'-'</code> (<code>'&#92;u002D'</code>) is recognized as the minus sign.
 

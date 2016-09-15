@@ -101,7 +101,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.63">BloomFilter</a>&lt;T&gt;
+public final class <a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.61">BloomFilter</a>&lt;T&gt;
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;, <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
 <div class="block">A Bloom filter for instances of <code>T</code>. A Bloom filter offers an approximate containment test
@@ -279,7 +279,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>copy</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;<a href="../../../../com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.129">copy</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;<a href="../../../../com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.127">copy</a>()</pre>
 <div class="block">Creates a new <code>BloomFilter</code> that's a copy of this instance. The new instance is equal to
  this instance but shares no mutable state.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -294,7 +294,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <ul class="blockList">
 <li class="blockList">
 <h4>mightContain</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.137">mightContain</a>(<a href="../../../../com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a>&nbsp;object)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.135">mightContain</a>(<a href="../../../../com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> if the element <i>might</i> have been put in this Bloom filter,
  <code>false</code> if this is <i>definitely</i> not the case.</div>
 </li>
@@ -308,7 +308,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 <li class="blockList">
 <h4>apply</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.147">apply</a>(<a href="../../../../com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a>&nbsp;input)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.145">apply</a>(<a href="../../../../com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a>&nbsp;input)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Provided only to satisfy the <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> interface; use <a href="../../../../com/google/common/hash/BloomFilter.html#mightContain(T)"><code>mightContain(T)</code></a>
      instead.</i></div>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/base/Predicate.html#apply(T)">Predicate</a></code></strong></div>
@@ -335,7 +335,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.163">put</a>(<a href="../../../../com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a>&nbsp;object)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.161">put</a>(<a href="../../../../com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a>&nbsp;object)</pre>
 <div class="block">Puts an element into this <code>BloomFilter</code>. Ensures that subsequent invocations of
  <a href="../../../../com/google/common/hash/BloomFilter.html#mightContain(T)"><code>mightContain(Object)</code></a> with the same element will always return <code>true</code>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>true if the bloom filter's bits changed as a result of this operation. If the bits
@@ -352,7 +352,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>expectedFpp</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.178">expectedFpp</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.176">expectedFpp</a>()</pre>
 <div class="block">Returns the probability that <a href="../../../../com/google/common/hash/BloomFilter.html#mightContain(T)">mightContain(Object)</a> will erroneously return
  <code>true</code> for an object that has not actually been put in the <code>BloomFilter</code>.
 
@@ -370,7 +370,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>isCompatible</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.206">isCompatible</a>(<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;<a href="../../../../com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a>&gt;&nbsp;that)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.204">isCompatible</a>(<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;<a href="../../../../com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a>&gt;&nbsp;that)</pre>
 <div class="block">Determines whether a given bloom filter is compatible with this bloom filter. For two bloom
  filters to be compatible, they must:
 
@@ -391,7 +391,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>putAll</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.225">putAll</a>(<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;<a href="../../../../com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a>&gt;&nbsp;that)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.223">putAll</a>(<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;<a href="../../../../com/google/common/hash/BloomFilter.html" title="type parameter in BloomFilter">T</a>&gt;&nbsp;that)</pre>
 <div class="block">Combines this bloom filter with another bloom filter by performing a bitwise OR of the
  underlying data. The mutations happen to <b>this</b> instance. Callers must ensure the bloom
  filters are appropriately sized to avoid saturating them.</div>
@@ -407,7 +407,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.252">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.250">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/base/Predicate.html#equals(java.lang.Object)">Predicate</a></code></strong></div>
 <div class="block">Indicates whether another object is equal to this predicate.
@@ -432,7 +432,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.267">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.265">hashCode</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -445,7 +445,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.291">create</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.289">create</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
                         int&nbsp;expectedInsertions,
                         double&nbsp;fpp)</pre>
 <div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter<T></code></a> with the expected number of insertions and
@@ -471,7 +471,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.317">create</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.315">create</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
                         long&nbsp;expectedInsertions,
                         double&nbsp;fpp)</pre>
 <div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter<T></code></a> with the expected number of insertions and
@@ -498,7 +498,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.368">create</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.366">create</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
                         int&nbsp;expectedInsertions)</pre>
 <div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter<T></code></a> with the expected number of insertions and a
  default expected false positive probability of 3%.
@@ -523,7 +523,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.392">create</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.390">create</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
                         long&nbsp;expectedInsertions)</pre>
 <div class="block">Creates a <a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter<T></code></a> with the expected number of insertions and a
  default expected false positive probability of 3%.
@@ -549,7 +549,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockList">
 <li class="blockList">
 <h4>writeTo</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.471">writeTo</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;out)
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.469">writeTo</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;out)
              throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Writes this <code>BloomFilter</code> to an output stream, with a custom format (not Java
  serialization). This has been measured to save at least 400 bytes compared to regular
@@ -566,7 +566,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/Bl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>readFrom</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.497">readFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/BloomFilter.html#line.495">readFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
                           <a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;T&gt;&nbsp;funnel)
                                throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads a byte stream, which was written by <a href="../../../../com/google/common/hash/BloomFilter.html#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a>, into a

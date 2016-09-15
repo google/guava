@@ -105,7 +105,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.55">ForwardingMapEntry</a>&lt;K,V&gt;
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.53">ForwardingMapEntry</a>&lt;K,V&gt;
 extends <a href="../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a>
 implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;</pre>
 <div class="block">A map entry which forwards all its method calls to another map entry.
@@ -250,7 +250,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingMapEntry</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.59">ForwardingMapEntry</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.57">ForwardingMapEntry</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -268,7 +268,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre>protected abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a>,<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.62">delegate</a>()</pre>
+<pre>protected abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a>,<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.60">delegate</a>()</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></strong></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to.
  Abstract subclasses generally override this method with an abstract method
@@ -286,7 +286,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 <ul class="blockList">
 <li class="blockList">
 <h4>getKey</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.65">getKey</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.63">getKey</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true#getKey()" title="class or interface in java.util">getKey</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a>,<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&gt;</code></dd>
@@ -299,7 +299,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 <ul class="blockList">
 <li class="blockList">
 <h4>getValue</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.70">getValue</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.68">getValue</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true#getValue()" title="class or interface in java.util">getValue</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a>,<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&gt;</code></dd>
@@ -314,7 +314,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 <ul class="blockList">
 <li class="blockList">
 <h4>setValue</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.75">setValue</a>(<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&nbsp;value)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.73">setValue</a>(<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&nbsp;value)</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true#setValue(V)" title="class or interface in java.util">setValue</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a>,<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&gt;</code></dd>
@@ -327,7 +327,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.80">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.78">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -343,7 +343,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.85">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.83">hashCode</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true#hashCode()" title="class or interface in java.util">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">K</a>,<a href="../../../../com/google/common/collect/ForwardingMapEntry.html" title="type parameter in ForwardingMapEntry">V</a>&gt;</code></dd>
@@ -358,7 +358,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 <ul class="blockList">
 <li class="blockList">
 <h4>standardEquals</h4>
-<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.97">standardEquals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>protected&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.95">standardEquals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                      <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMapEntry.html#equals(java.lang.Object)"><code>equals(Object)</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMapEntry.html#getKey()"><code>getKey()</code></a> and <a href="../../../../com/google/common/collect/ForwardingMapEntry.html#getValue()"><code>getValue()</code></a>. If you override either of these
  methods, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMapEntry.html#equals(java.lang.Object)"><code>equals(Object)</code></a> to forward to
@@ -373,7 +373,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 <ul class="blockList">
 <li class="blockList">
 <h4>standardHashCode</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.113">standardHashCode</a>()</pre>
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.111">standardHashCode</a>()</pre>
 <div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingMapEntry.html#hashCode()"><code>hashCode()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMapEntry.html#getKey()"><code>getKey()</code></a>
  and <a href="../../../../com/google/common/collect/ForwardingMapEntry.html#getValue()"><code>getValue()</code></a>. If you override either of these methods, you may
  wish to override <a href="../../../../com/google/common/collect/ForwardingMapEntry.html#hashCode()"><code>hashCode()</code></a> to forward to this implementation.</div>
@@ -388,7 +388,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry
 <li class="blockList">
 <h4>standardToString</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-protected&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.128">standardToString</a>()</pre>
+protected&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingMapEntry.html#line.126">standardToString</a>()</pre>
 <div class="block">A sensible definition of <a href="../../../../com/google/common/collect/ForwardingObject.html#toString()"><code>ForwardingObject.toString()</code></a> in terms of <a href="../../../../com/google/common/collect/ForwardingMapEntry.html#getKey()"><code>getKey()</code></a> and <a href="../../../../com/google/common/collect/ForwardingMapEntry.html#getValue()"><code>getValue()</code></a>. If you override either of these
  methods, you may wish to override <a href="../../../../com/google/common/collect/ForwardingMapEntry.html#equals(java.lang.Object)"><code>equals(java.lang.Object)</code></a> to forward to this
  implementation.</div>

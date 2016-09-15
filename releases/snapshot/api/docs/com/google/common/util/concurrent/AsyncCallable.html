@@ -89,7 +89,7 @@
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../../src-html/com/google/common/util/concurrent/AsyncCallable.html#line.33">AsyncCallable</a>&lt;V&gt;</pre>
+public interface <a href="../../../../../src-html/com/google/common/util/concurrent/AsyncCallable.html#line.32">AsyncCallable</a>&lt;V&gt;</pre>
 <div class="block">Computes a value, possibly asynchronously. For an example usage and more information, see <a href="../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html#callAsync(com.google.common.util.concurrent.AsyncCallable)"><code>Futures.FutureCombiner.callAsync(AsyncCallable)</code></a>.
 
  <p>Much like <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent"><code>Callable</code></a>, but returning a <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>
@@ -141,7 +141,7 @@ public interface <a href="../../../../../src-html/com/google/common/util/concurr
 <ul class="blockListLast">
 <li class="blockList">
 <h4>call</h4>
-<pre><a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/AsyncCallable.html" title="type parameter in AsyncCallable">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AsyncCallable.html#line.41">call</a>()
+<pre><a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/AsyncCallable.html" title="type parameter in AsyncCallable">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AsyncCallable.html#line.40">call</a>()
                          throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
 <div class="block">Computes a result <code>Future</code>. The output <code>Future</code> need not be <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#isDone()" title="class or interface in java.util.concurrent">done</a>, making <code>AsyncCallable</code> suitable for asynchronous derivations.
 

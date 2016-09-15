@@ -110,7 +110,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.33">HashingInputStream</a>
+public final class <a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.32">HashingInputStream</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/FilterInputStream.html?is-external=true" title="class or interface in java.io">FilterInputStream</a></pre>
 <div class="block">An <a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io"><code>InputStream</code></a> that maintains a hash of the data read from it.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -246,7 +246,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/FilterInputStr
 <ul class="blockListLast">
 <li class="blockList">
 <h4>HashingInputStream</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.42">HashingInputStream</a>(<a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction,
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.41">HashingInputStream</a>(<a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction,
                   <a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in)</pre>
 <div class="block">Creates an input stream that hashes using the given <a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash"><code>HashFunction</code></a> and delegates all data
  read from it to the underlying <a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io"><code>InputStream</code></a>.
@@ -268,7 +268,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/FilterInputStr
 <ul class="blockList">
 <li class="blockList">
 <h4>read</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.53">read</a>()
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.52">read</a>()
          throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads the next byte of data from the underlying input stream and updates the hasher with the
  byte read.</div>
@@ -285,7 +285,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/FilterInputStr
 <ul class="blockList">
 <li class="blockList">
 <h4>read</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.67">read</a>(byte[]&nbsp;bytes,
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.66">read</a>(byte[]&nbsp;bytes,
        int&nbsp;off,
        int&nbsp;len)
          throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
@@ -304,7 +304,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/FilterInputStr
 <ul class="blockList">
 <li class="blockList">
 <h4>markSupported</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.81">markSupported</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.80">markSupported</a>()</pre>
 <div class="block">mark() is not supported for HashingInputStream</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -318,7 +318,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/FilterInputStr
 <ul class="blockList">
 <li class="blockList">
 <h4>mark</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.89">mark</a>(int&nbsp;readlimit)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.88">mark</a>(int&nbsp;readlimit)</pre>
 <div class="block">mark() is not supported for HashingInputStream</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -332,7 +332,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/FilterInputStr
 <ul class="blockList">
 <li class="blockList">
 <h4>reset</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.97">reset</a>()
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.96">reset</a>()
            throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">reset() is not supported for HashingInputStream.</div>
 <dl>
@@ -348,7 +348,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/FilterInputStr
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hash</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.105">hash</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashingInputStream.html#line.104">hash</a>()</pre>
 <div class="block">Returns the <a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash"><code>HashCode</code></a> based on the data read from this stream. The result is unspecified
  if this method is called more than once on the same instance.</div>
 </li>

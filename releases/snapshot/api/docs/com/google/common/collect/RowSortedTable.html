@@ -97,7 +97,7 @@
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 <a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public interface <a href="../../../../src-html/com/google/common/collect/RowSortedTable.html#line.39">RowSortedTable</a>&lt;R,C,V&gt;
+public interface <a href="../../../../src-html/com/google/common/collect/RowSortedTable.html#line.38">RowSortedTable</a>&lt;R,C,V&gt;
 extends <a href="../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;</pre>
 <div class="block">Interface that extends <code>Table</code> and whose rows are sorted.
 
@@ -181,7 +181,7 @@ extends <a href="../../../../com/google/common/collect/Table.html" title="interf
 <ul class="blockList">
 <li class="blockList">
 <h4>rowKeySet</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/RowSortedTable.html" title="type parameter in RowSortedTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RowSortedTable.html#line.47">rowKeySet</a>()</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../com/google/common/collect/RowSortedTable.html" title="type parameter in RowSortedTable">R</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RowSortedTable.html#line.46">rowKeySet</a>()</pre>
 <div class="block">Returns a set of row keys that have one or more values in the table.
  Changes to the set will update the underlying table, and vice versa.
 
@@ -199,7 +199,7 @@ extends <a href="../../../../com/google/common/collect/Table.html" title="interf
 <ul class="blockListLast">
 <li class="blockList">
 <h4>rowMap</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/RowSortedTable.html" title="type parameter in RowSortedTable">R</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/RowSortedTable.html" title="type parameter in RowSortedTable">C</a>,<a href="../../../../com/google/common/collect/RowSortedTable.html" title="type parameter in RowSortedTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RowSortedTable.html#line.56">rowMap</a>()</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../com/google/common/collect/RowSortedTable.html" title="type parameter in RowSortedTable">R</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/RowSortedTable.html" title="type parameter in RowSortedTable">C</a>,<a href="../../../../com/google/common/collect/RowSortedTable.html" title="type parameter in RowSortedTable">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/RowSortedTable.html#line.55">rowMap</a>()</pre>
 <div class="block">Returns a view that associates each row key with the corresponding map from
  column keys to values. Changes to the returned map will update this table.
  The returned map does not support <code>put()</code> or <code>putAll()</code>, or

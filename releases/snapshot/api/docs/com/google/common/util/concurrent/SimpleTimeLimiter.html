@@ -101,7 +101,7 @@
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../../src-html/com/google/common/util/concurrent/SimpleTimeLimiter.html#line.48">SimpleTimeLimiter</a>
+public final class <a href="../../../../../src-html/com/google/common/util/concurrent/SimpleTimeLimiter.html#line.47">SimpleTimeLimiter</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="../../../../../com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></pre>
 <div class="block">A TimeLimiter that runs method calls in the background using an <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutorService</code></a>. If the
@@ -201,7 +201,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/TimeLimiter
 <ul class="blockList">
 <li class="blockList">
 <h4>SimpleTimeLimiter</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SimpleTimeLimiter.html#line.63">SimpleTimeLimiter</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;executor)</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SimpleTimeLimiter.html#line.62">SimpleTimeLimiter</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;executor)</pre>
 <div class="block">Constructs a TimeLimiter instance using the given executor service to execute proxied method
  calls.
 
@@ -218,7 +218,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/TimeLimiter
 <ul class="blockListLast">
 <li class="blockList">
 <h4>SimpleTimeLimiter</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SimpleTimeLimiter.html#line.75">SimpleTimeLimiter</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SimpleTimeLimiter.html#line.74">SimpleTimeLimiter</a>()</pre>
 <div class="block">Constructs a TimeLimiter instance using a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executors.html?is-external=true#newCachedThreadPool()" title="class or interface in java.util.concurrent"><code>Executors.newCachedThreadPool()</code></a> to execute
  proxied method calls.
 
@@ -243,7 +243,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/TimeLimiter
 <ul class="blockList">
 <li class="blockList">
 <h4>newProxy</h4>
-<pre>public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SimpleTimeLimiter.html#line.80">newProxy</a>(T&nbsp;target,
+<pre>public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SimpleTimeLimiter.html#line.79">newProxy</a>(T&nbsp;target,
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;interfaceType,
              long&nbsp;timeoutDuration,
              <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeoutUnit)</pre>
@@ -278,7 +278,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/TimeLimiter
 <ul class="blockListLast">
 <li class="blockList">
 <h4>callWithTimeout</h4>
-<pre>public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SimpleTimeLimiter.html#line.119">callWithTimeout</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;callable,
+<pre>public&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SimpleTimeLimiter.html#line.118">callWithTimeout</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;callable,
                     long&nbsp;timeoutDuration,
                     <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeoutUnit,
                     boolean&nbsp;amInterruptible)

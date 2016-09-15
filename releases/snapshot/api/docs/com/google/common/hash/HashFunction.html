@@ -88,7 +88,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public interface <a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.125">HashFunction</a></pre>
+public interface <a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.124">HashFunction</a></pre>
 <div class="block">A hash function is a collision-averse pure function that maps an arbitrary block of data to a
  number called a <i>hash code</i>.
 
@@ -296,7 +296,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>newHasher</h4>
-<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.136">newHasher</a>()</pre>
+<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.135">newHasher</a>()</pre>
 <div class="block">Begins a new hash code computation by returning an initialized, stateful <code>Hasher</code> instance that is ready to receive data. Example: <pre>   <code>HashFunction hf = Hashing.md5();
    HashCode hc = hf.newHasher()
        .putLong(id)
@@ -310,7 +310,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>newHasher</h4>
-<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.143">newHasher</a>(int&nbsp;expectedInputSize)</pre>
+<pre><a href="../../../../com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.142">newHasher</a>(int&nbsp;expectedInputSize)</pre>
 <div class="block">Begins a new hash code computation as <a href="../../../../com/google/common/hash/HashFunction.html#newHasher()"><code>newHasher()</code></a>, but provides a hint of the expected
  size of the input (in bytes). This is only important for non-streaming hash functions (hash
  functions that need to buffer their whole input before processing any of it).</div>
@@ -322,7 +322,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashInt</h4>
-<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.152">hashInt</a>(int&nbsp;input)</pre>
+<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.151">hashInt</a>(int&nbsp;input)</pre>
 <div class="block">Shortcut for <code>newHasher().putInt(input).hash()</code>; returns the hash code for the given
  <code>int</code> value, interpreted in little-endian byte order. The implementation <i>might</i>
  perform better than its longhand equivalent, but should not perform worse.</div>
@@ -336,7 +336,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashLong</h4>
-<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.159">hashLong</a>(long&nbsp;input)</pre>
+<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.158">hashLong</a>(long&nbsp;input)</pre>
 <div class="block">Shortcut for <code>newHasher().putLong(input).hash()</code>; returns the hash code for the given
  <code>long</code> value, interpreted in little-endian byte order. The implementation <i>might</i>
  perform better than its longhand equivalent, but should not perform worse.</div>
@@ -348,7 +348,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashBytes</h4>
-<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.165">hashBytes</a>(byte[]&nbsp;input)</pre>
+<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.164">hashBytes</a>(byte[]&nbsp;input)</pre>
 <div class="block">Shortcut for <code>newHasher().putBytes(input).hash()</code>. The implementation <i>might</i>
  perform better than its longhand equivalent, but should not perform worse.</div>
 </li>
@@ -359,7 +359,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashBytes</h4>
-<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.174">hashBytes</a>(byte[]&nbsp;input,
+<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.173">hashBytes</a>(byte[]&nbsp;input,
                  int&nbsp;off,
                  int&nbsp;len)</pre>
 <div class="block">Shortcut for <code>newHasher().putBytes(input, off, len).hash()</code>. The implementation
@@ -375,7 +375,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashUnencodedChars</h4>
-<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.184">hashUnencodedChars</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;input)</pre>
+<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.183">hashUnencodedChars</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;input)</pre>
 <div class="block">Shortcut for <code>newHasher().putUnencodedChars(input).hash()</code>. The implementation
  <i>might</i> perform better than its longhand equivalent, but should not perform worse. Note
  that no character encoding is performed; the low byte and high byte of each <code>char</code> are
@@ -390,7 +390,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashString</h4>
-<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.191">hashString</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;input,
+<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.190">hashString</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;input,
                   <a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</pre>
 <div class="block">Shortcut for <code>newHasher().putString(input, charset).hash()</code>. Characters are encoded using
  the given <a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset"><code>Charset</code></a>. The implementation <i>might</i> perform better than its longhand
@@ -405,7 +405,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashObject</h4>
-<pre>&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.199">hashObject</a>(T&nbsp;instance,
+<pre>&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.198">hashObject</a>(T&nbsp;instance,
                       <a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</pre>
 <div class="block">Shortcut for <code>newHasher().putObject(instance, funnel).hash()</code>. The implementation
  <i>might</i> perform better than its longhand equivalent, but should not perform worse.</div>
@@ -419,7 +419,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockListLast">
 <li class="blockList">
 <h4>bits</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.205">bits</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.204">bits</a>()</pre>
 <div class="block">Returns the number of bits (a multiple of 32) that each hash code produced by this hash
  function has.</div>
 </li>

@@ -136,6 +136,7 @@ OK: com.google.common.collect.Sets Method subSet(java.util.NavigableSet<K>, com.
 OK: com.google.common.base.Predicates Method subtypeOf(java.lang.Class<?>)
 OK: com.google.common.base.Throwables Method throwIfInstanceOf(java.lang.Throwable, java.lang.Class<X>)
 OK: com.google.common.base.Throwables Method throwIfUnchecked(java.lang.Throwable)
+OK: com.google.common.collect.TreeTraverser Method using(com.google.common.base.Function<T, ? extends java.lang.Iterable<T>>)
 OK: com.google.common.util.concurrent.Futures Method whenAllComplete(com.google.common.util.concurrent.ListenableFuture[])
 OK: com.google.common.util.concurrent.Futures Method whenAllComplete(java.lang.Iterable<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)
 OK: com.google.common.util.concurrent.Futures Method whenAllSucceed(com.google.common.util.concurrent.ListenableFuture[])

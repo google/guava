@@ -110,7 +110,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.48">EnumHashBiMap</a>&lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;K&gt;,V&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.46">EnumHashBiMap</a>&lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;K&gt;,V&gt;
 extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;K,V&gt;</pre>
 <div class="block">A <code>BiMap</code> backed by an <code>EnumMap</code> instance for keys-to-values, and
  a <code>HashMap</code> instance for values-to-keys. Null keys are not permitted,
@@ -287,7 +287,7 @@ extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;K&gt;,V&gt;&nbsp;<a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="class in com.google.common.collect">EnumHashBiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.56">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;K&gt;&nbsp;keyType)</pre>
+<pre>public static&nbsp;&lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;K&gt;,V&gt;&nbsp;<a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="class in com.google.common.collect">EnumHashBiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.54">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;K&gt;&nbsp;keyType)</pre>
 <div class="block">Returns a new, empty <code>EnumHashBiMap</code> using the specified key type.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>keyType</code> - the key type</dd></dl>
 </li>
@@ -298,7 +298,7 @@ extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;K&gt;,V&gt;&nbsp;<a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="class in com.google.common.collect">EnumHashBiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.70">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,? extends V&gt;&nbsp;map)</pre>
+<pre>public static&nbsp;&lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;K&gt;,V&gt;&nbsp;<a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="class in com.google.common.collect">EnumHashBiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.68">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,? extends V&gt;&nbsp;map)</pre>
 <div class="block">Constructs a new bimap with the same mappings as the specified map. If the
  specified map is an <code>EnumHashBiMap</code> or an <a href="../../../../com/google/common/collect/EnumBiMap.html" title="class in com.google.common.collect"><code>EnumBiMap</code></a>, the new
  bimap has the same key type as the input bimap. Otherwise, the specified
@@ -317,7 +317,7 @@ extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.92">put</a>(<a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&nbsp;key,
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.90">put</a>(<a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&nbsp;key,
     <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
     <a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;value)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/BiMap.html#put(K,%20V)">BiMap</a></code></strong></div>
@@ -337,7 +337,7 @@ extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>forcePut</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.98">forcePut</a>(<a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&nbsp;key,
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.96">forcePut</a>(<a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&nbsp;key,
          <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
          <a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">V</a>&nbsp;value)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/BiMap.html#forcePut(K,%20V)">BiMap</a></code></strong></div>
@@ -365,7 +365,7 @@ extends <a href="../../../../com/google/common/collect/ForwardingMap.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>keyType</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;<a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.103">keyType</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;<a href="../../../../com/google/common/collect/EnumHashBiMap.html" title="type parameter in EnumHashBiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/EnumHashBiMap.html#line.101">keyType</a>()</pre>
 <div class="block">Returns the associated key type.</div>
 </li>
 </ul>

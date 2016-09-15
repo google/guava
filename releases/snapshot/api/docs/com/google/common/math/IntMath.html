@@ -96,7 +96,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/math/IntMath.html#line.52">IntMath</a>
+public final class <a href="../../../../src-html/com/google/common/math/IntMath.html#line.51">IntMath</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A class for arithmetic on values of type <code>int</code>. Where possible, methods are defined and
  named analogously to their <code>BigInteger</code> counterparts.
@@ -317,7 +317,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>ceilingPowerOfTwo</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.67">ceilingPowerOfTwo</a>(int&nbsp;x)</pre>
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.66">ceilingPowerOfTwo</a>(int&nbsp;x)</pre>
 <div class="block">Returns the smallest power of two greater than or equal to <code>x</code>.  This is equivalent to
  <code>checkedPow(2, log2(x, CEILING))</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -334,7 +334,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <li class="blockList">
 <h4>floorPowerOfTwo</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.83">floorPowerOfTwo</a>(int&nbsp;x)</pre>
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.82">floorPowerOfTwo</a>(int&nbsp;x)</pre>
 <div class="block">Returns the largest power of two less than or equal to <code>x</code>.  This is equivalent to
  <code>checkedPow(2, log2(x, FLOOR))</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -348,7 +348,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>isPowerOfTwo</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.95">isPowerOfTwo</a>(int&nbsp;x)</pre>
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.94">isPowerOfTwo</a>(int&nbsp;x)</pre>
 <div class="block">Returns <code>true</code> if <code>x</code> represents a power of two.
 
  <p>This differs from <code>Integer.bitCount(x) == 1</code>, because
@@ -362,7 +362,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>log2</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.120">log2</a>(int&nbsp;x,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.119">log2</a>(int&nbsp;x,
        <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the base-2 logarithm of <code>x</code>, rounded according to the specified rounding mode.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -378,7 +378,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <li class="blockList">
 <h4>log10</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.161">log10</a>(int&nbsp;x,
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.160">log10</a>(int&nbsp;x,
                         <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the base-10 logarithm of <code>x</code>, rounded according to the specified rounding mode.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -394,7 +394,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <li class="blockList">
 <h4>pow</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.229">pow</a>(int&nbsp;b,
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.228">pow</a>(int&nbsp;b,
                       int&nbsp;k)</pre>
 <div class="block">Returns <code>b</code> to the <code>k</code>th power. Even if the result overflows, it will be equal to
  <code>BigInteger.valueOf(b).pow(k).intValue()</code>. This implementation runs in <code>O(log k)</code>
@@ -412,7 +412,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <li class="blockList">
 <h4>sqrt</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.271">sqrt</a>(int&nbsp;x,
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.270">sqrt</a>(int&nbsp;x,
                        <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the square root of <code>x</code>, rounded with the specified rounding mode.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -427,7 +427,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>divide</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.318">divide</a>(int&nbsp;p,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.317">divide</a>(int&nbsp;p,
          int&nbsp;q,
          <a href="http://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html?is-external=true" title="class or interface in java.math">RoundingMode</a>&nbsp;mode)</pre>
 <div class="block">Returns the result of dividing <code>p</code> by <code>q</code>, rounding using the specified
@@ -443,7 +443,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>mod</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.390">mod</a>(int&nbsp;x,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.389">mod</a>(int&nbsp;x,
       int&nbsp;m)</pre>
 <div class="block">Returns <code>x mod m</code>, a non-negative value less than <code>m</code>. This differs from
  <code>x % m</code>, which might be negative.
@@ -464,7 +464,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>gcd</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.404">gcd</a>(int&nbsp;a,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.403">gcd</a>(int&nbsp;a,
       int&nbsp;b)</pre>
 <div class="block">Returns the greatest common divisor of <code>a, b</code>. Returns <code>0</code> if
  <code>a == 0 &amp;&amp; b == 0</code>.</div>
@@ -478,7 +478,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedAdd</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.454">checkedAdd</a>(int&nbsp;a,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.453">checkedAdd</a>(int&nbsp;a,
              int&nbsp;b)</pre>
 <div class="block">Returns the sum of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -491,7 +491,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedSubtract</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.465">checkedSubtract</a>(int&nbsp;a,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.464">checkedSubtract</a>(int&nbsp;a,
                   int&nbsp;b)</pre>
 <div class="block">Returns the difference of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -504,7 +504,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedMultiply</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.476">checkedMultiply</a>(int&nbsp;a,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.475">checkedMultiply</a>(int&nbsp;a,
                   int&nbsp;b)</pre>
 <div class="block">Returns the product of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -517,7 +517,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedPow</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.490">checkedPow</a>(int&nbsp;b,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.489">checkedPow</a>(int&nbsp;b,
              int&nbsp;k)</pre>
 <div class="block">Returns the <code>b</code> to the <code>k</code>th power, provided it does not overflow.
 
@@ -534,7 +534,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <li class="blockList">
 <h4>saturatedAdd</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.535">saturatedAdd</a>(int&nbsp;a,
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.534">saturatedAdd</a>(int&nbsp;a,
                     int&nbsp;b)</pre>
 <div class="block">Returns the sum of <code>a</code> and <code>b</code> unless it would overflow or underflow in which case
  <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
@@ -549,7 +549,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <li class="blockList">
 <h4>saturatedSubtract</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.546">saturatedSubtract</a>(int&nbsp;a,
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.545">saturatedSubtract</a>(int&nbsp;a,
                          int&nbsp;b)</pre>
 <div class="block">Returns the difference of <code>a</code> and <code>b</code> unless it would overflow or underflow in
  which case <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
@@ -564,7 +564,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <li class="blockList">
 <h4>saturatedMultiply</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.557">saturatedMultiply</a>(int&nbsp;a,
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.556">saturatedMultiply</a>(int&nbsp;a,
                          int&nbsp;b)</pre>
 <div class="block">Returns the product of <code>a</code> and <code>b</code> unless it would overflow or underflow in which
  case <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
@@ -579,7 +579,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <li class="blockList">
 <h4>saturatedPow</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.568">saturatedPow</a>(int&nbsp;b,
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.567">saturatedPow</a>(int&nbsp;b,
                     int&nbsp;k)</pre>
 <div class="block">Returns the <code>b</code> to the <code>k</code>th power, unless it would overflow or underflow in which
  case <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
@@ -593,7 +593,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>factorial</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.622">factorial</a>(int&nbsp;n)</pre>
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.621">factorial</a>(int&nbsp;n)</pre>
 <div class="block">Returns <code>n!</code>, that is, the product of the first <code>n</code> positive integers, <code>1</code> if
  <code>n == 0</code>, or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Integer.MAX_VALUE</code></a> if the result does not fit in a <code>int</code>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -607,7 +607,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <li class="blockList">
 <h4>binomial</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.650">binomial</a>(int&nbsp;n,
+public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.649">binomial</a>(int&nbsp;n,
                            int&nbsp;k)</pre>
 <div class="block">Returns <code>n</code> choose <code>k</code>, also known as the binomial coefficient of <code>n</code> and
  <code>k</code>, or <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html?is-external=true#MAX_VALUE" title="class or interface in java.lang"><code>Integer.MAX_VALUE</code></a> if the result does not fit in an <code>int</code>.</div>
@@ -621,7 +621,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <ul class="blockList">
 <li class="blockList">
 <h4>mean</h4>
-<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.703">mean</a>(int&nbsp;x,
+<pre>public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.702">mean</a>(int&nbsp;x,
        int&nbsp;y)</pre>
 <div class="block">Returns the arithmetic mean of <code>x</code> and <code>y</code>, rounded towards negative infinity. This
  method is overflow resilient.</div>
@@ -637,7 +637,7 @@ public static&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math
 <h4>isPrime</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 <a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.724">isPrime</a>(int&nbsp;n)</pre>
+public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/IntMath.html#line.723">isPrime</a>(int&nbsp;n)</pre>
 <div class="block">Returns <code>true</code> if <code>n</code> is a
  <a href="http://mathworld.wolfram.com/PrimeNumber.html">prime number</a>: an integer <i>greater
  than one</i> that cannot be factored into a product of <i>smaller</i> positive integers.

@@ -96,7 +96,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.40">LoadingCache</a>&lt;K,V&gt;
+public interface <a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.39">LoadingCache</a>&lt;K,V&gt;
 extends <a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache">Cache</a>&lt;K,V&gt;, <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;K,V&gt;</pre>
 <div class="block">A semi-persistent mapping from keys to values. Values are automatically loaded by the cache, and
  are stored in the cache until either evicted or manually invalidated.
@@ -207,7 +207,7 @@ extends <a href="../../../../com/google/common/cache/Cache.html" title="interfac
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre><a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.67">get</a>(<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>&nbsp;key)
+<pre><a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.66">get</a>(<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>&nbsp;key)
       throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block">Returns the value associated with <code>key</code> in this cache, first loading that value if
  necessary. No observable state associated with this cache is modified until loading completes.
@@ -241,7 +241,7 @@ extends <a href="../../../../com/google/common/cache/Cache.html" title="interfac
 <ul class="blockList">
 <li class="blockList">
 <h4>getUnchecked</h4>
-<pre><a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.93">getUnchecked</a>(<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>&nbsp;key)</pre>
+<pre><a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.92">getUnchecked</a>(<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>&nbsp;key)</pre>
 <div class="block">Returns the value associated with <code>key</code> in this cache, first loading that value if
  necessary. No observable state associated with this cache is modified until loading completes.
  Unlike <a href="../../../../com/google/common/cache/LoadingCache.html#get(K)"><code>get(K)</code></a>, this method does not throw a checked exception, and thus should only be
@@ -272,7 +272,7 @@ extends <a href="../../../../com/google/common/cache/Cache.html" title="interfac
 <ul class="blockList">
 <li class="blockList">
 <h4>getAll</h4>
-<pre><a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>,<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.119">getAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>&gt;&nbsp;keys)
+<pre><a href="../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>,<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.118">getAll</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>&gt;&nbsp;keys)
                          throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
 <div class="block">Returns a map of the values associated with <code>keys</code>, creating or retrieving those values
  if necessary. The returned map contains entries that were already cached, combined with newly
@@ -306,7 +306,7 @@ extends <a href="../../../../com/google/common/cache/Cache.html" title="interfac
 <li class="blockList">
 <h4>apply</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.130">apply</a>(<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>&nbsp;key)</pre>
+<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">V</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.129">apply</a>(<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>&nbsp;key)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Provided to satisfy the <code>Function</code> interface; use <a href="../../../../com/google/common/cache/LoadingCache.html#get(K)"><code>get(K)</code></a> or
      <a href="../../../../com/google/common/cache/LoadingCache.html#getUnchecked(K)"><code>getUnchecked(K)</code></a> instead.</i></div>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/base/Function.html#apply(F)">Function</a></code></strong></div>
@@ -335,7 +335,7 @@ extends <a href="../../../../com/google/common/cache/Cache.html" title="interfac
 <ul class="blockList">
 <li class="blockList">
 <h4>refresh</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.150">refresh</a>(<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>&nbsp;key)</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.149">refresh</a>(<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>&nbsp;key)</pre>
 <div class="block">Loads a new value for key <code>key</code>, possibly asynchronously. While the new value is loading
  the previous value (if any) will continue to be returned by <code>get(key)</code> unless it is
  evicted. If the new value is loaded successfully it will replace the previous value in the
@@ -360,7 +360,7 @@ extends <a href="../../../../com/google/common/cache/Cache.html" title="interfac
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asMap</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>,<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.159">asMap</a>()</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">K</a>,<a href="../../../../com/google/common/cache/LoadingCache.html" title="type parameter in LoadingCache">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/cache/LoadingCache.html#line.158">asMap</a>()</pre>
 <div class="block">Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to
  the map directly affect the cache.
 

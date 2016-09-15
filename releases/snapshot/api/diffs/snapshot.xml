@@ -1847,10 +1847,10 @@
       <param name="forwardFunction" type="com.google.common.base.Function&lt;? super A, ? extends B&gt;"/>
       <param name="backwardFunction" type="com.google.common.base.Function&lt;? super B, ? extends A&gt;"/>
       <doc>
-      <![CDATA[Returns a converter based on <i>existing</i> forward and backward functions. Note that it is
- unnecessary to create <i>new</i> classes implementing {@code Function} just to pass them in
- here. Instead, simply subclass {@code Converter} and implement its {@link #doForward} and
- {@link #doBackward} methods directly.
+      <![CDATA[Returns a converter based on separate forward and backward functions. This is useful if the
+ function instances already exist, or so that you can supply lambda expressions. If those
+ circumstances don't apply, you probably don't need to use this; subclass {@code Converter} and
+ implement its {@link #doForward} and {@link #doBackward} methods directly.
 
  <p>These functions will never be passed {@code null} and must not under any circumstances
  return {@code null}. If a value cannot be converted, the function should throw an unchecked
@@ -11410,8 +11410,7 @@
 
  <p>The returned iterable is an unmodifiable view of the input array.
 
- <p><b>{@code Stream} equivalent:</b> {@code Stream.of(elements)} or {@code
- Arrays.stream(elements)}.
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#of(T...)}.
 
  @since 20.0 (since 18.0 as an overload of {@code of})]]>
       </doc>
@@ -11445,6 +11444,8 @@
  <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
  iterator supports it.
 
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#concat}.
+
  @since 20.0]]>
       </doc>
     </method>
@@ -11462,6 +11463,9 @@
 
  <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
  iterator supports it.
+
+ <p><b>{@code Stream} equivalent:</b> use nested calls to {@link Stream#concat}, or see the
+ advice in {@link #concat(Iterable...)}.
 
  @since 20.0]]>
       </doc>
@@ -11483,6 +11487,9 @@
  <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
  iterator supports it.
 
+ <p><b>{@code Stream} equivalent:</b> use nested calls to {@link Stream#concat}, or see the
+ advice in {@link #concat(Iterable...)}.
+
  @since 20.0]]>
       </doc>
     </method>
@@ -11499,8 +11506,11 @@
  <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
  iterator supports it.
 
- @throws NullPointerException if any of the provided iterables is {@code null}
+ <p><b>{@code Stream} equivalent:</b> to concatenate an arbitrary number of streams, use {@code
+ Stream.of(stream1, stream2, ...).flatMap(s -> s)}. If the sources are iterables, after the next
+ release of Guava you can use {@code Stream.of(iter1, iter2, ...).flatMap(Streams::stream)}.
 
+ @throws NullPointerException if any of the provided iterables is {@code null}
  @since 20.0]]>
       </doc>
     </method>
@@ -11515,8 +11525,11 @@
  are not polled until necessary.
 
  <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
- iterator supports it. The methods of the returned iterable may throw
- {@code NullPointerException} if any of the input iterators is {@code null}.
+ iterator supports it. The methods of the returned iterable may throw {@code
+ NullPointerException} if any of the input iterators is {@code null}.
+
+ <p><b>{@code Stream} equivalent:</b> {@code streamOfStreams.flatMap(s -> s)} or {@code
+ streamOfIterables.flatMap(Streams::stream)}. (See {@link Streams#stream}.)
 
  @since 20.0]]>
       </doc>
@@ -11544,8 +11557,7 @@
 
  <p>The returned iterable is modifiable, but modifications do not affect the input array.
 
- <p><b>{@code Stream} equivalent:</b> {@code Stream.of(elements)} or {@code
- Arrays.stream(elements)}.
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#of(T...)}.
 
  @deprecated Use {@link #from(E[])} instead (but note the differences in mutability). This
      method will be removed in Guava release 21.0.
@@ -11561,7 +11573,7 @@
       <doc>
       <![CDATA[Returns a fluent iterable containing the specified elements in order.
 
- <p><b>{@code Stream} equivalent:</b> {@code Stream.of(...)}.
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#of(T...)}.
 
  @since 20.0]]>
       </doc>
@@ -11571,11 +11583,11 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a string representation of this fluent iterable, with the format
- {@code [e1, e2, ..., en]}.
+      <![CDATA[Returns a string representation of this fluent iterable, with the format {@code [e1, e2, ...,
+ en]}.
 
  <p><b>{@code Stream} equivalent:</b> {@code stream.collect(Collectors.joining(", ", "[", "]"))}
- or (less efficiently) {@code collect(Collectors.toList()).toString()}.]]>
+ or (less efficiently) {@code stream.collect(Collectors.toList()).toString()}.]]>
       </doc>
     </method>
     <method name="size" return="int"
@@ -11635,7 +11647,7 @@
  <p>The returned iterable's {@code Iterator} supports {@code remove()} when the corresponding
  {@code Iterator} supports it.
 
- <p><b>{@code Stream} equivalent:</b> {@code Stream.concat(thisStream, otherStream)}.
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#concat}.
 
  @since 18.0]]>
       </doc>
@@ -11663,7 +11675,7 @@
       <![CDATA[Returns the elements from this fluent iterable that satisfy a predicate. The resulting fluent
  iterable's iterator does not support {@code remove()}.
 
- <p><b>{@code Stream} equivalent:</b> {@code stream.filter(predicate)} (same).]]>
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#filter} (same).]]>
       </doc>
     </method>
     <method name="filter" return="com.google.common.collect.FluentIterable&lt;T&gt;"
@@ -11674,17 +11686,15 @@
       <doc>
       <![CDATA[Returns the elements from this fluent iterable that are instances of class {@code type}.
 
- <p><b>{@code Stream} equivalent:</b> <pre>   {@code
+ <p><b>{@code Stream} equivalent:</b> {@code stream.filter(type::isInstance).map(type::cast)}.
+ This does perform a little more work than necessary, so another option is to insert an
+ unchecked cast at some later point:
 
-  }{@code @SuppressWarnings("unchecked") // safe by runtime check
-   Stream<T> result = (Stream) stream.filter(type::isInstance);}</pre>
-
- ... or if {@code type} is a class literal {@code MyType.class}, <pre>   {@code
-
-  }{@code @SuppressWarnings("unchecked") // safe by runtime check
-   Stream<MyType> result = (Stream) stream.filter(e -> e instanceof MyType);}</pre>
-
- @param type the type of elements desired]]>
+ <pre>
+ {@code @SuppressWarnings("unchecked") // safe because of ::isInstance check
+ ImmutableList<NewType> result =
+     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());}
+ </pre>]]>
       </doc>
     </method>
     <method name="anyMatch" return="boolean"
@@ -11695,7 +11705,7 @@
       <doc>
       <![CDATA[Returns {@code true} if any element in this fluent iterable satisfies the predicate.
 
- <p><b>{@code Stream} equivalent:</b> {@code stream.anyMatch(predicate)} (same).]]>
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#anyMatch} (same).]]>
       </doc>
     </method>
     <method name="allMatch" return="boolean"
@@ -11707,7 +11717,7 @@
       <![CDATA[Returns {@code true} if every element in this fluent iterable satisfies the predicate. If this
  fluent iterable is empty, {@code true} is returned.
 
- <p><b>{@code Stream} equivalent:</b> {@code stream.allMatch(predicate)} (same).]]>
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#allMatch} (same).]]>
       </doc>
     </method>
     <method name="firstMatch" return="com.google.common.base.Optional&lt;E&gt;"
@@ -11738,7 +11748,7 @@
  iterator does. After a successful {@code remove()} call, this fluent iterable no longer
  contains the corresponding element.
 
- <p><b>{@code Stream} equivalent:</b> {@code stream.map(function)}.]]>
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#map}.]]>
       </doc>
     </method>
     <method name="transformAndConcat" return="com.google.common.collect.FluentIterable&lt;T&gt;"
@@ -11754,8 +11764,8 @@
  iterables' iterator does. After a successful {@code remove()} call, the returned fluent
  iterable no longer contains the corresponding element.
 
- <p><b>{@code Stream} equivalent:</b> {@code stream.flatMap(function)} (using a function that
- produces streams, not iterables).
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#flatMap} (using a function that produces
+ streams, not iterables).
 
  @since 13.0 (required {@code Function<E, Iterable<T>>} until 14.0)]]>
       </doc>
@@ -11768,12 +11778,11 @@
       <![CDATA[Returns an {@link Optional} containing the first element in this fluent iterable. If the
  iterable is empty, {@code Optional.absent()} is returned.
 
- <p><b>{@code Stream} equivalent:</b> if the goal is to obtain any element, {@code
- stream.findAny()}; if it must specifically be the <i>first</i> element, {@code
- stream.findFirst()}.
+ <p><b>{@code Stream} equivalent:</b> if the goal is to obtain any element, {@link
+ Stream#findAny}; if it must specifically be the <i>first</i> element, {@code Stream#findFirst}.
 
- @throws NullPointerException if the first element is null; if this is a possibility, use
-     {@code iterator().next()} or {@link Iterables#getFirst} instead.]]>
+ @throws NullPointerException if the first element is null; if this is a possibility, use {@code
+     iterator().next()} or {@link Iterables#getFirst} instead.]]>
       </doc>
     </method>
     <method name="last" return="com.google.common.base.Optional&lt;E&gt;"
@@ -11812,7 +11821,7 @@
  iterator, as the {@code Iterator} contract states that a call to {@code * remove()} before a
  call to {@code next()} will throw an {@link IllegalStateException}.
 
- <p><b>{@code Stream} equivalent:</b> {@code stream.skip(numberToSkip)} (same).]]>
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#skip} (same).]]>
       </doc>
     </method>
     <method name="limit" return="com.google.common.collect.FluentIterable&lt;E&gt;"
@@ -11823,10 +11832,10 @@
       <doc>
       <![CDATA[Creates a fluent iterable with the first {@code size} elements of this fluent iterable. If this
  fluent iterable does not contain that many elements, the returned fluent iterable will have the
- same behavior as this fluent iterable. The returned fluent iterable's iterator supports
- {@code remove()} if this fluent iterable's iterator does.
+ same behavior as this fluent iterable. The returned fluent iterable's iterator supports {@code
+ remove()} if this fluent iterable's iterator does.
 
- <p><b>{@code Stream} equivalent:</b> {@code stream.limit(maxSize)} (same).
+ <p><b>{@code Stream} equivalent:</b> {@link Stream#limit} (same).
 
  @param maxSize the maximum number of elements in the returned fluent iterable
  @throws IllegalArgumentException if {@code size} is negative]]>
@@ -11850,7 +11859,9 @@
       <![CDATA[Returns an {@code ImmutableList} containing all of the elements from this fluent iterable in
  proper sequence.
 
- <p><b>{@code Stream} equivalent:</b> {@code ImmutableList.copyOf(stream.iterator())}.
+ <p><b>{@code Stream} equivalent:</b> {@code ImmutableList.copyOf(stream.iterator())}, or after
+ the next release of Guava, pass {@link ImmutableList#toImmutableList} to {@code
+ stream.collect()}.
 
  @since 14.0 (since 12.0 as {@code toImmutableList()}).]]>
       </doc>
@@ -11865,8 +11876,10 @@
  FluentIterable} in the order specified by {@code comparator}. To produce an {@code
  ImmutableList} sorted by its natural ordering, use {@code toSortedList(Ordering.natural())}.
 
- <p><b>{@code Stream} equivalent:</b>
- {@code ImmutableList.copyOf(stream.sorted(comparator).iterator())}.
+ <p><b>{@code Stream} equivalent:</b> {@code
+ ImmutableList.copyOf(stream.sorted(comparator).iterator())}, or after the next release of
+ Guava, pass {@link ImmutableList#toImmutableList} to {@code
+ stream.sorted(comparator).collect()}.
 
  @param comparator the function by which to sort list elements
  @throws NullPointerException if any element is null
@@ -11881,7 +11894,9 @@
       <![CDATA[Returns an {@code ImmutableSet} containing all of the elements from this fluent iterable with
  duplicates removed.
 
- <p><b>{@code Stream} equivalent:</b> {@code ImmutableSet.copyOf(stream.iterator())}.
+ <p><b>{@code Stream} equivalent:</b> {@code ImmutableSet.copyOf(stream.iterator())}, or after
+ the next release of Guava, pass {@link ImmutableSet#toImmutableSet} to {@code
+ stream.collect()}.
 
  @since 14.0 (since 12.0 as {@code toImmutableSet()}).]]>
       </doc>
@@ -11897,8 +11912,9 @@
  {@code comparator.compare(x, y) == 0}) removed. To produce an {@code ImmutableSortedSet} sorted
  by its natural ordering, use {@code toSortedSet(Ordering.natural())}.
 
- <p><b>{@code Stream} equivalent:</b>
- {@code ImmutableSortedSet.copyOf(comparator, stream.iterator())}.
+ <p><b>{@code Stream} equivalent:</b> {@code ImmutableSortedSet.copyOf(comparator,
+ stream.iterator())}, or after the next release of Guava, pass {@link
+ ImmutableSortedSet#toImmutableSortedSet} to {@code stream.collect()}.
 
  @param comparator the function by which to sort set elements
  @throws NullPointerException if any element is null
@@ -11912,7 +11928,9 @@
       <doc>
       <![CDATA[Returns an {@code ImmutableMultiset} containing all of the elements from this fluent iterable.
 
- <p><b>{@code Stream} equivalent:</b> {@code ImmutableMultiset.copyOf(stream.iterator())}.
+ <p><b>{@code Stream} equivalent:</b> {@code ImmutableMultiset.copyOf(stream.iterator())}, or
+ after the next release of Guava, pass {@link ImmutableMultiset#toImmutableMultiset} to {@code
+ stream.collect()}.
 
  @since 19.0]]>
       </doc>
@@ -11931,9 +11949,10 @@
  {@code valueFunction} will be applied to more than one instance of that key and, if it is,
  which result will be mapped to that key in the returned map.
 
- <p><b>{@code Stream} equivalent:</b> {@code
- ImmutableMap.copyOf(stream.collect(Collectors.toMap(k -> k, valueFunction)))} (but note that
- this may not preserve the order of entries).
+ <p><b>{@code Stream} equivalent:</b> after the next release of Guava, use {@code
+ stream.collect(ImmutableMap.toImmutableMap(k -> k, valueFunction))}. Before then you can use
+ {@code ImmutableMap.copyOf(stream.collect(Collectors.toMap(k -> k, valueFunction)))}, but be
+ aware that this may not preserve the order of entries.
 
  @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
      valueFunction} produces {@code null} for any key
@@ -11979,29 +11998,31 @@
  by keys derived from those values. In other words, each input value produces an entry in the
  map whose key is the result of applying {@code keyFunction} to that value. These entries appear
  in the same order as they appeared in this fluent iterable. Example usage:
- <pre>   {@code
 
-   Color red = new Color("red", 255, 0, 0);
-   ...
-   FluentIterable<Color> allColors = FluentIterable.from(ImmutableSet.of(red, green, blue));
+ <pre>{@code
+ Color red = new Color("red", 255, 0, 0);
+ ...
+ FluentIterable<Color> allColors = FluentIterable.from(ImmutableSet.of(red, green, blue));
 
-   Map<String, Color> colorForName = allColors.uniqueIndex(toStringFunction());
-   assertThat(colorForName).containsEntry("red", red);}</pre>
+ Map<String, Color> colorForName = allColors.uniqueIndex(toStringFunction());
+ assertThat(colorForName).containsEntry("red", red);
+ }</pre>
 
  <p>If your index may associate multiple values with each key, use {@link #index(Function)
  index}.
 
- <p><b>{@code Stream} equivalent:</b> {@code
- ImmutableMap.copyOf(stream.collect(Collectors.toMap(keyFunction, v -> v)))} (but note that this
- may not preserve the order of entries).
+ <p><b>{@code Stream} equivalent:</b> after the next release of Guava, use {@code
+ stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -> v))}. Before then you can use
+ {@code ImmutableMap.copyOf(stream.collect(Collectors.toMap(keyFunction, v -> v)))}, but be
+ aware that this may not preserve the order of entries.
 
  @param keyFunction the function used to produce the key for each value
- @return a map mapping the result of evaluating the function {@code
-     keyFunction} on each value in this fluent iterable to that value
+ @return a map mapping the result of evaluating the function {@code keyFunction} on each value
+     in this fluent iterable to that value
  @throws IllegalArgumentException if {@code keyFunction} produces the same key for more than one
      value in this fluent iterable
- @throws NullPointerException if any elements of this fluent iterable is null, or if
-     {@code keyFunction} produces {@code null} for any value
+ @throws NullPointerException if any elements of this fluent iterable is null, or if {@code
+     keyFunction} produces {@code null} for any value
  @since 14.0]]>
       </doc>
     </method>
@@ -12092,8 +12113,8 @@
      array (for example {@link #toList})
  </ul>
 
- <p>Several lesser-used features are currently available only as static methods on the
- {@link Iterables} class.
+ <p>Several lesser-used features are currently available only as static methods on the {@link
+ Iterables} class.
 
  <a name="streams"></a>
  <h3>Comparison to streams</h3>
@@ -12108,9 +12129,9 @@
      all the right method <i>signatures</i> to implement {@link Iterable}, it does not actually do
      so, to avoid implying repeat-iterability.) {@code FluentIterable}, on the other hand, is
      multiple-use, and does implement {@link Iterable}.
- <li>Streams offer many features not found here, including {@code min/max}, {@code
-     distinct}, {@code reduce}, {@code sorted}, the very powerful {@code collect}, and built-in
-     support for parallelizing stream operations.
+ <li>Streams offer many features not found here, including {@code min/max}, {@code distinct},
+     {@code reduce}, {@code sorted}, the very powerful {@code collect}, and built-in support for
+     parallelizing stream operations.
  <li>{@code FluentIterable} contains several features not available on {@code Stream}, which are
      noted in the method descriptions below.
  <li>Streams include primitive-specialized variants such as {@code IntStream}, the use of which is
@@ -12123,24 +12144,28 @@
 
  <p>Here is an example that accepts a list from a database call, filters it based on a predicate,
  transforms it by invoking {@code toString()} on each element, and returns the first 10 elements
- as a {@code List}: <pre>   {@code
+ as a {@code List}:
 
-   List<String> results =
-       FluentIterable.from(database.getClientList())
-           .filter(activeInLastMonthPredicate)
-           .transform(Functions.toStringFunction())
-           .limit(10)
-           .toList();}</pre>
+ <pre>{@code
+ ImmutableList<String> results =
+     FluentIterable.from(database.getClientList())
+         .filter(Client::isActiveInLastMonth)
+         .transform(Object::toString)
+         .limit(10)
+         .toList();
+ }</pre>
 
- The approximate stream equivalent is: <pre>   {@code
+ The approximate stream equivalent is:
 
-   List<String> results =
-       database.getClientList()
-           .stream()
-           .filter(activeInLastMonthPredicate)
-           .map(Functions.toStringFunction())
-           .limit(10)
-           .collect(Collectors.toList());}</pre>
+ <pre>{@code
+ List<String> results =
+     database.getClientList()
+         .stream()
+         .filter(Client::isActiveInLastMonth)
+         .map(Object::toString)
+         .limit(10)
+         .collect(Collectors.toList());
+ }</pre>
 
  @author Marcin Mikosik
  @since 12.0]]>
@@ -24714,29 +24739,6 @@
  @return a constrained view of the specified map]]>
       </doc>
     </method>
-    <method name="constrainedMultimap" return="com.google.common.collect.Multimap&lt;K, V&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="multimap" type="com.google.common.collect.Multimap&lt;K, V&gt;"/>
-      <param name="constraint" type="com.google.common.collect.MapConstraint&lt;? super K, ? super V&gt;"/>
-      <doc>
-      <![CDATA[Returns a constrained view of the specified multimap, using the specified
- constraint. Any operations that add new mappings will call the provided
- constraint. However, this method does not verify that existing mappings
- satisfy the constraint.
-
- <p>Note that the generated multimap's {@link Multimap#removeAll} and
- {@link Multimap#replaceValues} methods return collections that are not
- constrained.
-
- <p>The returned multimap is not serializable.
-
- @param multimap the multimap to constrain
- @param constraint the constraint that validates added entries
- @return a constrained view of the multimap]]>
-      </doc>
-    </method>
     <method name="constrainedListMultimap" return="com.google.common.collect.ListMultimap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -24758,68 +24760,6 @@
  @param multimap the multimap to constrain
  @param constraint the constraint that validates added entries
  @return a constrained view of the specified multimap]]>
-      </doc>
-    </method>
-    <method name="constrainedSetMultimap" return="com.google.common.collect.SetMultimap&lt;K, V&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="multimap" type="com.google.common.collect.SetMultimap&lt;K, V&gt;"/>
-      <param name="constraint" type="com.google.common.collect.MapConstraint&lt;? super K, ? super V&gt;"/>
-      <doc>
-      <![CDATA[Returns a constrained view of the specified set multimap, using the
- specified constraint. Any operations that add new mappings will call the
- provided constraint. However, this method does not verify that existing
- mappings satisfy the constraint.
-
- <p>Note that the generated multimap's {@link Multimap#removeAll} and
- {@link Multimap#replaceValues} methods return collections that are not
- constrained.
- <p>The returned multimap is not serializable.
-
- @param multimap the multimap to constrain
- @param constraint the constraint that validates added entries
- @return a constrained view of the specified multimap]]>
-      </doc>
-    </method>
-    <method name="constrainedSortedSetMultimap" return="com.google.common.collect.SortedSetMultimap&lt;K, V&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="multimap" type="com.google.common.collect.SortedSetMultimap&lt;K, V&gt;"/>
-      <param name="constraint" type="com.google.common.collect.MapConstraint&lt;? super K, ? super V&gt;"/>
-      <doc>
-      <![CDATA[Returns a constrained view of the specified sorted-set multimap, using the
- specified constraint. Any operations that add new mappings will call the
- provided constraint. However, this method does not verify that existing
- mappings satisfy the constraint.
-
- <p>Note that the generated multimap's {@link Multimap#removeAll} and
- {@link Multimap#replaceValues} methods return collections that are not
- constrained.
- <p>The returned multimap is not serializable.
-
- @param multimap the multimap to constrain
- @param constraint the constraint that validates added entries
- @return a constrained view of the specified multimap]]>
-      </doc>
-    </method>
-    <method name="constrainedBiMap" return="com.google.common.collect.BiMap&lt;K, V&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="map" type="com.google.common.collect.BiMap&lt;K, V&gt;"/>
-      <param name="constraint" type="com.google.common.collect.MapConstraint&lt;? super K, ? super V&gt;"/>
-      <doc>
-      <![CDATA[Returns a constrained view of the specified bimap, using the specified
- constraint. Any operations that modify the bimap will have the associated
- keys and values verified with the constraint.
-
- <p>The returned bimap is not serializable.
-
- @param map the bimap to constrain
- @param constraint the constraint that validates added entries
- @return a constrained view of the specified bimap]]>
       </doc>
     </method>
     <doc>
@@ -34461,6 +34401,20 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </constructor>
+    <method name="using" return="com.google.common.collect.TreeTraverser&lt;T&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeToChildrenFunction" type="com.google.common.base.Function&lt;T, ? extends java.lang.Iterable&lt;T&gt;&gt;"/>
+      <doc>
+      <![CDATA[Returns a tree traverser that uses the given function to navigate from a node to its children.
+ This is useful if the function instance already exists, or so that you can supply a lambda
+ expressions. If those circumstances don't apply, you probably don't need to use this; subclass
+ {@code TreeTraverser} and implement its {@link #children} method directly.
+
+ @since 20.0]]>
+      </doc>
+    </method>
     <method name="children" return="java.lang.Iterable&lt;T&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -34515,19 +34469,34 @@
 
  <p>For example, the tree
 
- <pre>          {@code
-          h
-        / | \
-       /  e  \
-      d       g
-     /|\      |
-    / | \     f
-   a  b  c       }</pre>
+ <pre>{@code
+        h
+      / | \
+     /  e  \
+    d       g
+   /|\      |
+  / | \     f
+ a  b  c
+ }</pre>
 
  <p>can be iterated over in preorder (hdabcegf), postorder (abcdefgh), or breadth-first order
  (hdegabcf).
 
  <p>Null nodes are strictly forbidden.
+
+ <p><b>For Java 8 users:</b> Because this is an abstract class, not an interface, you can't use a
+ lambda expression to extend it:
+
+ <pre>{@code
+ // won't work
+ TreeTraverser<NodeType> traverser = node -> node.getChildNodes();
+ }</pre>
+
+ Instead, you can pass a lambda expression to the {@code using} factory method:
+
+ <pre>{@code
+ TreeTraverser<NodeType> traverser = TreeTraverser.using(node -> node.getChildNodes());
+ }</pre>
 
  @author Louis Wasserman
  @since 15.0]]>
@@ -36168,7 +36137,7 @@
     <doc>
     <![CDATA[An immutable pair representing the two (possibly equal, in the case of a self-loop) endpoints of
  an edge in a graph. The {@link EndpointPair} of a directed edge is an ordered pair of nodes
- ({@link #source()} and {@link #source()}). The {@link EndpointPair} of an undirected edge is an
+ ({@link #source()} and {@link #target()}). The {@link EndpointPair} of an undirected edge is an
  unordered pair of nodes ({@link #nodeU()} and {@link #nodeV()}).
 
  @author James Sexton
@@ -36319,8 +36288,8 @@
       deprecated="not deprecated">
       <param name="object" type="java.lang.Object"/>
       <doc>
-      <![CDATA[For the default {@link Graph} implementations, returns true iff {@code this == object} (i.e.
- reference equality). External implementations are free to define this method as they see fit,
+      <![CDATA[For the default {@link Graph} implementations, returns true iff {@code this == object}
+ (reference equality). External implementations are free to define this method as they see fit,
  as long as they satisfy the {@link Object#equals(Object)} contract.
 
  <p>To compare two {@link Graph}s based on their contents rather than their references, see
@@ -36380,9 +36349,9 @@
 
  <p>The {@link Graph} interface does not support parallel {@link #edges()}, and forbids
  implementations or extensions with parallel edges. It is possible to encode a notion of edge
- multiplicity into the values of a {@ValueGraph} (e.g. with an integer or a list of values), but
- this will not be reflected in methods such as {@link Graph#degree(Object)}. For that
- functionality, use {@link Network}s.
+ multiplicity into the values of a {@link ValueGraph} (e.g. with an integer or a list of values),
+ but this will not be reflected in methods such as {@link Graph#degree(Object)}. For that
+ functionality, see {@link Network}.
 
  <p>All mutation methods live on the subinterface {@link MutableGraph}. If you do not need to
  mutate a graph (e.g. if you write a method than runs a read-only algorithm on the graph), you
@@ -37402,8 +37371,8 @@
       deprecated="not deprecated">
       <param name="object" type="java.lang.Object"/>
       <doc>
-      <![CDATA[For the default {@link Network} implementations, returns true iff {@code this == object} (i.e.
- reference equality). External implementations are free to define this method as they see fit,
+      <![CDATA[For the default {@link Network} implementations, returns true iff {@code this == object}
+ (reference equality). External implementations are free to define this method as they see fit,
  as long as they satisfy the {@link Object#equals(Object)} contract.
 
  <p>To compare two {@link Network}s based on their contents rather than their references, see
@@ -37669,8 +37638,8 @@
       <param name="object" type="java.lang.Object"/>
       <doc>
       <![CDATA[For the default {@link ValueGraph} implementations, returns true iff {@code this == object}
- (i.e. reference equality). External implementations are free to define this method as they see
- fit, as long as they satisfy the {@link Object#equals(Object)} contract.
+ (reference equality). External implementations are free to define this method as they see fit,
+ as long as they satisfy the {@link Object#equals(Object)} contract.
 
  <p>To compare two {@link ValueGraph}s based on their contents rather than their references, see
  {@link Graphs#equivalent(ValueGraph, ValueGraph)}.]]>
@@ -37729,9 +37698,9 @@
 
  <p>The {@link Graph} interface does not support parallel {@link #edges()}, and forbids
  implementations or extensions with parallel edges. It is possible to encode a notion of edge
- multiplicity into the values of a {@ValueGraph} (e.g. with an integer or a list of values), but
- this will not be reflected in methods such as {@link Graph#degree(Object)}. For that
- functionality, use {@link Network}s.
+ multiplicity into the values of a {@link ValueGraph} (e.g. with an integer or a list of values),
+ but this will not be reflected in methods such as {@link Graph#degree(Object)}. For that
+ functionality, see {@link Network}.
 
  <p>All mutation methods live on the subinterface {@link MutableValueGraph}. If you do not need to
  mutate a graph (e.g. if you write a method than runs a read-only algorithm on the graph), you

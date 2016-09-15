@@ -96,7 +96,7 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/hash/Funnels.html#line.33">Funnels</a>
+public final class <a href="../../../../src-html/com/google/common/hash/Funnels.html#line.31">Funnels</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Funnels for common types. All implementations are serializable.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -195,7 +195,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>byteArrayFunnel</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;byte[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnels.html#line.39">byteArrayFunnel</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;byte[]&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnels.html#line.37">byteArrayFunnel</a>()</pre>
 <div class="block">Returns a funnel that extracts the bytes from a <code>byte</code> array.</div>
 </li>
 </ul>
@@ -205,7 +205,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>unencodedCharsFunnel</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnels.html#line.63">unencodedCharsFunnel</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnels.html#line.61">unencodedCharsFunnel</a>()</pre>
 <div class="block">Returns a funnel that extracts the characters from a <code>CharSequence</code>, a character at a
  time, without performing any encoding. If you need to use a specific encoding, use
  <a href="../../../../com/google/common/hash/Funnels.html#stringFunnel(java.nio.charset.Charset)"><code>stringFunnel(Charset)</code></a> instead.</div>
@@ -219,7 +219,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>stringFunnel</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnels.html#line.86">stringFunnel</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnels.html#line.84">stringFunnel</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</pre>
 <div class="block">Returns a funnel that encodes the characters of a <code>CharSequence</code> with the specified
  <code>Charset</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -232,7 +232,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>integerFunnel</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnels.html#line.144">integerFunnel</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnels.html#line.142">integerFunnel</a>()</pre>
 <div class="block">Returns a funnel for integers.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>13.0</dd></dl>
@@ -244,7 +244,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>sequentialFunnel</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnels.html#line.167">sequentialFunnel</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;E&gt;&nbsp;elementFunnel)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnels.html#line.165">sequentialFunnel</a>(<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;E&gt;&nbsp;elementFunnel)</pre>
 <div class="block">Returns a funnel that processes an <code>Iterable</code> by funneling its elements in iteration
  order with the specified funnel. No separators are added between the elements.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -257,7 +257,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>longFunnel</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnels.html#line.209">longFunnel</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnels.html#line.207">longFunnel</a>()</pre>
 <div class="block">Returns a funnel for longs.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>13.0</dd></dl>
@@ -269,7 +269,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockListLast">
 <li class="blockList">
 <h4>asOutputStream</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnels.html#line.236">asOutputStream</a>(<a href="../../../../com/google/common/hash/PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a>&nbsp;sink)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/Funnels.html#line.234">asOutputStream</a>(<a href="../../../../com/google/common/hash/PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a>&nbsp;sink)</pre>
 <div class="block">Wraps a <code>PrimitiveSink</code> as an <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io"><code>OutputStream</code></a>, so it is easy to <a href="../../../../com/google/common/hash/Funnel.html#funnel(T,%20com.google.common.hash.PrimitiveSink)"><code>funnel</code></a> an object to a <code>PrimitiveSink</code> if there is already a way to write the contents of
  the object to an <code>OutputStream</code>.
 

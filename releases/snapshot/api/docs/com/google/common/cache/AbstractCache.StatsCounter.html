@@ -95,7 +95,7 @@
 </dl>
 <hr>
 <br>
-<pre>public static interface <a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.141">AbstractCache.StatsCounter</a></pre>
+<pre>public static interface <a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line.140">AbstractCache.StatsCounter</a></pre>
 <div class="block">Accumulates statistics during the operation of a <a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> for presentation by
  <a href="../../../../com/google/common/cache/Cache.html#stats()"><code>Cache.stats()</code></a>. This is solely intended for consumption by <code>Cache</code> implementors.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -175,7 +175,7 @@
 <ul class="blockList">
 <li class="blockList">
 <h4>recordHits</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.StatsCounter.html#line.148">recordHits</a>(int&nbsp;count)</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.StatsCounter.html#line.147">recordHits</a>(int&nbsp;count)</pre>
 <div class="block">Records cache hits. This should be called when a cache request returns a cached value.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>count</code> - the number of hits to record</dd><dt><span class="strong">Since:</span></dt>
   <dd>11.0</dd></dl>
@@ -187,7 +187,7 @@
 <ul class="blockList">
 <li class="blockList">
 <h4>recordMisses</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.StatsCounter.html#line.161">recordMisses</a>(int&nbsp;count)</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.StatsCounter.html#line.160">recordMisses</a>(int&nbsp;count)</pre>
 <div class="block">Records cache misses. This should be called when a cache request returns a value that was not
  found in the cache. This method should be called by the loading thread, as well as by threads
  blocking on the load. Multiple concurrent calls to <a href="../../../../com/google/common/cache/Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> lookup methods with the same
@@ -204,7 +204,7 @@
 <ul class="blockList">
 <li class="blockList">
 <h4>recordLoadSuccess</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.StatsCounter.html#line.171">recordLoadSuccess</a>(long&nbsp;loadTime)</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.StatsCounter.html#line.170">recordLoadSuccess</a>(long&nbsp;loadTime)</pre>
 <div class="block">Records the successful load of a new entry. This should be called when a cache request causes
  an entry to be loaded, and the loading completes successfully. In contrast to
  <a href="../../../../com/google/common/cache/AbstractCache.StatsCounter.html#recordMisses(int)"><code>recordMisses(int)</code></a>, this method should only be called by the loading thread.</div>
@@ -218,7 +218,7 @@
 <ul class="blockList">
 <li class="blockList">
 <h4>recordLoadException</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.StatsCounter.html#line.181">recordLoadException</a>(long&nbsp;loadTime)</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.StatsCounter.html#line.180">recordLoadException</a>(long&nbsp;loadTime)</pre>
 <div class="block">Records the failed load of a new entry. This should be called when a cache request causes an
  entry to be loaded, but an exception is thrown while loading the entry. In contrast to
  <a href="../../../../com/google/common/cache/AbstractCache.StatsCounter.html#recordMisses(int)"><code>recordMisses(int)</code></a>, this method should only be called by the loading thread.</div>
@@ -232,7 +232,7 @@
 <ul class="blockList">
 <li class="blockList">
 <h4>recordEviction</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.StatsCounter.html#line.188">recordEviction</a>()</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.StatsCounter.html#line.187">recordEviction</a>()</pre>
 <div class="block">Records the eviction of an entry from the cache. This should only been called when an entry
  is evicted due to the cache's eviction strategy, and not as a result of manual
  <a href="../../../../com/google/common/cache/Cache.html#invalidate(java.lang.Object)">invalidations</a>.</div>
@@ -244,7 +244,7 @@
 <ul class="blockListLast">
 <li class="blockList">
 <h4>snapshot</h4>
-<pre><a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.StatsCounter.html#line.194">snapshot</a>()</pre>
+<pre><a href="../../../../com/google/common/cache/CacheStats.html" title="class in com.google.common.cache">CacheStats</a>&nbsp;<a href="../../../../src-html/com/google/common/cache/AbstractCache.StatsCounter.html#line.193">snapshot</a>()</pre>
 <div class="block">Returns a snapshot of this counter's values. Note that this may be an inconsistent view, as
  it may be interleaved with update operations.</div>
 </li>

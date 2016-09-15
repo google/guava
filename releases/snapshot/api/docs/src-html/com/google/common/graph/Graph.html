@@ -73,9 +73,9 @@
 <span class="sourceLineNo">065</span> *<a name="line.65"></a>
 <span class="sourceLineNo">066</span> * &lt;p&gt;The {@link Graph} interface does not support parallel {@link #edges()}, and forbids<a name="line.66"></a>
 <span class="sourceLineNo">067</span> * implementations or extensions with parallel edges. It is possible to encode a notion of edge<a name="line.67"></a>
-<span class="sourceLineNo">068</span> * multiplicity into the values of a {@ValueGraph} (e.g. with an integer or a list of values), but<a name="line.68"></a>
-<span class="sourceLineNo">069</span> * this will not be reflected in methods such as {@link Graph#degree(Object)}. For that<a name="line.69"></a>
-<span class="sourceLineNo">070</span> * functionality, use {@link Network}s.<a name="line.70"></a>
+<span class="sourceLineNo">068</span> * multiplicity into the values of a {@link ValueGraph} (e.g. with an integer or a list of values),<a name="line.68"></a>
+<span class="sourceLineNo">069</span> * but this will not be reflected in methods such as {@link Graph#degree(Object)}. For that<a name="line.69"></a>
+<span class="sourceLineNo">070</span> * functionality, see {@link Network}.<a name="line.70"></a>
 <span class="sourceLineNo">071</span> *<a name="line.71"></a>
 <span class="sourceLineNo">072</span> * &lt;p&gt;All mutation methods live on the subinterface {@link MutableGraph}. If you do not need to<a name="line.72"></a>
 <span class="sourceLineNo">073</span> * mutate a graph (e.g. if you write a method than runs a read-only algorithm on the graph), you<a name="line.73"></a>
@@ -222,8 +222,8 @@
 <span class="sourceLineNo">214</span>  //<a name="line.214"></a>
 <span class="sourceLineNo">215</span><a name="line.215"></a>
 <span class="sourceLineNo">216</span>  /**<a name="line.216"></a>
-<span class="sourceLineNo">217</span>   * For the default {@link Graph} implementations, returns true iff {@code this == object} (i.e.<a name="line.217"></a>
-<span class="sourceLineNo">218</span>   * reference equality). External implementations are free to define this method as they see fit,<a name="line.218"></a>
+<span class="sourceLineNo">217</span>   * For the default {@link Graph} implementations, returns true iff {@code this == object}<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * (reference equality). External implementations are free to define this method as they see fit,<a name="line.218"></a>
 <span class="sourceLineNo">219</span>   * as long as they satisfy the {@link Object#equals(Object)} contract.<a name="line.219"></a>
 <span class="sourceLineNo">220</span>   *<a name="line.220"></a>
 <span class="sourceLineNo">221</span>   * &lt;p&gt;To compare two {@link Graph}s based on their contents rather than their references, see<a name="line.221"></a>

@@ -134,28 +134,19 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;</code></td>
-<td class="colLast"><span class="strong">MapConstraints.</span><code><strong><a href="../../../../../com/google/common/collect/MapConstraints.html#constrainedBiMap(com.google.common.collect.BiMap,%20com.google.common.collect.MapConstraint)">constrainedBiMap</a></strong>(<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;map,
-                                <a href="../../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;? super K,? super V&gt;&nbsp;constraint)</code>
-<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
-<div class="block">Returns a constrained view of the specified bimap, using the specified
- constraint.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="strong">Maps.</span><code><strong><a href="../../../../../com/google/common/collect/Maps.html#filterEntries(com.google.common.collect.BiMap,%20com.google.common.base.Predicate)">filterEntries</a></strong>(<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                           <a href="../../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;&nbsp;entryPredicate)</code>
 <div class="block">Returns a bimap containing the mappings in <code>unfiltered</code> that satisfy a predicate.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="strong">Maps.</span><code><strong><a href="../../../../../com/google/common/collect/Maps.html#filterKeys(com.google.common.collect.BiMap,%20com.google.common.base.Predicate)">filterKeys</a></strong>(<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                     <a href="../../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</code>
 <div class="block">Returns a bimap containing the mappings in <code>unfiltered</code> whose keys satisfy a predicate.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="strong">Maps.</span><code><strong><a href="../../../../../com/google/common/collect/Maps.html#filterValues(com.google.common.collect.BiMap,%20com.google.common.base.Predicate)">filterValues</a></strong>(<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                         <a href="../../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super V&gt;&nbsp;valuePredicate)</code>
@@ -163,24 +154,24 @@
  predicate.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;<a href="../../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>,<a href="../../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>&gt;</code></td>
 <td class="colLast"><span class="strong">HashBiMap.</span><code><strong><a href="../../../../../com/google/common/collect/HashBiMap.html#inverse()">inverse</a></strong>()</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;<a href="../../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">V</a>,<a href="../../../../../com/google/common/collect/BiMap.html" title="type parameter in BiMap">K</a>&gt;</code></td>
 <td class="colLast"><span class="strong">BiMap.</span><code><strong><a href="../../../../../com/google/common/collect/BiMap.html#inverse()">inverse</a></strong>()</code>
 <div class="block">Returns the inverse view of this bimap, which maps each of this bimap's
  values to its associated key.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="strong">Maps.</span><code><strong><a href="../../../../../com/google/common/collect/Maps.html#synchronizedBiMap(com.google.common.collect.BiMap)">synchronizedBiMap</a></strong>(<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;bimap)</code>
 <div class="block">Returns a synchronized (thread-safe) bimap backed by the specified bimap.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="strong">Maps.</span><code><strong><a href="../../../../../com/google/common/collect/Maps.html#unmodifiableBiMap(com.google.common.collect.BiMap)">unmodifiableBiMap</a></strong>(<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;? extends K,? extends V&gt;&nbsp;bimap)</code>
 <div class="block">Returns an unmodifiable view of the specified bimap.</div>
@@ -205,28 +196,19 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;</code></td>
-<td class="colLast"><span class="strong">MapConstraints.</span><code><strong><a href="../../../../../com/google/common/collect/MapConstraints.html#constrainedBiMap(com.google.common.collect.BiMap,%20com.google.common.collect.MapConstraint)">constrainedBiMap</a></strong>(<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;map,
-                                <a href="../../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;? super K,? super V&gt;&nbsp;constraint)</code>
-<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
-<div class="block">Returns a constrained view of the specified bimap, using the specified
- constraint.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="strong">Maps.</span><code><strong><a href="../../../../../com/google/common/collect/Maps.html#filterEntries(com.google.common.collect.BiMap,%20com.google.common.base.Predicate)">filterEntries</a></strong>(<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                           <a href="../../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;K,V&gt;&gt;&nbsp;entryPredicate)</code>
 <div class="block">Returns a bimap containing the mappings in <code>unfiltered</code> that satisfy a predicate.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="strong">Maps.</span><code><strong><a href="../../../../../com/google/common/collect/Maps.html#filterKeys(com.google.common.collect.BiMap,%20com.google.common.base.Predicate)">filterKeys</a></strong>(<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                     <a href="../../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super K&gt;&nbsp;keyPredicate)</code>
 <div class="block">Returns a bimap containing the mappings in <code>unfiltered</code> whose keys satisfy a predicate.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="strong">Maps.</span><code><strong><a href="../../../../../com/google/common/collect/Maps.html#filterValues(com.google.common.collect.BiMap,%20com.google.common.base.Predicate)">filterValues</a></strong>(<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;unfiltered,
                         <a href="../../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super V&gt;&nbsp;valuePredicate)</code>
@@ -234,13 +216,13 @@
  predicate.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="strong">Maps.</span><code><strong><a href="../../../../../com/google/common/collect/Maps.html#synchronizedBiMap(com.google.common.collect.BiMap)">synchronizedBiMap</a></strong>(<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;bimap)</code>
 <div class="block">Returns a synchronized (thread-safe) bimap backed by the specified bimap.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="strong">Maps.</span><code><strong><a href="../../../../../com/google/common/collect/Maps.html#unmodifiableBiMap(com.google.common.collect.BiMap)">unmodifiableBiMap</a></strong>(<a href="../../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;? extends K,? extends V&gt;&nbsp;bimap)</code>
 <div class="block">Returns an unmodifiable view of the specified bimap.</div>

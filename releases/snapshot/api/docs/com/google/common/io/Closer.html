@@ -101,7 +101,7 @@
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final class <a href="../../../../src-html/com/google/common/io/Closer.html#line.92">Closer</a>
+public final class <a href="../../../../src-html/com/google/common/io/Closer.html#line.90">Closer</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</a></pre>
 <div class="block">A <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io"><code>Closeable</code></a> that collects <code>Closeable</code> resources and closes them all when it is
@@ -243,7 +243,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.h
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/io/Closer.html" title="class in com.google.common.io">Closer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.105">create</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/io/Closer.html" title="class in com.google.common.io">Closer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.103">create</a>()</pre>
 <div class="block">Creates a new <a href="../../../../com/google/common/io/Closer.html" title="class in com.google.common.io"><code>Closer</code></a>.</div>
 </li>
 </ul>
@@ -255,7 +255,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.h
 <ul class="blockList">
 <li class="blockList">
 <h4>register</h4>
-<pre>public&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</a>&gt;&nbsp;C&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.128">register</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</a>&gt;&nbsp;C&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.126">register</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                                C&nbsp;closeable)</pre>
 <div class="block">Registers the given <code>closeable</code> to be closed when this <code>Closer</code> is
  <a href="../../../../com/google/common/io/Closer.html#close()">closed</a>.</div>
@@ -268,7 +268,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.h
 <ul class="blockList">
 <li class="blockList">
 <h4>rethrow</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.149">rethrow</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;e)
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.147">rethrow</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;e)
                          throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Stores the given throwable and rethrows it. It will be rethrown as is if it is an
  <code>IOException</code>, <code>RuntimeException</code> or <code>Error</code>. Otherwise, it will be rethrown
@@ -289,7 +289,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.h
 <ul class="blockList">
 <li class="blockList">
 <h4>rethrow</h4>
-<pre>public&nbsp;&lt;X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.170">rethrow</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;e,
+<pre>public&nbsp;&lt;X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.168">rethrow</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;e,
                                              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;declaredType)
                          throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a>,
                                 X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
@@ -314,7 +314,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.h
 <ul class="blockList">
 <li class="blockList">
 <h4>rethrow</h4>
-<pre>public&nbsp;&lt;X1 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>,X2 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.194">rethrow</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;e,
+<pre>public&nbsp;&lt;X1 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>,X2 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html?is-external=true" title="class or interface in java.lang">RuntimeException</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.192">rethrow</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;e,
                                                                    <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X1&gt;&nbsp;declaredType1,
                                                                    <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X2&gt;&nbsp;declaredType2)
                          throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a>,
@@ -342,7 +342,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>close</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.211">close</a>()
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Closer.html#line.209">close</a>()
            throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Closes all <code>Closeable</code> instances that have been added to this <code>Closer</code>. If an
  exception was thrown in the try block and passed to one of the <code>exceptionThrown</code> methods,

@@ -105,7 +105,7 @@
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public final class <a href="../../../../src-html/com/google/common/collect/MapConstraints.html#line.55">MapConstraints</a>
+public final class <a href="../../../../src-html/com/google/common/collect/MapConstraints.html#line.50">MapConstraints</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Factory and utilities pertaining to the <code>MapConstraint</code> interface.</div>
 <dl><dt><span class="strong">Since:</span></dt>
@@ -132,15 +132,6 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/MapConstraints.html#constrainedBiMap(com.google.common.collect.BiMap,%20com.google.common.collect.MapConstraint)">constrainedBiMap</a></strong>(<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;map,
-                                <a href="../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;? super K,? super V&gt;&nbsp;constraint)</code>
-<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
-<div class="block">Returns a constrained view of the specified bimap, using the specified
- constraint.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/MapConstraints.html#constrainedListMultimap(com.google.common.collect.ListMultimap,%20com.google.common.collect.MapConstraint)">constrainedListMultimap</a></strong>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;multimap,
                                               <a href="../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;? super K,? super V&gt;&nbsp;constraint)</code>
@@ -149,40 +140,13 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  specified constraint.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/MapConstraints.html#constrainedMap(java.util.Map,%20com.google.common.collect.MapConstraint)">constrainedMap</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;map,
                             <a href="../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;? super K,? super V&gt;&nbsp;constraint)</code>
 <div class="block"><strong>Deprecated.</strong>&nbsp;</div>
 <div class="block">Returns a constrained view of the specified map, using the specified
  constraint.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/MapConstraints.html#constrainedMultimap(com.google.common.collect.Multimap,%20com.google.common.collect.MapConstraint)">constrainedMultimap</a></strong>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;multimap,
-                                      <a href="../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;? super K,? super V&gt;&nbsp;constraint)</code>
-<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
-<div class="block">Returns a constrained view of the specified multimap, using the specified
- constraint.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/MapConstraints.html#constrainedSetMultimap(com.google.common.collect.SetMultimap,%20com.google.common.collect.MapConstraint)">constrainedSetMultimap</a></strong>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;multimap,
-                                            <a href="../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;? super K,? super V&gt;&nbsp;constraint)</code>
-<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
-<div class="block">Returns a constrained view of the specified set multimap, using the
- specified constraint.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/MapConstraints.html#constrainedSortedSetMultimap(com.google.common.collect.SortedSetMultimap,%20com.google.common.collect.MapConstraint)">constrainedSortedSetMultimap</a></strong>(<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;multimap,
-                                                        <a href="../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;? super K,? super V&gt;&nbsp;constraint)</code>
-<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
-<div class="block">Returns a constrained view of the specified sorted-set multimap, using the
- specified constraint.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -221,7 +185,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>notNull</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapConstraints.html#line.62">notNull</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapConstraints.html#line.57">notNull</a>()</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <div class="block">Returns a constraint that verifies that neither the key nor the value is
  null. If either is null, a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang"><code>NullPointerException</code></a> is thrown.</div>
@@ -233,7 +197,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <ul class="blockList">
 <li class="blockList">
 <h4>constrainedMap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapConstraints.html#line.94">constrainedMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;map,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapConstraints.html#line.89">constrainedMap</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;map,
                             <a href="../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;? super K,? super V&gt;&nbsp;constraint)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <div class="block">Returns a constrained view of the specified map, using the specified
@@ -246,36 +210,13 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <dt><span class="strong">Returns:</span></dt><dd>a constrained view of the specified map</dd></dl>
 </li>
 </ul>
-<a name="constrainedMultimap(com.google.common.collect.Multimap, com.google.common.collect.MapConstraint)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>constrainedMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapConstraints.html#line.115">constrainedMultimap</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,V&gt;&nbsp;multimap,
-                                      <a href="../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;? super K,? super V&gt;&nbsp;constraint)</pre>
-<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
-<div class="block">Returns a constrained view of the specified multimap, using the specified
- constraint. Any operations that add new mappings will call the provided
- constraint. However, this method does not verify that existing mappings
- satisfy the constraint.
-
- <p>Note that the generated multimap's <a href="../../../../com/google/common/collect/Multimap.html#removeAll(java.lang.Object)"><code>Multimap.removeAll(java.lang.Object)</code></a> and
- <a href="../../../../com/google/common/collect/Multimap.html#replaceValues(K,%20java.lang.Iterable)"><code>Multimap.replaceValues(K, java.lang.Iterable&lt;? extends V&gt;)</code></a> methods return collections that are not
- constrained.
-
- <p>The returned multimap is not serializable.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>multimap</code> - the multimap to constrain</dd><dd><code>constraint</code> - the constraint that validates added entries</dd>
-<dt><span class="strong">Returns:</span></dt><dd>a constrained view of the multimap</dd></dl>
-</li>
-</ul>
 <a name="constrainedListMultimap(com.google.common.collect.ListMultimap, com.google.common.collect.MapConstraint)">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>constrainedListMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapConstraints.html#line.136">constrainedListMultimap</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;multimap,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapConstraints.html#line.110">constrainedListMultimap</a>(<a href="../../../../com/google/common/collect/ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,V&gt;&nbsp;multimap,
                                               <a href="../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;? super K,? super V&gt;&nbsp;constraint)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <div class="block">Returns a constrained view of the specified list multimap, using the
@@ -290,68 +231,6 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
  <p>The returned multimap is not serializable.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>multimap</code> - the multimap to constrain</dd><dd><code>constraint</code> - the constraint that validates added entries</dd>
 <dt><span class="strong">Returns:</span></dt><dd>a constrained view of the specified multimap</dd></dl>
-</li>
-</ul>
-<a name="constrainedSetMultimap(com.google.common.collect.SetMultimap, com.google.common.collect.MapConstraint)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>constrainedSetMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapConstraints.html#line.156">constrainedSetMultimap</a>(<a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,V&gt;&nbsp;multimap,
-                                            <a href="../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;? super K,? super V&gt;&nbsp;constraint)</pre>
-<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
-<div class="block">Returns a constrained view of the specified set multimap, using the
- specified constraint. Any operations that add new mappings will call the
- provided constraint. However, this method does not verify that existing
- mappings satisfy the constraint.
-
- <p>Note that the generated multimap's <a href="../../../../com/google/common/collect/Multimap.html#removeAll(java.lang.Object)"><code>Multimap.removeAll(java.lang.Object)</code></a> and
- <a href="../../../../com/google/common/collect/Multimap.html#replaceValues(K,%20java.lang.Iterable)"><code>Multimap.replaceValues(K, java.lang.Iterable&lt;? extends V&gt;)</code></a> methods return collections that are not
- constrained.
- <p>The returned multimap is not serializable.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>multimap</code> - the multimap to constrain</dd><dd><code>constraint</code> - the constraint that validates added entries</dd>
-<dt><span class="strong">Returns:</span></dt><dd>a constrained view of the specified multimap</dd></dl>
-</li>
-</ul>
-<a name="constrainedSortedSetMultimap(com.google.common.collect.SortedSetMultimap, com.google.common.collect.MapConstraint)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>constrainedSortedSetMultimap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapConstraints.html#line.176">constrainedSortedSetMultimap</a>(<a href="../../../../com/google/common/collect/SortedSetMultimap.html" title="interface in com.google.common.collect">SortedSetMultimap</a>&lt;K,V&gt;&nbsp;multimap,
-                                                        <a href="../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;? super K,? super V&gt;&nbsp;constraint)</pre>
-<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
-<div class="block">Returns a constrained view of the specified sorted-set multimap, using the
- specified constraint. Any operations that add new mappings will call the
- provided constraint. However, this method does not verify that existing
- mappings satisfy the constraint.
-
- <p>Note that the generated multimap's <a href="../../../../com/google/common/collect/Multimap.html#removeAll(java.lang.Object)"><code>Multimap.removeAll(java.lang.Object)</code></a> and
- <a href="../../../../com/google/common/collect/Multimap.html#replaceValues(K,%20java.lang.Iterable)"><code>Multimap.replaceValues(K, java.lang.Iterable&lt;? extends V&gt;)</code></a> methods return collections that are not
- constrained.
- <p>The returned multimap is not serializable.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>multimap</code> - the multimap to constrain</dd><dd><code>constraint</code> - the constraint that validates added entries</dd>
-<dt><span class="strong">Returns:</span></dt><dd>a constrained view of the specified multimap</dd></dl>
-</li>
-</ul>
-<a name="constrainedBiMap(com.google.common.collect.BiMap, com.google.common.collect.MapConstraint)">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>constrainedBiMap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/MapConstraints.html#line.348">constrainedBiMap</a>(<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;&nbsp;map,
-                                <a href="../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;? super K,? super V&gt;&nbsp;constraint)</pre>
-<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
-<div class="block">Returns a constrained view of the specified bimap, using the specified
- constraint. Any operations that modify the bimap will have the associated
- keys and values verified with the constraint.
-
- <p>The returned bimap is not serializable.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>map</code> - the bimap to constrain</dd><dd><code>constraint</code> - the constraint that validates added entries</dd>
-<dt><span class="strong">Returns:</span></dt><dd>a constrained view of the specified bimap</dd></dl>
 </li>
 </ul>
 </li>

@@ -121,7 +121,7 @@
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.35">AbstractCheckedFuture</a>&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;
+public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.34">AbstractCheckedFuture</a>&lt;V,X extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;
 extends <a href="../../../../../com/google/common/util/concurrent/ForwardingListenableFuture.SimpleForwardingListenableFuture.html" title="class in com.google.common.util.concurrent">ForwardingListenableFuture.SimpleForwardingListenableFuture</a>&lt;V&gt;
 implements <a href="../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X&gt;</pre>
 <div class="block">A delegating wrapper around a <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that adds support for the <a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html#checkedGet()"><code>checkedGet()</code></a> and <a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html#checkedGet(long,%20java.util.concurrent.TimeUnit)"><code>checkedGet(long, TimeUnit)</code></a> methods.</div>
@@ -282,7 +282,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractCheckedFuture</h4>
-<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.41">AbstractCheckedFuture</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a>&gt;&nbsp;delegate)</pre>
+<pre>protected&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.40">AbstractCheckedFuture</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a>&gt;&nbsp;delegate)</pre>
 <div class="block">Constructs an <code>AbstractCheckedFuture</code> that wraps a delegate.</div>
 </li>
 </ul>
@@ -300,7 +300,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <ul class="blockList">
 <li class="blockList">
 <h4>mapException</h4>
-<pre>protected abstract&nbsp;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">X</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.59">mapException</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&nbsp;e)</pre>
+<pre>protected abstract&nbsp;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">X</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.58">mapException</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&nbsp;e)</pre>
 <div class="block">Translates from an <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> or <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> thrown by <code>get</code> to an exception of type <code>X</code> to be thrown by
  <code>checkedGet</code>. Subclasses must implement this method.
 
@@ -317,7 +317,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <ul class="blockList">
 <li class="blockList">
 <h4>checkedGet</h4>
-<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.75">checkedGet</a>()
+<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.74">checkedGet</a>()
              throws <a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">X</a> extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>
 <div class="block">Exception checking version of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html?is-external=true#get()" title="class or interface in java.util.concurrent"><code>Future.get()</code></a> that will translate <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang"><code>InterruptedException</code></a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CancellationException.html?is-external=true" title="class or interface in java.util.concurrent"><code>CancellationException</code></a> and <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a> into
  application-specific exceptions.
@@ -342,7 +342,7 @@ implements <a href="../../../../../com/google/common/util/concurrent/CheckedFutu
 <ul class="blockListLast">
 <li class="blockList">
 <h4>checkedGet</h4>
-<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.103">checkedGet</a>(long&nbsp;timeout,
+<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">V</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractCheckedFuture.html#line.102">checkedGet</a>(long&nbsp;timeout,
            <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
              throws <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a>,
                     <a href="../../../../../com/google/common/util/concurrent/AbstractCheckedFuture.html" title="type parameter in AbstractCheckedFuture">X</a> extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a></pre>

@@ -72,9 +72,9 @@
 <span class="sourceLineNo">064</span> *<a name="line.64"></a>
 <span class="sourceLineNo">065</span> * &lt;p&gt;The {@link Graph} interface does not support parallel {@link #edges()}, and forbids<a name="line.65"></a>
 <span class="sourceLineNo">066</span> * implementations or extensions with parallel edges. It is possible to encode a notion of edge<a name="line.66"></a>
-<span class="sourceLineNo">067</span> * multiplicity into the values of a {@ValueGraph} (e.g. with an integer or a list of values), but<a name="line.67"></a>
-<span class="sourceLineNo">068</span> * this will not be reflected in methods such as {@link Graph#degree(Object)}. For that<a name="line.68"></a>
-<span class="sourceLineNo">069</span> * functionality, use {@link Network}s.<a name="line.69"></a>
+<span class="sourceLineNo">067</span> * multiplicity into the values of a {@link ValueGraph} (e.g. with an integer or a list of values),<a name="line.67"></a>
+<span class="sourceLineNo">068</span> * but this will not be reflected in methods such as {@link Graph#degree(Object)}. For that<a name="line.68"></a>
+<span class="sourceLineNo">069</span> * functionality, see {@link Network}.<a name="line.69"></a>
 <span class="sourceLineNo">070</span> *<a name="line.70"></a>
 <span class="sourceLineNo">071</span> * &lt;p&gt;All mutation methods live on the subinterface {@link MutableValueGraph}. If you do not need to<a name="line.71"></a>
 <span class="sourceLineNo">072</span> * mutate a graph (e.g. if you write a method than runs a read-only algorithm on the graph), you<a name="line.72"></a>
@@ -142,8 +142,8 @@
 <span class="sourceLineNo">134</span><a name="line.134"></a>
 <span class="sourceLineNo">135</span>  /**<a name="line.135"></a>
 <span class="sourceLineNo">136</span>   * For the default {@link ValueGraph} implementations, returns true iff {@code this == object}<a name="line.136"></a>
-<span class="sourceLineNo">137</span>   * (i.e. reference equality). External implementations are free to define this method as they see<a name="line.137"></a>
-<span class="sourceLineNo">138</span>   * fit, as long as they satisfy the {@link Object#equals(Object)} contract.<a name="line.138"></a>
+<span class="sourceLineNo">137</span>   * (reference equality). External implementations are free to define this method as they see fit,<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   * as long as they satisfy the {@link Object#equals(Object)} contract.<a name="line.138"></a>
 <span class="sourceLineNo">139</span>   *<a name="line.139"></a>
 <span class="sourceLineNo">140</span>   * &lt;p&gt;To compare two {@link ValueGraph}s based on their contents rather than their references, see<a name="line.140"></a>
 <span class="sourceLineNo">141</span>   * {@link Graphs#equivalent(ValueGraph, ValueGraph)}.<a name="line.141"></a>
