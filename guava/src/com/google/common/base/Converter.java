@@ -406,10 +406,10 @@ public abstract class Converter<A, B> implements Function<A, B> {
   // Static converters
 
   /**
-   * Returns a converter based on <i>existing</i> forward and backward functions. Note that it is
-   * unnecessary to create <i>new</i> classes implementing {@code Function} just to pass them in
-   * here. Instead, simply subclass {@code Converter} and implement its {@link #doForward} and
-   * {@link #doBackward} methods directly.
+   * Returns a converter based on separate forward and backward functions. This is useful if the
+   * function instances already exist, or so that you can supply lambda expressions. If those
+   * circumstances don't apply, you probably don't need to use this; subclass {@code Converter} and
+   * implement its {@link #doForward} and {@link #doBackward} methods directly.
    *
    * <p>These functions will never be passed {@code null} and must not under any circumstances
    * return {@code null}. If a value cannot be converted, the function should throw an unchecked

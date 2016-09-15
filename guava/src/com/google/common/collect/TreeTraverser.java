@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Function;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
@@ -31,19 +32,34 @@ import java.util.Queue;
  *
  * <p>For example, the tree
  *
- * <pre>          {@code
- *          h
- *        / | \
- *       /  e  \
- *      d       g
- *     /|\      |
- *    / | \     f
- *   a  b  c       }</pre>
+ * <pre>{@code
+ *        h
+ *      / | \
+ *     /  e  \
+ *    d       g
+ *   /|\      |
+ *  / | \     f
+ * a  b  c
+ * }</pre>
  *
  * <p>can be iterated over in preorder (hdabcegf), postorder (abcdefgh), or breadth-first order
  * (hdegabcf).
  *
  * <p>Null nodes are strictly forbidden.
+ *
+ * <p><b>For Java 8 users:</b> Because this is an abstract class, not an interface, you can't use a
+ * lambda expression to extend it:
+ *
+ * <pre>{@code
+ * // won't work
+ * TreeTraverser<NodeType> traverser = node -> node.getChildNodes();
+ * }</pre>
+ *
+ * Instead, you can pass a lambda expression to the {@code using} factory method:
+ *
+ * <pre>{@code
+ * TreeTraverser<NodeType> traverser = TreeTraverser.using(node -> node.getChildNodes());
+ * }</pre>
  *
  * @author Louis Wasserman
  * @since 15.0
@@ -52,6 +68,25 @@ import java.util.Queue;
 @GwtCompatible(emulated = true)
 public abstract class TreeTraverser<T> {
   // TODO(lowasser): make this GWT-compatible when we've checked in ArrayDeque emulation
+
+  /**
+   * Returns a tree traverser that uses the given function to navigate from a node to its children.
+   * This is useful if the function instance already exists, or so that you can supply a lambda
+   * expressions. If those circumstances don't apply, you probably don't need to use this; subclass
+   * {@code TreeTraverser} and implement its {@link #children} method directly.
+   *
+   * @since 20.0
+   */
+  public static <T> TreeTraverser<T> using(
+      final Function<T, ? extends Iterable<T>> nodeToChildrenFunction) {
+    checkNotNull(nodeToChildrenFunction);
+    return new TreeTraverser<T>() {
+      @Override
+      public Iterable<T> children(T root) {
+        return nodeToChildrenFunction.apply(root);
+      }
+    };
+  }
 
   /**
    * Returns the children of the specified node.  Must not contain null.

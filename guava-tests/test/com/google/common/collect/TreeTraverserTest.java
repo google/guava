@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
@@ -62,6 +63,15 @@ public class TreeTraverserTest extends TestCase {
       return node.children;
     }
   };
+
+  private static final TreeTraverser<Tree> ADAPTER_USING_USING =
+      TreeTraverser.using(
+          new Function<Tree, Iterable<Tree>>() {
+            @Override
+            public Iterable<Tree> apply(Tree node) {
+              return node.children;
+            }
+          });
 
   private static final BinaryTreeTraverser<BinaryTree> BIN_ADAPTER =
       new BinaryTreeTraverser<BinaryTree>() {
@@ -141,6 +151,10 @@ public class TreeTraverserTest extends TestCase {
 
   public void testInOrder() {
     assertThat(binaryIterationOrder(BIN_ADAPTER.inOrderTraversal(bd))).isEqualTo("abcdegf");
+  }
+
+  public void testUsing() {
+    assertThat(iterationOrder(ADAPTER_USING_USING.preOrderTraversal(h))).isEqualTo("hdabcegf");
   }
 
   @GwtIncompatible // NullPointerTester
