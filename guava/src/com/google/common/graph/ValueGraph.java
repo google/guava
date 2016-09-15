@@ -64,9 +64,9 @@ import javax.annotation.Nullable;
  *
  * <p>The {@link Graph} interface does not support parallel {@link #edges()}, and forbids
  * implementations or extensions with parallel edges. It is possible to encode a notion of edge
- * multiplicity into the values of a {@ValueGraph} (e.g. with an integer or a list of values), but
- * this will not be reflected in methods such as {@link Graph#degree(Object)}. For that
- * functionality, use {@link Network}s.
+ * multiplicity into the values of a {@link ValueGraph} (e.g. with an integer or a list of values),
+ * but this will not be reflected in methods such as {@link Graph#degree(Object)}. For that
+ * functionality, see {@link Network}.
  *
  * <p>All mutation methods live on the subinterface {@link MutableValueGraph}. If you do not need to
  * mutate a graph (e.g. if you write a method than runs a read-only algorithm on the graph), you
