@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 /**
  * An immutable pair representing the two (possibly equal, in the case of a self-loop) endpoints of
  * an edge in a graph. The {@link EndpointPair} of a directed edge is an ordered pair of nodes
- * ({@link #source()} and {@link #source()}). The {@link EndpointPair} of an undirected edge is an
+ * ({@link #source()} and {@link #target()}). The {@link EndpointPair} of an undirected edge is an
  * unordered pair of nodes ({@link #nodeU()} and {@link #nodeV()}).
  *
  * @author James Sexton
