@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 /**
@@ -29,7 +30,7 @@ import java.util.Iterator;
  * @author Louis Wasserman
  */
 @GwtCompatible
-abstract class TransformedIterator<F, T> implements Iterator<T> {
+abstract class TransformedIterator<F, T> implements Iterator<T>, Serializable {
   final Iterator<? extends F> backingIterator;
 
   TransformedIterator(Iterator<? extends F> backingIterator) {
