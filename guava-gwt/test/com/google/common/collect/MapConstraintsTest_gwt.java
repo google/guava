@@ -28,21 +28,6 @@ public void testConstrainedMapLegal() throws Exception {
   testCase.testConstrainedMapLegal();
 }
 
-public void testConstrainedMultimapIllegal() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testConstrainedMultimapIllegal();
-}
-
-public void testConstrainedMultimapLegal() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testConstrainedMultimapLegal();
-}
-
-public void testConstrainedMultimapQueue() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testConstrainedMultimapQueue();
-}
-
 public void testConstrainedTypePreservingList() throws Exception {
   com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
   testCase.testConstrainedTypePreservingList();
@@ -63,54 +48,9 @@ public void testMapEntrySetToArray() throws Exception {
   testCase.testMapEntrySetToArray();
 }
 
-public void testMultimapAsMapEntriesContainsNefariousEntry() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testMultimapAsMapEntriesContainsNefariousEntry();
-}
-
-public void testMultimapAsMapEntriesRemoveNefariousEntry() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testMultimapAsMapEntriesRemoveNefariousEntry();
-}
-
-public void testMultimapAsMapEntriesToArray() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testMultimapAsMapEntriesToArray();
-}
-
-public void testMultimapAsMapValuesToArray() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testMultimapAsMapValuesToArray();
-}
-
-public void testMultimapEntriesContainsNefariousEntry() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testMultimapEntriesContainsNefariousEntry();
-}
-
-public void testMultimapEntriesRemoveNefariousEntry() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testMultimapEntriesRemoveNefariousEntry();
-}
-
 public void testNefariousMapPutAll() throws Exception {
   com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
   testCase.testNefariousMapPutAll();
-}
-
-public void testNefariousMultimapGetAddAll() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testNefariousMultimapGetAddAll();
-}
-
-public void testNefariousMultimapPutAllIterable() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testNefariousMultimapPutAllIterable();
-}
-
-public void testNefariousMultimapPutAllMultimap() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testNefariousMultimapPutAllMultimap();
 }
 
 public void testNotNull() throws Exception {

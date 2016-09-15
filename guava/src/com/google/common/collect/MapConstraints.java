@@ -92,27 +92,6 @@ public final class MapConstraints {
   }
 
   /**
-   * Returns a constrained view of the specified multimap, using the specified
-   * constraint. Any operations that add new mappings will call the provided
-   * constraint. However, this method does not verify that existing mappings
-   * satisfy the constraint.
-   *
-   * <p>Note that the generated multimap's {@link Multimap#removeAll} and
-   * {@link Multimap#replaceValues} methods return collections that are not
-   * constrained.
-   *
-   * <p>The returned multimap is not serializable.
-   *
-   * @param multimap the multimap to constrain
-   * @param constraint the constraint that validates added entries
-   * @return a constrained view of the multimap
-   */
-  public static <K, V> Multimap<K, V> constrainedMultimap(
-      Multimap<K, V> multimap, MapConstraint<? super K, ? super V> constraint) {
-    return new ConstrainedMultimap<K, V>(multimap, constraint);
-  }
-
-  /**
    * Returns a constrained view of the specified list multimap, using the
    * specified constraint. Any operations that add new mappings will call the
    * provided constraint. However, this method does not verify that existing
