@@ -133,14 +133,14 @@ public abstract class AbstractGraphTest {
       assertThat(nodeString).contains(node.toString());
 
       if (graph.isDirected()) {
-        assertThat(graph.degree(node))
-            .isEqualTo(graph.predecessors(node).size() + graph.successors(node).size());
+        assertThat(graph.degree(node)).isEqualTo(graph.inDegree(node) + graph.outDegree(node));
         assertThat(graph.predecessors(node)).hasSize(graph.inDegree(node));
         assertThat(graph.successors(node)).hasSize(graph.outDegree(node));
       } else {
-        Set<N> neighbors = graph.adjacentNodes(node);
-        assertThat(graph.degree(node))
-            .isEqualTo(neighbors.size() + (neighbors.contains(node) ? 1 : 0));
+        int selfLoopCount = graph.adjacentNodes(node).contains(node) ? 1 : 0;
+        assertThat(graph.degree(node)).isEqualTo(graph.adjacentNodes(node).size() + selfLoopCount);
+        assertThat(graph.predecessors(node)).isEqualTo(graph.adjacentNodes(node));
+        assertThat(graph.successors(node)).isEqualTo(graph.adjacentNodes(node));
         assertThat(graph.inDegree(node)).isEqualTo(graph.degree(node));
         assertThat(graph.outDegree(node)).isEqualTo(graph.degree(node));
       }

@@ -75,7 +75,7 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
 
       @Override
       public int size() {
-        return IntMath.saturatedAdd(inEdgeMap.size() - selfLoopCount, outEdgeMap.size());
+        return IntMath.saturatedAdd(inEdgeMap.size(), outEdgeMap.size() - selfLoopCount);
       }
 
       @Override
