@@ -20,9 +20,7 @@ import static com.google.common.collect.testing.Helpers.nefariousMapEntry;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
-import com.google.common.testing.SerializableTester;
 import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Collection;
@@ -42,7 +40,7 @@ import junit.framework.TestCase;
  * @author Mike Bostock
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class MapConstraintsTest extends TestCase {
 
   private static final String TEST_KEY = "test";
@@ -72,24 +70,6 @@ public class MapConstraintsTest extends TestCase {
       }
     }
     private static final long serialVersionUID = 0;
-  }
-
-  public void testNotNull() {
-    MapConstraint<Object, Object> constraint = MapConstraints.notNull();
-    constraint.checkKeyValue("foo", 1);
-    assertEquals("Not null", constraint.toString());
-    try {
-      constraint.checkKeyValue(null, 1);
-      fail("NullPointerException expected");
-    } catch (NullPointerException expected) {}
-    try {
-      constraint.checkKeyValue("foo", null);
-      fail("NullPointerException expected");
-    } catch (NullPointerException expected) {}
-    try {
-      constraint.checkKeyValue(null, null);
-      fail("NullPointerException expected");
-    } catch (NullPointerException expected) {}
   }
 
   public void testConstrainedMapLegal() {
@@ -250,12 +230,5 @@ public class MapConstraintsTest extends TestCase {
         throw new UnsupportedOperationException();
       }
     };
-  }
-
-  @GwtIncompatible // SerializableTester
-  public void testSerialization() {
-    // TODO: Test serialization of constrained collections.
-    assertSame(MapConstraints.notNull(),
-        SerializableTester.reserialize(MapConstraints.notNull()));
   }
 }

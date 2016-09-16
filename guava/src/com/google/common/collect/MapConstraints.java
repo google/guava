@@ -51,30 +51,6 @@ public final class MapConstraints {
   private MapConstraints() {}
 
   /**
-   * Returns a constraint that verifies that neither the key nor the value is
-   * null. If either is null, a {@link NullPointerException} is thrown.
-   */
-  public static MapConstraint<Object, Object> notNull() {
-    return NotNullMapConstraint.INSTANCE;
-  }
-
-  // enum singleton pattern
-  private enum NotNullMapConstraint implements MapConstraint<Object, Object> {
-    INSTANCE;
-
-    @Override
-    public void checkKeyValue(Object key, Object value) {
-      checkNotNull(key);
-      checkNotNull(value);
-    }
-
-    @Override
-    public String toString() {
-      return "Not null";
-    }
-  }
-
-  /**
    * Returns a constrained view of the specified map, using the specified
    * constraint. Any operations that add new mappings will call the provided
    * constraint. However, this method does not verify that existing mappings

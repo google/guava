@@ -49,8 +49,6 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MapConstraint;
-import com.google.common.collect.MapConstraints;
 import com.google.common.collect.MapDifference;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -274,7 +272,6 @@ public final class ArbitraryInstances {
       .put(Comparator.class, AlwaysEqual.INSTANCE)
       .put(Ordering.class, AlwaysEqual.INSTANCE)
       .put(Range.class, Range.all())
-      .put(MapConstraint.class, MapConstraints.notNull())
       .put(MapDifference.class, Maps.difference(ImmutableMap.of(), ImmutableMap.of()))
       .put(SortedMapDifference.class,
           Maps.difference(ImmutableSortedMap.of(), ImmutableSortedMap.of()))

@@ -43,7 +43,6 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MapConstraint;
 import com.google.common.collect.MapDifference;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
@@ -227,7 +226,6 @@ public class ArbitraryInstancesTest extends TestCase {
     assertThat(ArbitraryInstances.get(Optional.class)).isAbsent();
     ArbitraryInstances.get(Stopwatch.class).start();
     assertNotNull(ArbitraryInstances.get(Ticker.class));
-    assertNotNull(ArbitraryInstances.get(MapConstraint.class));
     assertFreshInstanceReturned(Random.class);
     assertEquals(ArbitraryInstances.get(Random.class).nextInt(),
         ArbitraryInstances.get(Random.class).nextInt());

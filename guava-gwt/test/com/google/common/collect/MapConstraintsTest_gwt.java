@@ -52,9 +52,4 @@ public void testNefariousMapPutAll() throws Exception {
   com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
   testCase.testNefariousMapPutAll();
 }
-
-public void testNotNull() throws Exception {
-  com.google.common.collect.MapConstraintsTest testCase = new com.google.common.collect.MapConstraintsTest();
-  testCase.testNotNull();
-}
 }
