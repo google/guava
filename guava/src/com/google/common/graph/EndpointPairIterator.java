@@ -33,14 +33,14 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
   private final Graph<N> graph;
   private final Iterator<N> nodeIterator;
 
-  N node = null; // null is safe as an initial value because graphs do not allow null nodes
-  Iterator<N> successorIterator = ImmutableSet.<N>of().iterator();
+  protected N node = null; // null is safe as an initial value because graphs don't allow null nodes
+  protected Iterator<N> successorIterator = ImmutableSet.<N>of().iterator();
 
   static <N> EndpointPairIterator<N> of(Graph<N> graph) {
     return graph.isDirected() ? new Directed<N>(graph) : new Undirected<N>(graph);
   }
 
-  EndpointPairIterator(Graph<N> graph) {
+  private EndpointPairIterator(Graph<N> graph) {
     this.graph = graph;
     this.nodeIterator = graph.nodes().iterator();
   }
@@ -49,7 +49,7 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
    * Called after {@link #successorIterator} is exhausted. Advances {@link #node} to the next node
    * and updates {@link #successorIterator} to iterate through the successors of {@link #node}.
    */
-  final boolean advance() {
+  protected final boolean advance() {
     checkState(!successorIterator.hasNext());
     if (!nodeIterator.hasNext()) {
       return false;
@@ -61,10 +61,10 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
 
   /**
    * If the graph is directed, each ordered [source, target] pair will be visited once if there is
-   * one or more edge connecting them.
+   * an edge connecting them.
    */
   private static final class Directed<N> extends EndpointPairIterator<N> {
-    Directed(Graph<N> graph) {
+    private Directed(Graph<N> graph) {
       super(graph);
     }
 
@@ -83,9 +83,9 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
 
   /**
    * If the graph is undirected, each unordered [node, otherNode] pair (except self-loops) will be
-   * visited twice if there is one or more edge connecting them. To avoid returning duplicate {@link
-   * EndpointPair}, we keep track of the nodes that we have visited. When processing endpoint pairs,
-   * we skip if the "other node" is in the visited set, as shown below:
+   * visited twice if there is an edge connecting them. To avoid returning duplicate {@link
+   * EndpointPair}s, we keep track of the nodes that we have visited. When processing endpoint
+   * pairs, we skip if the "other node" is in the visited set, as shown below:
    *
    * <pre>
    * Nodes = {N1, N2, N3, N4}
@@ -110,7 +110,7 @@ abstract class EndpointPairIterator<N> extends AbstractIterator<EndpointPair<N>>
   private static final class Undirected<N> extends EndpointPairIterator<N> {
     private Set<N> visitedNodes;
 
-    Undirected(Graph<N> graph) {
+    private Undirected(Graph<N> graph) {
       super(graph);
       this.visitedNodes = Sets.newHashSetWithExpectedSize(graph.nodes().size());
     }
