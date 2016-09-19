@@ -304,10 +304,10 @@
               <mode>htmlunit</mode>
               <htmlunit>FF38</htmlunit>
               <productionMode>true</productionMode>
-              <testTimeOut>600 <!-- seconds --></testTimeOut>
+              <testTimeOut>3600 <!-- seconds --></testTimeOut>
               <extraJvmArgs>-Xms3500m -Xmx3500m -Xss1024k</extraJvmArgs>
               <sourceLevel>1.8</sourceLevel>
-              <testMethodTimeout>10 <!-- minutes --></testMethodTimeout>
+              <testMethodTimeout>60 <!-- minutes --></testMethodTimeout>
             </configuration>
           </execution>
         </executions>
