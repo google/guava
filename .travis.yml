@@ -9,7 +9,8 @@ jdk:
 
 install: mvn -B install -U -DskipTests=true
 
-script: mvn -B verify -U -Dmaven.javadoc.skip=true
+# https://docs.travis-ci.com/user/common-build-problems/#Build-times-out-because-no-output-was-received
+script: travis_wait 60 mvn -B verify -U -Dmaven.javadoc.skip=true
 
 after_success:
   - util/deploy_snapshot.sh
