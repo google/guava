@@ -65,9 +65,8 @@ import java.util.Queue;
  * @since 15.0
  */
 @Beta
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public abstract class TreeTraverser<T> {
-  // TODO(lowasser): make this GWT-compatible when we've checked in ArrayDeque emulation
 
   /**
    * Returns a tree traverser that uses the given function to navigate from a node to its children.

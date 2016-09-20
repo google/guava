@@ -17,8 +17,6 @@
 package com.google.common.collect;
 
 import java.util.Arrays;
-import java.util.Deque;
-import java.util.LinkedList;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -51,10 +49,6 @@ final class Platform {
 
   static MapMaker tryWeakKeys(MapMaker mapMaker) {
     return mapMaker;
-  }
-
-  static <E> Deque<E> newFastestDeque(int ignored) {
-    return new LinkedList<E>();
   }
 
   private Platform() {}
