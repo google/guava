@@ -347,7 +347,13 @@ public final class ClassPath {
     }
 
     private void scanFrom(File file, ClassLoader classloader) throws IOException {
-      if (!file.exists()) {
+      try {
+        if (!file.exists()) {
+          return;
+        }
+      } catch (SecurityException e) {
+        logger.warning("Cannot access " + file + ": " + e);
+        // TODO(emcmanus): consider whether to log other failure cases too.
         return;
       }
       if (file.isDirectory()) {
