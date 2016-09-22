@@ -417,7 +417,7 @@ public final class MoreExecutors {
    *     }
    *   }}</pre>
    *
-   * <p>This should be preferred to {@link #newDirectExecutorService()} because the implementing the
+   * <p>This should be preferred to {@link #newDirectExecutorService()} because implementing the
    * {@link ExecutorService} subinterface necessitates significant performance overhead.
    *
    * @since 18.0
