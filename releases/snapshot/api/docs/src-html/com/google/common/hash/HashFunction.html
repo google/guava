@@ -186,31 +186,41 @@
 <span class="sourceLineNo">178</span>   * that no character encoding is performed; the low byte and high byte of each {@code char} are<a name="line.178"></a>
 <span class="sourceLineNo">179</span>   * hashed directly (in that order).<a name="line.179"></a>
 <span class="sourceLineNo">180</span>   *<a name="line.180"></a>
-<span class="sourceLineNo">181</span>   * @since 15.0 (since 11.0 as hashString(CharSequence)).<a name="line.181"></a>
-<span class="sourceLineNo">182</span>   */<a name="line.182"></a>
-<span class="sourceLineNo">183</span>  HashCode hashUnencodedChars(CharSequence input);<a name="line.183"></a>
-<span class="sourceLineNo">184</span><a name="line.184"></a>
-<span class="sourceLineNo">185</span>  /**<a name="line.185"></a>
-<span class="sourceLineNo">186</span>   * Shortcut for {@code newHasher().putString(input, charset).hash()}. Characters are encoded using<a name="line.186"></a>
-<span class="sourceLineNo">187</span>   * the given {@link Charset}. The implementation &lt;i&gt;might&lt;/i&gt; perform better than its longhand<a name="line.187"></a>
-<span class="sourceLineNo">188</span>   * equivalent, but should not perform worse.<a name="line.188"></a>
-<span class="sourceLineNo">189</span>   */<a name="line.189"></a>
-<span class="sourceLineNo">190</span>  HashCode hashString(CharSequence input, Charset charset);<a name="line.190"></a>
-<span class="sourceLineNo">191</span><a name="line.191"></a>
-<span class="sourceLineNo">192</span>  /**<a name="line.192"></a>
-<span class="sourceLineNo">193</span>   * Shortcut for {@code newHasher().putObject(instance, funnel).hash()}. The implementation<a name="line.193"></a>
-<span class="sourceLineNo">194</span>   * &lt;i&gt;might&lt;/i&gt; perform better than its longhand equivalent, but should not perform worse.<a name="line.194"></a>
-<span class="sourceLineNo">195</span>   *<a name="line.195"></a>
-<span class="sourceLineNo">196</span>   * @since 14.0<a name="line.196"></a>
-<span class="sourceLineNo">197</span>   */<a name="line.197"></a>
-<span class="sourceLineNo">198</span>  &lt;T&gt; HashCode hashObject(T instance, Funnel&lt;? super T&gt; funnel);<a name="line.198"></a>
-<span class="sourceLineNo">199</span><a name="line.199"></a>
-<span class="sourceLineNo">200</span>  /**<a name="line.200"></a>
-<span class="sourceLineNo">201</span>   * Returns the number of bits (a multiple of 32) that each hash code produced by this hash<a name="line.201"></a>
-<span class="sourceLineNo">202</span>   * function has.<a name="line.202"></a>
-<span class="sourceLineNo">203</span>   */<a name="line.203"></a>
-<span class="sourceLineNo">204</span>  int bits();<a name="line.204"></a>
-<span class="sourceLineNo">205</span>}<a name="line.205"></a>
+<span class="sourceLineNo">181</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method will produce different output than most other languages do when<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * running the same hash function on the equivalent input. For cross-language compatibility, use<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * {@link #hashString}, usually with a charset of UTF-8. For other use cases, use {@code<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   * hashUnencodedChars}.<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   *<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   * @since 15.0 (since 11.0 as hashString(CharSequence)).<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   */<a name="line.187"></a>
+<span class="sourceLineNo">188</span>  HashCode hashUnencodedChars(CharSequence input);<a name="line.188"></a>
+<span class="sourceLineNo">189</span><a name="line.189"></a>
+<span class="sourceLineNo">190</span>  /**<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   * Shortcut for {@code newHasher().putString(input, charset).hash()}. Characters are encoded using<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   * the given {@link Charset}. The implementation &lt;i&gt;might&lt;/i&gt; perform better than its longhand<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   * equivalent, but should not perform worse.<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   *<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method, which reencodes the input before hashing it, is useful only for<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   * cross-language compatibility. For other use cases, prefer {@link #hashUnencodedChars}, which is<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   * faster, produces the same output across Java releases, and hashes every {@code char} in the<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   * input, even if some are invalid.<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   */<a name="line.199"></a>
+<span class="sourceLineNo">200</span>  HashCode hashString(CharSequence input, Charset charset);<a name="line.200"></a>
+<span class="sourceLineNo">201</span><a name="line.201"></a>
+<span class="sourceLineNo">202</span>  /**<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   * Shortcut for {@code newHasher().putObject(instance, funnel).hash()}. The implementation<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * &lt;i&gt;might&lt;/i&gt; perform better than its longhand equivalent, but should not perform worse.<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   *<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   * @since 14.0<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   */<a name="line.207"></a>
+<span class="sourceLineNo">208</span>  &lt;T&gt; HashCode hashObject(T instance, Funnel&lt;? super T&gt; funnel);<a name="line.208"></a>
+<span class="sourceLineNo">209</span><a name="line.209"></a>
+<span class="sourceLineNo">210</span>  /**<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   * Returns the number of bits (a multiple of 32) that each hash code produced by this hash<a name="line.211"></a>
+<span class="sourceLineNo">212</span>   * function has.<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   */<a name="line.213"></a>
+<span class="sourceLineNo">214</span>  int bits();<a name="line.214"></a>
+<span class="sourceLineNo">215</span>}<a name="line.215"></a>
 
 
 

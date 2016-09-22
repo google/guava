@@ -24644,11 +24644,10 @@
   <!-- start interface com.google.common.collect.MapConstraint -->
   <interface name="MapConstraint"    abstract="true"
     static="false" final="false" visibility="public"
-    deprecated="Use {@link Preconditions} for basic checks. In place of
-     constrained maps, we encourage you to check your preconditions
-     explicitly instead of leaving that work to the map implementation.
-     For the specific case of rejecting null, consider {@link ImmutableMap}.
-     This class is scheduled for removal in Guava 20.0.">
+    deprecated="Use {@link Preconditions} for basic checks. In place of constrained maps, we
+     encourage you to check your preconditions explicitly instead of leaving that work to the map
+     implementation. For the specific case of rejecting null, consider {@link ImmutableMap}. This
+     class is scheduled for removal in Guava 20.0.">
     <method name="checkKeyValue"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -24672,33 +24671,32 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A constraint on the keys and values that may be added to a {@code Map} or
- {@code Multimap}. For example, {@link MapConstraints#notNull()}, which
- prevents a map from including any null keys or values, could be implemented
- like this: <pre>   {@code
+    <![CDATA[A constraint on the keys and values that may be added to a {@code Map} or {@code Multimap}. For
+ example, to prevent a map from including any null keys or values, you could implement a {@link
+ MapConstraint} like this:
 
-   public void checkKeyValue(Object key, Object value) {
-     if (key == null || value == null) {
-       throw new NullPointerException();
-     }
-   }}</pre>
+ <pre>{@code
+ public void checkKeyValue(Object key, Object value) {
+   if (key == null || value == null) {
+     throw new NullPointerException();
+   }
+ }
+ }</pre>
 
- <p>In order to be effective, constraints should be deterministic; that is, they
- should not depend on state that can change (such as external state, random
- variables, and time) and should only depend on the value of the passed-in key
- and value. A non-deterministic constraint cannot reliably enforce that all
- the collection's elements meet the constraint, since the constraint is only
- enforced when elements are added.
+ <p>In order to be effective, constraints should be deterministic; that is, they should not depend
+ on state that can change (such as external state, random variables, and time) and should only
+ depend on the value of the passed-in key and value. A non-deterministic constraint cannot
+ reliably enforce that all the collection's elements meet the constraint, since the constraint is
+ only enforced when elements are added.
 
  @author Mike Bostock
  @see MapConstraints
  @see Constraint
  @since 3.0
- @deprecated Use {@link Preconditions} for basic checks. In place of
-     constrained maps, we encourage you to check your preconditions
-     explicitly instead of leaving that work to the map implementation.
-     For the specific case of rejecting null, consider {@link ImmutableMap}.
-     This class is scheduled for removal in Guava 20.0.]]>
+ @deprecated Use {@link Preconditions} for basic checks. In place of constrained maps, we
+     encourage you to check your preconditions explicitly instead of leaving that work to the map
+     implementation. For the specific case of rejecting null, consider {@link ImmutableMap}. This
+     class is scheduled for removal in Guava 20.0.]]>
     </doc>
   </interface>
   <!-- end interface com.google.common.collect.MapConstraint -->
@@ -24711,15 +24709,6 @@
      explicitly instead of leaving that work to the map implementation.
      For the specific case of rejecting null, consider {@link ImmutableMap}.
      This class is scheduled for removal in Guava 20.0.">
-    <method name="notNull" return="com.google.common.collect.MapConstraint&lt;java.lang.Object, java.lang.Object&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns a constraint that verifies that neither the key nor the value is
- null. If either is null, a {@link NullPointerException} is thrown.]]>
-      </doc>
-    </method>
     <method name="constrainedMap" return="java.util.Map&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -38521,8 +38510,15 @@
       deprecated="not deprecated">
       <param name="charSequence" type="java.lang.CharSequence"/>
       <doc>
-      <![CDATA[Equivalent to processing each {@code char} value in the {@code CharSequence}, in order. The
- input must not be updated while this method is in progress.
+      <![CDATA[Equivalent to processing each {@code char} value in the {@code CharSequence}, in order. In
+ other words, no character encoding is performed; the low byte and high byte of each {@code
+ char} are hashed directly (in that order). The input must not be updated while this method is
+ in progress.
+
+ <p><b>Warning:</b> This method will produce different output than most other languages do when
+ running the same hash function on the equivalent input. For cross-language compatibility, use
+ {@link #putString}, usually with a charset of UTF-8. For other use cases, use {@code
+ putUnencodedChars}.
 
  @since 15.0 (since 11.0 as putString(CharSequence)).]]>
       </doc>
@@ -38534,7 +38530,12 @@
       <param name="charSequence" type="java.lang.CharSequence"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <doc>
-      <![CDATA[Equivalent to {@code putBytes(charSequence.toString().getBytes(charset))}.]]>
+      <![CDATA[Equivalent to {@code putBytes(charSequence.toString().getBytes(charset))}.
+
+ <p><b>Warning:</b> This method, which reencodes the input before hashing it, is useful only for
+ cross-language compatibility. For other use cases, prefer {@link #putUnencodedChars}, which is
+ faster, produces the same output across Java releases, and hashes every {@code char} in the
+ input, even if some are invalid.]]>
       </doc>
     </method>
     <method name="putObject" return="com.google.common.hash.Hasher"
@@ -38691,6 +38692,11 @@
  that no character encoding is performed; the low byte and high byte of each {@code char} are
  hashed directly (in that order).
 
+ <p><b>Warning:</b> This method will produce different output than most other languages do when
+ running the same hash function on the equivalent input. For cross-language compatibility, use
+ {@link #hashString}, usually with a charset of UTF-8. For other use cases, use {@code
+ hashUnencodedChars}.
+
  @since 15.0 (since 11.0 as hashString(CharSequence)).]]>
       </doc>
     </method>
@@ -38703,7 +38709,12 @@
       <doc>
       <![CDATA[Shortcut for {@code newHasher().putString(input, charset).hash()}. Characters are encoded using
  the given {@link Charset}. The implementation <i>might</i> perform better than its longhand
- equivalent, but should not perform worse.]]>
+ equivalent, but should not perform worse.
+
+ <p><b>Warning:</b> This method, which reencodes the input before hashing it, is useful only for
+ cross-language compatibility. For other use cases, prefer {@link #hashUnencodedChars}, which is
+ faster, produces the same output across Java releases, and hashes every {@code char} in the
+ input, even if some are invalid.]]>
       </doc>
     </method>
     <method name="hashObject" return="com.google.common.hash.HashCode"
@@ -39574,6 +39585,10 @@
       <doc>
       <![CDATA[Puts each 16-bit code unit from the {@link CharSequence} into this sink.
 
+ <p><b>Warning:</b> This method will produce different output than most other languages do when
+ running on the equivalent input. For cross-language compatibility, use {@link #putString},
+ usually with a charset of UTF-8. For other use cases, use {@code putUnencodedChars}.
+
  @since 15.0 (since 11.0 as putString(CharSequence))]]>
       </doc>
     </method>
@@ -39584,7 +39599,12 @@
       <param name="charSequence" type="java.lang.CharSequence"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <doc>
-      <![CDATA[Puts a string into this sink using the given charset.]]>
+      <![CDATA[Puts a string into this sink using the given charset.
+
+ <p><b>Warning:</b> This method, which reencodes the input before processing it, is useful only
+ for cross-language compatibility. For other use cases, prefer {@link #putUnencodedChars}, which
+ is faster, produces the same output across Java releases, and processes every {@code char} in
+ the input, even if some are invalid.]]>
       </doc>
     </method>
     <doc>
@@ -45923,7 +45943,7 @@
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <implements name="java.io.Serializable"/>
-    <method name="getHostText" return="java.lang.String"
+    <method name="getHost" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -45932,7 +45952,19 @@
  IPv4/IPv6 literal.
 
  <p>A successful parse does not imply any degree of sanity in this field. For additional
- validation, see the {@link HostSpecifier} class.]]>
+ validation, see the {@link HostSpecifier} class.
+
+ @since 20.0 (since 10.0 as {@code getHostText})]]>
+      </doc>
+    </method>
+    <method name="getHostText" return="java.lang.String"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="Use {@link #getHost()} instead. This method is scheduled for removal in Guava 22.0.">
+      <doc>
+      <![CDATA[Old name of {@link #getHost}.
+
+ @deprecated Use {@link #getHost()} instead. This method is scheduled for removal in Guava 22.0.]]>
       </doc>
     </method>
     <method name="hasPort" return="boolean"
@@ -46078,9 +46110,9 @@
  HostAndPort hp = HostAndPort.fromString("[2001:db8::1]")
      .withDefaultPort(80)
      .requireBracketsForIPv6();
- hp.getHostText();  // returns "2001:db8::1"
- hp.getPort();      // returns 80
- hp.toString();     // returns "[2001:db8::1]:80"
+ hp.getHost();   // returns "2001:db8::1"
+ hp.getPort();   // returns 80
+ hp.toString();  // returns "[2001:db8::1]:80"
  </pre>
 
  <p>Here are some examples of recognized formats:
@@ -46089,8 +46121,8 @@
  <li>example.com:80
  <li>192.0.2.1
  <li>192.0.2.1:80
- <li>[2001:db8::1] - {@link #getHostText()} omits brackets
- <li>[2001:db8::1]:80 - {@link #getHostText()} omits brackets
+ <li>[2001:db8::1] - {@link #getHost()} omits brackets
+ <li>[2001:db8::1]:80 - {@link #getHost()} omits brackets
  <li>2001:db8::1 - Use {@link #requireBracketsForIPv6()} to prohibit this
  </ul>
 
@@ -59669,7 +59701,7 @@
      }
    }}</pre>
 
- <p>This should be preferred to {@link #newDirectExecutorService()} because the implementing the
+ <p>This should be preferred to {@link #newDirectExecutorService()} because implementing the
  {@link ExecutorService} subinterface necessitates significant performance overhead.
 
  @since 18.0]]>

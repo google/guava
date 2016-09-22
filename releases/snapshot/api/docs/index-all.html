@@ -7413,10 +7413,16 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/InetAddresses.TeredoInfo.html#getFlags()">getFlags()</a></span> - Method in class com.google.common.net.<a href="./com/google/common/net/InetAddresses.TeredoInfo.html" title="class in com.google.common.net">InetAddresses.TeredoInfo</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/net/HostAndPort.html#getHostText()">getHostText()</a></span> - Method in class com.google.common.net.<a href="./com/google/common/net/HostAndPort.html" title="class in com.google.common.net">HostAndPort</a></dt>
+<dt><span class="strong"><a href="./com/google/common/net/HostAndPort.html#getHost()">getHost()</a></span> - Method in class com.google.common.net.<a href="./com/google/common/net/HostAndPort.html" title="class in com.google.common.net">HostAndPort</a></dt>
 <dd>
 <div class="block">Returns the portion of this <code>HostAndPort</code> instance that should represent the hostname or
  IPv4/IPv6 literal.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/net/HostAndPort.html#getHostText()">getHostText()</a></span> - Method in class com.google.common.net.<a href="./com/google/common/net/HostAndPort.html" title="class in com.google.common.net">HostAndPort</a></dt>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>Use <a href="./com/google/common/net/HostAndPort.html#getHost()"><code>HostAndPort.getHost()</code></a> instead. This method is scheduled for removal in Guava 22.0.</i></div>
+</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Enums.html#getIfPresent(java.lang.Class,%20java.lang.String)">getIfPresent(Class&lt;T&gt;, String)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Enums.html" title="class in com.google.common.base">Enums</a></dt>
 <dd>
@@ -10238,11 +10244,10 @@
 <dt><a href="./com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect"><span class="strong">MapConstraint</span></a>&lt;<a href="./com/google/common/collect/MapConstraint.html" title="type parameter in MapConstraint">K</a>,<a href="./com/google/common/collect/MapConstraint.html" title="type parameter in MapConstraint">V</a>&gt; - Interface in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>Use <code>Preconditions</code> for basic checks. In place of
-     constrained maps, we encourage you to check your preconditions
-     explicitly instead of leaving that work to the map implementation.
-     For the specific case of rejecting null, consider <a href="./com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect"><code>ImmutableMap</code></a>.
-     This class is scheduled for removal in Guava 20.0.</i></div>
+<div class="block"><i>Use <code>Preconditions</code> for basic checks. In place of constrained maps, we
+     encourage you to check your preconditions explicitly instead of leaving that work to the map
+     implementation. For the specific case of rejecting null, consider <a href="./com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect"><code>ImmutableMap</code></a>. This
+     class is scheduled for removal in Guava 20.0.</i></div>
 </div>
 </dd>
 <dt><a href="./com/google/common/collect/MapConstraints.html" title="class in com.google.common.collect"><span class="strong">MapConstraints</span></a> - Class in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
@@ -11449,12 +11454,6 @@
 <dt><span class="strong"><a href="./com/google/common/base/Predicates.html#notNull()">notNull()</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Predicates.html" title="class in com.google.common.base">Predicates</a></dt>
 <dd>
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the object reference being tested is not
- null.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/collect/MapConstraints.html#notNull()">notNull()</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/MapConstraints.html" title="class in com.google.common.collect">MapConstraints</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span></div>
-<div class="block">Returns a constraint that verifies that neither the key nor the value is
  null.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Ascii.html#NUL">NUL</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>

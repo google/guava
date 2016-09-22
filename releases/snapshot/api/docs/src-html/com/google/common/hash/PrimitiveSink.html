@@ -102,15 +102,24 @@
 <span class="sourceLineNo">094</span>  /**<a name="line.94"></a>
 <span class="sourceLineNo">095</span>   * Puts each 16-bit code unit from the {@link CharSequence} into this sink.<a name="line.95"></a>
 <span class="sourceLineNo">096</span>   *<a name="line.96"></a>
-<span class="sourceLineNo">097</span>   * @since 15.0 (since 11.0 as putString(CharSequence))<a name="line.97"></a>
-<span class="sourceLineNo">098</span>   */<a name="line.98"></a>
-<span class="sourceLineNo">099</span>  PrimitiveSink putUnencodedChars(CharSequence charSequence);<a name="line.99"></a>
-<span class="sourceLineNo">100</span><a name="line.100"></a>
-<span class="sourceLineNo">101</span>  /**<a name="line.101"></a>
-<span class="sourceLineNo">102</span>   * Puts a string into this sink using the given charset.<a name="line.102"></a>
-<span class="sourceLineNo">103</span>   */<a name="line.103"></a>
-<span class="sourceLineNo">104</span>  PrimitiveSink putString(CharSequence charSequence, Charset charset);<a name="line.104"></a>
-<span class="sourceLineNo">105</span>}<a name="line.105"></a>
+<span class="sourceLineNo">097</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method will produce different output than most other languages do when<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * running on the equivalent input. For cross-language compatibility, use {@link #putString},<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * usually with a charset of UTF-8. For other use cases, use {@code putUnencodedChars}.<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   *<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * @since 15.0 (since 11.0 as putString(CharSequence))<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   */<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  PrimitiveSink putUnencodedChars(CharSequence charSequence);<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>  /**<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * Puts a string into this sink using the given charset.<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   *<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method, which reencodes the input before processing it, is useful only<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * for cross-language compatibility. For other use cases, prefer {@link #putUnencodedChars}, which<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * is faster, produces the same output across Java releases, and processes every {@code char} in<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   * the input, even if some are invalid.<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   */<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  PrimitiveSink putString(CharSequence charSequence, Charset charset);<a name="line.113"></a>
+<span class="sourceLineNo">114</span>}<a name="line.114"></a>
 
 
 

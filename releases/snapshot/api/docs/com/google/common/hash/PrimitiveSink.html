@@ -324,8 +324,12 @@ public interface <a href="../../../../src-html/com/google/common/hash/PrimitiveS
 <ul class="blockList">
 <li class="blockList">
 <h4>putUnencodedChars</h4>
-<pre><a href="../../../../com/google/common/hash/PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/PrimitiveSink.html#line.99">putUnencodedChars</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;charSequence)</pre>
-<div class="block">Puts each 16-bit code unit from the <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang"><code>CharSequence</code></a> into this sink.</div>
+<pre><a href="../../../../com/google/common/hash/PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/PrimitiveSink.html#line.103">putUnencodedChars</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;charSequence)</pre>
+<div class="block">Puts each 16-bit code unit from the <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang"><code>CharSequence</code></a> into this sink.
+
+ <p><b>Warning:</b> This method will produce different output than most other languages do when
+ running on the equivalent input. For cross-language compatibility, use <a href="../../../../com/google/common/hash/PrimitiveSink.html#putString(java.lang.CharSequence,%20java.nio.charset.Charset)"><code>putString(java.lang.CharSequence, java.nio.charset.Charset)</code></a>,
+ usually with a charset of UTF-8. For other use cases, use <code>putUnencodedChars</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>15.0 (since 11.0 as putString(CharSequence))</dd></dl>
 </li>
@@ -336,9 +340,14 @@ public interface <a href="../../../../src-html/com/google/common/hash/PrimitiveS
 <ul class="blockListLast">
 <li class="blockList">
 <h4>putString</h4>
-<pre><a href="../../../../com/google/common/hash/PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/PrimitiveSink.html#line.104">putString</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;charSequence,
+<pre><a href="../../../../com/google/common/hash/PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/PrimitiveSink.html#line.113">putString</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;charSequence,
                       <a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</pre>
-<div class="block">Puts a string into this sink using the given charset.</div>
+<div class="block">Puts a string into this sink using the given charset.
+
+ <p><b>Warning:</b> This method, which reencodes the input before processing it, is useful only
+ for cross-language compatibility. For other use cases, prefer <a href="../../../../com/google/common/hash/PrimitiveSink.html#putUnencodedChars(java.lang.CharSequence)"><code>putUnencodedChars(java.lang.CharSequence)</code></a>, which
+ is faster, produces the same output across Java releases, and processes every <code>char</code> in
+ the input, even if some are invalid.</div>
 </li>
 </ul>
 </li>

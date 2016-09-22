@@ -375,11 +375,15 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashUnencodedChars</h4>
-<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.183">hashUnencodedChars</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;input)</pre>
+<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.188">hashUnencodedChars</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;input)</pre>
 <div class="block">Shortcut for <code>newHasher().putUnencodedChars(input).hash()</code>. The implementation
  <i>might</i> perform better than its longhand equivalent, but should not perform worse. Note
  that no character encoding is performed; the low byte and high byte of each <code>char</code> are
- hashed directly (in that order).</div>
+ hashed directly (in that order).
+
+ <p><b>Warning:</b> This method will produce different output than most other languages do when
+ running the same hash function on the equivalent input. For cross-language compatibility, use
+ <a href="../../../../com/google/common/hash/HashFunction.html#hashString(java.lang.CharSequence,%20java.nio.charset.Charset)"><code>hashString(java.lang.CharSequence, java.nio.charset.Charset)</code></a>, usually with a charset of UTF-8. For other use cases, use <code>hashUnencodedChars</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>15.0 (since 11.0 as hashString(CharSequence)).</dd></dl>
 </li>
@@ -390,11 +394,16 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashString</h4>
-<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.190">hashString</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;input,
+<pre><a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.200">hashString</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;input,
                   <a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)</pre>
 <div class="block">Shortcut for <code>newHasher().putString(input, charset).hash()</code>. Characters are encoded using
  the given <a href="http://docs.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset"><code>Charset</code></a>. The implementation <i>might</i> perform better than its longhand
- equivalent, but should not perform worse.</div>
+ equivalent, but should not perform worse.
+
+ <p><b>Warning:</b> This method, which reencodes the input before hashing it, is useful only for
+ cross-language compatibility. For other use cases, prefer <a href="../../../../com/google/common/hash/HashFunction.html#hashUnencodedChars(java.lang.CharSequence)"><code>hashUnencodedChars(java.lang.CharSequence)</code></a>, which is
+ faster, produces the same output across Java releases, and hashes every <code>char</code> in the
+ input, even if some are invalid.</div>
 </li>
 </ul>
 <a name="hashObject(java.lang.Object,com.google.common.hash.Funnel)">
@@ -405,7 +414,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockList">
 <li class="blockList">
 <h4>hashObject</h4>
-<pre>&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.198">hashObject</a>(T&nbsp;instance,
+<pre>&lt;T&gt;&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.208">hashObject</a>(T&nbsp;instance,
                       <a href="../../../../com/google/common/hash/Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</pre>
 <div class="block">Shortcut for <code>newHasher().putObject(instance, funnel).hash()</code>. The implementation
  <i>might</i> perform better than its longhand equivalent, but should not perform worse.</div>
@@ -419,7 +428,7 @@ public interface <a href="../../../../src-html/com/google/common/hash/HashFuncti
 <ul class="blockListLast">
 <li class="blockList">
 <h4>bits</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.204">bits</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/hash/HashFunction.html#line.214">bits</a>()</pre>
 <div class="block">Returns the number of bits (a multiple of 32) that each hash code produced by this hash
  function has.</div>
 </li>
