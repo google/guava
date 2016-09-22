@@ -35,9 +35,9 @@ import javax.annotation.concurrent.Immutable;
  * HostAndPort hp = HostAndPort.fromString("[2001:db8::1]")
  *     .withDefaultPort(80)
  *     .requireBracketsForIPv6();
- * hp.getHostText();  // returns "2001:db8::1"
- * hp.getPort();      // returns 80
- * hp.toString();     // returns "[2001:db8::1]:80"
+ * hp.getHost();   // returns "2001:db8::1"
+ * hp.getPort();   // returns 80
+ * hp.toString();  // returns "[2001:db8::1]:80"
  * </pre>
  *
  * <p>Here are some examples of recognized formats:
@@ -46,8 +46,8 @@ import javax.annotation.concurrent.Immutable;
  * <li>example.com:80
  * <li>192.0.2.1
  * <li>192.0.2.1:80
- * <li>[2001:db8::1] - {@link #getHostText()} omits brackets
- * <li>[2001:db8::1]:80 - {@link #getHostText()} omits brackets
+ * <li>[2001:db8::1] - {@link #getHost()} omits brackets
+ * <li>[2001:db8::1]:80 - {@link #getHost()} omits brackets
  * <li>2001:db8::1 - Use {@link #requireBracketsForIPv6()} to prohibit this
  * </ul>
  *
@@ -86,7 +86,20 @@ public final class HostAndPort implements Serializable {
    *
    * <p>A successful parse does not imply any degree of sanity in this field. For additional
    * validation, see the {@link HostSpecifier} class.
+   *
+   * @since 20.0 (since 10.0 as {@code getHostText})
    */
+  public String getHost() {
+    return host;
+  }
+
+  /**
+   * Old name of {@link #getHost}.
+   *
+   * @deprecated Use {@link #getHost()} for instead. This method is scheduled for removal in Guava
+   *     22.0.
+   */
+  @Deprecated
   public String getHostText() {
     return host;
   }
