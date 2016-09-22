@@ -1319,8 +1319,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       throw new ExecutionError((Error) cause);
     }
     /*
-     * It's a non-Error, non-Exception Throwable. From my survey of such classes, I believe that
-     * most users intended to extend Exception, so we'll treat it like an Exception.
+     * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such
+     * classes, I believe that most users intended to extend Exception, so we'll treat it like an
+     * Exception.)
      */
     throw new UncheckedExecutionException(cause);
   }
