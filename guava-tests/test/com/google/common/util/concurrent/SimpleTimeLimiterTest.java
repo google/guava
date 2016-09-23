@@ -80,7 +80,7 @@ public class SimpleTimeLimiterTest extends TestCase {
       fail("no exception thrown");
     } catch (UncheckedTimeoutException expected) {
     }
-    assertTheCallTookBetween(start, NOT_ENOUGH_MS, DELAY_MS);
+    assertTheCallTookBetween(start, NOT_ENOUGH_MS, DELAY_MS * 2);
   }
 
   public void testBadCallableWithEnoughTime() throws Exception {
@@ -112,7 +112,7 @@ public class SimpleTimeLimiterTest extends TestCase {
       fail("no exception thrown");
     } catch (UncheckedTimeoutException expected) {
     }
-    assertTheCallTookBetween(start, NOT_ENOUGH_MS, DELAY_MS);
+    assertTheCallTookBetween(start, NOT_ENOUGH_MS, DELAY_MS * 2);
   }
 
   public void testGoodMethodWithEnoughTime() throws Exception {
