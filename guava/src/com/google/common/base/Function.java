@@ -61,18 +61,19 @@ public interface Function<F, T> {
    *     arguments
    */
   @Nullable
-  @CanIgnoreReturnValue
+  @CanIgnoreReturnValue // TODO(kevinb): remove this
   T apply(@Nullable F input);
 
   /**
-   * Indicates whether another object is equal to this function.
+   * <i>May</i> return {@code true} if {@object} is a {@code Function} that behaves identically to
+   * this function.
    *
-   * <p>Most implementations will have no reason to override the behavior of {@link Object#equals}.
-   * However, an implementation may also choose to return {@code true} whenever {@code object} is a
-   * {@link Function} that it considers <i>interchangeable</i> with this one. "Interchangeable"
-   * <i>typically</i> means that {@code Objects.equal(this.apply(f), that.apply(f))} is true for all
-   * {@code f} of type {@code F}. Note that a {@code false} result from this method does not imply
-   * that the functions are known <i>not</i> to be interchangeable.
+   * <p><b>Warning: do not depend</b> on the behavior of this method.
+   *
+   * <p>Historically, {@code Function} instances in this library have implemented this method to
+   * recognize certain cases where distinct {@code Function} instances would in fact behave
+   * identically. However, as code migrates to {@code java.util.function}, that behavior will
+   * disappear. It is best not to depend on it.
    */
   @Override
   boolean equals(@Nullable Object object);
