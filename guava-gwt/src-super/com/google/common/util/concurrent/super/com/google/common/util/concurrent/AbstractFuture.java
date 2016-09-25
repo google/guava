@@ -31,7 +31,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.annotation.Nullable;
 
 /**
@@ -40,10 +39,10 @@ import javax.annotation.Nullable;
 public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
   abstract static class TrustedFuture<V> extends AbstractFuture<V> {
-    @Override public final boolean cancel(boolean mayInterruptIfRunning) {
-      return super.cancel(mayInterruptIfRunning);
-    }
-    // Most other methods are already final in AbstractFuture itself under GWT.
+    /*
+     * We don't need to override any of methods that we override in the prod version (and in fact we
+     * can't) because they are already final in AbstractFuture itself under GWT.
+     */
   }
 
   private static final Logger log = Logger.getLogger(AbstractFuture.class.getName());
@@ -60,12 +59,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     listeners = new ArrayList<Listener>();
   }
 
-  /*
-   * TODO(cpovirk): Consider making cancel() final (under GWT only, since we can't change the
-   * server) by migrating our overrides to use afterDone().
-   */
   @Override
-  public boolean cancel(boolean mayInterruptIfRunning) {
+  public final boolean cancel(boolean mayInterruptIfRunning) {
     if (!state.permitsPublicUserToTransitionTo(State.CANCELLED)) {
       return false;
     }
@@ -156,6 +151,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     checkNotNull(future);
 
     // If this future is already cancelled, cancel the delegate.
+    // TODO(cpovirk): Should we do this at the end of the method, as in the server version?
+    // TODO(cpovirk): Use maybePropagateCancellation?
     if (isCancelled()) {
       future.cancel(mayInterruptIfRunning);
     }

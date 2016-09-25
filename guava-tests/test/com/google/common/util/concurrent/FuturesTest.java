@@ -2239,8 +2239,6 @@ public class FuturesTest extends TestCase {
     AsyncCallable<String> combiner = new AsyncCallable<String>() {
       @Override
       public ListenableFuture<String> call() throws Exception {
-        assertTrue(futureInteger.isDone());
-        assertTrue(futureBoolean.isDone());
         return immediateFuture(
             createCombinedResult(getDone(futureInteger), getDone(futureBoolean)));
       }

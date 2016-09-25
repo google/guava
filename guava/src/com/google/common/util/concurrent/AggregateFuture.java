@@ -20,7 +20,6 @@ import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableCollection;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -39,33 +38,32 @@ import javax.annotation.Nullable;
 abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFuture<OutputT> {
   private static final Logger logger = Logger.getLogger(AggregateFuture.class.getName());
 
+  /*
+   * In certain circumstances, this field might theoretically not be visible to an afterDone() call
+   * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
+   */
   private RunningState runningState;
 
   @Override
   protected final void afterDone() {
     super.afterDone();
-    // Must get a reference to the futures before we cancel, as they'll be cleared out.
     RunningState localRunningState = runningState;
     if (localRunningState != null) {
       // Let go of the memory held by the running state
       this.runningState = null;
       ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures =
           localRunningState.futures;
+      boolean wasInterrupted = wasInterrupted();
+
+      if (wasInterrupted()) {
+        localRunningState.interruptTask();
+      }
+
       if (isCancelled() & futures != null) {
-        boolean mayInterruptIfRunning = wasInterrupted();
         for (ListenableFuture<?> future : futures) {
-          future.cancel(mayInterruptIfRunning);
+          future.cancel(wasInterrupted);
         }
       }
-    }
-  }
-
-  @GwtIncompatible // Interruption not supported
-  @Override
-  protected final void interruptTask() {
-    RunningState localRunningState = runningState;
-    if (localRunningState != null) {
-      localRunningState.interruptTask();
     }
   }
 

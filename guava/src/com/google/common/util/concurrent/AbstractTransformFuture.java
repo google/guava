@@ -67,8 +67,10 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
     return output;
   }
 
-  // In theory, this field might not be visible to a cancel() call in certain circumstances. For
-  // details, see the comments on the fields of TimeoutFuture.
+  /*
+   * In certain circumstances, this field might theoretically not be visible to an afterDone() call
+   * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
+   */
   @Nullable ListenableFuture<? extends I> inputFuture;
   @Nullable F function;
 
