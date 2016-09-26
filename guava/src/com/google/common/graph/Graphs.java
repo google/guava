@@ -270,9 +270,21 @@ public final class Graphs {
       return false;
     }
 
-    return graphA.isDirected() == graphB.isDirected()
-        && graphA.nodes().equals(graphB.nodes())
-        && graphA.edgeValues().equals(graphB.edgeValues());
+    if (graphA.isDirected() != graphB.isDirected()
+        || !graphA.nodes().equals(graphB.nodes())
+        || !graphA.edges().equals(graphB.edges())) {
+      return false;
+    }
+
+    for (EndpointPair<?> edge : graphA.edges()) {
+      if (!graphA
+          .edgeValue(edge.nodeU(), edge.nodeV())
+          .equals(graphB.edgeValue(edge.nodeU(), edge.nodeV()))) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   /**
@@ -463,7 +475,10 @@ public final class Graphs {
       return graph.edgeValue(nodeV, nodeU); // transpose
     }
 
-    // Defer to AbstractValueGraph for edgeValues() implementation based on edgeValue().
+    @Override
+    public V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue) {
+      return graph.edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
+    }
   }
 
   /**

@@ -16,12 +16,14 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import java.util.Map;
+import javax.annotation.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link ValueGraph}. It is recommended to extend
@@ -36,21 +38,12 @@ import java.util.Map;
 public abstract class AbstractValueGraph<N, V> extends AbstractGraph<N>
     implements ValueGraph<N, V> {
 
-  private transient Map<EndpointPair<N>, V> edgeValueMap;
-
   @Override
-  public Map<EndpointPair<N>, V> edgeValues() {
-    if (edgeValueMap == null) {
-      Function<EndpointPair<N>, V> edgeToValueFn =
-          new Function<EndpointPair<N>, V>() {
-            @Override
-            public V apply(EndpointPair<N> edge) {
-              return edgeValue(edge.nodeU(), edge.nodeV());
-            }
-          };
-      edgeValueMap = Maps.asMap(edges(), edgeToValueFn);
-    }
-    return edgeValueMap;
+  public V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue) {
+    checkNotNull(nodeU);
+    checkNotNull(nodeV);
+    boolean connected = nodes().contains(nodeU) && successors(nodeU).contains(nodeV);
+    return connected ? edgeValue(nodeU, nodeV) : defaultValue;
   }
 
   /** Returns a string representation of this graph. */
@@ -58,6 +51,17 @@ public abstract class AbstractValueGraph<N, V> extends AbstractGraph<N>
   public String toString() {
     String propertiesString =
         String.format("isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
-    return String.format(GRAPH_STRING_FORMAT, propertiesString, nodes(), edgeValues());
+    return String.format(GRAPH_STRING_FORMAT, propertiesString, nodes(), edgeValueMap());
+  }
+
+  private Map<EndpointPair<N>, V> edgeValueMap() {
+    Function<EndpointPair<N>, V> edgeToValueFn =
+        new Function<EndpointPair<N>, V>() {
+          @Override
+          public V apply(EndpointPair<N> edge) {
+            return edgeValue(edge.nodeU(), edge.nodeV());
+          }
+        };
+    return Maps.asMap(edges(), edgeToValueFn);
   }
 }

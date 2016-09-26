@@ -113,20 +113,18 @@ public interface ValueGraph<N, V> extends Graph<N> {
    *
    * <p>In an undirected graph, this is equal to {@code edgeValue(nodeV, nodeU)}.
    *
-   * @throws IllegalArgumentException if there is no edge connecting {@code nodeU} to {@code nodeV},
-   *     or if {@code nodeU} or {@code nodeV} is not an element of this graph
+   * @throws IllegalArgumentException if there is no edge connecting {@code nodeU} to {@code nodeV}.
    */
   V edgeValue(Object nodeU, Object nodeV);
 
   /**
-   * Returns a {@link Map} of all {@link #edges() edges} mapped to their associated {@link
-   * #edgeValue(Object, Object) value}.
+   * If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
+   * associated with that edge; otherwise, returns {@code defaultValue}.
    *
-   * <p>Note: {@link Map#get(Object)} returns null if you supply an {@link EndpointPair} whose nodes
-   * are not connected in this graph. This contrasts with the behavior of {@link #edgeValue(Object,
-   * Object)}, which throws {@link IllegalArgumentException} in that case.
+   * <p>In an undirected graph, this is equal to {@code edgeValueOrDefault(nodeV, nodeU,
+   * defaultValue)}.
    */
-  Map<EndpointPair<N>, V> edgeValues();
+  V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue);
 
   //
   // ValueGraph identity

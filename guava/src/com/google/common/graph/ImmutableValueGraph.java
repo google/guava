@@ -23,7 +23,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import java.util.Map;
+import javax.annotation.Nullable;
 
 /**
  * A {@link ValueGraph} whose elements and structural relationships will never change. Instances of
@@ -96,8 +96,8 @@ public final class ImmutableValueGraph<N, V> extends ImmutableGraph.ValueBackedI
   }
 
   @Override
-  public Map<EndpointPair<N>, V> edgeValues() {
-    return backingValueGraph.edgeValues();
+  public V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue) {
+    return backingValueGraph.edgeValueOrDefault(nodeU, nodeV, defaultValue);
   }
 
   @Override

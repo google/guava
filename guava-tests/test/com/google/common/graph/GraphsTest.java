@@ -212,12 +212,14 @@ public class GraphsTest {
   @Test
   public void transpose_directedGraph() {
     MutableGraph<Integer> directedGraph = GraphBuilder.directed().allowsSelfLoops(true).build();
+    directedGraph.putEdge(N1, N3);
     directedGraph.putEdge(N3, N1);
     directedGraph.putEdge(N1, N2);
     directedGraph.putEdge(N1, N1);
     directedGraph.putEdge(N3, N4);
 
     MutableGraph<Integer> expectedTranspose = GraphBuilder.directed().allowsSelfLoops(true).build();
+    expectedTranspose.putEdge(N3, N1);
     expectedTranspose.putEdge(N1, N3);
     expectedTranspose.putEdge(N2, N1);
     expectedTranspose.putEdge(N1, N1);
@@ -247,6 +249,7 @@ public class GraphsTest {
   public void transpose_directedValueGraph() {
     MutableValueGraph<Integer, String> directedGraph =
         ValueGraphBuilder.directed().allowsSelfLoops(true).build();
+    directedGraph.putEdgeValue(N1, N3, E13);
     directedGraph.putEdgeValue(N3, N1, E31);
     directedGraph.putEdgeValue(N1, N2, E12);
     directedGraph.putEdgeValue(N1, N1, E11);
@@ -254,6 +257,7 @@ public class GraphsTest {
 
     MutableValueGraph<Integer, String> expectedTranspose =
         ValueGraphBuilder.directed().allowsSelfLoops(true).build();
+    expectedTranspose.putEdgeValue(N3, N1, E13);
     expectedTranspose.putEdgeValue(N1, N3, E31);
     expectedTranspose.putEdgeValue(N2, N1, E12);
     expectedTranspose.putEdgeValue(N1, N1, E11);
@@ -264,11 +268,10 @@ public class GraphsTest {
     assertThat(transpose(transpose)).isSameAs(directedGraph);
     AbstractGraphTest.validateGraph(transpose);
 
-    EndpointPair<Integer> pair12 = EndpointPair.ordered(N1, N2);
-    assertThat(transpose.edgeValues().get(pair12)).isNull();
+    assertThat(transpose.edgeValueOrDefault(N1, N2, null)).isNull();
     directedGraph.putEdgeValue(N2, N1, E21);
     // View should be updated.
-    assertThat(transpose.edgeValues().get(pair12)).isEqualTo(E21);
+    assertThat(transpose.edgeValueOrDefault(N1, N2, null)).isEqualTo(E21);
     AbstractGraphTest.validateGraph(transpose);
   }
 
@@ -283,16 +286,20 @@ public class GraphsTest {
   @Test
   public void transpose_directedNetwork() {
     MutableNetwork<Integer, String> directedGraph =
-        NetworkBuilder.directed().allowsSelfLoops(true).build();
+        NetworkBuilder.directed().allowsParallelEdges(true).allowsSelfLoops(true).build();
+    directedGraph.addEdge(N1, N3, E13);
     directedGraph.addEdge(N3, N1, E31);
     directedGraph.addEdge(N1, N2, E12);
+    directedGraph.addEdge(N1, N2, E12_A);
     directedGraph.addEdge(N1, N1, E11);
     directedGraph.addEdge(N3, N4, E34);
 
     MutableNetwork<Integer, String> expectedTranspose =
-        NetworkBuilder.directed().allowsSelfLoops(true).build();
+        NetworkBuilder.directed().allowsParallelEdges(true).allowsSelfLoops(true).build();
+    expectedTranspose.addEdge(N3, N1, E13);
     expectedTranspose.addEdge(N1, N3, E31);
     expectedTranspose.addEdge(N2, N1, E12);
+    expectedTranspose.addEdge(N2, N1, E12_A);
     expectedTranspose.addEdge(N1, N1, E11);
     expectedTranspose.addEdge(N4, N3, E34);
 
