@@ -27,8 +27,8 @@ import javax.annotation.Nullable;
  * data structures. A graph is composed of a set of nodes (sometimes called vertices) and a set of
  * edges connecting pairs of nodes. Graphs are useful for modeling many kinds of relations. If the
  * relation to be modeled is symmetric (such as "distance between cities"), that can be represented
- * with an undirected graph, where an edge that connects node A to node B also connects node B to
- * node A. If the relation to be modeled is asymmetric (such as "employees managed"), that can be
+ * with an undirected graph, where an edge that connects node U to node V also connects node V to
+ * node U. If the relation to be modeled is asymmetric (such as "employees managed"), that can be
  * represented with a directed graph, where edges are strictly one-way.
  *
  * <p>There are three main interfaces provided to represent graphs. In order of increasing
