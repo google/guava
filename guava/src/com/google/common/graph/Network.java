@@ -112,9 +112,9 @@ public interface Network<N, E> {
    * Returns a live view of this network as a {@link Graph}. The resulting {@link Graph} will have
    * an edge connecting node A to node B iff this {@link Network} has an edge connecting A to B.
    *
-   * <p>If this network {@link #allowsParallelEdges()}, parallel edges will treated as if collapsed
-   * into a single edge. For example, the {@link #degree(Object)} of a node in the {@link Graph}
-   * view may be less than the degree of the same node in this {@link Network}.
+   * <p>If this network {@link #allowsParallelEdges() allows parallel edges}, parallel edges will be
+   * treated as if collapsed into a single edge. For example, the {@link #degree(Object)} of a node
+   * in the {@link Graph} view may be less than the degree of the same node in this {@link Network}.
    */
   Graph<N> asGraph();
 
@@ -265,9 +265,13 @@ public interface Network<N, E> {
   Set<E> adjacentEdges(Object edge);
 
   /**
-   * Returns the set of edges that connect {@code nodeU} to {@code nodeV}.
+   * Returns the set of edges connecting {@code nodeU} to {@code nodeV}.
    *
    * <p>In an undirected network, this is equal to {@code edgesConnecting(nodeV, nodeU)}.
+   *
+   * <p>The resulting set of edges will be parallel (i.e. have equal {@link #incidentNodes(Object)}.
+   * If this network does not {@link #allowsParallelEdges() allow parallel edges}, the resulting set
+   * will contain at most one edge.
    *
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     network
