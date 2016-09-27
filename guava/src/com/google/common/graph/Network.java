@@ -265,7 +265,7 @@ public interface Network<N, E> {
   Set<E> adjacentEdges(Object edge);
 
   /**
-   * Returns the set of edges connecting {@code nodeU} to {@code nodeV}.
+   * Returns the set of edges directly connecting {@code nodeU} to {@code nodeV}.
    *
    * <p>In an undirected network, this is equal to {@code edgesConnecting(nodeV, nodeU)}.
    *
