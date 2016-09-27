@@ -59,7 +59,28 @@ public abstract class AbstractGraph<N> implements Graph<N> {
    */
   @Override
   public Set<EndpointPair<N>> edges() {
-    return new GraphEdges();
+    return new AbstractSet<EndpointPair<N>>() {
+      @Override
+      public UnmodifiableIterator<EndpointPair<N>> iterator() {
+        return EndpointPairIterator.of(AbstractGraph.this);
+      }
+
+      @Override
+      public int size() {
+        return Ints.saturatedCast(edgeCount());
+      }
+
+      @Override
+      public boolean contains(@Nullable Object obj) {
+        if (!(obj instanceof EndpointPair)) {
+          return false;
+        }
+        EndpointPair<?> endpointPair = (EndpointPair<?>) obj;
+        return isDirected() == endpointPair.isOrdered()
+            && nodes().contains(endpointPair.nodeU())
+            && successors(endpointPair.nodeU()).contains(endpointPair.nodeV());
+      }
+    };
   }
 
   @Override
@@ -89,32 +110,5 @@ public abstract class AbstractGraph<N> implements Graph<N> {
     String propertiesString =
         String.format("isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
     return String.format(GRAPH_STRING_FORMAT, propertiesString, nodes(), edges());
-  }
-
-  private class GraphEdges extends AbstractSet<EndpointPair<N>> {
-    @Override
-    public UnmodifiableIterator<EndpointPair<N>> iterator() {
-      return EndpointPairIterator.of(AbstractGraph.this);
-    }
-
-    @Override
-    public int size() {
-      return Ints.saturatedCast(edgeCount());
-    }
-
-    @Override
-    public boolean contains(@Nullable Object obj) {
-      if (!(obj instanceof EndpointPair)) {
-        return false;
-      }
-      EndpointPair<?> endpointPair = (EndpointPair<?>) obj;
-      return isDirected() == endpointPair.isOrdered()
-          && contains(endpointPair.nodeU(), endpointPair.nodeV());
-    }
-
-    /** Returns true iff this set contains an edge connecting {@code nodeU} to {@code nodeV}. */
-    private boolean contains(@Nullable Object nodeU, @Nullable Object nodeV) {
-      return nodes().contains(nodeU) && successors(nodeU).contains(nodeV);
-    }
   }
 }
