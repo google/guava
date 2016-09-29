@@ -177,7 +177,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
         return false; // concurrent change to other set
       }
     }
-    return this.containsAll(that);
+    return containsAll(that);
   }
 
   @Override

@@ -514,17 +514,15 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
       }
       return new BloomFilter<T>(new BitArray(data), numHashFunctions, funnel, strategy);
     } catch (RuntimeException e) {
-      IOException ioException =
-          new IOException(
-              "Unable to deserialize BloomFilter from InputStream."
-                  + " strategyOrdinal: "
-                  + strategyOrdinal
-                  + " numHashFunctions: "
-                  + numHashFunctions
-                  + " dataLength: "
-                  + dataLength);
-      ioException.initCause(e);
-      throw ioException;
+      String message =
+          "Unable to deserialize BloomFilter from InputStream."
+              + " strategyOrdinal: "
+              + strategyOrdinal
+              + " numHashFunctions: "
+              + numHashFunctions
+              + " dataLength: "
+              + dataLength;
+      throw new IOException(message, e);
     }
   }
 }

@@ -110,8 +110,7 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
     } else if (from == 0 && to == length) {
       return this;
     } else {
-      RegularImmutableSortedSet<E> subElementSet =
-          (RegularImmutableSortedSet<E>) elementSet.getSubSet(from, to);
+      RegularImmutableSortedSet<E> subElementSet = elementSet.getSubSet(from, to);
       return new RegularImmutableSortedMultiset<E>(
           subElementSet, cumulativeCounts, offset + from, to - from);
     }
