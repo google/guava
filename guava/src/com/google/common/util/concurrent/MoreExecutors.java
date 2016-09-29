@@ -268,7 +268,7 @@ public final class MoreExecutors {
     return new DirectExecutorService();
   }
 
-  // See sameThreadExecutor javadoc for behavioral notes.
+  // See newDirectExecutorService javadoc for behavioral notes.
   @GwtIncompatible // TODO
   private static final class DirectExecutorService extends AbstractListeningExecutorService {
     /**
@@ -316,7 +316,7 @@ public final class MoreExecutors {
       }
     }
 
-    // See sameThreadExecutor javadoc for unusual behavior of this method.
+    // See newDirectExecutorService javadoc for unusual behavior of this method.
     @Override
     public List<Runnable> shutdownNow() {
       shutdown();
