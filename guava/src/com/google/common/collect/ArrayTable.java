@@ -354,10 +354,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    */
   @GwtIncompatible // reflection
   public V[][] toArray(Class<V> valueClass) {
-    // Can change to use varargs in JDK 1.6 if we want
     @SuppressWarnings("unchecked") // TODO: safe?
-    V[][] copy =
-        (V[][]) Array.newInstance(valueClass, new int[] {rowList.size(), columnList.size()});
+    V[][] copy = (V[][]) Array.newInstance(valueClass, rowList.size(), columnList.size());
     for (int i = 0; i < rowList.size(); i++) {
       System.arraycopy(array[i], 0, copy[i], 0, array[i].length);
     }

@@ -162,9 +162,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     if (SortedIterables.hasSameComparator(comparator, that)) {
       Iterator<?> otherIterator = that.iterator();
       try {
-        Iterator<E> iterator = iterator();
-        while (iterator.hasNext()) {
-          Object element = iterator.next();
+        for (E element : this) {
           Object otherElement = otherIterator.next();
           if (otherElement == null || unsafeCompare(element, otherElement) != 0) {
             return false;
@@ -177,7 +175,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
         return false; // concurrent change to other set
       }
     }
-    return this.containsAll(that);
+    return containsAll(that);
   }
 
   @Override
