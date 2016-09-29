@@ -97,11 +97,6 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
 
   @Override
   public String toString() {
-    String elementToString = element.toString();
-    return new StringBuilder(elementToString.length() + 2)
-        .append('[')
-        .append(elementToString)
-        .append(']')
-        .toString();
+    return '[' + element.toString() + ']';
   }
 }
