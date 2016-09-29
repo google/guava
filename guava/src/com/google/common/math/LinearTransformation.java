@@ -300,7 +300,7 @@ public abstract class LinearTransformation {
 
     @Override
     public String toString() {
-      return String.format("NaN");
+      return "NaN";
     }
   }
 }
