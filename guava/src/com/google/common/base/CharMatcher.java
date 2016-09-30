@@ -468,19 +468,6 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a {@code char} matcher that matches any character present in the given bitset.
-   *
-   * @deprecated Used only from {@code CharacterFilter}. To be removed when its users are migrated
-   *     to "normal" {@code CharMatcher} instances. This method will be removed before we release
-   *     Guava 20.0.
-   */
-  @Deprecated
-  @GwtIncompatible
-  public static CharMatcher fromBitSet(BitSet bitset) {
-    return new BitSetMatcher((BitSet) bitset.clone(), "BitSetMatcher");
-  }
-
-  /**
    * Returns a matcher with identical behavior to the given {@link Character}-based predicate, but
    * which operates on primitive {@code char} instances instead.
    */
