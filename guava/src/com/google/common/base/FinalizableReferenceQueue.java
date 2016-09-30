@@ -244,6 +244,7 @@ public class FinalizableReferenceQueue implements Closeable {
     // finding Finalizer on the system class path even if it is there.
     @VisibleForTesting static boolean disabled;
 
+    @Nullable
     @Override
     public Class<?> loadFinalizer() {
       if (disabled) {
@@ -281,6 +282,7 @@ public class FinalizableReferenceQueue implements Closeable {
             + "loader. To support reclaiming this class loader, either resolve the underlying "
             + "issue, or move Guava to your system class path.";
 
+    @Nullable
     @Override
     public Class<?> loadFinalizer() {
       try {
