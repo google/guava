@@ -71,7 +71,7 @@ public final class HostSpecifier {
     // IPv6 literals.
     final HostAndPort parsedHost = HostAndPort.fromString(specifier);
     Preconditions.checkArgument(!parsedHost.hasPort());
-    final String host = parsedHost.getHostText();
+    final String host = parsedHost.getHost();
 
     // Try to interpret the specifier as an IP address. Note we build
     // the address rather than using the .is* methods because we want to
