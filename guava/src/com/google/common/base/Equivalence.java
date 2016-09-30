@@ -16,7 +16,6 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import javax.annotation.Nullable;
@@ -250,12 +249,11 @@ public abstract class Equivalence<T> {
   }
 
   /**
-   * Returns a predicate that evaluates to true if and only if the input is equivalent to
-   * {@code target} according to this equivalence relation.
+   * Returns a predicate that evaluates to true if and only if the input is equivalent to {@code
+   * target} according to this equivalence relation.
    *
    * @since 10.0
    */
-  @Beta
   public final Predicate<T> equivalentTo(@Nullable T target) {
     return new EquivalentToPredicate<T>(this, target);
   }

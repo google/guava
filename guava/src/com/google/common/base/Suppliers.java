@@ -14,7 +14,6 @@
 
 package com.google.common.base;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Serializable;
@@ -280,12 +279,13 @@ public final class Suppliers {
   }
 
   /**
-   * Returns a function that accepts a supplier and returns the result of invoking
-   * {@link Supplier#get} on that supplier.
+   * Returns a function that accepts a supplier and returns the result of invoking {@link
+   * Supplier#get} on that supplier.
+   *
+   * <p><b>Java 8 users:</b> use the method reference {@code Supplier::get} instead.
    *
    * @since 8.0
    */
-  @Beta
   public static <T> Function<Supplier<T>, T> supplierFunction() {
     @SuppressWarnings("unchecked") // implementation is "fully variant"
     SupplierFunction<T> sf = (SupplierFunction<T>) SupplierFunctionImpl.INSTANCE;

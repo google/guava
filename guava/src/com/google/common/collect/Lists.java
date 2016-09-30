@@ -724,7 +724,6 @@ public final class Lists {
    *
    * @since 7.0
    */
-  @Beta
   public static ImmutableList<Character> charactersOf(String string) {
     return new StringAsImmutableList(checkNotNull(string));
   }

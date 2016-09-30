@@ -454,7 +454,6 @@ public final class Maps {
    * @return the difference between the two maps
    * @since 10.0
    */
-  @Beta
   public static <K, V> MapDifference<K, V> difference(
       Map<? extends K, ? extends V> left,
       Map<? extends K, ? extends V> right,

@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -31,25 +30,26 @@ import java.util.BitSet;
  * Implementations are strongly encouraged to be side-effect-free and immutable.
  *
  * <p>Throughout the documentation of this class, the phrase "matching character" is used to mean
- * "any character {@code c} for which {@code this.matches(c)} returns {@code true}".
+ * "any {@code char} value {@code c} for which {@code this.matches(c)} returns {@code true}".
  *
- * <p><b>Note:</b> This class deals only with {@code char} values; it does not understand
+ * <p><b>Warning:</b> This class deals only with {@code char} values; it does not understand
  * supplementary Unicode code points in the range {@code 0x10000} to {@code 0x10FFFF}. Such logical
  * characters are encoded into a {@code String} using surrogate pairs, and a {@code CharMatcher}
  * treats these just as two separate characters.
  *
- * <p>Example usages: <pre>
+ * <p>Example usages:
+ *
+ * <pre>
  *   String trimmed = {@link #whitespace() whitespace()}.{@link #trimFrom trimFrom}(userInput);
  *   if ({@link #ascii() ascii()}.{@link #matchesAllOf matchesAllOf}(s)) { ... }</pre>
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/StringsExplained#charmatcher">{@code CharMatcher}
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/StringsExplained#charmatcher">{@code CharMatcher}
  * </a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0
  */
-@Beta // Possibly change from chars to code points; decide constants vs. methods
 @GwtCompatible(emulated = true)
 public abstract class CharMatcher implements Predicate<Character> {
   /*

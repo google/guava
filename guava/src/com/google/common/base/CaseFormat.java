@@ -16,7 +16,6 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import javax.annotation.Nullable;
@@ -161,7 +160,6 @@ public enum CaseFormat {
    *
    * @since 16.0
    */
-  @Beta
   public Converter<String, String> converterTo(CaseFormat targetFormat) {
     return new StringConverter(this, targetFormat);
   }

@@ -17,7 +17,6 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Map;
@@ -364,7 +363,6 @@ public final class Functions {
    *
    * @since 10.0
    */
-  @Beta
   public static <T> Function<Object, T> forSupplier(Supplier<T> supplier) {
     return new SupplierFunction<T>(supplier);
   }

@@ -17,7 +17,6 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 /**
@@ -543,7 +542,6 @@ public final class Ascii {
    *     {@code truncationIndicator}
    * @since 16.0
    */
-  @Beta
   public static String truncate(CharSequence seq, int maxLength, String truncationIndicator) {
     checkNotNull(seq);
 
@@ -593,7 +591,6 @@ public final class Ascii {
    *
    * @since 16.0
    */
-  @Beta
   public static boolean equalsIgnoreCase(CharSequence s1, CharSequence s2) {
     // Calling length() is the null pointer check (so do it before we can exit early).
     int length = s1.length();

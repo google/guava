@@ -16,7 +16,6 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.io.Serializable;
@@ -36,7 +35,6 @@ import javax.annotation.Nullable;
  * @since 9.0
  */
 @GwtCompatible(emulated = true)
-@Beta
 public final class Enums {
 
   private Enums() {}
