@@ -16,14 +16,15 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.graph.GraphConstants.EDGE_CONNECTING_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
+import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import java.util.Map;
-import javax.annotation.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link ValueGraph}. It is recommended to extend
@@ -39,11 +40,14 @@ public abstract class AbstractValueGraph<N, V> extends AbstractGraph<N>
     implements ValueGraph<N, V> {
 
   @Override
-  public V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue) {
-    checkNotNull(nodeU);
-    checkNotNull(nodeV);
-    boolean connected = nodes().contains(nodeU) && successors(nodeU).contains(nodeV);
-    return connected ? edgeValue(nodeU, nodeV) : defaultValue;
+  public V edgeValue(Object nodeU, Object nodeV) {
+    V value = edgeValueOrDefault(nodeU, nodeV, null);
+    if (value == null) {
+      checkArgument(nodes().contains(nodeU), NODE_NOT_IN_GRAPH, nodeU);
+      checkArgument(nodes().contains(nodeV), NODE_NOT_IN_GRAPH, nodeV);
+      throw new IllegalArgumentException(String.format(EDGE_CONNECTING_NOT_IN_GRAPH, nodeU, nodeV));
+    }
+    return value;
   }
 
   /** Returns a string representation of this graph. */

@@ -16,10 +16,8 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
-import static com.google.common.graph.GraphConstants.EDGE_CONNECTING_NOT_IN_GRAPH;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 import static com.google.common.graph.Graphs.checkNonNegative;
 
@@ -60,7 +58,7 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
         builder,
         builder.nodeOrder.<N, GraphConnections<N, V>>createMap(
             builder.expectedNodeCount.or(DEFAULT_NODE_COUNT)),
-        0L /* edgeCount */);
+        0L);
   }
 
   /**
@@ -118,11 +116,14 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
-  public V edgeValue(Object nodeU, Object nodeV) {
-    V value = checkedConnections(nodeU).value(nodeV);
+  public V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue) {
+    GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
+    if (connectionsU == null) {
+      return defaultValue;
+    }
+    V value = connectionsU.value(nodeV);
     if (value == null) {
-      checkArgument(containsNode(nodeV), NODE_NOT_IN_GRAPH, nodeV);
-      throw new IllegalArgumentException(String.format(EDGE_CONNECTING_NOT_IN_GRAPH, nodeU, nodeV));
+      return defaultValue;
     }
     return value;
   }

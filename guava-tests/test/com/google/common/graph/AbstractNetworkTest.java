@@ -218,7 +218,7 @@ public abstract class AbstractNetworkTest {
       for (N otherNode : network.nodes()) {
         Set<E> edgesConnecting = sanityCheckSet(network.edgesConnecting(node, otherNode));
         boolean isSelfLoop = node.equals(otherNode);
-        boolean nodesConnected = !edgesConnecting.isEmpty();
+        boolean connected = !edgesConnecting.isEmpty();
         if (network.isDirected() || !isSelfLoop) {
           assertThat(edgesConnecting)
               .isEqualTo(Sets.intersection(network.outEdges(node), network.inEdges(otherNode)));
@@ -227,10 +227,10 @@ public abstract class AbstractNetworkTest {
           assertThat(edgesConnecting.size()).isAtMost(1);
         }
         if (!network.allowsSelfLoops() && isSelfLoop) {
-          assertThat(nodesConnected).isFalse();
+          assertThat(connected).isFalse();
         }
-        assertThat(network.successors(node).contains(otherNode)).isEqualTo(nodesConnected);
-        assertThat(network.predecessors(otherNode).contains(node)).isEqualTo(nodesConnected);
+        assertThat(network.successors(node).contains(otherNode)).isEqualTo(connected);
+        assertThat(network.predecessors(otherNode).contains(node)).isEqualTo(connected);
         for (E edge : edgesConnecting) {
           assertThat(network.incidentNodes(edge))
               .isEqualTo(EndpointPair.of(network, node, otherNode));
