@@ -86,7 +86,7 @@ import javax.annotation.Nullable;
  * <p>Example of use:
  *
  * <pre><code>
- * MutableGraph<String, Double> synonymGraph = GraphBuilder.undirected().build();
+ * MutableValueGraph<String, Double> synonymGraph = ValueGraphBuilder.undirected().build();
  * synonymGraph.putEdgeValue("large", "big", 0.9);
  * synonymGraph.putEdgeValue("large", "huge", 0.9);
  * synonymGraph.putEdgeValue("large", "grand", 0.6);
