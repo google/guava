@@ -21,10 +21,6 @@ import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,6 +28,8 @@ import java.util.List;
 import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedSet;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@code ForwardingNavigableSet}.
@@ -143,10 +141,10 @@ public class ForwardingNavigableSetTest extends ForwardingSortedSetTest {
       return standardTailSet(fromElement);
     }
   }
-  
+
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    
+
     suite.addTestSuite(ForwardingNavigableSetTest.class);
     suite.addTest(
         SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -179,10 +177,10 @@ public class ForwardingNavigableSetTest extends ForwardingSortedSetTest {
             .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
                 CollectionFeature.GENERAL_PURPOSE, CollectionFeature.ALLOWS_NULL_VALUES)
                 .createTestSuite());
-    
+
     return suite;
   }
-  
+
   @Override public void setUp() throws Exception {
     super.setUp();
     /*
@@ -234,17 +232,17 @@ public class ForwardingNavigableSetTest extends ForwardingSortedSetTest {
     forward().descendingIterator();
     assertEquals("[descendingIterator]", getCalls());
   }
-  
+
   public void testHeadSet_K_Boolean() {
     forward().headSet("key", false);
     assertEquals("[headSet(Object,boolean)]", getCalls());
   }
-  
+
   public void testSubSet_K_Boolean_K_Boolean() {
     forward().subSet("a", true, "b", false);
     assertEquals("[subSet(Object,boolean,Object,boolean)]", getCalls());
   }
-  
+
   public void testTailSet_K_Boolean() {
     forward().tailSet("key", false);
     assertEquals("[tailSet(Object,boolean)]", getCalls());

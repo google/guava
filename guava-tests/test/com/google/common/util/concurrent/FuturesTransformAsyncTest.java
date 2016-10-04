@@ -19,7 +19,6 @@ package com.google.common.util.concurrent;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 
 import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
-
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;

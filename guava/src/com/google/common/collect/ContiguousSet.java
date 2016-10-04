@@ -17,10 +17,8 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -36,7 +34,6 @@ import java.util.Set;
  * @author Gregory Kick
  * @since 10.0
  */
-@Beta
 @GwtCompatible(emulated = true)
 @SuppressWarnings("rawtypes") // allow ungenerified Comparable types
 public abstract class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
@@ -138,14 +135,14 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    * These methods perform most headSet, subSet, and tailSet logic, besides parameter validation.
    */
   // TODO(kevinb): we can probably make these real @Overrides now
-  /*@Override*/
+  /* @Override */
   abstract ContiguousSet<C> headSetImpl(C toElement, boolean inclusive);
 
-  /*@Override*/
+  /* @Override */
   abstract ContiguousSet<C> subSetImpl(
       C fromElement, boolean fromInclusive, C toElement, boolean toInclusive);
 
-  /*@Override*/
+  /* @Override */
   abstract ContiguousSet<C> tailSetImpl(C fromElement, boolean inclusive);
 
   /**

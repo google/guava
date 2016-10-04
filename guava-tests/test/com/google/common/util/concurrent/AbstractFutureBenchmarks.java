@@ -19,14 +19,12 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
-
 import javax.annotation.Nullable;
 
 /**

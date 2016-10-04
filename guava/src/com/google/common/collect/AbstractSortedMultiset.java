@@ -18,11 +18,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
-
 import javax.annotation.Nullable;
 
 /**

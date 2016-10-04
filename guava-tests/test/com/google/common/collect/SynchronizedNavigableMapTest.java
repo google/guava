@@ -26,15 +26,13 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestSuite;
-
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.SortedMap;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@link Maps#synchronizedNavigableMap(NavigableMap)}.
@@ -247,7 +245,7 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
           }
         }).named("Maps.synchronizedNavigableMap[SafeTreeMap]")
             .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-                MapFeature.GENERAL_PURPOSE, MapFeature.ALLOWS_NULL_VALUES, 
+                MapFeature.GENERAL_PURPOSE, MapFeature.ALLOWS_NULL_VALUES,
                 CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
             .createTestSuite());
 

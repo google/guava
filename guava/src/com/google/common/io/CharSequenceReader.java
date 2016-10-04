@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.GwtIncompatible;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;

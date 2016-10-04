@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Defaults}.
- * 
+ *
  * @author Jige Yu
  */
 public class DefaultsTest extends TestCase {

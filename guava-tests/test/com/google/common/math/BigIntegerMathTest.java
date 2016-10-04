@@ -38,12 +38,10 @@ import static java.util.Arrays.asList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import junit.framework.TestCase;
 
 /**
  * Tests for BigIntegerMath.
@@ -105,7 +103,7 @@ public class BigIntegerMathTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   @GwtIncompatible // TODO
   public void testConstantSqrt2PrecomputedBits() {
     assertEquals(BigIntegerMath.sqrt(

@@ -30,7 +30,6 @@ import static com.google.common.primitives.UnsignedBytes.toInt;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-
 import javax.annotation.Nullable;
 
 /**

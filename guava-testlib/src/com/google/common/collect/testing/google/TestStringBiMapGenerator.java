@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SampleElements;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -35,8 +34,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public abstract class TestStringBiMapGenerator
-    implements TestBiMapGenerator<String, String> {
+public abstract class TestStringBiMapGenerator implements TestBiMapGenerator<String, String> {
 
   @Override
   public SampleElements<Map.Entry<String, String>> samples() {
@@ -45,8 +43,7 @@ public abstract class TestStringBiMapGenerator
         Helpers.mapEntry("two", "February"),
         Helpers.mapEntry("three", "March"),
         Helpers.mapEntry("four", "April"),
-        Helpers.mapEntry("five", "May")
-    );
+        Helpers.mapEntry("five", "May"));
   }
 
   @Override
@@ -62,8 +59,7 @@ public abstract class TestStringBiMapGenerator
     return create(array);
   }
 
-  protected abstract BiMap<String, String> create(
-      Entry<String, String>[] entries);
+  protected abstract BiMap<String, String> create(Entry<String, String>[] entries);
 
   @Override
   @SuppressWarnings("unchecked")
@@ -83,8 +79,7 @@ public abstract class TestStringBiMapGenerator
 
   /** Returns the original element list, unchanged. */
   @Override
-  public Iterable<Entry<String, String>> order(
-      List<Entry<String, String>> insertionOrder) {
+  public Iterable<Entry<String, String>> order(List<Entry<String, String>> insertionOrder) {
     return insertionOrder;
   }
 }

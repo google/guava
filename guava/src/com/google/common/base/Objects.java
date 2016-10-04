@@ -18,9 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Arrays;
-
 import javax.annotation.Nullable;
 
 /**
@@ -34,7 +32,7 @@ import javax.annotation.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public final class Objects {
+public final class Objects extends ExtraObjectsMethodsForWeb {
   private Objects() {}
 
   /**

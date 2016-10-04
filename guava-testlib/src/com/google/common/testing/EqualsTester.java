@@ -26,7 +26,6 @@ import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-
 import java.util.List;
 
 /**
@@ -37,9 +36,8 @@ import java.util.List;
  * different groups are expected to be unequal. For example:
  * <pre>
  * new EqualsTester()
- *     .addEqualityGroup("hello", "h" + "ello")
- *     .addEqualityGroup("world", "wor" + "ld")
- *     .addEqualityGroup(2, 1 + 1)
+ *     .addEqualityGroup(new User("page"), new User("page"))
+ *     .addEqualityGroup(new User("sergey"))
  *     .testEquals();
  * </pre>
  * <p>This tests:

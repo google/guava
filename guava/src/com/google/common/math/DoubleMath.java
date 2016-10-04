@@ -35,7 +35,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Booleans;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Iterator;
@@ -66,14 +65,14 @@ public final class DoubleMath {
         if (x >= 0.0 || isMathematicalInteger(x)) {
           return x;
         } else {
-          return x - 1.0;
+          return (long) x - 1;
         }
 
       case CEILING:
         if (x <= 0.0 || isMathematicalInteger(x)) {
           return x;
         } else {
-          return x + 1.0;
+          return (long) x + 1;
         }
 
       case DOWN:
@@ -83,7 +82,7 @@ public final class DoubleMath {
         if (isMathematicalInteger(x)) {
           return x;
         } else {
-          return x + Math.copySign(1.0, x);
+          return (long) x + (x > 0 ? 1 : -1);
         }
 
       case HALF_EVEN:

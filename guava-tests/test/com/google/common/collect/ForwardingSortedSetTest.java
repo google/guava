@@ -21,15 +21,13 @@ import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@code ForwardingSortedSet}.
@@ -101,10 +99,10 @@ public class ForwardingSortedSetTest extends ForwardingSetTest {
       return standardSubSet(fromElement, toElement);
     }
   }
-  
+
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    
+
     suite.addTestSuite(ForwardingSortedSetTest.class);
     suite.addTest(
         SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -120,10 +118,10 @@ public class ForwardingSortedSetTest extends ForwardingSetTest {
             "ForwardingSortedSet[SafeTreeSet] with standard implementations")
             .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
                 CollectionFeature.GENERAL_PURPOSE).createTestSuite());
-    
+
     return suite;
   }
-  
+
   @Override public void setUp() throws Exception {
     super.setUp();
     /*

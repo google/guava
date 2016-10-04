@@ -20,15 +20,15 @@ import static com.google.common.collect.testing.Helpers.NullsBeforeB;
 import static com.google.common.collect.testing.Helpers.testComparator;
 
 import com.google.common.annotations.GwtCompatible;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Helpers}.
@@ -44,10 +44,26 @@ public class HelpersTest extends TestCase {
   public void testIsEmpty_iterable() {
     List<Object> list = new ArrayList<Object>();
     Helpers.assertEmpty(list);
+    Helpers.assertEmpty(new Iterable<Object>() {
+      @Override
+      public Iterator<Object> iterator() {
+        return Collections.emptyList().iterator();
+      }
+    });
 
     list.add("a");
     try {
       Helpers.assertEmpty(list);
+      throw new Error();
+    } catch (AssertionFailedError expected) {
+    }
+    try {
+      Helpers.assertEmpty(new Iterable<String>() {
+        @Override
+        public Iterator<String> iterator() {
+          return Collections.singleton("a").iterator();
+        }
+      });
       throw new Error();
     } catch (AssertionFailedError expected) {
     }

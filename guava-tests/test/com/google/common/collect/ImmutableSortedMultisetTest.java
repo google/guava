@@ -17,6 +17,8 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Multiset.Entry;
@@ -30,13 +32,6 @@ import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.easymock.EasyMock;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -45,6 +40,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@link ImmutableSortedMultiset}.
@@ -514,15 +512,12 @@ public class ImmutableSortedMultisetTest extends TestCase {
 
     // Test that toArray() is used to make a defensive copy in copyOf(), so concurrently modified
     // synchronized collections can be safely copied.
-    SortedMultiset<String> toCopy = EasyMock.createMock(SortedMultiset.class);
+    SortedMultiset<String> toCopy = mock(SortedMultiset.class);
     TestHashSet<Entry<String>> entrySet = new TestHashSet<Entry<String>>();
-    EasyMock.expect((Comparator<Comparable>) toCopy.comparator())
-      .andReturn(Ordering.natural());
-    EasyMock.expect(toCopy.entrySet()).andReturn(entrySet);
-    EasyMock.replay(toCopy);
-    ImmutableSortedMultiset<String> multiset =
-        ImmutableSortedMultiset.copyOfSorted(toCopy);
-    EasyMock.verify(toCopy);
+    when((Comparator<Comparable<String>>) toCopy.comparator())
+        .thenReturn(Ordering.<Comparable<String>>natural());
+    when(toCopy.entrySet()).thenReturn(entrySet);
+    ImmutableSortedMultiset<String> unused = ImmutableSortedMultiset.copyOfSorted(toCopy);
     assertTrue(entrySet.toArrayCalled);
   }
 

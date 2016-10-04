@@ -19,10 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.j2objc.annotations.Weak;
-
 import java.io.Serializable;
 import java.util.Map.Entry;
-
 import javax.annotation.Nullable;
 
 /**
@@ -72,7 +70,7 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
   }
 
   @Override
-  ImmutableList<V> createAsList() {
+  public ImmutableList<V> asList() {
     final ImmutableList<Entry<K, V>> entryList = map.entrySet().asList();
     return new ImmutableAsList<V>() {
       @Override

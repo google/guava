@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Iterator;
 
 /**
@@ -26,6 +25,13 @@ import java.util.Iterator;
  * Subclasses should override one or more methods to modify the behavior of the
  * backing iterator as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+ *
+ * <p><b>{@code default} method warning:</b> This class forwards calls to <i>only some</i> {@code
+ * default} methods. Specifically, it forwards calls only for methods that existed <a
+ * href="https://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html">before {@code default}
+ * methods were introduced</a>. For newer methods, like {@code forEachRemaining}, it inherits their
+ * default implementations. When those implementations invoke methods, they invoke methods on the
+ * {@code ForwardingIterator}.
  *
  * @author Kevin Bourrillion
  * @since 2.0

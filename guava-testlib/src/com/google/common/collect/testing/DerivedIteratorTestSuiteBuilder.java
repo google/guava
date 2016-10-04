@@ -17,10 +17,8 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtIncompatible;
-
-import junit.framework.TestSuite;
-
 import java.util.List;
+import junit.framework.TestSuite;
 
 /**
  * Given a test iterable generator, builds a test suite for the
@@ -38,16 +36,17 @@ public class DerivedIteratorTestSuiteBuilder<E>
    *
    * @return never.
    */
-  @Override protected List<Class<? extends AbstractTester>> getTesters() {
+  @Override
+  protected List<Class<? extends AbstractTester>> getTesters() {
     throw new UnsupportedOperationException();
   }
 
-  @Override public TestSuite createTestSuite() {
+  @Override
+  public TestSuite createTestSuite() {
     checkCanCreate();
     return new IteratorTestSuiteBuilder<E>()
         .named(getName() + " iterator")
-        .usingGenerator(new DerivedTestIteratorGenerator<E>(
-            getSubjectGenerator()))
+        .usingGenerator(new DerivedTestIteratorGenerator<E>(getSubjectGenerator()))
         .withFeatures(getFeatures())
         .createTestSuite();
   }

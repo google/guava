@@ -24,7 +24,6 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.EquivalenceTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
 import junit.framework.TestCase;
 
 /**
@@ -94,7 +93,7 @@ public class EquivalenceTest extends TestCase {
 
   private static class IntValue {
     private final int value;
-    
+
     IntValue(int value) {
       this.value = value;
     }
@@ -103,14 +102,14 @@ public class EquivalenceTest extends TestCase {
       return "value = " + value;
     }
   }
-  
+
   public void testOnResultOf() {
     EquivalenceTester.of(Equivalence.equals().onResultOf(Functions.toStringFunction()))
         .addEquivalenceGroup(new IntValue(1), new IntValue(1))
         .addEquivalenceGroup(new IntValue(2))
         .test();
   }
-  
+
   public void testOnResultOf_equals() {
     new EqualsTester()
         .addEqualityGroup(
@@ -120,7 +119,7 @@ public class EquivalenceTest extends TestCase {
         .addEqualityGroup(Equivalence.identity().onResultOf(Functions.identity()))
         .testEquals();
   }
-  
+
   public void testEquivalentTo() {
     Predicate<Object> equalTo1 = Equivalence.equals().equivalentTo("1");
     assertTrue(equalTo1.apply("1"));
@@ -130,7 +129,7 @@ public class EquivalenceTest extends TestCase {
     assertFalse(isNull.apply("1"));
     assertFalse(isNull.apply("2"));
     assertTrue(isNull.apply(null));
-    
+
     new EqualsTester()
         .addEqualityGroup(equalTo1, Equivalence.equals().equivalentTo("1"))
         .addEqualityGroup(isNull)
@@ -151,7 +150,7 @@ public class EquivalenceTest extends TestCase {
         .addEquivalenceGroup("a")
         .test();
   }
-  
+
   public void testEquals() {
     new EqualsTester()
         .addEqualityGroup(Equivalence.equals(), Equivalence.equals())

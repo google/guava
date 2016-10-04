@@ -34,7 +34,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.primitives.Doubles;
-
 import java.math.BigInteger;
 import java.math.RoundingMode;
 
@@ -218,6 +217,16 @@ public class MathTesting {
     for (int scale = 1; scale <= 4; scale++) {
       for (double d : Doubles.asList(Double.MIN_VALUE, Double.MIN_NORMAL)) {
         fractionalBuilder.add(d * scale).add(-d * scale);
+      }
+    }
+    for (int i = Double.MIN_EXPONENT; i <= Double.MAX_EXPONENT; i++) {
+      for (int direction : new int[] {1, -1}) {
+        double d = 
+            Double.longBitsToDouble(Double.doubleToLongBits(Math.scalb(1.0, i)) + direction);
+        // Math.nextUp/nextDown
+        if (d != Math.rint(d)) {
+          fractionalBuilder.add(d);
+        }
       }
     }
     for (double d : Doubles.asList(0, 1, 2, 7, 51, 102, Math.scalb(1.0, 53), Integer.MIN_VALUE,

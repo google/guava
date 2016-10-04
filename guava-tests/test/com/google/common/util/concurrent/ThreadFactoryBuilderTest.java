@@ -19,13 +19,11 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import junit.framework.TestCase;
 
 /**
  * Tests for ThreadFactoryBuilder.

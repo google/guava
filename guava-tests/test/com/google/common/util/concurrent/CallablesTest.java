@@ -20,12 +20,10 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
-
-import junit.framework.TestCase;
-
 import java.security.Permission;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Callables}.

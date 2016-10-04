@@ -22,18 +22,15 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import javax.annotation.Nullable;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Unit test for {@link AbstractMultiset}.

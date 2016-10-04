@@ -156,6 +156,30 @@ public void testCopyOfSparse() throws Exception {
   testCase.testCopyOfSparse();
 }
 
+public void testDenseSerialization_bothOrders() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testDenseSerialization_bothOrders();
+}
+
+public void testDenseSerialization_columnOrder() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testDenseSerialization_columnOrder();
+}
+
+public void testDenseSerialization_manualOrder() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testDenseSerialization_manualOrder();
+}
+
+public void testDenseSerialization_rowOrder() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testDenseSerialization_rowOrder();
+}
+
 public void testEquals() throws Exception {
   com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
   testCase.setUp();
@@ -192,10 +216,46 @@ public void testRowNull() throws Exception {
   testCase.testRowNull();
 }
 
+public void testSerialization_empty() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testSerialization_empty();
+}
+
+public void testSerialization_singleElement() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testSerialization_singleElement();
+}
+
 public void testSize() throws Exception {
   com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
   testCase.setUp();
   testCase.testSize();
+}
+
+public void testSparseSerialization_bothOrders() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testSparseSerialization_bothOrders();
+}
+
+public void testSparseSerialization_columnOrder() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testSparseSerialization_columnOrder();
+}
+
+public void testSparseSerialization_manualOrder() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testSparseSerialization_manualOrder();
+}
+
+public void testSparseSerialization_rowOrder() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testSparseSerialization_rowOrder();
 }
 
 public void testToStringSize1() throws Exception {

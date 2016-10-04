@@ -25,7 +25,6 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
 import java.util.Collections;
 import java.util.Set;
 

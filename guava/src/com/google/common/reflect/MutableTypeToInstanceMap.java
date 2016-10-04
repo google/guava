@@ -24,11 +24,9 @@ import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**

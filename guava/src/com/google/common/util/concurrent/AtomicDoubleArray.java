@@ -18,7 +18,6 @@ import static java.lang.Double.longBitsToDouble;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.concurrent.atomic.AtomicLongArray;
 
 /**

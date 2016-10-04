@@ -26,7 +26,6 @@ import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestListGenerator;
 import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.TestStringSortedMapGenerator;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
@@ -45,7 +44,8 @@ import java.util.SortedMap;
 @GwtCompatible
 public class SortedMapGenerators {
   public static class ImmutableSortedMapGenerator extends TestStringSortedMapGenerator {
-    @Override public SortedMap<String, String> create(Entry<String, String>[] entries) {
+    @Override
+    public SortedMap<String, String> create(Entry<String, String>[] entries) {
       ImmutableSortedMap.Builder<String, String> builder = ImmutableSortedMap.naturalOrder();
       for (Entry<String, String> entry : entries) {
         checkNotNull(entry);
@@ -54,9 +54,11 @@ public class SortedMapGenerators {
       return builder.build();
     }
   }
-  public static class ImmutableSortedMapCopyOfEntriesGenerator 
+
+  public static class ImmutableSortedMapCopyOfEntriesGenerator
       extends TestStringSortedMapGenerator {
-    @Override public SortedMap<String, String> create(Entry<String, String>[] entries) {
+    @Override
+    public SortedMap<String, String> create(Entry<String, String>[] entries) {
       return ImmutableSortedMap.copyOf(Arrays.asList(entries));
     }
   }
@@ -103,7 +105,8 @@ public class SortedMapGenerators {
   }
 
   public static class ImmutableSortedMapKeyListGenerator extends TestStringListGenerator {
-    @Override protected List<String> create(String[] elements) {
+    @Override
+    protected List<String> create(String[] elements) {
       ImmutableSortedMap.Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
       for (int i = 0; i < elements.length; i++) {
         builder.put(elements[i], i);
@@ -118,7 +121,8 @@ public class SortedMapGenerators {
   }
 
   public static class ImmutableSortedMapValueListGenerator extends TestStringListGenerator {
-    @Override protected List<String> create(String[] elements) {
+    @Override
+    protected List<String> create(String[] elements) {
       ImmutableSortedMap.Builder<Integer, String> builder = ImmutableSortedMap.naturalOrder();
       for (int i = 0; i < elements.length; i++) {
         builder.put(i, elements[i]);

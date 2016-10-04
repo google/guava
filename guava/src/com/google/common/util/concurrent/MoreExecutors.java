@@ -27,7 +27,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Collections;
@@ -50,7 +49,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
 import javax.annotation.concurrent.GuardedBy;
 
 /**
@@ -270,7 +268,7 @@ public final class MoreExecutors {
     return new DirectExecutorService();
   }
 
-  // See sameThreadExecutor javadoc for behavioral notes.
+  // See newDirectExecutorService javadoc for behavioral notes.
   @GwtIncompatible // TODO
   private static final class DirectExecutorService extends AbstractListeningExecutorService {
     /**
@@ -318,7 +316,7 @@ public final class MoreExecutors {
       }
     }
 
-    // See sameThreadExecutor javadoc for unusual behavior of this method.
+    // See newDirectExecutorService javadoc for unusual behavior of this method.
     @Override
     public List<Runnable> shutdownNow() {
       shutdown();
@@ -419,7 +417,7 @@ public final class MoreExecutors {
    *     }
    *   }}</pre>
    *
-   * <p>This should be preferred to {@link #newDirectExecutorService()} because the implementing the
+   * <p>This should be preferred to {@link #newDirectExecutorService()} because implementing the
    * {@link ExecutorService} subinterface necessitates significant performance overhead.
    *
    * @since 18.0
@@ -650,13 +648,16 @@ public final class MoreExecutors {
       ListeningExecutorService executorService,
       Collection<? extends Callable<T>> tasks,
       boolean timed,
-      long nanos)
+      long timeout,
+      TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     checkNotNull(executorService);
+    checkNotNull(unit);
     int ntasks = tasks.size();
     checkArgument(ntasks > 0);
     List<Future<T>> futures = Lists.newArrayListWithCapacity(ntasks);
     BlockingQueue<Future<T>> futureQueue = Queues.newLinkedBlockingQueue();
+    long timeoutNanos = unit.toNanos(timeout);
 
     // For efficiency, especially in executors with limited
     // parallelism, check to see if previously submitted tasks are
@@ -685,12 +686,12 @@ public final class MoreExecutors {
           } else if (active == 0) {
             break;
           } else if (timed) {
-            f = futureQueue.poll(nanos, TimeUnit.NANOSECONDS);
+            f = futureQueue.poll(timeoutNanos, TimeUnit.NANOSECONDS);
             if (f == null) {
               throw new TimeoutException();
             }
             long now = System.nanoTime();
-            nanos -= now - lastTime;
+            timeoutNanos -= now - lastTime;
             lastTime = now;
           } else {
             f = futureQueue.take();
@@ -912,16 +913,16 @@ public final class MoreExecutors {
   }
 
   /**
-   * Shuts down the given executor gradually, first disabling new submissions and later cancelling
-   * existing tasks.
+   * Shuts down the given executor service gradually, first disabling new submissions and later, if
+   * necessary, cancelling remaining tasks.
    *
    * <p>The method takes the following steps:
    * <ol>
    * <li>calls {@link ExecutorService#shutdown()}, disabling acceptance of new submitted tasks.
-   * <li>waits for half of the specified timeout.
+   * <li>awaits executor service termination for half of the specified timeout.
    * <li>if the timeout expires, it calls {@link ExecutorService#shutdownNow()}, cancelling pending
    * tasks and interrupting running tasks.
-   * <li>waits for the other half of the specified timeout.
+   * <li>awaits executor service termination for the other half of the specified timeout.
    * </ol>
    *
    * <p>If, at any step of the process, the calling thread is interrupted, the method calls
@@ -931,7 +932,7 @@ public final class MoreExecutors {
    * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
    * @param unit the time unit of the timeout argument
    * @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
-   *     the call timed out or was interrupted
+   *     if the call timed out or was interrupted
    * @since 17.0
    */
   @Beta
@@ -939,11 +940,10 @@ public final class MoreExecutors {
   @GwtIncompatible // concurrency
   public static boolean shutdownAndAwaitTermination(
       ExecutorService service, long timeout, TimeUnit unit) {
-    checkNotNull(unit);
+    long halfTimeoutNanos = unit.toNanos(timeout) / 2;
     // Disable new tasks from being submitted
     service.shutdown();
     try {
-      long halfTimeoutNanos = TimeUnit.NANOSECONDS.convert(timeout, unit) / 2;
       // Wait for half the duration of the timeout for existing tasks to terminate
       if (!service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS)) {
         // Cancel currently executing tasks

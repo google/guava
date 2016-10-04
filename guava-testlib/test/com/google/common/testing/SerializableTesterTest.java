@@ -16,10 +16,9 @@
 
 package com.google.common.testing;
 
+import java.io.Serializable;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-
-import java.io.Serializable;
 
 /**
  * Tests for {@link SerializableTester}.

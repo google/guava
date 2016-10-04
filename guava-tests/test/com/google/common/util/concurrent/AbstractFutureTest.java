@@ -21,10 +21,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Range;
 import com.google.common.collect.Sets;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +40,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link AbstractFuture}.
@@ -408,10 +406,11 @@ public class AbstractFutureTest extends TestCase {
 
   // setFuture and cancel() interact in more complicated ways than the other setters.
   public void testSetFutureCancelBash() {
+    final int size = 50;
     final CyclicBarrier barrier = new CyclicBarrier(
         2  // for the setter threads
-        + 50 // for the listeners
-        + 50 // for the blocking get threads,
+        + size // for the listeners
+        + size // for the get threads,
         + 1); // for the main thread
     final ExecutorService executor = Executors.newFixedThreadPool(barrier.getParties());
     final AtomicReference<AbstractFuture<String>> currentFuture = Atomics.newReference();
@@ -419,20 +418,18 @@ public class AbstractFutureTest extends TestCase {
     final AtomicBoolean setFutureSetSucess = new AtomicBoolean();
     final AtomicBoolean setFutureCompletionSucess = new AtomicBoolean();
     final AtomicBoolean cancellationSucess = new AtomicBoolean();
-    Callable<Void> cancelRunnable = new Callable<Void>() {
-      @Override public Void call() {
+    Runnable cancelRunnable = new Runnable() {
+      @Override public void run() {
         cancellationSucess.set(currentFuture.get().cancel(true));
         awaitUnchecked(barrier);
-        return null;
       }
     };
-    Callable<Void> setFutureCompleteSucessFullyRunnable = new Callable<Void>() {
-      @Override public Void call() {
+    Runnable setFutureCompleteSucessFullyRunnable = new Runnable() {
+      @Override public void run() {
         AbstractFuture<String> future = setFutureFuture.get();
         setFutureSetSucess.set(currentFuture.get().setFuture(future));
         setFutureCompletionSucess.set(future.set("hello-async-world"));
         awaitUnchecked(barrier);
-        return null;
       }
     };
     final Set<Object> finalResults = Collections.synchronizedSet(Sets.newIdentityHashSet());
@@ -471,21 +468,20 @@ public class AbstractFutureTest extends TestCase {
         awaitUnchecked(barrier);
       }
     };
-    List<Callable<?>> allTasks = new ArrayList<Callable<?>>();
+    List<Runnable> allTasks = new ArrayList<Runnable>();
     allTasks.add(cancelRunnable);
     allTasks.add(setFutureCompleteSucessFullyRunnable);
-    for (int k = 0; k < 50; k++) {
+    for (int k = 0; k < size; k++) {
       // For each listener we add a task that submits it to the executor directly for the blocking
       // get usecase and another task that adds it as a listener to the future to exercise both
       // racing addListener calls and addListener calls completing after the future completes.
       final Runnable listener = k % 2 == 0
           ? collectResultsRunnable
           : collectResultsTimedGetRunnable;
-      allTasks.add(Executors.callable(listener));
-      allTasks.add(new Callable<Void>() {
-        @Override public Void call() throws Exception {
+      allTasks.add(listener);
+      allTasks.add(new Runnable() {
+        @Override public void run() {
           currentFuture.get().addListener(listener, executor);
-          return null;
         }
       });
     }
@@ -496,8 +492,8 @@ public class AbstractFutureTest extends TestCase {
       final AbstractFuture<String> setFuture = new AbstractFuture<String>() {};
       currentFuture.set(future);
       setFutureFuture.set(setFuture);
-      for (Callable<?> task : allTasks) {
-        executor.submit(task);
+      for (Runnable task : allTasks) {
+        executor.execute(task);
       }
       awaitUnchecked(barrier);
       assertThat(future.isDone()).isTrue();
@@ -604,6 +600,36 @@ public class AbstractFutureTest extends TestCase {
       finalResults.clear();
     }
     executor.shutdown();
+  }
+
+  // In a previous implementation this would cause a stack overflow after ~2000 futures chained
+  // together.  Now it should only be limited by available memory (and time)
+  public void testSetFuture_stackOverflow() {
+    SettableFuture<String> orig = SettableFuture.create();
+    SettableFuture<String> prev = orig;
+    for (int i = 0; i < 100000; i++) {
+      SettableFuture<String> curr = SettableFuture.create();
+      prev.setFuture(curr);
+      prev = curr;
+    }
+    // prev represents the 'innermost' future
+    prev.set("done");
+    assertTrue(orig.isDone());
+  }
+
+  public void testCancel_stackOverflow() {
+    SettableFuture<String> orig = SettableFuture.create();
+    SettableFuture<String> prev = orig;
+    for (int i = 0; i < 100000; i++) {
+      SettableFuture<String> curr = SettableFuture.create();
+      prev.setFuture(curr);
+      prev = curr;
+    }
+    // orig is the 'outermost future', this should propagate fully down the stack of futures.
+    orig.cancel(true);
+    assertTrue(orig.isCancelled());
+    assertTrue(prev.isCancelled());
+    assertTrue(prev.wasInterrupted());
   }
 
   private static void awaitUnchecked(final CyclicBarrier barrier) {

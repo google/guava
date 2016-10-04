@@ -17,7 +17,6 @@ package com.google.common.io;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -38,20 +37,20 @@ public class BaseEncodingBenchmark {
     BASE32(BaseEncoding.base32()),
     BASE32_HEX(BaseEncoding.base32Hex()),
     BASE16(BaseEncoding.base16());
-    
+
     final BaseEncoding encoding;
-    
+
     EncodingOption(BaseEncoding encoding) {
       this.encoding = encoding;
     }
   }
-  
+
   @Param
   EncodingOption encoding;
-  
+
   @Param({"10", "100", "10000"})
   int n;
-  
+
   private final byte[][] encodingInputs = new byte[INPUTS_COUNT][];
   private final String[] decodingInputs = new String[INPUTS_COUNT];
 
@@ -64,7 +63,7 @@ public class BaseEncodingBenchmark {
       decodingInputs[i] = encoding.encoding.encode(encodingInputs[i]);
     }
   }
-  
+
   @Benchmark public int encode(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {

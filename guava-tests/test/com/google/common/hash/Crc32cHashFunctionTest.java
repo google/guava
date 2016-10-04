@@ -16,9 +16,8 @@ package com.google.common.hash;
 
 import static com.google.common.base.Charsets.UTF_8;
 
-import junit.framework.TestCase;
-
 import java.util.Arrays;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Crc32c}. Known test values are from RFC 3720, Section B.4.

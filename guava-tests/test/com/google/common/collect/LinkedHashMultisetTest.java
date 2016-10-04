@@ -26,13 +26,11 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetFeature;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
-
+import java.util.Arrays;
+import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Unit test for {@link LinkedHashMultiset}.

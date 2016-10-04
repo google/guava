@@ -20,11 +20,9 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Throwables;
 import com.google.j2objc.annotations.Weak;
-
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-
 import javax.annotation.concurrent.GuardedBy;
 
 /**

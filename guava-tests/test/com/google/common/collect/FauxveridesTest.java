@@ -25,9 +25,6 @@ import static java.lang.reflect.Modifier.isStatic;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
-
-import junit.framework.TestCase;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -36,13 +33,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import junit.framework.TestCase;
 
 /**
  * Tests that all {@code public static} methods "inherited" from superclasses
  * are "overridden" in each immutable-collection class. This ensures, for
  * example, that a call written "{@code ImmutableSortedSet.copyOf()}" cannot
  * secretly be a call to {@code ImmutableSet.copyOf()}.
- * 
+ *
  * @author Chris Povirk
  */
 public class FauxveridesTest extends TestCase {

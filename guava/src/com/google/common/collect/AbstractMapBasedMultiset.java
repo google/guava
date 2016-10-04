@@ -25,7 +25,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.InvalidObjectException;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
@@ -33,7 +32,6 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**

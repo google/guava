@@ -15,7 +15,6 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;

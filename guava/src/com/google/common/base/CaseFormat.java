@@ -16,11 +16,8 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
-
 import javax.annotation.Nullable;
 
 /**
@@ -163,7 +160,6 @@ public enum CaseFormat {
    *
    * @since 16.0
    */
-  @Beta
   public Converter<String, String> converterTo(CaseFormat targetFormat) {
     return new StringConverter(this, targetFormat);
   }
@@ -220,9 +216,6 @@ public enum CaseFormat {
   private static String firstCharOnlyToUpper(String word) {
     return (word.isEmpty())
         ? word
-        : new StringBuilder(word.length())
-            .append(Ascii.toUpperCase(word.charAt(0)))
-            .append(Ascii.toLowerCase(word.substring(1)))
-            .toString();
+        : Ascii.toUpperCase(word.charAt(0)) + Ascii.toLowerCase(word.substring(1));
   }
 }

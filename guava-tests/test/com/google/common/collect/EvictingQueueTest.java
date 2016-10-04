@@ -16,16 +16,14 @@
 
 package com.google.common.collect;
 
-import static java.util.Arrays.asList;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
+import java.util.AbstractList;
+import java.util.List;
 import java.util.NoSuchElementException;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link EvictingQueue}.
@@ -143,13 +141,13 @@ public class EvictingQueueTest extends TestCase {
     assertEquals(0, queue.size());
     assertEquals(3, queue.remainingCapacity());
 
-    assertTrue(queue.addAll(asList("one", "two", "three")));
+    assertTrue(queue.addAll(ImmutableList.of("one", "two", "three")));
     assertEquals("one", queue.element());
     assertEquals("one", queue.peek());
     assertEquals(3, queue.size());
     assertEquals(0, queue.remainingCapacity());
 
-    assertTrue(queue.addAll(asList("four")));
+    assertTrue(queue.addAll(ImmutableList.of("four")));
     assertEquals("two", queue.element());
     assertEquals("two", queue.peek());
     assertEquals(3, queue.size());
@@ -158,6 +156,33 @@ public class EvictingQueueTest extends TestCase {
     assertEquals("two", queue.remove());
     assertEquals(2, queue.size());
     assertEquals(1, queue.remainingCapacity());
+  }
+
+  public void testAddAll_largeList() {
+    final List<String> list = ImmutableList.of("one", "two", "three", "four", "five");
+    List<String> misbehavingList =
+        new AbstractList<String>() {
+          @Override
+          public int size() {
+            return list.size();
+          }
+
+          @Override
+          public String get(int index) {
+            if (index < 2) {
+              throw new AssertionError();
+            }
+            return list.get(index);
+          }
+        };
+
+    EvictingQueue<String> queue = EvictingQueue.create(3);
+    assertTrue(queue.addAll(misbehavingList));
+
+    assertEquals("three", queue.remove());
+    assertEquals("four", queue.remove());
+    assertEquals("five", queue.remove());
+    assertTrue(queue.isEmpty());
   }
 
   @GwtIncompatible // NullPointerTester

@@ -25,7 +25,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -43,7 +42,8 @@ public class MultimapClearTester<K, V> extends AbstractMultimapTester<K, V, Mult
     try {
       multimap().clear();
       fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   private void assertCleared() {

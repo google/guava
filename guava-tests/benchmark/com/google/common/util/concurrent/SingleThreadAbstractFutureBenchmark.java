@@ -22,7 +22,6 @@ import com.google.caliper.Param;
 import com.google.caliper.api.VmOptions;
 import com.google.common.util.concurrent.AbstractFutureBenchmarks.Facade;
 import com.google.common.util.concurrent.AbstractFutureBenchmarks.Impl;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
@@ -31,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * A benchmark that times how long it takes to add a given number of 
+ * A benchmark that times how long it takes to add a given number of
  */
 @VmOptions({"-Xms8g", "-Xmx8g"})
 public class SingleThreadAbstractFutureBenchmark {

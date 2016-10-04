@@ -31,14 +31,12 @@ import com.google.common.util.concurrent.Monitor.Guard;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
 import javax.annotation.concurrent.Immutable;
@@ -328,11 +326,11 @@ public abstract class AbstractService implements Service {
       if (actual == FAILED) {
         // Handle this specially so that we can include the failureCause, if there is one.
         throw new IllegalStateException(
-            "Expected the service to be " + expected + ", but the service has FAILED",
+            "Expected the service " + this + " to be " + expected + ", but the service has FAILED",
             failureCause());
       }
       throw new IllegalStateException(
-          "Expected the service to be " + expected + ", but was " + actual);
+          "Expected the service " + this + " to be " + expected + ", but was " + actual);
     }
   }
 

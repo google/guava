@@ -17,10 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.lang.reflect.Array;
-import java.util.ArrayDeque;
-import java.util.Deque;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -54,11 +51,6 @@ final class Platform {
    */
   static MapMaker tryWeakKeys(MapMaker mapMaker) {
     return mapMaker.weakKeys();
-  }
-
-  // TODO(cpovirk): Consider adding an ArrayDeque emulation to GWT.
-  static <E> Deque<E> newFastestDeque(int initialCapacity) {
-    return new ArrayDeque<E>(initialCapacity);
   }
 
   private Platform() {}

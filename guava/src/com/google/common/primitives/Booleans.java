@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -30,7 +29,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-
 import javax.annotation.Nullable;
 
 /**
@@ -50,6 +48,8 @@ public final class Booleans {
   /**
    * Returns a hash code for {@code value}; equal to the result of invoking
    * {@code ((Boolean) value).hashCode()}.
+   *
+   * <p><b>Java 8 users:</b> use {@link Boolean#hashCode(boolean)} instead.
    *
    * @param value a primitive {@code boolean} value
    * @return a hash code for the value

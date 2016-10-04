@@ -15,12 +15,11 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.throwIfUnchecked;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -68,7 +67,8 @@ abstract class WrappingExecutorService implements ExecutorService {
         try {
           wrapped.call();
         } catch (Exception e) {
-          Throwables.propagate(e);
+          throwIfUnchecked(e);
+          throw new RuntimeException(e);
         }
       }
     };

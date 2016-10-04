@@ -15,9 +15,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
-
 import javax.annotation.Nullable;
 
 /**

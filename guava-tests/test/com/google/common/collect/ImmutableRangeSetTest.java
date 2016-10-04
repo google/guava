@@ -23,13 +23,11 @@ import com.google.common.collect.testing.TestSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Set;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@link ImmutableRangeSet}.
@@ -38,7 +36,7 @@ import java.util.Set;
  */
 @GwtIncompatible // ImmutableRangeSet
 public class ImmutableRangeSetTest extends AbstractRangeSetTest {
-  
+
   static final class ImmutableRangeSetIntegerAsSetGenerator implements TestSetGenerator<Integer> {
     @Override
     public SampleElements<Integer> samples() {
@@ -482,7 +480,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
       }
     }
   }
-  
+
   public void testSubRangeSet() {
     ImmutableList.Builder<Range<Integer>> rangesBuilder = ImmutableList.builder();
     rangesBuilder.add(Range.<Integer>all());

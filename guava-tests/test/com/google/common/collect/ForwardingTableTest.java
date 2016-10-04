@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.collect.Table.Cell;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;

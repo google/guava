@@ -23,7 +23,6 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-
 import javax.annotation.Nullable;
 
 /**

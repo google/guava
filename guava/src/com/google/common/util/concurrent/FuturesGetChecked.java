@@ -24,9 +24,6 @@ import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
-
-import org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement;
-
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -38,8 +35,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
 import javax.annotation.Nullable;
+import org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement;
 
 /**
  * Static methods used to implement {@link Futures#getChecked(Future, Class)}.

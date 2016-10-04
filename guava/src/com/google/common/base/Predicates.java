@@ -19,14 +19,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
-
 import javax.annotation.Nullable;
 
 /**
@@ -183,15 +181,45 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if the class being tested is assignable from
-   * the given class. The returned predicate does not allow null inputs.
+   * Returns a predicate that evaluates to {@code true} if the class being tested is assignable
+   * <b>TO</b> {@code clazz}, that is, if it is a <b>subtype</b> of {@code clazz}. Yes, this method
+   * is named very incorrectly! Example: <pre>   {@code
    *
+   *   List<Class<?>> classes = Arrays.asList(
+   *       Object.class, String.class, Number.class, Long.class);
+   *   return Iterables.filter(classes, assignableFrom(Number.class));}</pre>
+   *
+   * The code above returns {@code Number.class} and {@code Long.class}, <b>not</b> {@code
+   * Number.class} and {@code Object.class} as the name implies!
+   *
+   * <p>The returned predicate does not allow null inputs.
+   *
+   * @deprecated Use the correctly-named method {@link #subtypeOf} instead.
    * @since 10.0
    */
   @GwtIncompatible // Class.isAssignableFrom
   @Beta
+  @Deprecated
   public static Predicate<Class<?>> assignableFrom(Class<?> clazz) {
-    return new AssignableFromPredicate(clazz);
+    return subtypeOf(clazz);
+  }
+
+  /**
+   * Returns a predicate that evaluates to {@code true} if the class being tested is assignable
+   * to (is a subtype of) {@code clazz}. Example: <pre>   {@code
+   *
+   *   List<Class<?>> classes = Arrays.asList(
+   *       Object.class, String.class, Number.class, Long.class);
+   *   return Iterables.filter(classes, subtypeOf(Number.class));}</pre>
+   *
+   * The code above returns an iterable containing {@code Number.class} and {@code Long.class}.
+   *
+   * @since 20.0 (since 10.0 under the incorrect name {@code assignableFrom})
+   */
+  @GwtIncompatible // Class.isAssignableFrom
+  @Beta
+  public static Predicate<Class<?>> subtypeOf(Class<?> clazz) {
+    return new SubtypeOfPredicate(clazz);
   }
 
   /**
@@ -225,10 +253,10 @@ public final class Predicates {
    * contains any match for the given regular expression pattern. The test used is equivalent to
    * {@code Pattern.compile(pattern).matcher(arg).find()}
    *
-   * @throws java.util.regex.PatternSyntaxException if the pattern is invalid
+   * @throws IllegalArgumentException if the pattern is invalid
    * @since 3.0
    */
-  @GwtIncompatible(value = "java.util.regex.Pattern")
+  @GwtIncompatible // Only used by other GWT-incompatible code.
   public static Predicate<CharSequence> containsPattern(String pattern) {
     return new ContainsPatternFromStringPredicate(pattern);
   }
@@ -242,7 +270,7 @@ public final class Predicates {
    */
   @GwtIncompatible(value = "java.util.regex.Pattern")
   public static Predicate<CharSequence> contains(Pattern pattern) {
-    return new ContainsPatternPredicate(pattern);
+    return new ContainsPatternPredicate(new JdkPattern(pattern));
   }
 
   // End public API, begin private implementation classes.
@@ -496,12 +524,12 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see Predicates#assignableFrom(Class) */
+  /** @see Predicates#subtypeOf(Class) */
   @GwtIncompatible // Class.isAssignableFrom
-  private static class AssignableFromPredicate implements Predicate<Class<?>>, Serializable {
+  private static class SubtypeOfPredicate implements Predicate<Class<?>>, Serializable {
     private final Class<?> clazz;
 
-    private AssignableFromPredicate(Class<?> clazz) {
+    private SubtypeOfPredicate(Class<?> clazz) {
       this.clazz = checkNotNull(clazz);
     }
 
@@ -517,8 +545,8 @@ public final class Predicates {
 
     @Override
     public boolean equals(@Nullable Object obj) {
-      if (obj instanceof AssignableFromPredicate) {
-        AssignableFromPredicate that = (AssignableFromPredicate) obj;
+      if (obj instanceof SubtypeOfPredicate) {
+        SubtypeOfPredicate that = (SubtypeOfPredicate) obj;
         return clazz == that.clazz;
       }
       return false;
@@ -526,7 +554,7 @@ public final class Predicates {
 
     @Override
     public String toString() {
-      return "Predicates.assignableFrom(" + clazz.getName() + ")";
+      return "Predicates.subtypeOf(" + clazz.getName() + ")";
     }
 
     private static final long serialVersionUID = 0;
@@ -614,9 +642,9 @@ public final class Predicates {
   /** @see Predicates#contains(Pattern) */
   @GwtIncompatible // Only used by other GWT-incompatible code.
   private static class ContainsPatternPredicate implements Predicate<CharSequence>, Serializable {
-    final Pattern pattern;
+    final CommonPattern pattern;
 
-    ContainsPatternPredicate(Pattern pattern) {
+    ContainsPatternPredicate(CommonPattern pattern) {
       this.pattern = checkNotNull(pattern);
     }
 
@@ -664,7 +692,7 @@ public final class Predicates {
   private static class ContainsPatternFromStringPredicate extends ContainsPatternPredicate {
 
     ContainsPatternFromStringPredicate(String string) {
-      super(Pattern.compile(string));
+      super(Platform.compilePattern(string));
     }
 
     @Override

@@ -21,10 +21,8 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-
-import junit.framework.TestCase;
-
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Test that EventBus finds the correct subscribers.

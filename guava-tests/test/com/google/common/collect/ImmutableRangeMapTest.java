@@ -18,12 +18,10 @@ import static com.google.common.collect.BoundType.OPEN;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@code ImmutableRangeMap}.

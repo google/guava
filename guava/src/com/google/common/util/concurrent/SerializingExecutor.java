@@ -16,13 +16,11 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
-
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.annotation.concurrent.GuardedBy;
 
 /**

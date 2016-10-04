@@ -38,11 +38,6 @@ import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 import com.google.common.io.BaseEncoding;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -53,8 +48,10 @@ import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-
 import javax.annotation.Nullable;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Test suites for wrappers in {@code Maps}.
@@ -212,7 +209,7 @@ public class MapsCollectionTest extends TestCase {
           }
         })
         .named("Maps.asMap[SortedSet, Function]")
-        .withFeatures(CollectionSize.ANY, 
+        .withFeatures(CollectionSize.ANY,
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
             MapFeature.SUPPORTS_REMOVE)
         .createTestSuite());
@@ -281,7 +278,7 @@ public class MapsCollectionTest extends TestCase {
     suite.addTest(transformSuite());
     return suite;
   }
-  
+
   static TestSuite filterSuite() {
     TestSuite suite = new TestSuite("Filter");
     suite.addTest(filterMapSuite());
@@ -290,7 +287,7 @@ public class MapsCollectionTest extends TestCase {
     suite.addTest(filterNavigableMapSuite());
     return suite;
   }
-  
+
   static TestSuite filterMapSuite() {
     TestSuite suite = new TestSuite("FilterMap");
     suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
@@ -364,7 +361,7 @@ public class MapsCollectionTest extends TestCase {
       .createTestSuite());
     return suite;
   }
-  
+
   static TestSuite filterBiMapSuite() {
     TestSuite suite = new TestSuite("FilterBiMap");
     suite.addTest(BiMapTestSuiteBuilder.using(new TestStringBiMapGenerator() {
@@ -419,7 +416,7 @@ public class MapsCollectionTest extends TestCase {
       .createTestSuite());
     return suite;
   }
-  
+
   static TestSuite filterSortedMapSuite() {
     TestSuite suite = new TestSuite("FilterSortedMap");
     suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
@@ -469,7 +466,7 @@ public class MapsCollectionTest extends TestCase {
       .createTestSuite());
     return suite;
   }
-  
+
   static TestSuite filterNavigableMapSuite() {
     TestSuite suite = new TestSuite("FilterNavigableMap");
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
@@ -522,7 +519,7 @@ public class MapsCollectionTest extends TestCase {
           .createTestSuite());
     return suite;
   }
-  
+
   static void putEntries(Map<String, String> map, Entry<String, String>[] entries) {
     for (Entry<String, String> entry : entries) {
        map.put(entry.getKey(), entry.getValue());
@@ -535,15 +532,15 @@ public class MapsCollectionTest extends TestCase {
       return !"banana".equals(string) && !"eggplant".equals(string);
     }
   };
-  
+
   static final Predicate<String> FILTER_VALUES = new Predicate<String>() {
     @Override
     public boolean apply(@Nullable String string) {
       return !"toast".equals(string) && !"spam".equals(string);
     }
   };
-  
-  static final Predicate<Entry<String, String>> FILTER_ENTRIES = 
+
+  static final Predicate<Entry<String, String>> FILTER_ENTRIES =
       new Predicate<Entry<String, String>>() {
     @Override
     public boolean apply(Entry<String, String> entry) {
@@ -551,32 +548,32 @@ public class MapsCollectionTest extends TestCase {
           && !Helpers.mapEntry("eggplant", "spam").equals(entry);
     }
   };
-  
-  static final Predicate<Entry<String, String>> FILTER_ENTRIES_1 = 
+
+  static final Predicate<Entry<String, String>> FILTER_ENTRIES_1 =
       new Predicate<Entry<String, String>>() {
     @Override
     public boolean apply(Entry<String, String> entry) {
       return !Helpers.mapEntry("banana", "toast").equals(entry);
     }
   };
-  
-  static final Predicate<Entry<String, String>> FILTER_ENTRIES_2 = 
+
+  static final Predicate<Entry<String, String>> FILTER_ENTRIES_2 =
       new Predicate<Entry<String, String>>() {
     @Override
     public boolean apply(Entry<String, String> entry) {
       return !Helpers.mapEntry("eggplant", "spam").equals(entry);
     }
   };
-  
+
   static final Map<String, String> ENTRIES_TO_FILTER =
       ImmutableMap.of("banana", "toast", "eggplant", "spam");
-  
-  static final Predicate<Entry<String, String>> NOT_NULL_ENTRY = 
+
+  static final Predicate<Entry<String, String>> NOT_NULL_ENTRY =
       new Predicate<Entry<String, String>>() {
     @Override
     public boolean apply(Entry<String, String> entry) {
       return entry.getKey() != null && entry.getValue() != null;
-    }    
+    }
   };
 
   private static class NonNavigableSortedSet
@@ -593,7 +590,7 @@ public class MapsCollectionTest extends TestCase {
   private static class NonNavigableSortedMap
       extends ForwardingSortedMap<String, String> {
 
-    private final SortedMap<String, String> delegate = 
+    private final SortedMap<String, String> delegate =
         new SafeTreeMap<String, String>(Ordering.natural());
 
     @Override
@@ -601,19 +598,19 @@ public class MapsCollectionTest extends TestCase {
       return delegate;
     }
   }
-  
+
   private static String encode(String str) {
     return BaseEncoding.base64().encode(str.getBytes(Charsets.UTF_8));
   }
-  
+
   private static final Function<String, String> DECODE_FUNCTION = new Function<String, String>() {
     @Override
     public String apply(String input) {
       return new String(BaseEncoding.base64().decode(input), Charsets.UTF_8);
-    }    
+    }
   };
-  
-  private static final EntryTransformer<String, String, String> DECODE_ENTRY_TRANSFORMER = 
+
+  private static final EntryTransformer<String, String, String> DECODE_ENTRY_TRANSFORMER =
       new EntryTransformer<String, String, String>() {
     @Override
     public String transformEntry(String key, String value) {
@@ -628,7 +625,7 @@ public class MapsCollectionTest extends TestCase {
     suite.addTest(transformNavigableMapSuite());
     return suite;
   }
-  
+
   static TestSuite transformMapSuite() {
     TestSuite suite = new TestSuite("TransformMap");
     suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
@@ -671,7 +668,7 @@ public class MapsCollectionTest extends TestCase {
       .createTestSuite());
     return suite;
   }
-  
+
   static TestSuite transformSortedMapSuite() {
     TestSuite suite = new TestSuite("TransformSortedMap");
     suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
@@ -710,7 +707,7 @@ public class MapsCollectionTest extends TestCase {
       .createTestSuite());
     return suite;
   }
-  
+
   static TestSuite transformNavigableMapSuite() {
     TestSuite suite = new TestSuite("TransformNavigableMap");
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {

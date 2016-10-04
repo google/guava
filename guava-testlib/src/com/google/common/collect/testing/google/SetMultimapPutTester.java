@@ -24,7 +24,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -35,8 +34,7 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public class SetMultimapPutTester<K, V>
-    extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
+public class SetMultimapPutTester<K, V> extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
   // Tests for non-duplicate values are in MultimapPutTester
 
   @MapFeature.Require(SUPPORTS_PUT)

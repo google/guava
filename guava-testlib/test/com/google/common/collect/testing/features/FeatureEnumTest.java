@@ -16,14 +16,13 @@
 
 package com.google.common.collect.testing.features;
 
-import junit.framework.TestCase;
-
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Method;
 import java.util.Locale;
+import junit.framework.TestCase;
 
 /**
  * Since annotations have some reusability issues that force copy and paste

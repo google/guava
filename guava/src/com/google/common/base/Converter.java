@@ -16,13 +16,10 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.Serializable;
 import java.util.Iterator;
-
 import javax.annotation.Nullable;
 
 /**
@@ -40,7 +37,7 @@ import javax.annotation.Nullable;
  * <ol>
  * <li>{@code stringConverter().convert("1.00")} returns the {@code Double} value {@code 1.0}
  * <li>{@code stringConverter().reverse().convert(1.0)} returns the string {@code "1.0"} --
- * <i>not</i> the same string ({@code "1.00"}) we started with
+ *     <i>not</i> the same string ({@code "1.00"}) we started with
  * </ol>
  *
  * <p>Note that it should still be the case that the round-tripped and original objects are
@@ -61,16 +58,16 @@ import javax.annotation.Nullable;
  * <p>Getting a converter:
  *
  * <ul>
- * <li>Use a provided converter implementation, such as {@link Enums#stringConverter},
- *     {@link com.google.common.primitives.Ints#stringConverter Ints.stringConverter} or the
- *     {@linkplain #reverse reverse} views of these.
- * <li>Convert between specific preset values using
- *     {@link com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to
- *     create a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i>
- *     the {@code Converter} type using a mocking framework.
+ * <li>Use a provided converter implementation, such as {@link Enums#stringConverter}, {@link
+ *     com.google.common.primitives.Ints#stringConverter Ints.stringConverter} or the {@linkplain
+ *     #reverse reverse} views of these.
+ * <li>Convert between specific preset values using {@link
+ *     com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to create
+ *     a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i> the
+ *     {@code Converter} type using a mocking framework.
  * <li>Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.
- * <li>If using Java 8, you may prefer to pass two lambda expressions or method references to the
- *     {@link #from from} factory method.
+ * <li><b>Java 8 users:</b> you may prefer to pass two lambda expressions or method references to
+ *     the {@link #from from} factory method.
  * </ul>
  *
  * <p>Using a converter:
@@ -80,7 +77,8 @@ import javax.annotation.Nullable;
  * <li>Convert multiple instances "forward" using {@code converter.convertAll(as)}.
  * <li>Convert in the "backward" direction using {@code converter.reverse().convert(b)} or {@code
  *     converter.reverse().convertAll(bs)}.
- * <li>Use {@code converter} or {@code converter.reverse()} anywhere a {@link Function} is accepted
+ * <li>Use {@code converter} or {@code converter.reverse()} anywhere a {@link
+ *     java.util.function.Function} is accepted (for example {@link Stream#map}).
  * <li><b>Do not</b> call {@link #doForward} or {@link #doBackward} directly; these exist only to be
  *     overridden.
  * </ul>
@@ -89,28 +87,28 @@ import javax.annotation.Nullable;
  *
  * <pre>
  *   return new Converter&lt;Integer, String&gt;() {
- *     &#64;Override
  *     protected String doForward(Integer i) {
  *       return Integer.toHexString(i);
  *     }
  *
- *     &#64;Override
  *     protected Integer doBackward(String s) {
  *       return parseUnsignedInt(s, 16);
  *     }
  *   };</pre>
  *
- * <p>An alternative using Java 8:<pre>   {@code
- *   return Converter.from(
- *       Integer::toHexString,
- *       s -> parseUnsignedInt(s, 16));}</pre>
+ * <p>An alternative using Java 8:
+ *
+ * <pre>{@code
+ * return Converter.from(
+ *     Integer::toHexString,
+ *     s -> parseUnsignedInt(s, 16));
+ * }</pre>
  *
  * @author Mike Ward
  * @author Kurt Alfred Kluever
  * @author Gregory Kick
  * @since 16.0
  */
-@Beta
 @GwtCompatible
 public abstract class Converter<A, B> implements Function<A, B> {
   private final boolean handleNullAutomatically;
@@ -410,10 +408,10 @@ public abstract class Converter<A, B> implements Function<A, B> {
   // Static converters
 
   /**
-   * Returns a converter based on <i>existing</i> forward and backward functions. Note that it is
-   * unnecessary to create <i>new</i> classes implementing {@code Function} just to pass them in
-   * here. Instead, simply subclass {@code Converter} and implement its {@link #doForward} and
-   * {@link #doBackward} methods directly.
+   * Returns a converter based on separate forward and backward functions. This is useful if the
+   * function instances already exist, or so that you can supply lambda expressions. If those
+   * circumstances don't apply, you probably don't need to use this; subclass {@code Converter} and
+   * implement its {@link #doForward} and {@link #doBackward} methods directly.
    *
    * <p>These functions will never be passed {@code null} and must not under any circumstances
    * return {@code null}. If a value cannot be converted, the function should throw an unchecked

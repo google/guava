@@ -16,7 +16,6 @@ package com.google.common.hash;
 
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.nio.charset.Charset;
 
 /**
@@ -93,8 +92,15 @@ public interface Hasher extends PrimitiveSink {
   Hasher putChar(char c);
 
   /**
-   * Equivalent to processing each {@code char} value in the {@code CharSequence}, in order. The
-   * input must not be updated while this method is in progress.
+   * Equivalent to processing each {@code char} value in the {@code CharSequence}, in order. In
+   * other words, no character encoding is performed; the low byte and high byte of each {@code
+   * char} are hashed directly (in that order). The input must not be updated while this method is
+   * in progress.
+   *
+   * <p><b>Warning:</b> This method will produce different output than most other languages do when
+   * running the same hash function on the equivalent input. For cross-language compatibility, use
+   * {@link #putString}, usually with a charset of UTF-8. For other use cases, use {@code
+   * putUnencodedChars}.
    *
    * @since 15.0 (since 11.0 as putString(CharSequence)).
    */
@@ -103,6 +109,11 @@ public interface Hasher extends PrimitiveSink {
 
   /**
    * Equivalent to {@code putBytes(charSequence.toString().getBytes(charset))}.
+   *
+   * <p><b>Warning:</b> This method, which reencodes the input before hashing it, is useful only for
+   * cross-language compatibility. For other use cases, prefer {@link #putUnencodedChars}, which is
+   * faster, produces the same output across Java releases, and hashes every {@code char} in the
+   * input, even if some are invalid.
    */
   @Override
   Hasher putString(CharSequence charSequence, Charset charset);

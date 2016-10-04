@@ -18,7 +18,6 @@ import static java.util.logging.Level.SEVERE;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 import java.util.logging.Logger;

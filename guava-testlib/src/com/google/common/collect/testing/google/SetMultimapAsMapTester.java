@@ -25,7 +25,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.testing.EqualsTester;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,7 +35,7 @@ import java.util.Set;
 
 /**
  * Testers for {@link SetMultimap#asMap}.
- * 
+ *
  * @author Louis Wasserman
  * @param <K> The key type of the tested multimap.
  * @param <V> The value type of the tested multimap.
@@ -48,13 +47,13 @@ public class SetMultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, S
       assertTrue(valueCollection instanceof Set);
     }
   }
-  
+
   public void testAsMapGetImplementsSet() {
     for (K key : multimap().keySet()) {
       assertTrue(multimap().asMap().get(key) instanceof Set);
     }
   }
-  
+
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testAsMapRemoveImplementsSet() {
     List<K> keys = new ArrayList<K>(multimap().keySet());
@@ -73,9 +72,7 @@ public class SetMultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, S
     Map<K, Collection<V>> expected = Maps.newHashMap();
     expected.put(k0(), Sets.newHashSet(v0(), v3()));
     expected.put(k1(), Sets.newHashSet(v0()));
-    new EqualsTester()
-        .addEqualityGroup(expected, multimap().asMap())
-        .testEquals();
+    new EqualsTester().addEqualityGroup(expected, multimap().asMap()).testEquals();
   }
 
   @CollectionSize.Require(SEVERAL)
@@ -85,17 +82,11 @@ public class SetMultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, S
         Helpers.mapEntry(k1(), v0()),
         Helpers.mapEntry(k0(), v3()));
     Set<Entry<K, Collection<V>>> expected = Sets.newHashSet();
-    expected.add(Helpers.mapEntry(
-        k0(), 
-        (Collection<V>) Sets.newHashSet(v0(), v3())));
-    expected.add(Helpers.mapEntry(
-        k1(), 
-        (Collection<V>) Sets.newHashSet(v0())));
-    new EqualsTester()
-        .addEqualityGroup(expected, multimap().asMap().entrySet())
-        .testEquals();
+    expected.add(Helpers.mapEntry(k0(), (Collection<V>) Sets.newHashSet(v0(), v3())));
+    expected.add(Helpers.mapEntry(k1(), (Collection<V>) Sets.newHashSet(v0())));
+    new EqualsTester().addEqualityGroup(expected, multimap().asMap().entrySet()).testEquals();
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testValuesRemove() {
@@ -105,9 +96,6 @@ public class SetMultimapAsMapTester<K, V> extends AbstractMultimapTester<K, V, S
         Helpers.mapEntry(k0(), v3()));
     assertTrue(multimap().asMap().values().remove(Collections.singleton(v0())));
     assertEquals(2, multimap().size());
-    assertEquals(
-        Collections.singletonMap(
-            k0(), Sets.newHashSet(v0(), v3())),
-        multimap().asMap());
+    assertEquals(Collections.singletonMap(k0(), Sets.newHashSet(v0(), v3())), multimap().asMap());
   }
 }

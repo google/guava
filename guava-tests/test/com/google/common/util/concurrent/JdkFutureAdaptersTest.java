@@ -26,16 +26,14 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.util.concurrent.FuturesTest.ExecutorSpy;
 import com.google.common.util.concurrent.FuturesTest.SingleCallListener;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link JdkFutureAdapters}.

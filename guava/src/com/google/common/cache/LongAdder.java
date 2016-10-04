@@ -12,7 +12,6 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

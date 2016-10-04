@@ -27,12 +27,10 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.fail;
 
 import com.google.common.annotations.GwtCompatible;
-
-import junit.framework.AssertionFailedError;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
+import junit.framework.AssertionFailedError;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.

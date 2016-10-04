@@ -24,12 +24,10 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Optional}.

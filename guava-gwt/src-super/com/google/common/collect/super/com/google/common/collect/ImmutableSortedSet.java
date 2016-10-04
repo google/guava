@@ -27,16 +27,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import javax.annotation.Nullable;
 
 /**
- * GWT emulation of {@link ImmutableSortedSet}.
+ * GWT emulation of {@link com.google.common.collect.ImmutableSortedSet}.
  *
  * @author Hayward Chan
  */
-public abstract class ImmutableSortedSet<E>
-    extends ForwardingImmutableSet<E> implements SortedSet<E>, SortedIterable<E> {
+public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
+    implements SortedSet<E>, SortedIterable<E> {
   // TODO(cpovirk): split into ImmutableSortedSet/ForwardingImmutableSortedSet?
 
   // In the non-emulated source, this is in ImmutableSortedSetFauxverideShim,

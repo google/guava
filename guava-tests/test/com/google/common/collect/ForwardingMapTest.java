@@ -15,22 +15,18 @@
  */
 
 package com.google.common.collect;
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
+
+import static org.mockito.Mockito.anyObject;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -38,6 +34,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Unit test for {@link ForwardingMap}.
@@ -250,58 +248,40 @@ public class ForwardingMapTest extends ForwardingTestCase {
 
   public void testStandardEntrySet() throws InvocationTargetException {
     @SuppressWarnings("unchecked")
-    final Map<String, Boolean> map = createMock(Map.class);
-    @SuppressWarnings("unchecked")
-    final Set<Map.Entry<String, Boolean>> entrySet = createMock(Set.class);
-    expect(map.containsKey(anyObject())).andReturn(false).anyTimes();
-    expect(map.get(anyObject())).andReturn(null).anyTimes();
-    expect(map.isEmpty()).andReturn(true).anyTimes();
-    expect(map.remove(anyObject())).andReturn(null).anyTimes();
-    expect(map.size()).andReturn(0).anyTimes();
-    expect(entrySet.iterator())
-        .andReturn(Iterators.<Entry<String, Boolean>>emptyIterator())
-        .anyTimes();
-    map.clear();
-    expectLastCall().anyTimes();
+    final Map<String, Boolean> map = mock(Map.class);
 
-    replay(map, entrySet);
-
-    Map<String, Boolean> forward = new ForwardingMap<String, Boolean>() {
-      @Override protected Map<String, Boolean> delegate() {
-        return map;
-      }
-
-      @Override public Set<Entry<String, Boolean>> entrySet() {
-        return new StandardEntrySet() {
+    Map<String, Boolean> forward =
+        new ForwardingMap<String, Boolean>() {
           @Override
-          public Iterator<Entry<String, Boolean>> iterator() {
-            return entrySet.iterator();
+          protected Map<String, Boolean> delegate() {
+            return map;
+          }
+
+          @Override
+          public Set<Entry<String, Boolean>> entrySet() {
+            return new StandardEntrySet() {
+              @Override
+              public Iterator<Entry<String, Boolean>> iterator() {
+                return Iterators.emptyIterator();
+              }
+            };
           }
         };
-      }
-    };
     callAllPublicMethods(Set.class, forward.entrySet());
 
-    verify(map, entrySet);
+    // These are the methods specified by StandardEntrySet
+    verify(map, atLeast(0)).clear();
+    verify(map, atLeast(0)).containsKey(anyObject());
+    verify(map, atLeast(0)).get(anyObject());
+    verify(map, atLeast(0)).isEmpty();
+    verify(map, atLeast(0)).remove(anyObject());
+    verify(map, atLeast(0)).size();
+    verifyNoMoreInteractions(map);
   }
 
   public void testStandardKeySet() throws InvocationTargetException {
     @SuppressWarnings("unchecked")
-    Set<Entry<String, Boolean>> entrySet = createMock(Set.class);
-    expect(entrySet.iterator()).andReturn(
-        Iterators.<Entry<String, Boolean>>emptyIterator()).anyTimes();
-
-    @SuppressWarnings("unchecked")
-    final Map<String, Boolean> map = createMock(Map.class);
-    expect(map.containsKey(anyObject())).andReturn(false).anyTimes();
-    expect(map.isEmpty()).andReturn(true).anyTimes();
-    expect(map.remove(anyObject())).andReturn(null).anyTimes();
-    expect(map.size()).andReturn(0).anyTimes();
-    expect(map.entrySet()).andReturn(entrySet).anyTimes();
-    map.clear();
-    expectLastCall().anyTimes();
-
-    replay(entrySet, map);
+    final Map<String, Boolean> map = mock(Map.class);
 
     Map<String, Boolean> forward = new ForwardingMap<String, Boolean>() {
       @Override protected Map<String, Boolean> delegate() {
@@ -314,25 +294,19 @@ public class ForwardingMapTest extends ForwardingTestCase {
     };
     callAllPublicMethods(Set.class, forward.keySet());
 
-    verify(entrySet, map);
+    // These are the methods specified by StandardKeySet
+    verify(map, atLeast(0)).clear();
+    verify(map, atLeast(0)).containsKey(anyObject());
+    verify(map, atLeast(0)).isEmpty();
+    verify(map, atLeast(0)).remove(anyObject());
+    verify(map, atLeast(0)).size();
+    verify(map, atLeast(0)).entrySet();
+    verifyNoMoreInteractions(map);
   }
 
   public void testStandardValues() throws InvocationTargetException {
     @SuppressWarnings("unchecked")
-    Set<Entry<String, Boolean>> entrySet = createMock(Set.class);
-    expect(entrySet.iterator()).andReturn(
-        Iterators.<Entry<String, Boolean>>emptyIterator()).anyTimes();
-
-    @SuppressWarnings("unchecked")
-    final Map<String, Boolean> map = createMock(Map.class);
-    expect(map.containsValue(anyObject())).andReturn(false).anyTimes();
-    expect(map.isEmpty()).andReturn(true).anyTimes();
-    expect(map.size()).andReturn(0).anyTimes();
-    expect(map.entrySet()).andReturn(entrySet).anyTimes();
-    map.clear();
-    expectLastCall().anyTimes();
-
-    replay(entrySet, map);
+    final Map<String, Boolean> map = mock(Map.class);
 
     Map<String, Boolean> forward = new ForwardingMap<String, Boolean>() {
       @Override protected Map<String, Boolean> delegate() {
@@ -345,7 +319,13 @@ public class ForwardingMapTest extends ForwardingTestCase {
     };
     callAllPublicMethods(Collection.class, forward.values());
 
-    verify(entrySet, map);
+    // These are the methods specified by StandardValues
+    verify(map, atLeast(0)).clear();
+    verify(map, atLeast(0)).containsValue(anyObject());
+    verify(map, atLeast(0)).isEmpty();
+    verify(map, atLeast(0)).size();
+    verify(map, atLeast(0)).entrySet();
+    verifyNoMoreInteractions(map);
   }
 
   public void testToStringWithNullKeys() throws Exception {

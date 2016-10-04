@@ -65,6 +65,6 @@ final class Platform {
 
     return builder.toString();
   }
-  
+
   private Platform() {}
 }

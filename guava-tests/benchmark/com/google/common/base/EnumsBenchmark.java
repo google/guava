@@ -19,7 +19,6 @@ package com.google.common.base;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +50,7 @@ public class EnumsBenchmark {
       hits.add(allConstants[allConstants.length / 2].name());
       hits.add(allConstants[allConstants.length - 1].name());
     }
-    
+
     List<String> misses = new ArrayList<String>();
     for (int i = 0; i < 256 - hits.size(); ++i) {
       misses.add("INVALID");

@@ -136,10 +136,6 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     return forCellsInternal(cells, null, null);
   }
 
-  /**
-   * A factory that chooses the most space-efficient representation of the
-   * table.
-   */
   private static final <R, C, V> RegularImmutableTable<R, C, V> forCellsInternal(
       Iterable<Cell<R, C, V>> cells,
       @Nullable Comparator<? super R> rowComparator,
@@ -163,6 +159,14 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
             : ImmutableSet.copyOf(
                 Ordering.from(columnComparator).immutableSortedCopy(columnSpaceBuilder));
 
+    return forOrderedComponents(cellList, rowSpace, columnSpace);
+  }
+
+  /** A factory that chooses the most space-efficient representation of the table. */
+  static <R, C, V> RegularImmutableTable<R, C, V> forOrderedComponents(
+      ImmutableList<Cell<R, C, V>> cellList,
+      ImmutableSet<R> rowSpace,
+      ImmutableSet<C> columnSpace) {
     // use a dense table if more than half of the cells have values
     // TODO(gak): tune this condition based on empirical evidence
     return (cellList.size() > (((long) rowSpace.size() * columnSpace.size()) / 2))

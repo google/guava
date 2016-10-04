@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.NullPointerTester;
@@ -37,6 +39,16 @@ public class HashBasedTableTest extends AbstractTableTest {
     table.clear();
     populate(table, data);
     return table;
+  }
+
+  public void testIterationOrder() {
+    Table<String, String, String> table = HashBasedTable.create();
+    for (int i = 0; i < 5; i++) {
+      table.put("r" + i, "c" + i, "v" + i);
+    }
+    assertThat(table.rowKeySet()).containsExactly("r0", "r1", "r2", "r3", "r4").inOrder();
+    assertThat(table.columnKeySet()).containsExactly("c0", "c1", "c2", "c3", "c4").inOrder();
+    assertThat(table.values()).containsExactly("v0", "v1", "v2", "v3", "v4").inOrder();
   }
 
   public void testCreateWithValidSizes() {

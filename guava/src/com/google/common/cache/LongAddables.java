@@ -16,7 +16,6 @@ package com.google.common.cache;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Supplier;
-
 import java.util.concurrent.atomic.AtomicLong;
 
 /**

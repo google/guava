@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.NoSuchElementException;
 
 /**

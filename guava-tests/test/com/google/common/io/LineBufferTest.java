@@ -18,7 +18,6 @@ package com.google.common.io;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-
 import java.io.BufferedReader;
 import java.io.FilterReader;
 import java.io.IOException;

@@ -16,11 +16,10 @@
 
 package com.google.common.util.concurrent;
 
-import junit.framework.TestCase;
-
 import java.net.URLClassLoader;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link AbstractFuture} with the cancellation cause system property set

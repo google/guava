@@ -25,14 +25,12 @@ import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@link MapConstraints#constrainedMap}.
@@ -58,7 +56,7 @@ public class ConstrainedMapTest extends TestCase {
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.ALLOWS_ANY_NULL_QUERIES,
-            MapFeature.GENERAL_PURPOSE, 
+            MapFeature.GENERAL_PURPOSE,
             CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
         .createTestSuite());
     suite.addTestSuite(ConstrainedMapTest.class);

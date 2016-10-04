@@ -18,9 +18,6 @@ package com.google.common.util.concurrent.testing;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
-
-import junit.framework.TestCase;
-
 import java.lang.InterruptedException;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -29,6 +26,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import junit.framework.TestCase;
 
 /**
  * Tests for TestingExecutors.
@@ -103,7 +101,7 @@ public class TestingExecutorsTest extends TestCase {
         throw new RuntimeException("Oh no!");
       }
     };
-  
+
     Future<?> future = TestingExecutors.sameThreadScheduledExecutor().submit(runnable);
     try {
       future.get();

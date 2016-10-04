@@ -25,9 +25,6 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-
-import junit.framework.TestCase;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -36,10 +33,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import junit.framework.TestCase;
 
 /**
  * Test for {@link WrappingExecutorService}
- * 
+ *
  * @author Chris Nokleberg
  */
 public class WrappingExecutorServiceTest extends TestCase {
@@ -160,7 +158,7 @@ public class WrappingExecutorServiceTest extends TestCase {
       return delegate.call();
     }
   }
-  
+
   private static final class WrappedRunnable implements Runnable {
     private final Runnable delegate;
 
@@ -168,7 +166,7 @@ public class WrappingExecutorServiceTest extends TestCase {
       this.delegate = delegate;
     }
 
-    @Override 
+    @Override
     public void run() {
       delegate.run();
     }
@@ -183,7 +181,7 @@ public class WrappingExecutorServiceTest extends TestCase {
     protected <T> Callable<T> wrapTask(Callable<T> callable) {
       return new WrappedCallable<T>(callable);
     }
-    
+
     @Override protected Runnable wrapTask(Runnable command) {
       return new WrappedRunnable(command);
     }

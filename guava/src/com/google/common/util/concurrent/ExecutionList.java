@@ -17,11 +17,9 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
-
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
 

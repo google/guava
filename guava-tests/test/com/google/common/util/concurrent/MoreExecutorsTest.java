@@ -49,10 +49,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.util.concurrent.MoreExecutors.Application;
-
-import org.mockito.InOrder;
-import org.mockito.Mockito;
-
 import java.lang.Thread.State;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,6 +72,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import org.mockito.InOrder;
+import org.mockito.Mockito;
 
 /**
  * Tests for MoreExecutors.
@@ -465,7 +463,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
   public void testInvokeAnyImpl_nullTasks() throws Exception {
     ListeningExecutorService e = newDirectExecutorService();
     try {
-      invokeAnyImpl(e, null, false, 0);
+      invokeAnyImpl(e, null, false, 0, TimeUnit.NANOSECONDS);
       fail();
     } catch (NullPointerException success) {
     } finally {
@@ -479,7 +477,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
   public void testInvokeAnyImpl_emptyTasks() throws Exception {
     ListeningExecutorService e = newDirectExecutorService();
     try {
-      invokeAnyImpl(e, new ArrayList<Callable<String>>(), false, 0);
+      invokeAnyImpl(e, new ArrayList<Callable<String>>(), false, 0, TimeUnit.NANOSECONDS);
       fail();
     } catch (IllegalArgumentException success) {
     } finally {
@@ -500,7 +498,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     });
     l.add(null);
     try {
-      invokeAnyImpl(e, l, false, 0);
+      invokeAnyImpl(e, l, false, 0, TimeUnit.NANOSECONDS);
       fail();
     } catch (NullPointerException success) {
     } finally {
@@ -516,7 +514,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     List<Callable<String>> l = new ArrayList<Callable<String>>();
     l.add(new NPETask());
     try {
-      invokeAnyImpl(e, l, false, 0);
+      invokeAnyImpl(e, l, false, 0, TimeUnit.NANOSECONDS);
       fail();
     } catch (ExecutionException success) {
       assertThat(success.getCause()).isInstanceOf(NullPointerException.class);
@@ -534,7 +532,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
       List<Callable<String>> l = new ArrayList<Callable<String>>();
       l.add(new StringTask());
       l.add(new StringTask());
-      String result = invokeAnyImpl(e, l, false, 0);
+      String result = invokeAnyImpl(e, l, false, 0, TimeUnit.NANOSECONDS);
       assertSame(TEST_STRING, result);
     } finally {
       joinPool(e);

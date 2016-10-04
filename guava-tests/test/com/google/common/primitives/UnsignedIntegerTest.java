@@ -20,10 +20,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.math.BigInteger;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@code UnsignedInteger}.
@@ -72,7 +70,7 @@ public class UnsignedIntegerTest extends TestCase {
           .longValue());
     }
   }
-  
+
   public void testValueOfLong() {
     long min = 0;
     long max = (1L << 32) - 1;
@@ -86,7 +84,7 @@ public class UnsignedIntegerTest extends TestCase {
       }
     }
   }
-  
+
   public void testValueOfBigInteger() {
     long min = 0;
     long max = (1L << 32) - 1;

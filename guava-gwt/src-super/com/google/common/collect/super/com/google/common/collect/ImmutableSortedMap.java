@@ -23,20 +23,19 @@ import static java.util.Collections.singletonMap;
 import static java.util.Collections.unmodifiableSortedMap;
 
 import com.google.common.collect.ImmutableSortedMap.Builder;
-
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 
 /**
- * GWT emulated version of {@link ImmutableSortedMap}.  It's a thin wrapper
+ * GWT emulated version of {@link com.google.common.collect.ImmutableSortedMap}. It's a thin wrapper
  * around a {@link java.util.TreeMap}.
  *
  * @author Hayward Chan
  */
-public final class ImmutableSortedMap<K, V>
-    extends ForwardingImmutableMap<K, V> implements SortedMap<K, V> {
+public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
+    implements SortedMap<K, V> {
 
   @SuppressWarnings("unchecked")
   static final Comparator NATURAL_ORDER = Ordering.natural();
@@ -114,7 +113,7 @@ public final class ImmutableSortedMap<K, V>
   }
 
   public static <K, V> ImmutableSortedMap<K, V> copyOf(
-      Iterable<? extends Entry<? extends K, ? extends V>> entries, 
+      Iterable<? extends Entry<? extends K, ? extends V>> entries,
           Comparator<? super K> comparator) {
     return new Builder<K, V>(comparator).putAll(entries).build();
   }
@@ -202,7 +201,7 @@ public final class ImmutableSortedMap<K, V>
     @Override public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
       return putAll(map.entrySet());
     }
-    
+
     @Override public Builder<K, V> putAll(
         Iterable<? extends Entry<? extends K, ? extends V>> entries) {
       for (Entry<? extends K, ? extends V> entry : entries) {
@@ -210,7 +209,7 @@ public final class ImmutableSortedMap<K, V>
       }
       return this;
     }
-    
+
     @Override
     public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
       throw new UnsupportedOperationException("Not available on ImmutableSortedMap.Builder");

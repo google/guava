@@ -14,11 +14,10 @@
 
 package com.google.common.collect;
 
-import junit.framework.TestCase;
-
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@code AbstractBiMap}.

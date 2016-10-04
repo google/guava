@@ -18,7 +18,6 @@ package com.google.common.collect.testing.features;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
-
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -42,18 +41,14 @@ public enum ListFeature implements Feature<List> {
       CollectionFeature.GENERAL_PURPOSE,
       SUPPORTS_SET,
       SUPPORTS_ADD_WITH_INDEX,
-      SUPPORTS_REMOVE_WITH_INDEX
-  ),
+      SUPPORTS_REMOVE_WITH_INDEX),
 
   /** Features supported by lists where only removal is allowed. */
-  REMOVE_OPERATIONS(
-      CollectionFeature.REMOVE_OPERATIONS,
-      SUPPORTS_REMOVE_WITH_INDEX
-  );
+  REMOVE_OPERATIONS(CollectionFeature.REMOVE_OPERATIONS, SUPPORTS_REMOVE_WITH_INDEX);
 
   private final Set<Feature<? super List>> implied;
 
-  ListFeature(Feature<? super List> ... implied) {
+  ListFeature(Feature<? super List>... implied) {
     this.implied = Helpers.copyToSet(implied);
   }
 
@@ -67,6 +62,7 @@ public enum ListFeature implements Feature<List> {
   @TesterAnnotation
   public @interface Require {
     ListFeature[] value() default {};
+
     ListFeature[] absent() default {};
   }
 }

@@ -22,7 +22,6 @@ import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
@@ -30,7 +29,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.annotation.Nullable;
 
 /**
@@ -268,12 +266,6 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     throw new UnsupportedOperationException();
   }
 
-  /*
-   * TODO(kevinb): Restructure code so ImmutableList doesn't contain this
-   * variable, which it doesn't use.
-   */
-  private transient ImmutableList<E> asList;
-
   /**
    * Returns an {@code ImmutableList} containing the same elements, in the same order, as this
    * collection.
@@ -285,11 +277,6 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
    * @since 2.0
    */
   public ImmutableList<E> asList() {
-    ImmutableList<E> list = asList;
-    return (list == null) ? (asList = createAsList()) : list;
-  }
-
-  ImmutableList<E> createAsList() {
     switch (size()) {
       case 0:
         return ImmutableList.of();

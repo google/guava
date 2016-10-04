@@ -26,13 +26,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.EqualsTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Range}.

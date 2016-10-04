@@ -40,15 +40,13 @@ import com.google.common.util.concurrent.FuturesGetCheckedInputs.ExceptionWithWr
 import com.google.common.util.concurrent.FuturesGetCheckedInputs.ExceptionWithoutThrowableConstructor;
 import com.google.common.util.concurrent.FuturesGetCheckedInputs.TwoArgConstructorException;
 import com.google.common.util.concurrent.FuturesGetCheckedInputs.TwoArgConstructorRuntimeException;
-
-import junit.framework.TestCase;
-
 import java.lang.ref.WeakReference;
 import java.net.URLClassLoader;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Futures#getChecked(Future, Class)}.

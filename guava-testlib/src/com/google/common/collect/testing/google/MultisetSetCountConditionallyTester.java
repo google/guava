@@ -33,15 +33,16 @@ import com.google.common.collect.testing.features.CollectionSize;
  * @author Chris Povirk
  */
 @GwtCompatible
-public class MultisetSetCountConditionallyTester<E> extends
-    AbstractMultisetSetCountTester<E> {
-  @Override void setCountCheckReturnValue(E element, int count) {
+public class MultisetSetCountConditionallyTester<E> extends AbstractMultisetSetCountTester<E> {
+  @Override
+  void setCountCheckReturnValue(E element, int count) {
     assertTrue(
         "setCount() with the correct expected present count should return true",
         setCount(element, count));
   }
 
-  @Override void setCountNoCheckReturnValue(E element, int count) {
+  @Override
+  void setCountNoCheckReturnValue(E element, int count) {
     setCount(element, count);
   }
 
@@ -52,8 +53,7 @@ public class MultisetSetCountConditionallyTester<E> extends
   private void assertSetCountNegativeOldCount() {
     try {
       getMultiset().setCount(e3(), -1, 1);
-      fail("calling setCount() with a negative oldCount should throw "
-          + "IllegalArgumentException");
+      fail("calling setCount() with a negative oldCount should throw IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }
   }
@@ -77,7 +77,8 @@ public class MultisetSetCountConditionallyTester<E> extends
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testSetCountConditional_oldCountTooLarge() {
-    assertFalse("setCount() with a too-large oldCount should return false",
+    assertFalse(
+        "setCount() with a too-large oldCount should return false",
         getMultiset().setCount(e0(), 2, 3));
     expectUnchanged();
   }
@@ -85,7 +86,8 @@ public class MultisetSetCountConditionallyTester<E> extends
   @CollectionSize.Require(absent = ZERO)
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testSetCountConditional_oldCountTooSmallZero() {
-    assertFalse("setCount() with a too-small oldCount should return false",
+    assertFalse(
+        "setCount() with a too-small oldCount should return false",
         getMultiset().setCount(e0(), 0, 2));
     expectUnchanged();
   }
@@ -94,7 +96,8 @@ public class MultisetSetCountConditionallyTester<E> extends
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testSetCountConditional_oldCountTooSmallNonzero() {
     initThreeCopies();
-    assertFalse("setCount() with a too-small oldCount should return false",
+    assertFalse(
+        "setCount() with a too-small oldCount should return false",
         getMultiset().setCount(e0(), 1, 5));
     expectContents(nCopies(3, e0()));
   }

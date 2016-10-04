@@ -22,9 +22,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestSuite;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -35,6 +32,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
+import junit.framework.TestSuite;
 
 /**
  * Unit test for {@link Resources}.

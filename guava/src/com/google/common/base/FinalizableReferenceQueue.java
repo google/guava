@@ -16,7 +16,6 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-
 import java.io.Closeable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,7 +27,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.annotation.Nullable;
 
 /**
@@ -45,12 +43,12 @@ import javax.annotation.Nullable;
  * calling its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but that
  * has a number of well-known problems. Here is how you might use this class instead:
  *
- * <pre>
+ * <pre>   {@code
  * public class MyServer implements Closeable {
  *   private static final FinalizableReferenceQueue frq = new FinalizableReferenceQueue();
  *   // You might also share this between several objects.
  *
- *   private static final Set&lt;Reference&lt;?>> references = Sets.newConcurrentHashSet();
+ *   private static final Set<Reference<?>> references = Sets.newConcurrentHashSet();
  *   // This ensures that the FinalizablePhantomReference itself is not garbage-collected.
  *
  *   private final ServerSocket serverSocket;
@@ -64,8 +62,8 @@ import javax.annotation.Nullable;
  *   public static MyServer create(...) {
  *     MyServer myServer = new MyServer(...);
  *     final ServerSocket serverSocket = myServer.serverSocket;
- *     Reference&lt;?> reference = new FinalizablePhantomReference&lt;MyServer>(myServer, frq) {
- *       &#64;Override public void finalizeReferent() {
+ *     Reference<?> reference = new FinalizablePhantomReference<MyServer>(myServer, frq) {
+ *       public void finalizeReferent() {
  *         references.remove(this):
  *         if (!serverSocket.isClosed()) {
  *           ...log a message about how nobody called close()...
@@ -81,11 +79,10 @@ import javax.annotation.Nullable;
  *     return myServer;
  *   }
  *
- *   &#64;Override public void close() {
+ *   public void close() {
  *     serverSocket.close();
  *   }
- * }
- * </pre>
+ * }}</pre>
  *
  * @author Bob Lee
  * @since 2.0
@@ -247,6 +244,7 @@ public class FinalizableReferenceQueue implements Closeable {
     // finding Finalizer on the system class path even if it is there.
     @VisibleForTesting static boolean disabled;
 
+    @Nullable
     @Override
     public Class<?> loadFinalizer() {
       if (disabled) {
@@ -284,6 +282,7 @@ public class FinalizableReferenceQueue implements Closeable {
             + "loader. To support reclaiming this class loader, either resolve the underlying "
             + "issue, or move Guava to your system class path.";
 
+    @Nullable
     @Override
     public Class<?> loadFinalizer() {
       try {

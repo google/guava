@@ -19,10 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.Serializable;
 import java.math.BigInteger;
-
 import javax.annotation.Nullable;
 
 /**

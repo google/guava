@@ -21,13 +21,11 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-
-import junit.framework.TestCase;
-
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link CacheLoader}.

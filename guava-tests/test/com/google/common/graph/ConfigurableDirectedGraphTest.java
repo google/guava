@@ -17,219 +17,94 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.testing.EqualsTester;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Tests for a directed {@link ConfigurableGraph} with default graph properties.
- */
+/** Tests for a directed {@link ConfigurableMutableGraph} allowing self-loops. */
 @RunWith(JUnit4.class)
 public class ConfigurableDirectedGraphTest extends ConfigurableSimpleDirectedGraphTest {
 
   @Override
-  public Graph<Integer, String> createGraph() {
-    return GraphBuilder.directed().build();
-  }
-
-  @Test
-  public void edges_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertThat(graph.edges()).containsExactly(E11);
-  }
-
-  @Test
-  public void incidentEdges_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertThat(graph.incidentEdges(N1)).containsExactly(E11);
-  }
-
-  @Test
-  public void incidentNodes_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertThat(graph.incidentNodes(E11)).containsExactly(N1);
+  public MutableGraph<Integer> createGraph() {
+    return GraphBuilder.directed().allowsSelfLoops(true).build();
   }
 
   @Test
   public void adjacentNodes_selfLoop() {
-    addEdge(E11, N1, N1);
-    addEdge(E12, N1, N2);
+    putEdge(N1, N1);
+    putEdge(N1, N2);
     assertThat(graph.adjacentNodes(N1)).containsExactly(N1, N2);
   }
 
   @Test
-  public void adjacentEdges_selfLoop() {
-    // An edge is never adjacent to itself
-    addEdge(E11, N1, N1);
-    assertThat(graph.adjacentEdges(E11)).isEmpty();
-    addEdge(E12, N1, N2);
-    assertThat(graph.adjacentEdges(E11)).containsExactly(E12);
-  }
-
-  @Test
-  public void edgesConnecting_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11);
-    addEdge(E12, N1, N2);
-    assertThat(graph.edgesConnecting(N1, N2)).containsExactly(E12);
-    assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11);
-  }
-
-  @Test
-  public void inEdges_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertThat(graph.inEdges(N1)).containsExactly(E11);
-    addEdge(E41, N4, N1);
-    assertThat(graph.inEdges(N1)).containsExactly(E11, E41);
-  }
-
-  @Test
-  public void outEdges_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertThat(graph.outEdges(N1)).containsExactly(E11);
-    addEdge(E12, N1, N2);
-    assertThat(graph.outEdges(N1)).containsExactly(E11, E12);
-  }
-
-  @Test
   public void predecessors_selfLoop() {
-    addEdge(E11, N1, N1);
+    putEdge(N1, N1);
     assertThat(graph.predecessors(N1)).containsExactly(N1);
-    addEdge(E41, N4, N1);
+    putEdge(N4, N1);
     assertThat(graph.predecessors(N1)).containsExactly(N1, N4);
   }
 
   @Test
   public void successors_selfLoop() {
-    addEdge(E11, N1, N1);
+    putEdge(N1, N1);
     assertThat(graph.successors(N1)).containsExactly(N1);
-    addEdge(E12, N1, N2);
+    putEdge(N1, N2);
     assertThat(graph.successors(N1)).containsExactly(N1, N2);
   }
 
   @Test
   public void degree_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertEquals(1, graph.degree(N1));
-    addEdge(E12, N1, N2);
-    assertEquals(2, graph.degree(N1));
+    putEdge(N1, N1);
+    assertThat(graph.degree(N1)).isEqualTo(2);
+    putEdge(N1, N2);
+    assertThat(graph.degree(N1)).isEqualTo(3);
   }
 
   @Test
   public void inDegree_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertEquals(1, graph.inDegree(N1));
-    addEdge(E41, N4, N1);
-    assertEquals(2, graph.inDegree(N1));
+    putEdge(N1, N1);
+    assertThat(graph.inDegree(N1)).isEqualTo(1);
+    putEdge(N4, N1);
+    assertThat(graph.inDegree(N1)).isEqualTo(2);
   }
 
   @Test
   public void outDegree_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertEquals(1, graph.outDegree(N1));
-    addEdge(E12, N1, N2);
-    assertEquals(2, graph.outDegree(N1));
-  }
-
-  @Test
-  public void source_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertEquals(N1, graph.source(E11));
-  }
-
-  @Test
-  public void target_selfLoop() {
-    addEdge(E11, N1, N1);
-    assertEquals(N1, graph.target(E11));
+    putEdge(N1, N1);
+    assertThat(graph.outDegree(N1)).isEqualTo(1);
+    putEdge(N1, N2);
+    assertThat(graph.outDegree(N1)).isEqualTo(2);
   }
 
   @Override
   @Test
   public void addEdge_selfLoop() {
-    assertTrue(addEdge(E11, N1, N1));
-    assertThat(graph.edges()).contains(E11);
-    assertThat(graph.edgesConnecting(N1, N1)).containsExactly(E11);
+    assertThat(putEdge(N1, N1)).isTrue();
+    assertThat(graph.successors(N1)).containsExactly(N1);
+    assertThat(graph.predecessors(N1)).containsExactly(N1);
   }
 
   @Test
   public void addEdge_existingSelfLoopEdgeBetweenSameNodes() {
-    addEdge(E11, N1, N1);
-    ImmutableSet<String> edges = ImmutableSet.copyOf(graph.edges());
-    assertFalse(addEdge(E11, N1, N1));
-    assertThat(graph.edges()).containsExactlyElementsIn(edges);
-  }
-
-  @Test
-  public void addEdge_existingEdgeBetweenDifferentNodes_selfLoops() {
-    addEdge(E11, N1, N1);
-    try {
-      addEdge(E11, N1, N2);
-      fail("Reusing an existing self-loop edge to connect different nodes succeeded");
-    } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
-    }
-    try {
-      addEdge(E11, N2, N2);
-      fail("Reusing an existing self-loop edge to make a different self-loop edge succeeded");
-    } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
-    }
-    addEdge(E12, N1, N2);
-    try {
-      addEdge(E12, N1, N1);
-      fail("Reusing an existing edge to add a self-loop edge between different nodes succeeded");
-    } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
-    }
-  }
-
-  @Test
-  public void addEdge_parallelSelfLoopEdge() {
-    addEdge(E11, N1, N1);
-    try {
-      addEdge(EDGE_NOT_IN_GRAPH, N1, N1);
-      fail("Adding a parallel self-loop edge succeeded");
-    } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
-    }
+    putEdge(N1, N1);
+    assertThat(putEdge(N1, N1)).isFalse();
   }
 
   @Test
   public void removeNode_existingNodeWithSelfLoopEdge() {
     addNode(N1);
-    addEdge(E11, N1, N1);
-    assertTrue(graph.removeNode(N1));
+    putEdge(N1, N1);
+    assertThat(graph.removeNode(N1)).isTrue();
     assertThat(graph.nodes()).isEmpty();
-    assertThat(graph.edges()).doesNotContain(E11);
   }
 
   @Test
   public void removeEdge_existingSelfLoopEdge() {
-    addEdge(E11, N1, N1);
-    assertTrue(graph.removeEdge(E11));
-    assertThat(graph.edges()).doesNotContain(E11);
-    assertThat(graph.edgesConnecting(N1, N1)).isEmpty();
-  }
-
-  // TODO(kak): Can't we ditch this and just use PackageSanityTests?
-  @Test
-  public void testEquals() {
-    Graph<Integer, String> graphA = createGraph();
-    graphA.addNode(N1);
-    Graph<Integer, String> graphB = createGraph();
-    graphA.addNode(N2);
-
-    new EqualsTester()
-        .addEqualityGroup(graphA)
-        .addEqualityGroup(graphB)
-        .testEquals();
+    putEdge(N1, N1);
+    assertThat(graph.removeEdge(N1, N1)).isTrue();
+    assertThat(graph.nodes()).containsExactly(N1);
+    assertThat(graph.successors(N1)).isEmpty();
   }
 }

@@ -35,11 +35,6 @@ import com.google.common.collect.testing.TestStringSortedSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -48,6 +43,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Collection tests for {@link Table} implementations.

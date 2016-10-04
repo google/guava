@@ -155,7 +155,7 @@
           </configuration>
           <executions>
             <execution>
-              <id>check-java16-sun</id>
+              <id>check-java-version-compatibility</id>
               <phase>test</phase>
               <goals>
                 <goal>check</goal>
@@ -219,7 +219,7 @@
       <dependency>
         <groupId>com.google.j2objc</groupId>
         <artifactId>j2objc-annotations</artifactId>
-        <version>0.1</version>
+        <version>1.1</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>
@@ -236,7 +236,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>1.8.5</version>
+        <version>2.1.0-RC.1</version>
         <scope>test</scope>
       </dependency>
       <dependency>

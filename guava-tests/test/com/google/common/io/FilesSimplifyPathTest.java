@@ -21,12 +21,10 @@ import static com.google.common.io.Files.simplifyPath;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-
-import junit.framework.TestCase;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Files#simplifyPath}.
@@ -42,7 +40,7 @@ public class FilesSimplifyPathTest extends TestCase {
   public void testSimplifyDot() {
     assertEquals(".", simplifyPath("."));
   }
-  
+
   public void testSimplifyWhiteSpace() {
     assertEquals(" ", simplifyPath(" "));
   }
@@ -90,11 +88,11 @@ public class FilesSimplifyPathTest extends TestCase {
   public void testSimplify12() {
     assertEquals("/x", simplifyPath("//a//../x//"));
   }
-  
+
   public void testSimplify13() {
     assertEquals("../c", simplifyPath("a/b/../../../c"));
   }
-  
+
   public void testSimplifyDotDot() {
     assertEquals("..", simplifyPath(".."));
   }
@@ -104,30 +102,30 @@ public class FilesSimplifyPathTest extends TestCase {
     assertEquals("..", simplifyPath("a/../.."));
     assertEquals("..", simplifyPath("a/../../"));
   }
-  
+
   public void testSimplifyDotDots() {
     assertEquals("../..", simplifyPath("a/../../.."));
     assertEquals("../../..", simplifyPath("a/../../../.."));
   }
-  
+
   public void testSimplifyRootedDotDots() {
     assertEquals("/", simplifyPath("/../../.."));
     assertEquals("/", simplifyPath("/../../../"));
   }
-  
+
   // b/4558855
   public void testMadbotsBug() {
     assertEquals("../this", simplifyPath("../this"));
     assertEquals("../this/is/ok", simplifyPath("../this/is/ok"));
     assertEquals("../ok", simplifyPath("../this/../ok"));
   }
-  
+
   // https://code.google.com/p/guava-libraries/issues/detail?id=705
   public void test705() {
     assertEquals("../b", simplifyPath("x/../../b"));
     assertEquals("b", simplifyPath("x/../b"));
   }
-  
+
   // https://code.google.com/p/guava-libraries/issues/detail?id=716
   public void test716() {
     assertEquals("b", simplifyPath("./b"));
@@ -136,14 +134,14 @@ public class FilesSimplifyPathTest extends TestCase {
     assertEquals("b", simplifyPath("././b"));
     assertEquals("a/b", simplifyPath("./a/b"));
   }
-  
+
   public void testHiddenFiles() {
     assertEquals(".b", simplifyPath(".b"));
     assertEquals(".b", simplifyPath("./.b"));
     assertEquals(".metadata/b", simplifyPath(".metadata/b"));
     assertEquals(".metadata/b", simplifyPath("./.metadata/b"));
   }
-  
+
   // https://code.google.com/p/guava-libraries/issues/detail?id=716
   public void testMultipleDotFilenames() {
     assertEquals("..a", simplifyPath("..a"));
@@ -155,16 +153,16 @@ public class FilesSimplifyPathTest extends TestCase {
   }
 
   public void testSlashDot() {
-    assertEquals("/", simplifyPath("/."));    
+    assertEquals("/", simplifyPath("/."));
   }
 
   // http://code.google.com/p/guava-libraries/issues/detail?id=722
   public void testInitialSlashDotDot() {
     assertEquals("/c", simplifyPath("/../c"));
   }
-    
+
   // http://code.google.com/p/guava-libraries/issues/detail?id=722
-  public void testInitialSlashDot() {  
+  public void testInitialSlashDot() {
     assertEquals("/a", simplifyPath("/./a"));
     assertEquals("/.a", simplifyPath("/.a/a/.."));
   }
@@ -179,7 +177,7 @@ public class FilesSimplifyPathTest extends TestCase {
    * We co-opt some URI resolution tests for our purposes.
    * Some of the tests have queries and anchors that are a little silly here.
    */
-  
+
   /** http://gbiv.com/protocols/uri/rfc/rfc2396.html#rfc.section.C.1 */
   public void testRfc2396Normal() {
     assertEquals("/a/b/c/g", simplifyPath("/a/b/c/g"));

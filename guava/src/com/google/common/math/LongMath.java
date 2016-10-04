@@ -25,11 +25,11 @@ import static java.lang.Math.min;
 import static java.math.RoundingMode.HALF_EVEN;
 import static java.math.RoundingMode.HALF_UP;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.UnsignedLongs;
-
 import java.math.BigInteger;
 import java.math.RoundingMode;
 
@@ -62,9 +62,10 @@ public final class LongMath {
    *         {@code long}, i.e. when {@code x > 2^62}
    * @since 20.0
    */
+  @Beta
   public static long ceilingPowerOfTwo(long x) {
     checkPositive("x", x);
-    if (x > (1L << (Long.SIZE - 2))) {
+    if (x > MAX_SIGNED_POWER_OF_TWO) {
       throw new ArithmeticException("ceilingPowerOfTwo(" + x + ") is not representable as a long");
     }
     return 1L << -Long.numberOfLeadingZeros(x - 1);
@@ -77,6 +78,7 @@ public final class LongMath {
    * @throws IllegalArgumentException if {@code x <= 0}
    * @since 20.0
    */
+  @Beta
   public static long floorPowerOfTwo(long x) {
     checkPositive("x", x);
 
@@ -644,6 +646,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
+  @Beta
   public static long saturatedAdd(long a, long b) {
     long naiveSum = a + b;
     if ((a ^ b) < 0 | (a ^ naiveSum) >= 0) {
@@ -661,6 +664,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
+  @Beta
   public static long saturatedSubtract(long a, long b) {
     long naiveDifference = a - b;
     if ((a ^ b) >= 0 | (a ^ naiveDifference) >= 0) {
@@ -678,6 +682,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
+  @Beta
   public static long saturatedMultiply(long a, long b) {
     // see checkedMultiply for explanation
     int leadingZeros =
@@ -707,6 +712,7 @@ public final class LongMath {
    *
    * @since 20.0
    */
+  @Beta
   public static long saturatedPow(long b, int k) {
     checkNonNegative("exponent", k);
     if (b >= -2 & b <= 2) {
@@ -970,6 +976,61 @@ public final class LongMath {
     // The alternative (x + y) / 2 fails for large values.
     // The alternative (x + y) >>> 1 fails for negative values.
     return (x & y) + ((x ^ y) >> 1);
+  }
+
+  /*
+   * This bitmask is used as an optimization for cheaply testing for divisiblity by 2, 3, or 5.
+   * Each bit is set to 1 for all remainders that indicate divisibility by 2, 3, or 5, so
+   * 1, 7, 11, 13, 17, 19, 23, 29 are set to 0. 30 and up don't matter because they won't be hit.
+   */
+  private static final int SIEVE_30 =
+      ~((1 << 1) | (1 << 7) | (1 << 11) | (1 << 13)
+          | (1 << 17) | (1 << 19) | (1 << 23) | (1 << 29));
+
+  /**
+   * Returns {@code true} if {@code n} is a
+   * <a href="http://mathworld.wolfram.com/PrimeNumber.html">prime number</a>: an integer <i>greater
+   * than one</i> that cannot be factored into a product of <i>smaller</i> positive integers.
+   * Returns {@code false} if {@code n} is zero, one, or a composite number (one which <i>can</i>
+   * be factored into smaller positive integers).
+   *
+   * <p>To test larger numbers, use {@link BigInteger#isProbablePrime}.
+   *
+   * @throws IllegalArgumentException if {@code n} is negative
+   * @since 20.0
+   */
+  @GwtIncompatible // TODO
+  @Beta
+  public static boolean isPrime(long n) {
+    if (n < 2) {
+      checkNonNegative("n", n);
+      return false;
+    }
+    if (n == 2 || n == 3 || n == 5 || n == 7 || n == 11 || n == 13) {
+      return true;
+    }
+
+    if ((SIEVE_30 & (1 << (n % 30))) != 0) {
+      return false;
+    }
+    if (n % 7 == 0 || n % 11 == 0 || n % 13 == 0) {
+      return false;
+    }
+    if (n < 17 * 17) {
+      return true;
+    }
+
+    for (long[] baseSet : millerRabinBaseSets) {
+      if (n <= baseSet[0]) {
+        for (int i = 1; i < baseSet.length; i++) {
+          if (!MillerRabinTester.test(baseSet[i], n)) {
+            return false;
+          }
+        }
+        return true;
+      }
+    }
+    throw new AssertionError();
   }
 
   /*

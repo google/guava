@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.Closeable;
 import java.io.EOFException;
 import java.io.IOException;
@@ -47,7 +46,13 @@ import java.util.List;
 @Beta
 @GwtIncompatible
 public final class CharStreams {
-  private static final int BUF_SIZE = 0x800; // 2K chars (4K bytes)
+
+  /**
+   * Creates a new {@code CharBuffer} for buffering reads or writes.
+   */
+  static CharBuffer createBuffer() {
+    return CharBuffer.allocate(0x800); // 2K chars (4K bytes)
+  }
 
   private CharStreams() {}
 
@@ -64,7 +69,7 @@ public final class CharStreams {
   public static long copy(Readable from, Appendable to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    CharBuffer buf = CharBuffer.allocate(BUF_SIZE);
+    CharBuffer buf = createBuffer();
     long total = 0;
     while (from.read(buf) != -1) {
       buf.flip();
@@ -144,6 +149,24 @@ public final class CharStreams {
       }
     }
     return processor.getResult();
+  }
+
+  /**
+   * Reads and discards data from the given {@code Readable} until the end of the stream is
+   * reached. Returns the total number of chars read. Does not close the stream.
+   *
+   * @since 20.0
+   */
+  @CanIgnoreReturnValue
+  public static long exhaust(Readable readable) throws IOException {
+    long total = 0;
+    long read;
+    CharBuffer buf = createBuffer();
+    while ((read = readable.read(buf)) != -1) {
+      total += read;
+      buf.clear();
+    }
+    return total;
   }
 
   /**

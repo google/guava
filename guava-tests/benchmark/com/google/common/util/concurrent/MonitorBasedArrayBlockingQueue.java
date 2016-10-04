@@ -18,7 +18,6 @@ package com.google.common.util.concurrent;
 
 import com.google.common.collect.ObjectArrays;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.AbstractQueue;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -26,7 +25,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-
 import javax.annotation.Nullable;
 
 /**

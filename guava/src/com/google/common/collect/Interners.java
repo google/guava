@@ -20,8 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
-import com.google.common.collect.MapMakerInternalMap.ReferenceEntry;
-
+import com.google.common.collect.MapMakerInternalMap.InternalEntry;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -38,9 +37,7 @@ public final class Interners {
   /**
    * Returns a new thread-safe interner which retains a strong reference to each instance it has
    * interned, thus preventing these instances from being garbage-collected. If this retention is
-   * acceptable, this implementation may perform better than {@link #newWeakInterner}. Note that
-   * unlike {@link String#intern}, using this interner does not consume memory in the permanent
-   * generation.
+   * acceptable, this implementation may perform better than {@link #newWeakInterner}.
    */
   public static <E> Interner<E> newStrongInterner() {
     final ConcurrentMap<E, E> map = new MapMaker().makeMap();
@@ -57,8 +54,7 @@ public final class Interners {
    * Returns a new thread-safe interner which retains a weak reference to each instance it has
    * interned, and so does not prevent these instances from being garbage-collected. This most
    * likely does not perform as well as {@link #newStrongInterner}, but is the best alternative
-   * when the memory usage of that implementation is unacceptable. Note that unlike {@link
-   * String#intern}, using this interner does not consume memory in the permanent generation.
+   * when the memory usage of that implementation is unacceptable.
    */
   @GwtIncompatible("java.lang.ref.WeakReference")
   public static <E> Interner<E> newWeakInterner() {
@@ -67,17 +63,14 @@ public final class Interners {
 
   private static class WeakInterner<E> implements Interner<E> {
     // MapMaker is our friend, we know about this type
-    private final MapMakerInternalMap<E, Dummy> map =
-        new MapMaker()
-            .weakKeys()
-            .keyEquivalence(Equivalence.equals())
-            .makeCustomMap();
+    private final MapMakerInternalMap<E, Dummy, ?, ?> map =
+        new MapMaker().weakKeys().keyEquivalence(Equivalence.equals()).makeCustomMap();
 
     @Override
     public E intern(E sample) {
       while (true) {
         // trying to read the canonical...
-        ReferenceEntry<E, Dummy> entry = map.getEntry(sample);
+        InternalEntry<E, Dummy, ?> entry = map.getEntry(sample);
         if (entry != null) {
           E canonical = entry.getKey();
           if (canonical != null) { // only matters if weak/soft keys are used

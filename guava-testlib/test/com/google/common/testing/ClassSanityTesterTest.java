@@ -26,10 +26,6 @@ import com.google.common.testing.ClassSanityTester.FactoryMethodReturnsNullExcep
 import com.google.common.testing.ClassSanityTester.ParameterHasNoDistinctValueException;
 import com.google.common.testing.ClassSanityTester.ParameterNotInstantiableException;
 import com.google.common.testing.NullPointerTester.Visibility;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.AbstractList;
@@ -38,8 +34,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
 import javax.annotation.Nullable;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link ClassSanityTester}.
@@ -151,7 +148,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
     fail();
   }
-  
+
   public static class BadNullsFactory {
     public static Object bad(@SuppressWarnings("unused") String a) {
       return new BadNulls();
@@ -1186,7 +1183,7 @@ public class ClassSanityTesterTest extends TestCase {
 
   static class ConstructorParameterMapOfNotInstantiable {
     private final Map<NotInstantiable, NotInstantiable> m;
-    
+
     public ConstructorParameterMapOfNotInstantiable(
         Map<NotInstantiable, NotInstantiable> m) {
       this.m = checkNotNull(m);
@@ -1268,7 +1265,7 @@ public class ClassSanityTesterTest extends TestCase {
   private enum EnumFailsToCheckNull {
     A;
 
-    @SuppressWarnings("unused") 
+    @SuppressWarnings("unused")
     public void failToCheckNull(String s) {}
   }
 

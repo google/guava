@@ -22,6 +22,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nullable;
 
 /**
  * Thread that finalizes referents. All references should implement
@@ -168,9 +169,8 @@ public class Finalizer implements Runnable {
     return true;
   }
 
-  /**
-   * Looks up FinalizableReference.finalizeReferent() method.
-   */
+  /** Looks up FinalizableReference.finalizeReferent() method. */
+  @Nullable
   private Method getFinalizeReferentMethod() {
     Class<?> finalizableReferenceClass = finalizableReferenceClassReference.get();
     if (finalizableReferenceClass == null) {
@@ -189,6 +189,7 @@ public class Finalizer implements Runnable {
     }
   }
 
+  @Nullable
   public static Field getInheritableThreadLocalsField() {
     try {
       Field inheritableThreadLocals = Thread.class.getDeclaredField("inheritableThreadLocals");

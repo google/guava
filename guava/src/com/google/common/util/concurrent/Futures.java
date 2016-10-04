@@ -33,7 +33,6 @@ import com.google.common.util.concurrent.ImmediateFuture.ImmediateFailedFuture;
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateSuccessfulCheckedFuture;
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateSuccessfulFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
@@ -44,7 +43,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
 import javax.annotation.Nullable;
 
 /**
@@ -711,11 +709,11 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * SettableFuture#setFuture setFuture(otherFuture)} on it.
    *
    * <p>{@code dereference} has the same cancellation and execution semantics as {@link
-   * #transform(ListenableFuture, AsyncFunction)}, in that the returned {@code Future} attempts to
-   * keep its cancellation state in sync with both the input {@code Future} and the nested {@code
-   * Future}.  The transformation is very lightweight and therefore takes place in the same thread
-   * (either the thread that called {@code dereference}, or the thread in which the dereferenced
-   * future completes).
+   * #transformAsync(ListenableFuture, AsyncFunction)}, in that the returned {@code Future}
+   * attempts to keep its cancellation state in sync with both the input {@code Future} and the
+   * nested {@code Future}.  The transformation is very lightweight and therefore takes place in
+   * the same thread (either the thread that called {@code dereference}, or the thread in which
+   * the dereferenced future completes).
    *
    * @param nested The nested future to transform.
    * @return A future that holds result of the inner future.
@@ -929,7 +927,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * @since 15.0
    */
-  @GwtIncompatible // TODO
   public static <V> ListenableFuture<V> nonCancellationPropagating(ListenableFuture<V> future) {
     return new NonCancellationPropagatingFuture<V>(future);
   }
@@ -937,7 +934,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   /**
    * A wrapped future that does not propagate cancellation to its delegate.
    */
-  @GwtIncompatible // TODO
   private static final class NonCancellationPropagatingFuture<V>
       extends AbstractFuture.TrustedFuture<V> {
     NonCancellationPropagatingFuture(final ListenableFuture<V> delegate) {
@@ -1323,8 +1319,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       throw new ExecutionError((Error) cause);
     }
     /*
-     * It's a non-Error, non-Exception Throwable. From my survey of such classes, I believe that
-     * most users intended to extend Exception, so we'll treat it like an Exception.
+     * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such
+     * classes, I believe that most users intended to extend Exception, so we'll treat it like an
+     * Exception.)
      */
     throw new UncheckedExecutionException(cause);
   }

@@ -20,11 +20,9 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -40,6 +38,10 @@ import javax.annotation.Nullable;
  * this case, you should override {@code add(Object)} as well, either providing
  * your own implementation, or delegating to the provided {@code standardAdd}
  * method.
+ *
+ * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ * default} methods. Instead, it inherits their default implementations. When those implementations
+ * invoke methods, they invoke methods on the {@code ForwardingMultiset}.
  *
  * <p>The {@code standard} methods and any collection views they return are not
  * guaranteed to be thread-safe, even when all of the methods that they depend
@@ -285,9 +287,9 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
   }
 
   /**
-   * A sensible, albeit inefficient, definition of {@link #size} in terms of
+   * A sensible, albeit inefficient, definition of {@link #equals} in terms of
    * {@code entrySet().size()} and {@link #count}. If you override either of
-   * these methods, you may wish to override {@link #size} to forward to this
+   * these methods, you may wish to override {@link #equals} to forward to this
    * implementation.
    *
    * @since 7.0

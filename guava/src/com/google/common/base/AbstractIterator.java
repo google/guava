@@ -18,9 +18,9 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import javax.annotation.Nullable;
 
 /**
  * Note this class is a copy of {@link com.google.common.collect.AbstractIterator} (for dependency
@@ -43,6 +43,7 @@ abstract class AbstractIterator<T> implements Iterator<T> {
 
   protected abstract T computeNext();
 
+  @Nullable
   @CanIgnoreReturnValue
   protected final T endOfData() {
     state = State.DONE;

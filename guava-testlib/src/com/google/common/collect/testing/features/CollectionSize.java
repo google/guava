@@ -18,7 +18,6 @@ package com.google.common.collect.testing.features;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
-
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -47,8 +46,7 @@ import java.util.Set;
 // Enum values use constructors with generic varargs.
 @SuppressWarnings("unchecked")
 @GwtCompatible
-public enum CollectionSize implements Feature<Collection>,
-    Comparable<CollectionSize> {
+public enum CollectionSize implements Feature<Collection>, Comparable<CollectionSize> {
   /** Test an empty collection. */
   ZERO(0),
   /** Test a one-element collection. */
@@ -60,11 +58,7 @@ public enum CollectionSize implements Feature<Collection>,
    * sample element is not in any collection
    */
 
-  ANY(
-      ZERO,
-      ONE,
-      SEVERAL
-  );
+  ANY(ZERO, ONE, SEVERAL);
 
   private final Set<Feature<? super Collection>> implied;
   private final Integer numElements;
@@ -74,7 +68,7 @@ public enum CollectionSize implements Feature<Collection>,
     this.numElements = numElements;
   }
 
-  CollectionSize(Feature<? super Collection> ... implied) {
+  CollectionSize(Feature<? super Collection>... implied) {
     // Keep the order here, so that PerCollectionSizeTestSuiteBuilder
     // gives a predictable order of test suites.
     this.implied = Helpers.copyToSet(implied);
@@ -99,6 +93,7 @@ public enum CollectionSize implements Feature<Collection>,
   @TesterAnnotation
   public @interface Require {
     CollectionSize[] value() default {};
+
     CollectionSize[] absent() default {};
   }
 }

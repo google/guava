@@ -18,13 +18,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import junit.framework.TestCase;
 
 /**
  * Tests for UnsignedInts
@@ -89,7 +87,7 @@ public class UnsignedIntsTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testMin() {
     assertEquals(LEAST, UnsignedInts.min(LEAST));
     assertEquals(GREATEST, UnsignedInts.min(GREATEST));
@@ -98,7 +96,7 @@ public class UnsignedIntsTest extends TestCase {
         (int) 0x12345678L, (int) 0x5a4316b8L,
         (int) 0xff1a618bL, (int) 0L));
   }
-  
+
   public void testLexicographicalComparator() {
     List<int[]> ordered = Arrays.asList(
         new int[] {},

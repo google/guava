@@ -40,12 +40,6 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -59,6 +53,10 @@ import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.Vector;
+import junit.framework.AssertionFailedError;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Unit test for {@code Iterators}.

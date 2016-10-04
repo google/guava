@@ -19,13 +19,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
-
 import javax.annotation.CheckReturnValue;
 
 /**

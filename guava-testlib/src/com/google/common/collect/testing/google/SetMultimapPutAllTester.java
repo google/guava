@@ -20,7 +20,6 @@ import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.testing.features.MapFeature;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -31,8 +30,7 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public class SetMultimapPutAllTester<K, V>
-    extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
+public class SetMultimapPutAllTester<K, V> extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
 
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllHandlesDuplicates() {

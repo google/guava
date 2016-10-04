@@ -34,9 +34,6 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.testers.CollectionSerializationEqualTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestSuite;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -46,6 +43,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import junit.framework.TestSuite;
 
 /**
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
@@ -57,8 +55,7 @@ import java.util.Set;
 @GwtIncompatible
 public class MultisetTestSuiteBuilder<E>
     extends AbstractCollectionTestSuiteBuilder<MultisetTestSuiteBuilder<E>, E> {
-  public static <E> MultisetTestSuiteBuilder<E> using(
-      TestMultisetGenerator<E> generator) {
+  public static <E> MultisetTestSuiteBuilder<E> using(TestMultisetGenerator<E> generator) {
     return new MultisetTestSuiteBuilder<E>().usingGenerator(generator);
   }
 
@@ -71,9 +68,9 @@ public class MultisetTestSuiteBuilder<E>
     }
   }
 
-  @Override protected List<Class<? extends AbstractTester>> getTesters() {
-    List<Class<? extends AbstractTester>> testers
-        = Helpers.copyToList(super.getTesters());
+  @Override
+  protected List<Class<? extends AbstractTester>> getTesters() {
+    List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
     testers.add(CollectionSerializationEqualTester.class);
     testers.add(MultisetAddTester.class);
     testers.add(MultisetContainsTester.class);
@@ -90,8 +87,7 @@ public class MultisetTestSuiteBuilder<E>
     return testers;
   }
 
-  private static Set<Feature<?>> computeEntrySetFeatures(
-      Set<Feature<?>> features) {
+  private static Set<Feature<?>> computeEntrySetFeatures(Set<Feature<?>> features) {
     Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
     derivedFeatures.addAll(features);
     derivedFeatures.remove(CollectionFeature.GENERAL_PURPOSE);
@@ -104,8 +100,7 @@ public class MultisetTestSuiteBuilder<E>
     return derivedFeatures;
   }
 
-  static Set<Feature<?>> computeElementSetFeatures(
-      Set<Feature<?>> features) {
+  static Set<Feature<?>> computeElementSetFeatures(Set<Feature<?>> features) {
     Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
     derivedFeatures.addAll(features);
     derivedFeatures.remove(CollectionFeature.GENERAL_PURPOSE);
@@ -116,8 +111,7 @@ public class MultisetTestSuiteBuilder<E>
     return derivedFeatures;
   }
 
-  private static Set<Feature<?>> computeReserializedMultisetFeatures(
-      Set<Feature<?>> features) {
+  private static Set<Feature<?>> computeReserializedMultisetFeatures(Set<Feature<?>> features) {
     Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
     derivedFeatures.addAll(features);
     derivedFeatures.remove(CollectionFeature.SERIALIZABLE);
@@ -126,10 +120,11 @@ public class MultisetTestSuiteBuilder<E>
   }
 
   @Override
-  protected List<TestSuite> createDerivedSuites(FeatureSpecificTestSuiteBuilder<
-      ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
-    List<TestSuite> derivedSuites = new ArrayList<TestSuite>(
-        super.createDerivedSuites(parentBuilder));
+  protected List<TestSuite> createDerivedSuites(
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
+          parentBuilder) {
+    List<TestSuite> derivedSuites =
+        new ArrayList<TestSuite>(super.createDerivedSuites(parentBuilder));
 
     derivedSuites.add(createElementSetTestSuite(parentBuilder));
 
@@ -143,20 +138,22 @@ public class MultisetTestSuiteBuilder<E>
     }
 
     if (parentBuilder.getFeatures().contains(CollectionFeature.SERIALIZABLE)) {
-      derivedSuites.add(MultisetTestSuiteBuilder
-          .using(new ReserializedMultisetGenerator<E>(parentBuilder.getSubjectGenerator()))
-          .named(getName() + " reserialized")
-          .withFeatures(computeReserializedMultisetFeatures(parentBuilder.getFeatures()))
-          .suppressing(parentBuilder.getSuppressedTests())
-          .createTestSuite());
+      derivedSuites.add(
+          MultisetTestSuiteBuilder.using(
+                  new ReserializedMultisetGenerator<E>(parentBuilder.getSubjectGenerator()))
+              .named(getName() + " reserialized")
+              .withFeatures(computeReserializedMultisetFeatures(parentBuilder.getFeatures()))
+              .suppressing(parentBuilder.getSuppressedTests())
+              .createTestSuite());
     }
     return derivedSuites;
   }
 
-  TestSuite createElementSetTestSuite(FeatureSpecificTestSuiteBuilder<
-      ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
-    return SetTestSuiteBuilder
-        .using(new ElementSetGenerator<E>(parentBuilder.getSubjectGenerator()))
+  TestSuite createElementSetTestSuite(
+      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
+          parentBuilder) {
+    return SetTestSuiteBuilder.using(
+            new ElementSetGenerator<E>(parentBuilder.getSubjectGenerator()))
         .named(getName() + ".elementSet")
         .withFeatures(computeElementSetFeatures(parentBuilder.getFeatures()))
         .suppressing(parentBuilder.getSuppressedTests())
@@ -221,8 +218,8 @@ public class MultisetTestSuiteBuilder<E>
       for (Object o : entries) {
         @SuppressWarnings("unchecked")
         Multiset.Entry<E> entry = (Entry<E>) o;
-        checkArgument(elements.add(entry.getElement()),
-            "Duplicate keys not allowed in EntrySetGenerator");
+        checkArgument(
+            elements.add(entry.getElement()), "Duplicate keys not allowed in EntrySetGenerator");
         for (int i = 0; i < entry.getCount(); i++) {
           contents.add(entry.getElement());
         }
@@ -255,7 +252,7 @@ public class MultisetTestSuiteBuilder<E>
     }
   }
 
-  static class ReserializedMultisetGenerator<E> implements TestMultisetGenerator<E>{
+  static class ReserializedMultisetGenerator<E> implements TestMultisetGenerator<E> {
     final OneSizeTestContainerGenerator<Collection<E>, E> gen;
 
     private ReserializedMultisetGenerator(OneSizeTestContainerGenerator<Collection<E>, E> gen) {
@@ -283,4 +280,3 @@ public class MultisetTestSuiteBuilder<E>
     }
   }
 }
-

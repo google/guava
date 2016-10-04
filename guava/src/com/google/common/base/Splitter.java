@@ -20,14 +20,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -197,10 +195,9 @@ public final class Splitter {
   }
 
   /**
-   * Returns a splitter that considers any subsequence matching {@code
-   * pattern} to be a separator. For example, {@code
-   * Splitter.on(Pattern.compile("\r?\n")).split(entireFile)} splits a string into lines whether it
-   * uses DOS-style or UNIX-style line terminators.
+   * Returns a splitter that considers any subsequence matching {@code pattern} to be a separator.
+   * For example, {@code Splitter.on(Pattern.compile("\r?\n")).split(entireFile)} splits a string
+   * into lines whether it uses DOS-style or UNIX-style line terminators.
    *
    * @param separatorPattern the pattern that determines whether a subsequence is a separator. This
    *     pattern may not match the empty string.
@@ -208,8 +205,11 @@ public final class Splitter {
    * @throws IllegalArgumentException if {@code separatorPattern} matches the empty string
    */
   @GwtIncompatible // java.util.regex
-  public static Splitter on(final Pattern separatorPattern) {
-    checkNotNull(separatorPattern);
+  public static Splitter on(Pattern separatorPattern) {
+    return on(new JdkPattern(separatorPattern));
+  }
+
+  private static Splitter on(final CommonPattern separatorPattern) {
     checkArgument(
         !separatorPattern.matcher("").matches(),
         "The pattern may not match the empty string: %s",
@@ -219,7 +219,7 @@ public final class Splitter {
         new Strategy() {
           @Override
           public SplittingIterator iterator(final Splitter splitter, CharSequence toSplit) {
-            final Matcher matcher = separatorPattern.matcher(toSplit);
+            final CommonMatcher matcher = separatorPattern.matcher(toSplit);
             return new SplittingIterator(splitter, toSplit) {
               @Override
               public int separatorStart(int start) {
@@ -237,21 +237,19 @@ public final class Splitter {
 
   /**
    * Returns a splitter that considers any subsequence matching a given pattern (regular expression)
-   * to be a separator. For example, {@code
-   * Splitter.onPattern("\r?\n").split(entireFile)} splits a string into lines whether it uses
-   * DOS-style or UNIX-style line terminators. This is equivalent to
-   * {@code Splitter.on(Pattern.compile(pattern))}.
+   * to be a separator. For example, {@code Splitter.onPattern("\r?\n").split(entireFile)} splits a
+   * string into lines whether it uses DOS-style or UNIX-style line terminators. This is equivalent
+   * to {@code Splitter.on(Pattern.compile(pattern))}.
    *
    * @param separatorPattern the pattern that determines whether a subsequence is a separator. This
    *     pattern may not match the empty string.
    * @return a splitter, with default settings, that uses this pattern
-   * @throws java.util.regex.PatternSyntaxException if {@code separatorPattern} is a malformed
-   *     expression
-   * @throws IllegalArgumentException if {@code separatorPattern} matches the empty string
+   * @throws IllegalArgumentException if {@code separatorPattern} matches the empty string or is a
+   *     malformed expression
    */
   @GwtIncompatible // java.util.regex
   public static Splitter onPattern(String separatorPattern) {
-    return on(Pattern.compile(separatorPattern));
+    return on(Platform.compilePattern(separatorPattern));
   }
 
   /**
@@ -320,10 +318,10 @@ public final class Splitter {
    * or the maximum size of the list returned by {@link #splitToList}.
    *
    * <p>For example, {@code Splitter.on(',').limit(3).split("a,b,c,d")} returns an iterable
-   * containing {@code ["a", "b", "c,d"]}. When omitting empty strings, the omitted strings do no
+   * containing {@code ["a", "b", "c,d"]}. When omitting empty strings, the omitted strings do not
    * count. Hence, {@code Splitter.on(',').limit(3).omitEmptyStrings().split("a,,,b,,,c,d")} returns
-   * an iterable containing {@code ["a", "b", "c,d"}. When trim is requested, all entries, including
-   * the last are trimmed. Hence
+   * an iterable containing {@code ["a", "b", "c,d"}. When trim is requested, all entries are
+   * trimmed, including the last. Hence
    * {@code Splitter.on(',').limit(3).trimResults().split(" a , b , c , d ")} results in
    * {@code ["a", "b", "c , d"]}.
    *

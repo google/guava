@@ -31,7 +31,6 @@ import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.ListIteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.ListFeature;
-
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.ListIterator;
@@ -68,14 +67,19 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
 
   private void runListIteratorTest(Set<IteratorFeature> features) {
     new ListIteratorTester<E>(
-        listListIteratorTesterNumIterations(), singleton(e4()), features,
-        Helpers.copyToList(getOrderedElements()), 0) {
-      @Override protected ListIterator<E> newTargetIterator() {
+        listListIteratorTesterNumIterations(),
+        singleton(e4()),
+        features,
+        Helpers.copyToList(getOrderedElements()),
+        0) {
+      @Override
+      protected ListIterator<E> newTargetIterator() {
         resetCollection();
         return getList().listIterator();
       }
 
-      @Override protected void verify(List<E> elements) {
+      @Override
+      protected void verify(List<E> elements) {
         expectContents(elements);
       }
     }.test();
@@ -112,8 +116,7 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
    */
   @GwtIncompatible // reflection
   public static Method getListIteratorFullyModifiableMethod() {
-    return Helpers.getMethod(
-        ListListIteratorTester.class, "testListIterator_fullyModifiable");
+    return Helpers.getMethod(ListListIteratorTester.class, "testListIterator_fullyModifiable");
   }
 
   /**
@@ -123,7 +126,6 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
    */
   @GwtIncompatible // reflection
   public static Method getListIteratorUnmodifiableMethod() {
-    return Helpers.getMethod(
-        ListListIteratorTester.class, "testListIterator_unmodifiable");
+    return Helpers.getMethod(ListListIteratorTester.class, "testListIterator_unmodifiable");
   }
 }

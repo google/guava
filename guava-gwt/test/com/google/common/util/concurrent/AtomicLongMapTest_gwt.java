@@ -123,6 +123,11 @@ public void testRemove() throws Exception {
   testCase.testRemove();
 }
 
+public void testRemoveIfZero() throws Exception {
+  com.google.common.util.concurrent.AtomicLongMapTest testCase = new com.google.common.util.concurrent.AtomicLongMapTest();
+  testCase.testRemoveIfZero();
+}
+
 public void testRemoveValue() throws Exception {
   com.google.common.util.concurrent.AtomicLongMapTest testCase = new com.google.common.util.concurrent.AtomicLongMapTest();
   testCase.testRemoveValue();

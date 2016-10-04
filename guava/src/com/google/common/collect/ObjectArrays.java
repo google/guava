@@ -21,10 +21,8 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.lang.reflect.Array;
 import java.util.Collection;
-
 import javax.annotation.Nullable;
 
 /**

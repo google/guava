@@ -16,11 +16,9 @@ package com.google.common.hash;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
-
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.charset.Charset;
-
 import javax.annotation.Nullable;
 
 /**

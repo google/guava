@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkPositionIndex;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInput;
@@ -51,15 +50,11 @@ import java.util.Arrays;
 public final class ByteStreams {
 
   /**
-   * Default size of buffers allocated for copies.
+   * Creates a new byte array for buffering reads or writes.
    */
-  static final int BUF_SIZE = 8192;
-
-  /**
-   * A buffer for skipping bytes in an input stream. Only written to and never read, so actual
-   * contents don't matter.
-   */
-  static final byte[] skipBuffer = new byte[BUF_SIZE];
+  static byte[] createBuffer() {
+    return new byte[8192];
+  }
 
   /**
    * There are three methods to implement
@@ -105,7 +100,7 @@ public final class ByteStreams {
   public static long copy(InputStream from, OutputStream to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    byte[] buf = new byte[BUF_SIZE];
+    byte[] buf = createBuffer();
     long total = 0;
     while (true) {
       int r = from.read(buf);
@@ -144,7 +139,7 @@ public final class ByteStreams {
       return position - oldPosition;
     }
 
-    ByteBuffer buf = ByteBuffer.allocate(BUF_SIZE);
+    ByteBuffer buf = ByteBuffer.wrap(createBuffer());
     long total = 0;
     while (from.read(buf) != -1) {
       buf.flip();
@@ -220,6 +215,23 @@ public final class ByteStreams {
     void writeTo(byte[] b, int off) {
       System.arraycopy(buf, 0, b, off, count);
     }
+  }
+
+  /**
+   * Reads and discards data from the given {@code InputStream} until the end of the stream is
+   * reached. Returns the total number of bytes read. Does not close the stream.
+   *
+   * @since 20.0
+   */
+  @CanIgnoreReturnValue
+  public static long exhaust(InputStream in) throws IOException {
+    long total = 0;
+    long read;
+    byte[] buf = createBuffer();
+    while ((read = in.read(buf)) != -1) {
+      total += read;
+    }
+    return total;
   }
 
   /**
@@ -754,17 +766,17 @@ public final class ByteStreams {
    */
   static long skipUpTo(InputStream in, final long n) throws IOException {
     long totalSkipped = 0;
+    byte[] buf = createBuffer();
 
     while (totalSkipped < n) {
       long remaining = n - totalSkipped;
-
       long skipped = skipSafely(in, remaining);
 
       if (skipped == 0) {
         // Do a buffered read since skipSafely could return 0 repeatedly, for example if
         // in.available() always returns 0 (the default).
-        int skip = (int) Math.min(remaining, skipBuffer.length);
-        if ((skipped = in.read(skipBuffer, 0, skip)) == -1) {
+        int skip = (int) Math.min(remaining, buf.length);
+        if ((skipped = in.read(buf, 0, skip)) == -1) {
           // Reached EOF
           break;
         }
@@ -802,7 +814,7 @@ public final class ByteStreams {
     checkNotNull(input);
     checkNotNull(processor);
 
-    byte[] buf = new byte[BUF_SIZE];
+    byte[] buf = createBuffer();
     int read;
     do {
       read = input.read(buf);

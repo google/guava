@@ -19,7 +19,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;

@@ -22,12 +22,11 @@ import static com.google.common.collect.testing.testers.CollectionAddTester.getA
 import static com.google.common.collect.testing.testers.CollectionCreationTester.getCreateWithNullUnsupportedMethod;
 import static com.google.common.collect.testing.testers.SetAddTester.getAddSupportedNullPresentMethod;
 
-import junit.framework.Test;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
+import junit.framework.Test;
 
 /**
  * Tests the {@link Set} implementations of {@link java.util}, suppressing

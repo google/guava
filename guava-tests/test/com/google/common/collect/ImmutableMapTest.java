@@ -45,11 +45,6 @@ import com.google.common.collect.testing.google.MapGenerators.ImmutableMapValueL
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
@@ -57,6 +52,9 @@ import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@link ImmutableMap}.
@@ -704,31 +702,15 @@ public class ImmutableMapTest extends TestCase {
 
   public void testEquals() {
     new EqualsTester()
-        .addEqualityGroup(ImmutableList.of(), ImmutableList.of())
-        .addEqualityGroup(ImmutableList.of(1), ImmutableList.of(1))
-        .addEqualityGroup(ImmutableList.of(1, 2), ImmutableList.of(1, 2))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6, 7))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6, 7, 8))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6, 7, 8, 9))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))
-        .addEqualityGroup(ImmutableList.of(100, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))
-        .addEqualityGroup(ImmutableList.of(1, 200, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))
-        .addEqualityGroup(ImmutableList.of(1, 2, 300, 4, 5, 6, 7, 8, 9, 10, 11, 12))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 400, 5, 6, 7, 8, 9, 10, 11, 12))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 500, 6, 7, 8, 9, 10, 11, 12))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 600, 7, 8, 9, 10, 11, 12))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6, 700, 8, 9, 10, 11, 12))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6, 7, 800, 9, 10, 11, 12))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6, 7, 8, 900, 10, 11, 12))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 1000, 11, 12))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1100, 12))
-        .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 1200))
+        .addEqualityGroup(ImmutableMap.of(), ImmutableMap.builder().build())
+        .addEqualityGroup(ImmutableMap.of(1, 1), ImmutableMap.builder().put(1, 1).build())
+        .addEqualityGroup(ImmutableMap.of(1, 1, 2, 2))
+        .addEqualityGroup(ImmutableMap.of(1, 1, 2, 2, 3, 3))
+        .addEqualityGroup(ImmutableMap.of(1, 4, 2, 2, 3, 3))
+        .addEqualityGroup(ImmutableMap.of(1, 1, 2, 4, 3, 3))
+        .addEqualityGroup(ImmutableMap.of(1, 1, 2, 2, 3, 4))
+        .addEqualityGroup(ImmutableMap.of(1, 2, 2, 3, 3, 1))
+        .addEqualityGroup(ImmutableMap.of(1, 1, 2, 2, 3, 3, 4, 4))
         .testEquals();
 
   }

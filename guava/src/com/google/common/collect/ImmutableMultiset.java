@@ -23,13 +23,11 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Multiset.Entry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-
 import javax.annotation.Nullable;
 
 /**
@@ -127,15 +125,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
-    return new Builder<E>()
-        .add(e1)
-        .add(e2)
-        .add(e3)
-        .add(e4)
-        .add(e5)
-        .add(e6)
-        .add(others)
-        .build();
+    return new Builder<E>().add(e1).add(e2).add(e3).add(e4).add(e5).add(e6).add(others).build();
   }
 
   /**
@@ -224,6 +214,21 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
         return element;
       }
     };
+  }
+
+  private transient ImmutableList<E> asList;
+
+  @Override
+  public ImmutableList<E> asList() {
+    ImmutableList<E> result = asList;
+    return (result == null) ? asList = createAsList() : result;
+  }
+
+  ImmutableList<E> createAsList() {
+    if (isEmpty()) {
+      return ImmutableList.of();
+    }
+    return new RegularImmutableAsList<E>(this, toArray());
   }
 
   @Override

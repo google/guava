@@ -16,9 +16,7 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -46,7 +44,6 @@ import java.util.Set;
  * @author Louis Wasserman
  * @since 11.0
  */
-@Beta
 @GwtCompatible(emulated = true)
 public interface SortedMultiset<E> extends SortedMultisetBridge<E>, SortedIterable<E> {
   /**

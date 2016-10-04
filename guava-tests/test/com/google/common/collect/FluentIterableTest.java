@@ -30,10 +30,6 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,8 +38,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.concurrent.TimeUnit;
-
 import javax.annotation.Nullable;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link FluentIterable}.

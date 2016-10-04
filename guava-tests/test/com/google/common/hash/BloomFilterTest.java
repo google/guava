@@ -26,15 +26,12 @@ import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.math.RoundingMode;
 import java.util.Random;
-
 import javax.annotation.Nullable;
+import junit.framework.TestCase;
 
 /**
  * Tests for SimpleGenericBloomFilter and derived BloomFilter views.

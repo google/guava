@@ -20,6 +20,7 @@ import static com.google.common.base.Charsets.US_ASCII;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Closer;
 import com.google.common.io.Files;
@@ -28,14 +29,10 @@ import com.google.common.reflect.ClassPath.ClassInfo;
 import com.google.common.reflect.ClassPath.ResourceInfo;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
-import org.junit.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilePermission;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -43,6 +40,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.Permission;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
@@ -52,6 +50,8 @@ import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
+import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Functional tests of {@link ClassPath}.
@@ -334,6 +334,44 @@ public class ClassPathTest extends TestCase {
     ResourceScanner scanner = new ResourceScanner();
     scanner.scan(ClassLoader.getSystemClassLoader());
     assertThat(scanner.resources).contains("com/google/common/reflect/ClassPathTest.class");
+  }
+
+  public void testExistsThrowsSecurityException() throws IOException, URISyntaxException {
+    SecurityManager oldSecurityManager = System.getSecurityManager();
+    try {
+      doTestExistsThrowsSecurityException();
+    } finally {
+      System.setSecurityManager(oldSecurityManager);
+    }
+  }
+
+  private void doTestExistsThrowsSecurityException() throws IOException, URISyntaxException {
+    URLClassLoader myLoader = (URLClassLoader) getClass().getClassLoader();
+    URL[] urls = myLoader.getURLs();
+    ImmutableList.Builder<File> filesBuilder = ImmutableList.builder();
+    for (URL url : urls) {
+      if (url.getProtocol().equalsIgnoreCase("file")) {
+        filesBuilder.add(new File(url.toURI()));
+      }
+    }
+    ImmutableList<File> files = filesBuilder.build();
+    assertThat(files).isNotEmpty();
+    SecurityManager disallowFilesSecurityManager = new SecurityManager() {
+      @Override
+      public void checkPermission(Permission p) {
+        if (p instanceof FilePermission) {
+          throw new SecurityException("Disallowed: " + p);
+        }
+      }
+    };
+    System.setSecurityManager(disallowFilesSecurityManager);
+    try {
+      files.get(0).exists();
+      fail("Did not get expected SecurityException");
+    } catch (SecurityException expected) {
+    }
+    ClassPath classPath = ClassPath.from(myLoader);
+    assertThat(classPath.getResources()).isEmpty();
   }
 
   private static ClassPath.ClassInfo findClass(

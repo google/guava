@@ -18,7 +18,6 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.SampleElements.Ints;
-
 import java.util.List;
 import java.util.Set;
 
@@ -29,11 +28,13 @@ import java.util.Set;
  */
 @GwtCompatible
 public abstract class TestIntegerSetGenerator implements TestSetGenerator<Integer> {
-  @Override public SampleElements<Integer> samples() {
+  @Override
+  public SampleElements<Integer> samples() {
     return new Ints();
   }
 
-  @Override public Set<Integer> create(Object... elements) {
+  @Override
+  public Set<Integer> create(Object... elements) {
     Integer[] array = new Integer[elements.length];
     int i = 0;
     for (Object e : elements) {
@@ -44,7 +45,8 @@ public abstract class TestIntegerSetGenerator implements TestSetGenerator<Intege
 
   protected abstract Set<Integer> create(Integer[] elements);
 
-  @Override public Integer[] createArray(int length) {
+  @Override
+  public Integer[] createArray(int length) {
     return new Integer[length];
   }
 
@@ -60,7 +62,8 @@ public abstract class TestIntegerSetGenerator implements TestSetGenerator<Intege
    * container is to throw an exception. The chosen implementation, however, has
    * the advantage of working for insertion-ordered containers, as well.
    */
-  @Override public List<Integer> order(List<Integer> insertionOrder) {
+  @Override
+  public List<Integer> order(List<Integer> insertionOrder) {
     return insertionOrder;
   }
 }

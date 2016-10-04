@@ -18,9 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.base.Function;
 import com.google.common.primitives.Ints;
-
-import junit.framework.TestCase;
-
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
@@ -32,6 +29,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
+import junit.framework.TestCase;
 
 /**
  * Basher test for {@link ConcurrentHashMultiset}: start a bunch of threads, have each of them

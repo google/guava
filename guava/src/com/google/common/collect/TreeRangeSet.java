@@ -21,7 +21,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
@@ -31,7 +30,6 @@ import java.util.NavigableMap;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeMap;
-
 import javax.annotation.Nullable;
 
 /**
@@ -364,10 +362,11 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
         } else if (upperBoundWindow.lowerBound.isLessThan(lowerEntry.getValue().upperBound)) {
           backingItr = rangesByLowerBound.tailMap(lowerEntry.getKey(), true).values().iterator();
         } else {
-          backingItr = rangesByLowerBound
-              .tailMap(upperBoundWindow.lowerEndpoint(), true)
-              .values()
-              .iterator();
+          backingItr =
+              rangesByLowerBound
+                  .tailMap(upperBoundWindow.lowerEndpoint(), true)
+                  .values()
+                  .iterator();
         }
       }
       return new AbstractIterator<Entry<Cut<C>, Range<C>>>() {
@@ -571,9 +570,10 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
                   .iterator());
       Cut<C> cut;
       if (positiveItr.hasNext()) {
-        cut = (positiveItr.peek().upperBound == Cut.<C>aboveAll())
-            ? positiveItr.next().lowerBound
-            : positiveRangesByLowerBound.higherKey(positiveItr.peek().upperBound);
+        cut =
+            (positiveItr.peek().upperBound == Cut.<C>aboveAll())
+                ? positiveItr.next().lowerBound
+                : positiveRangesByLowerBound.higherKey(positiveItr.peek().upperBound);
       } else if (!complementLowerBoundWindow.contains(Cut.<C>belowAll())
           || positiveRangesByLowerBound.containsKey(Cut.belowAll())) {
         return Iterators.emptyIterator();
@@ -853,8 +853,9 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     private final Range<C> restriction;
 
     SubRangeSet(Range<C> restriction) {
-      super(new SubRangeSetRangesByLowerBound<C>(
-          Range.<Cut<C>>all(), restriction, TreeRangeSet.this.rangesByLowerBound));
+      super(
+          new SubRangeSetRangesByLowerBound<C>(
+              Range.<Cut<C>>all(), restriction, TreeRangeSet.this.rangesByLowerBound));
       this.restriction = restriction;
     }
 

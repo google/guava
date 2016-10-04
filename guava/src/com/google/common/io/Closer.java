@@ -21,14 +21,12 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.logging.Level;
-
 import javax.annotation.Nullable;
 
 /**

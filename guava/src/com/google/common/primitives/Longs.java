@@ -22,7 +22,6 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Converter;
-
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -31,7 +30,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
@@ -51,6 +49,8 @@ public final class Longs {
 
   /**
    * The number of bytes required to represent a primitive {@code long} value.
+   *
+   * <p><b>Java 8 users:</b> use {@link Long#BYTES} instead.
    */
   public static final int BYTES = Long.SIZE / Byte.SIZE;
 
@@ -68,6 +68,8 @@ public final class Longs {
    * <p>This method always return the value specified by {@link Long#hashCode()} in java, which
    * might be different from {@code ((Long) value).hashCode()} in GWT because
    * {@link Long#hashCode()} in GWT does not obey the JRE contract.
+   *
+   * <p><b>Java 8 users:</b> use {@link Long#hashCode(long)} instead.
    *
    * @param value a primitive {@code long} value
    * @return a hash code for the value

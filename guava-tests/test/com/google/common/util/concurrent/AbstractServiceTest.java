@@ -26,17 +26,14 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Service.Listener;
 import com.google.common.util.concurrent.Service.State;
-
-import junit.framework.TestCase;
-
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-
 import javax.annotation.concurrent.GuardedBy;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link AbstractService}.
@@ -862,7 +859,7 @@ public class AbstractServiceTest extends TestCase {
         } catch (IllegalStateException expected) {
           assertNull(expected.getCause());
           assertTrue(expected.getMessage().equals(
-              "Expected the service to be RUNNING, but was STOPPING"));
+              "Expected the service " + service + " to be RUNNING, but was STOPPING"));
         }
       }
       assertNotSame(from, service.state());
@@ -879,7 +876,7 @@ public class AbstractServiceTest extends TestCase {
         } catch (IllegalStateException expected) {
           assertNull(expected.getCause());
           assertTrue(expected.getMessage().equals(
-              "Expected the service to be RUNNING, but was TERMINATED"));
+              "Expected the service " + service + " to be RUNNING, but was TERMINATED"));
         }
       }
       completionLatch.countDown();

@@ -23,10 +23,6 @@ import com.google.common.collect.testing.SafeTreeSet;
 import com.google.common.collect.testing.TestStringSortedSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -34,6 +30,8 @@ import java.util.List;
 import java.util.NavigableSet;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@link Sets#synchronizedNavigableSet(NavigableSet)}.
@@ -42,7 +40,7 @@ import java.util.TreeSet;
  */
 public class SynchronizedNavigableSetTest extends TestCase {
   private static final Object MUTEX = new Integer(1); // something Serializable
-  
+
   @SuppressWarnings("unchecked")
   protected <E> NavigableSet<E> create() {
     TestSet<E> inner = new TestSet<E>(

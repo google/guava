@@ -25,7 +25,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
-
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -34,7 +33,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
@@ -55,6 +53,8 @@ public final class Floats {
   /**
    * The number of bytes required to represent a primitive {@code float} value.
    *
+   * <p><b>Java 8 users:</b> use {@link Float#BYTES} instead.
+   *
    * @since 10.0
    */
   public static final int BYTES = Float.SIZE / Byte.SIZE;
@@ -62,6 +62,8 @@ public final class Floats {
   /**
    * Returns a hash code for {@code value}; equal to the result of invoking
    * {@code ((Float) value).hashCode()}.
+   *
+   * <p><b>Java 8 users:</b> use {@link Float#hashCode(float)} instead.
    *
    * @param value a primitive {@code float} value
    * @return a hash code for the value
@@ -91,6 +93,8 @@ public final class Floats {
   /**
    * Returns {@code true} if {@code value} represents a real number. This is equivalent to, but not
    * necessarily implemented as, {@code !(Float.isInfinite(value) || Float.isNaN(value))}.
+   *
+   * <p><b>Java 8 users:</b> use {@link Float#isFinite(float)} instead.
    *
    * @since 10.0
    */

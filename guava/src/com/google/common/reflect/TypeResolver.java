@@ -23,7 +23,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -32,7 +31,6 @@ import java.lang.reflect.WildcardType;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import javax.annotation.Nullable;
 
 /**
@@ -137,6 +135,11 @@ public final class TypeResolver {
           return; // Okay to say Foo<A> is <?>
         }
         ParameterizedType toParameterizedType = expectArgument(ParameterizedType.class, to);
+        if (fromParameterizedType.getOwnerType() != null
+            && toParameterizedType.getOwnerType() != null) {
+          populateTypeMappings(
+              mappings, fromParameterizedType.getOwnerType(), toParameterizedType.getOwnerType());
+        }
         checkArgument(
             fromParameterizedType.getRawType().equals(toParameterizedType.getRawType()),
             "Inconsistent raw type: %s vs. %s",

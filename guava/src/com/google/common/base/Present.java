@@ -17,10 +17,8 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Collections;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**

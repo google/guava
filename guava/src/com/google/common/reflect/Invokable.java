@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
@@ -31,7 +30,6 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
-
 import javax.annotation.Nullable;
 
 /**
@@ -48,7 +46,7 @@ import javax.annotation.Nullable;
  *   Invokable<List<String>, ?> invokable = new TypeToken<List<String>>() {}.method(getMethod);
  *   assertEquals(TypeToken.of(String.class), invokable.getReturnType()); // Not Object.class!
  *   assertEquals(new TypeToken<List<String>>() {}, invokable.getOwnerType());}</pre>
- * 
+ *
  * @param <T> the type that owns this method or constructor.
  * @param <R> the return type of (or supertype thereof) the method or the declaring type of the
  *     constructor.

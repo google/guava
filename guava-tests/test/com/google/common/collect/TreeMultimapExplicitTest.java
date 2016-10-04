@@ -21,15 +21,13 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedSet;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@code TreeMultimap} with explicit comparators.
@@ -163,7 +161,7 @@ public class TreeMultimapExplicitTest extends TestCase {
         Maps.immutableEntry((String) null, 1),
         Maps.immutableEntry("tree", (Integer) null),
         Maps.immutableEntry("tree", 0),
-        Maps.immutableEntry("google", 6), 
+        Maps.immutableEntry("google", 6),
         Maps.immutableEntry("google", 2)).inOrder();
   }
 

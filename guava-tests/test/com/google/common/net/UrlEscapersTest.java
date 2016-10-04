@@ -25,7 +25,6 @@ import static com.google.common.net.UrlEscapers.urlPathSegmentEscaper;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.UnicodeEscaper;
-
 import junit.framework.TestCase;
 
 /**

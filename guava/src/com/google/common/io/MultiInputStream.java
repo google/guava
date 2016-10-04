@@ -17,11 +17,9 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-
 import javax.annotation.Nullable;
 
 /**

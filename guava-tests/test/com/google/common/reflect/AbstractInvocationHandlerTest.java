@@ -21,13 +21,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link AbstractInvocationHandler}.

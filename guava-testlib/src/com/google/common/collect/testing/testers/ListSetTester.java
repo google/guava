@@ -26,7 +26,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
-
 import java.lang.reflect.Method;
 
 /**
@@ -66,12 +65,12 @@ public class ListSetTester<E> extends AbstractListTester<E> {
   private void doTestSet(E newValue) {
     int index = aValidIndex();
     E initialValue = getList().get(index);
-    assertEquals("set(i, x) should return the old element at position i.",
-        initialValue, getList().set(index, newValue));
-    assertEquals("After set(i, x), get(i) should return x",
-        newValue, getList().get(index));
-    assertEquals("set() should not change the size of a list.",
-        getNumElements(), getList().size());
+    assertEquals(
+        "set(i, x) should return the old element at position i.",
+        initialValue,
+        getList().set(index, newValue));
+    assertEquals("After set(i, x), get(i) should return x", newValue, getList().get(index));
+    assertEquals("set() should not change the size of a list.", getNumElements(), getList().size());
   }
 
   @ListFeature.Require(SUPPORTS_SET)
@@ -111,8 +110,7 @@ public class ListSetTester<E> extends AbstractListTester<E> {
   public void testSet_unsupportedByEmptyList() {
     try {
       getList().set(0, e3());
-      fail("set() should throw UnsupportedOperationException "
-          + "or IndexOutOfBoundsException");
+      fail("set() should throw UnsupportedOperationException or IndexOutOfBoundsException");
     } catch (UnsupportedOperationException tolerated) {
     } catch (IndexOutOfBoundsException tolerated) {
     }

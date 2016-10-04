@@ -20,13 +20,11 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.testing.GcFinalization.FinalizationPredicate;
 import com.google.common.util.concurrent.SettableFuture;
-
-import junit.framework.TestCase;
-
 import java.lang.ref.WeakReference;
 import java.util.WeakHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link GcFinalization}.

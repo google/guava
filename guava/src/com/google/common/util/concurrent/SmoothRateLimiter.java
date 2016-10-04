@@ -19,7 +19,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.math.LongMath;
-
 import java.util.concurrent.TimeUnit;
 
 @GwtIncompatible

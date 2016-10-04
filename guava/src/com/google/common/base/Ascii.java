@@ -17,7 +17,6 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 /**
@@ -428,12 +427,11 @@ public final class Ascii {
     if (chars instanceof String) {
       return toLowerCase((String) chars);
     }
-    int length = chars.length();
-    StringBuilder builder = new StringBuilder(length);
-    for (int i = 0; i < length; i++) {
-      builder.append(toLowerCase(chars.charAt(i)));
+    char[] newChars = new char[chars.length()];
+    for (int i = 0; i < newChars.length; i++) {
+      newChars[i] = toLowerCase(chars.charAt(i));
     }
-    return builder.toString();
+    return String.valueOf(newChars);
   }
 
   /**
@@ -477,12 +475,11 @@ public final class Ascii {
     if (chars instanceof String) {
       return toUpperCase((String) chars);
     }
-    int length = chars.length();
-    StringBuilder builder = new StringBuilder(length);
-    for (int i = 0; i < length; i++) {
-      builder.append(toUpperCase(chars.charAt(i)));
+    char[] newChars = new char[chars.length()];
+    for (int i = 0; i < newChars.length; i++) {
+      newChars[i] = toUpperCase(chars.charAt(i));
     }
-    return builder.toString();
+    return String.valueOf(newChars);
   }
 
   /**
@@ -545,7 +542,6 @@ public final class Ascii {
    *     {@code truncationIndicator}
    * @since 16.0
    */
-  @Beta
   public static String truncate(CharSequence seq, int maxLength, String truncationIndicator) {
     checkNotNull(seq);
 
@@ -595,7 +591,6 @@ public final class Ascii {
    *
    * @since 16.0
    */
-  @Beta
   public static boolean equalsIgnoreCase(CharSequence s1, CharSequence s2) {
     // Calling length() is the null pointer check (so do it before we can exit early).
     int length = s1.length();

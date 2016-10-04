@@ -17,7 +17,6 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
-
 import junit.framework.TestCase;
 
 /**
@@ -40,22 +39,23 @@ public class AbstractTester<G> extends TestCase {
   private Runnable tearDown;
 
   // public so that it can be referenced in generated GWT tests.
-  @Override public void setUp() throws Exception {
+  @Override
+  public void setUp() throws Exception {
     if (setUp != null) {
       setUp.run();
     }
   }
 
   // public so that it can be referenced in generated GWT tests.
-  @Override public void tearDown() throws Exception {
+  @Override
+  public void tearDown() throws Exception {
     if (tearDown != null) {
       tearDown.run();
     }
   }
 
   // public so that it can be referenced in generated GWT tests.
-  public final void init(
-      G subjectGenerator, String suiteName, Runnable setUp, Runnable tearDown) {
+  public final void init(G subjectGenerator, String suiteName, Runnable setUp, Runnable tearDown) {
     this.subjectGenerator = subjectGenerator;
     this.suiteName = suiteName;
     this.setUp = setUp;
@@ -76,7 +76,8 @@ public class AbstractTester<G> extends TestCase {
     return super.getName();
   }
 
-  @Override public String getName() {
+  @Override
+  public String getName() {
     return Platform.format("%s[%s]", super.getName(), suiteName);
   }
 }

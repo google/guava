@@ -21,11 +21,9 @@ import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 
 import com.google.common.annotations.GwtCompatible;
-
-import junit.framework.TestCase;
-
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Futures#getDone}.

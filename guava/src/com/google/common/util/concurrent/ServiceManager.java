@@ -52,7 +52,6 @@ import com.google.common.util.concurrent.ListenerCallQueue.Callback;
 import com.google.common.util.concurrent.Service.State;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,7 +64,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.annotation.concurrent.GuardedBy;
 
 /**

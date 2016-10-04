@@ -19,9 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.MultimapBuilder.MultimapBuilderWithKeys;
-
-import junit.framework.TestCase;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -29,6 +26,7 @@ import java.io.ObjectOutputStream;
 import java.math.RoundingMode;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link MultimapBuilder}.

@@ -38,19 +38,16 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
-import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link MediaType}.
@@ -101,15 +98,17 @@ public class MediaTypeTest extends TestCase {
   @GwtIncompatible // reflection
   private static FluentIterable<MediaType> getConstants() {
     return getConstantFields()
-        .transform(new Function<Field, MediaType>() {
-          @Override public MediaType apply(Field input) {
-            try {
-              return (MediaType) input.get(null);
-            } catch (Exception e) {
-              throw Throwables.propagate(e);
-            }
-          }
-        });
+        .transform(
+            new Function<Field, MediaType>() {
+              @Override
+              public MediaType apply(Field input) {
+                try {
+                  return (MediaType) input.get(null);
+                } catch (Exception e) {
+                  throw new RuntimeException(e);
+                }
+              }
+            });
   }
 
   public void testCreate_invalidType() {
@@ -374,7 +373,8 @@ public class MediaTypeTest extends TestCase {
 
   public void testEquals() {
     new EqualsTester()
-        .addEqualityGroup(MediaType.create("text", "plain"),
+        .addEqualityGroup(
+            MediaType.create("text", "plain"),
             MediaType.create("TEXT", "PLAIN"),
             MediaType.parse("text/plain"),
             MediaType.parse("TEXT/PLAIN"),
@@ -382,8 +382,8 @@ public class MediaTypeTest extends TestCase {
         .addEqualityGroup(
             MediaType.create("text", "plain").withCharset(UTF_8),
             MediaType.create("text", "plain").withParameter("CHARSET", "UTF-8"),
-            MediaType.create("text", "plain").withParameters(
-                ImmutableMultimap.of("charset", "utf-8")),
+            MediaType.create("text", "plain")
+                .withParameters(ImmutableMultimap.of("charset", "utf-8")),
             MediaType.parse("text/plain;charset=utf-8"),
             MediaType.parse("text/plain; charset=utf-8"),
             MediaType.parse("text/plain;  charset=utf-8"),
@@ -392,11 +392,14 @@ public class MediaTypeTest extends TestCase {
             MediaType.parse("text/plain; CHARSET=utf-8"),
             MediaType.parse("text/plain; charset=\"utf-8\""),
             MediaType.parse("text/plain; charset=\"\\u\\tf-\\8\""),
-            MediaType.parse("text/plain; charset=UTF-8"))
+            MediaType.parse("text/plain; charset=UTF-8"),
+            MediaType.parse("text/plain ; charset=utf-8"))
         .addEqualityGroup(MediaType.parse("text/plain; charset=utf-8; charset=utf-8"))
-        .addEqualityGroup(MediaType.create("text", "plain").withParameter("a", "value"),
+        .addEqualityGroup(
+            MediaType.create("text", "plain").withParameter("a", "value"),
             MediaType.create("text", "plain").withParameter("A", "value"))
-        .addEqualityGroup(MediaType.create("text", "plain").withParameter("a", "VALUE"),
+        .addEqualityGroup(
+            MediaType.create("text", "plain").withParameter("a", "VALUE"),
             MediaType.create("text", "plain").withParameter("A", "VALUE"))
         .addEqualityGroup(
             MediaType.create("text", "plain")

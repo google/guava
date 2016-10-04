@@ -15,7 +15,6 @@
 package com.google.common.eventbus;
 
 import com.google.common.annotations.Beta;
-
 import java.util.concurrent.Executor;
 
 /**

@@ -25,7 +25,6 @@ import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +33,6 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.annotation.Nullable;
 
 /**
@@ -241,7 +239,7 @@ public abstract class CharSource {
   }
 
   /**
-   * Reads the first link of this source as a string. Returns {@code null} if this source is empty.
+   * Reads the first line of this source as a string. Returns {@code null} if this source is empty.
    *
    * <p>Like {@link BufferedReader}, this method breaks lines on any of {@code \n}, {@code \r} or
    * {@code \r\n}, does not include the line separator in the returned line and does not consider

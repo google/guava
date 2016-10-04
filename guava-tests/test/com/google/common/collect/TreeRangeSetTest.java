@@ -20,7 +20,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.SerializableTester;
-
 import java.util.List;
 import java.util.NavigableMap;
 

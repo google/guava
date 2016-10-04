@@ -24,7 +24,6 @@ import static java.lang.Double.longBitsToDouble;
 import static java.lang.Math.getExponent;
 
 import com.google.common.annotations.GwtIncompatible;
-
 import java.math.BigInteger;
 
 /**

@@ -25,11 +25,11 @@ import static java.lang.Math.min;
 import static java.math.RoundingMode.HALF_EVEN;
 import static java.math.RoundingMode.HALF_UP;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
-
 import java.math.BigInteger;
 import java.math.RoundingMode;
 
@@ -62,6 +62,7 @@ public final class IntMath {
    *         {@code int}, i.e. when {@code x > 2^30}
    * @since 20.0
    */
+  @Beta
   public static int ceilingPowerOfTwo(int x) {
     checkPositive("x", x);
     if (x > MAX_SIGNED_POWER_OF_TWO) {
@@ -77,6 +78,7 @@ public final class IntMath {
    * @throws IllegalArgumentException if {@code x <= 0}
    * @since 20.0
    */
+  @Beta
   public static int floorPowerOfTwo(int x) {
     checkPositive("x", x);
     return Integer.highestOneBit(x);
@@ -528,6 +530,7 @@ public final class IntMath {
    *
    * @since 20.0
    */
+  @Beta
   public static int saturatedAdd(int a, int b) {
     return Ints.saturatedCast((long) a + b);
   }
@@ -538,6 +541,7 @@ public final class IntMath {
    *
    * @since 20.0
    */
+  @Beta
   public static int saturatedSubtract(int a, int b) {
     return Ints.saturatedCast((long) a - b);
   }
@@ -548,6 +552,7 @@ public final class IntMath {
    *
    * @since 20.0
    */
+  @Beta
   public static int saturatedMultiply(int a, int b) {
     return Ints.saturatedCast((long) a * b);
   }
@@ -558,6 +563,7 @@ public final class IntMath {
    *
    * @since 20.0
    */
+  @Beta
   public static int saturatedPow(int b, int k) {
     checkNonNegative("exponent", k);
     switch (b) {
@@ -698,6 +704,24 @@ public final class IntMath {
     // The alternative (x + y) / 2 fails for large values.
     // The alternative (x + y) >>> 1 fails for negative values.
     return (x & y) + ((x ^ y) >> 1);
+  }
+
+  /**
+   * Returns {@code true} if {@code n} is a
+   * <a href="http://mathworld.wolfram.com/PrimeNumber.html">prime number</a>: an integer <i>greater
+   * than one</i> that cannot be factored into a product of <i>smaller</i> positive integers.
+   * Returns {@code false} if {@code n} is zero, one, or a composite number (one which <i>can</i>
+   * be factored into smaller positive integers).
+   *
+   * <p>To test larger numbers, use {@link LongMath#isPrime} or {@link BigInteger#isProbablePrime}.
+   *
+   * @throws IllegalArgumentException if {@code n} is negative
+   * @since 20.0
+   */
+  @GwtIncompatible // TODO
+  @Beta
+  public static boolean isPrime(int n) {
+    return LongMath.isPrime(n);
   }
 
   private IntMath() {}

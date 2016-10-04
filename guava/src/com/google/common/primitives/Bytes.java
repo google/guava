@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -28,7 +27,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.RandomAccess;
-
 import javax.annotation.Nullable;
 
 /**
@@ -52,6 +50,8 @@ public final class Bytes {
   /**
    * Returns a hash code for {@code value}; equal to the result of invoking
    * {@code ((Byte) value).hashCode()}.
+   *
+   * <p><b>Java 8 users:</b> use {@link Byte#hashCode(byte)} instead.
    *
    * @param value a primitive {@code byte} value
    * @return a hash code for the value

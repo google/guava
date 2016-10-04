@@ -27,7 +27,6 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -36,7 +35,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -356,10 +354,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    */
   @GwtIncompatible // reflection
   public V[][] toArray(Class<V> valueClass) {
-    // Can change to use varargs in JDK 1.6 if we want
     @SuppressWarnings("unchecked") // TODO: safe?
-    V[][] copy =
-        (V[][]) Array.newInstance(valueClass, new int[] {rowList.size(), columnList.size()});
+    V[][] copy = (V[][]) Array.newInstance(valueClass, rowList.size(), columnList.size());
     for (int i = 0; i < rowList.size(); i++) {
       System.arraycopy(array[i], 0, copy[i], 0, array[i].length);
     }

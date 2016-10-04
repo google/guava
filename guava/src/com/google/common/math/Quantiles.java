@@ -25,7 +25,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
-
 import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.HashMap;

@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.format;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import javax.annotation.Nullable;
 
 /**

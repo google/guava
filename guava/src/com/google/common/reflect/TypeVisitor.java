@@ -15,14 +15,12 @@
 package com.google.common.reflect;
 
 import com.google.common.collect.Sets;
-
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.Set;
-
 import javax.annotation.concurrent.NotThreadSafe;
 
 /**
@@ -47,7 +45,7 @@ import javax.annotation.concurrent.NotThreadSafe;
  *       throw new IllegalArgumentException("Cannot contain wildcard type.");
  *     }
  *   }.visit(type);}</pre>
- * 
+ *
  * <p>One {@code Type} is visited at most once. The second time the same type is visited, it's
  * ignored by {@link #visit}. This avoids infinite recursion caused by recursive type bounds.
  *

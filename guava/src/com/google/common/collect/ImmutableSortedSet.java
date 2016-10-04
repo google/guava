@@ -23,7 +23,6 @@ import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -33,7 +32,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
-
 import javax.annotation.Nullable;
 
 /**

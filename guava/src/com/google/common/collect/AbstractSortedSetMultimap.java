@@ -18,13 +18,11 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.SortedSet;
-
 import javax.annotation.Nullable;
 
 /**

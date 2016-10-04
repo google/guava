@@ -38,14 +38,12 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
-
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
@@ -166,6 +164,13 @@ public final class MediaType {
    * {@link #APPLICATION_XML_UTF_8} is provided for documents that are intended for applications.
    */
   public static final MediaType XML_UTF_8 = createConstantUtf8(TEXT_TYPE, "xml");
+  /**
+   * As described in <a href="https://w3c.github.io/webvtt/#iana-text-vtt">the VTT spec</a>, this is
+   * used for Web Video Text Tracks (WebVTT) files, used with the HTML5 track element.
+   *
+   * @since 20.0
+   */
+  public static final MediaType VTT_UTF_8 = createConstantUtf8(TEXT_TYPE, "vtt");
 
   /* image types */
   public static final MediaType BMP = createConstant(IMAGE_TYPE, "bmp");
@@ -411,6 +416,26 @@ public final class MediaType {
   public static final MediaType MICROSOFT_POWERPOINT =
       createConstant(APPLICATION_TYPE, "vnd.ms-powerpoint");
   public static final MediaType MICROSOFT_WORD = createConstant(APPLICATION_TYPE, "msword");
+
+  /**
+   * Media type for NaCl applications. For more information see
+   * <a href="https://developer.chrome.com/native-client/devguide/coding/application-structure">
+   * the Developer Guide for Native Client Application Structure</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType NACL_APPLICATION = createConstant(APPLICATION_TYPE, "x-nacl");
+
+  /**
+   * Media type for NaCl portable applications. For more information see
+   * <a href="https://developer.chrome.com/native-client/devguide/coding/application-structure">
+   * the Developer Guide for Native Client Application Structure</a>.
+   *
+   * @since 20.0
+   */
+  public static final MediaType NACL_PORTABLE_APPLICATION =
+      createConstant(APPLICATION_TYPE, "x-pnacl");
+
   public static final MediaType OCTET_STREAM = createConstant(APPLICATION_TYPE, "octet-stream");
   public static final MediaType OGG_CONTAINER = createConstant(APPLICATION_TYPE, "ogg");
   public static final MediaType OOXML_DOCUMENT =
@@ -475,6 +500,13 @@ public final class MediaType {
    * @since 17.0
    */
   public static final MediaType WOFF = createConstant(APPLICATION_TYPE, "font-woff");
+  /**
+   * Media type for the <a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font
+   * Format</a> (WOFF) version 2 <a href="https://www.w3.org/TR/WOFF2/">defined</a> by the W3C.
+   *
+   * @since 20.0
+   */
+  public static final MediaType WOFF2 = createConstant(APPLICATION_TYPE, "font-woff2");
   public static final MediaType XHTML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xhtml+xml");
   /**
    * Media type for Extensible Resource Descriptors. This is not yet registered with the IANA, but
@@ -736,6 +768,7 @@ public final class MediaType {
       String subtype = tokenizer.consumeToken(TOKEN_MATCHER);
       ImmutableListMultimap.Builder<String, String> parameters = ImmutableListMultimap.builder();
       while (tokenizer.hasMore()) {
+        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
         tokenizer.consumeCharacter(';');
         tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
         String attribute = tokenizer.consumeToken(TOKEN_MATCHER);

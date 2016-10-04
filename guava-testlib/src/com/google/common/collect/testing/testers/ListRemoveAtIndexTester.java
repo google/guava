@@ -26,7 +26,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
-
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
@@ -104,9 +103,10 @@ public class ListRemoveAtIndexTester<E> extends AbstractListTester<E> {
   }
 
   private void runRemoveTest(int index) {
-    assertEquals(Platform.format(
-        "remove(%d) should return the element at index %d", index, index),
-        getList().get(index), getList().remove(index));
+    assertEquals(
+        Platform.format("remove(%d) should return the element at index %d", index, index),
+        getList().get(index),
+        getList().remove(index));
     List<E> expected = Helpers.copyToList(createSamplesArray());
     expected.remove(index);
     expectContents(expected);

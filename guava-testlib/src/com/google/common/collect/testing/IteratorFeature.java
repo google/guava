@@ -17,7 +17,6 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
@@ -53,8 +52,7 @@ public enum IteratorFeature {
    * A set containing none of the optional features of the {@link Iterator} or
    * {@link ListIterator} interfaces.
    */
-  public static final Set<IteratorFeature> UNMODIFIABLE =
-      Collections.emptySet();
+  public static final Set<IteratorFeature> UNMODIFIABLE = Collections.emptySet();
 
   /**
    * A set containing all of the optional features of the {@link Iterator} and

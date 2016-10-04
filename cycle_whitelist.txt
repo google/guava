@@ -15,16 +15,6 @@ NAMESPACE org.junit
 # ***** REAL CYCLES *****
 # Inverses (currently not solvable by weakening a reference)
 FIELD com.google.common.base.Converter.reverse
-FIELD com.google.common.collect.AbstractBiMap.inverse
-FIELD com.google.common.collect.HashBiMap.inverse
-FIELD com.google.common.collect.ImmutableListMultimap.inverse
-FIELD com.google.common.collect.ImmutableSetMultimap.inverse
-FIELD com.google.common.collect.MapConstraints.ConstrainedBiMap.inverse
-FIELD com.google.common.collect.Maps.FilteredEntryBiMap.inverse
-FIELD com.google.common.collect.Maps.UnmodifiableBiMap.inverse
-FIELD com.google.common.collect.RegularImmutableBiMap.inverse
-FIELD com.google.common.collect.SingletonImmutableBiMap.inverse
-FIELD com.google.common.collect.Synchronized.SynchronizedBiMap.inverse
 
 # ***** FALSE POSITIVES *****
 
@@ -38,9 +28,10 @@ FIELD com.google.common.collect.AbstractMultimap.values com.google.common.collec
 FIELD com.google.common.collect.AbstractMultimap.values com.google.common.collect.Multimaps.MapMultimap.get.$
 FIELD com.google.common.collect.AbstractMultiset.entrySet com.google.common.collect.FilteredEntryMultimap.Keys.entrySet.$
 FIELD com.google.common.collect.ConcurrentHashMultiset.countMap
-FIELD com.google.common.collect.ImmutableCollection.asList
+FIELD com.google.common.collect.ImmutableMultiset.asList
 FIELD com.google.common.collect.ImmutableRangeMap.ranges
 FIELD com.google.common.collect.ImmutableRangeSet.ranges
+FIELD com.google.common.collect.ImmutableSet.asList
 FIELD com.google.common.collect.Maps.FilteredMapValues.unfiltered
 FIELD com.google.common.collect.Sets.SubSet.inputSet
 FIELD com.google.common.collect.TreeTraverser.PostOrderNode.childIterator
@@ -52,6 +43,6 @@ FIELD com.google.common.util.concurrent.AggregateFuture.runningState
 FIELD java.util.AbstractMap.keySet com.google.common.collect.AbstractMapBasedMultimap.NavigableKeySet
 FIELD java.util.AbstractMap.keySet com.google.common.collect.Maps.FilteredEntryNavigableMap.navigableKeySet.$
 FIELD java.util.AbstractMap.keySet com.google.common.collect.TreeRangeMap.SubRangeMap.SubRangeMapAsMap.keySet.$
-FIELD java.util.AbstractMap.valuesCollection com.google.common.collect.TreeRangeMap.SubRangeMap.SubRangeMapAsMap.values.$
+FIELD java.util.AbstractMap.values com.google.common.collect.TreeRangeMap.SubRangeMap.SubRangeMapAsMap.values.$
 OUTER com.google.common.collect.StandardTable.Row
 OUTER com.google.common.collect.TreeBasedTable.TreeRow

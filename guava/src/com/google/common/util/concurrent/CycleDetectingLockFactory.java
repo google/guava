@@ -28,7 +28,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,7 +41,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 

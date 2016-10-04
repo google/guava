@@ -141,7 +141,7 @@
  * <p>The difficulties in implementing this cleanly has given rise to a pattern, particularly common
  * in Swing apps, of using tiny anonymous classes to implement event listener interfaces.
  *
- * <p>Compare these two cases: <pre>
+ * <p>Compare these two cases: <pre>   {@code
  *   class ChangeRecorder {
  *     void setCustomer(Customer cust) {
  *       cust.addChangeListener(new ChangeListener() {
@@ -154,10 +154,10 @@
  *
  *   // Class is typically registered by the container.
  *   class EventBusChangeRecorder {
- *     &#064;Subscribe void recordCustomerChange(ChangeEvent e) {
+ *    }{@code @Subscribe void recordCustomerChange(ChangeEvent e) {
  *       recordChange(e.getChange());
  *     }
- *   }</pre>
+ *   }}</pre>
  *
  * <p>The intent is actually clearer in the second case: there's less noise code, and the event
  * subscriber has a clear and meaningful name.

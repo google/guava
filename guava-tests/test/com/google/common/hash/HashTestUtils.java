@@ -23,13 +23,11 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
-
-import org.junit.Assert;
-
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Set;
+import org.junit.Assert;
 
 /**
  * Various utilities for testing {@link HashFunction}s.
@@ -227,7 +225,7 @@ final class HashTestUtils {
       return actions[random.nextInt(actions.length)];
     }
   }
-  
+
   /**
    * Test that the hash function contains no funnels. A funnel is a situation where a set of input
    * (key) bits 'affects' a strictly smaller set of output bits. Funneling is bad because it can

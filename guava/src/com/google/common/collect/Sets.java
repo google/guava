@@ -27,7 +27,6 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Arrays;
@@ -47,7 +46,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
-
 import javax.annotation.Nullable;
 
 /**
@@ -186,15 +184,15 @@ public final class Sets {
   }
 
   /**
-   * Creates a {@code HashSet} instance, with a high enough initial table size that it <i>should</i>
-   * hold {@code expectedSize} elements without resizing. This behavior cannot be broadly
-   * guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed that the
-   * method isn't inadvertently <i>oversizing</i> the returned set.
+   * Returns a new hash set using the smallest initial table size that can hold {@code expectedSize}
+   * elements without resizing. Note that this is not what {@link HashSet#HashSet(int)} does, but it
+   * is what most users want and expect it to do.
    *
-   * @param expectedSize the number of elements you expect to add to the
-   *        returned set
-   * @return a new, empty {@code HashSet} with enough capacity to hold {@code
-   *         expectedSize} elements without resizing
+   * <p>This behavior can't be broadly guaranteed, but has been tested with OpenJDK 1.7 and 1.8.
+   *
+   * @param expectedSize the number of elements you expect to add to the returned set
+   * @return a new, empty hash set with enough capacity to hold {@code expectedSize} elements
+   *     without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
   public static <E> HashSet<E> newHashSetWithExpectedSize(int expectedSize) {
@@ -574,6 +572,14 @@ public final class Sets {
       set.addAll(this);
       return set;
     }
+
+    /**
+     * Scope the return type to {@link UnmodifiableIterator} to ensure this is an unmodifiable view.
+     *
+     * @since 20.0 (present with return type {@link Iterator} since 2.0)
+     */
+    @Override
+    public abstract UnmodifiableIterator<E> iterator();
   }
 
   /**
@@ -605,7 +611,7 @@ public final class Sets {
       }
 
       @Override
-      public Iterator<E> iterator() {
+      public UnmodifiableIterator<E> iterator() {
         return Iterators.unmodifiableIterator(
             Iterators.concat(set1.iterator(), set2minus1.iterator()));
       }
@@ -662,7 +668,7 @@ public final class Sets {
     final Predicate<Object> inSet2 = Predicates.in(set2);
     return new SetView<E>() {
       @Override
-      public Iterator<E> iterator() {
+      public UnmodifiableIterator<E> iterator() {
         return Iterators.filter(set1.iterator(), inSet2);
       }
 
@@ -706,7 +712,7 @@ public final class Sets {
     final Predicate<Object> notInSet2 = Predicates.not(Predicates.in(set2));
     return new SetView<E>() {
       @Override
-      public Iterator<E> iterator() {
+      public UnmodifiableIterator<E> iterator() {
         return Iterators.filter(set1.iterator(), notInSet2);
       }
 
@@ -746,7 +752,7 @@ public final class Sets {
 
     return new SetView<E>() {
       @Override
-      public Iterator<E> iterator() {
+      public UnmodifiableIterator<E> iterator() {
         final Iterator<? extends E> itr1 = set1.iterator();
         final Iterator<? extends E> itr2 = set2.iterator();
         return new AbstractIterator<E>() {
@@ -1759,22 +1765,24 @@ public final class Sets {
   @GwtIncompatible // NavigableSet
   public static <K extends Comparable<? super K>> NavigableSet<K> subSet(
       NavigableSet<K> set, Range<K> range) {
-    if (set.comparator() != null && set.comparator() != Ordering.natural()
-        && range.hasLowerBound() && range.hasUpperBound()) {
-      checkArgument(set.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) <= 0,
+    if (set.comparator() != null
+        && set.comparator() != Ordering.natural()
+        && range.hasLowerBound()
+        && range.hasUpperBound()) {
+      checkArgument(
+          set.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) <= 0,
           "set is using a custom comparator which is inconsistent with the natural ordering.");
     }
     if (range.hasLowerBound() && range.hasUpperBound()) {
-      return set.subSet(range.lowerEndpoint(),
-                        range.lowerBoundType() == BoundType.CLOSED,
-                        range.upperEndpoint(),
-                        range.upperBoundType() == BoundType.CLOSED);
+      return set.subSet(
+          range.lowerEndpoint(),
+          range.lowerBoundType() == BoundType.CLOSED,
+          range.upperEndpoint(),
+          range.upperBoundType() == BoundType.CLOSED);
     } else if (range.hasLowerBound()) {
-      return set.tailSet(range.lowerEndpoint(),
-                         range.lowerBoundType() == BoundType.CLOSED);
+      return set.tailSet(range.lowerEndpoint(), range.lowerBoundType() == BoundType.CLOSED);
     } else if (range.hasUpperBound()) {
-      return set.headSet(range.upperEndpoint(),
-                         range.upperBoundType() == BoundType.CLOSED);
+      return set.headSet(range.upperEndpoint(), range.upperBoundType() == BoundType.CLOSED);
     }
     return checkNotNull(set);
   }

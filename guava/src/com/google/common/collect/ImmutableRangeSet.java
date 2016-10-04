@@ -26,13 +26,11 @@ import com.google.common.collect.SortedLists.KeyAbsentBehavior;
 import com.google.common.collect.SortedLists.KeyPresentBehavior;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -117,13 +115,14 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
   @Override
   public boolean intersects(Range<C> otherRange) {
-    int ceilingIndex = SortedLists.binarySearch(
-        ranges,
-        Range.<C>lowerBoundFn(),
-        otherRange.lowerBound,
-        Ordering.natural(),
-        ANY_PRESENT,
-        NEXT_HIGHER);
+    int ceilingIndex =
+        SortedLists.binarySearch(
+            ranges,
+            Range.<C>lowerBoundFn(),
+            otherRange.lowerBound,
+            Ordering.natural(),
+            ANY_PRESENT,
+            NEXT_HIGHER);
     if (ceilingIndex < ranges.size()
         && ranges.get(ceilingIndex).isConnected(otherRange)
         && !ranges.get(ceilingIndex).intersection(otherRange).isEmpty()) {

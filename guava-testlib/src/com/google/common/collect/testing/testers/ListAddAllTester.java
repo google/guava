@@ -37,8 +37,8 @@ public class ListAddAllTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAll_supportedAllPresent() {
-    assertTrue("addAll(allPresent) should return true",
-        getList().addAll(MinimalCollection.of(e0())));
+    assertTrue(
+        "addAll(allPresent) should return true", getList().addAll(MinimalCollection.of(e0())));
     expectAdded(e0());
   }
 
@@ -55,10 +55,8 @@ public class ListAddAllTester<E> extends AbstractListTester<E> {
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_withDuplicates() {
-    MinimalCollection<E> elementsToAdd
-        = MinimalCollection.of(e0(), e1(), e0(), e1());
-    assertTrue("addAll(hasDuplicates) should return true",
-        getList().addAll(elementsToAdd));
+    MinimalCollection<E> elementsToAdd = MinimalCollection.of(e0(), e1(), e0(), e1());
+    assertTrue("addAll(hasDuplicates) should return true", getList().addAll(elementsToAdd));
     expectAdded(e0(), e1(), e0(), e1());
   }
 }

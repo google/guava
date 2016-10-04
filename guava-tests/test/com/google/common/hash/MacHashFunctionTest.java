@@ -23,18 +23,14 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
-import sun.security.jca.ProviderList;
-import sun.security.jca.Providers;
-
 import java.security.Key;
 import java.util.Arrays;
-
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import junit.framework.TestCase;
+import sun.security.jca.ProviderList;
+import sun.security.jca.Providers;
 
 /**
  * Tests for the MacHashFunction.

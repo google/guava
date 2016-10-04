@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkState;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-
 import javax.crypto.Mac;
 
 /**

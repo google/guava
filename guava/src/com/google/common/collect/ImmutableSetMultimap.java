@@ -23,8 +23,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.Weak;
-
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -35,7 +35,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.annotation.Nullable;
 
 /**
@@ -372,6 +371,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     return MoreObjects.firstNonNull(set, emptySet);
   }
 
+  @RetainedWith
   private transient ImmutableSetMultimap<V, K> inverse;
 
   /**
@@ -435,9 +435,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   @Override
   public ImmutableSet<Entry<K, V>> entries() {
     ImmutableSet<Entry<K, V>> result = entries;
-    return result == null
-        ? (entries = new EntrySet<K, V>(this))
-        : result;
+    return result == null ? (entries = new EntrySet<K, V>(this)) : result;
   }
 
   private static final class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {

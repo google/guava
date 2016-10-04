@@ -30,14 +30,12 @@ import com.google.common.collect.testing.google.SetGenerators.ImmutableSetAsList
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSetCopyOfGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSetWithBadHashesGenerator;
 import com.google.common.testing.EqualsTester;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Unit test for {@link ImmutableSet}.

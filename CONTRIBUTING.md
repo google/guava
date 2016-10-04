@@ -52,7 +52,7 @@ Guidelines for any code contributions:
      done using `git rebase -i`). Do your best to have a
      [well-formed commit message][] for the change.
 
-[Java style guide]: http://google-styleguide.googlecode.com/svn/trunk/javaguide.html
+[Java style guide]: https://google.github.io/styleguide/javaguide.html
 [well-formed commit message]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 
 #### Merging pull requests ####

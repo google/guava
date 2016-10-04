@@ -18,9 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-
-import junit.framework.TestCase;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -33,6 +30,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import junit.framework.TestCase;
 
 /**
  * Base test case for testing the variety of forwarding classes.
@@ -103,7 +101,7 @@ public abstract class ForwardingTestCase extends TestCase {
     });
     return methodName + "(" + COMMA_JOINER.join(parameterNames) + ")";
   }
-  
+
   private static Object getDefaultValue(Class<?> returnType) {
     if (returnType == boolean.class || returnType == Boolean.class) {
       return Boolean.FALSE;
@@ -141,7 +139,7 @@ public abstract class ForwardingTestCase extends TestCase {
       return null;
     }
   }
-  
+
   protected static <T> void callAllPublicMethods(Class<T> theClass, T object)
       throws InvocationTargetException {
     for (Method method : theClass.getMethods()) {

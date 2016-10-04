@@ -18,9 +18,6 @@ package com.google.common.io;
 
 import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
-import junit.framework.TestCase;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,6 +27,7 @@ import java.net.URL;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import junit.framework.TestCase;
 
 /**
  * Base test case class for I/O tests.

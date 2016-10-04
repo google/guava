@@ -75,11 +75,9 @@ import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link Stats}. This tests instances created by both {@link Stats#of} and
@@ -498,6 +496,23 @@ public class StatsTest extends TestCase {
 
   public void testSerializable() {
     SerializableTester.reserializeAndAssert(MANY_VALUES_STATS_ITERABLE);
+  }
+
+  public void testToString() {
+    assertThat(EMPTY_STATS_VARARGS.toString()).isEqualTo("Stats{count=0}");
+    assertThat(MANY_VALUES_STATS_ITERABLE.toString())
+        .isEqualTo(
+            "Stats{count="
+                + MANY_VALUES_STATS_ITERABLE.count()
+                + ", mean="
+                + MANY_VALUES_STATS_ITERABLE.mean()
+                + ", populationStandardDeviation="
+                + MANY_VALUES_STATS_ITERABLE.populationStandardDeviation()
+                + ", min="
+                + MANY_VALUES_STATS_ITERABLE.min()
+                + ", max="
+                + MANY_VALUES_STATS_ITERABLE.max()
+                + "}");
   }
 
   public void testMeanOf() {

@@ -17,7 +17,6 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +42,7 @@ public interface TestContainerGenerator<T, E> {
    * to figure out how to use E... or E[] as a parameter type, but this doesn't
    * seem to work because Java creates an array of the erased type.
    */
-  T create(Object ... elements);
+  T create(Object... elements);
 
   /**
    * Helper method to create an array of the appropriate type used by this

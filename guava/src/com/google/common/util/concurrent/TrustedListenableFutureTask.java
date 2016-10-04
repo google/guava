@@ -17,13 +17,10 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
-
 import javax.annotation.Nullable;
 
 /**
@@ -61,6 +58,10 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     return new TrustedListenableFutureTask<V>(Executors.callable(runnable, result));
   }
 
+  /*
+   * In certain circumstances, this field might theoretically not be visible to an afterDone() call
+   * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
+   */
   private TrustedFutureInterruptibleTask task;
 
   TrustedListenableFutureTask(Callable<V> callable) {
@@ -76,20 +77,22 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
   }
 
   @Override
-  protected final void afterDone() {
+  protected void afterDone() {
     super.afterDone();
 
-    // Free all resources associated with the running task
+    if (wasInterrupted()) {
+      TrustedFutureInterruptibleTask localTask = task;
+      if (localTask != null) {
+        localTask.interruptTask();
+      }
+    }
+
     this.task = null;
   }
 
-  @GwtIncompatible // Interruption not supported
   @Override
-  protected final void interruptTask() {
-    TrustedFutureInterruptibleTask localTask = task;
-    if (localTask != null) {
-      localTask.interruptTask();
-    }
+  public String toString() {
+    return super.toString() + " (delegate = " + task + ")";
   }
 
   @WeakOuter
@@ -115,6 +118,11 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     @Override
     boolean wasInterrupted() {
       return TrustedListenableFutureTask.this.wasInterrupted();
+    }
+
+    @Override
+    public String toString() {
+      return callable.toString();
     }
   }
 }

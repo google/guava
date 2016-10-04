@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
-
 import javax.annotation.Nullable;
 
 /**

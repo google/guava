@@ -21,12 +21,11 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.api.SkipThisScenarioException;
 import com.google.common.primitives.Doubles;
-
 import java.util.Random;
 
 /**
  * Benchmarks for various algorithms for computing the mean and/or variance.
- * 
+ *
  * @author Louis Wasserman
  */
 public class StatsBenchmark {

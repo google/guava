@@ -31,11 +31,11 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Primitives;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -44,7 +44,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -479,7 +478,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
           || any(((TypeVariable<?>) runtimeType).getBounds()).isSubtypeOf(supertype);
     }
     if (runtimeType instanceof GenericArrayType) {
-      return of(supertype).isSuperTypeOfArray((GenericArrayType) runtimeType);
+      return of(supertype).isSupertypeOfArray((GenericArrayType) runtimeType);
     }
     // Proceed to regular Type subtype check
     if (supertype instanceof Class) {
@@ -487,7 +486,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     } else if (supertype instanceof ParameterizedType) {
       return this.isSubtypeOfParameterizedType((ParameterizedType) supertype);
     } else if (supertype instanceof GenericArrayType) {
-      return this.isSubTypeOfArrayType((GenericArrayType) supertype);
+      return this.isSubtypeOfArrayType((GenericArrayType) supertype);
     } else { // to instanceof TypeVariable
       return false;
     }
@@ -874,7 +873,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   private boolean isSubtypeOfParameterizedType(ParameterizedType supertype) {
     Class<?> matchedClass = of(supertype).getRawType();
-    if (!this.someRawTypeIsSubclassOf(matchedClass)) {
+    if (!someRawTypeIsSubclassOf(matchedClass)) {
       return false;
     }
     Type[] typeParams = matchedClass.getTypeParameters();
@@ -891,10 +890,15 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
         return false;
       }
     }
-    return true;
+    // We only care about the case when the supertype is a non-static inner class
+    // in which case we need to make sure the subclass's owner type is a subtype of the
+    // supertype's owner.
+    return Modifier.isStatic(((Class<?>) supertype.getRawType()).getModifiers())
+        || supertype.getOwnerType() == null
+        || isOwnedBySubtypeOf(supertype.getOwnerType());
   }
 
-  private boolean isSubTypeOfArrayType(GenericArrayType supertype) {
+  private boolean isSubtypeOfArrayType(GenericArrayType supertype) {
     if (runtimeType instanceof Class) {
       Class<?> fromClass = (Class<?>) runtimeType;
       if (!fromClass.isArray()) {
@@ -910,7 +914,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     }
   }
 
-  private boolean isSuperTypeOfArray(GenericArrayType subtype) {
+  private boolean isSupertypeOfArray(GenericArrayType subtype) {
     if (runtimeType instanceof Class) {
       Class<?> thisClass = (Class<?>) runtimeType;
       if (!thisClass.isArray()) {
@@ -1023,6 +1027,30 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return result;
   }
 
+  private boolean isOwnedBySubtypeOf(Type supertype) {
+    for (TypeToken<?> type : getTypes()) {
+      Type ownerType = type.getOwnerTypeIfPresent();
+      if (ownerType != null && of(ownerType).isSubtypeOf(supertype)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Returns the owner type of a {@link ParameterizedType} or enclosing class of a {@link Class},
+   * or null otherwise.
+   */
+  @Nullable private Type getOwnerTypeIfPresent() {
+    if (runtimeType instanceof ParameterizedType) {
+      return ((ParameterizedType) runtimeType).getOwnerType();
+    } else if (runtimeType instanceof Class<?>) {
+      return ((Class<?>) runtimeType).getEnclosingClass();
+    } else {
+      return null;
+    }
+  }
+
   /**
    * Returns the type token representing the generic type declaration of {@code cls}. For example:
    * {@code TypeToken.getGenericType(Iterable.class)} returns {@code Iterable<T>}.
@@ -1043,9 +1071,11 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     }
     TypeVariable<Class<T>>[] typeParams = cls.getTypeParameters();
     Type ownerType =
-        cls.isMemberClass() ? toGenericType(cls.getEnclosingClass()).runtimeType : null;
+        cls.isMemberClass() && !Modifier.isStatic(cls.getModifiers())
+            ? toGenericType(cls.getEnclosingClass()).runtimeType
+            : null;
 
-    if ((typeParams.length > 0) || (ownerType != cls.getEnclosingClass())) {
+    if ((typeParams.length > 0) || ((ownerType != null) && ownerType != cls.getEnclosingClass())) {
       @SuppressWarnings("unchecked") // Like, it's Iterable<T> for Iterable.class
       TypeToken<? extends T> type =
           (TypeToken<? extends T>)
@@ -1109,7 +1139,13 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   }
 
   private Type resolveTypeArgsForSubclass(Class<?> subclass) {
-    if (runtimeType instanceof Class) {
+    // If both runtimeType and subclass are not parameterized, return subclass
+    // If runtimeType is not parameterized but subclass is, process subclass as a parameterized type
+    // If runtimeType is a raw type (i.e. is a parameterized type specified as a Class<?>), we
+    // return subclass as a raw type
+    if (runtimeType instanceof Class
+        && ((subclass.getTypeParameters().length == 0)
+            || (getRawType().getTypeParameters().length != 0))) {
       // no resolution needed
       return subclass;
     }

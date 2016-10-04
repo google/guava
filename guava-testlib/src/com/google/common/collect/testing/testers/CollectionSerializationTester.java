@@ -35,7 +35,6 @@ public class CollectionSerializationTester<E> extends AbstractCollectionTester<E
   public void testReserialize() {
     // For a bare Collection, the most we can guarantee is that the elements are preserved.
     Helpers.assertEqualIgnoringOrder(
-        actualContents(),
-        SerializableTester.reserialize(actualContents()));
+        actualContents(), SerializableTester.reserialize(actualContents()));
   }
 }

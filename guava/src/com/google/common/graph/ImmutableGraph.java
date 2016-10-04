@@ -18,38 +18,39 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
+import com.google.common.base.Function;
+import com.google.common.base.Functions;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
-import java.util.Map;
-import java.util.Set;
+import com.google.common.collect.Maps;
+import com.google.common.graph.GraphConstants.Presence;
 
 /**
- * A {@link Graph} whose contents will never change. Instances of this class should be obtained
- * with {@link #copyOf(Graph)}.
+ * A {@link Graph} whose elements and structural relationships will never change. Instances of this
+ * class may be obtained with {@link #copyOf(Graph)}.
  *
- * <p>The time complexity of {@code edgesConnecting(node1, node2)} is O(min(outD_node1, inD_node2)).
+ * <p>This class generally provides all of the same guarantees as {@link ImmutableCollection}
+ * (despite not extending {@link ImmutableCollection} itself), including guaranteed thread-safety.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
  * @author Omar Darwish
  * @param <N> Node parameter type
- * @param <E> Edge parameter type
+ * @since 20.0
  */
-public final class ImmutableGraph<N, E> extends ConfigurableGraph<N, E> {
+@Beta
+public abstract class ImmutableGraph<N> extends ForwardingGraph<N> {
 
-  private ImmutableGraph(Graph<N, E> graph) {
-    super(GraphBuilder.from(graph), getNodeConnections(graph), getEdgeToIncidentNodes(graph));
-  }
+  /** To ensure the immutability contract is maintained, there must be no public constructors. */
+  ImmutableGraph() {}
 
-  /**
-   * Returns an immutable copy of {@code graph}.
-   */
-  public static <N, E> ImmutableGraph<N, E> copyOf(Graph<N, E> graph) {
+  /** Returns an immutable copy of {@code graph}. */
+  public static <N> ImmutableGraph<N> copyOf(Graph<N> graph) {
     return (graph instanceof ImmutableGraph)
-        ? (ImmutableGraph<N, E>) graph
-        : new ImmutableGraph<N, E>(graph);
+        ? (ImmutableGraph<N>) graph
+        : new ValueBackedImpl<N, Presence>(
+            GraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
   }
 
   /**
@@ -58,91 +59,45 @@ public final class ImmutableGraph<N, E> extends ConfigurableGraph<N, E> {
    * @deprecated no need to use this
    */
   @Deprecated
-  public static <N, E> ImmutableGraph<N, E> copyOf(ImmutableGraph<N, E> graph) {
+  public static <N> ImmutableGraph<N> copyOf(ImmutableGraph<N> graph) {
     return checkNotNull(graph);
   }
 
-  /**
-   * Guaranteed to throw an exception and leave the graph unmodified.
-   *
-   * @throws UnsupportedOperationException always
-   * @deprecated Unsupported operation.
-   */
-  @CanIgnoreReturnValue
-  @Deprecated
-  @Override
-  public final boolean addNode(N node) {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Guaranteed to throw an exception and leave the graph unmodified.
-   *
-   * @throws UnsupportedOperationException always
-   * @deprecated Unsupported operation.
-   */
-  @CanIgnoreReturnValue
-  @Deprecated
-  @Override
-  public final boolean addEdge(E edge, N node1, N node2) {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Guaranteed to throw an exception and leave the graph unmodified.
-   *
-   * @throws UnsupportedOperationException always
-   * @deprecated Unsupported operation.
-   */
-  @CanIgnoreReturnValue
-  @Deprecated
-  @Override
-  public final boolean removeNode(Object node) {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Guaranteed to throw an exception and leave the graph unmodified.
-   *
-   * @throws UnsupportedOperationException always
-   * @deprecated Unsupported operation.
-   */
-  @CanIgnoreReturnValue
-  @Deprecated
-  @Override
-  public final boolean removeEdge(Object edge) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public Set<E> edgesConnecting(Object node1, Object node2) {
-    // This set is calculated as the intersection of two sets, and is likely to be small.
-    // As an optimization, copy it to an ImmutableSet so re-iterating is fast.
-    return ImmutableSet.copyOf(super.edgesConnecting(node1, node2));
-  }
-
-  private static <N, E> Map<N, NodeConnections<N, E>> getNodeConnections(Graph<N, E> graph) {
-    ImmutableMap.Builder<N, NodeConnections<N, E>> nodeConnections = ImmutableMap.builder();
+  private static <N> ImmutableMap<N, GraphConnections<N, Presence>> getNodeConnections(
+      Graph<N> graph) {
+    // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will have
+    // whatever ordering the graph's nodes do, so ImmutableSortedMap is unnecessary even if the
+    // input nodes are sorted.
+    ImmutableMap.Builder<N, GraphConnections<N, Presence>> nodeConnections = ImmutableMap.builder();
     for (N node : graph.nodes()) {
-      nodeConnections.put(node, nodeConnectionsOf(graph, node));
+      nodeConnections.put(node, connectionsOf(graph, node));
     }
     return nodeConnections.build();
   }
 
-  private static <N, E> Map<E, IncidentNodes<N>> getEdgeToIncidentNodes(Graph<N, E> graph) {
-    ImmutableMap.Builder<E, IncidentNodes<N>> edgeToIncidentNodes = ImmutableMap.builder();
-    for (E edge : graph.edges()) {
-      edgeToIncidentNodes.put(edge, IncidentNodes.of(graph.incidentNodes(edge)));
-    }
-    return edgeToIncidentNodes.build();
+  private static <N> GraphConnections<N, Presence> connectionsOf(Graph<N> graph, N node) {
+    Function<Object, Presence> edgeValueFn = Functions.constant(Presence.EDGE_EXISTS);
+    return graph.isDirected()
+        ? DirectedGraphConnections.ofImmutable(
+            graph.predecessors(node), Maps.asMap(graph.successors(node), edgeValueFn))
+        : UndirectedGraphConnections.ofImmutable(
+            Maps.asMap(graph.adjacentNodes(node), edgeValueFn));
   }
 
-  private static <N, E> NodeConnections<N, E> nodeConnectionsOf(Graph<N, E> graph, N node) {
-    return graph.isDirected()
-        ? DirectedNodeConnections.ofImmutable(
-            graph.predecessors(node), graph.successors(node),
-            graph.inEdges(node), graph.outEdges(node))
-        : UndirectedNodeConnections.ofImmutable(
-            graph.adjacentNodes(node), graph.incidentEdges(node));
+  static class ValueBackedImpl<N, V> extends ImmutableGraph<N> {
+    protected final ValueGraph<N, V> backingValueGraph;
+
+    ValueBackedImpl(
+        AbstractGraphBuilder<? super N> builder,
+        ImmutableMap<N, GraphConnections<N, V>> nodeConnections,
+        long edgeCount) {
+      this.backingValueGraph =
+          new ConfigurableValueGraph<N, V>(builder, nodeConnections, edgeCount);
+    }
+
+    @Override
+    protected Graph<N> delegate() {
+      return backingValueGraph;
+    }
   }
 }

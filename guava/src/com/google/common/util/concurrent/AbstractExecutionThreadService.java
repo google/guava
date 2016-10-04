@@ -18,7 +18,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -74,7 +73,7 @@ public abstract class AbstractExecutionThreadService implements Service {
                           // Closer.Suppressor
                           logger.log(
                               Level.WARNING,
-                              "Error while attempting to shut down the service" + " after failure.",
+                              "Error while attempting to shut down the service after failure.",
                               ignored);
                         }
                         notifyFailed(t);

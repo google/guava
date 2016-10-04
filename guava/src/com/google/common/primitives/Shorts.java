@@ -23,7 +23,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
-
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -49,6 +48,8 @@ public final class Shorts {
 
   /**
    * The number of bytes required to represent a primitive {@code short} value.
+   *
+   * <p><b>Java 8 users:</b> use {@link Short#BYTES} instead.
    */
   public static final int BYTES = Short.SIZE / Byte.SIZE;
 
@@ -62,6 +63,8 @@ public final class Shorts {
   /**
    * Returns a hash code for {@code value}; equal to the result of invoking
    * {@code ((Short) value).hashCode()}.
+   *
+   * <p><b>Java 8 users:</b> use {@link Short#hashCode(short)} instead.
    *
    * @param value a primitive {@code short} value
    * @return a hash code for the value

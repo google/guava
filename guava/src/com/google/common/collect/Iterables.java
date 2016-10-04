@@ -27,9 +27,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +35,6 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.RandomAccess;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -737,13 +734,15 @@ public final class Iterables {
   }
 
   /**
-   * Returns the first element in {@code iterable} or {@code defaultValue} if
-   * the iterable is empty.  The {@link Iterators} analog to this method is
-   * {@link Iterators#getNext}.
+   * Returns the first element in {@code iterable} or {@code defaultValue} if the iterable is empty.
+   * The {@link Iterators} analog to this method is {@link Iterators#getNext}.
    *
-   * <p>If no default value is desired (and the caller instead wants a
-   * {@link NoSuchElementException} to be thrown), it is recommended that
-   * {@code iterable.iterator().next()} is used instead.
+   * <p>If no default value is desired (and the caller instead wants a {@link
+   * NoSuchElementException} to be thrown), it is recommended that {@code
+   * iterable.iterator().next()} is used instead.
+   *
+   * <p>To get the only element in a single-element {@code Iterable}, consider using {@link
+   * #getOnlyElement(Iterable)} or {@link #getOnlyElement(Iterable, Object)} instead.
    *
    * @param defaultValue the default value to return if the iterable is empty
    * @return the first element of {@code iterable} or the default value
@@ -755,7 +754,8 @@ public final class Iterables {
   }
 
   /**
-   * Returns the last element of {@code iterable}.
+   * Returns the last element of {@code iterable}. If {@code iterable} is a {@link List} with
+   * {@link RandomAccess} support, then this operation is guaranteed to be {@code O(1)}.
    *
    * @return the last element of {@code iterable}
    * @throws NoSuchElementException if the iterable is empty
@@ -775,7 +775,8 @@ public final class Iterables {
 
   /**
    * Returns the last element of {@code iterable} or {@code defaultValue} if
-   * the iterable is empty.
+   * the iterable is empty. If {@code iterable} is a {@link List} with
+   * {@link RandomAccess} support, then this operation is guaranteed to be {@code O(1)}.
    *
    * @param defaultValue the value to return if {@code iterable} is empty
    * @return the last element of {@code iterable} or the default value
@@ -985,8 +986,7 @@ public final class Iterables {
           @Override
           public Iterator<T> iterator() {
             return Iterators.mergeSorted(
-                Iterables.transform(iterables, Iterables.<T>toIterator()),
-                comparator);
+                Iterables.transform(iterables, Iterables.<T>toIterator()), comparator);
           }
         };
     return new UnmodifiableIterable<T>(iterable);

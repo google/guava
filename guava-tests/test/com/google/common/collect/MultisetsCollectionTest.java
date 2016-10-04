@@ -27,14 +27,12 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Collection tests on wrappers from {@link Multisets}.
@@ -85,7 +83,7 @@ public class MultisetsCollectionTest extends TestCase {
             CollectionFeature.KNOWN_ORDER)
         .named("Multisets.difference")
         .createTestSuite());
-    
+
     suite.addTest(MultisetTestSuiteBuilder.using(filteredGenerator())
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.ALLOWS_NULL_VALUES,
@@ -222,13 +220,13 @@ public class MultisetsCollectionTest extends TestCase {
       }
     };
   }
-  
+
   private static final Multiset<String> ELEMENTS_TO_FILTER_OUT = ImmutableMultiset.of(
       "foobar", "bazfoo", "foobar", "foobar");
-  
-  private static final Predicate<String> PREDICATE = 
+
+  private static final Predicate<String> PREDICATE =
       Predicates.not(Predicates.in(ELEMENTS_TO_FILTER_OUT));
-  
+
   private static TestStringMultisetGenerator filteredGenerator() {
     return new TestStringMultisetGenerator() {
       @Override

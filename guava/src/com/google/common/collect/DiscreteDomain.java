@@ -16,10 +16,8 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.NoSuchElementException;
@@ -43,7 +41,6 @@ import java.util.NoSuchElementException;
  * @since 10.0
  */
 @GwtCompatible
-@Beta
 public abstract class DiscreteDomain<C extends Comparable> {
 
   /**
@@ -183,11 +180,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
 
     @Override
     public long distance(BigInteger start, BigInteger end) {
-      return end
-          .subtract(start)
-          .max(MIN_LONG)
-          .min(MAX_LONG)
-          .longValue();
+      return end.subtract(start).max(MIN_LONG).min(MAX_LONG).longValue();
     }
 
     private Object readResolve() {

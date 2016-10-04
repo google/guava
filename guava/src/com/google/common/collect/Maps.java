@@ -38,9 +38,9 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
@@ -63,7 +63,6 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
-
 import javax.annotation.Nullable;
 
 /**
@@ -455,7 +454,6 @@ public final class Maps {
    * @return the difference between the two maps
    * @since 10.0
    */
-  @Beta
   public static <K, V> MapDifference<K, V> difference(
       Map<? extends K, ? extends V> left,
       Map<? extends K, ? extends V> right,
@@ -1513,6 +1511,7 @@ public final class Maps {
       implements BiMap<K, V>, Serializable {
     final Map<K, V> unmodifiableMap;
     final BiMap<? extends K, ? extends V> delegate;
+    @RetainedWith
     BiMap<V, K> inverse;
     transient Set<V> values;
 
@@ -1543,9 +1542,7 @@ public final class Maps {
     @Override
     public Set<V> values() {
       Set<V> result = values;
-      return (result == null)
-          ? values = Collections.unmodifiableSet(delegate.values())
-          : result;
+      return (result == null) ? values = Collections.unmodifiableSet(delegate.values()) : result;
     }
 
     private static final long serialVersionUID = 0;
@@ -2879,7 +2876,7 @@ public final class Maps {
    */
   private static <K, V> SortedMap<K, V> filterFiltered(
       FilteredEntrySortedMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
-    Predicate<Entry<K, V>> predicate = Predicates.and(map.predicate, entryPredicate);
+    Predicate<Entry<K, V>> predicate = Predicates.<Entry<K, V>>and(map.predicate, entryPredicate);
     return new FilteredEntrySortedMap<K, V>(map.sortedMap(), predicate);
   }
 
@@ -2985,7 +2982,8 @@ public final class Maps {
   @GwtIncompatible // NavigableMap
   private static <K, V> NavigableMap<K, V> filterFiltered(
       FilteredEntryNavigableMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
-    Predicate<Entry<K, V>> predicate = Predicates.and(map.entryPredicate, entryPredicate);
+    Predicate<Entry<K, V>> predicate =
+        Predicates.<Entry<K, V>>and(map.entryPredicate, entryPredicate);
     return new FilteredEntryNavigableMap<K, V>(map.unfiltered, predicate);
   }
 
@@ -3133,12 +3131,13 @@ public final class Maps {
    */
   private static <K, V> BiMap<K, V> filterFiltered(
       FilteredEntryBiMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
-    Predicate<Entry<K, V>> predicate = Predicates.and(map.predicate, entryPredicate);
+    Predicate<Entry<K, V>> predicate = Predicates.<Entry<K, V>>and(map.predicate, entryPredicate);
     return new FilteredEntryBiMap<K, V>(map.unfiltered(), predicate);
   }
 
   static final class FilteredEntryBiMap<K, V> extends FilteredEntryMap<K, V>
       implements BiMap<K, V> {
+    @RetainedWith
     private final BiMap<V, K> inverse;
 
     private static <K, V> Predicate<Entry<V, K>> inversePredicate(
@@ -3192,36 +3191,45 @@ public final class Maps {
    * <p>The returned navigable map will be serializable if the specified navigable map is
    * serializable.
    *
+   * <p>This method's signature will not permit you to convert a {@code NavigableMap<? extends K,
+   * V>} to a {@code NavigableMap<K, V>}. If it permitted this, the returned map's {@code
+   * comparator()} method might return a {@code Comparator<? extends K>}, which works only on a
+   * particular subtype of {@code K}, but promise that it's a {@code Comparator<? super K>}, which
+   * must work on any type of {@code K}.
+   *
    * @param map the navigable map for which an unmodifiable view is to be returned
    * @return an unmodifiable view of the specified navigable map
    * @since 12.0
    */
   @GwtIncompatible // NavigableMap
-  public static <K, V> NavigableMap<K, V> unmodifiableNavigableMap(NavigableMap<K, V> map) {
+  public static <K, V> NavigableMap<K, V> unmodifiableNavigableMap(
+      NavigableMap<K, ? extends V> map) {
     checkNotNull(map);
     if (map instanceof UnmodifiableNavigableMap) {
-      return map;
+      @SuppressWarnings("unchecked") // covariant
+      NavigableMap<K, V> result = (NavigableMap) map;
+      return result;
     } else {
       return new UnmodifiableNavigableMap<K, V>(map);
     }
   }
 
   @Nullable
-  private static <K, V> Entry<K, V> unmodifiableOrNull(@Nullable Entry<K, V> entry) {
+  private static <K, V> Entry<K, V> unmodifiableOrNull(@Nullable Entry<K, ? extends V> entry) {
     return (entry == null) ? null : Maps.unmodifiableEntry(entry);
   }
 
   @GwtIncompatible // NavigableMap
   static class UnmodifiableNavigableMap<K, V> extends ForwardingSortedMap<K, V>
       implements NavigableMap<K, V>, Serializable {
-    private final NavigableMap<K, V> delegate;
+    private final NavigableMap<K, ? extends V> delegate;
 
-    UnmodifiableNavigableMap(NavigableMap<K, V> delegate) {
+    UnmodifiableNavigableMap(NavigableMap<K, ? extends V> delegate) {
       this.delegate = delegate;
     }
 
     UnmodifiableNavigableMap(
-        NavigableMap<K, V> delegate, UnmodifiableNavigableMap<K, V> descendingMap) {
+        NavigableMap<K, ? extends V> delegate, UnmodifiableNavigableMap<K, V> descendingMap) {
       this.delegate = delegate;
       this.descendingMap = descendingMap;
     }
@@ -4162,22 +4170,24 @@ public final class Maps {
   @GwtIncompatible // NavigableMap
   public static <K extends Comparable<? super K>, V> NavigableMap<K, V> subMap(
       NavigableMap<K, V> map, Range<K> range) {
-    if (map.comparator() != null && map.comparator() != Ordering.natural()
-        && range.hasLowerBound() && range.hasUpperBound()) {
-      checkArgument(map.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) <= 0,
+    if (map.comparator() != null
+        && map.comparator() != Ordering.natural()
+        && range.hasLowerBound()
+        && range.hasUpperBound()) {
+      checkArgument(
+          map.comparator().compare(range.lowerEndpoint(), range.upperEndpoint()) <= 0,
           "map is using a custom comparator which is inconsistent with the natural ordering.");
     }
     if (range.hasLowerBound() && range.hasUpperBound()) {
-      return map.subMap(range.lowerEndpoint(),
-                        range.lowerBoundType() == BoundType.CLOSED,
-                        range.upperEndpoint(),
-                        range.upperBoundType() == BoundType.CLOSED);
+      return map.subMap(
+          range.lowerEndpoint(),
+          range.lowerBoundType() == BoundType.CLOSED,
+          range.upperEndpoint(),
+          range.upperBoundType() == BoundType.CLOSED);
     } else if (range.hasLowerBound()) {
-      return map.tailMap(range.lowerEndpoint(),
-                         range.lowerBoundType() == BoundType.CLOSED);
+      return map.tailMap(range.lowerEndpoint(), range.lowerBoundType() == BoundType.CLOSED);
     } else if (range.hasUpperBound()) {
-      return map.headMap(range.upperEndpoint(),
-                         range.upperBoundType() == BoundType.CLOSED);
+      return map.headMap(range.upperEndpoint(), range.upperBoundType() == BoundType.CLOSED);
     }
     return checkNotNull(map);
   }

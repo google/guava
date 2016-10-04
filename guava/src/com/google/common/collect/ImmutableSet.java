@@ -23,7 +23,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -31,7 +30,6 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -178,9 +176,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return construct(uniques, elements);
     } else {
       Object[] uniqueElements =
-          (uniques < elements.length)
-              ? ObjectArrays.arraysCopyOf(elements, uniques)
-              : elements;
+          (uniques < elements.length) ? ObjectArrays.arraysCopyOf(elements, uniques) : elements;
       return new RegularImmutableSet<E>(uniqueElements, hashCode, table, mask);
     }
   }
@@ -282,10 +278,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     if (!elements.hasNext()) {
       return of(first);
     } else {
-      return new ImmutableSet.Builder<E>()
-          .add(first)
-          .addAll(elements)
-          .build();
+      return new ImmutableSet.Builder<E>().add(first).addAll(elements).build();
     }
   }
 
@@ -341,6 +334,18 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   // ImmutableCollection.iterator() consistent.
   @Override
   public abstract UnmodifiableIterator<E> iterator();
+
+  private transient ImmutableList<E> asList;
+
+  @Override
+  public ImmutableList<E> asList() {
+    ImmutableList<E> result = asList;
+    return (result == null) ? asList = createAsList() : result;
+  }
+
+  ImmutableList<E> createAsList() {
+    return new RegularImmutableAsList<E>(this, toArray());
+  }
 
   abstract static class Indexed<E> extends ImmutableSet<E> {
     abstract E get(int index);

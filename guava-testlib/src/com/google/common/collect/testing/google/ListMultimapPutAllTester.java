@@ -20,7 +20,6 @@ import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.testing.features.MapFeature;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,10 +33,7 @@ public class ListMultimapPutAllTester<K, V> extends AbstractListMultimapTester<K
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllAddsAtEndInOrder() {
     @SuppressWarnings("unchecked")
-    List<V> values = Arrays.asList(
-        v3(),
-        v1(),
-        v4());
+    List<V> values = Arrays.asList(v3(), v1(), v4());
 
     for (K k : sampleKeys()) {
       resetContainer();

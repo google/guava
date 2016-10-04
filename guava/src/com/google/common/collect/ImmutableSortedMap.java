@@ -23,17 +23,14 @@ import static com.google.common.collect.Maps.keyOrNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.ImmutableMap.Builder;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
 import javax.annotation.Nullable;
 
 /**

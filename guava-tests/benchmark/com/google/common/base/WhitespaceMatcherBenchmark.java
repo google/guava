@@ -20,7 +20,6 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.runner.CaliperMain;
-
 import java.util.BitSet;
 import java.util.Random;
 

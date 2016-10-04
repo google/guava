@@ -14,7 +14,6 @@
 
 package com.google.common.net;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.Escaper;
 
@@ -30,7 +29,6 @@ import com.google.common.escape.Escaper;
  * @author Chris Povirk
  * @since 15.0
  */
-@Beta
 @GwtCompatible
 public final class UrlEscapers {
   private UrlEscapers() {}
@@ -47,9 +45,9 @@ public final class UrlEscapers {
 
   /**
    * Returns an {@link Escaper} instance that escapes strings so they can be safely included in
-   * <a href="http://goo.gl/OQEc8">URL form parameter names and values</a>. Escaping is performed
+   * <a href="https://goo.gl/MplK6I">URL form parameter names and values</a>. Escaping is performed
    * with the UTF-8 character encoding. The caller is responsible for
-   * <a href="http://goo.gl/i20ms">replacing any unpaired carriage return or line feed characters
+   * <a href="https://goo.gl/9EfkM1">replacing any unpaired carriage return or line feed characters
    * with a CR+LF pair</a> on any non-file inputs before escaping them with this escaper.
    *
    * <p>When escaping a String, the following rules apply:
@@ -64,7 +62,7 @@ public final class UrlEscapers {
    * </ul>
    *
    * <p>This escaper is suitable for escaping parameter names and values even when
-   * <a href="http://goo.gl/utn6M">using the non-standard semicolon</a>, rather than the ampersand,
+   * <a href="https://goo.gl/utn6M">using the non-standard semicolon</a>, rather than the ampersand,
    * as a parameter delimiter. Nevertheless, we recommend using the ampersand unless you must
    * interoperate with systems that require semicolons.
    *
@@ -81,9 +79,9 @@ public final class UrlEscapers {
 
   /**
    * Returns an {@link Escaper} instance that escapes strings so they can be safely included in
-   * <a href="http://goo.gl/swjbR">URL path segments</a>. The returned escaper escapes all non-ASCII
-   * characters, even though <a href="http://goo.gl/xIJWe">many of these are accepted in modern
-   * URLs</a>. (<a href="http://goo.gl/WMGvZ">If the escaper were to leave these characters
+   * <a href="https://goo.gl/m2MIf0">URL path segments</a>. The returned escaper escapes all
+   * non-ASCII characters, even though <a href="https://goo.gl/e7E0In">many of these are accepted in
+   * modern URLs</a>. (<a href="https://goo.gl/jfVxXW">If the escaper were to leave these characters
    * unescaped, they would be escaped by the consumer at parse time, anyway.</a>) Additionally, the
    * escaper escapes the slash character ("/"). While slashes are acceptable in URL paths, they are
    * considered by the specification to be separators between "path segments." This implies that, if
@@ -116,10 +114,9 @@ public final class UrlEscapers {
 
   /**
    * Returns an {@link Escaper} instance that escapes strings so they can be safely included in a
-   * <a href="http://goo.gl/xXEq4p">URL fragment</a>. The returned escaper escapes all non-ASCII
-   * characters, even though <a href="http://goo.gl/xIJWe">many of these are accepted in modern
-   * URLs</a>. (<a href="http://goo.gl/WMGvZ">If the escaper were to leave these characters
-   * unescaped, they would be escaped by the consumer at parse time, anyway.</a>)
+   * <a href="https://goo.gl/xXEq4p">URL fragment</a>. The returned escaper escapes all non-ASCII
+   * characters, even though <a href="https://goo.gl/e7E0In">many of these are accepted in modern
+   * URLs</a>.
    *
    * <p>When escaping a String, the following rules apply:
    * <ul>

@@ -17,7 +17,6 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
@@ -79,9 +78,7 @@ public interface TimeLimiter {
    * Invokes a specified Callable, timing out after the specified time limit. If the target method
    * call finished before the limit is reached, the return value or exception is propagated to the
    * caller exactly as-is. If, on the other hand, the time limit is reached, we attempt to abort the
-   * call to the target, and throw an {@link UncheckedTimeoutException} to the caller. <p>
-   * <b>Warning:</b> The future of this method is in doubt. It may be nuked, or changed
-   * significantly.
+   * call to the target, and throw an {@link UncheckedTimeoutException} to the caller.
    *
    * @param callable the Callable to execute
    * @param timeoutDuration with timeoutUnit, the maximum length of time to wait

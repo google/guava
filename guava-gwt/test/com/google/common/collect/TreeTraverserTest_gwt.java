@@ -37,4 +37,9 @@ public void testPreOrder() throws Exception {
   com.google.common.collect.TreeTraverserTest testCase = new com.google.common.collect.TreeTraverserTest();
   testCase.testPreOrder();
 }
+
+public void testUsing() throws Exception {
+  com.google.common.collect.TreeTraverserTest testCase = new com.google.common.collect.TreeTraverserTest();
+  testCase.testUsing();
+}
 }

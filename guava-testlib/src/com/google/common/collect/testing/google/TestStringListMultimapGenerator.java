@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SampleElements;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -73,8 +72,7 @@ public abstract class TestStringListMultimapGenerator
     return create(array);
   }
 
-  protected abstract ListMultimap<String, String> create(
-      Entry<String, String>[] entries);
+  protected abstract ListMultimap<String, String> create(Entry<String, String>[] entries);
 
   @Override
   @SuppressWarnings("unchecked")
@@ -94,8 +92,7 @@ public abstract class TestStringListMultimapGenerator
 
   /** Returns the original element list, unchanged. */
   @Override
-  public Iterable<Entry<String, String>> order(
-      List<Entry<String, String>> insertionOrder) {
+  public Iterable<Entry<String, String>> order(List<Entry<String, String>> insertionOrder) {
     return insertionOrder;
   }
 }

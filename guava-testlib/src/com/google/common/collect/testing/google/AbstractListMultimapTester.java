@@ -18,7 +18,6 @@ import static com.google.common.collect.testing.Helpers.assertEqualInOrder;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ListMultimap;
-
 import java.util.Arrays;
 import java.util.Collection;
 

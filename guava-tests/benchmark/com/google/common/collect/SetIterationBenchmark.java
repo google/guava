@@ -21,7 +21,6 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.collect.BenchmarkHelpers.SetImpl;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
-
 import java.util.Set;
 
 /**
@@ -53,7 +52,7 @@ public class SetIterationBenchmark {
 
   @Benchmark int iteration(int reps) {
     int x = 0;
-    
+
     for (int i = 0; i < reps; i++) {
       for (Element y : setToTest) {
         x ^= System.identityHashCode(y);

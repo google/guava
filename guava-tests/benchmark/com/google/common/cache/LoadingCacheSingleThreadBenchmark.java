@@ -21,7 +21,6 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.primitives.Ints;
-
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 

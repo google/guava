@@ -15,7 +15,6 @@
 package com.google.common.hash;
 
 import com.google.common.base.Preconditions;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;

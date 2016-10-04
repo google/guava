@@ -23,9 +23,6 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-
-import junit.framework.TestSuite;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -33,6 +30,7 @@ import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
+import junit.framework.TestSuite;
 
 /**
  * A generator of {@code TestSuite} instances for testing {@code CharSource} implementations.

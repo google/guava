@@ -15,10 +15,8 @@
 package com.google.common.hash;
 
 import com.google.common.primitives.Longs;
-
-import sun.misc.Unsafe;
-
 import java.nio.ByteOrder;
+import sun.misc.Unsafe;
 
 /**
  * Utility functions for loading and storing values from a byte array.
@@ -233,14 +231,27 @@ final class LittleEndianByteArray {
   }
 
   static {
-    LittleEndianBytes theGetter;
+    LittleEndianBytes theGetter = JavaLittleEndianBytes.INSTANCE;
     try {
-      theGetter =
-          ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)
-              ? UnsafeByteArray.UNSAFE_LITTLE_ENDIAN
-              : UnsafeByteArray.UNSAFE_BIG_ENDIAN;
-    } catch (Throwable t) { // ensure we really catch *everything*
-      theGetter = JavaLittleEndianBytes.INSTANCE;
+      /*
+        UnsafeByteArray uses Unsafe.getLong() in an unsupported way, which is known to cause crashes
+        on 32-bit Android (ARMv7 with ART). Ideally, we shouldn't use Unsafe.getLong() at all, but
+        the performance benefit on x86_64 is too great to ignore, so as a compromise, we enable the
+        optimization only on platforms that we specifically know to work.
+
+        In the future, the use of Unsafe.getLong() should be replaced by ByteBuffer.getLong(), which
+        will have an efficient native implementation in JDK 9.
+
+      */
+      final String arch = System.getProperty("os.arch");
+      if ("amd64".equals(arch) || "aarch64".equals(arch)) {
+        theGetter =
+            ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)
+                ? UnsafeByteArray.UNSAFE_LITTLE_ENDIAN
+                : UnsafeByteArray.UNSAFE_BIG_ENDIAN;
+      }
+    } catch (Throwable t) {
+      // ensure we really catch *everything*
     }
     byteArray = theGetter;
   }

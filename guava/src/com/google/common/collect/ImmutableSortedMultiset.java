@@ -17,10 +17,8 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -46,7 +44,6 @@ import java.util.List;
  * @author Louis Wasserman
  * @since 12.0
  */
-@Beta
 @GwtIncompatible // hasn't been tested yet
 public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxverideShim<E>
     implements SortedMultiset<E> {
@@ -395,7 +392,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * <pre> {@code
    *
    *   public static final ImmutableSortedMultiset<Bean> BEANS =
-   *       new ImmutableSortedMultiset.Builder<Bean>()
+   *       new ImmutableSortedMultiset.Builder<Bean>(colorComparator())
    *           .addCopies(Bean.COCOA, 4)
    *           .addCopies(Bean.GARDEN, 6)
    *           .addCopies(Bean.RED, 8)

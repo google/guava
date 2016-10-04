@@ -18,13 +18,11 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
 import javax.annotation.Nullable;
 
 /**
@@ -62,7 +60,7 @@ final class TimeoutFuture<V> extends AbstractFuture.TrustedFuture<V> {
    * to timer, and importantly this is the main situation in which we need to be able to see the
    * write.
    *
-   * 2. visibility of the writes to cancel:
+   * 2. visibility of the writes to an afterDone() call triggered by cancel():
    *
    * Since these fields are non-final that means that TimeoutFuture is not being 'safely published',
    * thus a motivated caller may be able to expose the reference to another thread that would then

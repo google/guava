@@ -14,15 +14,16 @@
 
 package com.google.common.net;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Ints;
-
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -30,7 +31,6 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Locale;
-
 import javax.annotation.Nullable;
 
 /**
@@ -117,7 +117,7 @@ public final class InetAddresses {
    * @throws IllegalArgumentException if a valid {@link Inet4Address} can not be created
    */
   private static Inet4Address getInet4Address(byte[] bytes) {
-    Preconditions.checkArgument(
+    checkArgument(
         bytes.length == 4,
         "Byte array has invalid length for an IPv4 address: %s != 4.",
         bytes.length);
@@ -158,6 +158,7 @@ public final class InetAddresses {
     return ipStringToBytes(ipString) != null;
   }
 
+  @Nullable
   private static byte[] ipStringToBytes(String ipString) {
     // Make a first pass to categorize the characters in this string.
     boolean hasColon = false;
@@ -191,6 +192,7 @@ public final class InetAddresses {
     return null;
   }
 
+  @Nullable
   private static byte[] textToNumericFormatV4(String ipString) {
     byte[] bytes = new byte[IPV4_PART_COUNT];
     int i = 0;
@@ -205,6 +207,7 @@ public final class InetAddresses {
     return i == IPV4_PART_COUNT ? bytes : null;
   }
 
+  @Nullable
   private static byte[] textToNumericFormatV6(String ipString) {
     // An address can have [2..8] colons, and N colons make N+1 parts.
     String[] parts = ipString.split(":", IPV6_PART_COUNT + 2);
@@ -268,6 +271,7 @@ public final class InetAddresses {
     return rawBytes.array();
   }
 
+  @Nullable
   private static String convertDottedQuadToHex(String ipString) {
     int lastColon = ipString.lastIndexOf(':');
     String initialPart = ipString.substring(0, lastColon + 1);
@@ -335,12 +339,12 @@ public final class InetAddresses {
    * @since 10.0
    */
   public static String toAddrString(InetAddress ip) {
-    Preconditions.checkNotNull(ip);
+    checkNotNull(ip);
     if (ip instanceof Inet4Address) {
       // For IPv4, Java's formatting is good enough.
       return ip.getHostAddress();
     }
-    Preconditions.checkArgument(ip instanceof Inet6Address);
+    checkArgument(ip instanceof Inet6Address);
     byte[] bytes = ip.getAddress();
     int[] hextets = new int[IPV6_PART_COUNT];
     for (int i = 0; i < hextets.length; i++) {
@@ -455,7 +459,17 @@ public final class InetAddresses {
    *     address surrounded by square brackets
    */
   public static InetAddress forUriString(String hostAddr) {
-    Preconditions.checkNotNull(hostAddr);
+    InetAddress addr = forUriStringNoThrow(hostAddr);
+    if (addr == null) {
+      throw formatIllegalArgumentException("Not a valid URI IP literal: '%s'", hostAddr);
+    }
+
+    return addr;
+  }
+
+  @Nullable
+  private static InetAddress forUriStringNoThrow(String hostAddr) {
+    checkNotNull(hostAddr);
 
     // Decide if this should be an IPv6 or IPv4 address.
     String ipString;
@@ -471,7 +485,7 @@ public final class InetAddresses {
     // Parse the address, and make sure the length/version is correct.
     byte[] addr = ipStringToBytes(ipString);
     if (addr == null || addr.length != expectBytes) {
-      throw formatIllegalArgumentException("Not a valid URI IP literal: '%s'", hostAddr);
+      return null;
     }
 
     return bytesToInetAddress(addr);
@@ -485,12 +499,7 @@ public final class InetAddresses {
    * @return {@code true} if the argument is a valid IP URI host
    */
   public static boolean isUriInetAddress(String ipString) {
-    try {
-      forUriString(ipString);
-      return true;
-    } catch (IllegalArgumentException e) {
-      return false;
-    }
+    return forUriStringNoThrow(ipString) != null;
   }
 
   /**
@@ -535,7 +544,7 @@ public final class InetAddresses {
    * @throws IllegalArgumentException if the argument is not a valid IPv4 compatible address
    */
   public static Inet4Address getCompatIPv4Address(Inet6Address ip) {
-    Preconditions.checkArgument(
+    checkArgument(
         isCompatIPv4Address(ip), "Address '%s' is not IPv4-compatible.", toAddrString(ip));
 
     return getInet4Address(Arrays.copyOfRange(ip.getAddress(), 12, 16));
@@ -566,8 +575,7 @@ public final class InetAddresses {
    * @throws IllegalArgumentException if the argument is not a valid IPv6 6to4 address
    */
   public static Inet4Address get6to4IPv4Address(Inet6Address ip) {
-    Preconditions.checkArgument(
-        is6to4Address(ip), "Address '%s' is not a 6to4 address.", toAddrString(ip));
+    checkArgument(is6to4Address(ip), "Address '%s' is not a 6to4 address.", toAddrString(ip));
 
     return getInet4Address(Arrays.copyOfRange(ip.getAddress(), 2, 6));
   }
@@ -604,9 +612,9 @@ public final class InetAddresses {
     // TODO: why is this public?
     public TeredoInfo(
         @Nullable Inet4Address server, @Nullable Inet4Address client, int port, int flags) {
-      Preconditions.checkArgument(
+      checkArgument(
           (port >= 0) && (port <= 0xffff), "port '%s' is out of range (0 <= port <= 0xffff)", port);
-      Preconditions.checkArgument(
+      checkArgument(
           (flags >= 0) && (flags <= 0xffff),
           "flags '%s' is out of range (0 <= flags <= 0xffff)",
           flags);
@@ -658,8 +666,7 @@ public final class InetAddresses {
    * @throws IllegalArgumentException if the argument is not a valid IPv6 Teredo address
    */
   public static TeredoInfo getTeredoInfo(Inet6Address ip) {
-    Preconditions.checkArgument(
-        isTeredoAddress(ip), "Address '%s' is not a Teredo address.", toAddrString(ip));
+    checkArgument(isTeredoAddress(ip), "Address '%s' is not a Teredo address.", toAddrString(ip));
 
     byte[] bytes = ip.getAddress();
     Inet4Address server = getInet4Address(Arrays.copyOfRange(bytes, 4, 8));
@@ -720,8 +727,7 @@ public final class InetAddresses {
    * @throws IllegalArgumentException if the argument is not a valid IPv6 ISATAP address
    */
   public static Inet4Address getIsatapIPv4Address(Inet6Address ip) {
-    Preconditions.checkArgument(
-        isIsatapAddress(ip), "Address '%s' is not an ISATAP address.", toAddrString(ip));
+    checkArgument(isIsatapAddress(ip), "Address '%s' is not an ISATAP address.", toAddrString(ip));
 
     return getInet4Address(Arrays.copyOfRange(ip.getAddress(), 12, 16));
   }
@@ -936,7 +942,7 @@ public final class InetAddresses {
       i--;
     }
 
-    Preconditions.checkArgument(i >= 0, "Decrementing %s would wrap.", address);
+    checkArgument(i >= 0, "Decrementing %s would wrap.", address);
 
     addr[i]--;
     return bytesToInetAddress(addr);
@@ -959,7 +965,7 @@ public final class InetAddresses {
       i--;
     }
 
-    Preconditions.checkArgument(i >= 0, "Incrementing %s would wrap.", address);
+    checkArgument(i >= 0, "Incrementing %s would wrap.", address);
 
     addr[i]++;
     return bytesToInetAddress(addr);

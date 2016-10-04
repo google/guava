@@ -25,7 +25,6 @@ import static com.google.common.math.MathBenchmarking.randomPositiveBigInteger;
 
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
-import com.google.common.math.IntMath;
 
 /**
  * Benchmarks for the non-rounding methods of {@code IntMath}.
@@ -93,6 +92,17 @@ public class IntMathBenchmark {
     for (int i = 0; i < reps; i++) {
       int j = i & ARRAY_MASK;
       tmp += IntMath.binomial(factorial[j], binomial[j]);
+    }
+    return tmp;
+  }
+
+  @Benchmark int isPrime(int reps) {
+    int tmp = 0;
+    for (int i = 0; i < reps; i++) {
+      int j = i & ARRAY_MASK;
+      if (IntMath.isPrime(positive[j])) {
+        tmp++;
+      }
     }
     return tmp;
   }

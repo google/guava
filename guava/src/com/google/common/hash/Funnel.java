@@ -15,7 +15,6 @@
 package com.google.common.hash;
 
 import com.google.common.annotations.Beta;
-
 import java.io.Serializable;
 
 /**

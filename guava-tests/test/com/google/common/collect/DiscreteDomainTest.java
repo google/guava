@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 
 import com.google.common.annotations.GwtIncompatible;
-
 import junit.framework.TestCase;
 
 /**

@@ -20,9 +20,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
-
-import junit.framework.TestCase;
-
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,6 +29,7 @@ import java.util.ListIterator;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.SortedSet;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@code Constraints}.

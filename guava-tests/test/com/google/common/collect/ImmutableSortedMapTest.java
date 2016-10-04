@@ -36,11 +36,6 @@ import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSor
 import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapValueListGenerator;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
@@ -48,6 +43,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@link ImmutableSortedMap}.

@@ -25,7 +25,6 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.api.Footprint;
 import com.google.caliper.api.VmOptions;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executor;
@@ -60,11 +59,11 @@ public class MoreExecutorsDirectExecutorBenchmark {
       integer.incrementAndGet();
     }
   }
-  
+
   CountingRunnable countingRunnable = new CountingRunnable();
 
   Set<Thread> threads = new HashSet<Thread>();
-  
+
   @BeforeExperiment void before() {
     executor = impl.executor();
     for (int i = 0; i < 4; i++) {
@@ -87,11 +86,11 @@ public class MoreExecutorsDirectExecutorBenchmark {
     }
     threads.clear();
   }
-  
+
   @Footprint Object measureSize() {
     return executor;
   }
-  
+
   @Benchmark int timeUncontendedExecute(int reps) {
     final Executor executor = this.executor;
     final CountingRunnable countingRunnable = this.countingRunnable;
@@ -100,7 +99,7 @@ public class MoreExecutorsDirectExecutorBenchmark {
     }
     return countingRunnable.integer.get();
   }
-  
+
   @Benchmark int timeContendedExecute(int reps) {
     final Executor executor = this.executor;
     for (Thread thread : threads) {

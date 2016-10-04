@@ -25,14 +25,12 @@ import com.google.common.hash.BloomFilterStrategies.BitArray;
 import com.google.common.primitives.SignedBytes;
 import com.google.common.primitives.UnsignedBytes;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-
 import javax.annotation.Nullable;
 
 /**
@@ -516,17 +514,15 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
       }
       return new BloomFilter<T>(new BitArray(data), numHashFunctions, funnel, strategy);
     } catch (RuntimeException e) {
-      IOException ioException =
-          new IOException(
-              "Unable to deserialize BloomFilter from InputStream."
-                  + " strategyOrdinal: "
-                  + strategyOrdinal
-                  + " numHashFunctions: "
-                  + numHashFunctions
-                  + " dataLength: "
-                  + dataLength);
-      ioException.initCause(e);
-      throw ioException;
+      String message =
+          "Unable to deserialize BloomFilter from InputStream."
+              + " strategyOrdinal: "
+              + strategyOrdinal
+              + " numHashFunctions: "
+              + numHashFunctions
+              + " dataLength: "
+              + dataLength;
+      throw new IOException(message, e);
     }
   }
 }

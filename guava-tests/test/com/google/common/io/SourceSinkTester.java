@@ -21,15 +21,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-
-import junit.framework.TestCase;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * @param <S> the source or sink type

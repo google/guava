@@ -27,13 +27,11 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.TestEnumMapGenerator;
 import com.google.common.collect.testing.features.CollectionSize;
-
+import java.util.Map;
+import java.util.Map.Entry;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * Tests for {@code ImmutableEnumMap}.

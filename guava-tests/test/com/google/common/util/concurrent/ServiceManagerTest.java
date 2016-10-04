@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -26,9 +27,6 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TestLogHandler;
 import com.google.common.util.concurrent.Service.State;
 import com.google.common.util.concurrent.ServiceManager.Listener;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -41,6 +39,7 @@ import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import junit.framework.TestCase;
 
 /**
  * Tests for {@link ServiceManager}.
@@ -260,7 +259,7 @@ public class ServiceManagerTest extends TestCase {
       fail();
     } catch (TimeoutException expected) {
     }
-    manager.awaitHealthy(100, TimeUnit.MILLISECONDS); // no exception thrown
+    manager.awaitHealthy(5, SECONDS); // no exception thrown
 
     manager.stopAsync();
     try {
@@ -268,7 +267,7 @@ public class ServiceManagerTest extends TestCase {
       fail();
     } catch (TimeoutException expected) {
     }
-    manager.awaitStopped(100, TimeUnit.MILLISECONDS);  // no exception thrown
+    manager.awaitStopped(5, SECONDS);  // no exception thrown
   }
 
   /**

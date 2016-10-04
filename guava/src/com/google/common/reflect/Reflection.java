@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 

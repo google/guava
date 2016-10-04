@@ -18,15 +18,13 @@ package com.google.common.testing;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
-import junit.framework.TestCase;
-
 import java.util.EnumSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link FakeTicker}.

@@ -21,7 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-
+import com.google.j2objc.annotations.RetainedWith;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -40,7 +40,6 @@ import java.util.RandomAccess;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-
 import javax.annotation.Nullable;
 
 /**
@@ -1160,6 +1159,7 @@ final class Synchronized {
   static class SynchronizedBiMap<K, V> extends SynchronizedMap<K, V>
       implements BiMap<K, V>, Serializable {
     private transient Set<V> valueSet;
+    @RetainedWith
     private transient BiMap<V, K> inverse;
 
     private SynchronizedBiMap(
@@ -1695,12 +1695,10 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  @GwtIncompatible // Deque
   static <E> Deque<E> deque(Deque<E> deque, @Nullable Object mutex) {
     return new SynchronizedDeque<E>(deque, mutex);
   }
 
-  @GwtIncompatible // Deque
   private static final class SynchronizedDeque<E> extends SynchronizedQueue<E> implements Deque<E> {
 
     SynchronizedDeque(Deque<E> delegate, @Nullable Object mutex) {

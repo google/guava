@@ -21,6 +21,9 @@ import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -36,13 +39,6 @@ import com.google.common.collect.testing.google.ListGenerators.CharactersOfCharS
 import com.google.common.collect.testing.google.ListGenerators.CharactersOfStringGenerator;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.easymock.EasyMock;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,6 +50,9 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 import java.util.concurrent.CopyOnWriteArrayList;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Unit test for {@code Lists}.
@@ -748,30 +747,23 @@ public class ListsTest extends TestCase {
   }
 
   /**
-   * We use this class to avoid the need to suppress generics checks with
-   * easy mock.
+   * This test depends on the fact that {@code AbstractSequentialList.iterator} transforms the
+   * {@code iterator()} call into a call on {@code listIterator(int)}. This is fine because the
+   * behavior is clearly documented so it's not expected to change.
    */
-  private interface IntegerList extends List<Integer> {}
-
-  /**
-   * This test depends on the fact that {@code AbstractSequentialList.iterator}
-   * transforms the {@code iterator()} call into a call on {@code
-   * listIterator(int)}. This is fine because the behavior is clearly
-   * documented so it's not expected to change.
-   */
-  @GwtIncompatible // EsayMock
+  @GwtIncompatible // Mockito TODO(kak): Can we remove this?
   public void testTransformedSequentialIterationUsesBackingListIterationOnly() {
     List<Integer> randomAccessList = Lists.newArrayList(SOME_SEQUENTIAL_LIST);
     ListIterator<Integer> sampleListIterator =
         SOME_SEQUENTIAL_LIST.listIterator();
-    List<Integer> listMock = EasyMock.createMock(IntegerList.class);
-    EasyMock.expect(listMock.size()).andReturn(SOME_SEQUENTIAL_LIST.size());
-    EasyMock.expect(listMock.listIterator(0)).andReturn(sampleListIterator);
-    EasyMock.replay(listMock);
+    @SuppressWarnings("unchecked")
+    List<Integer> listMock = mock(List.class);
+    when(listMock.size()).thenReturn(SOME_SEQUENTIAL_LIST.size());
+    when(listMock.listIterator(0)).thenReturn(sampleListIterator);
+    verifyNoMoreInteractions(listMock);
     List<String> transform = Lists.transform(listMock, SOME_FUNCTION);
     assertTrue(Iterables.elementsEqual(
         transform, Lists.transform(randomAccessList, SOME_FUNCTION)));
-    EasyMock.verify(listMock);
   }
 
   private static void assertTransformIterator(List<String> list) {

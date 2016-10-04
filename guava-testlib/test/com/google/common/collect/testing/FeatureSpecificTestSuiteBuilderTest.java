@@ -17,13 +17,11 @@
 package com.google.common.collect.testing;
 
 import com.google.common.collect.testing.features.CollectionFeature;
-
+import java.util.Collections;
+import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestResult;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author Max Ross

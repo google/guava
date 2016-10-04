@@ -24,7 +24,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.testing.EqualsTester;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -50,7 +49,7 @@ public class MultimapEqualsTester<K, V> extends AbstractMultimapTester<K, V, Mul
         .addEqualityGroup(getSubjectGenerator().create(targetEntries.toArray()))
         .testEquals();
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testEqualsMultimapWithNullKey() {
@@ -63,7 +62,7 @@ public class MultimapEqualsTester<K, V> extends AbstractMultimapTester<K, V, Mul
             withNull, getSubjectGenerator().create((Object[]) createArrayWithNullKey()))
         .testEquals();
   }
-  
+
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(ALLOWS_NULL_VALUES)
   public void testEqualsMultimapWithNullValue() {
@@ -84,7 +83,7 @@ public class MultimapEqualsTester<K, V> extends AbstractMultimapTester<K, V, Mul
         .addEqualityGroup(getSubjectGenerator().create())
         .testEquals();
   }
-  
+
   public void testHashCodeMatchesAsMap() {
     assertEquals(multimap().asMap().hashCode(), multimap().hashCode());
   }

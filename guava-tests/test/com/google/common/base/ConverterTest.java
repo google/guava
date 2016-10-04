@@ -24,11 +24,9 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Longs;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.util.Iterator;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Converter}.

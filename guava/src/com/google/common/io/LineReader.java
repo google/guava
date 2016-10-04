@@ -15,11 +15,11 @@
 package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.io.CharStreams.createBuffer;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;
@@ -39,8 +39,8 @@ import java.util.Queue;
 public final class LineReader {
   private final Readable readable;
   private final Reader reader;
-  private final char[] buf = new char[0x1000]; // 4K
-  private final CharBuffer cbuf = CharBuffer.wrap(buf);
+  private final CharBuffer cbuf = createBuffer();
+  private final char[] buf = cbuf.array();
 
   private final Queue<String> lines = new LinkedList<String>();
   private final LineBuffer lineBuf =

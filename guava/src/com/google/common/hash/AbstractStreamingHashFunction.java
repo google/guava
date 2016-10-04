@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;

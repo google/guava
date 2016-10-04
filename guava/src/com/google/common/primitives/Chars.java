@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -30,7 +29,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-
 import javax.annotation.Nullable;
 
 /**
@@ -52,12 +50,16 @@ public final class Chars {
 
   /**
    * The number of bytes required to represent a primitive {@code char} value.
+   *
+   * <p><b>Java 8 users:</b> use {@link Character#BYTES} instead.
    */
   public static final int BYTES = Character.SIZE / Byte.SIZE;
 
   /**
    * Returns a hash code for {@code value}; equal to the result of invoking
    * {@code ((Character) value).hashCode()}.
+   *
+   * <p><b>Java 8 users:</b> use {@link Character#hashCode(char)} instead.
    *
    * @param value a primitive {@code char} value
    * @return a hash code for the value

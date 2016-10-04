@@ -22,13 +22,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import junit.framework.TestCase;
 
 /**
  * @author Julien Silland
@@ -366,6 +364,9 @@ public class SplitterTest extends TestCase {
   @GwtIncompatible // java.util.regex.Pattern
   @AndroidIncompatible // Bug in older versions of Android we test against, since fixed.
   public void testPatternSplitLookBehind() {
+    if (!Platform.usingJdkPatternCompiler()) {
+      return;
+    }
     String toSplit = ":foo::barbaz:";
     String regexPattern = "(?<=:)";
     Iterable<String> split = Splitter.onPattern(regexPattern).split(toSplit);
@@ -489,13 +490,15 @@ public class SplitterTest extends TestCase {
   @GwtIncompatible // java.util.regex.Pattern
   @AndroidIncompatible // not clear that j.u.r.Matcher promises to handle mutations during use
   public void testSplitterIterableIsLazy_pattern() {
+    if (!Platform.usingJdkPatternCompiler()) {
+      return;
+    }
     assertSplitterIterableIsLazy(Splitter.onPattern(","));
   }
 
   /**
-   * This test really pushes the boundaries of what we support. In general the
-   * splitter's behaviour is not well defined if the char sequence it's
-   * splitting is mutated during iteration.
+   * This test really pushes the boundaries of what we support. In general the splitter's behaviour
+   * is not well defined if the char sequence it's splitting is mutated during iteration.
    */
   private void assertSplitterIterableIsLazy(Splitter splitter) {
     StringBuilder builder = new StringBuilder();

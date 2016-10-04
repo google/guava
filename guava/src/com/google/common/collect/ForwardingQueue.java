@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
@@ -34,6 +33,10 @@ import java.util.Queue;
  * #offer} which can lead to unexpected behavior. In this case, you should
  * override {@code offer} as well, either providing your own implementation, or
  * delegating to the provided {@code standardOffer} method.
+ *
+ * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ * default} methods. Instead, it inherits their default implementations. When those implementations
+ * invoke methods, they invoke methods on the {@code ForwardingQueue}.
  *
  * <p>The {@code standard} methods are not guaranteed to be thread-safe, even
  * when all of the methods that they depend on are thread-safe.

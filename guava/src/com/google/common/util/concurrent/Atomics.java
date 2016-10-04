@@ -15,10 +15,8 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
-
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
-
 import javax.annotation.Nullable;
 
 /**

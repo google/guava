@@ -16,19 +16,16 @@
 
 package com.google.common.io;
 
-import static org.easymock.EasyMock.createStrictMock;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.reset;
-import static org.easymock.EasyMock.verify;
-
-import junit.framework.TestCase;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Closeables}.
@@ -93,27 +90,17 @@ public class CloseablesTest extends TestCase {
     Closeables.closeQuietly((Reader) null);
   }
 
-  @Override protected void setUp() throws Exception {
-    mockCloseable = createStrictMock(Closeable.class);
-  }
-
-  private void expectThrown() {
-    expectLastCall().andThrow(new IOException("This should only appear in the "
-        + "logs. It should not be rethrown."));
-  }
-
   // Set up a closeable to expect to be closed, and optionally to throw an
   // exception.
   private void setupCloseable(boolean shouldThrow) throws IOException {
-    reset(mockCloseable);
-    mockCloseable.close();
+    mockCloseable = mock(Closeable.class);
     if (shouldThrow) {
-      expectThrown();
+      doThrow(new IOException("This should only appear in the logs. It should not be rethrown."))
+          .when(mockCloseable).close();
     }
-    replay(mockCloseable);
   }
 
-  private void doClose(Closeable closeable, boolean swallowException) {
+  private void doClose(Closeable closeable, boolean swallowException) throws IOException {
     doClose(closeable, swallowException, !swallowException);
   }
 
@@ -121,7 +108,7 @@ public class CloseablesTest extends TestCase {
   // parameter. expectThrown determines whether we expect an exception to
   // be thrown by Closeables.close;
   private void doClose(Closeable closeable, boolean swallowException,
-      boolean expectThrown) {
+      boolean expectThrown) throws IOException {
     try {
       Closeables.close(closeable, swallowException);
       if (expectThrown) {
@@ -132,6 +119,6 @@ public class CloseablesTest extends TestCase {
         fail("Threw exception");
       }
     }
-    verify(closeable);
+    verify(closeable).close();
   }
 }

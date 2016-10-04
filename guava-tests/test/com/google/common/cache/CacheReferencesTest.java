@@ -23,10 +23,8 @@ import com.google.common.cache.LocalCache.Strength;
 import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-
-import junit.framework.TestCase;
-
 import java.lang.ref.WeakReference;
+import junit.framework.TestCase;
 
 /**
  * Tests of basic {@link LoadingCache} operations with all possible combinations of key & value

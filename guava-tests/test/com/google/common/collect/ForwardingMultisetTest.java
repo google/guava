@@ -23,15 +23,13 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Tests for {@link ForwardingMultiset}.

@@ -24,7 +24,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,7 +32,6 @@ import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 
 /**
@@ -518,7 +516,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Override
   public ImmutableCollection<V> values() {
     ImmutableCollection<V> result = values;
-    return (result == null) ? values = new ImmutableMapValues<K, V>(this) : result;
+    return (result == null) ? values = createValues() : result;
+  }
+
+  ImmutableCollection<V> createValues() {
+    return new ImmutableMapValues<K, V>(this);
   }
 
   // cached so that this.multimapView().inverse() only computes inverse once
@@ -529,7 +531,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *
    * @since 14.0
    */
-  @Beta
   public ImmutableSetMultimap<K, V> asMultimap() {
     if (isEmpty()) {
       return ImmutableSetMultimap.of();

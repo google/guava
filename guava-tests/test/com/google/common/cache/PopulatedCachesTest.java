@@ -31,14 +31,12 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.testing.EqualsTester;
-
-import junit.framework.TestCase;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import junit.framework.TestCase;
 
 /**
  * {@link LoadingCache} tests that deal with caches that actually contain some key-value mappings.

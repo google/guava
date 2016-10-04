@@ -31,12 +31,10 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
 import com.google.common.util.concurrent.AbstractFutureTest.TimedWaiterThread;
-
-import junit.framework.TestCase;
-
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
+import junit.framework.TestCase;
 
 /**
  * Base class for tests for emulated {@link AbstractFuture} that allow subclasses to swap in a

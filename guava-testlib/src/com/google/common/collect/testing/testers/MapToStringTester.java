@@ -25,7 +25,6 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -53,8 +52,7 @@ public class MapToStringTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(ONE)
   @CollectionFeature.Require(absent = NON_STANDARD_TOSTRING)
   public void testToString_size1() {
-    assertEquals(
-        "size1Map.toString should return {entry}", "{" + e0() + "}", getMap().toString());
+    assertEquals("size1Map.toString should return {entry}", "{" + e0() + "}", getMap().toString());
   }
 
   @CollectionSize.Require(absent = ZERO)

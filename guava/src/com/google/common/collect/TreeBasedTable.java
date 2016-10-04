@@ -19,11 +19,9 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
-
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -33,7 +31,6 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
-
 import javax.annotation.Nullable;
 
 /**
@@ -75,7 +72,6 @@ import javax.annotation.Nullable;
  * @since 7.0
  */
 @GwtCompatible(serializable = true)
-@Beta
 public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   private final Comparator<? super C> columnComparator;
 

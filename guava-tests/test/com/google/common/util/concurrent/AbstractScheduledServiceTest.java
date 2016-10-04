@@ -24,9 +24,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.util.concurrent.AbstractScheduledService.Scheduler;
 import com.google.common.util.concurrent.Service.State;
 import com.google.common.util.concurrent.testing.TestingExecutors;
-
-import junit.framework.TestCase;
-
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
@@ -41,6 +38,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link AbstractScheduledService}.

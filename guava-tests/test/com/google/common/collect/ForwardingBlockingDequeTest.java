@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Test for {@link ForwardingBlockingDeque}
- * 
+ *
  * @author Emily Soldal
  */
 public class ForwardingBlockingDequeTest extends ForwardingTestCase {

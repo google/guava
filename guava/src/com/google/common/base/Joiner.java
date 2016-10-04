@@ -19,14 +19,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.IOException;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.annotation.Nullable;
 
 /**
@@ -276,6 +274,16 @@ public class Joiner {
         throw new UnsupportedOperationException("can't use .skipNulls() with maps");
       }
     };
+  }
+
+  /**
+   * Returns a {@code MapJoiner} using the given key-value separator, and the same configuration as
+   * this {@code Joiner} otherwise.
+   *
+   * @since 20.0
+   */
+  public MapJoiner withKeyValueSeparator(char keyValueSeparator) {
+    return withKeyValueSeparator(String.valueOf(keyValueSeparator));
   }
 
   /**

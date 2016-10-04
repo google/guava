@@ -37,9 +37,6 @@ import com.google.common.collect.SetsTest.Derived;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Field;
@@ -64,6 +61,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@code Maps}.

@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-
 import javax.annotation.Nullable;
 
 /**
@@ -65,7 +64,7 @@ public final class Strings {
    * @return {@code true} if the string is null or is the empty string
    */
   public static boolean isNullOrEmpty(@Nullable String string) {
-    return string == null || string.isEmpty();
+    return Platform.stringIsNullOrEmpty(string);
   }
 
   /**

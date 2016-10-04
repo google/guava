@@ -186,10 +186,6 @@
  * <ul>
  * <li>{@link com.google.common.collect.Interner},
  *     {@link com.google.common.collect.Interners}
- * <li>{@link com.google.common.collect.Constraint},
- *     {@link com.google.common.collect.Constraints}
- * <li>{@link com.google.common.collect.MapConstraint},
- *     {@link com.google.common.collect.MapConstraints}
  * <li>{@link com.google.common.collect.MapDifference},
  *     {@link com.google.common.collect.SortedMapDifference}
  * <li>{@link com.google.common.collect.MinMaxPriorityQueue}

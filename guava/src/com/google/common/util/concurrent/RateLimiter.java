@@ -27,10 +27,8 @@ import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.SmoothRateLimiter.SmoothBursty;
 import com.google.common.util.concurrent.SmoothRateLimiter.SmoothWarmingUp;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
 import javax.annotation.concurrent.ThreadSafe;
 
 /**

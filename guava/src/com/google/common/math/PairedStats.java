@@ -25,11 +25,9 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-
 import javax.annotation.Nullable;
 
 /**
@@ -241,11 +239,18 @@ public final class PairedStats implements Serializable {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("xStats", xStats)
-        .add("yStats", yStats)
-        .add("populationCovariance", populationCovariance())
-        .toString();
+    if (count() > 0) {
+      return MoreObjects.toStringHelper(this)
+          .add("xStats", xStats)
+          .add("yStats", yStats)
+          .add("populationCovariance", populationCovariance())
+          .toString();
+    } else {
+      return MoreObjects.toStringHelper(this)
+          .add("xStats", xStats)
+          .add("yStats", yStats)
+          .toString();
+    }
   }
 
   double sumOfProductsOfDeltas() {

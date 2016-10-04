@@ -25,14 +25,12 @@ import static com.google.common.collect.SortedLists.KeyPresentBehavior.FIRST_PRE
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -179,7 +177,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
         return false; // concurrent change to other set
       }
     }
-    return this.containsAll(that);
+    return containsAll(that);
   }
 
   @Override
@@ -282,8 +280,9 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     }
     int position;
     try {
-      position = SortedLists.binarySearch(
-          elements, target, unsafeComparator(), ANY_PRESENT, INVERTED_INSERTION_INDEX);
+      position =
+          SortedLists.binarySearch(
+              elements, target, unsafeComparator(), ANY_PRESENT, INVERTED_INSERTION_INDEX);
     } catch (ClassCastException e) {
       return -1;
     }

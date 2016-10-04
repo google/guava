@@ -19,11 +19,9 @@ package com.google.common.escape;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.escape.testing.EscaperAsserts;
-
-import junit.framework.TestCase;
-
 import java.io.IOException;
 import java.util.Map;
+import junit.framework.TestCase;
 
 /**
  * @author David Beaumont
@@ -50,7 +48,7 @@ public class ArrayBasedCharEscaperTest extends TestCase {
     // '[' and '@' lie either side of [A-Z].
     assertEquals("{[}FOO{@}BAR{]}", wrappingEscaper.escape("[FOO@BAR]"));
   }
-  
+
   public void testSafeRange_maxLessThanMin() throws IOException {
     // Basic escaping of unsafe chars (wrap them in {,}'s)
     CharEscaper wrappingEscaper =

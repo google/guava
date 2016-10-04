@@ -11,7 +11,7 @@
   <entry-point class="com.google.common.math.TestModuleEntryPoint"/>
    
   <source path=""/>
-   
+    
   <super-source path="super"/>
    
 </module>

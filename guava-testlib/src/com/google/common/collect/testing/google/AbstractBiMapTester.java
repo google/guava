@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.Helpers;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -51,9 +50,10 @@ public abstract class AbstractBiMapTester<K, V> extends AbstractMapTester<K, V> 
     Helpers.assertEqualIgnoringOrder(getMap().inverse().entrySet(), reversedEntries);
 
     for (Entry<K, V> entry : expected) {
-      assertEquals("Wrong key for value " + entry.getValue(), entry.getKey(), getMap()
-          .inverse()
-          .get(entry.getValue()));
+      assertEquals(
+          "Wrong key for value " + entry.getValue(),
+          entry.getKey(),
+          getMap().inverse().get(entry.getValue()));
     }
   }
 
@@ -80,5 +80,4 @@ public abstract class AbstractBiMapTester<K, V> extends AbstractMapTester<K, V> 
           inv.get(reversed.getKey()));
     }
   }
-
 }

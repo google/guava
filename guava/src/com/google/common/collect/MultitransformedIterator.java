@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -30,7 +29,7 @@ import java.util.NoSuchElementException;
  * @author James Sexton
  */
 @GwtCompatible
-abstract class MultitransformedIterator<F, T>  implements Iterator<T> {
+abstract class MultitransformedIterator<F, T> implements Iterator<T> {
   final Iterator<? extends F> backingIterator;
 
   private Iterator<? extends T> current = Iterators.emptyIterator();

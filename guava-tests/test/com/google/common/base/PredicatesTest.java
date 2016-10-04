@@ -26,10 +26,6 @@ import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,6 +34,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Predicates}.
@@ -595,9 +593,9 @@ public class PredicatesTest extends TestCase {
     checkSerialization(Predicates.instanceOf(Integer.class));
   }
 
-  @GwtIncompatible // Predicates.assignableFrom
-  public void testIsAssignableFrom_apply() {
-    Predicate<Class<?>> isInteger = Predicates.assignableFrom(Integer.class);
+  @GwtIncompatible // Predicates.subtypeOf
+  public void testSubtypeOf_apply() {
+    Predicate<Class<?>> isInteger = Predicates.subtypeOf(Integer.class);
 
     assertTrue(isInteger.apply(Integer.class));
     assertFalse(isInteger.apply(Float.class));
@@ -608,38 +606,40 @@ public class PredicatesTest extends TestCase {
     } catch (NullPointerException expected) {}
   }
 
-  @GwtIncompatible // Predicates.assignableFrom
-  public void testIsAssignableFrom_subclass() {
-    Predicate<Class<?>> isNumber = Predicates.assignableFrom(Number.class);
+  @GwtIncompatible // Predicates.subtypeOf
+  public void testSubtypeOf_subclass() {
+    Predicate<Class<?>> isNumber = Predicates.subtypeOf(Number.class);
 
     assertTrue(isNumber.apply(Integer.class));
     assertTrue(isNumber.apply(Float.class));
   }
 
-  @GwtIncompatible // Predicates.assignableFrom
-  public void testIsAssignableFrom_interface() {
+  @GwtIncompatible // Predicates.subtypeOf
+  public void testSubtypeOf_interface() {
     Predicate<Class<?>> isComparable =
-        Predicates.assignableFrom(Comparable.class);
+        Predicates.subtypeOf(Comparable.class);
 
     assertTrue(isComparable.apply(Integer.class));
     assertTrue(isComparable.apply(Float.class));
   }
 
-  @GwtIncompatible // Predicates.assignableFrom
-  public void testIsAssignableFrom_equality() {
+  @GwtIncompatible // Predicates.subtypeOf
+  @SuppressWarnings("deprecation")
+  public void testSubtypeOf_equality() {
     new EqualsTester()
         .addEqualityGroup(
-            Predicates.assignableFrom(Integer.class),
+            Predicates.subtypeOf(Integer.class),
+            Predicates.subtypeOf(Integer.class),
             Predicates.assignableFrom(Integer.class))
-        .addEqualityGroup(Predicates.assignableFrom(Number.class))
-        .addEqualityGroup(Predicates.assignableFrom(Float.class))
+        .addEqualityGroup(Predicates.subtypeOf(Number.class))
+        .addEqualityGroup(Predicates.subtypeOf(Float.class))
         .testEquals();
   }
 
-  @GwtIncompatible // Predicates.assignableFrom, SerializableTester
-  public void testIsAssignableFrom_serialization() {
+  @GwtIncompatible // Predicates.subtypeOf, SerializableTester
+  public void testSubtypeOf_serialization() {
     Predicate<Class<?>> predicate =
-        Predicates.assignableFrom(Integer.class);
+        Predicates.subtypeOf(Integer.class);
     Predicate<Class<?>> reserialized =
         SerializableTester.reserializeAndAssert(predicate);
 

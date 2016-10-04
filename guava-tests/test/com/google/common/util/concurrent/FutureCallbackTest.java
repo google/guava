@@ -20,15 +20,11 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
-import junit.framework.TestCase;
-
-import org.mockito.Mockito;
-
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
-
 import javax.annotation.Nullable;
+import junit.framework.TestCase;
+import org.mockito.Mockito;
 
 /**
  * Test for {@link FutureCallback}.
@@ -168,7 +164,7 @@ public class FutureCallbackTest extends TestCase {
     public MockCallback(Throwable expectedFailure) {
       this.failure = expectedFailure;
     }
-    
+
     @Override
     public synchronized void onSuccess(String result) {
       assertFalse(wasCalled);
@@ -178,7 +174,7 @@ public class FutureCallbackTest extends TestCase {
 
     @Override
     public synchronized void onFailure(Throwable t) {
-      assertFalse(wasCalled); 
+      assertFalse(wasCalled);
       wasCalled = true;
       assertEquals(failure, t);
     }

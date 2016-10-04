@@ -22,18 +22,14 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.SortedSet;
-
 import javax.annotation.Nullable;
 
 /**
@@ -55,30 +51,6 @@ public final class MapConstraints {
   private MapConstraints() {}
 
   /**
-   * Returns a constraint that verifies that neither the key nor the value is
-   * null. If either is null, a {@link NullPointerException} is thrown.
-   */
-  public static MapConstraint<Object, Object> notNull() {
-    return NotNullMapConstraint.INSTANCE;
-  }
-
-  // enum singleton pattern
-  private enum NotNullMapConstraint implements MapConstraint<Object, Object> {
-    INSTANCE;
-
-    @Override
-    public void checkKeyValue(Object key, Object value) {
-      checkNotNull(key);
-      checkNotNull(value);
-    }
-
-    @Override
-    public String toString() {
-      return "Not null";
-    }
-  }
-
-  /**
    * Returns a constrained view of the specified map, using the specified
    * constraint. Any operations that add new mappings will call the provided
    * constraint. However, this method does not verify that existing mappings
@@ -93,27 +65,6 @@ public final class MapConstraints {
   public static <K, V> Map<K, V> constrainedMap(
       Map<K, V> map, MapConstraint<? super K, ? super V> constraint) {
     return new ConstrainedMap<K, V>(map, constraint);
-  }
-
-  /**
-   * Returns a constrained view of the specified multimap, using the specified
-   * constraint. Any operations that add new mappings will call the provided
-   * constraint. However, this method does not verify that existing mappings
-   * satisfy the constraint.
-   *
-   * <p>Note that the generated multimap's {@link Multimap#removeAll} and
-   * {@link Multimap#replaceValues} methods return collections that are not
-   * constrained.
-   *
-   * <p>The returned multimap is not serializable.
-   *
-   * @param multimap the multimap to constrain
-   * @param constraint the constraint that validates added entries
-   * @return a constrained view of the multimap
-   */
-  public static <K, V> Multimap<K, V> constrainedMultimap(
-      Multimap<K, V> multimap, MapConstraint<? super K, ? super V> constraint) {
-    return new ConstrainedMultimap<K, V>(multimap, constraint);
   }
 
   /**
@@ -135,46 +86,6 @@ public final class MapConstraints {
   public static <K, V> ListMultimap<K, V> constrainedListMultimap(
       ListMultimap<K, V> multimap, MapConstraint<? super K, ? super V> constraint) {
     return new ConstrainedListMultimap<K, V>(multimap, constraint);
-  }
-
-  /**
-   * Returns a constrained view of the specified set multimap, using the
-   * specified constraint. Any operations that add new mappings will call the
-   * provided constraint. However, this method does not verify that existing
-   * mappings satisfy the constraint.
-   *
-   * <p>Note that the generated multimap's {@link Multimap#removeAll} and
-   * {@link Multimap#replaceValues} methods return collections that are not
-   * constrained.
-   * <p>The returned multimap is not serializable.
-   *
-   * @param multimap the multimap to constrain
-   * @param constraint the constraint that validates added entries
-   * @return a constrained view of the specified multimap
-   */
-  public static <K, V> SetMultimap<K, V> constrainedSetMultimap(
-      SetMultimap<K, V> multimap, MapConstraint<? super K, ? super V> constraint) {
-    return new ConstrainedSetMultimap<K, V>(multimap, constraint);
-  }
-
-  /**
-   * Returns a constrained view of the specified sorted-set multimap, using the
-   * specified constraint. Any operations that add new mappings will call the
-   * provided constraint. However, this method does not verify that existing
-   * mappings satisfy the constraint.
-   *
-   * <p>Note that the generated multimap's {@link Multimap#removeAll} and
-   * {@link Multimap#replaceValues} methods return collections that are not
-   * constrained.
-   * <p>The returned multimap is not serializable.
-   *
-   * @param multimap the multimap to constrain
-   * @param constraint the constraint that validates added entries
-   * @return a constrained view of the specified multimap
-   */
-  public static <K, V> SortedSetMultimap<K, V> constrainedSortedSetMultimap(
-      SortedSetMultimap<K, V> multimap, MapConstraint<? super K, ? super V> constraint) {
-    return new ConstrainedSortedSetMultimap<K, V>(multimap, constraint);
   }
 
   /**
@@ -330,86 +241,6 @@ public final class MapConstraints {
     @Override
     public void putAll(Map<? extends K, ? extends V> map) {
       delegate.putAll(checkMap(map, constraint));
-    }
-  }
-
-  /**
-   * Returns a constrained view of the specified bimap, using the specified
-   * constraint. Any operations that modify the bimap will have the associated
-   * keys and values verified with the constraint.
-   *
-   * <p>The returned bimap is not serializable.
-   *
-   * @param map the bimap to constrain
-   * @param constraint the constraint that validates added entries
-   * @return a constrained view of the specified bimap
-   */
-  public static <K, V> BiMap<K, V> constrainedBiMap(
-      BiMap<K, V> map, MapConstraint<? super K, ? super V> constraint) {
-    return new ConstrainedBiMap<K, V>(map, null, constraint);
-  }
-
-  /** @see MapConstraints#constrainedBiMap */
-  private static class ConstrainedBiMap<K, V> extends ConstrainedMap<K, V> implements BiMap<K, V> {
-    /*
-     * We could switch to racy single-check lazy init and remove volatile, but
-     * there's a downside. That's because this field is also written in the
-     * constructor. Without volatile, the constructor's write of the existing
-     * inverse BiMap could occur after inverse()'s read of the field's initial
-     * null value, leading inverse() to overwrite the existing inverse with a
-     * doubly indirect version. This wouldn't be catastrophic, but it's
-     * something to keep in mind if we make the change.
-     *
-     * Note that UnmodifiableBiMap *does* use racy single-check lazy init.
-     * TODO(cpovirk): pick one and standardize
-     */
-    volatile BiMap<V, K> inverse;
-
-    ConstrainedBiMap(
-        BiMap<K, V> delegate,
-        @Nullable BiMap<V, K> inverse,
-        MapConstraint<? super K, ? super V> constraint) {
-      super(delegate, constraint);
-      this.inverse = inverse;
-    }
-
-    @Override
-    protected BiMap<K, V> delegate() {
-      return (BiMap<K, V>) super.delegate();
-    }
-
-    @Override
-    public V forcePut(K key, V value) {
-      constraint.checkKeyValue(key, value);
-      return delegate().forcePut(key, value);
-    }
-
-    @Override
-    public BiMap<V, K> inverse() {
-      if (inverse == null) {
-        inverse = new ConstrainedBiMap<V, K>(
-            delegate().inverse(), this, new InverseConstraint<V, K>(constraint));
-      }
-      return inverse;
-    }
-
-    @Override
-    public Set<V> values() {
-      return delegate().values();
-    }
-  }
-
-  /** @see MapConstraints#constrainedBiMap */
-  private static class InverseConstraint<K, V> implements MapConstraint<K, V> {
-    final MapConstraint<? super V, ? super K> constraint;
-
-    public InverseConstraint(MapConstraint<? super V, ? super K> constraint) {
-      this.constraint = checkNotNull(constraint);
-    }
-
-    @Override
-    public void checkKeyValue(K key, V value) {
-      constraint.checkKeyValue(value, key);
     }
   }
 
@@ -793,62 +624,6 @@ public final class MapConstraints {
     @Override
     public List<V> replaceValues(K key, Iterable<? extends V> values) {
       return (List<V>) super.replaceValues(key, values);
-    }
-  }
-
-  private static class ConstrainedSetMultimap<K, V> extends ConstrainedMultimap<K, V>
-      implements SetMultimap<K, V> {
-    ConstrainedSetMultimap(
-        SetMultimap<K, V> delegate, MapConstraint<? super K, ? super V> constraint) {
-      super(delegate, constraint);
-    }
-
-    @Override
-    public Set<V> get(K key) {
-      return (Set<V>) super.get(key);
-    }
-
-    @Override
-    public Set<Map.Entry<K, V>> entries() {
-      return (Set<Map.Entry<K, V>>) super.entries();
-    }
-
-    @Override
-    public Set<V> removeAll(Object key) {
-      return (Set<V>) super.removeAll(key);
-    }
-
-    @Override
-    public Set<V> replaceValues(K key, Iterable<? extends V> values) {
-      return (Set<V>) super.replaceValues(key, values);
-    }
-  }
-
-  private static class ConstrainedSortedSetMultimap<K, V> extends ConstrainedSetMultimap<K, V>
-      implements SortedSetMultimap<K, V> {
-    ConstrainedSortedSetMultimap(
-        SortedSetMultimap<K, V> delegate, MapConstraint<? super K, ? super V> constraint) {
-      super(delegate, constraint);
-    }
-
-    @Override
-    public SortedSet<V> get(K key) {
-      return (SortedSet<V>) super.get(key);
-    }
-
-    @Override
-    public SortedSet<V> removeAll(Object key) {
-      return (SortedSet<V>) super.removeAll(key);
-    }
-
-    @Override
-    public SortedSet<V> replaceValues(K key, Iterable<? extends V> values) {
-      return (SortedSet<V>) super.replaceValues(key, values);
-    }
-
-    @Override
-    public Comparator<? super V> valueComparator() {
-      return ((SortedSetMultimap<K, V>) delegate()).valueComparator();
     }
   }
 

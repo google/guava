@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.collect.Multisets.UnmodifiableMultiset;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.SortedSet;
@@ -25,7 +24,7 @@ import java.util.SortedSet;
 /**
  * Implementation of {@link Multisets#unmodifiableSortedMultiset(SortedMultiset)}
  * for GWT.
- * 
+ *
  * @author Louis Wasserman
  */
 final class UnmodifiableSortedMultiset<E>

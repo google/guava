@@ -19,9 +19,6 @@ package com.google.common.util.concurrent;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
-
-import junit.framework.TestCase;
-
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CyclicBarrier;
@@ -32,6 +29,7 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import junit.framework.TestCase;
 
 /**
  * Tests {@link SerializingExecutor}.

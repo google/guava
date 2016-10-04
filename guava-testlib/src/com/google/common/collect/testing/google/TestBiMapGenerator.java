@@ -19,7 +19,6 @@ package com.google.common.collect.testing.google;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.TestContainerGenerator;
-
 import java.util.Map;
 
 /**

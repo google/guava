@@ -22,7 +22,6 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -151,7 +150,7 @@ public class MapBenchmark {
 
     abstract Map<Element, Element> create(Collection<Element> contents);
   }
-  
+
   @Param({"5", "50", "500", "5000", "50000"})
   private int size;
 
@@ -176,7 +175,7 @@ public class MapBenchmark {
   private Collection<Element> values;
 
   @BeforeExperiment void setUp() {
-    CollectionBenchmarkSampleData sampleData = 
+    CollectionBenchmarkSampleData sampleData =
         new CollectionBenchmarkSampleData(
             isUserTypeFast, random, hitRate, size);
 
@@ -234,6 +233,21 @@ public class MapBenchmark {
     boolean dummy = false;
     for (int i = 0; i < reps; i++) {
       for (Element key : map.keySet()) {
+        Element value = map.get(key);
+        dummy ^= key != value;
+      }
+    }
+    return dummy;
+
+  }
+
+  @Benchmark boolean iterateValuesAndGet(int reps) {
+    Map<Element, Element> map = mapToTest;
+
+    boolean dummy = false;
+    for (int i = 0; i < reps; i++) {
+      for (Element key : map.values()) {
+        // This normally wouldn't make sense, but because our keys are our values it kind of does
         Element value = map.get(key);
         dummy ^= key != value;
       }

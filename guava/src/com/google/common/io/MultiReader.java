@@ -16,11 +16,9 @@ package com.google.common.io;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
-
 import javax.annotation.Nullable;
 
 /**

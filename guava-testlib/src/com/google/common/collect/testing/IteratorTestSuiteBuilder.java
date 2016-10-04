@@ -17,7 +17,6 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtIncompatible;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -33,8 +32,8 @@ import java.util.List;
 public class IteratorTestSuiteBuilder<E>
     extends FeatureSpecificTestSuiteBuilder<IteratorTestSuiteBuilder<E>, TestIteratorGenerator<?>> {
 
-  @Override protected List<Class<? extends AbstractTester>> getTesters() {
-    return Collections.<Class<? extends AbstractTester>>singletonList(
-        ExampleIteratorTester.class);
+  @Override
+  protected List<Class<? extends AbstractTester>> getTesters() {
+    return Collections.<Class<? extends AbstractTester>>singletonList(ExampleIteratorTester.class);
   }
 }

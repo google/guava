@@ -23,7 +23,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.cache.CacheLoader.InvalidCacheLoadException;
 import com.google.common.cache.TestingRemovalListeners.QueuingRemovalListener;
 import com.google.common.util.concurrent.UncheckedExecutionException;
-
 import junit.framework.TestCase;
 
 /**

@@ -17,9 +17,7 @@ package com.google.common.cache;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.AbstractMap.SimpleImmutableEntry;
-
 import javax.annotation.Nullable;
 
 /**

@@ -21,7 +21,6 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.collect.BenchmarkHelpers.SetImpl;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
-
 import java.util.Set;
 
 /**
@@ -55,10 +54,10 @@ public class SetContainsBenchmark {
   private Set<Element> setToTest;
 
   @BeforeExperiment void setUp() {
-    CollectionBenchmarkSampleData sampleData = 
+    CollectionBenchmarkSampleData sampleData =
         new CollectionBenchmarkSampleData(
             isUserTypeFast, random, hitRate, size);
-    
+
     this.setToTest = impl.create(sampleData.getValuesInSet());
     this.queries = sampleData.getQueries();
   }

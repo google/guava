@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.math.LongMath;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
-
 import java.math.RoundingMode;
 import java.util.Arrays;
 import javax.annotation.Nullable;

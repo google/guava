@@ -16,11 +16,9 @@
 
 package com.google.common.graph;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
-import com.google.common.graph.testing.TestGraphBuilder;
 import com.google.common.testing.AbstractPackageSanityTests;
-
 import junit.framework.AssertionFailedError;
 
 /**
@@ -31,31 +29,27 @@ import junit.framework.AssertionFailedError;
 
 public class PackageSanityTests extends AbstractPackageSanityTests {
 
-  private static final GraphBuilder<?, ?> BUILDER_A =
-      GraphBuilder.directed().allowsParallelEdges(true).expectedNodeCount(10);
-  private static final GraphBuilder<?, ?> BUILDER_B =
-      GraphBuilder.directed().allowsSelfLoops(false).expectedNodeCount(16);
+  private static final AbstractGraphBuilder<?> GRAPH_BUILDER_A =
+      GraphBuilder.directed().expectedNodeCount(10);
+  private static final AbstractGraphBuilder<?> GRAPH_BUILDER_B =
+      ValueGraphBuilder.directed().allowsSelfLoops(true).expectedNodeCount(16);
 
-  private static final ImmutableGraph<String, String> IMMUTABLE_GRAPH_A =
-      TestGraphBuilder.<String, String>init(GraphBuilder.directed())
-          .addNode("A")
-          .toImmutableGraph();
-  private static final ImmutableGraph<String, String> IMMUTABLE_GRAPH_B =
-      TestGraphBuilder.<String, String>init(GraphBuilder.directed())
-          .addNode("B")
-          .toImmutableGraph();
+  private static final ImmutableGraph<String> IMMUTABLE_GRAPH_A = graphWithNode("A");
+  private static final ImmutableGraph<String> IMMUTABLE_GRAPH_B = graphWithNode("B");
+
+  private static final NetworkBuilder<?, ?> NETWORK_BUILDER_A =
+      NetworkBuilder.directed().allowsParallelEdges(true).expectedNodeCount(10);
+  private static final NetworkBuilder<?, ?> NETWORK_BUILDER_B =
+      NetworkBuilder.directed().allowsSelfLoops(true).expectedNodeCount(16);
+
+  private static final ImmutableNetwork<String, String> IMMUTABLE_NETWORK_A = networkWithNode("A");
+  private static final ImmutableNetwork<String, String> IMMUTABLE_NETWORK_B = networkWithNode("B");
 
   public PackageSanityTests() {
-    setDistinctValues(GraphBuilder.class, BUILDER_A, BUILDER_B);
+    setDistinctValues(AbstractGraphBuilder.class, GRAPH_BUILDER_A, GRAPH_BUILDER_B);
     setDistinctValues(Graph.class, IMMUTABLE_GRAPH_A, IMMUTABLE_GRAPH_B);
-
-    // We override AbstractPackageSanityTests's equality testing of mutable graphs by defining
-    // testEquals() methods in ConfigurableUndirectedGraphTest and ConfigurableDirectedGraphTest.
-    // If we don't define testEquals(), the tool tries to automatically create non-equal, mutable
-    // graphs by passing different instances of GraphBuilder into their constructors. However,
-    // the GraphBuilder instances are *not* used to determine equality for mutable graphs.
-    // Therefore, the tool ends up creating 2 equal mutable instances and it causes failures.
-    // However, the tool is still checking the nullability contracts of the mutable graphs.
+    setDistinctValues(NetworkBuilder.class, NETWORK_BUILDER_A, NETWORK_BUILDER_B);
+    setDistinctValues(Network.class, IMMUTABLE_NETWORK_A, IMMUTABLE_NETWORK_B);
   }
 
   @Override
@@ -63,7 +57,21 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
     try {
       super.testNulls();
     } catch (AssertionFailedError e) {
-      assertThat(e.getCause().getMessage()).contains(AbstractGraphTest.ERROR_ELEMENT_NOT_IN_GRAPH);
+      assertWithMessage("Method did not throw null pointer OR element not in graph exception.")
+          .that(e.getCause().getMessage())
+          .contains(AbstractNetworkTest.ERROR_ELEMENT_NOT_IN_GRAPH);
     }
+  }
+
+  private static <N> ImmutableGraph<N> graphWithNode(N node) {
+    MutableGraph<N> graph = GraphBuilder.directed().build();
+    graph.addNode(node);
+    return ImmutableGraph.copyOf(graph);
+  }
+
+  private static <N> ImmutableNetwork<N, N> networkWithNode(N node) {
+    MutableNetwork<N, N> network = NetworkBuilder.directed().build();
+    network.addNode(node);
+    return ImmutableNetwork.copyOf(network);
   }
 }
