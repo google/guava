@@ -119,7 +119,7 @@ public final class Objects extends ExtraObjectsMethodsForWeb {
    *     class name
    * @since 2.0
    * @deprecated Use {@link MoreObjects#toStringHelper(Object)} instead. This method is scheduled
-   *     for removal in August 2016.
+   *     for removal in Guava 21.0.
    */
   @Deprecated
   public static ToStringHelper toStringHelper(Object self) {
@@ -136,7 +136,7 @@ public final class Objects extends ExtraObjectsMethodsForWeb {
    * @param clazz the {@link Class} of the instance
    * @since 7.0 (source-compatible since 2.0)
    * @deprecated Use {@link MoreObjects#toStringHelper(Class)} instead. This method is scheduled for
-   *     removal in August 2016.
+   *     removal in Guava 21.0.
    */
   @Deprecated
   public static ToStringHelper toStringHelper(Class<?> clazz) {
@@ -151,7 +151,7 @@ public final class Objects extends ExtraObjectsMethodsForWeb {
    * @param className the name of the instance type
    * @since 7.0 (source-compatible since 2.0)
    * @deprecated Use {@link MoreObjects#toStringHelper(String)} instead. This method is scheduled
-   *     for removal in August 2016.
+   *     for removal in Guava 21.0.
    */
   @Deprecated
   public static ToStringHelper toStringHelper(String className) {
@@ -172,7 +172,7 @@ public final class Objects extends ExtraObjectsMethodsForWeb {
    * @throws NullPointerException if both {@code first} and {@code second} were {@code null}
    * @since 3.0
    * @deprecated Use {@link MoreObjects#firstNonNull} instead. This method is scheduled for removal
-   *     in August 2016.
+   *     in Guava 21.0.
    */
   @Deprecated
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
@@ -185,7 +185,7 @@ public final class Objects extends ExtraObjectsMethodsForWeb {
    * @author Jason Lee
    * @since 2.0
    * @deprecated Use {@link MoreObjects.ToStringHelper} instead. This class is scheduled for removal
-   *     in August 2016.
+   *     in Guava 21.0.
    */
   @Deprecated
   public static final class ToStringHelper {

@@ -124,7 +124,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @since 15.0 (source compatible (accepting the since removed {@code GenericMapMaker} class)
    *     since 7.0)
    * @deprecated Use {@link #create(ConcurrentMap)} instead. This method is scheduled for deletion
-   *     in October 2016.
+   *     in Guava 21.0.
    */
   @Beta
   @Deprecated

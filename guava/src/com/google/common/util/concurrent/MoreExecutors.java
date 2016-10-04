@@ -260,7 +260,7 @@ public final class MoreExecutors {
    *     source-compatible</a> since 3.0)
    * @deprecated Use {@link #directExecutor()} if you only require an {@link Executor} and
    *     {@link #newDirectExecutorService()} if you need a {@link ListeningExecutorService}. This
-   *     method will be removed in August 2016.
+   *     method will be removed in Guava 21.0.
    */
   @Deprecated
   @GwtIncompatible
