@@ -35,7 +35,8 @@ import com.google.common.base.Optional;
  * <p>Example of use:
  *
  * <pre><code>
- * MutableGraph<String, Double> graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
+ * MutableValueGraph<String, Double> graph =
+ *     ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
  * graph.putEdgeValue("San Francisco", "San Francisco", 0.0);
  * graph.putEdgeValue("San Jose", "San Jose", 0.0);
  * graph.putEdgeValue("San Francisco", "San Jose", 48.4);
