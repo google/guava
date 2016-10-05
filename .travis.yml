@@ -10,7 +10,7 @@ jdk:
 install: mvn -B install -U -DskipTests=true
 
 # https://docs.travis-ci.com/user/common-build-problems/#Build-times-out-because-no-output-was-received
-script: travis_wait 360 mvn -B verify -U -Dmaven.javadoc.skip=true
+script: travis_wait 360 mvn -B verify -U -Dmaven.javadoc.skip=true -Dgwt.test.include=**/DoesNotMatchAnyTests.java
 
 after_success:
   - util/deploy_snapshot.sh
