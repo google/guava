@@ -50,9 +50,6 @@ Learn about Guava
 ------------------
 
 - Our users' guide, [Guava Explained][]
-- [Presentation slides focusing on base, primitives, and io](http://guava-libraries.googlecode.com/files/Guava_for_Netflix_.pdf)
-- [Presentation slides focusing on cache]( http://guava-libraries.googlecode.com/files/JavaCachingwithGuava.pdf)
-- [Presentation slides focusing on util.concurrent](http://guava-libraries.googlecode.com/files/guava-concurrent-slides.pdf)
 - [A nice collection](http://www.tfnico.com/presentations/google-guava) of other helpful links
 
 Links
