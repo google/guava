@@ -184,36 +184,9 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></strong></code>
-<div class="block">Determines a true or false value for any Java <code>char</code> value, just as <a href="../../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> does
- for any <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang"><code>Object</code></a>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;A,B&gt;</strong></code>
-<div class="block">A function from <code>A</code> to <code>B</code> with an associated <i>reverse</i> function from <code>B</code>
- to <code>A</code>; used for converting back and forth between <i>different representations of the same
- information</i>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/base/Enums.html" title="class in com.google.common.base">Enums</a></strong></code>
-<div class="block">Utility methods for working with <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang"><code>Enum</code></a> instances.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a></strong></code>
 <div class="block">An object that splits strings into maps as <code>Splitter</code> splits iterables and lists.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/base/StandardSystemProperty.html" title="enum in com.google.common.base">StandardSystemProperty</a></strong></code>
-<div class="block">Represents a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/System.html?is-external=true#getProperties()" title="class or interface in java.lang">standard system property</a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -296,34 +269,6 @@
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;</code></td>
-<td class="colLast"><span class="strong">CaseFormat.</span><code><strong><a href="../../../../../com/google/common/base/CaseFormat.html#converterTo(com.google.common.base.CaseFormat)">converterTo</a></strong>(<a href="../../../../../com/google/common/base/CaseFormat.html" title="enum in com.google.common.base">CaseFormat</a>&nbsp;targetFormat)</code>
-<div class="block">Returns a <code>Converter</code> that converts strings from this format to <code>targetFormat</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><span class="strong">Ascii.</span><code><strong><a href="../../../../../com/google/common/base/Ascii.html#equalsIgnoreCase(java.lang.CharSequence,%20java.lang.CharSequence)">equalsIgnoreCase</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;s1,
-                                <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;s2)</code>
-<div class="block">Indicates whether the contents of the given character sequences <code>s1</code> and <code>s2</code> are
- equal, ignoring the case of any ASCII alphabetic characters between <code>'a'</code> and <code>'z'</code>
- or <code>'A'</code> and <code>'Z'</code> inclusive.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="../../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</code></td>
-<td class="colLast"><span class="strong">Equivalence.</span><code><strong><a href="../../../../../com/google/common/base/Equivalence.html#equivalentTo(T)">equivalentTo</a></strong>(<a href="../../../../../com/google/common/base/Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;target)</code>
-<div class="block">Returns a predicate that evaluates to true if and only if the input is equivalent to
- <code>target</code> according to this equivalence relation.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,T&gt;</code></td>
-<td class="colLast"><span class="strong">Functions.</span><code><strong><a href="../../../../../com/google/common/base/Functions.html#forSupplier(com.google.common.base.Supplier)">forSupplier</a></strong>(<a href="../../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;supplier)</code>
-<div class="block">Returns a function that always returns the result of invoking <a href="../../../../../com/google/common/base/Supplier.html#get()"><code>Supplier.get()</code></a> on <code>supplier</code>, regardless of its input.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;</code></td>
 <td class="colLast"><span class="strong">Throwables.</span><code><strong><a href="../../../../../com/google/common/base/Throwables.html#getCausalChain(java.lang.Throwable)">getCausalChain</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</code>
 <div class="block">Gets a <code>Throwable</code> cause chain as a list.</div>
@@ -384,21 +329,6 @@
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="../../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;,T&gt;</code></td>
-<td class="colLast"><span class="strong">Suppliers.</span><code><strong><a href="../../../../../com/google/common/base/Suppliers.html#supplierFunction()">supplierFunction</a></strong>()</code>
-<div class="block">Returns a function that accepts a supplier and returns the result of invoking
- <a href="../../../../../com/google/common/base/Supplier.html#get()"><code>Supplier.get()</code></a> on that supplier.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><span class="strong">Ascii.</span><code><strong><a href="../../../../../com/google/common/base/Ascii.html#truncate(java.lang.CharSequence,%20int,%20java.lang.String)">truncate</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;seq,
-                int&nbsp;maxLength,
-                <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;truncationIndicator)</code>
-<div class="block">Truncates the given character sequence to the given maximum length.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a></code></td>
 <td class="colLast"><span class="strong">Splitter.</span><code><strong><a href="../../../../../com/google/common/base/Splitter.html#withKeyValueSeparator(char)">withKeyValueSeparator</a></strong>(char&nbsp;separator)</code>
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
@@ -444,19 +374,6 @@
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/BinaryTreeTraverser.html" title="class in com.google.common.collect">BinaryTreeTraverser</a>&lt;T&gt;</strong></code>
 <div class="block">A variant of <a href="../../../../../com/google/common/collect/TreeTraverser.html" title="class in com.google.common.collect"><code>TreeTraverser</code></a> for binary trees, providing additional traversals specific to
  binary trees.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/ContiguousSet.html" title="class in com.google.common.collect">ContiguousSet</a>&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;</strong></code>
-<div class="block">A sorted set of contiguous values in a given <a href="../../../../../com/google/common/collect/DiscreteDomain.html" title="class in com.google.common.collect"><code>DiscreteDomain</code></a>.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/DiscreteDomain.html" title="class in com.google.common.collect">DiscreteDomain</a>&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;</strong></code>
-<div class="block">A descriptor for a <i>discrete</i> <code>Comparable</code> domain such as all
- <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang"><code>Integer</code></a> instances.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -549,37 +466,30 @@
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;E&gt;</strong></code>
-<div class="block">A <a href="../../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect"><code>SortedMultiset</code></a> whose contents will never change, with many other important properties
- detailed at <a href="../../../../../com/google/common/collect/ImmutableCollection.html" title="class in com.google.common.collect"><code>ImmutableCollection</code></a>.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;</strong></code>
 <div class="block">Provides equivalent behavior to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true#intern()" title="class or interface in java.lang"><code>String.intern()</code></a> for other immutable
  types.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/Interners.html" title="class in com.google.common.collect">Interners</a></strong></code>
 <div class="block">Contains static methods pertaining to instances of <a href="../../../../../com/google/common/collect/Interner.html" title="interface in com.google.common.collect"><code>Interner</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a>&lt;K,V&gt;</strong></code>
 <div class="block"><strong>Deprecated.</strong>&nbsp;
 <div class="block"><i>Use <code>Preconditions</code> for basic checks. In place of constrained maps, we
      encourage you to check your preconditions explicitly instead of leaving that work to the map
      implementation. For the specific case of rejecting null, consider <a href="../../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect"><code>ImmutableMap</code></a>. This
-     class is scheduled for removal in Guava 20.0.</i></div>
+     class is scheduled for removal in Guava 21.0.</i></div>
 </div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/MapConstraints.html" title="class in com.google.common.collect">MapConstraints</a></strong></code>
 <div class="block"><strong>Deprecated.</strong>&nbsp;
@@ -587,11 +497,11 @@
      constrained maps, we encourage you to check your preconditions
      explicitly instead of leaving that work to the map implementation.
      For the specific case of rejecting null, consider <a href="../../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect"><code>ImmutableMap</code></a>.
-     This class is scheduled for removal in Guava 20.0.</i></div>
+     This class is scheduled for removal in Guava 21.0.</i></div>
 </div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a>&lt;E&gt;</strong></code>
 <div class="block">A double-ended priority queue, which provides constant-time access to both
@@ -599,50 +509,30 @@
  specified comparator.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/MinMaxPriorityQueue.Builder.html" title="class in com.google.common.collect">MinMaxPriorityQueue.Builder</a>&lt;B&gt;</strong></code>
 <div class="block">The builder class used in creation of min-max priority queues.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/MultimapBuilder.html" title="class in com.google.common.collect">MultimapBuilder</a>&lt;K0,V0&gt;</strong></code>
 <div class="block">A builder for a multimap implementation that allows customization of the backing map and value
  collection implementations used in a particular multimap.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>,V&gt;</strong></code>
 <div class="block">A mapping from disjoint nonempty ranges to non-null values.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;C extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;</strong></code>
 <div class="block">A set comprising zero or more <a href="../../../../../com/google/common/collect/Range.html#isEmpty()">nonempty</a>,
  <a href="../../../../../com/google/common/collect/Range.html#isConnected(com.google.common.collect.Range)">disconnected</a> ranges of type <code>C</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>interface&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;R,C,V&gt;</strong></code>
-<div class="block">Interface that extends <code>Table</code> and whose rows are sorted.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>interface&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;</strong></code>
-<div class="block">A <a href="../../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect"><code>Multiset</code></a> which maintains the ordering of its elements, according to
- either their natural order or an explicit <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/collect/TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,C,V&gt;</strong></code>
-<div class="block">Implementation of <code>Table</code> whose row keys and column keys are ordered
- by their natural ordering or by supplied comparators.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -725,22 +615,10 @@
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../com/google/common/collect/ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">K</a>,<a href="../../../../../com/google/common/collect/ImmutableMap.html" title="type parameter in ImmutableMap">V</a>&gt;</code></td>
-<td class="colLast"><span class="strong">ImmutableMap.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableMap.html#asMultimap()">asMultimap</a></strong>()</code>
-<div class="block">Returns a multimap view of the map.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;</code></td>
 <td class="colLast"><span class="strong">Lists.</span><code><strong><a href="../../../../../com/google/common/collect/Lists.html#charactersOf(java.lang.CharSequence)">charactersOf</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
 <div class="block">Returns a view of the specified <code>CharSequence</code> as a <code>List&lt;Character&gt;</code>, viewing <code>sequence</code> as a sequence of Unicode code
  units.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static <a href="../../../../../com/google/common/collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;</code></td>
-<td class="colLast"><span class="strong">Lists.</span><code><strong><a href="../../../../../com/google/common/collect/Lists.html#charactersOf(java.lang.String)">charactersOf</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string)</code>
-<div class="block">Returns a view of the specified string as an immutable list of <code>Character</code> values.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -843,26 +721,18 @@
 <td class="colLast"><span class="strong">ConcurrentHashMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/ConcurrentHashMultiset.html#create(com.google.common.collect.MapMaker)">create</a></strong>(<a href="../../../../../com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a>&nbsp;mapMaker)</code>
 <div class="block"><strong>Deprecated.</strong>&nbsp;
 <div class="block"><i>Use <a href="../../../../../com/google/common/collect/ConcurrentHashMultiset.html#create(java.util.concurrent.ConcurrentMap)"><code>ConcurrentHashMultiset.create(ConcurrentMap)</code></a> instead. This method is scheduled for deletion
-     in October 2016.</i></div>
+     in Guava 21.0.</i></div>
 </div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static &lt;K,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/MapDifference.html" title="interface in com.google.common.collect">MapDifference</a>&lt;K,V&gt;</code></td>
-<td class="colLast"><span class="strong">Maps.</span><code><strong><a href="../../../../../com/google/common/collect/Maps.html#difference(java.util.Map,%20java.util.Map,%20com.google.common.base.Equivalence)">difference</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends K,? extends V&gt;&nbsp;left,
-                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends K,? extends V&gt;&nbsp;right,
-                    <a href="../../../../../com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;? super V&gt;&nbsp;valueEquivalence)</code>
-<div class="block">Computes the difference between two maps.</div>
-</td>
-</tr>
-<tr class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></td>
 <td class="colLast"><span class="strong">Multisets.</span><code><strong><a href="../../../../../com/google/common/collect/Multisets.html#difference(com.google.common.collect.Multiset,%20com.google.common.collect.Multiset)">difference</a></strong>(<a href="../../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;multiset1,
                     <a href="../../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;?&gt;&nbsp;multiset2)</code>
 <div class="block">Returns an unmodifiable view of the difference of two multisets.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;int</code></td>
 <td class="colLast"><span class="strong">Queues.</span><code><strong><a href="../../../../../com/google/common/collect/Queues.html#drain(java.util.concurrent.BlockingQueue,%20java.util.Collection,%20int,%20long,%20java.util.concurrent.TimeUnit)">drain</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;E&gt;&nbsp;q,
           <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super E&gt;&nbsp;buffer,
@@ -874,7 +744,7 @@
  timeout.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;int</code></td>
 <td class="colLast"><span class="strong">Queues.</span><code><strong><a href="../../../../../com/google/common/collect/Queues.html#drainUninterruptibly(java.util.concurrent.BlockingQueue,%20java.util.Collection,%20int,%20long,%20java.util.concurrent.TimeUnit)">drainUninterruptibly</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;E&gt;&nbsp;q,
                                         <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super E&gt;&nbsp;buffer,
@@ -885,33 +755,33 @@
  but with a different behavior in case it is interrupted while waiting.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></td>
 <td class="colLast"><span class="strong">Multisets.</span><code><strong><a href="../../../../../com/google/common/collect/Multisets.html#filter(com.google.common.collect.Multiset,%20com.google.common.base.Predicate)">filter</a></strong>(<a href="../../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;&nbsp;unfiltered,
             <a href="../../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super E&gt;&nbsp;predicate)</code>
 <div class="block">Returns a view of the elements of <code>unfiltered</code> that satisfy a predicate.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
 <td class="colLast"><span class="strong">FluentIterable.</span><code><strong><a href="../../../../../com/google/common/collect/FluentIterable.html#from(E[])">from</a></strong>(E[]&nbsp;elements)</code>
 <div class="block">Returns a fluent iterable containing <code>elements</code> in the specified order.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;K&gt;,V&gt;&nbsp;<br><a href="../../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="strong">Maps.</span><code><strong><a href="../../../../../com/google/common/collect/Maps.html#immutableEnumMap(java.util.Map)">immutableEnumMap</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,? extends V&gt;&nbsp;map)</code>
 <div class="block">Returns an immutable map instance containing the given entries.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><span class="strong">FluentIterable.</span><code><strong><a href="../../../../../com/google/common/collect/FluentIterable.html#join(com.google.common.base.Joiner)">join</a></strong>(<a href="../../../../../com/google/common/base/Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;joiner)</code>
 <div class="block">Returns a <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang"><code>String</code></a> containing all of the elements of this fluent iterable joined with
  <code>joiner</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;</code></td>
 <td class="colLast"><span class="strong">Iterables.</span><code><strong><a href="../../../../../com/google/common/collect/Iterables.html#mergeSorted(java.lang.Iterable,%20java.util.Comparator)">mergeSorted</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;iterables,
                       <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super T&gt;&nbsp;comparator)</code>
@@ -919,7 +789,7 @@
  <code>iterables</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;T&gt;&nbsp;<a href="../../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;</code></td>
 <td class="colLast"><span class="strong">Iterators.</span><code><strong><a href="../../../../../com/google/common/collect/Iterators.html#mergeSorted(java.lang.Iterable,%20java.util.Comparator)">mergeSorted</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&gt;&nbsp;iterators,
                       <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super T&gt;&nbsp;comparator)</code>
@@ -927,20 +797,20 @@
  <code>iterators</code>, traversing every element of the input iterators.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;R,C,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V&gt;</code></td>
 <td class="colLast"><span class="strong">Tables.</span><code><strong><a href="../../../../../com/google/common/collect/Tables.html#newCustomTable(java.util.Map,%20com.google.common.base.Supplier)">newCustomTable</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;R,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;C,V&gt;&gt;&nbsp;backingMap,
                             <a href="../../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;C,V&gt;&gt;&nbsp;factory)</code>
 <div class="block">Creates a table that uses the specified backing map and factory.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
 <td class="colLast"><span class="strong">FluentIterable.</span><code><strong><a href="../../../../../com/google/common/collect/FluentIterable.html#of()">of</a></strong>()</code>
 <div class="block">Returns a fluent iterable containing no elements.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
 <td class="colLast"><span class="strong">FluentIterable.</span><code><strong><a href="../../../../../com/google/common/collect/FluentIterable.html#of(E[])">of</a></strong>(E[]&nbsp;elements)</code>
 <div class="block"><strong>Deprecated.</strong>&nbsp;
@@ -949,21 +819,21 @@
 </div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../../com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</code></td>
 <td class="colLast"><span class="strong">FluentIterable.</span><code><strong><a href="../../../../../com/google/common/collect/FluentIterable.html#of(E,%20E...)">of</a></strong>(E&nbsp;element,
     E...&nbsp;elements)</code>
 <div class="block">Returns a fluent iterable containing the specified elements in order.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super E&gt;&gt;&nbsp;<br><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&gt;</code></td>
 <td class="colLast"><span class="strong">Collections2.</span><code><strong><a href="../../../../../com/google/common/collect/Collections2.html#orderedPermutations(java.lang.Iterable)">orderedPermutations</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements)</code>
 <div class="block">Returns a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> of all the permutations of the specified
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang"><code>Iterable</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&gt;</code></td>
 <td class="colLast"><span class="strong">Collections2.</span><code><strong><a href="../../../../../com/google/common/collect/Collections2.html#orderedPermutations(java.lang.Iterable,%20java.util.Comparator)">orderedPermutations</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;&nbsp;elements,
                                       <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</code>
@@ -972,7 +842,7 @@
  the lexicographical ordering.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,<a href="../../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableSortedMap.Builder.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableSortedMap.Builder.html#orderEntriesByValue(java.util.Comparator)">orderEntriesByValue</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&nbsp;valueComparator)</code>
 <div class="block"><strong>Deprecated.</strong>&nbsp;
@@ -980,145 +850,145 @@
 </div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/ImmutableBiMap.Builder.html" title="class in com.google.common.collect">ImmutableBiMap.Builder</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">K</a>,<a href="../../../../../com/google/common/collect/ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">V</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableBiMap.Builder.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableBiMap.Builder.html#orderEntriesByValue(java.util.Comparator)">orderEntriesByValue</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../../com/google/common/collect/ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">V</a>&gt;&nbsp;valueComparator)</code>
 <div class="block">Configures this <code>Builder</code> to order entries by value according to the specified
  comparator.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,<a href="../../../../../com/google/common/collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableMap.Builder.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableMap.Builder.html#orderEntriesByValue(java.util.Comparator)">orderEntriesByValue</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../../com/google/common/collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;valueComparator)</code>
 <div class="block">Configures this <code>Builder</code> to order entries by value according to the specified
  comparator.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;E&gt;&gt;</code></td>
 <td class="colLast"><span class="strong">Collections2.</span><code><strong><a href="../../../../../com/google/common/collect/Collections2.html#permutations(java.util.Collection)">permutations</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;&nbsp;elements)</code>
 <div class="block">Returns a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a> of all the permutations of the specified
  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util"><code>Collection</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,<a href="../../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableSortedMap.Builder.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableSortedMap.Builder.html#putAll(java.lang.Iterable)">putAll</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;? extends <a href="../../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">K</a>,? extends <a href="../../../../../com/google/common/collect/ImmutableSortedMap.Builder.html" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&gt;&nbsp;entries)</code>
 <div class="block">Adds all the given entries to the built map.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/ImmutableBiMap.Builder.html" title="class in com.google.common.collect">ImmutableBiMap.Builder</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">K</a>,<a href="../../../../../com/google/common/collect/ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">V</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableBiMap.Builder.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableBiMap.Builder.html#putAll(java.lang.Iterable)">putAll</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;? extends <a href="../../../../../com/google/common/collect/ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">K</a>,? extends <a href="../../../../../com/google/common/collect/ImmutableBiMap.Builder.html" title="type parameter in ImmutableBiMap.Builder">V</a>&gt;&gt;&nbsp;entries)</code>
 <div class="block">Adds all of the given entries to the built bimap.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/ImmutableListMultimap.Builder.html" title="class in com.google.common.collect">ImmutableListMultimap.Builder</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableListMultimap.Builder.html" title="type parameter in ImmutableListMultimap.Builder">K</a>,<a href="../../../../../com/google/common/collect/ImmutableListMultimap.Builder.html" title="type parameter in ImmutableListMultimap.Builder">V</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableListMultimap.Builder.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableListMultimap.Builder.html#putAll(java.lang.Iterable)">putAll</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;? extends <a href="../../../../../com/google/common/collect/ImmutableListMultimap.Builder.html" title="type parameter in ImmutableListMultimap.Builder">K</a>,? extends <a href="../../../../../com/google/common/collect/ImmutableListMultimap.Builder.html" title="type parameter in ImmutableListMultimap.Builder">V</a>&gt;&gt;&nbsp;entries)</code>
 <div class="block">Adds entries to the built multimap.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/ImmutableMultimap.Builder.html" title="class in com.google.common.collect">ImmutableMultimap.Builder</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,<a href="../../../../../com/google/common/collect/ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableMultimap.Builder.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableMultimap.Builder.html#putAll(java.lang.Iterable)">putAll</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;? extends <a href="../../../../../com/google/common/collect/ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">K</a>,? extends <a href="../../../../../com/google/common/collect/ImmutableMultimap.Builder.html" title="type parameter in ImmutableMultimap.Builder">V</a>&gt;&gt;&nbsp;entries)</code>
 <div class="block">Adds entries to the built multimap.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/ImmutableSetMultimap.Builder.html" title="class in com.google.common.collect">ImmutableSetMultimap.Builder</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableSetMultimap.Builder.html" title="type parameter in ImmutableSetMultimap.Builder">K</a>,<a href="../../../../../com/google/common/collect/ImmutableSetMultimap.Builder.html" title="type parameter in ImmutableSetMultimap.Builder">V</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableSetMultimap.Builder.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableSetMultimap.Builder.html#putAll(java.lang.Iterable)">putAll</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;? extends <a href="../../../../../com/google/common/collect/ImmutableSetMultimap.Builder.html" title="type parameter in ImmutableSetMultimap.Builder">K</a>,? extends <a href="../../../../../com/google/common/collect/ImmutableSetMultimap.Builder.html" title="type parameter in ImmutableSetMultimap.Builder">V</a>&gt;&gt;&nbsp;entries)</code>
 <div class="block">Adds entries to the built multimap.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/collect/ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="../../../../../com/google/common/collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,<a href="../../../../../com/google/common/collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ImmutableMap.Builder.</span><code><strong><a href="../../../../../com/google/common/collect/ImmutableMap.Builder.html#putAll(java.lang.Iterable)">putAll</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;? extends <a href="../../../../../com/google/common/collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">K</a>,? extends <a href="../../../../../com/google/common/collect/ImmutableMap.Builder.html" title="type parameter in ImmutableMap.Builder">V</a>&gt;&gt;&nbsp;entries)</code>
 <div class="block">Adds all of the given entries to the built map.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><span class="strong">ForwardingMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingMultiset.html#standardAddAll(java.util.Collection)">standardAddAll</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="../../../../../com/google/common/collect/ForwardingMultiset.html" title="type parameter in ForwardingMultiset">E</a>&gt;&nbsp;elementsToAdd)</code>
 <div class="block">A sensible definition of <a href="../../../../../com/google/common/collect/ForwardingCollection.html#addAll(java.util.Collection)"><code>ForwardingCollection.addAll(Collection)</code></a> in terms of <a href="../../../../../com/google/common/collect/ForwardingCollection.html#add(E)"><code>ForwardingCollection.add(Object)</code></a> and <a href="../../../../../com/google/common/collect/ForwardingMultiset.html#add(E,%20int)"><code>ForwardingMultiset.add(Object, int)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><span class="strong">ForwardingSortedSet.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingSortedSet.html#standardContains(java.lang.Object)">standardContains</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
 <div class="block">A sensible definition of <a href="../../../../../com/google/common/collect/ForwardingCollection.html#contains(java.lang.Object)"><code>ForwardingCollection.contains(java.lang.Object)</code></a> in terms of the <code>first()</code>
  method of <a href="../../../../../com/google/common/collect/ForwardingSortedSet.html#tailSet(E)"><code>ForwardingSortedSet.tailSet(E)</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><span class="strong">ForwardingMap.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingMap.html#standardContainsKey(java.lang.Object)">standardContainsKey</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</code>
 <div class="block">A sensible, albeit inefficient, definition of <a href="../../../../../com/google/common/collect/ForwardingMap.html#containsKey(java.lang.Object)"><code>ForwardingMap.containsKey(java.lang.Object)</code></a> in terms
  of the <code>iterator</code> method of <a href="../../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><code>ForwardingMap.entrySet()</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><span class="strong">ForwardingSortedMap.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingSortedMap.html#standardContainsKey(java.lang.Object)">standardContainsKey</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</code>
 <div class="block">A sensible definition of <a href="../../../../../com/google/common/collect/ForwardingMap.html#containsKey(java.lang.Object)"><code>ForwardingMap.containsKey(java.lang.Object)</code></a> in terms of the <code>firstKey()</code> method of <a href="../../../../../com/google/common/collect/ForwardingSortedMap.html#tailMap(K)"><code>ForwardingSortedMap.tailMap(K)</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected int</code></td>
 <td class="colLast"><span class="strong">ForwardingMultiset.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingMultiset.html#standardCount(java.lang.Object)">standardCount</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
 <div class="block">A sensible, albeit inefficient, definition of <a href="../../../../../com/google/common/collect/ForwardingMultiset.html#count(java.lang.Object)"><code>ForwardingMultiset.count(java.lang.Object)</code></a> in terms of
  <a href="../../../../../com/google/common/collect/ForwardingMultiset.html#entrySet()"><code>ForwardingMultiset.entrySet()</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ForwardingNavigableMap.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingNavigableMap.html#standardDescendingKeySet()">standardDescendingKeySet</a></strong>()</code>
 <div class="block">A sensible definition of <a href="../../../../../com/google/common/collect/ForwardingNavigableMap.html#descendingKeySet()"><code>ForwardingNavigableMap.descendingKeySet()</code></a> as the <code>navigableKeySet</code> of
  <a href="../../../../../com/google/common/collect/ForwardingNavigableMap.html#descendingMap()"><code>ForwardingNavigableMap.descendingMap()</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><span class="strong">ForwardingList.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingList.html#standardEquals(java.lang.Object)">standardEquals</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
 <div class="block">A sensible definition of <a href="../../../../../com/google/common/collect/ForwardingList.html#equals(java.lang.Object)"><code>ForwardingList.equals(Object)</code></a> in terms of <a href="../../../../../com/google/common/collect/ForwardingCollection.html#size()"><code>ForwardingCollection.size()</code></a>
  and <a href="../../../../../com/google/common/collect/ForwardingCollection.html#iterator()"><code>ForwardingCollection.iterator()</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected int</code></td>
 <td class="colLast"><span class="strong">ForwardingList.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingList.html#standardHashCode()">standardHashCode</a></strong>()</code>
 <div class="block">A sensible definition of <a href="../../../../../com/google/common/collect/ForwardingList.html#hashCode()"><code>ForwardingList.hashCode()</code></a> in terms of <a href="../../../../../com/google/common/collect/ForwardingCollection.html#iterator()"><code>ForwardingCollection.iterator()</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ForwardingList.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingList.html#standardListIterator(int)">standardListIterator</a></strong>(int&nbsp;start)</code>
 <div class="block">A sensible default implementation of <a href="../../../../../com/google/common/collect/ForwardingList.html#listIterator(int)"><code>ForwardingList.listIterator(int)</code></a>, in terms
  of <a href="../../../../../com/google/common/collect/ForwardingCollection.html#size()"><code>ForwardingCollection.size()</code></a>, <a href="../../../../../com/google/common/collect/ForwardingList.html#get(int)"><code>ForwardingList.get(int)</code></a>, <a href="../../../../../com/google/common/collect/ForwardingList.html#set(int,%20E)"><code>ForwardingList.set(int, Object)</code></a>, <a href="../../../../../com/google/common/collect/ForwardingList.html#add(int,%20E)"><code>ForwardingList.add(int, Object)</code></a>, and <a href="../../../../../com/google/common/collect/ForwardingList.html#remove(int)"><code>ForwardingList.remove(int)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><span class="strong">ForwardingSortedSet.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingSortedSet.html#standardRemove(java.lang.Object)">standardRemove</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
 <div class="block">A sensible definition of <a href="../../../../../com/google/common/collect/ForwardingCollection.html#remove(java.lang.Object)"><code>ForwardingCollection.remove(java.lang.Object)</code></a> in terms of the <code>iterator()</code>
  method of <a href="../../../../../com/google/common/collect/ForwardingSortedSet.html#tailSet(E)"><code>ForwardingSortedSet.tailSet(E)</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="../../../../../com/google/common/collect/ForwardingMap.html" title="type parameter in ForwardingMap">V</a></code></td>
 <td class="colLast"><span class="strong">ForwardingMap.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingMap.html#standardRemove(java.lang.Object)">standardRemove</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</code>
 <div class="block">A sensible, albeit inefficient, definition of <a href="../../../../../com/google/common/collect/ForwardingMap.html#remove(java.lang.Object)"><code>ForwardingMap.remove(java.lang.Object)</code></a> in terms of
  the <code>iterator</code> method of <a href="../../../../../com/google/common/collect/ForwardingMap.html#entrySet()"><code>ForwardingMap.entrySet()</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../../../com/google/common/collect/ForwardingList.html" title="type parameter in ForwardingList">E</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ForwardingList.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingList.html#standardSubList(int,%20int)">standardSubList</a></strong>(int&nbsp;fromIndex,
                               int&nbsp;toIndex)</code>
 <div class="block">A sensible default implementation of <a href="../../../../../com/google/common/collect/ForwardingList.html#subList(int,%20int)"><code>ForwardingList.subList(int, int)</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;<a href="../../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>,<a href="../../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">V</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ForwardingSortedMap.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingSortedMap.html#standardSubMap(K,%20K)">standardSubMap</a></strong>(<a href="../../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;fromKey,
                             <a href="../../../../../com/google/common/collect/ForwardingSortedMap.html" title="type parameter in ForwardingSortedMap">K</a>&nbsp;toKey)</code>
@@ -1126,7 +996,7 @@
  terms of <a href="../../../../../com/google/common/collect/ForwardingSortedMap.html#headMap(K)"><code>ForwardingSortedMap.headMap(Object)</code></a> and <a href="../../../../../com/google/common/collect/ForwardingSortedMap.html#tailMap(K)"><code>ForwardingSortedMap.tailMap(Object)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ForwardingNavigableSet.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingNavigableSet.html#standardSubSet(E,%20boolean,%20E,%20boolean)">standardSubSet</a></strong>(<a href="../../../../../com/google/common/collect/ForwardingNavigableSet.html" title="type parameter in ForwardingNavigableSet">E</a>&nbsp;fromElement,
                             boolean&nbsp;fromInclusive,
@@ -1136,7 +1006,7 @@
  <code>headSet</code> and <code>tailSet</code> methods.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;<a href="../../../../../com/google/common/collect/ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&gt;</code></td>
 <td class="colLast"><span class="strong">ForwardingSortedSet.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingSortedSet.html#standardSubSet(E,%20E)">standardSubSet</a></strong>(<a href="../../../../../com/google/common/collect/ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;fromElement,
                             <a href="../../../../../com/google/common/collect/ForwardingSortedSet.html" title="type parameter in ForwardingSortedSet">E</a>&nbsp;toElement)</code>
@@ -1144,54 +1014,54 @@
  terms of <a href="../../../../../com/google/common/collect/ForwardingSortedSet.html#headSet(E)"><code>ForwardingSortedSet.headSet(Object)</code></a> and <a href="../../../../../com/google/common/collect/ForwardingSortedSet.html#tailSet(E)"><code>ForwardingSortedSet.tailSet(Object)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><span class="strong">ForwardingMapEntry.</span><code><strong><a href="../../../../../com/google/common/collect/ForwardingMapEntry.html#standardToString()">standardToString</a></strong>()</code>
 <div class="block">A sensible definition of <a href="../../../../../com/google/common/collect/ForwardingObject.html#toString()"><code>ForwardingObject.toString()</code></a> in terms of <a href="../../../../../com/google/common/collect/ForwardingMapEntry.html#getKey()"><code>ForwardingMapEntry.getKey()</code></a> and <a href="../../../../../com/google/common/collect/ForwardingMapEntry.html#getValue()"><code>ForwardingMapEntry.getValue()</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super K&gt;,V&gt;&nbsp;<br><a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;</code></td>
 <td class="colLast"><span class="strong">Maps.</span><code><strong><a href="../../../../../com/google/common/collect/Maps.html#subMap(java.util.NavigableMap,%20com.google.common.collect.Range)">subMap</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;K,V&gt;&nbsp;map,
             <a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range)</code>
 <div class="block">Returns a view of the portion of <code>map</code> whose keys are contained by <code>range</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;K extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super K&gt;&gt;&nbsp;<br><a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;</code></td>
 <td class="colLast"><span class="strong">Sets.</span><code><strong><a href="../../../../../com/google/common/collect/Sets.html#subSet(java.util.NavigableSet,%20com.google.common.collect.Range)">subSet</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;&nbsp;set,
             <a href="../../../../../com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a>&lt;K&gt;&nbsp;range)</code>
 <div class="block">Returns a view of the portion of <code>set</code> whose elements are contained by <code>range</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></td>
 <td class="colLast"><span class="strong">Multisets.</span><code><strong><a href="../../../../../com/google/common/collect/Multisets.html#sum(com.google.common.collect.Multiset,%20com.google.common.collect.Multiset)">sum</a></strong>(<a href="../../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset1,
       <a href="../../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset2)</code>
 <div class="block">Returns an unmodifiable view of the sum of two multisets.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;R,C,V1,V2&gt;&nbsp;<br><a href="../../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V2&gt;</code></td>
 <td class="colLast"><span class="strong">Tables.</span><code><strong><a href="../../../../../com/google/common/collect/Tables.html#transformValues(com.google.common.collect.Table,%20com.google.common.base.Function)">transformValues</a></strong>(<a href="../../../../../com/google/common/collect/Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,C,V1&gt;&nbsp;fromTable,
                               <a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super V1,V2&gt;&nbsp;function)</code>
 <div class="block">Returns a view of a table where each value is transformed by a function.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></td>
 <td class="colLast"><span class="strong">Multisets.</span><code><strong><a href="../../../../../com/google/common/collect/Multisets.html#union(com.google.common.collect.Multiset,%20com.google.common.collect.Multiset)">union</a></strong>(<a href="../../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset1,
           <a href="../../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset2)</code>
 <div class="block">Returns an unmodifiable view of the union of two multisets.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;R,C,V&gt;&nbsp;<a href="../../../../../com/google/common/collect/RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;R,C,V&gt;</code></td>
 <td class="colLast"><span class="strong">Tables.</span><code><strong><a href="../../../../../com/google/common/collect/Tables.html#unmodifiableRowSortedTable(com.google.common.collect.RowSortedTable)">unmodifiableRowSortedTable</a></strong>(<a href="../../../../../com/google/common/collect/RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;R,? extends C,? extends V&gt;&nbsp;table)</code>
 <div class="block">Returns an unmodifiable view of the specified row-sorted table.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;E&gt;&nbsp;<a href="../../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;</code></td>
 <td class="colLast"><span class="strong">Multisets.</span><code><strong><a href="../../../../../com/google/common/collect/Multisets.html#unmodifiableSortedMultiset(com.google.common.collect.SortedMultiset)">unmodifiableSortedMultiset</a></strong>(<a href="../../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;&nbsp;sortedMultiset)</code>
 <div class="block">Returns an unmodifiable view of the specified sorted multiset.</div>
@@ -1545,111 +1415,104 @@
 <caption><span>Classes in <a href="../../../../../com/google/common/io/package-summary.html">com.google.common.io</a> with annotations of type <a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">Beta</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Class and Description</th>
+<th class="colLast" scope="col">Interface and Description</th>
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a></strong></code>
-<div class="block">A binary encoding scheme for reversibly translating between byte sequences and printable ASCII
- strings.</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;</strong></code>
 <div class="block">A callback interface to process bytes from a stream.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/ByteStreams.html" title="class in com.google.common.io">ByteStreams</a></strong></code>
 <div class="block">Provides utility methods for working with byte arrays and I/O streams.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/CharStreams.html" title="class in com.google.common.io">CharStreams</a></strong></code>
 <div class="block">Provides utility methods for working with character streams.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/Closeables.html" title="class in com.google.common.io">Closeables</a></strong></code>
 <div class="block">Utility methods for working with <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io"><code>Closeable</code></a> objects.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/Closer.html" title="class in com.google.common.io">Closer</a></strong></code>
 <div class="block">A <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io"><code>Closeable</code></a> that collects <code>Closeable</code> resources and closes them all when it is
  <a href="../../../../../com/google/common/io/Closer.html#close()">closed</a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/CountingInputStream.html" title="class in com.google.common.io">CountingInputStream</a></strong></code>
 <div class="block">An <a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io"><code>InputStream</code></a> that counts the number of bytes read.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/CountingOutputStream.html" title="class in com.google.common.io">CountingOutputStream</a></strong></code>
 <div class="block">An OutputStream that counts the number of bytes written.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/FileBackedOutputStream.html" title="class in com.google.common.io">FileBackedOutputStream</a></strong></code>
 <div class="block">An <a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io"><code>OutputStream</code></a> that starts buffering to a byte array, but switches to file buffering
  once the data reaches a configurable size.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></strong></code>
 <div class="block">Provides utility methods for working with files.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/Flushables.html" title="class in com.google.common.io">Flushables</a></strong></code>
 <div class="block">Utility methods for working with <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Flushable.html?is-external=true" title="class or interface in java.io"><code>Flushable</code></a> objects.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>interface&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;</strong></code>
 <div class="block">A callback to be used with the streaming <code>readLines</code> methods.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/LineReader.html" title="class in com.google.common.io">LineReader</a></strong></code>
 <div class="block">A class for reading lines of text.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/LittleEndianDataInputStream.html" title="class in com.google.common.io">LittleEndianDataInputStream</a></strong></code>
 <div class="block">An implementation of <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataInput.html?is-external=true" title="class or interface in java.io"><code>DataInput</code></a> that uses little-endian byte ordering for reading
  <code>short</code>, <code>int</code>, <code>float</code>, <code>double</code>, and <code>long</code> values.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/LittleEndianDataOutputStream.html" title="class in com.google.common.io">LittleEndianDataOutputStream</a></strong></code>
 <div class="block">An implementation of <a href="http://docs.oracle.com/javase/7/docs/api/java/io/DataOutput.html?is-external=true" title="class or interface in java.io"><code>DataOutput</code></a> that uses little-endian byte ordering for writing
  <code>char</code>, <code>short</code>, <code>int</code>, <code>float</code>, <code>double</code>, and <code>long</code> values.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/PatternFilenameFilter.html" title="class in com.google.common.io">PatternFilenameFilter</a></strong></code>
 <div class="block">File name filter that only accepts files matching a regular expression.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/google/common/io/Resources.html" title="class in com.google.common.io">Resources</a></strong></code>
 <div class="block">Provides utility methods for working with resources in the classpath.</div>

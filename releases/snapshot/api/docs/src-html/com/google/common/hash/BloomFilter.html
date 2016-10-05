@@ -522,20 +522,18 @@
 <span class="sourceLineNo">514</span>      }<a name="line.514"></a>
 <span class="sourceLineNo">515</span>      return new BloomFilter&lt;T&gt;(new BitArray(data), numHashFunctions, funnel, strategy);<a name="line.515"></a>
 <span class="sourceLineNo">516</span>    } catch (RuntimeException e) {<a name="line.516"></a>
-<span class="sourceLineNo">517</span>      IOException ioException =<a name="line.517"></a>
-<span class="sourceLineNo">518</span>          new IOException(<a name="line.518"></a>
-<span class="sourceLineNo">519</span>              "Unable to deserialize BloomFilter from InputStream."<a name="line.519"></a>
-<span class="sourceLineNo">520</span>                  + " strategyOrdinal: "<a name="line.520"></a>
-<span class="sourceLineNo">521</span>                  + strategyOrdinal<a name="line.521"></a>
-<span class="sourceLineNo">522</span>                  + " numHashFunctions: "<a name="line.522"></a>
-<span class="sourceLineNo">523</span>                  + numHashFunctions<a name="line.523"></a>
-<span class="sourceLineNo">524</span>                  + " dataLength: "<a name="line.524"></a>
-<span class="sourceLineNo">525</span>                  + dataLength);<a name="line.525"></a>
-<span class="sourceLineNo">526</span>      ioException.initCause(e);<a name="line.526"></a>
-<span class="sourceLineNo">527</span>      throw ioException;<a name="line.527"></a>
-<span class="sourceLineNo">528</span>    }<a name="line.528"></a>
-<span class="sourceLineNo">529</span>  }<a name="line.529"></a>
-<span class="sourceLineNo">530</span>}<a name="line.530"></a>
+<span class="sourceLineNo">517</span>      String message =<a name="line.517"></a>
+<span class="sourceLineNo">518</span>          "Unable to deserialize BloomFilter from InputStream."<a name="line.518"></a>
+<span class="sourceLineNo">519</span>              + " strategyOrdinal: "<a name="line.519"></a>
+<span class="sourceLineNo">520</span>              + strategyOrdinal<a name="line.520"></a>
+<span class="sourceLineNo">521</span>              + " numHashFunctions: "<a name="line.521"></a>
+<span class="sourceLineNo">522</span>              + numHashFunctions<a name="line.522"></a>
+<span class="sourceLineNo">523</span>              + " dataLength: "<a name="line.523"></a>
+<span class="sourceLineNo">524</span>              + dataLength;<a name="line.524"></a>
+<span class="sourceLineNo">525</span>      throw new IOException(message, e);<a name="line.525"></a>
+<span class="sourceLineNo">526</span>    }<a name="line.526"></a>
+<span class="sourceLineNo">527</span>  }<a name="line.527"></a>
+<span class="sourceLineNo">528</span>}<a name="line.528"></a>
 
 
 

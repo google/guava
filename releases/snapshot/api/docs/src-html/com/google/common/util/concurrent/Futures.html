@@ -1327,45 +1327,46 @@
 <span class="sourceLineNo">1319</span>      throw new ExecutionError((Error) cause);<a name="line.1319"></a>
 <span class="sourceLineNo">1320</span>    }<a name="line.1320"></a>
 <span class="sourceLineNo">1321</span>    /*<a name="line.1321"></a>
-<span class="sourceLineNo">1322</span>     * It's a non-Error, non-Exception Throwable. From my survey of such classes, I believe that<a name="line.1322"></a>
-<span class="sourceLineNo">1323</span>     * most users intended to extend Exception, so we'll treat it like an Exception.<a name="line.1323"></a>
-<span class="sourceLineNo">1324</span>     */<a name="line.1324"></a>
-<span class="sourceLineNo">1325</span>    throw new UncheckedExecutionException(cause);<a name="line.1325"></a>
-<span class="sourceLineNo">1326</span>  }<a name="line.1326"></a>
-<span class="sourceLineNo">1327</span><a name="line.1327"></a>
-<span class="sourceLineNo">1328</span>  /*<a name="line.1328"></a>
-<span class="sourceLineNo">1329</span>   * Arguably we don't need a timed getUnchecked because any operation slow enough to require a<a name="line.1329"></a>
-<span class="sourceLineNo">1330</span>   * timeout is heavyweight enough to throw a checked exception and therefore be inappropriate to<a name="line.1330"></a>
-<span class="sourceLineNo">1331</span>   * use with getUnchecked. Further, it's not clear that converting the checked TimeoutException to<a name="line.1331"></a>
-<span class="sourceLineNo">1332</span>   * a RuntimeException -- especially to an UncheckedExecutionException, since it wasn't thrown by<a name="line.1332"></a>
-<span class="sourceLineNo">1333</span>   * the computation -- makes sense, and if we don't convert it, the user still has to write a<a name="line.1333"></a>
-<span class="sourceLineNo">1334</span>   * try-catch block.<a name="line.1334"></a>
-<span class="sourceLineNo">1335</span>   *<a name="line.1335"></a>
-<span class="sourceLineNo">1336</span>   * If you think you would use this method, let us know. You might also also look into the<a name="line.1336"></a>
-<span class="sourceLineNo">1337</span>   * Fork-Join framework: http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html<a name="line.1337"></a>
-<span class="sourceLineNo">1338</span>   */<a name="line.1338"></a>
-<span class="sourceLineNo">1339</span><a name="line.1339"></a>
-<span class="sourceLineNo">1340</span>  /**<a name="line.1340"></a>
-<span class="sourceLineNo">1341</span>   * A checked future that uses a function to map from exceptions to the appropriate checked type.<a name="line.1341"></a>
-<span class="sourceLineNo">1342</span>   */<a name="line.1342"></a>
-<span class="sourceLineNo">1343</span>  @GwtIncompatible // TODO<a name="line.1343"></a>
-<span class="sourceLineNo">1344</span>  private static class MappingCheckedFuture&lt;V, X extends Exception&gt;<a name="line.1344"></a>
-<span class="sourceLineNo">1345</span>      extends AbstractCheckedFuture&lt;V, X&gt; {<a name="line.1345"></a>
-<span class="sourceLineNo">1346</span><a name="line.1346"></a>
-<span class="sourceLineNo">1347</span>    final Function&lt;? super Exception, X&gt; mapper;<a name="line.1347"></a>
-<span class="sourceLineNo">1348</span><a name="line.1348"></a>
-<span class="sourceLineNo">1349</span>    MappingCheckedFuture(ListenableFuture&lt;V&gt; delegate, Function&lt;? super Exception, X&gt; mapper) {<a name="line.1349"></a>
-<span class="sourceLineNo">1350</span>      super(delegate);<a name="line.1350"></a>
-<span class="sourceLineNo">1351</span><a name="line.1351"></a>
-<span class="sourceLineNo">1352</span>      this.mapper = checkNotNull(mapper);<a name="line.1352"></a>
-<span class="sourceLineNo">1353</span>    }<a name="line.1353"></a>
-<span class="sourceLineNo">1354</span><a name="line.1354"></a>
-<span class="sourceLineNo">1355</span>    @Override<a name="line.1355"></a>
-<span class="sourceLineNo">1356</span>    protected X mapException(Exception e) {<a name="line.1356"></a>
-<span class="sourceLineNo">1357</span>      return mapper.apply(e);<a name="line.1357"></a>
-<span class="sourceLineNo">1358</span>    }<a name="line.1358"></a>
-<span class="sourceLineNo">1359</span>  }<a name="line.1359"></a>
-<span class="sourceLineNo">1360</span>}<a name="line.1360"></a>
+<span class="sourceLineNo">1322</span>     * It's an Exception. (Or it's a non-Error, non-Exception Throwable. From my survey of such<a name="line.1322"></a>
+<span class="sourceLineNo">1323</span>     * classes, I believe that most users intended to extend Exception, so we'll treat it like an<a name="line.1323"></a>
+<span class="sourceLineNo">1324</span>     * Exception.)<a name="line.1324"></a>
+<span class="sourceLineNo">1325</span>     */<a name="line.1325"></a>
+<span class="sourceLineNo">1326</span>    throw new UncheckedExecutionException(cause);<a name="line.1326"></a>
+<span class="sourceLineNo">1327</span>  }<a name="line.1327"></a>
+<span class="sourceLineNo">1328</span><a name="line.1328"></a>
+<span class="sourceLineNo">1329</span>  /*<a name="line.1329"></a>
+<span class="sourceLineNo">1330</span>   * Arguably we don't need a timed getUnchecked because any operation slow enough to require a<a name="line.1330"></a>
+<span class="sourceLineNo">1331</span>   * timeout is heavyweight enough to throw a checked exception and therefore be inappropriate to<a name="line.1331"></a>
+<span class="sourceLineNo">1332</span>   * use with getUnchecked. Further, it's not clear that converting the checked TimeoutException to<a name="line.1332"></a>
+<span class="sourceLineNo">1333</span>   * a RuntimeException -- especially to an UncheckedExecutionException, since it wasn't thrown by<a name="line.1333"></a>
+<span class="sourceLineNo">1334</span>   * the computation -- makes sense, and if we don't convert it, the user still has to write a<a name="line.1334"></a>
+<span class="sourceLineNo">1335</span>   * try-catch block.<a name="line.1335"></a>
+<span class="sourceLineNo">1336</span>   *<a name="line.1336"></a>
+<span class="sourceLineNo">1337</span>   * If you think you would use this method, let us know. You might also also look into the<a name="line.1337"></a>
+<span class="sourceLineNo">1338</span>   * Fork-Join framework: http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html<a name="line.1338"></a>
+<span class="sourceLineNo">1339</span>   */<a name="line.1339"></a>
+<span class="sourceLineNo">1340</span><a name="line.1340"></a>
+<span class="sourceLineNo">1341</span>  /**<a name="line.1341"></a>
+<span class="sourceLineNo">1342</span>   * A checked future that uses a function to map from exceptions to the appropriate checked type.<a name="line.1342"></a>
+<span class="sourceLineNo">1343</span>   */<a name="line.1343"></a>
+<span class="sourceLineNo">1344</span>  @GwtIncompatible // TODO<a name="line.1344"></a>
+<span class="sourceLineNo">1345</span>  private static class MappingCheckedFuture&lt;V, X extends Exception&gt;<a name="line.1345"></a>
+<span class="sourceLineNo">1346</span>      extends AbstractCheckedFuture&lt;V, X&gt; {<a name="line.1346"></a>
+<span class="sourceLineNo">1347</span><a name="line.1347"></a>
+<span class="sourceLineNo">1348</span>    final Function&lt;? super Exception, X&gt; mapper;<a name="line.1348"></a>
+<span class="sourceLineNo">1349</span><a name="line.1349"></a>
+<span class="sourceLineNo">1350</span>    MappingCheckedFuture(ListenableFuture&lt;V&gt; delegate, Function&lt;? super Exception, X&gt; mapper) {<a name="line.1350"></a>
+<span class="sourceLineNo">1351</span>      super(delegate);<a name="line.1351"></a>
+<span class="sourceLineNo">1352</span><a name="line.1352"></a>
+<span class="sourceLineNo">1353</span>      this.mapper = checkNotNull(mapper);<a name="line.1353"></a>
+<span class="sourceLineNo">1354</span>    }<a name="line.1354"></a>
+<span class="sourceLineNo">1355</span><a name="line.1355"></a>
+<span class="sourceLineNo">1356</span>    @Override<a name="line.1356"></a>
+<span class="sourceLineNo">1357</span>    protected X mapException(Exception e) {<a name="line.1357"></a>
+<span class="sourceLineNo">1358</span>      return mapper.apply(e);<a name="line.1358"></a>
+<span class="sourceLineNo">1359</span>    }<a name="line.1359"></a>
+<span class="sourceLineNo">1360</span>  }<a name="line.1360"></a>
+<span class="sourceLineNo">1361</span>}<a name="line.1361"></a>
 
 
 

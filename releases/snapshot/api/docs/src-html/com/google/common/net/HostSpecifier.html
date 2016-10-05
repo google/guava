@@ -79,7 +79,7 @@
 <span class="sourceLineNo">071</span>    // IPv6 literals.<a name="line.71"></a>
 <span class="sourceLineNo">072</span>    final HostAndPort parsedHost = HostAndPort.fromString(specifier);<a name="line.72"></a>
 <span class="sourceLineNo">073</span>    Preconditions.checkArgument(!parsedHost.hasPort());<a name="line.73"></a>
-<span class="sourceLineNo">074</span>    final String host = parsedHost.getHostText();<a name="line.74"></a>
+<span class="sourceLineNo">074</span>    final String host = parsedHost.getHost();<a name="line.74"></a>
 <span class="sourceLineNo">075</span><a name="line.75"></a>
 <span class="sourceLineNo">076</span>    // Try to interpret the specifier as an IP address. Note we build<a name="line.76"></a>
 <span class="sourceLineNo">077</span>    // the address rather than using the .is* methods because we want to<a name="line.77"></a>

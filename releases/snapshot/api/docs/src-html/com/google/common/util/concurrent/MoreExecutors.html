@@ -268,7 +268,7 @@
 <span class="sourceLineNo">260</span>   *     source-compatible&lt;/a&gt; since 3.0)<a name="line.260"></a>
 <span class="sourceLineNo">261</span>   * @deprecated Use {@link #directExecutor()} if you only require an {@link Executor} and<a name="line.261"></a>
 <span class="sourceLineNo">262</span>   *     {@link #newDirectExecutorService()} if you need a {@link ListeningExecutorService}. This<a name="line.262"></a>
-<span class="sourceLineNo">263</span>   *     method will be removed in August 2016.<a name="line.263"></a>
+<span class="sourceLineNo">263</span>   *     method will be removed in Guava 21.0.<a name="line.263"></a>
 <span class="sourceLineNo">264</span>   */<a name="line.264"></a>
 <span class="sourceLineNo">265</span>  @Deprecated<a name="line.265"></a>
 <span class="sourceLineNo">266</span>  @GwtIncompatible<a name="line.266"></a>
@@ -276,7 +276,7 @@
 <span class="sourceLineNo">268</span>    return new DirectExecutorService();<a name="line.268"></a>
 <span class="sourceLineNo">269</span>  }<a name="line.269"></a>
 <span class="sourceLineNo">270</span><a name="line.270"></a>
-<span class="sourceLineNo">271</span>  // See sameThreadExecutor javadoc for behavioral notes.<a name="line.271"></a>
+<span class="sourceLineNo">271</span>  // See newDirectExecutorService javadoc for behavioral notes.<a name="line.271"></a>
 <span class="sourceLineNo">272</span>  @GwtIncompatible // TODO<a name="line.272"></a>
 <span class="sourceLineNo">273</span>  private static final class DirectExecutorService extends AbstractListeningExecutorService {<a name="line.273"></a>
 <span class="sourceLineNo">274</span>    /**<a name="line.274"></a>
@@ -324,7 +324,7 @@
 <span class="sourceLineNo">316</span>      }<a name="line.316"></a>
 <span class="sourceLineNo">317</span>    }<a name="line.317"></a>
 <span class="sourceLineNo">318</span><a name="line.318"></a>
-<span class="sourceLineNo">319</span>    // See sameThreadExecutor javadoc for unusual behavior of this method.<a name="line.319"></a>
+<span class="sourceLineNo">319</span>    // See newDirectExecutorService javadoc for unusual behavior of this method.<a name="line.319"></a>
 <span class="sourceLineNo">320</span>    @Override<a name="line.320"></a>
 <span class="sourceLineNo">321</span>    public List&lt;Runnable&gt; shutdownNow() {<a name="line.321"></a>
 <span class="sourceLineNo">322</span>      shutdown();<a name="line.322"></a>

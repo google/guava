@@ -228,7 +228,7 @@ extends <a href="../../../../com/google/common/graph/AbstractNetwork.html" title
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/graph/ImmutableNetwork.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">edgesConnecting</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeU,
                               <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeV)</code>
-<div class="block">Returns the set of edges that connect <code>nodeU</code> to <code>nodeV</code>.</div>
+<div class="block">Returns the set of edges directly connecting <code>nodeU</code> to <code>nodeV</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -385,9 +385,9 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <div class="block">Returns a live view of this network as a <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>. The resulting <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> will have
  an edge connecting node A to node B iff this <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> has an edge connecting A to B.
 
- <p>If this network <a href="../../../../com/google/common/graph/Network.html#allowsParallelEdges()"><code>Network.allowsParallelEdges()</code></a>, parallel edges will treated as if collapsed
- into a single edge. For example, the <a href="../../../../com/google/common/graph/Network.html#degree(java.lang.Object)"><code>Network.degree(Object)</code></a> of a node in the <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>
- view may be less than the degree of the same node in this <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a>.</div>
+ <p>If this network <a href="../../../../com/google/common/graph/Network.html#allowsParallelEdges()"><code>allows parallel edges</code></a>, parallel edges will be
+ treated as if collapsed into a single edge. For example, the <a href="../../../../com/google/common/graph/Network.html#degree(java.lang.Object)"><code>Network.degree(Object)</code></a> of a node
+ in the <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> view may be less than the degree of the same node in this <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a>.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../com/google/common/graph/Network.html#asGraph()">asGraph</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a>&lt;<a href="../../../../com/google/common/graph/ImmutableNetwork.html" title="type parameter in ImmutableNetwork">N</a>,<a href="../../../../com/google/common/graph/ImmutableNetwork.html" title="type parameter in ImmutableNetwork">E</a>&gt;</code></dd>
@@ -519,9 +519,13 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ConfigurableNetwork.html#line.148">edgesConnecting</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeU,
                      <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;nodeV)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#edgesConnecting(java.lang.Object,%20java.lang.Object)">Network</a></code></strong></div>
-<div class="block">Returns the set of edges that connect <code>nodeU</code> to <code>nodeV</code>.
+<div class="block">Returns the set of edges directly connecting <code>nodeU</code> to <code>nodeV</code>.
 
- <p>In an undirected network, this is equal to <code>edgesConnecting(nodeV, nodeU)</code>.</div>
+ <p>In an undirected network, this is equal to <code>edgesConnecting(nodeV, nodeU)</code>.
+
+ <p>The resulting set of edges will be parallel (i.e. have equal <a href="../../../../com/google/common/graph/Network.html#incidentNodes(java.lang.Object)"><code>Network.incidentNodes(Object)</code></a>.
+ If this network does not <a href="../../../../com/google/common/graph/Network.html#allowsParallelEdges()"><code>allow parallel edges</code></a>, the resulting set
+ will contain at most one edge.</div>
 </li>
 </ul>
 <a name="inEdges(java.lang.Object)">

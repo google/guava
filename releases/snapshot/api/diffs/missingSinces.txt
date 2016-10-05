@@ -100,7 +100,6 @@ OK: com.google.common.math.BigIntegerMath Method floorPowerOfTwo(java.math.BigIn
 OK: com.google.common.math.IntMath Method floorPowerOfTwo(int)
 OK: com.google.common.math.LongMath Method floorPowerOfTwo(long)
 OK: com.google.common.collect.FluentIterable Method from(E[])
-MISSING @SINCE TAG: com.google.common.base.CharMatcher Method fromBitSet(java.util.BitSet)
 OK: com.google.common.util.concurrent.Futures Method getDone(java.util.concurrent.Future<V>)
 OK: com.google.common.net.HostAndPort Method getHost()
 OK: com.google.common.hash.Hashing Method hmacMd5(byte[])

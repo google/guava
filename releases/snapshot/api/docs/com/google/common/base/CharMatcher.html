@@ -99,8 +99,7 @@
 </dl>
 <hr>
 <br>
-<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</a>=true)
+<pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 public abstract class <a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.54">CharMatcher</a>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;</pre>
@@ -109,19 +108,21 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
  Implementations are strongly encouraged to be side-effect-free and immutable.
 
  <p>Throughout the documentation of this class, the phrase "matching character" is used to mean
- "any character <code>c</code> for which <code>this.matches(c)</code> returns <code>true</code>".
+ "any <code>char</code> value <code>c</code> for which <code>this.matches(c)</code> returns <code>true</code>".
 
- <p><b>Note:</b> This class deals only with <code>char</code> values; it does not understand
+ <p><b>Warning:</b> This class deals only with <code>char</code> values; it does not understand
  supplementary Unicode code points in the range <code>0x10000</code> to <code>0x10FFFF</code>. Such logical
  characters are encoded into a <code>String</code> using surrogate pairs, and a <code>CharMatcher</code>
  treats these just as two separate characters.
 
- <p>Example usages: <pre>
+ <p>Example usages:
+
+ <pre>
    String trimmed = <a href="../../../../com/google/common/base/CharMatcher.html#whitespace()"><code>whitespace()</code></a>.<a href="../../../../com/google/common/base/CharMatcher.html#trimFrom(java.lang.CharSequence)"><code>trimFrom</code></a>(userInput);
    if (<a href="../../../../com/google/common/base/CharMatcher.html#ascii()"><code>ascii()</code></a>.<a href="../../../../com/google/common/base/CharMatcher.html#matchesAllOf(java.lang.CharSequence)"><code>matchesAllOf</code></a>(s)) { ... }</pre>
 
- <p>See the Guava User Guide article on
- <a href="https://github.com/google/guava/wiki/StringsExplained#charmatcher"><code>CharMatcher</code>
+ <p>See the Guava User Guide article on <a
+ href="https://github.com/google/guava/wiki/StringsExplained#charmatcher"><code>CharMatcher</code>
  </a>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>1.0</dd>
@@ -377,23 +378,13 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#fromBitSet(java.util.BitSet)">fromBitSet</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/BitSet.html?is-external=true" title="class or interface in java.util">BitSet</a>&nbsp;bitset)</code>
-<div class="block"><strong>Deprecated.</strong>&nbsp;
-<div class="block"><i>Used only from <code>CharacterFilter</code>. To be removed when its users are migrated
-     to "normal" <code>CharMatcher</code> instances. This method will be removed before we release
-     Guava 20.0.</i></div>
-</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#indexIn(java.lang.CharSequence)">indexIn</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
 <div class="block">Returns the index of the first matching character in a character sequence, or <code>-1</code> if no
  matching character is present.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#indexIn(java.lang.CharSequence,%20int)">indexIn</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence,
               int&nbsp;start)</code>
@@ -401,7 +392,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
  given position, or <code>-1</code> if no character matches after that position.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#inRange(char,%20char)">inRange</a></strong>(char&nbsp;startInclusive,
               char&nbsp;endInclusive)</code>
@@ -409,7 +400,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
  inclusive).</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#invisible()">invisible</a></strong>()</code>
 <div class="block">Determines whether a character is invisible; that is, if its Unicode category is any of
@@ -417,128 +408,128 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
  PRIVATE_USE according to ICU4J.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#is(char)">is</a></strong>(char&nbsp;match)</code>
 <div class="block">Returns a <code>char</code> matcher that matches only one specified character.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#isNot(char)">isNot</a></strong>(char&nbsp;match)</code>
 <div class="block">Returns a <code>char</code> matcher that matches any character except the one specified.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#javaDigit()">javaDigit</a></strong>()</code>
 <div class="block">Determines whether a character is a digit according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isDigit(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#javaIsoControl()">javaIsoControl</a></strong>()</code>
 <div class="block">Determines whether a character is an ISO control character as specified by
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isISOControl(char)" title="class or interface in java.lang"><code>Character.isISOControl(char)</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#javaLetter()">javaLetter</a></strong>()</code>
 <div class="block">Determines whether a character is a letter according to <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLetter(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#javaLetterOrDigit()">javaLetterOrDigit</a></strong>()</code>
 <div class="block">Determines whether a character is a letter or digit according to
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLetterOrDigit(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#javaLowerCase()">javaLowerCase</a></strong>()</code>
 <div class="block">Determines whether a character is lower case according to
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isLowerCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#javaUpperCase()">javaUpperCase</a></strong>()</code>
 <div class="block">Determines whether a character is upper case according to
  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true#isUpperCase(char)" title="class or interface in java.lang">Java's definition</a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#lastIndexIn(java.lang.CharSequence)">lastIndexIn</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
 <div class="block">Returns the index of the last matching character in a character sequence, or <code>-1</code> if no
  matching character is present.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>abstract boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#matches(char)">matches</a></strong>(char&nbsp;c)</code>
 <div class="block">Determines a true or false value for the given character.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#matchesAllOf(java.lang.CharSequence)">matchesAllOf</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
 <div class="block">Returns <code>true</code> if a character sequence contains only matching characters.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#matchesAnyOf(java.lang.CharSequence)">matchesAnyOf</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
 <div class="block">Returns <code>true</code> if a character sequence contains at least one matching character.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#matchesNoneOf(java.lang.CharSequence)">matchesNoneOf</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
 <div class="block">Returns <code>true</code> if a character sequence contains no matching characters.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#negate()">negate</a></strong>()</code>
 <div class="block">Returns a matcher that matches any character not matched by this matcher.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#none()">none</a></strong>()</code>
 <div class="block">Matches no characters.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#noneOf(java.lang.CharSequence)">noneOf</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
 <div class="block">Returns a <code>char</code> matcher that matches any character not present in the given character
  sequence.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#or(com.google.common.base.CharMatcher)">or</a></strong>(<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;other)</code>
 <div class="block">Returns a matcher that matches any character matched by either this matcher or <code>other</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#precomputed()">precomputed</a></strong>()</code>
 <div class="block">Returns a <code>char</code> matcher functionally equivalent to this one, but which may be faster to
  query than the original; your mileage may vary.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#removeFrom(java.lang.CharSequence)">removeFrom</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
 <div class="block">Returns a string containing all non-matching characters of a character sequence, in order.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#replaceFrom(java.lang.CharSequence,%20char)">replaceFrom</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence,
                       char&nbsp;replacement)</code>
@@ -546,7 +537,7 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
  matcher replaced by a given replacement character.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#replaceFrom(java.lang.CharSequence,%20java.lang.CharSequence)">replaceFrom</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence,
                       <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;replacement)</code>
@@ -554,26 +545,26 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
  matcher replaced by a given replacement sequence.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#retainFrom(java.lang.CharSequence)">retainFrom</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
 <div class="block">Returns a string containing all matching characters of a character sequence, in order.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#singleWidth()">singleWidth</a></strong>()</code>
 <div class="block">Determines whether a character is single-width (not double-width).</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#toString()">toString</a></strong>()</code>
 <div class="block">Returns a string representation of this <code>CharMatcher</code>, such as
  <code>CharMatcher.or(WHITESPACE, JAVA_DIGIT)</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#trimAndCollapseFrom(java.lang.CharSequence,%20char)">trimAndCollapseFrom</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence,
                                       char&nbsp;replacement)</code>
@@ -582,28 +573,28 @@ implements <a href="../../../../com/google/common/base/Predicate.html" title="in
  replacement.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#trimFrom(java.lang.CharSequence)">trimFrom</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
 <div class="block">Returns a substring of the input character sequence that omits all characters this matcher
  matches from the beginning and from the end of the string.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#trimLeadingFrom(java.lang.CharSequence)">trimLeadingFrom</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
 <div class="block">Returns a substring of the input character sequence that omits all characters this matcher
  matches from the beginning of the string.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#trimTrailingFrom(java.lang.CharSequence)">trimTrailingFrom</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
 <div class="block">Returns a substring of the input character sequence that omits all characters this matcher
  matches from the end of the string.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/CharMatcher.html#whitespace()">whitespace</a></strong>()</code>
 <div class="block">Determines whether a character is whitespace according to the latest Unicode standard, as
@@ -868,7 +859,7 @@ public static final&nbsp;<a href="../../../../com/google/common/base/CharMatcher
 <ul class="blockListLast">
 <li class="blockList">
 <h4>CharMatcher</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.497">CharMatcher</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.484">CharMatcher</a>()</pre>
 <div class="block">Constructor for use by subclasses. When subclassing, you may want to override
  <code>toString()</code> to provide a useful description.</div>
 </li>
@@ -1131,28 +1122,13 @@ public static final&nbsp;<a href="../../../../com/google/common/base/CharMatcher
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>endInclusive &lt; startInclusive</code></dd></dl>
 </li>
 </ul>
-<a name="fromBitSet(java.util.BitSet)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>fromBitSet</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-<a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.479">fromBitSet</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/BitSet.html?is-external=true" title="class or interface in java.util">BitSet</a>&nbsp;bitset)</pre>
-<div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Used only from <code>CharacterFilter</code>. To be removed when its users are migrated
-     to "normal" <code>CharMatcher</code> instances. This method will be removed before we release
-     Guava 20.0.</i></div>
-<div class="block">Returns a <code>char</code> matcher that matches any character present in the given bitset.</div>
-</li>
-</ul>
 <a name="forPredicate(com.google.common.base.Predicate)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>forPredicate</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.487">forPredicate</a>(<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;&nbsp;predicate)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.474">forPredicate</a>(<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&gt;&nbsp;predicate)</pre>
 <div class="block">Returns a matcher with identical behavior to the given <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang"><code>Character</code></a>-based predicate, but
  which operates on primitive <code>char</code> instances instead.</div>
 </li>
@@ -1163,7 +1139,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>matches</h4>
-<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.502">matches</a>(char&nbsp;c)</pre>
+<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.489">matches</a>(char&nbsp;c)</pre>
 <div class="block">Determines a true or false value for the given character.</div>
 </li>
 </ul>
@@ -1173,7 +1149,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>negate</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.509">negate</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.496">negate</a>()</pre>
 <div class="block">Returns a matcher that matches any character not matched by this matcher.</div>
 </li>
 </ul>
@@ -1183,7 +1159,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>and</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.516">and</a>(<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;other)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.503">and</a>(<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;other)</pre>
 <div class="block">Returns a matcher that matches any character matched by both this matcher and <code>other</code>.</div>
 </li>
 </ul>
@@ -1193,7 +1169,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>or</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.523">or</a>(<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;other)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.510">or</a>(<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;other)</pre>
 <div class="block">Returns a matcher that matches any character matched by either this matcher or <code>other</code>.</div>
 </li>
 </ul>
@@ -1203,7 +1179,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>precomputed</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.536">precomputed</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.523">precomputed</a>()</pre>
 <div class="block">Returns a <code>char</code> matcher functionally equivalent to this one, but which may be faster to
  query than the original; your mileage may vary. Precomputation takes time and is likely to be
  worthwhile only if the precomputed matcher is queried many thousands of times.
@@ -1219,7 +1195,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>matchesAnyOf</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.633">matchesAnyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.620">matchesAnyOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns <code>true</code> if a character sequence contains at least one matching character.
  Equivalent to <code>!matchesNoneOf(sequence)</code>.
 
@@ -1236,7 +1212,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>matchesAllOf</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.647">matchesAllOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.634">matchesAllOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns <code>true</code> if a character sequence contains only matching characters.
 
  <p>The default implementation iterates over the sequence, invoking <a href="../../../../com/google/common/base/CharMatcher.html#matches(char)"><code>matches(char)</code></a> for each
@@ -1252,7 +1228,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>matchesNoneOf</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.667">matchesNoneOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.654">matchesNoneOf</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns <code>true</code> if a character sequence contains no matching characters. Equivalent to
  <code>!matchesAnyOf(sequence)</code>.
 
@@ -1269,7 +1245,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>indexIn</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.681">indexIn</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.668">indexIn</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns the index of the first matching character in a character sequence, or <code>-1</code> if no
  matching character is present.
 
@@ -1285,7 +1261,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>indexIn</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.700">indexIn</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence,
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.687">indexIn</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence,
           int&nbsp;start)</pre>
 <div class="block">Returns the index of the first matching character in a character sequence, starting from a
  given position, or <code>-1</code> if no character matches after that position.
@@ -1304,7 +1280,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>lastIndexIn</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.721">lastIndexIn</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.708">lastIndexIn</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns the index of the last matching character in a character sequence, or <code>-1</code> if no
  matching character is present.
 
@@ -1320,7 +1296,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>countIn</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.733">countIn</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.720">countIn</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns the number of matching characters found in a character sequence.</div>
 </li>
 </ul>
@@ -1330,7 +1306,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>removeFrom</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.751">removeFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.738">removeFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns a string containing all non-matching characters of a character sequence, in order. For
  example: <pre>   <code>CharMatcher.is('a').removeFrom("bazaar")</code></pre>
 
@@ -1343,7 +1319,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>retainFrom</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.788">retainFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.775">retainFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns a string containing all matching characters of a character sequence, in order. For
  example: <pre>   <code>CharMatcher.is('a').retainFrom("bazaar")</code></pre>
 
@@ -1356,7 +1332,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>replaceFrom</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.809">replaceFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence,
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.796">replaceFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence,
                  char&nbsp;replacement)</pre>
 <div class="block">Returns a string copy of the input character sequence, with each character that matches this
  matcher replaced by a given replacement character. For example: <pre>   <code>CharMatcher.is('a').replaceFrom("radar", 'o')</code></pre>
@@ -1377,7 +1353,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>replaceFrom</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.841">replaceFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence,
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.828">replaceFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence,
                  <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;replacement)</pre>
 <div class="block">Returns a string copy of the input character sequence, with each character that matches this
  matcher replaced by a given replacement sequence. For example: <pre>   <code>CharMatcher.is('a').replaceFrom("yaha", "oo")</code></pre>
@@ -1397,7 +1373,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>trimFrom</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.885">trimFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.872">trimFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns a substring of the input character sequence that omits all characters this matcher
  matches from the beginning and from the end of the string. For example: <pre>   <code>CharMatcher.anyOf("ab").trimFrom("abacatbab")</code></pre>
 
@@ -1414,7 +1390,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>trimLeadingFrom</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.912">trimLeadingFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.899">trimLeadingFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns a substring of the input character sequence that omits all characters this matcher
  matches from the beginning of the string. For example: <pre> <code>CharMatcher.anyOf("ab").trimLeadingFrom("abacatbab")</code></pre>
 
@@ -1427,7 +1403,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>trimTrailingFrom</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.930">trimTrailingFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.917">trimTrailingFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Returns a substring of the input character sequence that omits all characters this matcher
  matches from the end of the string. For example: <pre> <code>CharMatcher.anyOf("ab").trimTrailingFrom("abacatbab")</code></pre>
 
@@ -1440,7 +1416,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>collapseFrom</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.958">collapseFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence,
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.945">collapseFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence,
                   char&nbsp;replacement)</pre>
 <div class="block">Returns a string copy of the input character sequence, with each group of consecutive
  characters that match this matcher replaced by a single replacement character. For example:
@@ -1462,7 +1438,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <ul class="blockList">
 <li class="blockList">
 <h4>trimAndCollapseFrom</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.982">trimAndCollapseFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence,
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.969">trimAndCollapseFrom</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence,
                          char&nbsp;replacement)</pre>
 <div class="block">Collapses groups of matching characters exactly as <a href="../../../../com/google/common/base/CharMatcher.html#collapseFrom(java.lang.CharSequence,%20char)"><code>collapseFrom(java.lang.CharSequence, char)</code></a> does, except that
  groups of matching characters at the start or end of the sequence are removed without
@@ -1476,7 +1452,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/CharMatcher.html"
 <li class="blockList">
 <h4>apply</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.1030">apply</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&nbsp;character)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.1017">apply</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html?is-external=true" title="class or interface in java.lang">Character</a>&nbsp;character)</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i>Provided only to satisfy the <a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> interface; use <a href="../../../../com/google/common/base/CharMatcher.html#matches(char)"><code>matches(char)</code></a>
      instead.</i></div>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/base/Predicate.html#apply(T)">Predicate</a></code></strong></div>
@@ -1501,7 +1477,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Ch
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.1039">toString</a>()</pre>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/CharMatcher.html#line.1026">toString</a>()</pre>
 <div class="block">Returns a string representation of this <code>CharMatcher</code>, such as
  <code>CharMatcher.or(WHITESPACE, JAVA_DIGIT)</code>.</div>
 <dl>

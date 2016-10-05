@@ -146,7 +146,8 @@ public interface <a href="../../../../src-html/com/google/common/base/Function.h
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/base/Function.html#equals(java.lang.Object)">equals</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>
-<div class="block">Indicates whether another object is equal to this function.</div>
+<div class="block"><i>May</i> return <code>true</code> if  is a <code>Function</code> that behaves identically to
+ this function.</div>
 </td>
 </tr>
 </table>
@@ -194,16 +195,17 @@ public interface <a href="../../../../src-html/com/google/common/base/Function.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Function.html#line.78">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Function.html#line.79">equals</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
              <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
-<div class="block">Indicates whether another object is equal to this function.
+<div class="block"><i>May</i> return <code>true</code> if  is a <code>Function</code> that behaves identically to
+ this function.
 
- <p>Most implementations will have no reason to override the behavior of <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>.
- However, an implementation may also choose to return <code>true</code> whenever <code>object</code> is a
- <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base"><code>Function</code></a> that it considers <i>interchangeable</i> with this one. "Interchangeable"
- <i>typically</i> means that <code>Objects.equal(this.apply(f), that.apply(f))</code> is true for all
- <code>f</code> of type <code>F</code>. Note that a <code>false</code> result from this method does not imply
- that the functions are known <i>not</i> to be interchangeable.</div>
+ <p><b>Warning: do not depend</b> on the behavior of this method.
+
+ <p>Historically, <code>Function</code> instances in this library have implemented this method to
+ recognize certain cases where distinct <code>Function</code> instances would in fact behave
+ identically. However, as code migrates to <code>java.util.function</code>, that behavior will
+ disappear. It is best not to depend on it.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>

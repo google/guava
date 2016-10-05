@@ -31,7 +31,7 @@
 <span class="sourceLineNo">023</span>import com.google.common.collect.ImmutableCollection;<a name="line.23"></a>
 <span class="sourceLineNo">024</span>import com.google.common.collect.ImmutableMap;<a name="line.24"></a>
 <span class="sourceLineNo">025</span>import com.google.common.collect.Maps;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import java.util.Map;<a name="line.26"></a>
+<span class="sourceLineNo">026</span>import javax.annotation.Nullable;<a name="line.26"></a>
 <span class="sourceLineNo">027</span><a name="line.27"></a>
 <span class="sourceLineNo">028</span>/**<a name="line.28"></a>
 <span class="sourceLineNo">029</span> * A {@link ValueGraph} whose elements and structural relationships will never change. Instances of<a name="line.29"></a>
@@ -104,8 +104,8 @@
 <span class="sourceLineNo">096</span>  }<a name="line.96"></a>
 <span class="sourceLineNo">097</span><a name="line.97"></a>
 <span class="sourceLineNo">098</span>  @Override<a name="line.98"></a>
-<span class="sourceLineNo">099</span>  public Map&lt;EndpointPair&lt;N&gt;, V&gt; edgeValues() {<a name="line.99"></a>
-<span class="sourceLineNo">100</span>    return backingValueGraph.edgeValues();<a name="line.100"></a>
+<span class="sourceLineNo">099</span>  public V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue) {<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    return backingValueGraph.edgeValueOrDefault(nodeU, nodeV, defaultValue);<a name="line.100"></a>
 <span class="sourceLineNo">101</span>  }<a name="line.101"></a>
 <span class="sourceLineNo">102</span><a name="line.102"></a>
 <span class="sourceLineNo">103</span>  @Override<a name="line.103"></a>
