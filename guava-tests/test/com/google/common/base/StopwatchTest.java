@@ -174,11 +174,11 @@ public class StopwatchTest extends TestCase {
     ticker.advance(998);
     assertEquals("999.0 ns", stopwatch.toString());
     ticker.advance(1);
-    assertEquals("1.000 \u03bcs", stopwatch.toString());
+    assertEquals("1.000 \u00b5s", stopwatch.toString());
     ticker.advance(1);
-    assertEquals("1.001 \u03bcs", stopwatch.toString());
+    assertEquals("1.001 \u00b5s", stopwatch.toString());
     ticker.advance(8998);
-    assertEquals("9.999 \u03bcs", stopwatch.toString());
+    assertEquals("9.999 \u00b5s", stopwatch.toString());
     stopwatch.reset();
     stopwatch.start();
     ticker.advance(1234567);
