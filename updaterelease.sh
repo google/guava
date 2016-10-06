@@ -194,10 +194,11 @@ echo -n "Moving generated JDiff to $diffsdir..."
 mv $tempdir/diffs $diffsdir
 echo " Done."
 
+git add . > /dev/null
+
 # Commit
-if ! git diff --quiet ; then
+if ! git diff --cached --quiet ; then
   echo -n "Committing changes..."
-  git add .
   git commit -q -m "Generate Javadoc and JDiff for Guava $guavaversion"
   echo " Done."
 else
@@ -216,9 +217,10 @@ fi
 
 $sedbinary -i'' -re "s/$fieldtoupdate:[ ]+.+/$fieldtoupdate: $version/g" _config.yml
 
-if ! git diff --quiet ; then
+git add _config.yml > /dev/null
+
+if ! git diff --cached --quiet ; then
   echo -n "Updating $fieldtoupdate in _config.yml to $version..."
-  git add _config.yml > /dev/null
   git commit -q -m "Update $fieldtoupdate version to $version"
   echo " Done."
 fi
