@@ -195,6 +195,8 @@ public abstract class BaseEncoding {
   /**
    * Determines whether the specified character sequence is a valid encoded string according to this
    * encoding.
+   *
+   * @since 20.0
    */
   public abstract boolean canDecode(CharSequence chars);
 
