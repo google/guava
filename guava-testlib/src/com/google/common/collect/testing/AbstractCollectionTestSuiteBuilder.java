@@ -35,9 +35,7 @@ import com.google.common.collect.testing.testers.CollectionToArrayTester;
 import com.google.common.collect.testing.testers.CollectionToStringTester;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import junit.framework.TestSuite;
 
 /**
  * Abstract superclass of all test-suite builders for collection interfaces.
@@ -69,18 +67,5 @@ public abstract class AbstractCollectionTestSuiteBuilder<
         CollectionSizeTester.class,
         CollectionToArrayTester.class,
         CollectionToStringTester.class);
-  }
-
-  @Override
-  protected List<TestSuite> createDerivedSuites(
-      FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
-          parentBuilder) {
-    DerivedIteratorTestSuiteBuilder<?> iteratorTestSuiteBuilder =
-        new DerivedIteratorTestSuiteBuilder<E>()
-            .named(parentBuilder.getName())
-            .usingGenerator(parentBuilder.getSubjectGenerator())
-            .withFeatures(parentBuilder.getFeatures());
-
-    return Collections.singletonList(iteratorTestSuiteBuilder.createTestSuite());
   }
 }

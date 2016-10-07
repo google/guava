@@ -47,8 +47,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 @GwtCompatible(emulated = true)
 public class ListListIteratorTester<E> extends AbstractListTester<E> {
-  // TODO: switch to DerivedIteratorTestSuiteBuilder
-
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @ListFeature.Require(absent = {SUPPORTS_SET, SUPPORTS_ADD_WITH_INDEX})
   public void testListIterator_unmodifiable() {
