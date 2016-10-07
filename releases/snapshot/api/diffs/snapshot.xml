@@ -29627,7 +29627,7 @@
   </class>
   <!-- end class com.google.common.collect.Multisets -->
   <!-- start class com.google.common.collect.MutableClassToInstanceMap -->
-  <class name="MutableClassToInstanceMap" extends="com.google.common.collect.MapConstraints.ConstrainedMap&lt;java.lang.Class&lt;? extends B&gt;, B&gt;"
+  <class name="MutableClassToInstanceMap" extends="com.google.common.collect.ForwardingMap&lt;java.lang.Class&lt;? extends B&gt;, B&gt;"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
@@ -29653,6 +29653,29 @@
  and thus should not allow any direct references to it to remain accessible.]]>
       </doc>
     </method>
+    <method name="delegate" return="java.util.Map&lt;java.lang.Class&lt;? extends B&gt;, B&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="protected"
+      deprecated="not deprecated">
+    </method>
+    <method name="entrySet" return="java.util.Set&lt;java.util.Map.Entry&lt;java.lang.Class&lt;? extends B&gt;, B&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="put" return="B"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="key" type="java.lang.Class&lt;? extends B&gt;"/>
+      <param name="value" type="B"/>
+    </method>
+    <method name="putAll"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="map" type="java.util.Map&lt;? extends java.lang.Class&lt;? extends B&gt;, ? extends B&gt;"/>
+    </method>
     <method name="putInstance" return="T extends B"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -29667,12 +29690,12 @@
       <param name="type" type="java.lang.Class&lt;T&gt;"/>
     </method>
     <doc>
-    <![CDATA[A mutable class-to-instance map backed by an arbitrary user-provided map.
- See also {@link ImmutableClassToInstanceMap}.
+    <![CDATA[A mutable class-to-instance map backed by an arbitrary user-provided map. See also {@link
+ ImmutableClassToInstanceMap}.
 
  <p>See the Guava User Guide article on <a href=
- "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap">
- {@code ClassToInstanceMap}</a>.
+ "https://github.com/google/guava/wiki/NewCollectionTypesExplained#classtoinstancemap"> {@code
+ ClassToInstanceMap}</a>.
 
  @author Kevin Bourrillion
  @since 2.0]]>
