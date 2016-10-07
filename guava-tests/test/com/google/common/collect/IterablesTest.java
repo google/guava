@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Iterables.skip;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newLinkedHashSet;
@@ -1037,16 +1036,8 @@ public class IterablesTest extends TestCase {
 
   public void testRemoveIf_randomAccess_notPermittingDuplicates() {
     // https://github.com/google/guava/issues/1596
-    final List<String> delegate = newArrayList("a", "b", "c", "d", "e");
-    List<String> uniqueList = Constraints.constrainedList(delegate,
-        new Constraint<String>() {
-          @Override
-          public String checkElement(String element) {
-            checkArgument(
-                !delegate.contains(element), "this list does not permit duplicate elements");
-            return element;
-          }
-        });
+    List<String> uniqueList = newArrayList("a", "b", "c", "d", "e");
+    assertThat(uniqueList).containsNoDuplicates();
 
     assertTrue(uniqueList instanceof RandomAccess);
     assertTrue(Iterables.removeIf(uniqueList,
