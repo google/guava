@@ -2569,12 +2569,6 @@
 <div class="block">Ensures that <code>index</code> specifies a valid <i>element</i> in an array, list or string of size
  <code>size</code>.</div>
 </dd>
-<dt><span class="strong"><a href="./com/google/common/collect/MapConstraint.html#checkKeyValue(K,%20V)">checkKeyValue(K, V)</a></span> - Method in interface com.google.common.collect.<a href="./com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span></div>
-<div class="block">Throws a suitable <code>RuntimeException</code> if the specified key or value is
- illegal.</div>
-</dd>
 <dt><span class="strong"><a href="./com/google/common/base/Preconditions.html#checkNotNull(T)">checkNotNull(T)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Preconditions.html" title="class in com.google.common.base">Preconditions</a></dt>
 <dd>
 <div class="block">Ensures that an object reference passed as a parameter to the calling method is not null.</div>
@@ -3576,18 +3570,6 @@
 <dt><span class="strong"><a href="./com/google/common/base/Functions.html#constant(E)">constant(E)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Functions.html" title="class in com.google.common.base">Functions</a></dt>
 <dd>
 <div class="block">Returns a function that ignores its input and always returns <code>value</code>.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/collect/MapConstraints.html#constrainedListMultimap(com.google.common.collect.ListMultimap,%20com.google.common.collect.MapConstraint)">constrainedListMultimap(ListMultimap&lt;K, V&gt;, MapConstraint&lt;? super K, ? super V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/MapConstraints.html" title="class in com.google.common.collect">MapConstraints</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span></div>
-<div class="block">Returns a constrained view of the specified list multimap, using the
- specified constraint.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/collect/MapConstraints.html#constrainedMap(java.util.Map,%20com.google.common.collect.MapConstraint)">constrainedMap(Map&lt;K, V&gt;, MapConstraint&lt;? super K, ? super V&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/MapConstraints.html" title="class in com.google.common.collect">MapConstraints</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span></div>
-<div class="block">Returns a constrained view of the specified map, using the specified
- constraint.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/TypeToken.html#constructor(java.lang.reflect.Constructor)">constructor(Constructor&lt;?&gt;)</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a></dt>
 <dd>
@@ -10239,25 +10221,6 @@
  <a href="http://docs.oracle.com/javase/7/docs/api/java/nio/channels/FileChannel.html?is-external=true#map(java.nio.channels.FileChannel.MapMode,%20long,%20long)" title="class or interface in java.nio.channels"><code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code></a> using the requested
  <a href="http://docs.oracle.com/javase/7/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels"><code>FileChannel.MapMode</code></a>.</div>
 </dd>
-<dt><a href="./com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect"><span class="strong">MapConstraint</span></a>&lt;<a href="./com/google/common/collect/MapConstraint.html" title="type parameter in MapConstraint">K</a>,<a href="./com/google/common/collect/MapConstraint.html" title="type parameter in MapConstraint">V</a>&gt; - Interface in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>Use <code>Preconditions</code> for basic checks. In place of constrained maps, we
-     encourage you to check your preconditions explicitly instead of leaving that work to the map
-     implementation. For the specific case of rejecting null, consider <a href="./com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect"><code>ImmutableMap</code></a>. This
-     class is scheduled for removal in Guava 21.0.</i></div>
-</div>
-</dd>
-<dt><a href="./com/google/common/collect/MapConstraints.html" title="class in com.google.common.collect"><span class="strong">MapConstraints</span></a> - Class in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span>
-<div class="block"><i>Use <code>Preconditions</code> for basic checks. In place of
-     constrained maps, we encourage you to check your preconditions
-     explicitly instead of leaving that work to the map implementation.
-     For the specific case of rejecting null, consider <a href="./com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect"><code>ImmutableMap</code></a>.
-     This class is scheduled for removal in Guava 21.0.</i></div>
-</div>
-</dd>
 <dt><a href="./com/google/common/collect/MapDifference.html" title="interface in com.google.common.collect"><span class="strong">MapDifference</span></a>&lt;<a href="./com/google/common/collect/MapDifference.html" title="type parameter in MapDifference">K</a>,<a href="./com/google/common/collect/MapDifference.html" title="type parameter in MapDifference">V</a>&gt; - Interface in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">An object representing the differences between two maps.</div>
@@ -16185,12 +16148,6 @@
 <dd>
 <div class="block">Returns a string representation of <code>iterator</code>, with the format
  <code>[e1, e2, ..., en]</code>.</div>
-</dd>
-<dt><span class="strong"><a href="./com/google/common/collect/MapConstraint.html#toString()">toString()</a></span> - Method in interface com.google.common.collect.<a href="./com/google/common/collect/MapConstraint.html" title="interface in com.google.common.collect">MapConstraint</a></dt>
-<dd>
-<div class="block"><span class="strong">Deprecated.</span></div>
-<div class="block">Returns a brief human readable description of this constraint, such as
- "Not null".</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/MapMaker.html#toString()">toString()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a></dt>
 <dd>
