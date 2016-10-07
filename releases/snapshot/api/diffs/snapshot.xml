@@ -39634,7 +39634,9 @@
       <param name="chars" type="java.lang.CharSequence"/>
       <doc>
       <![CDATA[Determines whether the specified character sequence is a valid encoded string according to this
- encoding.]]>
+ encoding.
+
+ @since 20.0]]>
       </doc>
     </method>
     <method name="decode" return="byte[]"
