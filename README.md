@@ -36,6 +36,11 @@ dependencies {
 }
 ```
 
+Upcoming release
+----------------
+
+[Guava 20.0-rc1][] was released October 6, 2016.
+
 Snapshots
 ---------
 
@@ -87,6 +92,7 @@ Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments.
 
 [Guava 19.0]: https://github.com/google/guava/wiki/Release19
+[Guava 20.0-rc1]: https://github.com/google/guava/wiki/Release20
 [guava-release-api-docs]: http://google.github.io/guava/releases/19.0/api/docs/
 [testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/19.0
 [guava-release-api-diffs]: http://google.github.io/guava/releases/19.0/api/diffs/
