@@ -134,7 +134,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
   /**
    * The hashcode of an ordered {@link EndpointPair} is equal to {@code Objects.hashCode(source(),
    * target())}. The hashcode of an unordered {@link EndpointPair} is equal to {@code
-   * nodeU().hashCode() ^ nodeV().hashCode()}.
+   * nodeU().hashCode() + nodeV().hashCode()}.
    */
   @Override
   public abstract int hashCode();
@@ -238,7 +238,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
 
     @Override
     public int hashCode() {
-      return nodeU().hashCode() ^ nodeV().hashCode();
+      return nodeU().hashCode() + nodeV().hashCode();
     }
 
     @Override
