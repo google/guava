@@ -142,7 +142,7 @@
 <span class="sourceLineNo">134</span>  /**<a name="line.134"></a>
 <span class="sourceLineNo">135</span>   * The hashcode of an ordered {@link EndpointPair} is equal to {@code Objects.hashCode(source(),<a name="line.135"></a>
 <span class="sourceLineNo">136</span>   * target())}. The hashcode of an unordered {@link EndpointPair} is equal to {@code<a name="line.136"></a>
-<span class="sourceLineNo">137</span>   * nodeU().hashCode() ^ nodeV().hashCode()}.<a name="line.137"></a>
+<span class="sourceLineNo">137</span>   * nodeU().hashCode() + nodeV().hashCode()}.<a name="line.137"></a>
 <span class="sourceLineNo">138</span>   */<a name="line.138"></a>
 <span class="sourceLineNo">139</span>  @Override<a name="line.139"></a>
 <span class="sourceLineNo">140</span>  public abstract int hashCode();<a name="line.140"></a>
@@ -246,7 +246,7 @@
 <span class="sourceLineNo">238</span><a name="line.238"></a>
 <span class="sourceLineNo">239</span>    @Override<a name="line.239"></a>
 <span class="sourceLineNo">240</span>    public int hashCode() {<a name="line.240"></a>
-<span class="sourceLineNo">241</span>      return nodeU().hashCode() ^ nodeV().hashCode();<a name="line.241"></a>
+<span class="sourceLineNo">241</span>      return nodeU().hashCode() + nodeV().hashCode();<a name="line.241"></a>
 <span class="sourceLineNo">242</span>    }<a name="line.242"></a>
 <span class="sourceLineNo">243</span><a name="line.243"></a>
 <span class="sourceLineNo">244</span>    @Override<a name="line.244"></a>
