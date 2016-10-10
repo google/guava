@@ -373,14 +373,19 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
         Range.openClosed(5, 7),
         Range.open(3, 4));
     for (Set<Range<Integer>> subset : Sets.powerSet(ranges)) {
+      assertEquals(TreeRangeSet.create(subset), ImmutableRangeSet.unionOf(subset));
+
       RangeSet<Integer> mutable = TreeRangeSet.create();
       ImmutableRangeSet.Builder<Integer> builder = ImmutableRangeSet.builder();
 
+      boolean anyOverlaps = false;
       for (Range<Integer> range : subset) {
         boolean overlaps = false;
         for (Range<Integer> other : mutable.asRanges()) {
           if (other.isConnected(range) && !other.intersection(range).isEmpty()) {
             overlaps = true;
+            anyOverlaps = true;
+            break;
           }
         }
 
@@ -391,6 +396,17 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
         } catch (IllegalArgumentException e) {
           assertTrue(overlaps);
         }
+      }
+
+      if (anyOverlaps) {
+        try {
+          RangeSet<Integer> copy = ImmutableRangeSet.copyOf(subset);
+          fail();
+        } catch (IllegalArgumentException expected) {
+        }
+      } else {
+        RangeSet<Integer> copy = ImmutableRangeSet.copyOf(subset);
+        assertEquals(mutable, copy);
       }
 
       ImmutableRangeSet<Integer> built = builder.build();

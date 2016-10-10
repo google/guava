@@ -102,6 +102,30 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     return new ImmutableRangeSet<C>(ImmutableList.copyOf(rangeSet.asRanges()));
   }
 
+  /**
+   * Returns an {@code ImmutableRangeSet} representing the union of the specified ranges.
+   *
+   * <p>This is the smallest {@code RangeSet} which encloses each of the specified ranges. Duplicate
+   * or connected ranges are permitted, and will be coalesced in the result.
+   *
+   * @since 21.0
+   */
+  public static <C extends Comparable<?>> ImmutableRangeSet<C> unionOf(Iterable<Range<C>> ranges) {
+    return copyOf(TreeRangeSet.create(ranges));
+  }
+
+  /**
+   * Returns an {@code ImmutableRangeSet} containing each of the specified disjoint ranges.
+   * Overlapping ranges and empty ranges are forbidden, though adjacent ranges are permitted and
+   * will be merged.
+   *
+   * @throws IllegalArgumentException if any ranges overlap or are empty
+   * @since 21.0
+   */
+  public static <C extends Comparable<?>> ImmutableRangeSet<C> copyOf(Iterable<Range<C>> ranges) {
+    return new ImmutableRangeSet.Builder<C>().addAll(ranges).build();
+  }
+
   ImmutableRangeSet(ImmutableList<Range<C>> ranges) {
     this.ranges = ranges;
   }
@@ -208,6 +232,18 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
    */
   @Deprecated
   @Override
+  public void addAll(Iterable<Range<C>> other) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeSet} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
   public void remove(Range<C> range) {
     throw new UnsupportedOperationException();
   }
@@ -221,6 +257,18 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
   @Deprecated
   @Override
   public void removeAll(RangeSet<C> other) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeSet} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  public void removeAll(Iterable<Range<C>> other) {
     throw new UnsupportedOperationException();
   }
 
@@ -619,12 +667,14 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       this.rangeSet = TreeRangeSet.create();
     }
 
+    // TODO(lowasser): consider adding union, in addition to add, that does allow overlap
+
     /**
-     * Add the specified range to this builder.  Adjacent/abutting ranges are permitted, but
-     * empty ranges, or ranges with nonempty overlap, are forbidden.
+     * Add the specified range to this builder. Adjacent/abutting ranges are permitted, but empty
+     * ranges, or ranges with nonempty overlap, are forbidden.
      *
      * @throws IllegalArgumentException if {@code range} is empty or has nonempty intersection with
-     *         any ranges already added to the builder
+     *     any ranges already added to the builder
      */
     @CanIgnoreReturnValue
     public Builder<C> add(Range<C> range) {
@@ -650,7 +700,18 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
      */
     @CanIgnoreReturnValue
     public Builder<C> addAll(RangeSet<C> ranges) {
-      for (Range<C> range : ranges.asRanges()) {
+      return addAll(ranges.asRanges());
+    }
+
+    /**
+     * Add all of the specified ranges to this builder. Duplicate or connected ranges are permitted,
+     * and will be merged in the resulting immutable range set.
+     *
+     * @since 21.0
+     */
+    @CanIgnoreReturnValue
+    public Builder<C> addAll(Iterable<Range<C>> ranges) {
+      for (Range<C> range : ranges) {
         add(range);
       }
       return this;
