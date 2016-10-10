@@ -210,7 +210,7 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     assertEquals(map.size(), entrySet.size());
     assertEquals(entrySet.size() == 0, entrySet.isEmpty());
     assertEquals(!entrySet.isEmpty(), entrySet.iterator().hasNext());
-    assertFalse(entrySet.contains("foo"));
+    assertEntrySetNotContainsString(entrySet);
 
     boolean supportsValuesHashCode = supportsValuesHashCode(map);
     if (supportsValuesHashCode) {
@@ -258,6 +258,12 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     }
 
     assertMoreInvariants(map);
+  }
+
+  @SuppressWarnings("CollectionIncompatibleType")
+  private void assertEntrySetNotContainsString(Set<Entry<K, V>> entrySet) {
+    // Very unlikely that a buggy collection would ever return true. It might accidentally throw.
+    assertFalse(entrySet.contains("foo"));
   }
 
   /**
