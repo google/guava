@@ -4,9 +4,10 @@ Guava: Google Core Libraries for Java
 [![Build Status](https://travis-ci.org/google/guava.svg?branch=master)](https://travis-ci.org/google/guava)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.google.guava/guava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.google.guava/guava)
 
-The Guava project contains several of Google's core libraries that we rely on
-in our Java-based projects: collections, caching, primitives support,
-concurrency libraries, common annotations, string processing, I/O, and so forth.
+Guava is a set of core libraries that includes new collection types (such as
+multimap and multiset), immutable collections, a graph library, functional
+types, an in-memory cache, and APIs/utilities for concurrency, I/O, hashing,
+primitives, reflection, string processing, and much more!
 
 Requires JDK 1.6 or higher (as of 12.0).
 
