@@ -544,9 +544,19 @@
 <div class="block"><i>Unsupported operation.</i></div>
 </div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeSet.html#addAll(java.lang.Iterable)">addAll(Iterable&lt;Range&lt;C&gt;&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a></dt>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>Unsupported operation.</i></div>
+</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeSet.Builder.html#addAll(com.google.common.collect.RangeSet)">addAll(RangeSet&lt;C&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a></dt>
 <dd>
 <div class="block">Add all ranges from the specified range set to this builder.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeSet.Builder.html#addAll(java.lang.Iterable)">addAll(Iterable&lt;Range&lt;C&gt;&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a></dt>
+<dd>
+<div class="block">Add all of the specified ranges to this builder.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableSet.Builder.html#addAll(java.lang.Iterable)">addAll(Iterable&lt;? extends E&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a></dt>
 <dd>
@@ -589,6 +599,10 @@
 <dt><span class="strong"><a href="./com/google/common/collect/RangeSet.html#addAll(com.google.common.collect.RangeSet)">addAll(RangeSet&lt;C&gt;)</a></span> - Method in interface com.google.common.collect.<a href="./com/google/common/collect/RangeSet.html" title="interface in com.google.common.collect">RangeSet</a></dt>
 <dd>
 <div class="block">Adds all of the ranges from the specified range set to this range set (optional operation).</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/collect/RangeSet.html#addAll(java.lang.Iterable)">addAll(Iterable&lt;Range&lt;C&gt;&gt;)</a></span> - Method in interface com.google.common.collect.<a href="./com/google/common/collect/RangeSet.html" title="interface in com.google.common.collect">RangeSet</a></dt>
+<dd>
+<div class="block">Adds all of the specified ranges to this range set (optional operation).</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/math/PairedStatsAccumulator.html#addAll(com.google.common.math.PairedStats)">addAll(PairedStats)</a></span> - Method in class com.google.common.math.<a href="./com/google/common/math/PairedStatsAccumulator.html" title="class in com.google.common.math">PairedStatsAccumulator</a></dt>
 <dd>
@@ -3978,6 +3992,10 @@
 <dd>
 <div class="block">Returns an immutable copy of the specified <code>RangeSet</code>.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeSet.html#copyOf(java.lang.Iterable)">copyOf(Iterable&lt;Range&lt;C&gt;&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a></dt>
+<dd>
+<div class="block">Returns an <code>ImmutableRangeSet</code> containing each of the specified disjoint ranges.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableSet.html#copyOf(java.util.Collection)">copyOf(Collection&lt;? extends E&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a></dt>
 <dd>
 <div class="block">Returns an immutable set containing each of <code>elements</code>, minus duplicates, in the order
@@ -4496,6 +4514,10 @@
 <dt><span class="strong"><a href="./com/google/common/collect/TreeRangeSet.html#create(com.google.common.collect.RangeSet)">create(RangeSet&lt;C&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a></dt>
 <dd>
 <div class="block">Returns a <code>TreeRangeSet</code> initialized with the ranges in the specified range set.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/collect/TreeRangeSet.html#create(java.lang.Iterable)">create(Iterable&lt;Range&lt;C&gt;&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/TreeRangeSet.html" title="class in com.google.common.collect">TreeRangeSet</a></dt>
+<dd>
+<div class="block">Returns a <code>TreeRangeSet</code> representing the union of the specified ranges.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/escape/ArrayBasedEscaperMap.html#create(java.util.Map)">create(Map&lt;Character, String&gt;)</a></span> - Static method in class com.google.common.escape.<a href="./com/google/common/escape/ArrayBasedEscaperMap.html" title="class in com.google.common.escape">ArrayBasedEscaperMap</a></dt>
 <dd>
@@ -5177,6 +5199,11 @@
 <dd>
 <div class="block">Returns <code>true</code> if for each member range in <code>other</code> there exists a member range in
  this range set which <a href="./com/google/common/collect/Range.html#encloses(com.google.common.collect.Range)">encloses</a> it.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/collect/RangeSet.html#enclosesAll(java.lang.Iterable)">enclosesAll(Iterable&lt;Range&lt;C&gt;&gt;)</a></span> - Method in interface com.google.common.collect.<a href="./com/google/common/collect/RangeSet.html" title="interface in com.google.common.collect">RangeSet</a></dt>
+<dd>
+<div class="block">Returns <code>true</code> if for each range in <code>other</code> there exists a member range in this
+ range set which <a href="./com/google/common/collect/Range.html#encloses(com.google.common.collect.Range)">encloses</a> it.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/io/BaseEncoding.html#encode(byte[])">encode(byte[])</a></span> - Method in class com.google.common.io.<a href="./com/google/common/io/BaseEncoding.html" title="class in com.google.common.io">BaseEncoding</a></dt>
 <dd>
@@ -13742,6 +13769,12 @@
 <div class="block"><i>Unsupported operation.</i></div>
 </div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeSet.html#removeAll(java.lang.Iterable)">removeAll(Iterable&lt;Range&lt;C&gt;&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a></dt>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>Unsupported operation.</i></div>
+</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableSetMultimap.html#removeAll(java.lang.Object)">removeAll(Object)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a></dt>
 <dd>
 <div class="block"><span class="strong">Deprecated.</span>
@@ -13775,6 +13808,10 @@
 <dd>
 <div class="block">Removes all of the ranges from the specified range set from this range set (optional
  operation).</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/collect/RangeSet.html#removeAll(java.lang.Iterable)">removeAll(Iterable&lt;Range&lt;C&gt;&gt;)</a></span> - Method in interface com.google.common.collect.<a href="./com/google/common/collect/RangeSet.html" title="interface in com.google.common.collect">RangeSet</a></dt>
+<dd>
+<div class="block">Removes all of the specified ranges from this range set (optional operation).</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/SetMultimap.html#removeAll(java.lang.Object)">removeAll(Object)</a></span> - Method in interface com.google.common.collect.<a href="./com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a></dt>
 <dd>
@@ -16808,6 +16845,10 @@
 <dt><span class="strong"><a href="./com/google/common/collect/Sets.html#union(java.util.Set,%20java.util.Set)">union(Set&lt;? extends E&gt;, Set&lt;? extends E&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Sets.html" title="class in com.google.common.collect">Sets</a></dt>
 <dd>
 <div class="block">Returns an unmodifiable <b>view</b> of the union of two sets.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/collect/ImmutableRangeSet.html#unionOf(java.lang.Iterable)">unionOf(Iterable&lt;Range&lt;C&gt;&gt;)</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a></dt>
+<dd>
+<div class="block">Returns an <code>ImmutableRangeSet</code> representing the union of the specified ranges.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/FluentIterable.html#uniqueIndex(com.google.common.base.Function)">uniqueIndex(Function&lt;? super E, K&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a></dt>
 <dd>

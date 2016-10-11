@@ -57,11 +57,33 @@ Interface com.google.common.collect.<A HREF="../../docs/com/google/common/collec
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.RangeSet.addAll_added(java.lang.Iterable<com.google.common.collect.Range<C>>)"></A>
+  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/RangeSet.html#addAll(java.lang.Iterable<com.google.common.collect.Range<C>>)" target="_top"><tt>addAll</tt></A>(<code>Iterable&lt;Range&lt;C&gt;&gt;</code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Adds all of the specified ranges to this range set (optional operation).</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.RangeSet.enclosesAll_added(java.lang.Iterable<com.google.common.collect.Range<C>>)"></A>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/RangeSet.html#enclosesAll(java.lang.Iterable<com.google.common.collect.Range<C>>)" target="_top"><tt>enclosesAll</tt></A>(<code>Iterable&lt;Range&lt;C&gt;&gt;</code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Returns {@code true} if for each range in {@code other} there exists a member range in this
+ range set which <A HREF="../../docs/lain.html"><TT>Range#encloses encloses</TT></A> it.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.collect.RangeSet.intersects_added(com.google.common.collect.Range<C>)"></A>
   <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/RangeSet.html#intersects(com.google.common.collect.Range<C>)" target="_top"><tt>intersects</tt></A>(<code>Range&lt;C&gt;</code>)</nobr>
   </TD>
   <TD VALIGN="TOP">Returns {@code true} if there exists a non-empty range enclosed by both a member range in this
  range set and the specified range.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.RangeSet.removeAll_added(java.lang.Iterable<com.google.common.collect.Range<C>>)"></A>
+  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/RangeSet.html#removeAll(java.lang.Iterable<com.google.common.collect.Range<C>>)" target="_top"><tt>removeAll</tt></A>(<code>Iterable&lt;Range&lt;C&gt;&gt;</code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Removes all of the specified ranges from this range set (optional operation).</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -80,16 +102,6 @@ Interface com.google.common.collect.<A HREF="../../docs/com/google/common/collec
 Changed from abstract to non-abstract.
   </TD>
   <TD VALIGN="TOP">Adds the specified range to this {@code RangeSet} (optional operation).</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.RangeSet.addAll_changed(com.google.common.collect.RangeSet<C>)"></A>
-  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/RangeSet.html#addAll(com.google.common.collect.RangeSet<C>)" target="_top"><tt>addAll</tt></A>(<code>RangeSet&lt;C&gt;</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Adds all of the ranges from the specified range set to this range set (optional operation).</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -156,17 +168,6 @@ Changed from abstract to non-abstract.
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.RangeSet.enclosesAll_changed(com.google.common.collect.RangeSet<C>)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/RangeSet.html#enclosesAll(com.google.common.collect.RangeSet<C>)" target="_top"><tt>enclosesAll</tt></A>(<code>RangeSet&lt;C&gt;</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Returns {@code true} if for each member range in {@code other} there exists a member range in
- this range set which <A HREF="../../docs/lain.html"><TT>Range#encloses encloses</TT></A> it.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.collect.RangeSet.equals_changed(java.lang.Object)"></A>
   <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/RangeSet.html#equals(java.lang.Object)" target="_top"><tt>equals</tt></A>(<code>Object</code>)  </nobr>
   </TD>
@@ -219,17 +220,6 @@ Changed from abstract to non-abstract.
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.RangeSet.removeAll_changed(com.google.common.collect.RangeSet<C>)"></A>
-  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/RangeSet.html#removeAll(com.google.common.collect.RangeSet<C>)" target="_top"><tt>removeAll</tt></A>(<code>RangeSet&lt;C&gt;</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-Changed from abstract to non-abstract.
-  </TD>
-  <TD VALIGN="TOP">Removes all of the ranges from the specified range set from this range set (optional
- operation).</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.collect.RangeSet.span_changed()"></A>
   <nobr><code>Range&lt;C&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/collect/RangeSet.html#span()" target="_top"><tt>span</tt></A>()  </nobr>
   </TD>
@@ -258,6 +248,38 @@ Changed from abstract to non-abstract.
 Changed from abstract to non-abstract.
   </TD>
   <TD VALIGN="TOP">Returns a readable string representation of this range set.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.RangeSet.addAll_changed(com.google.common.collect.RangeSet<C>)"></A>
+  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/RangeSet.html#addAll(com.google.common.collect.RangeSet<C>)" target="_top"><tt>addAll</tt></A>(<code>RangeSet&lt;C&gt;</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD VALIGN="TOP">Adds all of the ranges from the specified range set to this range set (optional operation).</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.RangeSet.enclosesAll_changed(com.google.common.collect.RangeSet<C>)"></A>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/RangeSet.html#enclosesAll(com.google.common.collect.RangeSet<C>)" target="_top"><tt>enclosesAll</tt></A>(<code>RangeSet&lt;C&gt;</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD VALIGN="TOP">Returns {@code true} if for each member range in {@code other} there exists a member range in
+ this range set which <A HREF="../../docs/lain.html"><TT>Range#encloses encloses</TT></A> it.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.collect.RangeSet.removeAll_changed(com.google.common.collect.RangeSet<C>)"></A>
+  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/RangeSet.html#removeAll(com.google.common.collect.RangeSet<C>)" target="_top"><tt>removeAll</tt></A>(<code>RangeSet&lt;C&gt;</code>)  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Changed from abstract to non-abstract.
+  </TD>
+  <TD VALIGN="TOP">Removes all of the ranges from the specified range set from this range set (optional
+ operation).</TD>
 </TR>
 </TABLE>
 &nbsp;
