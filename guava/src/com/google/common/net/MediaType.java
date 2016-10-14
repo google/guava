@@ -437,6 +437,7 @@ public final class MediaType {
       createConstant(APPLICATION_TYPE, "x-pnacl");
 
   public static final MediaType OCTET_STREAM = createConstant(APPLICATION_TYPE, "octet-stream");
+
   public static final MediaType OGG_CONTAINER = createConstant(APPLICATION_TYPE, "ogg");
   public static final MediaType OOXML_DOCUMENT =
       createConstant(
