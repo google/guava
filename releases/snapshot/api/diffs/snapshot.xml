@@ -58159,7 +58159,7 @@
       deprecated="not deprecated">
       <param name="future" type="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
       <doc>
-      <![CDATA[Creates a new {@code ListenableFuture} whose result is set from the supplied future when it
+      <![CDATA[Returns a {@code ListenableFuture} whose result is set from the supplied future when it
  completes. Cancelling the supplied future will also cancel the returned future, but cancelling
  the returned future will have no effect on the supplied future.
 
