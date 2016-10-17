@@ -366,9 +366,9 @@ public final class InternetDomainNameTest extends TestCase {
   }
 
   public void testExclusion() {
-    InternetDomainName domain = InternetDomainName.from("foo.teledata.mz");
+    InternetDomainName domain = InternetDomainName.from("foo.city.yokohama.jp");
     assertTrue(domain.hasPublicSuffix());
-    assertEquals("mz", domain.publicSuffix().toString());
+    assertEquals("yokohama.jp", domain.publicSuffix().toString());
 
     // Behold the weirdness!
     assertFalse(domain.publicSuffix().isPublicSuffix());
