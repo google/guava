@@ -279,418 +279,417 @@
 <span class="sourceLineNo">271</span>     *<a name="line.271"></a>
 <span class="sourceLineNo">272</span>     * @param dataset the dataset to do the calculation on, which must be non-empty, and which will<a name="line.272"></a>
 <span class="sourceLineNo">273</span>     *     be arbitrarily reordered by this method call<a name="line.273"></a>
-<span class="sourceLineNo">274</span>     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and<a name="line.274"></a>
-<span class="sourceLineNo">275</span>     *     the values the corresponding quantile values<a name="line.275"></a>
-<span class="sourceLineNo">276</span>     */<a name="line.276"></a>
-<span class="sourceLineNo">277</span>    public double computeInPlace(double... dataset) {<a name="line.277"></a>
-<span class="sourceLineNo">278</span>      checkArgument(dataset.length &gt; 0, "Cannot calculate quantiles of an empty dataset");<a name="line.278"></a>
-<span class="sourceLineNo">279</span>      if (containsNaN(dataset)) {<a name="line.279"></a>
-<span class="sourceLineNo">280</span>        return NaN;<a name="line.280"></a>
-<span class="sourceLineNo">281</span>      }<a name="line.281"></a>
-<span class="sourceLineNo">282</span><a name="line.282"></a>
-<span class="sourceLineNo">283</span>      // Calculate the quotient and remainder in the integer division x = k * (N-1) / q, i.e.<a name="line.283"></a>
-<span class="sourceLineNo">284</span>      // index * (dataset.length - 1) / scale. If there is no remainder, we can just find the value<a name="line.284"></a>
-<span class="sourceLineNo">285</span>      // whose index in the sorted dataset equals the quotient; if there is a remainder, we<a name="line.285"></a>
-<span class="sourceLineNo">286</span>      // interpolate between that and the next value.<a name="line.286"></a>
-<span class="sourceLineNo">287</span><a name="line.287"></a>
-<span class="sourceLineNo">288</span>      // Since index and (dataset.length - 1) are non-negative ints, their product can be expressed<a name="line.288"></a>
-<span class="sourceLineNo">289</span>      // as a long, without risk of overflow:<a name="line.289"></a>
-<span class="sourceLineNo">290</span>      long numerator = (long) index * (dataset.length - 1);<a name="line.290"></a>
-<span class="sourceLineNo">291</span>      // Since scale is a positive int, index is in [0, scale], and (dataset.length - 1) is a<a name="line.291"></a>
-<span class="sourceLineNo">292</span>      // non-negative int, we can do long-arithmetic on index * (dataset.length - 1) / scale to get<a name="line.292"></a>
-<span class="sourceLineNo">293</span>      // a rounded ratio and a remainder which can be expressed as ints, without risk of overflow:<a name="line.293"></a>
-<span class="sourceLineNo">294</span>      int quotient = (int) LongMath.divide(numerator, scale, RoundingMode.DOWN);<a name="line.294"></a>
-<span class="sourceLineNo">295</span>      int remainder = (int) (numerator - (long) quotient * scale);<a name="line.295"></a>
-<span class="sourceLineNo">296</span>      selectInPlace(quotient, dataset, 0, dataset.length - 1);<a name="line.296"></a>
-<span class="sourceLineNo">297</span>      if (remainder == 0) {<a name="line.297"></a>
-<span class="sourceLineNo">298</span>        return dataset[quotient];<a name="line.298"></a>
-<span class="sourceLineNo">299</span>      } else {<a name="line.299"></a>
-<span class="sourceLineNo">300</span>        selectInPlace(quotient + 1, dataset, quotient + 1, dataset.length - 1);<a name="line.300"></a>
-<span class="sourceLineNo">301</span>        return interpolate(dataset[quotient], dataset[quotient + 1], remainder, scale);<a name="line.301"></a>
-<span class="sourceLineNo">302</span>      }<a name="line.302"></a>
-<span class="sourceLineNo">303</span>    }<a name="line.303"></a>
-<span class="sourceLineNo">304</span>  }<a name="line.304"></a>
-<span class="sourceLineNo">305</span><a name="line.305"></a>
-<span class="sourceLineNo">306</span>  /**<a name="line.306"></a>
-<span class="sourceLineNo">307</span>   * Describes the point in a fluent API chain where the scale and a multiple quantile indexes (i.e.<a name="line.307"></a>
-<span class="sourceLineNo">308</span>   * the q and a set of values for the k in the kth q-quantile) have been specified.<a name="line.308"></a>
-<span class="sourceLineNo">309</span>   */<a name="line.309"></a>
-<span class="sourceLineNo">310</span>  public static final class ScaleAndIndexes {<a name="line.310"></a>
-<span class="sourceLineNo">311</span><a name="line.311"></a>
-<span class="sourceLineNo">312</span>    private final int scale;<a name="line.312"></a>
-<span class="sourceLineNo">313</span>    private final int[] indexes;<a name="line.313"></a>
-<span class="sourceLineNo">314</span><a name="line.314"></a>
-<span class="sourceLineNo">315</span>    private ScaleAndIndexes(int scale, int[] indexes) {<a name="line.315"></a>
-<span class="sourceLineNo">316</span>      for (int index : indexes) {<a name="line.316"></a>
-<span class="sourceLineNo">317</span>        checkIndex(index, scale);<a name="line.317"></a>
-<span class="sourceLineNo">318</span>      }<a name="line.318"></a>
-<span class="sourceLineNo">319</span>      this.scale = scale;<a name="line.319"></a>
-<span class="sourceLineNo">320</span>      this.indexes = indexes;<a name="line.320"></a>
-<span class="sourceLineNo">321</span>    }<a name="line.321"></a>
-<span class="sourceLineNo">322</span><a name="line.322"></a>
-<span class="sourceLineNo">323</span>    /**<a name="line.323"></a>
-<span class="sourceLineNo">324</span>     * Computes the quantile values of the given dataset.<a name="line.324"></a>
-<span class="sourceLineNo">325</span>     *<a name="line.325"></a>
-<span class="sourceLineNo">326</span>     * @param dataset the dataset to do the calculation on, which must be non-empty, which will be<a name="line.326"></a>
-<span class="sourceLineNo">327</span>     *     cast to doubles (with any associated lost of precision), and which will not be mutated by<a name="line.327"></a>
-<span class="sourceLineNo">328</span>     *     this call (it is copied instead)<a name="line.328"></a>
-<span class="sourceLineNo">329</span>     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and<a name="line.329"></a>
-<span class="sourceLineNo">330</span>     *     the values the corresponding quantile values<a name="line.330"></a>
-<span class="sourceLineNo">331</span>     */<a name="line.331"></a>
-<span class="sourceLineNo">332</span>    public Map&lt;Integer, Double&gt; compute(Collection&lt;? extends Number&gt; dataset) {<a name="line.332"></a>
-<span class="sourceLineNo">333</span>      return computeInPlace(Doubles.toArray(dataset));<a name="line.333"></a>
-<span class="sourceLineNo">334</span>    }<a name="line.334"></a>
-<span class="sourceLineNo">335</span><a name="line.335"></a>
-<span class="sourceLineNo">336</span>    /**<a name="line.336"></a>
-<span class="sourceLineNo">337</span>     * Computes the quantile values of the given dataset.<a name="line.337"></a>
-<span class="sourceLineNo">338</span>     *<a name="line.338"></a>
-<span class="sourceLineNo">339</span>     * @param dataset the dataset to do the calculation on, which must be non-empty, which will not<a name="line.339"></a>
-<span class="sourceLineNo">340</span>     *     be mutated by this call (it is copied instead)<a name="line.340"></a>
-<span class="sourceLineNo">341</span>     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and<a name="line.341"></a>
-<span class="sourceLineNo">342</span>     *     the values the corresponding quantile values<a name="line.342"></a>
-<span class="sourceLineNo">343</span>     */<a name="line.343"></a>
-<span class="sourceLineNo">344</span>    public Map&lt;Integer, Double&gt; compute(double... dataset) {<a name="line.344"></a>
-<span class="sourceLineNo">345</span>      return computeInPlace(dataset.clone());<a name="line.345"></a>
-<span class="sourceLineNo">346</span>    }<a name="line.346"></a>
-<span class="sourceLineNo">347</span><a name="line.347"></a>
-<span class="sourceLineNo">348</span>    /**<a name="line.348"></a>
-<span class="sourceLineNo">349</span>     * Computes the quantile values of the given dataset.<a name="line.349"></a>
-<span class="sourceLineNo">350</span>     *<a name="line.350"></a>
-<span class="sourceLineNo">351</span>     * @param dataset the dataset to do the calculation on, which must be non-empty, which will be<a name="line.351"></a>
-<span class="sourceLineNo">352</span>     *     cast to doubles (with any associated lost of precision), and which will not be mutated by<a name="line.352"></a>
-<span class="sourceLineNo">353</span>     *     this call (it is copied instead)<a name="line.353"></a>
-<span class="sourceLineNo">354</span>     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and<a name="line.354"></a>
-<span class="sourceLineNo">355</span>     *     the values the corresponding quantile values<a name="line.355"></a>
-<span class="sourceLineNo">356</span>     */<a name="line.356"></a>
-<span class="sourceLineNo">357</span>    public Map&lt;Integer, Double&gt; compute(long... dataset) {<a name="line.357"></a>
-<span class="sourceLineNo">358</span>      return computeInPlace(longsToDoubles(dataset));<a name="line.358"></a>
-<span class="sourceLineNo">359</span>    }<a name="line.359"></a>
-<span class="sourceLineNo">360</span><a name="line.360"></a>
-<span class="sourceLineNo">361</span>    /**<a name="line.361"></a>
-<span class="sourceLineNo">362</span>     * Computes the quantile values of the given dataset.<a name="line.362"></a>
-<span class="sourceLineNo">363</span>     *<a name="line.363"></a>
-<span class="sourceLineNo">364</span>     * @param dataset the dataset to do the calculation on, which must be non-empty, which will be<a name="line.364"></a>
-<span class="sourceLineNo">365</span>     *     cast to doubles, and which will not be mutated by this call (it is copied instead)<a name="line.365"></a>
-<span class="sourceLineNo">366</span>     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and<a name="line.366"></a>
-<span class="sourceLineNo">367</span>     *     the values the corresponding quantile values<a name="line.367"></a>
-<span class="sourceLineNo">368</span>     */<a name="line.368"></a>
-<span class="sourceLineNo">369</span>    public Map&lt;Integer, Double&gt; compute(int... dataset) {<a name="line.369"></a>
-<span class="sourceLineNo">370</span>      return computeInPlace(intsToDoubles(dataset));<a name="line.370"></a>
-<span class="sourceLineNo">371</span>    }<a name="line.371"></a>
-<span class="sourceLineNo">372</span><a name="line.372"></a>
-<span class="sourceLineNo">373</span>    /**<a name="line.373"></a>
-<span class="sourceLineNo">374</span>     * Computes the quantile values of the given dataset, performing the computation in-place.<a name="line.374"></a>
-<span class="sourceLineNo">375</span>     *<a name="line.375"></a>
-<span class="sourceLineNo">376</span>     * @param dataset the dataset to do the calculation on, which must be non-empty, and which will<a name="line.376"></a>
-<span class="sourceLineNo">377</span>     *     be arbitrarily reordered by this method call<a name="line.377"></a>
-<span class="sourceLineNo">378</span>     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and<a name="line.378"></a>
-<span class="sourceLineNo">379</span>     *     the values the corresponding quantile values<a name="line.379"></a>
-<span class="sourceLineNo">380</span>     */<a name="line.380"></a>
-<span class="sourceLineNo">381</span>    public Map&lt;Integer, Double&gt; computeInPlace(double... dataset) {<a name="line.381"></a>
-<span class="sourceLineNo">382</span>      checkArgument(dataset.length &gt; 0, "Cannot calculate quantiles of an empty dataset");<a name="line.382"></a>
-<span class="sourceLineNo">383</span>      if (containsNaN(dataset)) {<a name="line.383"></a>
-<span class="sourceLineNo">384</span>        Map&lt;Integer, Double&gt; nanMap = new HashMap&lt;Integer, Double&gt;();<a name="line.384"></a>
-<span class="sourceLineNo">385</span>        for (int index : indexes) {<a name="line.385"></a>
-<span class="sourceLineNo">386</span>          nanMap.put(index, NaN);<a name="line.386"></a>
-<span class="sourceLineNo">387</span>        }<a name="line.387"></a>
-<span class="sourceLineNo">388</span>        return unmodifiableMap(nanMap);<a name="line.388"></a>
-<span class="sourceLineNo">389</span>      }<a name="line.389"></a>
-<span class="sourceLineNo">390</span><a name="line.390"></a>
-<span class="sourceLineNo">391</span>      // Calculate the quotients and remainders in the integer division x = k * (N - 1) / q, i.e.<a name="line.391"></a>
-<span class="sourceLineNo">392</span>      // index * (dataset.length - 1) / scale for each index in indexes. For each, if there is no<a name="line.392"></a>
-<span class="sourceLineNo">393</span>      // remainder, we can just select the value whose index in the sorted dataset equals the<a name="line.393"></a>
-<span class="sourceLineNo">394</span>      // quotient; if there is a remainder, we interpolate between that and the next value.<a name="line.394"></a>
-<span class="sourceLineNo">395</span><a name="line.395"></a>
-<span class="sourceLineNo">396</span>      int[] quotients = new int[indexes.length];<a name="line.396"></a>
-<span class="sourceLineNo">397</span>      int[] remainders = new int[indexes.length];<a name="line.397"></a>
-<span class="sourceLineNo">398</span>      // The indexes to select. In the worst case, we'll need one each side of each quantile.<a name="line.398"></a>
-<span class="sourceLineNo">399</span>      int[] requiredSelections = new int[indexes.length * 2];<a name="line.399"></a>
-<span class="sourceLineNo">400</span>      int requiredSelectionsCount = 0;<a name="line.400"></a>
-<span class="sourceLineNo">401</span>      for (int i = 0; i &lt; indexes.length; i++) {<a name="line.401"></a>
-<span class="sourceLineNo">402</span>        // Since index and (dataset.length - 1) are non-negative ints, their product can be<a name="line.402"></a>
-<span class="sourceLineNo">403</span>        // expressed as a long, without risk of overflow:<a name="line.403"></a>
-<span class="sourceLineNo">404</span>        long numerator = (long) indexes[i] * (dataset.length - 1);<a name="line.404"></a>
-<span class="sourceLineNo">405</span>        // Since scale is a positive int, index is in [0, scale], and (dataset.length - 1) is a<a name="line.405"></a>
-<span class="sourceLineNo">406</span>        // non-negative int, we can do long-arithmetic on index * (dataset.length - 1) / scale to<a name="line.406"></a>
-<span class="sourceLineNo">407</span>        // get a rounded ratio and a remainder which can be expressed as ints, without risk of<a name="line.407"></a>
-<span class="sourceLineNo">408</span>        // overflow:<a name="line.408"></a>
-<span class="sourceLineNo">409</span>        int quotient = (int) LongMath.divide(numerator, scale, RoundingMode.DOWN);<a name="line.409"></a>
-<span class="sourceLineNo">410</span>        int remainder = (int) (numerator - (long) quotient * scale);<a name="line.410"></a>
-<span class="sourceLineNo">411</span>        quotients[i] = quotient;<a name="line.411"></a>
-<span class="sourceLineNo">412</span>        remainders[i] = remainder;<a name="line.412"></a>
-<span class="sourceLineNo">413</span>        requiredSelections[requiredSelectionsCount] = quotient;<a name="line.413"></a>
-<span class="sourceLineNo">414</span>        requiredSelectionsCount++;<a name="line.414"></a>
-<span class="sourceLineNo">415</span>        if (remainder != 0) {<a name="line.415"></a>
-<span class="sourceLineNo">416</span>          requiredSelections[requiredSelectionsCount] = quotient + 1;<a name="line.416"></a>
-<span class="sourceLineNo">417</span>          requiredSelectionsCount++;<a name="line.417"></a>
-<span class="sourceLineNo">418</span>        }<a name="line.418"></a>
-<span class="sourceLineNo">419</span>      }<a name="line.419"></a>
-<span class="sourceLineNo">420</span>      sort(requiredSelections, 0, requiredSelectionsCount);<a name="line.420"></a>
-<span class="sourceLineNo">421</span>      selectAllInPlace(<a name="line.421"></a>
-<span class="sourceLineNo">422</span>          requiredSelections, 0, requiredSelectionsCount - 1, dataset, 0, dataset.length - 1);<a name="line.422"></a>
-<span class="sourceLineNo">423</span>      Map&lt;Integer, Double&gt; ret = new HashMap&lt;Integer, Double&gt;();<a name="line.423"></a>
-<span class="sourceLineNo">424</span>      for (int i = 0; i &lt; indexes.length; i++) {<a name="line.424"></a>
-<span class="sourceLineNo">425</span>        int quotient = quotients[i];<a name="line.425"></a>
-<span class="sourceLineNo">426</span>        int remainder = remainders[i];<a name="line.426"></a>
-<span class="sourceLineNo">427</span>        if (remainder == 0) {<a name="line.427"></a>
-<span class="sourceLineNo">428</span>          ret.put(indexes[i], dataset[quotient]);<a name="line.428"></a>
-<span class="sourceLineNo">429</span>        } else {<a name="line.429"></a>
-<span class="sourceLineNo">430</span>          ret.put(<a name="line.430"></a>
-<span class="sourceLineNo">431</span>              indexes[i], interpolate(dataset[quotient], dataset[quotient + 1], remainder, scale));<a name="line.431"></a>
-<span class="sourceLineNo">432</span>        }<a name="line.432"></a>
-<span class="sourceLineNo">433</span>      }<a name="line.433"></a>
-<span class="sourceLineNo">434</span>      return unmodifiableMap(ret);<a name="line.434"></a>
-<span class="sourceLineNo">435</span>    }<a name="line.435"></a>
-<span class="sourceLineNo">436</span>  }<a name="line.436"></a>
-<span class="sourceLineNo">437</span><a name="line.437"></a>
-<span class="sourceLineNo">438</span>  /**<a name="line.438"></a>
-<span class="sourceLineNo">439</span>   * Returns whether any of the values in {@code dataset} are {@code NaN}.<a name="line.439"></a>
-<span class="sourceLineNo">440</span>   */<a name="line.440"></a>
-<span class="sourceLineNo">441</span>  private static boolean containsNaN(double... dataset) {<a name="line.441"></a>
-<span class="sourceLineNo">442</span>    for (double value : dataset) {<a name="line.442"></a>
-<span class="sourceLineNo">443</span>      if (Double.isNaN(value)) {<a name="line.443"></a>
-<span class="sourceLineNo">444</span>        return true;<a name="line.444"></a>
-<span class="sourceLineNo">445</span>      }<a name="line.445"></a>
-<span class="sourceLineNo">446</span>    }<a name="line.446"></a>
-<span class="sourceLineNo">447</span>    return false;<a name="line.447"></a>
-<span class="sourceLineNo">448</span>  }<a name="line.448"></a>
-<span class="sourceLineNo">449</span><a name="line.449"></a>
-<span class="sourceLineNo">450</span>  /**<a name="line.450"></a>
-<span class="sourceLineNo">451</span>   * Returns a value a fraction {@code (remainder / scale)} of the way between {@code lower} and<a name="line.451"></a>
-<span class="sourceLineNo">452</span>   * {@code upper}. Assumes that {@code lower &lt;= upper}. Correctly handles infinities (but not<a name="line.452"></a>
-<span class="sourceLineNo">453</span>   * {@code NaN}).<a name="line.453"></a>
-<span class="sourceLineNo">454</span>   */<a name="line.454"></a>
-<span class="sourceLineNo">455</span>  private static double interpolate(double lower, double upper, double remainder, double scale) {<a name="line.455"></a>
-<span class="sourceLineNo">456</span>    if (lower == NEGATIVE_INFINITY) {<a name="line.456"></a>
-<span class="sourceLineNo">457</span>      if (upper == POSITIVE_INFINITY) {<a name="line.457"></a>
-<span class="sourceLineNo">458</span>        // Return NaN when lower == NEGATIVE_INFINITY and upper == POSITIVE_INFINITY:<a name="line.458"></a>
-<span class="sourceLineNo">459</span>        return NaN;<a name="line.459"></a>
-<span class="sourceLineNo">460</span>      }<a name="line.460"></a>
-<span class="sourceLineNo">461</span>      // Return NEGATIVE_INFINITY when NEGATIVE_INFINITY == lower &lt;= upper &lt; POSITIVE_INFINITY:<a name="line.461"></a>
-<span class="sourceLineNo">462</span>      return NEGATIVE_INFINITY;<a name="line.462"></a>
-<span class="sourceLineNo">463</span>    }<a name="line.463"></a>
-<span class="sourceLineNo">464</span>    if (upper == POSITIVE_INFINITY) {<a name="line.464"></a>
-<span class="sourceLineNo">465</span>      // Return POSITIVE_INFINITY when NEGATIVE_INFINITY &lt; lower &lt;= upper == POSITIVE_INFINITY:<a name="line.465"></a>
-<span class="sourceLineNo">466</span>      return POSITIVE_INFINITY;<a name="line.466"></a>
-<span class="sourceLineNo">467</span>    }<a name="line.467"></a>
-<span class="sourceLineNo">468</span>    return lower + (upper - lower) * remainder / scale;<a name="line.468"></a>
-<span class="sourceLineNo">469</span>  }<a name="line.469"></a>
-<span class="sourceLineNo">470</span><a name="line.470"></a>
-<span class="sourceLineNo">471</span>  private static void checkIndex(int index, int scale) {<a name="line.471"></a>
-<span class="sourceLineNo">472</span>    if (index &lt; 0 || index &gt; scale) {<a name="line.472"></a>
-<span class="sourceLineNo">473</span>      throw new IllegalArgumentException(<a name="line.473"></a>
-<span class="sourceLineNo">474</span>          "Quantile indexes must be between 0 and the scale, which is " + scale);<a name="line.474"></a>
-<span class="sourceLineNo">475</span>    }<a name="line.475"></a>
-<span class="sourceLineNo">476</span>  }<a name="line.476"></a>
-<span class="sourceLineNo">477</span><a name="line.477"></a>
-<span class="sourceLineNo">478</span>  private static double[] longsToDoubles(long[] longs) {<a name="line.478"></a>
-<span class="sourceLineNo">479</span>    int len = longs.length;<a name="line.479"></a>
-<span class="sourceLineNo">480</span>    double[] doubles = new double[len];<a name="line.480"></a>
-<span class="sourceLineNo">481</span>    for (int i = 0; i &lt; len; i++) {<a name="line.481"></a>
-<span class="sourceLineNo">482</span>      doubles[i] = longs[i];<a name="line.482"></a>
-<span class="sourceLineNo">483</span>    }<a name="line.483"></a>
-<span class="sourceLineNo">484</span>    return doubles;<a name="line.484"></a>
-<span class="sourceLineNo">485</span>  }<a name="line.485"></a>
-<span class="sourceLineNo">486</span><a name="line.486"></a>
-<span class="sourceLineNo">487</span>  private static double[] intsToDoubles(int[] ints) {<a name="line.487"></a>
-<span class="sourceLineNo">488</span>    int len = ints.length;<a name="line.488"></a>
-<span class="sourceLineNo">489</span>    double[] doubles = new double[len];<a name="line.489"></a>
-<span class="sourceLineNo">490</span>    for (int i = 0; i &lt; len; i++) {<a name="line.490"></a>
-<span class="sourceLineNo">491</span>      doubles[i] = ints[i];<a name="line.491"></a>
-<span class="sourceLineNo">492</span>    }<a name="line.492"></a>
-<span class="sourceLineNo">493</span>    return doubles;<a name="line.493"></a>
-<span class="sourceLineNo">494</span>  }<a name="line.494"></a>
-<span class="sourceLineNo">495</span><a name="line.495"></a>
-<span class="sourceLineNo">496</span>  /**<a name="line.496"></a>
-<span class="sourceLineNo">497</span>   * Performs an in-place selection to find the element which would appear at a given index in a<a name="line.497"></a>
-<span class="sourceLineNo">498</span>   * dataset if it were sorted. The following preconditions should hold:<a name="line.498"></a>
-<span class="sourceLineNo">499</span>   * &lt;ul&gt;<a name="line.499"></a>
-<span class="sourceLineNo">500</span>   * &lt;li&gt;{@code required}, {@code from}, and {@code to} should all be indexes into {@code array};<a name="line.500"></a>
-<span class="sourceLineNo">501</span>   * &lt;li&gt;{@code required} should be in the range [{@code from}, {@code to}];<a name="line.501"></a>
-<span class="sourceLineNo">502</span>   * &lt;li&gt;all the values with indexes in the range [0, {@code from}) should be less than or equal to<a name="line.502"></a>
-<span class="sourceLineNo">503</span>   * all the values with indexes in the range [{@code from}, {@code to}];<a name="line.503"></a>
-<span class="sourceLineNo">504</span>   * &lt;li&gt;all the values with indexes in the range ({@code to}, {@code array.length - 1}] should be<a name="line.504"></a>
-<span class="sourceLineNo">505</span>   * greater than or equal to all the values with indexes in the range [{@code from}, {@code to}].<a name="line.505"></a>
-<span class="sourceLineNo">506</span>   * &lt;/ul&gt;<a name="line.506"></a>
-<span class="sourceLineNo">507</span>   * This method will reorder the values with indexes in the range [{@code from}, {@code to}] such<a name="line.507"></a>
-<span class="sourceLineNo">508</span>   * that all the values with indexes in the range [{@code from}, {@code required}) are less than or<a name="line.508"></a>
-<span class="sourceLineNo">509</span>   * equal to the value with index {@code required}, and all the values with indexes in the range<a name="line.509"></a>
-<span class="sourceLineNo">510</span>   * ({@code required}, {@code to}] are greater than or equal to that value. Therefore, the value at<a name="line.510"></a>
-<span class="sourceLineNo">511</span>   * {@code required} is the value which would appear at that index in the sorted dataset.<a name="line.511"></a>
-<span class="sourceLineNo">512</span>   */<a name="line.512"></a>
-<span class="sourceLineNo">513</span>  private static void selectInPlace(int required, double[] array, int from, int to) {<a name="line.513"></a>
-<span class="sourceLineNo">514</span>    // If we are looking for the least element in the range, we can just do a linear search for it.<a name="line.514"></a>
-<span class="sourceLineNo">515</span>    // (We will hit this whenever we are doing quantile interpolation: our first selection finds<a name="line.515"></a>
-<span class="sourceLineNo">516</span>    // the lower value, our second one finds the upper value by looking for the next least element.)<a name="line.516"></a>
-<span class="sourceLineNo">517</span>    if (required == from) {<a name="line.517"></a>
-<span class="sourceLineNo">518</span>      int min = from;<a name="line.518"></a>
-<span class="sourceLineNo">519</span>      for (int index = from + 1; index &lt;= to; index++) {<a name="line.519"></a>
-<span class="sourceLineNo">520</span>        if (array[min] &gt; array[index]) {<a name="line.520"></a>
-<span class="sourceLineNo">521</span>          min = index;<a name="line.521"></a>
-<span class="sourceLineNo">522</span>        }<a name="line.522"></a>
-<span class="sourceLineNo">523</span>      }<a name="line.523"></a>
-<span class="sourceLineNo">524</span>      if (min != from) {<a name="line.524"></a>
-<span class="sourceLineNo">525</span>        swap(array, min, from);<a name="line.525"></a>
-<span class="sourceLineNo">526</span>      }<a name="line.526"></a>
-<span class="sourceLineNo">527</span>      return;<a name="line.527"></a>
-<span class="sourceLineNo">528</span>    }<a name="line.528"></a>
-<span class="sourceLineNo">529</span><a name="line.529"></a>
-<span class="sourceLineNo">530</span>    // Let's play quickselect! We'll repeatedly partition the range [from, to] containing the<a name="line.530"></a>
-<span class="sourceLineNo">531</span>    // required element, as long as it has more than one element.<a name="line.531"></a>
-<span class="sourceLineNo">532</span>    while (to &gt; from) {<a name="line.532"></a>
-<span class="sourceLineNo">533</span>      int partitionPoint = partition(array, from, to);<a name="line.533"></a>
-<span class="sourceLineNo">534</span>      if (partitionPoint &gt;= required) {<a name="line.534"></a>
-<span class="sourceLineNo">535</span>        to = partitionPoint - 1;<a name="line.535"></a>
-<span class="sourceLineNo">536</span>      }<a name="line.536"></a>
-<span class="sourceLineNo">537</span>      if (partitionPoint &lt;= required) {<a name="line.537"></a>
-<span class="sourceLineNo">538</span>        from = partitionPoint + 1;<a name="line.538"></a>
-<span class="sourceLineNo">539</span>      }<a name="line.539"></a>
-<span class="sourceLineNo">540</span>    }<a name="line.540"></a>
-<span class="sourceLineNo">541</span>  }<a name="line.541"></a>
-<span class="sourceLineNo">542</span><a name="line.542"></a>
-<span class="sourceLineNo">543</span>  /**<a name="line.543"></a>
-<span class="sourceLineNo">544</span>   * Performs a partition operation on the slice of {@code array} with elements in the range<a name="line.544"></a>
-<span class="sourceLineNo">545</span>   * [{@code from}, {@code to}]. Uses the median of {@code from}, {@code to}, and the midpoint<a name="line.545"></a>
-<span class="sourceLineNo">546</span>   * between them as a pivot. Returns the index which the slice is partitioned around, i.e. if it<a name="line.546"></a>
-<span class="sourceLineNo">547</span>   * returns {@code ret} then we know that the values with indexes in [{@code from}, {@code ret})<a name="line.547"></a>
-<span class="sourceLineNo">548</span>   * are less than or equal to the value at {@code ret} and the values with indexes in ({@code ret},<a name="line.548"></a>
-<span class="sourceLineNo">549</span>   * {@code to}] are greater than or equal to that.<a name="line.549"></a>
-<span class="sourceLineNo">550</span>   */<a name="line.550"></a>
-<span class="sourceLineNo">551</span>  private static int partition(double[] array, int from, int to) {<a name="line.551"></a>
-<span class="sourceLineNo">552</span>    // Select a pivot, and move it to the start of the slice i.e. to index from.<a name="line.552"></a>
-<span class="sourceLineNo">553</span>    movePivotToStartOfSlice(array, from, to);<a name="line.553"></a>
-<span class="sourceLineNo">554</span>    double pivot = array[from];<a name="line.554"></a>
-<span class="sourceLineNo">555</span><a name="line.555"></a>
-<span class="sourceLineNo">556</span>    // Move all elements with indexes in (from, to] which are greater than the pivot to the end of<a name="line.556"></a>
-<span class="sourceLineNo">557</span>    // the array. Keep track of where those elements begin.<a name="line.557"></a>
-<span class="sourceLineNo">558</span>    int partitionPoint = to;<a name="line.558"></a>
-<span class="sourceLineNo">559</span>    for (int i = to; i &gt; from; i--) {<a name="line.559"></a>
-<span class="sourceLineNo">560</span>      if (array[i] &gt; pivot) {<a name="line.560"></a>
-<span class="sourceLineNo">561</span>        swap(array, partitionPoint, i);<a name="line.561"></a>
-<span class="sourceLineNo">562</span>        partitionPoint--;<a name="line.562"></a>
-<span class="sourceLineNo">563</span>      }<a name="line.563"></a>
-<span class="sourceLineNo">564</span>    }<a name="line.564"></a>
-<span class="sourceLineNo">565</span><a name="line.565"></a>
-<span class="sourceLineNo">566</span>    // We now know that all elements with indexes in (from, partitionPoint] are less than or equal<a name="line.566"></a>
-<span class="sourceLineNo">567</span>    // to the pivot at from, and all elements with indexes in (partitionPoint, to] are greater than<a name="line.567"></a>
-<span class="sourceLineNo">568</span>    // it. We swap the pivot into partitionPoint and we know the array is partitioned around that.<a name="line.568"></a>
-<span class="sourceLineNo">569</span>    swap(array, from, partitionPoint);<a name="line.569"></a>
-<span class="sourceLineNo">570</span>    return partitionPoint;<a name="line.570"></a>
-<span class="sourceLineNo">571</span>  }<a name="line.571"></a>
-<span class="sourceLineNo">572</span><a name="line.572"></a>
-<span class="sourceLineNo">573</span>  /**<a name="line.573"></a>
-<span class="sourceLineNo">574</span>   * Selects the pivot to use, namely the median of the values at {@code from}, {@code to}, and<a name="line.574"></a>
-<span class="sourceLineNo">575</span>   * halfway between the two (rounded down), from {@code array}, and ensure (by swapping elements if<a name="line.575"></a>
-<span class="sourceLineNo">576</span>   * necessary) that that pivot value appears at the start of the slice i.e. at {@code from}.<a name="line.576"></a>
-<span class="sourceLineNo">577</span>   * Expects that {@code from} is strictly less than {@code to}.<a name="line.577"></a>
-<span class="sourceLineNo">578</span>   */<a name="line.578"></a>
-<span class="sourceLineNo">579</span>  private static void movePivotToStartOfSlice(double[] array, int from, int to) {<a name="line.579"></a>
-<span class="sourceLineNo">580</span>    int mid = (from + to) &gt;&gt;&gt; 1;<a name="line.580"></a>
-<span class="sourceLineNo">581</span>    // We want to make a swap such that either array[to] &lt;= array[from] &lt;= array[mid], or<a name="line.581"></a>
-<span class="sourceLineNo">582</span>    // array[mid] &lt;= array[from] &lt;= array[to]. We know that from &lt; to, so we know mid &lt; to<a name="line.582"></a>
-<span class="sourceLineNo">583</span>    // (although it's possible that mid == from, if to == from + 1). Note that the postcondition<a name="line.583"></a>
-<span class="sourceLineNo">584</span>    // would be impossible to fulfil if mid == to unless we also have array[from] == array[to].<a name="line.584"></a>
-<span class="sourceLineNo">585</span>    boolean toLessThanMid = (array[to] &lt; array[mid]);<a name="line.585"></a>
-<span class="sourceLineNo">586</span>    boolean midLessThanFrom = (array[mid] &lt; array[from]);<a name="line.586"></a>
-<span class="sourceLineNo">587</span>    boolean toLessThanFrom = (array[to] &lt; array[from]);<a name="line.587"></a>
-<span class="sourceLineNo">588</span>    if (toLessThanMid == midLessThanFrom) {<a name="line.588"></a>
-<span class="sourceLineNo">589</span>      // Either array[to] &lt; array[mid] &lt; array[from] or array[from] &lt;= array[mid] &lt;= array[to].<a name="line.589"></a>
-<span class="sourceLineNo">590</span>      swap(array, mid, from);<a name="line.590"></a>
-<span class="sourceLineNo">591</span>    } else if (toLessThanMid != toLessThanFrom) {<a name="line.591"></a>
-<span class="sourceLineNo">592</span>      // Either array[from] &lt;= array[to] &lt; array[mid] or array[mid] &lt;= array[to] &lt; array[from].<a name="line.592"></a>
-<span class="sourceLineNo">593</span>      swap(array, from, to);<a name="line.593"></a>
-<span class="sourceLineNo">594</span>    }<a name="line.594"></a>
-<span class="sourceLineNo">595</span>    // The postcondition now holds. So the median, our chosen pivot, is at from.<a name="line.595"></a>
-<span class="sourceLineNo">596</span>  }<a name="line.596"></a>
-<span class="sourceLineNo">597</span><a name="line.597"></a>
-<span class="sourceLineNo">598</span>  /**<a name="line.598"></a>
-<span class="sourceLineNo">599</span>   * Performs an in-place selection, like {@link #selectInPlace}, to select all the indexes<a name="line.599"></a>
-<span class="sourceLineNo">600</span>   * {@code allRequired[i]} for {@code i} in the range [{@code requiredFrom}, {@code requiredTo}].<a name="line.600"></a>
-<span class="sourceLineNo">601</span>   * These indexes must be sorted in the array and must all be in the range [{@code from},<a name="line.601"></a>
-<span class="sourceLineNo">602</span>   * {@code to}].<a name="line.602"></a>
-<span class="sourceLineNo">603</span>   */<a name="line.603"></a>
-<span class="sourceLineNo">604</span>  private static void selectAllInPlace(<a name="line.604"></a>
-<span class="sourceLineNo">605</span>      int[] allRequired, int requiredFrom, int requiredTo, double[] array, int from, int to) {<a name="line.605"></a>
-<span class="sourceLineNo">606</span>    // Choose the first selection to do...<a name="line.606"></a>
-<span class="sourceLineNo">607</span>    int requiredChosen = chooseNextSelection(allRequired, requiredFrom, requiredTo, from, to);<a name="line.607"></a>
-<span class="sourceLineNo">608</span>    int required = allRequired[requiredChosen];<a name="line.608"></a>
-<span class="sourceLineNo">609</span><a name="line.609"></a>
-<span class="sourceLineNo">610</span>    // ...do the first selection...<a name="line.610"></a>
-<span class="sourceLineNo">611</span>    selectInPlace(required, array, from, to);<a name="line.611"></a>
-<span class="sourceLineNo">612</span><a name="line.612"></a>
-<span class="sourceLineNo">613</span>    // ...then recursively perform the selections in the range below...<a name="line.613"></a>
-<span class="sourceLineNo">614</span>    int requiredBelow = requiredChosen - 1;<a name="line.614"></a>
-<span class="sourceLineNo">615</span>    while (requiredBelow &gt;= requiredFrom &amp;&amp; allRequired[requiredBelow] == required) {<a name="line.615"></a>
-<span class="sourceLineNo">616</span>      requiredBelow--; // skip duplicates of required in the range below<a name="line.616"></a>
-<span class="sourceLineNo">617</span>    }<a name="line.617"></a>
-<span class="sourceLineNo">618</span>    if (requiredBelow &gt;= requiredFrom) {<a name="line.618"></a>
-<span class="sourceLineNo">619</span>      selectAllInPlace(allRequired, requiredFrom, requiredBelow, array, from, required - 1);<a name="line.619"></a>
-<span class="sourceLineNo">620</span>    }<a name="line.620"></a>
-<span class="sourceLineNo">621</span><a name="line.621"></a>
-<span class="sourceLineNo">622</span>    // ...and then recursively perform the selections in the range above.<a name="line.622"></a>
-<span class="sourceLineNo">623</span>    int requiredAbove = requiredChosen + 1;<a name="line.623"></a>
-<span class="sourceLineNo">624</span>    while (requiredAbove &lt;= requiredTo &amp;&amp; allRequired[requiredAbove] == required) {<a name="line.624"></a>
-<span class="sourceLineNo">625</span>      requiredAbove++; // skip duplicates of required in the range above<a name="line.625"></a>
-<span class="sourceLineNo">626</span>    }<a name="line.626"></a>
-<span class="sourceLineNo">627</span>    if (requiredAbove &lt;= requiredTo) {<a name="line.627"></a>
-<span class="sourceLineNo">628</span>      selectAllInPlace(allRequired, requiredAbove, requiredTo, array, required + 1, to);<a name="line.628"></a>
-<span class="sourceLineNo">629</span>    }<a name="line.629"></a>
-<span class="sourceLineNo">630</span>  }<a name="line.630"></a>
-<span class="sourceLineNo">631</span><a name="line.631"></a>
-<span class="sourceLineNo">632</span>  /**<a name="line.632"></a>
-<span class="sourceLineNo">633</span>   * Chooses the next selection to do from the required selections. It is required that the array<a name="line.633"></a>
-<span class="sourceLineNo">634</span>   * {@code allRequired} is sorted and that {@code allRequired[i]} are in the range [{@code from},<a name="line.634"></a>
-<span class="sourceLineNo">635</span>   * {@code to}] for all {@code i} in the range [{@code requiredFrom}, {@requiredTo}]. The value<a name="line.635"></a>
-<span class="sourceLineNo">636</span>   * returned by this method is the {@code i} in that range such that {@code allRequired[i]} is as<a name="line.636"></a>
-<span class="sourceLineNo">637</span>   * close as possible to the center of the range [{@code from}, {@code to}]. Choosing the value<a name="line.637"></a>
-<span class="sourceLineNo">638</span>   * closest to the center of the range first is the most efficient strategy because it minimizes<a name="line.638"></a>
-<span class="sourceLineNo">639</span>   * the size of the subranges from which the remaining selections must be done.<a name="line.639"></a>
-<span class="sourceLineNo">640</span>   */<a name="line.640"></a>
-<span class="sourceLineNo">641</span>  private static int chooseNextSelection(<a name="line.641"></a>
-<span class="sourceLineNo">642</span>      int[] allRequired, int requiredFrom, int requiredTo, int from, int to) {<a name="line.642"></a>
-<span class="sourceLineNo">643</span>    if (requiredFrom == requiredTo) {<a name="line.643"></a>
-<span class="sourceLineNo">644</span>      return requiredFrom; // only one thing to choose, so choose it<a name="line.644"></a>
-<span class="sourceLineNo">645</span>    }<a name="line.645"></a>
-<span class="sourceLineNo">646</span><a name="line.646"></a>
-<span class="sourceLineNo">647</span>    // Find the center and round down. The true center is either centerFloor or halfway between<a name="line.647"></a>
-<span class="sourceLineNo">648</span>    // centerFloor and centerFloor + 1.<a name="line.648"></a>
-<span class="sourceLineNo">649</span>    int centerFloor = (from + to) &gt;&gt;&gt; 1;<a name="line.649"></a>
-<span class="sourceLineNo">650</span><a name="line.650"></a>
-<span class="sourceLineNo">651</span>    // Do a binary search until we're down to the range of two which encloses centerFloor (unless<a name="line.651"></a>
-<span class="sourceLineNo">652</span>    // all values are lower or higher than centerFloor, in which case we find the two highest or<a name="line.652"></a>
-<span class="sourceLineNo">653</span>    // lowest respectively). If centerFloor is in allRequired, we will definitely find it. If not,<a name="line.653"></a>
-<span class="sourceLineNo">654</span>    // but centerFloor + 1 is, we'll definitely find that. The closest value to the true (unrounded)<a name="line.654"></a>
-<span class="sourceLineNo">655</span>    // center will be at either low or high.<a name="line.655"></a>
-<span class="sourceLineNo">656</span>    int low = requiredFrom;<a name="line.656"></a>
-<span class="sourceLineNo">657</span>    int high = requiredTo;<a name="line.657"></a>
-<span class="sourceLineNo">658</span>    while (high &gt; low + 1) {<a name="line.658"></a>
-<span class="sourceLineNo">659</span>      int mid = (low + high) &gt;&gt;&gt; 1;<a name="line.659"></a>
-<span class="sourceLineNo">660</span>      if (allRequired[mid] &gt; centerFloor) {<a name="line.660"></a>
-<span class="sourceLineNo">661</span>        high = mid;<a name="line.661"></a>
-<span class="sourceLineNo">662</span>      } else if (allRequired[mid] &lt; centerFloor) {<a name="line.662"></a>
-<span class="sourceLineNo">663</span>        low = mid;<a name="line.663"></a>
-<span class="sourceLineNo">664</span>      } else {<a name="line.664"></a>
-<span class="sourceLineNo">665</span>        return mid; // allRequired[mid] = centerFloor, so we can't get closer than that<a name="line.665"></a>
-<span class="sourceLineNo">666</span>      }<a name="line.666"></a>
-<span class="sourceLineNo">667</span>    }<a name="line.667"></a>
-<span class="sourceLineNo">668</span><a name="line.668"></a>
-<span class="sourceLineNo">669</span>    // Now pick the closest of the two candidates. Note that there is no rounding here.<a name="line.669"></a>
-<span class="sourceLineNo">670</span>    if (from + to - allRequired[low] - allRequired[high] &gt; 0) {<a name="line.670"></a>
-<span class="sourceLineNo">671</span>      return high;<a name="line.671"></a>
-<span class="sourceLineNo">672</span>    } else {<a name="line.672"></a>
-<span class="sourceLineNo">673</span>      return low;<a name="line.673"></a>
-<span class="sourceLineNo">674</span>    }<a name="line.674"></a>
-<span class="sourceLineNo">675</span>  }<a name="line.675"></a>
-<span class="sourceLineNo">676</span><a name="line.676"></a>
-<span class="sourceLineNo">677</span>  /**<a name="line.677"></a>
-<span class="sourceLineNo">678</span>   * Swaps the values at {@code i} and {@code j} in {@code array}.<a name="line.678"></a>
-<span class="sourceLineNo">679</span>   */<a name="line.679"></a>
-<span class="sourceLineNo">680</span>  private static void swap(double[] array, int i, int j) {<a name="line.680"></a>
-<span class="sourceLineNo">681</span>    double temp = array[i];<a name="line.681"></a>
-<span class="sourceLineNo">682</span>    array[i] = array[j];<a name="line.682"></a>
-<span class="sourceLineNo">683</span>    array[j] = temp;<a name="line.683"></a>
-<span class="sourceLineNo">684</span>  }<a name="line.684"></a>
-<span class="sourceLineNo">685</span>}<a name="line.685"></a>
+<span class="sourceLineNo">274</span>     * @return the quantile value<a name="line.274"></a>
+<span class="sourceLineNo">275</span>     */<a name="line.275"></a>
+<span class="sourceLineNo">276</span>    public double computeInPlace(double... dataset) {<a name="line.276"></a>
+<span class="sourceLineNo">277</span>      checkArgument(dataset.length &gt; 0, "Cannot calculate quantiles of an empty dataset");<a name="line.277"></a>
+<span class="sourceLineNo">278</span>      if (containsNaN(dataset)) {<a name="line.278"></a>
+<span class="sourceLineNo">279</span>        return NaN;<a name="line.279"></a>
+<span class="sourceLineNo">280</span>      }<a name="line.280"></a>
+<span class="sourceLineNo">281</span><a name="line.281"></a>
+<span class="sourceLineNo">282</span>      // Calculate the quotient and remainder in the integer division x = k * (N-1) / q, i.e.<a name="line.282"></a>
+<span class="sourceLineNo">283</span>      // index * (dataset.length - 1) / scale. If there is no remainder, we can just find the value<a name="line.283"></a>
+<span class="sourceLineNo">284</span>      // whose index in the sorted dataset equals the quotient; if there is a remainder, we<a name="line.284"></a>
+<span class="sourceLineNo">285</span>      // interpolate between that and the next value.<a name="line.285"></a>
+<span class="sourceLineNo">286</span><a name="line.286"></a>
+<span class="sourceLineNo">287</span>      // Since index and (dataset.length - 1) are non-negative ints, their product can be expressed<a name="line.287"></a>
+<span class="sourceLineNo">288</span>      // as a long, without risk of overflow:<a name="line.288"></a>
+<span class="sourceLineNo">289</span>      long numerator = (long) index * (dataset.length - 1);<a name="line.289"></a>
+<span class="sourceLineNo">290</span>      // Since scale is a positive int, index is in [0, scale], and (dataset.length - 1) is a<a name="line.290"></a>
+<span class="sourceLineNo">291</span>      // non-negative int, we can do long-arithmetic on index * (dataset.length - 1) / scale to get<a name="line.291"></a>
+<span class="sourceLineNo">292</span>      // a rounded ratio and a remainder which can be expressed as ints, without risk of overflow:<a name="line.292"></a>
+<span class="sourceLineNo">293</span>      int quotient = (int) LongMath.divide(numerator, scale, RoundingMode.DOWN);<a name="line.293"></a>
+<span class="sourceLineNo">294</span>      int remainder = (int) (numerator - (long) quotient * scale);<a name="line.294"></a>
+<span class="sourceLineNo">295</span>      selectInPlace(quotient, dataset, 0, dataset.length - 1);<a name="line.295"></a>
+<span class="sourceLineNo">296</span>      if (remainder == 0) {<a name="line.296"></a>
+<span class="sourceLineNo">297</span>        return dataset[quotient];<a name="line.297"></a>
+<span class="sourceLineNo">298</span>      } else {<a name="line.298"></a>
+<span class="sourceLineNo">299</span>        selectInPlace(quotient + 1, dataset, quotient + 1, dataset.length - 1);<a name="line.299"></a>
+<span class="sourceLineNo">300</span>        return interpolate(dataset[quotient], dataset[quotient + 1], remainder, scale);<a name="line.300"></a>
+<span class="sourceLineNo">301</span>      }<a name="line.301"></a>
+<span class="sourceLineNo">302</span>    }<a name="line.302"></a>
+<span class="sourceLineNo">303</span>  }<a name="line.303"></a>
+<span class="sourceLineNo">304</span><a name="line.304"></a>
+<span class="sourceLineNo">305</span>  /**<a name="line.305"></a>
+<span class="sourceLineNo">306</span>   * Describes the point in a fluent API chain where the scale and a multiple quantile indexes (i.e.<a name="line.306"></a>
+<span class="sourceLineNo">307</span>   * the q and a set of values for the k in the kth q-quantile) have been specified.<a name="line.307"></a>
+<span class="sourceLineNo">308</span>   */<a name="line.308"></a>
+<span class="sourceLineNo">309</span>  public static final class ScaleAndIndexes {<a name="line.309"></a>
+<span class="sourceLineNo">310</span><a name="line.310"></a>
+<span class="sourceLineNo">311</span>    private final int scale;<a name="line.311"></a>
+<span class="sourceLineNo">312</span>    private final int[] indexes;<a name="line.312"></a>
+<span class="sourceLineNo">313</span><a name="line.313"></a>
+<span class="sourceLineNo">314</span>    private ScaleAndIndexes(int scale, int[] indexes) {<a name="line.314"></a>
+<span class="sourceLineNo">315</span>      for (int index : indexes) {<a name="line.315"></a>
+<span class="sourceLineNo">316</span>        checkIndex(index, scale);<a name="line.316"></a>
+<span class="sourceLineNo">317</span>      }<a name="line.317"></a>
+<span class="sourceLineNo">318</span>      this.scale = scale;<a name="line.318"></a>
+<span class="sourceLineNo">319</span>      this.indexes = indexes;<a name="line.319"></a>
+<span class="sourceLineNo">320</span>    }<a name="line.320"></a>
+<span class="sourceLineNo">321</span><a name="line.321"></a>
+<span class="sourceLineNo">322</span>    /**<a name="line.322"></a>
+<span class="sourceLineNo">323</span>     * Computes the quantile values of the given dataset.<a name="line.323"></a>
+<span class="sourceLineNo">324</span>     *<a name="line.324"></a>
+<span class="sourceLineNo">325</span>     * @param dataset the dataset to do the calculation on, which must be non-empty, which will be<a name="line.325"></a>
+<span class="sourceLineNo">326</span>     *     cast to doubles (with any associated lost of precision), and which will not be mutated by<a name="line.326"></a>
+<span class="sourceLineNo">327</span>     *     this call (it is copied instead)<a name="line.327"></a>
+<span class="sourceLineNo">328</span>     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and<a name="line.328"></a>
+<span class="sourceLineNo">329</span>     *     the values the corresponding quantile values<a name="line.329"></a>
+<span class="sourceLineNo">330</span>     */<a name="line.330"></a>
+<span class="sourceLineNo">331</span>    public Map&lt;Integer, Double&gt; compute(Collection&lt;? extends Number&gt; dataset) {<a name="line.331"></a>
+<span class="sourceLineNo">332</span>      return computeInPlace(Doubles.toArray(dataset));<a name="line.332"></a>
+<span class="sourceLineNo">333</span>    }<a name="line.333"></a>
+<span class="sourceLineNo">334</span><a name="line.334"></a>
+<span class="sourceLineNo">335</span>    /**<a name="line.335"></a>
+<span class="sourceLineNo">336</span>     * Computes the quantile values of the given dataset.<a name="line.336"></a>
+<span class="sourceLineNo">337</span>     *<a name="line.337"></a>
+<span class="sourceLineNo">338</span>     * @param dataset the dataset to do the calculation on, which must be non-empty, which will not<a name="line.338"></a>
+<span class="sourceLineNo">339</span>     *     be mutated by this call (it is copied instead)<a name="line.339"></a>
+<span class="sourceLineNo">340</span>     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and<a name="line.340"></a>
+<span class="sourceLineNo">341</span>     *     the values the corresponding quantile values<a name="line.341"></a>
+<span class="sourceLineNo">342</span>     */<a name="line.342"></a>
+<span class="sourceLineNo">343</span>    public Map&lt;Integer, Double&gt; compute(double... dataset) {<a name="line.343"></a>
+<span class="sourceLineNo">344</span>      return computeInPlace(dataset.clone());<a name="line.344"></a>
+<span class="sourceLineNo">345</span>    }<a name="line.345"></a>
+<span class="sourceLineNo">346</span><a name="line.346"></a>
+<span class="sourceLineNo">347</span>    /**<a name="line.347"></a>
+<span class="sourceLineNo">348</span>     * Computes the quantile values of the given dataset.<a name="line.348"></a>
+<span class="sourceLineNo">349</span>     *<a name="line.349"></a>
+<span class="sourceLineNo">350</span>     * @param dataset the dataset to do the calculation on, which must be non-empty, which will be<a name="line.350"></a>
+<span class="sourceLineNo">351</span>     *     cast to doubles (with any associated lost of precision), and which will not be mutated by<a name="line.351"></a>
+<span class="sourceLineNo">352</span>     *     this call (it is copied instead)<a name="line.352"></a>
+<span class="sourceLineNo">353</span>     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and<a name="line.353"></a>
+<span class="sourceLineNo">354</span>     *     the values the corresponding quantile values<a name="line.354"></a>
+<span class="sourceLineNo">355</span>     */<a name="line.355"></a>
+<span class="sourceLineNo">356</span>    public Map&lt;Integer, Double&gt; compute(long... dataset) {<a name="line.356"></a>
+<span class="sourceLineNo">357</span>      return computeInPlace(longsToDoubles(dataset));<a name="line.357"></a>
+<span class="sourceLineNo">358</span>    }<a name="line.358"></a>
+<span class="sourceLineNo">359</span><a name="line.359"></a>
+<span class="sourceLineNo">360</span>    /**<a name="line.360"></a>
+<span class="sourceLineNo">361</span>     * Computes the quantile values of the given dataset.<a name="line.361"></a>
+<span class="sourceLineNo">362</span>     *<a name="line.362"></a>
+<span class="sourceLineNo">363</span>     * @param dataset the dataset to do the calculation on, which must be non-empty, which will be<a name="line.363"></a>
+<span class="sourceLineNo">364</span>     *     cast to doubles, and which will not be mutated by this call (it is copied instead)<a name="line.364"></a>
+<span class="sourceLineNo">365</span>     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and<a name="line.365"></a>
+<span class="sourceLineNo">366</span>     *     the values the corresponding quantile values<a name="line.366"></a>
+<span class="sourceLineNo">367</span>     */<a name="line.367"></a>
+<span class="sourceLineNo">368</span>    public Map&lt;Integer, Double&gt; compute(int... dataset) {<a name="line.368"></a>
+<span class="sourceLineNo">369</span>      return computeInPlace(intsToDoubles(dataset));<a name="line.369"></a>
+<span class="sourceLineNo">370</span>    }<a name="line.370"></a>
+<span class="sourceLineNo">371</span><a name="line.371"></a>
+<span class="sourceLineNo">372</span>    /**<a name="line.372"></a>
+<span class="sourceLineNo">373</span>     * Computes the quantile values of the given dataset, performing the computation in-place.<a name="line.373"></a>
+<span class="sourceLineNo">374</span>     *<a name="line.374"></a>
+<span class="sourceLineNo">375</span>     * @param dataset the dataset to do the calculation on, which must be non-empty, and which will<a name="line.375"></a>
+<span class="sourceLineNo">376</span>     *     be arbitrarily reordered by this method call<a name="line.376"></a>
+<span class="sourceLineNo">377</span>     * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and<a name="line.377"></a>
+<span class="sourceLineNo">378</span>     *     the values the corresponding quantile values<a name="line.378"></a>
+<span class="sourceLineNo">379</span>     */<a name="line.379"></a>
+<span class="sourceLineNo">380</span>    public Map&lt;Integer, Double&gt; computeInPlace(double... dataset) {<a name="line.380"></a>
+<span class="sourceLineNo">381</span>      checkArgument(dataset.length &gt; 0, "Cannot calculate quantiles of an empty dataset");<a name="line.381"></a>
+<span class="sourceLineNo">382</span>      if (containsNaN(dataset)) {<a name="line.382"></a>
+<span class="sourceLineNo">383</span>        Map&lt;Integer, Double&gt; nanMap = new HashMap&lt;Integer, Double&gt;();<a name="line.383"></a>
+<span class="sourceLineNo">384</span>        for (int index : indexes) {<a name="line.384"></a>
+<span class="sourceLineNo">385</span>          nanMap.put(index, NaN);<a name="line.385"></a>
+<span class="sourceLineNo">386</span>        }<a name="line.386"></a>
+<span class="sourceLineNo">387</span>        return unmodifiableMap(nanMap);<a name="line.387"></a>
+<span class="sourceLineNo">388</span>      }<a name="line.388"></a>
+<span class="sourceLineNo">389</span><a name="line.389"></a>
+<span class="sourceLineNo">390</span>      // Calculate the quotients and remainders in the integer division x = k * (N - 1) / q, i.e.<a name="line.390"></a>
+<span class="sourceLineNo">391</span>      // index * (dataset.length - 1) / scale for each index in indexes. For each, if there is no<a name="line.391"></a>
+<span class="sourceLineNo">392</span>      // remainder, we can just select the value whose index in the sorted dataset equals the<a name="line.392"></a>
+<span class="sourceLineNo">393</span>      // quotient; if there is a remainder, we interpolate between that and the next value.<a name="line.393"></a>
+<span class="sourceLineNo">394</span><a name="line.394"></a>
+<span class="sourceLineNo">395</span>      int[] quotients = new int[indexes.length];<a name="line.395"></a>
+<span class="sourceLineNo">396</span>      int[] remainders = new int[indexes.length];<a name="line.396"></a>
+<span class="sourceLineNo">397</span>      // The indexes to select. In the worst case, we'll need one each side of each quantile.<a name="line.397"></a>
+<span class="sourceLineNo">398</span>      int[] requiredSelections = new int[indexes.length * 2];<a name="line.398"></a>
+<span class="sourceLineNo">399</span>      int requiredSelectionsCount = 0;<a name="line.399"></a>
+<span class="sourceLineNo">400</span>      for (int i = 0; i &lt; indexes.length; i++) {<a name="line.400"></a>
+<span class="sourceLineNo">401</span>        // Since index and (dataset.length - 1) are non-negative ints, their product can be<a name="line.401"></a>
+<span class="sourceLineNo">402</span>        // expressed as a long, without risk of overflow:<a name="line.402"></a>
+<span class="sourceLineNo">403</span>        long numerator = (long) indexes[i] * (dataset.length - 1);<a name="line.403"></a>
+<span class="sourceLineNo">404</span>        // Since scale is a positive int, index is in [0, scale], and (dataset.length - 1) is a<a name="line.404"></a>
+<span class="sourceLineNo">405</span>        // non-negative int, we can do long-arithmetic on index * (dataset.length - 1) / scale to<a name="line.405"></a>
+<span class="sourceLineNo">406</span>        // get a rounded ratio and a remainder which can be expressed as ints, without risk of<a name="line.406"></a>
+<span class="sourceLineNo">407</span>        // overflow:<a name="line.407"></a>
+<span class="sourceLineNo">408</span>        int quotient = (int) LongMath.divide(numerator, scale, RoundingMode.DOWN);<a name="line.408"></a>
+<span class="sourceLineNo">409</span>        int remainder = (int) (numerator - (long) quotient * scale);<a name="line.409"></a>
+<span class="sourceLineNo">410</span>        quotients[i] = quotient;<a name="line.410"></a>
+<span class="sourceLineNo">411</span>        remainders[i] = remainder;<a name="line.411"></a>
+<span class="sourceLineNo">412</span>        requiredSelections[requiredSelectionsCount] = quotient;<a name="line.412"></a>
+<span class="sourceLineNo">413</span>        requiredSelectionsCount++;<a name="line.413"></a>
+<span class="sourceLineNo">414</span>        if (remainder != 0) {<a name="line.414"></a>
+<span class="sourceLineNo">415</span>          requiredSelections[requiredSelectionsCount] = quotient + 1;<a name="line.415"></a>
+<span class="sourceLineNo">416</span>          requiredSelectionsCount++;<a name="line.416"></a>
+<span class="sourceLineNo">417</span>        }<a name="line.417"></a>
+<span class="sourceLineNo">418</span>      }<a name="line.418"></a>
+<span class="sourceLineNo">419</span>      sort(requiredSelections, 0, requiredSelectionsCount);<a name="line.419"></a>
+<span class="sourceLineNo">420</span>      selectAllInPlace(<a name="line.420"></a>
+<span class="sourceLineNo">421</span>          requiredSelections, 0, requiredSelectionsCount - 1, dataset, 0, dataset.length - 1);<a name="line.421"></a>
+<span class="sourceLineNo">422</span>      Map&lt;Integer, Double&gt; ret = new HashMap&lt;Integer, Double&gt;();<a name="line.422"></a>
+<span class="sourceLineNo">423</span>      for (int i = 0; i &lt; indexes.length; i++) {<a name="line.423"></a>
+<span class="sourceLineNo">424</span>        int quotient = quotients[i];<a name="line.424"></a>
+<span class="sourceLineNo">425</span>        int remainder = remainders[i];<a name="line.425"></a>
+<span class="sourceLineNo">426</span>        if (remainder == 0) {<a name="line.426"></a>
+<span class="sourceLineNo">427</span>          ret.put(indexes[i], dataset[quotient]);<a name="line.427"></a>
+<span class="sourceLineNo">428</span>        } else {<a name="line.428"></a>
+<span class="sourceLineNo">429</span>          ret.put(<a name="line.429"></a>
+<span class="sourceLineNo">430</span>              indexes[i], interpolate(dataset[quotient], dataset[quotient + 1], remainder, scale));<a name="line.430"></a>
+<span class="sourceLineNo">431</span>        }<a name="line.431"></a>
+<span class="sourceLineNo">432</span>      }<a name="line.432"></a>
+<span class="sourceLineNo">433</span>      return unmodifiableMap(ret);<a name="line.433"></a>
+<span class="sourceLineNo">434</span>    }<a name="line.434"></a>
+<span class="sourceLineNo">435</span>  }<a name="line.435"></a>
+<span class="sourceLineNo">436</span><a name="line.436"></a>
+<span class="sourceLineNo">437</span>  /**<a name="line.437"></a>
+<span class="sourceLineNo">438</span>   * Returns whether any of the values in {@code dataset} are {@code NaN}.<a name="line.438"></a>
+<span class="sourceLineNo">439</span>   */<a name="line.439"></a>
+<span class="sourceLineNo">440</span>  private static boolean containsNaN(double... dataset) {<a name="line.440"></a>
+<span class="sourceLineNo">441</span>    for (double value : dataset) {<a name="line.441"></a>
+<span class="sourceLineNo">442</span>      if (Double.isNaN(value)) {<a name="line.442"></a>
+<span class="sourceLineNo">443</span>        return true;<a name="line.443"></a>
+<span class="sourceLineNo">444</span>      }<a name="line.444"></a>
+<span class="sourceLineNo">445</span>    }<a name="line.445"></a>
+<span class="sourceLineNo">446</span>    return false;<a name="line.446"></a>
+<span class="sourceLineNo">447</span>  }<a name="line.447"></a>
+<span class="sourceLineNo">448</span><a name="line.448"></a>
+<span class="sourceLineNo">449</span>  /**<a name="line.449"></a>
+<span class="sourceLineNo">450</span>   * Returns a value a fraction {@code (remainder / scale)} of the way between {@code lower} and<a name="line.450"></a>
+<span class="sourceLineNo">451</span>   * {@code upper}. Assumes that {@code lower &lt;= upper}. Correctly handles infinities (but not<a name="line.451"></a>
+<span class="sourceLineNo">452</span>   * {@code NaN}).<a name="line.452"></a>
+<span class="sourceLineNo">453</span>   */<a name="line.453"></a>
+<span class="sourceLineNo">454</span>  private static double interpolate(double lower, double upper, double remainder, double scale) {<a name="line.454"></a>
+<span class="sourceLineNo">455</span>    if (lower == NEGATIVE_INFINITY) {<a name="line.455"></a>
+<span class="sourceLineNo">456</span>      if (upper == POSITIVE_INFINITY) {<a name="line.456"></a>
+<span class="sourceLineNo">457</span>        // Return NaN when lower == NEGATIVE_INFINITY and upper == POSITIVE_INFINITY:<a name="line.457"></a>
+<span class="sourceLineNo">458</span>        return NaN;<a name="line.458"></a>
+<span class="sourceLineNo">459</span>      }<a name="line.459"></a>
+<span class="sourceLineNo">460</span>      // Return NEGATIVE_INFINITY when NEGATIVE_INFINITY == lower &lt;= upper &lt; POSITIVE_INFINITY:<a name="line.460"></a>
+<span class="sourceLineNo">461</span>      return NEGATIVE_INFINITY;<a name="line.461"></a>
+<span class="sourceLineNo">462</span>    }<a name="line.462"></a>
+<span class="sourceLineNo">463</span>    if (upper == POSITIVE_INFINITY) {<a name="line.463"></a>
+<span class="sourceLineNo">464</span>      // Return POSITIVE_INFINITY when NEGATIVE_INFINITY &lt; lower &lt;= upper == POSITIVE_INFINITY:<a name="line.464"></a>
+<span class="sourceLineNo">465</span>      return POSITIVE_INFINITY;<a name="line.465"></a>
+<span class="sourceLineNo">466</span>    }<a name="line.466"></a>
+<span class="sourceLineNo">467</span>    return lower + (upper - lower) * remainder / scale;<a name="line.467"></a>
+<span class="sourceLineNo">468</span>  }<a name="line.468"></a>
+<span class="sourceLineNo">469</span><a name="line.469"></a>
+<span class="sourceLineNo">470</span>  private static void checkIndex(int index, int scale) {<a name="line.470"></a>
+<span class="sourceLineNo">471</span>    if (index &lt; 0 || index &gt; scale) {<a name="line.471"></a>
+<span class="sourceLineNo">472</span>      throw new IllegalArgumentException(<a name="line.472"></a>
+<span class="sourceLineNo">473</span>          "Quantile indexes must be between 0 and the scale, which is " + scale);<a name="line.473"></a>
+<span class="sourceLineNo">474</span>    }<a name="line.474"></a>
+<span class="sourceLineNo">475</span>  }<a name="line.475"></a>
+<span class="sourceLineNo">476</span><a name="line.476"></a>
+<span class="sourceLineNo">477</span>  private static double[] longsToDoubles(long[] longs) {<a name="line.477"></a>
+<span class="sourceLineNo">478</span>    int len = longs.length;<a name="line.478"></a>
+<span class="sourceLineNo">479</span>    double[] doubles = new double[len];<a name="line.479"></a>
+<span class="sourceLineNo">480</span>    for (int i = 0; i &lt; len; i++) {<a name="line.480"></a>
+<span class="sourceLineNo">481</span>      doubles[i] = longs[i];<a name="line.481"></a>
+<span class="sourceLineNo">482</span>    }<a name="line.482"></a>
+<span class="sourceLineNo">483</span>    return doubles;<a name="line.483"></a>
+<span class="sourceLineNo">484</span>  }<a name="line.484"></a>
+<span class="sourceLineNo">485</span><a name="line.485"></a>
+<span class="sourceLineNo">486</span>  private static double[] intsToDoubles(int[] ints) {<a name="line.486"></a>
+<span class="sourceLineNo">487</span>    int len = ints.length;<a name="line.487"></a>
+<span class="sourceLineNo">488</span>    double[] doubles = new double[len];<a name="line.488"></a>
+<span class="sourceLineNo">489</span>    for (int i = 0; i &lt; len; i++) {<a name="line.489"></a>
+<span class="sourceLineNo">490</span>      doubles[i] = ints[i];<a name="line.490"></a>
+<span class="sourceLineNo">491</span>    }<a name="line.491"></a>
+<span class="sourceLineNo">492</span>    return doubles;<a name="line.492"></a>
+<span class="sourceLineNo">493</span>  }<a name="line.493"></a>
+<span class="sourceLineNo">494</span><a name="line.494"></a>
+<span class="sourceLineNo">495</span>  /**<a name="line.495"></a>
+<span class="sourceLineNo">496</span>   * Performs an in-place selection to find the element which would appear at a given index in a<a name="line.496"></a>
+<span class="sourceLineNo">497</span>   * dataset if it were sorted. The following preconditions should hold:<a name="line.497"></a>
+<span class="sourceLineNo">498</span>   * &lt;ul&gt;<a name="line.498"></a>
+<span class="sourceLineNo">499</span>   * &lt;li&gt;{@code required}, {@code from}, and {@code to} should all be indexes into {@code array};<a name="line.499"></a>
+<span class="sourceLineNo">500</span>   * &lt;li&gt;{@code required} should be in the range [{@code from}, {@code to}];<a name="line.500"></a>
+<span class="sourceLineNo">501</span>   * &lt;li&gt;all the values with indexes in the range [0, {@code from}) should be less than or equal to<a name="line.501"></a>
+<span class="sourceLineNo">502</span>   * all the values with indexes in the range [{@code from}, {@code to}];<a name="line.502"></a>
+<span class="sourceLineNo">503</span>   * &lt;li&gt;all the values with indexes in the range ({@code to}, {@code array.length - 1}] should be<a name="line.503"></a>
+<span class="sourceLineNo">504</span>   * greater than or equal to all the values with indexes in the range [{@code from}, {@code to}].<a name="line.504"></a>
+<span class="sourceLineNo">505</span>   * &lt;/ul&gt;<a name="line.505"></a>
+<span class="sourceLineNo">506</span>   * This method will reorder the values with indexes in the range [{@code from}, {@code to}] such<a name="line.506"></a>
+<span class="sourceLineNo">507</span>   * that all the values with indexes in the range [{@code from}, {@code required}) are less than or<a name="line.507"></a>
+<span class="sourceLineNo">508</span>   * equal to the value with index {@code required}, and all the values with indexes in the range<a name="line.508"></a>
+<span class="sourceLineNo">509</span>   * ({@code required}, {@code to}] are greater than or equal to that value. Therefore, the value at<a name="line.509"></a>
+<span class="sourceLineNo">510</span>   * {@code required} is the value which would appear at that index in the sorted dataset.<a name="line.510"></a>
+<span class="sourceLineNo">511</span>   */<a name="line.511"></a>
+<span class="sourceLineNo">512</span>  private static void selectInPlace(int required, double[] array, int from, int to) {<a name="line.512"></a>
+<span class="sourceLineNo">513</span>    // If we are looking for the least element in the range, we can just do a linear search for it.<a name="line.513"></a>
+<span class="sourceLineNo">514</span>    // (We will hit this whenever we are doing quantile interpolation: our first selection finds<a name="line.514"></a>
+<span class="sourceLineNo">515</span>    // the lower value, our second one finds the upper value by looking for the next least element.)<a name="line.515"></a>
+<span class="sourceLineNo">516</span>    if (required == from) {<a name="line.516"></a>
+<span class="sourceLineNo">517</span>      int min = from;<a name="line.517"></a>
+<span class="sourceLineNo">518</span>      for (int index = from + 1; index &lt;= to; index++) {<a name="line.518"></a>
+<span class="sourceLineNo">519</span>        if (array[min] &gt; array[index]) {<a name="line.519"></a>
+<span class="sourceLineNo">520</span>          min = index;<a name="line.520"></a>
+<span class="sourceLineNo">521</span>        }<a name="line.521"></a>
+<span class="sourceLineNo">522</span>      }<a name="line.522"></a>
+<span class="sourceLineNo">523</span>      if (min != from) {<a name="line.523"></a>
+<span class="sourceLineNo">524</span>        swap(array, min, from);<a name="line.524"></a>
+<span class="sourceLineNo">525</span>      }<a name="line.525"></a>
+<span class="sourceLineNo">526</span>      return;<a name="line.526"></a>
+<span class="sourceLineNo">527</span>    }<a name="line.527"></a>
+<span class="sourceLineNo">528</span><a name="line.528"></a>
+<span class="sourceLineNo">529</span>    // Let's play quickselect! We'll repeatedly partition the range [from, to] containing the<a name="line.529"></a>
+<span class="sourceLineNo">530</span>    // required element, as long as it has more than one element.<a name="line.530"></a>
+<span class="sourceLineNo">531</span>    while (to &gt; from) {<a name="line.531"></a>
+<span class="sourceLineNo">532</span>      int partitionPoint = partition(array, from, to);<a name="line.532"></a>
+<span class="sourceLineNo">533</span>      if (partitionPoint &gt;= required) {<a name="line.533"></a>
+<span class="sourceLineNo">534</span>        to = partitionPoint - 1;<a name="line.534"></a>
+<span class="sourceLineNo">535</span>      }<a name="line.535"></a>
+<span class="sourceLineNo">536</span>      if (partitionPoint &lt;= required) {<a name="line.536"></a>
+<span class="sourceLineNo">537</span>        from = partitionPoint + 1;<a name="line.537"></a>
+<span class="sourceLineNo">538</span>      }<a name="line.538"></a>
+<span class="sourceLineNo">539</span>    }<a name="line.539"></a>
+<span class="sourceLineNo">540</span>  }<a name="line.540"></a>
+<span class="sourceLineNo">541</span><a name="line.541"></a>
+<span class="sourceLineNo">542</span>  /**<a name="line.542"></a>
+<span class="sourceLineNo">543</span>   * Performs a partition operation on the slice of {@code array} with elements in the range<a name="line.543"></a>
+<span class="sourceLineNo">544</span>   * [{@code from}, {@code to}]. Uses the median of {@code from}, {@code to}, and the midpoint<a name="line.544"></a>
+<span class="sourceLineNo">545</span>   * between them as a pivot. Returns the index which the slice is partitioned around, i.e. if it<a name="line.545"></a>
+<span class="sourceLineNo">546</span>   * returns {@code ret} then we know that the values with indexes in [{@code from}, {@code ret})<a name="line.546"></a>
+<span class="sourceLineNo">547</span>   * are less than or equal to the value at {@code ret} and the values with indexes in ({@code ret},<a name="line.547"></a>
+<span class="sourceLineNo">548</span>   * {@code to}] are greater than or equal to that.<a name="line.548"></a>
+<span class="sourceLineNo">549</span>   */<a name="line.549"></a>
+<span class="sourceLineNo">550</span>  private static int partition(double[] array, int from, int to) {<a name="line.550"></a>
+<span class="sourceLineNo">551</span>    // Select a pivot, and move it to the start of the slice i.e. to index from.<a name="line.551"></a>
+<span class="sourceLineNo">552</span>    movePivotToStartOfSlice(array, from, to);<a name="line.552"></a>
+<span class="sourceLineNo">553</span>    double pivot = array[from];<a name="line.553"></a>
+<span class="sourceLineNo">554</span><a name="line.554"></a>
+<span class="sourceLineNo">555</span>    // Move all elements with indexes in (from, to] which are greater than the pivot to the end of<a name="line.555"></a>
+<span class="sourceLineNo">556</span>    // the array. Keep track of where those elements begin.<a name="line.556"></a>
+<span class="sourceLineNo">557</span>    int partitionPoint = to;<a name="line.557"></a>
+<span class="sourceLineNo">558</span>    for (int i = to; i &gt; from; i--) {<a name="line.558"></a>
+<span class="sourceLineNo">559</span>      if (array[i] &gt; pivot) {<a name="line.559"></a>
+<span class="sourceLineNo">560</span>        swap(array, partitionPoint, i);<a name="line.560"></a>
+<span class="sourceLineNo">561</span>        partitionPoint--;<a name="line.561"></a>
+<span class="sourceLineNo">562</span>      }<a name="line.562"></a>
+<span class="sourceLineNo">563</span>    }<a name="line.563"></a>
+<span class="sourceLineNo">564</span><a name="line.564"></a>
+<span class="sourceLineNo">565</span>    // We now know that all elements with indexes in (from, partitionPoint] are less than or equal<a name="line.565"></a>
+<span class="sourceLineNo">566</span>    // to the pivot at from, and all elements with indexes in (partitionPoint, to] are greater than<a name="line.566"></a>
+<span class="sourceLineNo">567</span>    // it. We swap the pivot into partitionPoint and we know the array is partitioned around that.<a name="line.567"></a>
+<span class="sourceLineNo">568</span>    swap(array, from, partitionPoint);<a name="line.568"></a>
+<span class="sourceLineNo">569</span>    return partitionPoint;<a name="line.569"></a>
+<span class="sourceLineNo">570</span>  }<a name="line.570"></a>
+<span class="sourceLineNo">571</span><a name="line.571"></a>
+<span class="sourceLineNo">572</span>  /**<a name="line.572"></a>
+<span class="sourceLineNo">573</span>   * Selects the pivot to use, namely the median of the values at {@code from}, {@code to}, and<a name="line.573"></a>
+<span class="sourceLineNo">574</span>   * halfway between the two (rounded down), from {@code array}, and ensure (by swapping elements if<a name="line.574"></a>
+<span class="sourceLineNo">575</span>   * necessary) that that pivot value appears at the start of the slice i.e. at {@code from}.<a name="line.575"></a>
+<span class="sourceLineNo">576</span>   * Expects that {@code from} is strictly less than {@code to}.<a name="line.576"></a>
+<span class="sourceLineNo">577</span>   */<a name="line.577"></a>
+<span class="sourceLineNo">578</span>  private static void movePivotToStartOfSlice(double[] array, int from, int to) {<a name="line.578"></a>
+<span class="sourceLineNo">579</span>    int mid = (from + to) &gt;&gt;&gt; 1;<a name="line.579"></a>
+<span class="sourceLineNo">580</span>    // We want to make a swap such that either array[to] &lt;= array[from] &lt;= array[mid], or<a name="line.580"></a>
+<span class="sourceLineNo">581</span>    // array[mid] &lt;= array[from] &lt;= array[to]. We know that from &lt; to, so we know mid &lt; to<a name="line.581"></a>
+<span class="sourceLineNo">582</span>    // (although it's possible that mid == from, if to == from + 1). Note that the postcondition<a name="line.582"></a>
+<span class="sourceLineNo">583</span>    // would be impossible to fulfil if mid == to unless we also have array[from] == array[to].<a name="line.583"></a>
+<span class="sourceLineNo">584</span>    boolean toLessThanMid = (array[to] &lt; array[mid]);<a name="line.584"></a>
+<span class="sourceLineNo">585</span>    boolean midLessThanFrom = (array[mid] &lt; array[from]);<a name="line.585"></a>
+<span class="sourceLineNo">586</span>    boolean toLessThanFrom = (array[to] &lt; array[from]);<a name="line.586"></a>
+<span class="sourceLineNo">587</span>    if (toLessThanMid == midLessThanFrom) {<a name="line.587"></a>
+<span class="sourceLineNo">588</span>      // Either array[to] &lt; array[mid] &lt; array[from] or array[from] &lt;= array[mid] &lt;= array[to].<a name="line.588"></a>
+<span class="sourceLineNo">589</span>      swap(array, mid, from);<a name="line.589"></a>
+<span class="sourceLineNo">590</span>    } else if (toLessThanMid != toLessThanFrom) {<a name="line.590"></a>
+<span class="sourceLineNo">591</span>      // Either array[from] &lt;= array[to] &lt; array[mid] or array[mid] &lt;= array[to] &lt; array[from].<a name="line.591"></a>
+<span class="sourceLineNo">592</span>      swap(array, from, to);<a name="line.592"></a>
+<span class="sourceLineNo">593</span>    }<a name="line.593"></a>
+<span class="sourceLineNo">594</span>    // The postcondition now holds. So the median, our chosen pivot, is at from.<a name="line.594"></a>
+<span class="sourceLineNo">595</span>  }<a name="line.595"></a>
+<span class="sourceLineNo">596</span><a name="line.596"></a>
+<span class="sourceLineNo">597</span>  /**<a name="line.597"></a>
+<span class="sourceLineNo">598</span>   * Performs an in-place selection, like {@link #selectInPlace}, to select all the indexes<a name="line.598"></a>
+<span class="sourceLineNo">599</span>   * {@code allRequired[i]} for {@code i} in the range [{@code requiredFrom}, {@code requiredTo}].<a name="line.599"></a>
+<span class="sourceLineNo">600</span>   * These indexes must be sorted in the array and must all be in the range [{@code from},<a name="line.600"></a>
+<span class="sourceLineNo">601</span>   * {@code to}].<a name="line.601"></a>
+<span class="sourceLineNo">602</span>   */<a name="line.602"></a>
+<span class="sourceLineNo">603</span>  private static void selectAllInPlace(<a name="line.603"></a>
+<span class="sourceLineNo">604</span>      int[] allRequired, int requiredFrom, int requiredTo, double[] array, int from, int to) {<a name="line.604"></a>
+<span class="sourceLineNo">605</span>    // Choose the first selection to do...<a name="line.605"></a>
+<span class="sourceLineNo">606</span>    int requiredChosen = chooseNextSelection(allRequired, requiredFrom, requiredTo, from, to);<a name="line.606"></a>
+<span class="sourceLineNo">607</span>    int required = allRequired[requiredChosen];<a name="line.607"></a>
+<span class="sourceLineNo">608</span><a name="line.608"></a>
+<span class="sourceLineNo">609</span>    // ...do the first selection...<a name="line.609"></a>
+<span class="sourceLineNo">610</span>    selectInPlace(required, array, from, to);<a name="line.610"></a>
+<span class="sourceLineNo">611</span><a name="line.611"></a>
+<span class="sourceLineNo">612</span>    // ...then recursively perform the selections in the range below...<a name="line.612"></a>
+<span class="sourceLineNo">613</span>    int requiredBelow = requiredChosen - 1;<a name="line.613"></a>
+<span class="sourceLineNo">614</span>    while (requiredBelow &gt;= requiredFrom &amp;&amp; allRequired[requiredBelow] == required) {<a name="line.614"></a>
+<span class="sourceLineNo">615</span>      requiredBelow--; // skip duplicates of required in the range below<a name="line.615"></a>
+<span class="sourceLineNo">616</span>    }<a name="line.616"></a>
+<span class="sourceLineNo">617</span>    if (requiredBelow &gt;= requiredFrom) {<a name="line.617"></a>
+<span class="sourceLineNo">618</span>      selectAllInPlace(allRequired, requiredFrom, requiredBelow, array, from, required - 1);<a name="line.618"></a>
+<span class="sourceLineNo">619</span>    }<a name="line.619"></a>
+<span class="sourceLineNo">620</span><a name="line.620"></a>
+<span class="sourceLineNo">621</span>    // ...and then recursively perform the selections in the range above.<a name="line.621"></a>
+<span class="sourceLineNo">622</span>    int requiredAbove = requiredChosen + 1;<a name="line.622"></a>
+<span class="sourceLineNo">623</span>    while (requiredAbove &lt;= requiredTo &amp;&amp; allRequired[requiredAbove] == required) {<a name="line.623"></a>
+<span class="sourceLineNo">624</span>      requiredAbove++; // skip duplicates of required in the range above<a name="line.624"></a>
+<span class="sourceLineNo">625</span>    }<a name="line.625"></a>
+<span class="sourceLineNo">626</span>    if (requiredAbove &lt;= requiredTo) {<a name="line.626"></a>
+<span class="sourceLineNo">627</span>      selectAllInPlace(allRequired, requiredAbove, requiredTo, array, required + 1, to);<a name="line.627"></a>
+<span class="sourceLineNo">628</span>    }<a name="line.628"></a>
+<span class="sourceLineNo">629</span>  }<a name="line.629"></a>
+<span class="sourceLineNo">630</span><a name="line.630"></a>
+<span class="sourceLineNo">631</span>  /**<a name="line.631"></a>
+<span class="sourceLineNo">632</span>   * Chooses the next selection to do from the required selections. It is required that the array<a name="line.632"></a>
+<span class="sourceLineNo">633</span>   * {@code allRequired} is sorted and that {@code allRequired[i]} are in the range [{@code from},<a name="line.633"></a>
+<span class="sourceLineNo">634</span>   * {@code to}] for all {@code i} in the range [{@code requiredFrom}, {@requiredTo}]. The value<a name="line.634"></a>
+<span class="sourceLineNo">635</span>   * returned by this method is the {@code i} in that range such that {@code allRequired[i]} is as<a name="line.635"></a>
+<span class="sourceLineNo">636</span>   * close as possible to the center of the range [{@code from}, {@code to}]. Choosing the value<a name="line.636"></a>
+<span class="sourceLineNo">637</span>   * closest to the center of the range first is the most efficient strategy because it minimizes<a name="line.637"></a>
+<span class="sourceLineNo">638</span>   * the size of the subranges from which the remaining selections must be done.<a name="line.638"></a>
+<span class="sourceLineNo">639</span>   */<a name="line.639"></a>
+<span class="sourceLineNo">640</span>  private static int chooseNextSelection(<a name="line.640"></a>
+<span class="sourceLineNo">641</span>      int[] allRequired, int requiredFrom, int requiredTo, int from, int to) {<a name="line.641"></a>
+<span class="sourceLineNo">642</span>    if (requiredFrom == requiredTo) {<a name="line.642"></a>
+<span class="sourceLineNo">643</span>      return requiredFrom; // only one thing to choose, so choose it<a name="line.643"></a>
+<span class="sourceLineNo">644</span>    }<a name="line.644"></a>
+<span class="sourceLineNo">645</span><a name="line.645"></a>
+<span class="sourceLineNo">646</span>    // Find the center and round down. The true center is either centerFloor or halfway between<a name="line.646"></a>
+<span class="sourceLineNo">647</span>    // centerFloor and centerFloor + 1.<a name="line.647"></a>
+<span class="sourceLineNo">648</span>    int centerFloor = (from + to) &gt;&gt;&gt; 1;<a name="line.648"></a>
+<span class="sourceLineNo">649</span><a name="line.649"></a>
+<span class="sourceLineNo">650</span>    // Do a binary search until we're down to the range of two which encloses centerFloor (unless<a name="line.650"></a>
+<span class="sourceLineNo">651</span>    // all values are lower or higher than centerFloor, in which case we find the two highest or<a name="line.651"></a>
+<span class="sourceLineNo">652</span>    // lowest respectively). If centerFloor is in allRequired, we will definitely find it. If not,<a name="line.652"></a>
+<span class="sourceLineNo">653</span>    // but centerFloor + 1 is, we'll definitely find that. The closest value to the true (unrounded)<a name="line.653"></a>
+<span class="sourceLineNo">654</span>    // center will be at either low or high.<a name="line.654"></a>
+<span class="sourceLineNo">655</span>    int low = requiredFrom;<a name="line.655"></a>
+<span class="sourceLineNo">656</span>    int high = requiredTo;<a name="line.656"></a>
+<span class="sourceLineNo">657</span>    while (high &gt; low + 1) {<a name="line.657"></a>
+<span class="sourceLineNo">658</span>      int mid = (low + high) &gt;&gt;&gt; 1;<a name="line.658"></a>
+<span class="sourceLineNo">659</span>      if (allRequired[mid] &gt; centerFloor) {<a name="line.659"></a>
+<span class="sourceLineNo">660</span>        high = mid;<a name="line.660"></a>
+<span class="sourceLineNo">661</span>      } else if (allRequired[mid] &lt; centerFloor) {<a name="line.661"></a>
+<span class="sourceLineNo">662</span>        low = mid;<a name="line.662"></a>
+<span class="sourceLineNo">663</span>      } else {<a name="line.663"></a>
+<span class="sourceLineNo">664</span>        return mid; // allRequired[mid] = centerFloor, so we can't get closer than that<a name="line.664"></a>
+<span class="sourceLineNo">665</span>      }<a name="line.665"></a>
+<span class="sourceLineNo">666</span>    }<a name="line.666"></a>
+<span class="sourceLineNo">667</span><a name="line.667"></a>
+<span class="sourceLineNo">668</span>    // Now pick the closest of the two candidates. Note that there is no rounding here.<a name="line.668"></a>
+<span class="sourceLineNo">669</span>    if (from + to - allRequired[low] - allRequired[high] &gt; 0) {<a name="line.669"></a>
+<span class="sourceLineNo">670</span>      return high;<a name="line.670"></a>
+<span class="sourceLineNo">671</span>    } else {<a name="line.671"></a>
+<span class="sourceLineNo">672</span>      return low;<a name="line.672"></a>
+<span class="sourceLineNo">673</span>    }<a name="line.673"></a>
+<span class="sourceLineNo">674</span>  }<a name="line.674"></a>
+<span class="sourceLineNo">675</span><a name="line.675"></a>
+<span class="sourceLineNo">676</span>  /**<a name="line.676"></a>
+<span class="sourceLineNo">677</span>   * Swaps the values at {@code i} and {@code j} in {@code array}.<a name="line.677"></a>
+<span class="sourceLineNo">678</span>   */<a name="line.678"></a>
+<span class="sourceLineNo">679</span>  private static void swap(double[] array, int i, int j) {<a name="line.679"></a>
+<span class="sourceLineNo">680</span>    double temp = array[i];<a name="line.680"></a>
+<span class="sourceLineNo">681</span>    array[i] = array[j];<a name="line.681"></a>
+<span class="sourceLineNo">682</span>    array[j] = temp;<a name="line.682"></a>
+<span class="sourceLineNo">683</span>  }<a name="line.683"></a>
+<span class="sourceLineNo">684</span>}<a name="line.684"></a>
 
 
 
