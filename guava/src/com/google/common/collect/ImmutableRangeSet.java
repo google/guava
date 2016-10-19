@@ -26,6 +26,7 @@ import com.google.common.collect.SortedLists.KeyAbsentBehavior;
 import com.google.common.collect.SortedLists.KeyPresentBehavior;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
@@ -289,6 +290,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         ranges.reverse(), Range.RANGE_LEX_ORDERING.reverse());
   }
 
+  @LazyInit
   private transient ImmutableRangeSet<C> complement;
 
   private final class ComplementRanges extends ImmutableList<Range<C>> {

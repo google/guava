@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 
 /**
  * Implementation of {@link ImmutableSet} with exactly one element.
@@ -37,6 +38,7 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
   // is zero and recalculate it themselves, or two threads will see it at
   // the same time, and both recalculate it.  If the cachedHashCode is 0,
   // it will always be recalculated, unfortunately.
+  @LazyInit
   private transient int cachedHashCode;
 
   SingletonImmutableSet(E element) {
