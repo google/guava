@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Iterator;
 import javax.annotation.Nullable;
@@ -114,6 +115,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
   private final boolean handleNullAutomatically;
 
   // We lazily cache the reverse view to avoid allocating on every call to reverse().
+  @LazyInit
   private transient Converter<B, A> reverse;
 
   /** Constructor for use by subclasses. */

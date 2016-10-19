@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Multiset.Entry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -216,6 +217,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
     };
   }
 
+  @LazyInit
   private transient ImmutableList<E> asList;
 
   @Override
@@ -313,6 +315,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
     return entrySet().toString();
   }
 
+  @LazyInit
   private transient ImmutableSet<Entry<E>> entrySet;
 
   @Override

@@ -23,6 +23,7 @@ import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multiset;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.Collections;
@@ -58,6 +59,7 @@ final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetwor
         ImmutableMap.copyOf(inEdges), ImmutableMap.copyOf(outEdges), selfLoopCount);
   }
 
+  @LazyInit
   private transient Reference<Multiset<N>> predecessorsReference;
 
   @Override
@@ -74,6 +76,7 @@ final class DirectedMultiNetworkConnections<N, E> extends AbstractDirectedNetwor
     return predecessors;
   }
 
+  @LazyInit
   private transient Reference<Multiset<N>> successorsReference;
 
   @Override

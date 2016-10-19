@@ -23,6 +23,7 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -462,6 +463,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Override
   public abstract V get(@Nullable Object key);
 
+  @LazyInit
   private transient ImmutableSet<Entry<K, V>> entrySet;
 
   /**
@@ -476,6 +478,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   abstract ImmutableSet<Entry<K, V>> createEntrySet();
 
+  @LazyInit
   private transient ImmutableSet<K> keySet;
 
   /**
@@ -507,6 +510,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     };
   }
 
+  @LazyInit
   private transient ImmutableCollection<V> values;
 
   /**
@@ -524,6 +528,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   // cached so that this.multimapView().inverse() only computes inverse once
+  @LazyInit
   private transient ImmutableSetMultimap<K, V> multimapView;
 
   /**

@@ -20,6 +20,7 @@ import static java.lang.Double.NaN;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 
 /**
  * The representation of a linear transformation between real numbers {@code x} and {@code y}.
@@ -163,6 +164,7 @@ public abstract class LinearTransformation {
     final double slope;
     final double yIntercept;
 
+    @LazyInit
     LinearTransformation inverse;
 
     RegularLinearTransformation(double slope, double yIntercept) {
@@ -221,6 +223,7 @@ public abstract class LinearTransformation {
 
     final double x;
 
+    @LazyInit
     LinearTransformation inverse;
 
     VerticalLinearTransformation(double x) {

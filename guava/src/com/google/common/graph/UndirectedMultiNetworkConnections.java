@@ -23,6 +23,7 @@ import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multiset;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.Collections;
@@ -54,6 +55,7 @@ final class UndirectedMultiNetworkConnections<N, E>
     return new UndirectedMultiNetworkConnections<N, E>(ImmutableMap.copyOf(incidentEdges));
   }
 
+  @LazyInit
   private transient Reference<Multiset<N>> adjacentNodesReference;
 
   @Override
