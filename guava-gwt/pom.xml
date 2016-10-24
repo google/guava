@@ -18,8 +18,8 @@
   </description>
   <properties>
     <gwt.test.include>**/GwtTestSuite.java</gwt.test.include>
-    <gwt.version>2.8.0-rc3</gwt.version>
-    <gwt.plugin.version>2.8.0-rc3</gwt.plugin.version>
+    <gwt.version>2.8.0</gwt.version>
+    <gwt.plugin.version>2.8.0</gwt.plugin.version>
     <gwt.logLevel>WARN</gwt.logLevel>
   </properties>
   <repositories>
