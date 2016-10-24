@@ -20,17 +20,19 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
-import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.errorprone.annotations.Immutable;
 import java.util.Map;
 
 /**
  * A {@link Network} whose elements and structural relationships will never change. Instances of
  * this class may be obtained with {@link #copyOf(Network)}.
  *
- * <p>This class generally provides all of the same guarantees as {@link ImmutableCollection}
- * (despite not extending {@link ImmutableCollection} itself), including guaranteed thread-safety.
+ * <p>See the Guava User's Guide's <a
+ * href="https://github.com/google/guava/wiki/GraphsExplained#immutable-implementations">discussion
+ * of the {@code Immutable*} types</a> for more information on the properties and guarantees
+ * provided by this class.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
