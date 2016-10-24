@@ -36,7 +36,7 @@ public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
    *
    * <p><b>Nodes must be unique</b>, just as {@code Map} keys must be. They must also be non-null.
    *
-   * @return {@code true} iff the graph was modified as a result of this call
+   * @return {@code true} if the graph was modified as a result of this call
    */
   @CanIgnoreReturnValue
   boolean addNode(N node);
@@ -64,7 +64,7 @@ public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
   /**
    * Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.
    *
-   * @return {@code true} iff the graph was modified as a result of this call
+   * @return {@code true} if the graph was modified as a result of this call
    */
   @CanIgnoreReturnValue
   boolean removeNode(Object node);

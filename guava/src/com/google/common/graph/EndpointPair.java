@@ -26,10 +26,12 @@ import com.google.common.collect.UnmodifiableIterator;
 import javax.annotation.Nullable;
 
 /**
- * An immutable pair representing the two (possibly equal, in the case of a self-loop) endpoints of
- * an edge in a graph. The {@link EndpointPair} of a directed edge is an ordered pair of nodes
- * ({@link #source()} and {@link #target()}). The {@link EndpointPair} of an undirected edge is an
- * unordered pair of nodes ({@link #nodeU()} and {@link #nodeV()}).
+ * An immutable pair representing the two endpoints of an edge in a graph. The {@link EndpointPair}
+ * of a directed edge is an ordered pair of nodes ({@link #source()} and {@link #target()}). The
+ * {@link EndpointPair} of an undirected edge is an unordered pair of nodes ({@link #nodeU()} and
+ * {@link #nodeV()}).
+ *
+ * <p>The edge is a self-loop if, and only if, the two endpoints are equal.
  *
  * @author James Sexton
  * @since 20.0
@@ -112,7 +114,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
   }
 
   /**
-   * Returns {@code true} iff this {@link EndpointPair} is an ordered pair (i.e. represents the
+   * Returns {@code true} if this {@link EndpointPair} is an ordered pair (i.e. represents the
    * endpoints of a directed edge).
    */
   public abstract boolean isOrdered();
