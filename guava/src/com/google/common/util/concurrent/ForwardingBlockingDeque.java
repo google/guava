@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.google.common.collect;
+package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ForwardingDeque;
 import java.util.Collection;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.TimeUnit;
@@ -40,12 +41,8 @@ import java.util.concurrent.TimeUnit;
  * methods that they depend on are thread-safe.
  *
  * @author Emily Soldal
- * @since 14.0
- * @deprecated This class has moved to {@code com.google.common.util.concurrent}. Please use {@link
- *     com.google.common.util.concurrent.ForwardingBlockingDeque} instead. This class is scheduled
- *     for deletion in January 2019.
+ * @since 21.0 (since 14.0 as {@link com.google.common.collect.ForwardingBlockingDeque})
  */
-@Deprecated
 @GwtIncompatible
 public abstract class ForwardingBlockingDeque<E> extends ForwardingDeque<E>
     implements BlockingDeque<E> {
