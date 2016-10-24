@@ -179,7 +179,7 @@ extends <a href="../../../../com/google/common/graph/Network.html" title="interf
 <div class="block">Adds <code>node</code> if it is not already present.
 
  <p><b>Nodes must be unique</b>, just as <code>Map</code> keys must be. They must also be non-null.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> iff the network was modified as a result of this call</dd></dl>
+<dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> if the network was modified as a result of this call</dd></dl>
 </li>
 </ul>
 <a name="addEdge(java.lang.Object,java.lang.Object,java.lang.Object)">
@@ -204,7 +204,7 @@ extends <a href="../../../../com/google/common/graph/Network.html" title="interf
 
  <p>If <code>edge</code> already connects <code>nodeU</code> to <code>nodeV</code> (in the specified order if
  this network <a href="../../../../com/google/common/graph/Network.html#isDirected()"><code>Network.isDirected()</code></a>, else in any order), then this method will have no effect.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> iff the network was modified as a result of this call</dd>
+<dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> if the network was modified as a result of this call</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>edge</code> already exists and does not connect <code>nodeU</code> to <code>nodeV</code>, or if the introduction of the edge would violate <a href="../../../../com/google/common/graph/Network.html#allowsParallelEdges()"><code>Network.allowsParallelEdges()</code></a> or <a href="../../../../com/google/common/graph/Network.html#allowsSelfLoops()"><code>Network.allowsSelfLoops()</code></a></dd></dl>
 </li>
@@ -217,7 +217,7 @@ extends <a href="../../../../com/google/common/graph/Network.html" title="interf
 <h4>removeNode</h4>
 <pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.73">removeNode</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;node)</pre>
 <div class="block">Removes <code>node</code> if it is present; all edges incident to <code>node</code> will also be removed.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> iff the network was modified as a result of this call</dd></dl>
+<dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> if the network was modified as a result of this call</dd></dl>
 </li>
 </ul>
 <a name="removeEdge(java.lang.Object)">
@@ -228,7 +228,7 @@ extends <a href="../../../../com/google/common/graph/Network.html" title="interf
 <h4>removeEdge</h4>
 <pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line.81">removeEdge</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;edge)</pre>
 <div class="block">Removes <code>edge</code> from this network, if it is present.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> iff the network was modified as a result of this call</dd></dl>
+<dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> if the network was modified as a result of this call</dd></dl>
 </li>
 </ul>
 </li>

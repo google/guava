@@ -36130,7 +36130,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns {@code true} iff this {@link EndpointPair} is an ordered pair (i.e. represents the
+      <![CDATA[Returns {@code true} if this {@link EndpointPair} is an ordered pair (i.e. represents the
  endpoints of a directed edge).]]>
       </doc>
     </method>
@@ -36164,10 +36164,12 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[An immutable pair representing the two (possibly equal, in the case of a self-loop) endpoints of
- an edge in a graph. The {@link EndpointPair} of a directed edge is an ordered pair of nodes
- ({@link #source()} and {@link #target()}). The {@link EndpointPair} of an undirected edge is an
- unordered pair of nodes ({@link #nodeU()} and {@link #nodeV()}).
+    <![CDATA[An immutable pair representing the two endpoints of an edge in a graph. The {@link EndpointPair}
+ of a directed edge is an ordered pair of nodes ({@link #source()} and {@link #target()}). The
+ {@link EndpointPair} of an undirected edge is an unordered pair of nodes ({@link #nodeU()} and
+ {@link #nodeV()}).
+
+ <p>The edge is a self-loop if, and only if, the two endpoints are equal.
 
  @author James Sexton
  @since 20.0]]>
@@ -36317,7 +36319,7 @@
       deprecated="not deprecated">
       <param name="object" type="java.lang.Object"/>
       <doc>
-      <![CDATA[For the default {@link Graph} implementations, returns true iff {@code this == object}
+      <![CDATA[For the default {@link Graph} implementations, returns true if {@code this == object}
  (reference equality). External implementations are free to define this method as they see fit,
  as long as they satisfy the {@link Object#equals(Object)} contract.
 
@@ -36336,84 +36338,78 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
- data structures. A graph is composed of a set of nodes (sometimes called vertices) and a set of
- edges connecting pairs of nodes. Graphs are useful for modeling many kinds of relations. If the
- relation to be modeled is symmetric (such as "distance between cities"), that can be represented
- with an undirected graph, where an edge that connects node U to node V also connects node V to
- node U. If the relation to be modeled is asymmetric (such as "employees managed"), that can be
- represented with a directed graph, where edges are strictly one-way.
+    <![CDATA[An interface for <a
+ href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data,
+ whose edges are anonymous entities with no identity or information of their own.
+
+ <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
 
  <p>There are three main interfaces provided to represent graphs. In order of increasing
  complexity they are: {@link Graph}, {@link ValueGraph}, and {@link Network}. You should generally
- prefer the simplest interface that satisfies your use case.
+ prefer the simplest interface that satisfies your use case. See the <a
+ href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type">
+ "Choosing the right graph type"</a> section of the Guava User Guide for more details.
 
- <p>To choose the right interface, answer these questions:
+ <h3>Capabilities</h3>
 
- <ol>
- <li>Do you have data (objects) that you wish to associate with edges?
-     <p>Yes: Go to question 2. No: Use {@link Graph}.
- <li>Are the objects you wish to associate with edges unique within the scope of a graph? That is,
-     no two objects would be {@link Object#equals(Object) equal} to each other. A common example
-     where this would <i>not</i> be the case is with weighted graphs.
-     <p>Yes: Go to question 3. No: Use {@link ValueGraph}.
- <li>Do you need to be able to query the graph for an edge associated with a particular object?
-     For example, do you need to query what nodes an edge associated with a particular object
-     connects, or whether an edge associated with that object exists in the graph?
-     <p>Yes: Use {@link Network}. No: Go to question 4.
- <li>Do you need explicit support for parallel edges? For example, do you need to remove one edge
-     connecting a pair of nodes while leaving other edges connecting those same nodes intact?
-     <p>Yes: Use {@link Network}. No: Use {@link ValueGraph}.
- </ol>
+ <p>{@code Graph} supports the following use cases (<a
+ href="https://github.com/google/guava/wiki/GraphsExplained#definitions">definitions of
+ terms</a>):
 
- <p>Although {@link MutableValueGraph} and {@link MutableNetwork} both require users to provide
- objects to associate with edges when adding them, the differentiating factor is that in {@link
- ValueGraph}s, these objects can be any arbitrary data. Like the values in a {@link Map}, they do
- not have to be unique, and can be mutated while in the graph. In a {@link Network}, these objects
- serve as keys into the data structure. Like the keys in a {@link Map}, they must be unique, and
- cannot be mutated in a way that affects their equals/hashcode or the data structure will become
- corrupted.
+ <ul>
+   <li>directed graphs
+   <li>undirected graphs
+   <li>graphs that do/don't allow self-loops
+   <li>graphs whose nodes/edges are insertion-ordered, sorted, or unordered
+ </ul>
 
- <p>In all three interfaces, nodes have all the same requirements as keys in a {@link Map}.
+ <p>{@code Graph} explicitly does not support parallel edges, and forbids implementations or
+ extensions with parallel edges. If you need parallel edges, use {@link Network}.
 
- <p>The {@link Graph} interface does not support parallel {@link #edges()}, and forbids
- implementations or extensions with parallel edges. It is possible to encode a notion of edge
- multiplicity into the values of a {@link ValueGraph} (e.g. with an integer or a list of values),
- but this will not be reflected in methods such as {@link Graph#degree(Object)}. For that
- functionality, see {@link Network}.
+ <h3>Building a {@code Graph}</h3>
 
- <p>All mutation methods live on the subinterface {@link MutableGraph}. If you do not need to
- mutate a graph (e.g. if you write a method than runs a read-only algorithm on the graph), you
- should prefer the non-mutating {@link Graph} interface.
-
- <p>We provide an efficient implementation of this interface via {@link GraphBuilder}. When using
- the implementation provided, all collection-returning methods provide live, unmodifiable views of
- the graph. In other words, you cannot add an element to the collection, but if an element is
- added to the {@link Graph} that would affect the collection, the collection will be updated
- automatically. This also means that you cannot mutate a {@link Graph} in a way that would affect
- a collection while iterating over that collection. For example, you cannot remove either {@code
- foo} or any successors of {@code foo} from the graph while iterating over {@code successors(foo)}
- (unless you first make a copy of the successors), just as you could not remove keys from a {@link
- Map} while iterating over its {@link Map#keySet()}. Behavior in such a case is undefined, and may
- result in {@link ConcurrentModificationException}.
-
- <p>Example of use:
+ <p>The implementation classes that `common.graph` provides are not public, by design. To create
+ an instance of one of the built-in implementations of {@code Graph}, use the {@link GraphBuilder}
+ class:
 
  <pre><code>
- MutableGraph<String> managementGraph = GraphBuilder.directed().build();
- managementGraph.putEdge("Big Boss", "Middle Manager Jack");
- managementGraph.putEdge("Big Boss", "Middle Manager Jill");
- managementGraph.putEdge("Middle Manager Jack", "Joe");
- managementGraph.putEdge("Middle Manager Jack", "Schmoe");
- managementGraph.putEdge("Middle Manager Jill", "Jane");
- managementGraph.putEdge("Middle Manager Jill", "Doe");
- for (String employee : managementGraph.nodes()) {
-   Set<String> reports = managementGraph.successors(employee);
-   if (!reports.isEmpty()) {
-     System.out.format("%s has the following direct reports: %s%n", employee, reports);
-   }
- }
+   MutableGraph<Integer> graph = GraphBuilder.undirected().build();
  </code></pre>
+
+ <p>{@link GraphBuilder#build()} returns an instance of {@link MutableGraph}, which is a subtype
+ of {@code Graph} that provides methods for adding and removing nodes and edges. If you do not
+ need to mutate a graph (e.g. if you write a method than runs a read-only algorithm on the graph),
+ you should use the non-mutating {@link Graph} interface, or an {@link ImmutableGraph}.
+
+ <p>You can create an immutable copy of an existing {@code Graph} using {@link
+ ImmutableGraph#copyOf(Graph)}:
+
+ <pre><code>
+   ImmutableGraph<Integer> immutableGraph = ImmutableGraph.copyOf(graph);
+ </code></pre>
+
+ <p>Instances of {@link ImmutableGraph} do not implement {@link MutableGraph} (obviously!) and are
+ contractually guaranteed to be unmodifiable and thread-safe.
+
+ <p>The Guava User Guide has <a
+ href="https://github.com/google/guava/wiki/GraphsExplained#building-graph-instances">more
+ information on (and examples of) building graphs</a>.
+
+ <h3>Additional documentation</h3>
+
+ <p>See the Guava User Guide for the {@code common.graph} package (<a
+ href="https://github.com/google/guava/wiki/GraphsExplained">"Graphs Explained"</a>) for
+ additional documentation, including:
+
+ <ul>
+   <li><a
+       href="https://github.com/google/guava/wiki/GraphsExplained#equals-hashcode-and-graph-equivalence">
+       {@code equals()}, {@code hashCode()}, and graph equivalence</a>
+   <li><a href="https://github.com/google/guava/wiki/GraphsExplained#synchronization">
+       Synchronization policy</a>
+   <li><a href="https://github.com/google/guava/wiki/GraphsExplained#notes-for-implementors">Notes
+       for implementors</a>
+ </ul>
 
  @author James Sexton
  @author Joshua O'Madadhain
@@ -36531,7 +36527,7 @@
       deprecated="not deprecated">
       <param name="graph" type="com.google.common.graph.Graph&lt;?&gt;"/>
       <doc>
-      <![CDATA[Returns true iff {@code graph} has at least one cycle. A cycle is defined as a non-empty subset
+      <![CDATA[Returns true if {@code graph} has at least one cycle. A cycle is defined as a non-empty subset
  of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges) starting
  and ending with the same node.
 
@@ -36544,7 +36540,7 @@
       deprecated="not deprecated">
       <param name="network" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
       <doc>
-      <![CDATA[Returns true iff {@code network} has at least one cycle. A cycle is defined as a non-empty
+      <![CDATA[Returns true if {@code network} has at least one cycle. A cycle is defined as a non-empty
  subset of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges)
  starting and ending with the same node.
 
@@ -36558,7 +36554,7 @@
       <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
       <doc>
       <![CDATA[Returns the transitive closure of {@code graph}. The transitive closure of a graph is another
- graph with an edge connecting node A to node B iff node B is {@link #reachableNodes(Graph,
+ graph with an edge connecting node A to node B if node B is {@link #reachableNodes(Graph,
  Object) reachable} from node A.
 
  <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live view
@@ -36591,7 +36587,7 @@
       <param name="graphA" type="com.google.common.graph.Graph&lt;?&gt;"/>
       <param name="graphB" type="com.google.common.graph.Graph&lt;?&gt;"/>
       <doc>
-      <![CDATA[Returns {@code true} iff {@code graphA} and {@code graphB} have the same elements and the same
+      <![CDATA[Returns {@code true} if {@code graphA} and {@code graphB} have the same elements and the same
  relationships between elements, as exposed via the {@link Graph} interface.
 
  <p>Thus, two graphs A and B are equivalent if both are null or <b>all</b> of the following are
@@ -36616,7 +36612,7 @@
       <param name="graphA" type="com.google.common.graph.ValueGraph&lt;?, ?&gt;"/>
       <param name="graphB" type="com.google.common.graph.ValueGraph&lt;?, ?&gt;"/>
       <doc>
-      <![CDATA[Returns {@code true} iff {@code graphA} and {@code graphB} have the same elements (including
+      <![CDATA[Returns {@code true} if {@code graphA} and {@code graphB} have the same elements (including
  edge values) and the same relationships between elements, as exposed via the {@link ValueGraph}
  interface.
 
@@ -36644,7 +36640,7 @@
       <param name="networkA" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
       <param name="networkB" type="com.google.common.graph.Network&lt;?, ?&gt;"/>
       <doc>
-      <![CDATA[Returns {@code true} iff {@code networkA} and {@code networkB} have the same elements and the
+      <![CDATA[Returns {@code true} if {@code networkA} and {@code networkB} have the same elements and the
  same relationships between elements, as exposed via the {@link Network} interface.
 
  <p>Thus, two networks A and B are equivalent if both are null or <b>all</b> of the following
@@ -36701,9 +36697,9 @@
       <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
       <param name="nodes" type="java.lang.Iterable&lt;? extends N&gt;"/>
       <doc>
-      <![CDATA[Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains all of
- the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} from {@code graph} for
- which both nodes are contained by {@code nodes}.
+      <![CDATA[Returns the subgraph of {@code graph} induced by {@code nodes}. This subgraph is a new graph
+ that contains all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges}
+ from {@code graph} for which both nodes are contained by {@code nodes}.
 
  @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph]]>
       </doc>
@@ -36715,9 +36711,10 @@
       <param name="graph" type="com.google.common.graph.ValueGraph&lt;N, V&gt;"/>
       <param name="nodes" type="java.lang.Iterable&lt;? extends N&gt;"/>
       <doc>
-      <![CDATA[Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains all of
- the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} (and associated edge
- values) from {@code graph} for which both nodes are contained by {@code nodes}.
+      <![CDATA[Returns the subgraph of {@code graph} induced by {@code nodes}. This subgraph is a new graph
+ that contains all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges}
+ (and associated edge values) from {@code graph} for which both nodes are contained by {@code
+ nodes}.
 
  @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph]]>
       </doc>
@@ -36729,10 +36726,10 @@
       <param name="network" type="com.google.common.graph.Network&lt;N, E&gt;"/>
       <param name="nodes" type="java.lang.Iterable&lt;? extends N&gt;"/>
       <doc>
-      <![CDATA[Returns an induced subgraph of {@code network}. This subgraph is a new graph that contains all
- of the nodes in {@code nodes}, and all of the {@link Network#edges() edges} from {@code
- network} for which the {@link Network#incidentNodes(Object) incident nodes} are both contained
- by {@code nodes}.
+      <![CDATA[Returns the subgraph of {@code network} induced by {@code nodes}. This subgraph is a new graph
+ that contains all of the nodes in {@code nodes}, and all of the {@link Network#edges() edges}
+ from {@code network} for which the {@link Network#incidentNodes(Object) incident nodes} are
+ both contained by {@code nodes}.
 
  @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph]]>
       </doc>
@@ -36802,8 +36799,10 @@
     <![CDATA[A {@link Graph} whose elements and structural relationships will never change. Instances of this
  class may be obtained with {@link #copyOf(Graph)}.
 
- <p>This class generally provides all of the same guarantees as {@link ImmutableCollection}
- (despite not extending {@link ImmutableCollection} itself), including guaranteed thread-safety.
+ <p>See the Guava User's Guide's <a
+ href="https://github.com/google/guava/wiki/GraphsExplained#immutable-implementations">discussion
+ of the {@code Immutable*} types</a> for more information on the properties and guarantees
+ provided by this class.
 
  @author James Sexton
  @author Joshua O'Madadhain
@@ -36847,8 +36846,10 @@
     <![CDATA[A {@link Network} whose elements and structural relationships will never change. Instances of
  this class may be obtained with {@link #copyOf(Network)}.
 
- <p>This class generally provides all of the same guarantees as {@link ImmutableCollection}
- (despite not extending {@link ImmutableCollection} itself), including guaranteed thread-safety.
+ <p>See the Guava User's Guide's <a
+ href="https://github.com/google/guava/wiki/GraphsExplained#immutable-implementations">discussion
+ of the {@code Immutable*} types</a> for more information on the properties and guarantees
+ provided by this class.
 
  @author James Sexton
  @author Joshua O'Madadhain
@@ -36909,8 +36910,10 @@
     <![CDATA[A {@link ValueGraph} whose elements and structural relationships will never change. Instances of
  this class may be obtained with {@link #copyOf(ValueGraph)}.
 
- <p>This class generally provides all of the same guarantees as {@link ImmutableCollection}
- (despite not extending {@link ImmutableCollection} itself), including guaranteed thread-safety.
+ <p>See the Guava User's Guide's <a
+ href="https://github.com/google/guava/wiki/GraphsExplained#immutable-implementations">discussion
+ of the {@code Immutable*} types</a> for more information on the properties and guarantees
+ provided by this class.
 
  @author James Sexton
  @param <N> Node parameter type
@@ -36934,7 +36937,7 @@
 
  <p><b>Nodes must be unique</b>, just as {@code Map} keys must be. They must also be non-null.
 
- @return {@code true} iff the graph was modified as a result of this call]]>
+ @return {@code true} if the graph was modified as a result of this call]]>
       </doc>
     </method>
     <method name="putEdge" return="boolean"
@@ -36952,7 +36955,7 @@
  adding} {@code nodeU} and {@code nodeV} to the graph (this is the behavior of the default
  implementations) or (b) throwing {@code IllegalArgumentException}.
 
- @return {@code true} iff the graph was modified as a result of this call
+ @return {@code true} if the graph was modified as a result of this call
  @throws IllegalArgumentException if the introduction of the edge would violate {@link
      #allowsSelfLoops()}]]>
       </doc>
@@ -36965,7 +36968,7 @@
       <doc>
       <![CDATA[Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.
 
- @return {@code true} iff the graph was modified as a result of this call]]>
+ @return {@code true} if the graph was modified as a result of this call]]>
       </doc>
     </method>
     <method name="removeEdge" return="boolean"
@@ -36977,7 +36980,7 @@
       <doc>
       <![CDATA[Removes the edge connecting {@code nodeU} to {@code nodeV}, if it is present.
 
- @return {@code true} iff the graph was modified as a result of this call]]>
+ @return {@code true} if the graph was modified as a result of this call]]>
       </doc>
     </method>
     <doc>
@@ -37006,7 +37009,7 @@
 
  <p><b>Nodes must be unique</b>, just as {@code Map} keys must be. They must also be non-null.
 
- @return {@code true} iff the network was modified as a result of this call]]>
+ @return {@code true} if the network was modified as a result of this call]]>
       </doc>
     </method>
     <method name="addEdge" return="boolean"
@@ -37030,7 +37033,7 @@
  <p>If {@code edge} already connects {@code nodeU} to {@code nodeV} (in the specified order if
  this network {@link #isDirected()}, else in any order), then this method will have no effect.
 
- @return {@code true} iff the network was modified as a result of this call
+ @return {@code true} if the network was modified as a result of this call
  @throws IllegalArgumentException if {@code edge} already exists and does not connect {@code
      nodeU} to {@code nodeV}, or if the introduction of the edge would violate {@link
      #allowsParallelEdges()} or {@link #allowsSelfLoops()}]]>
@@ -37044,7 +37047,7 @@
       <doc>
       <![CDATA[Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.
 
- @return {@code true} iff the network was modified as a result of this call]]>
+ @return {@code true} if the network was modified as a result of this call]]>
       </doc>
     </method>
     <method name="removeEdge" return="boolean"
@@ -37055,7 +37058,7 @@
       <doc>
       <![CDATA[Removes {@code edge} from this network, if it is present.
 
- @return {@code true} iff the network was modified as a result of this call]]>
+ @return {@code true} if the network was modified as a result of this call]]>
       </doc>
     </method>
     <doc>
@@ -37085,7 +37088,7 @@
 
  <p><b>Nodes must be unique</b>, just as {@code Map} keys must be. They must also be non-null.
 
- @return {@code true} iff the graph was modified as a result of this call]]>
+ @return {@code true} if the graph was modified as a result of this call]]>
       </doc>
     </method>
     <method name="putEdgeValue" return="V"
@@ -37121,7 +37124,7 @@
       <doc>
       <![CDATA[Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.
 
- @return {@code true} iff the graph was modified as a result of this call]]>
+ @return {@code true} if the graph was modified as a result of this call]]>
       </doc>
     </method>
     <method name="removeEdge" return="V"
@@ -37174,7 +37177,7 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns a live view of this network as a {@link Graph}. The resulting {@link Graph} will have
- an edge connecting node A to node B iff this {@link Network} has an edge connecting A to B.
+ an edge connecting node A to node B if this {@link Network} has an edge connecting A to B.
 
  <p>If this network {@link #allowsParallelEdges() allows parallel edges}, parallel edges will be
  treated as if collapsed into a single edge. For example, the {@link #degree(Object)} of a node
@@ -37407,7 +37410,7 @@
       deprecated="not deprecated">
       <param name="object" type="java.lang.Object"/>
       <doc>
-      <![CDATA[For the default {@link Network} implementations, returns true iff {@code this == object}
+      <![CDATA[For the default {@link Network} implementations, returns true if {@code this == object}
  (reference equality). External implementations are free to define this method as they see fit,
  as long as they satisfy the {@link Object#equals(Object)} contract.
 
@@ -37426,72 +37429,78 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
- data structures. A graph is composed of a set of nodes (sometimes called vertices) and a set of
- edges connecting pairs of nodes. Graphs are useful for modeling many kinds of relations. If the
- relation to be modeled is symmetric (such as "distance between cities"), that can be represented
- with an undirected graph, where an edge that connects node U to node V also connects node V to
- node U. If the relation to be modeled is asymmetric (such as "employees managed"), that can be
- represented with a directed graph, where edges are strictly one-way.
+    <![CDATA[An interface for <a
+ href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data,
+ whose edges are unique objects.
+
+ <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
 
  <p>There are three main interfaces provided to represent graphs. In order of increasing
  complexity they are: {@link Graph}, {@link ValueGraph}, and {@link Network}. You should generally
- prefer the simplest interface that satisfies your use case.
+ prefer the simplest interface that satisfies your use case. See the <a
+ href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type">
+ "Choosing the right graph type"</a> section of the Guava User Guide for more details.
 
- <ol>
- <li>Do you have data (objects) that you wish to associate with edges?
-     <p>Yes: Go to question 2. No: Use {@link Graph}.
- <li>Are the objects you wish to associate with edges unique within the scope of a graph? That is,
-     no two objects would be {@link Object#equals(Object) equal} to each other. A common example
-     where this would <i>not</i> be the case is with weighted graphs.
-     <p>Yes: Go to question 3. No: Use {@link ValueGraph}.
- <li>Do you need to be able to query the graph for an edge associated with a particular object?
-     For example, do you need to query what nodes an edge associated with a particular object
-     connects, or whether an edge associated with that object exists in the graph?
-     <p>Yes: Use {@link Network}. No: Go to question 4.
- <li>Do you need explicit support for parallel edges? For example, do you need to remove one edge
-     connecting a pair of nodes while leaving other edges connecting those same nodes intact?
-     <p>Yes: Use {@link Network}. No: Use {@link ValueGraph}.
- </ol>
+ <h3>Capabilities</h3>
 
- <p>Although {@link MutableValueGraph} and {@link MutableNetwork} both require users to provide
- objects to associate with edges when adding them, the differentiating factor is that in {@link
- ValueGraph}s, these objects can be any arbitrary data. Like the values in a {@link Map}, they do
- not have to be unique, and can be mutated while in the graph. In a {@link Network}, these objects
- serve as keys into the data structure. Like the keys in a {@link Map}, they must be unique, and
- cannot be mutated in a way that affects their equals/hashcode or the data structure will become
- corrupted.
+ <p>{@code Network} supports the following use cases (<a
+ href="https://github.com/google/guava/wiki/GraphsExplained#definitions">definitions of
+ terms</a>):
 
- <p>In all three interfaces, nodes have all the same requirements as keys in a {@link Map}.
+ <ul>
+   <li>directed graphs
+   <li>undirected graphs
+   <li>graphs that do/don't allow parallel edges
+   <li>graphs that do/don't allow self-loops
+   <li>graphs whose nodes/edges are insertion-ordered, sorted, or unordered
+   <li>graphs whose edges are unique objects
+ </ul>
 
- <p>All mutation methods live on the subinterface {@link MutableNetwork}. If you do not need to
- mutate a network (e.g. if you write a method than runs a read-only algorithm on the network), you
- should prefer the non-mutating {@link Network} interface.
+ <h3>Building a {@code Network}</h3>
 
- <p>We provide an efficient implementation of this interface via {@link NetworkBuilder}. When
- using the implementation provided, all collection-returning methods provide live, unmodifiable
- views of the network. In other words, you cannot add an element to the collection, but if an
- element is added to the {@link Network} that would affect the collection, the collection will be
- updated automatically. This also means that you cannot mutate a {@link Network} in a way that
- would affect a collection while iterating over that collection. For example, you cannot remove
- either {@code foo} or any successors of {@code foo} from the network while iterating over {@code
- successors(foo)} (unless you first make a copy of the successors), just as you could not remove
- keys from a {@link Map} while iterating over its {@link Map#keySet()}. Behavior in such a case is
- undefined, and may result in {@link ConcurrentModificationException}.
-
- <p>Example of use:
+ <p>The implementation classes that `common.graph` provides are not public, by design. To create
+ an instance of one of the built-in implementations of {@code Network}, use the {@link
+ NetworkBuilder} class:
 
  <pre><code>
- MutableNetwork<String, String> roadNetwork = NetworkBuilder.undirected().build();
- roadNetwork.addEdge("Springfield", "Shelbyville", "Monorail");
- roadNetwork.addEdge("New York", "New New York", "Applied Cryogenics");
- roadNetwork.addEdge("Springfield", "New New York", "Secret Wormhole");
- String roadToQuery = "Secret Wormhole";
- if (roadNetwork.edges().contains(roadToQuery)) {
-   EndpointPair<String> cities = roadNetwork.incidentNodes(roadToQuery);
-   System.out.format("%s and %s connected via %s", cities.nodeU(), cities.nodeV(), roadToQuery);
- }
+   MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
  </code></pre>
+
+ <p>{@link NetworkBuilder#build()} returns an instance of {@link MutableNetwork}, which is a
+ subtype of {@code Network} that provides methods for adding and removing nodes and edges. If you
+ do not need to mutate a graph (e.g. if you write a method than runs a read-only algorithm on the
+ graph), you should use the non-mutating {@link Network} interface, or an {@link
+ ImmutableNetwork}.
+
+ <p>You can create an immutable copy of an existing {@code Network} using {@link
+ ImmutableNetwork#copyOf(Network)}:
+
+ <pre><code>
+   ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(graph);
+ </code></pre>
+
+ <p>Instances of {@link ImmutableNetwork} do not implement {@link MutableNetwork} (obviously!) and
+ are contractually guaranteed to be unmodifiable and thread-safe.
+
+ <p>The Guava User Guide has <a
+ href="https://github.com/google/guava/wiki/GraphsExplained#building-graph-instances">more
+ information on (and examples of) building graphs</a>.
+
+ <h3>Additional documentation</h3>
+
+ <p>See the Guava User Guide for the {@code common.graph} package (<a
+ href="https://github.com/google/guava/wiki/GraphsExplained">"Graphs Explained"</a>) for
+ additional documentation, including:
+
+ <ul>
+   <li><a
+       href="https://github.com/google/guava/wiki/GraphsExplained#equals-hashcode-and-graph-equivalence">
+       {@code equals()}, {@code hashCode()}, and graph equivalence</a>
+   <li><a href="https://github.com/google/guava/wiki/GraphsExplained#synchronization">
+       Synchronization policy</a>
+   <li><a href="https://github.com/google/guava/wiki/GraphsExplained#notes-for-implementors">Notes
+       for implementors</a>
+ </ul>
 
  @author James Sexton
  @author Joshua O'Madadhain
@@ -37674,7 +37683,7 @@
       deprecated="not deprecated">
       <param name="object" type="java.lang.Object"/>
       <doc>
-      <![CDATA[For the default {@link ValueGraph} implementations, returns true iff {@code this == object}
+      <![CDATA[For the default {@link ValueGraph} implementations, returns true if {@code this == object}
  (reference equality). External implementations are free to define this method as they see fit,
  as long as they satisfy the {@link Object#equals(Object)} contract.
 
@@ -37693,84 +37702,85 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
- data structures. A graph is composed of a set of nodes (sometimes called vertices) and a set of
- edges connecting pairs of nodes. Graphs are useful for modeling many kinds of relations. If the
- relation to be modeled is symmetric (such as "distance between cities"), that can be represented
- with an undirected graph, where an edge that connects node U to node V also connects node V to
- node U. If the relation to be modeled is asymmetric (such as "employees managed"), that can be
- represented with a directed graph, where edges are strictly one-way.
+    <![CDATA[An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-
+ structured data, whose edges have associated non-unique values.
+
+ <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
 
  <p>There are three main interfaces provided to represent graphs. In order of increasing
  complexity they are: {@link Graph}, {@link ValueGraph}, and {@link Network}. You should generally
- prefer the simplest interface that satisfies your use case.
+ prefer the simplest interface that satisfies your use case. See the <a
+ href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type">
+ "Choosing the right graph type"</a> section of the Guava User Guide for more details.
 
- <p>To choose the right interface, answer these questions:
+ <h3>Capabilities</h3>
 
- <ol>
- <li>Do you have data (objects) that you wish to associate with edges?
-     <p>Yes: Go to question 2. No: Use {@link Graph}.
- <li>Are the objects you wish to associate with edges unique within the scope of a graph? That is,
-     no two objects would be {@link Object#equals(Object) equal} to each other. A common example
-     where this would <i>not</i> be the case is with weighted graphs.
-     <p>Yes: Go to question 3. No: Use {@link ValueGraph}.
- <li>Do you need to be able to query the graph for an edge associated with a particular object?
-     For example, do you need to query what nodes an edge associated with a particular object
-     connects, or whether an edge associated with that object exists in the graph?
-     <p>Yes: Use {@link Network}. No: Go to question 4.
- <li>Do you need explicit support for parallel edges? For example, do you need to remove one edge
-     connecting a pair of nodes while leaving other edges connecting those same nodes intact?
-     <p>Yes: Use {@link Network}. No: Use {@link ValueGraph}.
- </ol>
+ <p>{@code ValueGraph} supports the following use cases (<a
+ href="https://github.com/google/guava/wiki/GraphsExplained#definitions">definitions of
+ terms</a>):
 
- <p>Although {@link MutableValueGraph} and {@link MutableNetwork} both require users to provide
- objects to associate with edges when adding them, the differentiating factor is that in {@link
- ValueGraph}s, these objects can be any arbitrary data. Like the values in a {@link Map}, they do
- not have to be unique, and can be mutated while in the graph. In a {@link Network}, these objects
- serve as keys into the data structure. Like the keys in a {@link Map}, they must be unique, and
- cannot be mutated in a way that affects their equals/hashcode or the data structure will become
- corrupted.
+ <ul>
+   <li>directed graphs
+   <li>undirected graphs
+   <li>graphs that do/don't allow self-loops
+   <li>graphs whose nodes/edges are insertion-ordered, sorted, or unordered
+   <li>graphs whose edges have associated values
+ </ul>
 
- <p>In all three interfaces, nodes have all the same requirements as keys in a {@link Map}.
+ <p>{@code ValueGraph}, as a subtype of {@code Graph}, explicitly does not support parallel edges,
+ and forbids implementations or extensions with parallel edges. If you need parallel edges, use
+ {@link Network}. (You can use a positive {@code Integer} edge value as a loose representation of
+ edge multiplicity, but the {@code *degree()} and mutation methods will not reflect your
+ interpretation of the edge value as its multiplicity.)
 
- <p>The {@link Graph} interface does not support parallel {@link #edges()}, and forbids
- implementations or extensions with parallel edges. It is possible to encode a notion of edge
- multiplicity into the values of a {@link ValueGraph} (e.g. with an integer or a list of values),
- but this will not be reflected in methods such as {@link Graph#degree(Object)}. For that
- functionality, see {@link Network}.
+ <h3>Building a {@code ValueGraph}</h3>
 
- <p>All mutation methods live on the subinterface {@link MutableValueGraph}. If you do not need to
- mutate a graph (e.g. if you write a method than runs a read-only algorithm on the graph), you
- should prefer the non-mutating {@link ValueGraph} interface.
-
- <p>We provide an efficient implementation of this interface via {@link ValueGraphBuilder}. When
- using the implementation provided, all collection-returning methods provide live, unmodifiable
- views of the graph. In other words, you cannot add an element to the collection, but if an
- element is added to the {@link ValueGraph} that would affect the collection, the collection will
- be updated automatically. This also means that you cannot mutate a {@link ValueGraph} in a way
- that would affect a collection while iterating over that collection. For example, you cannot
- remove either {@code foo} or any successors of {@code foo} from the graph while iterating over
- {@code successors(foo)} (unless you first make a copy of the successors), just as you could not
- remove keys from a {@link Map} while iterating over its {@link Map#keySet()}. Behavior in such a
- case is undefined, and may result in {@link ConcurrentModificationException}.
-
- <p>Example of use:
+ <p>The implementation classes that `common.graph` provides are not public, by design. To create
+ an instance of one of the built-in implementations of {@code ValueGraph}, use the {@link
+ ValueGraphBuilder} class:
 
  <pre><code>
- MutableValueGraph<String, Double> synonymGraph = ValueGraphBuilder.undirected().build();
- synonymGraph.putEdgeValue("large", "big", 0.9);
- synonymGraph.putEdgeValue("large", "huge", 0.9);
- synonymGraph.putEdgeValue("large", "grand", 0.6);
- synonymGraph.putEdgeValue("large", "cold", 0.0);
- synonymGraph.putEdgeValue("large", "small", -1.0);
- for (String word : synonymGraph.adjacentNodes("large")) {
-   if (synonymGraph.edgeValue(word, "large") > 0.5) {
-     System.out.println(word + " is a synonym for large");
-   }
- }
+   MutableValueGraph<Integer, Double> graph = ValueGraphBuilder.directed().build();
  </code></pre>
 
+ <p>{@link ValueGraphBuilder#build()} returns an instance of {@link MutableValueGraph}, which is a
+ subtype of {@code ValueGraph} that provides methods for adding and removing nodes and edges. If
+ you do not need to mutate a graph (e.g. if you write a method than runs a read-only algorithm on
+ the graph), you should use the non-mutating {@link ValueGraph} interface, or an {@link
+ ImmutableValueGraph}.
+
+ <p>You can create an immutable copy of an existing {@code ValueGraph} using {@link
+ ImmutableValueGraph#copyOf(ValueGraph)}:
+
+ <pre><code>
+   ImmutableValueGraph<Integer, Double> immutableGraph = ImmutableValueGraph.copyOf(graph);
+ </code></pre>
+
+ <p>Instances of {@link ImmutableValueGraph} do not implement {@link MutableValueGraph}
+ (obviously!) and are contractually guaranteed to be unmodifiable and thread-safe.
+
+ <p>The Guava User Guide has <a
+ href="https://github.com/google/guava/wiki/GraphsExplained#building-graph-instances">more
+ information on (and examples of) building graphs</a>.
+
+ <h3>Additional documentation</h3>
+
+ <p>See the Guava User Guide for the {@code common.graph} package (<a
+ href="https://github.com/google/guava/wiki/GraphsExplained">"Graphs Explained"</a>) for
+ additional documentation, including:
+
+ <ul>
+   <li><a
+       href="https://github.com/google/guava/wiki/GraphsExplained#equals-hashcode-and-graph-equivalence">
+       {@code equals()}, {@code hashCode()}, and graph equivalence</a>
+   <li><a href="https://github.com/google/guava/wiki/GraphsExplained#synchronization">
+       Synchronization policy</a>
+   <li><a href="https://github.com/google/guava/wiki/GraphsExplained#notes-for-implementors">Notes
+       for implementors</a>
+ </ul>
+
  @author James Sexton
+ @author Joshua O'Madadhain
  @param <N> Node parameter type
  @param <V> Value parameter type
  @since 20.0]]>

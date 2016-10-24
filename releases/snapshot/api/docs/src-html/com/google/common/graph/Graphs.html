@@ -56,7 +56,7 @@
 <span class="sourceLineNo">048</span>  // Graph query methods<a name="line.48"></a>
 <span class="sourceLineNo">049</span><a name="line.49"></a>
 <span class="sourceLineNo">050</span>  /**<a name="line.50"></a>
-<span class="sourceLineNo">051</span>   * Returns true iff {@code graph} has at least one cycle. A cycle is defined as a non-empty subset<a name="line.51"></a>
+<span class="sourceLineNo">051</span>   * Returns true if {@code graph} has at least one cycle. A cycle is defined as a non-empty subset<a name="line.51"></a>
 <span class="sourceLineNo">052</span>   * of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges) starting<a name="line.52"></a>
 <span class="sourceLineNo">053</span>   * and ending with the same node.<a name="line.53"></a>
 <span class="sourceLineNo">054</span>   *<a name="line.54"></a>
@@ -82,7 +82,7 @@
 <span class="sourceLineNo">074</span>  }<a name="line.74"></a>
 <span class="sourceLineNo">075</span><a name="line.75"></a>
 <span class="sourceLineNo">076</span>  /**<a name="line.76"></a>
-<span class="sourceLineNo">077</span>   * Returns true iff {@code network} has at least one cycle. A cycle is defined as a non-empty<a name="line.77"></a>
+<span class="sourceLineNo">077</span>   * Returns true if {@code network} has at least one cycle. A cycle is defined as a non-empty<a name="line.77"></a>
 <span class="sourceLineNo">078</span>   * subset of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges)<a name="line.78"></a>
 <span class="sourceLineNo">079</span>   * starting and ending with the same node.<a name="line.79"></a>
 <span class="sourceLineNo">080</span>   *<a name="line.80"></a>
@@ -146,7 +146,7 @@
 <span class="sourceLineNo">138</span><a name="line.138"></a>
 <span class="sourceLineNo">139</span>  /**<a name="line.139"></a>
 <span class="sourceLineNo">140</span>   * Returns the transitive closure of {@code graph}. The transitive closure of a graph is another<a name="line.140"></a>
-<span class="sourceLineNo">141</span>   * graph with an edge connecting node A to node B iff node B is {@link #reachableNodes(Graph,<a name="line.141"></a>
+<span class="sourceLineNo">141</span>   * graph with an edge connecting node A to node B if node B is {@link #reachableNodes(Graph,<a name="line.141"></a>
 <span class="sourceLineNo">142</span>   * Object) reachable} from node A.<a name="line.142"></a>
 <span class="sourceLineNo">143</span>   *<a name="line.143"></a>
 <span class="sourceLineNo">144</span>   * &lt;p&gt;This is a "snapshot" based on the current topology of {@code graph}, rather than a live view<a name="line.144"></a>
@@ -218,7 +218,7 @@
 <span class="sourceLineNo">210</span>  }<a name="line.210"></a>
 <span class="sourceLineNo">211</span><a name="line.211"></a>
 <span class="sourceLineNo">212</span>  /**<a name="line.212"></a>
-<span class="sourceLineNo">213</span>   * Returns {@code true} iff {@code graphA} and {@code graphB} have the same elements and the same<a name="line.213"></a>
+<span class="sourceLineNo">213</span>   * Returns {@code true} if {@code graphA} and {@code graphB} have the same elements and the same<a name="line.213"></a>
 <span class="sourceLineNo">214</span>   * relationships between elements, as exposed via the {@link Graph} interface.<a name="line.214"></a>
 <span class="sourceLineNo">215</span>   *<a name="line.215"></a>
 <span class="sourceLineNo">216</span>   * &lt;p&gt;Thus, two graphs A and B are equivalent if both are null or &lt;b&gt;all&lt;/b&gt; of the following are<a name="line.216"></a>
@@ -249,7 +249,7 @@
 <span class="sourceLineNo">241</span>  }<a name="line.241"></a>
 <span class="sourceLineNo">242</span><a name="line.242"></a>
 <span class="sourceLineNo">243</span>  /**<a name="line.243"></a>
-<span class="sourceLineNo">244</span>   * Returns {@code true} iff {@code graphA} and {@code graphB} have the same elements (including<a name="line.244"></a>
+<span class="sourceLineNo">244</span>   * Returns {@code true} if {@code graphA} and {@code graphB} have the same elements (including<a name="line.244"></a>
 <span class="sourceLineNo">245</span>   * edge values) and the same relationships between elements, as exposed via the {@link ValueGraph}<a name="line.245"></a>
 <span class="sourceLineNo">246</span>   * interface.<a name="line.246"></a>
 <span class="sourceLineNo">247</span>   *<a name="line.247"></a>
@@ -296,7 +296,7 @@
 <span class="sourceLineNo">288</span>  }<a name="line.288"></a>
 <span class="sourceLineNo">289</span><a name="line.289"></a>
 <span class="sourceLineNo">290</span>  /**<a name="line.290"></a>
-<span class="sourceLineNo">291</span>   * Returns {@code true} iff {@code networkA} and {@code networkB} have the same elements and the<a name="line.291"></a>
+<span class="sourceLineNo">291</span>   * Returns {@code true} if {@code networkA} and {@code networkB} have the same elements and the<a name="line.291"></a>
 <span class="sourceLineNo">292</span>   * same relationships between elements, as exposed via the {@link Network} interface.<a name="line.292"></a>
 <span class="sourceLineNo">293</span>   *<a name="line.293"></a>
 <span class="sourceLineNo">294</span>   * &lt;p&gt;Thus, two networks A and B are equivalent if both are null or &lt;b&gt;all&lt;/b&gt; of the following<a name="line.294"></a>
@@ -597,9 +597,9 @@
 <span class="sourceLineNo">589</span>  // Graph copy methods<a name="line.589"></a>
 <span class="sourceLineNo">590</span><a name="line.590"></a>
 <span class="sourceLineNo">591</span>  /**<a name="line.591"></a>
-<span class="sourceLineNo">592</span>   * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains all of<a name="line.592"></a>
-<span class="sourceLineNo">593</span>   * the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} from {@code graph} for<a name="line.593"></a>
-<span class="sourceLineNo">594</span>   * which both nodes are contained by {@code nodes}.<a name="line.594"></a>
+<span class="sourceLineNo">592</span>   * Returns the subgraph of {@code graph} induced by {@code nodes}. This subgraph is a new graph<a name="line.592"></a>
+<span class="sourceLineNo">593</span>   * that contains all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges}<a name="line.593"></a>
+<span class="sourceLineNo">594</span>   * from {@code graph} for which both nodes are contained by {@code nodes}.<a name="line.594"></a>
 <span class="sourceLineNo">595</span>   *<a name="line.595"></a>
 <span class="sourceLineNo">596</span>   * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph<a name="line.596"></a>
 <span class="sourceLineNo">597</span>   */<a name="line.597"></a>
@@ -619,129 +619,130 @@
 <span class="sourceLineNo">611</span>  }<a name="line.611"></a>
 <span class="sourceLineNo">612</span><a name="line.612"></a>
 <span class="sourceLineNo">613</span>  /**<a name="line.613"></a>
-<span class="sourceLineNo">614</span>   * Returns an induced subgraph of {@code graph}. This subgraph is a new graph that contains all of<a name="line.614"></a>
-<span class="sourceLineNo">615</span>   * the nodes in {@code nodes}, and all of the {@link Graph#edges() edges} (and associated edge<a name="line.615"></a>
-<span class="sourceLineNo">616</span>   * values) from {@code graph} for which both nodes are contained by {@code nodes}.<a name="line.616"></a>
-<span class="sourceLineNo">617</span>   *<a name="line.617"></a>
-<span class="sourceLineNo">618</span>   * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph<a name="line.618"></a>
-<span class="sourceLineNo">619</span>   */<a name="line.619"></a>
-<span class="sourceLineNo">620</span>  public static &lt;N, V&gt; MutableValueGraph&lt;N, V&gt; inducedSubgraph(<a name="line.620"></a>
-<span class="sourceLineNo">621</span>      ValueGraph&lt;N, V&gt; graph, Iterable&lt;? extends N&gt; nodes) {<a name="line.621"></a>
-<span class="sourceLineNo">622</span>    MutableValueGraph&lt;N, V&gt; subgraph = ValueGraphBuilder.from(graph).build();<a name="line.622"></a>
-<span class="sourceLineNo">623</span>    for (N node : nodes) {<a name="line.623"></a>
-<span class="sourceLineNo">624</span>      subgraph.addNode(node);<a name="line.624"></a>
-<span class="sourceLineNo">625</span>    }<a name="line.625"></a>
-<span class="sourceLineNo">626</span>    for (N node : subgraph.nodes()) {<a name="line.626"></a>
-<span class="sourceLineNo">627</span>      for (N successorNode : graph.successors(node)) {<a name="line.627"></a>
-<span class="sourceLineNo">628</span>        if (subgraph.nodes().contains(successorNode)) {<a name="line.628"></a>
-<span class="sourceLineNo">629</span>          subgraph.putEdgeValue(node, successorNode, graph.edgeValue(node, successorNode));<a name="line.629"></a>
-<span class="sourceLineNo">630</span>        }<a name="line.630"></a>
-<span class="sourceLineNo">631</span>      }<a name="line.631"></a>
-<span class="sourceLineNo">632</span>    }<a name="line.632"></a>
-<span class="sourceLineNo">633</span>    return subgraph;<a name="line.633"></a>
-<span class="sourceLineNo">634</span>  }<a name="line.634"></a>
-<span class="sourceLineNo">635</span><a name="line.635"></a>
-<span class="sourceLineNo">636</span>  /**<a name="line.636"></a>
-<span class="sourceLineNo">637</span>   * Returns an induced subgraph of {@code network}. This subgraph is a new graph that contains all<a name="line.637"></a>
-<span class="sourceLineNo">638</span>   * of the nodes in {@code nodes}, and all of the {@link Network#edges() edges} from {@code<a name="line.638"></a>
-<span class="sourceLineNo">639</span>   * network} for which the {@link Network#incidentNodes(Object) incident nodes} are both contained<a name="line.639"></a>
-<span class="sourceLineNo">640</span>   * by {@code nodes}.<a name="line.640"></a>
-<span class="sourceLineNo">641</span>   *<a name="line.641"></a>
-<span class="sourceLineNo">642</span>   * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph<a name="line.642"></a>
-<span class="sourceLineNo">643</span>   */<a name="line.643"></a>
-<span class="sourceLineNo">644</span>  public static &lt;N, E&gt; MutableNetwork&lt;N, E&gt; inducedSubgraph(<a name="line.644"></a>
-<span class="sourceLineNo">645</span>      Network&lt;N, E&gt; network, Iterable&lt;? extends N&gt; nodes) {<a name="line.645"></a>
-<span class="sourceLineNo">646</span>    MutableNetwork&lt;N, E&gt; subgraph = NetworkBuilder.from(network).build();<a name="line.646"></a>
-<span class="sourceLineNo">647</span>    for (N node : nodes) {<a name="line.647"></a>
-<span class="sourceLineNo">648</span>      subgraph.addNode(node);<a name="line.648"></a>
-<span class="sourceLineNo">649</span>    }<a name="line.649"></a>
-<span class="sourceLineNo">650</span>    for (N node : subgraph.nodes()) {<a name="line.650"></a>
-<span class="sourceLineNo">651</span>      for (E edge : network.outEdges(node)) {<a name="line.651"></a>
-<span class="sourceLineNo">652</span>        N successorNode = network.incidentNodes(edge).adjacentNode(node);<a name="line.652"></a>
-<span class="sourceLineNo">653</span>        if (subgraph.nodes().contains(successorNode)) {<a name="line.653"></a>
-<span class="sourceLineNo">654</span>          subgraph.addEdge(node, successorNode, edge);<a name="line.654"></a>
-<span class="sourceLineNo">655</span>        }<a name="line.655"></a>
-<span class="sourceLineNo">656</span>      }<a name="line.656"></a>
-<span class="sourceLineNo">657</span>    }<a name="line.657"></a>
-<span class="sourceLineNo">658</span>    return subgraph;<a name="line.658"></a>
-<span class="sourceLineNo">659</span>  }<a name="line.659"></a>
-<span class="sourceLineNo">660</span><a name="line.660"></a>
-<span class="sourceLineNo">661</span>  /** Creates a mutable copy of {@code graph} with the same nodes and edges. */<a name="line.661"></a>
-<span class="sourceLineNo">662</span>  public static &lt;N&gt; MutableGraph&lt;N&gt; copyOf(Graph&lt;N&gt; graph) {<a name="line.662"></a>
-<span class="sourceLineNo">663</span>    MutableGraph&lt;N&gt; copy = GraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();<a name="line.663"></a>
-<span class="sourceLineNo">664</span>    for (N node : graph.nodes()) {<a name="line.664"></a>
-<span class="sourceLineNo">665</span>      copy.addNode(node);<a name="line.665"></a>
-<span class="sourceLineNo">666</span>    }<a name="line.666"></a>
-<span class="sourceLineNo">667</span>    for (EndpointPair&lt;N&gt; edge : graph.edges()) {<a name="line.667"></a>
-<span class="sourceLineNo">668</span>      copy.putEdge(edge.nodeU(), edge.nodeV());<a name="line.668"></a>
-<span class="sourceLineNo">669</span>    }<a name="line.669"></a>
-<span class="sourceLineNo">670</span>    return copy;<a name="line.670"></a>
-<span class="sourceLineNo">671</span>  }<a name="line.671"></a>
-<span class="sourceLineNo">672</span><a name="line.672"></a>
-<span class="sourceLineNo">673</span>  /** Creates a mutable copy of {@code graph} with the same nodes, edges, and edge values. */<a name="line.673"></a>
-<span class="sourceLineNo">674</span>  public static &lt;N, V&gt; MutableValueGraph&lt;N, V&gt; copyOf(ValueGraph&lt;N, V&gt; graph) {<a name="line.674"></a>
-<span class="sourceLineNo">675</span>    MutableValueGraph&lt;N, V&gt; copy =<a name="line.675"></a>
-<span class="sourceLineNo">676</span>        ValueGraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();<a name="line.676"></a>
-<span class="sourceLineNo">677</span>    for (N node : graph.nodes()) {<a name="line.677"></a>
-<span class="sourceLineNo">678</span>      copy.addNode(node);<a name="line.678"></a>
-<span class="sourceLineNo">679</span>    }<a name="line.679"></a>
-<span class="sourceLineNo">680</span>    for (EndpointPair&lt;N&gt; edge : graph.edges()) {<a name="line.680"></a>
-<span class="sourceLineNo">681</span>      copy.putEdgeValue(edge.nodeU(), edge.nodeV(), graph.edgeValue(edge.nodeU(), edge.nodeV()));<a name="line.681"></a>
-<span class="sourceLineNo">682</span>    }<a name="line.682"></a>
-<span class="sourceLineNo">683</span>    return copy;<a name="line.683"></a>
-<span class="sourceLineNo">684</span>  }<a name="line.684"></a>
-<span class="sourceLineNo">685</span><a name="line.685"></a>
-<span class="sourceLineNo">686</span>  /** Creates a mutable copy of {@code network} with the same nodes and edges. */<a name="line.686"></a>
-<span class="sourceLineNo">687</span>  public static &lt;N, E&gt; MutableNetwork&lt;N, E&gt; copyOf(Network&lt;N, E&gt; network) {<a name="line.687"></a>
-<span class="sourceLineNo">688</span>    MutableNetwork&lt;N, E&gt; copy =<a name="line.688"></a>
-<span class="sourceLineNo">689</span>        NetworkBuilder.from(network)<a name="line.689"></a>
-<span class="sourceLineNo">690</span>            .expectedNodeCount(network.nodes().size())<a name="line.690"></a>
-<span class="sourceLineNo">691</span>            .expectedEdgeCount(network.edges().size())<a name="line.691"></a>
-<span class="sourceLineNo">692</span>            .build();<a name="line.692"></a>
-<span class="sourceLineNo">693</span>    for (N node : network.nodes()) {<a name="line.693"></a>
-<span class="sourceLineNo">694</span>      copy.addNode(node);<a name="line.694"></a>
-<span class="sourceLineNo">695</span>    }<a name="line.695"></a>
-<span class="sourceLineNo">696</span>    for (E edge : network.edges()) {<a name="line.696"></a>
-<span class="sourceLineNo">697</span>      EndpointPair&lt;N&gt; endpointPair = network.incidentNodes(edge);<a name="line.697"></a>
-<span class="sourceLineNo">698</span>      copy.addEdge(endpointPair.nodeU(), endpointPair.nodeV(), edge);<a name="line.698"></a>
-<span class="sourceLineNo">699</span>    }<a name="line.699"></a>
-<span class="sourceLineNo">700</span>    return copy;<a name="line.700"></a>
-<span class="sourceLineNo">701</span>  }<a name="line.701"></a>
-<span class="sourceLineNo">702</span><a name="line.702"></a>
-<span class="sourceLineNo">703</span>  @CanIgnoreReturnValue<a name="line.703"></a>
-<span class="sourceLineNo">704</span>  static int checkNonNegative(int value) {<a name="line.704"></a>
-<span class="sourceLineNo">705</span>    checkArgument(value &gt;= 0, "Not true that %s is non-negative.", value);<a name="line.705"></a>
-<span class="sourceLineNo">706</span>    return value;<a name="line.706"></a>
-<span class="sourceLineNo">707</span>  }<a name="line.707"></a>
-<span class="sourceLineNo">708</span><a name="line.708"></a>
-<span class="sourceLineNo">709</span>  @CanIgnoreReturnValue<a name="line.709"></a>
-<span class="sourceLineNo">710</span>  static int checkPositive(int value) {<a name="line.710"></a>
-<span class="sourceLineNo">711</span>    checkArgument(value &gt; 0, "Not true that %s is positive.", value);<a name="line.711"></a>
-<span class="sourceLineNo">712</span>    return value;<a name="line.712"></a>
-<span class="sourceLineNo">713</span>  }<a name="line.713"></a>
-<span class="sourceLineNo">714</span><a name="line.714"></a>
-<span class="sourceLineNo">715</span>  @CanIgnoreReturnValue<a name="line.715"></a>
-<span class="sourceLineNo">716</span>  static long checkNonNegative(long value) {<a name="line.716"></a>
-<span class="sourceLineNo">717</span>    checkArgument(value &gt;= 0, "Not true that %s is non-negative.", value);<a name="line.717"></a>
-<span class="sourceLineNo">718</span>    return value;<a name="line.718"></a>
-<span class="sourceLineNo">719</span>  }<a name="line.719"></a>
-<span class="sourceLineNo">720</span><a name="line.720"></a>
-<span class="sourceLineNo">721</span>  @CanIgnoreReturnValue<a name="line.721"></a>
-<span class="sourceLineNo">722</span>  static long checkPositive(long value) {<a name="line.722"></a>
-<span class="sourceLineNo">723</span>    checkArgument(value &gt; 0, "Not true that %s is positive.", value);<a name="line.723"></a>
-<span class="sourceLineNo">724</span>    return value;<a name="line.724"></a>
-<span class="sourceLineNo">725</span>  }<a name="line.725"></a>
-<span class="sourceLineNo">726</span><a name="line.726"></a>
-<span class="sourceLineNo">727</span>  /**<a name="line.727"></a>
-<span class="sourceLineNo">728</span>   * An enum representing the state of a node during DFS. {@code PENDING} means that the node is on<a name="line.728"></a>
-<span class="sourceLineNo">729</span>   * the stack of the DFS, while {@code COMPLETE} means that the node and all its successors have<a name="line.729"></a>
-<span class="sourceLineNo">730</span>   * been already explored. Any node that has not been explored will not have a state at all.<a name="line.730"></a>
-<span class="sourceLineNo">731</span>   */<a name="line.731"></a>
-<span class="sourceLineNo">732</span>  private enum NodeVisitState {<a name="line.732"></a>
-<span class="sourceLineNo">733</span>    PENDING,<a name="line.733"></a>
-<span class="sourceLineNo">734</span>    COMPLETE<a name="line.734"></a>
-<span class="sourceLineNo">735</span>  }<a name="line.735"></a>
-<span class="sourceLineNo">736</span>}<a name="line.736"></a>
+<span class="sourceLineNo">614</span>   * Returns the subgraph of {@code graph} induced by {@code nodes}. This subgraph is a new graph<a name="line.614"></a>
+<span class="sourceLineNo">615</span>   * that contains all of the nodes in {@code nodes}, and all of the {@link Graph#edges() edges}<a name="line.615"></a>
+<span class="sourceLineNo">616</span>   * (and associated edge values) from {@code graph} for which both nodes are contained by {@code<a name="line.616"></a>
+<span class="sourceLineNo">617</span>   * nodes}.<a name="line.617"></a>
+<span class="sourceLineNo">618</span>   *<a name="line.618"></a>
+<span class="sourceLineNo">619</span>   * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph<a name="line.619"></a>
+<span class="sourceLineNo">620</span>   */<a name="line.620"></a>
+<span class="sourceLineNo">621</span>  public static &lt;N, V&gt; MutableValueGraph&lt;N, V&gt; inducedSubgraph(<a name="line.621"></a>
+<span class="sourceLineNo">622</span>      ValueGraph&lt;N, V&gt; graph, Iterable&lt;? extends N&gt; nodes) {<a name="line.622"></a>
+<span class="sourceLineNo">623</span>    MutableValueGraph&lt;N, V&gt; subgraph = ValueGraphBuilder.from(graph).build();<a name="line.623"></a>
+<span class="sourceLineNo">624</span>    for (N node : nodes) {<a name="line.624"></a>
+<span class="sourceLineNo">625</span>      subgraph.addNode(node);<a name="line.625"></a>
+<span class="sourceLineNo">626</span>    }<a name="line.626"></a>
+<span class="sourceLineNo">627</span>    for (N node : subgraph.nodes()) {<a name="line.627"></a>
+<span class="sourceLineNo">628</span>      for (N successorNode : graph.successors(node)) {<a name="line.628"></a>
+<span class="sourceLineNo">629</span>        if (subgraph.nodes().contains(successorNode)) {<a name="line.629"></a>
+<span class="sourceLineNo">630</span>          subgraph.putEdgeValue(node, successorNode, graph.edgeValue(node, successorNode));<a name="line.630"></a>
+<span class="sourceLineNo">631</span>        }<a name="line.631"></a>
+<span class="sourceLineNo">632</span>      }<a name="line.632"></a>
+<span class="sourceLineNo">633</span>    }<a name="line.633"></a>
+<span class="sourceLineNo">634</span>    return subgraph;<a name="line.634"></a>
+<span class="sourceLineNo">635</span>  }<a name="line.635"></a>
+<span class="sourceLineNo">636</span><a name="line.636"></a>
+<span class="sourceLineNo">637</span>  /**<a name="line.637"></a>
+<span class="sourceLineNo">638</span>   * Returns the subgraph of {@code network} induced by {@code nodes}. This subgraph is a new graph<a name="line.638"></a>
+<span class="sourceLineNo">639</span>   * that contains all of the nodes in {@code nodes}, and all of the {@link Network#edges() edges}<a name="line.639"></a>
+<span class="sourceLineNo">640</span>   * from {@code network} for which the {@link Network#incidentNodes(Object) incident nodes} are<a name="line.640"></a>
+<span class="sourceLineNo">641</span>   * both contained by {@code nodes}.<a name="line.641"></a>
+<span class="sourceLineNo">642</span>   *<a name="line.642"></a>
+<span class="sourceLineNo">643</span>   * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph<a name="line.643"></a>
+<span class="sourceLineNo">644</span>   */<a name="line.644"></a>
+<span class="sourceLineNo">645</span>  public static &lt;N, E&gt; MutableNetwork&lt;N, E&gt; inducedSubgraph(<a name="line.645"></a>
+<span class="sourceLineNo">646</span>      Network&lt;N, E&gt; network, Iterable&lt;? extends N&gt; nodes) {<a name="line.646"></a>
+<span class="sourceLineNo">647</span>    MutableNetwork&lt;N, E&gt; subgraph = NetworkBuilder.from(network).build();<a name="line.647"></a>
+<span class="sourceLineNo">648</span>    for (N node : nodes) {<a name="line.648"></a>
+<span class="sourceLineNo">649</span>      subgraph.addNode(node);<a name="line.649"></a>
+<span class="sourceLineNo">650</span>    }<a name="line.650"></a>
+<span class="sourceLineNo">651</span>    for (N node : subgraph.nodes()) {<a name="line.651"></a>
+<span class="sourceLineNo">652</span>      for (E edge : network.outEdges(node)) {<a name="line.652"></a>
+<span class="sourceLineNo">653</span>        N successorNode = network.incidentNodes(edge).adjacentNode(node);<a name="line.653"></a>
+<span class="sourceLineNo">654</span>        if (subgraph.nodes().contains(successorNode)) {<a name="line.654"></a>
+<span class="sourceLineNo">655</span>          subgraph.addEdge(node, successorNode, edge);<a name="line.655"></a>
+<span class="sourceLineNo">656</span>        }<a name="line.656"></a>
+<span class="sourceLineNo">657</span>      }<a name="line.657"></a>
+<span class="sourceLineNo">658</span>    }<a name="line.658"></a>
+<span class="sourceLineNo">659</span>    return subgraph;<a name="line.659"></a>
+<span class="sourceLineNo">660</span>  }<a name="line.660"></a>
+<span class="sourceLineNo">661</span><a name="line.661"></a>
+<span class="sourceLineNo">662</span>  /** Creates a mutable copy of {@code graph} with the same nodes and edges. */<a name="line.662"></a>
+<span class="sourceLineNo">663</span>  public static &lt;N&gt; MutableGraph&lt;N&gt; copyOf(Graph&lt;N&gt; graph) {<a name="line.663"></a>
+<span class="sourceLineNo">664</span>    MutableGraph&lt;N&gt; copy = GraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();<a name="line.664"></a>
+<span class="sourceLineNo">665</span>    for (N node : graph.nodes()) {<a name="line.665"></a>
+<span class="sourceLineNo">666</span>      copy.addNode(node);<a name="line.666"></a>
+<span class="sourceLineNo">667</span>    }<a name="line.667"></a>
+<span class="sourceLineNo">668</span>    for (EndpointPair&lt;N&gt; edge : graph.edges()) {<a name="line.668"></a>
+<span class="sourceLineNo">669</span>      copy.putEdge(edge.nodeU(), edge.nodeV());<a name="line.669"></a>
+<span class="sourceLineNo">670</span>    }<a name="line.670"></a>
+<span class="sourceLineNo">671</span>    return copy;<a name="line.671"></a>
+<span class="sourceLineNo">672</span>  }<a name="line.672"></a>
+<span class="sourceLineNo">673</span><a name="line.673"></a>
+<span class="sourceLineNo">674</span>  /** Creates a mutable copy of {@code graph} with the same nodes, edges, and edge values. */<a name="line.674"></a>
+<span class="sourceLineNo">675</span>  public static &lt;N, V&gt; MutableValueGraph&lt;N, V&gt; copyOf(ValueGraph&lt;N, V&gt; graph) {<a name="line.675"></a>
+<span class="sourceLineNo">676</span>    MutableValueGraph&lt;N, V&gt; copy =<a name="line.676"></a>
+<span class="sourceLineNo">677</span>        ValueGraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();<a name="line.677"></a>
+<span class="sourceLineNo">678</span>    for (N node : graph.nodes()) {<a name="line.678"></a>
+<span class="sourceLineNo">679</span>      copy.addNode(node);<a name="line.679"></a>
+<span class="sourceLineNo">680</span>    }<a name="line.680"></a>
+<span class="sourceLineNo">681</span>    for (EndpointPair&lt;N&gt; edge : graph.edges()) {<a name="line.681"></a>
+<span class="sourceLineNo">682</span>      copy.putEdgeValue(edge.nodeU(), edge.nodeV(), graph.edgeValue(edge.nodeU(), edge.nodeV()));<a name="line.682"></a>
+<span class="sourceLineNo">683</span>    }<a name="line.683"></a>
+<span class="sourceLineNo">684</span>    return copy;<a name="line.684"></a>
+<span class="sourceLineNo">685</span>  }<a name="line.685"></a>
+<span class="sourceLineNo">686</span><a name="line.686"></a>
+<span class="sourceLineNo">687</span>  /** Creates a mutable copy of {@code network} with the same nodes and edges. */<a name="line.687"></a>
+<span class="sourceLineNo">688</span>  public static &lt;N, E&gt; MutableNetwork&lt;N, E&gt; copyOf(Network&lt;N, E&gt; network) {<a name="line.688"></a>
+<span class="sourceLineNo">689</span>    MutableNetwork&lt;N, E&gt; copy =<a name="line.689"></a>
+<span class="sourceLineNo">690</span>        NetworkBuilder.from(network)<a name="line.690"></a>
+<span class="sourceLineNo">691</span>            .expectedNodeCount(network.nodes().size())<a name="line.691"></a>
+<span class="sourceLineNo">692</span>            .expectedEdgeCount(network.edges().size())<a name="line.692"></a>
+<span class="sourceLineNo">693</span>            .build();<a name="line.693"></a>
+<span class="sourceLineNo">694</span>    for (N node : network.nodes()) {<a name="line.694"></a>
+<span class="sourceLineNo">695</span>      copy.addNode(node);<a name="line.695"></a>
+<span class="sourceLineNo">696</span>    }<a name="line.696"></a>
+<span class="sourceLineNo">697</span>    for (E edge : network.edges()) {<a name="line.697"></a>
+<span class="sourceLineNo">698</span>      EndpointPair&lt;N&gt; endpointPair = network.incidentNodes(edge);<a name="line.698"></a>
+<span class="sourceLineNo">699</span>      copy.addEdge(endpointPair.nodeU(), endpointPair.nodeV(), edge);<a name="line.699"></a>
+<span class="sourceLineNo">700</span>    }<a name="line.700"></a>
+<span class="sourceLineNo">701</span>    return copy;<a name="line.701"></a>
+<span class="sourceLineNo">702</span>  }<a name="line.702"></a>
+<span class="sourceLineNo">703</span><a name="line.703"></a>
+<span class="sourceLineNo">704</span>  @CanIgnoreReturnValue<a name="line.704"></a>
+<span class="sourceLineNo">705</span>  static int checkNonNegative(int value) {<a name="line.705"></a>
+<span class="sourceLineNo">706</span>    checkArgument(value &gt;= 0, "Not true that %s is non-negative.", value);<a name="line.706"></a>
+<span class="sourceLineNo">707</span>    return value;<a name="line.707"></a>
+<span class="sourceLineNo">708</span>  }<a name="line.708"></a>
+<span class="sourceLineNo">709</span><a name="line.709"></a>
+<span class="sourceLineNo">710</span>  @CanIgnoreReturnValue<a name="line.710"></a>
+<span class="sourceLineNo">711</span>  static int checkPositive(int value) {<a name="line.711"></a>
+<span class="sourceLineNo">712</span>    checkArgument(value &gt; 0, "Not true that %s is positive.", value);<a name="line.712"></a>
+<span class="sourceLineNo">713</span>    return value;<a name="line.713"></a>
+<span class="sourceLineNo">714</span>  }<a name="line.714"></a>
+<span class="sourceLineNo">715</span><a name="line.715"></a>
+<span class="sourceLineNo">716</span>  @CanIgnoreReturnValue<a name="line.716"></a>
+<span class="sourceLineNo">717</span>  static long checkNonNegative(long value) {<a name="line.717"></a>
+<span class="sourceLineNo">718</span>    checkArgument(value &gt;= 0, "Not true that %s is non-negative.", value);<a name="line.718"></a>
+<span class="sourceLineNo">719</span>    return value;<a name="line.719"></a>
+<span class="sourceLineNo">720</span>  }<a name="line.720"></a>
+<span class="sourceLineNo">721</span><a name="line.721"></a>
+<span class="sourceLineNo">722</span>  @CanIgnoreReturnValue<a name="line.722"></a>
+<span class="sourceLineNo">723</span>  static long checkPositive(long value) {<a name="line.723"></a>
+<span class="sourceLineNo">724</span>    checkArgument(value &gt; 0, "Not true that %s is positive.", value);<a name="line.724"></a>
+<span class="sourceLineNo">725</span>    return value;<a name="line.725"></a>
+<span class="sourceLineNo">726</span>  }<a name="line.726"></a>
+<span class="sourceLineNo">727</span><a name="line.727"></a>
+<span class="sourceLineNo">728</span>  /**<a name="line.728"></a>
+<span class="sourceLineNo">729</span>   * An enum representing the state of a node during DFS. {@code PENDING} means that the node is on<a name="line.729"></a>
+<span class="sourceLineNo">730</span>   * the stack of the DFS, while {@code COMPLETE} means that the node and all its successors have<a name="line.730"></a>
+<span class="sourceLineNo">731</span>   * been already explored. Any node that has not been explored will not have a state at all.<a name="line.731"></a>
+<span class="sourceLineNo">732</span>   */<a name="line.732"></a>
+<span class="sourceLineNo">733</span>  private enum NodeVisitState {<a name="line.733"></a>
+<span class="sourceLineNo">734</span>    PENDING,<a name="line.734"></a>
+<span class="sourceLineNo">735</span>    COMPLETE<a name="line.735"></a>
+<span class="sourceLineNo">736</span>  }<a name="line.736"></a>
+<span class="sourceLineNo">737</span>}<a name="line.737"></a>
 
 
 
