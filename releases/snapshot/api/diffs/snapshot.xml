@@ -36,17 +36,17 @@
     deprecated="not deprecated">
     <implements name="java.lang.annotation.Annotation"/>
     <doc>
-    <![CDATA[The presence of this annotation on a type indicates that the type may be used with the
- <a href="http://code.google.com/webtoolkit/">Google Web Toolkit</a> (GWT). When applied to a
- method, the return type of the method is GWT compatible. It's useful to indicate that an instance
- created by factory methods has a GWT serializable type. In the following example,
+    <![CDATA[The presence of this annotation on a type indicates that the type may be used with the <a
+ href="http://code.google.com/webtoolkit/">Google Web Toolkit</a> (GWT). When applied to a method,
+ the return type of the method is GWT compatible. It's useful to indicate that an instance created
+ by factory methods has a GWT serializable type. In the following example,
 
  <pre>
  {@literal @}GwtCompatible
  class Lists {
    ...
    {@literal @}GwtCompatible(serializable = true)
-   static &lt;E> List&lt;E> newArrayList(E... elements) {
+   {@literal static <E> List<E>} newArrayList(E... elements) {
      ...
    }
  }
@@ -60,7 +60,7 @@
  interface ListFactory {
    ...
    {@literal @}GwtCompatible(serializable = true)
-   &lt;E> List&lt;E> newArrayList(E... elements);
+   {@literal <E> List<E>} newArrayList(E... elements);
  }
  </pre>
 
@@ -12132,7 +12132,7 @@
 
  <p>Starting with Java 8, the core Java class libraries provide a new "Streams" library (in {@code
  java.util.stream}), which is similar to {@code FluentIterable} but generally more powerful. Key
- differences include:</b>
+ differences include:
 
  <ul>
  <li>A stream is <i>single-use</i>; it becomes invalid as soon as any "terminal operation" such as
@@ -21853,8 +21853,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a new builder. The generated builder is equivalent to the builder
- created by the {@link Builder#ImmutableTable.Builder()} constructor.]]>
+      <![CDATA[Returns a new builder. The generated builder is equivalent to the builder created by the {@link
+ Builder#Builder() ImmutableTable.Builder()} constructor.]]>
       </doc>
     </method>
     <method name="cellSet" return="com.google.common.collect.ImmutableSet&lt;com.google.common.collect.Table.Cell&lt;R, C, V&gt;&gt;"
@@ -33797,9 +33797,6 @@
 
  <p>Consider using an {@link ImmutableTable}, which is guaranteed never to change.
 
- @param table
-          the table for which an unmodifiable view is to be returned
- @return an unmodifiable view of the specified table
  @since 11.0]]>
       </doc>
     </method>
@@ -34126,14 +34123,13 @@
       <doc>
       <![CDATA[Creates a new, empty multiset, sorted according to the specified comparator. All elements
  inserted into the multiset must be <i>mutually comparable</i> by the specified comparator:
- {@code comparator.compare(e1,
- e2)} must not throw a {@code ClassCastException} for any elements {@code e1} and {@code e2} in
- the multiset. If the user attempts to add an element to the multiset that violates this
- constraint, the {@code add(Object)} call will throw a {@code ClassCastException}.
+ {@code comparator.compare(e1, e2)} must not throw a {@code ClassCastException} for any elements
+ {@code e1} and {@code e2} in the multiset. If the user attempts to add an element to the
+ multiset that violates this constraint, the {@code add(Object)} call will throw a {@code
+ ClassCastException}.
 
- @param comparator
-          the comparator that will be used to sort this multiset. A null value indicates that
-          the elements' <i>natural ordering</i> should be used.]]>
+ @param comparator the comparator that will be used to sort this multiset. A null value
+     indicates that the elements' <i>natural ordering</i> should be used.]]>
       </doc>
     </method>
     <method name="create" return="com.google.common.collect.TreeMultiset&lt;E&gt;"
@@ -42481,18 +42477,17 @@
       <param name="file" type="java.io.File"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Fully maps a file read-only in to memory as per
- {@link FileChannel#map(java.nio.channels.FileChannel.MapMode, long, long)}.
+      <![CDATA[Fully maps a file read-only in to memory as per {@link
+ FileChannel#map(java.nio.channels.FileChannel.MapMode, long, long)}.
 
  <p>Files are mapped from offset 0 to its length.
 
- <p>This only works for files <= {@link Integer#MAX_VALUE} bytes.
+ <p>This only works for files # {@link Integer#MAX_VALUE} bytes.
 
  @param file the file to map
  @return a read-only buffer reflecting {@code file}
  @throws FileNotFoundException if the {@code file} does not exist
  @throws IOException if an I/O error occurs
-
  @see FileChannel#map(MapMode, long, long)
  @since 2.0]]>
       </doc>
@@ -42505,20 +42500,19 @@
       <param name="mode" type="java.nio.channels.FileChannel.MapMode"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Fully maps a file in to memory as per
- {@link FileChannel#map(java.nio.channels.FileChannel.MapMode, long, long)} using the requested
- {@link MapMode}.
+      <![CDATA[Fully maps a file in to memory as per {@link
+ FileChannel#map(java.nio.channels.FileChannel.MapMode, long, long)} using the requested {@link
+ MapMode}.
 
  <p>Files are mapped from offset 0 to its length.
 
- <p>This only works for files <= {@link Integer#MAX_VALUE} bytes.
+ <p>This only works for files # {@link Integer#MAX_VALUE} bytes.
 
  @param file the file to map
  @param mode the mode to use when mapping {@code file}
  @return a buffer reflecting {@code file}
  @throws FileNotFoundException if the {@code file} does not exist
  @throws IOException if an I/O error occurs
-
  @see FileChannel#map(MapMode, long, long)
  @since 2.0]]>
       </doc>
@@ -42533,9 +42527,8 @@
       <exception name="FileNotFoundException" type="java.io.FileNotFoundException"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Maps a file in to memory as per
- {@link FileChannel#map(java.nio.channels.FileChannel.MapMode, long, long)} using the requested
- {@link MapMode}.
+      <![CDATA[Maps a file in to memory as per {@link FileChannel#map(java.nio.channels.FileChannel.MapMode,
+ long, long)} using the requested {@link MapMode}.
 
  <p>Files are mapped from offset 0 to {@code size}.
 
@@ -42543,13 +42536,12 @@
  with the requested {@code size}. Thus this method is useful for creating memory mapped files
  which do not yet exist.
 
- <p>This only works for files <= {@link Integer#MAX_VALUE} bytes.
+ <p>This only works for files # {@link Integer#MAX_VALUE} bytes.
 
  @param file the file to map
  @param mode the mode to use when mapping {@code file}
  @return a buffer reflecting {@code file}
  @throws IOException if an I/O error occurs
-
  @see FileChannel#map(MapMode, long, long)
  @since 2.0]]>
       </doc>
@@ -43643,19 +43635,21 @@
       <doc>
       <![CDATA[Returns {@code true} if {@code a} and {@code b} are within {@code tolerance} of each other.
 
- <p>Technically speaking, this is equivalent to
- {@code Math.abs(a - b) <= tolerance || Double.valueOf(a).equals(Double.valueOf(b))}.
+ <p>Technically speaking, this is equivalent to {@code Math.abs(a - b) <= tolerance ||
+ Double.valueOf(a).equals(Double.valueOf(b))}.
 
  <p>Notable special cases include:
+
  <ul>
- <li>All NaNs are fuzzily equal.
- <li>If {@code a == b}, then {@code a} and {@code b} are always fuzzily equal.
- <li>Positive and negative zero are always fuzzily equal.
- <li>If {@code tolerance} is zero, and neither {@code a} nor {@code b} is NaN, then {@code a}
-     and {@code b} are fuzzily equal if and only if {@code a == b}.
- <li>With {@link Double#POSITIVE_INFINITY} tolerance, all non-NaN values are fuzzily equal.
- <li>With finite tolerance, {@code Double.POSITIVE_INFINITY} and {@code
-     Double.NEGATIVE_INFINITY} are fuzzily equal only to themselves.
+   <li>All NaNs are fuzzily equal.
+   <li>If {@code a == b}, then {@code a} and {@code b} are always fuzzily equal.
+   <li>Positive and negative zero are always fuzzily equal.
+   <li>If {@code tolerance} is zero, and neither {@code a} nor {@code b} is NaN, then {@code a}
+       and {@code b} are fuzzily equal if and only if {@code a == b}.
+   <li>With {@link Double#POSITIVE_INFINITY} tolerance, all non-NaN values are fuzzily equal.
+   <li>With finite tolerance, {@code Double.POSITIVE_INFINITY} and {@code
+       Double.NEGATIVE_INFINITY} are fuzzily equal only to themselves.
+ </ul>
 
  <p>This is reflexive and symmetric, but <em>not</em> transitive, so it is <em>not</em> an
  equivalence relation and <em>not</em> suitable for use in {@link Object#equals}
@@ -48758,13 +48752,13 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[As described in <a href="http://www.ietf.org/rfc/rfc3902.txt">RFC 3902<a/>, this constant
+      <![CDATA[As described in <a href="http://www.ietf.org/rfc/rfc3902.txt">RFC 3902</a>, this constant
  ({@code application/soap+xml}) is used to identify SOAP 1.2 message envelopes that have been
  serialized with XML 1.0.
 
- <p>For SOAP 1.1 messages, see {@code XML_UTF_8} per
- <a href="http://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C Note on Simple Object Access
- Protocol (SOAP) 1.1</a>
+ <p>For SOAP 1.1 messages, see {@code XML_UTF_8} per <a
+ href="http://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C Note on Simple Object Access Protocol
+ (SOAP) 1.1</a>
 
  @since 20.0]]>
       </doc>
@@ -55838,32 +55832,30 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A {@code double} value that may be updated atomically.  See the
- {@link java.util.concurrent.atomic} package specification for
- description of the properties of atomic variables.  An {@code
- AtomicDouble} is used in applications such as atomic accumulation,
- and cannot be used as a replacement for a {@link Double}.  However,
- this class does extend {@code Number} to allow uniform access by
- tools and utilities that deal with numerically-based classes.
+    <![CDATA[A {@code double} value that may be updated atomically. See the {@link
+ java.util.concurrent.atomic} package specification for description of the properties of atomic
+ variables. An {@code AtomicDouble} is used in applications such as atomic accumulation, and
+ cannot be used as a replacement for a {@link Double}. However, this class does extend {@code
+ Number} to allow uniform access by tools and utilities that deal with numerically-based classes.
 
- <p><a name="bitEquals">This class compares primitive {@code double}
- values in methods such as {@link #compareAndSet} by comparing their
- bitwise representation using {@link Double#doubleToRawLongBits},
- which differs from both the primitive double {@code ==} operator
- and from {@link Double#equals}, as if implemented by:
-  <pre> {@code
+ <p><a name="bitEquals"></a>This class compares primitive {@code double} values in methods such as
+ {@link #compareAndSet} by comparing their bitwise representation using {@link
+ Double#doubleToRawLongBits}, which differs from both the primitive double {@code ==} operator and
+ from {@link Double#equals}, as if implemented by:
+
+ <pre>{@code
  static boolean bitEquals(double x, double y) {
    long xBits = Double.doubleToRawLongBits(x);
    long yBits = Double.doubleToRawLongBits(y);
    return xBits == yBits;
- }}</pre>
+ }
+ }</pre>
 
- <p>It is possible to write a more scalable updater, at the cost of
- giving up strict atomicity.  See for example
- <a href="http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/DoubleAdder.html">
- DoubleAdder</a>
- and
- <a href="http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/DoubleMaxUpdater.html">
+ <p>It is possible to write a more scalable updater, at the cost of giving up strict atomicity.
+ See for example <a
+ href="http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/DoubleAdder.html">
+ DoubleAdder</a> and <a
+ href="http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/DoubleMaxUpdater.html">
  DoubleMaxUpdater</a>.
 
  @author Doug Lea
@@ -56045,21 +56037,22 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[A {@code double} array in which elements may be updated atomically.
- See the {@link java.util.concurrent.atomic} package specification
- for description of the properties of atomic variables.
+    <![CDATA[A {@code double} array in which elements may be updated atomically. See the {@link
+ java.util.concurrent.atomic} package specification for description of the properties of atomic
+ variables.
 
- <p><a name="bitEquals">This class compares primitive {@code double}
- values in methods such as {@link #compareAndSet} by comparing their
- bitwise representation using {@link Double#doubleToRawLongBits},
- which differs from both the primitive double {@code ==} operator
- and from {@link Double#equals}, as if implemented by:
-  <pre> {@code
+ <p><a name="bitEquals"></a>This class compares primitive {@code double} values in methods such as
+ {@link #compareAndSet} by comparing their bitwise representation using {@link
+ Double#doubleToRawLongBits}, which differs from both the primitive double {@code ==} operator and
+ from {@link Double#equals}, as if implemented by:
+
+ <pre>{@code
  static boolean bitEquals(double x, double y) {
    long xBits = Double.doubleToRawLongBits(x);
    long yBits = Double.doubleToRawLongBits(y);
    return xBits == yBits;
- }}</pre>
+ }
+ }</pre>
 
  @author Doug Lea
  @author Martin Buchholz
@@ -60582,8 +60575,8 @@
     <![CDATA[The lifecycle states of a service.
 
  <p>The ordering of the {@link State} enum is defined such that if there is a state transition
- from {@code A -> B} then {@code A.compareTo(B} < 0}. N.B. The converse is not true, i.e. if
- {@code A.compareTo(B} < 0} then there is <b>not</b> guaranteed to be a valid state transition
+ from {@code A -> B} then {@code A.compareTo(B) < 0}. N.B. The converse is not true, i.e. if
+ {@code A.compareTo(B) < 0} then there is <b>not</b> guaranteed to be a valid state transition
  {@code A -> B}.
 
  @since 9.0 (in 1.0 as {@code com.google.common.base.Service.State})]]>
@@ -61358,8 +61351,7 @@
  @return the result returned by the Callable
  @throws InterruptedException if {@code interruptible} is true and our thread is interrupted
      during execution
- @throws UncheckedTimeoutException if the time limit is reached
- @throws Exception]]>
+ @throws UncheckedTimeoutException if the time limit is reached]]>
       </doc>
     </method>
     <doc>

@@ -98,13 +98,12 @@
 <span class="sourceLineNo">090</span>   * @throws InterruptedException if {@code interruptible} is true and our thread is interrupted<a name="line.90"></a>
 <span class="sourceLineNo">091</span>   *     during execution<a name="line.91"></a>
 <span class="sourceLineNo">092</span>   * @throws UncheckedTimeoutException if the time limit is reached<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   * @throws Exception<a name="line.93"></a>
-<span class="sourceLineNo">094</span>   */<a name="line.94"></a>
-<span class="sourceLineNo">095</span>  @CanIgnoreReturnValue<a name="line.95"></a>
-<span class="sourceLineNo">096</span>  &lt;T&gt; T callWithTimeout(<a name="line.96"></a>
-<span class="sourceLineNo">097</span>      Callable&lt;T&gt; callable, long timeoutDuration, TimeUnit timeoutUnit, boolean interruptible)<a name="line.97"></a>
-<span class="sourceLineNo">098</span>      throws Exception;<a name="line.98"></a>
-<span class="sourceLineNo">099</span>}<a name="line.99"></a>
+<span class="sourceLineNo">093</span>   */<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  @CanIgnoreReturnValue<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  &lt;T&gt; T callWithTimeout(<a name="line.95"></a>
+<span class="sourceLineNo">096</span>      Callable&lt;T&gt; callable, long timeoutDuration, TimeUnit timeoutUnit, boolean interruptible)<a name="line.96"></a>
+<span class="sourceLineNo">097</span>      throws Exception;<a name="line.97"></a>
+<span class="sourceLineNo">098</span>}<a name="line.98"></a>
 
 
 

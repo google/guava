@@ -114,8 +114,8 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is
 <div class="block">The lifecycle states of a service.
 
  <p>The ordering of the <a href="../../../../../com/google/common/util/concurrent/Service.State.html" title="enum in com.google.common.util.concurrent"><code>Service.State</code></a> enum is defined such that if there is a state transition
- from <code>A -&gt; B</code> then <code>A.compareTo(B</code> < 0}. N.B. The converse is not true, i.e. if
- <code>A.compareTo(B</code> < 0} then there is <b>not</b> guaranteed to be a valid state transition
+ from <code>A -&gt; B</code> then <code>A.compareTo(B) &lt; 0</code>. N.B. The converse is not true, i.e. if
+ <code>A.compareTo(B) &lt; 0</code> then there is <b>not</b> guaranteed to be a valid state transition
  <code>A -&gt; B</code>.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>9.0 (in 1.0 as <code>com.google.common.base.Service.State</code>)</dd></dl>

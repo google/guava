@@ -435,16 +435,15 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.89">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.88">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                          <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super E&gt;&nbsp;comparator)</pre>
 <div class="block">Creates a new, empty multiset, sorted according to the specified comparator. All elements
  inserted into the multiset must be <i>mutually comparable</i> by the specified comparator:
- <code>comparator.compare(e1,
- e2)</code> must not throw a <code>ClassCastException</code> for any elements <code>e1</code> and <code>e2</code> in
- the multiset. If the user attempts to add an element to the multiset that violates this
- constraint, the <code>add(Object)</code> call will throw a <code>ClassCastException</code>.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>comparator</code> - the comparator that will be used to sort this multiset. A null value indicates that
-          the elements' <i>natural ordering</i> should be used.</dd></dl>
+ <code>comparator.compare(e1, e2)</code> must not throw a <code>ClassCastException</code> for any elements
+ <code>e1</code> and <code>e2</code> in the multiset. If the user attempts to add an element to the
+ multiset that violates this constraint, the <code>add(Object)</code> call will throw a <code>ClassCastException</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>comparator</code> - the comparator that will be used to sort this multiset. A null value
+     indicates that the elements' <i>natural ordering</i> should be used.</dd></dl>
 </li>
 </ul>
 <a name="create(java.lang.Iterable)">
@@ -453,7 +452,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.104">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
+<pre>public static&nbsp;&lt;E extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&gt;&nbsp;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="class in com.google.common.collect">TreeMultiset</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.103">create</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</pre>
 <div class="block">Creates an empty multiset containing the given initial elements, sorted according to the
  elements' natural order.
 
@@ -469,7 +468,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.220">size</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.219">size</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true#size()" title="class or interface in java.util">size</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;</code></dd>
@@ -482,7 +481,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.230">count</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.229">count</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
         <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#count(java.lang.Object)">Multiset</a></code></strong></div>
 <div class="block">Returns the number of occurrences of an element in this multiset (the
@@ -509,7 +508,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>add</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.248">add</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.247">add</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
       <a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;element,
       int&nbsp;occurrences)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#add(E,%20int)">Multiset</a></code></strong></div>
@@ -532,7 +531,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>remove</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.270">remove</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.269">remove</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
          <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;element,
          int&nbsp;occurrences)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#remove(java.lang.Object,%20int)">Multiset</a></code></strong></div>
@@ -557,7 +556,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>setCount</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.296">setCount</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.295">setCount</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
            <a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;element,
            int&nbsp;count)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html#setCount(E,%20int)">Multiset</a></code></strong></div>
@@ -579,7 +578,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>setCount</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.318">setCount</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.317">setCount</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                <a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;element,
                int&nbsp;oldCount,
                int&nbsp;newCount)</pre>
@@ -606,7 +605,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>headMultiset</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.493">headMultiset</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.492">headMultiset</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                              <a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;upperBound,
                              <a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/SortedMultiset.html#headMultiset(E,%20com.google.common.collect.BoundType)">SortedMultiset</a></code></strong></div>
@@ -632,7 +631,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/io/Serializabl
 <ul class="blockList">
 <li class="blockList">
 <h4>tailMultiset</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.501">tailMultiset</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/TreeMultiset.html#line.500">tailMultiset</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Nullable.html?is-external=true" title="class or interface in javax.annotation">@Nullable</a>
                              <a href="../../../../com/google/common/collect/TreeMultiset.html" title="type parameter in TreeMultiset">E</a>&nbsp;lowerBound,
                              <a href="../../../../com/google/common/collect/BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/SortedMultiset.html#tailMultiset(E,%20com.google.common.collect.BoundType)">SortedMultiset</a></code></strong></div>

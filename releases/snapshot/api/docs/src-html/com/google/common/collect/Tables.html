@@ -464,168 +464,165 @@
 <span class="sourceLineNo">456</span>   *<a name="line.456"></a>
 <span class="sourceLineNo">457</span>   * &lt;p&gt;Consider using an {@link ImmutableTable}, which is guaranteed never to change.<a name="line.457"></a>
 <span class="sourceLineNo">458</span>   *<a name="line.458"></a>
-<span class="sourceLineNo">459</span>   * @param table<a name="line.459"></a>
-<span class="sourceLineNo">460</span>   *          the table for which an unmodifiable view is to be returned<a name="line.460"></a>
-<span class="sourceLineNo">461</span>   * @return an unmodifiable view of the specified table<a name="line.461"></a>
-<span class="sourceLineNo">462</span>   * @since 11.0<a name="line.462"></a>
-<span class="sourceLineNo">463</span>   */<a name="line.463"></a>
-<span class="sourceLineNo">464</span>  public static &lt;R, C, V&gt; Table&lt;R, C, V&gt; unmodifiableTable(<a name="line.464"></a>
-<span class="sourceLineNo">465</span>      Table&lt;? extends R, ? extends C, ? extends V&gt; table) {<a name="line.465"></a>
-<span class="sourceLineNo">466</span>    return new UnmodifiableTable&lt;R, C, V&gt;(table);<a name="line.466"></a>
-<span class="sourceLineNo">467</span>  }<a name="line.467"></a>
-<span class="sourceLineNo">468</span><a name="line.468"></a>
-<span class="sourceLineNo">469</span>  private static class UnmodifiableTable&lt;R, C, V&gt; extends ForwardingTable&lt;R, C, V&gt;<a name="line.469"></a>
-<span class="sourceLineNo">470</span>      implements Serializable {<a name="line.470"></a>
-<span class="sourceLineNo">471</span>    final Table&lt;? extends R, ? extends C, ? extends V&gt; delegate;<a name="line.471"></a>
-<span class="sourceLineNo">472</span><a name="line.472"></a>
-<span class="sourceLineNo">473</span>    UnmodifiableTable(Table&lt;? extends R, ? extends C, ? extends V&gt; delegate) {<a name="line.473"></a>
-<span class="sourceLineNo">474</span>      this.delegate = checkNotNull(delegate);<a name="line.474"></a>
-<span class="sourceLineNo">475</span>    }<a name="line.475"></a>
-<span class="sourceLineNo">476</span><a name="line.476"></a>
-<span class="sourceLineNo">477</span>    @SuppressWarnings("unchecked") // safe, covariant cast<a name="line.477"></a>
-<span class="sourceLineNo">478</span>    @Override<a name="line.478"></a>
-<span class="sourceLineNo">479</span>    protected Table&lt;R, C, V&gt; delegate() {<a name="line.479"></a>
-<span class="sourceLineNo">480</span>      return (Table&lt;R, C, V&gt;) delegate;<a name="line.480"></a>
-<span class="sourceLineNo">481</span>    }<a name="line.481"></a>
-<span class="sourceLineNo">482</span><a name="line.482"></a>
-<span class="sourceLineNo">483</span>    @Override<a name="line.483"></a>
-<span class="sourceLineNo">484</span>    public Set&lt;Cell&lt;R, C, V&gt;&gt; cellSet() {<a name="line.484"></a>
-<span class="sourceLineNo">485</span>      return Collections.unmodifiableSet(super.cellSet());<a name="line.485"></a>
-<span class="sourceLineNo">486</span>    }<a name="line.486"></a>
-<span class="sourceLineNo">487</span><a name="line.487"></a>
-<span class="sourceLineNo">488</span>    @Override<a name="line.488"></a>
-<span class="sourceLineNo">489</span>    public void clear() {<a name="line.489"></a>
-<span class="sourceLineNo">490</span>      throw new UnsupportedOperationException();<a name="line.490"></a>
-<span class="sourceLineNo">491</span>    }<a name="line.491"></a>
-<span class="sourceLineNo">492</span><a name="line.492"></a>
-<span class="sourceLineNo">493</span>    @Override<a name="line.493"></a>
-<span class="sourceLineNo">494</span>    public Map&lt;R, V&gt; column(@Nullable C columnKey) {<a name="line.494"></a>
-<span class="sourceLineNo">495</span>      return Collections.unmodifiableMap(super.column(columnKey));<a name="line.495"></a>
-<span class="sourceLineNo">496</span>    }<a name="line.496"></a>
-<span class="sourceLineNo">497</span><a name="line.497"></a>
-<span class="sourceLineNo">498</span>    @Override<a name="line.498"></a>
-<span class="sourceLineNo">499</span>    public Set&lt;C&gt; columnKeySet() {<a name="line.499"></a>
-<span class="sourceLineNo">500</span>      return Collections.unmodifiableSet(super.columnKeySet());<a name="line.500"></a>
-<span class="sourceLineNo">501</span>    }<a name="line.501"></a>
-<span class="sourceLineNo">502</span><a name="line.502"></a>
-<span class="sourceLineNo">503</span>    @Override<a name="line.503"></a>
-<span class="sourceLineNo">504</span>    public Map&lt;C, Map&lt;R, V&gt;&gt; columnMap() {<a name="line.504"></a>
-<span class="sourceLineNo">505</span>      Function&lt;Map&lt;R, V&gt;, Map&lt;R, V&gt;&gt; wrapper = unmodifiableWrapper();<a name="line.505"></a>
-<span class="sourceLineNo">506</span>      return Collections.unmodifiableMap(Maps.transformValues(super.columnMap(), wrapper));<a name="line.506"></a>
-<span class="sourceLineNo">507</span>    }<a name="line.507"></a>
-<span class="sourceLineNo">508</span><a name="line.508"></a>
-<span class="sourceLineNo">509</span>    @Override<a name="line.509"></a>
-<span class="sourceLineNo">510</span>    public V put(@Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {<a name="line.510"></a>
-<span class="sourceLineNo">511</span>      throw new UnsupportedOperationException();<a name="line.511"></a>
-<span class="sourceLineNo">512</span>    }<a name="line.512"></a>
-<span class="sourceLineNo">513</span><a name="line.513"></a>
-<span class="sourceLineNo">514</span>    @Override<a name="line.514"></a>
-<span class="sourceLineNo">515</span>    public void putAll(Table&lt;? extends R, ? extends C, ? extends V&gt; table) {<a name="line.515"></a>
-<span class="sourceLineNo">516</span>      throw new UnsupportedOperationException();<a name="line.516"></a>
-<span class="sourceLineNo">517</span>    }<a name="line.517"></a>
-<span class="sourceLineNo">518</span><a name="line.518"></a>
-<span class="sourceLineNo">519</span>    @Override<a name="line.519"></a>
-<span class="sourceLineNo">520</span>    public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {<a name="line.520"></a>
-<span class="sourceLineNo">521</span>      throw new UnsupportedOperationException();<a name="line.521"></a>
-<span class="sourceLineNo">522</span>    }<a name="line.522"></a>
-<span class="sourceLineNo">523</span><a name="line.523"></a>
-<span class="sourceLineNo">524</span>    @Override<a name="line.524"></a>
-<span class="sourceLineNo">525</span>    public Map&lt;C, V&gt; row(@Nullable R rowKey) {<a name="line.525"></a>
-<span class="sourceLineNo">526</span>      return Collections.unmodifiableMap(super.row(rowKey));<a name="line.526"></a>
-<span class="sourceLineNo">527</span>    }<a name="line.527"></a>
-<span class="sourceLineNo">528</span><a name="line.528"></a>
-<span class="sourceLineNo">529</span>    @Override<a name="line.529"></a>
-<span class="sourceLineNo">530</span>    public Set&lt;R&gt; rowKeySet() {<a name="line.530"></a>
-<span class="sourceLineNo">531</span>      return Collections.unmodifiableSet(super.rowKeySet());<a name="line.531"></a>
-<span class="sourceLineNo">532</span>    }<a name="line.532"></a>
-<span class="sourceLineNo">533</span><a name="line.533"></a>
-<span class="sourceLineNo">534</span>    @Override<a name="line.534"></a>
-<span class="sourceLineNo">535</span>    public Map&lt;R, Map&lt;C, V&gt;&gt; rowMap() {<a name="line.535"></a>
-<span class="sourceLineNo">536</span>      Function&lt;Map&lt;C, V&gt;, Map&lt;C, V&gt;&gt; wrapper = unmodifiableWrapper();<a name="line.536"></a>
-<span class="sourceLineNo">537</span>      return Collections.unmodifiableMap(Maps.transformValues(super.rowMap(), wrapper));<a name="line.537"></a>
-<span class="sourceLineNo">538</span>    }<a name="line.538"></a>
-<span class="sourceLineNo">539</span><a name="line.539"></a>
-<span class="sourceLineNo">540</span>    @Override<a name="line.540"></a>
-<span class="sourceLineNo">541</span>    public Collection&lt;V&gt; values() {<a name="line.541"></a>
-<span class="sourceLineNo">542</span>      return Collections.unmodifiableCollection(super.values());<a name="line.542"></a>
-<span class="sourceLineNo">543</span>    }<a name="line.543"></a>
+<span class="sourceLineNo">459</span>   * @since 11.0<a name="line.459"></a>
+<span class="sourceLineNo">460</span>   */<a name="line.460"></a>
+<span class="sourceLineNo">461</span>  public static &lt;R, C, V&gt; Table&lt;R, C, V&gt; unmodifiableTable(<a name="line.461"></a>
+<span class="sourceLineNo">462</span>      Table&lt;? extends R, ? extends C, ? extends V&gt; table) {<a name="line.462"></a>
+<span class="sourceLineNo">463</span>    return new UnmodifiableTable&lt;R, C, V&gt;(table);<a name="line.463"></a>
+<span class="sourceLineNo">464</span>  }<a name="line.464"></a>
+<span class="sourceLineNo">465</span><a name="line.465"></a>
+<span class="sourceLineNo">466</span>  private static class UnmodifiableTable&lt;R, C, V&gt; extends ForwardingTable&lt;R, C, V&gt;<a name="line.466"></a>
+<span class="sourceLineNo">467</span>      implements Serializable {<a name="line.467"></a>
+<span class="sourceLineNo">468</span>    final Table&lt;? extends R, ? extends C, ? extends V&gt; delegate;<a name="line.468"></a>
+<span class="sourceLineNo">469</span><a name="line.469"></a>
+<span class="sourceLineNo">470</span>    UnmodifiableTable(Table&lt;? extends R, ? extends C, ? extends V&gt; delegate) {<a name="line.470"></a>
+<span class="sourceLineNo">471</span>      this.delegate = checkNotNull(delegate);<a name="line.471"></a>
+<span class="sourceLineNo">472</span>    }<a name="line.472"></a>
+<span class="sourceLineNo">473</span><a name="line.473"></a>
+<span class="sourceLineNo">474</span>    @SuppressWarnings("unchecked") // safe, covariant cast<a name="line.474"></a>
+<span class="sourceLineNo">475</span>    @Override<a name="line.475"></a>
+<span class="sourceLineNo">476</span>    protected Table&lt;R, C, V&gt; delegate() {<a name="line.476"></a>
+<span class="sourceLineNo">477</span>      return (Table&lt;R, C, V&gt;) delegate;<a name="line.477"></a>
+<span class="sourceLineNo">478</span>    }<a name="line.478"></a>
+<span class="sourceLineNo">479</span><a name="line.479"></a>
+<span class="sourceLineNo">480</span>    @Override<a name="line.480"></a>
+<span class="sourceLineNo">481</span>    public Set&lt;Cell&lt;R, C, V&gt;&gt; cellSet() {<a name="line.481"></a>
+<span class="sourceLineNo">482</span>      return Collections.unmodifiableSet(super.cellSet());<a name="line.482"></a>
+<span class="sourceLineNo">483</span>    }<a name="line.483"></a>
+<span class="sourceLineNo">484</span><a name="line.484"></a>
+<span class="sourceLineNo">485</span>    @Override<a name="line.485"></a>
+<span class="sourceLineNo">486</span>    public void clear() {<a name="line.486"></a>
+<span class="sourceLineNo">487</span>      throw new UnsupportedOperationException();<a name="line.487"></a>
+<span class="sourceLineNo">488</span>    }<a name="line.488"></a>
+<span class="sourceLineNo">489</span><a name="line.489"></a>
+<span class="sourceLineNo">490</span>    @Override<a name="line.490"></a>
+<span class="sourceLineNo">491</span>    public Map&lt;R, V&gt; column(@Nullable C columnKey) {<a name="line.491"></a>
+<span class="sourceLineNo">492</span>      return Collections.unmodifiableMap(super.column(columnKey));<a name="line.492"></a>
+<span class="sourceLineNo">493</span>    }<a name="line.493"></a>
+<span class="sourceLineNo">494</span><a name="line.494"></a>
+<span class="sourceLineNo">495</span>    @Override<a name="line.495"></a>
+<span class="sourceLineNo">496</span>    public Set&lt;C&gt; columnKeySet() {<a name="line.496"></a>
+<span class="sourceLineNo">497</span>      return Collections.unmodifiableSet(super.columnKeySet());<a name="line.497"></a>
+<span class="sourceLineNo">498</span>    }<a name="line.498"></a>
+<span class="sourceLineNo">499</span><a name="line.499"></a>
+<span class="sourceLineNo">500</span>    @Override<a name="line.500"></a>
+<span class="sourceLineNo">501</span>    public Map&lt;C, Map&lt;R, V&gt;&gt; columnMap() {<a name="line.501"></a>
+<span class="sourceLineNo">502</span>      Function&lt;Map&lt;R, V&gt;, Map&lt;R, V&gt;&gt; wrapper = unmodifiableWrapper();<a name="line.502"></a>
+<span class="sourceLineNo">503</span>      return Collections.unmodifiableMap(Maps.transformValues(super.columnMap(), wrapper));<a name="line.503"></a>
+<span class="sourceLineNo">504</span>    }<a name="line.504"></a>
+<span class="sourceLineNo">505</span><a name="line.505"></a>
+<span class="sourceLineNo">506</span>    @Override<a name="line.506"></a>
+<span class="sourceLineNo">507</span>    public V put(@Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {<a name="line.507"></a>
+<span class="sourceLineNo">508</span>      throw new UnsupportedOperationException();<a name="line.508"></a>
+<span class="sourceLineNo">509</span>    }<a name="line.509"></a>
+<span class="sourceLineNo">510</span><a name="line.510"></a>
+<span class="sourceLineNo">511</span>    @Override<a name="line.511"></a>
+<span class="sourceLineNo">512</span>    public void putAll(Table&lt;? extends R, ? extends C, ? extends V&gt; table) {<a name="line.512"></a>
+<span class="sourceLineNo">513</span>      throw new UnsupportedOperationException();<a name="line.513"></a>
+<span class="sourceLineNo">514</span>    }<a name="line.514"></a>
+<span class="sourceLineNo">515</span><a name="line.515"></a>
+<span class="sourceLineNo">516</span>    @Override<a name="line.516"></a>
+<span class="sourceLineNo">517</span>    public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {<a name="line.517"></a>
+<span class="sourceLineNo">518</span>      throw new UnsupportedOperationException();<a name="line.518"></a>
+<span class="sourceLineNo">519</span>    }<a name="line.519"></a>
+<span class="sourceLineNo">520</span><a name="line.520"></a>
+<span class="sourceLineNo">521</span>    @Override<a name="line.521"></a>
+<span class="sourceLineNo">522</span>    public Map&lt;C, V&gt; row(@Nullable R rowKey) {<a name="line.522"></a>
+<span class="sourceLineNo">523</span>      return Collections.unmodifiableMap(super.row(rowKey));<a name="line.523"></a>
+<span class="sourceLineNo">524</span>    }<a name="line.524"></a>
+<span class="sourceLineNo">525</span><a name="line.525"></a>
+<span class="sourceLineNo">526</span>    @Override<a name="line.526"></a>
+<span class="sourceLineNo">527</span>    public Set&lt;R&gt; rowKeySet() {<a name="line.527"></a>
+<span class="sourceLineNo">528</span>      return Collections.unmodifiableSet(super.rowKeySet());<a name="line.528"></a>
+<span class="sourceLineNo">529</span>    }<a name="line.529"></a>
+<span class="sourceLineNo">530</span><a name="line.530"></a>
+<span class="sourceLineNo">531</span>    @Override<a name="line.531"></a>
+<span class="sourceLineNo">532</span>    public Map&lt;R, Map&lt;C, V&gt;&gt; rowMap() {<a name="line.532"></a>
+<span class="sourceLineNo">533</span>      Function&lt;Map&lt;C, V&gt;, Map&lt;C, V&gt;&gt; wrapper = unmodifiableWrapper();<a name="line.533"></a>
+<span class="sourceLineNo">534</span>      return Collections.unmodifiableMap(Maps.transformValues(super.rowMap(), wrapper));<a name="line.534"></a>
+<span class="sourceLineNo">535</span>    }<a name="line.535"></a>
+<span class="sourceLineNo">536</span><a name="line.536"></a>
+<span class="sourceLineNo">537</span>    @Override<a name="line.537"></a>
+<span class="sourceLineNo">538</span>    public Collection&lt;V&gt; values() {<a name="line.538"></a>
+<span class="sourceLineNo">539</span>      return Collections.unmodifiableCollection(super.values());<a name="line.539"></a>
+<span class="sourceLineNo">540</span>    }<a name="line.540"></a>
+<span class="sourceLineNo">541</span><a name="line.541"></a>
+<span class="sourceLineNo">542</span>    private static final long serialVersionUID = 0;<a name="line.542"></a>
+<span class="sourceLineNo">543</span>  }<a name="line.543"></a>
 <span class="sourceLineNo">544</span><a name="line.544"></a>
-<span class="sourceLineNo">545</span>    private static final long serialVersionUID = 0;<a name="line.545"></a>
-<span class="sourceLineNo">546</span>  }<a name="line.546"></a>
-<span class="sourceLineNo">547</span><a name="line.547"></a>
-<span class="sourceLineNo">548</span>  /**<a name="line.548"></a>
-<span class="sourceLineNo">549</span>   * Returns an unmodifiable view of the specified row-sorted table. This method allows modules to<a name="line.549"></a>
-<span class="sourceLineNo">550</span>   * provide users with "read-only" access to internal tables. Query operations on the returned<a name="line.550"></a>
-<span class="sourceLineNo">551</span>   * table "read through" to the specified table, and attemps to modify the returned table, whether<a name="line.551"></a>
-<span class="sourceLineNo">552</span>   * direct or via its collection views, result in an {@code UnsupportedOperationException}.<a name="line.552"></a>
-<span class="sourceLineNo">553</span>   *<a name="line.553"></a>
-<span class="sourceLineNo">554</span>   * &lt;p&gt;The returned table will be serializable if the specified table is serializable.<a name="line.554"></a>
-<span class="sourceLineNo">555</span>   *<a name="line.555"></a>
-<span class="sourceLineNo">556</span>   * @param table the row-sorted table for which an unmodifiable view is to be returned<a name="line.556"></a>
-<span class="sourceLineNo">557</span>   * @return an unmodifiable view of the specified table<a name="line.557"></a>
-<span class="sourceLineNo">558</span>   * @since 11.0<a name="line.558"></a>
-<span class="sourceLineNo">559</span>   */<a name="line.559"></a>
-<span class="sourceLineNo">560</span>  @Beta<a name="line.560"></a>
-<span class="sourceLineNo">561</span>  public static &lt;R, C, V&gt; RowSortedTable&lt;R, C, V&gt; unmodifiableRowSortedTable(<a name="line.561"></a>
-<span class="sourceLineNo">562</span>      RowSortedTable&lt;R, ? extends C, ? extends V&gt; table) {<a name="line.562"></a>
-<span class="sourceLineNo">563</span>    /*<a name="line.563"></a>
-<span class="sourceLineNo">564</span>     * It's not ? extends R, because it's technically not covariant in R. Specifically,<a name="line.564"></a>
-<span class="sourceLineNo">565</span>     * table.rowMap().comparator() could return a comparator that only works for the ? extends R.<a name="line.565"></a>
-<span class="sourceLineNo">566</span>     * Collections.unmodifiableSortedMap makes the same distinction.<a name="line.566"></a>
-<span class="sourceLineNo">567</span>     */<a name="line.567"></a>
-<span class="sourceLineNo">568</span>    return new UnmodifiableRowSortedMap&lt;R, C, V&gt;(table);<a name="line.568"></a>
-<span class="sourceLineNo">569</span>  }<a name="line.569"></a>
+<span class="sourceLineNo">545</span>  /**<a name="line.545"></a>
+<span class="sourceLineNo">546</span>   * Returns an unmodifiable view of the specified row-sorted table. This method allows modules to<a name="line.546"></a>
+<span class="sourceLineNo">547</span>   * provide users with "read-only" access to internal tables. Query operations on the returned<a name="line.547"></a>
+<span class="sourceLineNo">548</span>   * table "read through" to the specified table, and attemps to modify the returned table, whether<a name="line.548"></a>
+<span class="sourceLineNo">549</span>   * direct or via its collection views, result in an {@code UnsupportedOperationException}.<a name="line.549"></a>
+<span class="sourceLineNo">550</span>   *<a name="line.550"></a>
+<span class="sourceLineNo">551</span>   * &lt;p&gt;The returned table will be serializable if the specified table is serializable.<a name="line.551"></a>
+<span class="sourceLineNo">552</span>   *<a name="line.552"></a>
+<span class="sourceLineNo">553</span>   * @param table the row-sorted table for which an unmodifiable view is to be returned<a name="line.553"></a>
+<span class="sourceLineNo">554</span>   * @return an unmodifiable view of the specified table<a name="line.554"></a>
+<span class="sourceLineNo">555</span>   * @since 11.0<a name="line.555"></a>
+<span class="sourceLineNo">556</span>   */<a name="line.556"></a>
+<span class="sourceLineNo">557</span>  @Beta<a name="line.557"></a>
+<span class="sourceLineNo">558</span>  public static &lt;R, C, V&gt; RowSortedTable&lt;R, C, V&gt; unmodifiableRowSortedTable(<a name="line.558"></a>
+<span class="sourceLineNo">559</span>      RowSortedTable&lt;R, ? extends C, ? extends V&gt; table) {<a name="line.559"></a>
+<span class="sourceLineNo">560</span>    /*<a name="line.560"></a>
+<span class="sourceLineNo">561</span>     * It's not ? extends R, because it's technically not covariant in R. Specifically,<a name="line.561"></a>
+<span class="sourceLineNo">562</span>     * table.rowMap().comparator() could return a comparator that only works for the ? extends R.<a name="line.562"></a>
+<span class="sourceLineNo">563</span>     * Collections.unmodifiableSortedMap makes the same distinction.<a name="line.563"></a>
+<span class="sourceLineNo">564</span>     */<a name="line.564"></a>
+<span class="sourceLineNo">565</span>    return new UnmodifiableRowSortedMap&lt;R, C, V&gt;(table);<a name="line.565"></a>
+<span class="sourceLineNo">566</span>  }<a name="line.566"></a>
+<span class="sourceLineNo">567</span><a name="line.567"></a>
+<span class="sourceLineNo">568</span>  static final class UnmodifiableRowSortedMap&lt;R, C, V&gt; extends UnmodifiableTable&lt;R, C, V&gt;<a name="line.568"></a>
+<span class="sourceLineNo">569</span>      implements RowSortedTable&lt;R, C, V&gt; {<a name="line.569"></a>
 <span class="sourceLineNo">570</span><a name="line.570"></a>
-<span class="sourceLineNo">571</span>  static final class UnmodifiableRowSortedMap&lt;R, C, V&gt; extends UnmodifiableTable&lt;R, C, V&gt;<a name="line.571"></a>
-<span class="sourceLineNo">572</span>      implements RowSortedTable&lt;R, C, V&gt; {<a name="line.572"></a>
-<span class="sourceLineNo">573</span><a name="line.573"></a>
-<span class="sourceLineNo">574</span>    public UnmodifiableRowSortedMap(RowSortedTable&lt;R, ? extends C, ? extends V&gt; delegate) {<a name="line.574"></a>
-<span class="sourceLineNo">575</span>      super(delegate);<a name="line.575"></a>
-<span class="sourceLineNo">576</span>    }<a name="line.576"></a>
-<span class="sourceLineNo">577</span><a name="line.577"></a>
-<span class="sourceLineNo">578</span>    @Override<a name="line.578"></a>
-<span class="sourceLineNo">579</span>    protected RowSortedTable&lt;R, C, V&gt; delegate() {<a name="line.579"></a>
-<span class="sourceLineNo">580</span>      return (RowSortedTable&lt;R, C, V&gt;) super.delegate();<a name="line.580"></a>
-<span class="sourceLineNo">581</span>    }<a name="line.581"></a>
-<span class="sourceLineNo">582</span><a name="line.582"></a>
-<span class="sourceLineNo">583</span>    @Override<a name="line.583"></a>
-<span class="sourceLineNo">584</span>    public SortedMap&lt;R, Map&lt;C, V&gt;&gt; rowMap() {<a name="line.584"></a>
-<span class="sourceLineNo">585</span>      Function&lt;Map&lt;C, V&gt;, Map&lt;C, V&gt;&gt; wrapper = unmodifiableWrapper();<a name="line.585"></a>
-<span class="sourceLineNo">586</span>      return Collections.unmodifiableSortedMap(Maps.transformValues(delegate().rowMap(), wrapper));<a name="line.586"></a>
-<span class="sourceLineNo">587</span>    }<a name="line.587"></a>
-<span class="sourceLineNo">588</span><a name="line.588"></a>
-<span class="sourceLineNo">589</span>    @Override<a name="line.589"></a>
-<span class="sourceLineNo">590</span>    public SortedSet&lt;R&gt; rowKeySet() {<a name="line.590"></a>
-<span class="sourceLineNo">591</span>      return Collections.unmodifiableSortedSet(delegate().rowKeySet());<a name="line.591"></a>
-<span class="sourceLineNo">592</span>    }<a name="line.592"></a>
+<span class="sourceLineNo">571</span>    public UnmodifiableRowSortedMap(RowSortedTable&lt;R, ? extends C, ? extends V&gt; delegate) {<a name="line.571"></a>
+<span class="sourceLineNo">572</span>      super(delegate);<a name="line.572"></a>
+<span class="sourceLineNo">573</span>    }<a name="line.573"></a>
+<span class="sourceLineNo">574</span><a name="line.574"></a>
+<span class="sourceLineNo">575</span>    @Override<a name="line.575"></a>
+<span class="sourceLineNo">576</span>    protected RowSortedTable&lt;R, C, V&gt; delegate() {<a name="line.576"></a>
+<span class="sourceLineNo">577</span>      return (RowSortedTable&lt;R, C, V&gt;) super.delegate();<a name="line.577"></a>
+<span class="sourceLineNo">578</span>    }<a name="line.578"></a>
+<span class="sourceLineNo">579</span><a name="line.579"></a>
+<span class="sourceLineNo">580</span>    @Override<a name="line.580"></a>
+<span class="sourceLineNo">581</span>    public SortedMap&lt;R, Map&lt;C, V&gt;&gt; rowMap() {<a name="line.581"></a>
+<span class="sourceLineNo">582</span>      Function&lt;Map&lt;C, V&gt;, Map&lt;C, V&gt;&gt; wrapper = unmodifiableWrapper();<a name="line.582"></a>
+<span class="sourceLineNo">583</span>      return Collections.unmodifiableSortedMap(Maps.transformValues(delegate().rowMap(), wrapper));<a name="line.583"></a>
+<span class="sourceLineNo">584</span>    }<a name="line.584"></a>
+<span class="sourceLineNo">585</span><a name="line.585"></a>
+<span class="sourceLineNo">586</span>    @Override<a name="line.586"></a>
+<span class="sourceLineNo">587</span>    public SortedSet&lt;R&gt; rowKeySet() {<a name="line.587"></a>
+<span class="sourceLineNo">588</span>      return Collections.unmodifiableSortedSet(delegate().rowKeySet());<a name="line.588"></a>
+<span class="sourceLineNo">589</span>    }<a name="line.589"></a>
+<span class="sourceLineNo">590</span><a name="line.590"></a>
+<span class="sourceLineNo">591</span>    private static final long serialVersionUID = 0;<a name="line.591"></a>
+<span class="sourceLineNo">592</span>  }<a name="line.592"></a>
 <span class="sourceLineNo">593</span><a name="line.593"></a>
-<span class="sourceLineNo">594</span>    private static final long serialVersionUID = 0;<a name="line.594"></a>
-<span class="sourceLineNo">595</span>  }<a name="line.595"></a>
-<span class="sourceLineNo">596</span><a name="line.596"></a>
-<span class="sourceLineNo">597</span>  @SuppressWarnings("unchecked")<a name="line.597"></a>
-<span class="sourceLineNo">598</span>  private static &lt;K, V&gt; Function&lt;Map&lt;K, V&gt;, Map&lt;K, V&gt;&gt; unmodifiableWrapper() {<a name="line.598"></a>
-<span class="sourceLineNo">599</span>    return (Function) UNMODIFIABLE_WRAPPER;<a name="line.599"></a>
-<span class="sourceLineNo">600</span>  }<a name="line.600"></a>
-<span class="sourceLineNo">601</span><a name="line.601"></a>
-<span class="sourceLineNo">602</span>  private static final Function&lt;? extends Map&lt;?, ?&gt;, ? extends Map&lt;?, ?&gt;&gt; UNMODIFIABLE_WRAPPER =<a name="line.602"></a>
-<span class="sourceLineNo">603</span>      new Function&lt;Map&lt;Object, Object&gt;, Map&lt;Object, Object&gt;&gt;() {<a name="line.603"></a>
-<span class="sourceLineNo">604</span>        @Override<a name="line.604"></a>
-<span class="sourceLineNo">605</span>        public Map&lt;Object, Object&gt; apply(Map&lt;Object, Object&gt; input) {<a name="line.605"></a>
-<span class="sourceLineNo">606</span>          return Collections.unmodifiableMap(input);<a name="line.606"></a>
-<span class="sourceLineNo">607</span>        }<a name="line.607"></a>
-<span class="sourceLineNo">608</span>      };<a name="line.608"></a>
-<span class="sourceLineNo">609</span><a name="line.609"></a>
-<span class="sourceLineNo">610</span>  static boolean equalsImpl(Table&lt;?, ?, ?&gt; table, @Nullable Object obj) {<a name="line.610"></a>
-<span class="sourceLineNo">611</span>    if (obj == table) {<a name="line.611"></a>
-<span class="sourceLineNo">612</span>      return true;<a name="line.612"></a>
-<span class="sourceLineNo">613</span>    } else if (obj instanceof Table) {<a name="line.613"></a>
-<span class="sourceLineNo">614</span>      Table&lt;?, ?, ?&gt; that = (Table&lt;?, ?, ?&gt;) obj;<a name="line.614"></a>
-<span class="sourceLineNo">615</span>      return table.cellSet().equals(that.cellSet());<a name="line.615"></a>
-<span class="sourceLineNo">616</span>    } else {<a name="line.616"></a>
-<span class="sourceLineNo">617</span>      return false;<a name="line.617"></a>
-<span class="sourceLineNo">618</span>    }<a name="line.618"></a>
-<span class="sourceLineNo">619</span>  }<a name="line.619"></a>
-<span class="sourceLineNo">620</span>}<a name="line.620"></a>
+<span class="sourceLineNo">594</span>  @SuppressWarnings("unchecked")<a name="line.594"></a>
+<span class="sourceLineNo">595</span>  private static &lt;K, V&gt; Function&lt;Map&lt;K, V&gt;, Map&lt;K, V&gt;&gt; unmodifiableWrapper() {<a name="line.595"></a>
+<span class="sourceLineNo">596</span>    return (Function) UNMODIFIABLE_WRAPPER;<a name="line.596"></a>
+<span class="sourceLineNo">597</span>  }<a name="line.597"></a>
+<span class="sourceLineNo">598</span><a name="line.598"></a>
+<span class="sourceLineNo">599</span>  private static final Function&lt;? extends Map&lt;?, ?&gt;, ? extends Map&lt;?, ?&gt;&gt; UNMODIFIABLE_WRAPPER =<a name="line.599"></a>
+<span class="sourceLineNo">600</span>      new Function&lt;Map&lt;Object, Object&gt;, Map&lt;Object, Object&gt;&gt;() {<a name="line.600"></a>
+<span class="sourceLineNo">601</span>        @Override<a name="line.601"></a>
+<span class="sourceLineNo">602</span>        public Map&lt;Object, Object&gt; apply(Map&lt;Object, Object&gt; input) {<a name="line.602"></a>
+<span class="sourceLineNo">603</span>          return Collections.unmodifiableMap(input);<a name="line.603"></a>
+<span class="sourceLineNo">604</span>        }<a name="line.604"></a>
+<span class="sourceLineNo">605</span>      };<a name="line.605"></a>
+<span class="sourceLineNo">606</span><a name="line.606"></a>
+<span class="sourceLineNo">607</span>  static boolean equalsImpl(Table&lt;?, ?, ?&gt; table, @Nullable Object obj) {<a name="line.607"></a>
+<span class="sourceLineNo">608</span>    if (obj == table) {<a name="line.608"></a>
+<span class="sourceLineNo">609</span>      return true;<a name="line.609"></a>
+<span class="sourceLineNo">610</span>    } else if (obj instanceof Table) {<a name="line.610"></a>
+<span class="sourceLineNo">611</span>      Table&lt;?, ?, ?&gt; that = (Table&lt;?, ?, ?&gt;) obj;<a name="line.611"></a>
+<span class="sourceLineNo">612</span>      return table.cellSet().equals(that.cellSet());<a name="line.612"></a>
+<span class="sourceLineNo">613</span>    } else {<a name="line.613"></a>
+<span class="sourceLineNo">614</span>      return false;<a name="line.614"></a>
+<span class="sourceLineNo">615</span>    }<a name="line.615"></a>
+<span class="sourceLineNo">616</span>  }<a name="line.616"></a>
+<span class="sourceLineNo">617</span>}<a name="line.617"></a>
 
 
 
