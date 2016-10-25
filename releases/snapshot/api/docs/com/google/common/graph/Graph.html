@@ -132,8 +132,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
  an instance of one of the built-in implementations of <code>Graph</code>, use the <a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a>
  class:
 
- <pre><code>
-   MutableGraph<Integer> graph = GraphBuilder.undirected().build();
+ <pre><code>MutableGraph&lt;Integer&gt; graph = GraphBuilder.undirected().build();
  </code></pre>
 
  <p><a href="../../../../com/google/common/graph/GraphBuilder.html#build()"><code>GraphBuilder.build()</code></a> returns an instance of <a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph"><code>MutableGraph</code></a>, which is a subtype
@@ -143,8 +142,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 
  <p>You can create an immutable copy of an existing <code>Graph</code> using <a href="../../../../com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.Graph)"><code>ImmutableGraph.copyOf(Graph)</code></a>:
 
- <pre><code>
-   ImmutableGraph<Integer> immutableGraph = ImmutableGraph.copyOf(graph);
+ <pre><code>ImmutableGraph&lt;Integer&gt; immutableGraph = ImmutableGraph.copyOf(graph);
  </code></pre>
 
  <p>Instances of <a href="../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph"><code>ImmutableGraph</code></a> do not implement <a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph"><code>MutableGraph</code></a> (obviously!) and are

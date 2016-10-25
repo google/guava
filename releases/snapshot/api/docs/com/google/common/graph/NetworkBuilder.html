@@ -111,8 +111,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 
  <p>Example of use:
 
- <pre><code>
- MutableNetwork<String, Integer> flightNetwork =
+ <pre><code>MutableNetwork&lt;String, Integer&gt; flightNetwork =
      NetworkBuilder.directed().allowsParallelEdges(true).build();
  flightNetwork.addEdge("LAX", "ATL", 3025);
  flightNetwork.addEdge("LAX", "ATL", 1598);

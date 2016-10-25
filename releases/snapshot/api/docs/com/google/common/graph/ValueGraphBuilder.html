@@ -109,8 +109,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 
  <p>Example of use:
 
- <pre><code>
- MutableValueGraph<String, Double> graph =
+ <pre><code>MutableValueGraph&lt;String, Double&gt; graph =
      ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
  graph.putEdgeValue("San Francisco", "San Francisco", 0.0);
  graph.putEdgeValue("San Jose", "San Jose", 0.0);

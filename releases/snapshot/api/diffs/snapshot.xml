@@ -36017,10 +36017,10 @@
 
  <p>Example usage:
 
- <pre><code>
+ <pre>{@code
  MutableGraph<Integer> graph =
      GraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
- </code></pre>
+ }</pre>
 
  @author Joshua O'Madadhain
  @since 20.0]]>
@@ -36376,9 +36376,9 @@
  an instance of one of the built-in implementations of {@code Graph}, use the {@link GraphBuilder}
  class:
 
- <pre><code>
+ <pre>{@code
    MutableGraph<Integer> graph = GraphBuilder.undirected().build();
- </code></pre>
+ }</pre>
 
  <p>{@link GraphBuilder#build()} returns an instance of {@link MutableGraph}, which is a subtype
  of {@code Graph} that provides methods for adding and removing nodes and edges. If you do not
@@ -36388,9 +36388,9 @@
  <p>You can create an immutable copy of an existing {@code Graph} using {@link
  ImmutableGraph#copyOf(Graph)}:
 
- <pre><code>
+ <pre>{@code
    ImmutableGraph<Integer> immutableGraph = ImmutableGraph.copyOf(graph);
- </code></pre>
+ }</pre>
 
  <p>Instances of {@link ImmutableGraph} do not implement {@link MutableGraph} (obviously!) and are
  contractually guaranteed to be unmodifiable and thread-safe.
@@ -36507,12 +36507,12 @@
 
  <p>Example of use:
 
- <pre><code>
+ <pre>{@code
  MutableGraph<String> graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
  graph.putEdge("bread", "bread");
  graph.putEdge("chocolate", "peanut butter");
  graph.putEdge("peanut butter", "jelly");
- </code></pre>
+ }</pre>
 
  @author James Sexton
  @author Joshua O'Madadhain
@@ -37466,9 +37466,9 @@
  an instance of one of the built-in implementations of {@code Network}, use the {@link
  NetworkBuilder} class:
 
- <pre><code>
+ <pre>{@code
    MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
- </code></pre>
+ }</pre>
 
  <p>{@link NetworkBuilder#build()} returns an instance of {@link MutableNetwork}, which is a
  subtype of {@code Network} that provides methods for adding and removing nodes and edges. If you
@@ -37479,9 +37479,9 @@
  <p>You can create an immutable copy of an existing {@code Network} using {@link
  ImmutableNetwork#copyOf(Network)}:
 
- <pre><code>
+ <pre>{@code
    ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(graph);
- </code></pre>
+ }</pre>
 
  <p>Instances of {@link ImmutableNetwork} do not implement {@link MutableNetwork} (obviously!) and
  are contractually guaranteed to be unmodifiable and thread-safe.
@@ -37632,13 +37632,13 @@
 
  <p>Example of use:
 
- <pre><code>
+ <pre>{@code
  MutableNetwork<String, Integer> flightNetwork =
      NetworkBuilder.directed().allowsParallelEdges(true).build();
  flightNetwork.addEdge("LAX", "ATL", 3025);
  flightNetwork.addEdge("LAX", "ATL", 1598);
  flightNetwork.addEdge("ATL", "LAX", 2450);
- </code></pre>
+ }</pre>
 
  @author James Sexton
  @author Joshua O'Madadhain
@@ -37743,9 +37743,9 @@
  an instance of one of the built-in implementations of {@code ValueGraph}, use the {@link
  ValueGraphBuilder} class:
 
- <pre><code>
+ <pre>{@code
    MutableValueGraph<Integer, Double> graph = ValueGraphBuilder.directed().build();
- </code></pre>
+ }</pre>
 
  <p>{@link ValueGraphBuilder#build()} returns an instance of {@link MutableValueGraph}, which is a
  subtype of {@code ValueGraph} that provides methods for adding and removing nodes and edges. If
@@ -37756,9 +37756,9 @@
  <p>You can create an immutable copy of an existing {@code ValueGraph} using {@link
  ImmutableValueGraph#copyOf(ValueGraph)}:
 
- <pre><code>
+ <pre>{@code
    ImmutableValueGraph<Integer, Double> immutableGraph = ImmutableValueGraph.copyOf(graph);
- </code></pre>
+ }</pre>
 
  <p>Instances of {@link ImmutableValueGraph} do not implement {@link MutableValueGraph}
  (obviously!) and are contractually guaranteed to be unmodifiable and thread-safe.
@@ -37878,13 +37878,13 @@
 
  <p>Example of use:
 
- <pre><code>
+ <pre>{@code
  MutableValueGraph<String, Double> graph =
      ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
  graph.putEdgeValue("San Francisco", "San Francisco", 0.0);
  graph.putEdgeValue("San Jose", "San Jose", 0.0);
  graph.putEdgeValue("San Francisco", "San Jose", 48.4);
- </code></pre>
+ }</pre>
 
  @author James Sexton
  @author Joshua O'Madadhain

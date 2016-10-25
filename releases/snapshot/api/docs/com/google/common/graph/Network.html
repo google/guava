@@ -130,8 +130,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
  <p>The implementation classes that `common.graph` provides are not public, by design. To create
  an instance of one of the built-in implementations of <code>Network</code>, use the <a href="../../../../com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a> class:
 
- <pre><code>
-   MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
+ <pre><code>MutableNetwork&lt;Integer, MyEdge&gt; graph = NetworkBuilder.directed().build();
  </code></pre>
 
  <p><a href="../../../../com/google/common/graph/NetworkBuilder.html#build()"><code>NetworkBuilder.build()</code></a> returns an instance of <a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph"><code>MutableNetwork</code></a>, which is a
@@ -141,8 +140,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Network.h
 
  <p>You can create an immutable copy of an existing <code>Network</code> using <a href="../../../../com/google/common/graph/ImmutableNetwork.html#copyOf(com.google.common.graph.Network)"><code>ImmutableNetwork.copyOf(Network)</code></a>:
 
- <pre><code>
-   ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(graph);
+ <pre><code>ImmutableNetwork&lt;Integer, MyEdge&gt; immutableGraph = ImmutableNetwork.copyOf(graph);
  </code></pre>
 
  <p>Instances of <a href="../../../../com/google/common/graph/ImmutableNetwork.html" title="class in com.google.common.graph"><code>ImmutableNetwork</code></a> do not implement <a href="../../../../com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph"><code>MutableNetwork</code></a> (obviously!) and

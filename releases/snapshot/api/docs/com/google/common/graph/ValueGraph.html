@@ -139,8 +139,7 @@ extends <a href="../../../../com/google/common/graph/Graph.html" title="interfac
  <p>The implementation classes that `common.graph` provides are not public, by design. To create
  an instance of one of the built-in implementations of <code>ValueGraph</code>, use the <a href="../../../../com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a> class:
 
- <pre><code>
-   MutableValueGraph<Integer, Double> graph = ValueGraphBuilder.directed().build();
+ <pre><code>MutableValueGraph&lt;Integer, Double&gt; graph = ValueGraphBuilder.directed().build();
  </code></pre>
 
  <p><a href="../../../../com/google/common/graph/ValueGraphBuilder.html#build()"><code>ValueGraphBuilder.build()</code></a> returns an instance of <a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph"><code>MutableValueGraph</code></a>, which is a
@@ -150,8 +149,7 @@ extends <a href="../../../../com/google/common/graph/Graph.html" title="interfac
 
  <p>You can create an immutable copy of an existing <code>ValueGraph</code> using <a href="../../../../com/google/common/graph/ImmutableValueGraph.html#copyOf(com.google.common.graph.ValueGraph)"><code>ImmutableValueGraph.copyOf(ValueGraph)</code></a>:
 
- <pre><code>
-   ImmutableValueGraph<Integer, Double> immutableGraph = ImmutableValueGraph.copyOf(graph);
+ <pre><code>ImmutableValueGraph&lt;Integer, Double&gt; immutableGraph = ImmutableValueGraph.copyOf(graph);
  </code></pre>
 
  <p>Instances of <a href="../../../../com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph"><code>ImmutableValueGraph</code></a> do not implement <a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph"><code>MutableValueGraph</code></a>

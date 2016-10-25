@@ -63,9 +63,9 @@
 <span class="sourceLineNo">055</span> * an instance of one of the built-in implementations of {@code Graph}, use the {@link GraphBuilder}<a name="line.55"></a>
 <span class="sourceLineNo">056</span> * class:<a name="line.56"></a>
 <span class="sourceLineNo">057</span> *<a name="line.57"></a>
-<span class="sourceLineNo">058</span> * &lt;pre&gt;&lt;code&gt;<a name="line.58"></a>
+<span class="sourceLineNo">058</span> * &lt;pre&gt;{@code<a name="line.58"></a>
 <span class="sourceLineNo">059</span> *   MutableGraph&lt;Integer&gt; graph = GraphBuilder.undirected().build();<a name="line.59"></a>
-<span class="sourceLineNo">060</span> * &lt;/code&gt;&lt;/pre&gt;<a name="line.60"></a>
+<span class="sourceLineNo">060</span> * }&lt;/pre&gt;<a name="line.60"></a>
 <span class="sourceLineNo">061</span> *<a name="line.61"></a>
 <span class="sourceLineNo">062</span> * &lt;p&gt;{@link GraphBuilder#build()} returns an instance of {@link MutableGraph}, which is a subtype<a name="line.62"></a>
 <span class="sourceLineNo">063</span> * of {@code Graph} that provides methods for adding and removing nodes and edges. If you do not<a name="line.63"></a>
@@ -75,9 +75,9 @@
 <span class="sourceLineNo">067</span> * &lt;p&gt;You can create an immutable copy of an existing {@code Graph} using {@link<a name="line.67"></a>
 <span class="sourceLineNo">068</span> * ImmutableGraph#copyOf(Graph)}:<a name="line.68"></a>
 <span class="sourceLineNo">069</span> *<a name="line.69"></a>
-<span class="sourceLineNo">070</span> * &lt;pre&gt;&lt;code&gt;<a name="line.70"></a>
+<span class="sourceLineNo">070</span> * &lt;pre&gt;{@code<a name="line.70"></a>
 <span class="sourceLineNo">071</span> *   ImmutableGraph&lt;Integer&gt; immutableGraph = ImmutableGraph.copyOf(graph);<a name="line.71"></a>
-<span class="sourceLineNo">072</span> * &lt;/code&gt;&lt;/pre&gt;<a name="line.72"></a>
+<span class="sourceLineNo">072</span> * }&lt;/pre&gt;<a name="line.72"></a>
 <span class="sourceLineNo">073</span> *<a name="line.73"></a>
 <span class="sourceLineNo">074</span> * &lt;p&gt;Instances of {@link ImmutableGraph} do not implement {@link MutableGraph} (obviously!) and are<a name="line.74"></a>
 <span class="sourceLineNo">075</span> * contractually guaranteed to be unmodifiable and thread-safe.<a name="line.75"></a>

@@ -109,8 +109,7 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 
  <p>Example of use:
 
- <pre><code>
- MutableGraph<String> graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
+ <pre><code>MutableGraph&lt;String&gt; graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
  graph.putEdge("bread", "bread");
  graph.putEdge("chocolate", "peanut butter");
  graph.putEdge("peanut butter", "jelly");
