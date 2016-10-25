@@ -35,10 +35,10 @@ import javax.annotation.Nullable;
  *
  * <p>Example usage:
  *
- * <pre><code>
+ * <pre>{@code
  * MutableGraph<Integer> graph =
  *     GraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
- * </code></pre>
+ * }</pre>
  *
  * @author Joshua O'Madadhain
  * @since 20.0

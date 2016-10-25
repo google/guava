@@ -55,9 +55,9 @@ import javax.annotation.Nullable;
  * an instance of one of the built-in implementations of {@code Graph}, use the {@link GraphBuilder}
  * class:
  *
- * <pre><code>
+ * <pre>{@code
  *   MutableGraph<Integer> graph = GraphBuilder.undirected().build();
- * </code></pre>
+ * }</pre>
  *
  * <p>{@link GraphBuilder#build()} returns an instance of {@link MutableGraph}, which is a subtype
  * of {@code Graph} that provides methods for adding and removing nodes and edges. If you do not
@@ -67,9 +67,9 @@ import javax.annotation.Nullable;
  * <p>You can create an immutable copy of an existing {@code Graph} using {@link
  * ImmutableGraph#copyOf(Graph)}:
  *
- * <pre><code>
+ * <pre>{@code
  *   ImmutableGraph<Integer> immutableGraph = ImmutableGraph.copyOf(graph);
- * </code></pre>
+ * }</pre>
  *
  * <p>Instances of {@link ImmutableGraph} do not implement {@link MutableGraph} (obviously!) and are
  * contractually guaranteed to be unmodifiable and thread-safe.

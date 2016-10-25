@@ -34,13 +34,13 @@ import com.google.common.base.Optional;
  *
  * <p>Example of use:
  *
- * <pre><code>
+ * <pre>{@code
  * MutableValueGraph<String, Double> graph =
  *     ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
  * graph.putEdgeValue("San Francisco", "San Francisco", 0.0);
  * graph.putEdgeValue("San Jose", "San Jose", 0.0);
  * graph.putEdgeValue("San Francisco", "San Jose", 48.4);
- * </code></pre>
+ * }</pre>
  *
  * @author James Sexton
  * @author Joshua O'Madadhain

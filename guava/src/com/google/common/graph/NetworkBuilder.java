@@ -36,13 +36,13 @@ import com.google.common.base.Optional;
  *
  * <p>Example of use:
  *
- * <pre><code>
+ * <pre>{@code
  * MutableNetwork<String, Integer> flightNetwork =
  *     NetworkBuilder.directed().allowsParallelEdges(true).build();
  * flightNetwork.addEdge("LAX", "ATL", 3025);
  * flightNetwork.addEdge("LAX", "ATL", 1598);
  * flightNetwork.addEdge("ATL", "LAX", 2450);
- * </code></pre>
+ * }</pre>
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
