@@ -33,7 +33,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -549,27 +548,37 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     return new AbstractIndexedListIterator<Cell<R, C, V>>(size()) {
       @Override
       protected Cell<R, C, V> get(final int index) {
-        return new Tables.AbstractCell<R, C, V>() {
-          final int rowIndex = index / columnList.size();
-          final int columnIndex = index % columnList.size();
-
-          @Override
-          public R getRowKey() {
-            return rowList.get(rowIndex);
-          }
-
-          @Override
-          public C getColumnKey() {
-            return columnList.get(columnIndex);
-          }
-
-          @Override
-          public V getValue() {
-            return at(rowIndex, columnIndex);
-          }
-        };
+        return getCell(index);
       }
     };
+  }
+  
+  private Cell<R, C, V> getCell(final int index) {
+    return new Tables.AbstractCell<R, C, V>() {
+      final int rowIndex = index / columnList.size();
+      final int columnIndex = index % columnList.size();
+
+      @Override
+      public R getRowKey() {
+        return rowList.get(rowIndex);
+      }
+
+      @Override
+      public C getColumnKey() {
+        return columnList.get(columnIndex);
+      }
+
+      @Override
+      public V getValue() {
+        return at(rowIndex, columnIndex);
+      }
+    };
+  }
+
+  private V getValue(int index) {
+    int rowIndex = index / columnList.size();
+    int columnIndex = index % columnList.size();
+    return at(rowIndex, columnIndex);
   }
 
   /**
@@ -763,6 +772,16 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   @Override
   public Collection<V> values() {
     return super.values();
+  }
+
+  @Override
+  Iterator<V> valuesIterator() {
+    return new AbstractIndexedListIterator<V>(size()) {
+      @Override
+      protected V get(int index) {
+        return getValue(index);
+      }
+    };
   }
 
   private static final long serialVersionUID = 0;
