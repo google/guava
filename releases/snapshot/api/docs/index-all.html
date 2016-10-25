@@ -4773,7 +4773,9 @@
 <dt><span class="strong"><a href="./com/google/common/collect/EvictingQueue.html#delegate()">delegate()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/EvictingQueue.html" title="class in com.google.common.collect">EvictingQueue</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#delegate()">delegate()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingCollection.html#delegate()">delegate()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingConcurrentMap.html#delegate()">delegate()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingConcurrentMap.html" title="class in com.google.common.collect">ForwardingConcurrentMap</a></dt>
@@ -4829,6 +4831,8 @@
 <dt><span class="strong"><a href="./com/google/common/reflect/MutableTypeToInstanceMap.html#delegate()">delegate()</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/MutableTypeToInstanceMap.html" title="class in com.google.common.reflect">MutableTypeToInstanceMap</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/reflect/TypeToken.TypeSet.html#delegate()">delegate()</a></span> - Method in class com.google.common.reflect.<a href="./com/google/common/reflect/TypeToken.TypeSet.html" title="class in com.google.common.reflect">TypeToken.TypeSet</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#delegate()">delegate()</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingQueue.html#delegate()">delegate()</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="class in com.google.common.util.concurrent">ForwardingBlockingQueue</a></dt>
 <dd>&nbsp;</dd>
@@ -5058,8 +5062,16 @@
  timeout.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#drainTo(java.util.Collection)">drainTo(Collection&lt;? super E&gt;)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#drainTo(java.util.Collection,%20int)">drainTo(Collection&lt;? super E&gt;, int)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#drainTo(java.util.Collection)">drainTo(Collection&lt;? super E&gt;)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#drainTo(java.util.Collection,%20int)">drainTo(Collection&lt;? super E&gt;, int)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingQueue.html#drainTo(java.util.Collection,%20int)">drainTo(Collection&lt;? super E&gt;, int)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="class in com.google.common.util.concurrent">ForwardingBlockingQueue</a></dt>
 <dd>&nbsp;</dd>
@@ -6420,9 +6432,21 @@
 </dd>
 <dt><a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect"><span class="strong">ForwardingBlockingDeque</span></a>&lt;<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt; - Class in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
-<div class="block">A <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent"><code>BlockingDeque</code></a> which forwards all its method calls to another <code>BlockingDeque</code>.</div>
+<div class="block"><span class="strong">Deprecated.</span>
+<div class="block"><i>This class has moved to <code>com.google.common.util.concurrent</code>. Please use <a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent"><code>ForwardingBlockingDeque</code></a> instead. This class is scheduled
+     for deletion in January 2019.</i></div>
+</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#ForwardingBlockingDeque()">ForwardingBlockingDeque()</a></span> - Constructor for class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+<div class="block">Constructor for use by subclasses.</div>
+</dd>
+<dt><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent"><span class="strong">ForwardingBlockingDeque</span></a>&lt;<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt; - Class in <a href="./com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
+<dd>
+<div class="block">A <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent"><code>BlockingDeque</code></a> which forwards all its method calls to another <code>BlockingDeque</code>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#ForwardingBlockingDeque()">ForwardingBlockingDeque()</a></span> - Constructor for class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
 <dd>
 <div class="block">Constructor for use by subclasses.</div>
 </dd>
@@ -11922,22 +11946,34 @@
 <div class="block">Adds the given element to this queue.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#offer(E,%20long,%20java.util.concurrent.TimeUnit)">offer(E, long, TimeUnit)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingQueue.html#offer(E)">offer(E)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingQueue.html" title="class in com.google.common.collect">ForwardingQueue</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/MinMaxPriorityQueue.html#offer(E)">offer(E)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a></dt>
 <dd>
 <div class="block">Adds the given element to this queue.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#offer(E,%20long,%20java.util.concurrent.TimeUnit)">offer(E, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingQueue.html#offer(E,%20long,%20java.util.concurrent.TimeUnit)">offer(E, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="class in com.google.common.util.concurrent">ForwardingBlockingQueue</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#offerFirst(E,%20long,%20java.util.concurrent.TimeUnit)">offerFirst(E, long, TimeUnit)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingDeque.html#offerFirst(E)">offerFirst(E)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingDeque.html" title="class in com.google.common.collect">ForwardingDeque</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#offerLast(E,%20long,%20java.util.concurrent.TimeUnit)">offerLast(E, long, TimeUnit)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#offerFirst(E,%20long,%20java.util.concurrent.TimeUnit)">offerFirst(E, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#offerLast(E,%20long,%20java.util.concurrent.TimeUnit)">offerLast(E, long, TimeUnit)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingDeque.html#offerLast(E)">offerLast(E)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingDeque.html" title="class in com.google.common.collect">ForwardingDeque</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#offerLast(E,%20long,%20java.util.concurrent.TimeUnit)">offerLast(E, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/base/Suppliers.html#ofInstance(T)">ofInstance(T)</a></span> - Static method in class com.google.common.base.<a href="./com/google/common/base/Suppliers.html" title="class in com.google.common.base">Suppliers</a></dt>
 <dd>
@@ -12465,15 +12501,21 @@
 <dt><span class="strong"><a href="./com/google/common/net/MediaType.html#PNG">PNG</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/MediaType.html" title="class in com.google.common.net">MediaType</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#poll(long,%20java.util.concurrent.TimeUnit)">poll(long, TimeUnit)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingQueue.html#poll()">poll()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingQueue.html" title="class in com.google.common.collect">ForwardingQueue</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/MinMaxPriorityQueue.html#poll()">poll()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/MinMaxPriorityQueue.html" title="class in com.google.common.collect">MinMaxPriorityQueue</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#poll(long,%20java.util.concurrent.TimeUnit)">poll(long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingQueue.html#poll(long,%20java.util.concurrent.TimeUnit)">poll(long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="class in com.google.common.util.concurrent">ForwardingBlockingQueue</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#pollFirst(long,%20java.util.concurrent.TimeUnit)">pollFirst(long, TimeUnit)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingDeque.html#pollFirst()">pollFirst()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingDeque.html" title="class in com.google.common.collect">ForwardingDeque</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingNavigableSet.html#pollFirst()">pollFirst()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingNavigableSet.html" title="class in com.google.common.collect">ForwardingNavigableSet</a></dt>
@@ -12488,6 +12530,8 @@
 <dd>
 <div class="block">Removes and returns the least element of this queue, or returns <code>null</code> if the queue is empty.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#pollFirst(long,%20java.util.concurrent.TimeUnit)">pollFirst(long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingNavigableMap.html#pollFirstEntry()">pollFirstEntry()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingNavigableMap.html" title="class in com.google.common.collect">ForwardingNavigableMap</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingSortedMultiset.html#pollFirstEntry()">pollFirstEntry()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingSortedMultiset.html" title="class in com.google.common.collect">ForwardingSortedMultiset</a></dt>
@@ -12510,7 +12554,9 @@
  multiset, or returns <code>null</code> if this multiset is empty.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#pollLast(long,%20java.util.concurrent.TimeUnit)">pollLast(long, TimeUnit)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingDeque.html#pollLast()">pollLast()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingDeque.html" title="class in com.google.common.collect">ForwardingDeque</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingNavigableSet.html#pollLast()">pollLast()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingNavigableSet.html" title="class in com.google.common.collect">ForwardingNavigableSet</a></dt>
@@ -12525,6 +12571,8 @@
 <dd>
 <div class="block">Removes and returns the greatest element of this queue, or returns <code>null</code> if the queue is empty.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#pollLast(long,%20java.util.concurrent.TimeUnit)">pollLast(long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingNavigableMap.html#pollLastEntry()">pollLastEntry()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingNavigableMap.html" title="class in com.google.common.collect">ForwardingNavigableMap</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingSortedMultiset.html#pollLastEntry()">pollLastEntry()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingSortedMultiset.html" title="class in com.google.common.collect">ForwardingSortedMultiset</a></dt>
@@ -12753,7 +12801,9 @@
 <dt><span class="strong"><a href="./com/google/common/collect/EnumHashBiMap.html#put(K,%20V)">put(K, V)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/EnumHashBiMap.html" title="class in com.google.common.collect">EnumHashBiMap</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#put(E)">put(E)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingMap.html#put(K,%20V)">put(K, V)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingMultimap.html#put(K,%20V)">put(K, V)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingMultimap.html" title="class in com.google.common.collect">ForwardingMultimap</a></dt>
@@ -12901,6 +12951,8 @@
 <div class="block">Associates <code>newValue</code> with <code>key</code> in this map, and returns the value previously
  associated with <code>key</code>, or zero if there was no such value.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#put(E)">put(E)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingQueue.html#put(E)">put(E)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="class in com.google.common.util.concurrent">ForwardingBlockingQueue</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/cache/AbstractCache.html#putAll(java.util.Map)">putAll(Map&lt;? extends K, ? extends V&gt;)</a></span> - Method in class com.google.common.cache.<a href="./com/google/common/cache/AbstractCache.html" title="class in com.google.common.cache">AbstractCache</a></dt>
@@ -13119,6 +13171,10 @@
  that edge with <code>value</code>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#putFirst(E)">putFirst(E)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#putFirst(E)">putFirst(E)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hasher.html#putFloat(float)">putFloat(float)</a></span> - Method in interface com.google.common.hash.<a href="./com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a></dt>
 <dd>
@@ -13173,6 +13229,10 @@
 <div class="block">Puts an int into this sink.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#putLast(E)">putLast(E)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#putLast(E)">putLast(E)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/hash/Hasher.html#putLong(long)">putLong(long)</a></span> - Method in interface com.google.common.hash.<a href="./com/google/common/hash/Hasher.html" title="interface in com.google.common.hash">Hasher</a></dt>
 <dd>&nbsp;</dd>
@@ -13586,6 +13646,10 @@
  zero if the queue is currently full.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#remainingCapacity()">remainingCapacity()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#remainingCapacity()">remainingCapacity()</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingQueue.html#remainingCapacity()">remainingCapacity()</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="class in com.google.common.util.concurrent">ForwardingBlockingQueue</a></dt>
 <dd>&nbsp;</dd>
@@ -15822,12 +15886,24 @@
 <dt><span class="strong"><a href="./com/google/common/collect/ImmutableSortedSet.html#tailSet(E,%20boolean)">tailSet(E, boolean)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#take()">take()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#take()">take()</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingQueue.html#take()">take()</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="class in com.google.common.util.concurrent">ForwardingBlockingQueue</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#takeFirst()">takeFirst()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#takeFirst()">takeFirst()</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/ForwardingBlockingDeque.html#takeLast()">takeLast()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
+<dd>
+<div class="block"><span class="strong">Deprecated.</span></div>
+&nbsp;</dd>
+<dt><span class="strong"><a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html#takeLast()">takeLast()</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent">ForwardingBlockingDeque</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/Uninterruptibles.html#takeUninterruptibly(java.util.concurrent.BlockingQueue)">takeUninterruptibly(BlockingQueue&lt;E&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/Uninterruptibles.html" title="class in com.google.common.util.concurrent">Uninterruptibles</a></dt>
 <dd>

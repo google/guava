@@ -118,27 +118,31 @@
 <dd><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;E&gt;, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;E&gt;, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;E&gt;, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Deque.html?is-external=true" title="class or interface in java.util">Deque</a>&lt;E&gt;, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Queue.html?is-external=true" title="class or interface in java.util">Queue</a>&lt;E&gt;</dd>
 </dl>
 <hr>
+<div class="block"><strong>Deprecated.</strong>&nbsp;
+<div class="block"><i>This class has moved to <code>com.google.common.util.concurrent</code>. Please use <a href="../../../../com/google/common/util/concurrent/ForwardingBlockingDeque.html" title="class in com.google.common.util.concurrent"><code>ForwardingBlockingDeque</code></a> instead. This class is scheduled
+     for deletion in January 2019.</i></div>
+</div>
 <br>
-<pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.47">ForwardingBlockingDeque</a>&lt;E&gt;
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+<a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public abstract class <a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.50">ForwardingBlockingDeque</a>&lt;E&gt;
 extends <a href="../../../../com/google/common/collect/ForwardingDeque.html" title="class in com.google.common.collect">ForwardingDeque</a>&lt;E&gt;
 implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;E&gt;</pre>
 <div class="block">A <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent"><code>BlockingDeque</code></a> which forwards all its method calls to another <code>BlockingDeque</code>.
  Subclasses should override one or more methods to modify the behavior of the backing deque as
  desired per the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
- <p><b>Warning:</b> The methods of <code>ForwardingBlockingDeque</code> forward
- <b>indiscriminately</b> to the methods of the delegate. For example, overriding <a href="../../../../com/google/common/collect/ForwardingCollection.html#add(E)"><code>ForwardingCollection.add(E)</code></a>
- alone <b>will not</b> change the behaviour of <a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#offer(E,%20long,%20java.util.concurrent.TimeUnit)"><code>offer(E, long, java.util.concurrent.TimeUnit)</code></a> which can lead to unexpected
- behaviour. In this case, you should override <code>offer</code> as well, either providing your own
- implementation, or delegating to the provided <code>standardOffer</code> method.
+ <p><b>Warning:</b> The methods of <code>ForwardingBlockingDeque</code> forward <b>indiscriminately</b>
+ to the methods of the delegate. For example, overriding <a href="../../../../com/google/common/collect/ForwardingCollection.html#add(E)"><code>ForwardingCollection.add(E)</code></a> alone <b>will not</b> change
+ the behaviour of <a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#offer(E,%20long,%20java.util.concurrent.TimeUnit)"><code>offer(E, long, java.util.concurrent.TimeUnit)</code></a> which can lead to unexpected behaviour. In this case, you should
+ override <code>offer</code> as well, either providing your own implementation, or delegating to the
+ provided <code>standardOffer</code> method.
 
  <p><b><code>default</code> method warning:</b> This class does <i>not</i> forward calls to <code>default</code> methods. Instead, it inherits their default implementations. When those implementations
  invoke methods, they invoke methods on the <code>ForwardingBlockingDeque</code>.
 
- <p>
- The <code>standard</code> methods are not guaranteed to be thread-safe, even when all of the methods
- that they depend on are thread-safe.</div>
+ <p>The <code>standard</code> methods are not guaranteed to be thread-safe, even when all of the
+ methods that they depend on are thread-safe.</div>
 <dl><dt><span class="strong">Since:</span></dt>
   <dd>14.0</dd>
 <dt><span class="strong">Author:</span></dt>
@@ -164,6 +168,7 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <tr class="altColor">
 <td class="colFirst"><code>protected </code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#ForwardingBlockingDeque()">ForwardingBlockingDeque</a></strong>()</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
 <div class="block">Constructor for use by subclasses.</div>
 </td>
 </tr>
@@ -185,78 +190,109 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <tr class="altColor">
 <td class="colFirst"><code>protected abstract <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#delegate()">delegate</a></strong>()</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#drainTo(java.util.Collection)">drainTo</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super <a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;&nbsp;c)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#drainTo(java.util.Collection)">drainTo</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super <a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;&nbsp;c)</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#drainTo(java.util.Collection,%20int)">drainTo</a></strong>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super <a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;&nbsp;c,
-              int&nbsp;maxElements)</code>&nbsp;</td>
+              int&nbsp;maxElements)</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#offer(E,%20long,%20java.util.concurrent.TimeUnit)">offer</a></strong>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
           long&nbsp;timeout,
-          <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>&nbsp;</td>
+          <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#offerFirst(E,%20long,%20java.util.concurrent.TimeUnit)">offerFirst</a></strong>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
                     long&nbsp;timeout,
-                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>&nbsp;</td>
+                    <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#offerLast(E,%20long,%20java.util.concurrent.TimeUnit)">offerLast</a></strong>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
                   long&nbsp;timeout,
-                  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>&nbsp;</td>
+                  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#poll(long,%20java.util.concurrent.TimeUnit)">poll</a></strong>(long&nbsp;timeout,
-        <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>&nbsp;</td>
+        <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#pollFirst(long,%20java.util.concurrent.TimeUnit)">pollFirst</a></strong>(long&nbsp;timeout,
-                  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>&nbsp;</td>
+                  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#pollLast(long,%20java.util.concurrent.TimeUnit)">pollLast</a></strong>(long&nbsp;timeout,
-                <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>&nbsp;</td>
+                <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#put(E)">put</a></strong>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#put(E)">put</a></strong>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#putFirst(E)">putFirst</a></strong>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#putFirst(E)">putFirst</a></strong>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#putLast(E)">putLast</a></strong>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#putLast(E)">putLast</a></strong>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#remainingCapacity()">remainingCapacity</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#remainingCapacity()">remainingCapacity</a></strong>()</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#take()">take</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#take()">take</a></strong>()</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#takeFirst()">takeFirst</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#takeFirst()">takeFirst</a></strong>()</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#takeLast()">takeLast</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html#takeLast()">takeLast</a></strong>()</code>
+<div class="block"><strong>Deprecated.</strong>&nbsp;</div>
+&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -335,7 +371,8 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ForwardingBlockingDeque</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.51">ForwardingBlockingDeque</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.54">ForwardingBlockingDeque</a>()</pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -353,7 +390,8 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre>protected abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.54">delegate</a>()</pre>
+<pre>protected abstract&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.57">delegate</a>()</pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></strong></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to.
  Abstract subclasses generally override this method with an abstract method
@@ -371,7 +409,8 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>remainingCapacity</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.57">remainingCapacity</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.60">remainingCapacity</a>()</pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#remainingCapacity()" title="class or interface in java.util.concurrent">remainingCapacity</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -386,8 +425,9 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>putFirst</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.62">putFirst</a>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.65">putFirst</a>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)
               throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true#putFirst(E)" title="class or interface in java.util.concurrent">putFirst</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -403,8 +443,9 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>putLast</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.67">putLast</a>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.70">putLast</a>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)
              throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true#putLast(E)" title="class or interface in java.util.concurrent">putLast</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -420,10 +461,11 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>offerFirst</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.72">offerFirst</a>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.75">offerFirst</a>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
                  long&nbsp;timeout,
                  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                    throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true#offerFirst(E,%20long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent">offerFirst</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -439,10 +481,11 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>offerLast</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.77">offerLast</a>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.80">offerLast</a>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
                 long&nbsp;timeout,
                 <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                   throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true#offerLast(E,%20long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent">offerLast</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -456,8 +499,9 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>takeFirst</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.82">takeFirst</a>()
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.85">takeFirst</a>()
             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true#takeFirst()" title="class or interface in java.util.concurrent">takeFirst</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -471,8 +515,9 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>takeLast</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.87">takeLast</a>()
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.90">takeLast</a>()
            throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true#takeLast()" title="class or interface in java.util.concurrent">takeLast</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -486,9 +531,10 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>pollFirst</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.92">pollFirst</a>(long&nbsp;timeout,
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.95">pollFirst</a>(long&nbsp;timeout,
           <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true#pollFirst(long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent">pollFirst</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -502,9 +548,10 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>pollLast</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.97">pollLast</a>(long&nbsp;timeout,
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.100">pollLast</a>(long&nbsp;timeout,
          <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
            throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true#pollLast(long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent">pollLast</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -520,8 +567,9 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>put</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.102">put</a>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.105">put</a>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)
          throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true#put(E)" title="class or interface in java.util.concurrent">put</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -539,10 +587,11 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>offer</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.107">offer</a>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.110">offer</a>(<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
             long&nbsp;timeout,
             <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
               throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true#offer(E,%20long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent">offer</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -558,8 +607,9 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>take</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.112">take</a>()
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.115">take</a>()
        throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true#take()" title="class or interface in java.util.concurrent">take</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -575,9 +625,10 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>poll</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.117">poll</a>(long&nbsp;timeout,
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.120">poll</a>(long&nbsp;timeout,
      <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
        throws <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true#poll(long,%20java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent">poll</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingDeque.html?is-external=true" title="class or interface in java.util.concurrent">BlockingDeque</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -593,7 +644,8 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockList">
 <li class="blockList">
 <h4>drainTo</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.122">drainTo</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super <a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;&nbsp;c)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.125">drainTo</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super <a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;&nbsp;c)</pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo(java.util.Collection)" title="class or interface in java.util.concurrent">drainTo</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -606,8 +658,9 @@ implements <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurren
 <ul class="blockListLast">
 <li class="blockList">
 <h4>drainTo</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.127">drainTo</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super <a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;&nbsp;c,
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingBlockingDeque.html#line.130">drainTo</a>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super <a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;&nbsp;c,
           int&nbsp;maxElements)</pre>
+<div class="block"><span class="strong">Deprecated.</span>&nbsp;</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo(java.util.Collection,%20int)" title="class or interface in java.util.concurrent">drainTo</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;<a href="../../../../com/google/common/collect/ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>

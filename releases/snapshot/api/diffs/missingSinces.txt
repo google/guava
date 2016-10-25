@@ -1,4 +1,5 @@
 OK: com.google.common.util.concurrent.AsyncCallable Interface
+OK: com.google.common.util.concurrent.ForwardingBlockingDeque Class
 OK: com.google.common.util.concurrent.Futures.FutureCombiner Class
 OK: com.google.common.math.LinearTransformation Class
 MISSING @SINCE TAG: com.google.common.math.LinearTransformation.LinearTransformationBuilder Class
