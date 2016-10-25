@@ -34,12 +34,12 @@ import com.google.common.base.Optional;
  *
  * <p>Example of use:
  *
- * <pre><code>
+ * <pre>{@code
  * MutableGraph<String> graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
  * graph.putEdge("bread", "bread");
  * graph.putEdge("chocolate", "peanut butter");
  * graph.putEdge("peanut butter", "jelly");
- * </code></pre>
+ * }</pre>
  *
  * @author James Sexton
  * @author Joshua O'Madadhain

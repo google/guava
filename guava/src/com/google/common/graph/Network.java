@@ -54,9 +54,9 @@ import javax.annotation.Nullable;
  * an instance of one of the built-in implementations of {@code Network}, use the {@link
  * NetworkBuilder} class:
  *
- * <pre><code>
+ * <pre>{@code
  *   MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
- * </code></pre>
+ * }</pre>
  *
  * <p>{@link NetworkBuilder#build()} returns an instance of {@link MutableNetwork}, which is a
  * subtype of {@code Network} that provides methods for adding and removing nodes and edges. If you
@@ -67,9 +67,9 @@ import javax.annotation.Nullable;
  * <p>You can create an immutable copy of an existing {@code Network} using {@link
  * ImmutableNetwork#copyOf(Network)}:
  *
- * <pre><code>
+ * <pre>{@code
  *   ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(graph);
- * </code></pre>
+ * }</pre>
  *
  * <p>Instances of {@link ImmutableNetwork} do not implement {@link MutableNetwork} (obviously!) and
  * are contractually guaranteed to be unmodifiable and thread-safe.
