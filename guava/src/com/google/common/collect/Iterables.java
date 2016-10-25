@@ -38,17 +38,22 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * This class contains static utility methods that operate on or return objects
- * of type {@code Iterable}. Except as noted, each method has a corresponding
- * {@link Iterator}-based method in the {@link Iterators} class.
+ * An assortment of mainly legacy static utility methods that operate on or return objects of type
+ * {@code Iterable}. Except as noted, each method has a corresponding {@link Iterator}-based method
+ * in the {@link Iterators} class.
  *
- * <p><i>Performance notes:</i> Unless otherwise noted, all of the iterables
- * produced in this class are <i>lazy</i>, which means that their iterators
- * only advance the backing iteration when absolutely necessary.
+ * <p><b>Java 8 users:</b> several common uses for this class are now more comprehensively addressed
+ * by the new {@link java.util.stream.Stream} library. Read the method documentation below for
+ * comparisons. This class is not being deprecated, but we gently encourage you to migrate to
+ * streams.
+ *
+ * <p><i>Performance notes:</i> Unless otherwise noted, all of the iterables produced in this class
+ * are <i>lazy</i>, which means that their iterators only advance the backing iteration when
+ * absolutely necessary.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#iterables">
- * {@code Iterables}</a>.
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#iterables"> {@code
+ * Iterables}</a>.
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
@@ -286,20 +291,24 @@ public final class Iterables {
   /**
    * Returns the single element contained in {@code iterable}.
    *
+   * <p><b>Java 8 users:</b> the {@code Stream} equivalent to this method is {@code
+   * stream.collect(MoreCollectors.onlyElement())}.
+   *
    * @throws NoSuchElementException if the iterable is empty
-   * @throws IllegalArgumentException if the iterable contains multiple
-   *     elements
+   * @throws IllegalArgumentException if the iterable contains multiple elements
    */
   public static <T> T getOnlyElement(Iterable<T> iterable) {
     return Iterators.getOnlyElement(iterable.iterator());
   }
 
   /**
-   * Returns the single element contained in {@code iterable}, or {@code
-   * defaultValue} if the iterable is empty.
+   * Returns the single element contained in {@code iterable}, or {@code defaultValue} if the
+   * iterable is empty.
    *
-   * @throws IllegalArgumentException if the iterator contains multiple
-   *     elements
+   * <p><b>Java 8 users:</b> the {@code Stream} equivalent to this method is {@code
+   * stream.collect(MoreCollectors.toOptional()).orElse(defaultValue)}.
+   *
+   * @throws IllegalArgumentException if the iterator contains multiple elements
    */
   @Nullable
   public static <T> T getOnlyElement(Iterable<? extends T> iterable, @Nullable T defaultValue) {
@@ -362,9 +371,12 @@ public final class Iterables {
   }
 
   /**
-   * Returns the number of elements in the specified iterable that equal the
-   * specified object. This implementation avoids a full iteration when the
-   * iterable is a {@link Multiset} or {@link Set}.
+   * Returns the number of elements in the specified iterable that equal the specified object. This
+   * implementation avoids a full iteration when the iterable is a {@link Multiset} or {@link Set}.
+   *
+   * <p><b>Java 8 users:</b> In most cases, the {@code Stream} equivalent of this method is {@code
+   * stream.filter(element::equals).count()}. If {@code element} might be null, use {@code
+   * stream.filter(Predicate.isEqual(element)).count()} instead.
    *
    * @see Collections#frequency
    */
@@ -378,21 +390,22 @@ public final class Iterables {
   }
 
   /**
-   * Returns an iterable whose iterators cycle indefinitely over the elements of
-   * {@code iterable}.
+   * Returns an iterable whose iterators cycle indefinitely over the elements of {@code iterable}.
    *
-   * <p>That iterator supports {@code remove()} if {@code iterable.iterator()}
-   * does. After {@code remove()} is called, subsequent cycles omit the removed
-   * element, which is no longer in {@code iterable}. The iterator's
-   * {@code hasNext()} method returns {@code true} until {@code iterable} is
-   * empty.
+   * <p>That iterator supports {@code remove()} if {@code iterable.iterator()} does. After {@code
+   * remove()} is called, subsequent cycles omit the removed element, which is no longer in {@code
+   * iterable}. The iterator's {@code hasNext()} method returns {@code true} until {@code iterable}
+   * is empty.
    *
-   * <p><b>Warning:</b> Typical uses of the resulting iterator may produce an
-   * infinite loop. You should use an explicit {@code break} or be certain that
-   * you will eventually remove all the elements.
+   * <p><b>Warning:</b> Typical uses of the resulting iterator may produce an infinite loop. You
+   * should use an explicit {@code break} or be certain that you will eventually remove all the
+   * elements.
    *
-   * <p>To cycle over the iterable {@code n} times, use the following:
-   * {@code Iterables.concat(Collections.nCopies(n, iterable))}
+   * <p>To cycle over the iterable {@code n} times, use the following: {@code
+   * Iterables.concat(Collections.nCopies(n, iterable))}
+   *
+   * <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code
+   * Stream.generate(() -> iterable).flatMap(Streams::stream)}.
    */
   public static <T> Iterable<T> cycle(final Iterable<T> iterable) {
     checkNotNull(iterable);
@@ -410,47 +423,54 @@ public final class Iterables {
   }
 
   /**
-   * Returns an iterable whose iterators cycle indefinitely over the provided
+   * Returns an iterable whose iterators cycle indefinitely over the provided elements.
+   *
+   * <p>After {@code remove} is invoked on a generated iterator, the removed element will no longer
+   * appear in either that iterator or any other iterator created from the same source iterable.
+   * That is, this method behaves exactly as {@code Iterables.cycle(Lists.newArrayList(elements))}.
+   * The iterator's {@code hasNext} method returns {@code true} until all of the original elements
+   * have been removed.
+   *
+   * <p><b>Warning:</b> Typical uses of the resulting iterator may produce an infinite loop. You
+   * should use an explicit {@code break} or be certain that you will eventually remove all the
    * elements.
    *
-   * <p>After {@code remove} is invoked on a generated iterator, the removed
-   * element will no longer appear in either that iterator or any other iterator
-   * created from the same source iterable. That is, this method behaves exactly
-   * as {@code Iterables.cycle(Lists.newArrayList(elements))}. The iterator's
-   * {@code hasNext} method returns {@code true} until all of the original
-   * elements have been removed.
+   * <p>To cycle over the elements {@code n} times, use the following: {@code
+   * Iterables.concat(Collections.nCopies(n, Arrays.asList(elements)))}
    *
-   * <p><b>Warning:</b> Typical uses of the resulting iterator may produce an
-   * infinite loop. You should use an explicit {@code break} or be certain that
-   * you will eventually remove all the elements.
-   *
-   * <p>To cycle over the elements {@code n} times, use the following:
-   * {@code Iterables.concat(Collections.nCopies(n, Arrays.asList(elements)))}
+   * <p><b>Java 8 users:</b> If passing a single element {@code e}, the {@code Stream} equivalent of
+   * this method is {@code Stream.generate(() -> e)}. Otherwise, put the elements in a collection
+   * and use {@code Stream.generate(() -> collection).flatMap(Collection::stream)}.
    */
   public static <T> Iterable<T> cycle(T... elements) {
     return cycle(Lists.newArrayList(elements));
   }
 
   /**
-   * Combines two iterables into a single iterable. The returned iterable has an
-   * iterator that traverses the elements in {@code a}, followed by the elements
-   * in {@code b}. The source iterators are not polled until necessary.
+   * Combines two iterables into a single iterable. The returned iterable has an iterator that
+   * traverses the elements in {@code a}, followed by the elements in {@code b}. The source
+   * iterators are not polled until necessary.
    *
-   * <p>The returned iterable's iterator supports {@code remove()} when the
-   * corresponding input iterator supports it.
+   * <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
+   * iterator supports it.
+   *
+   * <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code
+   * Stream.concat(a, b)}.
    */
   public static <T> Iterable<T> concat(Iterable<? extends T> a, Iterable<? extends T> b) {
     return FluentIterable.concat(a, b);
   }
 
   /**
-   * Combines three iterables into a single iterable. The returned iterable has
-   * an iterator that traverses the elements in {@code a}, followed by the
-   * elements in {@code b}, followed by the elements in {@code c}. The source
-   * iterators are not polled until necessary.
+   * Combines three iterables into a single iterable. The returned iterable has an iterator that
+   * traverses the elements in {@code a}, followed by the elements in {@code b}, followed by the
+   * elements in {@code c}. The source iterators are not polled until necessary.
    *
-   * <p>The returned iterable's iterator supports {@code remove()} when the
-   * corresponding input iterator supports it.
+   * <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
+   * iterator supports it.
+   *
+   * <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code
+   * Streams.concat(a, b, c)}.
    */
   public static <T> Iterable<T> concat(
       Iterable<? extends T> a, Iterable<? extends T> b, Iterable<? extends T> c) {
@@ -458,14 +478,16 @@ public final class Iterables {
   }
 
   /**
-   * Combines four iterables into a single iterable. The returned iterable has
-   * an iterator that traverses the elements in {@code a}, followed by the
-   * elements in {@code b}, followed by the elements in {@code c}, followed by
-   * the elements in {@code d}. The source iterators are not polled until
-   * necessary.
+   * Combines four iterables into a single iterable. The returned iterable has an iterator that
+   * traverses the elements in {@code a}, followed by the elements in {@code b}, followed by the
+   * elements in {@code c}, followed by the elements in {@code d}. The source iterators are not
+   * polled until necessary.
    *
-   * <p>The returned iterable's iterator supports {@code remove()} when the
-   * corresponding input iterator supports it.
+   * <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
+   * iterator supports it.
+   *
+   * <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code
+   * Streams.concat(a, b, c, d)}.
    */
   public static <T> Iterable<T> concat(
       Iterable<? extends T> a,
@@ -476,12 +498,15 @@ public final class Iterables {
   }
 
   /**
-   * Combines multiple iterables into a single iterable. The returned iterable
-   * has an iterator that traverses the elements of each iterable in
-   * {@code inputs}. The input iterators are not polled until necessary.
+   * Combines multiple iterables into a single iterable. The returned iterable has an iterator that
+   * traverses the elements of each iterable in {@code inputs}. The input iterators are not polled
+   * until necessary.
    *
-   * <p>The returned iterable's iterator supports {@code remove()} when the
-   * corresponding input iterator supports it.
+   * <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
+   * iterator supports it.
+   *
+   * <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code
+   * Streams.concat(...)}.
    *
    * @throws NullPointerException if any of the provided iterables is null
    */
@@ -490,14 +515,16 @@ public final class Iterables {
   }
 
   /**
-   * Combines multiple iterables into a single iterable. The returned iterable
-   * has an iterator that traverses the elements of each iterable in
-   * {@code inputs}. The input iterators are not polled until necessary.
+   * Combines multiple iterables into a single iterable. The returned iterable has an iterator that
+   * traverses the elements of each iterable in {@code inputs}. The input iterators are not polled
+   * until necessary.
    *
-   * <p>The returned iterable's iterator supports {@code remove()} when the
-   * corresponding input iterator supports it. The methods of the returned
-   * iterable may throw {@code NullPointerException} if any of the input
-   * iterators is null.
+   * <p>The returned iterable's iterator supports {@code remove()} when the corresponding input
+   * iterator supports it. The methods of the returned iterable may throw {@code
+   * NullPointerException} if any of the input iterators is null.
+   *
+   * <p><b>Java 8 users:</b> The {@code Stream} equivalent of this method is {@code
+   * streamOfStreams.flatMap(s -> s)}.
    */
   public static <T> Iterable<T> concat(Iterable<? extends Iterable<? extends T>> inputs) {
     return FluentIterable.concat(inputs);
@@ -563,9 +590,10 @@ public final class Iterables {
   }
 
   /**
-   * Returns a view of {@code unfiltered} containing all elements that satisfy
-   * the input predicate {@code retainIfTrue}. The returned iterable's iterator
-   * does not support {@code remove()}.
+   * Returns a view of {@code unfiltered} containing all elements that satisfy the input predicate
+   * {@code retainIfTrue}. The returned iterable's iterator does not support {@code remove()}.
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@code stream.filter()}.
    */
   public static <T> Iterable<T> filter(
       final Iterable<T> unfiltered, final Predicate<? super T> retainIfTrue) {
@@ -580,9 +608,18 @@ public final class Iterables {
   }
 
   /**
-   * Returns a view of {@code unfiltered} containing all elements that are of
-   * the type {@code desiredType}. The returned iterable's iterator does not
-   * support {@code remove()}.
+   * Returns a view of {@code unfiltered} containing all elements that are of the type {@code
+   * desiredType}. The returned iterable's iterator does not support {@code remove()}.
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@code stream.filter(type::isInstance).map(type::cast)}.
+   * This does perform a little more work than necessary, so another option is to insert an
+   * unchecked cast at some later point:
+   *
+   * <pre>
+   * {@code @SuppressWarnings("unchecked") // safe because of ::isInstance check
+   * ImmutableList<NewType> result =
+   *     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());}
+   * </pre>
    */
   @GwtIncompatible // Class.isInstance
   public static <T> Iterable<T> filter(final Iterable<?> unfiltered, final Class<T> desiredType) {
@@ -598,14 +635,18 @@ public final class Iterables {
 
   /**
    * Returns {@code true} if any element in {@code iterable} satisfies the predicate.
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@link Stream#anyMatch}.
    */
   public static <T> boolean any(Iterable<T> iterable, Predicate<? super T> predicate) {
     return Iterators.any(iterable.iterator(), predicate);
   }
 
   /**
-   * Returns {@code true} if every element in {@code iterable} satisfies the
-   * predicate. If {@code iterable} is empty, {@code true} is returned.
+   * Returns {@code true} if every element in {@code iterable} satisfies the predicate. If {@code
+   * iterable} is empty, {@code true} is returned.
+   *
+   * <p><b>{@code Stream} equivalent:</b> {@link Stream#allMatch}.
    */
   public static <T> boolean all(Iterable<T> iterable, Predicate<? super T> predicate) {
     return Iterators.all(iterable.iterator(), predicate);

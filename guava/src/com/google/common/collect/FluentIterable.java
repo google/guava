@@ -366,9 +366,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * elements.
    *
    * <p><b>{@code Stream} equivalent:</b> if the source iterable has only a single element {@code
-   * element}, use {@code Stream.generate(() -> element)}. Otherwise, if the source iterable has a
-   * {@code stream} method (for example, if it is a {@link Collection}), use
-   * {@code Stream.generate(iterable::stream).flatMap(s -> s)}.
+   * e}, use {@code Stream.generate(() -> e)}. Otherwise, collect your stream into a collection and
+   * use {@code Stream.generate(() -> collection).flatMap(Collection::stream)}.
    */
   public final FluentIterable<E> cycle() {
     return from(Iterables.cycle(getDelegate()));
