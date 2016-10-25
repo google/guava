@@ -65,8 +65,8 @@ public interface Function<F, T> {
   T apply(@Nullable F input);
 
   /**
-   * <i>May</i> return {@code true} if {@object} is a {@code Function} that behaves identically to
-   * this function.
+   * <i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically
+   * to this function.
    *
    * <p><b>Warning: do not depend</b> on the behavior of this method.
    *

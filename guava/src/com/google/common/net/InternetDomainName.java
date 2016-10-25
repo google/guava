@@ -197,7 +197,7 @@ public final class InternetDomainName {
   }
 
   /**
-   * Validation method used by {@from} to ensure that the domain name is syntactically valid
+   * Validation method used by {@code from} to ensure that the domain name is syntactically valid
    * according to RFC 1035.
    *
    * @return Is the domain name syntactically valid?
