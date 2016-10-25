@@ -35,6 +35,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
 import javax.annotation.Nullable;
 
 /**
@@ -217,27 +218,32 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
       return keyIndex.isEmpty();
     }
 
+    Entry<K, V> getEntry(final int index) {
+      checkElementIndex(index, size());
+      return new AbstractMapEntry<K, V>() {
+        @Override
+        public K getKey() {
+          return ArrayMap.this.getKey(index);
+        }
+
+        @Override
+        public V getValue() {
+          return ArrayMap.this.getValue(index);
+        }
+
+        @Override
+        public V setValue(V value) {
+          return ArrayMap.this.setValue(index, value);
+        }
+      };
+    }
+
     @Override
     Iterator<Entry<K, V>> entryIterator() {
       return new AbstractIndexedListIterator<Entry<K, V>>(size()) {
         @Override
         protected Entry<K, V> get(final int index) {
-          return new AbstractMapEntry<K, V>() {
-            @Override
-            public K getKey() {
-              return ArrayMap.this.getKey(index);
-            }
-
-            @Override
-            public V getValue() {
-              return ArrayMap.this.getValue(index);
-            }
-
-            @Override
-            public V setValue(V value) {
-              return ArrayMap.this.setValue(index, value);
-            }
-          };
+          return getEntry(index);
         }
       };
     }

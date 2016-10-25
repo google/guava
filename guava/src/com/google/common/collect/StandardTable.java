@@ -40,6 +40,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
 import javax.annotation.Nullable;
 
 /**
@@ -358,30 +359,33 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
 
         @Override
         public Entry<C, V> next() {
-          final Entry<C, V> entry = iterator.next();
-          return new ForwardingMapEntry<C, V>() {
-            @Override
-            protected Entry<C, V> delegate() {
-              return entry;
-            }
-
-            @Override
-            public V setValue(V value) {
-              return super.setValue(checkNotNull(value));
-            }
-
-            @Override
-            public boolean equals(Object object) {
-              // TODO(lowasser): identify why this affects GWT tests
-              return standardEquals(object);
-            }
-          };
+          return wrapEntry(iterator.next());
         }
 
         @Override
         public void remove() {
           iterator.remove();
           maintainEmptyInvariant();
+        }
+      };
+    }
+
+    Entry<C, V> wrapEntry(final Entry<C, V> entry) {
+      return new ForwardingMapEntry<C, V>() {
+        @Override
+        protected Entry<C, V> delegate() {
+          return entry;
+        }
+
+        @Override
+        public V setValue(V value) {
+          return super.setValue(checkNotNull(value));
+        }
+
+        @Override
+        public boolean equals(Object object) {
+          // TODO(lowasser): identify why this affects GWT tests
+          return standardEquals(object);
         }
       };
     }
