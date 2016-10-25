@@ -476,7 +476,7 @@ public final class NullPointerTester {
    * Returns true if the the given member is a method that overrides {@link Object#equals(Object)}.
    *
    * <p>The documentation for {@link Object#equals} says it should accept null, so don't require an
-   * explicit {@link @Nullable} annotation (see <a
+   * explicit {@code @Nullable} annotation (see <a
    * href="https://github.com/google/guava/issues/1819">#1819</a>).
    *
    * <p>It is not necessary to consider visibility, return type, or type parameter declarations. The

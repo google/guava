@@ -282,12 +282,14 @@ public class Helpers {
    * the given {@code comparator}.
    *
    * <p>In detail, this method asserts
+   *
    * <ul>
-   * <li><i>reflexivity</i>: {@code comparator.compare(t, t) = 0} for all {@code t} in
-   * {@code valuesInExpectedOrder}; and
-   * <li><i>consistency</i>: {@code comparator.compare(ti, tj) < 0} and
-   * {@code comparator.compare(tj, ti) > 0} for {@code i < j}, where
-   * {@code ti = valuesInExpectedOrder.get(i)} and {@code tj = valuesInExpectedOrder.get(j)}.
+   *   <li><i>reflexivity</i>: {@code comparator.compare(t, t) = 0} for all {@code t} in {@code
+   *       valuesInExpectedOrder}; and
+   *   <li><i>consistency</i>: {@code comparator.compare(ti, tj) < 0} and {@code
+   *       comparator.compare(tj, ti) > 0} for {@code i < j}, where {@code ti =
+   *       valuesInExpectedOrder.get(i)} and {@code tj = valuesInExpectedOrder.get(j)}.
+   * </ul>
    */
   public static <T> void testComparator(
       Comparator<? super T> comparator, List<T> valuesInExpectedOrder) {

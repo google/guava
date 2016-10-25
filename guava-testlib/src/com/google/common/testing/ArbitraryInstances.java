@@ -282,7 +282,7 @@ public final class ArbitraryInstances {
       .build();
 
   /**
-   * type -> implementation. Inherently mutable interfaces and abstract classes are mapped to their
+   * type → implementation. Inherently mutable interfaces and abstract classes are mapped to their
    * default implementations and are "new"d upon get().
    */
   private static final ConcurrentMap<Class<?>, Class<?>> implementations = Maps.newConcurrentMap();

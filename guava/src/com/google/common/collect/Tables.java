@@ -456,9 +456,6 @@ public final class Tables {
    *
    * <p>Consider using an {@link ImmutableTable}, which is guaranteed never to change.
    *
-   * @param table
-   *          the table for which an unmodifiable view is to be returned
-   * @return an unmodifiable view of the specified table
    * @since 11.0
    */
   public static <R, C, V> Table<R, C, V> unmodifiableTable(

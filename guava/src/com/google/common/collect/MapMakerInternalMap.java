@@ -97,8 +97,8 @@ class MapMakerInternalMap<
 
   /**
    * The maximum capacity, used if a higher value is implicitly specified by either of the
-   * constructors with arguments. MUST be a power of two <= 1<<30 to ensure that entries are
-   * indexable using ints.
+   * constructors with arguments. MUST be a power of two no greater than {@code 1<<30} to ensure
+   * that entries are indexable using ints.
    */
   static final int MAXIMUM_CAPACITY = Ints.MAX_POWER_OF_TWO;
 
@@ -1837,11 +1837,6 @@ class MapMakerInternalMap<
   /** Concrete implementation of {@link Segment} for strong keys and strong values. */
   static final class StrongKeyStrongValueSegment<K, V>
       extends Segment<K, V, StrongKeyStrongValueEntry<K, V>, StrongKeyStrongValueSegment<K, V>> {
-    /**
-     * @param map
-     * @param initialCapacity
-     * @param maxSegmentSize
-     */
     StrongKeyStrongValueSegment(
         MapMakerInternalMap<
                 K, V, StrongKeyStrongValueEntry<K, V>, StrongKeyStrongValueSegment<K, V>>
@@ -1868,11 +1863,6 @@ class MapMakerInternalMap<
       extends Segment<K, V, StrongKeyWeakValueEntry<K, V>, StrongKeyWeakValueSegment<K, V>> {
     private final ReferenceQueue<V> queueForValues = new ReferenceQueue<V>();
 
-    /**
-     * @param map
-     * @param initialCapacity
-     * @param maxSegmentSize
-     */
     StrongKeyWeakValueSegment(
         MapMakerInternalMap<K, V, StrongKeyWeakValueEntry<K, V>, StrongKeyWeakValueSegment<K, V>>
             map,
@@ -1939,11 +1929,6 @@ class MapMakerInternalMap<
       extends Segment<K, V, WeakKeyStrongValueEntry<K, V>, WeakKeyStrongValueSegment<K, V>> {
     private final ReferenceQueue<K> queueForKeys = new ReferenceQueue<K>();
 
-    /**
-     * @param map
-     * @param initialCapacity
-     * @param maxSegmentSize
-     */
     WeakKeyStrongValueSegment(
         MapMakerInternalMap<K, V, WeakKeyStrongValueEntry<K, V>, WeakKeyStrongValueSegment<K, V>>
             map,
@@ -1985,11 +1970,6 @@ class MapMakerInternalMap<
     private final ReferenceQueue<K> queueForKeys = new ReferenceQueue<K>();
     private final ReferenceQueue<V> queueForValues = new ReferenceQueue<V>();
 
-    /**
-     * @param map
-     * @param initialCapacity
-     * @param maxSegmentSize
-     */
     WeakKeyWeakValueSegment(
         MapMakerInternalMap<K, V, WeakKeyWeakValueEntry<K, V>, WeakKeyWeakValueSegment<K, V>> map,
         int initialCapacity,

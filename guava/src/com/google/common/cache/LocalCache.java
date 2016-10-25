@@ -126,7 +126,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
   /**
    * The maximum capacity, used if a higher value is implicitly specified by either of the
-   * constructors with arguments. MUST be a power of two <= 1<<30 to ensure that entries are
+   * constructors with arguments. MUST be a power of two {@code <= 1<<30} to ensure that entries are
    * indexable using ints.
    */
   static final int MAXIMUM_CAPACITY = 1 << 30;

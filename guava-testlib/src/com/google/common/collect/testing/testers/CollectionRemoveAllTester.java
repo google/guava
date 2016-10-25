@@ -91,9 +91,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     }
   }
 
-  /**
-   * Trigger the other.size() >= this.size() case in AbstractSet.removeAll().
-   */
+  /** Trigger the {@code other.size() >= this.size()} case in {@link AbstractSet#removeAll()}. */
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveAll_somePresentLargeCollectionToRemove() {

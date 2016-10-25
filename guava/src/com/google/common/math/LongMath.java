@@ -1066,9 +1066,7 @@ public final class LongMath {
   };
 
   private enum MillerRabinTester {
-    /**
-     * Works for inputs <= FLOOR_SQRT_MAX_LONG.
-     */
+    /** Works for inputs ≤ FLOOR_SQRT_MAX_LONG. */
     SMALL {
       @Override
       long mulMod(long a, long b, long m) {
@@ -1090,9 +1088,7 @@ public final class LongMath {
      * Works for all nonnegative signed longs.
      */
     LARGE {
-      /**
-       * Returns (a + b) mod m. Precondition: 0 <= a, b < m < 2^63.
-       */
+      /** Returns (a + b) mod m. Precondition: {@code 0 <= a}, {@code b < m < 2^63}. */
       private long plusMod(long a, long b, long m) {
         return (a >= m - b) ? (a + b - m) : (a + b);
       }

@@ -90,7 +90,6 @@ public interface TimeLimiter {
    * @throws InterruptedException if {@code interruptible} is true and our thread is interrupted
    *     during execution
    * @throws UncheckedTimeoutException if the time limit is reached
-   * @throws Exception
    */
   @CanIgnoreReturnValue
   <T> T callWithTimeout(

@@ -41,7 +41,6 @@ public final class EscaperAsserts {
    * Asserts that an escaper behaves correctly with respect to null inputs.
    *
    * @param escaper the non-null escaper to test
-   * @throws IOException
    */
   public static void assertBasic(Escaper escaper) throws IOException {
     // Escapers operate on characters: no characters, no escaping.

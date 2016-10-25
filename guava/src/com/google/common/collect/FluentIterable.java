@@ -58,7 +58,7 @@ import javax.annotation.Nullable;
  *
  * <p>Starting with Java 8, the core Java class libraries provide a new "Streams" library (in {@code
  * java.util.stream}), which is similar to {@code FluentIterable} but generally more powerful. Key
- * differences include:</b>
+ * differences include:
  *
  * <ul>
  * <li>A stream is <i>single-use</i>; it becomes invalid as soon as any "terminal operation" such as

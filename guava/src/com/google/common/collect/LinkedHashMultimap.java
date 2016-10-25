@@ -148,10 +148,10 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
   }
 
   /**
-   * LinkedHashMultimap entries are in no less than three coexisting linked lists:
-   * a bucket in the hash table for a Set<V> associated with a key, the linked list
-   * of insertion-ordered entries in that Set<V>, and the linked list of entries
-   * in the LinkedHashMultimap as a whole.
+   * LinkedHashMultimap entries are in no less than three coexisting linked lists: a bucket in the
+   * hash table for a {@code Set<V>} associated with a key, the linked list of insertion-ordered
+   * entries in that {@code Set<V>}, and the linked list of entries in the LinkedHashMultimap as a
+   * whole.
    */
   @VisibleForTesting
   static final class ValueEntry<K, V> extends ImmutableEntry<K, V> implements ValueSetLink<K, V> {

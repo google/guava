@@ -192,12 +192,11 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   private static final int CUTOFF = (int) (MAX_TABLE_SIZE * DESIRED_LOAD_FACTOR);
 
   /**
-   * Returns an array size suitable for the backing array of a hash table that
-   * uses open addressing with linear probing in its implementation.  The
-   * returned size is the smallest power of two that can hold setSize elements
-   * with the desired load factor.
+   * Returns an array size suitable for the backing array of a hash table that uses open addressing
+   * with linear probing in its implementation. The returned size is the smallest power of two that
+   * can hold setSize elements with the desired load factor.
    *
-   * <p>Do not call this method with setSize < 2.
+   * <p>Do not call this method with setSize less than 2.
    */
   @VisibleForTesting
   static int chooseTableSize(int setSize) {

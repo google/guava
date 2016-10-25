@@ -21,17 +21,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The presence of this annotation on a type indicates that the type may be used with the
- * <a href="http://code.google.com/webtoolkit/">Google Web Toolkit</a> (GWT). When applied to a
- * method, the return type of the method is GWT compatible. It's useful to indicate that an instance
- * created by factory methods has a GWT serializable type. In the following example,
+ * The presence of this annotation on a type indicates that the type may be used with the <a
+ * href="http://code.google.com/webtoolkit/">Google Web Toolkit</a> (GWT). When applied to a method,
+ * the return type of the method is GWT compatible. It's useful to indicate that an instance created
+ * by factory methods has a GWT serializable type. In the following example,
  *
  * <pre>
  * {@literal @}GwtCompatible
  * class Lists {
  *   ...
  *   {@literal @}GwtCompatible(serializable = true)
- *   static &lt;E> List&lt;E> newArrayList(E... elements) {
+ *   {@literal static <E> List<E>} newArrayList(E... elements) {
  *     ...
  *   }
  * }
@@ -45,7 +45,7 @@ import java.lang.annotation.Target;
  * interface ListFactory {
  *   ...
  *   {@literal @}GwtCompatible(serializable = true)
- *   &lt;E> List&lt;E> newArrayList(E... elements);
+ *   {@literal <E> List<E>} newArrayList(E... elements);
  * }
  * </pre>
  *
