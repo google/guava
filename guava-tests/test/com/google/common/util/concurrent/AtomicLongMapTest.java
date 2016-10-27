@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.google.common.testing.NullPointerTester;
+import com.google.common.testing.SerializableTester;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -568,6 +569,13 @@ public class AtomicLongMapTest extends TestCase {
     assertFalse(map.remove("a", 1L));
     assertFalse(map.remove("a", 0L));
     assertFalse(map.replace("a", 1L, 0L));
+  }
+
+  public void testSerialization() {
+    AtomicLongMap<String> map = AtomicLongMap.create();
+    map.put("key", 1L);
+    AtomicLongMap<String> reserialized = SerializableTester.reserialize(map);
+    assertEquals(map.asMap(), reserialized.asMap());
   }
 
   @GwtIncompatible // threads

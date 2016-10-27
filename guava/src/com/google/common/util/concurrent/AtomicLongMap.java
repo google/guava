@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
@@ -51,7 +52,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @since 11.0
  */
 @GwtCompatible
-public final class AtomicLongMap<K> {
+public final class AtomicLongMap<K> implements Serializable {
   private final ConcurrentHashMap<K, AtomicLong> map;
 
   private AtomicLongMap(ConcurrentHashMap<K, AtomicLong> map) {
