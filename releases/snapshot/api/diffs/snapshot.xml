@@ -38975,8 +38975,8 @@
       <param name="seed" type="int"/>
       <doc>
       <![CDATA[Returns a hash function implementing the
- <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">32-bit murmur3 algorithm,
- x86 variant</a> (little-endian variant), using the given seed value.
+ <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
+ algorithm, x86 variant</a> (little-endian variant), using the given seed value.
 
  <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).]]>
       </doc>
@@ -38987,8 +38987,8 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns a hash function implementing the
- <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">32-bit murmur3 algorithm,
- x86 variant</a> (little-endian variant), using a seed value of zero.
+ <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
+ algorithm, x86 variant</a> (little-endian variant), using a seed value of zero.
 
  <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).]]>
       </doc>
@@ -39000,8 +39000,8 @@
       <param name="seed" type="int"/>
       <doc>
       <![CDATA[Returns a hash function implementing the
- <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">128-bit murmur3 algorithm,
- x64 variant</a> (little-endian variant), using the given seed value.
+ <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">128-bit murmur3
+ algorithm, x64 variant</a> (little-endian variant), using the given seed value.
 
  <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).]]>
       </doc>
@@ -39012,8 +39012,8 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns a hash function implementing the
- <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">128-bit murmur3 algorithm,
- x64 variant</a> (little-endian variant), using a seed value of zero.
+ <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">128-bit murmur3
+ algorithm, x64 variant</a> (little-endian variant), using a seed value of zero.
 
  <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).]]>
       </doc>
@@ -56105,6 +56105,7 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
+    <implements name="java.io.Serializable"/>
     <method name="create" return="com.google.common.util.concurrent.AtomicLongMap&lt;K&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
