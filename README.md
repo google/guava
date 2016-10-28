@@ -41,7 +41,7 @@ Snapshots
 ---------
 
 Snapshots of Guava built from the `master` branch are available through Maven
-using version `20.0-SNAPSHOT`. API documentation and diffs from version 20.0
+using version `21.0-SNAPSHOT`. API documentation and diffs from version 20.0
 are available here:
 
 - Snapshot API Docs: [guava][guava-snapshot-api-docs]
