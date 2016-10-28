@@ -18,7 +18,7 @@ com.google.common.base
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
@@ -49,17 +49,9 @@ Package <A HREF="../../docs/com/google/common/base/package-summary.html" target=
 </H2>
 <p>
 <a NAME="Changed"></a>
-<TABLE summary="Changed Classes and Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TABLE summary="Changed Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Changed Classes and Interfaces</B></FONT></TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="CharMatcher"></A>
-  <nobr><A HREF="com.google.common.base.CharMatcher.html">CharMatcher</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Determines a true or false value for any Java {@code char} value, just as <A HREF="../../docs/com/google/common/base/CharMatcher/Predicate.html"><TT>Predicate</TT></A> does
- for any <A HREF="../../docs/com/google/common/base/CharMatcher/Object.html"><TT>Object</TT></A>.</TD>
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Changed Interfaces</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -78,36 +70,6 @@ Package <A HREF="../../docs/com/google/common/base/package-summary.html" target=
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Joiner"></A>
-  <nobr><A HREF="com.google.common.base.Joiner.html">Joiner</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">An object which joins pieces of text (specified as an array, <A HREF="../../docs/com/google/common/base/Joiner/Iterable.html"><TT>Iterable</TT></A>, varargs or even a
- <A HREF="../../docs/com/google/common/base/Joiner/Map.html"><TT>Map</TT></A>) with a separator. It either appends the results to an <A HREF="../../docs/com/google/common/base/Joiner/Appendable.html"><TT>Appendable</TT></A> or returns
- them as a <A HREF="../../docs/com/google/common/base/Joiner/String.html"><TT>String</TT></A>. Example: <pre>   {@code
-
-   Joiner joiner = Joiner.on("; ").skipNulls();
-    . . .
-   return joiner.join("Harry", null, "Ron", "Hermione");}</pre>
-
- </TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Objects"></A>
-  <nobr><A HREF="com.google.common.base.Objects.html">Objects</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Helper functions that can operate on any {@code Object}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Preconditions"></A>
-  <nobr><A HREF="com.google.common.base.Preconditions.html">Preconditions</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Static convenience methods that help a method or constructor check whether it was invoked
- correctly (whether its <i>preconditions</i> have been met).</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="Predicate"></A>
   <nobr><A HREF="com.google.common.base.Predicate.html"><I>Predicate</I></A></nobr>
   </TD>
@@ -116,25 +78,11 @@ Package <A HREF="../../docs/com/google/common/base/package-summary.html" target=
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Predicates"></A>
-  <nobr><A HREF="com.google.common.base.Predicates.html">Predicates</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Static utility methods pertaining to {@code Predicate} instances.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="Supplier"></A>
   <nobr><A HREF="com.google.common.base.Supplier.html"><I>Supplier</I></A></nobr>
   </TD>
   <TD VALIGN="TOP">A class that can supply objects of a single type; a pre-Java-8 version of {@code
  java.util.function.Supplier}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Throwables"></A>
-  <nobr><A HREF="com.google.common.base.Throwables.html">Throwables</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Static utility methods pertaining to instances of <A HREF="../../docs/com/google/common/base/Throwables/Throwable.html"><TT>Throwable</TT></A>.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -145,7 +93,7 @@ Package <A HREF="../../docs/com/google/common/base/package-summary.html" target=
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/base/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>

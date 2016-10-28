@@ -18,7 +18,7 @@ com.google.common.util.concurrent
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
@@ -36,7 +36,7 @@ com.google.common.util.concurrent
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="pkg_com.google.common.util.concurrent.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
-<a href="#Removed">REMOVED</a>&nbsp;|&nbsp;
+REMOVED&nbsp;|&nbsp;
 <a href="#Added">ADDED</a>&nbsp;|&nbsp;
 <a href="#Changed">CHANGED</a>
   </FONT></TD>
@@ -48,32 +48,10 @@ com.google.common.util.concurrent
 Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.html" target="_top"><tt>com.google.common.util.concurrent</tt></A>
 </H2>
 <p>
-<a NAME="Removed"></a>
-<TABLE summary="Removed Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
-<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Removed Interfaces</B></FONT></TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="FutureFallback"></A>
-  <nobr><A HREF="../../../../19.0/api/docs/com/google/common/util/concurrent/FutureFallback.html" target="_top"><tt><I>FutureFallback</I></tt></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Provides a backup {@code Future} to replace an earlier failed {@code Future}.</TD>
-</TR>
-</TABLE>
-&nbsp;
-<p>
 <a NAME="Added"></a>
-<TABLE summary="Added Classes and Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TABLE summary="Added Classes" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Classes and Interfaces</B></FONT></TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="AsyncCallable"></A>
-  <nobr><A HREF="../../docs/com/google/common/util/concurrent/AsyncCallable.html" target="_top"><tt><I>AsyncCallable</I></tt></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Computes a value, possibly asynchronously.</TD>
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Classes</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -81,14 +59,6 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
   <nobr><A HREF="../../docs/com/google/common/util/concurrent/ForwardingBlockingDeque.html" target="_top"><tt>ForwardingBlockingDeque</tt></A></nobr>
   </TD>
   <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/util/concurrent/ForwardingBlockingDeque/BlockingDeque.html"><TT>BlockingDeque</TT></A> which forwards all its method calls to another {@code BlockingDeque}.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Futures.FutureCombiner"></A>
-  <nobr><A HREF="../../docs/com/google/common/util/concurrent/Futures.FutureCombiner.html" target="_top"><tt>Futures.FutureCombiner</tt></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A helper to create a new {@code ListenableFuture} whose result is generated from a combination
- of input futures.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -100,10 +70,10 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="AbstractFuture"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.AbstractFuture.html">AbstractFuture</A></nobr>
+  <A NAME="AsyncCallable"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.AsyncCallable.html"><I>AsyncCallable</I></A></nobr>
   </TD>
-  <TD VALIGN="TOP">An abstract implementation of <A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture/ListenableFuture.html"><TT>ListenableFuture</TT></A>, intended for advanced users only.</TD>
+  <TD VALIGN="TOP">Computes a value, possibly asynchronously.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -118,13 +88,6 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
   <nobr><A HREF="com.google.common.util.concurrent.AtomicLongMap.html">AtomicLongMap</A></nobr>
   </TD>
   <TD VALIGN="TOP">A map containing {@code long} values that can be atomically updated.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Callables"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.Callables.html">Callables</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Static utility methods pertaining to the <A HREF="../../docs/com/google/common/util/concurrent/Callables/Callable.html"><TT>Callable</TT></A> interface.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -143,32 +106,11 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="ForwardingFuture"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.ForwardingFuture.html">ForwardingFuture</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/util/concurrent/ForwardingFuture/Future.html"><TT>Future</TT></A> which forwards all its method calls to another future.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="ForwardingListenableFuture"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.ForwardingListenableFuture.html">ForwardingListenableFuture</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/util/concurrent/ForwardingListenableFuture/ListenableFuture.html"><TT>ListenableFuture</TT></A> which forwards all its method calls to another future.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="FutureCallback"></A>
   <nobr><A HREF="com.google.common.util.concurrent.FutureCallback.html"><I>FutureCallback</I></A></nobr>
   </TD>
   <TD VALIGN="TOP">A callback for accepting the results of a <A HREF="../../docs/com/google/common/util/concurrent/FutureCallback/java/util/concurrent/Future.html"><TT>java.util.concurrent.Future</TT></A> computation
  asynchronously.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="Futures"></A>
-  <nobr><A HREF="com.google.common.util.concurrent.Futures.html">Futures</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Static utility methods pertaining to the <A HREF="../../docs/com/google/common/util/concurrent/Futures/Future.html"><TT>Future</TT></A> interface.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -231,7 +173,7 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/util/concurrent/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>

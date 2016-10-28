@@ -18,7 +18,7 @@ com.google.common.io
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/io/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/io/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
@@ -31,12 +31,12 @@ com.google.common.io
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<A HREF="pkg_com.google.common.hash.html"><B>PREV PACKAGE</B></A>
-&nbsp;<A HREF="pkg_com.google.common.math.html"><B>NEXT PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.reflect.html"><B>NEXT PACKAGE</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="pkg_com.google.common.io.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
-<a href="#Removed">REMOVED</a>&nbsp;|&nbsp;
+REMOVED&nbsp;|&nbsp;
 ADDED&nbsp;|&nbsp;
 <a href="#Changed">CHANGED</a>
   </FONT></TD>
@@ -48,40 +48,10 @@ ADDED&nbsp;|&nbsp;
 Package <A HREF="../../docs/com/google/common/io/package-summary.html" target="_top"><tt>com.google.common.io</tt></A>
 </H2>
 <p>
-<a NAME="Removed"></a>
-<TABLE summary="Removed Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
-<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Removed Interfaces</B></FONT></TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="InputSupplier"></A>
-  <nobr><A HREF="../../../../19.0/api/docs/com/google/common/io/InputSupplier.html" target="_top"><tt><I>InputSupplier</I></tt></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A factory for readable streams of bytes or characters.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="OutputSupplier"></A>
-  <nobr><A HREF="../../../../19.0/api/docs/com/google/common/io/OutputSupplier.html" target="_top"><tt><I>OutputSupplier</I></tt></A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A factory for writable streams of bytes or characters.</TD>
-</TR>
-</TABLE>
-&nbsp;
-<p>
 <a NAME="Changed"></a>
-<TABLE summary="Changed Classes and Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TABLE summary="Changed Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Changed Classes and Interfaces</B></FONT></TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="BaseEncoding"></A>
-  <nobr><A HREF="com.google.common.io.BaseEncoding.html">BaseEncoding</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A binary encoding scheme for reversibly translating between byte sequences and printable ASCII
- strings.</TD>
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Changed Interfaces</B></FONT></TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -108,39 +78,10 @@ Package <A HREF="../../docs/com/google/common/io/package-summary.html" target="_
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="ByteStreams"></A>
-  <nobr><A HREF="com.google.common.io.ByteStreams.html">ByteStreams</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Provides utility methods for working with byte arrays and I/O streams.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="CharSource"></A>
-  <nobr><A HREF="com.google.common.io.CharSource.html">CharSource</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">A readable source of characters, such as a text file.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="CharStreams"></A>
-  <nobr><A HREF="com.google.common.io.CharStreams.html">CharStreams</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">Provides utility methods for working with character streams.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="LineProcessor"></A>
   <nobr><A HREF="com.google.common.io.LineProcessor.html"><I>LineProcessor</I></A></nobr>
   </TD>
   <TD VALIGN="TOP">A callback to be used with the streaming {@code readLines} methods.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="LittleEndianDataOutputStream"></A>
-  <nobr><A HREF="com.google.common.io.LittleEndianDataOutputStream.html">LittleEndianDataOutputStream</A></nobr>
-  </TD>
-  <TD VALIGN="TOP">An implementation of <A HREF="../../docs/com/google/common/io/LittleEndianDataOutputStream/DataOutput.html"><TT>DataOutput</TT></A> that uses little-endian byte ordering for writing
- {@code char}, {@code short}, {@code int}, {@code float}, {@code double}, and {@code long} values.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -151,7 +92,7 @@ Package <A HREF="../../docs/com/google/common/io/package-summary.html" target="_
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/io/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/io/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
@@ -164,7 +105,7 @@ Package <A HREF="../../docs/com/google/common/io/package-summary.html" target="_
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<A HREF="pkg_com.google.common.hash.html"><B>PREV PACKAGE</B></A>
-&nbsp;<A HREF="pkg_com.google.common.math.html"><B>NEXT PACKAGE</B></A>
+&nbsp;<A HREF="pkg_com.google.common.reflect.html"><B>NEXT PACKAGE</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="pkg_com.google.common.io.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>

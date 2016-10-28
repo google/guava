@@ -18,7 +18,7 @@ com.google.common.collect.ImmutableRangeSet
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/ImmutableRangeSet.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/ImmutableRangeSet.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.collect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -30,7 +30,7 @@ com.google.common.collect.ImmutableRangeSet
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.collect.ImmutableRangeMap.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.ForwardingBlockingDeque.html"><B>PREV CLASS</B></A>
 &nbsp;<A HREF="com.google.common.collect.ImmutableRangeSet.Builder.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
@@ -71,13 +71,6 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Im
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ImmutableRangeSet.intersects_added(com.google.common.collect.Range<C>)"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableRangeSet.html#intersects(com.google.common.collect.Range<C>)" target="_top"><tt>intersects</tt></A>(<code>Range&lt;C&gt;</code>)</nobr>
-  </TD>
-  <TD>&nbsp;</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.collect.ImmutableRangeSet.removeAll_added(java.lang.Iterable<com.google.common.collect.Range<C>>)"></A>
   <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableRangeSet.html#removeAll(java.lang.Iterable<com.google.common.collect.Range<C>>)" target="_top"><tt>removeAll</tt></A>(<code>Iterable&lt;Range&lt;C&gt;&gt;</code>)</nobr>
   </TD>
@@ -92,54 +85,6 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Im
 </TR>
 </TABLE>
 &nbsp;
-<p>
-<a NAME="Changed"></a>
-<TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
-<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ImmutableRangeSet.add_changed(com.google.common.collect.Range<C>)"></A>
-  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableRangeSet.html#add(com.google.common.collect.Range<C>)" target="_top"><tt>add</tt></A>(<code>Range&lt;C&gt;</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-<b>Now deprecated</b>.<br>
-  </TD>
-  <TD VALIGN="TOP">Unsupported operation.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ImmutableRangeSet.remove_changed(com.google.common.collect.Range<C>)"></A>
-  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableRangeSet.html#remove(com.google.common.collect.Range<C>)" target="_top"><tt>remove</tt></A>(<code>Range&lt;C&gt;</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-<b>Now deprecated</b>.<br>
-  </TD>
-  <TD VALIGN="TOP">Unsupported operation.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ImmutableRangeSet.addAll_changed(com.google.common.collect.RangeSet<C>)"></A>
-  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableRangeSet.html#addAll(com.google.common.collect.RangeSet<C>)" target="_top"><tt>addAll</tt></A>(<code>RangeSet&lt;C&gt;</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-<b>Now deprecated</b>.<br>
-  </TD>
-  <TD VALIGN="TOP">Unsupported operation.</TD>
-</TR>
-<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
-  <TD VALIGN="TOP" WIDTH="25%">
-  <A NAME="com.google.common.collect.ImmutableRangeSet.removeAll_changed(com.google.common.collect.RangeSet<C>)"></A>
-  <nobr><code>void</code>&nbsp;<A HREF="../../docs/com/google/common/collect/ImmutableRangeSet.html#removeAll(com.google.common.collect.RangeSet<C>)" target="_top"><tt>removeAll</tt></A>(<code>RangeSet&lt;C&gt;</code>)  </nobr>
-  </TD>
-  <TD VALIGN="TOP" WIDTH="30%">
-<b>Now deprecated</b>.<br>
-  </TD>
-  <TD VALIGN="TOP">Unsupported operation.</TD>
-</TR>
-</TABLE>
-&nbsp;
 <a NAME="fields"></a>
 <HR>
 <!-- Start of nav bar -->
@@ -148,7 +93,7 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Im
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/ImmutableRangeSet.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 20.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/ImmutableRangeSet.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 21.0-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.collect.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -160,7 +105,7 @@ Class com.google.common.collect.<A HREF="../../docs/com/google/common/collect/Im
 </TR>
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="com.google.common.collect.ImmutableRangeMap.html"><B>PREV CLASS</B></A>
+&nbsp;<A HREF="com.google.common.collect.ForwardingBlockingDeque.html"><B>PREV CLASS</B></A>
 &nbsp;<A HREF="com.google.common.collect.ImmutableRangeSet.Builder.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;

@@ -5,7 +5,7 @@
 <api
   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
   xsi:noNamespaceSchemaLocation='api.xsd'
-  name="Guava 20.0-SNAPSHOT"
+  name="Guava 21.0-SNAPSHOT"
   jdversion="1.1.1">
 
 <package name="com.google.common.annotations">
