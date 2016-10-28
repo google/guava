@@ -14,10 +14,10 @@ Requires JDK 1.6 or higher (as of 12.0).
 Latest release
 --------------
 
-The most recent release is [Guava 19.0][], released December 9, 2015.
+The most recent release is [Guava 20.0][], released October 28, 2016.
 
-- 19.0 API Docs: [guava][guava-release-api-docs], [guava-testlib][testlib-release-api-docs]
-- 19.0 API Diffs from 18.0: [guava][guava-release-api-diffs]
+- 20.0 API Docs: [guava][guava-release-api-docs], [guava-testlib][testlib-release-api-docs]
+- 20.0 API Diffs from 19.0: [guava][guava-release-api-diffs]
 
 To add a dependency on Guava using Maven, use the following:
 
@@ -25,7 +25,7 @@ To add a dependency on Guava using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>19.0</version>
+  <version>20.0</version>
 </dependency>
 ```
 
@@ -33,24 +33,19 @@ To add a dependency using Gradle:
 
 ```
 dependencies {
-  compile 'com.google.guava:guava:19.0'
+  compile 'com.google.guava:guava:20.0'
 }
 ```
-
-Upcoming release
-----------------
-
-[Guava 20.0-rc1][] was released October 6, 2016.
 
 Snapshots
 ---------
 
 Snapshots of Guava built from the `master` branch are available through Maven
-using version `20.0-SNAPSHOT`. API documentation and diffs from version 19.0
+using version `20.0-SNAPSHOT`. API documentation and diffs from version 20.0
 are available here:
 
 - Snapshot API Docs: [guava][guava-snapshot-api-docs]
-- Snapshot API Diffs from 19.0: [guava][guava-snapshot-api-diffs]
+- Snapshot API Diffs from 20.0: [guava][guava-snapshot-api-diffs]
 
 Learn about Guava
 ------------------
@@ -92,11 +87,11 @@ untrusted code.
 Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments.
 
-[Guava 19.0]: https://github.com/google/guava/wiki/Release19
+[Guava 20.0]: https://github.com/google/guava/wiki/Release19
 [Guava 20.0-rc1]: https://github.com/google/guava/wiki/Release20
-[guava-release-api-docs]: http://google.github.io/guava/releases/19.0/api/docs/
-[testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/19.0
-[guava-release-api-diffs]: http://google.github.io/guava/releases/19.0/api/diffs/
+[guava-release-api-docs]: http://google.github.io/guava/releases/20.0/api/docs/
+[testlib-release-api-docs]: http://www.javadoc.io/doc/com.google.guava/guava-testlib/20.0
+[guava-release-api-diffs]: http://google.github.io/guava/releases/20.0/api/diffs/
 [guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot/api/docs/
 [guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
