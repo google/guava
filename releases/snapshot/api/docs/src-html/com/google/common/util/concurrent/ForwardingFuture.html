@@ -22,7 +22,7 @@
 <span class="sourceLineNo">014</span><a name="line.14"></a>
 <span class="sourceLineNo">015</span>package com.google.common.util.concurrent;<a name="line.15"></a>
 <span class="sourceLineNo">016</span><a name="line.16"></a>
-<span class="sourceLineNo">017</span>import com.google.common.annotations.GwtIncompatible;<a name="line.17"></a>
+<span class="sourceLineNo">017</span>import com.google.common.annotations.GwtCompatible;<a name="line.17"></a>
 <span class="sourceLineNo">018</span>import com.google.common.base.Preconditions;<a name="line.18"></a>
 <span class="sourceLineNo">019</span>import com.google.common.collect.ForwardingObject;<a name="line.19"></a>
 <span class="sourceLineNo">020</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.20"></a>
@@ -42,7 +42,7 @@
 <span class="sourceLineNo">034</span> * @since 1.0<a name="line.34"></a>
 <span class="sourceLineNo">035</span> */<a name="line.35"></a>
 <span class="sourceLineNo">036</span>@CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.<a name="line.36"></a>
-<span class="sourceLineNo">037</span>@GwtIncompatible<a name="line.37"></a>
+<span class="sourceLineNo">037</span>@GwtCompatible<a name="line.37"></a>
 <span class="sourceLineNo">038</span>public abstract class ForwardingFuture&lt;V&gt; extends ForwardingObject implements Future&lt;V&gt; {<a name="line.38"></a>
 <span class="sourceLineNo">039</span>  /** Constructor for use by subclasses. */<a name="line.39"></a>
 <span class="sourceLineNo">040</span>  protected ForwardingFuture() {}<a name="line.40"></a>
