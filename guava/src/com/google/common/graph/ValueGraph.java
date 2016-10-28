@@ -20,8 +20,9 @@ import com.google.common.annotations.Beta;
 import javax.annotation.Nullable;
 
 /**
- * An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-
- * structured data, whose edges have associated non-unique values.
+ * An interface for <a
+ * href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data,
+ * whose edges have associated non-unique values.
  *
  * <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
  *
