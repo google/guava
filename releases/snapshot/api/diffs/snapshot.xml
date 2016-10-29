@@ -17173,6 +17173,49 @@
  @since 3.0]]>
       </doc>
     </method>
+    <method name="sortedCopyOf" return="com.google.common.collect.ImmutableList&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="elements" type="java.lang.Iterable&lt;? extends E&gt;"/>
+      <doc>
+      <![CDATA[Returns an immutable list containing the given elements, sorted according to their natural
+ order. The sorting algorithm used is stable, so elements that compare as equal will stay in the
+ order in which they appear in the input.
+
+ <p>If your data has no duplicates, or you wish to deduplicate elements, use {@code
+ ImmutableSortedSet.copyOf(elements)}; if you want a {@code List} you can use its {@code
+ asList()} view.
+
+ <p><b>Java 8 users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
+ {@code ImmutableList}, use {@code stream.sorted().collect(toImmutableList())}.
+
+ @throws NullPointerException if any element in the input is null
+ @since 21.0]]>
+      </doc>
+    </method>
+    <method name="sortedCopyOf" return="com.google.common.collect.ImmutableList&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="comparator" type="java.util.Comparator&lt;? super E&gt;"/>
+      <param name="elements" type="java.lang.Iterable&lt;? extends E&gt;"/>
+      <doc>
+      <![CDATA[Returns an immutable list containing the given elements, in sorted order relative to the
+ specified comparator. The sorting algorithm used is stable, so elements that compare as equal
+ will stay in the order in which they appear in the input.
+
+ <p>If your data has no duplicates, or you wish to deduplicate elements, use {@code
+ ImmutableSortedSet.copyOf(comparator, elements)}; if you want a {@code List} you can use its
+ {@code asList()} view.
+
+ <p><b>Java 8 users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
+ {@code ImmutableList}, use {@code stream.sorted(comparator).collect(toImmutableList())}.
+
+ @throws NullPointerException if any element in the input is null
+ @since 21.0]]>
+      </doc>
+    </method>
     <method name="iterator" return="com.google.common.collect.UnmodifiableIterator&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -37742,8 +37785,9 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-
- structured data, whose edges have associated non-unique values.
+    <![CDATA[An interface for <a
+ href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data,
+ whose edges have associated non-unique values.
 
  <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
 
