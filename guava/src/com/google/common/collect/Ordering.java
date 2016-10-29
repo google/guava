@@ -872,15 +872,9 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @since 3.0
    */
   // TODO(kevinb): rerun benchmarks including new options
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
+  @CanIgnoreReturnValue // TODO(kak): Consider removing this before internal migration
   public <E extends T> ImmutableList<E> immutableSortedCopy(Iterable<E> elements) {
-    @SuppressWarnings("unchecked") // we'll only ever have E's in here
-    E[] array = (E[]) Iterables.toArray(elements);
-    for (E e : array) {
-      checkNotNull(e);
-    }
-    Arrays.sort(array, this);
-    return ImmutableList.asImmutableList(array);
+    return ImmutableList.sortedCopyOf(this, elements);
   }
 
   /**

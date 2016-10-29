@@ -425,6 +425,34 @@ public class ImmutableListTest extends TestCase {
       assertEquals(ImmutableList.of("a"), result);
       assertEquals(1, result.size());
     }
+
+    public void testSortedCopyOf() {
+      Collection<String> c = MinimalCollection.of("a", "b", "A", "c");
+      List<String> list = ImmutableList.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, c);
+      assertEquals(asList("a", "A", "b", "c"), list);
+    }
+
+    public void testSortedCopyOf_empty() {
+      Collection<String> c = MinimalCollection.of();
+      List<String> list = ImmutableList.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, c);
+      assertEquals(asList(), list);
+    }
+
+    public void testSortedCopyOf_singleton() {
+      Collection<String> c = MinimalCollection.of("a");
+      List<String> list = ImmutableList.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, c);
+      assertEquals(asList("a"), list);
+    }
+
+    public void testSortedCopyOf_containsNull() {
+      Collection<String> c = MinimalCollection.of("a", "b", "A", null, "c");
+      try {
+        ImmutableList.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, c);
+        fail("Expected NPE");
+      } catch (NullPointerException expected) {
+      }
+    }
+
   }
 
   @GwtIncompatible // reflection

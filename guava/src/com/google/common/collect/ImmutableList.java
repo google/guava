@@ -28,8 +28,10 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
@@ -272,6 +274,54 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       default:
         return new RegularImmutableList<E>(checkElementsNotNull(elements.clone()));
     }
+  }
+
+  /**
+   * Returns an immutable list containing the given elements, sorted according to their natural
+   * order. The sorting algorithm used is stable, so elements that compare as equal will stay in the
+   * order in which they appear in the input.
+   *
+   * <p>If your data has no duplicates, or you wish to deduplicate elements, use {@code
+   * ImmutableSortedSet.copyOf(elements)}; if you want a {@code List} you can use its {@code
+   * asList()} view.
+   *
+   * <p><b>Java 8 users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
+   * {@code ImmutableList}, use {@code stream.sorted().collect(toImmutableList())}.
+   *
+   * @throws NullPointerException if any element in the input is null
+   * @since 21.0
+   */
+  public static <E extends Comparable<? super E>> ImmutableList<E> sortedCopyOf(
+      Iterable<? extends E> elements) {
+    Comparable[] array = Iterables.toArray(elements, new Comparable[0]);
+    checkElementsNotNull(array);
+    Arrays.sort(array);
+    return asImmutableList(array);
+  }
+
+  /**
+   * Returns an immutable list containing the given elements, in sorted order relative to the
+   * specified comparator. The sorting algorithm used is stable, so elements that compare as equal
+   * will stay in the order in which they appear in the input.
+   *
+   * <p>If your data has no duplicates, or you wish to deduplicate elements, use {@code
+   * ImmutableSortedSet.copyOf(comparator, elements)}; if you want a {@code List} you can use its
+   * {@code asList()} view.
+   *
+   * <p><b>Java 8 users:</b> If you want to convert a {@link java.util.stream.Stream} to a sorted
+   * {@code ImmutableList}, use {@code stream.sorted(comparator).collect(toImmutableList())}.
+   *
+   * @throws NullPointerException if any element in the input is null
+   * @since 21.0
+   */
+  public static <E> ImmutableList<E> sortedCopyOf(
+      Comparator<? super E> comparator, Iterable<? extends E> elements) {
+    checkNotNull(comparator);
+    @SuppressWarnings("unchecked") // all supported methods are covariant
+    E[] array = (E[]) Iterables.toArray(elements);
+    checkElementsNotNull(array);
+    Arrays.sort(array, comparator);
+    return asImmutableList(array);
   }
 
   /**

@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
 import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
@@ -188,6 +190,24 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   @SuppressWarnings("unchecked") // caller is reponsible for getting this right
   static <E> ImmutableList<E> asImmutableList(Object[] elements) {
     return unsafeDelegateList((List) Arrays.asList(elements));
+  }
+
+  public static <E extends Comparable<? super E>> ImmutableList<E> sortedCopyOf(
+      Iterable<? extends E> elements) {
+    Comparable[] array = Iterables.toArray(elements, new Comparable[0]);
+    checkElementsNotNull(array);
+    Arrays.sort(array);
+    return asImmutableList(array);
+  }
+
+  public static <E> ImmutableList<E> sortedCopyOf(
+      Comparator<? super E> comparator, Iterable<? extends E> elements) {
+    checkNotNull(comparator);
+    @SuppressWarnings("unchecked") // all supported methods are covariant
+    E[] array = (E[]) Iterables.toArray(elements);
+    checkElementsNotNull(array);
+    Arrays.sort(array, comparator);
+    return asImmutableList(array);
   }
 
   private static <E> List<E> nullCheckedList(Object... array) {
