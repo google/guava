@@ -18,7 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 
 /**
  * An object that can receive a notification when an entry is removed from a cache. The removal
- * resulting in notification could have occured to an entry being manually removed or replaced, or
+ * resulting in notification could have occurred to an entry being manually removed or replaced, or
  * due to eviction resulting from timed expiration, exceeding a maximum size, or garbage collection.
  *
  * <p>An instance may be called concurrently by multiple threads to process different entries.

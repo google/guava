@@ -545,7 +545,7 @@ public final class Tables {
   /**
    * Returns an unmodifiable view of the specified row-sorted table. This method allows modules to
    * provide users with "read-only" access to internal tables. Query operations on the returned
-   * table "read through" to the specified table, and attemps to modify the returned table, whether
+   * table "read through" to the specified table, and attempts to modify the returned table, whether
    * direct or via its collection views, result in an {@code UnsupportedOperationException}.
    *
    * <p>The returned table will be serializable if the specified table is serializable.

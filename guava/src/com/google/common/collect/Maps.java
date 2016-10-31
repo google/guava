@@ -1482,7 +1482,7 @@ public final class Maps {
    * serializable.
    *
    * @param bimap the bimap to be wrapped in a synchronized view
-   * @return a sychronized view of the specified bimap
+   * @return a synchronized view of the specified bimap
    */
   public static <K, V> BiMap<K, V> synchronizedBiMap(BiMap<K, V> bimap) {
     return Synchronized.biMap(bimap, null);

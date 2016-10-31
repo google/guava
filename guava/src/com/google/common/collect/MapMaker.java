@@ -282,7 +282,7 @@ public final class MapMaker {
 
   /**
    * Returns a string representation for this MapMaker instance. The exact form of the returned
-   * string is not specificed.
+   * string is not specified.
    */
   @Override
   public String toString() {

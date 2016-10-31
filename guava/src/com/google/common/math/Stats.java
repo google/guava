@@ -243,7 +243,7 @@ public final class Stats implements Serializable {
   }
 
   /**
-   * Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbaised sample
+   * Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbiased sample
    * variance</a> of the values. If this dataset is a sample drawn from a population, this is an
    * unbiased estimator of the population variance of the population. The count must be greater than
    * one.
@@ -496,7 +496,7 @@ public final class Stats implements Serializable {
   // Serialization helpers
 
   /**
-   * The size of byte array representaion in bytes.
+   * The size of byte array representation in bytes.
    */
   static final int BYTES = (Long.SIZE + Double.SIZE * 4) / Byte.SIZE;
 

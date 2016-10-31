@@ -87,7 +87,7 @@ import java.util.Queue;
  *     improved (and asymptotically superior) performance.
  * <li>The retrieval operations {@link #peek}, {@link #peekFirst}, {@link
  *     #peekLast}, {@link #element}, and {@link #size} are constant-time.
- * <li>The enqueing and dequeing operations ({@link #offer}, {@link #add}, and
+ * <li>The enqueuing and dequeuing operations ({@link #offer}, {@link #add}, and
  *     all the forms of {@link #poll} and {@link #remove()}) run in {@code
  *     O(log n) time}.
  * <li>The {@link #remove(Object)} and {@link #contains} operations require

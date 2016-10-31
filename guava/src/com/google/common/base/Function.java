@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
  * Determines an output value based on an input value; a pre-Java-8 version of {@code
  * java.util.function.Function}.
  *
- * <p>The {@link Functions} class provides common functions and related utilites.
+ * <p>The {@link Functions} class provides common functions and related utilities.
  *
  * <p>See the Guava User Guide article on
  * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code

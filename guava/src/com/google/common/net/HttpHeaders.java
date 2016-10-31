@@ -270,7 +270,7 @@ public final class HttpHeaders {
   public static final String X_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";
   /** The HTTP {@code X-Do-Not-Track} header field name. */
   public static final String X_DO_NOT_TRACK = "X-Do-Not-Track";
-  /** The HTTP {@code X-Forwarded-For} header field name (supersed by {@code Forwarded}). */
+  /** The HTTP {@code X-Forwarded-For} header field name (superseded by {@code Forwarded}). */
   public static final String X_FORWARDED_FOR = "X-Forwarded-For";
   /** The HTTP {@code X-Forwarded-Proto} header field name. */
   public static final String X_FORWARDED_PROTO = "X-Forwarded-Proto";

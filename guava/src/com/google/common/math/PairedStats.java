@@ -279,7 +279,7 @@ public final class PairedStats implements Serializable {
   // Serialization helpers
 
   /**
-   * The size of byte array representaion in bytes.
+   * The size of byte array representation in bytes.
    */
   private static final int BYTES = Stats.BYTES * 2 + Double.SIZE / Byte.SIZE;
 
