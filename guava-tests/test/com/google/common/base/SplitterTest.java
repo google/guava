@@ -383,6 +383,21 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible // java.util.regex.Pattern
+  public void testPatternSplitWordBoundary_singleCharInput() {
+    String string = "f";
+    Iterable<String> words = Splitter.on(Pattern.compile("\\b")).split(string);
+    assertThat(words).containsExactly("f").inOrder();
+  }
+
+  @AndroidIncompatible // Apparently Gingerbread's regex API is buggy.
+  @GwtIncompatible // java.util.regex.Pattern
+  public void testPatternSplitWordBoundary_singleWordInput() {
+    String string = "foo";
+    Iterable<String> words = Splitter.on(Pattern.compile("\\b")).split(string);
+    assertThat(words).containsExactly("foo").inOrder();
+  }
+
+  @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitEmptyToken() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on(literalDotPattern()).trimResults().split(emptyToken);

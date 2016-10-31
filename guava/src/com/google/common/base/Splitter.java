@@ -557,7 +557,7 @@ public final class Splitter {
            * of the next returned substring -- so nextStart stays the same.
            */
           offset++;
-          if (offset >= toSplit.length()) {
+          if (offset > toSplit.length()) {
             offset = -1;
           }
           continue;
