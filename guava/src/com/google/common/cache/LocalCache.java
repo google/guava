@@ -663,7 +663,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         ReferenceQueue<V> queue, @Nullable V value, ReferenceEntry<K, V> entry);
 
     /**
-     * Notifify pending loads that a new value was set. This is only relevant to loading value
+     * Notify pending loads that a new value was set. This is only relevant to loading value
      * references.
      */
     void notifyNewValue(@Nullable V newValue);
@@ -3825,7 +3825,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
   /**
    * A custom queue for managing access order. Note that this is tightly integrated with
-   * {@code ReferenceEntry}, upon which it reliese to perform its linking.
+   * {@code ReferenceEntry}, upon which it relies to perform its linking.
    *
    * <p>Note that this entire implementation makes the assumption that all elements which are in the
    * map are also in this queue, and that all elements not in the queue are not in the map.
@@ -4703,7 +4703,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   // Serialization Support
 
   /**
-   * Serializes the configuration of a LocalCache, reconsitituting it as a Cache using CacheBuilder
+   * Serializes the configuration of a LocalCache, reconstituting it as a Cache using CacheBuilder
    * upon deserialization. An instance of this class is fit for use by the writeReplace of
    * LocalManualCache.
    *
@@ -4821,7 +4821,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   }
 
   /**
-   * Serializes the configuration of a LocalCache, reconsitituting it as an LoadingCache using
+   * Serializes the configuration of a LocalCache, reconstituting it as an LoadingCache using
    * CacheBuilder upon deserialization. An instance of this class is fit for use by the writeReplace
    * of LocalLoadingCache.
    *

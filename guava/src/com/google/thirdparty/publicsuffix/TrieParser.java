@@ -48,7 +48,7 @@ final class TrieParser {
   /**
    * Parses a trie node and returns the number of characters consumed.
    *
-   * @param stack The prefixes that preceed the characters represented by this node. Each entry of
+   * @param stack The prefixes that precede the characters represented by this node. Each entry of
    *     the stack is in reverse order.
    * @param encoded The serialized trie.
    * @param builder A map builder to which all entries will be added.

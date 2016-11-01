@@ -262,7 +262,7 @@ public final class StatsAccumulator {
   }
 
   /**
-   * Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbaised sample
+   * Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbiased sample
    * variance</a> of the values. If this dataset is a sample drawn from a population, this is an
    * unbiased estimator of the population variance of the population. The count must be greater than
    * one.

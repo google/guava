@@ -119,7 +119,7 @@ public final class Escapers {
      * replacement. If {@code unsafeReplacement} is {@code null} then no replacement will occur, if
      * it is {@code ""} then the unsafe characters are removed from the output.
      *
-     * @param unsafeReplacement the string to replace unsafe chracters
+     * @param unsafeReplacement the string to replace unsafe characters
      * @return the builder instance
      */
     @CanIgnoreReturnValue

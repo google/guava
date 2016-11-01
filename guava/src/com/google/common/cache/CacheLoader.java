@@ -102,9 +102,9 @@ public abstract class CacheLoader<K, V> {
    * contains extra keys not present in {@code keys} then all returned entries will be cached, but
    * only the entries for {@code keys} will be returned from {@code getAll}.
    *
-   * <p>This method should be overriden when bulk retrieval is significantly more efficient than
+   * <p>This method should be overridden when bulk retrieval is significantly more efficient than
    * many individual lookups. Note that {@link LoadingCache#getAll} will defer to individual calls
-   * to {@link LoadingCache#get} if this method is not overriden.
+   * to {@link LoadingCache#get} if this method is not overridden.
    *
    * @param keys the unique, non-null keys whose values should be loaded
    * @return a map from each key in {@code keys} to the value associated with that key; <b>may not
