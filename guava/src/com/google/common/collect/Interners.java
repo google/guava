@@ -35,7 +35,11 @@ import java.util.concurrent.ConcurrentMap;
 public final class Interners {
   private Interners() {}
 
-  /** Builder for {@link Interner} instances. */
+  /**
+   * Builder for {@link Interner} instances.
+   *
+   * @since 21.0
+   */
   public static class InternerBuilder {
     private final MapMaker mapMaker = new MapMaker();
     private boolean strong = true;
