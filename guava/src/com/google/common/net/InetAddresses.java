@@ -201,11 +201,11 @@ public final class InetAddresses {
     return null;
   }
 
-    /**
-     * check if the string address has scope id
-     * @param ipString IP address
-     * @return string scope id
-     */
+  /**
+   * check if the string address has scope id
+   * @param ipString IP address
+   * @return string scope id
+   */
   @Nullable
   private static String checkZone(String ipString) {
     StringBuilder zone = new StringBuilder();
