@@ -110,9 +110,9 @@
 <span class="sourceLineNo">102</span>   * contains extra keys not present in {@code keys} then all returned entries will be cached, but<a name="line.102"></a>
 <span class="sourceLineNo">103</span>   * only the entries for {@code keys} will be returned from {@code getAll}.<a name="line.103"></a>
 <span class="sourceLineNo">104</span>   *<a name="line.104"></a>
-<span class="sourceLineNo">105</span>   * &lt;p&gt;This method should be overriden when bulk retrieval is significantly more efficient than<a name="line.105"></a>
+<span class="sourceLineNo">105</span>   * &lt;p&gt;This method should be overridden when bulk retrieval is significantly more efficient than<a name="line.105"></a>
 <span class="sourceLineNo">106</span>   * many individual lookups. Note that {@link LoadingCache#getAll} will defer to individual calls<a name="line.106"></a>
-<span class="sourceLineNo">107</span>   * to {@link LoadingCache#get} if this method is not overriden.<a name="line.107"></a>
+<span class="sourceLineNo">107</span>   * to {@link LoadingCache#get} if this method is not overridden.<a name="line.107"></a>
 <span class="sourceLineNo">108</span>   *<a name="line.108"></a>
 <span class="sourceLineNo">109</span>   * @param keys the unique, non-null keys whose values should be loaded<a name="line.109"></a>
 <span class="sourceLineNo">110</span>   * @return a map from each key in {@code keys} to the value associated with that key; &lt;b&gt;may not<a name="line.110"></a>

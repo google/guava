@@ -326,9 +326,9 @@ public&nbsp;<a href="../../../../com/google/common/util/concurrent/ListenableFut
  contains extra keys not present in <code>keys</code> then all returned entries will be cached, but
  only the entries for <code>keys</code> will be returned from <code>getAll</code>.
 
- <p>This method should be overriden when bulk retrieval is significantly more efficient than
+ <p>This method should be overridden when bulk retrieval is significantly more efficient than
  many individual lookups. Note that <a href="../../../../com/google/common/cache/LoadingCache.html#getAll(java.lang.Iterable)"><code>LoadingCache.getAll(java.lang.Iterable&lt;? extends K&gt;)</code></a> will defer to individual calls
- to <a href="../../../../com/google/common/cache/LoadingCache.html#get(K)"><code>LoadingCache.get(K)</code></a> if this method is not overriden.</div>
+ to <a href="../../../../com/google/common/cache/LoadingCache.html#get(K)"><code>LoadingCache.get(K)</code></a> if this method is not overridden.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>keys</code> - the unique, non-null keys whose values should be loaded</dd>
 <dt><span class="strong">Returns:</span></dt><dd>a map from each key in <code>keys</code> to the value associated with that key; <b>may not
      contain null values</b></dd>

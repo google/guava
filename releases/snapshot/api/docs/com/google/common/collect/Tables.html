@@ -340,7 +340,7 @@ public static&nbsp;&lt;R,C,V1,V2&gt;&nbsp;<a href="../../../../com/google/common
 public static&nbsp;&lt;R,C,V&gt;&nbsp;<a href="../../../../com/google/common/collect/RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;R,C,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Tables.html#line.558">unmodifiableRowSortedTable</a>(<a href="../../../../com/google/common/collect/RowSortedTable.html" title="interface in com.google.common.collect">RowSortedTable</a>&lt;R,? extends C,? extends V&gt;&nbsp;table)</pre>
 <div class="block">Returns an unmodifiable view of the specified row-sorted table. This method allows modules to
  provide users with "read-only" access to internal tables. Query operations on the returned
- table "read through" to the specified table, and attemps to modify the returned table, whether
+ table "read through" to the specified table, and attempts to modify the returned table, whether
  direct or via its collection views, result in an <code>UnsupportedOperationException</code>.
 
  <p>The returned table will be serializable if the specified table is serializable.</div>

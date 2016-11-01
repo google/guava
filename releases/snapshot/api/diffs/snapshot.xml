@@ -2517,7 +2517,7 @@
     <![CDATA[Determines an output value based on an input value; a pre-Java-8 version of {@code
  java.util.function.Function}.
 
- <p>The {@link Functions} class provides common functions and related utilites.
+ <p>The {@link Functions} class provides common functions and related utilities.
 
  <p>See the Guava User Guide article on
  <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
@@ -7962,7 +7962,7 @@
  has elapsed after the entry's creation, or the most recent replacement of its value.
 
  <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
- maximumSize}{@code (0)}, ignoring any otherwise-specificed maximum size or weight. This can be
+ maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
  useful in testing, or to disable caching temporarily without a code change.
 
  <p>Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
@@ -7991,7 +7991,7 @@
  on the collection-views of {@link Cache#asMap}.
 
  <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
- maximumSize}{@code (0)}, ignoring any otherwise-specificed maximum size or weight. This can be
+ maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
  useful in testing, or to disable caching temporarily without a code change.
 
  <p>Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
@@ -8420,9 +8420,9 @@
  contains extra keys not present in {@code keys} then all returned entries will be cached, but
  only the entries for {@code keys} will be returned from {@code getAll}.
 
- <p>This method should be overriden when bulk retrieval is significantly more efficient than
+ <p>This method should be overridden when bulk retrieval is significantly more efficient than
  many individual lookups. Note that {@link LoadingCache#getAll} will defer to individual calls
- to {@link LoadingCache#get} if this method is not overriden.
+ to {@link LoadingCache#get} if this method is not overridden.
 
  @param keys the unique, non-null keys whose values should be loaded
  @return a map from each key in {@code keys} to the value associated with that key; <b>may not
@@ -9171,7 +9171,7 @@
     </method>
     <doc>
     <![CDATA[An object that can receive a notification when an entry is removed from a cache. The removal
- resulting in notification could have occured to an entry being manually removed or replaced, or
+ resulting in notification could have occurred to an entry being manually removed or replaced, or
  due to eviction resulting from timed expiration, exceeding a maximum size, or garbage collection.
 
  <p>An instance may be called concurrently by multiple threads to process different entries.
@@ -22182,6 +22182,14 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
+    <method name="newBuilder" return="com.google.common.collect.Interners.InternerBuilder"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a fresh {@link InternerBuilder} instance.]]>
+      </doc>
+    </method>
     <method name="newStrongInterner" return="com.google.common.collect.Interner&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -22222,6 +22230,52 @@
     </doc>
   </class>
   <!-- end class com.google.common.collect.Interners -->
+  <!-- start class com.google.common.collect.Interners.InternerBuilder -->
+  <class name="Interners.InternerBuilder" extends="java.lang.Object"
+    abstract="false"
+    static="true" final="false" visibility="public"
+    deprecated="not deprecated">
+    <method name="strong" return="com.google.common.collect.Interners.InternerBuilder"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Instructs the {@link InternerBuilder} to build a strong interner.
+
+ @see Interners#newStrongInterner()]]>
+      </doc>
+    </method>
+    <method name="weak" return="com.google.common.collect.Interners.InternerBuilder"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Instructs the {@link InternerBuilder} to build a weak interner.
+
+ @see Interners#newWeakInterner()]]>
+      </doc>
+    </method>
+    <method name="concurrencyLevel" return="com.google.common.collect.Interners.InternerBuilder"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="concurrencyLevel" type="int"/>
+      <doc>
+      <![CDATA[Sets the concurrency level that will be used by the to-be-built {@link Interner}.
+
+ @see MapMaker#concurrencyLevel(int)]]>
+      </doc>
+    </method>
+    <method name="build" return="com.google.common.collect.Interner&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <doc>
+    <![CDATA[Builder for {@link Interner} instances.]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.collect.Interners.InternerBuilder -->
   <!-- start class com.google.common.collect.Iterables -->
   <class name="Iterables" extends="java.lang.Object"
     abstract="false"
@@ -25046,7 +25100,7 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns a string representation for this MapMaker instance. The exact form of the returned
- string is not specificed.]]>
+ string is not specified.]]>
       </doc>
     </method>
     <doc>
@@ -25758,7 +25812,7 @@
  serializable.
 
  @param bimap the bimap to be wrapped in a synchronized view
- @return a sychronized view of the specified bimap]]>
+ @return a synchronized view of the specified bimap]]>
       </doc>
     </method>
     <method name="unmodifiableBiMap" return="com.google.common.collect.BiMap&lt;K, V&gt;"
@@ -26941,7 +26995,7 @@
      improved (and asymptotically superior) performance.
  <li>The retrieval operations {@link #peek}, {@link #peekFirst}, {@link
      #peekLast}, {@link #element}, and {@link #size} are constant-time.
- <li>The enqueing and dequeing operations ({@link #offer}, {@link #add}, and
+ <li>The enqueuing and dequeuing operations ({@link #offer}, {@link #add}, and
      all the forms of {@link #poll} and {@link #remove()}) run in {@code
      O(log n) time}.
  <li>The {@link #remove(Object)} and {@link #contains} operations require
@@ -33891,7 +33945,7 @@
       <doc>
       <![CDATA[Returns an unmodifiable view of the specified row-sorted table. This method allows modules to
  provide users with "read-only" access to internal tables. Query operations on the returned
- table "read through" to the specified table, and attemps to modify the returned table, whether
+ table "read through" to the specified table, and attempts to modify the returned table, whether
  direct or via its collection views, result in an {@code UnsupportedOperationException}.
 
  <p>The returned table will be serializable if the specified table is serializable.
@@ -35271,7 +35325,7 @@
  replacement. If {@code unsafeReplacement} is {@code null} then no replacement will occur, if
  it is {@code ""} then the unsafe characters are removed from the output.
 
- @param unsafeReplacement the string to replace unsafe chracters
+ @param unsafeReplacement the string to replace unsafe characters
  @return the builder instance]]>
       </doc>
     </method>
@@ -45570,7 +45624,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbaised sample
+      <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbiased sample
  variance</a> of the values. If this dataset is a sample drawn from a population, this is an
  unbiased estimator of the population variance of the population. The count must be greater than
  one.
@@ -45992,7 +46046,7 @@
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbaised sample
+      <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbiased sample
  variance</a> of the values. If this dataset is a sample drawn from a population, this is an
  unbiased estimator of the population variance of the population. The count must be greater than
  one.
@@ -47052,7 +47106,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP {@code X-Forwarded-For} header field name (supersed by {@code Forwarded}).]]>
+      <![CDATA[The HTTP {@code X-Forwarded-For} header field name (superseded by {@code Forwarded}).]]>
       </doc>
     </field>
     <field name="X_FORWARDED_PROTO" type="java.lang.String"
@@ -58869,7 +58923,7 @@
     </method>
     <doc>
     <![CDATA[Utilities necessary for working with libraries that supply plain {@link Future} instances. Note
- that, whenver possible, it is strongly preferred to modify those libraries to return {@code
+ that, whenever possible, it is strongly preferred to modify those libraries to return {@code
  ListenableFuture} directly.
 
  @author Sven Mawson
@@ -61004,7 +61058,7 @@
 
  <p>{@code SettableFuture} is the recommended {@code ListenableFuture} implementation when your
  task cannot be implemented with {@link ListeningExecutorService}, the various {@link Futures}
- utility methods, or {@link ListenableFutureTask}. Those APIs have less oppurtunity for developer
+ utility methods, or {@link ListenableFutureTask}. Those APIs have less opportunity for developer
  error. If your needs are more complex than {@code SettableFuture} supports, use
  {@link AbstractFuture}, which offers an extensible version of the API.
 

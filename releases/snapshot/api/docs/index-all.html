@@ -1936,6 +1936,8 @@
 <dd>
 <div class="block">Returns a newly-created immutable table.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/collect/Interners.InternerBuilder.html#build()">build()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/Interners.InternerBuilder.html" title="class in com.google.common.collect">Interners.InternerBuilder</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="strong"><a href="./com/google/common/collect/MultimapBuilder.html#build()">build()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/MultimapBuilder.html" title="class in com.google.common.collect">MultimapBuilder</a></dt>
 <dd>
 <div class="block">Returns a new, empty <code>Multimap</code> with the specified implementation.</div>
@@ -3556,6 +3558,10 @@
 <dt><span class="strong"><a href="./com/google/common/cache/CacheBuilder.html#concurrencyLevel(int)">concurrencyLevel(int)</a></span> - Method in class com.google.common.cache.<a href="./com/google/common/cache/CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a></dt>
 <dd>
 <div class="block">Guides the allowed concurrency among update operations.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/collect/Interners.InternerBuilder.html#concurrencyLevel(int)">concurrencyLevel(int)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/Interners.InternerBuilder.html" title="class in com.google.common.collect">Interners.InternerBuilder</a></dt>
+<dd>
+<div class="block">Sets the concurrency level that will be used by the to-be-built <a href="./com/google/common/collect/Interner.html" title="interface in com.google.common.collect"><code>Interner</code></a>.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/MapMaker.html#concurrencyLevel(int)">concurrencyLevel(int)</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/MapMaker.html" title="class in com.google.common.collect">MapMaker</a></dt>
 <dd>
@@ -8882,6 +8888,10 @@
 <dd>
 <div class="block">Contains static methods pertaining to instances of <a href="./com/google/common/collect/Interner.html" title="interface in com.google.common.collect"><code>Interner</code></a>.</div>
 </dd>
+<dt><a href="./com/google/common/collect/Interners.InternerBuilder.html" title="class in com.google.common.collect"><span class="strong">Interners.InternerBuilder</span></a> - Class in <a href="./com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
+<dd>
+<div class="block">Builder for <a href="./com/google/common/collect/Interner.html" title="interface in com.google.common.collect"><code>Interner</code></a> instances.</div>
+</dd>
 <dt><a href="./com/google/common/net/InternetDomainName.html" title="class in com.google.common.net"><span class="strong">InternetDomainName</span></a> - Class in <a href="./com/google/common/net/package-summary.html">com.google.common.net</a></dt>
 <dd>
 <div class="block">An immutable well-formed internet domain name, such as <code>com</code> or <code>foo.co.uk</code>.</div>
@@ -10963,6 +10973,10 @@
 <dd>
 <div class="block">Constructs a new <code>CacheBuilder</code> instance with default settings, including strong keys,
  strong values, and no automatic eviction of any kind.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/collect/Interners.html#newBuilder()">newBuilder()</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Interners.html" title="class in com.google.common.collect">Interners</a></dt>
+<dd>
+<div class="block">Returns a fresh <a href="./com/google/common/collect/Interners.InternerBuilder.html" title="class in com.google.common.collect"><code>Interners.InternerBuilder</code></a> instance.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/collect/Sets.html#newConcurrentHashSet()">newConcurrentHashSet()</a></span> - Static method in class com.google.common.collect.<a href="./com/google/common/collect/Sets.html" title="class in com.google.common.collect">Sets</a></dt>
 <dd>
@@ -14316,12 +14330,12 @@
 </dd>
 <dt><span class="strong"><a href="./com/google/common/math/Stats.html#sampleVariance()">sampleVariance()</a></span> - Method in class com.google.common.math.<a href="./com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a></dt>
 <dd>
-<div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbaised sample
+<div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbiased sample
  variance</a> of the values.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/math/StatsAccumulator.html#sampleVariance()">sampleVariance()</a></span> - Method in class com.google.common.math.<a href="./com/google/common/math/StatsAccumulator.html" title="class in com.google.common.math">StatsAccumulator</a></dt>
 <dd>
-<div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbaised sample
+<div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbiased sample
  variance</a> of the values.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/math/IntMath.html#saturatedAdd(int,%20int)">saturatedAdd(int, int)</a></span> - Static method in class com.google.common.math.<a href="./com/google/common/math/IntMath.html" title="class in com.google.common.math">IntMath</a></dt>
@@ -15591,6 +15605,10 @@
 <dt><a href="./com/google/common/util/concurrent/Striped.html" title="class in com.google.common.util.concurrent"><span class="strong">Striped</span></a>&lt;<a href="./com/google/common/util/concurrent/Striped.html" title="type parameter in Striped">L</a>&gt; - Class in <a href="./com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">A striped <code>Lock/Semaphore/ReadWriteLock</code>.</div>
+</dd>
+<dt><span class="strong"><a href="./com/google/common/collect/Interners.InternerBuilder.html#strong()">strong()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/Interners.InternerBuilder.html" title="class in com.google.common.collect">Interners.InternerBuilder</a></dt>
+<dd>
+<div class="block">Instructs the <a href="./com/google/common/collect/Interners.InternerBuilder.html" title="class in com.google.common.collect"><code>Interners.InternerBuilder</code></a> to build a strong interner.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/base/Ascii.html#STX">STX</a></span> - Static variable in class com.google.common.base.<a href="./com/google/common/base/Ascii.html" title="class in com.google.common.base">Ascii</a></dt>
 <dd>
@@ -17523,6 +17541,10 @@ the order they are declared.</div>
 <dd>
 <div class="block">Media type for Windows Media metafiles.</div>
 </dd>
+<dt><span class="strong"><a href="./com/google/common/collect/Interners.InternerBuilder.html#weak()">weak()</a></span> - Method in class com.google.common.collect.<a href="./com/google/common/collect/Interners.InternerBuilder.html" title="class in com.google.common.collect">Interners.InternerBuilder</a></dt>
+<dd>
+<div class="block">Instructs the <a href="./com/google/common/collect/Interners.InternerBuilder.html" title="class in com.google.common.collect"><code>Interners.InternerBuilder</code></a> to build a weak interner.</div>
+</dd>
 <dt><span class="strong"><a href="./com/google/common/util/concurrent/AtomicDouble.html#weakCompareAndSet(double,%20double)">weakCompareAndSet(double, double)</a></span> - Method in class com.google.common.util.concurrent.<a href="./com/google/common/util/concurrent/AtomicDouble.html" title="class in com.google.common.util.concurrent">AtomicDouble</a></dt>
 <dd>
 <div class="block">Atomically sets the value to the given updated value
@@ -17899,7 +17921,7 @@ the order they are declared.</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/HttpHeaders.html#X_FORWARDED_FOR">X_FORWARDED_FOR</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
-<div class="block">The HTTP <code>X-Forwarded-For</code> header field name (supersed by <code>Forwarded</code>).</div>
+<div class="block">The HTTP <code>X-Forwarded-For</code> header field name (superseded by <code>Forwarded</code>).</div>
 </dd>
 <dt><span class="strong"><a href="./com/google/common/net/HttpHeaders.html#X_FORWARDED_HOST">X_FORWARDED_HOST</a></span> - Static variable in class com.google.common.net.<a href="./com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
