@@ -22272,7 +22272,9 @@
       deprecated="not deprecated">
     </method>
     <doc>
-    <![CDATA[Builder for {@link Interner} instances.]]>
+    <![CDATA[Builder for {@link Interner} instances.
+
+ @since 21.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.Interners.InternerBuilder -->

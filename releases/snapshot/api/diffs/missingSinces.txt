@@ -1,5 +1,5 @@
 OK: com.google.common.util.concurrent.ForwardingBlockingDeque Class
-MISSING @SINCE TAG: com.google.common.collect.Interners.InternerBuilder Class
+OK: com.google.common.collect.Interners.InternerBuilder Class
 MISSING @SINCE TAG: com.google.common.collect.ImmutableRangeSet Method addAll(java.lang.Iterable<com.google.common.collect.Range<C>>)
 OK: com.google.common.collect.ImmutableRangeSet.Builder Method addAll(java.lang.Iterable<com.google.common.collect.Range<C>>)
 OK: com.google.common.collect.RangeSet Method addAll(java.lang.Iterable<com.google.common.collect.Range<C>>)
