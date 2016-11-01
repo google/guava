@@ -142,6 +142,18 @@ public class InetAddressesTest extends TestCase {
     assertTrue(InetAddresses.isInetAddress(ipStr));
   }
 
+  public void testForStringIPv6LinkLocalAddress() throws UnknownHostException {
+    String[] ipStr = {
+      "fe80::8b2:d61e:e5c:b333%15",
+      "fe80::8b2:d61e:e5c:b333%0",
+      "fe80::8b2:d61e:e5c:b333%19",
+      "fe80::8b2:d61e:e5c:b333%54321"
+    };
+    for (String s : ipStr) {
+      assertTrue(InetAddresses.isInetAddress(s));
+    }
+  }
+
   public void testForStringIPv6EightColons() throws UnknownHostException {
     String[] eightColons = {
       "::7:6:5:4:3:2:1",

@@ -172,6 +172,15 @@ public final class InetAddresses {
           return null; // Colons must not appear after dots.
         }
         hasColon = true;
+      } else if (c == '%') { // link-local address.
+        if (hasDot || !hasColon) {
+          return null; // Percent must appear after colons.
+        }
+        if (checkZone(ipString) != null) {
+          break;
+        } else {
+          return null;
+        }
       } else if (Character.digit(c, 16) == -1) {
         return null; // Everything else must be a decimal or hex digit.
       }
@@ -192,6 +201,38 @@ public final class InetAddresses {
     return null;
   }
 
+    /**
+     * check if the string address has scope id
+     * @param ipString IP address
+     * @return string scope id
+     */
+  @Nullable
+  private static String checkZone(String ipString) {
+    StringBuilder zone = new StringBuilder();
+    int digit, startIndex, percent = ipString.indexOf("%");
+    if (percent == ipString.length() - 1) {
+      return null;
+    }
+    if (percent == -1) {
+      return null;
+    }
+    startIndex = percent + 1;
+    for (int i = startIndex; i < ipString.length(); ++i) {
+      char c = ipString.charAt(i);
+      if (c == ']') {
+        if (i == startIndex) {
+          return null;
+        }
+        break;
+      }
+      if ((digit = Character.digit (c, 10)) < 0) {
+        return null;
+      }
+      zone.append(digit);
+    }
+    return zone.toString();
+  }
+
   @Nullable
   private static byte[] textToNumericFormatV4(String ipString) {
     byte[] bytes = new byte[IPV4_PART_COUNT];
@@ -209,6 +250,13 @@ public final class InetAddresses {
 
   @Nullable
   private static byte[] textToNumericFormatV6(String ipString) {
+    int percent = ipString.indexOf("%");
+    if (percent == ipString.length()-1) {
+      return null;
+    }
+    if (percent != -1) {
+      ipString = ipString.substring(0, percent);
+    }
     // An address can have [2..8] colons, and N colons make N+1 parts.
     String[] parts = ipString.split(":", IPV6_PART_COUNT + 2);
     if (parts.length < 3 || parts.length > IPV6_PART_COUNT + 1) {
