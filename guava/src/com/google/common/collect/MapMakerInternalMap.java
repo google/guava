@@ -856,7 +856,7 @@ class MapMakerInternalMap<
   /** Concrete implementation of {@link WeakValueReference}. */
   static final class WeakValueReferenceImpl<K, V, E extends InternalEntry<K, V, E>>
       extends WeakReference<V> implements WeakValueReference<K, V, E> {
-    final E entry;
+    @Weak final E entry;
 
     WeakValueReferenceImpl(ReferenceQueue<V> queue, V referent, E entry) {
       super(referent, queue);
