@@ -60,7 +60,7 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
   public static <B> MutableClassToInstanceMap<B> create(Map<Class<? extends B>, B> backingMap) {
     return new MutableClassToInstanceMap<B>(backingMap);
   }
-  
+
   private final Map<Class<? extends B>, B> delegate;
 
   private MutableClassToInstanceMap(Map<Class<? extends B>, B> delegate) {
@@ -127,7 +127,7 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
   @Override
   public void putAll(Map<? extends Class<? extends B>, ? extends B> map) {
     Map<Class<? extends B>, B> copy = new LinkedHashMap<Class<? extends B>, B>(map);
-    for (Entry<? extends Class<? extends B>, ? extends B> entry : copy.entrySet()) {
+    for (Entry<? extends Class<? extends B>, B> entry : copy.entrySet()) {
       cast(entry.getKey(), entry.getValue());
     }
     super.putAll(copy);
