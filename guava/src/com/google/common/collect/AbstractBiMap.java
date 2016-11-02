@@ -286,10 +286,10 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     Set<Entry<K, V>> result = entrySet;
     return (result == null) ? entrySet = new EntrySet() : result;
   }
-  
+
   class BiMapEntry extends ForwardingMapEntry<K, V> {
     private final Entry<K, V> delegate;
-    
+
     BiMapEntry(Entry<K, V> delegate) {
       this.delegate = delegate;
     }
@@ -314,7 +314,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
       return oldValue;
     }
   }
-  
+
   Iterator<Entry<K, V>> entrySetIterator() {
     final Iterator<Entry<K, V>> iterator = delegate.entrySet().iterator();
     return new Iterator<Entry<K, V>>() {
@@ -361,7 +361,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
         return false;
       }
 
-      // safe because esDelgate.contains(object).
+      // safe because esDelegate.contains(object).
       Entry<?, ?> entry = (Entry<?, ?>) object;
       inverse.delegate.remove(entry.getValue());
       /*
@@ -439,7 +439,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     /**
      * @serialData the forward bimap
      */
-    @GwtIncompatible // java.io.ObjectOuputStream
+    @GwtIncompatible // java.io.ObjectOutputStream
     private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(inverse());
