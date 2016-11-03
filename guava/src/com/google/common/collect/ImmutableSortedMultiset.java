@@ -343,7 +343,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     if (result == null) {
       return descendingMultiset =
           this.isEmpty()
-              ? emptyMultiset(Ordering.from(comparator()).reverse())
+              ? emptyMultiset(Ordering.from(comparator()).<E>reverse())
               : new DescendingImmutableSortedMultiset<E>(this);
     }
     return result;
