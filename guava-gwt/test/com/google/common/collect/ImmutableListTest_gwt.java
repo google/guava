@@ -282,4 +282,9 @@ public void testSortedCopyOf_singleton__CreationTests() throws Exception {
   com.google.common.collect.ImmutableListTest.CreationTests testCase = new com.google.common.collect.ImmutableListTest.CreationTests();
   testCase.testSortedCopyOf_singleton();
 }
+
+public void testToImmutableList__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableListTest.CreationTests testCase = new com.google.common.collect.ImmutableListTest.CreationTests();
+  testCase.testToImmutableList();
+}
 }

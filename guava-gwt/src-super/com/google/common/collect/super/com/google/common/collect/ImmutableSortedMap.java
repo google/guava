@@ -22,11 +22,16 @@ import static com.google.common.collect.Maps.newTreeMap;
 import static java.util.Collections.singletonMap;
 import static java.util.Collections.unmodifiableSortedMap;
 
-import com.google.common.collect.ImmutableSortedMap.Builder;
+import com.google.common.annotations.Beta;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * GWT emulated version of {@link com.google.common.collect.ImmutableSortedMap}. It's a thin wrapper
@@ -60,6 +65,30 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     super(delegate);
     this.comparator = comparator;
     this.sortedDelegate = delegate;
+  }
+
+  @Beta
+  public static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
+      Comparator<? super K> comparator,
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction) {
+    return CollectCollectors.toImmutableSortedMap(comparator, keyFunction, valueFunction);
+  }
+
+  @Beta
+  public static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
+      Comparator<? super K> comparator,
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction,
+      BinaryOperator<V> mergeFunction) {
+    checkNotNull(comparator);
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    checkNotNull(mergeFunction);
+    return Collectors.collectingAndThen(
+        Collectors.toMap(
+            keyFunction, valueFunction, mergeFunction, () -> new TreeMap<K, V>(comparator)),
+        ImmutableSortedMap::copyOfSorted);
   }
 
   // Casting to any type is safe because the set will never hold any elements.
@@ -207,6 +236,11 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
       for (Entry<? extends K, ? extends V> entry : entries) {
         put(entry);
       }
+      return this;
+    }
+
+    Builder<K, V> combine(Builder<K, V> other) {
+      super.combine(other);
       return this;
     }
 

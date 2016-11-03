@@ -724,8 +724,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
    * elements are equivalent, it is undefined which will come first.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
-   * use {@code Streams.stream(iterable).collect(Comparators.least(k, thisComparator))} instead.
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterable).collect(Comparators.least(k,
+   * thisComparator))} instead.
    *
    * @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending
    *     order
@@ -777,7 +777,7 @@ public abstract class Ordering<T> implements Comparator<T> {
     } else if (k >= Integer.MAX_VALUE / 2) {
       // k is really large; just do a straightforward sorted-copy-and-sublist
       ArrayList<E> list = Lists.newArrayList(iterator);
-      Collections.sort(list, this);
+      list.sort(this);
       if (list.size() > k) {
         list.subList(k, list.size()).clear();
       }
@@ -798,8 +798,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
    * elements are equivalent, it is undefined which will come first.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
-   * use {@code Streams.stream(iterable).collect(Comparators.greatest(k, thisComparator))} instead.
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterable).collect(Comparators.greatest(k,
+   * thisComparator))} instead.
    *
    * @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in
    *     <i>descending order</i>

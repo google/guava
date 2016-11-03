@@ -36,6 +36,18 @@ import junit.framework.TestCase;
  */
 @GwtCompatible(emulated = true)
 public final class OptionalTest extends TestCase {
+  public void testToJavaUtil() {
+    assertNull(Optional.toJavaUtil(null));
+    assertEquals(java.util.Optional.empty(), Optional.toJavaUtil(Optional.absent()));
+    assertEquals(java.util.Optional.of("abc"), Optional.toJavaUtil(Optional.of("abc")));
+  }
+
+  public void testFromJavaUtil() {
+    assertNull(Optional.fromJavaUtil(null));
+    assertEquals(Optional.absent(), Optional.fromJavaUtil(java.util.Optional.empty()));
+    assertEquals(Optional.of("abc"), Optional.fromJavaUtil(java.util.Optional.of("abc")));
+  }
+
   public void testAbsent() {
     Optional<String> optionalName = Optional.absent();
     assertFalse(optionalName.isPresent());

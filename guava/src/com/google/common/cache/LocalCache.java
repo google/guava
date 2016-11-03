@@ -26,7 +26,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
-import com.google.common.base.Function;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Ticker;
 import com.google.common.cache.AbstractCache.SimpleStatsCounter;
@@ -35,6 +34,7 @@ import com.google.common.cache.CacheBuilder.NullListener;
 import com.google.common.cache.CacheBuilder.OneWeigher;
 import com.google.common.cache.CacheLoader.InvalidCacheLoadException;
 import com.google.common.cache.CacheLoader.UnsupportedLoadingOperationException;
+import com.google.common.cache.LocalCache.AbstractCacheSet;
 import com.google.common.collect.AbstractSequentialIterator;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -50,7 +50,6 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.common.util.concurrent.Uninterruptibles;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -66,6 +65,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
@@ -77,9 +77,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
 
@@ -2325,6 +2328,91 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       }
     }
 
+    V compute(K key, int hash, BiFunction<? super K, ? super V, ? extends V> function) {
+      ReferenceEntry<K, V> e;
+      ValueReference<K, V> valueReference = null;
+      LoadingValueReference<K, V> loadingValueReference = null;
+      boolean createNewEntry = true;
+
+      lock();
+      try {
+        // re-read ticker once inside the lock
+        long now = map.ticker.read();
+        preWriteCleanup(now);
+
+        AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+        int index = hash & (table.length() - 1);
+        ReferenceEntry<K, V> first = table.get(index);
+
+        for (e = first; e != null; e = e.getNext()) {
+          K entryKey = e.getKey();
+          if (e.getHash() == hash
+              && entryKey != null
+              && map.keyEquivalence.equivalent(key, entryKey)) {
+            valueReference = e.getValueReference();
+            if (map.isExpired(e, now)) {
+              // This is a duplicate check, as preWriteCleanup already purged expired
+              // entries, but let's accomodate an incorrect expiration queue.
+              enqueueNotification(
+                  entryKey,
+                  hash,
+                  valueReference.get(),
+                  valueReference.getWeight(),
+                  RemovalCause.EXPIRED);
+            }
+
+            // immediately reuse invalid entries
+            writeQueue.remove(e);
+            accessQueue.remove(e);
+            createNewEntry = false;
+            break;
+          }
+        }
+
+        // note valueReference can be an existing value or even itself another loading value if
+        // the value for the key is already being computed.
+        loadingValueReference = new LoadingValueReference<K, V>(valueReference);
+
+        if (e == null) {
+          createNewEntry = true;
+          e = newEntry(key, hash, first);
+          e.setValueReference(loadingValueReference);
+          table.set(index, e);
+        } else {
+          e.setValueReference(loadingValueReference);
+        }
+      } finally {
+        unlock();
+        postWriteCleanup();
+      }
+
+      // Synchronizes on the entry to allow failing fast when a recursive load is
+      // detected. This may be circumvented when an entry is copied, but will fail fast most
+      // of the time.
+      synchronized (e) {
+        V newValue = loadingValueReference.compute(key, function);
+        if (newValue != null) {
+          try {
+            return getAndRecordStats(
+                key, hash, loadingValueReference, Futures.immediateFuture(newValue));
+          } catch (ExecutionException exception) {
+            throw new AssertionError("impossible; Futures.immediateFuture can't throw");
+          }
+        } else if (createNewEntry) {
+          removeLoadingValue(key, hash, loadingValueReference);
+          return null;
+        } else {
+          lock();
+          try {
+            removeEntry(e, hash, RemovalCause.EXPLICIT);
+          } finally {
+            unlock();
+          }
+          return null;
+        }
+      }
+    }
+
     // at most one of loadSync/loadAsync may be called for any given LoadingValueReference
 
     V loadSync(
@@ -3572,11 +3660,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     final Stopwatch stopwatch = Stopwatch.createUnstarted();
 
     public LoadingValueReference() {
-      this(LocalCache.<K, V>unset());
+      this(null);
     }
 
     public LoadingValueReference(ValueReference<K, V> oldValue) {
-      this.oldValue = oldValue;
+      this.oldValue = (oldValue == null) ? LocalCache.<K, V>unset() : oldValue;
     }
 
     @Override
@@ -3636,7 +3724,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         // *before* returning newValue from the cache query.
         return Futures.transform(
             newValue,
-            new Function<V, V>() {
+            new com.google.common.base.Function<V, V>() {
               @Override
               public V apply(V newValue) {
                 LoadingValueReference.this.set(newValue);
@@ -3650,6 +3738,19 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         }
         return result;
       }
+    }
+
+    public V compute(K key, BiFunction<? super K, ? super V, ? extends V> function) {
+      stopwatch.start();
+      V previousValue;
+      try {
+        previousValue = oldValue.waitForValue();
+      } catch (ExecutionException e) {
+        previousValue = null;
+      }
+      V newValue = function.apply(key, previousValue);
+      this.set(newValue);
+      return newValue;
     }
 
     public long elapsedNanos() {
@@ -4273,6 +4374,37 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   }
 
   @Override
+  public V compute(K key, BiFunction<? super K, ? super V, ? extends V> function) {
+    checkNotNull(key);
+    checkNotNull(function);
+    int hash = hash(key);
+    return segmentFor(hash).compute(key, hash, function);
+  }
+
+  @Override
+  public V computeIfAbsent(K key, Function<? super K, ? extends V> function) {
+    checkNotNull(key);
+    checkNotNull(function);
+    return compute(key, (k, oldValue) -> (oldValue == null) ? function.apply(key) : oldValue);
+  }
+
+  @Override
+  public V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> function) {
+    checkNotNull(key);
+    checkNotNull(function);
+    return compute(key, (k, oldValue) -> (oldValue == null) ? null : function.apply(k, oldValue));
+  }
+
+  @Override
+  public V merge(K key, V newValue, BiFunction<? super V, ? super V, ? extends V> function) {
+    checkNotNull(key);
+    checkNotNull(newValue);
+    checkNotNull(function);
+    return compute(
+        key, (k, oldValue) -> (oldValue == null) ? newValue : function.apply(oldValue, newValue));
+  }
+
+  @Override
   public void putAll(Map<? extends K, ? extends V> m) {
     for (Entry<? extends K, ? extends V> e : m.entrySet()) {
       put(e.getKey(), e.getValue());
@@ -4592,6 +4724,23 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return result;
   }
 
+  boolean removeIf(BiPredicate<? super K, ? super V> filter) {
+    checkNotNull(filter);
+    boolean changed = false;
+    for (K key : keySet()) {
+      while (true) {
+        V value = get(key);
+        if (value == null || !filter.test(key, value)) {
+          break;
+        } else if (LocalCache.this.remove(key, value)) {
+          changed = true;
+          break;
+        }
+      }
+    }
+    return changed;
+  }
+
   @WeakOuter
   final class KeySet extends AbstractCacheSet<K> {
 
@@ -4644,6 +4793,12 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
+    public boolean removeIf(Predicate<? super V> filter) {
+      checkNotNull(filter);
+      return LocalCache.this.removeIf((k, v) -> filter.test(v));
+    }
+
+    @Override
     public boolean contains(Object o) {
       return map.containsValue(o);
     }
@@ -4672,6 +4827,12 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     @Override
     public Iterator<Entry<K, V>> iterator() {
       return new EntryIterator();
+    }
+
+    @Override
+    public boolean removeIf(Predicate<? super Entry<K, V>> filter) {
+      checkNotNull(filter);
+      return LocalCache.this.removeIf((k, v) -> filter.test(Maps.immutableEntry(k, v)));
     }
 
     @Override

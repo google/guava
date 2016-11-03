@@ -258,6 +258,12 @@ public void testSparseSerialization_rowOrder() throws Exception {
   testCase.testSparseSerialization_rowOrder();
 }
 
+public void testToImmutableTable() throws Exception {
+  com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
+  testCase.setUp();
+  testCase.testToImmutableTable();
+}
+
 public void testToStringSize1() throws Exception {
   com.google.common.collect.ImmutableTableTest testCase = new com.google.common.collect.ImmutableTableTest();
   testCase.setUp();

@@ -17,6 +17,9 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.stream.Collector;
 
 /**
  * "Overrides" the {@link ImmutableMap} static methods that lack
@@ -27,6 +30,37 @@ import com.google.common.annotations.GwtIncompatible;
  */
 @GwtIncompatible
 abstract class ImmutableSortedMapFauxverideShim<K, V> extends ImmutableMap<K, V> {
+  /**
+   * Not supported. Use {@link ImmutableSortedMap#toImmutableSortedMap}, which offers
+   * better type-safety, instead. This method exists only to hide
+   * {@link ImmutableMap#toImmutableMap} from consumers of {@code ImmutableSortedMap}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedMap#toImmutableSortedMap}.
+   */
+  @Deprecated
+  public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction) {
+    throw new UnsupportedOperationException();
+  }
+  
+  /**
+   * Not supported. Use {@link ImmutableSortedMap#toImmutableSortedMap}, which offers better
+   * type-safety, instead. This method exists only to hide {@link ImmutableMap#toImmutableMap} from
+   * consumers of {@code ImmutableSortedMap}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedMap#toImmutableSortedMap}.
+   */
+  @Deprecated
+  public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction,
+      BinaryOperator<V> mergeFunction) {
+    throw new UnsupportedOperationException();
+  }
+
   /**
    * Not supported. Use {@link ImmutableSortedMap#naturalOrder}, which offers
    * better type-safety, instead. This method exists only to hide

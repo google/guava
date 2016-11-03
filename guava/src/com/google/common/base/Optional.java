@@ -118,6 +118,26 @@ public abstract class Optional<T> implements Serializable {
         : new Present<T>(nullableReference);
   }
 
+  /**
+   * Returns the equivalent {@code com.google.common.base.Optional} value to the given {@code
+   * java.util.Optional}, or {@code null} if the argument is null.
+   */
+  @Nullable
+  public static <T> Optional<T> fromJavaUtil(@Nullable java.util.Optional<T> javaUtilOptional) {
+    return (javaUtilOptional == null) ? null : fromNullable(javaUtilOptional.orElse(null));
+  }
+
+  /**
+   * Returns the equivalent {@code java.util.Optional} value to the given {@code
+   * com.google.common.base.Optional}, or {@code null} if the argument is null.
+   */
+  @Nullable
+  public static <T> java.util.Optional<T> toJavaUtil(@Nullable Optional<T> googleOptional) {
+    return (googleOptional == null)
+        ? null
+        : java.util.Optional.ofNullable(googleOptional.orNull());
+  }
+
   Optional() {}
 
   /**

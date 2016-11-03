@@ -34,7 +34,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
+import java.util.Spliterator;
 import javax.annotation.Nullable;
 
 /**
@@ -245,6 +245,11 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
           return getEntry(index);
         }
       };
+    }
+
+    @Override
+    Spliterator<Entry<K, V>> entrySpliterator() {
+      return CollectSpliterators.indexed(size(), Spliterator.ORDERED, this::getEntry);
     }
 
     // TODO(lowasser): consider an optimized values() implementation
@@ -553,6 +558,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     };
   }
   
+  @Override
+  Spliterator<Cell<R, C, V>> cellSpliterator() {
+    return CollectSpliterators.indexed(
+        size(), Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.DISTINCT, this::getCell);
+  }
+
   private Cell<R, C, V> getCell(final int index) {
     return new Tables.AbstractCell<R, C, V>() {
       final int rowIndex = index / columnList.size();
@@ -782,6 +793,11 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
         return getValue(index);
       }
     };
+  }
+
+  @Override
+  Spliterator<V> valuesSpliterator() {
+    return CollectSpliterators.indexed(size(), Spliterator.ORDERED, this::getValue);
   }
 
   private static final long serialVersionUID = 0;

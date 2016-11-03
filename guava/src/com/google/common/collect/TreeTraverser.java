@@ -25,6 +25,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.Queue;
+import java.util.function.Consumer;
 
 /**
  * Views elements of a type {@code T} as nodes in a tree, and provides methods to traverse the trees
@@ -106,6 +107,18 @@ public abstract class TreeTraverser<T> {
       public UnmodifiableIterator<T> iterator() {
         return preOrderIterator(root);
       }
+
+      @Override
+      public void forEach(Consumer<? super T> action) {
+        checkNotNull(action);
+        new Consumer<T>() {
+          @Override
+          public void accept(T t) {
+            action.accept(t);
+            children(t).forEach(this);
+          }
+        }.accept(root);
+      }
     };
   }
 
@@ -155,6 +168,18 @@ public abstract class TreeTraverser<T> {
       @Override
       public UnmodifiableIterator<T> iterator() {
         return postOrderIterator(root);
+      }
+
+      @Override
+      public void forEach(Consumer<? super T> action) {
+        checkNotNull(action);
+        new Consumer<T>() {
+          @Override
+          public void accept(T t) {
+            children(t).forEach(this);
+            action.accept(t);
+          }
+        }.accept(root);
       }
     };
   }

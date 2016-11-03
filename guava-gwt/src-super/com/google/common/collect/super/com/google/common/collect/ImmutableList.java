@@ -19,7 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
-import com.google.common.collect.Lists;
+import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +29,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
+import java.util.stream.Collector;
 import javax.annotation.Nullable;
 
 /**
@@ -43,6 +44,11 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       new RegularImmutableList<Object>(Collections.emptyList());
 
   ImmutableList() {}
+
+  @Beta
+  public static <E> Collector<E, ?, ImmutableList<E>> toImmutableList() {
+    return CollectCollectors.toImmutableList();
+  }
 
   // Casting to any type is safe because the list will never hold any elements.
   @SuppressWarnings("unchecked")
@@ -325,6 +331,13 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     @CanIgnoreReturnValue
     @Override public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);
+      return this;
+    }
+
+    @CanIgnoreReturnValue
+    Builder<E> combine(Builder<E> builder) {
+      checkNotNull(builder);
+      contents.addAll(builder.contents);
       return this;
     }
 

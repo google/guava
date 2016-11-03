@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -29,6 +31,8 @@ import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map.Entry;
+import java.util.function.Function;
+import java.util.stream.Collector;
 import javax.annotation.Nullable;
 
 /**
@@ -45,6 +49,44 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     implements ListMultimap<K, V> {
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableListMultimap}
+   * whose keys and values are the result of applying the provided mapping functions to the input
+   * elements.
+   *
+   * <p>For streams with {@linkplain java.util.stream#Ordering defined encounter order}, that order
+   * is preserved, but entries are {@linkplain ImmutableMultimap#iteration grouped by key}.
+   *
+   * Example:
+   * <pre>   {@code
+   *
+   *   static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
+   *       Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+   *           .collect(toImmutableListMultimap(str -> str.charAt(0), str -> str.substring(1)));
+   *
+   *   // is equivalent to
+   *
+   *   static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
+   *       new ImmutableListMultimap.Builder<Character, String>()
+   *           .put('b', "anana")
+   *           .putAll('a', "pple", "sparagus")
+   *           .putAll('c', "arrot", "herry")
+   *           .build();}</pre>
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <T, K, V> Collector<T, ?, ImmutableListMultimap<K, V>> toImmutableListMultimap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction) {
+    checkNotNull(keyFunction, "keyFunction");
+    checkNotNull(valueFunction, "valueFunction");
+    return Collector.of(
+        ImmutableListMultimap::<K, V>builder,
+        (builder, t) -> builder.put(keyFunction.apply(t), valueFunction.apply(t)),
+        ImmutableListMultimap.Builder::combine,
+        ImmutableListMultimap.Builder::build);
+  }
 
   /** Returns the empty multimap. */
   // Casting is safe because the multimap will never hold any elements.
@@ -195,6 +237,13 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     @Override
     public Builder<K, V> putAll(Multimap<? extends K, ? extends V> multimap) {
       super.putAll(multimap);
+      return this;
+    }
+
+    @CanIgnoreReturnValue
+    @Override
+    Builder<K, V> combine(ImmutableMultimap.Builder<K, V> other) {
+      super.combine(other);
       return this;
     }
 

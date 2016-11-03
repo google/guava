@@ -28,6 +28,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.ToIntFunction;
+import java.util.stream.Collector;
 
 /**
  * A {@link SortedMultiset} whose contents will never change, with many other important properties
@@ -50,6 +53,49 @@ import java.util.List;
 public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxverideShim<E>
     implements SortedMultiset<E> {
   // TODO(lowasser): GWT compatibility
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new
+   * {@code ImmutableMultiset}.  Elements are sorted by the specified comparator.
+   *
+   * <p><b>Warning:</b> {@code comparator} should be <i>consistent with {@code
+   * equals}</i> as explained in the {@link Comparator} documentation.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <E> Collector<E, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
+      Comparator<? super E> comparator) {
+    return toImmutableSortedMultiset(comparator, Function.identity(), e -> 1);
+  }
+
+  /**
+   * Returns a {@code Collector} that accumulates elements into an {@code ImmutableSortedMultiset}
+   * whose elements are the result of applying {@code elementFunction} to the inputs,
+   * with counts equal to the result of applying {@code countFunction} to the inputs.
+   *
+   * <p>If the mapped elements contain duplicates (according to {@code comparator}),
+   * the first occurrence in encounter order appears in the resulting multiset, with count
+   * equal to the sum of the outputs of {@code countFunction.applyAsInt(t)} for each {@code t}
+   * mapped to that element.
+   */
+  private static <T, E> Collector<T, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
+      Comparator<? super E> comparator,
+      Function<? super T, ? extends E> elementFunction,
+      ToIntFunction<? super T> countFunction) {
+    // TODO(lowasser): consider exposing this
+    checkNotNull(comparator);
+    checkNotNull(elementFunction);
+    checkNotNull(countFunction);
+    return Collector.of(
+        () -> TreeMultiset.create(comparator),
+        (multiset, t) -> multiset.add(elementFunction.apply(t), countFunction.applyAsInt(t)),
+        (multiset1, multiset2) -> {
+          multiset1.addAll(multiset2);
+          return multiset1;
+        },
+        (Multiset<E> multiset) -> copyOfSortedEntries(comparator, multiset.entrySet()));
+  }
 
   /**
    * Returns the empty immutable sorted multiset.

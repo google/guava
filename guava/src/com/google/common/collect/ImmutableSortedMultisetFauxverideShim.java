@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
+import java.util.stream.Collector;
 
 /**
  * "Overrides" the {@link ImmutableMultiset} static methods that lack
@@ -35,6 +36,20 @@ import com.google.common.annotations.GwtIncompatible;
  */
 @GwtIncompatible
 abstract class ImmutableSortedMultisetFauxverideShim<E> extends ImmutableMultiset<E> {
+  /**
+   * Not supported. Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset} instead.
+   * This method exists only to hide {@link ImmutableMultiset#toImmutableMultiset} from
+   * consumers of {@code ImmutableSortedMultiset}.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Use {@link ImmutableSortedMultiset#toImmutableSortedMultiset}.
+   * @since 21.0
+   */
+  @Deprecated
+  public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
+    throw new UnsupportedOperationException();
+  }
+
   /**
    * Not supported. Use {@link ImmutableSortedMultiset#naturalOrder}, which offers better
    * type-safety, instead. This method exists only to hide {@link ImmutableMultiset#builder} from

@@ -16,11 +16,16 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.j2objc.annotations.Weak;
 import java.io.Serializable;
 import java.util.Map.Entry;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
 /**
@@ -48,6 +53,19 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
     @Override
     public UnmodifiableIterator<Entry<K, V>> iterator() {
       return Iterators.forArray(entries);
+    }
+
+    @Override
+    public Spliterator<Entry<K, V>> spliterator() {
+      return Spliterators.spliterator(entries, ImmutableSet.SPLITERATOR_CHARACTERISTICS);
+    }
+
+    @Override
+    public void forEach(Consumer<? super Entry<K, V>> action) {
+      checkNotNull(action);
+      for (Entry<K, V> entry : entries) {
+        action.accept(entry);
+      }
     }
 
     @Override

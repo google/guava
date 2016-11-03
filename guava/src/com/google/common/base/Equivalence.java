@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
+import java.util.function.BiPredicate;
 import javax.annotation.Nullable;
 
 /**
@@ -38,7 +39,7 @@ import javax.annotation.Nullable;
  *     source-compatible</a> since 4.0)
  */
 @GwtCompatible
-public abstract class Equivalence<T> {
+public abstract class Equivalence<T> implements BiPredicate<T, T> {
   /**
    * Constructor for use by subclasses.
    */
@@ -70,6 +71,17 @@ public abstract class Equivalence<T> {
       return false;
     }
     return doEquivalent(a, b);
+  }
+
+  /**
+   * @deprecated Provided only to satisfy the {@link BiPredicate} interface; use
+   *     {@link #equivalent} instead.
+   * @since 21.0
+   */
+  @Deprecated
+  @Override
+  public final boolean test(@Nullable T t, @Nullable T u) {
+    return equivalent(t, u);
   }
 
   /**

@@ -46,6 +46,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 /**
@@ -617,6 +618,16 @@ public final class Sets {
       }
 
       @Override
+      public Stream<E> stream() {
+        return Stream.concat(set1.stream(), set2minus1.stream());
+      }
+
+      @Override
+      public Stream<E> parallelStream() {
+        return Stream.concat(set1.parallelStream(), set2minus1.parallelStream());
+      }
+
+      @Override
       public boolean contains(Object object) {
         return set1.contains(object) || set2.contains(object);
       }
@@ -673,6 +684,16 @@ public final class Sets {
       }
 
       @Override
+      public Stream<E> stream() {
+        return set1.stream().filter(inSet2);
+      }
+
+      @Override
+      public Stream<E> parallelStream() {
+        return set1.parallelStream().filter(inSet2);
+      }
+
+      @Override
       public int size() {
         return Iterators.size(iterator());
       }
@@ -714,6 +735,16 @@ public final class Sets {
       @Override
       public UnmodifiableIterator<E> iterator() {
         return Iterators.filter(set1.iterator(), notInSet2);
+      }
+
+      @Override
+      public Stream<E> stream() {
+        return set1.stream().filter(notInSet2);
+      }
+
+      @Override
+      public Stream<E> parallelStream() {
+        return set1.parallelStream().filter(notInSet2);
       }
 
       @Override

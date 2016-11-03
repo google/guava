@@ -47,6 +47,8 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
 /**
@@ -1577,6 +1579,17 @@ public final class Multimaps {
           };
         }
       };
+    }
+
+    @Override
+    public Spliterator<K> spliterator() {
+      return CollectSpliterators.map(multimap.entries().spliterator(), Map.Entry::getKey);
+    }
+
+    @Override
+    public void forEach(Consumer<? super K> consumer) {
+      checkNotNull(consumer);
+      multimap.entries().forEach(entry -> consumer.accept(entry.getKey()));
     }
 
     @Override

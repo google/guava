@@ -332,6 +332,22 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
       throw new RuntimeException(Arrays.toString(stimuli), e);
     }
   }
+  
+  public void testForEachRemaining() {
+    for (int i = 0; i < expectedElements.size() - 1; i++) {
+      List<E> targetElements = new ArrayList<E>();
+      Iterator<E> iterator = newTargetIterator();
+      for (int j = 0; j < i; j++) {
+        targetElements.add(iterator.next());
+      }
+      iterator.forEachRemaining(targetElements::add);
+      if (knownOrder == KnownOrder.KNOWN_ORDER) {
+        assertEquals(expectedElements, targetElements);
+      } else {
+        Helpers.assertEqualIgnoringOrder(expectedElements, targetElements);
+      }
+    }
+  }
 
   private void recurse(int level) {
     // We're going to reuse the stimuli array 3^steps times by overwriting it

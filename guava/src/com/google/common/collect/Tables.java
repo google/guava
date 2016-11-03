@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.Spliterator;
 import javax.annotation.Nullable;
 
 /**
@@ -249,6 +250,12 @@ public final class Tables {
     Iterator<Cell<C, R, V>> cellIterator() {
       return Iterators.transform(original.cellSet().iterator(), (Function) TRANSPOSE_CELL);
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    Spliterator<Cell<C, R, V>> cellSpliterator() {
+      return CollectSpliterators.map(original.cellSet().spliterator(), (Function) TRANSPOSE_CELL);
+    }
   }
 
   /**
@@ -404,6 +411,11 @@ public final class Tables {
     @Override
     Iterator<Cell<R, C, V2>> cellIterator() {
       return Iterators.transform(fromTable.cellSet().iterator(), cellFunction());
+    }
+
+    @Override
+    Spliterator<Cell<R, C, V2>> cellSpliterator() {
+      return CollectSpliterators.map(fromTable.cellSet().spliterator(), cellFunction());
     }
 
     @Override

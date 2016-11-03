@@ -30,6 +30,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiPredicate;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -406,6 +408,31 @@ public class ImmutableSortedMultisetTest extends TestCase {
       builder.setCount("a", -2);
       fail("expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testToImmutableSortedMultiset() {
+    BiPredicate<ImmutableSortedMultiset<String>, ImmutableSortedMultiset<String>> equivalence =
+        (ms1, ms2)
+            -> ms1.equals(ms2)
+                && ms1.entrySet().asList().equals(ms2.entrySet().asList())
+                && ms1.comparator().equals(ms2.comparator());
+    CollectorTester.of(
+            ImmutableSortedMultiset.<String>toImmutableSortedMultiset(
+                String.CASE_INSENSITIVE_ORDER),
+            equivalence)
+        .expectCollects(ImmutableSortedMultiset.emptyMultiset(String.CASE_INSENSITIVE_ORDER))
+        .expectCollects(
+            ImmutableSortedMultiset.orderedBy(String.CASE_INSENSITIVE_ORDER)
+                .addCopies("a", 2)
+                .addCopies("b", 1)
+                .addCopies("c", 3)
+                .build(),
+            "a",
+            "c",
+            "b",
+            "c",
+            "A",
+            "C");
   }
 
   public void testNullPointers() {

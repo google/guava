@@ -618,6 +618,21 @@ public void testTailSetInclusive() throws Exception {
   testCase.testTailSetInclusive();
 }
 
+public void testToImmutableSortedSet() throws Exception {
+  com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
+  testCase.testToImmutableSortedSet();
+}
+
+public void testToImmutableSortedSet_customComparator() throws Exception {
+  com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
+  testCase.testToImmutableSortedSet_customComparator();
+}
+
+public void testToImmutableSortedSet_duplicates() throws Exception {
+  com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
+  testCase.testToImmutableSortedSet_duplicates();
+}
+
 public void testToString() throws Exception {
   com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
   testCase.testToString();

@@ -108,6 +108,26 @@ public class IteratorBenchmark {
     return sum;
   }
 
+  @Benchmark
+  int arrayListForWithHolder(int reps) {
+    int[] sumHolder = {0};
+    for (int i = 0; i < reps; i++) {
+      for (Object value : arrayList) {
+        sumHolder[0] += value.hashCode();
+      }
+    }
+    return sumHolder[0];
+  }
+
+  @Benchmark
+  int arrayListForEachWithHolder(int reps) {
+    int[] sumHolder = {0};
+    for (int i = 0; i < reps; i++) {
+      arrayList.forEach(value -> sumHolder[0] += value.hashCode());
+    }
+    return sumHolder[0];
+  }
+
   @Benchmark int arrayListToArrayFor(int reps) {
     int sum = 0;
     for (int i = 0; i < reps; i++) {
@@ -126,6 +146,15 @@ public class IteratorBenchmark {
       }
     }
     return sum;
+  }
+
+  @Benchmark
+  int linkedListForEach(int reps) {
+    int[] sumHolder = {0};
+    for (int i = 0; i < reps; i++) {
+      linkedList.forEach(value -> sumHolder[0] += value.hashCode());
+    }
+    return sumHolder[0];
   }
 
   @Benchmark int linkedListToArrayFor(int reps) {

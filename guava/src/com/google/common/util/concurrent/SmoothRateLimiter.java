@@ -248,7 +248,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
         double permitsAboveThresholdToTake = min(availablePermitsAboveThreshold, permitsToTake);
         // TODO(cpovirk): Figure out a good name for this variable.
         double length = permitsToTime(availablePermitsAboveThreshold)
-            + permitsToTime(availablePermitsAboveThreshold - permitsAboveThresholdToTake);
+                + permitsToTime(availablePermitsAboveThreshold - permitsAboveThresholdToTake);
         micros = (long) (permitsAboveThresholdToTake * length / 2.0);
         permitsToTake -= permitsAboveThresholdToTake;
       }

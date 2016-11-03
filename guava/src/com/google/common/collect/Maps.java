@@ -36,6 +36,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.MapDifference.ValueDifference;
+import com.google.common.collect.Maps.IteratorBasedAbstractMap;
+import com.google.common.collect.Maps.ViewCachingAbstractMap;
+import com.google.common.collect.Sets.ImprovedAbstractSet;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.RetainedWith;
@@ -61,8 +64,13 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
 /**
@@ -832,12 +840,17 @@ public final class Maps {
 
     @Override
     public V get(@Nullable Object key) {
+      return getOrDefault(key, null);
+    }
+
+    @Override
+    public V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
       if (Collections2.safeContains(backingSet(), key)) {
         @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
         return function.apply(k);
       } else {
-        return null;
+        return defaultValue;
       }
     }
 
@@ -872,6 +885,13 @@ public final class Maps {
         }
       }
       return new EntrySetImpl();
+    }
+
+    @Override
+    public void forEach(BiConsumer<? super K, ? super V> action) {
+      checkNotNull(action);
+      // avoids allocation of entries
+      backingSet().forEach(k -> action.accept(k, function.apply(k)));
     }
   }
 
@@ -971,12 +991,18 @@ public final class Maps {
     @Override
     @Nullable
     public V get(@Nullable Object key) {
+      return getOrDefault(key, null);
+    }
+
+    @Override
+    @Nullable
+    public V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
       if (Collections2.safeContains(set, key)) {
         @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
         return function.apply(k);
       } else {
-        return null;
+        return defaultValue;
       }
     }
 
@@ -988,6 +1014,16 @@ public final class Maps {
     @Override
     Iterator<Entry<K, V>> entryIterator() {
       return asMapEntryIterator(set, function);
+    }
+
+    @Override
+    Spliterator<Entry<K, V>> entrySpliterator() {
+      return CollectSpliterators.map(set.spliterator(), e -> immutableEntry(e, function.apply(e)));
+    }
+
+    @Override
+    public void forEach(BiConsumer<? super K, ? super V> action) {
+      set.forEach(k -> action.accept(k, function.apply(k)));
     }
 
     @Override
@@ -1847,7 +1883,7 @@ public final class Maps {
    */
   @GwtIncompatible // NavigableMap
   public static <K, V1, V2> NavigableMap<K, V2> transformEntries(
-      NavigableMap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
+      final NavigableMap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesNavigableMap<K, V1, V2>(fromMap, transformer);
   }
 
@@ -1861,6 +1897,7 @@ public final class Maps {
    * @param <V2> the value type of the output entry
    * @since 7.0
    */
+  @FunctionalInterface
   public interface EntryTransformer<K, V1, V2> {
     /**
      * Determines an output value based on a key-value pair. This method is
@@ -1975,14 +2012,21 @@ public final class Maps {
       return fromMap.containsKey(key);
     }
 
+    @Override
+    @Nullable
+    public V2 get(@Nullable Object key) {
+      return getOrDefault(key, null);
+    }
+
     // safe as long as the user followed the <b>Warning</b> in the javadoc
     @SuppressWarnings("unchecked")
     @Override
-    public V2 get(Object key) {
+    @Nullable
+    public V2 getOrDefault(@Nullable Object key, @Nullable V2 defaultValue) {
       V1 value = fromMap.get(key);
       return (value != null || fromMap.containsKey(key))
           ? transformer.transformEntry((K) key, value)
-          : null;
+          : defaultValue;
     }
 
     // safe as long as the user followed the <b>Warning</b> in the javadoc
@@ -2008,6 +2052,19 @@ public final class Maps {
     Iterator<Entry<K, V2>> entryIterator() {
       return Iterators.transform(
           fromMap.entrySet().iterator(), Maps.<K, V1, V2>asEntryToEntryFunction(transformer));
+    }
+
+    @Override
+    Spliterator<Entry<K, V2>> entrySpliterator() {
+      return CollectSpliterators.map(
+          fromMap.entrySet().spliterator(), Maps.<K, V1, V2>asEntryToEntryFunction(transformer));
+    }
+
+    @Override
+    public void forEach(BiConsumer<? super K, ? super V2> action) {
+      checkNotNull(action);
+      // avoids creating new Entry<K, V2> objects
+      fromMap.forEach((k, v1) -> action.accept(k, transformer.transformEntry(k, v1)));
     }
 
     @Override
@@ -3172,6 +3229,16 @@ public final class Maps {
     }
 
     @Override
+    public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+      unfiltered()
+          .replaceAll(
+              (key, value) ->
+                  predicate.apply(Maps.immutableEntry(key, value))
+                      ? function.apply(key, value)
+                      : value);
+    }
+
+    @Override
     public BiMap<V, K> inverse() {
       return inverse;
     }
@@ -3462,6 +3529,11 @@ public final class Maps {
 
     abstract Iterator<Entry<K, V>> entryIterator();
 
+    Spliterator<Entry<K, V>> entrySpliterator() {
+      return Spliterators.spliterator(
+          entryIterator(), size(), Spliterator.SIZED | Spliterator.DISTINCT);
+    }
+
     @Override
     public Set<Entry<K, V>> entrySet() {
       return new EntrySet<K, V>() {
@@ -3474,7 +3546,21 @@ public final class Maps {
         public Iterator<Entry<K, V>> iterator() {
           return entryIterator();
         }
+
+        @Override
+        public Spliterator<Entry<K, V>> spliterator() {
+          return entrySpliterator();
+        }
+
+        @Override
+        public void forEach(Consumer<? super Entry<K, V>> action) {
+          forEachEntry(action);
+        }
       };
+    }
+
+    void forEachEntry(Consumer<? super Entry<K, V>> action) {
+      entryIterator().forEachRemaining(action);
     }
 
     @Override
@@ -3629,6 +3715,13 @@ public final class Maps {
     @Override
     public Iterator<K> iterator() {
       return keyIterator(map().entrySet().iterator());
+    }
+
+    @Override
+    public void forEach(Consumer<? super K> action) {
+      checkNotNull(action);
+      // avoids entry allocation for those maps that allocate entries on iteration
+      map.forEach((k, v) -> action.accept(k));
     }
 
     @Override
@@ -3809,6 +3902,13 @@ public final class Maps {
     @Override
     public Iterator<V> iterator() {
       return valueIterator(map().entrySet().iterator());
+    }
+
+    @Override
+    public void forEach(Consumer<? super V> action) {
+      checkNotNull(action);
+      // avoids allocation of entries for those maps that generate fresh entries on iteration
+      map.forEach((k, v) -> action.accept(v));
     }
 
     @Override

@@ -33,25 +33,30 @@ import junit.framework.TestCase;
  */
 @GwtCompatible(emulated = true)
 public class TreeTraverserTest extends TestCase {
-  private static final class Tree {
+  private static class Node {
     final char value;
+
+    Node(char value) {
+      this.value = value;
+    }
+  }
+
+  private static final class Tree extends Node {
     final List<Tree> children;
 
     public Tree(char value, Tree... children) {
-      this.value = value;
+      super(value);
       this.children = Arrays.asList(children);
     }
   }
 
-  private static final class BinaryTree {
-    final char value;
-    @Nullable
-    final BinaryTree left;
+  private static final class BinaryTree extends Node {
+    @Nullable final BinaryTree left;
     @Nullable
     final BinaryTree right;
 
     private BinaryTree(char value, BinaryTree left, BinaryTree right) {
-      this.value = value;
+      super(value);
       this.left = left;
       this.right = right;
     }
@@ -118,39 +123,36 @@ public class TreeTraverserTest extends TestCase {
   static final BinaryTree be = new BinaryTree('e', null, bf);
   static final BinaryTree bd = new BinaryTree('d', bb, be);
 
-  static String iterationOrder(Iterable<Tree> iterable) {
+  static String iterationOrder(Iterable<? extends Node> iterable) {
     StringBuilder builder = new StringBuilder();
-    for (Tree t : iterable) {
+    for (Node t : iterable) {
       builder.append(t.value);
     }
-    return builder.toString();
-  }
-
-  static String binaryIterationOrder(Iterable<BinaryTree> iterable) {
-    StringBuilder builder = new StringBuilder();
-    for (BinaryTree t : iterable) {
-      builder.append(t.value);
-    }
+    StringBuilder forEachBuilder = new StringBuilder();
+    iterable.forEach(t -> forEachBuilder.append(t.value));
+    assertTrue(
+        "Iterator content was " + builder + " but forEach content was " + forEachBuilder,
+        builder.toString().contentEquals(forEachBuilder));
     return builder.toString();
   }
 
   public void testPreOrder() {
     assertThat(iterationOrder(ADAPTER.preOrderTraversal(h))).isEqualTo("hdabcegf");
-    assertThat(binaryIterationOrder(BIN_ADAPTER.preOrderTraversal(bd))).isEqualTo("dbacefg");
+    assertThat(iterationOrder(BIN_ADAPTER.preOrderTraversal(bd))).isEqualTo("dbacefg");
   }
 
   public void testPostOrder() {
     assertThat(iterationOrder(ADAPTER.postOrderTraversal(h))).isEqualTo("abcdefgh");
-    assertThat(binaryIterationOrder(BIN_ADAPTER.postOrderTraversal(bd))).isEqualTo("acbgfed");
+    assertThat(iterationOrder(BIN_ADAPTER.postOrderTraversal(bd))).isEqualTo("acbgfed");
   }
 
   public void testBreadthOrder() {
     assertThat(iterationOrder(ADAPTER.breadthFirstTraversal(h))).isEqualTo("hdegabcf");
-    assertThat(binaryIterationOrder(BIN_ADAPTER.breadthFirstTraversal(bd))).isEqualTo("dbeacfg");
+    assertThat(iterationOrder(BIN_ADAPTER.breadthFirstTraversal(bd))).isEqualTo("dbeacfg");
   }
 
   public void testInOrder() {
-    assertThat(binaryIterationOrder(BIN_ADAPTER.inOrderTraversal(bd))).isEqualTo("abcdegf");
+    assertThat(iterationOrder(BIN_ADAPTER.inOrderTraversal(bd))).isEqualTo("abcdegf");
   }
 
   public void testUsing() {

@@ -162,4 +162,9 @@ public void testOf() throws Exception {
   com.google.common.collect.ImmutableSetMultimapTest testCase = new com.google.common.collect.ImmutableSetMultimapTest();
   testCase.testOf();
 }
+
+public void testToImmutableSetMultimap() throws Exception {
+  com.google.common.collect.ImmutableSetMultimapTest testCase = new com.google.common.collect.ImmutableSetMultimapTest();
+  testCase.testToImmutableSetMultimap();
+}
 }

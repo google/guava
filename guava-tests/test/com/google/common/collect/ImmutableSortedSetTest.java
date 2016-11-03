@@ -21,6 +21,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Equivalence;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -35,6 +36,7 @@ import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSet
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetSubsetAsListGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetUnhashableGenerator;
 import com.google.common.collect.testing.testers.SetHashCodeTester;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
@@ -46,6 +48,8 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.BiPredicate;
+import java.util.stream.Collector;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -661,6 +665,75 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     SortedSet<String> set = ImmutableSortedSet.copyOfSorted(input);
     assertThat(set).containsExactly("a", "in", "the", "over", "quick", "jumped").inOrder();
     assertSame(STRING_LENGTH, set.comparator());
+  }
+
+  public void testToImmutableSortedSet() {
+    Collector<String, ?, ImmutableSortedSet<String>> collector =
+        ImmutableSortedSet.toImmutableSortedSet(Ordering.natural());
+    BiPredicate<ImmutableSortedSet<String>, ImmutableSortedSet<String>> equivalence =
+        Equivalence.equals().onResultOf(ImmutableSortedSet<String>::comparator)
+            .and(Equivalence.equals().onResultOf(ImmutableSortedSet::asList))
+            .and(Equivalence.equals());
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(
+            ImmutableSortedSet.of("a", "b", "c", "d"), "a", "b", "a", "c", "b", "b", "d");
+  }
+
+  public void testToImmutableSortedSet_customComparator() {
+    Collector<String, ?, ImmutableSortedSet<String>> collector =
+        ImmutableSortedSet.toImmutableSortedSet(String.CASE_INSENSITIVE_ORDER);
+    BiPredicate<ImmutableSortedSet<String>, ImmutableSortedSet<String>> equivalence =
+        (set1, set2) ->
+            set1.equals(set2) && set1.asList().equals(set2.asList())
+                && set1.comparator().equals(set2.comparator());
+    ImmutableSortedSet<String> expected =
+        ImmutableSortedSet.orderedBy(String.CASE_INSENSITIVE_ORDER)
+            .add("a", "B", "c", "d")
+            .build();
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(expected, "a", "B", "a", "c", "b", "b", "d");
+  }
+
+  public void testToImmutableSortedSet_duplicates() {
+    class TypeWithDuplicates implements Comparable<TypeWithDuplicates> {
+      final int a;
+      final int b;
+
+      TypeWithDuplicates(int a, int b) {
+        this.a = a;
+        this.b = b;
+      }
+
+      @Override
+      public int compareTo(TypeWithDuplicates o) {
+        return Integer.compare(a, o.a);
+      }
+
+      public boolean fullEquals(TypeWithDuplicates other) {
+        return other != null && a == other.a && b == other.b;
+      }
+    }
+
+    Collector<TypeWithDuplicates, ?, ImmutableSortedSet<TypeWithDuplicates>> collector =
+        ImmutableSortedSet.toImmutableSortedSet(Ordering.natural());
+    BiPredicate<ImmutableSortedSet<TypeWithDuplicates>, ImmutableSortedSet<TypeWithDuplicates>>
+        equivalence = (set1, set2) -> {
+            if (!set1.equals(set2)) {
+              return false;
+            }
+            for (int i = 0; i < set1.size(); i++) {
+              if (!set1.asList().get(i).fullEquals(set2.asList().get(i))) {
+                return false;
+              }
+            }
+            return true;
+          };
+    TypeWithDuplicates a = new TypeWithDuplicates(1, 1);
+    TypeWithDuplicates b1 = new TypeWithDuplicates(2, 1);
+    TypeWithDuplicates b2 = new TypeWithDuplicates(2, 2);
+    TypeWithDuplicates c = new TypeWithDuplicates(3, 1);
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(ImmutableSortedSet.of(a, b1, c), a, b1, c, b2);
   }
 
   public void testEquals_bothDefaultOrdering() {

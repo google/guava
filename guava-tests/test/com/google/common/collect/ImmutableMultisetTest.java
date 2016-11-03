@@ -32,6 +32,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
@@ -41,6 +42,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiPredicate;
+import java.util.stream.Collector;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -279,6 +282,75 @@ public class ImmutableMultisetTest extends TestCase {
       ImmutableMultiset.copyOf(iterator);
       fail();
     } catch (NullPointerException expected) {}
+  }
+
+  public void testToImmutableMultiset() {
+    BiPredicate<ImmutableMultiset<String>, ImmutableMultiset<String>> equivalence =
+        (ms1, ms2) -> ms1.equals(ms2) && ms1.entrySet().asList().equals(ms2.entrySet().asList());
+    CollectorTester.of(ImmutableMultiset.<String>toImmutableMultiset(), equivalence)
+        .expectCollects(ImmutableMultiset.of())
+        .expectCollects(
+            ImmutableMultiset.of("a", "a", "b", "c", "c", "c"), "a", "a", "b", "c", "c", "c");
+  }
+
+  public void testToImmutableMultiset_duplicates() {
+    class TypeWithDuplicates {
+      final int a;
+      final int b;
+
+      TypeWithDuplicates(int a, int b) {
+        this.a = a;
+        this.b = b;
+      }
+
+      @Override
+      public int hashCode() {
+        return a;
+      }
+
+      @Override
+      public boolean equals(Object obj) {
+        return obj instanceof TypeWithDuplicates && ((TypeWithDuplicates) obj).a == a;
+      }
+
+      public boolean fullEquals(TypeWithDuplicates other) {
+        return other != null && a == other.a && b == other.b;
+      }
+    }
+
+    Collector<TypeWithDuplicates, ?, ImmutableMultiset<TypeWithDuplicates>> collector =
+        ImmutableMultiset.toImmutableMultiset();
+    BiPredicate<ImmutableMultiset<TypeWithDuplicates>, ImmutableMultiset<TypeWithDuplicates>>
+        equivalence =
+            (ms1, ms2)
+                -> {
+                  if (!ms1.equals(ms2)) {
+                    return false;
+                  }
+                  List<TypeWithDuplicates> elements1 = ImmutableList.copyOf(ms1.elementSet());
+                  List<TypeWithDuplicates> elements2 = ImmutableList.copyOf(ms2.elementSet());
+                  for (int i = 0; i < ms1.elementSet().size(); i++) {
+                    if (!elements1.get(i).fullEquals(elements2.get(i))) {
+                      return false;
+                    }
+                  }
+                  return true;
+                };
+    TypeWithDuplicates a = new TypeWithDuplicates(1, 1);
+    TypeWithDuplicates b1 = new TypeWithDuplicates(2, 1);
+    TypeWithDuplicates b2 = new TypeWithDuplicates(2, 2);
+    TypeWithDuplicates c = new TypeWithDuplicates(3, 1);
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(
+            ImmutableMultiset.<TypeWithDuplicates>builder()
+                .add(a)
+                .addCopies(b1, 2)
+                .add(c)
+                .build(),
+            a,
+            b1,
+            c,
+            b2);
   }
 
   private static class CountingIterable implements Iterable<String> {

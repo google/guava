@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.Spliterator;
 
 /**
  * A mutable class-to-instance map backed by an arbitrary user-provided map. See also {@link
@@ -72,7 +73,11 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
     return delegate;
   }
 
-  static <B> Entry<Class<? extends B>, B> checkedEntry(final Entry<Class<? extends B>, B> entry) {
+  /**
+   * Wraps the {@code setValue} implementation of an {@code Entry} to enforce the class constraint.
+   */
+  private static <B> Entry<Class<? extends B>, B> checkedEntry(
+      final Entry<Class<? extends B>, B> entry) {
     return new ForwardingMapEntry<Class<? extends B>, B>() {
       @Override
       protected Entry<Class<? extends B>, B> delegate() {
@@ -93,6 +98,12 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
       @Override
       protected Set<Entry<Class<? extends B>, B>> delegate() {
         return MutableClassToInstanceMap.this.delegate().entrySet();
+      }
+
+      @Override
+      public Spliterator<Entry<Class<? extends B>, B>> spliterator() {
+        return CollectSpliterators.map(
+            delegate().spliterator(), MutableClassToInstanceMap::checkedEntry);
       }
 
       @Override

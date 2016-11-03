@@ -16,6 +16,9 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
@@ -23,6 +26,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.function.ObjIntConsumer;
 import javax.annotation.Nullable;
 
 /**
@@ -293,12 +299,26 @@ public interface Multiset<E> extends Collection<E> {
     String toString();
   }
 
+  /**
+   * Runs the specified action for each distinct element in this multiset, and the number of
+   * occurrences of that element. For some {@code Multiset} implementations, this may be more
+   * efficient than iterating over the {@link #entrySet()} either explicitly or with {@code
+   * entrySet().forEach(action)}.
+   *
+   * @since 21.0
+   */
+  @Beta
+  default void forEachEntry(ObjIntConsumer<? super E> action) {
+    checkNotNull(action);
+    entrySet().forEach(entry -> action.accept(entry.getElement(), entry.getCount()));
+  }
+
   // Comparison and hashing
 
   /**
-   * Compares the specified object with this multiset for equality. Returns
-   * {@code true} if the given object is also a multiset and contains equal
-   * elements with equal counts, regardless of order.
+   * Compares the specified object with this multiset for equality. Returns {@code true} if the
+   * given object is also a multiset and contains equal elements with equal counts, regardless of
+   * order.
    */
   @Override
   // TODO(kevinb): caveats about equivalence-relation?
@@ -450,4 +470,29 @@ public interface Multiset<E> extends Collection<E> {
   @CanIgnoreReturnValue
   @Override
   boolean retainAll(Collection<?> c);
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Elements that occur multiple times in the multiset will be passed to the {@code Consumer}
+   * correspondingly many times, though not necessarily sequentially.
+   */
+  @Override
+  default void forEach(Consumer<? super E> action) {
+    checkNotNull(action);
+    entrySet()
+        .forEach(
+            entry -> {
+              E elem = entry.getElement();
+              int count = entry.getCount();
+              for (int i = 0; i < count; i++) {
+                action.accept(elem);
+              }
+            });
+  }
+
+  @Override
+  default Spliterator<E> spliterator() {
+    return Multisets.spliteratorImpl(this);
+  }
 }

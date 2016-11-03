@@ -108,8 +108,10 @@
           <excludePackageNames>com.google.common.base.internal</excludePackageNames>
           <linksource>true</linksource>
           <links>
-            <link>http://jsr-305.googlecode.com/svn/trunk/javadoc</link>
-            <link>http://docs.oracle.com/javase/7/docs/api/</link>
+            <link>http://docs.oracle.com/javase/8/docs/api/</link>
+            <link>http://javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.1/</link>
+            <link>http://errorprone.info/api/latest/</link>
+            <link>http://javadoc.io/doc/com.google.j2objc/j2objc-annotations/1.1/</link>
           </links>
           <!-- TODO(cpovirk): can we use includeDependencySources and a local com.oracle.java:jdk-lib:noversion:sources instead of all this unzipping and manual sourcepath modification? -->
           <sourcepath>${project.build.sourceDirectory}:${project.build.directory}/jdk-sources</sourcepath>

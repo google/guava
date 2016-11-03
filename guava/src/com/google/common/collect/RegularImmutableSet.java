@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import javax.annotation.Nullable;
 
 /**
@@ -69,6 +71,11 @@ final class RegularImmutableSet<E> extends ImmutableSet.Indexed<E> {
 
   @Override E get(int i) {
     return (E) elements[i];
+  }
+
+  @Override
+  public Spliterator<E> spliterator() {
+    return Spliterators.spliterator(elements, SPLITERATOR_CHARACTERISTICS);
   }
 
   @Override

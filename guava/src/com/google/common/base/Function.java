@@ -19,47 +19,31 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import javax.annotation.Nullable;
 
 /**
- * Determines an output value based on an input value; a pre-Java-8 version of {@code
- * java.util.function.Function}.
+ * Legacy version of {@link java.util.function.Function}.
  *
  * <p>The {@link Functions} class provides common functions and related utilities.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
- * Function}</a>.
- *
- * <h3>For Java 8+ users</h3>
+ * <p>As this interface extends {@link java.util.function.Function}, an instance of this type
+ * can be used as a {@code java.util.function.Function} directly.  To use a
+ * {@code java.util.function.Function} in a context where a
+ * {@code com.google.common.base.Function} is needed, use {@code function::apply}.
  *
  * <p>This interface is now a legacy type. Use {@code java.util.function.Function} (or the
  * appropriate primitive specialization such as {@code ToIntFunction}) instead whenever possible.
  * Otherwise, at least reduce <i>explicit</i> dependencies on this type by using lambda expressions
  * or method references instead of classes, leaving your code easier to migrate in the future.
  *
- * <p>To use an existing function (say, named {@code function}) in a context where the <i>other
- * type</i> of function is expected, use the method reference {@code function::apply}. A future
- * version of {@code com.google.common.base.Function} will be made to <i>extend</i> {@code
- * java.util.function.Function}, making conversion code necessary only in one direction. At that
- * time, this interface will be officially discouraged.
+ * <p>See the Guava User Guide article on
+ * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
+ * Function}</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0
  */
 @GwtCompatible
-public interface Function<F, T> {
-  /**
-   * Returns the result of applying this function to {@code input}. This method is <i>generally
-   * expected</i>, but not absolutely required, to have the following properties:
-   *
-   * <ul>
-   * <li>Its execution does not cause any observable side effects.
-   * <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
-   *     Objects.equal}{@code (a, b)} implies that {@code Objects.equal(function.apply(a),
-   *     function.apply(b))}.
-   * </ul>
-   *
-   * @throws NullPointerException if {@code input} is null and this function does not accept null
-   *     arguments
-   */
+@FunctionalInterface
+public interface Function<F, T> extends java.util.function.Function<F, T> {
+  @Override
   @Nullable
   @CanIgnoreReturnValue // TODO(kevinb): remove this
   T apply(@Nullable F input);

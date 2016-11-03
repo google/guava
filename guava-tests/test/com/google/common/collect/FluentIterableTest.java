@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.FluentIterableTest.Help.assertThat;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
@@ -30,6 +31,8 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.testing.NullPointerTester;
+import com.google.common.truth.IterableSubject;
+import com.google.common.truth.Truth;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,6 +41,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -912,6 +916,24 @@ public class FluentIterableTest extends TestCase {
       FluentIterable.from(Lists.newArrayList("a", "b", "c")).get(3);
       fail();
     } catch (IndexOutOfBoundsException expected) {
+    }
+  }
+
+  /*
+   * Full and proper black-box testing of a Stream-returning method is extremely involved, and is
+   * overkill when nearly all Streams are produced using well-tested JDK calls. So, we cheat and
+   * just test that the toArray() contents are as expected.
+   */
+  public void testStream() {
+    assertThat(FluentIterable.of().stream()).isEmpty();
+    assertThat(FluentIterable.of("a").stream()).containsExactly("a");
+    assertThat(FluentIterable.of(1, 2, 3).stream().filter(n -> n > 1)).containsExactly(2, 3);
+  }
+
+  // TODO(kevinb): add assertThat(Stream) to Truth?
+  static class Help {
+    static IterableSubject assertThat(Stream<?> stream) {
+      return Truth.assertThat(stream.toArray()).asList();
     }
   }
 

@@ -217,6 +217,13 @@ import javax.annotation.Nullable;
     buffer[j] = tmp;
   }
 
+  TopKSelector<T> combine(TopKSelector<T> other) {
+    for (int i = 0; i < other.bufferSize; i++) {
+      this.offer(other.buffer[i]);
+    }
+    return this;
+  }
+
   /**
    * Adds each member of {@code elements} as a candidate for the top {@code k} elements. This
    * operation takes amortized linear time in the length of {@code elements}.

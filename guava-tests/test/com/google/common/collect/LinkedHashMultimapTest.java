@@ -34,6 +34,7 @@ import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -428,5 +429,60 @@ public class LinkedHashMultimapTest extends TestCase {
         assertEquals(newHashSet(elements), multimap.asMap().entrySet());
       }
     }.test();
+  }
+
+  public void testKeysSpliterator() {
+    List<Entry<String, Integer>> expectedEntries =
+        asList(
+            Maps.immutableEntry("foo", 2),
+            Maps.immutableEntry("foo", 3),
+            Maps.immutableEntry("bar", 4),
+            Maps.immutableEntry("bar", 5),
+            Maps.immutableEntry("foo", 6));
+    Multimap<String, Integer> multimap = LinkedHashMultimap.create();
+    for (Entry<String, Integer> entry : expectedEntries) {
+      multimap.put(entry.getKey(), entry.getValue());
+    }
+    List<String> actualKeys = new ArrayList<>();
+    multimap.keys().spliterator().forEachRemaining(actualKeys::add);
+    assertThat(actualKeys)
+        .containsExactlyElementsIn(Lists.transform(expectedEntries, Entry::getKey))
+        .inOrder();
+  }
+
+  public void testEntriesSpliterator() {
+    List<Entry<String, Integer>> expectedEntries =
+        asList(
+            Maps.immutableEntry("foo", 2),
+            Maps.immutableEntry("foo", 3),
+            Maps.immutableEntry("bar", 4),
+            Maps.immutableEntry("bar", 5),
+            Maps.immutableEntry("foo", 6));
+    Multimap<String, Integer> multimap = LinkedHashMultimap.create();
+    for (Entry<String, Integer> entry : expectedEntries) {
+      multimap.put(entry.getKey(), entry.getValue());
+    }
+    List<Entry<String, Integer>> actualEntries = new ArrayList<>();
+    multimap.entries().spliterator().forEachRemaining(actualEntries::add);
+    assertThat(actualEntries).containsExactlyElementsIn(expectedEntries).inOrder();
+  }
+
+  public void testValuesSpliterator() {
+    List<Entry<String, Integer>> expectedEntries =
+        asList(
+            Maps.immutableEntry("foo", 2),
+            Maps.immutableEntry("foo", 3),
+            Maps.immutableEntry("bar", 4),
+            Maps.immutableEntry("bar", 5),
+            Maps.immutableEntry("foo", 6));
+    Multimap<String, Integer> multimap = LinkedHashMultimap.create();
+    for (Entry<String, Integer> entry : expectedEntries) {
+      multimap.put(entry.getKey(), entry.getValue());
+    }
+    List<Integer> actualValues = new ArrayList<>();
+    multimap.values().spliterator().forEachRemaining(actualValues::add);
+    assertThat(actualValues)
+        .containsExactlyElementsIn(Lists.transform(expectedEntries, Entry::getValue))
+        .inOrder();
   }
 }

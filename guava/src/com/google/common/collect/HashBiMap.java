@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.Hashing.smearedHash;
@@ -30,13 +31,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import javax.annotation.Nullable;
 
 /**
@@ -517,6 +519,26 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     };
   }
 
+  @Override
+  public void forEach(BiConsumer<? super K, ? super V> action) {
+    checkNotNull(action);
+    for (BiEntry<K, V> entry = firstInKeyInsertionOrder;
+        entry != null;
+        entry = entry.nextInKeyInsertionOrder) {
+      action.accept(entry.key, entry.value);
+    }
+  }
+
+  @Override
+  public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+    checkNotNull(function);
+    BiEntry<K, V> oldFirst = firstInKeyInsertionOrder;
+    clear();
+    for (BiEntry<K, V> entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {
+      put(entry.key, function.apply(entry.key, entry.value));
+    }
+  }
+
   @RetainedWith
   private transient BiMap<V, K> inverse;
 
@@ -525,7 +547,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     return (inverse == null) ? inverse = new Inverse() : inverse;
   }
 
-  private final class Inverse extends AbstractMap<V, K> implements BiMap<V, K>, Serializable {
+  private final class Inverse extends IteratorBasedAbstractMap<V, K>
+      implements BiMap<V, K>, Serializable {
     BiMap<K, V> forward() {
       return HashBiMap.this;
     }
@@ -550,6 +573,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
       return Maps.keyOrNull(seekByValue(value, smearedHash(value)));
     }
 
+    @CanIgnoreReturnValue
     @Override
     public K put(@Nullable V value, @Nullable K key) {
       return putInverse(value, key, false);
@@ -617,61 +641,66 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     }
 
     @Override
-    public Set<Entry<V, K>> entrySet() {
-      return new Maps.EntrySet<V, K>() {
-
+    Iterator<Entry<V, K>> entryIterator() {
+      return new Itr<Entry<V, K>>() {
         @Override
-        Map<V, K> map() {
-          return Inverse.this;
+        Entry<V, K> output(BiEntry<K, V> entry) {
+          return new InverseEntry(entry);
         }
 
-        @Override
-        public Iterator<Entry<V, K>> iterator() {
-          return new Itr<Entry<V, K>>() {
-            @Override
-            Entry<V, K> output(BiEntry<K, V> entry) {
-              return new InverseEntry(entry);
+        class InverseEntry extends AbstractMapEntry<V, K> {
+          BiEntry<K, V> delegate;
+
+          InverseEntry(BiEntry<K, V> entry) {
+            this.delegate = entry;
+          }
+
+          @Override
+          public V getKey() {
+            return delegate.value;
+          }
+
+          @Override
+          public K getValue() {
+            return delegate.key;
+          }
+
+          @Override
+          public K setValue(K key) {
+            K oldKey = delegate.key;
+            int keyHash = smearedHash(key);
+            if (keyHash == delegate.keyHash && Objects.equal(key, oldKey)) {
+              return key;
             }
-
-            class InverseEntry extends AbstractMapEntry<V, K> {
-              BiEntry<K, V> delegate;
-
-              InverseEntry(BiEntry<K, V> entry) {
-                this.delegate = entry;
-              }
-
-              @Override
-              public V getKey() {
-                return delegate.value;
-              }
-
-              @Override
-              public K getValue() {
-                return delegate.key;
-              }
-
-              @Override
-              public K setValue(K key) {
-                K oldKey = delegate.key;
-                int keyHash = smearedHash(key);
-                if (keyHash == delegate.keyHash && Objects.equal(key, oldKey)) {
-                  return key;
-                }
-                checkArgument(seekByKey(key, keyHash) == null, "value already present: %s", key);
-                delete(delegate);
-                BiEntry<K, V> newEntry =
-                    new BiEntry<K, V>(key, keyHash, delegate.value, delegate.valueHash);
-                delegate = newEntry;
-                insert(newEntry, null);
-                expectedModCount = modCount;
-                // This is safe because entries can only get bumped up to earlier in the iteration,
-                // so they can't get revisited.
-                return oldKey;
-              }
-            }
-          };
+            checkArgument(seekByKey(key, keyHash) == null, "value already present: %s", key);
+            delete(delegate);
+            BiEntry<K, V> newEntry =
+                new BiEntry<K, V>(key, keyHash, delegate.value, delegate.valueHash);
+            delegate = newEntry;
+            insert(newEntry, null);
+            expectedModCount = modCount;
+            // This is safe because entries can only get bumped up to earlier in the iteration,
+            // so they can't get revisited.
+            return oldKey;
+          }
         }
       };
+    }
+
+    @Override
+    public void forEach(BiConsumer<? super V, ? super K> action) {
+      checkNotNull(action);
+      HashBiMap.this.forEach((k, v) -> action.accept(v, k));
+    }
+
+    @Override
+    public void replaceAll(BiFunction<? super V, ? super K, ? extends K> function) {
+      checkNotNull(function);
+      BiEntry<K, V> oldFirst = firstInKeyInsertionOrder;
+      clear();
+      for (BiEntry<K, V> entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {
+        put(entry.value, function.apply(entry.value, entry.key));
+      }
     }
 
     Object writeReplace() {

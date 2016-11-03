@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
@@ -35,8 +36,12 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
 /**
@@ -414,6 +419,16 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
         }
       };
     }
+    
+    @Override
+    public void forEach(Consumer<? super V> action) {
+      checkNotNull(action);
+      for (ValueSetLink<K, V> entry = firstEntry;
+          entry != ValueSet.this;
+          entry = entry.getSuccessorInValueSet()) {
+        action.accept(((ValueEntry<K, V>) entry).getValue());
+      }
+    }
 
     @Override
     public int size() {
@@ -546,8 +561,18 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
   }
 
   @Override
+  Spliterator<Entry<K, V>> entrySpliterator() {
+    return Spliterators.spliterator(entries(), Spliterator.DISTINCT | Spliterator.ORDERED);
+  }
+
+  @Override
   Iterator<V> valueIterator() {
     return Maps.valueIterator(entryIterator());
+  }
+
+  @Override
+  Spliterator<V> valueSpliterator() {
+    return CollectSpliterators.map(entrySpliterator(), Entry::getValue);
   }
 
   @Override

@@ -49,6 +49,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Predicate;
 import javax.annotation.Nullable;
 
 /**
@@ -596,6 +597,12 @@ public final class Lists {
       };
     }
 
+    @Override
+    public boolean removeIf(Predicate<? super T> filter) {
+      checkNotNull(filter);
+      return fromList.removeIf(element -> filter.test(function.apply(element)));
+    }
+
     private static final long serialVersionUID = 0;
   }
 
@@ -645,6 +652,12 @@ public final class Lists {
     @Override
     public boolean isEmpty() {
       return fromList.isEmpty();
+    }
+
+    @Override
+    public boolean removeIf(Predicate<? super T> filter) {
+      checkNotNull(filter);
+      return fromList.removeIf(element -> filter.test(function.apply(element)));
     }
 
     @Override

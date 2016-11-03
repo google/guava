@@ -22,6 +22,8 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.Maps.EntrySet;
+import com.google.common.collect.Maps.KeySet;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
@@ -41,6 +43,8 @@ import java.util.RandomAccess;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.Spliterator;
+import java.util.function.BiConsumer;
 import javax.annotation.Nullable;
 
 /**
@@ -967,6 +971,11 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     // The following methods are included for better performance.
 
     @Override
+    public Spliterator<K> spliterator() {
+      return map().keySet().spliterator();
+    }
+
+    @Override
     public boolean remove(Object key) {
       int count = 0;
       Collection<V> collection = map().remove(key);
@@ -1201,6 +1210,12 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     };
   }
 
+  @Override
+  Spliterator<V> valueSpliterator() {
+    return CollectSpliterators.flatMap(
+        map.values().spliterator(), Collection::spliterator, Spliterator.SIZED, size());
+  }
+
   /*
    * TODO(kevinb): should we copy this javadoc to each concrete class, so that
    * classes like LinkedHashMultimap that need to say something different are
@@ -1238,6 +1253,27 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
         return Maps.immutableEntry(key, value);
       }
     };
+  }
+
+  @Override
+  Spliterator<Entry<K, V>> entrySpliterator() {
+    return CollectSpliterators.flatMap(
+        map.entrySet().spliterator(),
+        keyToValueCollectionEntry -> {
+          K key = keyToValueCollectionEntry.getKey();
+          Collection<V> valueCollection = keyToValueCollectionEntry.getValue();
+          return CollectSpliterators.map(
+              valueCollection.spliterator(), (V value) -> Maps.immutableEntry(key, value));
+        },
+        Spliterator.SIZED,
+        size());
+  }
+
+  @Override
+  public void forEach(BiConsumer<? super K, ? super V> action) {
+    checkNotNull(action);
+    map.forEach(
+        (key, valueCollection) -> valueCollection.forEach(value -> action.accept(key, value)));
   }
 
   @Override
@@ -1347,6 +1383,11 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
       @Override
       public Iterator<Map.Entry<K, Collection<V>>> iterator() {
         return new AsMapIterator();
+      }
+
+      @Override
+      public Spliterator<Entry<K, Collection<V>>> spliterator() {
+        return CollectSpliterators.map(submap.entrySet().spliterator(), AsMap.this::wrapEntry);
       }
 
       // The following methods are included for performance.

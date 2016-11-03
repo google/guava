@@ -18,9 +18,9 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.Multiset.Entry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
@@ -29,6 +29,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.function.Function;
+import java.util.function.ToIntFunction;
+import java.util.stream.Collector;
 import javax.annotation.Nullable;
 
 /**
@@ -51,6 +54,44 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // we're overriding default serialization
 // TODO(lowasser): write an efficient asList() implementation
 public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implements Multiset<E> {
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new
+   * {@code ImmutableMultiset}.  Elements iterate in order by the <i>first</i> appearance of that
+   * element in encounter order.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
+    return toImmutableMultiset(Function.identity(), e -> 1);
+  }
+
+  /**
+   * Returns a {@code Collector} that accumulates elements into an {@code ImmutableMultiset}
+   * whose elements are the result of applying {@code elementFunction} to the inputs,
+   * with counts equal to the result of applying {@code countFunction} to the inputs.
+   *
+   * <p>If the mapped elements contain duplicates (according to {@link Object#equals}),
+   * the first occurrence in encounter order appears in the resulting multiset, with count
+   * equal to the sum of the outputs of {@code countFunction.applyAsInt(t)} for each {@code t}
+   * mapped to that element.
+   */
+  private static <T, E> Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
+      Function<? super T, ? extends E> elementFunction, ToIntFunction<? super T> countFunction) {
+    // TODO(lowasser): consider exposing this
+    checkNotNull(elementFunction);
+    checkNotNull(countFunction);
+    return Collector.of(
+        LinkedHashMultiset::create,
+        (multiset, t) -> multiset.add(elementFunction.apply(t), countFunction.applyAsInt(t)),
+        (multiset1, multiset2) -> {
+          multiset1.addAll(multiset2);
+          return multiset1;
+        },
+        (Multiset<E> multiset) -> copyFromEntries(multiset.entrySet()));
+  }
+
   /**
    * Returns the empty immutable multiset.
    */

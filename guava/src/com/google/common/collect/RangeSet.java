@@ -50,6 +50,7 @@ import javax.annotation.Nullable;
 @Beta
 @GwtIncompatible
 public interface RangeSet<C extends Comparable> {
+  // TODO(lowasser): consider adding default implementations of some of these methods
 
   // Query methods
 
@@ -98,7 +99,14 @@ public interface RangeSet<C extends Comparable> {
    *
    * @since 21.0
    */
-  boolean enclosesAll(Iterable<Range<C>> other);
+  default boolean enclosesAll(Iterable<Range<C>> other) {
+    for (Range<C> range : other) {
+      if (!encloses(range)) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   /**
    * Returns {@code true} if this range set contains no ranges.
@@ -212,7 +220,11 @@ public interface RangeSet<C extends Comparable> {
    *     operation
    * @since 21.0
    */
-  void addAll(Iterable<Range<C>> ranges);
+  default void addAll(Iterable<Range<C>> ranges) {
+    for (Range<C> range : ranges) {
+      add(range);
+    }
+  }
 
   /**
    * Removes all of the ranges from the specified range set from this range set (optional
@@ -237,7 +249,11 @@ public interface RangeSet<C extends Comparable> {
    *     operation
    * @since 21.0
    */
-  void removeAll(Iterable<Range<C>> ranges);
+  default void removeAll(Iterable<Range<C>> ranges) {
+    for (Range<C> range : ranges) {
+      remove(range);
+    }
+  }
 
   // Object methods
 

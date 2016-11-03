@@ -17,8 +17,10 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ObjectArrays.checkElementNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
@@ -31,6 +33,9 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.stream.Collector;
 import javax.annotation.Nullable;
 
 /**
@@ -42,6 +47,22 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
+  static final int SPLITERATOR_CHARACTERISTICS =
+      ImmutableCollection.SPLITERATOR_CHARACTERISTICS | Spliterator.DISTINCT;
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new
+   * {@code ImmutableSet}.  Elements are added in encounter order; if the
+   * elements contain duplicates (according to {@link Object#equals(Object)}),
+   * only the first duplicate in encounter order will appear in the result.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
+    return CollectCollectors.toImmutableSet();
+  }
+
   /**
    * Returns the empty immutable set. Preferred over {@link Collections#emptySet} for code
    * consistency, and because the return type conveys the immutability guarantee.
@@ -357,6 +378,20 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
 
     @Override
+    public Spliterator<E> spliterator() {
+      return CollectSpliterators.indexed(size(), SPLITERATOR_CHARACTERISTICS, this::get);
+    }
+
+    @Override
+    public void forEach(Consumer<? super E> consumer) {
+      checkNotNull(consumer);
+      int n = size();
+      for (int i = 0; i < n; i++) {
+        consumer.accept(get(i));
+      }
+    }
+
+    @Override
     ImmutableList<E> createAsList() {
       return new ImmutableAsList<E>() {
         @Override
@@ -495,6 +530,13 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     @Override
     public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);
+      return this;
+    }
+
+    @CanIgnoreReturnValue
+    @Override
+    Builder<E> combine(ArrayBasedBuilder<E> builder) {
+      super.combine(builder);
       return this;
     }
 

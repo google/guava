@@ -25,6 +25,7 @@ import java.util.ArrayDeque;
 import java.util.BitSet;
 import java.util.Deque;
 import java.util.Iterator;
+import java.util.function.Consumer;
 
 /**
  * A variant of {@link TreeTraverser} for binary trees, providing additional traversals specific to
@@ -81,6 +82,12 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
             return endOfData();
           }
         };
+      }
+
+      @Override
+      public void forEach(Consumer<? super T> action) {
+        acceptIfPresent(action, leftChild(root));
+        acceptIfPresent(action, rightChild(root));
       }
     };
   }
@@ -171,6 +178,19 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
       public UnmodifiableIterator<T> iterator() {
         return new InOrderIterator(root);
       }
+
+      @Override
+      public void forEach(Consumer<? super T> action) {
+        checkNotNull(action);
+        new Consumer<T>() {
+          @Override
+          public void accept(T t) {
+            acceptIfPresent(this, leftChild(t));
+            action.accept(t);
+            acceptIfPresent(this, rightChild(t));
+          }
+        }.accept(root);
+      }
     };
   }
 
@@ -205,6 +225,12 @@ public abstract class BinaryTreeTraverser<T> extends TreeTraverser<T> {
   private static <T> void pushIfPresent(Deque<T> stack, Optional<T> node) {
     if (node.isPresent()) {
       stack.addLast(node.get());
+    }
+  }
+
+  private static <T> void acceptIfPresent(Consumer<? super T> action, Optional<T> node) {
+    if (node.isPresent()) {
+      action.accept(node.get());
     }
   }
 }

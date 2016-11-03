@@ -28,6 +28,7 @@ import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.BiFunction;
 import junit.framework.TestSuite;
 
 /**
@@ -117,6 +118,12 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
     public BiMap<V, K> inverse() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.inverse();
+    }
+
+    @Override
+    public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+      assertTrue(Thread.holdsLock(mutex));
+      delegate.replaceAll(function);
     }
 
     @Override public Set<V> values() {

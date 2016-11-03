@@ -1,15 +1,17 @@
 /*
  * Copyright (C) 2011 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.google.common.util.concurrent;
@@ -18,15 +20,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Function;
-import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.LongBinaryOperator;
+import java.util.function.LongUnaryOperator;
 
 /**
  * A map containing {@code long} values that can be atomically updated. While writes to a
@@ -35,15 +37,15 @@ import java.util.concurrent.atomic.AtomicLong;
  * {@code K}. If a key has not yet been associated with a value, its implicit value is zero.
  *
  * <p>Most methods in this class treat absent values and zero values identically, as individually
- * documented. Exceptions to this are {@link #containsKey}, {@link #size}, {@link #isEmpty}, {@link
- * #asMap}, and {@link #toString}.
+ * documented. Exceptions to this are {@link #containsKey}, {@link #size}, {@link #isEmpty},
+ * {@link #asMap}, and {@link #toString}.
  *
  * <p>Instances of this class may be used by multiple threads concurrently. All operations are
  * atomic unless otherwise noted.
  *
  * <p><b>Note:</b> If your values are always positive and less than 2^31, you may wish to use a
- * {@link com.google.common.collect.Multiset} such as {@link
- * com.google.common.collect.ConcurrentHashMultiset} instead.
+ * {@link com.google.common.collect.Multiset} such as
+ * {@link com.google.common.collect.ConcurrentHashMultiset} instead.
  *
  * <b>Warning:</b> Unlike {@code Multiset}, entries whose values are zero are not automatically
  * removed from the map. Instead they must be removed manually with {@link #removeAllZeros}.
@@ -53,9 +55,9 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @GwtCompatible
 public final class AtomicLongMap<K> implements Serializable {
-  private final ConcurrentHashMap<K, AtomicLong> map;
+  private final ConcurrentHashMap<K, Long> map;
 
-  private AtomicLongMap(ConcurrentHashMap<K, AtomicLong> map) {
+  private AtomicLongMap(ConcurrentHashMap<K, Long> map) {
     this.map = checkNotNull(map);
   }
 
@@ -63,7 +65,7 @@ public final class AtomicLongMap<K> implements Serializable {
    * Creates an {@code AtomicLongMap}.
    */
   public static <K> AtomicLongMap<K> create() {
-    return new AtomicLongMap<K>(new ConcurrentHashMap<K, AtomicLong>());
+    return new AtomicLongMap<K>(new ConcurrentHashMap<>());
   }
 
   /**
@@ -80,8 +82,7 @@ public final class AtomicLongMap<K> implements Serializable {
    * {@code key}.
    */
   public long get(K key) {
-    AtomicLong atomic = map.get(key);
-    return atomic == null ? 0L : atomic.get();
+    return map.getOrDefault(key, 0L);
   }
 
   /**
@@ -106,35 +107,7 @@ public final class AtomicLongMap<K> implements Serializable {
    */
   @CanIgnoreReturnValue
   public long addAndGet(K key, long delta) {
-    outer:
-    while (true) {
-      AtomicLong atomic = map.get(key);
-      if (atomic == null) {
-        atomic = map.putIfAbsent(key, new AtomicLong(delta));
-        if (atomic == null) {
-          return delta;
-        }
-        // atomic is now non-null; fall through
-      }
-
-      while (true) {
-        long oldValue = atomic.get();
-        if (oldValue == 0L) {
-          // don't compareAndSet a zero
-          if (map.replace(key, atomic, new AtomicLong(delta))) {
-            return delta;
-          }
-          // atomic replaced
-          continue outer;
-        }
-
-        long newValue = oldValue + delta;
-        if (atomic.compareAndSet(oldValue, newValue)) {
-          return newValue;
-        }
-        // value changed
-      }
-    }
+    return accumulateAndGet(key, delta, Long::sum);
   }
 
   /**
@@ -159,35 +132,70 @@ public final class AtomicLongMap<K> implements Serializable {
    */
   @CanIgnoreReturnValue
   public long getAndAdd(K key, long delta) {
-    outer:
-    while (true) {
-      AtomicLong atomic = map.get(key);
-      if (atomic == null) {
-        atomic = map.putIfAbsent(key, new AtomicLong(delta));
-        if (atomic == null) {
-          return 0L;
-        }
-        // atomic is now non-null; fall through
-      }
+    return getAndAccumulate(key, delta, Long::sum);
+  }
 
-      while (true) {
-        long oldValue = atomic.get();
-        if (oldValue == 0L) {
-          // don't compareAndSet a zero
-          if (map.replace(key, atomic, new AtomicLong(delta))) {
-            return 0L;
-          }
-          // atomic replaced
-          continue outer;
-        }
+  /**
+   * Updates the value currently associated with {@code key} with the specified function,
+   * and returns the new value.  If there is not currently a value associated with {@code key},
+   * the function is applied to {@code 0L}.
+   *
+   * @since 21.0
+   */
+  @CanIgnoreReturnValue
+  public long updateAndGet(K key, LongUnaryOperator updaterFunction) {
+    checkNotNull(updaterFunction);
+    return map.compute(
+        key, (k, value) -> updaterFunction.applyAsLong((value == null) ? 0L : value.longValue()));
+  }
 
-        long newValue = oldValue + delta;
-        if (atomic.compareAndSet(oldValue, newValue)) {
-          return oldValue;
-        }
-        // value changed
-      }
-    }
+  /**
+   * Updates the value currently associated with {@code key} with the specified function,
+   * and returns the old value.  If there is not currently a value associated with {@code key},
+   * the function is applied to {@code 0L}.
+   *
+   * @since 21.0
+   */
+  @CanIgnoreReturnValue
+  public long getAndUpdate(K key, LongUnaryOperator updaterFunction) {
+    checkNotNull(updaterFunction);
+    AtomicLong holder = new AtomicLong();
+    map.compute(
+        key,
+        (k, value) -> {
+          long oldValue = (value == null) ? 0L : value.longValue();
+          holder.set(oldValue);
+          return updaterFunction.applyAsLong(oldValue);
+        });
+    return holder.get();
+  }
+
+  /**
+   * Updates the value currently associated with {@code key} by combining it with {@code x}
+   * via the specified accumulator function, returning the new value.  The previous value
+   * associated with {@code key} (or zero, if there is none) is passed as the first argument
+   * to {@code accumulatorFunction}, and {@code x} is passed as the second argument.
+   *
+   * @since 21.0
+   */
+  @CanIgnoreReturnValue
+  public long accumulateAndGet(K key, long x, LongBinaryOperator accumulatorFunction) {
+    checkNotNull(accumulatorFunction);
+    return updateAndGet(key, oldValue -> accumulatorFunction.applyAsLong(oldValue, x));
+  }
+
+  /**
+   * Updates the value currently associated with {@code key} by combining it with {@code x}
+   * via the specified accumulator function, returning the old value.  The previous value
+   * associated with {@code key} (or zero, if there is none) is passed as the first argument
+   * to {@code accumulatorFunction}, and {@code x} is passed as the second argument.
+   *
+   * @since 21.0
+   */
+  @CanIgnoreReturnValue
+  public long getAndAccumulate(K key, long x, LongBinaryOperator accumulatorFunction) {
+    checkNotNull(accumulatorFunction);
+    return getAndUpdate(key, oldValue -> accumulatorFunction.applyAsLong(oldValue, x));
   }
 
   /**
@@ -196,34 +204,7 @@ public final class AtomicLongMap<K> implements Serializable {
    */
   @CanIgnoreReturnValue
   public long put(K key, long newValue) {
-    outer:
-    while (true) {
-      AtomicLong atomic = map.get(key);
-      if (atomic == null) {
-        atomic = map.putIfAbsent(key, new AtomicLong(newValue));
-        if (atomic == null) {
-          return 0L;
-        }
-        // atomic is now non-null; fall through
-      }
-
-      while (true) {
-        long oldValue = atomic.get();
-        if (oldValue == 0L) {
-          // don't compareAndSet a zero
-          if (map.replace(key, atomic, new AtomicLong(newValue))) {
-            return 0L;
-          }
-          // atomic replaced
-          continue outer;
-        }
-
-        if (atomic.compareAndSet(oldValue, newValue)) {
-          return oldValue;
-        }
-        // value changed
-      }
-    }
+    return getAndUpdate(key, x -> newValue);
   }
 
   /**
@@ -233,31 +214,17 @@ public final class AtomicLongMap<K> implements Serializable {
    * if the specified map is modified while the operation is in progress.
    */
   public void putAll(Map<? extends K, ? extends Long> m) {
-    for (Map.Entry<? extends K, ? extends Long> entry : m.entrySet()) {
-      put(entry.getKey(), entry.getValue());
-    }
+    m.forEach(this::put);
   }
 
   /**
-   * Removes and returns the value associated with {@code key}. If {@code key} is not in the map,
-   * this method has no effect and returns zero.
+   * Removes and returns the value associated with {@code key}. If {@code key} is not
+   * in the map, this method has no effect and returns zero.
    */
   @CanIgnoreReturnValue
   public long remove(K key) {
-    AtomicLong atomic = map.get(key);
-    if (atomic == null) {
-      return 0L;
-    }
-
-    while (true) {
-      long oldValue = atomic.get();
-      if (oldValue == 0L || atomic.compareAndSet(oldValue, 0L)) {
-        // only remove after setting to zero, to avoid concurrent updates
-        map.remove(key, atomic);
-        // succeed even if the remove fails, since the value was already adjusted
-        return oldValue;
-      }
-    }
+    Long result = map.remove(key);
+    return (result == null) ? 0L : result.longValue();
   }
 
   /**
@@ -274,18 +241,11 @@ public final class AtomicLongMap<K> implements Serializable {
   /**
    * Removes all mappings from this map whose values are zero.
    *
-   * <p>This method is not atomic: the map may be visible in intermediate states, where some of the
-   * zero values have been removed and others have not.
+   * <p>This method is not atomic: the map may be visible in intermediate states, where some
+   * of the zero values have been removed and others have not.
    */
   public void removeAllZeros() {
-    Iterator<Map.Entry<K, AtomicLong>> entryIterator = map.entrySet().iterator();
-    while (entryIterator.hasNext()) {
-      Map.Entry<K, AtomicLong> entry = entryIterator.next();
-      AtomicLong atomic = entry.getValue();
-      if (atomic != null && atomic.get() == 0L) {
-        entryIterator.remove();
-      }
-    }
+    map.values().removeIf(x -> x == 0);
   }
 
   /**
@@ -294,11 +254,7 @@ public final class AtomicLongMap<K> implements Serializable {
    * <p>This method is not atomic: the sum may or may not include other concurrent operations.
    */
   public long sum() {
-    long sum = 0L;
-    for (AtomicLong value : map.values()) {
-      sum = sum + value.get();
-    }
-    return sum;
+    return map.values().stream().mapToLong(Long::longValue).sum();
   }
 
   private transient Map<K, Long> asMap;
@@ -312,15 +268,7 @@ public final class AtomicLongMap<K> implements Serializable {
   }
 
   private Map<K, Long> createAsMap() {
-    return Collections.unmodifiableMap(
-        Maps.transformValues(
-            map,
-            new Function<AtomicLong, Long>() {
-              @Override
-              public Long apply(AtomicLong atomic) {
-                return atomic.get();
-              }
-            }));
+    return Collections.unmodifiableMap(map);
   }
 
   /**
@@ -331,8 +279,8 @@ public final class AtomicLongMap<K> implements Serializable {
   }
 
   /**
-   * Returns the number of key-value mappings in this map. If the map contains more than {@code
-   * Integer.MAX_VALUE} elements, returns {@code Integer.MAX_VALUE}.
+   * Returns the number of key-value mappings in this map. If the map contains more than
+   * {@code Integer.MAX_VALUE} elements, returns {@code Integer.MAX_VALUE}.
    */
   public int size() {
     return map.size();
@@ -360,98 +308,48 @@ public final class AtomicLongMap<K> implements Serializable {
     return map.toString();
   }
 
-  /*
-   * ConcurrentMap operations which we may eventually add.
-   *
-   * The problem with these is that remove(K, long) has to be done in two phases by definition ---
-   * first decrementing to zero, and then removing. putIfAbsent or replace could observe the
-   * intermediate zero-state. Ways we could deal with this are:
-   *
-   * - Don't define any of the ConcurrentMap operations. This is the current state of affairs.
-   *
-   * - Define putIfAbsent and replace as treating zero and absent identically (as currently
-   *   implemented below). This is a bit surprising with putIfAbsent, which really becomes
-   *   putIfZero.
-   *
-   * - Allow putIfAbsent and replace to distinguish between zero and absent, but don't implement
-   *   remove(K, long). Without any two-phase operations it becomes feasible for all remaining
-   *   operations to distinguish between zero and absent. If we do this, then perhaps we should add
-   *   replace(key, long).
-   *
-   * - Introduce a special-value private static final AtomicLong that would have the meaning of
-   *   removal-in-progress, and rework all operations to properly distinguish between zero and
-   *   absent.
-   */
-
   /**
    * If {@code key} is not already associated with a value or if {@code key} is associated with
-   * zero, associate it with {@code newValue}. Returns the previous value associated with {@code
-   * key}, or zero if there was no mapping for {@code key}.
+   * zero, associate it with {@code newValue}. Returns the previous value associated with
+   * {@code key}, or zero if there was no mapping for {@code key}.
    */
   long putIfAbsent(K key, long newValue) {
-    while (true) {
-      AtomicLong atomic = map.get(key);
-      if (atomic == null) {
-        atomic = map.putIfAbsent(key, new AtomicLong(newValue));
-        if (atomic == null) {
-          return 0L;
-        }
-        // atomic is now non-null; fall through
-      }
-
-      long oldValue = atomic.get();
-      if (oldValue == 0L) {
-        // don't compareAndSet a zero
-        if (map.replace(key, atomic, new AtomicLong(newValue))) {
-          return 0L;
-        }
-        // atomic replaced
-        continue;
-      }
-
-      return oldValue;
-    }
+    AtomicBoolean noValue = new AtomicBoolean(false);
+    Long result =
+        map.compute(
+            key,
+            (k, oldValue) -> {
+              if (oldValue == null || oldValue == 0) {
+                noValue.set(true);
+                return newValue;
+              } else {
+                return oldValue;
+              }
+            });
+    return noValue.get() ? 0L : result.longValue();
   }
 
   /**
-   * If {@code (key, expectedOldValue)} is currently in the map, this method replaces {@code
-   * expectedOldValue} with {@code newValue} and returns true; otherwise, this method returns false.
+   * If {@code (key, expectedOldValue)} is currently in the map, this method replaces
+   * {@code expectedOldValue} with {@code newValue} and returns true; otherwise, this method
+   * returns false.
    *
-   * <p>If {@code expectedOldValue} is zero, this method will succeed if {@code (key, zero)} is
-   * currently in the map, or if {@code key} is not in the map at all.
+   * <p>If {@code expectedOldValue} is zero, this method will succeed if {@code (key, zero)}
+   * is currently in the map, or if {@code key} is not in the map at all.
    */
   boolean replace(K key, long expectedOldValue, long newValue) {
     if (expectedOldValue == 0L) {
       return putIfAbsent(key, newValue) == 0L;
     } else {
-      AtomicLong atomic = map.get(key);
-      return (atomic == null) ? false : atomic.compareAndSet(expectedOldValue, newValue);
+      return map.replace(key, expectedOldValue, newValue);
     }
   }
 
   /**
-   * If {@code (key, value)} is currently in the map, this method removes it and returns true;
-   * otherwise, this method returns false.
+   * If {@code (key, value)} is currently in the map, this method removes it and returns
+   * true; otherwise, this method returns false.
    */
   boolean remove(K key, long value) {
-    AtomicLong atomic = map.get(key);
-    if (atomic == null) {
-      return false;
-    }
-
-    long oldValue = atomic.get();
-    if (oldValue != value) {
-      return false;
-    }
-
-    if (oldValue == 0L || atomic.compareAndSet(oldValue, 0L)) {
-      // only remove after setting to zero, to avoid concurrent updates
-      map.remove(key, atomic);
-      // succeed even if the remove fails, since the value was already adjusted
-      return true;
-    }
-
-    // value changed
-    return false;
+    return map.remove(key, value);
   }
 }

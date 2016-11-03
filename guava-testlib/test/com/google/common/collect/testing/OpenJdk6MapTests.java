@@ -24,6 +24,7 @@ import static com.google.common.collect.testing.testers.CollectionCreationTester
 import static com.google.common.collect.testing.testers.MapCreationTester.getCreateWithNullKeyUnsupportedMethod;
 import static com.google.common.collect.testing.testers.MapEntrySetTester.getContainsEntryWithIncomparableKeyMethod;
 import static com.google.common.collect.testing.testers.MapEntrySetTester.getContainsEntryWithIncomparableValueMethod;
+import static com.google.common.collect.testing.testers.MapMergeTester.getMergeNullValueMethod;
 import static com.google.common.collect.testing.testers.MapPutAllTester.getPutAllNullKeyUnsupportedMethod;
 import static com.google.common.collect.testing.testers.MapPutTester.getPutNullKeyUnsupportedMethod;
 
@@ -85,5 +86,10 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
     methods.add(getContainsEntryWithIncomparableKeyMethod());
     methods.add(getContainsEntryWithIncomparableValueMethod());
     return methods;
+  }
+
+  @Override
+  protected Collection<Method> suppressForHashtable() {
+    return Arrays.asList(getMergeNullValueMethod());
   }
 }

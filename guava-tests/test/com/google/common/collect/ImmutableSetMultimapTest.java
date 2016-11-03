@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_ANY_NULL_QUERIES;
@@ -23,17 +24,21 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableSetMultimap.Builder;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map.Entry;
+import java.util.function.BiPredicate;
+import java.util.stream.Collector;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -404,6 +409,25 @@ public class ImmutableSetMultimapTest extends TestCase {
       ImmutableSetMultimap.copyOf(input);
       fail();
     } catch (NullPointerException expected) {}
+  }
+
+  public void testToImmutableSetMultimap() {
+    Collector<Entry<String, Integer>, ?, ImmutableSetMultimap<String, Integer>> collector =
+        ImmutableSetMultimap.toImmutableSetMultimap(Entry::getKey, Entry::getValue);
+    BiPredicate<ImmutableSetMultimap<?, ?>, ImmutableSetMultimap<?, ?>> equivalence =
+        Equivalence.equals()
+            .onResultOf(
+                (ImmutableSetMultimap<?, ?> mm)
+                    -> ImmutableListMultimap.copyOf(mm).asMap().entrySet().asList())
+            .and(Equivalence.equals());
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(ImmutableSetMultimap.of())
+        .expectCollects(
+            ImmutableSetMultimap.of("a", 1, "b", 2, "a", 3, "c", 4),
+            mapEntry("a", 1),
+            mapEntry("b", 2),
+            mapEntry("a", 3),
+            mapEntry("c", 4));
   }
 
   public void testEmptyMultimapReads() {

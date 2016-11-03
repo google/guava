@@ -21,15 +21,24 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
 
+import com.google.common.annotations.Beta;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Spliterator;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import javax.annotation.Nullable;
 
 /**
@@ -63,6 +72,26 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   ImmutableMap() {}
+
+  @Beta
+  public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction) {
+    return CollectCollectors.toImmutableMap(keyFunction, valueFunction);
+  }
+  
+  @Beta
+  public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction,
+      BinaryOperator<V> mergeFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    checkNotNull(mergeFunction);
+    return Collectors.collectingAndThen(
+        Collectors.toMap(keyFunction, valueFunction, mergeFunction, LinkedHashMap::new),
+        ImmutableMap::copyOf);
+  }
 
   public static <K, V> ImmutableMap<K, V> of() {
     return ImmutableBiMap.of();
@@ -149,6 +178,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
       checkState(this.valueComparator == null, "valueComparator was already set");
       this.valueComparator = checkNotNull(valueComparator, "valueComparator");
+      return this;
+    }
+
+    Builder<K, V> combine(Builder<K, V> other) {
+      checkNotNull(other);
+      entries.addAll(other.entries);
       return this;
     }
 
@@ -293,6 +328,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         return entryIterator.next().getKey();
       }
     };
+  }
+
+  Spliterator<K> keySpliterator() {
+    return CollectSpliterators.map(entrySet().spliterator(), Entry::getKey);
   }
 
   private transient ImmutableCollection<V> cachedValues = null;

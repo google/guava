@@ -139,6 +139,8 @@ public abstract class MonitorTestCase extends TestCase {
   public final void testEnterWhen_initiallyTrue() throws Exception {
     TestGuard guard = new TestGuard(true);
     thread1.callAndAssertReturns(enterWhen(), guard);
+    // same as above but with the new syntax
+    thread1.callAndAssertReturns(enterWhen(), monitor.newGuard(() -> true));
   }
 
   public final void testEnterWhen_initiallyFalse() throws Exception {

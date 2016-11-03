@@ -31,6 +31,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
 /**
@@ -62,6 +64,16 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   @Override
   public UnmodifiableIterator<E> descendingIterator() {
     return elements.reverse().iterator();
+  }
+
+  @Override
+  public Spliterator<E> spliterator() {
+    return asList().spliterator();
+  }
+
+  @Override
+  public void forEach(Consumer<? super E> action) {
+    elements.forEach(action);
   }
 
   @Override

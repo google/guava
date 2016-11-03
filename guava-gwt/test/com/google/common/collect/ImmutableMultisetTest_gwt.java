@@ -242,4 +242,14 @@ public void testMultisetWrites() throws Exception {
   com.google.common.collect.ImmutableMultisetTest testCase = new com.google.common.collect.ImmutableMultisetTest();
   testCase.testMultisetWrites();
 }
+
+public void testToImmutableMultiset() throws Exception {
+  com.google.common.collect.ImmutableMultisetTest testCase = new com.google.common.collect.ImmutableMultisetTest();
+  testCase.testToImmutableMultiset();
+}
+
+public void testToImmutableMultiset_duplicates() throws Exception {
+  com.google.common.collect.ImmutableMultisetTest testCase = new com.google.common.collect.ImmutableMultisetTest();
+  testCase.testToImmutableMultiset_duplicates();
+}
 }

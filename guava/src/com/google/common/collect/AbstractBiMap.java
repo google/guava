@@ -34,6 +34,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
 import javax.annotation.Nullable;
 
 /**
@@ -176,6 +177,29 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
   public void putAll(Map<? extends K, ? extends V> map) {
     for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
       put(entry.getKey(), entry.getValue());
+    }
+  }
+
+  @Override
+  public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+    this.delegate.replaceAll(function);
+    inverse.delegate.clear();
+    Entry<K, V> broken = null;
+    Iterator<Entry<K, V>> itr = this.delegate.entrySet().iterator();
+    while (itr.hasNext()) {
+      Entry<K, V> entry = itr.next();
+      K k = entry.getKey();
+      V v = entry.getValue();
+      K conflict = inverse.delegate.putIfAbsent(v, k);
+      if (conflict != null) {
+        broken = entry;
+        // We're definitely going to throw, but we'll try to keep the BiMap in an internally
+        // consistent state by removing the bad entry.
+        itr.remove();
+      }
+    }
+    if (broken != null) {
+      throw new IllegalArgumentException("value already present: " + broken.getValue());
     }
   }
 

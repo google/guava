@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collector;
 import javax.annotation.Nullable;
 
 /**
@@ -64,6 +66,12 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     } else {
       return new RegularImmutableSortedSet<E>(new TreeSet<E>(comparator), false);
     }
+  }
+
+  @Beta
+  public static <E> Collector<E, ?, ImmutableSortedSet<E>> toImmutableSortedSet(
+      Comparator<? super E> comparator) {
+    return CollectCollectors.toImmutableSortedSet(comparator);
   }
 
   @SuppressWarnings("unchecked")
@@ -414,6 +422,11 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
 
     @Override public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);
+      return this;
+    }
+
+    Builder<E> combine(Builder<E> builder) {
+      super.combine(builder);
       return this;
     }
 

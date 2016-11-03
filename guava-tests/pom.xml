@@ -46,6 +46,14 @@
       <artifactId>truth</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.google.truth.extensions</groupId>
+      <artifactId>truth-java8-extension</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.jimfs</groupId>
+      <artifactId>jimfs</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.google.caliper</groupId>
       <artifactId>caliper</artifactId>
     </dependency>

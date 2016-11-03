@@ -39,6 +39,7 @@ import com.google.common.collect.testing.google.ListGenerators.ImmutableListOfGe
 import com.google.common.collect.testing.google.ListGenerators.ImmutableListTailSubListGenerator;
 import com.google.common.collect.testing.google.ListGenerators.UnhashableElementsImmutableListGenerator;
 import com.google.common.collect.testing.testers.ListHashCodeTester;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.lang.reflect.InvocationHandler;
@@ -453,6 +454,10 @@ public class ImmutableListTest extends TestCase {
       }
     }
 
+    public void testToImmutableList() {
+      CollectorTester.of(ImmutableList.<String>toImmutableList())
+          .expectCollects(ImmutableList.of("a", "b", "c", "d"), "a", "b", "c", "d");
+    }
   }
 
   @GwtIncompatible // reflection

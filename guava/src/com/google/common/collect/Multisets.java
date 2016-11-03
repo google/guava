@@ -37,6 +37,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.Spliterator;
 import javax.annotation.Nullable;
 
 /**
@@ -1084,6 +1085,17 @@ public final class Multisets {
       totalCount--;
       canRemove = false;
     }
+  }
+
+  static <E> Spliterator<E> spliteratorImpl(Multiset<E> multiset) {
+    Spliterator<Entry<E>> entrySpliterator = multiset.entrySet().spliterator();
+    return CollectSpliterators.flatMap(
+        entrySpliterator,
+        entry -> Collections.nCopies(entry.getCount(), entry.getElement()).spliterator(),
+        Spliterator.SIZED
+            | (entrySpliterator.characteristics()
+                & (Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.IMMUTABLE)),
+        multiset.size());
   }
 
   /**

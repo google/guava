@@ -23,6 +23,7 @@ import static com.google.common.collect.ObjectArrays.arraysCopyOf;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 import static com.google.common.collect.RegularImmutableList.EMPTY;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.InvalidObjectException;
@@ -35,6 +36,10 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collector;
 import javax.annotation.Nullable;
 
 /**
@@ -54,6 +59,18 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new
+   * {@code ImmutableList}, in encounter order.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <E> Collector<E, ?, ImmutableList<E>> toImmutableList() {
+    return CollectCollectors.toImmutableList();
+  }
+
   /**
    * Returns the empty immutable list. This list behaves and performs comparably
    * to {@link Collections#emptyList}, and is preferable mainly for consistency
@@ -385,6 +402,15 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   @Override
+  public void forEach(Consumer<? super E> consumer) {
+    checkNotNull(consumer);
+    int n = size();
+    for (int i = 0; i < n; i++) {
+      consumer.accept(get(i));
+    }
+  }
+
+  @Override
   public int indexOf(@Nullable Object object) {
     return (object == null) ? -1 : Lists.indexOfImpl(this, object);
   }
@@ -517,6 +543,30 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
+   * Guaranteed to throw an exception and leave the list unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  public final void replaceAll(UnaryOperator<E> operator) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the list unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  public final void sort(Comparator<? super E> c) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
    * Returns this list instance.
    *
    * @since 2.0
@@ -524,6 +574,11 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   @Override
   public final ImmutableList<E> asList() {
     return this;
+  }
+
+  @Override
+  public Spliterator<E> spliterator() {
+    return CollectSpliterators.indexed(size(), SPLITERATOR_CHARACTERISTICS, this::get);
   }
 
   @Override
@@ -747,6 +802,13 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     @Override
     public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);
+      return this;
+    }
+
+    @CanIgnoreReturnValue
+    @Override
+    Builder<E> combine(ArrayBasedBuilder<E> builder) {
+      super.combine(builder);
       return this;
     }
 

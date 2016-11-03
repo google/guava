@@ -26,6 +26,7 @@ import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
+import java.util.function.BiFunction;
 
 /**
  * A navigable map which forwards all its method calls to another navigable map. Subclasses should
@@ -283,6 +284,11 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
     @Override
     NavigableMap<K, V> forward() {
       return ForwardingNavigableMap.this;
+    }
+
+    @Override
+    public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+      forward().replaceAll(function);
     }
 
     @Override

@@ -20,7 +20,11 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Equivalence;
+import com.google.common.collect.Table.Cell;
+import com.google.common.testing.CollectorTester;
 import com.google.common.testing.SerializableTester;
+import java.util.stream.Collector;
 
 /**
  * Tests common methods in {@link ImmutableTable}
@@ -37,6 +41,25 @@ public class ImmutableTableTest extends AbstractTableReadTest {
           (Character) data[i + 2]);
     }
     return builder.build();
+  }
+
+  public void testToImmutableTable() {
+    Collector<Cell<String, String, Integer>, ?, ImmutableTable<String, String, Integer>> collector =
+        ImmutableTable.toImmutableTable(Cell::getRowKey, Cell::getColumnKey, Cell::getValue);
+    Equivalence<ImmutableTable<String, String, Integer>> equivalence =
+        Equivalence.equals()
+            .<Cell<String, String, Integer>>pairwise()
+            .onResultOf(ImmutableTable::cellSet);
+    CollectorTester.of(collector, equivalence)
+        .expectCollects(
+            new ImmutableTable.Builder<String, String, Integer>()
+                .put("one", "uno", 1)
+                .put("two", "dos", 2)
+                .put("three", "tres", 3)
+                .build(),
+            Tables.immutableCell("one", "uno", 1),
+            Tables.immutableCell("two", "dos", 2),
+            Tables.immutableCell("three", "tres", 3));
   }
 
   public void testBuilder() {

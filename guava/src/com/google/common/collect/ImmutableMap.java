@@ -32,7 +32,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 /**
@@ -50,6 +58,48 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
+
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+   * and values are the result of applying the provided mapping functions to the input elements.
+   * Entries appear in the result {@code ImmutableMap} in encounter order.
+   *
+   * <p>If the mapped keys contain duplicates (according to {@link Object#equals(Object)}, an
+   * {@code IllegalArgumentException} is thrown when the collection operation is performed.
+   * (This differs from the {@code Collector} returned by
+   * {@link Collectors#toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction) {
+    return CollectCollectors.toImmutableMap(keyFunction, valueFunction);
+  }
+  
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
+   * and values are the result of applying the provided mapping functions to the input elements.
+   *
+   * <p>If the mapped keys contain duplicates (according to {@link Object#equals(Object)}), the
+   * values are merged using the specified merging function. Entries will appear in the encounter
+   * order of the first occurrence of the key.
+   *
+   * @since 21.0
+   */
+  @Beta
+  public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+      Function<? super T, ? extends K> keyFunction,
+      Function<? super T, ? extends V> valueFunction,
+      BinaryOperator<V> mergeFunction) {
+    checkNotNull(keyFunction);
+    checkNotNull(valueFunction);
+    checkNotNull(mergeFunction);
+    return Collectors.collectingAndThen(
+        Collectors.toMap(keyFunction, valueFunction, mergeFunction, LinkedHashMap::new),
+        ImmutableMap::copyOf);
+  }
 
   /**
    * Returns the empty map. This map behaves and performs comparably to
@@ -262,6 +312,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return this;
     }
 
+    @CanIgnoreReturnValue
+    Builder<K, V> combine(Builder<K, V> other) {
+      checkNotNull(other);
+      ensureCapacity(this.size + other.size);
+      System.arraycopy(other.entries, 0, this.entries, this.size, other.size);
+      this.size += other.size;
+      return this;
+    }
+
     /*
      * TODO(kevinb): Should build() and the ImmutableBiMap & ImmutableSortedMap
      * versions throw an IllegalStateException instead?
@@ -374,6 +433,13 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   abstract static class IteratorBasedImmutableMap<K, V> extends ImmutableMap<K, V> {
     abstract UnmodifiableIterator<Entry<K, V>> entryIterator();
 
+    Spliterator<Entry<K, V>> entrySpliterator() {
+      return Spliterators.spliterator(
+          entryIterator(),
+          size(),
+          Spliterator.DISTINCT | Spliterator.NONNULL | Spliterator.IMMUTABLE | Spliterator.ORDERED);
+    }
+
     @Override
     ImmutableSet<Entry<K, V>> createEntrySet() {
       @WeakOuter
@@ -416,7 +482,81 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public final V remove(Object o) {
+  public final V putIfAbsent(K key, V value) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the map unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  public final boolean replace(K key, V oldValue, V newValue) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the map unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  public final V replace(K key, V value) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the map unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  public final V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the map unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  public final V computeIfPresent(
+      K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the map unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  public final V compute(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the map unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  public final V merge(
+      K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
     throw new UnsupportedOperationException();
   }
 
@@ -429,6 +569,42 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Deprecated
   @Override
   public final void putAll(Map<? extends K, ? extends V> map) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the map unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  public final void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the map unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  public final V remove(Object o) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the map unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  public final boolean remove(Object key, Object value) {
     throw new UnsupportedOperationException();
   }
 
@@ -462,6 +638,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   // Overriding to mark it Nullable
   @Override
   public abstract V get(@Nullable Object key);
+
+  @Override
+  public final V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
+    V result = get(key);
+    return (result != null) ? result : defaultValue;
+  }
 
   @LazyInit
   private transient ImmutableSet<Entry<K, V>> entrySet;
@@ -508,6 +690,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         return entryIterator.next().getKey();
       }
     };
+  }
+
+  Spliterator<K> keySpliterator() {
+    return CollectSpliterators.map(entrySet().spliterator(), Entry::getKey);
   }
 
   @LazyInit
